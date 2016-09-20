@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package YetiForce.Model
  * @license licenses/License.html
@@ -70,9 +71,9 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 
 		if (!empty($id) && $tablename) {
 			$columns = ['name' => $this->getName(),
-						'value' => $this->get('value'),
-						'status' => $this->get('status')
-				];
+				'value' => $this->get('value'),
+				'status' => $this->get('status')
+			];
 			$db->update($tablename, $columns, 'id = ?', [$id]);
 		} else {
 			$id = $this->add();
@@ -98,6 +99,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		}
 		throw new Error('Error occurred while adding value');
 	}
+
 	public function delete()
 	{
 		$adb = PearDatabase::getInstance();
@@ -114,8 +116,8 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$recordList = [];
 		$tableName = self::getTableNameFromType($type);
-		
-		if(!$tableName){
+
+		if (!$tableName) {
 			return $recordList;
 		}
 		$query = sprintf('SELECT * FROM %s', $tableName);
@@ -133,7 +135,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($type);
 
-		if(!$tableName){
+		if (!$tableName) {
 			return false;
 		}
 		$query = sprintf('SELECT * FROM %s WHERE `id` = ?;', $tableName);
@@ -144,6 +146,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		}
 		return $recordModel;
 	}
+
 	public static function checkDuplicate($label, $excludedIds = [], $type = '')
 	{
 		$db = PearDatabase::getInstance();

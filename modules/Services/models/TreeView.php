@@ -13,7 +13,7 @@ class Services_TreeView_Model extends Vtiger_TreeView_Model
 	{
 		return true;
 	}
-	
+
 	private function getRecords()
 	{
 		$pagingModel = new Vtiger_Paging_Model();
@@ -37,7 +37,7 @@ class Services_TreeView_Model extends Vtiger_TreeView_Model
 		}
 		return $tree;
 	}
-	
+
 	/**
 	 * Load tree
 	 * @return String

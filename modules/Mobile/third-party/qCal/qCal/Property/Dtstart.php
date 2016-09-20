@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Date/Time Start Property
  * @package qCal
@@ -66,15 +67,16 @@
  * 
  *   DTSTART:19980118T073000Z
  */
-class qCal_Property_Dtstart extends qCal_Property {
+class qCal_Property_Dtstart extends qCal_Property
+{
 
 	protected $type = 'DATE-TIME';
-	protected $allowedComponents = array('VEVENT','VTODO','VFREEBUSY','VTIMEZONE','VJOURNAL','STANDARD','DAYLIGHT');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VFREEBUSY', 'VTIMEZONE', 'VJOURNAL', 'STANDARD', 'DAYLIGHT');
+
 	/**
 	 * Strange that in the notes for this, it says:
 	 *     Conformance: This property can be specified in the "VEVENT", "VTODO",
 	 *     "VFREEBUSY", or "VTIMEZONE" calendar components.
 	 * But in the notes for journal it says that dtstart is allowed in a journal
 	 */
-
 }

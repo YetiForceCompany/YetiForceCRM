@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Last Modified Property
  * @package qCal
@@ -39,9 +40,10 @@
  * 
  *   LAST-MODIFIED:19960817T133000Z
  */
-class qCal_Property_LastModified extends qCal_Property {
+class qCal_Property_LastModified extends qCal_Property
+{
 
 	protected $type = 'DATE-TIME';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VTIMEZONE');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE');
 
 }

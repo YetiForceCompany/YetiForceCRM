@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Date/Time Due Property
  * @package qCal
@@ -52,7 +53,8 @@
  * 
  *   DUE:19980430T235959Z
  */
-class qCal_Property_Due extends qCal_Property {
+class qCal_Property_Due extends qCal_Property
+{
 
 	protected $type = 'DATE-TIME';
 	protected $allowedComponents = array('VTODO');

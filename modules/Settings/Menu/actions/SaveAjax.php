@@ -76,7 +76,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		));
 		$response->emit();
 	}
-	
+
 	public function copyMenu(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();

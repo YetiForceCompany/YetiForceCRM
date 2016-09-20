@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Actions to pagination
  * @package YetiForce.Action

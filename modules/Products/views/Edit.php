@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,22 +8,24 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Products_Edit_View extends Vtiger_Edit_View {
+Class Products_Edit_View extends Vtiger_Edit_View
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-        $recordModel = $this->record;
-        if(!$recordModel){
-            if (!empty($recordId)) {
-                $recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-            } else {
-                $recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-            }
-        }
+		$recordModel = $this->record;
+		if (!$recordModel) {
+			if (!empty($recordId)) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			} else {
+				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			}
+		}
 
 		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
-		
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
@@ -34,7 +35,7 @@ Class Products_Edit_View extends Vtiger_Edit_View {
 
 		parent::process($request);
 	}
-	
+
 	function getDuplicate($record, $moduleName)
 	{
 		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
@@ -52,13 +53,14 @@ Class Products_Edit_View extends Vtiger_Edit_View {
 		}
 		return $recordModel;
 	}
-	
+
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
 		$jsFileNames = array(
@@ -69,5 +71,4 @@ Class Products_Edit_View extends Vtiger_Edit_View {
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
-
 }

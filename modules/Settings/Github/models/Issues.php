@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Issue Model
  * @package YetiForce.Github
@@ -7,15 +8,19 @@
  */
 class Settings_Github_Issues_Model
 {
+
 	private $valueMap;
 	public static $totalCount;
-	public function get($key){
+
+	public function get($key)
+	{
 		return $this->valueMap->$key;
 	}
-	static function getInstanceFromArray($issueArray){
+
+	static function getInstanceFromArray($issueArray)
+	{
 		$issueModel = new self();
 		$issueModel->valueMap = $issueArray;
 		return $issueModel;
 	}
-	
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Date Value
  * @package qCal
@@ -36,28 +37,30 @@
  * 
  *  19970714
  */
-class qCal_Value_Date extends qCal_Value {
+class qCal_Value_Date extends qCal_Value
+{
 
 	/**
 	 * qCal_Date object
 	 */
 	protected $value;
+
 	/**
 	 * Convert the internal date storage to a string
 	 */
-	protected function toString($value) {
-	
+	protected function toString($value)
+	{
+
 		return $value->format('Ymd');
-	
 	}
+
 	/**
 	 * This converts to a qCal_Date for internal storage
 	 */
-	protected function doCast($value) {
-	
+	protected function doCast($value)
+	{
+
 		$date = qCal_Date::factory($value);
 		return $date;
-	
 	}
-
 }

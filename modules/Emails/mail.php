@@ -551,7 +551,7 @@ function getDefaultAssigneeEmailIds($groupId)
 
 		if (count($userGroups->group_users) == 0)
 			return [];
-		
+
 		$query = sprintf('SELECT 
 					email1 
 				FROM

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,8 +7,10 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class OSSEmployees_Module_Model extends Vtiger_Module_Model {
+ * *********************************************************************************************************************************** */
+
+class OSSEmployees_Module_Model extends Vtiger_Module_Model
+{
 
 	/**
 	 * Function to get list view query for popup window
@@ -18,17 +20,19 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 	 * @param <String> $listQuery
 	 * @return <String> Listview Query
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
-		return $listQuery." && vtiger_ossemployees.employee_status = 'Employee'";
+	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
+	{
+		return $listQuery . " && vtiger_ossemployees.employee_status = 'Employee'";
 	}
-	
-	function getWorkingDays($startDate, $endDate){
+
+	function getWorkingDays($startDate, $endDate)
+	{
 		$begin = strtotime($startDate);
-		$end   = strtotime($endDate);
+		$end = strtotime($endDate);
 		if ($begin > $end) {
 			return 0;
 		} else {
-			$no_days  = 0;
+			$no_days = 0;
 			$weekends = 0;
 			while ($begin <= $end) {
 				$no_days++; // no of days in the given interval
@@ -43,15 +47,16 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 		}
 	}
 
-	function getBarChartColors($chartData){
+	function getBarChartColors($chartData)
+	{
 		$numSelectedTimeTypes = count($chartData);
 		$i = 0;
-		$colors = array( '#4bb2c5', '#EAA228', '#c5b47f');
+		$colors = array('#4bb2c5', '#EAA228', '#c5b47f');
 		foreach ($chartData as $key => $value) {
 			$result[$key] = $colors[$i];
 			$i++;
 		}
-		
+
 		return $result;
 	}
 }

@@ -40,6 +40,4 @@ class Vtiger_Notebook_Dashboard extends Vtiger_IndexAjax_View
 			$viewer->view('dashboards/Notebook.tpl', $moduleName);
 		}
 	}
-
-	
 }

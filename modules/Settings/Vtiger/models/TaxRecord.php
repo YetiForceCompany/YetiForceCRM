@@ -100,7 +100,7 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 				'taxlabel' => $this->getName(),
 				'percentage' => $this->get('percentage'),
 				'deleted' => $deleted
-			], 'taxid = ?', [$taxId]);
+				], 'taxid = ?', [$taxId]);
 		} else {
 			$taxId = $this->addTax();
 		}

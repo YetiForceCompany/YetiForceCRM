@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Classification Property
  * @package qCal
@@ -50,10 +51,11 @@
  * 
  *   CLASS:PUBLIC
  */
-class qCal_Property_Class extends qCal_Property {
+class qCal_Property_Class extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT', 'VTODO','VJOURNAL');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL');
 	protected $default = "PUBLIC";
 
 }

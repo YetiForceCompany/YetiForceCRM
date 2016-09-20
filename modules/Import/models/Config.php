@@ -8,9 +8,11 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Import_Config_Model extends Vtiger_Base_Model {
+class Import_Config_Model extends Vtiger_Base_Model
+{
 
-	public function __construct() {
+	public function __construct()
+	{
 		$ImportConfig = array(
 			'importTypes' => [
 				'csv' => ['reader' => 'Import_CSVReader_Reader', 'classpath' => 'modules/Import/readers/CSVReader.php'],

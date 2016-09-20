@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Action Property
  * @package qCal
@@ -43,7 +44,8 @@
  * 
  *   ACTION:PROCEDURE
  */
-class qCal_Property_Action extends qCal_Property {
+class qCal_Property_Action extends qCal_Property
+{
 
 	protected $type = 'TEXT';
 	protected $allowedComponents = array('VALARM');

@@ -184,7 +184,7 @@ class Accounts extends CRMEntity
 		}
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_contactdetails.*,
 			vtiger_crmentity.crmid,
                         vtiger_crmentity.smownerid,
@@ -624,7 +624,7 @@ class Accounts extends CRMEntity
 		}
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = 'SELECT vtiger_account.*, vtiger_accountaddress.*,' .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM vtiger_account' .
@@ -688,7 +688,7 @@ class Accounts extends CRMEntity
 		}
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_account.*, vtiger_accountaddress.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM vtiger_account' .
@@ -814,7 +814,6 @@ class Accounts extends CRMEntity
 			}
 		}
 	}
-
 	/* Function to get attachments in the related list of accounts module */
 
 	public function get_attachments($id, $cur_tab_id, $rel_tab_id, $actions = false)
@@ -915,7 +914,7 @@ class Accounts extends CRMEntity
 
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
-			'last_name' => 'vtiger_users.last_name'), 'Users');
+				'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query .= $tables;
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
 		$query .= sprintf(' FROM %s', $other->table_name);

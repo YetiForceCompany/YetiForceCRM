@@ -1,20 +1,16 @@
 <?php
-class qCal_Timezone {
+
+class qCal_Timezone
+{
 
 	protected $format = "e";
-	
 	protected $name;
-	
 	protected $offsetSeconds;
-	
 	protected $abbreviation;
-	
 	protected $isDaylightSavings;
-	
 	protected $formatArray = array();
-	
 	protected static $timezones = array();
-	
+
 	/**
 	 * Class constructor
 	 * A timezone must have a name, offset (in seconds), and optionsally an abbreviation. Daylight savings defaults to false.
@@ -23,11 +19,13 @@ class qCal_Timezone {
 	 * @todo When $offset isn't provided and $name is a valid timezone, use its corresponding offset, but if $name is not
 	 * 		 a valid timezone identifier and no offset is provided, throw an exception
 	 */
-	public function __construct($name, $offset, $abbreviation = null, $daylightsavings = null) {
-	
+	public function __construct($name, $offset, $abbreviation = null, $daylightsavings = null)
+	{
+
 		$this->setName($name);
 		$this->setOffsetSeconds($offset);
-		if (is_null($abbreviation)) $abbreviation = $name;
+		if (is_null($abbreviation))
+			$abbreviation = $name;
 		$this->setAbbreviation($abbreviation);
 		$this->setIsDaylightSavings($daylightsavings);
 		$this->formatArray = array(
@@ -38,39 +36,44 @@ class qCal_Timezone {
 			'T' => $this->getAbbreviation(),
 			'Z' => $this->getOffsetSeconds(),
 		);
-	
 	}
-	public function setName($name) {
-	
+
+	public function setName($name)
+	{
+
 		$this->name = (string) $name;
-	
 	}
-	public function setOffsetSeconds($offset) {
-	
+
+	public function setOffsetSeconds($offset)
+	{
+
 		$this->offsetSeconds = (integer) $offset;
-	
 	}
-	public function setAbbreviation($abbreviation) {
-	
+
+	public function setAbbreviation($abbreviation)
+	{
+
 		$this->abbreviation = (string) $abbreviation;
-	
 	}
-	public function setIsDaylightSavings($daylightSavings = null) {
-	
+
+	public function setIsDaylightSavings($daylightSavings = null)
+	{
+
 		$this->isDaylightSavings = (boolean) $daylightSavings;
-	
 	}
+
 	/**
 	 * Generate a timezone from either an array of parameters, or a timezone
 	 * name such as "America/Los_Angeles".
 	 * @link http://php.net/manual/en/timezones.php A directory of valid timezones
 	 * @todo This method is FUGLY. Rewrite it and make it make sense. This is sort of nonsensical.
 	 */
-	public static function factory($timezone = null) {
-	
+	public static function factory($timezone = null)
+	{
+
 		if (is_array($timezone)) {
 			// remove anything irrelevant
-			$vals = array_intersect_key($timezone, array_flip(array('name','offsetSeconds','abbreviation','isDaylightSavings')));
+			$vals = array_intersect_key($timezone, array_flip(array('name', 'offsetSeconds', 'abbreviation', 'isDaylightSavings')));
 			if (!array_key_exists("name", $vals)) {
 				// @todo throw an exception or something
 			}
@@ -85,9 +88,10 @@ class qCal_Timezone {
 		} else {
 			// get the timezone information out of the string
 			$defaultTz = date_default_timezone_get();
-			
-			if (is_null($timezone)) $timezone = $defaultTz;
-			
+
+			if (is_null($timezone))
+				$timezone = $defaultTz;
+
 			// if the timezone being set is invalid, we will get a PHP notice, so error is suppressed here
 			// @todo It would be more clean and probably more efficient to use php's error handling to throw an exception here...
 			if (is_string($timezone)) {
@@ -110,34 +114,34 @@ class qCal_Timezone {
 					$timezone = new qCal_Timezone($name, $offset, $abbr, $ds);
 				}
 			}
-			
+
 			// now set it back to what it was...
 			date_default_timezone_set($defaultTz);
 		}
 		return $timezone;
-	
 	}
-	
-	public static function register(qCal_Timezone $timezone) {
-	
+
+	public static function register(qCal_Timezone $timezone)
+	{
+
 		self::$timezones[$timezone->getName()] = $timezone;
-	
 	}
-	
-	public static function unregister($timezone) {
-	
+
+	public static function unregister($timezone)
+	{
+
 		unset(self::$timezones[(string) $timezone]);
-	
 	}
-	
-	public function getName() {
-	
+
+	public function getName()
+	{
+
 		return $this->name;
-	
 	}
-	
-	public function getOffset() {
-	
+
+	public function getOffset()
+	{
+
 		$seconds = $this->getOffsetSeconds();
 		$negpos = "+";
 		if ($seconds < 0) {
@@ -147,11 +151,11 @@ class qCal_Timezone {
 		$minutes = $hours * 60;
 		$minutes = ($seconds / 60) - $minutes;
 		return sprintf("%s%02d:%02d", $negpos, abs($hours), abs($minutes));
-	
 	}
-	
-	public function getOffsetHours() {
-	
+
+	public function getOffsetHours()
+	{
+
 		$seconds = $this->getOffsetSeconds();
 		$negpos = "+";
 		if ($seconds < 0) {
@@ -161,44 +165,44 @@ class qCal_Timezone {
 		$minutes = $hours * 60;
 		$minutes = ($seconds / 60) - $minutes;
 		return sprintf("%s%02d%02d", $negpos, abs($hours), abs($minutes));
-	
 	}
-	
-	public function getOffsetSeconds() {
-	
+
+	public function getOffsetSeconds()
+	{
+
 		return $this->offsetSeconds;
-	
 	}
-	
-	public function getAbbreviation() {
-	
+
+	public function getAbbreviation()
+	{
+
 		return $this->abbreviation;
-	
 	}
-	
-	public function isDaylightSavings() {
-	
+
+	public function isDaylightSavings()
+	{
+
 		return $this->isDaylightSavings;
-	
 	}
-	
+
 	/**
 	 * Set the format that should be used when calling either __toString() or format() without an argument.
 	 * @param string $format
 	 */
-	public function setFormat($format) {
-	
+	public function setFormat($format)
+	{
+
 		$this->format = (string) $format;
 		return $this;
-	
 	}
-	
-	public function format($format) {
-	
+
+	public function format($format)
+	{
+
 		$escape = false;
 		$meta = str_split($format);
 		$output = array();
-		foreach($meta as $char) {
+		foreach ($meta as $char) {
 			if ($char == '\\') {
 				$escape = true;
 				continue;
@@ -212,13 +216,11 @@ class qCal_Timezone {
 			$escape = false;
 		}
 		return implode($output);
-	
-	}
-	
-	public function __toString() {
-	
-		return $this->format($this->format);
-	
 	}
 
+	public function __toString()
+	{
+
+		return $this->format($this->format);
+	}
 }

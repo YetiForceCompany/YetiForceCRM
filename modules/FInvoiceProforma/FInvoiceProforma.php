@@ -35,7 +35,7 @@ class FInvoiceProforma extends Vtiger_CRMEntity
 		'u_yf_finvoiceproforma' => 'finvoiceproformaid',
 		'u_yf_finvoiceproformacf' => 'finvoiceproformaid',
 		'u_yf_finvoiceproforma_address' => 'finvoiceproformaaddressid'
-		);
+	);
 
 	/**
 	 * Mandatory for Listing (Related listview)

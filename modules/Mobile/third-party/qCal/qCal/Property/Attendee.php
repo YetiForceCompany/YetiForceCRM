@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Attendee Property
  * @package qCal
@@ -132,13 +133,14 @@
  *   ATTENDEE;SENT-BY=MAILTO:jan_doe@host1.com;CN=John Smith:MAILTO:
  *    jsmith@host1.com
  */
-class qCal_Property_Attendee extends qCal_Property {
+class qCal_Property_Attendee extends qCal_Property
+{
 
 	protected $type = 'CAL-ADDRESS';
 	// If I'm reading the RFC correctly above, this property can be specified
 	// on the following components, but I'm still a bit confused about it. I 
 	// need to read up on it more to really understand
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VALARM');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VALARM');
 	protected $allowMultiple = true;
 
 }

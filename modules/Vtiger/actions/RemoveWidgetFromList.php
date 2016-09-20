@@ -1,14 +1,14 @@
 <?php
+
 /**
  * RemoveWidgetFromList Class
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Adrian Koń  <a.kon@yetiforce.com>
  */
-
 class Vtiger_RemoveWidgetFromList_Action extends Vtiger_IndexAjax_View
 {
-	
+
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -34,5 +34,4 @@ class Vtiger_RemoveWidgetFromList_Action extends Vtiger_IndexAjax_View
 		$response->setResult(true);
 		$response->emit();
 	}
-
 }

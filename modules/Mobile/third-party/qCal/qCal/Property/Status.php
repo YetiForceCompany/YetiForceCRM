@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Status Property
  * @package qCal
@@ -73,9 +74,10 @@
  * 
  *   STATUS:DRAFT
  */
-class qCal_Property_Status extends qCal_Property {
+class qCal_Property_Status extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL');
 
 }

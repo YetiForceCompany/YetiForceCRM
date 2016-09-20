@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Exception Rule Property
  * @package qCal
@@ -69,10 +70,11 @@
  * 
  *   EXRULE:FREQ=YEARLY;COUNT=8;BYMONTH=6,7
  */
-class qCal_Property_Exrule extends qCal_Property {
+class qCal_Property_Exrule extends qCal_Property
+{
 
 	protected $type = 'RECUR';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL');
 	protected $allowMultiple = true;
 
 }

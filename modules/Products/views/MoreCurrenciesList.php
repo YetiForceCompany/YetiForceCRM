@@ -26,7 +26,8 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$currencyName = $request->get('currency');
@@ -65,5 +66,4 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 
 		$viewer->view('MoreCurrenciesList.tpl', 'Products');
 	}
-
 }

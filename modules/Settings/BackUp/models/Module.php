@@ -1,11 +1,11 @@
 <?php
+
 /**
  * @package YetiForce.models
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-
 class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 {
 
@@ -63,7 +63,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	public function updateProgress($stage, $value, $time = 0)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = sprintf('UPDATE vtiger_backup_tmp SET b%s = ?,t%s = t%s + %s  WHERE id = ?;', $stage, $stage, $stage,$time);
+		$query = sprintf('UPDATE vtiger_backup_tmp SET b%s = ?,t%s = t%s + %s  WHERE id = ?;', $stage, $stage, $stage, $time);
 		$adb->pquery($query, [ $value, $this->get('id')]);
 	}
 
@@ -182,7 +182,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				$offset = $dbOffset + ($k * $rowLimit);
 				$sqlLimit = " LIMIT $offset, $rowLimit";
 				$numRows = $offset;
-				$query = sprintf('SELECT * FROM %s %s', $tableName, $sqlLimit);	
+				$query = sprintf('SELECT * FROM %s %s', $tableName, $sqlLimit);
 				$contentResult = $db->query($query);
 				$numFields = $db->getFieldsCount($contentResult);
 				$fields = $db->getFieldsArray($contentResult);
@@ -823,7 +823,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$db->delete('vtiger_backup_files');
 		$db->delete('vtiger_backup_tmp');
 		$db->update('vtiger_backup', ['status' => 2], 'status = ? ', [0]);
-		
+
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 }

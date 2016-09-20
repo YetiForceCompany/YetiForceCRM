@@ -49,7 +49,6 @@ class Campaigns extends CRMEntity
 	//Added these variables which are used as default order by and sortorder in ListView
 	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
-
 	var $search_fields = Array(
 		'Campaign Name' => Array('vtiger_campaign' => 'campaignname'),
 		'Campaign Type' => Array('vtiger_campaign' => 'campaigntype'),
@@ -141,7 +140,7 @@ class Campaigns extends CRMEntity
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
-			'last_name' => 'vtiger_users.last_name'), 'Users');
+				'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
 
 		$moreRelation = '';
@@ -165,7 +164,7 @@ class Campaigns extends CRMEntity
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid';
 		$query .= ' WHERE vtiger_crmentity.deleted = 0 && vtiger_campaign_records.campaignid = %d';
-		
+
 		$query = sprintf($query, $id);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -270,7 +269,7 @@ class Campaigns extends CRMEntity
 			'Competition' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
 			'Products' => array('vtiger_campaign' => array('campaignid', 'product_id')),
 		);
-		if($secmodule === false){
+		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];

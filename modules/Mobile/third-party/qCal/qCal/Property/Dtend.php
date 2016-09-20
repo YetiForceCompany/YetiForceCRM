@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Date/Time End Property
  * @package qCal
@@ -61,9 +62,10 @@
  * 
  *   DTEND;VALUE=DATE:19980704
  */
-class qCal_Property_Dtend extends qCal_Property {
+class qCal_Property_Dtend extends qCal_Property
+{
 
 	protected $type = 'DATE-TIME';
-	protected $allowedComponents = array('VEVENT','VFREEBUSY','DAYLIGHT','STANDARD');
+	protected $allowedComponents = array('VEVENT', 'VFREEBUSY', 'DAYLIGHT', 'STANDARD');
 
 }

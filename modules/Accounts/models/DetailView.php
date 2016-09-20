@@ -105,7 +105,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			];
 		}
 		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
-		if($openStreetMapModuleModel->isActive()){
+		if ($openStreetMapModuleModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_MAP',

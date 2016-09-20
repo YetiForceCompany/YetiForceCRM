@@ -68,7 +68,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 			$sourceModule = $request->get('sourceModule');
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
-		
+
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
 			$searchKey = $request->get('search_key');

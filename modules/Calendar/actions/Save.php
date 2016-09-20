@@ -103,7 +103,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if(!$fieldModel->isEditEnabled()){
+			if (!$fieldModel->isEditEnabled()) {
 				continue;
 			}
 			$fieldValue = $request->get($fieldName, null);

@@ -22,10 +22,10 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Save_Act
 		Settings_Vtiger_Tracker_Model::addBasic('save');
 		$data = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);
-		
+
 		$oldValues = Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($data['type'], $data['module']);
 		$oldValues = array_merge((array) $oldValues[$data['userid'][0]]['users'], (array) $oldValues[$data['userid'][0]]['groups']);
-		
+
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$moduleInstance->set('type', $data['type']);
 		$moduleInstance->save(array_filter($data));
@@ -34,7 +34,7 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Save_Act
 		$newValues = array_merge((array) $newValues[$data['userid'][0]]['users'], (array) $newValues[$data['userid'][0]]['groups']);
 		$prevDetail['userId'] = implode(',', $oldValues);
 		$newDetail['userId'] = implode(',', $newValues);
-		
+
 		Settings_Vtiger_Tracker_Model::addDetail($prevDetail, $newDetail);
 		$responceToEmit = new Vtiger_Response();
 		$responceToEmit->setResult(true);

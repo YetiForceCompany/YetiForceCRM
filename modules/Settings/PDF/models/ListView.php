@@ -51,7 +51,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 			}
 		}
 		if (!empty($orderBy)) {
-			$listQuery .= sprintf(' ORDER BY %s %s' , $orderBy, $this->getForSql('sortorder'));
+			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $this->getForSql('sortorder'));
 		}
 		$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);

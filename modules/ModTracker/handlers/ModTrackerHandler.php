@@ -67,7 +67,7 @@ class ModTrackerHandler extends VTEventHandler
 										'status' => $status,
 										'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 									]);
-									if($status != ModTracker::$CREATED){
+									if ($status != ModTracker::$CREATED) {
 										ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $this->id);
 									}
 									$inserted = true;

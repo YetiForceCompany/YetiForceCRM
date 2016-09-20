@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Calendar User Address Value
  * @package qCal
@@ -27,15 +28,15 @@
  * 
  *  ATTENDEE:MAILTO:jane_doe@host.com
  */
-class qCal_Value_CalAddress extends qCal_Value_Uri {
+class qCal_Value_CalAddress extends qCal_Value_Uri
+{
 
 	/**
 	 * @todo: implement this
 	 */
-	protected function doCast($value) {
-	
-		return $value;
-	
-	}
+	protected function doCast($value)
+	{
 
+		return $value;
+	}
 }

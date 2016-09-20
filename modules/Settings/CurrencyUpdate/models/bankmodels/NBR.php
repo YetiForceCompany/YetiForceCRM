@@ -3,7 +3,7 @@
  * @package YetiForce.models
  * @license licenses/License.html
  */
- 
+
 /**
  * Class for connection to Nation Bank of Romania currency exchange rates
  */
@@ -12,28 +12,29 @@ class Settings_CurrencyUpdate_models_NBR_BankModel extends Settings_CurrencyUpda
 	/*
 	 * Returns bank name
 	 */
+
 	public function getName()
 	{
 		return 'NBR';
 	}
-	
 	/*
 	 * Returns url sources from where exchange rates are taken from
 	 */
+
 	public function getSource($year = '')
 	{
 		if ($year == '')
 			$source = 'http://www.bnr.ro/nbrfxrates10days.xml';
 		else
-			$source = 'http://www.bnr.ro/files/xml/years/nbrfxrates'.$year.'.xml';
-		
+			$source = 'http://www.bnr.ro/files/xml/years/nbrfxrates' . $year . '.xml';
+
 		$xml = simplexml_load_file($source);
 		return $xml;
 	}
-	
 	/*
 	 * Returns list of currencies supported by this bank
 	 */
+
 	public function getSupportedCurrencies()
 	{
 		$supportedCurrencies = [];
@@ -41,27 +42,27 @@ class Settings_CurrencyUpdate_models_NBR_BankModel extends Settings_CurrencyUpda
 		$xml = $this->getSource();
 
 		foreach ($xml->Body->Cube[0] as $currency) {
-			$currencyCode = (string)$currency['currency'];
+			$currencyCode = (string) $currency['currency'];
 			$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode)] = $currencyCode;
 		}
 
 		return $supportedCurrencies;
 	}
-	
 	/*
 	 * Returns banks main currency 
 	 */
+
 	public function getMainCurrencyCode()
 	{
 		return 'RON';
 	}
-	
 	/*
 	 * Fetch exchange rates
 	 * @param <Array> $currencies - list of systems active currencies
 	 * @param <Date> $date - date for which exchange is fetched
 	 * @param <Boolean> $cron - if true then it is fired by server and crms currency conversion rates are updated 
 	 */
+
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
 		$db = PearDatabase::getInstance();
@@ -102,7 +103,7 @@ class Settings_CurrencyUpdate_models_NBR_BankModel extends Settings_CurrencyUpda
 				if ($time["date"] == $dateParam) {
 					foreach ($time->Rate as $rate) {
 						if ($rate['currency'] == $mainCurrency) {
-							$exchangeRate =	$rate;
+							$exchangeRate = $rate;
 							$foundRate = true;
 						}
 						if ($foundRate) {
@@ -121,12 +122,12 @@ class Settings_CurrencyUpdate_models_NBR_BankModel extends Settings_CurrencyUpda
 			if ($time["date"] == $dateParam) {
 				$num = count($time->Rate);
 				for ($i = 0; $i < $num; $i++) {
-					$currency = (string)$time->Rate[$i]['currency'];   // currency code
+					$currency = (string) $time->Rate[$i]['currency'];   // currency code
 					foreach ($otherCurrencyCode as $key => $currId) {
 						if ($key == $currency && $currency != $mainCurrency) {
 							$exchange = $time->Rate[$i];
-							if ($time->Rate[$i]['multiplier']){
-								$exchange =  (float) $time->Rate[$i] /  (float) $time->Rate[$i]['multiplier'];
+							if ($time->Rate[$i]['multiplier']) {
+								$exchange = (float) $time->Rate[$i] / (float) $time->Rate[$i]['multiplier'];
 							}
 							$exchangeVtiger = (float) $exchangeRate / (float) $exchange;
 							$exchange = (float) $exchange / (float) $exchangeRate;

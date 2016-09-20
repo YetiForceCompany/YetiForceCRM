@@ -1,26 +1,28 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Products_PriceBookProductPopup_View extends Vtiger_Popup_View {
+class Products_PriceBookProductPopup_View extends Vtiger_Popup_View
+{
 
-	function process (Vtiger_Request $request) {
-		$viewer = $this->getViewer ($request);
+	function process(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);
 
-		$viewer->assign('MODULE_NAME',$moduleName);
-		$viewer->assign('COMPANY_LOGO',$companyLogo);
-		$viewer->assign('TRIGGER_EVENT_NAME',$request->get('triggerEventName'));
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('COMPANY_LOGO', $companyLogo);
+		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		$viewer->view('PriceBookProductPopup.tpl', 'Products');
@@ -31,7 +33,8 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->get('src_module');
 		$jsFileNames = array(
@@ -46,11 +49,12 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View {
 
 		return $headerScriptInstances;
 	}
-
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
+
+	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('cvid');
 		$pageNumber = $request->get('page');
@@ -62,10 +66,10 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View {
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 
-		if(empty($cvId)) {
+		if (empty($cvId)) {
 			$cvId = '0';
 		}
-		if(empty ($pageNumber)){
+		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
 
@@ -76,31 +80,31 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View {
 		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
 
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
-		if(empty($orderBy) && empty($sortOrder)) {
+		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
-		if(!empty($orderBy)) {
+		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
 		}
-		if(!empty($sourceModule)) {
+		if (!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
 			$listViewModel->set('src_record', $sourceRecord);
 			$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 			$currencyId = $sourceRecordModel->get('currency_id');
 		}
-		if((!empty($searchKey)) && (!empty($searchValue)))  {
+		if ((!empty($searchKey)) && (!empty($searchValue))) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
 
-		if(!$this->listViewHeaders){
+		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
-		if(!$this->listViewEntries){
+		if (!$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 
@@ -109,7 +113,7 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View {
 				$productIdsList[$recordId] = $recordId;
 			}
 			$unitPricesList = $moduleModel->getPricesForProducts($currencyId, $productIdsList);
-			
+
 			foreach ($this->listViewEntries as $recordId => $recordModel) {
 				$recordModel->set('unit_price', $unitPricesList[$recordId]);
 			}
@@ -117,13 +121,13 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View {
 
 		$noOfEntries = count($this->listViewEntries);
 
-		if(empty($sortOrder)){
+		if (empty($sortOrder)) {
 			$sortOrder = "ASC";
 		}
-		if($sortOrder == "ASC"){
+		if ($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
 			$sortImage = "downArrowSmall.png";
-		}else{
+		} else {
 			$nextSortOrder = "ASC";
 			$sortImage = "upArrowSmall.png";
 		}
@@ -138,22 +142,21 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View {
 		$viewer->assign('SEARCH_KEY', $searchKey);
 		$viewer->assign('SEARCH_VALUE', $searchValue);
 
-		$viewer->assign('ORDER_BY',$orderBy);
-		$viewer->assign('SORT_ORDER',$sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER',$nextSortOrder);
-		$viewer->assign('SORT_IMAGE',$sortImage);
+		$viewer->assign('ORDER_BY', $orderBy);
+		$viewer->assign('SORT_ORDER', $sortOrder);
+		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
+		$viewer->assign('SORT_IMAGE', $sortImage);
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('PAGE_NUMBER',$pageNumber);
+		$viewer->assign('PAGE_NUMBER', $pageNumber);
 
-		$viewer->assign('LISTVIEW_ENTRIES_COUNT',$noOfEntries);
+		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
 		$viewer->assign('VIEW', 'PriceBookProductPopup');
 	}
-
 }

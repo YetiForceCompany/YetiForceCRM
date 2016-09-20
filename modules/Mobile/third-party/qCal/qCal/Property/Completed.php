@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Completed Property
  * @package qCal
@@ -33,7 +34,8 @@
  * 
  *   COMPLETED:19960401T235959Z
  */
-class qCal_Property_Completed extends qCal_Property {
+class qCal_Property_Completed extends qCal_Property
+{
 
 	protected $type = 'DATE-TIME';
 	protected $allowedComponents = array('VTODO');

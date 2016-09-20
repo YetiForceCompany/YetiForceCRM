@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Dated/Time Stamp Property
  * @package qCal
@@ -45,9 +46,10 @@
  * 
  *   DTSTAMP:19971210T080000Z
  */
-class qCal_Property_Dtstamp extends qCal_Property {
+class qCal_Property_Dtstamp extends qCal_Property
+{
 
 	protected $type = 'DATE-TIME';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VFREEBUSY');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VFREEBUSY');
 
 }

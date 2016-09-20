@@ -42,7 +42,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		]);
 		$response->emit();
 	}
-	
+
 	public function upadteSequences(Vtiger_Request $request)
 	{
 		$params = $request->get('param');

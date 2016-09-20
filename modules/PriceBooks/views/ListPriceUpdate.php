@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -10,9 +9,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View {
+class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
+{
 
-	function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
@@ -20,7 +21,8 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View {
 		}
 	}
 
-	function process(Vtiger_Request $request) {
+	function process(Vtiger_Request $request)
+	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
 		$priceBookId = $request->get('record');
@@ -36,5 +38,4 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View {
 		$viewer->view('ListPriceUpdate.tpl', $moduleName);
 		parent::postProcess($request);
 	}
-
 }

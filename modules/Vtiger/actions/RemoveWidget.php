@@ -32,7 +32,7 @@ class Vtiger_RemoveWidget_Action extends Vtiger_IndexAjax_View
 				'title' => vtranslate($widget->getTitle(), $request->getModule()),
 				'id' => $widget->get('id'),
 				'deleteFromList' => $widget->get('deleteFromList')
-				]);
+			]);
 		} else {
 			$response->setError(vtranslate('LBL_CAN_NOT_REMOVE_DEFAULT_WIDGET', $moduleName));
 		}

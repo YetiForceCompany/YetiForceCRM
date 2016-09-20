@@ -6,9 +6,11 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action {
+class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$data = [];
 		$sourceModule = $request->get('srcModule');
 		$srcModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
@@ -65,7 +67,8 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action {
 		$response->emit();
 	}
 
-	private function getRecordsForParentModule($srcModuleModel, $moduleModel, $records, $fieldMap) {
+	private function getRecordsForParentModule($srcModuleModel, $moduleModel, $records, $fieldMap)
+	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$recordsToReturn = [];
 		foreach ($fieldMap as $referenceModule => $fieldName) {
@@ -91,7 +94,8 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action {
 		return $recordsToReturn;
 	}
 
-	private function getRecordIds(Vtiger_Request $request) {
+	private function getRecordIds(Vtiger_Request $request)
+	{
 		$cvId = $request->get('viewname');
 		$module = $request->get('srcModule');
 		$selectedIds = $request->get('selected_ids');
@@ -116,5 +120,4 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action {
 		}
 		return [];
 	}
-
 }

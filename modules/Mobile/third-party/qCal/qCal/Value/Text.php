@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Text Value
  * @package qCal
@@ -66,15 +67,15 @@
  * 
  *  Project XYZ Final Review\nConference Room - 3B\nCome Prepared.
  */
-class qCal_Value_Text extends qCal_Value {
+class qCal_Value_Text extends qCal_Value
+{
 
 	/**
 	 * @todo: implement this
 	 */
-	protected function doCast($value) {
-	
-		return $value;
-	
-	}
+	protected function doCast($value)
+	{
 
+		return $value;
+	}
 }

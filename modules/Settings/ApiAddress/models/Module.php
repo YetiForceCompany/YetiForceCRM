@@ -73,11 +73,11 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 
 		return $result;
 	}
-
 	/*
 	 * Function that checks if keys for chosen adress api are entered, hence if this api is active
 	 * @return <Boolean> - true if active, false otherwise
 	 */
+
 	public static function isActive()
 	{
 		$db = PearDatabase::getInstance();

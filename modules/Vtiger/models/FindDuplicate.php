@@ -194,7 +194,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		$result = $db->query($query);
 
 		$recordIds = [];
-		while($row = $db->getRow($result)){
+		while ($row = $db->getRow($result)) {
 			$recordIds[] = $row['recordid'];
 		}
 

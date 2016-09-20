@@ -6,14 +6,14 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Vtiger_BaseValidator_Js("Vtiger_PhoneValidator_Js",{},{
+Vtiger_BaseValidator_Js("Vtiger_PhoneValidator_Js", {}, {
 	error: "",
-	validate: function(){
+	validate: function () {
 		var field = this.fieldInfo;
 		var fieldValue = field.val();
 		var strippedValue = fieldValue.replace(/[\(\)\.\-\ ]/g, '');
 
-	   if (fieldValue == "") {
+		if (fieldValue == "") {
 
 			this.getEmptyPhoneNumberError();
 
@@ -22,23 +22,20 @@ Vtiger_BaseValidator_Js("Vtiger_PhoneValidator_Js",{},{
 			this.getPhoneNumberIllegalCharacterError();
 
 		} else if (!(strippedValue.length == 10)) {
-			
+
 			this.getPhoneNumberWrongLengthError();
 
 		}
 	},
-
-	getEmptyPhoneNumberError: function(){
+	getEmptyPhoneNumberError: function () {
 		this.error = "You didn't enter a phone number.\n";
 		return this.error;
 	},
-
-	getPhoneNumberIllegalCharacterError: function(){
+	getPhoneNumberIllegalCharacterError: function () {
 		this.error = "The phone number contains illegal characters.\n";
 		return this.error;
 	},
-
-	getPhoneNumberWrongLengthError: function(){
+	getPhoneNumberWrongLengthError: function () {
 		this.error = "The phone number is the wrong length. Make sure you included an area code.\n";
 		return this.error;
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TimeZone Offset Value
  * Some properties require a timezone offset. This specifies what that
@@ -36,15 +37,15 @@
  * 
  *  +0100
  */
-class qCal_Value_UtcOffset extends qCal_Value {
+class qCal_Value_UtcOffset extends qCal_Value
+{
 
 	/**
 	 * @todo: implement this
 	 */
-	protected function doCast($value) {
-	
-		return $value;
-	
-	}
+	protected function doCast($value)
+	{
 
+		return $value;
+	}
 }

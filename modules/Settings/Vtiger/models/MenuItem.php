@@ -217,7 +217,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = sprintf('SELECT * FROM %s WHERE %s = ?',self::$itemsTable, self::$itemId);
+		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$itemsTable, self::$itemId);
 		$params = array($id);
 
 		if ($menuModel) {

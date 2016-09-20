@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Geographic Position Property
  * @package qCal
@@ -85,7 +86,8 @@
  * 
  *   GEO:37.386013;-122.082932
  */
-class qCal_Property_Geo extends qCal_Property {
+class qCal_Property_Geo extends qCal_Property
+{
 
 	protected $type = 'FLOAT';
 	protected $allowedComponents = array('VEVENT', 'VTODO');

@@ -1,6 +1,6 @@
 <?php
-class qCal_Exception_FileNotFound extends qCal_Exception {
 
+class qCal_Exception_FileNotFound extends qCal_Exception
+{
 	// hooty
-
 }

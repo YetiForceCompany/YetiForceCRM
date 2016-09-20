@@ -1,11 +1,11 @@
 <?php
+
 /**
  * @package YetiForce.actions
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
- 
 class Settings_BackUp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 

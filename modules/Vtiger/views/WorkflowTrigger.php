@@ -16,7 +16,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		if (!(Users_Privileges_Model::isPermitted($moduleName, 'WorkflowTrigger',$record))) {
+		if (!(Users_Privileges_Model::isPermitted($moduleName, 'WorkflowTrigger', $record))) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}

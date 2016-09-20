@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Todo Component
  * @package qCal
@@ -73,7 +74,8 @@
  *   STATUS:NEEDS-ACTION
  *   END:VTODO
  */
-class qCal_Component_Vtodo extends qCal_Component {
+class qCal_Component_Vtodo extends qCal_Component
+{
 
 	protected $name = "VTODO";
 	protected $allowedComponents = array('VCALENDAR');

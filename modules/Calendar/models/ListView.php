@@ -183,7 +183,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				}
 			}
 		}
-		
+
 		$listQuery .= $listOrder;
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();

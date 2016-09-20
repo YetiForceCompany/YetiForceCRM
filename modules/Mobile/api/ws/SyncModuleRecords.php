@@ -1,26 +1,29 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 include_once dirname(__FILE__) . '/SaveRecord.php';
 
 include_once 'include/Webservices/Query.php';
 
-class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
+class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord
+{
 
-	static $SYNC_MODE_PUBLIC  = "PUBLIC";
+	static $SYNC_MODE_PUBLIC = "PUBLIC";
 	static $SYNC_MODE_PRIVATE = "PRIVATE";
 
-	function isModePrivate(Mobile_API_Request $request, $defmode="PRIVATE") {
+	function isModePrivate(Mobile_API_Request $request, $defmode = "PRIVATE")
+	{
 		return (strcasecmp($request->get('mode', $defmode), self::$SYNC_MODE_PRIVATE) === 0);
 	}
 
-	function process(Mobile_API_Request $request) {
+	function process(Mobile_API_Request $request)
+	{
 		$current_user = $this->getActiveUser();
 		$current_user_wsid = sprintf("%sx%s", Mobile_WS_Utils::getEntityModuleWSId("Users"), $current_user->id);
 
@@ -56,7 +59,6 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 			} else {
 				$queryActive = sprintf("SELECT * FROM %s ORDER BY modifiedtime DESC", $module);
 			}
-
 		} else {
 			// Attempt to lookup records from previous state
 			if ($hasAssignedToField && $isPrivateMode) {
@@ -67,31 +69,31 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 		}
 
 		// Try to fetch record with paging (one extra record fetch is attempted to determine presence of next page)
-		$activeQuery = sprintf("%s LIMIT %u,%u;", $queryActive, $startLimit, ($FETCH_LIMIT+1));
-		$activeResult = vtws_query( $activeQuery, $current_user );
+		$activeQuery = sprintf("%s LIMIT %u,%u;", $queryActive, $startLimit, ($FETCH_LIMIT + 1));
+		$activeResult = vtws_query($activeQuery, $current_user);
 
-		 // Determine paging
-        $hasNextPage = (count($activeResult) > $FETCH_LIMIT);
+		// Determine paging
+		$hasNextPage = (count($activeResult) > $FETCH_LIMIT);
 
-        // Special case handling merge Events records
-        if ($module == 'Calendar') {
-            $activeResult2 = vtws_query(str_replace('Calendar', 'Events', $activeQuery), $current_user);
-            if (!empty($activeResult2)) {
-                $activeResult = array_merge($activeResult, $activeResult2);
-                if (!$hasNextPage) {
-                    // If there was not Calendar next-page of records - check with Events
-                    $hasNextPage = (count($activeResult) > $FETCH_LIMIT);
-                }
-            }
-            // Indicator that we fetched both Calendar+Events
-            $FETCH_LIMIT *= 2;
-        }
+		// Special case handling merge Events records
+		if ($module == 'Calendar') {
+			$activeResult2 = vtws_query(str_replace('Calendar', 'Events', $activeQuery), $current_user);
+			if (!empty($activeResult2)) {
+				$activeResult = array_merge($activeResult, $activeResult2);
+				if (!$hasNextPage) {
+					// If there was not Calendar next-page of records - check with Events
+					$hasNextPage = (count($activeResult) > $FETCH_LIMIT);
+				}
+			}
+			// Indicator that we fetched both Calendar+Events
+			$FETCH_LIMIT *= 2;
+		}
 
-        $nextPage = 0;
-        if ($hasNextPage) {
-            array_pop($activeResult); // Avoid sending next page record now
-            $nextPage = $currentPage + 1;
-        }
+		$nextPage = 0;
+		if ($hasNextPage) {
+			array_pop($activeResult); // Avoid sending next page record now
+			$nextPage = $currentPage + 1;
+		}
 
 		// Resolved record details
 		$resolvedModifiedRecords = array();
@@ -99,7 +101,7 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 
 		if (!empty($activeResult)) {
 
-			foreach($activeResult as $recordValues) {
+			foreach ($activeResult as $recordValues) {
 				$this->resolveRecordValues($recordValues, $current_user);
 				$transformedRecord = $this->transformRecordWithGrouping($recordValues, $module);
 				// Update entity fieldnames
@@ -138,8 +140,7 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 					INNER JOIN vtiger_crmentity ON vtiger_activity.activityid=vtiger_crmentity.crmid
 					AND vtiger_crmentity.deleted=1 && vtiger_crmentity.setype=? && vtiger_crmentity.modifiedtime > ?
 					LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE 1=1	$andsmowneridequal ",
-				$queryDeletedParameters);
+					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE 1=1	$andsmowneridequal ", $queryDeletedParameters);
 			} else if ($module == 'Leads') {
 				$queryDeleted = $adb->pquery("SELECT crmid, modifiedtime, setype FROM vtiger_crmentity
 				INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid=vtiger_crmentity.crmid
@@ -153,7 +154,7 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 				WHERE vtiger_crmentity.deleted=1 && vtiger_crmentity.setype=? && vtiger_crmentity.modifiedtime > ? $andsmowneridequal", $queryDeletedParameters);
 			}
 
-			while($row = $adb->fetch_array($queryDeleted)) {
+			while ($row = $adb->fetch_array($queryDeleted)) {
 				$recordModule = $row['setype'];
 				if ($module == 'Calendar') {
 					if ($row['setype'] != 'Task' && $row['setype'] != 'Emails') {
@@ -175,11 +176,11 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 			'nextSyncToken' => $maxSyncTime,
 			'deleted' => $resolvedDeletedRecords,
 			'updated' => $resolvedModifiedRecords,
-			'nextPage'=> $nextPage, // Applies only to retrieve updated record details
+			'nextPage' => $nextPage, // Applies only to retrieve updated record details
 		);
 
 		$response = new Mobile_API_Response();
-		$response->setResult( array( 'sync' => $result) );
+		$response->setResult(array('sync' => $result));
 
 		return $response;
 	}

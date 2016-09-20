@@ -117,7 +117,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		FROM vtiger_leaddetails 
 		INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
 		INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus
-		WHERE deleted = 0 %s %s %s',$ownerSql, $dateFilterSql, $securityParameter);
+		WHERE deleted = 0 %s %s %s', $ownerSql, $dateFilterSql, $securityParameter);
 		$sql .= ' GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid';
 		$result = $db->pquery($sql, $params);
 

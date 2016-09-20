@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unique Identifier Property
  * @package qCal
@@ -76,9 +77,10 @@
  * 
  *   UID:19960401T080045Z-4000F192713-0052@host1.com
  */
-class qCal_Property_Uid extends qCal_Property {
+class qCal_Property_Uid extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VFREEBUSY');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VFREEBUSY');
 
 }

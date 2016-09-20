@@ -1124,12 +1124,12 @@ class Reports extends CRMEntity
 	{
 		//retreive the vtiger_tabid
 		$adb = PearDatabase::getInstance();
-		
+
 		$log = LoggerManager::getInstance();
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
-		
-		
+
+
 		$tabid = \includes\Modules::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
 		$sparams = array($tabid);

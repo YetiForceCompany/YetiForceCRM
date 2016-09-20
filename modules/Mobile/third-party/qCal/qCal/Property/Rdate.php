@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Recurrence Date/Times Property
  * @package qCal
@@ -81,9 +82,10 @@
  *   RDATE;VALUE=DATE:19970101,19970120,19970217,19970421
  *    19970526,19970704,19970901,19971014,19971128,19971129,19971225
  */
-class qCal_Property_Rdate extends qCal_Property_MultiValue {
+class qCal_Property_Rdate extends qCal_Property_MultiValue
+{
 
 	protected $type = 'DATE-TIME';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VTIMEZONE');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE');
 
 }

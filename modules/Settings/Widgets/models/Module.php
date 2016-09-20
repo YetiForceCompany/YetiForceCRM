@@ -43,8 +43,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $adb->pquery($sql, $params);
 		$modules = [];
 		while ($row = $adb->fetch_array($result)) {
-			$moduleModel =  Vtiger_Module_Model::getInstance($row['name']);
-			if($moduleModel->isSummaryViewSupported())
+			$moduleModel = Vtiger_Module_Model::getInstance($row['name']);
+			if ($moduleModel->isSummaryViewSupported())
 				$modules[$row['tabid']] = $row;
 		}
 		return $modules;
@@ -60,7 +60,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = vtlib\Functions::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
-		$moduleModel =  Vtiger_Module_Model::getInstance($module);
+		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$ffs = scandir($dir);
 		foreach ($ffs as $ff) {
 			$action = str_replace('.php', "", $ff);

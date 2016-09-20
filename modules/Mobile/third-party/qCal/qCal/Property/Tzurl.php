@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Time Zone URL Property
  * @package qCal
@@ -39,7 +40,8 @@
  * 
  *   TZURL:http://timezones.r.us.net/tz/US-California-Los_Angeles
  */
-class qCal_Property_Tzurl extends qCal_Property {
+class qCal_Property_Tzurl extends qCal_Property
+{
 
 	protected $type = 'URI';
 	protected $allowedComponents = array('VTIMEZONE');

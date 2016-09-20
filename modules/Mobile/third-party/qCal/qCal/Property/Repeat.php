@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Repeat Count Property
  * @package qCal
@@ -39,7 +40,8 @@
  *   REPEAT:4
  *   DURATION:PT5M
  */
-class qCal_Property_Repeat extends qCal_Property {
+class qCal_Property_Repeat extends qCal_Property
+{
 
 	protected $type = 'INTEGER';
 	protected $allowedComponents = array('VALARM');

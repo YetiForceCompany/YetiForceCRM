@@ -78,7 +78,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 					AND mdw.module = ? 
 					AND `active` = ?";
 		$params = [$currentUser->getId(), 'DASHBOARDWIDGET', $moduleModel->getId(), $action];
-	
+
 		$result = $db->pquery($sql, $params);
 
 		$widgets = [];
@@ -86,7 +86,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 		while ($row = $db->fetch_array($result)) {
 			$row['linkid'] = $row['id'];
 			if ($row['linklabel'] == 'Mini List') {
-				if(!$row['isdeafult'])
+				if (!$row['isdeafult'])
 					$row['deleteFromList'] = true;
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
@@ -94,7 +94,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
 			} elseif ($row['linklabel'] == 'ChartFilter') {
-				if(!$row['isdeafult'])
+				if (!$row['isdeafult'])
 					$row['deleteFromList'] = true;
 				$charFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
@@ -200,13 +200,14 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		return $instance->setModule($moduleModel);
 	}
-	
-	public static function getModulesWithWidgets(){
+
+	public static function getModulesWithWidgets()
+	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT module FROM vtiger_module_dashboard_widgets WHERE userid = ? && active = ?' , [$currentUser->getId(), 1]);
+		$result = $db->pquery('SELECT module FROM vtiger_module_dashboard_widgets WHERE userid = ? && active = ?', [$currentUser->getId(), 1]);
 		$modules = [];
-		while($row = $db->getRow($result)){
+		while ($row = $db->getRow($result)) {
 			$modules[$row['module']] = vtlib\Functions::getModuleName($row['module']);
 		}
 		return $modules;

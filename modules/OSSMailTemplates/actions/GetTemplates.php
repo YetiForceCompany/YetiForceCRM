@@ -1,11 +1,11 @@
 <?php
+
 /**
  *
  * @package YetiForce.actions
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 class OSSMailTemplates_GetTemplates_Action extends Vtiger_Action_Controller
 {
 

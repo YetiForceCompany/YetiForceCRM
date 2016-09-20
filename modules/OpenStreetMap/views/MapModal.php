@@ -6,13 +6,16 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View {
+class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
+{
 
-	public function getSize(Vtiger_Request $request) {
+	public function getSize(Vtiger_Request $request)
+	{
 		return 'modal-fullscreen';
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$srcModuleModel = Vtiger_Module_Model::getInstance($request->get('srcModule'));
 		$this->preProcess($request);
@@ -31,7 +34,8 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View {
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(Vtiger_Request $request) {
+	public function getModalScripts(Vtiger_Request $request)
+	{
 		$jsFileNames = array(
 			'~libraries/leaflet/leaflet.js',
 			'~libraries/leaflet/plugins/markercluster/leaflet.markercluster.js',
@@ -41,7 +45,8 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View {
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
-	public function getModalCss(Vtiger_Request $request) {
+	public function getModalCss(Vtiger_Request $request)
+	{
 		$cssFileNames = [
 			'~libraries/leaflet/leaflet.css',
 			'~libraries/leaflet/plugins/markercluster/MarkerCluster.Default.css',
@@ -50,5 +55,4 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View {
 		];
 		return $this->checkAndConvertCssStyles($cssFileNames);
 	}
-
 }

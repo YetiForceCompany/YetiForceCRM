@@ -184,8 +184,8 @@ class Mobile_WS_Utils
 				$fieldgroups[$blocklabel] = array();
 			}
 			$fieldgroups[$blocklabel][$resultrow['fieldname']] = array(
-					'label' => \includes\Language::translate($resultrow['fieldlabel'], $module),
-					'uitype' => self::fixUIType($module, $resultrow['fieldname'], $resultrow['uitype'])
+				'label' => \includes\Language::translate($resultrow['fieldlabel'], $module),
+				'uitype' => self::fixUIType($module, $resultrow['fieldname'], $resultrow['uitype'])
 			);
 		}
 

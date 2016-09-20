@@ -295,7 +295,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if ($lockRecords) {
 			$crmEntityModel = Vtiger_CRMEntity::getInstance($moduleName);
 			$lockFields = $crmEntityModel->getLockFields();
-			if(is_array($lockFields)){
+			if (is_array($lockFields)) {
 				foreach ($lockFields as $fieldName => $fieldValues) {
 					$listQuery .=' && ' . $baseTableName . '.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')';
 					$params = array_merge($params, $fieldValues);

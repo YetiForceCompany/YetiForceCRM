@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Time Zone Identifier Property
  * @package qCal
@@ -59,7 +60,8 @@
  * 
  *   TZID:/US-New_York-New_York
  */
-class qCal_Property_Tzid extends qCal_Property {
+class qCal_Property_Tzid extends qCal_Property
+{
 
 	protected $type = 'TEXT';
 	protected $allowedComponents = array('VTIMEZONE');

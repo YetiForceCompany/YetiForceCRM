@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Non-standard Property(s)
  * @package qCal
@@ -54,17 +55,18 @@
  * 
  *   X-ABC-MMSUBJ;X-ABC-MMSUBJTYPE=wave:http://load.noise.org/mysubj.wav
  */
-class qCal_Property_NonStandard extends qCal_Property {
+class qCal_Property_NonStandard extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL',
-		'VALARM','VTIMEZONE','VFREEBUSY','VCALENDAR');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL',
+		'VALARM', 'VTIMEZONE', 'VFREEBUSY', 'VCALENDAR');
 	protected $allowMultiple = true;
-	public function __construct($value, $params, $name) {
-	
+
+	public function __construct($value, $params, $name)
+	{
+
 		parent::__construct($value, $params);
 		$this->name = strtoupper($name);
-	
 	}
-
 }

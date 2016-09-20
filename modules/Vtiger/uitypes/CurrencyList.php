@@ -35,5 +35,3 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Base_UIType
 		return 'currency_name';
 	}
 }
-
-

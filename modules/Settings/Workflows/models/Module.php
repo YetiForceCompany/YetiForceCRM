@@ -166,13 +166,13 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$db->update($this->getBaseTable() . '_seq', ['id' => $workflowId]);
 
 		$messages = ['id' => $workflowId];
-		if($data['workflow_methods']){
-			foreach($data['workflow_methods'] as $method) {
+		if ($data['workflow_methods']) {
+			foreach ($data['workflow_methods'] as $method) {
 				$this->importTaskMethod($method, $messages);
 			}
 		}
-		
-		if($data['workflow_tasks']){
+
+		if ($data['workflow_tasks']) {
 			foreach ($data['workflow_tasks'] as $task) {
 				$db->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']]);
 				$taskId = $db->getLastInsertID();
@@ -195,15 +195,16 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param int $methodName name of method
 	 * @return array task method data
 	 */
-	public static function exportTaskMethod($methodName) {
+	public static function exportTaskMethod($methodName)
+	{
 		$db = PearDatabase::getInstance();
-		
+
 		$query = 'SELECT workflowtasks_entitymethod_id, module_name, method_name, function_path, function_name FROM com_vtiger_workflowtasks_entitymethod WHERE method_name = ?;';
 		$result = $db->pquery($query, [$methodName]);
 		$method = $db->getRow($result);
 
 		$method['script_content'] = base64_encode(file_get_contents($method['function_path']));
-		
+
 		return $method;
 	}
 
@@ -212,7 +213,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param array $method array containing method data
 	 * @param array $messages array containing returned error messages
 	 */
-	public function importTaskMethod(array &$method, array &$messages) {
+	public function importTaskMethod(array &$method, array &$messages)
+	{
 		$db = PearDatabase::getInstance();
 
 		if (!file_exists($method['function_path'])) {

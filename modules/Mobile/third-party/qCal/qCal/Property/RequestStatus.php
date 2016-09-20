@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Request Status Property
  * @package qCal
@@ -116,9 +117,10 @@
  *   REQUEST-STATUS:3.7;Invalid calendar user;ATTENDEE:
  *    MAILTO:jsmith@host.com
  */
-class qCal_Property_Sequence extends qCal_Property {
+class qCal_Property_Sequence extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VFREEBUSY');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VFREEBUSY');
 
 }

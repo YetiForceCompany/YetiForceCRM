@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Trigger Property
  * @package qCal
@@ -111,7 +112,8 @@
  * 
  *   TRIGGER;VALUE=DATE-TIME:19980101T050000Z
  */
-class qCal_Property_Trigger extends qCal_Property {
+class qCal_Property_Trigger extends qCal_Property
+{
 
 	protected $type = 'DURATION';
 	protected $allowedComponents = array('VALARM');

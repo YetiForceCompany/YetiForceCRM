@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sequence Number Property
  * @package qCal
@@ -86,9 +87,10 @@
  * 
  *   SEQUENCE:2
  */
-class qCal_Property_Sequence extends qCal_Property {
+class qCal_Property_Sequence extends qCal_Property
+{
 
 	protected $type = 'INTEGER';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL');
 
 }

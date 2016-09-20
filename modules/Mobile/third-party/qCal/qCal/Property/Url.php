@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Uniform Resource Locator Property
  * @package qCal
@@ -40,9 +41,10 @@
  * 
  *   URL:http://abc.com/pub/calendars/jsmith/mytime.ics
  */
-class qCal_Property_Url extends qCal_Property {
+class qCal_Property_Url extends qCal_Property
+{
 
 	protected $type = 'URI';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VFREEBUSY');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VFREEBUSY');
 
 }

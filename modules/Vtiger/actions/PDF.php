@@ -78,9 +78,9 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 		$templateAmount = count($templateIds);
 		$recordsAmount = count($recordId);
 		$selectedOneTemplate = $templateAmount == 1 ? true : false;
-		if($selectedOneTemplate){
+		if ($selectedOneTemplate) {
 			$template = Vtiger_PDF_Model::getInstanceById($templateIds[0]);
-			$generateOnePdf	= $template->get('one_pdf');
+			$generateOnePdf = $template->get('one_pdf');
 		}
 
 		if ($selectedOneTemplate && $recordsAmount == 1) {
@@ -96,9 +96,9 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 			} else {
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
 			}
-		} else if($selectedOneTemplate && $recordsAmount > 1 && $generateOnePdf){
+		} else if ($selectedOneTemplate && $recordsAmount > 1 && $generateOnePdf) {
 			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
-		} else { 
+		} else {
 			if ($singlePdf) {
 				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
 				$pdf = new $handlerClass();

@@ -1,30 +1,33 @@
 <?php
-class qCal_DateTime_Recur_Yearly extends qCal_DateTime_Recur {
+
+class qCal_DateTime_Recur_Yearly extends qCal_DateTime_Recur
+{
 
 	/**
 	 * @todo This is a god method that really should be split out into each
 	 * of the qCal_DateTime_Recur_Rule_ByXXX classes. For now I did all the logic
 	 * here to keep it simple and not confuse myself more than necessary.
 	 */
-	protected function doGetRecurrences($rules, $start, $end) {
-	
+	protected function doGetRecurrences($rules, $start, $end)
+	{
+
 		// an array to store recurrences
 		$recurrences = array();
-		
+
 		// start day, year, and month
 		$sday = $start->format('d');
 		$smonth = $start->format('m');
 		$syear = $start->format('Y');
-		
+
 		// end day, year, and month
 		$eday = $end->format('d');
 		$emonth = $end->format('m');
 		$eyear = $end->format('Y');
-		
+
 		// loop over years, by increment
 		$year = $syear;
 		while ($year <= $eyear) {
-		
+
 			// if byMonth is specified...
 			if (count($this->byMonth())) {
 				// loop over each month
@@ -61,7 +64,7 @@ class qCal_DateTime_Recur_Yearly extends qCal_DateTime_Recur {
 						$date->setTime(0, 0, 0);
 						$wdname = strtoupper(substr($date->format('l'), 0, 2));
 						// keep track of how many of each day of the week have gone by
-						$weekdays[$wdname]++;
+						$weekdays[$wdname] ++;
 						// if byDay is specified...
 						// @todo this is inconsistent, I don't use the getter here because of its special functionality.
 						// I need to either remove the special functionality or not use getters elsewhere in this method
@@ -81,7 +84,7 @@ class qCal_DateTime_Recur_Yearly extends qCal_DateTime_Recur {
 								}
 							}
 						}
-						
+
 						// if byMonthDay is specified...
 						if (count($this->byMonthDay())) {
 							foreach ($this->byMonthDay() as $mday) {
@@ -91,7 +94,7 @@ class qCal_DateTime_Recur_Yearly extends qCal_DateTime_Recur {
 								}
 							}
 						}
-						
+
 						// now loop over each hour and add hours
 						if (count($this->byHour())) {
 							$hourrecurrences = array();
@@ -102,42 +105,41 @@ class qCal_DateTime_Recur_Yearly extends qCal_DateTime_Recur {
 								$hourrecurrences[] = $new;
 							}
 						}
-						
+
 						// now loop over byHours and add byMinutes
 						if (count($this->byMinute())) {
-							if (!isset($minuterecurrences)) $minuterecurrences = array();
+							if (!isset($minuterecurrences))
+								$minuterecurrences = array();
 							foreach ($this->byMinute() as $minute) {
 								$new = new qCal_Date();
 								$new = $new->copy($date);
 								$new->setTime(0, $minute, 0);
 							}
 						}
-						
+
 						// now loop over byMinutes and add bySeconds
-						
 					}
 				}
 			}
-			
+
 			// if in the first year we don't find an instance, don't do the interval, just increment a year
-			if ($year == $syear && count($recurrences)) $year += $this->interval();
-			else ($year++);
+			if ($year == $syear && count($recurrences))
+				$year += $this->interval();
+			else
+				($year++);
 		}
-		
+
 		// now loop over weeks to get byWeekNo
-		
+
 		foreach ($recurrences as $date) {
 			// pr($date->format("r"));
 		}
 		// exit;
-		
+
 		return $recurrences;
 		// for bymonth, it would make the most sense to loop over each month until the specified one
 		// is found. Then loop over each day to find its sub-rules.
-		
 		// for byweekno, it would make the most sense to loop over each week until the specified one
 		// is found. Then apply any sub-rules (actually I'm not sure how byhour and its ilk would be applied in this situation... need to read the rfc)
-	
 	}
-
 }

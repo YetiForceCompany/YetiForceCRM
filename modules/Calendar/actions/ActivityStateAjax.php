@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package YetiForce.actions
@@ -6,7 +7,6 @@
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 class Calendar_ActivityStateAjax_Action extends Calendar_SaveAjax_Action
 {
 

@@ -1,16 +1,18 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model {
+class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
+{
 
-	public function getHeaders() {
+	public function getHeaders()
+	{
 		$headerFields = parent::getHeaders();
 
 		//Added to support List Price
@@ -23,16 +25,17 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model {
 		return $headerFields;
 	}
 
-	public function getEntries($pagingModel) {
+	public function getEntries($pagingModel)
+	{
 		$db = PearDatabase::getInstance();
 		$parentModule = $this->getParentRecordModel()->getModule();
 		$relationModel = $this->getRelationModel();
 		$relationModule = $relationModel->getRelationModuleModel();
-		$relatedColumnFieldMapping = $relationModel->getRelationFields(true,true);
-		if(count($relatedColumnFieldMapping) <= 0){
+		$relatedColumnFieldMapping = $relationModel->getRelationFields(true, true);
+		if (count($relatedColumnFieldMapping) <= 0) {
 			$relatedColumnFieldMapping = $relationModule->getConfigureRelatedListFields();
 		}
-		if(count($relatedColumnFieldMapping) <= 0){
+		if (count($relatedColumnFieldMapping) <= 0) {
 			$relatedColumnFieldMapping = $relationModule->getRelatedListFields();
 		}
 
@@ -43,21 +46,21 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model {
 
 		$orderBy = $this->getForSql('orderby');
 		$sortOrder = $this->getForSql('sortorder');
-		if($orderBy) {
+		if ($orderBy) {
 			$query = "$query ORDER BY $orderBy $sortOrder";
 		}
 
-		$limitQuery = $query .' LIMIT '.$startIndex.','.$pageLimit;
+		$limitQuery = $query . ' LIMIT ' . $startIndex . ',' . $pageLimit;
 		$result = $db->pquery($limitQuery, array());
 		$relatedRecordList = array();
 
-		while($row = $db->fetchByAssoc($result)){
+		while ($row = $db->fetchByAssoc($result)) {
 			$newRow = array();
-			foreach($row as $col=>$val){
-				if(array_key_exists($col,$relatedColumnFieldMapping))
+			foreach ($row as $col => $val) {
+				if (array_key_exists($col, $relatedColumnFieldMapping))
 					$newRow[$relatedColumnFieldMapping[$col]] = $val;
 			}
-			
+
 			$recordId = $row['crmid'];
 			$newRow['id'] = $recordId;
 			//Added to support List Price
@@ -68,11 +71,11 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model {
 		}
 		$pagingModel->calculatePageRange($relatedRecordList);
 
-		$nextLimitQuery = $query. ' LIMIT '.($startIndex+$pageLimit).' , 1';
+		$nextLimitQuery = $query . ' LIMIT ' . ($startIndex + $pageLimit) . ' , 1';
 		$nextPageLimitResult = $db->pquery($nextLimitQuery, array());
-		if($db->num_rows($nextPageLimitResult) > 0){
+		if ($db->num_rows($nextPageLimitResult) > 0) {
 			$pagingModel->set('nextPageExists', true);
-		}else{
+		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
 		return $relatedRecordList;

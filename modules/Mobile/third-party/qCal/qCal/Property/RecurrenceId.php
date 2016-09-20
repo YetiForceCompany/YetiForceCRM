@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Recurrence Id Property
  * @package qCal
@@ -88,9 +89,10 @@
  * 
  *   RECURRENCE-ID;RANGE=THISANDFUTURE:19960120T120000Z
  */
-class qCal_Property_RecurrenceId extends qCal_Property {
+class qCal_Property_RecurrenceId extends qCal_Property
+{
 
 	protected $type = 'DATE-TIME';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL');
 
 }

@@ -44,9 +44,9 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			. "(UNIX_TIMESTAMP(vlh.login_time) - UNIX_TIMESTAMP(ADDDATE(?, INTERVAL -$blockTime MINUTE))) > 0 "
 			. "GROUP BY user_ip "
 			. "HAVING COUNT>=?";
-	
+
 		$result = $db->pquery($query, [$now, $attempsNumber]);
-		
+
 		while ($row = $db->fetch_array($result)) {
 			$output[] = $row;
 		}
@@ -86,10 +86,10 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$bruteforceSettings = $db->query_result_rowdata($result, 0);
 		$attempsNumber = $bruteforceSettings['attempsnumber'];
 		$blockTime = $bruteforceSettings['timelock'];
-	
+
 		$blockDate = new DateTime();
-		$blockDate->modify("-$blockTime minutes");	
-		
+		$blockDate->modify("-$blockTime minutes");
+
 		$query = "SELECT count(login_id) as cn FROM `vtiger_loginhistory` vlh 
 			WHERE STATUS = 'Failed login' && user_ip = ? && unblock = 0 
 			AND vlh.login_time > ?";

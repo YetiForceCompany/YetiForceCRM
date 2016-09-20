@@ -196,7 +196,7 @@ a[target="_replace"] {
 }
 
 /************************************************************************************************/
-    
+
 body > .dialog {
     top: 0;
     width: 100%;
@@ -290,9 +290,9 @@ fieldset > .row:last-child {
     background: none;
 }
 .row > input[type|=radio], .row > input[type|=checkbox] {
-  margin: 7px 7px 0 0;
-  height: 25px;
-  width: 25px;
+	margin: 7px 7px 0 0;
+	height: 25px;
+	width: 25px;
 }
 
 .row > label {

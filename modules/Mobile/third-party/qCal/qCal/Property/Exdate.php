@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Exception Date/Times Property
  * @package qCal
@@ -77,9 +78,10 @@
  * 
  *   EXDATE:19960402T010000Z,19960403T010000Z,19960404T010000Z
  */
-class qCal_Property_Exdate extends qCal_Property_MultiValue {
+class qCal_Property_Exdate extends qCal_Property_MultiValue
+{
 
 	protected $type = 'DATE-TIME';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VTIMEZONE');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE');
 
 }

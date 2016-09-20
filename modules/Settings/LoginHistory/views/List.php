@@ -1,11 +1,11 @@
 <?php
+
 /**
  * 
  * @package YetiForce.Views
  * @license licenses/License.html
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 class Settings_LoginHistory_List_View extends Settings_Vtiger_List_View
 {
 

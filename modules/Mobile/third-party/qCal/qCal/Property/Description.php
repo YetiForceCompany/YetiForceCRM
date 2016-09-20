@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description Property
  * @package qCal
@@ -64,9 +65,10 @@
  *   DESCRIPTION:Last draft of the new novel is to be completed
  *     for the editor's proof today.
  */
-class qCal_Property_Description extends qCal_Property {
+class qCal_Property_Description extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT', 'VTODO','VJOURNAL','VALARM');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VALARM');
 
 }

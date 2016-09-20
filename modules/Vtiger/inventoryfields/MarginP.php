@@ -27,7 +27,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
 	}
-	
+
 	public function getSummaryValuesFromData($data)
 	{
 		$sum = 0;

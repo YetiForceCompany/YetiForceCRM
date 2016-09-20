@@ -19,12 +19,12 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$notification = Home_Notification_Model::getInstance();
 		$types = [];
-		if($request->has('types')){
+		if ($request->has('types')) {
 			$types = $request->get('types');
 		}
 		$notificationEntries = [];
-		if (!empty($types)){
-			$notificationEntries = $notification->getEntries(AppConfig::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'),  'AND `type` IN (' . implode(',', $types) . ')' , false, false);
+		if (!empty($types)) {
+			$notificationEntries = $notification->getEntries(AppConfig::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'), 'AND `type` IN (' . implode(',', $types) . ')', false, false);
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);

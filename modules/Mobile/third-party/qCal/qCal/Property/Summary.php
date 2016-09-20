@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Summary Property
  * @package qCal
@@ -50,9 +51,10 @@
  * 
  *   SUMMARY:Department Party
  */
-class qCal_Property_Summary extends qCal_Property {
+class qCal_Property_Summary extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VALARM');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VALARM');
 
 }

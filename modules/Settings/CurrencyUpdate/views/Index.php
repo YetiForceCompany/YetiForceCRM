@@ -1,10 +1,10 @@
 <?php
+
 /**
  * @package YetiForce.Views
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
- 
 class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 {
 
@@ -16,7 +16,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		
+
 		// synchronise bank list
 		$moduleModel->refreshBanks();
 
@@ -56,7 +56,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		$bankResult = $db->query($bankSQL, true);
 
 		$i = 0;
-		while($row = $db->fetchByAssoc($bankResult)) {
+		while ($row = $db->fetchByAssoc($bankResult)) {
 			$bankTab[$i]['id'] = $row['id'];
 			$bankName = $row['bank_name'];
 			$bankTab[$i]['bank_name'] = $bankName;

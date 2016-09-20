@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Free/Busy Time Property
  * @package qCal
@@ -70,7 +71,8 @@
  *   FREEBUSY;FBTYPE=FREE:19970308T160000Z/PT3H,19970308T200000Z/PT1H,
  *    19970308T230000Z/19970309T000000Z
  */
-class qCal_Property_Freebusy extends qCal_Property_MultiValue {
+class qCal_Property_Freebusy extends qCal_Property_MultiValue
+{
 
 	protected $type = 'PERIOD';
 	protected $allowedComponents = array('VFREEBUSY');

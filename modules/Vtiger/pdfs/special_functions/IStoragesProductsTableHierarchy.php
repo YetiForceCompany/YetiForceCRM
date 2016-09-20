@@ -25,7 +25,7 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relationModuleName);
 		// Summary table with products from all storages
 		$allEntries[$recordId] = $relationListView->getEntries($pagingModel);
-				$headers = $relationListView->getHeaders();
+		$headers = $relationListView->getHeaders();
 		// Hierarchy of main storage (contains child storages)
 		$focus = CRMEntity::getInstance($module);
 		$storageList[$recordId] = [
@@ -56,13 +56,13 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 				$allEntries[$storageId] = $storageRelationListView->getEntries($pagingModel);
 			}
 		}
-		
+
 		$storageSubjectList = rtrim($storageSubjectList, ', ');
 		// Gets the sum of products quantity in all storages
 		$productsQty = [];
 		$query = sprintf('SELECT qtyinstock, relcrmid, crmid FROM u_yf_istorages_products WHERE crmid IN (%s)', generateQuestionMarks($storageIdsArray));
-		$result = $db->pquery($query,[$storageIdsArray]);
-		
+		$result = $db->pquery($query, [$storageIdsArray]);
+
 		while ($row = $db->getRow($result)) {
 			$productId = $row['relcrmid'];
 			$storageId = $row['crmid'];
@@ -138,7 +138,7 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 						foreach ($storegeSubjectArray as $storageData) {
 							$storagesQtyString.= $storageData['products'][$productId] . ',';
 						}
-						$storagesQtyString = rtrim($storagesQtyString,',');
+						$storagesQtyString = rtrim($storagesQtyString, ',');
 						$storagesQtyString.= ']';
 						$productsInTable[] = $productId;
 						$html .= '<tr>';

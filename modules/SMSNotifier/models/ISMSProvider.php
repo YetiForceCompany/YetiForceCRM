@@ -1,25 +1,25 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************/
+ * ********************************************************************************** */
 
 vimport('~vtlib/Vtiger/Net/Client.php');
 
-interface SMSNotifier_ISMSProvider_Model {
+interface SMSNotifier_ISMSProvider_Model
+{
 
 	const MSG_STATUS_DISPATCHED = 'Dispatched';
 	const MSG_STATUS_PROCESSING = 'Processing';
-	const MSG_STATUS_DELIVERED  = 'Delivered';
-	const MSG_STATUS_FAILED     = 'Failed';
-	const MSG_STATUS_ERROR      = 'ERR: ';
-
+	const MSG_STATUS_DELIVERED = 'Delivered';
+	const MSG_STATUS_FAILED = 'Failed';
+	const MSG_STATUS_ERROR = 'ERR: ';
 	const SERVICE_SEND = 'SEND';
-	const SERVICE_QUERY= 'QUERY';
+	const SERVICE_QUERY = 'QUERY';
 	const SERVICE_PING = 'PING';
 	const SERVICE_AUTH = 'AUTH';
 
@@ -60,6 +60,6 @@ interface SMSNotifier_ISMSProvider_Model {
 	 * @param <Number> $messageId
 	 */
 	public function query($messageId);
-
 }
+
 ?>

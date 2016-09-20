@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Percent Complete Property
  * @package qCal
@@ -47,7 +48,8 @@
  * 
  *   PERCENT-COMPLETE:39
  */
-class qCal_Property_PercentComplete extends qCal_Property {
+class qCal_Property_PercentComplete extends qCal_Property
+{
 
 	protected $type = 'INTEGER';
 	protected $allowedComponents = array('VTODO');

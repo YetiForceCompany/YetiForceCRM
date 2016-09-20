@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Product Identifier Property
  * @package qCal
@@ -48,7 +49,8 @@
  * 
  *   PRODID:-//ABC Corporation//NONSGML My Product//EN
  */
-class qCal_Property_Prodid extends qCal_Property {
+class qCal_Property_Prodid extends qCal_Property
+{
 
 	protected $type = 'TEXT';
 	protected $allowedComponents = array('VCALENDAR');

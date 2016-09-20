@@ -378,7 +378,7 @@ class Project extends CRMEntity
 					ModComments::addWidgetTo(array('Project'));
 			}
 
-			\includes\fields\RecordNumber::setNumber($modulename,'PROJ', 1);
+			\includes\fields\RecordNumber::setNumber($modulename, 'PROJ', 1);
 		} else if ($event_type == 'module.disabled') {
 			// TODO Handle actions when this module is disabled.
 		} else if ($event_type == 'module.enabled') {
@@ -410,7 +410,7 @@ class Project extends CRMEntity
 					ModComments::addWidgetTo(array('Project'));
 			}
 
-			\includes\fields\RecordNumber::setNumber($modulename,'PROJ', 1);
+			\includes\fields\RecordNumber::setNumber($modulename, 'PROJ', 1);
 		}
 	}
 

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,15 +7,23 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
-class Vtiger_FastEdit_Widget extends Vtiger_Basic_Widget {
-	public function getUrl() {
-		return 'module='.$this->Module.'&view=Detail&record='.$this->Record.'&mode=getActivities&page=1&limit='.$this->Data['limit'];
+ * *********************************************************************************************************************************** */
+
+class Vtiger_FastEdit_Widget extends Vtiger_Basic_Widget
+{
+
+	public function getUrl()
+	{
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&limit=' . $this->Data['limit'];
 	}
-	public function getConfigTplName() {
+
+	public function getConfigTplName()
+	{
 		return 'FastEditConfig';
 	}
-	public function getWidget() {
+
+	public function getWidget()
+	{
 		$this->Config['tpl'] = 'FastEdit.tpl';
 		$this->Config['url'] = $this->getUrl();
 		return $this->Config;

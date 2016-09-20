@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,68 +7,73 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
- *************************************************************************************/
+ * *********************************************************************************** */
 require_once 'include/Webservices/Utils.php';
 require_once 'include/events/VTEntityData.inc';
 require_once 'include/events/VTEntityDelta.php';
 require_once 'include/Webservices/DataTransform.php';
 require_once 'modules/WSAPP/SyncServer.php';
 
-class WSAPPAssignToTracker extends VTEventHandler{
-	 function  __construct() {
+class WSAPPAssignToTracker extends VTEventHandler
+{
 
+	function __construct()
+	{
+		
 	}
 
-	function handleEvent($eventName, $entityData) {
-		$current_user  = vglobal('current_user');
+	function handleEvent($eventName, $entityData)
+	{
+		$current_user = vglobal('current_user');
 		$db = PearDatabase::getInstance();
 		$moduleName = $entityData->getModuleName();
-		
+
 		//Specific to VAS
-		if ($moduleName == 'Users') { 
-			return; 
-		}	 
+		if ($moduleName == 'Users') {
+			return;
+		}
 		//END
-		
+
 		$recordId = $entityData->getId();
 		$vtEntityDelta = new VTEntityDelta ();
-		$newEntityData = $vtEntityDelta->getNewEntity($moduleName,$recordId);
+		$newEntityData = $vtEntityDelta->getNewEntity($moduleName, $recordId);
 		$recordValues = $newEntityData->getData();
-		$isAssignToModified = $this->isAssignToChanged($moduleName,$recordId,$current_user);
-		if(!$isAssignToModified){
+		$isAssignToModified = $this->isAssignToChanged($moduleName, $recordId, $current_user);
+		if (!$isAssignToModified) {
 			return;
 		}
 		$wsModuleName = $this->getWsModuleName($moduleName);
-		if($wsModuleName =="Calendar")
-		{
-				$wsModuleName = vtws_getCalendarEntityType($recordId);
+		if ($wsModuleName == "Calendar") {
+			$wsModuleName = vtws_getCalendarEntityType($recordId);
 		}
 		$handler = vtws_getModuleHandlerFromName($wsModuleName, $current_user);
 		$meta = $handler->getMeta();
-		$recordWsValues = DataTransform::sanitizeData($recordValues,$meta);
+		$recordWsValues = DataTransform::sanitizeData($recordValues, $meta);
 		$syncServer = new SyncServer();
 		$syncServer->markRecordAsDeleteForAllCleints($recordWsValues);
 	}
 
-	function isAssignToChanged($moduleName,$recordId,$user){
+	function isAssignToChanged($moduleName, $recordId, $user)
+	{
 		$wsModuleName = $this->getWsModuleName($moduleName);
 		$handler = vtws_getModuleHandlerFromName($wsModuleName, $user);
 		$meta = $handler->getMeta();
 		$moduleOwnerFields = $meta->getOwnerFields();
 		$assignToChanged = false;
 		$vtEntityDelta = new VTEntityDelta ();
-		foreach($moduleOwnerFields as $ownerField){
+		foreach ($moduleOwnerFields as $ownerField) {
 			$assignToChanged = $vtEntityDelta->hasChanged($moduleName, $recordId, $ownerField);
-			if($assignToChanged)
+			if ($assignToChanged)
 				break;
 		}
 		return $assignToChanged;
 	}
 
-	function getWsModuleName($workFlowModuleName){
+	function getWsModuleName($workFlowModuleName)
+	{
 		//TODO: Handle getting the webservice modulename in a better way
 		$wsModuleName = $workFlowModuleName;
-		if($workFlowModuleName == "Activity")
+		if ($workFlowModuleName == "Activity")
 			$wsModuleName = "Calendar";
 		return $wsModuleName;
 	}

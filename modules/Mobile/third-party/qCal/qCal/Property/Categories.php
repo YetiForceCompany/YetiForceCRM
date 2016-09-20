@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Categories Property
  * @package qCal
@@ -53,9 +54,10 @@
  * 
  *   CATEGORIES:MEETING
  */
-class qCal_Property_Categories extends qCal_Property_MultiValue {
+class qCal_Property_Categories extends qCal_Property_MultiValue
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL');
 
 }

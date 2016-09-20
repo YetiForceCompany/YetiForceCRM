@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Time Value
  * @package qCal
@@ -105,28 +106,30 @@
  * 
  *  X-TIMEOFDAY;TZID=US-Eastern:083000
  */
-class qCal_Value_Time extends qCal_Value {
+class qCal_Value_Time extends qCal_Value
+{
 
 	/**
 	 * qCal_Date object
 	 */
 	protected $value;
+
 	/**
 	 * Convert the internal date storage to a string
 	 */
-	protected function toString($value) {
-	
+	protected function toString($value)
+	{
+
 		return $value->format('His');
-	
 	}
+
 	/**
 	 * This converts to a qCal_Date for internal storage
 	 */
-	protected function doCast($value) {
-	
+	protected function doCast($value)
+	{
+
 		$date = qCal_Time::factory($value);
 		return $date;
-	
 	}
-
 }

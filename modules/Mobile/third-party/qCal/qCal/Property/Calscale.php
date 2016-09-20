@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Calendar Scale Property
  * @package qCal
@@ -39,7 +40,8 @@
  * 
  *   CALSCALE:GREGORIAN
  */
-class qCal_Property_Calscale extends qCal_Property {
+class qCal_Property_Calscale extends qCal_Property
+{
 
 	protected $type = 'TEXT';
 	protected $allowedComponents = array('VCALENDAR');

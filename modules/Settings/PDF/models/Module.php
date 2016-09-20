@@ -179,7 +179,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getMainModuleFields($moduleName)
 	{
 		$db = PearDatabase::getInstance();
-		if(is_array($moduleName)) {
+		if (is_array($moduleName)) {
 			$moduleName = $moduleName['moduleName'];
 		} elseif (strpos($moduleName, '+') !== false) {
 			$moduleName = explode('+', $moduleName)[1];

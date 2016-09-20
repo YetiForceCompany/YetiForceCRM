@@ -36,7 +36,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	{
 		return $this->get('label');
 	}
-	
+
 	/**
 	 * Function to get the menu type
 	 * @return <String> - Menu Label

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Organizer Property
  * @package qCal
@@ -81,9 +82,10 @@
  *   ORGANIZER;SENT-BY="MAILTO:jane_doe@host.com":
  *    MAILTO:jsmith@host1.com
  */
-class qCal_Property_Organizer extends qCal_Property {
+class qCal_Property_Organizer extends qCal_Property
+{
 
 	protected $type = 'CAL-ADDRESS';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL');
 
 }

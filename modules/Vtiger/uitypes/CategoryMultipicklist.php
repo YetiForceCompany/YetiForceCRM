@@ -1,13 +1,14 @@
 <?php
+
 /**
  * UIType Category multipicklist
  * @package YetiForce.UIType
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
-
 class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 {
+
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param <Object> $value

@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,9 +8,11 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class HelpDesk_Detail_View extends Vtiger_Detail_View {
-	
-	public function __construct() {
+class HelpDesk_Detail_View extends Vtiger_Detail_View
+{
+
+	public function __construct()
+	{
 		parent::__construct();
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showCharts');
@@ -22,7 +23,8 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request) {
+	public function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
@@ -30,7 +32,6 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View {
 			'~libraries/jquery/flot/jquery.flot.min.js',
 			'~libraries/jquery/flot/jquery.flot.resize.js',
 			'~libraries/jquery/flot/jquery.flot.stack.min.js',
-
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

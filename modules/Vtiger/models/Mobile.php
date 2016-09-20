@@ -67,7 +67,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 				FROM yetiforce_mobile_keys 
 				INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user 
 				WHERE vtiger_users.status = ? %s';
-		$query = sprintf($query, \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sql);	
+		$query = sprintf($query, \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sql);
 		$result = $adb->pquery($query, $params);
 		$rows = $adb->num_rows($result);
 		$keys = [];

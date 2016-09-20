@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The basic class to save
  * @package YetiForce.Action

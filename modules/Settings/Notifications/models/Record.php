@@ -2,6 +2,7 @@
 
 class Settings_Notifications_Record_Model extends Settings_Vtiger_Record_Model
 {
+
 	/**
 	 * Function to get Id of this record instance
 	 * @return <Integer> Id
@@ -19,17 +20,22 @@ class Settings_Notifications_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		return $this->get('name');
 	}
-	
-	public function getEditUrl(){
-		return '/index.php?parent=Settings&module=Notifications&view=CreateNotification&id='.$this->getId();
+
+	public function getEditUrl()
+	{
+		return '/index.php?parent=Settings&module=Notifications&view=CreateNotification&id=' . $this->getId();
 	}
-	static function getInstanceById($id){
+
+	static function getInstanceById($id)
+	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM a_yf_notification_type WHERE id = ?', [$id]);
 		$data = $db->getRow($result);
 		return self::getInstanceFromArray($data);
 	}
-	static function getInstanceFromArray($array = []){
+
+	static function getInstanceFromArray($array = [])
+	{
 		$model = new self();
 		$model->setData($array);
 		return $model;

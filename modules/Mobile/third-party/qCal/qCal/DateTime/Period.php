@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Date period object - rather than a point in time, this object represents a PERIOD of time. So, 
  * it consists of a start and end point in time
@@ -9,17 +10,20 @@
  * @author Luke Visinoni (luke.visinoni@gmail.com)
  * @license GNU Lesser General Public License
  */
-class qCal_DateTime_Period {
+class qCal_DateTime_Period
+{
 
 	/**
 	 * Start and end date/times
 	 */
 	protected $start, $end;
+
 	/**
 	 * Constructor
 	 */
-	public function __construct($start, $end) {
-	
+	public function __construct($start, $end)
+	{
+
 		if (!($start instanceof qCal_DateTime)) {
 			$start = qCal_DateTime::factory($start);
 		}
@@ -31,32 +35,33 @@ class qCal_DateTime_Period {
 		if ($this->getSeconds() < 0) {
 			throw new qCal_DateTime_Exception_InvalidPeriod("The start date must come before the end date.");
 		}
-	
 	}
+
 	/**
 	 * Converts to how many seconds between the two. because this is the smallest increment
 	 * used in this class, seconds are used to determine other increments
 	 */
-	public function getSeconds() {
-	
+	public function getSeconds()
+	{
+
 		return $this->end->getUnixTimestamp() - $this->start->getUnixTimestamp();
-	
 	}
+
 	/**
 	 * Returns start date
 	 */
-	public function getStart() {
-	
+	public function getStart()
+	{
+
 		return $this->start;
-	
 	}
+
 	/**
 	 * Returns end date
 	 */
-	public function getEnd() {
-	
-		return $this->end;
-	
-	}
+	public function getEnd()
+	{
 
+		return $this->end;
+	}
 }

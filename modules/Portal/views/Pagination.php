@@ -1,5 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 class Portal_Pagination_View extends Vtiger_IndexAjax_View
 {
 
@@ -49,10 +50,10 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel->set('totalCount', $pagingInfo['recordCount']);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-		
-		$viewer->assign('PAGE_NUMBER', $pageNumber);	
+
+		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('LISTVIEW_COUNT',  $pagingInfo['recordCount']);
+		$viewer->assign('LISTVIEW_COUNT', $pagingInfo['recordCount']);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('LISTVIEW_ENTRIES', $listviewEntries);

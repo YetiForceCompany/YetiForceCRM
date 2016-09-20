@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Alarm Component
  * @package qCal
@@ -280,15 +281,18 @@
  *   procs/felizano.exe
  *  END:VALARM
  */
-class qCal_Component_Valarm extends qCal_Component {
+class qCal_Component_Valarm extends qCal_Component
+{
 
 	protected $name = "VALARM";
-	protected $allowedComponents = array('VEVENT','VTODO');
+	protected $allowedComponents = array('VEVENT', 'VTODO');
 	protected $requiredProperties = array('ACTION', 'TRIGGER');
-	protected function doValidation() {
-	
+
+	protected function doValidation()
+	{
+
 		$action = $this->getAction();
-		switch(strtoupper($action->getValue())) {
+		switch (strtoupper($action->getValue())) {
 			case "AUDIO":
 				// action, trigger (already covered by parent constructor)
 				// attach can only occur once
@@ -333,7 +337,5 @@ class qCal_Component_Valarm extends qCal_Component {
 				throw new qCal_Exception_MissingProperty("VALARM component with a REPEAT property requires a DURATION property");
 			}
 		}
-	
 	}
-
 }

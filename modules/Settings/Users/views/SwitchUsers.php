@@ -21,7 +21,7 @@ class Settings_Users_SwitchUsers_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('SwitchUsers.tpl', $qualifiedModuleName);
 	}
-	
+
 	function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

@@ -148,12 +148,13 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		return $modulesList;
 	}
-	
-	public static function updateOrderAndSort($params){
+
+	public static function updateOrderAndSort($params)
+	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($params['cvid']);
 		$moduleName = $customViewModel->get('entitytype');
 		$curretView = ListViewSession::getCurrentView($moduleName);
-		if($curretView == $params['cvid']){
+		if ($curretView == $params['cvid']) {
 			$sortOrder = explode(',', $params['value']);
 			ListViewSession::setSorder($moduleName, $sortOrder[1]);
 			ListViewSession::setSortby($moduleName, $sortOrder[0]);

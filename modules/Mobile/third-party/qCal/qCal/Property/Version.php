@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Version Property
  * @package qCal
@@ -45,7 +46,8 @@
  * 
  *   VERSION:2.0
  */
-class qCal_Property_Version extends qCal_Property {
+class qCal_Property_Version extends qCal_Property
+{
 
 	protected $type = 'TEXT';
 	protected $allowedComponents = array('VCALENDAR');

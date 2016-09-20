@@ -9,8 +9,6 @@
 class Vtiger_PosList_UIType extends Vtiger_Base_UIType
 {
 
-
-
 	private function getServers()
 	{
 		$db = PearDatabase::getInstance();

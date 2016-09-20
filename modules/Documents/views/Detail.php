@@ -24,7 +24,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$fileType = $recordModel->get('filetype');
 		$fileIcon = \includes\utils\Icon::getIconByFileType($fileType);
-	
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('NO_SUMMARY', true);
 		$viewer->assign('EXTENSION_ICON', $fileIcon);

@@ -136,7 +136,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 				}
 				$listQuery .= sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else {
-				$listQuery .= sprintf(' ORDER BY %s %s' , $orderBy, $sortOrder);
+				$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			}
 		}
 

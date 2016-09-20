@@ -123,7 +123,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if(!$fieldModel->isEditEnabled()){
+			if (!$fieldModel->isEditEnabled()) {
 				continue;
 			}
 			if ($request->has($fieldName) && $fieldModel->get('uitype') == 300) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Comment Property
  * @package qCal
@@ -49,10 +50,11 @@
  * 
  * The data type for this property is TEXT.
  */
-class qCal_Property_Comment extends qCal_Property {
+class qCal_Property_Comment extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT', 'VTODO','VJOURNAL','VTIMEZONE','VFREEBUSY');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY');
 	protected $allowMultiple = true;
 
 }

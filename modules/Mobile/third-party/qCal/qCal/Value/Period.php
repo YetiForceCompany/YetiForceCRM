@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Period (of time) Value
  * This data type differs from the "duration" data type in that it
@@ -57,14 +58,17 @@
  * No additional content value encoding (i.e., BACKSLASH character
  * encoding) is defined for this value type.
  */
-class qCal_Value_Period extends qCal_Value {
+class qCal_Value_Period extends qCal_Value
+{
 
 	protected $value;
+
 	/**
 	 * Cast a string value into a qCal_DateTime_Period object
 	 */
-	protected function doCast($value) {
-	
+	protected function doCast($value)
+	{
+
 		$parts = explode("/", $value);
 		if (count($parts) !== 2) {
 			throw new qCal_DateTime_Exception_InvalidPeriod("A period must contain a start date and either an end date, or a duration of time.");
@@ -83,16 +87,15 @@ class qCal_Value_Period extends qCal_Value {
 			$end = qCal_DateTime::factory($start->getUnixTimestamp() + $duration->getSeconds()); // @todo This needs to be updated once qCal_DateTime accepts timestamps 
 		}
 		return new qCal_DateTime_Period($start, $end);
-	
 	}
+
 	/**
 	 * Convert to string - this converts to string into the UTC/UTC format
 	 */
-	protected function toString($value) {
-	
-		return $value->getStart()->getUtc() . "/"
-				 . $value->getEnd()->getUtc();
-	
-	}
+	protected function toString($value)
+	{
 
+		return $value->getStart()->getUtc() . "/"
+			. $value->getEnd()->getUtc();
+	}
 }

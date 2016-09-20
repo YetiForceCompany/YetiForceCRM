@@ -334,14 +334,13 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		foreach ($emailAttachmentDetails as $index => $attachInfo) {
 			$attachmentIdList[] = $attachInfo['fileid'];
 		}
-		
+
 		$where = sprintf('crmid IN (%s)', generateQuestionMarks($attachmentIdList));
 		$db->update('vtiger_crmentity', ['deleted' => 0], $where, $attachmentIdList);
 		$where = sprintf('attachmentsid IN (%s)', generateQuestionMarks($attachmentIdList));
 		$db->delete('vtiger_attachments', $where, $attachmentIdList);
 		$where = sprintf('crmid=? and attachmentsid IN(%s)', generateQuestionMarks($attachmentIdList));
 		$db->delete('vtiger_seattachmentsrel', $where, array_merge([$this->getId()], $attachmentIdList));
-	
 	}
 
 	/**

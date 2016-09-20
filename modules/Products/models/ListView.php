@@ -105,7 +105,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		$sourceField = $this->get('src_field');
 		if (!empty($sourceModule)) {
 			if (method_exists($moduleModel, 'getQueryByModuleField')) {
-				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $sourceField, $this->get('src_record'), $listQuery,$skipSelected);
+				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $sourceField, $this->get('src_record'), $listQuery, $skipSelected);
 				if (!empty($overrideQuery)) {
 					$listQuery = $overrideQuery;
 				}
@@ -134,7 +134,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$listQuery .= sprintf(' ORDER BY %s',implode(',', $referenceNameFieldOrderBy));
+				$listQuery .= sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else {
 				$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			}

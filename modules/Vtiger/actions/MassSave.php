@@ -54,7 +54,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-			if(!$recordModel->isEditable()){
+			if (!$recordModel->isEditable()) {
 				continue;
 			}
 			$recordModel->set('id', $recordId);

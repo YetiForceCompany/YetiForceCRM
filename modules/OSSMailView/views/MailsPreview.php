@@ -1,11 +1,11 @@
 <?php
+
 /**
  *
  * @package YetiForce.views
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 {
 

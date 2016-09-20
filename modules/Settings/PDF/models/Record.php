@@ -112,7 +112,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					if ($field === 'conditions') {
 						$params = json_encode($pdfModel->get($field));
 					} else {
-						$params= $pdfModel->get($field);
+						$params = $pdfModel->get($field);
 					}
 					$fields[$field] = $params;
 				}

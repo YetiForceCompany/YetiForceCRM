@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Timezone Component
  * @package qCal
@@ -358,10 +359,11 @@
  *   END:DAYLIGHT
  *   END:VTIMEZONE
  */
-class qCal_Component_Standard extends qCal_Component {
+class qCal_Component_Standard extends qCal_Component
+{
 
 	protected $name = "STANDARD";
 	protected $allowedComponents = array('VTIMEZONE');
-	protected $requiredProperties = array('DTSTART','TZOFFSETFROM','TZOFFSETTO');
+	protected $requiredProperties = array('DTSTART', 'TZOFFSETFROM', 'TZOFFSETTO');
 
 }

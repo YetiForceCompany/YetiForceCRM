@@ -159,10 +159,10 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$query = sprintf(' ORDER BY %s' , implode(',', $referenceNameFieldOrderBy));
+				$query = sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::CURRENCY_LIST) {
 				$this->get('query_generator')->setConditionField($orderByFieldName);
-				$query = sprintf(' ORDER BY %s %s', $orderByFieldModel->getUITypeModel()->getCurrenyListReferenceFieldName() , $sortOrder);
+				$query = sprintf(' ORDER BY %s %s', $orderByFieldModel->getUITypeModel()->getCurrenyListReferenceFieldName(), $sortOrder);
 			} else if ($orderBy === 'smownerid') {
 				$this->get('query_generator')->setConditionField($orderByFieldName);
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);

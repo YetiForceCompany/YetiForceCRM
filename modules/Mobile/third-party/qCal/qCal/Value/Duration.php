@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Duration (of time) Value
  * This data type differs from "period" in that it does not specify start
@@ -44,24 +45,25 @@
  * 
  *  P7W
  */
-class qCal_Value_Duration extends qCal_Value {
+class qCal_Value_Duration extends qCal_Value
+{
 
 	/**
 	 * Convert seconds to duration 
 	 * @todo Some type of caching? This probably doesn't need to be "calculated" every time if it hasnt changed
 	 */
-	protected function toString($value) {
-	
+	protected function toString($value)
+	{
+
 		return $value->toICal();
-	
 	}
+
 	/**
 	 * Convert to internal representation
 	 */
-	protected function doCast($value) {
-	
-		return new qCal_DateTime_Duration($value);
-	
-	}
+	protected function doCast($value)
+	{
 
+		return new qCal_DateTime_Duration($value);
+	}
 }

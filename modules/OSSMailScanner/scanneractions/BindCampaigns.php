@@ -22,7 +22,7 @@ class OSSMailScanner_BindCampaigns_ScannerAction extends OSSMailScanner_PrefixSc
 			$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsBccaddress);
 			$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsReplyToaddress);
 			$returnIds = [];
-			
+
 			$db = PearDatabase::getInstance();
 			foreach ($campaignIds as $campaignId) {
 				foreach ($crmIds as $recordId) {

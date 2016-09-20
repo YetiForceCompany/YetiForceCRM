@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Date-Time Value
  * @package qCal
@@ -103,32 +104,34 @@
  * 
  *  COMPLETED:19970630T235960Z
  */
-class qCal_Value_Datetime extends qCal_Value {
+class qCal_Value_Datetime extends qCal_Value
+{
 
 	/**
 	 * qCal_Date object
 	 */
 	protected $value;
+
 	/**
 	 * Convert the internal date storage to a string
 	 */
-	protected function toString($value) {
-	
+	protected function toString($value)
+	{
+
 		return $value->format('Ymd\THis');
-	
 	}
+
 	/**
 	 * This converts to a qCal_Date for internal storage
 	 */
-	protected function doCast($value) {
-	
+	protected function doCast($value)
+	{
+
 		// @todo This may be the wrong place to do this...
 		if ($value instanceof qCal_DateTime) {
 			return $value;
 		}
 		$date = qCal_DateTime::factory($value);
 		return $date;
-	
 	}
-
 }

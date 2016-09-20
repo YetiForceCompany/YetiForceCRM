@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Attach Property
  * @package qCal
@@ -56,10 +57,11 @@
  *   ATTACH;FMTTYPE=application/postscript:ftp://xyzCorp.com/pub/
  *    reports/r-960812.ps
  */
-class qCal_Property_Attach extends qCal_Property {
+class qCal_Property_Attach extends qCal_Property
+{
 
 	protected $type = 'URI';
-	protected $allowedComponents = array('VALARM','VEVENT','VJOURNAL','VTODO');
+	protected $allowedComponents = array('VALARM', 'VEVENT', 'VJOURNAL', 'VTODO');
 	protected $allowMultiple = true;
 
 }

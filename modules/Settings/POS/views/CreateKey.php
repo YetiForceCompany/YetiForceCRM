@@ -31,14 +31,14 @@ class Settings_POS_CreateKey_View extends Settings_Vtiger_BasicModal_View
 		$recordModel = Settings_POS_Record_Model::getInstanceById($recordId);
 		$listUsers = Users_Record_Model::getAll();
 		$listActions = Settings_POS_Module_Model::getListActions();
-			
+
 		$viewer = $this->getViewer($request);
-		
+
 		$viewer->assign('LIST_USERS', $listUsers);
 		$viewer->assign('LIST_ACTIONS', $listActions);
-		$viewer->assign('LIST_SERVERS',  Settings_WebserviceApps_Module_Model::getActiveServers('POS'));
+		$viewer->assign('LIST_SERVERS', Settings_WebserviceApps_Module_Model::getActiveServers('POS'));
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		
+
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('CreateKey.tpl', $qualifiedModuleName);

@@ -8,11 +8,11 @@
  */
 
 // Define AJAX Chat user roles:
-define('AJAX_CHAT_CHATBOT',		4);
-define('AJAX_CHAT_ADMIN',		3);
-define('AJAX_CHAT_MODERATOR',	2);
-define('AJAX_CHAT_USER',		1);
-define('AJAX_CHAT_GUEST',		0);
+define('AJAX_CHAT_CHATBOT', 4);
+define('AJAX_CHAT_ADMIN', 3);
+define('AJAX_CHAT_MODERATOR', 2);
+define('AJAX_CHAT_USER', 1);
+define('AJAX_CHAT_GUEST', 0);
 global $dbconfig;
 
 // AJAX Chat config parameters:
@@ -35,28 +35,28 @@ $config['dbConnection']['link'] = null;
 
 // Database table names:
 $config['dbTableNames'] = array();
-$config['dbTableNames']['online']		= 'ajax_chat_online';
-$config['dbTableNames']['messages']		= 'ajax_chat_messages';
-$config['dbTableNames']['bans']			= 'ajax_chat_bans';
-$config['dbTableNames']['invitations']	= 'ajax_chat_invitations';
+$config['dbTableNames']['online'] = 'ajax_chat_online';
+$config['dbTableNames']['messages'] = 'ajax_chat_messages';
+$config['dbTableNames']['bans'] = 'ajax_chat_bans';
+$config['dbTableNames']['invitations'] = 'ajax_chat_invitations';
 
 // Available languages:
 $config['langAvailable'] = array(
-	'ar','bg','ca','cy','cz','da','de','el','en','es','et','fa','fi','fr','gl','he','hr','hu','in','it','ja','ka','kr','mk','nl','nl-be','no','pl','pt-br','pt-pt','ro','ru','sk','sl','sr','sv','th','tr','uk','zh','zh-tw'
+	'ar', 'bg', 'ca', 'cy', 'cz', 'da', 'de', 'el', 'en', 'es', 'et', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'in', 'it', 'ja', 'ka', 'kr', 'mk', 'nl', 'nl-be', 'no', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'zh', 'zh-tw'
 );
 // Default language:
 $config['langDefault'] = 'en';
 // Language names (each languge code in available languages must have a display name assigned here):
 $config['langNames'] = array(
-	'ar'=>'عربي', 'bg'=>'Български', 'ca'=>'Català', 'cy'=>'Cymraeg', 'cz'=>'Česky', 'da'=>'Dansk', 'de'=>'Deutsch', 'el'=>'Ελληνικα', 'en'=>'English',
-	'es'=>'Español', 'et'=>'Eesti', 'fa'=>'فارسی', 'fi'=>'Suomi', 'fr'=>'Français', 'gl'=>'Galego', 'he'=>'עברית', 'hr' => 'Hrvatski', 'hu' => 'Magyar', 'in'=>'Bahasa Indonesia', 'it'=>'Italiano',
-	'ja'=>'日本語','ka'=>'ქართული','kr'=>'한 글','mk'=>'Македонски', 'nl'=>'Nederlands', 'nl-be'=>'Nederlands (België)', 'no'=>'Norsk', 'pl'=> 'Polski', 'pt-br'=>'Português (Brasil)', 'pt-pt'=>'Português (Portugal)', 
-	'ro'=>'România', 'ru'=>'Русский', 'sk'=> 'Slovenčina', 'sl'=>'Slovensko', 'sr'=>'Srpski', 'sv'=> 'Svenska', 'th'=>'&#x0e20;&#x0e32;&#x0e29;&#x0e32;&#x0e44;&#x0e17;&#x0e22;', 
-	'tr'=>'Türkçe', 'uk'=>'Українська', 'zh'=>'中文 (简体)', 'zh-tw'=>'中文 (繁體)'
+	'ar' => 'عربي', 'bg' => 'Български', 'ca' => 'Català', 'cy' => 'Cymraeg', 'cz' => 'Česky', 'da' => 'Dansk', 'de' => 'Deutsch', 'el' => 'Ελληνικα', 'en' => 'English',
+	'es' => 'Español', 'et' => 'Eesti', 'fa' => 'فارسی', 'fi' => 'Suomi', 'fr' => 'Français', 'gl' => 'Galego', 'he' => 'עברית', 'hr' => 'Hrvatski', 'hu' => 'Magyar', 'in' => 'Bahasa Indonesia', 'it' => 'Italiano',
+	'ja' => '日本語', 'ka' => 'ქართული', 'kr' => '한 글', 'mk' => 'Македонски', 'nl' => 'Nederlands', 'nl-be' => 'Nederlands (België)', 'no' => 'Norsk', 'pl' => 'Polski', 'pt-br' => 'Português (Brasil)', 'pt-pt' => 'Português (Portugal)',
+	'ro' => 'România', 'ru' => 'Русский', 'sk' => 'Slovenčina', 'sl' => 'Slovensko', 'sr' => 'Srpski', 'sv' => 'Svenska', 'th' => '&#x0e20;&#x0e32;&#x0e29;&#x0e32;&#x0e44;&#x0e17;&#x0e22;',
+	'tr' => 'Türkçe', 'uk' => 'Українська', 'zh' => '中文 (简体)', 'zh-tw' => '中文 (繁體)'
 );
 
 // Available styles:
-$config['styleAvailable'] = array('beige','black','grey','Oxygen','Lithium','Sulfur','Cobalt','Mercury','Uranium','Plum','prosilver','subblack2','subSilver','Core','MyBB','vBulletin');
+$config['styleAvailable'] = array('beige', 'black', 'grey', 'Oxygen', 'Lithium', 'Sulfur', 'Cobalt', 'Mercury', 'Uranium', 'Plum', 'prosilver', 'subblack2', 'subSilver', 'Core', 'MyBB', 'vBulletin');
 // Default style:
 $config['styleDefault'] = 'prosilver';
 
@@ -117,7 +117,7 @@ $config['openingHour'] = 0;
 // Defines the hour of the day the chat is closed (openingHour - 24):
 $config['closingHour'] = 24;
 // Defines the weekdays the chat is opened (0=Sunday to 6=Saturday):
-$config['openingWeekDays'] = array(0,1,2,3,4,5,6);
+$config['openingWeekDays'] = array(0, 1, 2, 3, 4, 5, 6);
 
 // Enable/Disable guest logins:
 $config['allowGuestLogins'] = true;
@@ -207,4 +207,5 @@ $config['socketServerIP'] = '127.0.0.1';
 $config['socketServerPort'] = 1935;
 // This ID can be used to distinguish between different chat installations using the same socket server:
 $config['socketServerChatID'] = 0;
+
 ?>

@@ -452,8 +452,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 		return $tasks;
 	}
-	
-	public static function getAllAmountWorkflowsAmount(){
+
+	public static function getAllAmountWorkflowsAmount()
+	{
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT workflow_id FROM com_vtiger_workflows;';
 		$result = $db->query($query);

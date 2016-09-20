@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Boolean Value
  * @package qCal
@@ -28,20 +29,21 @@
  * 
  * GIBBERISH:TRUE
  */
-class qCal_Value_Boolean extends qCal_Value {
+class qCal_Value_Boolean extends qCal_Value
+{
 
-	protected function toString($value) {
-	
+	protected function toString($value)
+	{
+
 		return ($value) ? "TRUE" : "FALSE";
-	
 	}
+
 	/**
 	 * Returns boolean of whatever you pass in (by PHP's rules)
 	 */
-	protected function doCast($value) {
-	
-		return (boolean) $value;
-	
-	}
+	protected function doCast($value)
+	{
 
+		return (boolean) $value;
+	}
 }

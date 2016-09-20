@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Calendar Component
  * This is the outer-most object in an icalendar file that represents
@@ -37,23 +38,23 @@
  *   END:VEVENT
  *   END:VCALENDAR
  */
-class qCal_Component_Vcalendar extends qCal_Component {
+class qCal_Component_Vcalendar extends qCal_Component
+{
 
 	protected $name = "VCALENDAR";
-	protected $requiredProperties = array('PRODID','VERSION');
+	protected $requiredProperties = array('PRODID', 'VERSION');
+
 	/**
 	 * vcalendar objects have a number of requirements defined in the RFC just as most other
 	 * components do. Each has a global set of validation rules as well as their own set. This
 	 * is the set of rules defined by the vcalendar object. 
 	 */
-	public function doValidation() {
-	
+	public function doValidation()
+	{
+
 		// @todo make sure that all tzids that are specified have a corresponding vtimezone
 		// look for tzids and make sure there are corresponding vtimezone components for each tzid
 		// In order to be sure I find all tzids, I need to search through the entire tree, so either
 		// I need a recursive getProperties() or I need to use a stack to find all of them.
-		
-	
 	}
-
 }

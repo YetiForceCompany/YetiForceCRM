@@ -80,18 +80,18 @@ class IStorages extends Vtiger_CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		if ($eventType == 'module.postinstall') {
-		// TODO Handle actions after this module is installed.
+			// TODO Handle actions after this module is installed.
 		} else if ($eventType == 'module.disabled') {
-		// TODO Handle actions before this module is being uninstalled.
+			// TODO Handle actions before this module is being uninstalled.
 		} else if ($eventType == 'module.preuninstall') {
-		// TODO Handle actions when this module is about to be deleted.
+			// TODO Handle actions when this module is about to be deleted.
 		} else if ($eventType == 'module.preupdate') {
-		// TODO Handle actions before this module is updated.
+			// TODO Handle actions before this module is updated.
 		} else if ($eventType == 'module.postupdate') {
-		// TODO Handle actions after this module is updated.
+			// TODO Handle actions after this module is updated.
 		}
 	}
-	
+
 	/**
 	 * Function to get storages hierarchy of the given Storage
 	 * @param integer $id - istorageid
@@ -153,11 +153,11 @@ class IStorages extends Vtiger_CRMEntity
 
 		$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
 		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
-		
+
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
-		
+
 		foreach ($listColumns as $fieldname => $colname) {
 			// Permission to view storage is restricted, avoid showing field values (except storage name)
 			if (getFieldVisibilityPermission('IStorages', $currentUser->id, $colname) == '0') {
@@ -183,15 +183,15 @@ class IStorages extends Vtiger_CRMEntity
 				$iStorageInfoData[] = $data;
 			}
 		}
-		
+
 		$listviewEntries[$iStorageId] = $iStorageInfoData;
-		
+
 		foreach ($iStorageInfoBase as $accId => $iStorageInfo) {
 			if (is_array($iStorageInfo) && intval($accId)) {
 				$listviewEntries = $this->getHierarchyData($id, $iStorageInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
-		
+
 		$log->debug('Exiting getHierarchyData method ...');
 		return $listviewEntries;
 	}
@@ -214,7 +214,7 @@ class IStorages extends Vtiger_CRMEntity
 		}
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = 'SELECT u_yf_istorages.*, u_yf_istorages_address.*,' .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM u_yf_istorages' .
@@ -228,26 +228,26 @@ class IStorages extends Vtiger_CRMEntity
 		if ($adb->getRowCount($res) > 0) {
 			$row = $adb->getRow($res);
 			$parentid = $row['parentid'];
-			
+
 			if ($parentid != '' && $parentid != 0 && !in_array($parentid, $encounteredIStorages)) {
 				$encounteredIStorages[] = $parentid;
 				$this->getParentIStorages($parentid, $parentIStorages, $encounteredIStorages, $depthBase + 1);
 			}
-			
+
 			$parentIStorageInfo = [];
 			$depth = 0;
-			
+
 			if (isset($parentIStorages[$parentid])) {
 				$depth = $parentIStorages[$parentid]['depth'] + 1;
 			}
-			
+
 			$parentIStorageInfo['depth'] = $depth;
 			$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
-			
+
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
 			}
-			
+
 			foreach ($listColumns as $fieldname => $columnname) {
 				if ($columnname == 'assigned_user_id') {
 					$parentIStorageInfo[$columnname] = $row['user_name'];
@@ -255,13 +255,13 @@ class IStorages extends Vtiger_CRMEntity
 					$parentIStorageInfo[$columnname] = $row[$columnname];
 				}
 			}
-			
+
 			$parentIStorages[$id] = $parentIStorageInfo;
 		}
 		$log->debug('Exiting __getIStorafAccounts method ...');
 		return $parentIStorages;
 	}
-	
+
 	/**
 	 * Function to Recursively get all the child storages of a given Storage
 	 * @param integer $id - istorageid
@@ -281,7 +281,7 @@ class IStorages extends Vtiger_CRMEntity
 		}
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT u_yf_istorages.*, u_yf_istorages_address.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM u_yf_istorages' .
@@ -290,21 +290,21 @@ class IStorages extends Vtiger_CRMEntity
 			' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
 			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
 			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
-		
+
 		$res = $adb->pquery($query, [$id]);
 		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
-		
+
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
-		
+
 		if ($adb->getRowCount($res) > 0) {
 			$depth = $depthBase + 1;
 			while ($row = $adb->getRow($res)) {
 				$childAccId = $row['istorageid'];
 				$childIStorageInfo = [];
 				$childIStorageInfo['depth'] = $depth;
-				
+
 				foreach ($listColumns as $fieldname => $columnname) {
 					if ($columnname == 'assigned_user_id') {
 						$childIStorageInfo[$columnname] = $row['user_name'];
@@ -312,12 +312,12 @@ class IStorages extends Vtiger_CRMEntity
 						$childIStorageInfo[$columnname] = $row[$columnname];
 					}
 				}
-				
+
 				$childIStorages[$childAccId] = $childIStorageInfo;
 				$this->getChildIStorages($childAccId, $childIStorages[$childAccId], $depth);
 			}
 		}
-		
+
 		$log->debug('Exiting getChildIStorages method ...');
 		return $childIStorages;
 	}

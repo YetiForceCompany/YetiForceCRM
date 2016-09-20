@@ -33,8 +33,8 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			$fieldInfo = $fieldModel->getFieldInfo();
 			$responseData = array_merge([
 				'id' => $fieldModel->getId(),
-				'name' => $fieldModel->get('name'), 
-				'blockid' => $blockId, 
+				'name' => $fieldModel->get('name'),
+				'blockid' => $blockId,
 				'customField' => $fieldModel->isCustomField()], $fieldInfo);
 			$response->setResult($responseData);
 		} catch (Exception $e) {
@@ -47,7 +47,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	{
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
-		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable','header_field' ,'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
+		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
 		foreach ($request->getAll() as $key => $value) {
 			if ($key == 'mandatory') {
 				$fieldInstance->updateTypeofDataFromMandatory($value);
@@ -72,8 +72,8 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		try {
 			$fieldInstance->save();
 			$response->setResult([
-				'success' => true, 
-				'presence' => $request->get('presence'), 
+				'success' => true,
+				'presence' => $request->get('presence'),
 				'mandatory' => $fieldInstance->isMandatory(),
 				'label' => vtranslate($fieldInstance->get('label'), $request->get('sourceModule'))]);
 		} catch (Exception $e) {
@@ -144,7 +144,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $moduleModel);
 			$picklistValues = $fieldInstance->getPicklistValues();
-			if($picklistValues == NULL){
+			if ($picklistValues == NULL) {
 				$picklistValues = [];
 			}
 		}

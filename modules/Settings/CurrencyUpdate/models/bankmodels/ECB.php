@@ -4,7 +4,7 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
- 
+
 /**
  * Class for connection to European Central Bank currency exchange rates
  */
@@ -13,22 +13,23 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 	/*
 	 * Returns bank name
 	 */
+
 	public function getName()
 	{
 		return 'ECB';
 	}
-	
 	/*
 	 * Returns url sources from where exchange rates are taken from
 	 */
+
 	public function getSource()
 	{
 		return ['http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml', 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'];
 	}
-	
 	/*
 	 * Returns list of currencies supported by this bank
 	 */
+
 	public function getSupportedCurrencies()
 	{
 		$supportedCurrencies = [];
@@ -38,27 +39,27 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 		$XML = simplexml_load_file($source[0]);
 
 		foreach ($XML->Cube->Cube[0] as $currency) {
-			$currencyCode = (string)$currency['currency'];
+			$currencyCode = (string) $currency['currency'];
 			$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode)] = $currencyCode;
 		}
 
 		return $supportedCurrencies;
 	}
-	
 	/*
 	 * Returns banks main currency 
 	 */
+
 	public function getMainCurrencyCode()
 	{
 		return 'EUR';
 	}
-	
 	/*
 	 * Fetch exchange rates
 	 * @param <Array> $currencies - list of systems active currencies
 	 * @param <Date> $date - date for which exchange is fetched
 	 * @param <Boolean> $cron - if true then it is fired by server and crms currency conversion rates are updated 
 	 */
+
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
 		$db = PearDatabase::getInstance();
@@ -127,7 +128,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 			if ($time["time"] == $dateParam) {
 				$num = count($time->Cube);
 				for ($i = 0; $i < $num; $i++) {
-					$currency = (string)$time->Cube[$i]['currency'];   // currency code
+					$currency = (string) $time->Cube[$i]['currency'];   // currency code
 					foreach ($otherCurrencyCode as $key => $currId) {
 						if ($key == $currency && $currency != $mainCurrency) {
 							$exchange = $time->Cube[$i]['rate'];

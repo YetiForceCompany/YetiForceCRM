@@ -252,7 +252,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 		self::$colors[$value] = $color;
 		return $color;
 	}
-	
+
 	public static function readAllCoordinates($records, $moduleModel, $groupByField, $coordinatesCenter = [], $radius = false)
 	{
 		$params = [];

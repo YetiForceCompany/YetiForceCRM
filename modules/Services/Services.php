@@ -770,7 +770,7 @@ class Services extends CRMEntity
 			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'), 'get_pricebook_services');
 
 			// Initialize module sequence for the module
-			\includes\fields\RecordNumber::setNumber($moduleName,'SER', 1);
+			\includes\fields\RecordNumber::setNumber($moduleName, 'SER', 1);
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 		} else if ($eventType == 'module.disabled') {

@@ -1,14 +1,10 @@
 {
-    "projectmilestonename" : "Manual",
-    "description" : "Manual",
-    
-    "projectid" : "ParentRecordId",
-    
-    "projectmilestonedate" : "Date",
-    
-    "projectmilestonetype" : "Select",
-    "projectmilestone_priority" : "Select",
-    
-    "assigned_user_id" : "Owner"
-    
+	"projectmilestonename": "Manual",
+	"description": "Manual",
+	"projectid": "ParentRecordId",
+	"projectmilestonedate": "Date",
+	"projectmilestonetype": "Select",
+	"projectmilestone_priority": "Select",
+	"assigned_user_id": "Owner"
+
 }

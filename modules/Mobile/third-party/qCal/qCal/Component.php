@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Base calendar component class. Events, Todos, and Calendars are
  * examples of components in qCal
@@ -65,23 +66,27 @@
  * iCalendar object will consist of just a single "VEVENT", "VTODO" or
  * "VJOURNAL" calendar component.
  */
-abstract class qCal_Component {
+abstract class qCal_Component
+{
 
 	/**
 	 * The name of this component
 	 * @var string
 	 */
 	protected $name;
+
 	/**
 	 * Contains a list of allowed parent components.
 	 * @var array
 	 */
 	protected $allowedComponents = array();
+
 	/**
 	 * Contains an array of this component's child components (if any). It uses
 	 * @var array
 	 */
 	protected $children = array();
+
 	/**
 	 * Contains an array of this component's properties. Properties provide
 	 * information about their respective components. This array is associative.
@@ -91,36 +96,40 @@ abstract class qCal_Component {
 	 * @var array
 	 */
 	protected $properties = array();
+
 	/**
 	 * Contains an array of this component's required properties
 	 */
 	protected $requiredProperties = array();
+
 	/**
 	 * Parent component (all components but vcalendar should have one once attached)
 	 */
 	protected $parent;
+
 	/**
 	 * Class constructor
 	 * Accepts an array of properties, which can be simple values or actual property objects
 	 * Pass in a null value to use a property's default value (some dont have defaults, so beware)
 	 * Example:
 	 * $cal = new qCal_Component_Calendar(array(
-     *     'prodid' => '-// Some Property Id//',
-     *     'someotherproperty' => null,
-     *     qCal_Property_Version(2.0),
+	 *     'prodid' => '-// Some Property Id//',
+	 *     'someotherproperty' => null,
+	 *     qCal_Property_Version(2.0),
 	 * ), array(
 	 * 	   qCal_Component_Daylight(),
 	 * ));
 	 */
-	public  function __construct($properties = array(), $components = array()) {
-	
+	public function __construct($properties = array(), $components = array())
+	{
+
 		foreach ($components as $component) {
 			// if value is an array, then each value inside of it will be a component
 			if ($component instanceof qCal_Component) {
 				$this->attach($component);
-			}
-			else throw new qCal_Exception_InvalidComponent('The second argument is optional, but if provided, must be an array of components');
-		} 
+			} else
+				throw new qCal_Exception_InvalidComponent('The second argument is optional, but if provided, must be an array of components');
+		}
 		foreach ($properties as $name => $value) {
 			// if value is an array, then each value inside of it will be a property
 			if (is_array($value)) {
@@ -144,15 +153,16 @@ abstract class qCal_Component {
 		// components don't need to be aware of eachother until render time (or until validate() is called
 		// explicitly). @todo
 		// $this->validate();
-	
 	}
+
 	/**
 	 * @todo (lazy load functionality) Check that this is a valid component. This method is sort of lazy-loaded. It only gets called
 	 * if the user has requested data that requires validation and the component has not been validated already.
 	 * @todo Shouldn't this loop over children and validate them too? Maybe optionally?
 	 */
-	public function validate() {
-	
+	public function validate()
+	{
+
 		// if we're missing any required properties and they have no default, throw an exception
 		$properties = array();
 		foreach ($this->getProperties() as $property) {
@@ -177,26 +187,29 @@ abstract class qCal_Component {
 		}
 		// this allows per-component validation :)
 		$this->doValidation();
-	
 	}
+
 	/**
 	 * Returns the component name
 	 * @return string
 	 */
-	public function getName() {
-	
+	public function getName()
+	{
+
 		return $this->name;
-	
 	}
+
 	/**
 	 * Returns true if this component can be attached to $component
 	 * I'm sure there's a better way to do this, but this works for now
 	 */
-	public function canAttachTo(qCal_Component $component) {
-	
-		if (in_array($component->getName(), $this->allowedComponents)) return true;
-	
+	public function canAttachTo(qCal_Component $component)
+	{
+
+		if (in_array($component->getName(), $this->allowedComponents))
+			return true;
 	}
+
 	/**
 	 * Attach a component to this component (alarm inside event for example)
 	 * @todo There may be an issue with the way this is done. When parsing a file, if a component
@@ -213,14 +226,15 @@ abstract class qCal_Component {
 	 * 		   object.
 	 * 		 - More to come probably
 	 */
-	public function attach(qCal_Component $component) {
-	
+	public function attach(qCal_Component $component)
+	{
+
 		if (!$component->canAttachTo($this)) {
 			throw new qCal_Exception_InvalidComponent($component->getName() . ' cannot be attached to ' . $this->getName());
 		}
 		$component->setParent($this);
 		// make sure if a timezone is requested that it is available...
-		$timezones = $this->getTimezones(); 
+		$timezones = $this->getTimezones();
 		$tzids = array_keys($timezones);
 		// we only need to check if tzid exists if we are attaching something other than a timezone...
 		if (!($component instanceof qCal_Component_Vtimezone)) {
@@ -251,31 +265,35 @@ abstract class qCal_Component {
 			}
 		}
 		$this->children[$component->getName()][] = $component;
-	
 	}
+
 	/**
 	 * Set the parent of this component
 	 * @todo I'm not sure this will suffice. See the attach method for reasoning behind this.
 	 */
-	public function setParent(qCal_Component $component) {
-	
+	public function setParent(qCal_Component $component)
+	{
+
 		$this->parent = $component;
-	
 	}
+
 	/**
 	 * Get the parent of this component (if there is one)
 	 */
-	public function getParent() {
-	
+	public function getParent()
+	{
+
 		return $this->parent;
-	
 	}
+
 	/**
 	 * The only thing I need this for so far is the parser, but it may come in handy for the facade as well
 	 */
-	static public function factory($name, $properties = array()) {
-	
-		if (empty($name)) return false;
+	static public function factory($name, $properties = array())
+	{
+
+		if (empty($name))
+			return false;
 		// capitalize
 		$component = ucfirst(strtolower($name));
 		$className = "qCal_Component_" . $component;
@@ -283,7 +301,6 @@ abstract class qCal_Component {
 		qCal_Loader::loadFile($fileName);
 		$class = new $className($properties);
 		return $class;
-	
 	}
 
 	/**
@@ -296,8 +313,9 @@ abstract class qCal_Component {
 	 * on values, parameters, etc. since they don't really have IDs. So I tihnk I'll go
 	 * with addProperty :) 
 	 */
-	public function addProperty($property, $value = null, $params = array()) {
-	
+	public function addProperty($property, $value = null, $params = array())
+	{
+
 		if (!($property instanceof qCal_Property)) {
 			$property = qCal_Property::factory($property, $value, $params);
 		}
@@ -308,8 +326,8 @@ abstract class qCal_Component {
 			unset($this->properties[$property->getName()]);
 		}
 		$this->properties[$property->getName()][] = $property;
-	
 	}
+
 	/**
 	 * Returns property of this component by name
 	 *
@@ -317,91 +335,92 @@ abstract class qCal_Component {
 	 * doesn't make that much sense unless it returns all of the instances of the property
 	 * @return array of qCal_Property
 	 */
-	public function getProperty($name) {
-	
+	public function getProperty($name)
+	{
+
 		$name = strtoupper($name);
 		if ($this->hasProperty($name)) {
 			return $this->properties[$name];
 		}
-	
 	}
-	
+
 	/**
 	 * Returns true if this component contains a property of $name
 	 *
 	 * @return boolean
 	 */
-	public function hasProperty($name) {
-	
+	public function hasProperty($name)
+	{
+
 		$name = strtoupper($name);
 		return isset($this->properties[$name]);
-	
 	}
-	
+
 	/**
 	 * Returns true if this component contains a property of $name
 	 *
 	 * @return boolean
 	 */
-	public function hasComponent($name) {
-	
+	public function hasComponent($name)
+	{
+
 		$name = strtoupper($name);
 		return isset($this->children[$name]);
-	
 	}
+
 	/**
 	 * Returns the child component requested
 	 */
-	public function getComponent($name) {
-	
+	public function getComponent($name)
+	{
+
 		$name = strtoupper($name);
 		if ($this->hasComponent($name)) {
 			return $this->children[$name];
 		}
-	
 	}
-	
 	/*
-	public function clearProperties() {
-	
-		$this->properties = array();
-	
-	}
-	
-	public function clearChildren() {
-	
-		$this->children = array();
-	
-	}
-	*/
-	
-	public function getProperties() {
-	
+	  public function clearProperties() {
+
+	  $this->properties = array();
+
+	  }
+
+	  public function clearChildren() {
+
+	  $this->children = array();
+
+	  }
+	 */
+
+	public function getProperties()
+	{
+
 		return $this->properties;
-	
 	}
-	
-	public function getChildren() {
-	
+
+	public function getChildren()
+	{
+
 		return $this->children;
-	
 	}
-	
+
 	/**
 	 * Gets the parent-most component in the tree. I would really like to come up
 	 * with a cleaner way to access other components from within a component, but oh well.
 	 */
-	public function getRootComponent() {
-	
+	public function getRootComponent()
+	{
+
 		$parent = $this;
 		while (!($parent instanceof qCal_Component_Vcalendar)) {
-			if (!$parent->getParent()) break;
+			if (!$parent->getParent())
+				break;
 			$parent = $parent->getParent();
 		}
 		return $parent;
-	
 	}
-	
+
 	/**
 	 * Renders the calendar, by default in icalendar format. If you pass
 	 * in a renderer, it will use that instead
@@ -410,23 +429,24 @@ abstract class qCal_Component {
 	 * @todo Would it make more sense to pass the component to the renderer, or the renderer
 	 * to the component? I'm not sure components should know about rendering.
 	 */
-	public function render(qCal_Renderer $renderer = null) {
-	
+	public function render(qCal_Renderer $renderer = null)
+	{
+
 		$this->validate();
-		if (is_null($renderer)) $renderer = new qCal_Renderer_iCalendar();
+		if (is_null($renderer))
+			$renderer = new qCal_Renderer_iCalendar();
 		return $renderer->render($this);
-	
 	}
-	
+
 	/**
 	 * Output the icalendar component as a string (render it)
 	 */
-	public function __toString() {
-	
+	public function __toString()
+	{
+
 		return $this->render();
-	
 	}
-	
+
 	/**
 	 * getFreeBusyTime
 	 * Looks through all of the data in the calendar and returns a qCal_Component_Vfreebusy object
@@ -436,21 +456,23 @@ abstract class qCal_Component {
 	 * recurrence rules, each instance of a recurrence would need to be calculated out and passed into the free/busy
 	 * component, so that the component would contain concrete instances of each event recurrence.
 	 */
-	public function getFreeBusyTime() {
-	
+	public function getFreeBusyTime()
+	{
+
 		$root = $this->getRootComponent();
 		foreach ($root->getChildren() as $children) {
 			foreach ($children as $child) {
 				// now get the object's free/busy time
 			}
 		}
-	
 	}
+
 	/**
 	 * getTimeZones
 	 */
-	public function getTimezones() {
-	
+	public function getTimezones()
+	{
+
 		$tzs = array();
 		$root = $this->getRootComponent();
 		foreach ($root->getChildren() as $children) {
@@ -465,14 +487,15 @@ abstract class qCal_Component {
 			}
 		}
 		return $tzs;
-	
 	}
+
 	/**
 	 * Get a specific timezone by tzid
 	 * @param string The timezone identifier
 	 */
-	public function getTimezone($tzid) {
-	
+	public function getTimezone($tzid)
+	{
+
 		$tzid = strtoupper($tzid);
 		$root = $this->getRootComponent();
 		$timezones = $root->getTimezones();
@@ -480,8 +503,8 @@ abstract class qCal_Component {
 			return $timezones[$tzid];
 		}
 		return false;
-	
 	}
+
 	/**
 	 * Allows for components to get and set property values by calling
 	 * qCal_Component::getPropertyName() and qCal_Component::setPropertyName('2.0') where propertyName is the property name
@@ -490,8 +513,9 @@ abstract class qCal_Component {
 	 * @todo I can't decided whether to maybe get rid of the facade methods at least for now since some properties
 	 * can potentially return multiple values and that makes the interface inconsistent
 	 */
-	public function __call($method, $params) {
-	
+	public function __call($method, $params)
+	{
+
 		$firstthree = substr($method, 0, 3);
 		$name = substr($method, 3);
 		if ($firstthree == "get") {
@@ -517,7 +541,5 @@ abstract class qCal_Component {
 		}
 		// throw exception here?
 		// throw new qCal_Exception();
-	
 	}
-
 }

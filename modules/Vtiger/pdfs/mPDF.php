@@ -24,7 +24,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 	/**
 	 * Constructor
 	 */
-	public function __construct($mode='', $format='A4', $defaultFontSize=0, $defaultFont='', $orientation='P', $leftMargin=15, $rightMargin=15, $topMargin=16, $bottomMargin=16, $headerMargin=9, $footerMargin=9)
+	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 0, $defaultFont = '', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
 		$this->setLibraryName('mPDF');
 		$this->pdf = new mPDF($mode, $format, $defaultFontSize, $defaultFont, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin, $orientation);
@@ -281,7 +281,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 			$dest = 'I';
 		}
 		$pages = explode('<div style="page-break-after:always;"><span style="display:none;"> </span></div>', $this->html);
-		foreach($pages as $page){
+		foreach ($pages as $page) {
 			$this->pdf->AddPage();
 			$this->pdf->WriteHTML($page);
 		}
@@ -320,19 +320,9 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 		$pageOrientation = $template->get('page_orientation') == 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($template->get('margin_chkbox') == 1) {
 			$pdf = new self('utf-8', $template->get('page_format'), 0, '', $pageOrientation);
-		}else{
+		} else {
 			$pdf = new self(
-				'utf-8',
-				$template->get('page_format'),
-				0,
-				'',
-				$pageOrientation,
-				$template->get('margin_left'), 
-				$template->get('margin_right'),
-				$template->get('margin_top'), 
-				$template->get('margin_bottom'),
-				$template->get('header_height'),
-				$template->get('footer_height')
+				'utf-8', $template->get('page_format'), 0, '', $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height')
 			);
 		}
 		$pdf->setTemplateId($templateId);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Event Component
  * @package qCal
@@ -124,12 +125,15 @@
  *   RRULE:FREQ=YEARLY
  *   END:VEVENT
  */
-class qCal_Component_Vevent extends qCal_Component {
+class qCal_Component_Vevent extends qCal_Component
+{
 
 	protected $name = "VEVENT";
 	protected $allowedComponents = array('VCALENDAR');
-	protected function doValidation() {
-	
+
+	protected function doValidation()
+	{
+
 		$properties = $this->getProperties();
 		$propnames = array_keys($properties);
 		if (in_array('DTEND', $propnames) && in_array('DURATION', $propnames)) {
@@ -159,7 +163,5 @@ class qCal_Component_Vevent extends qCal_Component {
 				}
 			}
 		}
-	
 	}
-
 }

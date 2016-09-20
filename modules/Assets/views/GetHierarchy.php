@@ -59,7 +59,7 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance($hierarchyModuleName);
 				$recordModel->setId($accountId);
-				$hierarchy['entries'][$accountId][0]['data'] = $dashes[0] .  $name[2];
+				$hierarchy['entries'][$accountId][0]['data'] = $dashes[0] . $name[2];
 			}
 		}
 		$viewer->assign('MODULE', $hierarchyModuleName);

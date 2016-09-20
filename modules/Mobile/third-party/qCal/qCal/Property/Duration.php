@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Duration Property
  * @package qCal
@@ -46,9 +47,10 @@
  * 
  *   DURATION:PT15M
  */
-class qCal_Property_Duration extends qCal_Property {
+class qCal_Property_Duration extends qCal_Property
+{
 
 	protected $type = 'DURATION';
-	protected $allowedComponents = array('VEVENT','VTODO','VFREEBUSY','VALARM');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VFREEBUSY', 'VALARM');
 
 }

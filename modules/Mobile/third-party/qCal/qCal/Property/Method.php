@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Method Property
  * @package qCal
@@ -50,7 +51,8 @@
  * 
  *   METHOD:REQUEST
  */
-class qCal_Property_Method extends qCal_Property {
+class qCal_Property_Method extends qCal_Property
+{
 
 	protected $type = 'TEXT';
 	protected $allowedComponents = array('VCALENDAR');

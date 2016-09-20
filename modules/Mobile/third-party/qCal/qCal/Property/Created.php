@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Dated/Time Created Property
  * @package qCal
@@ -37,9 +38,10 @@
  * 
  *   CREATED:19960329T133000Z
  */
-class qCal_Property_Created extends qCal_Property {
+class qCal_Property_Created extends qCal_Property
+{
 
 	protected $type = 'DATE-TIME';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL');
 
 }

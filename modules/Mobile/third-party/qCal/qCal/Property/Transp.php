@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Time Transparency Property
  * @package qCal
@@ -52,7 +53,8 @@
  * 
  *   TRANSP:OPAQUE
  */
-class qCal_Property_Transp extends qCal_Property {
+class qCal_Property_Transp extends qCal_Property
+{
 
 	protected $type = 'TEXT';
 	protected $allowedComponents = array('VEVENT');

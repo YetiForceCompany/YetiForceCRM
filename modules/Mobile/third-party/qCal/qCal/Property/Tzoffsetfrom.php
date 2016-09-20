@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Time Zone Offset From Property
  * @package qCal
@@ -46,9 +47,10 @@
  * 
  *   TZOFFSETFROM:+1345
  */
-class qCal_Property_Tzoffsetfrom extends qCal_Property {
+class qCal_Property_Tzoffsetfrom extends qCal_Property
+{
 
 	protected $type = 'UTC-OFFSET';
-	protected $allowedComponents = array('VTIMEZONE','DAYLIGHT','STANDARD');
+	protected $allowedComponents = array('VTIMEZONE', 'DAYLIGHT', 'STANDARD');
 
 }

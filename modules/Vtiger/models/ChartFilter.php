@@ -131,7 +131,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		return $this->extraData['chartType'];
 	}
-	
+
 	/**
 	 * Function to check if chart should be colored
 	 * @return boolean
@@ -140,7 +140,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		return $this->extraData['color'];
 	}
-	
+
 	public function getTargetModule()
 	{
 		return $this->extraData['module'];

@@ -623,7 +623,7 @@ class ReportRun extends CRMEntity
 
 		if ($moduleName == 'ModComments' && $fieldName == 'creator') {
 			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_usersModComments.first_name',
-				'last_name' => 'vtiger_usersModComments.last_name'), 'Users');
+					'last_name' => 'vtiger_usersModComments.last_name'), 'Users');
 			$queryColumn = "trim(case when (vtiger_usersModComments.user_name not like '' and vtiger_crmentity.crmid!='') then $concatSql end) AS ModComments_Creator";
 			$this->queryPlanner->addTable('vtiger_usersModComments');
 			$this->queryPlanner->addTable("vtiger_usersModComments");
@@ -2645,7 +2645,7 @@ class ReportRun extends CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")"; 
+							$col_header .= " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -3324,25 +3324,26 @@ class ReportRun extends CRMEntity
 		}
 		return $fieldlists;
 	}
+
 	/**
- 	 * Returns PhpExcel type constant based on value
- 	 *
- 	 * @param mixed $value any value
- 	 *
- 	 * @return string PhpExcel value type PHPExcel_Cell_DataType::TYPE_*
- 	 */
- 	private function getPhpExcelTypeFromValue($value)
- 	{
- 		if (is_integer($value) || is_float($value)) {
- 			return PHPExcel_Cell_DataType::TYPE_NUMERIC;
- 		} else if (is_null($value)) {
- 			return PHPExcel_Cell_DataType::TYPE_NULL;
- 		} else if (is_bool($value)) {
- 			return PHPExcel_Cell_DataType::TYPE_BOOL;
- 		}
- 		return PHPExcel_Cell_DataType::TYPE_STRING;
- 	}	
-	
+	 * Returns PhpExcel type constant based on value
+	 *
+	 * @param mixed $value any value
+	 *
+	 * @return string PhpExcel value type PHPExcel_Cell_DataType::TYPE_*
+	 */
+	private function getPhpExcelTypeFromValue($value)
+	{
+		if (is_integer($value) || is_float($value)) {
+			return PHPExcel_Cell_DataType::TYPE_NUMERIC;
+		} else if (is_null($value)) {
+			return PHPExcel_Cell_DataType::TYPE_NULL;
+		} else if (is_bool($value)) {
+			return PHPExcel_Cell_DataType::TYPE_BOOL;
+		}
+		return PHPExcel_Cell_DataType::TYPE_STRING;
+	}
+
 	function writeReportToExcelFile($fileName, $filterlist = '')
 	{
 
@@ -3390,7 +3391,7 @@ class ReportRun extends CRMEntity
 					}
 					if (is_string($value)) {
 						$value = decode_html($value);
- 					}
+					}
 					// TODO Determine data-type based on field-type.
 					// String type helps having numbers prefixed with 0 intact.
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, $this->getPhpExcelTypeFromValue($value));

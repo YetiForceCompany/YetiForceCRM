@@ -123,5 +123,4 @@ class ModComments extends ModCommentsCore
 	{
 		return new ModComments_CommentsModel($this->column_fields);
 	}
-
 }

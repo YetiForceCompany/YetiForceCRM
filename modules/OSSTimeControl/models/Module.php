@@ -124,7 +124,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid && vtiger_users.status="ACTIVE"
 							AND vtiger_crmentity.deleted = 0'
 				. ' WHERE vtiger_osstimecontrol.%s = ? && vtiger_osstimecontrol.osstimecontrol_status = ? %s GROUP BY smownerid'
-				,$userSqlFullName, $fieldName, $securityParameter);
+				, $userSqlFullName, $fieldName, $securityParameter);
 			$result = $db->pquery($sql, [$id, OSSTimeControl_Record_Model::recalculateStatus]);
 
 			$data = [];

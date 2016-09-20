@@ -9,19 +9,21 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class VTUpdateClosedTime extends VTTask {
+class VTUpdateClosedTime extends VTTask
+{
 
 	public $executeImmediately = true;
 
-	public function getFieldNames() {
+	public function getFieldNames()
+	{
 		return array();
 	}
 
-	public function doTask($entity) {
+	public function doTask($entity)
+	{
 		$entityIdDetails = vtws_getIdComponents($entity->getId());
 		$entityId = $entityIdDetails[1];
 		$adb = PearDatabase::getInstance();
 		$adb->pquery("UPDATE vtiger_crmentity SET closedtime = ? WHERE crmid = ?", array(date("Y-m-d H:i:s"), $entityId));
 	}
-
 }

@@ -50,7 +50,7 @@ class Pdf_TimeControlUserGroup extends Vtiger_SpecialFunction_Pdf
 		$users = [];
 		$db = PearDatabase::getInstance();
 		$ids = $pdf->getRecordIds();
-		if(!is_array($ids)){
+		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
 		foreach ($ids as $recordId) {

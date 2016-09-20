@@ -1,4 +1,5 @@
 <?php
+
 /**
  * URI Value
  * @package qCal
@@ -37,20 +38,21 @@
  * 
  *  http://host1.com/my-report.txt
  */
-class qCal_Value_Uri extends qCal_Value {
+class qCal_Value_Uri extends qCal_Value
+{
 
-	protected function toString($value) {
-	
+	protected function toString($value)
+	{
+
 		return (string) $value;
-	
 	}
+
 	/**
 	 * @todo: implement this
 	 */
-	protected function doCast($value) {
-	
-		return $value;
-	
-	}
+	protected function doCast($value)
+	{
 
+		return $value;
+	}
 }

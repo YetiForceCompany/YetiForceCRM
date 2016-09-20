@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Contact Property
  * @package qCal
@@ -72,9 +73,10 @@
  *   CONTACT;ALTREP="http://host.com/pdi/jdoe.vcf":Jim
  *     Dolittle\, ABC Industries\, +1-919-555-1234
  */
-class qCal_Property_Contact extends qCal_Property {
+class qCal_Property_Contact extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VFREEBUSY');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VFREEBUSY');
 
 }

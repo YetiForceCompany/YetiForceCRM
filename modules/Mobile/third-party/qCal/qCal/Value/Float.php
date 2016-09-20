@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Float Value
  * @package qCal
@@ -30,15 +31,15 @@
  *  1.333
  *  -3.14
  */
-class qCal_Value_Float extends qCal_Value {
+class qCal_Value_Float extends qCal_Value
+{
 
 	/**
 	 * Casts $value to float and returns it
 	 */
-	protected function doCast($value) {
-	
-		return (float) $value;
-	
-	}
+	protected function doCast($value)
+	{
 
+		return (float) $value;
+	}
 }

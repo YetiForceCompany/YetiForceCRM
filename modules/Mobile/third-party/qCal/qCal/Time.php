@@ -1,39 +1,47 @@
 <?php
-class qCal_Time {
+
+class qCal_Time
+{
 
 	/**
 	 * Timestamp (represents time at GMT, so must have timezone's offest
 	 * applied before it will be accurate for your specified timezone)
 	 */
 	protected $time;
+
 	/**
 	 * The default format that time is output as
 	 */
 	protected $format = "H:i:s";
+
 	/**
 	 * The timezone
 	 */
 	protected $timezone;
+
 	/**
 	 * Time array (contains hour, minute, second, etc.)
 	 */
 	protected $timeArray = array();
+
 	/**
 	 * Class constructor
 	 * This component is immutable. It can only be created, not modified.
 	 */
-	public function __construct($hour = null, $minute = null, $second = null, $timezone = null, $rollover = null) {
-	
+	public function __construct($hour = null, $minute = null, $second = null, $timezone = null, $rollover = null)
+	{
+
 		$this->setTimezone($timezone)
-			 ->setTime($hour, $minute, $second, $rollover);
-	
+			->setTime($hour, $minute, $second, $rollover);
 	}
+
 	/**
 	 * Set the time
 	 * @access protected This class is immutable, so this is protected. Only the constructor calls it.
 	 */
-	protected function setTime($hour = null, $minute = null, $second = null, $rollover = null) {
-	
+	protected function setTime($hour = null, $minute = null, $second = null, $rollover = null)
+	{
+
 		if (is_null($hour)) {
 			$hour = gmdate("H");
 		}
@@ -43,7 +51,8 @@ class qCal_Time {
 		if (is_null($second)) {
 			$second = gmdate("s");
 		}
-		if (is_null($rollover)) $rollover = false;
+		if (is_null($rollover))
+			$rollover = false;
 		if (!$rollover) {
 			if ($hour > 23 || $minute > 59 || $second > 59) {
 				throw new qCal_DateTime_Exception_InvalidTime(sprintf("Invalid time specified for qCal_Time: \"%02d:%02d:%02d\"", $hour, $minute, $second));
@@ -59,33 +68,36 @@ class qCal_Time {
 		$vals = explode("|", gmdate($formatString, $this->getTimestamp(false)));
 		$this->timeArray = array_merge($this->timeArray, array_combine($keys, $vals));
 		return $this;
-	
 	}
+
 	/**
 	 * Set the timezone
 	 */
-	protected function setTimezone($timezone) {
-	
+	protected function setTimezone($timezone)
+	{
+
 		if (is_null($timezone) || !($timezone instanceof qCal_Timezone)) {
 			$timezone = qCal_Timezone::factory($timezone);
 		}
 		$this->timezone = $timezone;
 		return $this;
-	
 	}
+
 	/**
 	 * Get the timezone
 	 */
-	public function getTimezone() {
-	
+	public function getTimezone()
+	{
+
 		return $this->timezone;
-	
 	}
+
 	/**
 	 * Generate a qCal_Time object via a string or a number of other methods
 	 */
-	public static function factory($time, $timezone = null) {
-	
+	public static function factory($time, $timezone = null)
+	{
+
 		if (is_null($timezone) || !($timezone instanceof qCal_Timezone)) {
 			$timezone = qCal_Timezone::factory($timezone);
 		}
@@ -93,7 +105,7 @@ class qCal_Time {
 		$tz = date_default_timezone_get();
 		// set the timezone to GMT temporarily
 		date_default_timezone_set("GMT");
-		
+
 		if (is_integer($time)) {
 			// @todo Handle timestamps
 			// @maybe not...
@@ -111,66 +123,72 @@ class qCal_Time {
 				$time = new qCal_Time($hour, $minute, $second, $timezone);
 			}
 		}
-		
+
 		// set the timezone back to what it was
 		date_default_timezone_set($tz);
-		
+
 		return $time;
-	
 	}
+
 	/**
 	 * Get the hour
 	 */
-	public function getHour() {
-	
+	public function getHour()
+	{
+
 		return $this->timeArray['G'];
-	
 	}
+
 	/**
 	 * Get the minute
 	 */
-	public function getMinute() {
-	
+	public function getMinute()
+	{
+
 		return $this->timeArray['i'];
-	
 	}
+
 	/**
 	 * Get the second
 	 */
-	public function getSecond() {
-	
+	public function getSecond()
+	{
+
 		return $this->timeArray['s'];
-	
 	}
+
 	/**
 	 * Get the timestamp
 	 */
-	public function getTimestamp($useOffset = true) {
-	
+	public function getTimestamp($useOffset = true)
+	{
+
 		$time = ($useOffset) ?
-			$this->time - $this->getTimezone()->getOffsetSeconds() : 
+			$this->time - $this->getTimezone()->getOffsetSeconds() :
 			$this->time;
 		return $time;
-	
 	}
+
 	/**
 	 * Set the format to use when outputting as a string
 	 */
-	public function setFormat($format) {
-	
+	public function setFormat($format)
+	{
+
 		$this->format = (string) $format;
 		return $this;
-	
 	}
+
 	/**
 	 * Output the object using PHP's date() function's meta-characters
 	 */
-	public function format($format) {
-	
+	public function format($format)
+	{
+
 		$escape = false;
 		$meta = str_split($format);
 		$output = array();
-		foreach($meta as $char) {
+		foreach ($meta as $char) {
 			if ($char == '\\') {
 				$escape = true;
 				continue;
@@ -184,15 +202,14 @@ class qCal_Time {
 			$escape = false;
 		}
 		return implode($output);
-	
 	}
+
 	/**
 	 * Output the object as a string
 	 */
-	public function __toString() {
-	
-		return $this->format($this->format);
-	
-	}
+	public function __toString()
+	{
 
+		return $this->format($this->format);
+	}
 }

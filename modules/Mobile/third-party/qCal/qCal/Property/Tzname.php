@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Time Zone Name Property
  * @package qCal
@@ -53,10 +54,11 @@
  *   TZNAME;LANGUAGE=en:EST
  *   TZNAME;LANGUAGE=fr-CA:HNE
  */
-class qCal_Property_Tzname extends qCal_Property {
+class qCal_Property_Tzname extends qCal_Property
+{
 
 	protected $type = 'TEXT';
-	protected $allowedComponents = array('VTIMEZONE','DAYLIGHT','STANDARD');
+	protected $allowedComponents = array('VTIMEZONE', 'DAYLIGHT', 'STANDARD');
 	protected $allowMultiple = true;
 
 }

@@ -178,7 +178,7 @@ Class DataAccess_unique_value
 					'text' => vtranslate($info, 'DataAccess') . ' <br/ >' . trim($fieldlabel, ','),
 					'ntype' => $typeInfo,
 					'hide' => false,
-				]
+					]
 			);
 		else
 			return Array('save_record' => true);

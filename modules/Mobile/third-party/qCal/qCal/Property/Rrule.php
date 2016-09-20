@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Recurrence Rule Property
  * @package qCal
@@ -433,10 +434,11 @@
  *   RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=4;BYDAY=TU,SU;WKST=SU
  *   ==> (1997 EDT)August 5,17,19,31
  */
-class qCal_Property_Rrule extends qCal_Property {
+class qCal_Property_Rrule extends qCal_Property
+{
 
 	protected $type = 'RECUR';
-	protected $allowedComponents = array('VEVENT','VTODO','VJOURNAL','VTIMEZONE','DAYLIGHT','STANDARD');
+	protected $allowedComponents = array('VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'DAYLIGHT', 'STANDARD');
 	protected $allowMultiple = true;
 
 }

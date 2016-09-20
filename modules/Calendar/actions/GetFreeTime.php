@@ -6,9 +6,11 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action {
+class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
+{
 
-	public function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
@@ -17,7 +19,8 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action {
 		}
 	}
 
-	public function getFreeTimeInDay($day) {
+	public function getFreeTimeInDay($day)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$durationEvent = $currentUser->get('othereventduration');
 		$startWorkHour = $currentUser->get('start_hour');
@@ -42,8 +45,8 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action {
 		$startTime = $dbStartDateOject->format('H:i:s');
 		$result = $db->pquery('SELECT date_start, time_start, time_end FROM vtiger_activity 
 				WHERE deleted = ? && smownerid=? '
-				. "AND ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) || (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) || (date_start < ? && due_date > ?) ) "
-				. 'ORDER BY time_start ASC', $params);
+			. "AND ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) || (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) || (date_start < ? && due_date > ?) ) "
+			. 'ORDER BY time_start ASC', $params);
 		while ($row = $db->getRow($result)) {
 			if (vtlib\Functions::getDateTimeMinutesDiff($startTime, $row['time_start']) >= $durationEvent) {
 				$date = new DateTime($row['date_start'] . ' ' . $startTime);
@@ -72,7 +75,8 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action {
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$dateStart = $request->get('dateStart');
 		$dateStart = DateTimeField::convertToDBFormat($dateStart);
 		$currentUser = Users_Record_Model::getCurrentUserModel();

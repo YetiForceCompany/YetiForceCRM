@@ -495,7 +495,7 @@ class PieChart extends Base_Chart
 			$value = (float) $row[$sector];
 			if (!$this->isRecordCount()) {
 				if ($sectorField) {
-					if ($sectorField->get('uitype') != '7'){
+					if ($sectorField->get('uitype') != '7') {
 						if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
 							$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 						} else {

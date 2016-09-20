@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Recur Value
  * Specifies a pattern of dates, often for recurring events. This is an
@@ -264,16 +265,16 @@
  * 
  * There are other examples specified in the "RRULE" specification.
  */
-class qCal_Value_Recur extends qCal_Value {
+class qCal_Value_Recur extends qCal_Value
+{
 
 	/**
 	 * @todo: implement this - this one's gonna be a doozy
 	 */
-	protected function doCast($value) {
-	
+	protected function doCast($value)
+	{
+
 		// return new qCal_Date_Recur();
 		return $value;
-	
 	}
-
 }

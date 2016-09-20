@@ -16,11 +16,11 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$params = [];
-		if($onlyActive){
+		if ($onlyActive) {
 			$sql = 'SELECT vtiger_entityname.* FROM vtiger_entityname 
 				LEFT JOIN vtiger_tab ON vtiger_entityname.tabid = vtiger_tab.tabid 
 				WHERE vtiger_tab.presence = ?';
-			$params []= '0';
+			$params [] = '0';
 		} else {
 			$sql = 'SELECT * FROM vtiger_entityname';
 			if ($tabid) {
@@ -31,7 +31,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$sql .= ' ORDER BY sequence';
 		$result = $db->pquery($sql, $params);
 		$moduleEntity = [];
-		while($row = $db->getRow($result)){
+		while ($row = $db->getRow($result)) {
 			$moduleEntity[$row['tabid']] = $row;
 		}
 		return $moduleEntity;

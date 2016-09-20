@@ -1,24 +1,26 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
 /**
  * Vtiger ListView Model Class
  */
-class Import_ListView_Model extends Vtiger_ListView_Model {
+class Import_ListView_Model extends Vtiger_ListView_Model
+{
 
 	/**
 	 * Function to get the list of listview links for the module
 	 * @param <Array> $linkParams
 	 * @return false - no List View Links needed on Import pages
 	 */
-	public function getListViewLinks($linkParams) {
+	public function getListViewLinks($linkParams)
+	{
 		return false;
 	}
 
@@ -27,7 +29,8 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 	 * @param <Array> $linkParams
 	 * @return false - no List View Links needed on Import pages
 	 */
-	public function getListViewMassActions($linkParams) {
+	public function getListViewMassActions($linkParams)
+	{
 		return false;
 	}
 
@@ -36,7 +39,8 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel) {
+	public function getListViewEntries($pagingModel)
+	{
 		$db = PearDatabase::getInstance();
 
 		$moduleName = $this->getModule()->get('name');
@@ -52,23 +56,22 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$importedRecordIds = $this->getLastImportedRecord();
-        $listViewRecordModels = array();
-		if(count($importedRecordIds) != 0) {
-            $moduleModel = $this->get('module');
-            $listQuery .= ' && '.$moduleModel->basetable.'.'.$moduleModel->basetableid.' IN ('. implode(',', $importedRecordIds).')';
+		$listViewRecordModels = array();
+		if (count($importedRecordIds) != 0) {
+			$moduleModel = $this->get('module');
+			$listQuery .= ' && ' . $moduleModel->basetable . '.' . $moduleModel->basetableid . ' IN (' . implode(',', $importedRecordIds) . ')';
 
-            $listQuery .= " LIMIT $startIndex, $pageLimit";
+			$listQuery .= " LIMIT $startIndex, $pageLimit";
 
-            $listResult = $db->pquery($listQuery, array());
+			$listResult = $db->pquery($listQuery, array());
 
-            $listViewEntries =  $listViewContoller->getListViewRecords($moduleFocus,$moduleName, $listResult);
-            $pagingModel->calculatePageRange($listViewEntries);
-            foreach($listViewEntries as $recordId => $record) {
-                $record['id'] = $recordId;
-                $listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record);
-            }
-
-        }
+			$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
+			$pagingModel->calculatePageRange($listViewEntries);
+			foreach ($listViewEntries as $recordId => $record) {
+				$record['id'] = $recordId;
+				$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record);
+			}
+		}
 		return $listViewRecordModels;
 	}
 
@@ -77,7 +80,8 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewCount() {
+	public function getListViewCount()
+	{
 		$db = PearDatabase::getInstance();
 
 		$queryGenerator = $this->get('query_generator');
@@ -86,9 +90,9 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 		$listQuery = $queryGenerator->getQuery();
 
 		$importedRecordIds = $this->getLastImportedRecord();
-		if(count($importedRecordIds) != 0) {
+		if (count($importedRecordIds) != 0) {
 			$moduleModel = $this->get('module');
-			$listQuery .= ' && '.$moduleModel->basetable.'.'.$moduleModel->basetableid.' IN ('. implode(',', $importedRecordIds).')';
+			$listQuery .= ' && ' . $moduleModel->basetable . '.' . $moduleModel->basetableid . ' IN (' . implode(',', $importedRecordIds) . ')';
 		}
 
 		$listResult = $db->pquery($listQuery, array());
@@ -101,7 +105,8 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 	 * @param <Number> $viewId - Custom View Id
 	 * @return Vtiger_ListView_Model instance
 	 */
-	public static function getInstance($moduleName, $viewId='0') {
+	public static function getInstance($moduleName, $viewId = '0')
+	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
@@ -120,17 +125,18 @@ class Import_ListView_Model extends Vtiger_ListView_Model {
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator)->set('listview_controller', $controller);
 	}
 
-	public function getLastImportedRecord() {
+	public function getLastImportedRecord()
+	{
 		$db = PearDatabase::getInstance();
 
 		$user = Users_Record_Model::getCurrentUserModel();
 		$userDBTableName = Import_Utils_Helper::getDbTableName($user);
 		$query = sprintf('SELECT recordid FROM %s WHERE temp_status NOT IN (?,?) && recordid IS NOT NULL', $userDBTableName);
-		$result = $db->pquery($query,[Import_Data_Action::$IMPORT_RECORD_FAILED,  Import_Data_Action::$IMPORT_RECORD_SKIPPED]);
+		$result = $db->pquery($query, [Import_Data_Action::$IMPORT_RECORD_FAILED, Import_Data_Action::$IMPORT_RECORD_SKIPPED]);
 		$noOfRecords = $db->num_rows($result);
 
 		$importedRecordIds = array();
-		for($i=0; $i<$noOfRecords; ++$i) {
+		for ($i = 0; $i < $noOfRecords; ++$i) {
 			$importedRecordIds[] = $db->query_result($result, $i, 'recordid');
 		}
 		return $importedRecordIds;

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,25 +7,28 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Portal_MassDelete_Action extends Vtiger_MassDelete_Action {
+class Portal_MassDelete_Action extends Vtiger_MassDelete_Action
+{
 
-    function checkPermission(Vtiger_Request $request) {
+	function checkPermission(Vtiger_Request $request)
+	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-    public function process(Vtiger_Request $request) {
-        $module = $request->getModule();
-        
-        Portal_Module_Model::deleteRecords($request);
-        
-        $response = new Vtiger_Response();
-        $result = array('message' => vtranslate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
-        $response->setResult($result);
-        $response->emit();
-    }
+	public function process(Vtiger_Request $request)
+	{
+		$module = $request->getModule();
+
+		Portal_Module_Model::deleteRecords($request);
+
+		$response = new Vtiger_Response();
+		$result = array('message' => vtranslate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
+		$response->setResult($result);
+		$response->emit();
+	}
 }
