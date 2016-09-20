@@ -56,7 +56,7 @@
 if (!function_exists('file_put_contents')) {
 
 	// If not PHP5, creates a compatible function
-	public function file_put_contents($file, $data)
+	function file_put_contents($file, $data)
 	{
 		if ($tmp = fopen($file, "w")) {
 			fwrite($tmp, $data);

@@ -1038,7 +1038,7 @@ class PackageImport extends PackageExport
 				$updateInstance->update();
 				if ($updateInstance->filesToDelete) {
 					foreach ($updateInstance->filesToDelete as $path) {
-						public functions::recurseDelete($path);
+						functions::recurseDelete($path);
 					}
 				}
 				public functions::recurseCopy($dirName . '/files', '', true);

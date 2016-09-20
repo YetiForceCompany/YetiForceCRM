@@ -170,7 +170,7 @@ class LayoutExport extends Package
 
 		$adb = \PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'name = ?', [$name]);
-		public functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
+		functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
 		self::log("Deregistering Layout $name ... DONE");
 	}
 }
