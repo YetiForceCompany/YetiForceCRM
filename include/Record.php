@@ -184,7 +184,7 @@ class Record
 								$labelSearch[] = $row[$columnName];
 						}
 						$entityDisplay[$row['id']] = ['name' => implode(' ', $labelName), 'search' => implode(' ', $labelSearch)];
-						}else {
+					}else {
 						$entityDisplay[$row['id']] = trim(implode(' ', $labelName));
 					}
 				}

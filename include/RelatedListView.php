@@ -106,14 +106,14 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	if (AppRequest::has('relmodule') && AppRequest::get('relmodule') == $relatedmodule) {
 		$relmodule = AppRequest::get('relmodule');
 		if ($_SESSION['rlvs'][$module][$relmodule]) {
-			setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $listMaxEntriesPerPage , $module, $relmodule);
+			setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $listMaxEntriesPerPage, $module, $relmodule);
 		}
 	}
 	global $relationId;
 	$start = RelatedListViewSession::getRequestCurrentPage($relationId, $query);
-	$navigation_array = VT_getSimpleNavigationValues($start, $listMaxEntriesPerPage , $noofrows);
+	$navigation_array = VT_getSimpleNavigationValues($start, $listMaxEntriesPerPage, $noofrows);
 
-	$limit_start_rec = ($start - 1) * $listMaxEntriesPerPage ;
+	$limit_start_rec = ($start - 1) * $listMaxEntriesPerPage;
 
 	if ($adb->isPostgres())
 		$list_result = $adb->pquery($query .

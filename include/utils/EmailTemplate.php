@@ -163,7 +163,7 @@ class EmailTemplate
 									$details[0], $this->user);
 							} else {
 								$type = \vtlib\Functions::getCRMRecordType(
-									$values[$fieldName]);
+										$values[$fieldName]);
 								$referencedObjectHandler = vtws_getModuleHandlerFromName($type, $this->user);
 							}
 							$referencedObjectMeta = $referencedObjectHandler->getMeta();
@@ -187,10 +187,10 @@ class EmailTemplate
 									$referencedObjectMeta->getEntityId(), $values[$fieldName]));
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'picklist') === 0) {
 							$values[$fieldName] = \includes\Language::translate(
-								$values[$fieldName], $module);
+									$values[$fieldName], $module);
 						} elseif (strcasecmp($fieldName, 'salutationtype') === 0 && $webserviceField->getUIType() == '55') {
 							$values[$fieldName] = \includes\Language::translate(
-								$values[$fieldName], $module);
+									$values[$fieldName], $module);
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'datetime') === 0) {
 							$values[$fieldName] = $values[$fieldName] . ' ' . DateTimeField::getDBTimeZone();
 						}

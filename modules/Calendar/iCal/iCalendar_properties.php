@@ -1,4 +1,5 @@
 <?php
+
 // $Id: iCalendar_properties.php,v 1.13 2005/07/21 22:42:13 defacer Exp $
 
 class iCalendar_property
@@ -14,7 +15,7 @@ class iCalendar_property
 	var $val_multi = false;
 	var $val_default = NULL;
 
-	public function iCalendar_property()
+	public function __construct()
 	{
 		$this->construct();
 	}

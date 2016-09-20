@@ -14,7 +14,7 @@ include_once 'include/Webservices/RelatedTypes.php';
 
 function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = null)
 {
-	
+
 	$adb = PearDatabase::getInstance();
 	$log = LoggerManager::getInstance();
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
