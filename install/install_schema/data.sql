@@ -7030,7 +7030,7 @@ insert  into `vtiger_osservicesstatus_seq`(`id`) values (3);
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('emailsearch','fields',NULL);
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('cron','email','');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('cron','time','');
-insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('emailsearch','change_ticket_status','false');
+insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('emailsearch','changeTicketStatus','noAction');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','widget_limit','10');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','target','_blank');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','permissions','vtiger');

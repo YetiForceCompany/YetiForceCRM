@@ -29,7 +29,7 @@ class OSSMailScanner
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter) VALUES (?,?)", array('emailsearch', 'fields'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('cron', 'email', ''));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('cron', 'time', ''));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'change_ticket_status', 'false'));
+			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'changeTicketStatus', 'false'));
 			$moduleModel = Settings_Picklist_Module_Model::getInstance('HelpDesk');
 			$fieldModel = Settings_Picklist_Field_Model::getInstance('ticketstatus', $moduleModel);
 			$id = $moduleModel->addPickListValues($fieldModel, 'Answered');

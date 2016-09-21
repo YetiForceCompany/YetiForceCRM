@@ -12,5 +12,9 @@ $CONFIG = [
 	// List of of modules from which you can choose e-mail address in the mail
 	'RC_COMPOSE_ADDRESS_MODULES' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
 	// h - Horinzontal, v - vertical
-	'ORIENTATION_PANEL_VIEW' => 'v', 
+	'ORIENTATION_PANEL_VIEW' => 'v',
+	// 
+	'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS' => 'Answered',
+	//
+	'HELPDESK_OPENTICKET_STATUS' => 'Open',
 ];
