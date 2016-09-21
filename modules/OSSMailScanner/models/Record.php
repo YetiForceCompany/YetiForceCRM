@@ -113,10 +113,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		if ($folder) {
-			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' && value LIKE '%$folder%' ORDER BY parameter", true);
+			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' && value LIKE '%$folder%' ORDER BY parameter");
 			$return = $adb->query_result($result, 0, 'parameter');
 		} else {
-			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' ORDER BY parameter DESC", true);
+			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' ORDER BY parameter DESC");
 			while ($row = $adb->fetch_array($result)) {
 				$return[$row['parameter']] = $row['value'];
 			}
@@ -129,10 +129,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$queryParams = [];
 		if ($conf_type != '' || $conf_type != false) {
-			$sql = "WHERE conf_type = ?";
+			$sql = 'WHERE conf_type = ?';
 			$queryParams[] = $conf_type;
 		}
-		$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_config $sql ORDER BY parameter DESC", $queryParams, true);
+		$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_config $sql ORDER BY parameter DESC", $queryParams);
 		while ($row = $adb->fetch_array($result)) {
 			if ($conf_type != '' || $conf_type != false) {
 				$return[$row['parameter']] = $row['value'];
@@ -203,9 +203,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if ($params && array_key_exists('actions', $params)) {
 			$actions = $params['actions'];
 		} else {
-			$actions = $account['actions'];
+			$actions = explode(',', $account['actions']);
 		}
-
 		$mail->setAccount($account);
 		$mail->setFolder($folder);
 		foreach ($actions as &$action) {
@@ -236,9 +235,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if (!$mail) {
 			return [];
 		}
-		if (!empty($account['actions'])) {
-			$params['actions'] = explode(',', $account['actions']);
-		} else {
+		if (empty($account['actions'])) {
 			$params['actions'] = ['CreatedEmail', 'BindAccounts', 'BindContacts', 'BindLeads'];
 		}
 		$return = self::executeActions($account, $mail, $params['folder'], $params);
@@ -303,12 +300,12 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$return = [];
-		$queryParams = [];
+		$queryParams = ['Users'];
 		if ($module) {
 			$ifwhere = 'AND vtiger_tab.name = ? ';
 			$queryParams[] = $module;
 		}
-		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' || uitype = '104') && vtiger_field.presence <> '1' $ifwhere ORDER BY name", [$queryParams]);
+		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' || uitype = '104') && vtiger_field.presence <> '1' AND vtiger_tab.name <> ? $ifwhere ORDER BY name", $queryParams);
 		while ($row = $db->getRow($result)) {
 			$return[] = [
 				'key' => $row['tablename'] . '=' . $row['columnname'] . '=' . $row['name'],

@@ -9,9 +9,14 @@
 class OSSMailScanner_BindCampaigns_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model
 {
 
+	public $moduleName = 'Campaigns';
+	public $tableName = 'vtiger_campaign';
+	public $tableColumn = 'campaign_no';
+
 	public function process(OSSMail_Mail_Model $mail)
 	{
-		$campaignIds = parent::process($mail, 'Campaigns', 'vtiger_campaign', 'campaign_no');
+		$this->mail = $mail;
+		$campaignIds = $this->findAndBind();
 		if ($mail->get('type') == 0 && $campaignIds !== false && $campaignIds != 0) {
 			$crmIds = [];
 			$crmidsToaddress = $mail->findEmailAdress('toaddress', false, true);
@@ -20,8 +25,6 @@ class OSSMailScanner_BindCampaigns_ScannerAction extends OSSMailScanner_PrefixSc
 			$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsToaddress);
 			$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsCcaddress);
 			$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsBccaddress);
-			$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsReplyToaddress);
-			$returnIds = [];
 
 			$db = PearDatabase::getInstance();
 			foreach ($campaignIds as $campaignId) {
