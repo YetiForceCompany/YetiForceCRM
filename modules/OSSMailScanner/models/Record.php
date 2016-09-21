@@ -233,6 +233,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 		$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $params['folder']);
 		$mail = $mailModel->getMail($mbox, $params['uid']);
+		if (!$mail) {
+			return [];
+		}
 		if (!empty($account['actions'])) {
 			$params['actions'] = explode(',', $account['actions']);
 		} else {
