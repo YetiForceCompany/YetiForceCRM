@@ -286,7 +286,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$adb = PearDatabase::getInstance();
 				$adb->pquery('UPDATE vtiger_ossmailscanner_folders_uid SET uid=? WHERE user_id=? && BINARY folder = ?', [$uid, $account['user_id'], $folder]);
 				$countEmails++;
-				self::update_scan_history($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+				self::updateScanHistory($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 				if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 					return $countEmails;
 				}
@@ -406,24 +406,21 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$log->debug('Start checking folder: ' . $folder);
 
 				$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder, false);
-				if (!$mbox) {
+				if (!is_resource($mbox)) {
+					$countEmails = $scannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
+					imap_close($mbox);
+					if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+						$log->warn('Reached the maximum number of scanned mails');
+						$scannerModel->updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+						self::setCronStatus('1');
+						return 'ok';
+					}
+				} else {
 					$log->fatal('Incorrect mail access data: ' . $account['username']);
-					continue;
-				}
-
-				$countEmails = $scannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
-
-				imap_close($mbox);
-
-				if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
-					$log->warn('Reached the maximum number of scanned mails');
-					$scannerModel->update_scan_history($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
-					self::setCronStatus('1');
-					return 'ok';
 				}
 			}
 		}
-		$scannerModel->update_scan_history($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+		$scannerModel->updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 		self::setCronStatus('1');
 		$log->debug('End executeCron');
 		return 'ok';
@@ -476,7 +473,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $adb->getLastInsertID();
 	}
 
-	public function update_scan_history($id, $array)
+	public function updateScanHistory($id, $array)
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = "update vtiger_ossmails_logs set end_time=?,status=? ,count=? ,action=? where id=?";
