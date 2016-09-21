@@ -352,6 +352,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($module)->setEntity($focus);
+		$instance->set('mode', 'edit');
 		Vtiger_Cache::set('Vtiger_Record_Model', $cacheName, $instance);
 		return $instance;
 	}
