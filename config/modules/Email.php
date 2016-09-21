@@ -11,4 +11,6 @@ $CONFIG = [
 	'MAILTO_LIMIT' => 2030,
 	// List of of modules from which you can choose e-mail address in the mail
 	'RC_COMPOSE_ADDRESS_MODULES' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
+	// h - Horinzontal, v - vertical
+	'ORIENTATION_PANEL_VIEW' => 'v', 
 ];
