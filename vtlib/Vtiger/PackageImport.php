@@ -1038,16 +1038,16 @@ class PackageImport extends PackageExport
 				$updateInstance->update();
 				if ($updateInstance->filesToDelete) {
 					foreach ($updateInstance->filesToDelete as $path) {
-						functions::recurseDelete($path);
+						Functions::recurseDelete($path);
 					}
 				}
-				functions::recurseCopy($dirName . '/files', '', true);
+				Functions::recurseCopy($dirName . '/files', '', true);
 				$result = $updateInstance->postupdate();
 			}
 
 			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
 		} else {
-			functions::recurseCopy($dirName . '/files', '', true);
+			Functions::recurseCopy($dirName . '/files', '', true);
 		}
 		$adb->insert('yetiforce_updates', [
 			'user' => \Users_Record_Model::getCurrentUserModel()->get('user_name'),
@@ -1059,8 +1059,8 @@ class PackageImport extends PackageExport
 		if ($result) {
 			$adb->update('vtiger_version', ['current_version' => $modulenode->to_version]);
 		}
-		functions::recurseDelete($dirName);
-		functions::recurseDelete('cache/templates_c');
+		Functions::recurseDelete($dirName);
+		Functions::recurseDelete('cache/templates_c');
 	}
 
 	/**

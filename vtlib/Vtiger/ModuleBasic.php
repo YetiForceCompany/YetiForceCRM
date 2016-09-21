@@ -558,10 +558,10 @@ class ModuleBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$modulePath = 'modules/' . $moduleInstance->name;
-		functions::recurseDelete($modulePath);
+		Functions::recurseDelete($modulePath);
 		foreach (\Yeti_Layout::getAllLayouts() as $name => $label) {
 			$layoutPath = 'layouts/' . $name . '/modules/' . $moduleInstance->name;
-			functions::recurseDelete($layoutPath);
+			Functions::recurseDelete($layoutPath);
 		}
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}
