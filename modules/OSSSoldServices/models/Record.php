@@ -35,23 +35,38 @@ class OSSSoldServices_Record_Model extends Vtiger_Record_Model
 	public function getRenewalValue()
 	{
 		if ($this->isEmpty('serviceid')) {
-			return 'PLL_NOT_APPLICABLE';
+			return 'PLL_NOT_APPLICABLE_VERIFICATION';
 		}
 		$productsRecordModel = Vtiger_Record_Model::getInstanceById($this->get('serviceid'), 'Services');
 		$renewable = $productsRecordModel->get('renewable');
 		if (!$renewable) {
-			return 'PLL_NOT_APPLICABLE';
+			return 'PLL_NOT_APPLICABLE_VERIFICATION';
 		}
 		if (!$this->isEmpty('renewalinvoice')) {
-			return 'PLL_RENEWED';
+			return 'PLL_RENEWED_VERIFICATION';
 		}
 		$dateInService = strtotime($this->get('dateinservice'));
-		$dateRenewable = strtotime(AppConfig::module('OSSSoldServices', 'RENEWAL_TIME'), $dateInService);
+		$renewalTime = AppConfig::module('OSSSoldServices', 'RENEWAL_TIME');
+		$dateRenewable = strtotime('-' . $renewalTime, $dateInService);
+		$classFunction = AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
+		$methodExist = false;
+		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['method'])) {
+			$methodExist = true;
+		}
 		if ($dateRenewable > time()) {
+			if ($methodExist) {
+				return $classFunction['class']::$classFunction['method']($this, 'PLL_PLANNED');
+			}
 			return 'PLL_PLANNED';
 		}
-		if (strtotime('+1 month', $dateInService) < time()) {
-			return 'PLL_NOT_RENEWED';
+		if (strtotime('+' . $renewalTime, $dateInService) < time()) {
+			if ($methodExist) {
+				return $classFunction['class']::$classFunction['method']($this, 'PLL_NOT_RENEWED_VERIFICATION');
+			}
+			return 'PLL_NOT_RENEWED_VERIFICATION';
+		}
+		if ($methodExist) {
+			return $classFunction['class']::$classFunction['method']($this, 'PLL_WAITING_FOR_RENEWAL');
 		}
 		return 'PLL_WAITING_FOR_RENEWAL';
 	}

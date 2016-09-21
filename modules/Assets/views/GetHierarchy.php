@@ -39,18 +39,13 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		$focus = CRMEntity::getInstance($hierarchyModuleName);
 		$hierarchy = $focus->getAccountHierarchy($recordId, $fields);
 
-		$classFunction = AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
+		$classFunction = AppConfig::module($moduleName, 'RENEWAL_CUSTOMER_FUNCTION');
 		$accountIds = [];
 		$check = false;
-		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['method'])) {
-			$accountIds = $classFunction['class']::$classFunction['hierarchy'](array_keys($hierarchy['entries']));
-			$check = true;
+		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['hierarchy'])) {
+			$hierarchy = $classFunction['class']::$classFunction['hierarchy']($hierarchy);
 		}
 		foreach ($hierarchy['entries'] as $accountId => $accountInfo) {
-			if ($check && !in_array($accountId, $accountIds)) {
-				unset($hierarchy['entries'][$accountId]);
-				continue;
-			}
 			$link = $accountInfo[0]['data'];
 			preg_match('/<a href="+/', $link, $matches);
 			if ($matches != null) {

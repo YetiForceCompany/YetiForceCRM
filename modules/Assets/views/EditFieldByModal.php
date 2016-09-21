@@ -27,7 +27,10 @@ class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 			$fields = array_merge($fields, $fildsInBlock);
 		}
 		$showFields = array_keys($recordModel->getModule()->getQuickCreateFields());
-		$showFields = array_merge($showFields, AppConfig::module($moduleName, 'SHOW_FIELD_IN_MODAL'));
+		$configureFields = AppConfig::module($moduleName, 'SHOW_FIELD_IN_MODAL');
+		if($configureFields){
+			$showFields = array_merge($showFields, $configureFields);
+		}
 
 		$relationData = AppConfig::module($moduleName, 'SHOW_RELATION_IN_MODAL');
 		$relationsModules = [];

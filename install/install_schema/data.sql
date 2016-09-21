@@ -988,13 +988,14 @@ insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (8,'result_num
 
 /*Data for the table `vtiger_assets_renew` */
 
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_PLANNED',1,682,1);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_WAITING_FOR_RENEWAL',1,683,2);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_WAITING_FOR_VERIFICATION',1,684,3);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_WAITING_FOR_ACCEPTANCE',1,685,4);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',0,686,5);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',0,687,6);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',0,688,7);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_PLANNED',0,682,1);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_WAITING_FOR_RENEWAL',0,683,2);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_RENEWED_VERIFICATION',0,684,3);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_NOT_RENEWED_VERIFICATION',0,685,4);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',1,686,6);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',1,687,7);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',1,688,8);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'PLL_NOT_APPLICABLE_VERIFICATION',0,702,5);
 
 /*Data for the table `vtiger_assetscf` */
 
@@ -4095,8 +4096,6 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (23,'vtiger.picklist.afterdelete','modules/Settings/Picklist/handlers/PickListHandler.php','PickListHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (24,'vtiger.entity.aftersave.final','modules/OSSPasswords/handlers/secure.php','SECURE','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (25,'vtiger.entity.aftersave.final','modules/OSSTimeControl/handlers/TimeControl.php','TimeControlHandler','',1,'[]');
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (26,'vtiger.entity.beforesave.final','modules/Assets/handlers/Renewal.php','Assets_Renewal_Handler','',1,'[]');
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (27,'vtiger.entity.beforesave.final','modules/OSSSoldServices/handlers/Renewal.php','OSSSoldServices_Renewal_Handler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (29,'vtiger.entity.aftersave.final','modules/Vtiger/handlers/SharingPrivileges.php','Vtiger_SharingPrivileges_Handler',NULL,1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (31,'vtiger.entity.aftersave.final','modules/HelpDesk/handlers/HelpDeskHandler.php','HelpDeskHandler','',1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (32,'vtiger.entity.unlink.after','modules/OSSTimeControl/handlers/TimeControl.php','TimeControlHandler',NULL,1,'[]');
@@ -7144,13 +7143,14 @@ insert  into `vtiger_ossmailview_sendtype_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_osssoldservices_renew` */
 
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_PLANNED',1,675,1);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_WAITING_FOR_RENEWAL',1,676,2);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_WAITING_FOR_VERIFICATION',1,677,3);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_WAITING_FOR_ACCEPTANCE',1,678,4);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',0,679,5);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',0,680,6);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',0,681,7);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_PLANNED',0,675,1);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_WAITING_FOR_RENEWAL',0,676,2);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_RENEWED_VERIFICATION',0,677,3);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_NOT_RENEWED_VERIFICATION',0,678,4);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',1,679,6);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',1,680,7);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',1,681,8);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'PLL_NOT_APPLICABLE_VERIFICATION',0,701,5);
 
 /*Data for the table `vtiger_osssoldservicescf` */
 
@@ -7330,7 +7330,7 @@ insert  into `vtiger_picklist_seq`(`id`) values (94);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
-insert  into `vtiger_picklistvalues_seq`(`id`) values (700);
+insert  into `vtiger_picklistvalues_seq`(`id`) values (702);
 
 /*Data for the table `vtiger_portal` */
 
@@ -21211,6 +21211,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',702,91,8);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',3,1,2);
@@ -21557,6 +21559,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',702,91,8);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',3,1,2);
@@ -21903,6 +21907,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',702,91,8);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',3,1,2);
@@ -22249,6 +22255,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',702,91,8);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',3,1,2);
@@ -22595,6 +22603,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',702,91,8);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',3,1,2);
@@ -22941,6 +22951,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',702,91,8);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',3,1,2);
@@ -23287,6 +23299,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',702,91,8);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',3,1,2);
@@ -23633,6 +23647,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',702,91,8);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',3,1,2);
@@ -23979,6 +23995,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',702,91,8);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',3,1,2);
@@ -24325,6 +24343,8 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',698,94,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',699,94,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',700,57,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',701,90,8);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',702,91,8);
 
 /*Data for the table `vtiger_role2profile` */
 
