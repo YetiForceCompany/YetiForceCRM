@@ -5958,17 +5958,6 @@ CREATE TABLE `vtiger_manufacturer_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_mobile_alerts` */
-
-CREATE TABLE `vtiger_mobile_alerts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `handler_path` varchar(500) DEFAULT NULL,
-  `handler_class` varchar(50) DEFAULT NULL,
-  `sequence` int(11) DEFAULT NULL,
-  `deleted` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_modcomments` */
 
 CREATE TABLE `vtiger_modcomments` (
