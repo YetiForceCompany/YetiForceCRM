@@ -161,14 +161,14 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getLabelToPopupByArray($data, $moduleName)
 	{
-		$html = '<span class="description">';
+		$html = '<b><a href="index.php?module=' . $moduleName . '&view=Detail&record=' . $data['crmid'] . '"><span class="description">';
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
 				$html .= $data[$fieldName] . '<br>';
 			}
 		}
-		$html .= '</span><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
+		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
 		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . vtranslate('LBL_START', 'OpenStreetMap') . '</button><br>';
 		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . vtranslate('LBL_END', 'OpenStreetMap') . '</button><br>';
 		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . vtranslate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
@@ -269,6 +269,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lat');
 		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lon');
+		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
 		$queryGenerator->setCustomFrom([
 			'joinType' => 'LEFT',
 			'relatedTable' => 'u_yf_openstreetmap',
@@ -277,19 +278,23 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 			'baseIndex' => 'crmid',
 		]);
 		$query = $queryGenerator->getQuery();
-		$query .= sprintf(' && vtiger_crmentity.crmid IN (%s) && u_yf_openstreetmap.type = \'a\' ', generateQuestionMarks($records));
+		$query .= sprintf(' AND vtiger_crmentity.crmid IN (%s) AND u_yf_openstreetmap.type = \'a\' ', generateQuestionMarks($records));
 		$params = $records;
 		if (!empty($coordinatesCenter) && !empty($radius)) {
-			$query .= ' && u_yf_openstreetmap.lat < ? && u_yf_openstreetmap.lat > ? && u_yf_openstreetmap.lon < ? && u_yf_openstreetmap.lon > ?';
+			$query .= ' AND u_yf_openstreetmap.lat < ? AND u_yf_openstreetmap.lat > ? AND u_yf_openstreetmap.lon < ? AND u_yf_openstreetmap.lon > ?';
 			$params = array_merge($params, array_values(self::getMargins($coordinatesCenter, $radius)));
 		}
 
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery($query, $params);
+
 		$coordinates = [];
+	file_put_contents('xxx.txt', print_r($query, true));
 		while ($row = $db->getRow($result)) {
+				
 			if (!empty($row['lat'] && !empty($row['lon']))) {
 				$coordinates[] = [
+					'recordId' => $row['crmid'],
 					'lat' => $row['lat'],
 					'lon' => $row['lon'],
 					'label' => self::getLabelToPopupByArray($row, $moduleName),
@@ -323,6 +328,7 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lat');
 		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lon');
+		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
 		$queryGenerator->setCustomFrom([
 			'joinType' => 'LEFT',
 			'relatedTable' => 'u_yf_openstreetmap',
@@ -364,12 +370,45 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 		while ($row = $db->getRow($result)) {
 			if (!empty($row['lat'] && !empty($row['lon']))) {
 				$coordinates[] = [
+					'recordId' => $row['crmid'],
 					'lat' => $row['lat'],
 					'lon' => $row['lon'],
 					'label' => self::getLabelToPopupByArray($row, $moduleName),
 					'color' => self::getMarkerColor($row[$groupByFieldColumn]),
 				];
 			}
+		}
+		return $coordinates;
+	}
+
+	public static function getCachedRecords()
+	{
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+		$query = 'SELECT COUNT(*) AS `count`, module_name FROM u_yf_openstreetmap_cache WHERE user_id = ? GROUP BY module_name';
+		$result = $db->pquery($query, [$currentUser->getId()]);
+		$records = [];
+		while ($row = $db->getRow($result)) {
+			$records[$row['module_name']] = $row['count'];
+		}
+		return $records;
+	}
+
+	public static function readCoordinatesCache($modules, $groupByField, $coordinatesCenter = [], $radius = false)
+	{
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$userId = $currentUser->getId();
+		$db = PearDatabase::getInstance();
+		$coordinates = [];
+		foreach ($modules as $moduleName) {
+			$records = [];
+			$result = $db->pquery('SELECT crmids FROM u_yf_openstreetmap_cache WHERE user_id = ? AND module_name = ?', [$userId, $moduleName]);
+			while ($row = $db->getRow($result)) {
+				$records [] = $row['crmids'];
+			}
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			if (!empty($records))
+				$coordinates [$moduleName] = self::readAllCoordinates($records, $moduleModel, $groupByField, $coordinatesCenter, $radius);
 		}
 		return $coordinates;
 	}

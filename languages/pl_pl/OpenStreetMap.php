@@ -14,4 +14,6 @@ $languageStrings = [
 	'LBL_TRAVEL_TIME' => 'Czas podróży [min]',
 	'LBL_INSTRUCTION' => 'Instrukcja',
 	'LBL_SEARCH_IN_RADIUS' => 'Wyszukaj w promieniu',
+	'LBL_COPY_TO_CLIPBOARD' => 'Kopiuj do schowka',
+	'LBL_CLIPBOARD' => 'Schowek'
 ];

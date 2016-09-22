@@ -65,6 +65,29 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="panel panel-default cacheContainer">
+				<div class="panel-heading">
+					{vtranslate('LBL_CLIPBOARD', $MODULE_NAME)}
+				</div>
+				<div class="panel-body cacheContent">
+					{foreach from=$CACHE_GROUP_RECORDS key=MODULE item=COUNT_RECORDS}
+						<div class="col-xs-8">
+							<label>
+								<input type="checkbox"{if $MODULE eq $SRC_MODULE} disabled {/if} class="showRecordsFromCache" data-module="{$MODULE}">
+								&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;
+								<span class="badge countRecords{$MODULE}">{$COUNT_RECORDS}</span>
+							</label>
+						</div>
+						<div class="col-xs-4">
+							<button class="btn btn-xs btn-danger deleteClipBoard pull-right" data-module="{$MODULE}"><span class="fa fa-trash"></span></button>
+						</div>
+					{/foreach}
+					<div class="col-xs-12">
+						<button class="btn btn-success btn-sm copyToClipboard pull-right"><span class="fa fa-clipboard"></span>&nbsp;{vtranslate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
+					</div>
+				</div>
+			</div>
 			<div class="panel panel-default hide descriptionContainer">
 				<div class="panel-body descriptionContent">
 					<b>{vtranslate('LBL_DISTANCE', $MODULE_NAME)}:&nbsp</b><span class="distance"></span><br>

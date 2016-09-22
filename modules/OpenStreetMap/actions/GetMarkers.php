@@ -44,7 +44,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 			$selectedIds = $request->get('selected_ids');
 			if ($selectedIds == 'all') {
 				$data ['coordinates'] = OpenStreetMap_Module_Model::readAllCoordinatesFromCustomeView($request, $srcModuleModel, $coordinatesCenter, $radius);
-			} else {
+			} else if(!empty($selectedIds)) {
 				$records = $this->getRecordIds($request);
 				$data ['coordinates'] = OpenStreetMap_Module_Model::readAllCoordinates($records, $srcModuleModel, $request->get('groupBy'), $coordinatesCenter, $radius);
 			}
@@ -58,6 +58,9 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 				];
 			}
 			$data ['legend'] = $legend;
+		}
+		if(!$request->isEmpty('cache')){
+			$data['cache'] = OpenStreetMap_Module_Model::readCoordinatesCache($request->get('cache'), $request->get('groupBy'), $coordinatesCenter, $radius);
 		}
 		if (!empty($coordinatesCenter)) {
 			$data['coordinatesCeneter'] = $coordinatesCenter;
