@@ -732,7 +732,7 @@ class HTTP_Request
 			$this->_sock = & new Net_Socket();
 			$err = $this->_sock->connect($host, $port, null, $this->_timeout, $this->_socketOptions);
 		}
-		PEAR::isError($err) or $err = $this->_sock->write($this->_buildRequest());
+		PEAR::isError($err) || $err = $this->_sock->write($this->_buildRequest());
 
 		if (!PEAR::isError($err)) {
 			if (!empty($this->_readTimeout)) {

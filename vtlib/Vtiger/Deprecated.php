@@ -239,11 +239,9 @@ class Deprecated
 		$compiled_file = null;
 		while (false !== ($file = readdir($mydir)) && $compiled_file == null) {
 			if ($file != '.' && $file != '..' && $file != '.svn') {
-				//chmod($path.$file, 0777);
 				if (is_dir($path . $file)) {
 					chdir('.');
 					$compiled_file = self::getSmartyCompiledTemplateFile($template_file, $path . $file . '/');
-					//rmdir($path.$file) or DIE("couldn't delete $path$file<br />"); // No need to delete the directories.
 				} else {
 					// Check if the file name matches the required template fiel name
 					if (strripos($file, $template_file . '.php') == (strlen($file) - strlen($template_file . '.php'))) {

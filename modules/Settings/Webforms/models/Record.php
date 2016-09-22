@@ -187,7 +187,7 @@ class Settings_Webforms_Record_Model extends Settings_Vtiger_Record_Model
 						$hiddenStatus = $fieldData['hidden'];
 						$fieldValue = trim($fieldData['defaultvalue']);
 						$fieldType = $fieldModel->getFieldDataType();
-						if (($mandatoryStatus == 1) and ( $hiddenStatus == 1) and ( $fieldValue == "") and ( $fieldType != "boolean")) {
+						if (($mandatoryStatus == 1) && ( $hiddenStatus == 1) && ( $fieldValue == "") && ( $fieldType != "boolean")) {
 							$fieldData['hidden'] = 0;
 						}
 						if (($fieldType == 'reference') && $mode != 'showForm') {

@@ -61,7 +61,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		$scheduleid = $this->get('scheduleid');
 		$schtime = $this->get('schtime');
 		$scheduleFileType = $this->get('scheduleFileType');
-		if (!preg_match('/^[0-2]\d(:[0-5]\d){1,2}$/', $schtime) or substr($schtime, 0, 2) > 23) {  // invalid time format
+		if (!preg_match('/^[0-2]\d(:[0-5]\d){1,2}$/', $schtime) || substr($schtime, 0, 2) > 23) {  // invalid time format
 			$schtime = '00:00';
 		}
 		$schtime .=':00';
