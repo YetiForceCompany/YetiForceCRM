@@ -459,8 +459,6 @@ class QueryGenerator
 		$moduleFields = $this->getModuleFields();
 		$field = $moduleFields[$name];
 		$sql = '';
-		//TODO optimization to eliminate one more lookup of name, incase the field refers to only
-		//one module or is of type owner.
 		$column = $field->getColumnName();
 		return $field->getTableName() . '.' . $column;
 	}

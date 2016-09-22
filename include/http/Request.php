@@ -299,7 +299,6 @@ class Vtiger_Request
 	public function validateReadAccess()
 	{
 		$this->validateReferer();
-		// TODO validateIP restriction?
 		return true;
 	}
 

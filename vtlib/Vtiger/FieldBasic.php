@@ -207,11 +207,6 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 		self::log("Creating field $this->name ... DONE");
 	}
 
-	/**
-	 * Update this field instance
-	 * @access private
-	 * @internal TODO
-	 */
 	public function __update()
 	{
 		self::log("Updating Field $this->name ... DONE");

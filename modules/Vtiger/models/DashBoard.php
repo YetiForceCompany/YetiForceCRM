@@ -146,7 +146,6 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 */
 	public function getDefaultWidgets()
 	{
-		//TODO: Need to review this API is needed?
 		$moduleModel = $this->getModule();
 		$widgets = [];
 

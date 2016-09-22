@@ -188,7 +188,6 @@ class PackageUpdate extends PackageImport
 	 */
 	public function handle_Migration($modulenode, $moduleInstance)
 	{
-		// TODO Handle module migration SQL
 		$this->parse_Migration($modulenode);
 		$cur_version = $moduleInstance->version;
 		foreach ($this->_migrations as $migversion => $migrationnode) {
@@ -375,7 +374,7 @@ class PackageUpdate extends PackageImport
 		// Check related modules associated with this field
 		if (!empty($fieldnode->relatedmodules) && !empty($fieldnode->relatedmodules->relatedmodule)) {
 			$relatedmodules = [];
-			//TODO:Delete old related modules
+
 			foreach ($fieldnode->relatedmodules->relatedmodule as $relatedmodulenode) {
 				$relatedmodules[] = $relatedmodulenode;
 			}
@@ -408,7 +407,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function update_CustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance)
 	{
-		// TODO Handle filter property update
+
 		$filterInstance->delete();
 		$this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
 	}
@@ -422,7 +421,7 @@ class PackageUpdate extends PackageImport
 		if (empty($modulenode->sharingaccess))
 			return;
 
-		// TODO Handle sharing access property update
+
 	}
 
 	/**
@@ -454,7 +453,7 @@ class PackageUpdate extends PackageImport
 	public function update_Event($modulenode, $moduleInstance, $eventnode)
 	{
 		Event::register($moduleInstance, $eventnode->eventname, $eventnode->classname, $eventnode->filename);
-		// TODO Handle event property update
+
 	}
 
 	/**
@@ -476,7 +475,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function update_Action($modulenode, $moduleInstance, $actionnode)
 	{
-		// TODO Handle action property update
+
 	}
 
 	/**

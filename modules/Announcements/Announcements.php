@@ -85,15 +85,15 @@ class Announcements extends Vtiger_CRMEntity
 		if ($eventType == 'module.postinstall') {
 			\includes\fields\RecordNumber::setNumber($moduleName, 'NO', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Announcements'));
-			// TODO Handle actions after this module is installed.
+
 		} else if ($eventType == 'module.disabled') {
-			// TODO Handle actions before this module is being uninstalled.
+
 		} else if ($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
-			// TODO Handle actions after this module is updated.
+
 		}
 	}
 }

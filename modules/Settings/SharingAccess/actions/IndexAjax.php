@@ -45,7 +45,6 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 		}
 
-		//TODO adddetail to source and target
 		$prevValues['permission'] = $ruleModel->getPermission();
 		$newValues['permission'] = $request->get('permission');
 

@@ -263,14 +263,6 @@ class HTTP_Session
 		return $GLOBALS['HTTP_Session_Container']->replicate($targetTable, $id);
 	}
 
-	/**
-	 * Free all session variables
-	 *
-	 * @todo   TODO Save expire and idle timestamps?
-	 * @static
-	 * @access public
-	 * @return void
-	 */
 	public static function clear()
 	{
 		$info = $_SESSION['__HTTP_Session_Info'];

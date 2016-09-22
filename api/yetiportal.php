@@ -1739,55 +1739,6 @@ function updateDownloadCount($id)
 	return true;
 }
 
-/** 	function used to get the Invoice pdf
- * 	@param int $id - id -id
- * 	return string $output - pd link value
- */
-//function get_pdf($id, $block, $customerid, $sessionid)
-//{
-//	$adb = PearDatabase::getInstance();
-//	$log = LoggerManager::getInstance();
-//	global $currentModule, $mod_strings, $app_strings, $app_list_strings;
-//	$log->debug("Entering customer portal function get_pdf");
-//	$isPermitted = check_permission($customerid, $block, $id);
-//	if ($isPermitted == false) {
-//		return array("#NOT AUTHORIZED#");
-//	}
-//
-//	if (!validateSession($customerid, $sessionid))
-//		return null;
-//
-//	require_once("config/config.php");
-//	$current_user = Users::getActiveAdminUser();
-//
-//	$currentModule = $block;
-//	$current_language = vglobal('current_language');
-//	$app_strings = return_application_language($current_language);
-//	$app_list_strings = return_app_list_strings_language($current_language);
-//	$mod_strings = return_module_language($current_language, $currentModule);
-//
-//	$_REQUEST['record'] = $id;
-//	$_REQUEST['savemode'] = 'file';
-//	$sequenceNo = getModuleSequenceNumber($block, $id);
-//	$filenamewithpath = 'storage/Products/' . $id . '_' . $block . '_' . $sequenceNo . '.pdf';
-//	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0))
-//		unlink($filenamewithpath);
-//
-//	checkFileAccessForInclusion("modules/$block/CreatePDF.php");
-//	include("modules/$block/CreatePDF.php");
-//
-//	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0)) {
-//		//we have to pass the file content
-//		$filecontents[] = base64_encode(file_get_contents($filenamewithpath));
-//		unlink($filenamewithpath);
-//		// TODO: Delete the file to avoid public access.
-//	} else {
-//		$filecontents = "failure";
-//	}
-//	$log->debug("Exiting customer portal function get_pdf");
-//	return $filecontents;
-//}
-
 function get_inventory_products($id, $module, $customerid, $sessionid)
 {
 	require_once('include/utils/UserInfoUtil.php');

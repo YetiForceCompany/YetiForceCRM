@@ -10,9 +10,6 @@
  * ********************************************************************************** */
 namespace vtlib;
 
-/**
- * TODO need to organize into classes based on functional grouping.
- */
 class Functions
 {
 

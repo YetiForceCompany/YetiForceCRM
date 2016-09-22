@@ -112,7 +112,6 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 				// The case in which query generator is failing to generate right query is,
 				// Assigned User field is not there either in the selected fields list or in the conditions
 				// and condition is added on the User reference field
-				// TODO - Cleanup this once Query Generator support is corrected
 				if ($fieldInstance->getFieldDataType() == 'reference') {
 					$referencedModules = $fieldInstance->getReferenceList();
 					if ($referencedModules[0] == 'Users') {

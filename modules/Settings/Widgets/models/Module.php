@@ -237,7 +237,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getHeaderSwitch($index = [])
 	{
-		// type: 1-field, TODO 2-label
 		$data = [
 			\includes\Modules::getModuleId('SSalesProcesses') => [ 0 =>
 				[

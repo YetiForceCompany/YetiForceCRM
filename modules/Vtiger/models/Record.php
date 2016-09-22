@@ -315,7 +315,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getCleanInstance($moduleName)
 	{
-		//TODO: Handle permissions
 		$focus = CRMEntity::getInstance($moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
@@ -330,7 +329,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		//TODO: Handle permissions
 		if (is_object($module) && is_a($module, 'Vtiger_Module_Model')) {
 			$moduleName = $module->get('name');
 		} elseif (is_string($module)) {
@@ -627,7 +625,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$sourceInv = $parentRecordModel->getInventoryData();
 			}
 			foreach ($mfInstance->getMapping() as $mapp) {
-				// TODO Validation that specifies whether a value is included in the list of values for a given module field should be added
 				if ($mapp['type'] == 'SELF' && is_object($mapp['target'])) {
 					$referenceList = $mapp['target']->getReferenceList();
 					if (in_array($parentRecordModel->getModuleName(), $referenceList)) {

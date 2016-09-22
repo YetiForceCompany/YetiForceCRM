@@ -94,11 +94,6 @@ class Filter
 		self::log("Creating Filter $this->name ... DONE");
 	}
 
-	/**
-	 * Update this instance
-	 * @access private
-	 * @internal TODO
-	 */
 	public function __update()
 	{
 		self::log("Updating Filter $this->name ... DONE");

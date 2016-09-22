@@ -312,7 +312,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		if ($onlyActive) {
 			$query .= ' && vtiger_tab.presence <> 1 ';
 		}
-		$query .= ' ORDER BY sequence'; // TODO: Need to handle entries that has related_tabid 0
+		$query .= ' ORDER BY sequence'; 
 
 		$result = $db->pquery($query, array($parentModuleModel->getId()));
 

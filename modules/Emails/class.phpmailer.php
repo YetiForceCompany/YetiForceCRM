@@ -1703,7 +1703,7 @@ class PHPMailer
 					throw new phpmailerException($this->Lang('signing') . ' OpenSSL extension missing.');
 				}
 				$file = tempnam(sys_get_temp_dir(), 'mail');
-				file_put_contents($file, $body); //TODO check this worked
+				file_put_contents($file, $body);
 				$signed = tempnam(sys_get_temp_dir(), 'signed');
 				if (@openssl_pkcs7_sign($file, $signed, 'file://' . realpath($this->sign_cert_file), array('file://' . realpath($this->sign_key_file), $this->sign_key_pass), null)) {
 					@unlink($file);

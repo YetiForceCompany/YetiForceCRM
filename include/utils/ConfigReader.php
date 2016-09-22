@@ -15,9 +15,6 @@ class ConfigReader
 	protected $name;
 	static $propertiesCache = [];
 
-	//TODO - Instead of path to file, we may have to support sending the array/map directly
-	// which might be fetched from database or some other source. In that case, we will check
-	// for the type of $source/$path and act accordingly.
 	public function __construct($path, $name, $force = false)
 	{
 		$this->load($path, $name, $force);

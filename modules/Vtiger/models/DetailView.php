@@ -268,7 +268,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$relationModels = $parentModuleModel->getRelations();
 
 		foreach ($relationModels as $relation) {
-			//TODO : Way to get limited information than getting all the information
 			$link = array(
 				'linktype' => 'DETAILVIEWRELATED',
 				'linklabel' => $relation->get('label'),

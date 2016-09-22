@@ -179,7 +179,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDirectlyRelatedProfileId()
 	{
-		//TODO : see if you need cache the result
 		$roleId = $this->getId();
 		if (empty($roleId)) {
 			return false;

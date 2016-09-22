@@ -369,11 +369,11 @@ class SMSNotifierBase extends CRMEntity
 		} else if ($event_type == 'module.enabled') {
 			$registerLinks = true;
 		} else if ($event_type == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($event_type == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($event_type == 'module.postupdate') {
-			// TODO Handle actions after this module is updated.
+
 		}
 
 		if ($unregisterLinks) {

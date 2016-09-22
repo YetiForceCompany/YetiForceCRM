@@ -98,11 +98,6 @@ class Block
 		self::log("Module language entry for $this->label ... CHECK");
 	}
 
-	/**
-	 * Update vtiger CRM block
-	 * @access private
-	 * @internal TODO
-	 */
 	public function __update()
 	{
 		self::log("Updating Block $this->label ... DONE");

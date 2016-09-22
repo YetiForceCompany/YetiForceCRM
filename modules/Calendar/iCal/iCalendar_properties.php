@@ -154,7 +154,6 @@ class iCalendar_property
 		// Special case: if we just changed the VALUE parameter, reflect this
 		// in the object's status so that it only accepts correct type values
 		if ($name == 'VALUE') {
-			// TODO: what if this invalidates an already-set value?
 			$this->val_type = constant('RFC2445_TYPE_' . str_replace('-', '_', $value));
 		}
 
@@ -712,7 +711,6 @@ class iCalendar_property_dtstart extends iCalendar_property
 		);
 	}
 
-	// TODO: unimplemented stuff when parent is a VTIMEZONE component
 
 	public function is_valid_value($value)
 	{
@@ -799,7 +797,6 @@ class iCalendar_property_freebusy extends iCalendar_property
 
 		return true;
 	}
-	// TODO: these properties SHOULD be shorted in ascending order (by start time and end time as tiebreak)
 }
 
 class iCalendar_property_transp extends iCalendar_property
@@ -822,18 +819,11 @@ class iCalendar_property_transp extends iCalendar_property
 	}
 }
 
-// TODO: 4.8.3 timezone component properties
-// 4.8.4 Relationship Component Properties
-// ---------------------------------------
-
 class iCalendar_property_attendee extends iCalendar_property
 {
 
 	var $name = 'ATTENDEE';
 	var $val_type = RFC2445_TYPE_CAL_ADDRESS;
-
-	// TODO: MUST NOT be specified when the calendar object has METHOD=PUBLISH
-	// TODO: standard has lots of detail here, make triple sure that we eventually conform
 
 	public function construct()
 	{
@@ -903,32 +893,10 @@ class iCalendar_property_organizer extends iCalendar_property
 			RFC2445_XNAME => RFC2445_OPTIONAL
 		);
 	}
-	// TODO:
-	/*
-	  Conformance: This property MUST be specified in an iCalendar object
-	  that specifies a group scheduled calendar entity. This property MUST
-	  be specified in an iCalendar object that specifies the publication of
-	  a calendar user's busy time. This property MUST NOT be specified in
-	  an iCalendar object that specifies only a time zone definition or
-	  that defines calendar entities that are not group scheduled entities,
-	  but are entities only on a single user's calendar.
-	 */
 }
 
 class iCalendar_property_recurrence_id extends iCalendar_property
 {
-
-	// TODO: can only be specified when defining recurring components in the calendar
-	/*
-	  Conformance: This property can be specified in an iCalendar object
-	  containing a recurring calendar component.
-
-	  Description: The full range of calendar components specified by a
-	  recurrence set is referenced by referring to just the "UID" property
-	  value corresponding to the calendar component. The "RECURRENCE-ID"
-	  property allows the reference to an individual instance within the
-	  recurrence set.
-	 */
 
 	var $name = 'RECURRENCE-ID';
 	var $val_type = RFC2445_TYPE_DATE_TIME;
@@ -964,8 +932,6 @@ class iCalendar_property_related_to extends iCalendar_property
 
 	var $name = 'RELATED-TO';
 	var $val_type = RFC2445_TYPE_TEXT;
-
-	// TODO: the value of this property must reference another component's UID
 
 	public function construct()
 	{
@@ -1103,10 +1069,6 @@ class iCalendar_property_rrule extends iCalendar_property
 		);
 	}
 }
-
-// TODO: 4.8.6 Alarm Component Properties
-// 4.8.7 Change Management Component Properties
-// --------------------------------------------
 
 class iCalendar_property_created extends iCalendar_property
 {

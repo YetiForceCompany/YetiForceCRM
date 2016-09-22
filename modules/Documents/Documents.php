@@ -333,7 +333,6 @@ class Documents extends CRMEntity
 		if (!$queryplanner->requireTable('vtiger_notes', $matrix)) {
 			return '';
 		}
-		// TODO Support query planner
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_notes", "notesid", $queryplanner);
 		$query .= " left join vtiger_notescf on vtiger_notes.notesid = vtiger_notescf.notesid";
 		if ($queryplanner->requireTable("vtiger_crmentityDocuments", $matrix)) {

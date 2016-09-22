@@ -114,14 +114,11 @@ class SessionManager
 
 	public function set($var_name, $var_value)
 	{
-		//TODO test setRef and getRef combination
-		//echo "<br>setting name: ",$var_name," :value: ",$var_value;
 		HTTP_Session::set($var_name, $var_value);
 	}
 
 	public function get($name)
 	{
-		//echo "<br> getting for: ",$name," :value: ",HTTP_Session::get($name);
 		return HTTP_Session::get($name);
 	}
 

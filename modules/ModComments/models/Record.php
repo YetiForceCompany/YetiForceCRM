@@ -19,7 +19,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getId()
 	{
-		//TODO : check why is modcommentsid is not set
+
 		$id = $this->get('modcommentsid');
 		if (empty($id)) {
 			return $this->get('id');

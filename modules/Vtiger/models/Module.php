@@ -1068,7 +1068,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$this->isCommentEnabled()) {
 			return $comments;
 		}
-		//TODO: need to handle security and performance
 		$db = PearDatabase::getInstance();
 		$instance = CRMEntity::getInstance('ModComments');
 		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('ModComments');
@@ -1100,7 +1099,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (empty($type)) {
 			$type = 'all';
 		}
-		//TODO: need to handle security
 		$comments = [];
 		if ($type == 'all' || $type == 'comments') {
 			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');

@@ -73,8 +73,6 @@ class Vtiger_Viewer extends SmartyBC
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS
 		// We need to use {$variable nofilter} to overcome double escaping
-		// TODO: Until we review the use disabled.
-		// FOR DEBUGGING: We need to have this only once.
 		static $debugViewerURI = false;
 		if (self::$debugViewer && $debugViewerURI === false) {
 			$debugViewerURI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

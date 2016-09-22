@@ -213,8 +213,6 @@ class Vtiger_DependencyPicklist
 			return true;
 		}
 
-		//TODO - Add required check for cyclic dependency
-
 		return false;
 	}
 

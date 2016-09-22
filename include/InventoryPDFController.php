@@ -224,7 +224,7 @@ class Vtiger_InventoryPDFController
 		//obtain the Currency Symbol
 		$currencySymbol = $this->buildCurrencySymbol();
 
-		$summaryModel->set(\includes\Language::translate("Grand Total:", $this->moduleName) . "(in $currencySymbol)", $this->formatPrice($final_details['grandTotal'])); // TODO add currency string
+		$summaryModel->set(\includes\Language::translate("Grand Total:", $this->moduleName) . "(in $currencySymbol)", $this->formatPrice($final_details['grandTotal']));
 
 		return $summaryModel;
 	}

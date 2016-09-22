@@ -108,13 +108,13 @@ class OSSTimeControl extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('OSSTimeControl'));
 			}
 		} else if ($event_type == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
+
 		} else if ($event_type == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
+
 		} else if ($event_type == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($event_type == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($event_type == 'module.postupdate') {
 			
 		}
@@ -143,7 +143,6 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	// TODO This function was placed here because uitype fields (67, 68, 69) exist in this module. Once the way of getting modules for these fields is improved, you should correct the parent::unlinkRelationship() function, and remove this one.
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $currentModule;

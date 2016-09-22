@@ -71,7 +71,6 @@ class WSAPPAssignToTracker extends VTEventHandler
 
 	public function getWsModuleName($workFlowModuleName)
 	{
-		//TODO: Handle getting the webservice modulename in a better way
 		$wsModuleName = $workFlowModuleName;
 		if ($workFlowModuleName == "Activity")
 			$wsModuleName = "Calendar";

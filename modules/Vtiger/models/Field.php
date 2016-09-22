@@ -938,7 +938,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Function returns Client Side Validators name
 	 * @return <Array> [name=>Name of the Validator, params=>Extra Parameters]
 	 */
-	/*	 * TODO: field validator need to be handled in specific module getValidator api  * */
 	public function getValidator()
 	{
 		$validator = [];

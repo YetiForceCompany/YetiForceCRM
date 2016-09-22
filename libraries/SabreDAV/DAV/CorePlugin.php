@@ -90,10 +90,6 @@ class CorePlugin extends ServerPlugin {
             $body = $stream;
         }
 
-        /*
-         * TODO: getetag, getlastmodified, getsize should also be used using
-         * this method
-         */
         $httpHeaders = $this->server->getHTTPHeaders($path);
 
         /* ContentType needs to get a default, because many webservers will otherwise

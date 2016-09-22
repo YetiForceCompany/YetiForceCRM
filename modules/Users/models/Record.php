@@ -162,7 +162,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public static function getCurrentUserModel()
 	{
-		//TODO : Remove the global dependency
 		$currentUser = vglobal('current_user');
 		if (!empty($currentUser)) {
 

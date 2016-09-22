@@ -131,7 +131,6 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 		vimport('~include/utils/utils.php');
 
 		if ($this->isProductTax()) {
-			// TODO Review: if field addition is required in shipping-tax case too.
 
 			$inventoryModules = getInventoryModules();
 			foreach ($inventoryModules as $moduleName) {

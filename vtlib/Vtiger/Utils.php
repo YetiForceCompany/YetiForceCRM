@@ -176,7 +176,7 @@ class Utils
 				if ($adb->isMySQL()) {
 					$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
 				} else {
-					// TODO Handle other database types.
+
 				}
 			}
 			$sql .= $suffixTableMeta;

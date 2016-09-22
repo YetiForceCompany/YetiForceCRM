@@ -14,7 +14,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	public function updateProgressMilestone($id)
 	{
 		$adb = PearDatabase::getInstance();
-		//TODO need to handle security
+
 		if (!isRecordExists($id)) {
 			return;
 		}

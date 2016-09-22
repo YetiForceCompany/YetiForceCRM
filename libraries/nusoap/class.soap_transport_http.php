@@ -175,19 +175,7 @@ class soap_transport_http extends nusoap_base {
 	* @access   private
 	*/
 	public function connect($connection_timeout=0,$response_timeout=30){
-	  	// For PHP 4.3 with OpenSSL, change https scheme to ssl, then treat like
-	  	// "regular" socket.
-	  	// TODO: disabled for now because OpenSSL must be *compiled* in (not just
-	  	//       loaded), and until PHP5 stream_get_wrappers is not available.
-//	  	if ($this->scheme == 'https') {
-//		  	if (version_compare(phpversion(), '4.3.0') >= 0) {
-//		  		if (extension_loaded('openssl')) {
-//		  			$this->scheme = 'ssl';
-//		  			$this->debug('Using SSL over OpenSSL');
-//		  		}
-//		  	}
-//		}
-		$this->debug("connect connection_timeout $connection_timeout, response_timeout $response_timeout, scheme $this->scheme, host $this->host, port $this->port");
+	  $this->debug("connect connection_timeout $connection_timeout, response_timeout $response_timeout, scheme $this->scheme, host $this->host, port $this->port");
 	  if ($this->io_method() == 'socket') {
 		if (!is_array($this->proxy)) {
 			$host = $this->host;
@@ -847,7 +835,6 @@ class soap_transport_http extends nusoap_base {
 				$header_name = strtolower(trim($arr[0]));
 				$this->incoming_headers[$header_name] = trim($arr[1]);
 				if ($header_name == 'set-cookie') {
-					// TODO: allow multiple cookies from parseCookie
 					$cookie = $this->parseCookie(trim($arr[1]));
 					if ($cookie) {
 						$this->incoming_cookies[] = $cookie;
@@ -963,7 +950,6 @@ class soap_transport_http extends nusoap_base {
         $cErr = curl_error($this->ch);
 		if ($cErr != '') {
         	$err = 'cURL ERROR: '.curl_errno($this->ch).': '.$cErr.'<br>';
-        	// TODO: there is a PHP bug that can cause this to SEGV for CURLINFO_CONTENT_TYPE
 			foreach(curl_getinfo($this->ch) as $k => $v){
 				$err .= "$k: $v<br>";
 			}
@@ -1025,7 +1011,6 @@ class soap_transport_http extends nusoap_base {
 				$header_name = strtolower(trim($arr[0]));
 				$this->incoming_headers[$header_name] = trim($arr[1]);
 				if ($header_name == 'set-cookie') {
-					// TODO: allow multiple cookies from parseCookie
 					$cookie = $this->parseCookie(trim($arr[1]));
 					if ($cookie) {
 						$this->incoming_cookies[] = $cookie;
@@ -1191,9 +1176,7 @@ class soap_transport_http extends nusoap_base {
 	 * @return	array with data of that cookie
 	 * @access	private
 	 */
-	/*
-	 * TODO: allow a Set-Cookie string to be parsed into multiple cookies
-	 */
+
 	public function parseCookie($cookie_str) {
 		$cookie_str = str_replace('; ', ';', $cookie_str) . ';';
 		$data = preg_split('/;/', $cookie_str);

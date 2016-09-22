@@ -169,8 +169,6 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 			$secondaryModules = explode(':', $secondaryModules);
 		}
 
-		//TODO : We need to remove "update_log" field from "HelpDesk" module in New Look
-		// after removing old look we need to remove this field from crm
 		$primaryModuleFields = $reportModel->getPrimaryModuleFields();
 		$secondaryModuleFields = $reportModel->getSecondaryModuleFields();
 		if ($primaryModule == 'HelpDesk') {
@@ -261,8 +259,6 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$primaryModuleRecordStructure = $recordStructureInstance->getPrimaryModuleRecordStructure();
 		$secondaryModuleRecordStructures = $recordStructureInstance->getSecondaryModuleRecordStructure();
 
-		//TODO : We need to remove "update_log" field from "HelpDesk" module in New Look
-		// after removing old look we need to remove this field from crm
 		if ($primaryModule == 'HelpDesk') {
 			foreach ($primaryModuleRecordStructure as $blockLabel => $blockFields) {
 				foreach ($blockFields as $field => $object) {

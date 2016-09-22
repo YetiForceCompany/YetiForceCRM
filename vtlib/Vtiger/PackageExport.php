@@ -651,11 +651,6 @@ class PackageExport
 		$this->closeNode('events');
 	}
 
-	/**
-	 * Export actions (tools) associated with module.
-	 * TODO: Need to pickup values based on status for all user (profile)
-	 * @access private
-	 */
 	public function export_Actions($moduleInstance)
 	{
 

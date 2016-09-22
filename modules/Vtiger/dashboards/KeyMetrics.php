@@ -22,7 +22,6 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 
-		// TODO move this to models
 		$keyMetrics = $this->getKeyMetricsWithCount();
 
 		$viewer->assign('WIDGET', $widget);

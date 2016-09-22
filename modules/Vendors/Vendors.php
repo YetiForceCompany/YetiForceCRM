@@ -372,7 +372,6 @@ class Vendors extends CRMEntity
 			return '';
 		}
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_vendor", "vendorid", $queryplanner);
-		// TODO Support query planner
 		if ($queryplanner->requireTable("vtiger_crmentityVendors", $matrix)) {
 			$query .=" left join vtiger_crmentity as vtiger_crmentityVendors on vtiger_crmentityVendors.crmid=vtiger_vendor.vendorid and vtiger_crmentityVendors.deleted=0";
 		}

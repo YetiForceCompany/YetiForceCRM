@@ -216,7 +216,7 @@ function __vtlib_get_modulevar_value($module, $varname)
 				'vtiger_accountaddress' => Array('accountaddressid', 'vtiger_account', 'accountid'),
 				'vtiger_accountscf' => Array('accountid', 'vtiger_account', 'accountid'),
 			),
-			'popup_fields' => Array('accountname'), // TODO: Add this initialization to all the standard module
+			'popup_fields' => Array('accountname'),
 		),
 		'Contacts' =>
 		Array(

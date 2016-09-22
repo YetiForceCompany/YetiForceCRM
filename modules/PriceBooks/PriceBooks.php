@@ -281,7 +281,7 @@ class PriceBooks extends CRMEntity
 		}
 
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_pricebook", "pricebookid", $queryplanner);
-		// TODO Support query planner
+
 		if ($queryplanner->requireTable("vtiger_crmentityPriceBooks", $matrix)) {
 			$query .=" left join vtiger_crmentity as vtiger_crmentityPriceBooks on vtiger_crmentityPriceBooks.crmid=vtiger_pricebook.pricebookid and vtiger_crmentityPriceBooks.deleted=0";
 		}

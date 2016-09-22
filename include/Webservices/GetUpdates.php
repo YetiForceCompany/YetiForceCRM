@@ -240,7 +240,6 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 
 function vtws_getSeconds($mtimeString)
 {
-	//TODO handle timezone and change time to gmt.
 	return strtotime($mtimeString);
 }
 

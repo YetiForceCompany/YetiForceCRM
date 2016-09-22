@@ -324,24 +324,21 @@ class OSSPasswords extends CRMEntity
 		if ($eventType == 'module.postinstall') {
 			
 		} else if ($eventType == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
 			$registerLink = false;
 			$em = new VTEventsManager($adb);
 			$em->setHandlerInActive($handlerClass);
 		} else if ($eventType == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
 			$registerLink = true;
 			$em = new VTEventsManager($adb);
 			$em->setHandlerActive($handlerClass);
 		} else if ($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
 			$this->log->debug('Before starting uninstall script...');
 			require_once( 'modules/Settings/' . $moduleName . '/views/uninstall.php' );
 			$this->log->debug('After uninstall script.');
 
 			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 		} else if ($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
 			
 		}

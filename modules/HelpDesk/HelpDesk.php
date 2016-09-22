@@ -389,7 +389,6 @@ class HelpDesk extends CRMEntity
 		if (!$queryplanner->requireTable('vtiger_troubletickets', $matrix)) {
 			return '';
 		}
-		// TODO Support query planner
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_troubletickets", "ticketid", $queryplanner);
 
 		if ($queryplanner->requireTable("vtiger_crmentityHelpDesk", $matrix)) {

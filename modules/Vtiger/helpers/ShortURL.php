@@ -38,7 +38,6 @@ class Vtiger_ShortURL_Helper
 	{
 		$db = PearDatabase::getInstance();
 
-		// TODO Review the random unique ID generation
 		$uid = uniqid("", true);
 
 		$handlerPath = $options['handler_path'];

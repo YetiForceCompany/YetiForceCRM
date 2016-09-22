@@ -358,7 +358,6 @@ function updateInventoryProductRel($entity)
 	$log->debug("Exit from function updateInventoryProductRel(" . $entity_id . ")");
 }
 
-// TODO Remove when there are no modules with the old products block.
 /** 	function used to get the tax type for the entity (PO or Invoice)
  * 	@param string $module - module name
  * 	@param int $id - id of the PO or Invoice

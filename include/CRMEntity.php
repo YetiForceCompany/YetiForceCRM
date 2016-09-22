@@ -462,9 +462,6 @@ class CRMEntity
 			$params = array($tabid, $table_name);
 		}
 
-		// Attempt to re-use the quer-result to avoid reading for every save operation
-		// TODO Need careful analysis on impact ... MEMORY requirement might be more
-
 		$cachekey = "{$insertion_mode}-" . implode(',', $params);
 		$insertField = Vtiger_Cache::get('getInsertField', $cachekey);
 		if ($insertField === false) {
@@ -1398,9 +1395,6 @@ class CRMEntity
 		$returninfo = [];
 
 		if ($fieldinfo && $adb->num_rows($fieldinfo)) {
-			// TODO: We assume the following for module sequencing field
-			// 1. There will be only field per module
-			// 2. This field is linked to module base table column
 			$fld_table = $adb->query_result($fieldinfo, 0, 'tablename');
 			$fld_column = $adb->query_result($fieldinfo, 0, 'columnname');
 
@@ -2010,7 +2004,6 @@ class CRMEntity
 			$query .= " left join vtiger_users as vtiger_createdby" . $module . " on vtiger_createdby" . $module . ".id = vtiger_crmentity.smcreatorid";
 		}
 
-		// TODO Optimize the tables below based on requirement
 		$query .= "	left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
 		$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
 

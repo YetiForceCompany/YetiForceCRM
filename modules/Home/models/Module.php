@@ -285,7 +285,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if (empty($type)) {
 			$type = 'all';
 		}
-		//TODO: need to handle security
 		$comments = array();
 		if ($type == 'all' || $type == 'comments') {
 			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');

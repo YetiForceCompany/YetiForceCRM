@@ -88,7 +88,6 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 			'.productTable .width25 {width:25%}' .
 			'.productTable .width15 {width:15%}' .
 			'</style>';
-		// TODO: Add translation 
 		if ($storageSubjectList != '') {
 			$html .= '<div style="width:50%;float:right;">';
 			$html .= '<table style="width:100%;border-collapse:collapse;font-size:10px;padding:5px;">';

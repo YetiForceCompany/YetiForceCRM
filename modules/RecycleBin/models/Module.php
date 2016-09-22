@@ -157,7 +157,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 
 		// Delete entries of attachments from vtiger_attachments and vtiger_seattachmentsrel
 		$this->deleteFiles($recordIds);
-		// TODO - Remove records from module tables and other related stores.
+
 	}
 	/*	 * Function to delete files from CRM.
 	 * @param type $recordIds

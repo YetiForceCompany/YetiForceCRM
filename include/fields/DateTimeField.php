@@ -317,10 +317,7 @@ class DateTimeField
 	{
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($time, $sourceTimeZoneName, $targetTimeZoneName)");
-		// TODO Caching is causing problem in getting the right date time format in Calendar module.
-		// Need to figure out the root cause for the problem. Till then, disabling caching.
-		//if(empty(self::$cache[$time][$targetTimeZoneName])) {
-		// create datetime object for given time in source timezone
+
 		$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
 		if ($time == '24:00')
 			$time = '00:00';

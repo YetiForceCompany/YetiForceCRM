@@ -248,7 +248,6 @@ function csrf_get_tokens() {
     // the cookies "stick"
     $secret = csrf_get_secret();
     if (!$has_cookies && $secret) {
-        // :TODO: Harden this against proxy-spoofing attacks
         $ip = ';ip:' . csrf_hash($_SERVER['IP_ADDRESS']);
     } else {
         $ip = '';

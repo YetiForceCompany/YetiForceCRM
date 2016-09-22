@@ -91,7 +91,6 @@ class Vtiger_Loader
 		$path = realpath(self::resolveNameToPath($qualifiedName));
 		self::$includePathCache[$qualifiedName] = $path;
 
-		// TODO Check if resolvedPath is already part of include path.
 		set_include_path($path . PATH_SEPARATOR . get_include_path());
 		return true;
 	}

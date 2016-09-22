@@ -485,7 +485,6 @@ function getMailErrorString($mail_status_str)
  */
 function parseEmailErrorString($mail_error_str)
 {
-	//TODO -- we can modify this function for better email error handling in future
 	$log = LoggerManager::getInstance();
 	$log->debug('Inside the parseEmailErrorString function.\n encoded mail error string ==> ' . $mail_error_str);
 

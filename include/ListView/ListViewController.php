@@ -95,7 +95,6 @@ class ListViewController
 				if ($module == 'Users') {
 					$nameList = \includes\fields\Owner::getLabel($idList);
 				} else {
-					//TODO handle multiple module names overriding each other.
 					$nameList = getEntityName($module, $idList);
 				}
 			} else {

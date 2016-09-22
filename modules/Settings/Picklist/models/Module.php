@@ -313,7 +313,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getInstance($value)
 	{
-		//TODO : add caching
 		$instance = false;
 		$moduleObject = parent::getInstance($value);
 		if ($moduleObject) {

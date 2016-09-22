@@ -14,7 +14,6 @@
  * ****************************************************************************** */
 /* * *******************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Contacts/Contacts.php,v 1.70 2005/04/27 11:21:49 rank Exp $
- * Description:  TODO: To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
@@ -176,8 +175,6 @@ class Contacts extends CRMEntity
 						$contact[$columnName] = "";
 					}
 				}
-// TODO OPTIMIZE THE QUERY ACCOUNT NAME && ID are set separetly for every vtiger_contactdetails and hence
-// vtiger_account query goes for ecery single vtiger_account row
 
 				$list[] = $contact;
 			}

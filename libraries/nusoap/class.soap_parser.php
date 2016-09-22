@@ -414,9 +414,6 @@ class nusoap_parser extends nusoap_base {
 	public function character_data($parser, $data){
 		$pos = $this->depth_array[$this->depth];
 		if ($this->xml_encoding=='UTF-8'){
-			// TODO: add an option to disable this for folks who want
-			// raw UTF-8 that, e.g., might not map to iso-8859-1
-			// TODO: this can also be handled with xml_parser_set_option($this->parser, XML_OPTION_TARGET_ENCODING, "ISO-8859-1");
 			if($this->decode_utf8){
 				$data = utf8_decode($data);
 			}
@@ -481,7 +478,6 @@ class nusoap_parser extends nusoap_base {
 	* @access   private
 	*/
 	public function decodeSimple($value, $type, $typens) {
-		// TODO: use the namespace!
 		if ((!isset($type)) || $type == 'string' || $type == 'long' || $type == 'unsignedLong') {
 			return (string) $value;
 		}

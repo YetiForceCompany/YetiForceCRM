@@ -59,7 +59,7 @@ function vtws_history($element, $user)
 		$params[] = $user->getId();
 	} else if ($mode == 'All') {
 		if ($acrossAllModule) {
-			// TODO collate only active (or enabled) modules for tracking.
+			
 		} else if ($moduleName) {
 			$sql .= ' WHERE vtiger_modtracker_basic.module = ?';
 			$params[] = $moduleName;

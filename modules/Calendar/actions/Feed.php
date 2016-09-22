@@ -58,7 +58,6 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 			$userAndGroupIds = array_merge(array($userwsid), $groupWsIds);
 			$query .= " && assigned_user_id IN ('" . implode("','", $userAndGroupIds) . "')";
 		}
-		// TODO take care of pulling 100+ records
 		return vtws_query($query . ';', $user);
 	}
 }

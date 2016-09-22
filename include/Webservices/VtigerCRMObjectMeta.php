@@ -98,14 +98,10 @@ class VtigerCRMObjectMeta extends EntityMeta
 			$this->hasWriteAccess = true;
 			$this->hasDeleteAccess = true;
 		} else {
-			//TODO get oer sort out the preference among profile2tab and profile2globalpermissions.
-			//TODO check whether create/edit seperate controls required for web sevices?
 			$profileList = getCurrentUserProfileList();
 
 			$sql = sprintf('SELECT globalactionpermission,globalactionid FROM vtiger_profile2globalpermissions WHERE profileid IN (%s)', generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList));
-			//globalactionid=1 is view all action.
-			//globalactionid=2 is edit all action.
 			while ($row = $adb->getRow($result)) {
 				$permission = $row['globalactionpermission'];
 				$globalactionid = $row['globalactionid'];
@@ -131,10 +127,6 @@ class VtigerCRMObjectMeta extends EntityMeta
 				$this->hasAccess = true;
 			}
 
-			//operation=2 is delete operation.
-			//operation=0 or 1 is create/edit operation. precise 0 create and 1 edit.
-			//operation=3 index or popup. //ignored for websevices.
-			//operation=4 is view operation.
 			$sql = sprintf("select * from vtiger_profile2standardpermissions where profileid in (%s) and tabid=?", generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList, $this->getTabId()));
 			while ($row = $adb->getRow($result)) {

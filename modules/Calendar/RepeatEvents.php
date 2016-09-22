@@ -120,7 +120,7 @@ class Calendar_RepeatEvents
 			}
 		} else if ($type == 'Monthly') {
 			$count = 0;
-			$avg_monthcount = 30; // TODO: We need to handle month increments precisely!
+			$avg_monthcount = 30;
 			while (true) {
 				++$count;
 				$interval = $count * $avg_monthcount;

@@ -9,9 +9,6 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-//Overrides GetRelatedList : used to get related query
-//TODO : Eliminate below hacking solution
-
 $startTime = microtime(true);
 
 define('REQUEST_MODE', 'WebUI');

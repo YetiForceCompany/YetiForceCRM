@@ -161,10 +161,7 @@ class ReportRunQueryPlanner
 				}
 			}
 
-			// Nothing found?
 			if ($uniqueName === NULL) {
-				// TODO Adding randomness in name to avoid concurrency
-				// even when same-user opens the report multiple instances at same-time.
 				$uniqueName = $this->tempTablePrefix .
 					str_replace('.', '', uniqid($current_user->id, true)) . (self::$tempTableCounter++);
 
@@ -1993,7 +1990,6 @@ class ReportRun extends CRMEntity
 				$query .= " left join vtiger_users as vtiger_usersHelpDesk on vtiger_crmentity.smownerid=vtiger_usersHelpDesk.id";
 			}
 
-			// TODO optimize inclusion of these tables
 			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
 			$query .= " left join vtiger_users on vtiger_crmentity.smownerid=vtiger_users.id";
 
@@ -2028,7 +2024,6 @@ class ReportRun extends CRMEntity
 				$query .= " left join vtiger_users as vtiger_usersCalendar on vtiger_usersCalendar.id = vtiger_crmentity.smownerid";
 			}
 
-			// TODO optimize inclusion of these tables
 			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
 			$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
 
@@ -2078,7 +2073,6 @@ class ReportRun extends CRMEntity
 				$query .= " left join vtiger_users as vtiger_usersCampaigns on vtiger_usersCampaigns.id = vtiger_crmentity.smownerid";
 			}
 
-			// TODO optimize inclusion of these tables
 			$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
 			$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
 
@@ -2108,7 +2102,6 @@ class ReportRun extends CRMEntity
 				$query .= " LEFT JOIN vtiger_users AS vtiger_usersEmails ON vtiger_usersEmails.id = vtiger_crmentity.smownerid";
 			}
 
-			// TODO optimize inclusion of these tables
 			$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
 			$query .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
 
@@ -3386,8 +3379,6 @@ class ReportRun extends CRMEntity
 					if (is_string($value)) {
 						$value = decode_html($value);
 					}
-					// TODO Determine data-type based on field-type.
-					// String type helps having numbers prefixed with 0 intact.
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, $this->getPhpExcelTypeFromValue($value));
 					$count = $count + 1;
 				}

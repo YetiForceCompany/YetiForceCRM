@@ -390,8 +390,6 @@ class iCalendar extends iCalendar_component
 
 		$this->valid_components = array(
 			'VEVENT', 'VTODO', 'VTIMEZONE'
-			// TODO: add support for the other component types
-			//, 'VJOURNAL', 'VFREEBUSY', 'VALARM'
 		);
 		parent::construct();
 	}
@@ -478,9 +476,7 @@ class iCalendar_event extends iCalendar_component
 
 
 		if (isset($this->properties['DTEND']) && isset($this->properties['DTSTART'])) {
-			// DTEND must be later than DTSTART
-			// The standard is not clear on how to hande different value types though
-			// TODO: handle this correctly even if the value types are different
+
 			if ($this->properties['DTEND'][0]->value <= $this->properties['DTSTART'][0]->value) {
 				return false;
 			}
@@ -607,9 +603,6 @@ class iCalendar_todo extends iCalendar_component
 		);
 
 		parent::construct();
-		// TODO:
-		// either 'due' or 'duration' may appear in  a 'eventprop', but 'due'
-		// and 'duration' MUST NOT occur in the same 'eventprop'
 	}
 
 	public function iCalendar_event_dtstamp($activity)
@@ -642,12 +635,12 @@ class iCalendar_todo extends iCalendar_component
 
 class iCalendar_journal extends iCalendar_component
 {
-	// TODO: implement
+
 }
 
 class iCalendar_freebusy extends iCalendar_component
 {
-	// TODO: implement
+
 }
 
 class iCalendar_alarm extends iCalendar_component
@@ -703,7 +696,6 @@ class iCalendar_timezone extends iCalendar_component
 			'TZID' => RFC2445_REQUIRED | RFC2445_ONCE,
 			'LAST-MODIFIED' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'TZURL' => RFC2445_OPTIONAL | RFC2445_ONCE,
-			// TODO: the next two are components of their own!
 			'STANDARDC' => RFC2445_OPTIONAL,
 			'DAYLIGHTC' => RFC2445_OPTIONAL,
 			'TZOFFSETFROM' => RFC2445_OPTIONAL | RFC2445_ONCE,

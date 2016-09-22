@@ -88,7 +88,7 @@ class Field extends FieldBasic
 		// END
 		// Add value to picklist now
 		$picklistValues = self::getPicklistValues();
-		$sortid = 0; // TODO To be set per role
+		$sortid = 0;
 		foreach ($values as $value) {
 			if (in_array($value, $picklistValues)) {
 				continue;

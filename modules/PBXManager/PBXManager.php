@@ -102,9 +102,9 @@ class PBXManager extends CRMEntity
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
 		} else if ($event_type == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($event_type == 'module.postupdate') {
-			// TODO Handle actions before this module is updated.
+
 		}
 	}
 

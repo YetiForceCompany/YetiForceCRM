@@ -238,7 +238,6 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			foreach ($this->fieldArray as $fieldName => $fieldObj) {
 				//In database we have same column name in two tables. - inventory modules only
 				if ($fieldObj->get('table') == 'vtiger_inventoryproductrel' && ($fieldName == 'discount_amount' || $fieldName == 'discount_percent')) {
-					//TODO To be removed together with the old inventory module
 					$fieldName = 'item_' . $fieldName;
 					$this->fieldArray[$fieldName] = $fieldObj;
 				} else {

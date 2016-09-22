@@ -224,9 +224,6 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		}
 		return false;
 	}
-	/*
-	 * TODO
-	 */
 
 	public function createXmlFromTemplate($entries, $entriesInventory)
 	{

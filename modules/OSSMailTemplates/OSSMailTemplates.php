@@ -99,11 +99,11 @@ class OSSMailTemplates extends Vtiger_CRMEntity
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_EnabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
-			// TODO Handle actions after this module is updated.
+
 			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.02', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');

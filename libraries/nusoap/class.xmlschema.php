@@ -237,7 +237,6 @@ class nusoap_xmlschema extends nusoap_base  {
             	$this->xdebug("parsing attribute:");
             	$this->appendDebug($this->varDump($attrs));
 				if (!isset($attrs['form'])) {
-					// TODO: handle globals
 					$attrs['form'] = $this->schemaInfo['attributeFormDefault'];
 				}
             	if (isset($attrs['http://schemas.xmlsoap.org/wsdl/:arrayType'])) {
@@ -292,19 +291,10 @@ class nusoap_xmlschema extends nusoap_base  {
 			case 'complexType':
 				array_push($this->complexTypeStack, $this->currentComplexType);
 				if(isset($attrs['name'])){
-					// TODO: what is the scope of named complexTypes that appear
-					//       nested within other c complexTypes?
 					$this->xdebug('processing named complexType '.$attrs['name']);
 					$this->currentComplexType = $attrs['name'];
 					$this->complexTypes[$this->currentComplexType] = $attrs;
 					$this->complexTypes[$this->currentComplexType]['typeClass'] = 'complexType';
-					// This is for constructs like
-					//           <complexType name="ListOfString" base="soap:Array">
-					//                <sequence>
-					//                    <element name="string" type="xsd:string"
-					//                        minOccurs="0" maxOccurs="unbounded" />
-					//                </sequence>
-					//            </complexType>
 					if(isset($attrs['base']) && preg_match('/:Array$/',$attrs['base'])){
 						$this->xdebug('complexType is unusual array');
 						$this->complexTypes[$this->currentComplexType]['phpType'] = 'array';
@@ -719,8 +709,6 @@ class nusoap_xmlschema extends nusoap_base  {
 		} elseif((! $is_element) && isset($this->simpleTypes[$type])){
 			$this->xdebug("in getTypeDef, found simpleType $type");
 			if (!isset($this->simpleTypes[$type]['phpType'])) {
-				// get info for type to tack onto the simple type
-				// TODO: can this ever really apply (i.e. what is a simpleType really?)
 				$uqType = substr($this->simpleTypes[$type]['type'], strrpos($this->simpleTypes[$type]['type'], ':') + 1);
 				$ns = substr($this->simpleTypes[$type]['type'], 0, strrpos($this->simpleTypes[$type]['type'], ':'));
 				$etype = $this->getTypeDef($uqType);

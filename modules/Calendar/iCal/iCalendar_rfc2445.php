@@ -725,7 +725,6 @@ function rfc2445_is_valid_value($value, $type)
 			break;
 	}
 
-	// TODO: remove this assertion
 	trigger_error('bad code path', E_USER_WARNING);
 	return false;
 }

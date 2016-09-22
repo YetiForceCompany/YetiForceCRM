@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-// TODO This is a stop-gap measure to have the
-// user continue working with Calendar when dropping from Event View.
 class Events_SharedCalendar_View extends Calendar_SharedCalendar_View
 {
 

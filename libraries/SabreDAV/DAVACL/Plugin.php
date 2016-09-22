@@ -818,7 +818,6 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @param string $uri
      * @param DAV\Locks\LockInfo $lock
-     * @TODO: not yet implemented
      * @return void
      */
     function beforeUnlock($uri, DAV\Locks\LockInfo $lock) {
@@ -833,7 +832,6 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\INode $node
      * @param array $requestedProperties
      * @param array $returnedProperties
-     * @TODO really should be broken into multiple methods, or even a class.
      * @return bool
      */
     function propFind(DAV\PropFind $propFind, DAV\INode $node) {

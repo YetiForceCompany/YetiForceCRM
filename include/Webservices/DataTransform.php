@@ -183,9 +183,6 @@ class DataTransform
 		if (!isset($row['id'])) {
 			if ($row[$meta->getObectIndexColumn()]) {
 				$row['id'] = vtws_getId($meta->getEntityId(), $row[$meta->getObectIndexColumn()]);
-			} else {
-				//TODO Handle this.
-				//echo 'error id noy set' ;
 			}
 		} else if (isset($row[$meta->getObectIndexColumn()]) && strcmp($meta->getObectIndexColumn(), "id") !== 0) {
 			unset($row[$meta->getObectIndexColumn()]);

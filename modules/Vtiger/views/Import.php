@@ -244,7 +244,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		Import_Main_View::deleteMap($request);
 	}
 
-	//TODO need to move it to an action
 	public function clearCorruptedData(Vtiger_Request $request)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
