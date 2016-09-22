@@ -661,6 +661,8 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 insert  into `u_yf_openstreetmap_address_updater`(`crmid`) values (0);
 
+/*Data for the table `u_yf_openstreetmap_cache` */
+
 /*Data for the table `u_yf_openstreetmap_record_updater` */
 
 /*Data for the table `u_yf_partners` */

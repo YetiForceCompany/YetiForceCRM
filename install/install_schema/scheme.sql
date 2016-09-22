@@ -2168,6 +2168,15 @@ CREATE TABLE `u_yf_openstreetmap_address_updater` (
   `crmid` int(19) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_openstreetmap_cache` */
+
+CREATE TABLE `u_yf_openstreetmap_cache` (
+  `user_id` int(19) unsigned NOT NULL,
+  `module_name` varchar(50) NOT NULL,
+  `crmids` int(19) unsigned NOT NULL,
+  KEY `u_yf_openstreetmap_cache_user_id_module_name_idx` (`user_id`,`module_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_openstreetmap_record_updater` */
 
 CREATE TABLE `u_yf_openstreetmap_record_updater` (
