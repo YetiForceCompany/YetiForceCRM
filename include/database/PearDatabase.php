@@ -940,4 +940,25 @@ class PearDatabase
 		}
 		return '=\'' . $val . '\'';
 	}
+
+	/**
+	 * Generates parameters placeholders for array argument to be used in IN expression.
+	 * Example:
+	 * <pre>
+	 * $db = PearDatabase::getInstance();
+	 * $query = "SELECT * FROM tab t WHERE t.field IN ({$db->qIn($values)})";
+	 * $params = [$values];
+	 * foreach ($db->pquery($query, $params)->fetchAll as $row) {
+	 *     // ...
+	 * }
+	 *
+	 * @param array $args Arguments for with to generate parameters placeholders
+	 *
+	 * @return string Query arguments string eq ?,?,? when $args is of size 3
+	 * @author Michał Kowalik <maf.michal@gmail.com>
+	 */
+	public function qIn($args)
+	{
+		return empty($args) ? 'NULL' : '?' . (is_array($args) ? str_repeat(',?', count($args) - 1) : '');
+	}
 }

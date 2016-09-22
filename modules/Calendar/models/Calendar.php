@@ -27,6 +27,8 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 	public function getQuery()
 	{
+		$db = PearDatabase::getInstance();
+
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = 'SELECT vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
@@ -38,41 +40,42 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		WHERE vtiger_activity.deleted = 0 ';
 		$instance = CRMEntity::getInstance($this->getModuleName());
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getModuleName(), $currentUser);
-		if (!empty($securityParameter))
-			$query.= $securityParameter;
+		if (!empty($securityParameter)) {
+			$query .= $securityParameter;
+		}
 
 		$params = [];
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
-			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
-			$dbStartDate = $dbStartDateOject->format('Y-m-d');
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
-			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
-			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query.= " && ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) || (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) || (date_start < ? && due_date > ?) ) ";
-			$params[] = $dbStartDateTime;
-			$params[] = $dbEndDateTime;
-			$params[] = $dbStartDateTime;
-			$params[] = $dbEndDateTime;
-			$params[] = $dbStartDate;
-			$params[] = $dbEndDate;
+			$query .= " AND (date_start >= ? AND due_date <= ?)";
+			$params[] = $dbStartDateOject->format('Y-m-d');
+			$params[] = $dbEndDateObject->format('Y-m-d');
 		}
-		if ($this->get('types')) {
-			$query .= ' && vtiger_activity.activitytype ' . \PearDatabase::whereEquals($this->get('types'));
+		$types = $this->get('types');
+		if ($types) {
+			$query .= " AND vtiger_activity.activitytype IN ({$db->qIn($types)})";
+			$params[] = $types;
 		}
 		if ($this->get('time') == 'current') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= ' && vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
+			$query .= " AND vtiger_activity.status IN ({$db->qIn($stateActivityLabels)})";
+			$params[] = $stateActivityLabels;
 		}
 		if ($this->get('time') == 'history') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
-			$query .= ' && vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
+			$query .= " AND vtiger_activity.status IN ({$db->qIn($stateActivityLabels)})";
+			$params[] = $stateActivityLabels;
 		}
-		if ($this->get('activitystatus')) {
-			$query .= ' && vtiger_activity.status ' . \PearDatabase::whereEquals($this->get('activitystatus'));
+		$activityStatus = $this->get('activitystatus');
+		if ($activityStatus) {
+			$query .= " AND vtiger_activity.status IN ({$db->qIn($activityStatus)})";
+			$params[] = $activityStatus;
 		}
-		if ($this->get('restrict') && is_array($this->get('restrict'))) {
-			$query .= ' && vtiger_activity.activityid ' . \PearDatabase::whereEquals($this->get('restrict'));
+		$restrict = $this->get('restrict');
+		if ($restrict) {
+			$query .= " AND vtiger_activity.activityid IN ({$db->qIn($restrict)})";
+			$params[] = $restrict;
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
@@ -84,10 +87,16 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		if ($this->get('user')) {
-			$query .= ' && vtiger_activity.smownerid ' . \PearDatabase::whereEquals($this->get('user'));
+		$users = $this->get('user');
+		if ($users) {
+			if (is_array($users)) {
+				$query .= " AND vtiger_crmentity.smownerid IN ({$db->qIn($users)})";
+			} else {
+				$query .= " AND vtiger_crmentity.smownerid IN (?)";
+			}
+			$params[] = $users;
 		}
-		$query.= ' ORDER BY date_start,time_start ASC';
+		$query .= ' ORDER BY date_start,time_start ASC';
 		return ['query' => $query, 'params' => $params];
 	}
 
