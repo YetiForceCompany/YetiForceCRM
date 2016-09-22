@@ -287,11 +287,8 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery($query, $params);
-
 		$coordinates = [];
-	file_put_contents('xxx.txt', print_r($query, true));
 		while ($row = $db->getRow($result)) {
-				
 			if (!empty($row['lat'] && !empty($row['lon']))) {
 				$coordinates[] = [
 					'recordId' => $row['crmid'],
