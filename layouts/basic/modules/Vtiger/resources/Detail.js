@@ -377,7 +377,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 	/**
 	 * Function to load only Comments Widget.
 	 */
-	//TODO improve this API.
 	loadCommentsWidget: function () {
 
 	},
@@ -1274,7 +1273,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 						thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
 					},
 							function (error) {
-								//TODO : Handle error
 								editElement.addClass('hide');
 								detailViewValue.removeClass('hide');
 								actionElement.removeClass('hide');
@@ -2091,7 +2089,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 							app.notifyPostAjaxReady();
 						},
 						function () {
-							//TODO : handle error
 							element.progressIndicator({'mode': 'hide'});
 						}
 				);

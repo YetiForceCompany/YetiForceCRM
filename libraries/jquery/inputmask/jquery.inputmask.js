@@ -255,7 +255,7 @@
             }
             function preProcessMask(mask) {
                 mask = mask.toString();
-                if (opts.numericInput) { //TODO FIX FOR DYNAMIC MASKS WITH QUANTIFIERS
+                if (opts.numericInput) { 
                     mask = mask.split('').reverse();
                     for (var ndx = 0; ndx < mask.length; ndx++) {
                         if (mask[ndx] == opts.optionalmarker.start)
@@ -935,7 +935,7 @@
                 var maskLength;
                 maxLength = $el.prop('maxLength');
                 if (maxLength == -1) maxLength = undefined; /* FF sets no defined max length to -1 */
-                //if (opts.greedy == false) { //FIXME TODO
+                //if (opts.greedy == false) { 
                 var pos, lvp = getLastValidPosition(), testPos = getMaskSet()["validPositions"][lvp],
                     ndxIntlzr = testPos != undefined ? testPos["locator"].slice() : undefined;
                 for (pos = lvp + 1; testPos == undefined || (testPos["match"]["fn"] != null || (testPos["match"]["fn"] == null && testPos["match"]["def"] != "")) ; pos++) {
@@ -1128,7 +1128,7 @@
             function clearOptionalTail(buffer) {
                 var rl = determineLastRequiredPosition(), lmib = buffer.length - 1;
                 for (; lmib > rl; lmib--) {
-                    if (isMask(lmib)) break; //fixme ismask is not good enough
+                    if (isMask(lmib)) break;
                 }
                 buffer.splice(rl, lmib + 1 - rl);
             }

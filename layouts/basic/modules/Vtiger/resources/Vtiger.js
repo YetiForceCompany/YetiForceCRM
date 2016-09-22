@@ -484,7 +484,7 @@ var Vtiger_Index_Js = {
 		var lastPopovers = [];
 		// Fetching reference fields often is not a good idea on a given page.
 		// The caching is done based on the URL so we can reuse.
-		var CACHE_ENABLED = true; // TODO - add cache timeout support.
+		var CACHE_ENABLED = true;
 
 		function prepareAndShowTooltipView() {
 			hideAllTooltipViews();

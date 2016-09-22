@@ -30,7 +30,6 @@ Vtiger_List_Js("Reports_List_Js", {
 							if (data.success) {
 								var result = data.result;
 								if (result.success) {
-									//TODO use pines alert for showing folder has saved
 									app.hideModalWindow();
 									var info = result.info;
 									Reports_List_Js.listInstance.updateCustomFilter(info);

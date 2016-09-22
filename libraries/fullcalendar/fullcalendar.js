@@ -502,7 +502,6 @@
 
 // Creates a basic segment with the intersection of the two ranges. Returns undefined if no intersection.
 // Expects all dates to be normalized to the same timezone beforehand.
-// TODO: move to date section?
 	function intersectionToSeg(subjectRange, constraintRange) {
 		var subjectStart = subjectRange.start;
 		var subjectEnd = subjectRange.end;
@@ -1013,7 +1012,6 @@
 			// get the values before any conversion happens
 			a = this.toArray(); // array of y/m/d/h/m/s/ms
 
-			// TODO: use keepLocalTime in the future
 			this.utc(); // set the internal UTC flag (will clear the ambig flags)
 			setUTCValues(this, a.slice(0, 3)); // set the year/month/date. time will be zero
 
@@ -1032,13 +1030,6 @@
 	};
 
 
-// Timezone
-// -------------------------------------------------------------------------------------------------
-
-// Converts the moment to UTC, stripping out its timezone offset, but preserving its
-// YMD and time-of-day. A moment with a stripped timezone offset will display no
-// timezone offset when .format() is called.
-// TODO: look into Moment's keepLocalTime functionality
 	newMomentProto.stripZone = function () {
 		var a, wasAmbigTime;
 
@@ -1081,9 +1072,6 @@
 		this._ambigZone = false;
 
 		if (wasAmbigZone) {
-			// If the moment was ambiguously zoned, the date fields were stored as UTC.
-			// We want to preserve these, but in local time.
-			// TODO: look into Moment's keepLocalTime functionality
 			setLocalValues(this, a);
 		}
 
@@ -1246,8 +1234,6 @@
 		return moms;
 	}
 
-// Transfers all the flags related to ambiguous time/zone from the `src` moment to the `dest` moment
-// TODO: look into moment.momentProperties for this.
 	function transferAmbigs(src, dest) {
 		if (src._ambigTime) {
 			dest._ambigTime = true;
@@ -1371,9 +1357,6 @@
 	}
 
 
-// Date Range Formatting
-// -------------------------------------------------------------------------------------------------
-// TODO: make it work with timezone offset
 
 // Using a formatting string meant for a single date, generate a range string, like
 // "Sep 2 - 9 2013", that intelligently inserts a separator where the dates differ.
@@ -1470,8 +1453,6 @@
 		m: 'second', // minute
 		s: 'second' // second
 	};
-// TODO: week maybe?
-
 
 // Given a formatting chunk, and given that both dates are similar in the regard the
 // formatting chunk is concerned, format date1 against `chunk`. Otherwise, return `false`.
@@ -1514,7 +1495,7 @@
 // Break the formatting string into an array of chunks
 	function chunkFormatString(formatStr) {
 		var chunks = [];
-		var chunker = /\[([^\]]*)\]|\(([^\)]*)\)|(LTS|LT|(\w)\4*o?)|([^\w\[\(]+)/g; // TODO: more descrimination
+		var chunker = /\[([^\]]*)\]|\(([^\)]*)\)|(LTS|LT|(\w)\4*o?)|([^\w\[\(]+)/g;
 		var match;
 
 		while ((match = chunker.exec(formatStr))) {
@@ -1723,9 +1704,7 @@
 				left: left - origin.left
 			});
 		},
-		// Triggers a callback. Calls a function in the option hash of the same name.
-		// Arguments beyond the first `name` are forwarded on.
-		// TODO: better code reuse for this. Repeat code
+
 		trigger: function (name) {
 			if (this.options[name]) {
 				this.options[name].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -2093,7 +2072,7 @@
 			var el = this.scrollEl;
 
 			this.scrollBounds = el ? getOuterRect(el) : null;
-			// TODO: use getClientRect in future. but prevents auto scrolling when on top of scrollbars
+
 		},
 		// Called when the dragging is in progress and scrolling should be updated
 		updateScroll: function (ev) {
@@ -2674,7 +2653,7 @@
 		externalDragStartProxy: null, // binds the Grid's scope to externalDragStart (in DayGrid.events)
 
 		// derived from options
-		colHeadFormat: null, // TODO: move to another class. not applicable to all Grids
+		colHeadFormat: null, 
 		eventTimeFormat: null,
 		displayEventTime: null,
 		displayEventEnd: null,
@@ -2696,7 +2675,6 @@
 
 
 		// Generates the format string used for the text in column headers, if not explicitly defined by 'columnFormat'
-		// TODO: move to another class. not applicable to all Grids
 		computeColHeadFormat: function () {
 			// subclasses must implement if they want to use headHtml()
 		},
@@ -2984,10 +2962,6 @@
 
 			dragListener.mousedown(ev); // start listening, which will eventually initiate a dragStart
 		},
-		/* Event Helper
-		 ------------------------------------------------------------------------------------------------------------------*/
-		// TODO: should probably move this to Grid.events, like we did event dragging / resizing
-
 
 		// Renders a mock event over the given range
 		renderRangeHelper: function (range, sourceSeg) {
@@ -3083,7 +3057,7 @@
 
 		// Renders a set of rectangles over the given segments of time.
 		// Returns a subset of segs, the segs that were actually rendered.
-		// Responsible for populating this.elsByFill. TODO: better API for expressing this requirement
+
 		renderFill: function (type, segs) {
 			// subclasses must implement
 		},
@@ -3157,12 +3131,7 @@
 					(css ? ' style="' + css + '"' : '') +
 					' />';
 		},
-		/* Generic rendering utilities for subclasses
-		 ------------------------------------------------------------------------------------------------------------------*/
 
-
-		// Renders a day-of-week header row.
-		// TODO: move to another class. not applicable to all Grids
 		headHtml: function () {
 			return '' +
 					// <--------   YetiForce Sp. z o.o.   -------->
@@ -3177,8 +3146,7 @@
 					'</table>' +
 					'</div>';
 		},
-		// Used by the `headHtml` method, via RowRenderer, for rendering the HTML of a day-of-week header cell
-		// TODO: move to another class. not applicable to all Grids
+
 		headCellHtml: function (cell) {
 			var view = this.view;
 			var date = cell.start;
@@ -3359,9 +3327,7 @@
 					source.className || []
 					);
 		},
-		// Generates a semicolon-separated CSS string to be used for the default rendering of a background event.
-		// Called by the fill system.
-		// TODO: consolidate with getEventSkinCss?
+
 		bgEventSegCss: function (seg) {
 			var view = this.view;
 			var event = seg.event;
@@ -3740,7 +3706,6 @@
 							disableCursor();
 							resizeLocation = null;
 						}
-						// no change? (TODO: how does this work with timezones?)
 						else if (resizeLocation.start.isSame(event.start) && resizeLocation.end.isSame(eventEnd)) {
 							resizeLocation = null;
 						}
@@ -4184,7 +4149,7 @@
 	 ----------------------------------------------------------------------------------------------------------------------*/
 
 	var DayGrid = Grid.extend({
-		numbersVisible: false, // should render a row for day/week numbers? set by outside view. TODO: make internal
+		numbersVisible: false, 
 		bottomCoordPadding: 0, // hack for extending the hit area for the last row of the coordinate grid
 		breakOnWeeks: null, // should create a new row for each week? set by outside view
 
@@ -4454,10 +4419,6 @@
 				return offsets[day];
 			}
 		},
-		/* Event Drag Visualization
-		 ------------------------------------------------------------------------------------------------------------------*/
-		// TODO: move to DayGrid.event, similar to what we did with Grid's drag methods
-
 
 		// Renders a visual indication of an event or external element being dragged.
 		// The dropLocation's end can be null. seg can be null. See Grid::renderDrag for more info.
@@ -4956,7 +4917,7 @@
 		// `row` is the row number.
 		computeRowLevelLimit: function (row) {
 			var rowEl = this.rowEls.eq(row); // the containing "fake" row div
-			var rowHeight = rowEl.height(); // TODO: cache somehow?
+			var rowHeight = rowEl.height(); 
 			var trEls = this.rowStructs[row].tbodyEl.children();
 			var i, trEl;
 			var trHeight;
@@ -5851,12 +5812,6 @@
 					(event.linkl ? '<div class="fc-parentlabel"><i class="calIcon modIcon_' + event.linkm + '"></i> ' + event.linkl + '</div>' : '') +
 					'</div>' +
 					'<div class="fc-bg"/>' +
-					/* TODO: write CSS for this
-					 (isResizableFromStart ?
-					 '<div class="fc-resizer fc-start-resizer" />' :
-					 ''
-					 ) +
-					 */
 							(isResizableFromEnd ?
 									'<div class="fc-resizer fc-end-resizer" />' :
 									''
@@ -6145,7 +6100,7 @@
 				nextDayThreshold: null,
 				isHiddenDayHash: null,
 				// document handlers, bound to `this` object
-				documentMousedownProxy: null, // TODO: doesn't work with touch
+				documentMousedownProxy: null, 
 
 
 				constructor: function (calendar, type, options, intervalDuration) {
@@ -6179,7 +6134,7 @@
 							calendar,
 							[name, thisObj || this].concat(
 							Array.prototype.slice.call(arguments, 2), // arguments beyond thisObj
-							[this] // always make the last argument a reference to the view. TODO: deprecate
+							[this] 
 							)
 							);
 				},
@@ -6645,7 +6600,6 @@
 					var eventInput;
 					var event;
 
-					// Try to build an event object and render it. TODO: decouple the two
 					if (eventProps) {
 						eventInput = $.extend({}, eventProps, dropLocation);
 						event = this.calendar.renderEvent(eventInput, meta.stick)[0]; // renderEvent returns an array
@@ -7199,7 +7153,7 @@
 
 
 				// Given an event's allDay status and start date, return swhat its fallback end date should be.
-				t.getDefaultEventEnd = function (allDay, start) { // TODO: rename to computeDefaultEventEnd
+				t.getDefaultEventEnd = function (allDay, start) { 
 					var end = start.clone();
 
 					if (allDay) {
@@ -7464,13 +7418,6 @@
 					}
 				}
 
-
-
-				/* Event Fetching/Rendering
-				 -----------------------------------------------------------------------------*/
-				// TODO: going forward, most of this stuff should be directly handled by the view
-
-
 				function refetchEvents() { // can be called as an API method
 					destroyEvents(); // so that events are cleared before user starts waiting for AJAX
 					fetchAndRenderEvents();
@@ -7637,13 +7584,6 @@
 					return date.clone();
 				}
 
-
-
-				/* Height "Freezing"
-				 -----------------------------------------------------------------------------*/
-				// TODO: move this into the view
-
-
 				function freezeContentHeight() {
 					content.css({
 						width: '100%',
@@ -7660,12 +7600,6 @@
 						overflow: ''
 					});
 				}
-
-
-
-				/* Misc
-				 -----------------------------------------------------------------------------*/
-
 
 				function getCalendar() {
 					return t;
@@ -7740,7 +7674,7 @@
 					next: "next",
 					prevYear: "prev year",
 					nextYear: "next year",
-					year: 'year', // TODO: locale files need to specify this
+					year: 'year', 
 					today: 'today',
 					month: 'month',
 					week: 'week',
@@ -7783,7 +7717,7 @@
 
 
 			Calendar.rtlDefaults = {// right-to-left defaults
-				header: {// TODO: smarter solution (first/center/last ?)
+				header: {
 					left: 'next,prev today',
 					center: '',
 					right: 'title'
@@ -7806,11 +7740,6 @@
 			;
 
 			var langOptionHash = fc.langs = {}; // initialize and expose
-
-
-// TODO: document the structure and ordering of a FullCalendar lang file
-// TODO: rename everything "lang" to "locale", like what the moment project did
-
 
 // Initialize jQuery UI datepicker translations while using some of the translations
 // Will set this as the default language for datepicker.
@@ -7948,7 +7877,7 @@
 
 
 // options that should be computed off live calendar options (considers override options)
-			var instanceComputableOptions = { // TODO: best place for this? related to lang?
+			var instanceComputableOptions = { 
 
 				// Produces format strings for results like "Mo 16"
 				smallDayDateFormat: function (options) {
@@ -7995,10 +7924,6 @@
 
 			;
 			;
-
-			/* Top toolbar area with buttons and title
-			 ----------------------------------------------------------------------------------------------------------------------*/
-// TODO: rename all header-related things to "toolbar"
 
 			function Header(calendar, options) {
 				var t = this;
@@ -8490,7 +8415,6 @@
 
 					if (source) {
 
-						// TODO: repeat code, same code for event classNames
 						if (source.className) {
 							if (typeof source.className === 'string') {
 								source.className = source.className.split(/\s+/);
@@ -8817,7 +8741,6 @@
 					if (range.allDay) {
 						range.start.stripTime();
 						if (range.end) {
-							// TODO: consider nextDayThreshold here? If so, will require a lot of testing and adjustment
 							range.end.stripTime();
 						}
 					}
@@ -8831,10 +8754,6 @@
 					}
 				}
 
-
-				// If `range` is a proper range with a start and end, returns the original object.
-				// If missing an end, computes a new range with an end, computing it as if it were an event.
-				// TODO: make this a part of the event -> eventRange system
 				function ensureVisibleEventRange(range) {
 					var allDay;
 
@@ -9026,9 +8945,7 @@
 				// - assign `miscProps` to the event
 				//
 				// Returns a function that can be called to undo all the operations.
-				//
-				// TODO: don't use so many closures. possible memory issues when lots of events with same ID.
-				//
+
 				function mutateEvents(events, clearEnd, allDay, dateDelta, durationDelta, miscProps) {
 					var isAmbigTimezone = t.getIsAmbigTimezone();
 					var undoFunctions = [];
@@ -9235,8 +9152,6 @@
 					// the range must be fully contained by at least one of produced constraint events
 					if (constraint != null) {
 
-						// not treated as an event! intermediate data structure
-						// TODO: use ranges in the future
 						constraintEvents = constraintToEvents(constraint);
 
 						anyContainment = false;
@@ -9416,7 +9331,7 @@
 				// Renders the view into `this.el`, which should already be assigned
 				render: function () {
 
-					this.dayNumbersVisible = this.dayGrid.rowCnt > 1; // TODO: make grid responsible
+					this.dayNumbersVisible = this.dayGrid.rowCnt > 1;
 					this.weekNumbersVisible = this.opt('weekNumbers');
 					this.dayGrid.numbersVisible = this.dayNumbersVisible || this.weekNumbersVisible;
 

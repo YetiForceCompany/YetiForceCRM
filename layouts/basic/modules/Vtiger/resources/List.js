@@ -359,7 +359,6 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	triggerMassAction: function (massActionUrl, callBackFunction, beforeShowCb, css) {
 
-		//TODO : Make the paramters as an object
 		if (typeof beforeShowCb == 'undefined') {
 			beforeShowCb = function () {
 				return true;
@@ -1332,7 +1331,6 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		}
 	},
-	//Fix for empty Recycle bin 
 	ListViewPostOperation: function () {
 		return true;
 	},

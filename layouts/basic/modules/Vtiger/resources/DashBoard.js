@@ -128,7 +128,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		}
 	},
 	gridsterStop: function () {
-		// TODO: we need to allow the header of the widget to be draggable
 		var gridster = Vtiger_DashBoard_Js.gridster;
 
 	},

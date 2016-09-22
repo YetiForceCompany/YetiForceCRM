@@ -827,7 +827,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				fieldsSelect2.select2('data').map(function (obj) {
 					selectedFields.push(obj.id);
 				});
-				// TODO mandatory field validation
 				finializeAdd(selectedModule, selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFields, form);
 			});
 		});

@@ -99,7 +99,6 @@ jQuery.Class('Settings_Module_Manager_Js', {
 				},
 				function (error) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					//TODO : Handle error
 					aDeferred.reject(error);
 				}
 		);
@@ -213,7 +212,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 					}
 					thisInstance.showNotify(params);
 				}, function (error) {
-					//TODO: Handle Error
+
 				});
 
 			} else {
@@ -230,7 +229,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 					}
 					thisInstance.showNotify(params);
 				}, function (error) {
-					//TODO: Handle Error
+
 				});
 			}
 

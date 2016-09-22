@@ -392,7 +392,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 					aDeferred.resolve(data);
 				},
 				function (error) {
-					//TODO : Handle error
 					aDeferred.reject();
 				}
 		)
@@ -975,7 +974,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 					//If validation fails, form should submit again
 					document.progressLoader.progressIndicator({'mode': 'hide'});
 					editViewForm.removeData('submit');
-					// to avoid hiding of error message under the fixed nav bar
 					app.formAlignmentAfterValidation(editViewForm);
 				}
 			}

@@ -377,7 +377,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		if (this.isFieldSupportsValidation(selectFieldElement)) {
 			//data attribute will not be present while attaching validation engine events . so we are
 			//depending on the fallback option which is class
-			//TODO : remove the hard coding and get it from field element data-validation-engine
 			fieldSpecificElement.addClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
 					.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
 					.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));

@@ -896,9 +896,6 @@ function now() {
 		div.cloneNode(true).fireEvent("onclick");
 	}
 
-	// Figure out if the W3C box model works as expected
-	// document.body must exist before we can do this
-	// TODO: This timeout is temporary until I move ready into core.js.
 	jQuery(function() {
 		var div = document.createElement("div");
 		div.style.width = div.style.paddingLeft = "1px";
@@ -2893,7 +2890,6 @@ var Expr = Sizzle.selectors = {
 				match[3] = test[3] - 0;
 			}
 
-			// TODO: Move to normal caching system
 			match[0] = done++;
 
 			return match;

@@ -277,7 +277,6 @@
           var region = self.detect_overlapping_region(
               player_coords, collider_coords);
 
-            //todo: make this an option
             if (region === overlapping_region || overlapping_region === 'all') {
 
                 var area_coords = self.calculate_overlapped_area_coords(

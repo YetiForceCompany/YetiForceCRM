@@ -154,7 +154,6 @@ if (typeof (ImportJs) == 'undefined') {
 			ImportJs.convertOptionsToJSONArray('#selected_merge_fields', '#merge_fields');
 			return true;
 		},
-		//TODO move to a common file
 		convertOptionsToJSONArray: function (objName, targetObjName) {
 			var obj = jQuery(objName);
 			var arr = [];
@@ -170,7 +169,6 @@ if (typeof (ImportJs) == 'undefined') {
 			}
 			return arr;
 		},
-		//TODO: move to a common file
 		copySelectedOptions: function (source, destination) {
 
 			var srcObj = jQuery(source);
@@ -205,7 +203,6 @@ if (typeof (ImportJs) == 'undefined') {
 				}
 			}
 		},
-		//TODO move to a common file
 		removeSelectedOptions: function (objName) {
 			var obj = jQuery(objName);
 			if (obj == null || typeof (obj) == 'undefined')
