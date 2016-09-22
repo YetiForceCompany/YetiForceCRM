@@ -61,7 +61,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 
 	public function searchIncomingCalls(Vtiger_Request $request)
 	{
-		$recordModel = PBXManager_Record_Model::getCleanInstance();
+		$recordModel = PBXManager_Record_Model::getCleanInstance($request->getModule());
 		$response = new Vtiger_Response();
 		$user = Users_Record_Model::getCurrentUserModel();
 

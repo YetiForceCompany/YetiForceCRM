@@ -15,7 +15,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	const lookuptableName = 'vtiger_pbxmanager_phonelookup';
 	const entitytableName = 'vtiger_crmentity';
 
-	static function getCleanInstance($moduleName)
+	public static function getCleanInstance($moduleName)
 	{
 		return new self;
 	}
