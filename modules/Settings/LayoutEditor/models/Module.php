@@ -391,10 +391,13 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
 	{
-		$exceptions = [];
+		$exceptions = ['id', 'inventoryItemsNo', 'seq'];
 		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
 		foreach ($instance->getAllFields() as $field) {
 			$exceptions[] = $field->getColumnName();
+			if (preg_match('/^' . $field->getColumnName() . '[0-9]/', $fieldName) != 0) {
+				return true;
+			}
 			foreach ($field->getCustomColumn() as $columnName => $dbType) {
 				$exceptions[] = $columnName;
 			}

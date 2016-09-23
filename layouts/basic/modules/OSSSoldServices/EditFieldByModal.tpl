@@ -24,47 +24,47 @@
 				{/if}</h3>
 		</div>
 		<div class="btn-toolbar">
-		    <div class="pull-right btn-group">
-			{if $RECORD->isEditable()}
-			    <a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
-			{/if}
+			<div class="pull-right btn-group">
+				{if $RECORD->isEditable()}
+					<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
+					{/if}
+					{if $RECORD->isViewable()}
+					<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
+					{/if}
+				<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+			</div>
 			{if $RECORD->isViewable()}
-			    <a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
-			{/if}
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
-		    </div>
-			{if $RECORD->isViewable()}
-			    {assign var=IS_EDITABLE_READONLY value=$BASIC_FIELD_MODEL->set('isEditableReadOnly', false)}
-			    {assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
-			    <div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
-				<button type="button" class="btn btn-danger dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    {vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-				    {foreach  key=KEY item=ITEM from=$PICKLIST}
-					{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
-					<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
-					{/foreach}
-				</ul>
-			    </div>
-			    {if $RECORD->get($FIELD_TO_EDIT) eq 'PLL_ACCEPTED'}
-				{assign var=RENEW_FIELD_MODEL value=Vtiger_Field_Model::getInstance('osssoldservices_renew', $RECORD->getModule())}
-				{assign var=IS_EDITABLE_READONLY value=$RENEW_FIELD_MODEL->set('isEditableReadOnly', false)}
-				{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
-				<div class="btn-group fieldButton" data-name="osssoldservices_renew">
-				    <button type="button" class="btn btn-primary dropdown-toggle{if $RENEW_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{vtranslate($RENEW_FIELD_MODEL->get('label'), $MODULE_NAME)} <span class="caret"></span>
-				    </button>
-				    <ul class="dropdown-menu">
-					{foreach  key=KEY item=ITEM from=$PICKLIST}
-					    {if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
-					    <li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
-					    {/foreach}
-				    </ul>
+				{assign var=IS_EDITABLE_READONLY value=$BASIC_FIELD_MODEL->set('isEditableReadOnly', false)}
+				{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
+				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
+					<button type="button" class="btn btn-danger dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						{foreach  key=KEY item=ITEM from=$PICKLIST}
+							{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
+							<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
+							{/foreach}
+					</ul>
 				</div>
-			    {/if}
+				{if $RECORD->get($FIELD_TO_EDIT) eq 'PLL_ACCEPTED'}
+					{assign var=RENEW_FIELD_MODEL value=Vtiger_Field_Model::getInstance('osssoldservices_renew', $RECORD->getModule())}
+					{assign var=IS_EDITABLE_READONLY value=$RENEW_FIELD_MODEL->set('isEditableReadOnly', false)}
+					{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
+					<div class="btn-group fieldButton" data-name="osssoldservices_renew">
+						<button type="button" class="btn btn-primary dropdown-toggle{if $RENEW_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{vtranslate($RENEW_FIELD_MODEL->get('label'), $MODULE_NAME)} <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							{foreach  key=KEY item=ITEM from=$PICKLIST}
+								{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
+								<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
+								{/foreach}
+						</ul>
+					</div>
+				{/if}
 			{/if}
-		    </div>
+		</div>
 		<div class="clearfix"></div>
 	</div>
 	<div class="modal-body row">
@@ -99,10 +99,10 @@
 						{foreach from=$RELATED_MODULE item=REL_MODULE_NAME name=tabs}
 							{assign var=REL_MODULE_NAME_LOWER value=$REL_MODULE_NAME|lower}
 							<li class="{if $smarty.foreach.tabs.first}active{/if}"><a data-toggle="tab" href="#{$REL_MODULE_NAME_LOWER}">{vtranslate($REL_MODULE_NAME, $REL_MODULE_NAME)}</a></li>
-						{/foreach}
+							{/foreach}
 					</ul>
-					 <div class="tab-content">
-						 {foreach from=$RELATED_MODULE item=REL_MODULE_NAME name=tabs}
+					<div class="tab-content">
+						{foreach from=$RELATED_MODULE item=REL_MODULE_NAME name=tabs}
 							{assign var=REL_MODULE_NAME_LOWER value=$REL_MODULE_NAME|lower}
 							<div id="{$REL_MODULE_NAME_LOWER}" class="tab-pane fade in{if $smarty.foreach.tabs.first} active{/if}">
 							</div>

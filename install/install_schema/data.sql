@@ -994,9 +994,9 @@ insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`p
 insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_WAITING_FOR_RENEWAL',0,683,2);
 insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_RENEWED_VERIFICATION',0,684,3);
 insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_NOT_RENEWED_VERIFICATION',0,685,4);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',1,686,6);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',1,687,7);
-insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',1,688,8);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',0,686,6);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',0,687,7);
+insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',0,688,8);
 insert  into `vtiger_assets_renew`(`assets_renewid`,`assets_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'PLL_NOT_APPLICABLE_VERIFICATION',0,702,5);
 
 /*Data for the table `vtiger_assetscf` */
@@ -7140,9 +7140,9 @@ insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldse
 insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_WAITING_FOR_RENEWAL',0,676,2);
 insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_RENEWED_VERIFICATION',0,677,3);
 insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_NOT_RENEWED_VERIFICATION',0,678,4);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',1,679,6);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',1,680,7);
-insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',1,681,8);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_RENEWED',0,679,6);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_NOT_RENEWED',0,680,7);
+insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_NOT_APPLICABLE',0,681,8);
 insert  into `vtiger_osssoldservices_renew`(`osssoldservices_renewid`,`osssoldservices_renew`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'PLL_NOT_APPLICABLE_VERIFICATION',0,701,5);
 
 /*Data for the table `vtiger_osssoldservicescf` */

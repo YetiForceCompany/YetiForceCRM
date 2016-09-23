@@ -6,17 +6,21 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 {
 
+	/**
+	 * Function to remove field
+	 */
 	public function delete()
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		parent::delete();
 
-		$fld_module = $this->getModuleName();
+		$fldModule = $this->getModuleName();
 		$id = $this->getId();
 		$uitype = $this->get('uitype');
 		$typeofdata = $this->get('typeofdata');
@@ -27,47 +31,46 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldtype = explode("~", $typeofdata);
 		$tabId = $this->getModuleId();
 
-		$focus = CRMEntity::getInstance($fld_module);
+		$focus = CRMEntity::getInstance($fldModule);
 
-		$deletecolumnname = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fld_module . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
-		$column_cvstdfilter = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fld_module . "_" . str_replace(" ", "_", $oldfieldlabel);
-		$select_columnname = $tablename . ":" . $columnname . ":" . $fld_module . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldname . ":" . $fieldtype[0];
-		$reportsummary_column = $tablename . ":" . $columnname . ":" . str_replace(" ", "_", $oldfieldlabel);
+		$deleteColumnName = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
+		$columnCvstdfilter = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
+		$selectColumnname = $tablename . ":" . $columnname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldname . ":" . $fieldtype[0];
+		$reportsummaryColumn = $tablename . ":" . $columnname . ":" . str_replace(" ", "_", $oldfieldlabel);
 		if ($tablename != 'vtiger_crmentity') {
-			$dbquery = 'alter table ' . $adb->quote($tablename, false) . ' drop column ' . $adb->quote($columnname, false);
-			$adb->pquery($dbquery, array());
+			$dbquery = 'alter table ' . $db->quote($tablename, false) . ' drop column ' . $db->quote($columnname, false);
+			$db->pquery($dbquery, []);
 		}
 		//we have to remove the entries in customview and report related tables which have this field ($colName)
-		$adb->pquery('delete from vtiger_cvcolumnlist where columnname = ? ', array($deletecolumnname));
-		$adb->pquery('delete from vtiger_cvstdfilter where columnname = ?', array($column_cvstdfilter));
-		$adb->pquery('delete from vtiger_cvadvfilter where columnname = ?', array($deletecolumnname));
-		$adb->pquery('delete from vtiger_selectcolumn where columnname = ?', array($select_columnname));
-		$adb->pquery('delete from vtiger_relcriteria where columnname = ?', array($select_columnname));
-		$adb->pquery('delete from vtiger_reportsortcol where columnname = ?', array($select_columnname));
-		$adb->pquery('delete from vtiger_reportdatefilter where datecolumnname = ?', array($column_cvstdfilter));
-		$adb->pquery('delete from vtiger_reportsummary where columnname like ?', array('%' . $reportsummary_column . '%'));
+		$db->delete('vtiger_cvcolumnlist', 'columnname = ?', [$deleteColumnName]);
+		$db->delete('vtiger_cvstdfilter', 'columnname = ?', [$columnCvstdfilter]);
+		$db->delete('vtiger_cvadvfilter', 'columnname = ?', [$deleteColumnName]);
+		$db->delete('vtiger_selectcolumn', 'columnname = ?', [$selectColumnname]);
+		$db->delete('vtiger_relcriteria', 'columnname = ?', [$selectColumnname]);
+		$db->delete('vtiger_reportsortcol', 'columnname = ?', [$selectColumnname]);
+		$db->delete('vtiger_reportdatefilter', 'datecolumnname = ?', [$columnCvstdfilter]);
+		$db->delete('vtiger_reportsummary', 'columnname like ?', ['%' . $reportsummaryColumn . '%']);
 
 		//Deleting from convert lead mapping vtiger_table- Jaguar
-		if ($fld_module == 'Leads') {
-			$deletequery = 'delete from vtiger_convertleadmapping where leadfid=?';
-			$adb->pquery($deletequery, array($id));
-		} elseif ($fld_module == 'Accounts' || $fld_module == 'Contacts') {
-			$map_del_id = array('Accounts' => 'accountfid', 'Contacts' => 'contactfid');
-			$adb->update('vtiger_convertleadmapping', [$map_del_id[$fld_module] => 0], $map_del_id[$fld_module] . '=?', [$id]);
+		if ($fldModule == 'Leads') {
+			$db->delete('vtiger_convertleadmapping', 'leadfid = ?', [$id]);
+		} elseif ($fldModule == 'Accounts') {
+			$mapDelId = ['Accounts' => 'accountfid'];
+			$db->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], $mapDelId[$fldModule] . '=?', [$id]);
 		}
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
 		if ($this->getFieldDataType() == 'picklist' || $this->getFieldDataType() == 'multipicklist') {
-			$result = $adb->pquery('SELECT * FROM `vtiger_field` WHERE `columnname` = ? && `uitype` IN (?,?,?);', [$columnname, 15, 16, 33]);
-			if (!$adb->num_rows($result)) {
-				$adb->query('drop table vtiger_' . $columnname);
+			$result = $db->pquery('SELECT * FROM `vtiger_field` WHERE `columnname` = ? && `uitype` IN (?,?,?);', [$columnname, 15, 16, 33]);
+			if (!$db->getRowCount($result)) {
+				$db->query('DROP TABLE vtiger_' . $columnname);
 				//To Delete Sequence Table 
 				if (vtlib\Utils::CheckTable('vtiger_' . $columnname . '_seq')) {
-					$adb->query('drop table vtiger_' . $columnname . '_seq');
+					$db->query('DROP TABLE vtiger_' . $columnname . '_seq');
 				}
-				$adb->pquery('delete from vtiger_picklist where name=? ', array($columnname));
+				$db->delete('vtiger_picklist', 'name = ?', [$columnname]);
 			}
-			$adb->pquery('delete from vtiger_picklist_dependency where `tabid` = ? && (sourcefield=? or targetfield=?)', array($tabId, $columnname, $columnname));
+			$db->delete('vtiger_picklist_dependency', '`tabid` = ? AND (sourcefield=? OR targetfield=?)', [$tabId, $columnname, $columnname]);
 		}
 	}
 
