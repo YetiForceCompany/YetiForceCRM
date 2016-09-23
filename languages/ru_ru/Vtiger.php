@@ -1265,6 +1265,7 @@ $languageStrings = [
 	'Potentials' => 'Сделки',
 	'LBL_PICKLIST_FIELD' => 'Выберите одно из полей',
 	'LBL_MAP' => 'Map',
+	'LBL_SHOW_MAP' => 'Show on the map',
 	'FL_CAMPAIGN_STATUS' => 'Статус Компании',
 ];
 $jsLanguageStrings = [
