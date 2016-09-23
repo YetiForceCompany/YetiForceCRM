@@ -1253,6 +1253,7 @@ $languageStrings = [
 	'Potentials' => 'Oportunidades',
 	'LBL_PICKLIST_FIELD' => 'Select from field',
 	'LBL_MAP' => 'Map',
+	'LBL_SHOW_MAP' => 'Show on the map',
 	'FL_CAMPAIGN_STATUS' => 'Status Campanha',
 ];
 $jsLanguageStrings = [
