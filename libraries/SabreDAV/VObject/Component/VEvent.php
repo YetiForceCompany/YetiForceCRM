@@ -30,7 +30,7 @@ class VEvent extends VObject\Component {
      *
      * @return bool
      */
-    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
+    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         if ($this->RRULE) {
 
@@ -111,7 +111,7 @@ class VEvent extends VObject\Component {
      *
      * @var array
      */
-    function getValidationRules() {
+    public function getValidationRules() {
 
         $hasMethod = isset($this->parent->METHOD);
         return [

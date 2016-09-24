@@ -27,7 +27,7 @@ abstract class AbstractBackend implements BackendInterface {
      * @param array $uris
      * @return array
      */
-    function getMultipleCards($addressBookId, array $uris) {
+    public function getMultipleCards($addressBookId, array $uris) {
 
         return array_map(function($uri) use ($addressBookId) {
             return $this->getCard($addressBookId, $uri);

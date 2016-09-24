@@ -34,7 +34,7 @@ class VCFExportPlugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         $this->server = $server;
         $this->server->on('method:GET', [$this, 'httpGet'], 90);
@@ -52,7 +52,7 @@ class VCFExportPlugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpGet(RequestInterface $request, ResponseInterface $response) {
+    public function httpGet(RequestInterface $request, ResponseInterface $response) {
 
         $queryParams = $request->getQueryParameters();
         if (!array_key_exists('export', $queryParams)) return;
@@ -90,7 +90,7 @@ class VCFExportPlugin extends DAV\ServerPlugin {
      * @param array $nodes
      * @return string
      */
-    function generateVCF(array $nodes) {
+    public function generateVCF(array $nodes) {
 
         $output = "";
 
@@ -122,7 +122,7 @@ class VCFExportPlugin extends DAV\ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'vcf-export';
 
@@ -139,7 +139,7 @@ class VCFExportPlugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

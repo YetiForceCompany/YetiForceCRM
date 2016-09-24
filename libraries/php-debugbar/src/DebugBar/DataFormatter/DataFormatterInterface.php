@@ -21,7 +21,7 @@ interface DataFormatterInterface
      * @param mixed $var
      * @return string
      */
-    function formatVar($data);
+    public function formatVar($data);
 
     /**
      * Transforms a duration in seconds in a readable string
@@ -29,7 +29,7 @@ interface DataFormatterInterface
      * @param float $seconds
      * @return string
      */
-    function formatDuration($seconds);
+    public function formatDuration($seconds);
 
     /**
      * Transforms a size in bytes to a human readable string
@@ -38,5 +38,5 @@ interface DataFormatterInterface
      * @param integer $precision
      * @return string
      */
-    function formatBytes($size, $precision = 2);
+    public function formatBytes($size, $precision = 2);
 }

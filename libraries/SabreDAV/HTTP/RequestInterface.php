@@ -16,7 +16,7 @@ interface RequestInterface extends MessageInterface {
      *
      * @return string
      */
-    function getMethod();
+    public function getMethod();
 
     /**
      * Sets the HTTP method
@@ -24,14 +24,14 @@ interface RequestInterface extends MessageInterface {
      * @param string $method
      * @return void
      */
-    function setMethod($method);
+    public function setMethod($method);
 
     /**
      * Returns the request url.
      *
      * @return string
      */
-    function getUrl();
+    public function getUrl();
 
     /**
      * Sets the request url.
@@ -39,14 +39,14 @@ interface RequestInterface extends MessageInterface {
      * @param string $url
      * @return void
      */
-    function setUrl($url);
+    public function setUrl($url);
 
     /**
      * Returns the absolute url.
      *
      * @return string
      */
-    function getAbsoluteUrl();
+    public function getAbsoluteUrl();
 
     /**
      * Sets the absolute url.
@@ -54,14 +54,14 @@ interface RequestInterface extends MessageInterface {
      * @param string $url
      * @return void
      */
-    function setAbsoluteUrl($url);
+    public function setAbsoluteUrl($url);
 
     /**
      * Returns the current base url.
      *
      * @return string
      */
-    function getBaseUrl();
+    public function getBaseUrl();
 
     /**
      * Sets a base url.
@@ -73,7 +73,7 @@ interface RequestInterface extends MessageInterface {
      * @param string $url
      * @return void
      */
-    function setBaseUrl($url);
+    public function setBaseUrl($url);
 
     /**
      * Returns the relative path.
@@ -92,7 +92,7 @@ interface RequestInterface extends MessageInterface {
      *
      * @return string
      */
-    function getPath();
+    public function getPath();
 
     /**
      * Returns the list of query parameters.
@@ -101,7 +101,7 @@ interface RequestInterface extends MessageInterface {
      *
      * @return array
      */
-    function getQueryParameters();
+    public function getQueryParameters();
 
     /**
      * Returns the POST data.
@@ -110,7 +110,7 @@ interface RequestInterface extends MessageInterface {
      *
      * @return array
      */
-    function getPostData();
+    public function getPostData();
 
     /**
      * Sets the post data.
@@ -123,7 +123,7 @@ interface RequestInterface extends MessageInterface {
      * @param array $postData
      * @return void
      */
-    function setPostData(array $postData);
+    public function setPostData(array $postData);
 
     /**
      * Returns an item from the _SERVER array.
@@ -133,7 +133,7 @@ interface RequestInterface extends MessageInterface {
      * @param string $valueName
      * @return string|null
      */
-    function getRawServerValue($valueName);
+    public function getRawServerValue($valueName);
 
     /**
      * Sets the _SERVER array.
@@ -141,7 +141,7 @@ interface RequestInterface extends MessageInterface {
      * @param array $data
      * @return void
      */
-    function setRawServerData(array $data);
+    public function setRawServerData(array $data);
 
 
 }

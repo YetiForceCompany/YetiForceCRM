@@ -30,7 +30,7 @@ class RRuleIterator implements Iterator {
      * @param string|array $rrule
      * @param DateTimeInterface $start
      */
-    function __construct($rrule, DateTimeInterface $start) {
+    public function __construct($rrule, DateTimeInterface $start) {
 
         $this->startDate = $start;
         $this->parseRRule($rrule);
@@ -40,7 +40,7 @@ class RRuleIterator implements Iterator {
 
     /* Implementation of the Iterator interface {{{ */
 
-    function current() {
+    public function current() {
 
         if (!$this->valid()) return;
         return clone $this->currentDate;
@@ -52,7 +52,7 @@ class RRuleIterator implements Iterator {
      *
      * @return int
      */
-    function key() {
+    public function key() {
 
         return $this->counter;
 
@@ -65,7 +65,7 @@ class RRuleIterator implements Iterator {
      *
      * @return bool
      */
-    function valid() {
+    public function valid() {
 
         if (!is_null($this->count)) {
             return $this->counter < $this->count;
@@ -79,7 +79,7 @@ class RRuleIterator implements Iterator {
      *
      * @return void
      */
-    function rewind() {
+    public function rewind() {
 
         $this->currentDate = clone $this->startDate;
         $this->counter = 0;
@@ -91,7 +91,7 @@ class RRuleIterator implements Iterator {
      *
      * @return void
      */
-    function next() {
+    public function next() {
 
         // Otherwise, we find the next event in the normal RRULE
         // sequence.
@@ -129,7 +129,7 @@ class RRuleIterator implements Iterator {
      *
      * @return bool
      */
-    function isInfinite() {
+    public function isInfinite() {
 
         return !$this->count && !$this->until;
 
@@ -143,7 +143,7 @@ class RRuleIterator implements Iterator {
      *
      * @return void
      */
-    function fastForward(DateTimeInterface $dt) {
+    public function fastForward(DateTimeInterface $dt) {
 
         while ($this->valid() && $this->currentDate < $dt) {
             $this->next();

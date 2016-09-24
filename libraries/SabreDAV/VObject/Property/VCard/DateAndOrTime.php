@@ -36,7 +36,7 @@ class DateAndOrTime extends Property {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'DATE-AND-OR-TIME';
 
@@ -51,7 +51,7 @@ class DateAndOrTime extends Property {
      *
      * @return void
      */
-    function setParts(array $parts) {
+    public function setParts(array $parts) {
 
         if (count($parts) > 1) {
             throw new \InvalidArgumentException('Only one value allowed');
@@ -75,7 +75,7 @@ class DateAndOrTime extends Property {
      *
      * @return void
      */
-    function setValue($value) {
+    public function setValue($value) {
 
         if ($value instanceof \DateTime) {
             $this->setDateTime($value);
@@ -92,7 +92,7 @@ class DateAndOrTime extends Property {
      *
      * @return void
      */
-    function setDateTime(DateTimeInterface $dt) {
+    public function setDateTime(DateTimeInterface $dt) {
 
         $tz = $dt->getTimeZone();
         $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
@@ -124,7 +124,7 @@ class DateAndOrTime extends Property {
      *
      * @return DateTimeImmutable
      */
-    function getDateTime() {
+    public function getDateTime() {
 
         $now = new DateTime();
 
@@ -152,7 +152,7 @@ class DateAndOrTime extends Property {
      *
      * @return array
      */
-    function getJsonValue() {
+    public function getJsonValue() {
 
         $parts = DateTimeParser::parseVCardDateTime($this->getValue());
 
@@ -343,7 +343,7 @@ class DateAndOrTime extends Property {
      *
      * @return void
      */
-    function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val) {
 
         $this->setValue($val);
 
@@ -354,7 +354,7 @@ class DateAndOrTime extends Property {
      *
      * @return string
      */
-    function getRawMimeDirValue() {
+    public function getRawMimeDirValue() {
 
         return implode($this->delimiter, $this->getParts());
 
@@ -382,7 +382,7 @@ class DateAndOrTime extends Property {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $messages = parent::validate($options);
         $value = $this->getValue();

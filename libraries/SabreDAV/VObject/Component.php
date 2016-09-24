@@ -50,7 +50,7 @@ class Component extends Node {
      *
      * @return void
      */
-    function __construct(Document $root, $name, array $children = [], $defaults = true) {
+    public function __construct(Document $root, $name, array $children = [], $defaults = true) {
 
         $this->name = strtoupper($name);
         $this->root = $root;
@@ -106,7 +106,7 @@ class Component extends Node {
      *
      * @return Node
      */
-    function add() {
+    public function add() {
 
         $arguments = func_get_args();
 
@@ -148,7 +148,7 @@ class Component extends Node {
      * @param string|Property|Component $item
      * @return void
      */
-    function remove($item) {
+    public function remove($item) {
 
         if (is_string($item)) {
             // If there's no dot in the name, it's an exact property name and
@@ -184,7 +184,7 @@ class Component extends Node {
      *
      * @return array
      */
-    function children() {
+    public function children() {
 
         $result = [];
         foreach ($this->children as $childGroup) {
@@ -200,7 +200,7 @@ class Component extends Node {
      *
      * @return array
      */
-    function getComponents() {
+    public function getComponents() {
 
         $result = [];
 
@@ -228,7 +228,7 @@ class Component extends Node {
      * @param string $name
      * @return array
      */
-    function select($name) {
+    public function select($name) {
 
         $group = null;
         $name = strtoupper($name);
@@ -248,7 +248,7 @@ class Component extends Node {
                 // more.
                 return array_filter(
                     $result,
-                    function($child) use ($group) {
+                    public function($child) use ($group) {
 
                         return $child instanceof Property && strtoupper($child->group) === $group;
 
@@ -281,7 +281,7 @@ class Component extends Node {
      *
      * @return string
      */
-    function serialize() {
+    public function serialize() {
 
         $str = "BEGIN:" . $this->name . "\r\n";
 
@@ -334,7 +334,7 @@ class Component extends Node {
         $tmp = $children;
         uksort(
             $children,
-            function($a, $b) use ($sortScore, $tmp) {
+            public function($a, $b) use ($sortScore, $tmp) {
 
                 $sA = $sortScore($a, $tmp);
                 $sB = $sortScore($b, $tmp);
@@ -357,7 +357,7 @@ class Component extends Node {
      *
      * @return array
      */
-    function jsonSerialize() {
+    public function jsonSerialize() {
 
         $components = [];
         $properties = [];
@@ -388,7 +388,7 @@ class Component extends Node {
      *
      * @return void
      */
-    function xmlSerialize(Xml\Writer $writer) {
+    public function xmlSerialize(Xml\Writer $writer) {
 
         $components = [];
         $properties = [];
@@ -459,7 +459,7 @@ class Component extends Node {
      *
      * @return Property
      */
-    function __get($name) {
+    public function __get($name) {
 
         if ($name === 'children') {
 
@@ -486,7 +486,7 @@ class Component extends Node {
      *
      * @return bool
      */
-    function __isset($name) {
+    public function __isset($name) {
 
         $matches = $this->select($name);
         return count($matches) > 0;
@@ -507,7 +507,7 @@ class Component extends Node {
      *
      * @return void
      */
-    function __set($name, $value) {
+    public function __set($name, $value) {
 
         $name = strtoupper($name);
         $this->remove($name);
@@ -526,7 +526,7 @@ class Component extends Node {
      *
      * @return void
      */
-    function __unset($name) {
+    public function __unset($name) {
 
         $this->remove($name);
 
@@ -540,7 +540,7 @@ class Component extends Node {
      *
      * @return void
      */
-    function __clone() {
+    public function __clone() {
 
         foreach ($this->children as $childName => $childGroup) {
             foreach ($childGroup as $key => $child) {
@@ -574,7 +574,7 @@ class Component extends Node {
      *
      * @var array
      */
-    function getValidationRules() {
+    public function getValidationRules() {
 
         return [];
 
@@ -604,7 +604,7 @@ class Component extends Node {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $rules = $this->getValidationRules();
         $defaults = $this->getDefaults();
@@ -685,7 +685,7 @@ class Component extends Node {
      *
      * @return void
      */
-    function destroy() {
+    public function destroy() {
 
         parent::destroy();
         foreach ($this->children as $childGroup) {

@@ -18,7 +18,7 @@ interface StorageInterface
      * @param string $id
      * @param string $data
      */
-    function save($id, $data);
+    public function save($id, $data);
 
     /**
      * Returns collected data with the specified id
@@ -26,7 +26,7 @@ interface StorageInterface
      * @param string $id
      * @return array
      */
-    function get($id);
+    public function get($id);
 
     /**
      * Returns a metadata about collected data
@@ -36,10 +36,10 @@ interface StorageInterface
      * @param integer $offset
      * @return array
      */
-    function find(array $filters = array(), $max = 20, $offset = 0);
+    public function find(array $filters = array(), $max = 20, $offset = 0);
 
     /**
      * Clears all the collected data
      */
-    function clear();
+    public function clear();
 }

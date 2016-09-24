@@ -36,7 +36,7 @@ class Duration extends Property {
      *
      * @return void
      */
-    function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val) {
 
         $this->setValue(explode($this->delimiter, $val));
 
@@ -47,7 +47,7 @@ class Duration extends Property {
      *
      * @return string
      */
-    function getRawMimeDirValue() {
+    public function getRawMimeDirValue() {
 
         return implode($this->delimiter, $this->getParts());
 
@@ -61,7 +61,7 @@ class Duration extends Property {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'DURATION';
 
@@ -74,7 +74,7 @@ class Duration extends Property {
      *
      * @return \DateInterval
      */
-    function getDateInterval() {
+    public function getDateInterval() {
 
         $parts = $this->getParts();
         $value = $parts[0];

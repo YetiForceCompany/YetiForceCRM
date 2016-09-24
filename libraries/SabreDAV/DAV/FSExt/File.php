@@ -22,7 +22,7 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      * @param resource|string $data
      * @return string
      */
-    function put($data) {
+    public function put($data) {
 
         file_put_contents($this->path, $data);
         clearstatcache(true, $this->path);
@@ -57,7 +57,7 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      * @param int $offset
      * @return string|null
      */
-    function patch($data, $rangeType, $offset = null) {
+    public function patch($data, $rangeType, $offset = null) {
 
         switch ($rangeType) {
             case 1 :
@@ -88,7 +88,7 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      *
      * @return resource
      */
-    function get() {
+    public function get() {
 
         return fopen($this->path, 'r');
 
@@ -99,7 +99,7 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      *
      * @return bool
      */
-    function delete() {
+    public function delete() {
 
         return unlink($this->path);
 
@@ -115,7 +115,7 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      *
      * @return string|null
      */
-    function getETag() {
+    public function getETag() {
 
         return '"' . sha1(
             fileinode($this->path) .
@@ -132,7 +132,7 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      *
      * @return string|null
      */
-    function getContentType() {
+    public function getContentType() {
 
         return null;
 
@@ -143,7 +143,7 @@ class File extends Node implements DAV\PartialUpdate\IPatchSupport {
      *
      * @return int
      */
-    function getSize() {
+    public function getSize() {
 
         return filesize($this->path);
 

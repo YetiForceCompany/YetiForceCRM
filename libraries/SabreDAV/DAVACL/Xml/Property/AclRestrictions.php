@@ -35,7 +35,7 @@ class AclRestrictions implements XmlSerializable {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         $writer->writeElement('{DAV:}grant-only');
         $writer->writeElement('{DAV:}no-invert');

@@ -43,7 +43,7 @@ class IMipPlugin extends DAV\ServerPlugin {
      *                             generally be some kind of no-reply email
      *                             address you own.
      */
-    function __construct($senderEmail) {
+    public function __construct($senderEmail) {
 
         $this->senderEmail = $senderEmail;
 
@@ -60,7 +60,7 @@ class IMipPlugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         $server->on('schedule', [$this, 'schedule'], 120);
 
@@ -74,7 +74,7 @@ class IMipPlugin extends DAV\ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'imip';
 
@@ -86,7 +86,7 @@ class IMipPlugin extends DAV\ServerPlugin {
      * @param ITip\Message $iTipMessage
      * @return void
      */
-    function schedule(ITip\Message $iTipMessage) {
+    public function schedule(ITip\Message $iTipMessage) {
 
         // Not sending any emails if the system considers the update
         // insignificant.
@@ -177,7 +177,7 @@ class IMipPlugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

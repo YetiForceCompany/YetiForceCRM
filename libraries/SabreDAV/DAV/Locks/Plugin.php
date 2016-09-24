@@ -41,7 +41,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @param Backend\BackendInterface $locksBackend
      */
-    function __construct(Backend\BackendInterface $locksBackend) {
+    public function __construct(Backend\BackendInterface $locksBackend) {
 
         $this->locksBackend = $locksBackend;
 
@@ -55,7 +55,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         $this->server = $server;
 
@@ -77,7 +77,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'locks';
 
@@ -91,7 +91,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\INode $node
      * @return void
      */
-    function propFind(DAV\PropFind $propFind, DAV\INode $node) {
+    public function propFind(DAV\PropFind $propFind, DAV\INode $node) {
 
         $propFind->handle('{DAV:}supportedlock', function() {
             return new DAV\Xml\Property\SupportedLock();
@@ -114,7 +114,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $uri
      * @return array
      */
-    function getHTTPMethods($uri) {
+    public function getHTTPMethods($uri) {
 
         return ['LOCK','UNLOCK'];
 
@@ -128,7 +128,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getFeatures() {
+    public function getFeatures() {
 
         return [2];
 
@@ -147,7 +147,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param bool $returnChildLocks
      * @return array
      */
-    function getLocks($uri, $returnChildLocks = false) {
+    public function getLocks($uri, $returnChildLocks = false) {
 
         return $this->locksBackend->getLocks($uri, $returnChildLocks);
 
@@ -168,7 +168,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpLock(RequestInterface $request, ResponseInterface $response) {
+    public function httpLock(RequestInterface $request, ResponseInterface $response) {
 
         $uri = $request->getPath();
 
@@ -271,7 +271,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return void
      */
-    function httpUnlock(RequestInterface $request, ResponseInterface $response) {
+    public function httpUnlock(RequestInterface $request, ResponseInterface $response) {
 
         $lockToken = $request->getHeader('Lock-Token');
 
@@ -314,7 +314,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $path
      * @return void
      */
-    function afterUnbind($path) {
+    public function afterUnbind($path) {
 
         $locks = $this->getLocks($path, $includeChildren = true);
         foreach ($locks as $lock) {
@@ -333,7 +333,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param LockInfo $lockInfo
      * @return bool
      */
-    function lockNode($uri, LockInfo $lockInfo) {
+    public function lockNode($uri, LockInfo $lockInfo) {
 
         if (!$this->server->emit('beforeLock', [$uri, $lockInfo])) return;
         return $this->locksBackend->lock($uri, $lockInfo);
@@ -349,7 +349,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param LockInfo $lockInfo
      * @return bool
      */
-    function unlockNode($uri, LockInfo $lockInfo) {
+    public function unlockNode($uri, LockInfo $lockInfo) {
 
         if (!$this->server->emit('beforeUnlock', [$uri, $lockInfo])) return;
         return $this->locksBackend->unlock($uri, $lockInfo);
@@ -364,7 +364,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return int
      */
-    function getTimeoutHeader() {
+    public function getTimeoutHeader() {
 
         $header = $this->server->httpRequest->getHeader('Timeout');
 
@@ -412,7 +412,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param mixed $conditions
      * @return void
      */
-    function validateTokens(RequestInterface $request, &$conditions) {
+    public function validateTokens(RequestInterface $request, &$conditions) {
 
         // First we need to gather a list of locks that must be satisfied.
         $mustLocks = [];
@@ -575,7 +575,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

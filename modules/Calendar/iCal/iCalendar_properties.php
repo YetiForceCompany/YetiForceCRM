@@ -1423,20 +1423,4 @@ class iCalendar_property_tzid extends iCalendar_property
 		);
 	}
 }
-
-#######################
-/*
-  class iCalendar_property_class extends iCalendar_property {
-
-  var $name        = 'CLASS';
-  var $val_type    = RFC2445_TYPE_TEXT;
-
-  function construct() {
-  $this->valid_parameters = array(
-  RFC2445_XNAME => RFC2445_OPTIONAL
-  );
-  }
-  }
- */
-
 ?>

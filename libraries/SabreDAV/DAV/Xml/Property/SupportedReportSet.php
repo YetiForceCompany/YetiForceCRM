@@ -40,7 +40,7 @@ class SupportedReportSet implements XmlSerializable, HtmlOutput {
      *
      * @param string|string[] $reports
      */
-    function __construct($reports = null) {
+    public function __construct($reports = null) {
 
         if (!is_null($reports))
             $this->addReport($reports);
@@ -56,7 +56,7 @@ class SupportedReportSet implements XmlSerializable, HtmlOutput {
      * @param mixed $report
      * @return void
      */
-    function addReport($report) {
+    public function addReport($report) {
 
         $report = (array)$report;
 
@@ -76,7 +76,7 @@ class SupportedReportSet implements XmlSerializable, HtmlOutput {
      *
      * @return string[]
      */
-    function getValue() {
+    public function getValue() {
 
         return $this->reports;
 
@@ -88,7 +88,7 @@ class SupportedReportSet implements XmlSerializable, HtmlOutput {
      * @param string $reportName
      * @return bool
      */
-    function has($reportName) {
+    public function has($reportName) {
 
         return in_array(
             $reportName,
@@ -116,7 +116,7 @@ class SupportedReportSet implements XmlSerializable, HtmlOutput {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->getValue() as $val) {
             $writer->startElement('{DAV:}supported-report');
@@ -142,7 +142,7 @@ class SupportedReportSet implements XmlSerializable, HtmlOutput {
      * @param HtmlOutputHelper $html
      * @return string
      */
-    function toHtml(HtmlOutputHelper $html) {
+    public function toHtml(HtmlOutputHelper $html) {
 
         return implode(
             ', ',

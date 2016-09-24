@@ -194,7 +194,7 @@ interface SharingSupport extends NotificationSupport {
      * @param array $remove
      * @return void
      */
-    function updateShares($calendarId, array $add, array $remove);
+    public function updateShares($calendarId, array $add, array $remove);
 
     /**
      * Returns the list of people whom this calendar is shared with.
@@ -214,7 +214,7 @@ interface SharingSupport extends NotificationSupport {
      * @param mixed $calendarId
      * @return array
      */
-    function getShares($calendarId);
+    public function getShares($calendarId);
 
     /**
      * This method is called when a user replied to a request to share.
@@ -229,7 +229,7 @@ interface SharingSupport extends NotificationSupport {
      * @param string $summary A description of the reply
      * @return null|string
      */
-    function shareReply($href, $status, $calendarUri, $inReplyTo, $summary = null);
+    public function shareReply($href, $status, $calendarUri, $inReplyTo, $summary = null);
 
     /**
      * Publishes a calendar
@@ -238,6 +238,6 @@ interface SharingSupport extends NotificationSupport {
      * @param bool $value
      * @return void
      */
-    function setPublishStatus($calendarId, $value);
+    public function setPublishStatus($calendarId, $value);
 
 }

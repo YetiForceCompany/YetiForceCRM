@@ -30,7 +30,7 @@ class MkCalendar implements XmlDeserializable {
      *
      * @return array
      */
-    function getProperties() {
+    public function getProperties() {
 
         return $this->properties;
 

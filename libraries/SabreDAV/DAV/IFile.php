@@ -35,7 +35,7 @@ interface IFile extends INode {
      * @param resource $data
      * @return string|null
      */
-    function put($data);
+    public function put($data);
 
     /**
      * Returns the data
@@ -44,7 +44,7 @@ interface IFile extends INode {
      *
      * @return mixed
      */
-    function get();
+    public function get();
 
     /**
      * Returns the mime-type for a file
@@ -53,7 +53,7 @@ interface IFile extends INode {
      *
      * @return string|null
      */
-    function getContentType();
+    public function getContentType();
 
     /**
      * Returns the ETag for a file
@@ -69,13 +69,13 @@ interface IFile extends INode {
      *
      * @return string|null
      */
-    function getETag();
+    public function getETag();
 
     /**
      * Returns the size of the node, in bytes
      *
      * @return int
      */
-    function getSize();
+    public function getSize();
 
 }

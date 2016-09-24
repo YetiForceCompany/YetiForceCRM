@@ -38,6 +38,6 @@ interface IExtendedCollection extends ICollection {
      * @throws Exception\InvalidResourceType
      * @return void
      */
-    function createExtendedCollection($name, MkCol $mkCol);
+    public function createExtendedCollection($name, MkCol $mkCol);
 
 }

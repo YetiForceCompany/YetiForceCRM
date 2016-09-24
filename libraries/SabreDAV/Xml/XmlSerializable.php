@@ -31,6 +31,6 @@ interface XmlSerializable {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer);
+    public function xmlSerialize(Writer $writer);
 
 }

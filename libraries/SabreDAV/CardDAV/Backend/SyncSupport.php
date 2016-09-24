@@ -76,6 +76,6 @@ interface SyncSupport extends BackendInterface {
      * @param int $limit
      * @return array
      */
-    function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null);
+    public function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null);
 
 }

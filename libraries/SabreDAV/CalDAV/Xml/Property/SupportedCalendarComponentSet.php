@@ -37,7 +37,7 @@ class SupportedCalendarComponentSet implements Element {
      *
      * @param array $components
      */
-    function __construct(array $components) {
+    public function __construct(array $components) {
 
         $this->components = $components;
 
@@ -48,7 +48,7 @@ class SupportedCalendarComponentSet implements Element {
      *
      * @return array
      */
-    function getValue() {
+    public function getValue() {
 
         return $this->components;
 
@@ -73,7 +73,7 @@ class SupportedCalendarComponentSet implements Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->components as $component) {
 

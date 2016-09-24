@@ -42,7 +42,7 @@ class Plugin extends ServerPlugin {
      *
      * @param Backend\BackendInterface $backend
      */
-    function __construct(Backend\BackendInterface $backend) {
+    public function __construct(Backend\BackendInterface $backend) {
 
         $this->backend = $backend;
 
@@ -59,7 +59,7 @@ class Plugin extends ServerPlugin {
      * @param Server $server
      * @return void
      */
-    function initialize(Server $server) {
+    public function initialize(Server $server) {
 
         $server->on('propFind',    [$this, 'propFind'], 130);
         $server->on('propPatch',   [$this, 'propPatch'], 300);
@@ -78,7 +78,7 @@ class Plugin extends ServerPlugin {
      * @param INode $node
      * @return void
      */
-    function propFind(PropFind $propFind, INode $node) {
+    public function propFind(PropFind $propFind, INode $node) {
 
         $path = $propFind->getPath();
         $pathFilter = $this->pathFilter;
@@ -97,7 +97,7 @@ class Plugin extends ServerPlugin {
      * @param PropPatch $propPatch
      * @return void
      */
-    function propPatch($path, PropPatch $propPatch) {
+    public function propPatch($path, PropPatch $propPatch) {
 
         $pathFilter = $this->pathFilter;
         if ($pathFilter && !$pathFilter($path)) return;
@@ -114,7 +114,7 @@ class Plugin extends ServerPlugin {
      * @param string $path
      * @return void
      */
-    function afterUnbind($path) {
+    public function afterUnbind($path) {
 
         $pathFilter = $this->pathFilter;
         if ($pathFilter && !$pathFilter($path)) return;
@@ -131,7 +131,7 @@ class Plugin extends ServerPlugin {
      * @param string $destination
      * @return void
      */
-    function afterMove($source, $destination) {
+    public function afterMove($source, $destination) {
 
         $pathFilter = $this->pathFilter;
         if ($pathFilter && !$pathFilter($source)) return;
@@ -151,7 +151,7 @@ class Plugin extends ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'property-storage';
 
@@ -168,7 +168,7 @@ class Plugin extends ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

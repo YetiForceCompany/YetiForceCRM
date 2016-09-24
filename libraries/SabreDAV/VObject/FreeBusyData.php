@@ -32,7 +32,7 @@ class FreeBusyData {
      */
     protected $data;
 
-    function __construct($start, $end) {
+    public function __construct($start, $end) {
 
         $this->start = $start;
         $this->end = $end;
@@ -54,7 +54,7 @@ class FreeBusyData {
      * @param string $type FREE, BUSY, BUSY-UNAVAILABLE or BUSY-TENTATIVE
      * @return void
      */
-    function add($start, $end, $type) {
+    public function add($start, $end, $type) {
 
         if ($start > $this->end || $end < $this->start) {
 
@@ -184,7 +184,7 @@ class FreeBusyData {
 
     }
 
-    function getData() {
+    public function getData() {
 
         return $this->data;
 

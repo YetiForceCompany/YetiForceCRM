@@ -29,7 +29,7 @@ interface IShareableCalendar extends ICalendar {
      * @param array $remove
      * @return void
      */
-    function updateShares(array $add, array $remove);
+    public function updateShares(array $add, array $remove);
 
     /**
      * Returns the list of people whom this calendar is shared with.
@@ -43,6 +43,6 @@ interface IShareableCalendar extends ICalendar {
      *
      * @return array
      */
-    function getShares();
+    public function getShares();
 
 }

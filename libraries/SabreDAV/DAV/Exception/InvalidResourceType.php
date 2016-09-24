@@ -23,7 +23,7 @@ class InvalidResourceType extends Forbidden {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(\Sabre\DAV\Server $server, \DOMElement $errorNode) {
+    public function serialize(\Sabre\DAV\Server $server, \DOMElement $errorNode) {
 
         $error = $errorNode->ownerDocument->createElementNS('DAV:', 'd:valid-resourcetype');
         $errorNode->appendChild($error);

@@ -28,7 +28,7 @@ abstract class Node implements DAV\INode {
      *
      * @param string $path
      */
-    function __construct($path) {
+    public function __construct($path) {
 
         $this->path = $path;
 
@@ -41,7 +41,7 @@ abstract class Node implements DAV\INode {
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         list(, $name)  = URLUtil::splitPath($this->path);
         return $name;
@@ -54,7 +54,7 @@ abstract class Node implements DAV\INode {
      * @param string $name The new name
      * @return void
      */
-    function setName($name) {
+    public function setName($name) {
 
         list($parentPath, ) = URLUtil::splitPath($this->path);
         list(, $newName) = URLUtil::splitPath($name);
@@ -71,7 +71,7 @@ abstract class Node implements DAV\INode {
      *
      * @return int
      */
-    function getLastModified() {
+    public function getLastModified() {
 
         return filemtime($this->path);
 

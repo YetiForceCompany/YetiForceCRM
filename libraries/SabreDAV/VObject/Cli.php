@@ -96,7 +96,7 @@ class Cli {
      *
      * @return int
      */
-    function main(array $argv) {
+    public function main(array $argv) {
 
         // @codeCoverageIgnoreStart
         // We cannot easily test this, so we'll skip it. Pretty basic anyway.
@@ -587,7 +587,7 @@ HELP
         $tmp = $children;
         uksort(
             $children,
-            function($a, $b) use ($sortScore, $tmp) {
+            public function($a, $b) use ($sortScore, $tmp) {
 
                 $sA = $sortScore($a, $tmp);
                 $sB = $sortScore($b, $tmp);

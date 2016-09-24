@@ -40,7 +40,7 @@ class ProxyRead implements IProxyRead {
      * @param DAVACL\PrincipalBackend\BackendInterface $principalBackend
      * @param array $principalInfo
      */
-    function __construct(DAVACL\PrincipalBackend\BackendInterface $principalBackend, array $principalInfo) {
+    public function __construct(DAVACL\PrincipalBackend\BackendInterface $principalBackend, array $principalInfo) {
 
         $this->principalInfo = $principalInfo;
         $this->principalBackend = $principalBackend;
@@ -52,7 +52,7 @@ class ProxyRead implements IProxyRead {
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         return 'calendar-proxy-read';
 
@@ -63,7 +63,7 @@ class ProxyRead implements IProxyRead {
      *
      * @return null
      */
-    function getLastModified() {
+    public function getLastModified() {
 
         return null;
 
@@ -75,7 +75,7 @@ class ProxyRead implements IProxyRead {
      * @throws DAV\Exception\Forbidden
      * @return void
      */
-    function delete() {
+    public function delete() {
 
         throw new DAV\Exception\Forbidden('Permission denied to delete node');
 
@@ -88,7 +88,7 @@ class ProxyRead implements IProxyRead {
      * @param string $name The new name
      * @return void
      */
-    function setName($name) {
+    public function setName($name) {
 
         throw new DAV\Exception\Forbidden('Permission denied to rename file');
 
@@ -102,7 +102,7 @@ class ProxyRead implements IProxyRead {
      *
      * @return array
      */
-    function getAlternateUriSet() {
+    public function getAlternateUriSet() {
 
         return [];
 
@@ -113,7 +113,7 @@ class ProxyRead implements IProxyRead {
      *
      * @return string
      */
-    function getPrincipalUrl() {
+    public function getPrincipalUrl() {
 
         return $this->principalInfo['uri'] . '/' . $this->getName();
 
@@ -127,7 +127,7 @@ class ProxyRead implements IProxyRead {
      *
      * @return array
      */
-    function getGroupMemberSet() {
+    public function getGroupMemberSet() {
 
         return $this->principalBackend->getGroupMemberSet($this->getPrincipalUrl());
 
@@ -141,7 +141,7 @@ class ProxyRead implements IProxyRead {
      *
      * @return array
      */
-    function getGroupMembership() {
+    public function getGroupMembership() {
 
         return $this->principalBackend->getGroupMembership($this->getPrincipalUrl());
 
@@ -158,7 +158,7 @@ class ProxyRead implements IProxyRead {
      * @param array $principals
      * @return void
      */
-    function setGroupMemberSet(array $principals) {
+    public function setGroupMemberSet(array $principals) {
 
         $this->principalBackend->setGroupMemberSet($this->getPrincipalUrl(), $principals);
 
@@ -172,7 +172,7 @@ class ProxyRead implements IProxyRead {
      *
      * @return string
      */
-    function getDisplayName() {
+    public function getDisplayName() {
 
         return $this->getName();
 

@@ -26,7 +26,7 @@ class ClientHttpException extends \Exception implements HttpException {
      *
      * @param ResponseInterface $response
      */
-    function __construct(ResponseInterface $response) {
+    public function __construct(ResponseInterface $response) {
 
         $this->response = $response;
         parent::__construct($response->getStatusText(), $response->getStatus());
@@ -38,7 +38,7 @@ class ClientHttpException extends \Exception implements HttpException {
      *
      * @return int
      */
-    function getHttpStatus() {
+    public function getHttpStatus() {
 
         return $this->response->getStatus();
 
@@ -49,7 +49,7 @@ class ClientHttpException extends \Exception implements HttpException {
      *
      * @return ResponseInterface
      */
-    function getResponse() {
+    public function getResponse() {
 
         return $this->response;
 

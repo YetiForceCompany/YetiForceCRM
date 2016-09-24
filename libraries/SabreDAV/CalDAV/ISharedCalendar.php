@@ -17,7 +17,7 @@ interface ISharedCalendar extends ICalendar {
      *
      * @return string
      */
-    function getSharedUrl();
+    public function getSharedUrl();
 
     /**
      * Returns the list of people whom this calendar is shared with.
@@ -31,6 +31,6 @@ interface ISharedCalendar extends ICalendar {
      *
      * @return array
      */
-    function getShares();
+    public function getShares();
 
 }

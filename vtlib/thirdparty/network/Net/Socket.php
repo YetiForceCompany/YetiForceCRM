@@ -94,7 +94,7 @@ class Net_Socket extends PEAR {
      *
      * @return boolean | PEAR_Error  True on success or a PEAR_Error on failure.
      */
-    function connect($addr, $port = 0, $persistent = null, $timeout = null, $options = null)
+    public function connect($addr, $port = 0, $persistent = null, $timeout = null, $options = null)
     {
         if (is_resource($this->fp)) {
             @fclose($this->fp);
@@ -168,7 +168,7 @@ class Net_Socket extends PEAR {
      * @access public
      * @return mixed true on success or a PEAR_Error instance otherwise
      */
-    function disconnect()
+    public function disconnect()
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -185,7 +185,7 @@ class Net_Socket extends PEAR {
      * @access public
      * @return boolean  The current blocking mode.
      */
-    function isBlocking()
+    public function isBlocking()
     {
         return $this->blocking;
     }
@@ -200,7 +200,7 @@ class Net_Socket extends PEAR {
      * @access public
      * @return mixed true on success or a PEAR_Error instance otherwise
      */
-    function setBlocking($mode)
+    public function setBlocking($mode)
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -220,7 +220,7 @@ class Net_Socket extends PEAR {
      * @access public
      * @return mixed true on success or a PEAR_Error instance otherwise
      */
-    function setTimeout($seconds, $microseconds)
+    public function setTimeout($seconds, $microseconds)
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -237,7 +237,7 @@ class Net_Socket extends PEAR {
      * @access public
      * @return mixed on success or an PEAR_Error object otherwise
      */
-    function setWriteBuffer($size)
+    public function setWriteBuffer($size)
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -264,7 +264,7 @@ class Net_Socket extends PEAR {
      * @access public
      * @return mixed Array containing information about existing socket resource or a PEAR_Error instance otherwise
      */
-    function getStatus()
+    public function getStatus()
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -280,7 +280,7 @@ class Net_Socket extends PEAR {
      * @return $size bytes of data from the socket, or a PEAR_Error if
      *         not connected.
      */
-    function gets($size)
+    public function gets($size)
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -300,7 +300,7 @@ class Net_Socket extends PEAR {
      * @return $size bytes of data from the socket, or a PEAR_Error if
      *         not connected.
      */
-    function read($size)
+    public function read($size)
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -321,7 +321,7 @@ class Net_Socket extends PEAR {
      *               If the write succeeds, returns the number of bytes written
      *               If the write fails, returns false.
      */
-    function write($data, $blocksize = null)
+    public function write($data, $blocksize = null)
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -354,7 +354,7 @@ class Net_Socket extends PEAR {
      * @access public
      * @return mixed fputs result, or an error
      */
-    function writeLine($data)
+    public function writeLine($data)
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -371,7 +371,7 @@ class Net_Socket extends PEAR {
      * @access public
      * @return bool
      */
-    function eof()
+    public function eof()
     {
         return (!is_resource($this->fp) || feof($this->fp));
     }
@@ -383,7 +383,7 @@ class Net_Socket extends PEAR {
      * @return 1 byte of data from the socket, or a PEAR_Error if
      *         not connected.
      */
-    function readByte()
+    public function readByte()
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -399,7 +399,7 @@ class Net_Socket extends PEAR {
      * @return 1 word of data from the socket, or a PEAR_Error if
      *         not connected.
      */
-    function readWord()
+    public function readWord()
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -416,7 +416,7 @@ class Net_Socket extends PEAR {
      * @return integer  1 int of data from the socket, or a PEAR_Error if
      *                  not connected.
      */
-    function readInt()
+    public function readInt()
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -434,7 +434,7 @@ class Net_Socket extends PEAR {
      * @return string, or a PEAR_Error if
      *         not connected.
      */
-    function readString()
+    public function readString()
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -454,7 +454,7 @@ class Net_Socket extends PEAR {
      * @return Dot formatted string, or a PEAR_Error if
      *         not connected.
      */
-    function readIPAddress()
+    public function readIPAddress()
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -474,7 +474,7 @@ class Net_Socket extends PEAR {
      *         newline, or until the end of the socket, or a PEAR_Error if
      *         not connected.
      */
-    function readLine()
+    public function readLine()
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -504,7 +504,7 @@ class Net_Socket extends PEAR {
      * @return string  All data until the socket closes, or a PEAR_Error if
      *                 not connected.
      */
-    function readAll()
+    public function readAll()
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -529,7 +529,7 @@ class Net_Socket extends PEAR {
      * @return False if select fails, integer describing which of read/write/error
      *         are ready, or PEAR_Error if not connected.
      */
-    function select($state, $tv_sec, $tv_usec = 0)
+    public function select($state, $tv_sec, $tv_usec = 0)
     {
         if (!is_resource($this->fp)) {
             return $this->raiseError('not connected');
@@ -577,7 +577,7 @@ class Net_Socket extends PEAR {
      *         user should try again (non-blocking sockets only). A PEAR_Error object
      *         is returned if the socket is not connected
      */
-    function enableCrypto($enabled, $type)
+    public function enableCrypto($enabled, $type)
     {
         if (version_compare(phpversion(), "5.1.0", ">=")) {
             if (!is_resource($this->fp)) {

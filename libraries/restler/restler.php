@@ -968,13 +968,13 @@ class DefaultResponse implements iRespond
 {
 
 
-    function __formatResponse($result)
+    public function __formatResponse($result)
     {
         return $result;
     }
 
 
-    function __formatError($statusCode, $message)
+    public function __formatError($statusCode, $message)
     {
         return array(
             'error' => array(
@@ -1330,7 +1330,7 @@ class DocParser
     private $params = array();
 
 
-    function parse($doc = '')
+    public function parse($doc = '')
     {
         if ($doc == '') {
             return $this->params;
@@ -1553,7 +1553,7 @@ spl_autoload_register('autoload_formats');
 if (!function_exists('isRestlerCompatibilityModeEnabled')) {
 
 
-    function isRestlerCompatibilityModeEnabled()
+    public function isRestlerCompatibilityModeEnabled()
     {
         return false;
     }

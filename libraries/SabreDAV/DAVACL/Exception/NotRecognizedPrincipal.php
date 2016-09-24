@@ -23,7 +23,7 @@ class NotRecognizedPrincipal extends DAV\Exception\PreconditionFailed {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(DAV\Server $server, \DOMElement $errorNode) {
+    public function serialize(DAV\Server $server, \DOMElement $errorNode) {
 
         $doc = $errorNode->ownerDocument;
 

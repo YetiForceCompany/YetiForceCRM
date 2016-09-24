@@ -67,12 +67,12 @@ function coroutine(callable $gen) {
             $yieldedValue = $generator->current();
             if ($yieldedValue instanceof Promise) {
                 $yieldedValue->then(
-                    function($value) use ($generator, &$advanceGenerator, &$lastYieldResult) {
+                    public function($value) use ($generator, &$advanceGenerator, &$lastYieldResult) {
                         $lastYieldResult = $value;
                         $generator->send($value);
                         $advanceGenerator();
                     },
-                    function($reason) use ($generator, $advanceGenerator) {
+                    public function($reason) use ($generator, $advanceGenerator) {
                         if ($reason instanceof Exception) {
                             $generator->throw($reason);
                         } elseif (is_scalar($reason)) {

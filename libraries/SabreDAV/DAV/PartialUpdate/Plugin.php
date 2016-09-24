@@ -41,7 +41,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         $this->server = $server;
         $server->on('method:PATCH', [$this, 'httpPatch']);
@@ -56,7 +56,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'partialupdate';
 
@@ -76,7 +76,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $uri
      * @return array
      */
-    function getHTTPMethods($uri) {
+    public function getHTTPMethods($uri) {
 
         $tree = $this->server->tree;
 
@@ -95,7 +95,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getFeatures() {
+    public function getFeatures() {
 
         return ['sabredav-partialupdate'];
 
@@ -112,7 +112,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return void
      */
-    function httpPatch(RequestInterface $request, ResponseInterface $response) {
+    public function httpPatch(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
 
@@ -194,7 +194,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param RequestInterface $request
      * @return array|null
      */
-    function getHTTPUpdateRange(RequestInterface $request) {
+    public function getHTTPUpdateRange(RequestInterface $request) {
 
         $range = $request->getHeader('X-Update-Range');
         if (is_null($range)) return null;

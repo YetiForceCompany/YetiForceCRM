@@ -27,7 +27,7 @@ class RDateIterator implements Iterator {
      * @param string|array $rrule
      * @param DateTimeInterface $start
      */
-    function __construct($rrule, DateTimeInterface $start) {
+    public function __construct($rrule, DateTimeInterface $start) {
 
         $this->startDate = $start;
         $this->parseRDate($rrule);
@@ -37,7 +37,7 @@ class RDateIterator implements Iterator {
 
     /* Implementation of the Iterator interface {{{ */
 
-    function current() {
+    public function current() {
 
         if (!$this->valid()) return;
         return clone $this->currentDate;
@@ -49,7 +49,7 @@ class RDateIterator implements Iterator {
      *
      * @return int
      */
-    function key() {
+    public function key() {
 
         return $this->counter;
 
@@ -61,7 +61,7 @@ class RDateIterator implements Iterator {
      *
      * @return bool
      */
-    function valid() {
+    public function valid() {
 
         return ($this->counter <= count($this->dates));
 
@@ -72,7 +72,7 @@ class RDateIterator implements Iterator {
      *
      * @return void
      */
-    function rewind() {
+    public function rewind() {
 
         $this->currentDate = clone $this->startDate;
         $this->counter = 0;
@@ -84,7 +84,7 @@ class RDateIterator implements Iterator {
      *
      * @return void
      */
-    function next() {
+    public function next() {
 
         $this->counter++;
         if (!$this->valid()) return;
@@ -104,7 +104,7 @@ class RDateIterator implements Iterator {
      *
      * @return bool
      */
-    function isInfinite() {
+    public function isInfinite() {
 
         return false;
 
@@ -118,7 +118,7 @@ class RDateIterator implements Iterator {
      *
      * @return void
      */
-    function fastForward(DateTimeInterface $dt) {
+    public function fastForward(DateTimeInterface $dt) {
 
         while ($this->valid() && $this->currentDate < $dt) {
             $this->next();

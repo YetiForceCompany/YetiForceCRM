@@ -17,5 +17,5 @@ interface RequestIdGeneratorInterface
      *
      * @return string
      */
-    function generate();
+    public function generate();
 }

@@ -55,7 +55,7 @@ class Promise {
      *
      * @param callable $executor
      */
-    function __construct(callable $executor = null) {
+    public function __construct(callable $executor = null) {
 
         if ($executor) {
             $executor(
@@ -89,7 +89,7 @@ class Promise {
      * @param callable $onRejected
      * @return Promise
      */
-    function then(callable $onFulfilled = null, callable $onRejected = null) {
+    public function then(callable $onFulfilled = null, callable $onRejected = null) {
 
         // This new subPromise will be returned from this function, and will
         // be fulfilled with the result of the onFulfilled or onRejected event
@@ -126,7 +126,7 @@ class Promise {
      * @param callable $onRejected
      * @return Promise
      */
-    function otherwise(callable $onRejected) {
+    public function otherwise(callable $onRejected) {
 
         return $this->then(null, $onRejected);
 
@@ -138,7 +138,7 @@ class Promise {
      * @param mixed $value
      * @return void
      */
-    function fulfill($value = null) {
+    public function fulfill($value = null) {
         if ($this->state !== self::PENDING) {
             throw new PromiseAlreadyResolvedException('This promise is already resolved, and you\'re not allowed to resolve a promise more than once');
         }
@@ -158,7 +158,7 @@ class Promise {
      * @param mixed $reason
      * @return void
      */
-    function reject($reason = null) {
+    public function reject($reason = null) {
         if ($this->state !== self::PENDING) {
             throw new PromiseAlreadyResolvedException('This promise is already resolved, and you\'re not allowed to resolve a promise more than once');
         }
@@ -184,7 +184,7 @@ class Promise {
      * @throws Exception
      * @return mixed
      */
-    function wait() {
+    public function wait() {
 
         $hasEvents = true;
         while ($this->state === self::PENDING) {
@@ -296,7 +296,7 @@ class Promise {
      * @deprecated
      * @return Promise
      */
-    function error(callable $onRejected) {
+    public function error(callable $onRejected) {
 
         return $this->otherwise($onRejected);
 

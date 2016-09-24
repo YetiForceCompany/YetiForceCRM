@@ -29,7 +29,7 @@ class Boolean extends Property {
      *
      * @return void
      */
-    function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val) {
 
         $val = strtoupper($val) === 'TRUE' ? true : false;
         $this->setValue($val);
@@ -41,7 +41,7 @@ class Boolean extends Property {
      *
      * @return string
      */
-    function getRawMimeDirValue() {
+    public function getRawMimeDirValue() {
 
         return $this->value ? 'TRUE' : 'false';
 
@@ -55,7 +55,7 @@ class Boolean extends Property {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'BOOLEAN';
 
@@ -69,10 +69,10 @@ class Boolean extends Property {
      *
      * @return void
      */
-    function setXmlValue(array $value) {
+    public function setXmlValue(array $value) {
 
         $value = array_map(
-            function($value) {
+            public function($value) {
                 return 'true' === $value;
             },
             $value

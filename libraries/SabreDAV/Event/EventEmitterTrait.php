@@ -32,7 +32,7 @@ trait EventEmitterTrait {
      * @param int $priority
      * @return void
      */
-    function on($eventName, callable $callBack, $priority = 100) {
+    public function on($eventName, callable $callBack, $priority = 100) {
 
         if (!isset($this->listeners[$eventName])) {
             $this->listeners[$eventName] = [
@@ -56,7 +56,7 @@ trait EventEmitterTrait {
      * @param int $priority
      * @return void
      */
-    function once($eventName, callable $callBack, $priority = 100) {
+    public function once($eventName, callable $callBack, $priority = 100) {
 
         $wrapper = null;
         $wrapper = function() use ($eventName, $callBack, &$wrapper) {
@@ -96,7 +96,7 @@ trait EventEmitterTrait {
      * @param callback $continueCallBack
      * @return bool
      */
-    function emit($eventName, array $arguments = [], callable $continueCallBack = null) {
+    public function emit($eventName, array $arguments = [], callable $continueCallBack = null) {
 
         if (is_null($continueCallBack)) {
 
@@ -142,7 +142,7 @@ trait EventEmitterTrait {
      * @param string $eventName
      * @return callable[]
      */
-    function listeners($eventName) {
+    public function listeners($eventName) {
 
         if (!isset($this->listeners[$eventName])) {
             return [];
@@ -172,7 +172,7 @@ trait EventEmitterTrait {
      * @param callable $listener
      * @return bool
      */
-    function removeListener($eventName, callable $listener) {
+    public function removeListener($eventName, callable $listener) {
 
         if (!isset($this->listeners[$eventName])) {
             return false;
@@ -198,7 +198,7 @@ trait EventEmitterTrait {
      * @param string $eventName
      * @return void
      */
-    function removeAllListeners($eventName = null) {
+    public function removeAllListeners($eventName = null) {
 
         if (!is_null($eventName)) {
             unset($this->listeners[$eventName]);

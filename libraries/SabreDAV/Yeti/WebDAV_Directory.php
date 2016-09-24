@@ -257,7 +257,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
      * @param DAV\INode $sourceNode Source node itself
      * @return bool
      */
-    function moveInto($targetName, $sourcePath, DAV\INode $sourceNode) {
+    public function moveInto($targetName, $sourcePath, DAV\INode $sourceNode) {
 		$log = print_r([$targetName, $sourcePath, $sourceNode,$this], true);
 		file_put_contents('cache/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
 
