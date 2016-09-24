@@ -74,6 +74,6 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 		$data = \includes\utils\Json::encode($status);
 		$adb->pquery($query, array($data, $moduleId));
 		$log->debug("Exiting Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
-		return TRUE;
+		return true;
 	}
 }

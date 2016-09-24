@@ -53,9 +53,9 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 		$ftpPath = $request->get('ftppath');
 		$ftpActive = $request->get('ftpactive');
 		if ('true' == $ftpActive)
-			$ftpActive = TRUE;
+			$ftpActive = true;
 		else
-			$ftpActive = FALSE;
+			$ftpActive = false;
 
 		if ('' != $ftpPort) {
 			$ftpConnect = @ftp_connect($ftpServerName, $ftpPort);
@@ -68,13 +68,13 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 			$result = array('success' => true, 'fptConnection' => false, 'message' => 'JS_HOST_NOT_CORRECT');
 		} else {
 			$loginResult = @ftp_login($ftpConnect, $ftpLogin, $ftpPassword);
-			if (FALSE == $loginResult) {
+			if (false == $loginResult) {
 				$log->debug('FTP connection has failed!');
 				$result = array('success' => true, 'fptConnection' => false, 'message' => 'JS_CONNECTION_FAIL');
 			} else {
 				$log->debug('FTP connection has success!');
 				$result = array('success' => true, 'fptConnection' => true, 'message' => 'JS_SAVE_CHANGES');
-				Settings_BackUp_Module_Model::saveFTPSettings($ftpServerName, $ftpLogin, $ftpPassword, TRUE, $ftpPort, $ftpActive, $ftpPath);
+				Settings_BackUp_Module_Model::saveFTPSettings($ftpServerName, $ftpLogin, $ftpPassword, true, $ftpPort, $ftpActive, $ftpPath);
 			}
 		}
 		$response = new Vtiger_Response();

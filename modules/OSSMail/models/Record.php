@@ -125,19 +125,19 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		if (count($users) == 0) {
-			return FALSE;
+			return false;
 		}
 		$sUsers = implode(',', $users);
 		$result = $adb->pquery("SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid IN (?) && status = 1;", [$sUsers]);
 		if ($adb->query_result_raw($result, 0, 'num') > 0) {
-			return FALSE;
+			return false;
 		}
 		$adb->update('yetiforce_mail_quantities', ['status' => 1], 'userid IN (?)', [$sUsers]);
 		foreach ($users as $user) {
 			$account = self::getMailAccountDetail($user);
-			if ($account !== FALSE) {
+			if ($account !== false) {
 				$result = $adb->pquery("SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid = ?;", [$user]);
-				$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', FALSE);
+				$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
 				if ($mbox) {
 					$info = imap_mailboxmsginfo($mbox);
 					if ($adb->query_result_raw($result, 0, 'num') > 0) {
@@ -149,7 +149,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - End');
-		return TRUE;
+		return true;
 	}
 
 	public static function getMailBoxmsgInfo($users)

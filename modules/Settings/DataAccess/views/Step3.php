@@ -34,14 +34,14 @@ Class Settings_DataAccess_Step3_View extends Settings_Vtiger_Index_View
 				$db->pquery($insertBaseRecord, array($baseModule, $summary, $tpl_id), true);
 
 				Settings_DataAccess_Module_Model::updateConditions($conditionAll, $tpl_id);
-				Settings_DataAccess_Module_Model::updateConditions($conditionOption, $tpl_id, FALSE);
+				Settings_DataAccess_Module_Model::updateConditions($conditionOption, $tpl_id, false);
 			} else {
 				$insertBaseRecord = "INSERT INTO vtiger_dataaccess (module_name,summary) VALUES(?,?)";
 				$db->pquery($insertBaseRecord, array($baseModule, $summary), true);
 				$tpl_id = $db->getLastInsertID();
 
 				Settings_DataAccess_Module_Model::addConditions($conditionAll, $tpl_id);
-				Settings_DataAccess_Module_Model::addConditions($conditionOption, $tpl_id, FALSE);
+				Settings_DataAccess_Module_Model::addConditions($conditionOption, $tpl_id, false);
 			}
 		}
 

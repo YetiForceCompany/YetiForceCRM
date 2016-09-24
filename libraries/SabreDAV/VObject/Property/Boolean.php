@@ -9,7 +9,7 @@ use
  * Boolean property.
  *
  * This object represents BOOLEAN values. These are always the case-insenstive
- * string TRUE or FALSE.
+ * string TRUE or false.
  *
  * Automatic conversion to PHP's true and false are done.
  *
@@ -43,7 +43,7 @@ class Boolean extends Property {
      */
     function getRawMimeDirValue() {
 
-        return $this->value ? 'TRUE' : 'FALSE';
+        return $this->value ? 'TRUE' : 'false';
 
     }
 

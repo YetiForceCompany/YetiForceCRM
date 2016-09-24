@@ -31,7 +31,7 @@ class Settings_DataAccess_SaveTpl_Action extends Settings_Vtiger_Index_Action
 		$recordId = $db->getLastInsertID();
 
 		Settings_DataAccess_Module_Model::addConditions($conditionAll, $recordId);
-		Settings_DataAccess_Module_Model::addConditions($conditionOption, $recordId, FALSE);
+		Settings_DataAccess_Module_Model::addConditions($conditionOption, $recordId, false);
 
 		header("Location: index.php?module=DataAccess&parent=Settings&view=Index");
 	}

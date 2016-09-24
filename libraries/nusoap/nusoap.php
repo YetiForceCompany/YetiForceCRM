@@ -933,10 +933,10 @@ function timestamp_to_iso8601($timestamp, $utc = true)
 {
 	$datestr = date('Y-m-d\TH:i:sO', $timestamp);
 	$pos = strrpos($datestr, "+");
-	if ($pos === FALSE) {
+	if ($pos === false) {
 		$pos = strrpos($datestr, "-");
 	}
-	if ($pos !== FALSE) {
+	if ($pos !== false) {
 		if (strlen($datestr) == $pos + 5) {
 			$datestr = substr($datestr, 0, $pos + 3) . ':' . substr($datestr, -2);
 		}
@@ -3411,7 +3411,7 @@ class soap_transport_http extends nusoap_base
 		}
 
 		$cookie_param = ';secure;';
-		if (strpos($cookie_str, $cookie_param) !== FALSE) {
+		if (strpos($cookie_str, $cookie_param) !== false) {
 			$secure = true;
 		} else {
 			$secure = false;
@@ -6595,7 +6595,7 @@ class nusoap_parser extends nusoap_base
 		if (!empty($xml)) {
 			// Check XML encoding
 			$pos_xml = strpos($xml, '<?xml');
-			if ($pos_xml !== FALSE) {
+			if ($pos_xml !== false) {
 				$xml_decl = substr($xml, $pos_xml, strpos($xml, '?>', $pos_xml + 2) - $pos_xml + 1);
 				if (preg_match("/encoding=[\"']([^\"']*)[\"']/", $xml_decl, $res)) {
 					$xml_encoding = $res[1];

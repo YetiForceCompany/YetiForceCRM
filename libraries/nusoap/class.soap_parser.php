@@ -68,7 +68,7 @@ class nusoap_parser extends nusoap_base {
 		if(!empty($xml)){
 			// Check XML encoding
 			$pos_xml = strpos($xml, '<?xml');
-			if ($pos_xml !== FALSE) {
+			if ($pos_xml !== false) {
 				$xml_decl = substr($xml, $pos_xml, strpos($xml, '?>', $pos_xml + 2) - $pos_xml + 1);
 				if (preg_match("/encoding=[\"']([^\"']*)[\"']/", $xml_decl, $res)) {
 					$xml_encoding = $res[1];

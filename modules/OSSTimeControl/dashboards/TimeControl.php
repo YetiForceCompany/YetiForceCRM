@@ -225,20 +225,20 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 				$days++;
 				$whatDay = date("N", $begin);
 				$day = date('Y-m-d', $begin);
-				$isWorkDay = TRUE;
-				$isHolidayNotInWeekend = TRUE;
+				$isWorkDay = true;
+				$isHolidayNotInWeekend = true;
 				foreach ($holidayDays as $key => $value) {
 					if ($day == $value['date']) {
-						$isWorkDay = FALSE;
+						$isWorkDay = false;
 						if ($whatDay > 5) {
-							$isHolidayNotInWeekend = FALSE;
+							$isHolidayNotInWeekend = false;
 						}
 						unset($holidayDays[$key]);
 					}
 				}
 				foreach ($notWorkingDaysType as $key => $value) {
 					if ($whatDay == $value)
-						$isWorkDay = FALSE;
+						$isWorkDay = false;
 				}
 
 				if ($isWorkDay)

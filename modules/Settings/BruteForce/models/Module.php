@@ -58,19 +58,19 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 		$browser = $_SERVER['HTTP_USER_AGENT'];
 
-		if (strpos($browser, 'MSIE') !== FALSE)
+		if (strpos($browser, 'MSIE') !== false)
 			return 'Internet explorer';
-		elseif (strpos($browser, 'Trident') !== FALSE) //For Supporting IE 11
+		elseif (strpos($browser, 'Trident') !== false) //For Supporting IE 11
 			return 'Internet explorer';
-		elseif (strpos($browser, 'Firefox') !== FALSE)
+		elseif (strpos($browser, 'Firefox') !== false)
 			return 'Mozilla Firefox';
-		elseif (strpos($browser, 'Chrome') !== FALSE)
+		elseif (strpos($browser, 'Chrome') !== false)
 			return 'Google Chrome';
-		elseif (strpos($browser, 'Opera Mini') !== FALSE)
+		elseif (strpos($browser, 'Opera Mini') !== false)
 			return "Opera Mini";
-		elseif (strpos($browser, 'Opera') !== FALSE)
+		elseif (strpos($browser, 'Opera') !== false)
 			return "Opera";
-		elseif (strpos($browser, 'Safari') !== FALSE)
+		elseif (strpos($browser, 'Safari') !== false)
 			return "Safari";
 		else
 			return 'unknow';
@@ -120,9 +120,9 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 
 		if ('true' == $active) {
-			$active = TRUE;
+			$active = true;
 		} else {
-			$active = FALSE;
+			$active = false;
 		}
 
 		$query = "UPDATE vtiger_bruteforce SET attempsnumber = ?, timelock = ?, active = ?;";
@@ -144,7 +144,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	public static function getUsersForNotifications()

@@ -18,7 +18,7 @@ class OSSProjectTemplates_Module_Model extends Vtiger_Module_Model
 
 		if (file_exists($path)) {
 			$json = file_get_contents($path);
-			$fieldTab = json_decode($json, TRUE);
+			$fieldTab = json_decode($json, true);
 			return $fieldTab;
 		} else {
 			return false;
