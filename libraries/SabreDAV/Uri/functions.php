@@ -187,7 +187,7 @@ function parse($uri) {
     // uriencode them first.
     $uri = preg_replace_callback(
         '/[^[:ascii:]]/u',
-        public function($matches) {
+        function($matches) {
             return rawurlencode($matches[0]);
         },
         $uri

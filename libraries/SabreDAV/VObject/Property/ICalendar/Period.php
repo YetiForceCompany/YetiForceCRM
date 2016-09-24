@@ -80,7 +80,7 @@ class Period extends Property {
     public function setJsonValue(array $value) {
 
         $value = array_map(
-            public function($item) {
+            function($item) {
 
                 return strtr(implode('/', $item), [':' => '', '-' => '']);
 

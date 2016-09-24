@@ -199,7 +199,7 @@ class ICSExportPlugin extends DAV\ServerPlugin {
             // queryResult is just a list of base urls. We need to prefix the
             // calendar path.
             $queryResult = array_map(
-                public function($item) use ($path) {
+                function($item) use ($path) {
                     return $path . '/' . $item;
                 },
                 $queryResult

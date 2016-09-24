@@ -587,7 +587,7 @@ HELP
         $tmp = $children;
         uksort(
             $children,
-            public function($a, $b) use ($sortScore, $tmp) {
+            function($a, $b) use ($sortScore, $tmp) {
 
                 $sA = $sortScore($a, $tmp);
                 $sB = $sortScore($b, $tmp);

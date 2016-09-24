@@ -96,7 +96,7 @@ class Json extends Parser {
         $self = $this;
 
         $properties = array_map(
-            public function($jProp) use ($self) {
+            function($jProp) use ($self) {
                 return $self->parseProperty($jProp);
             },
             $jComp[1]

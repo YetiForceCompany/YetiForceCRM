@@ -1553,7 +1553,7 @@ spl_autoload_register('autoload_formats');
 if (!function_exists('isRestlerCompatibilityModeEnabled')) {
 
 
-    public function isRestlerCompatibilityModeEnabled()
+    function isRestlerCompatibilityModeEnabled()
     {
         return false;
     }

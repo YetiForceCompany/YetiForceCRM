@@ -297,7 +297,7 @@ class Parameter extends Node {
 
         return $this->name . '=' . array_reduce(
             $value,
-            public function($out, $item) {
+            function($out, $item) {
 
                 if (!is_null($out)) $out .= ',';
 

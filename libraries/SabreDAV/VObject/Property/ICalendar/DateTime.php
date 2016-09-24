@@ -290,7 +290,7 @@ class DateTime extends Property {
         $isUtc = $isFloating ? false : in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
 
         return array_map(
-            public function(DateTimeInterface $dt) use ($hasTime, $isUtc) {
+            function(DateTimeInterface $dt) use ($hasTime, $isUtc) {
 
                 if ($hasTime) {
                     return $dt->format('Y-m-d\\TH:i:s') . ($isUtc ? 'Z' : '');

@@ -238,7 +238,7 @@ class FreeBusyGenerator {
         $vavailComps = iterator_to_array($vavailability->VAVAILABILITY);
         usort(
             $vavailComps,
-            public function($a, $b) {
+            function($a, $b) {
 
                 // We need to order the components by priority. Priority 1
                 // comes first, up until priority 9. Priority 0 comes after

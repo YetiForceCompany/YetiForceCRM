@@ -248,7 +248,7 @@ class Component extends Node {
                 // more.
                 return array_filter(
                     $result,
-                    public function($child) use ($group) {
+                    function($child) use ($group) {
 
                         return $child instanceof Property && strtoupper($child->group) === $group;
 
@@ -334,7 +334,7 @@ class Component extends Node {
         $tmp = $children;
         uksort(
             $children,
-            public function($a, $b) use ($sortScore, $tmp) {
+           function($a, $b) use ($sortScore, $tmp) {
 
                 $sA = $sortScore($a, $tmp);
                 $sB = $sortScore($b, $tmp);

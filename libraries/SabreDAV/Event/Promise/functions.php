@@ -39,7 +39,7 @@ function all(array $promises) {
         foreach ($promises as $promiseIndex => $subPromise) {
 
             $subPromise->then(
-                public function($result) use ($promiseIndex, &$completeResult, &$successCount, $success, $promises) {
+                function($result) use ($promiseIndex, &$completeResult, &$successCount, $success, $promises) {
                     $completeResult[$promiseIndex] = $result;
                     $successCount++;
                     if ($successCount === count($promises)) {
@@ -48,7 +48,7 @@ function all(array $promises) {
                     return $result;
                 }
             )->error(
-                public function($reason) use ($fail) {
+                function($reason) use ($fail) {
                     $fail($reason);
                 }
             );
@@ -76,14 +76,14 @@ function race(array $promises) {
         foreach ($promises as $promise) {
 
             $promise->then(
-                public function($result) use ($success, &$alreadyDone) {
+                function($result) use ($success, &$alreadyDone) {
                     if ($alreadyDone) {
                         return;
                     }
                     $alreadyDone = true;
                     $success($result);
                 },
-                public function($reason) use ($fail, &$alreadyDone) {
+                function($reason) use ($fail, &$alreadyDone) {
                     if ($alreadyDone) {
                         return;
                     }

@@ -630,7 +630,7 @@ class MimeDir extends Parser {
         return
             preg_replace_callback(
                 '#(\^(\^|n|\'))#',
-                public function($matches) {
+                function($matches) {
                     switch ($matches[2]) {
                         case 'n' :
                             return "\n";
