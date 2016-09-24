@@ -107,7 +107,7 @@ class LoggerNDC {
      *
      * @static  
      */
-    function clear()
+    public function clear()
     {
         LoggerLog::debug("LoggerNDC::clear()");
         
@@ -119,7 +119,7 @@ class LoggerNDC {
      * @static
      * @return array
      */
-    function get()
+    public function get()
     {
         LoggerLog::debug("LoggerNDC::get()");
     
@@ -133,7 +133,7 @@ class LoggerNDC {
      * @return integer
      * @static
      */
-    function getDepth()
+    public function getDepth()
     {
         LoggerLog::debug("LoggerNDC::getDepth()");
     
@@ -150,7 +150,7 @@ class LoggerNDC {
      * @return string The innermost diagnostic context.
      * @static
      */
-    function pop()
+    public function pop()
     {
         LoggerLog::debug("LoggerNDC::pop()");
     
@@ -170,7 +170,7 @@ class LoggerNDC {
      * @return string The innermost diagnostic context.
      * @static
      */
-    function peek()
+    public function peek()
     {
         LoggerLog::debug("LoggerNDC::peek()");
     
@@ -190,7 +190,7 @@ class LoggerNDC {
      * @param string $message The new diagnostic context information.
      * @static  
      */
-    function push($message)
+    public function push($message)
     {
         LoggerLog::debug("LoggerNDC::push()");
     
@@ -201,7 +201,7 @@ class LoggerNDC {
      * Remove the diagnostic context for this thread.
      * @static
      */
-    function remove()
+    public function remove()
     {
         LoggerLog::debug("LoggerNDC::remove()");
     
@@ -223,7 +223,7 @@ class LoggerNDC {
      * @see getDepth()
      * @static
      */
-    function setMaxDepth($maxDepth)
+    public function setMaxDepth($maxDepth)
     {
         LoggerLog::debug("LoggerNDC::setMaxDepth() maxDepth='$maxDepth'");
     

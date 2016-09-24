@@ -181,7 +181,7 @@ class LoggerPatternLayout extends LoggerLayout {
      * {@link LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_LAYOUT_PATTERN}.
      * The default pattern just produces the application supplied message.
      */
-    function LoggerPatternLayout($pattern = null)
+    public function LoggerPatternLayout($pattern = null)
     {
         if ($pattern === null) {    
             $this->LoggerPatternLayout(LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_CONVERSION_PATTERN);
@@ -195,7 +195,7 @@ class LoggerPatternLayout extends LoggerLayout {
      * controls formatting and consists of a mix of literal content and
      * conversion specifiers.
      */
-    function setConversionPattern($conversionPattern)
+    public function setConversionPattern($conversionPattern)
     {
         $this->pattern = $conversionPattern;
         $patternParser = $this->createPatternParser($this->pattern);
@@ -205,7 +205,7 @@ class LoggerPatternLayout extends LoggerLayout {
     /**
      * @return string Returns the value of the <b>ConversionPattern</b> option.
      */
-    function getConversionPattern()
+    public function getConversionPattern()
     {
         return $this->pattern;
     }
@@ -213,12 +213,12 @@ class LoggerPatternLayout extends LoggerLayout {
     /**
      * Does not do anything as options become effective
      */
-    function activateOptions()
+    public function activateOptions()
     {
         // nothing to do.
     }
     
-    function ignoresThrowable() 
+    public function ignoresThrowable() 
     { 
         return true; 
     }
@@ -231,7 +231,7 @@ class LoggerPatternLayout extends LoggerLayout {
      * @param string $pattern
      * @return LoggerPatternParser
      */
-    function createPatternParser($pattern)
+    public function createPatternParser($pattern)
     {
         return new LoggerPatternParser($pattern);
     }
@@ -242,7 +242,7 @@ class LoggerPatternLayout extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event)
+    public function format($event)
     {
         LoggerLog::debug("LoggerPatternLayout::format()");    
     

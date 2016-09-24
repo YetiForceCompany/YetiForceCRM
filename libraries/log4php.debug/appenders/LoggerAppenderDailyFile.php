@@ -52,7 +52,7 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
     *
     * @param string $name appender name
     */
-    function LoggerAppenderDailyFile($name)
+    public function LoggerAppenderDailyFile($name)
     {
         $this->LoggerAppenderFile($name); 
     }
@@ -61,7 +61,7 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
     * Sets date format for the file name.
     * @param string $format a regular date() string format
     */
-    function setDatePattern ( $format )
+    public function setDatePattern ( $format )
     {
         $this->datePattern = $format;
     }
@@ -69,7 +69,7 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
     /**
     * @return string returns date format for the filename
     */
-    function getDatePattern ( )
+    public function getDatePattern ( )
     {
         return $this->datePattern;
     }
@@ -80,7 +80,7 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
     *
     * @see LoggerAppenderFile::setFile()
     */
-    function setFile()
+    public function setFile()
     {
         $numargs = func_num_args();
         $args    = func_get_args();

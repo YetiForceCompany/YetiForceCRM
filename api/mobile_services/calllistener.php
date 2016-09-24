@@ -14,7 +14,7 @@ class CallListener{
 	public $debug = true;
 	public $mobileKeysName = 'callListener';
 	public $permittedActions = array('addCallActions');
-    function post($type = '', $authorization = '', $data = ''){
+    public function post($type = '', $authorization = '', $data = ''){
 		$authorization = json_decode($authorization);
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . "| user id: ".$this->userID);

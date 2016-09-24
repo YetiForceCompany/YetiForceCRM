@@ -53,7 +53,7 @@ class LoggerTransform {
     *                &amp;lt; and &amp;gt; respectively.
     * @static  
     */
-    function escapeTags($input)
+    public function escapeTags($input)
     {
         //Check if the string is null or zero length -- if so, return
         //what was sent in.
@@ -79,7 +79,7 @@ class LoggerTransform {
     *                       CDATA Section within buf.
     * @static  
     */
-    function appendEscapingCDATA(&$buf, $str)
+    public function appendEscapingCDATA(&$buf, $str)
     {
         if(empty($str))
             return;

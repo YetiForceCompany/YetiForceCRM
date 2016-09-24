@@ -99,7 +99,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderSocket($name)
+    public function LoggerAppenderSocket($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
@@ -107,7 +107,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * Create a socket connection using defined parameters
      */
-    function activateOptions()
+    public function activateOptions()
     {
         LoggerLog::debug("LoggerAppenderSocket::activateOptions() creating a socket...");        
         $errno = 0;
@@ -133,7 +133,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
         }
     }
     
-    function close()
+    public function close()
     {
         @fclose($this->sp);
         $this->closed = true;
@@ -142,7 +142,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @return string
      */
-    function getHostname()
+    public function getHostname()
     {
         return $this->getRemoteHost();
     }
@@ -150,7 +150,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @return boolean
      */
-    function getLocationInfo()
+    public function getLocationInfo()
     {
         return $this->locationInfo;
     } 
@@ -158,7 +158,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @return boolean
      */
-    function getLog4jNamespace()
+    public function getLog4jNamespace()
     {
         return $this->log4jNamespace;
     }
@@ -166,12 +166,12 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @return integer
      */
-    function getPort()
+    public function getPort()
     {
         return $this->port;
     }
     
-    function getRemoteHost()
+    public function getRemoteHost()
     {
         return $this->remoteHost;
     }
@@ -179,7 +179,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @return integer
      */
-    function getTimeout()
+    public function getTimeout()
     {
         return $this->timeout;
     }
@@ -187,12 +187,12 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @var boolean
      */
-    function getUseXml()
+    public function getUseXml()
     {
         return $this->useXml;
     } 
      
-    function reset()
+    public function reset()
     {
         $this->close();
         parent::reset();
@@ -202,7 +202,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
      * @param string
      * @deprecated Please, use {@link setRemoteHost}
      */
-    function setHostname($hostname)
+    public function setHostname($hostname)
     {
         $this->setRemoteHost($hostname);
     }
@@ -210,7 +210,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @param mixed
      */
-    function setLocationInfo($flag)
+    public function setLocationInfo($flag)
     {
         $this->locationInfo = LoggerOptionConverter::toBoolean($flag, $this->getLocationInfo());
     } 
@@ -218,7 +218,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @param mixed
      */
-    function setLog4jNamespace($flag)
+    public function setLog4jNamespace($flag)
     {
         $this->log4jNamespace = LoggerOptionConverter::toBoolean($flag, $this->getLog4jNamespace());
     } 
@@ -226,7 +226,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @param integer
      */
-    function setPort($port)
+    public function setPort($port)
     {
         $port = LoggerOptionConverter::toInt($port, 0);
         if ($port > 0 && $port < 65535)
@@ -236,7 +236,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @param string
      */
-    function setRemoteHost($hostname)
+    public function setRemoteHost($hostname)
     {
         $this->remoteHost = $hostname;
     }
@@ -244,7 +244,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @param integer
      */
-    function setTimeout($timeout)
+    public function setTimeout($timeout)
     {
         $this->timeout = LoggerOptionConverter::toInt($timeout, $this->getTimeout());
     }
@@ -252,7 +252,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @param mixed
      */
-    function setUseXml($flag)
+    public function setUseXml($flag)
     {
         $this->useXml = LoggerOptionConverter::toBoolean($flag, $this->getUseXml());
     } 
@@ -260,7 +260,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @param LoggerLoggingEvent
      */
-    function append($event)
+    public function append($event)
     {
         if ($this->sp) {
         

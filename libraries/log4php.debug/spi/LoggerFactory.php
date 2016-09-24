@@ -42,7 +42,7 @@ class LoggerFactory {
      * @param string $name
      * @return Logger
      */
-    function makeNewLoggerInstance($name)
+    public function makeNewLoggerInstance($name)
     {
         LoggerLog::warn("LoggerFactory:: makeNewLoggerInstance() is abstract.");
         return null;

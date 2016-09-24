@@ -60,7 +60,7 @@ class LoggerLevelMatchFilter extends LoggerFilter {
     /**
      * @return boolean
      */
-    function getAcceptOnMatch()
+    public function getAcceptOnMatch()
     {
         return $this->acceptOnMatch;
     }
@@ -68,7 +68,7 @@ class LoggerLevelMatchFilter extends LoggerFilter {
     /**
      * @param boolean $acceptOnMatch
      */
-    function setAcceptOnMatch($acceptOnMatch)
+    public function setAcceptOnMatch($acceptOnMatch)
     {
         $this->acceptOnMatch = LoggerOptionConverter::toBoolean($acceptOnMatch, true); 
     }
@@ -76,7 +76,7 @@ class LoggerLevelMatchFilter extends LoggerFilter {
     /**
      * @return LoggerLevel
      */
-    function getLevelToMatch()
+    public function getLevelToMatch()
     {
         return $this->levelToMatch;
     }
@@ -84,7 +84,7 @@ class LoggerLevelMatchFilter extends LoggerFilter {
     /**
      * @param string $l the level to match
      */
-    function setLevelToMatch($l)
+    public function setLevelToMatch($l)
     {
         $this->levelToMatch = LoggerOptionConverter::toLevel($l, null);
     }
@@ -102,7 +102,7 @@ class LoggerLevelMatchFilter extends LoggerFilter {
      * @param LoggerLoggingEvent $event
      * @return integer
      */
-    function decide($event)
+    public function decide($event)
     {
         if($this->levelToMatch === null)
             return LOG4PHP_LOGGER_FILTER_NEUTRAL;

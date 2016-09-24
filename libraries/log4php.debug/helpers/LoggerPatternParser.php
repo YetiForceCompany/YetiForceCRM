@@ -113,7 +113,7 @@ class LoggerPatternParser {
      *
      * @param string $pattern
      */
-    function LoggerPatternParser($pattern)
+    public function LoggerPatternParser($pattern)
     {
         LoggerLog::debug("LoggerPatternParser::LoggerPatternParser() pattern='$pattern'");
     
@@ -126,7 +126,7 @@ class LoggerPatternParser {
     /**
      * @param LoggerPatternConverter $pc
      */
-    function addToList($pc)
+    public function addToList($pc)
     {
         // LoggerLog::debug("LoggerPatternParser::addToList()");
     
@@ -142,7 +142,7 @@ class LoggerPatternParser {
     /**
      * @return string
      */
-    function extractOption()
+    public function extractOption()
     {
         if(($this->i < $this->patternLength) && ($this->pattern{$this->i} == '{')) {
             $end = strpos($this->pattern, '}' , $this->i);
@@ -159,7 +159,7 @@ class LoggerPatternParser {
      * The option is expected to be in decimal and positive. In case of
      * error, zero is returned.  
      */
-    function extractPrecisionOption()
+    public function extractPrecisionOption()
     {
         $opt = $this->extractOption();
         $r = 0;
@@ -177,7 +177,7 @@ class LoggerPatternParser {
         return $r;
     }
 
-    function parse()
+    public function parse()
     {
         LoggerLog::debug("LoggerPatternParser::parse()");
     
@@ -282,7 +282,7 @@ class LoggerPatternParser {
         return $this->head;
     }
 
-    function finalizeConverter($c)
+    public function finalizeConverter($c)
     {
         LoggerLog::debug("LoggerPatternParser::finalizeConverter() with char '$c'");    
 
@@ -402,7 +402,7 @@ class LoggerPatternParser {
         $this->addConverter($pc);
     }
 
-    function addConverter($pc)
+    public function addConverter($pc)
     {
         $this->currentLiteral = '';
         // Add the pattern converter to the list.

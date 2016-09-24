@@ -88,7 +88,7 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderDb($name)
+    public function LoggerAppenderDb($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
@@ -99,7 +99,7 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
      * and creates a {@link $table} table if {@link $createTable} is true.
      * @return boolean true if all ok.
      */
-    function activateOptions()
+    public function activateOptions()
     {
         $this->db = DB::connect($this->dsn);
 
@@ -133,7 +133,7 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
 
     }
     
-    function append($event)
+    public function append($event)
     {
         if ($this->canAppend) {
 
@@ -145,7 +145,7 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
         }
     }
     
-    function close()
+    public function close()
     {
         if ($this->db !== null)
             $this->db->disconnect();
@@ -155,7 +155,7 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
     /**
      * @return boolean
      */
-    function getCreateTable()
+    public function getCreateTable()
     {
         return $this->createTable;
     }
@@ -163,7 +163,7 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
     /**
      * @return string the defined dsn
      */
-    function getDsn()
+    public function getDsn()
     {
         return $this->dsn;
     }
@@ -171,7 +171,7 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
     /**
      * @return string the sql pattern string
      */
-    function getSql()
+    public function getSql()
     {
         return $this->sql;
     }
@@ -179,27 +179,27 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
     /**
      * @return string the table name to create
      */
-    function getTable()
+    public function getTable()
     {
         return $this->table;
     }
     
-    function setCreateTable($flag)
+    public function setCreateTable($flag)
     {
         $this->createTable = LoggerOptionConverter::toBoolean($flag, true);
     }
     
-    function setDsn($newDsn)
+    public function setDsn($newDsn)
     {
         $this->dsn = $newDsn;
     }
     
-    function setSql($sql)
+    public function setSql($sql)
     {
         $this->sql = $sql;    
     }
     
-    function setTable($table)
+    public function setTable($table)
     {
         $this->table = $table;
     }

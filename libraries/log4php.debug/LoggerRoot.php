@@ -52,7 +52,7 @@ class LoggerRoot extends Logger {
      *
      * @param integer $level initial log level
      */
-    function LoggerRoot($level = null)
+    public function LoggerRoot($level = null)
     {
         $this->Logger($this->name);
         if ($level == null)
@@ -63,7 +63,7 @@ class LoggerRoot extends Logger {
     /**
      * @return integer the level
      */
-    function getChainedLevel()
+    public function getChainedLevel()
     {
         return $this->level;
     } 
@@ -72,7 +72,7 @@ class LoggerRoot extends Logger {
      * Setting a null value to the level of the root category may have catastrophic results.
      * @param LoggerLevel $level
      */
-    function setLevel($level)
+    public function setLevel($level)
     {
         $this->level = $level;
     }    
@@ -82,7 +82,7 @@ class LoggerRoot extends Logger {
      * @param LoggerLevel $level
      * @deprecated
      */
-    function setPriority($level)
+    public function setPriority($level)
     {
         $this->setLevel($level); 
     }
@@ -93,7 +93,7 @@ class LoggerRoot extends Logger {
      * @param Logger $parent
      * @return boolean
      */
-    function setParent($parent)
+    public function setParent($parent)
     {
         return false;
     }  

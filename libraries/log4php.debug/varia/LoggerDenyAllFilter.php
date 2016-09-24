@@ -49,7 +49,7 @@ class LoggerDenyAllFilter extends LoggerFilter {
    * @param LoggerLoggingEvent $event The {@link LoggerLoggingEvent} to filter.
    * @return LOG4PHP_LOGGER_FILTER_DENY Always returns {@link LOG4PHP_LOGGER_FILTER_DENY}
    */
-  function decide($event)
+  public function decide($event)
   {
     return LOG4PHP_LOGGER_FILTER_DENY;
   }

@@ -88,7 +88,7 @@ class LoggerFilter {
      * Usually filters options become active when set. We provide a
      * default do-nothing implementation for convenience.
     */
-    function activateOptions()
+    public function activateOptions()
     {
         return;
     }
@@ -104,7 +104,7 @@ class LoggerFilter {
      * @param LoggerLoggingEvent $event The {@link LoggerLoggingEvent} to decide upon.
      * @return integer {@link LOG4PHP_LOGGER_FILTER_NEUTRAL} or {@link LOG4PHP_LOGGER_FILTER_DENY}|{@link LOG4PHP_LOGGER_FILTER_ACCEPT}
      */
-    function decide($event)
+    public function decide($event)
     {
         return LOG4PHP_LOGGER_FILTER_NEUTRAL;
     }

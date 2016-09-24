@@ -59,7 +59,7 @@ class LoggerStringMatchFilter extends LoggerFilter {
     /**
      * @return boolean
      */
-    function getAcceptOnMatch()
+    public function getAcceptOnMatch()
     {
         return $this->acceptOnMatch;
     }
@@ -67,7 +67,7 @@ class LoggerStringMatchFilter extends LoggerFilter {
     /**
      * @param mixed $acceptOnMatch a boolean or a string ('true' or 'false')
      */
-    function setAcceptOnMatch($acceptOnMatch)
+    public function setAcceptOnMatch($acceptOnMatch)
     {
         $this->acceptOnMatch = is_bool($acceptOnMatch) ? 
             $acceptOnMatch : 
@@ -77,7 +77,7 @@ class LoggerStringMatchFilter extends LoggerFilter {
     /**
      * @return string
      */
-    function getStringToMatch()
+    public function getStringToMatch()
     {
         return $this->stringToMatch;
     }
@@ -85,7 +85,7 @@ class LoggerStringMatchFilter extends LoggerFilter {
     /**
      * @param string $s the string to match
      */
-    function setStringToMatch($s)
+    public function setStringToMatch($s)
     {
         $this->stringToMatch = $s;
     }
@@ -93,7 +93,7 @@ class LoggerStringMatchFilter extends LoggerFilter {
     /**
      * @return integer a {@link LOGGER_FILTER_NEUTRAL} is there is no string match.
      */
-    function decide($event)
+    public function decide($event)
     {
         $msg = $event->getRenderedMessage();
         

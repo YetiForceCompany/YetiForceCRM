@@ -65,12 +65,12 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderFile($name)
+    public function LoggerAppenderFile($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
 
-    function activateOptions()
+    public function activateOptions()
     {
         $fileName = $this->getFile();
         LoggerLog::debug("LoggerAppenderFile::activateOptions() opening file '{$fileName}'");
@@ -89,7 +89,7 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
         }
     }
     
-    function close()
+    public function close()
     {
         if ($this->fp && $this->layout !== null)
             @fwrite($this->fp, $this->layout->getFooter());
@@ -101,7 +101,7 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     /**
      * Closes the previously opened file.
      */
-    function closeFile() 
+    public function closeFile() 
     {
         if ($this->fp)
             @fclose($this->fp);
@@ -110,7 +110,7 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     /**
      * @return boolean
      */
-    function getAppend()
+    public function getAppend()
     {
         return $this->append;
     }
@@ -118,7 +118,7 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     /**
      * @return string
      */
-    function getFile()
+    public function getFile()
     {
         return $this->getFileName();
     }
@@ -126,7 +126,7 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     /**
      * @return string
      */
-    function getFileName()
+    public function getFileName()
     {
         return $this->fileName;
     } 
@@ -134,14 +134,14 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     /**
      * Close any previously opened file and call the parent's reset.
      */
-    function reset()
+    public function reset()
     {
         $this->closeFile();
         $this->fileName = null;
         parent::reset();
     }
 
-    function setAppend($flag)
+    public function setAppend($flag)
     {
         $this->append = LoggerOptionConverter::toBoolean($flag, true);        
     } 
@@ -153,7 +153,7 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
      * - setFile(string $fileName) to set filename.
      * - setFile(string $fileName, boolean $append) to set filename and append.
      */
-    function setFile()
+    public function setFile()
     {
         $numargs = func_num_args();
         $args    = func_get_args();
@@ -166,12 +166,12 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
         }
     }
     
-    function setFileName($fileName)
+    public function setFileName($fileName)
     {
         $this->fileName = $fileName;
     }
 
-    function append($event)
+    public function append($event)
     {
         if ($this->fp && $this->layout !== null) {
 

@@ -98,7 +98,7 @@ class LoggerHierarchy {
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/
 
-    function &singleton()
+    public function &singleton()
     {
         static $instance;
         
@@ -111,7 +111,7 @@ class LoggerHierarchy {
      * Create a new logger hierarchy.
      * @param object $root the root logger
      */
-    function LoggerHierarchy($root)
+    public function LoggerHierarchy($root)
     {
         $this->root    =& $root;
         // Enable all level levels by default.
@@ -125,7 +125,7 @@ class LoggerHierarchy {
      * Add a HierarchyEventListener event to the repository. 
      * Not Yet Impl.
      */
-    function addHierarchyEventListener($listener)
+    public function addHierarchyEventListener($listener)
     {
         return;
     }
@@ -134,7 +134,7 @@ class LoggerHierarchy {
      * Add an object renderer for a specific class.
      * Not Yet Impl.
      */
-    function addRenderer($classToRender, $or)
+    public function addRenderer($classToRender, $or)
     {
         $this->rendererMap->put($classToRender, $or);
     } 
@@ -142,12 +142,12 @@ class LoggerHierarchy {
     /**
      * This call will clear all logger definitions from the internal hashtable.
      */
-    function clear()
+    public function clear()
     {
         $this->ht = array();
     }
       
-    function emitNoAppenderWarning($cat)
+    public function emitNoAppenderWarning($cat)
     {
         return;
     }
@@ -157,12 +157,12 @@ class LoggerHierarchy {
      * @param string $name
      * @return boolean
      */
-    function exists($name)
+    public function exists($name)
     {
         return in_array($name, array_keys($this->ht));
     }
 
-    function fireAddAppenderEvent($logger, $appender)
+    public function fireAddAppenderEvent($logger, $appender)
     {
         return;
     }
@@ -170,7 +170,7 @@ class LoggerHierarchy {
     /**
      * @deprecated Please use {@link getCurrentLoggers()} instead.
      */
-    function &getCurrentCategories()
+    public function &getCurrentCategories()
     {
         return $this->getCurrentLoggers();
     }
@@ -179,7 +179,7 @@ class LoggerHierarchy {
      * Returns all the currently defined categories in this hierarchy as an array.
      * @return array
      */  
-    function &getCurrentLoggers()
+    public function &getCurrentLoggers()
     {
         $loggers = array();
         $loggerNames = array_keys($this->ht);
@@ -198,7 +198,7 @@ class LoggerHierarchy {
      * @param LoggerFactory $factory a {@link LoggerFactory} instance or null     
      * @return Logger
      */
-    function &getLogger($name, $factory = null)
+    public function &getLogger($name, $factory = null)
     {
         if ($factory === null) {
             return $this->getLoggerByFactory($name, $this->defaultFactory);
@@ -214,7 +214,7 @@ class LoggerHierarchy {
      * @return Logger
      * @todo merge with {@link getLogger()}
      */
-    function &getLoggerByFactory($name, $factory)
+    public function &getLoggerByFactory($name, $factory)
     {
         if (!isset($this->ht[$name])) {
             LoggerLog::debug("LoggerHierarchy::getLoggerByFactory():name=[$name]:factory=[".get_class($factory)."] creating a new logger...");
@@ -256,7 +256,7 @@ class LoggerHierarchy {
     /**
      * @return LoggerRendererMap Get the renderer map for this hierarchy.
      */
-    function &getRendererMap()
+    public function &getRendererMap()
     {
         return $this->rendererMap;
     }
@@ -264,7 +264,7 @@ class LoggerHierarchy {
     /**
      * @return LoggerRoot Get the root of this hierarchy.
      */ 
-    function &getRootLogger()
+    public function &getRootLogger()
     {
         if (!isset($this->root) || $this->root == null)
             $this->root = new LoggerRoot();
@@ -274,7 +274,7 @@ class LoggerHierarchy {
     /**
      * @return LoggerLevel Returns the threshold Level.
      */
-    function getThreshold()
+    public function getThreshold()
     {
         return $this->threshold;
     } 
@@ -284,7 +284,7 @@ class LoggerHierarchy {
      * for level object passed as parameter and false otherwise.
      * @return boolean
      */
-    function isDisabled($level)
+    public function isDisabled($level)
     {
         return ($this->threshold->level > $level->level);
     }
@@ -292,7 +292,7 @@ class LoggerHierarchy {
     /**
      * @deprecated Deprecated with no replacement.
      */
-    function overrideAsNeeded($override)
+    public function overrideAsNeeded($override)
     {
         return;
     } 
@@ -312,7 +312,7 @@ class LoggerHierarchy {
      * <p>This method should be used sparingly and with care as it will
      * block all logging until it is completed.</p>
      */
-    function resetConfiguration()
+    public function resetConfiguration()
     {
         $root =& $this->getRootLogger();
         
@@ -332,7 +332,7 @@ class LoggerHierarchy {
     /**
      * @deprecated Deprecated with no replacement.
      */
-    function setDisableOverride($override)
+    public function setDisableOverride($override)
     {
         return;
     }
@@ -343,7 +343,7 @@ class LoggerHierarchy {
      * @param LoggerRenderer $renderer
      *
      */
-    function setRenderer($renderedClass, $renderer)
+    public function setRenderer($renderedClass, $renderer)
     {
         $this->rendererMap->put($renderedClass, $renderer);
     }
@@ -353,7 +353,7 @@ class LoggerHierarchy {
      *
      * @param LoggerLevel $l
      */
-    function setThreshold($l)
+    public function setThreshold($l)
     {
         if ($l !== null)
             $this->threshold = $l;
@@ -373,7 +373,7 @@ class LoggerHierarchy {
      * configurations where a regular appender is attached to a logger
      * and again to a nested appender.
      */
-    function shutdown()
+    public function shutdown()
     {
         $this->root->removeAllAppenders();
         $cats =& $this->getCurrentLoggers();

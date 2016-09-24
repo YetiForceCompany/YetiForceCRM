@@ -93,7 +93,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * @param string date format
      * @see dateFormat
      */
-    function LoggerLayoutTTCC($dateFormat = '')
+    public function LoggerLayoutTTCC($dateFormat = '')
     {
         if (!empty($dateFormat))
             $this->dateFormat = $dateFormat;
@@ -104,7 +104,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * The <b>ThreadPrinting</b> option specifies whether the name of the
      * current thread is part of log output or not. This is true by default.
      */
-    function setThreadPrinting($threadPrinting)
+    public function setThreadPrinting($threadPrinting)
     {
         
         $this->threadPrinting = is_bool($threadPrinting) ? 
@@ -115,7 +115,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
     /**
      * @return boolean Returns value of the <b>ThreadPrinting</b> option.
      */
-    function getThreadPrinting() {
+    public function getThreadPrinting() {
         return $this->threadPrinting;
     }
 
@@ -123,7 +123,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * The <b>CategoryPrefixing</b> option specifies whether {@link Category}
      * name is part of log output or not. This is true by default.
      */
-    function setCategoryPrefixing($categoryPrefixing)
+    public function setCategoryPrefixing($categoryPrefixing)
     {
         $this->categoryPrefixing = is_bool($categoryPrefixing) ?
             $categoryPrefixing :
@@ -133,7 +133,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
     /**
      * @return boolean Returns value of the <b>CategoryPrefixing</b> option.
      */
-    function getCategoryPrefixing() {
+    public function getCategoryPrefixing() {
         return $this->categoryPrefixing;
     }
 
@@ -142,7 +142,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * the nested context information belonging to the current thread.
      * This is true by default.
      */
-    function setContextPrinting($contextPrinting) {
+    public function setContextPrinting($contextPrinting) {
         $this->contextPrinting = is_bool($contextPrinting) ? 
             $contextPrinting : 
             (bool)(strtolower($contextPrinting) == 'true'); 
@@ -151,7 +151,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
     /**
      * @return boolean Returns value of the <b>ContextPrinting</b> option.
      */
-    function getContextPrinting()
+    public function getContextPrinting()
     {
         return $this->contextPrinting;
     }
@@ -161,7 +161,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * should be printed at the end of timestamp.
      * This is true by default.
      */
-    function setMicroSecondsPrinting($microSecondsPrinting) {
+    public function setMicroSecondsPrinting($microSecondsPrinting) {
         $this->microSecondsPrinting = is_bool($microSecondsPrinting) ? 
             $microSecondsPrinting : 
             (bool)(strtolower($microSecondsPrinting) == 'true'); 
@@ -170,13 +170,13 @@ class LoggerLayoutTTCC extends LoggerLayout {
     /**
      * @return boolean Returns value of the <b>MicroSecondsPrinting</b> option.
      */
-    function getMicroSecondsPrinting()
+    public function getMicroSecondsPrinting()
     {
         return $this->microSecondsPrinting;
     }
     
     
-    function setDateFormat($dateFormat)
+    public function setDateFormat($dateFormat)
     {
         $this->dateFormat = $dateFormat;
     }
@@ -184,7 +184,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
     /**
      * @return string
      */
-    function getDateFormat()
+    public function getDateFormat()
     {
         return $this->dateFormat;
     }
@@ -197,7 +197,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event)
+    public function format($event)
     {
         $timeStamp = (float)$event->getTimeStamp();
         $format = strftime($this->dateFormat, (int)$timeStamp);
@@ -232,7 +232,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
         return $format;
     }
 
-    function ignoresThrowable()
+    public function ignoresThrowable()
     {
         return true;
     }

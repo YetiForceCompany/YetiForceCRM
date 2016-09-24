@@ -69,18 +69,18 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderMail($name)
+    public function LoggerAppenderMail($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
 
-    function activateOptions()
+    public function activateOptions()
     {
         $this->closed = false;
         return;
     }
     
-    function close()
+    public function close()
     {
         $from       = $this->getFrom();
         $to         = $this->getTo();
@@ -103,7 +103,7 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
     /**
      * @return string
      */
-    function getFrom()
+    public function getFrom()
     {
         return $this->from;
     }
@@ -111,7 +111,7 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
     /**
      * @return string
      */
-    function getSubject()
+    public function getSubject()
     {
         return $this->subject;
     }
@@ -119,27 +119,27 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
     /**
      * @return string
      */
-    function getTo()
+    public function getTo()
     {
         return $this->to;
     }
     
-    function setSubject($subject)
+    public function setSubject($subject)
     {
         $this->subject = $subject;
     }
     
-    function setTo($to)
+    public function setTo($to)
     {
         $this->to = $to;
     }
 
-    function setFrom($from)
+    public function setFrom($from)
     {
         $this->from = $from;
     }  
 
-    function append($event)
+    public function append($event)
     {
         if ($this->layout !== null)
             $this->body .= $this->layout->format($event);

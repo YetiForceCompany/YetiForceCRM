@@ -38,7 +38,7 @@ class LoggerAppender {
      * @param string $class create an instance of this appender class
      * @return LoggerAppender
      */
-    function factory($name, $class)
+    public function factory($name, $class)
     {
         $class = basename($class);
         if (!empty($class)) {
@@ -57,7 +57,7 @@ class LoggerAppender {
      * @param string $class create or get a reference instance of this class
      * @return LoggerAppender 
      */
-    function &singleton($name, $class = '')
+    public function &singleton($name, $class = '')
     {
         static $instances;
         
@@ -87,7 +87,7 @@ class LoggerAppender {
      * @param LoggerFilter $newFilter add a new LoggerFilter
      * @abstract
      */
-    function addFilter($newFilter)
+    public function addFilter($newFilter)
     {
         // override 
     }
@@ -96,7 +96,7 @@ class LoggerAppender {
      * Clear the list of filters by removing all the filters in it.
      * @abstract
      */
-    function clearFilters()
+    public function clearFilters()
     {
         // override    
     }
@@ -106,7 +106,7 @@ class LoggerAppender {
      * The return value may be <i>null</i> if no is filter is set.
      * @return Filter
      */
-    function &getFilter()
+    public function &getFilter()
     {
         // override    
     } 
@@ -117,7 +117,7 @@ class LoggerAppender {
      * this method to perform proper closing procedures.
      * @abstract
      */
-    function close()
+    public function close()
     {
         //override me
     }
@@ -128,7 +128,7 @@ class LoggerAppender {
      * @param LoggerLoggingEvent $event
      * @abstract
      */
-    function doAppend($event)
+    public function doAppend($event)
     {
         //override me    
     }
@@ -137,7 +137,7 @@ class LoggerAppender {
      * Get the name of this appender.
      * @return string
      */
-    function getName()
+    public function getName()
     {
         //override me    
     }
@@ -147,7 +147,7 @@ class LoggerAppender {
      *
      * @param object $errorHandler
      */
-    function setErrorHandler($errorHandler)
+    public function setErrorHandler($errorHandler)
     {
         // override me
     }
@@ -156,7 +156,7 @@ class LoggerAppender {
      * Do not use this method.
      * @return object Returns the ErrorHandler for this appender.
      */
-    function &getErrorHandler()
+    public function &getErrorHandler()
     {
         return $this->errorHandler;
     } 
@@ -166,7 +166,7 @@ class LoggerAppender {
      *
      * @param LoggerLayout $layout
      */
-    function setLayout($layout)
+    public function setLayout($layout)
     {
         // override me
     }
@@ -175,7 +175,7 @@ class LoggerAppender {
      * Returns this appender layout.
      * @return LoggerLayout
      */
-    function &getLayout()
+    public function &getLayout()
     {
         // override me
     }
@@ -187,7 +187,7 @@ class LoggerAppender {
      *
      * @param string $name
      */
-    function setName($name) 
+    public function setName($name) 
     {
         // override me    
     }
@@ -209,7 +209,7 @@ class LoggerAppender {
      *
      * @return boolean
      */
-    function requiresLayout()
+    public function requiresLayout()
     {
         // override me
     }

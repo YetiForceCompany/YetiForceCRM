@@ -65,7 +65,7 @@ class LoggerPatternConverter {
      *
      * @param LoggerFormattingInfo $fi
      */
-    function LoggerPatternConverter($fi = null) 
+    public function LoggerPatternConverter($fi = null) 
     {  
         if ($fi !== null) {
             $this->min = $fi->min;
@@ -80,7 +80,7 @@ class LoggerPatternConverter {
      *
      * @param LoggerLoggingEvent $event
      */
-    function convert($event) {}
+    public function convert($event) {}
 
     /**
      * A template method for formatting in a converter specific way.
@@ -88,7 +88,7 @@ class LoggerPatternConverter {
      * @param string &$sbuf string buffer
      * @param LoggerLoggingEvent $e
      */
-    function format(&$sbuf, $e)
+    public function format(&$sbuf, $e)
     {
         LoggerLog::debug("LoggerPatternConverter::format() sbuf='$sbuf'");    
     
@@ -129,7 +129,7 @@ class LoggerPatternConverter {
      *
      * @todo reimplement using PHP string functions
      */
-    function spacePad(&$sbuf, $length)
+    public function spacePad(&$sbuf, $length)
     {
         LoggerLog::debug("LoggerPatternConverter::spacePad() sbuf='$sbuf' len='$length'");        
     
@@ -170,7 +170,7 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
      * @param string $formattingInfo
      * @param integer $type
      */
-    function LoggerBasicPatternConverter($formattingInfo, $type)
+    public function LoggerBasicPatternConverter($formattingInfo, $type)
     {
       LoggerLog::debug("LoggerBasicPatternConverter::LoggerBasicPatternConverter() type='$type'");    
     
@@ -182,7 +182,7 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function convert($event)
+    public function convert($event)
     {
         switch($this->type) {
             case LOG4PHP_LOGGER_PATTERN_PARSER_RELATIVE_TIME_CONVERTER:
@@ -226,7 +226,7 @@ class LoggerLiteralPatternConverter extends LoggerPatternConverter {
      *
      * @param string $value
      */
-    function LoggerLiteralPatternConverter($value)
+    public function LoggerLiteralPatternConverter($value)
     {
         LoggerLog::debug("LoggerLiteralPatternConverter::LoggerLiteralPatternConverter() value='$value'");    
     
@@ -237,7 +237,7 @@ class LoggerLiteralPatternConverter extends LoggerPatternConverter {
      * @param string &$sbuf
      * @param LoggerLoggingEvent $event
      */
-    function format(&$sbuf, $event)
+    public function format(&$sbuf, $event)
     {
         $sbuf .= $this->literal;
     }
@@ -246,7 +246,7 @@ class LoggerLiteralPatternConverter extends LoggerPatternConverter {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function convert($event)
+    public function convert($event)
     {
       return $this->literal;
     }
@@ -270,7 +270,7 @@ class LoggerDatePatternConverter extends LoggerPatternConverter {
      * @param string $formattingInfo
      * @param string $df
      */
-    function LoggerDatePatternConverter($formattingInfo, $df)
+    public function LoggerDatePatternConverter($formattingInfo, $df)
     {
         LoggerLog::debug("LoggerDatePatternConverter::LoggerDatePatternConverter() dateFormat='$df'");    
     
@@ -282,7 +282,7 @@ class LoggerDatePatternConverter extends LoggerPatternConverter {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function convert($event)
+    public function convert($event)
     {
         $timeStamp = $event->getTimeStamp();
         $usecs = round(($timeStamp - (int)$timeStamp) * 1000);
@@ -311,7 +311,7 @@ class LoggerMDCPatternConverter extends LoggerPatternConverter {
      * @param string $formattingInfo
      * @param string $key
      */
-    function LoggerMDCPatternConverter($formattingInfo, $key)
+    public function LoggerMDCPatternConverter($formattingInfo, $key)
     {
       LoggerLog::debug("LoggerMDCPatternConverter::LoggerMDCPatternConverter() key='$key'");    
 
@@ -323,7 +323,7 @@ class LoggerMDCPatternConverter extends LoggerPatternConverter {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function convert($event)
+    public function convert($event)
     {
         return $event->getMDC($this->key);
     }
@@ -347,7 +347,7 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
      * @param string $formattingInfo
      * @param integer $type
      */
-    function LoggerLocationPatternConverter($formattingInfo, $type)
+    public function LoggerLocationPatternConverter($formattingInfo, $type)
     {
       LoggerLog::debug("LoggerLocationPatternConverter::LoggerLocationPatternConverter() type='$type'");    
     
@@ -359,7 +359,7 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function convert($event)
+    public function convert($event)
     {
         $locationInfo = $event->getLocationInformation();
         switch($this->type) {
@@ -396,7 +396,7 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
      * @param string $formattingInfo
      * @param integer $precision
      */
-    function LoggerNamedPatternConverter($formattingInfo, $precision)
+    public function LoggerNamedPatternConverter($formattingInfo, $precision)
     {
       LoggerLog::debug("LoggerNamedPatternConverter::LoggerNamedPatternConverter() precision='$precision'");    
     
@@ -409,7 +409,7 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
      * @return string
      * @abstract
      */
-    function getFullyQualifiedName($event)
+    public function getFullyQualifiedName($event)
     { 
         // abstract
         return;
@@ -419,7 +419,7 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function convert($event)
+    public function convert($event)
     {
         $n = $this->getFullyQualifiedName($event);
         if ($this->precision <= 0) {
@@ -454,7 +454,7 @@ class LoggerClassNamePatternConverter extends LoggerNamedPatternConverter {
      * @param string $formattingInfo
      * @param integer $precision
      */
-    function LoggerClassNamePatternConverter($formattingInfo, $precision)
+    public function LoggerClassNamePatternConverter($formattingInfo, $precision)
     {
         LoggerLog::debug("LoggerClassNamePatternConverter::LoggerClassNamePatternConverter() precision='$precision'");    
     
@@ -465,7 +465,7 @@ class LoggerClassNamePatternConverter extends LoggerNamedPatternConverter {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function getFullyQualifiedName($event)
+    public function getFullyQualifiedName($event)
     {
         return $event->fqcn;
     }
@@ -484,7 +484,7 @@ class LoggerCategoryPatternConverter extends LoggerNamedPatternConverter {
      * @param string $formattingInfo
      * @param integer $precision
      */
-    function LoggerCategoryPatternConverter($formattingInfo, $precision)
+    public function LoggerCategoryPatternConverter($formattingInfo, $precision)
     {
         LoggerLog::debug("LoggerCategoryPatternConverter::LoggerCategoryPatternConverter() precision='$precision'");    
     
@@ -495,7 +495,7 @@ class LoggerCategoryPatternConverter extends LoggerNamedPatternConverter {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function getFullyQualifiedName($event)
+    public function getFullyQualifiedName($event)
     {
       return $event->getLoggerName();
     }

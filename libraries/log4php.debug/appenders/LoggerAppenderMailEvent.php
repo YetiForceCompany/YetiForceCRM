@@ -81,17 +81,17 @@ class LoggerAppenderMailEvent extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderMailEvent($name)
+    public function LoggerAppenderMailEvent($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
 
-    function activateOptions()
+    public function activateOptions()
     { 
         $this->closed = false;
     }
     
-    function close()
+    public function close()
     {
         $this->closed = true;
     }
@@ -99,35 +99,35 @@ class LoggerAppenderMailEvent extends LoggerAppenderSkeleton {
     /**
      * @return string
      */
-    function getFrom()      { return $this->from; }
+    public function getFrom()      { return $this->from; }
     
     /**
      * @return integer
      */
-    function getPort()      { return $this->port; }
+    public function getPort()      { return $this->port; }
     
     /**
      * @return string
      */
-    function getSmtpHost()  { return $this->smtpHost; }
+    public function getSmtpHost()  { return $this->smtpHost; }
     
     /**
      * @return string
      */
-    function getSubject()   { return $this->subject; }
+    public function getSubject()   { return $this->subject; }
 
     /**
      * @return string
      */
-    function getTo()        { return $this->to; }
+    public function getTo()        { return $this->to; }
 
-    function setFrom($from)             { $this->from = $from; }
-    function setPort($port)             { $this->port = (int)$port; }
-    function setSmtpHost($smtphost)     { $this->smtpHost = $smtpHost; }
-    function setSubject($subject)       { $this->subject = $subject; }
-    function setTo($to)                 { $this->to = $to; }
+    public function setFrom($from)             { $this->from = $from; }
+    public function setPort($port)             { $this->port = (int)$port; }
+    public function setSmtpHost($smtphost)     { $this->smtpHost = $smtpHost; }
+    public function setSubject($subject)       { $this->subject = $subject; }
+    public function setTo($to)                 { $this->to = $to; }
 
-    function append($event)
+    public function append($event)
     {
         $from = $this->getFrom();
         $to   = $this->getTo();

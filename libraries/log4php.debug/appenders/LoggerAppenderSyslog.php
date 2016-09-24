@@ -48,24 +48,24 @@ class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderSyslog($name)
+    public function LoggerAppenderSyslog($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
 
-    function activateOptions()
+    public function activateOptions()
     {
         define_syslog_variables();
         $this->closed = false;
     }
 
-    function close() 
+    public function close() 
     {
         closelog();
         $this->closed = true;
     }
 
-    function append($event)
+    public function append($event)
     {
         $level   = $event->getLevel();
         $message = $event->getRenderedMessage();

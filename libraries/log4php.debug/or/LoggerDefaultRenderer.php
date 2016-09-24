@@ -39,7 +39,7 @@ class LoggerDefaultRenderer extends LoggerObjectRenderer{
     /**
      * Constructor
      */
-    function LoggerDefaultRenderer()
+    public function LoggerDefaultRenderer()
     {
         return;
     }
@@ -50,7 +50,7 @@ class LoggerDefaultRenderer extends LoggerObjectRenderer{
      * @param mixed $o the object to render
      * @return string
      */
-    function doRender($o)
+    public function doRender($o)
     {
         return var_export($o, true);
     }

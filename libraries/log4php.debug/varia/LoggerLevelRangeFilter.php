@@ -83,7 +83,7 @@ class LoggerLevelRangeFilter extends LoggerFilter {
     /**
      * @return boolean
      */
-    function getAcceptOnMatch()
+    public function getAcceptOnMatch()
     {
         return $this->acceptOnMatch;
     }
@@ -91,7 +91,7 @@ class LoggerLevelRangeFilter extends LoggerFilter {
     /**
      * @param boolean $acceptOnMatch
      */
-    function setAcceptOnMatch($acceptOnMatch)
+    public function setAcceptOnMatch($acceptOnMatch)
     {
         $this->acceptOnMatch = LoggerOptionConverter::toBoolean($acceptOnMatch, true); 
     }
@@ -99,7 +99,7 @@ class LoggerLevelRangeFilter extends LoggerFilter {
     /**
      * @return LoggerLevel
      */
-    function getLevelMin()
+    public function getLevelMin()
     {
         return $this->levelMin;
     }
@@ -107,7 +107,7 @@ class LoggerLevelRangeFilter extends LoggerFilter {
     /**
      * @param string $l the level min to match
      */
-    function setLevelMin($l)
+    public function setLevelMin($l)
     {
         $this->levelMin = LoggerOptionConverter::toLevel($l, null);
     }
@@ -115,7 +115,7 @@ class LoggerLevelRangeFilter extends LoggerFilter {
     /**
      * @return LoggerLevel
      */
-    function getLevelMax()
+    public function getLevelMax()
     {
         return $this->levelMax;
     }
@@ -123,7 +123,7 @@ class LoggerLevelRangeFilter extends LoggerFilter {
     /**
      * @param string $l the level max to match
      */
-    function setLevelMax($l)
+    public function setLevelMax($l)
     {
         $this->levelMax = LoggerOptionConverter::toLevel($l, null);
     }
@@ -134,7 +134,7 @@ class LoggerLevelRangeFilter extends LoggerFilter {
      * @param LoggerLoggingEvent $event
      * @return integer
      */
-    function decide($event)
+    public function decide($event)
     {
         $level = $event->getLevel();
         

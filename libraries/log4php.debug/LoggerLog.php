@@ -44,13 +44,13 @@ class LoggerLog {
      * @param integer $errLevel level to log
      * @static
      */
-    function log($message, $errLevel = E_USER_NOTICE)
+    public function log($message, $errLevel = E_USER_NOTICE)
     {
         if (LoggerLog::internalDebugging())
             trigger_error($message, $errLevel);
     }
     
-    function internalDebugging($value = null)
+    public function internalDebugging($value = null)
     {
         static $debug = false;
 
@@ -66,7 +66,7 @@ class LoggerLog {
      * @static
      * @since 0.3
      */
-    function debug($message)
+    public function debug($message)
     {
         LoggerLog::log($message, E_USER_NOTICE);
     }
@@ -78,7 +78,7 @@ class LoggerLog {
      * @static
      * @since 0.3
      */
-    function error($message)
+    public function error($message)
     {
         trigger_error($message, E_USER_ERROR);
     }
@@ -90,7 +90,7 @@ class LoggerLog {
      * @static
      * @since 0.3
      */
-    function warn($message)
+    public function warn($message)
     {
         trigger_error($message, E_USER_WARNING);
     }

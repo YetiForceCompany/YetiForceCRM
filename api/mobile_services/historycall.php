@@ -24,7 +24,7 @@ class HistoryCall{
 		1 => 'Outgoing received',
 	);
 	
-    function post($type = '', $authorization = '', $data = ''){
+    public function post($type = '', $authorization = '', $data = ''){
 		$authorization = json_decode($authorization);
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->info("Start HistoryCall metod");

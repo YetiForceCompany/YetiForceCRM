@@ -55,24 +55,24 @@ class LoggerAppenderEcho extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderEcho($name)
+    public function LoggerAppenderEcho($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
 
-    function activateOptions()
+    public function activateOptions()
     {
         return;
     }
     
-    function close()
+    public function close()
     {
         if (!$this->firstAppend)
             echo $this->layout->getFooter();
         $this->closed = true;    
     }
 
-    function append($event)
+    public function append($event)
     {
         LoggerLog::debug("LoggerAppenderEcho::append()");
         

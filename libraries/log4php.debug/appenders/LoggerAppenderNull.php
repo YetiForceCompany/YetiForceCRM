@@ -45,17 +45,17 @@ class LoggerAppenderNull extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderNull($name)
+    public function LoggerAppenderNull($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
 
-    function activateOptions()
+    public function activateOptions()
     { 
         $this->closed = false;
     }
     
-    function close()
+    public function close()
     {
         $this->closed = true;
     }
@@ -63,7 +63,7 @@ class LoggerAppenderNull extends LoggerAppenderSkeleton {
     /**
      * Do nothing. How I Love it !! :)
      */
-    function append($event)
+    public function append($event)
     {
         LoggerLog::debug("LoggerAppenderNull::append()");
     }

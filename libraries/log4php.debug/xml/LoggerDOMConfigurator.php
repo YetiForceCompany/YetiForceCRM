@@ -117,7 +117,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
     /**
      * Constructor
      */
-    function LoggerDOMConfigurator()
+    public function LoggerDOMConfigurator()
     {
         $this->state    = array();
         $this->logger   = null;
@@ -135,7 +135,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
      * @param string $url
      * @static
      */
-    function configure($url = '')
+    public function configure($url = '')
     {
         $configurator = new LoggerDOMConfigurator();
         $repository =& LoggerManager::getLoggerRepository();
@@ -151,7 +151,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
      * @param string $url
      * @param LoggerHierarchy &$repository
      */
-    function doConfigure($url = '', &$repository)
+    public function doConfigure($url = '', &$repository)
     {
         $xmlData = '';
         if (!empty($url))
@@ -165,7 +165,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
      * @param string $xmlData
      * @param LoggerHierarchy &$repository
      */
-    function doConfigureByString($xmlData, &$repository)
+    public function doConfigureByString($xmlData, &$repository)
     {
         return $this->parse($xmlData, $repository);
     }
@@ -173,7 +173,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
     /**
      * @param LoggerHierarchy &$repository
      */
-    function doConfigureDefault(&$repository)
+    public function doConfigureDefault(&$repository)
     {
         return $this->doConfigureByString(LOG4PHP_LOGGER_DOM_CONFIGURATOR_DEFAULT_CONFIGURATION, $repository);
     }
@@ -181,7 +181,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
     /**
      * @param string $xmlData
      */
-    function parse($xmlData, &$repository)
+    public function parse($xmlData, &$repository)
     {
         // LoggerManager::resetConfiguration();
         $this->repository =& $repository;
@@ -214,7 +214,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
      *
      * @todo In 'LOGGER' case find a better way to detect 'getLogger()' method
      */
-    function tagOpen($parser, $tag, $attribs)
+    public function tagOpen($parser, $tag, $attribs)
     {
         switch ($tag) {
         
@@ -505,7 +505,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
      * @param mixed $parser
      * @param string $tag
      */
-    function tagClose($parser, $tag)
+    public function tagClose($parser, $tag)
     {
         switch ($tag) {
         
@@ -584,7 +584,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
      * @param string $name
      * @param mixed $value
      */
-    function setter(&$object, $name, $value)
+    public function setter(&$object, $name, $value)
     {
         if (empty($name)) {
             LoggerLog::debug("LoggerDOMConfigurator::setter() 'name' param cannot be empty");        
@@ -600,7 +600,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
         }
     }
     
-    function subst($value)
+    public function subst($value)
     {
         return LoggerOptionConverter::substVars($value);
     }

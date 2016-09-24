@@ -52,7 +52,7 @@ class LoggerRendererMap {
     /**
      * Constructor
      */
-    function LoggerRendererMap()
+    public function LoggerRendererMap()
     {
         $this->map = array();
         $this->defaultRenderer = new LoggerDefaultRenderer();
@@ -67,7 +67,7 @@ class LoggerRendererMap {
      * @param string &$renderingClassName
      * @static
      */
-    function addRenderer(&$repository, $renderedClassName, $renderingClassName)
+    public function addRenderer(&$repository, $renderedClassName, $renderingClassName)
     {
         LoggerLog::debug("LoggerRendererMap::addRenderer() Rendering class: [{$renderingClassName}], Rendered class: [{$renderedClassName}].");
         $renderer = LoggerObjectRenderer::factory($renderingClassName);
@@ -92,7 +92,7 @@ class LoggerRendererMap {
      * @param mixed $o
      * @return string 
      */
-    function findAndRender($o)
+    public function findAndRender($o)
     {
         if($o == null) {
             return null;
@@ -118,7 +118,7 @@ class LoggerRendererMap {
      * @param mixed $o
      * @return string
      */
-    function &getByObject($o)
+    public function &getByObject($o)
     {
         return ($o == null) ? null : $this->getByClassName(get_class($o));
     }
@@ -133,7 +133,7 @@ class LoggerRendererMap {
      * @param string $class
      * @return LoggerObjectRenderer
      */
-    function &getByClassName($class)
+    public function &getByClassName($class)
     {
         $r = null;
         for($c = strtolower($class); !empty($c); $c = get_parent_class($c)) {
@@ -147,13 +147,13 @@ class LoggerRendererMap {
     /**
      * @return LoggerDefaultRenderer
      */
-    function &getDefaultRenderer()
+    public function &getDefaultRenderer()
     {
         return $this->defaultRenderer;
     }
 
 
-    function clear()
+    public function clear()
     {
         $this->map = array();
     }
@@ -163,7 +163,7 @@ class LoggerRendererMap {
      * @param string $class
      * @param LoggerObjectRenderer $or
      */
-    function put($class, $or)
+    public function put($class, $or)
     {
         $this->map[strtolower($class)] = $or;
     }
@@ -172,7 +172,7 @@ class LoggerRendererMap {
      * @param string $class
      * @return boolean
      */
-    function rendererExists($class)
+    public function rendererExists($class)
     {
         $class = basename($class);
         if (!class_exists($class)) {

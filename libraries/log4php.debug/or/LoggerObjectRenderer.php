@@ -38,7 +38,7 @@ class LoggerObjectRenderer {
      * @param string $class classname
      * @return LoggerObjectRenderer create LoggerObjectRenderer instances
      */
-    function factory($class)
+    public function factory($class)
     {
         if (!empty($class)) {
             $class = basename($class);
@@ -55,7 +55,7 @@ class LoggerObjectRenderer {
      * @param mixed $o entity to render
      * @return string
      */
-    function doRender($o)
+    public function doRender($o)
     {
         // abstract
     }

@@ -70,7 +70,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderConsole($name)
+    public function LoggerAppenderConsole($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
@@ -79,7 +79,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
      * Set console target.
      * @param mixed $value a constant or a string
      */
-    function setTarget($value)
+    public function setTarget($value)
     {
         $v = trim($value);
         if ($v == LOG4PHP_LOGGER_APPENDER_CONSOLE_STDOUT || strtoupper($v) == 'STDOUT') {
@@ -94,12 +94,12 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
         }
     }
 
-    function getTarget()
+    public function getTarget()
     {
         return $this->target;
     }
 
-    function activateOptions()
+    public function activateOptions()
     {
         LoggerLog::debug("LoggerAppenderConsole::activateOptions()");
             
@@ -114,7 +114,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
     /**
      * @see LoggerAppender::close()
      */
-    function close()
+    public function close()
     {
         LoggerLog::debug("LoggerAppenderConsole::close()");
         
@@ -125,7 +125,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
         $this->closed = true;
     }
 
-    function append($event)
+    public function append($event)
     {
         if ($this->fp && $this->layout !== null) {
     

@@ -34,7 +34,7 @@ require_once(LOG4PHP_DIR . '/Logger.php');
  */
 class LoggerDefaultCategoryFactory extends LoggerFactory {
     
-    function LoggerDefaultCategoryFactory()
+    public function LoggerDefaultCategoryFactory()
     {
         return;
     }    
@@ -43,7 +43,7 @@ class LoggerDefaultCategoryFactory extends LoggerFactory {
      * @param string $name
      * @return Logger
      */
-    function makeNewLoggerInstance($name)
+    public function makeNewLoggerInstance($name)
     {
         return new Logger($name);
     }

@@ -71,7 +71,7 @@ class LoggerLocationInfo {
      * @param array $trace
      * @param mixed $caller
      */
-    function LoggerLocationInfo($trace, $fqcn = null)
+    public function LoggerLocationInfo($trace, $fqcn = null)
     {
         $this->lineNumber   = isset($trace['line']) ? $trace['line'] : null;
         $this->fileName     = isset($trace['file']) ? $trace['file'] : null;
@@ -82,7 +82,7 @@ class LoggerLocationInfo {
                           '(' . $this->getFileName() . ':' . $this->getLineNumber() . ')';
     }
 
-    function getClassName()
+    public function getClassName()
     {
         return ($this->className === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->className; 
     }
@@ -91,7 +91,7 @@ class LoggerLocationInfo {
      *  Return the file name of the caller.
      *  <p>This information is not always available.
      */
-    function getFileName()
+    public function getFileName()
     {
         return ($this->fileName === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->fileName; 
     }
@@ -100,7 +100,7 @@ class LoggerLocationInfo {
      *  Returns the line number of the caller.
      *  <p>This information is not always available.
      */
-    function getLineNumber()
+    public function getLineNumber()
     {
         return ($this->lineNumber === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->lineNumber; 
     }
@@ -108,7 +108,7 @@ class LoggerLocationInfo {
     /**
      *  Returns the method name of the caller.
      */
-    function getMethodName()
+    public function getMethodName()
     {
         return ($this->methodName === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->methodName; 
     }

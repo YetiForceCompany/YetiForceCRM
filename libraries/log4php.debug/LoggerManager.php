@@ -54,7 +54,7 @@ class LoggerManager {
      * @static
      * @return boolean
      */
-    function exists($name)
+    public function exists($name)
     {
         $repository =& LoggerManager::getLoggerRepository();
         return $repository->exists($name);
@@ -67,7 +67,7 @@ class LoggerManager {
      * @see Logger
      * @return array
      */
-    function getCurrentLoggers()
+    public function getCurrentLoggers()
     {
         $repository =& LoggerManager::getLoggerRepository();
         return $repository->getCurrentLoggers();
@@ -80,7 +80,7 @@ class LoggerManager {
      * @return object
      * @see LoggerRoot
      */
-    function &getRootLogger()
+    public function &getRootLogger()
     {
         $repository =& LoggerManager::getLoggerRepository();
         return $repository->getRootLogger();
@@ -94,7 +94,7 @@ class LoggerManager {
      * @static
      * @return Logger
      */
-    function &getLogger($name, $factory = null)
+    public function &getLogger($name, $factory = null)
     {
         $repository =& LoggerManager::getLoggerRepository();
         return $repository->getLogger($name, $factory);
@@ -106,7 +106,7 @@ class LoggerManager {
      * @static
      * @return LoggerHierarchy
      */
-    function &getLoggerRepository()
+    public function &getLoggerRepository()
     {
         return LoggerHierarchy::singleton();    
     }
@@ -118,7 +118,7 @@ class LoggerManager {
      * @static
      * @return boolean 
      */
-    function resetConfiguration()
+    public function resetConfiguration()
     {
         $repository =& LoggerManager::getLoggerRepository();    
         return $repository->resetConfiguration();    
@@ -128,7 +128,7 @@ class LoggerManager {
      * Does nothing.
      * @static
      */
-    function setRepositorySelector($selector, $guard)
+    public function setRepositorySelector($selector, $guard)
     {
         return;
     }
@@ -137,7 +137,7 @@ class LoggerManager {
      * Safely close all appenders.
      * @static
      */
-    function shutdown()
+    public function shutdown()
     {
         $repository =& LoggerManager::getLoggerRepository();    
         return $repository->shutdown();    

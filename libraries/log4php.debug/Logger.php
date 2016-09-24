@@ -37,7 +37,7 @@ class Logger extends LoggerCategory {
      * Constructor
      * @param string $name logger name 
      */    
-    function Logger($name)
+    public function Logger($name)
     {
         $this->LoggerCategory($name);
     }
@@ -49,7 +49,7 @@ class Logger extends LoggerCategory {
      * @return Logger
      * @static 
      */    
-    function &getLogger($name, $factory = null)
+    public function &getLogger($name, $factory = null)
     {
         return LoggerManager::getLogger($name, $factory);
     }
@@ -59,7 +59,7 @@ class Logger extends LoggerCategory {
      * @return LoggerRoot
      * @static 
      */    
-    function &getRootLogger()
+    public function &getRootLogger()
     {
         return LoggerManager::getRootLogger();    
     }

@@ -82,7 +82,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderRollingFile($name)
+    public function LoggerAppenderRollingFile($name)
     {
         $this->LoggerAppenderFile($name);
     }
@@ -91,7 +91,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      * Returns the value of the MaxBackupIndex option.
      * @return integer 
      */
-    function getExpandedFileName() {
+    public function getExpandedFileName() {
         return $this->expandedFileName;
     }
 
@@ -99,7 +99,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      * Returns the value of the MaxBackupIndex option.
      * @return integer 
      */
-    function getMaxBackupIndex() {
+    public function getMaxBackupIndex() {
         return $this->maxBackupIndex;
     }
 
@@ -108,7 +108,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      * before being rolled over to backup files.
      * @return integer
      */
-    function getMaximumFileSize() {
+    public function getMaximumFileSize() {
         return $this->maxFileSize;
     }
 
@@ -120,7 +120,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      * 
      * <p>If MaxBackupIndex is equal to zero, then the File is truncated with no backup files created.
      */
-    function rollOver()
+    public function rollOver()
     {
         // If maxBackups <= 0, then there is no file renaming to be done.
         if($this->maxBackupIndex > 0) {
@@ -154,7 +154,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
         $this->activateOptions();
     }
     
-    function setFileName($fileName)
+    public function setFileName($fileName)
     {
         $this->fileName = $fileName;
         $this->expandedFileName = realpath($fileName);
@@ -173,7 +173,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      *
      * @param mixed $maxBackups
      */
-    function setMaxBackupIndex($maxBackups)
+    public function setMaxBackupIndex($maxBackups)
     {
         if (is_numeric($maxBackups))
             $this->maxBackupIndex = abs((int)$maxBackups);
@@ -186,7 +186,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      * @param mixed $maxFileSize
      * @see setMaxFileSize()
      */
-    function setMaximumFileSize($maxFileSize)
+    public function setMaximumFileSize($maxFileSize)
     {
         $this->setMaxFileSize($maxFileSize);
     }
@@ -203,7 +203,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      *
      * @param mixed $value
      */
-    function setMaxFileSize($value)
+    public function setMaxFileSize($value)
     {
         $maxFileSize = null;
         $numpart = substr($value,0, strlen($value) -2);
@@ -229,7 +229,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
     /**
      * @param LoggerLoggingEvent $event
      */
-    function append($event)
+    public function append($event)
     {
         if ($this->fp) {
             parent::append($event);

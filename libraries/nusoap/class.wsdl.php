@@ -69,7 +69,7 @@ class wsdl extends nusoap_base {
 	 * @param boolean $use_curl try to use cURL
      * @access public 
      */
-    function wsdl($wsdl = '',$proxyhost=false,$proxyport=false,$proxyusername=false,$proxypassword=false,$timeout=0,$response_timeout=30,$curl_options=null,$use_curl=false){
+    public function wsdl($wsdl = '',$proxyhost=false,$proxyport=false,$proxyusername=false,$proxypassword=false,$timeout=0,$response_timeout=30,$curl_options=null,$use_curl=false){
 		parent::nusoap_base();
 		$this->debug("ctor wsdl=$wsdl timeout=$timeout response_timeout=$response_timeout");
         $this->proxyhost = $proxyhost;
@@ -195,7 +195,7 @@ class wsdl extends nusoap_base {
      * @param string $wsdl path or URL
      * @access private 
      */
-    function parseWSDL($wsdl = '') {
+    public function parseWSDL($wsdl = '') {
 		$this->debug("parse WSDL at path=$wsdl");
 
         if ($wsdl == '') {
@@ -297,7 +297,7 @@ class wsdl extends nusoap_base {
      * @param string $attrs associative array of attributes
      * @access private 
      */
-    function start_element($parser, $name, $attrs)
+    public function start_element($parser, $name, $attrs)
     {
         if ($this->status == 'schema') {
             $this->currentSchema->schemaStartElement($parser, $name, $attrs);
@@ -749,7 +749,7 @@ class wsdl extends nusoap_base {
     *
     * @access private
     */
-    function webDescription(){
+    public function webDescription(){
     	global $HTTP_SERVER_VARS;
 
 		if (isset($_SERVER)) {

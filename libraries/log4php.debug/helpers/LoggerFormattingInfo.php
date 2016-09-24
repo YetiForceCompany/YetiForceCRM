@@ -44,16 +44,16 @@ class LoggerFormattingInfo {
     /**
      * Constructor
      */
-    function LoggerFormattingInfo() {}
+    public function LoggerFormattingInfo() {}
     
-    function reset()
+    public function reset()
     {
         $this->min          = -1;
         $this->max          = 0x7FFFFFFF;
         $this->leftAlign    = false;      
     }
 
-    function dump()
+    public function dump()
     {
         LoggerLog::debug("LoggerFormattingInfo::dump() min={$this->min}, max={$this->max}, leftAlign={$this->leftAlign}");
     }

@@ -667,7 +667,7 @@ class nusoap_base {
     * @return string the message
     * @access public
     */
-    function serializeEnvelope($body,$headers=false,$namespaces=array(),$style='rpc',$use='encoded',$encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'){
+    public function serializeEnvelope($body,$headers=false,$namespaces=array(),$style='rpc',$use='encoded',$encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'){
 
 	$this->debug("In serializeEnvelope length=" . strlen($body) . " body (max 1000 characters)=" . substr($body, 0, 1000) . " style=$style use=$use encodingStyle=$encodingStyle");
 	$this->debug("headers:");
@@ -719,7 +719,7 @@ class nusoap_base {
 	 * @access public
 	 * @deprecated
 	 */
-    function formatDump($str){
+    public function formatDump($str){
 		$str = htmlspecialchars($str);
 		return nl2br($str);
     }
@@ -862,7 +862,7 @@ class nusoap_base {
 	 * @return string The output of var_dump
 	 * @access public
 	 */
-    function varDump($data) {
+    public function varDump($data) {
 		// <--------   YetiForce Sp. z o.o.   -------->
 		// original code:  	ob_start(); var_dump($data); $ret_val = ob_get_contents(); ob_end_clean();
 		$ret_val = var_export($data, true); 

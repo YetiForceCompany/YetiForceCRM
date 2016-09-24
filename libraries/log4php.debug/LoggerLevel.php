@@ -71,7 +71,7 @@ class LoggerLevel {
      * @param string $levelStr
      * @param integer $syslogEquivalent
      */
-    function LoggerLevel($level, $levelStr, $syslogEquivalent)
+    public function LoggerLevel($level, $levelStr, $syslogEquivalent)
     {
         $this->level = $level;
         $this->levelStr = $levelStr;
@@ -84,7 +84,7 @@ class LoggerLevel {
      * @param object $o
      * @return boolean 
      */
-    function equals($o)
+    public function equals($o)
     {
         if (is_a($o, 'loggerlevel')) {
             return ($this->level == $o->level);
@@ -98,7 +98,7 @@ class LoggerLevel {
      * @static
      * @return LoggerLevel
      */
-    function &getLevelOff()
+    public function &getLevelOff()
     {
         static $level;
         if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_OFF_INT, 'OFF', 0);
@@ -110,7 +110,7 @@ class LoggerLevel {
      * @static
      * @return LoggerLevel
      */
-    function &getLevelFatal()
+    public function &getLevelFatal()
     {
         static $level;
         if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_FATAL_INT, 'FATAL', 0);
@@ -122,7 +122,7 @@ class LoggerLevel {
      * @static
      * @return LoggerLevel
      */
-    function &getLevelError()
+    public function &getLevelError()
     {
         static $level;
         if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_ERROR_INT, 'ERROR', 3);
@@ -134,7 +134,7 @@ class LoggerLevel {
      * @static
      * @return LoggerLevel
      */
-    function &getLevelWarn()
+    public function &getLevelWarn()
     {
         static $level;
         if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_WARN_INT, 'WARN', 4);
@@ -146,7 +146,7 @@ class LoggerLevel {
      * @static
      * @return LoggerLevel
      */
-    function &getLevelInfo()
+    public function &getLevelInfo()
     {
         static $level;
         if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_INFO_INT, 'INFO', 6);
@@ -158,7 +158,7 @@ class LoggerLevel {
      * @static
      * @return LoggerLevel
      */
-    function &getLevelDebug()
+    public function &getLevelDebug()
     {
         static $level;
         if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_DEBUG_INT, 'DEBUG', 7);
@@ -170,7 +170,7 @@ class LoggerLevel {
      * @static
      * @return LoggerLevel
      */
-    function &getLevelAll()
+    public function &getLevelAll()
     {
         static $level;
         if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_ALL_INT, 'ALL', 7);
@@ -182,7 +182,7 @@ class LoggerLevel {
      * @final
      * @return integer
      */
-    function getSyslogEquivalent()
+    public function getSyslogEquivalent()
     {
         return $this->syslogEquivalent;
     }
@@ -198,7 +198,7 @@ class LoggerLevel {
      * @param LoggerLevel $r
      * @return boolean
      */
-    function isGreaterOrEqual($r)
+    public function isGreaterOrEqual($r)
     {
         return $this->level >= $r->level;
     }
@@ -208,7 +208,7 @@ class LoggerLevel {
      * @return string
      * @final
      */
-    function toString()
+    public function toString()
     {
         return $this->levelStr;
     }
@@ -217,7 +217,7 @@ class LoggerLevel {
      * Returns the integer representation of this level.
      * @return integer
      */
-    function toInt()
+    public function toInt()
     {
         return $this->level;
     }
@@ -230,7 +230,7 @@ class LoggerLevel {
      * @param LoggerLevel $default
      * @static 
      */
-    function &toLevel($arg, $defaultLevel = null)
+    public function &toLevel($arg, $defaultLevel = null)
     {
         if ($defaultLevel === null) {
             return LoggerLevel::toLevel($arg, LoggerLevel::getLevelDebug());

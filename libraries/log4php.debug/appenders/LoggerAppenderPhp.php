@@ -51,23 +51,23 @@ class LoggerAppenderPhp extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderPhp($name)
+    public function LoggerAppenderPhp($name)
     {
         $this->LoggerAppenderSkeleton($name);
     }
 
-    function activateOptions()
+    public function activateOptions()
     {
         $this->layout = LoggerLayout::factory('LoggerLayoutTTCC');
         $this->closed = false;
     }
 
-    function close() 
+    public function close() 
     {
         $this->closed = true;
     }
 
-    function append($event)
+    public function append($event)
     {
         if ($this->layout !== null) {
             LoggerLog::debug("LoggerAppenderPhp::append()");

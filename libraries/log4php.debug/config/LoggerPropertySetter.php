@@ -65,7 +65,7 @@ class LoggerPropertySetter {
      * one or more times.
      * @param object &$obj the object for which to set properties
      */
-    function LoggerPropertySetter(&$obj)
+    public function LoggerPropertySetter(&$obj)
     {
         $this->obj =& $obj;
     }
@@ -80,7 +80,7 @@ class LoggerPropertySetter {
      * @param string $prefix Only keys having the specified prefix will be set.
      * @static
      */
-    function setPropertiesByObject(&$obj, $properties, $prefix)
+    public function setPropertiesByObject(&$obj, $properties, $prefix)
     {
         $pSetter = new LoggerPropertySetter($obj);
         return $pSetter->setProperties($properties, $prefix);
@@ -94,7 +94,7 @@ class LoggerPropertySetter {
      * @param array $properties An array containing keys and values.
      * @param string $prefix Only keys having the specified prefix will be set.
      */
-    function setProperties($properties, $prefix)
+    public function setProperties($properties, $prefix)
     {
         LoggerLog::debug("LoggerOptionConverter::setProperties():prefix=[{$prefix}]");
 
@@ -129,7 +129,7 @@ class LoggerPropertySetter {
      * @param string $name    name of the property
      * @param string $value   String value of the property
      */
-    function setProperty($name, $value)
+    public function setProperty($name, $value)
     {
         LoggerLog::debug("LoggerOptionConverter::setProperty():name=[{$name}]:value=[{$value}]");
 
@@ -147,7 +147,7 @@ class LoggerPropertySetter {
         } 
     }
   
-    function activate()
+    public function activate()
     {
         LoggerLog::debug("LoggerOptionConverter::activate()");
     

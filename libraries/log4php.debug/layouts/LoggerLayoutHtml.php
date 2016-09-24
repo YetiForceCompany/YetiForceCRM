@@ -78,7 +78,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * Constructor
      */
-    function LoggerLayoutHtml()
+    public function LoggerLayoutHtml()
     {
         return;
     }
@@ -94,7 +94,7 @@ class LoggerLayoutHtml extends LoggerLayout {
      * or a {@link LoggerAppenderMailEvent} then make sure to set the
      * <b>LocationInfo</b> option of that appender as well.
      */
-    function setLocationInfo($flag)
+    public function setLocationInfo($flag)
     {
         if (is_bool($flag)) {
             $this->locationInfo = $flag;
@@ -106,7 +106,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * Returns the current value of the <b>LocationInfo</b> option.
      */
-    function getLocationInfo()
+    public function getLocationInfo()
     {
         return $this->locationInfo;
     }
@@ -116,7 +116,7 @@ class LoggerLayoutHtml extends LoggerLayout {
      * document title of the generated HTML document.
      * Defaults to 'Log4php Log Messages'.
      */
-    function setTitle($title)
+    public function setTitle($title)
     {
         $this->title = $title;
     }
@@ -124,7 +124,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * @return string Returns the current value of the <b>Title</b> option.
      */
-    function getTitle()
+    public function getTitle()
     {
         return $this->title;
     }
@@ -132,7 +132,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * @return string Returns the content type output by this layout, i.e "text/html".
      */
-    function getContentType()
+    public function getContentType()
     {
         return "text/html";
     }
@@ -140,7 +140,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * No options to activate.
      */
-    function activateOptions()
+    public function activateOptions()
     {
         return true;
     }
@@ -149,7 +149,7 @@ class LoggerLayoutHtml extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event)
+    public function format($event)
     {
         $sbuf = LOG4PHP_LINE_SEP . "<tr>" . LOG4PHP_LINE_SEP;
     
@@ -210,7 +210,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * @return string Returns appropriate HTML headers.
      */
-    function getHeader()
+    public function getHeader()
     {
         $sbuf = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" . LOG4PHP_LINE_SEP;
         $sbuf .= "<html>" . LOG4PHP_LINE_SEP;
@@ -244,7 +244,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * @return string Returns the appropriate HTML footers.
      */
-    function getFooter()
+    public function getFooter()
     {
         $sbuf = "</table>" . LOG4PHP_LINE_SEP;
         $sbuf .= "<br>" . LOG4PHP_LINE_SEP;

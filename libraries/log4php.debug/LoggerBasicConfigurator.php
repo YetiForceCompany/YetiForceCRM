@@ -39,7 +39,7 @@ require_once(LOG4PHP_DIR . '/LoggerManager.php');
  */
 class LoggerBasicConfigurator extends LoggerConfigurator {
 
-    function LoggerBasicConfigurator() 
+    public function LoggerBasicConfigurator() 
     {
         return;
     }
@@ -51,7 +51,7 @@ class LoggerBasicConfigurator extends LoggerConfigurator {
      * @param string $url not used here
      * @static  
      */
-    function configure($url = null)
+    public function configure($url = null)
     {
         $root =& LoggerManager::getRootLogger();
         
@@ -72,7 +72,7 @@ class LoggerBasicConfigurator extends LoggerConfigurator {
      * @see LoggerHierarchy::resetConfiguration()
      * @static
      */
-    function resetConfiguration()
+    public function resetConfiguration()
     {
         LoggerManager::resetConfiguration();
     }

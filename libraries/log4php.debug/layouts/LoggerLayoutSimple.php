@@ -56,12 +56,12 @@ class LoggerLayoutSimple extends LoggerLayout {
     /**
      * Constructor
      */
-    function LoggerLayoutSimple()
+    public function LoggerLayoutSimple()
     {
         return;
     }
 
-    function activateOptions() 
+    public function activateOptions() 
     {
         return;
     }
@@ -75,7 +75,7 @@ class LoggerLayoutSimple extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event)
+    public function format($event)
     {
         $level = $event->getLevel();
         return $level->toString() . ' - ' . $event->getRenderedMessage(). LOG4PHP_LINE_SEP;

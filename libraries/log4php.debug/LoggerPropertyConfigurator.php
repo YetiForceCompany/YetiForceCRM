@@ -99,7 +99,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
     /**
      * Constructor
      */
-    function LoggerPropertyConfigurator()
+    public function LoggerPropertyConfigurator()
     {
         $this->loggerFactory = new LoggerDefaultCategoryFactory();
     }
@@ -114,7 +114,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
      * @return boolean configuration result
      * @static
      */
-    function configure($url = '')
+    public function configure($url = '')
     {
         $configurator = new LoggerPropertyConfigurator();
         $repository =& LoggerManager::getLoggerRepository();
@@ -316,7 +316,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
      *                    configuration information is stored.
      * @param LoggerHierarchy &$repository the repository to apply the configuration
      */
-    function doConfigure($url, &$repository)
+    public function doConfigure($url, &$repository)
     {
         $properties = @parse_ini_file($url);
         if ($properties === false) {
@@ -334,7 +334,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
      * @param array $properties
      * @param LoggerHierarchy &$hierarchy
      */
-    function doConfigureProperties($properties, &$hierarchy)
+    public function doConfigureProperties($properties, &$hierarchy)
     {
         $value = @$properties[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_DEBUG_KEY];
         
@@ -371,7 +371,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
      * @see parseCatsAndRenderers()
      * @param array $props array of properties
      */
-    function configureLoggerFactory($props)
+    public function configureLoggerFactory($props)
     {
         $factoryFqcn = @$props[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_FACTORY_KEY];
         if(!empty($factoryFqcn)) {
@@ -408,7 +408,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
      * @param array $props array of properties
      * @param LoggerHierarchy &$hierarchy
      */
-    function configureRootCategory($props, &$hierarchy)
+    public function configureRootCategory($props, &$hierarchy)
     {
         $effectivePrefix = LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_LOGGER_PREFIX;
         $value = @$props[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_LOGGER_PREFIX];
@@ -443,7 +443,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
      * @param array $props array of properties
      * @param LoggerHierarchy &$hierarchy
      */
-    function parseCatsAndRenderers($props, &$hierarchy)
+    public function parseCatsAndRenderers($props, &$hierarchy)
     {
         while(list($key,$value) = each($props)) {
             if( strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX) === 0 || 
@@ -475,7 +475,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
      * @param Logger &$cat
      * @param string $loggerName
      */
-    function parseAdditivityForLogger($props, &$cat, $loggerName)
+    public function parseAdditivityForLogger($props, &$cat, $loggerName)
     {
         $value = LoggerOptionConverter::findAndSubst(
                     LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ADDITIVITY_PREFIX . $loggerName,
@@ -506,7 +506,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
      * @param string $value
      * @return Logger
      */
-    function &parseCategory($props, &$logger, $optionKey, $loggerName, $value)
+    public function &parseCategory($props, &$logger, $optionKey, $loggerName, $value)
     {
         LoggerLog::debug(
             "LoggerPropertyConfigurator::parseCategory() ".
@@ -569,7 +569,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
      * @param string $appenderName
      * @return LoggerAppender
      */
-    function &parseAppender($props, $appenderName)
+    public function &parseAppender($props, $appenderName)
     {
         $appender =& LoggerAppender::singleton($appenderName);
         if($appender !== null) {

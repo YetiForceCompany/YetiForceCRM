@@ -93,7 +93,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderSkeleton($name)
+    public function LoggerAppenderSkeleton($name)
     {
         $this->name = $name;
         $this->clearFilters();
@@ -103,7 +103,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @param LoggerFilter $newFilter add a new LoggerFilter
      * @see LoggerAppender::addFilter()
      */
-    function addFilter($newFilter)
+    public function addFilter($newFilter)
     {
         if($this->headFilter === null) {
             $this->headFilter = $newFilter;
@@ -118,7 +118,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * Derived appenders should override this method if option structure
      * requires it.
      */
-    function activateOptions() 
+    public function activateOptions() 
     { 
 
     }
@@ -131,7 +131,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see doAppend()
      * @abstract
      */
-    function append($event)
+    public function append($event)
     { 
         // override me
     }
@@ -139,7 +139,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
     /**
      * @see LoggerAppender::clearFilters()
      */
-    function clearFilters()
+    public function clearFilters()
     {
         unset($this->headFilter);
         unset($this->tailFilter);
@@ -150,7 +150,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
     /**
      * @see LoggerAppender::close()
      */
-    function close()
+    public function close()
     {
         //override me
     }
@@ -158,7 +158,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
     /**
      * Finalize this appender by calling the derived class' <i>close()</i> method.
      */
-    function finalize() 
+    public function finalize() 
     {
         // An appender might be closed then garbage collected. There is no
         // point in closing twice.
@@ -174,7 +174,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see LoggerAppender::getErrorHandler()
      * @return object
      */
-    function &getErrorHandler()
+    public function &getErrorHandler()
     {
         return $this->errorHandler;
     } 
@@ -183,7 +183,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see LoggerAppender::getFilter()
      * @return Filter
      */
-    function &getFilter()
+    public function &getFilter()
     {
         return $this->headFilter;
     } 
@@ -193,7 +193,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * The return value may be <i>null</i> if no is filter is set.
      * @return Filter
      */
-    function &getFirstFilter()
+    public function &getFirstFilter()
     {
         return $this->headFilter;
     }
@@ -202,7 +202,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see LoggerAppender::getLayout()
      * @return LoggerLayout
      */
-    function &getLayout()
+    public function &getLayout()
     {
         return $this->layout;
     }
@@ -211,7 +211,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see LoggerAppender::getName()
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return $this->name;
     }
@@ -221,7 +221,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * See the {@link setThreshold()} method for the meaning of this option.
      * @return LoggerLevel
      */
-    function &getThreshold()
+    public function &getThreshold()
     { 
         return $this->threshold;
     }
@@ -234,7 +234,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @param LoggerLevel $priority
      * @return boolean true if priority is greater or equal than threshold  
      */
-    function isAsSevereAsThreshold($priority)
+    public function isAsSevereAsThreshold($priority)
     {
         if ($this->threshold === null)
             return true;
@@ -246,7 +246,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see LoggerAppender::doAppend()
      * @param LoggerLoggingEvent $event
      */
-    function doAppend($event)
+    public function doAppend($event)
     {
         LoggerLog::debug("LoggerAppenderSkeleton::doAppend()"); 
 
@@ -276,7 +276,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see LoggerAppender::requiresLayout()
      * @return boolean
      */
-    function requiresLayout()
+    public function requiresLayout()
     {
         return $this->requiresLayout;
     }
@@ -285,7 +285,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see LoggerAppender::setErrorHandler()
      * @param object
      */
-    function setErrorHandler($errorHandler)
+    public function setErrorHandler($errorHandler)
     {
         if($errorHandler == null) {
           // We do not throw exception here since the cause is probably a
@@ -300,7 +300,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see LoggerAppender::setLayout()
      * @param LoggerLayout $layout
      */
-    function setLayout($layout)
+    public function setLayout($layout)
     {
         if ($this->requiresLayout())
             $this->layout = $layout;
@@ -310,7 +310,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @see LoggerAppender::setName()
      * @param string $name
      */
-    function setName($name) 
+    public function setName($name) 
     {
         $this->name = $name;    
     }
@@ -321,7 +321,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      * @param mixed $threshold can be a {@link LoggerLevel} object or a string.
      * @see LoggerOptionConverter::toLevel()
      */
-    function setThreshold($threshold)
+    public function setThreshold($threshold)
     {
         if (is_string($threshold)) {
            $this->threshold = LoggerOptionConverter::toLevel($threshold, null);
@@ -335,7 +335,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      *
      * Call {@link finalize()} to properly close the appender.
      */
-    function __sleep()
+    public function __sleep()
     {
         $this->finalize();
         return array_keys(get_object_vars($this)); 
@@ -346,7 +346,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      *
      * Call {@link activateOptions()} to properly setup the appender.
      */
-    function __wakeup()
+    public function __wakeup()
     {
         $this->activateOptions();
     }

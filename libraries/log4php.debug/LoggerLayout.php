@@ -37,7 +37,7 @@ class LoggerLayout {
      * @param string $class
      * @return LoggerLayout
      */
-    function factory($class)
+    public function factory($class)
     {
         if (!empty($class)) {
             $class = basename($class);
@@ -52,7 +52,7 @@ class LoggerLayout {
     /**
      * Override this method
      */
-    function activateOptions() 
+    public function activateOptions() 
     {
         // override;
     }
@@ -63,7 +63,7 @@ class LoggerLayout {
      * @param LoggerLoggingEvent
      * @return string
      */
-    function format($event)
+    public function format($event)
     {
         return $event->getRenderedMessage();
     } 
@@ -72,7 +72,7 @@ class LoggerLayout {
      * Returns the content type output by this layout.
      * @return string
      */
-    function getContentType()
+    public function getContentType()
     {
         return "text/plain";
     } 
@@ -81,7 +81,7 @@ class LoggerLayout {
      * Returns the footer for the layout format.
      * @return string
      */
-    function getFooter()
+    public function getFooter()
     {
         return null;
     } 
@@ -90,7 +90,7 @@ class LoggerLayout {
      * Returns the header for the layout format.
      * @return string
      */
-    function getHeader()
+    public function getHeader()
     {
         return null;
     }

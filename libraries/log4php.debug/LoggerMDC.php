@@ -64,7 +64,7 @@ class LoggerMDC {
      * @param string $value the value
      * @static
      */
-    function put($key, $value)
+    public function put($key, $value)
     {
         if ( sizeof($GLOBALS['log4php.LoggerMDC.ht']) < LOGGER_MDC_HT_SIZE ) 
             $GLOBALS['log4php.LoggerMDC.ht'][$key] = $value;
@@ -83,7 +83,7 @@ class LoggerMDC {
      * @return string
      * @static
      */
-    function get($key)
+    public function get($key)
     {
         LoggerLog::debug("LoggerMDC::get() key='$key'");
     
@@ -120,7 +120,7 @@ class LoggerMDC {
      * @return string
      * @static
      */
-    function remove($key)
+    public function remove($key)
     {
         unset($GLOBALS['log4php.LoggerMDC.ht'][$key]);
     }

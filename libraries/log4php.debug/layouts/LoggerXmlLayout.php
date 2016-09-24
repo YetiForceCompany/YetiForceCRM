@@ -81,7 +81,7 @@ class LoggerXmlLayout extends LoggerLayout {
     /** 
      * No options to activate. 
      */
-    function activateOptions()
+    public function activateOptions()
     {
         if ($this->getLog4jNamespace()) {
             $this->_namespace        = LOG4PHP_LOGGER_XML_LAYOUT_LOG4J_NS;
@@ -95,7 +95,7 @@ class LoggerXmlLayout extends LoggerLayout {
     /**
      * @return string
      */
-    function getHeader()
+    public function getHeader()
     {
         return "<{$this->_namespacePrefix}:eventSet ".
                     "xmlns:{$this->_namespacePrefix}=\"{$this->_namespace}\" ".
@@ -110,7 +110,7 @@ class LoggerXmlLayout extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event)
+    public function format($event)
     {
         $loggerName = $event->getLoggerName();
         $timeStamp  = number_format((float)($event->getTimeStamp() * 1000), 0, '', '');
@@ -150,7 +150,7 @@ class LoggerXmlLayout extends LoggerLayout {
     /**
      * @return string
      */
-    function getFooter()
+    public function getFooter()
     {
 
         return "</{$this->_namespacePrefix}:eventSet>\r\n";
@@ -159,7 +159,7 @@ class LoggerXmlLayout extends LoggerLayout {
     /**
      * @return boolean
      */
-    function getLocationInfo()
+    public function getLocationInfo()
     {
         return $this->locationInfo;
     }
@@ -167,7 +167,7 @@ class LoggerXmlLayout extends LoggerLayout {
     /**
      * @return boolean
      */
-    function getLog4jNamespace()
+    public function getLog4jNamespace()
     {
         return $this->log4jNamespace;
     }
@@ -177,7 +177,7 @@ class LoggerXmlLayout extends LoggerLayout {
      * return value <b>false</b>.
      * @return boolean
      */
-    function ignoresThrowable()
+    public function ignoresThrowable()
     {
         return false;
     }
@@ -189,7 +189,7 @@ class LoggerXmlLayout extends LoggerLayout {
      * true, then the file name and line number of the statement at the
      * origin of the log statement will be output.
      */
-    function setLocationInfo($flag)
+    public function setLocationInfo($flag)
     {
         $this->locationInfo = LoggerOptionConverter::toBoolean($flag, true);
     }
@@ -197,7 +197,7 @@ class LoggerXmlLayout extends LoggerLayout {
     /**
      * @param boolean
      */
-    function setLog4jNamespace($flag)
+    public function setLog4jNamespace($flag)
     {
         $this->log4jNamespace = LoggerOptionConverter::toBoolean($flag, true);
     }

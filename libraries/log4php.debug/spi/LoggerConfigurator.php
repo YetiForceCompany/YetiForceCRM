@@ -57,7 +57,7 @@ class LoggerConfigurator {
     * @param string $url The URL to parse
     * @param LoggerHierarchy &$repository The hierarchy to operation upon.
     */
-    function doConfigure($url, &$repository)
+    public function doConfigure($url, &$repository)
     {
         return;
     }
