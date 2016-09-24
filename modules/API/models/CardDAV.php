@@ -57,7 +57,7 @@ class API_CardDAV_Model
 
 				if (Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
 					$card = $this->getCardDetail($record['crmid']);
-					if ($card == false) {
+					if ($card === false) {
 						//Creating
 						$this->createCard($moduleName, $record);
 						$create++;

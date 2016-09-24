@@ -33,7 +33,7 @@ class iCal
 
 				if (count($tmpholderarray) > 1) {
 					if ($tmpholderarray[0] == 'BEGIN') {
-						if ($begin == false) {
+						if ($begin === false) {
 							$begin = true;
 							$majorarray['TYPE'] = $tmpholderarray[1];
 						} else {
@@ -74,7 +74,7 @@ class iCal
 
 				if (count($tmpholderarray) > 1) {
 					if ($tmpholderarray[0] == 'BEGIN') {
-						if ($begin == false) {
+						if ($begin === false) {
 							$begin = true;
 							$majorarray['TYPE'] = $tmpholderarray[1];
 						} else {

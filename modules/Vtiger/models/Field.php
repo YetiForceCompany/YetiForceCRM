@@ -130,7 +130,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getWebserviceFieldObject()
 	{
-		if ($this->webserviceField == false) {
+		if ($this->webserviceField === false) {
 			$db = PearDatabase::getInstance();
 
 			$row = [];
@@ -494,7 +494,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		if (!$this->isEditEnabled() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
-			$this->isReadOnly() == true || $this->get('uitype') == 4) {
+			$this->isReadOnly() === true || $this->get('uitype') == 4) {
 			return false;
 		}
 		return true;

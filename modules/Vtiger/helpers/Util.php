@@ -664,7 +664,7 @@ class Vtiger_Util_Helper
 	{
 		$userPrivileges = self::getUserPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
-		return $field == false ? $userInfo : $userInfo[$field];
+		return $field === false ? $userInfo : $userInfo[$field];
 	}
 
 	protected static $userSharingCache = [];

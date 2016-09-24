@@ -154,7 +154,7 @@ class LanguageExport extends Package
 
 		$prefix = trim($prefix);
 		// We will not allow registering core language unless forced
-		if (strtolower($prefix) == 'en_us' && $overrideCore == false)
+		if (strtolower($prefix) == 'en_us' && $overrideCore === false)
 			return;
 
 		$useisdefault = ($isdefault) ? 1 : 0;

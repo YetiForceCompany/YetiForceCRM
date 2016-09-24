@@ -133,7 +133,7 @@ function getProductTaxPercentage($type, $productid, $default = '')
 
 
 	$log->debug("Exiting from getProductTaxPercentage($productid,$type) function. return value=$taxpercentage");
-	if ($current_user->truncate_trailing_zeros == true)
+	if ($current_user->truncate_trailing_zeros === true)
 		return \vtlib\Functions::formatDecimal($taxpercentage);
 	else
 		return $taxpercentage;
@@ -902,7 +902,7 @@ function importRecord($obj, $inventoryFieldData, $lineItemDetails)
 	}
 	if (empty($lineItems)) {
 		return null;
-	} elseif ($isRecordExist == false) {
+	} elseif ($isRecordExist === false) {
 		foreach ($lineItemDetails[$count] as $key => $value) {
 			$inventoryFieldData[$key] = $value;
 		}

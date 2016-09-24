@@ -223,7 +223,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 						}
 					}
 				}
-			} elseif ($found == false) {
+			} elseif ($found === false) {
 				array_merge($this->taxList, $productTaxList);
 			}
 		} else {

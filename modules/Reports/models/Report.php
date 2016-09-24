@@ -44,14 +44,14 @@ class Vtiger_Report_Model extends Reports
 				$userGroups->getAllUserGroups($userId);
 				$userGroupsList = $userGroups->user_groups;
 
-				if (!empty($userGroupsList) && $currentUser->isAdminUser() == false) {
+				if (!empty($userGroupsList) && $currentUser->isAdminUser() === false) {
 					$userGroupsQuery = " (shareid IN (" . generateQuestionMarks($userGroupsList) . ") && setype='groups') OR";
 					array_push($params, $userGroupsList);
 				}
 
 				$nonAdminQuery = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing
 									WHERE $userGroupsQuery (shareid=? && setype='users'))";
-				if ($currentUser->isAdminUser() == false) {
+				if ($currentUser->isAdminUser() === false) {
 					$ssql .= " && (($nonAdminQuery)
 								OR vtiger_report.sharingtype = 'Public'
 								OR vtiger_report.owner = ? || vtiger_report.owner IN
@@ -101,7 +101,7 @@ class Vtiger_Report_Model extends Reports
 				$this->reportname = decode_html($cachedInfo["reportname"]);
 				$this->reportdescription = decode_html($cachedInfo["description"]);
 				$this->folderid = $cachedInfo["folderid"];
-				if ($currentUser->isAdminUser() == true || in_array($cachedInfo["owner"], $subOrdinateUsers) || $cachedInfo["owner"] == $userId) {
+				if ($currentUser->isAdminUser() === true || in_array($cachedInfo["owner"], $subOrdinateUsers) || $cachedInfo["owner"] == $userId) {
 					$this->is_editable = true;
 				} else {
 					$this->is_editable = false;

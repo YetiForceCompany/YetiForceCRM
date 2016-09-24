@@ -99,7 +99,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		if ($scheduleid != self::$SCHEDULED_ON_SPECIFIC_DATE) {
 			$nextTriggerTime = $this->getNextTriggerTime();
 		}
-		if ($isReportScheduled == '0' || $isReportScheduled == '' || $isReportScheduled == false) {
+		if ($isReportScheduled == '0' || $isReportScheduled == '' || $isReportScheduled === false) {
 			$deleteScheduledReportSql = "DELETE FROM vtiger_schedulereports WHERE reportid=?";
 			$adb->pquery($deleteScheduledReportSql, array($reportid));
 		} else {

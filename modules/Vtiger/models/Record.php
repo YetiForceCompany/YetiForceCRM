@@ -431,7 +431,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$isPermitted = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId);
 			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
 
-			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit == false;
+			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit === false;
 		}
 		return $this->privileges['isEditable'];
 	}

@@ -36,7 +36,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 			$params['lang'] = $lang;
 			$params['val'] = $form_data[$lang];
 			$saveResp = Settings_LangManagement_Module_Model::AddTranslation($params);
-			if ($saveResp['success'] == false) {
+			if ($saveResp['success'] === false) {
 				break;
 			}
 		}

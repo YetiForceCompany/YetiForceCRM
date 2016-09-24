@@ -22,7 +22,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 	{
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type");
-		$cache = Vtiger_Cache::get('SalesProcesses', $type == false ? 'all' : $type);
+		$cache = Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
 		if ($cache) {
 			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 			return $cache;
@@ -53,7 +53,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 				$config[$db->query_result_raw($result, $i, 'type')][$param] = $value;
 			}
 		}
-		Vtiger_Cache::set('SalesProcesses', $type == false ? 'all' : $type, $config);
+		Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $config;
 	}

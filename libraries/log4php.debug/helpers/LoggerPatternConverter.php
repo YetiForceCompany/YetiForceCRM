@@ -433,7 +433,7 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
         	$end = $len -1 ;
         	for($i = $this->precision; $i > 0; $i--) {
         	    $end = strrpos(substr($n, 0, ($end - 1)), '.');
-        	    if ($end == false)
+        	    if ($end === false)
         	        return $n;
         	}
         	return substr($n, ($end + 1), $len);

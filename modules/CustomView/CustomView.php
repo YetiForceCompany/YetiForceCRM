@@ -206,7 +206,7 @@ class CustomView extends CRMEntity
 		$ssql .= " where vtiger_customview.cvid=?";
 		$sparams = array($cvid);
 
-		if ($is_admin == false) {
+		if ($is_admin === false) {
 			$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 			array_push($sparams, $current_user->id);
 		}
@@ -248,7 +248,7 @@ class CustomView extends CRMEntity
 		$shtml_others = '';
 
 		$selected = 'selected';
-		if ($markselected == false)
+		if ($markselected === false)
 			$selected = '';
 
 		$ssql = "select vtiger_customview.*, vtiger_users.first_name,vtiger_users.last_name from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype
@@ -256,7 +256,7 @@ class CustomView extends CRMEntity
 		$ssql .= " where vtiger_tab.tabid=?";
 		$sparams = array($tabid);
 
-		if ($is_admin == false) {
+		if ($is_admin === false) {
 			$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 			array_push($sparams, $current_user->id);
 		}
@@ -307,7 +307,7 @@ class CustomView extends CRMEntity
 			}
 		}
 		$shtml = $shtml_user;
-		if ($is_admin == true)
+		if ($is_admin === true)
 			$shtml .= $shtml_pending;
 		$shtml = $shtml . $shtml_public . $shtml_others;
 		return $shtml;
@@ -336,7 +336,7 @@ class CustomView extends CRMEntity
 			$tabid = "9,16";
 		$display_type = " vtiger_field.displaytype in (1,2,3)";
 
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$tab_ids = explode(",", $tabid);
 			$sql = 'select * from vtiger_field ';
 			$sql.= ' where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and vtiger_field.presence in (0,2) and';
@@ -512,7 +512,7 @@ class CustomView extends CRMEntity
 			$blockids[] = $blockid;
 		}
 
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql = 'select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid ';
 			$sql.= ' where vtiger_field.tabid=? and vtiger_field.block in (%s)
                         and vtiger_field.uitype in (5,6,23,70)';

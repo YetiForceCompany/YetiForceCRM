@@ -797,7 +797,7 @@ class JavascriptRenderer
      * @param boolean $initialize Whether to render the de bug bar initialization code
      * @param bool $renderStackedData
      * @param bool $head
-     * @return string Return "{--DEBUGBAR_OB_START_REPLACE_ME--}" or return an empty string if $here == false
+     * @return string Return "{--DEBUGBAR_OB_START_REPLACE_ME--}" or return an empty string if $here === false
      */
     public function renderOnShutdown($here = true, $initialize = true, $renderStackedData = true, $head = false)
     {

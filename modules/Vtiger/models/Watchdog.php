@@ -25,7 +25,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		$instance = new $modelClassName();
 		$instance->set('record', $record);
 		$instance->set('module', $moduleName);
-		if (AppConfig::module('ModTracker', 'WATCHDOG') == false) {
+		if (AppConfig::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->set('isWatchingModule', false);
 			$instance->set('isWatchingRecord', false);
 		}
@@ -45,7 +45,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleName);
-		if (AppConfig::module('ModTracker', 'WATCHDOG') == false) {
+		if (AppConfig::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->set('isWatchingModule', false);
 			$instance->set('isWatchingRecord', false);
 		}
@@ -131,7 +131,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($isWatchingRecord && $state == 1) {
 			return true;
 		}
-		if ($ownerId == false) {
+		if ($ownerId === false) {
 			$ownerId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
 		}
 		$db = PearDatabase::getInstance();

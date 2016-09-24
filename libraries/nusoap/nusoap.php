@@ -2819,7 +2819,7 @@ class soap_transport_http extends nusoap_base
 		// read chunk-size, chunk-extension (if any) and CRLF
 		// get the position of the linebreak
 		$chunkend = strpos($buffer, $lb);
-		if ($chunkend == FALSE) {
+		if ($chunkend === false) {
 			$this->debug('no linebreak found in decodeChunked');
 			return $new;
 		}
@@ -2832,7 +2832,7 @@ class soap_transport_http extends nusoap_base
 			$chunkend = strpos($buffer, $lb, $chunkstart + $chunk_size);
 
 			// Just in case we got a broken connection
-			if ($chunkend == FALSE) {
+			if ($chunkend === false) {
 				$chunk = substr($buffer, $chunkstart);
 				// append chunk-data to entity-body
 				$new .= $chunk;
@@ -2850,7 +2850,7 @@ class soap_transport_http extends nusoap_base
 			$chunkstart = $chunkend + strlen($lb);
 
 			$chunkend = strpos($buffer, $lb, $chunkstart) + strlen($lb);
-			if ($chunkend == FALSE) {
+			if ($chunkend === false) {
 				break; //Just in case we got a broken connection
 			}
 			$temp = substr($buffer, $chunkstart, $chunkend - $chunkstart);

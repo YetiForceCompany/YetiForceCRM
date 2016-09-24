@@ -139,7 +139,7 @@ class LoggerLevelRangeFilter extends LoggerFilter {
         $level = $event->getLevel();
         
         if($this->levelMin !== null) {
-            if ($level->isGreaterOrEqual($this->levelMin) == false) {
+            if ($level->isGreaterOrEqual($this->levelMin) === false) {
                 // level of event is less than minimum
                 return LOG4PHP_LOGGER_FILTER_DENY;
             }

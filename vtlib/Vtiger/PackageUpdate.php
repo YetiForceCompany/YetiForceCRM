@@ -91,7 +91,7 @@ class PackageUpdate extends PackageImport
 			$buildModuleArray = [];
 			$installSequenceArray = [];
 			$moduleBundle = (boolean) $this->_modulexml->modulebundle;
-			if ($moduleBundle == true) {
+			if ($moduleBundle === true) {
 				$moduleList = (Array) $this->_modulexml->modulelist;
 				foreach ($moduleList as $moduleInfos) {
 					foreach ($moduleInfos as $moduleInfo) {

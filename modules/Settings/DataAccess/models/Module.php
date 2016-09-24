@@ -329,10 +329,10 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 		foreach ($DataAccessList as $DataAccess) {
 			$condition_result = $conditions->checkConditions($DataAccess['id'], $param);
-			if ($condition_result['test'] == true) {
+			if ($condition_result['test'] === true) {
 				$action_result = self::executeAction($module, $param, $DataAccess['data']);
 				$output = array_merge($output, $action_result['data']);
-				if ($action_result['success'] == false) {
+				if ($action_result['success'] === false) {
 					$success = false;
 				}
 			}
@@ -354,7 +354,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 					$class = "DataAccess_" . $action[1];
 					$actionObject = new $class();
 					$output[] = $resp = $actionObject->process($module, $recordId, $param, $row);
-					if ($resp['save_record'] == false) {
+					if ($resp['save_record'] === false) {
 						$save_record = false;
 					}
 				}
@@ -407,7 +407,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$conditions = new DataAccess_Conditions();
 		foreach ($colorList as $row) {
 			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordData, $recordModel);
-			if ($conditionResult['test'] == true) {
+			if ($conditionResult['test'] === true) {
 				$data = reset(unserialize($row['data']));
 				$return = [
 					'text' => $data['text'],

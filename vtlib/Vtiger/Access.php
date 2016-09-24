@@ -148,7 +148,7 @@ class Access
 		$result = $adb->pquery("SELECT actionid FROM vtiger_actionmapping WHERE actionname=?", Array($toolAction));
 		if ($adb->num_rows($result)) {
 			$actionid = $adb->query_result($result, 0, 'actionid');
-			$permission = ($flag == true) ? '0' : '1';
+			$permission = ($flag === true) ? '0' : '1';
 
 			$profileids = [];
 			if ($profileid) {

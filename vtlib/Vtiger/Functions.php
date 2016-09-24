@@ -1131,7 +1131,7 @@ class Functions
 			$remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
 		}
 
-		if (!empty($remote_ip) && $onlyIP == false) {
+		if (!empty($remote_ip) && $onlyIP === false) {
 			$address .= '(' . implode(',', $remote_ip) . ')';
 		}
 		return $address;

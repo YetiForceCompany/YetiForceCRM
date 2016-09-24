@@ -317,7 +317,7 @@ class ReportRun extends CRMEntity
 			$inventory_fields = array('serviceid');
 			$inventory_modules = getInventoryModules();
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
-			if (sizeof($permitted_fields[$module]) == 0 && $is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
+			if (sizeof($permitted_fields[$module]) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 				$permitted_fields[$module] = $this->getaccesfield($module);
 			}
 			if (in_array($module, $inventory_modules)) {
@@ -328,7 +328,7 @@ class ReportRun extends CRMEntity
 				}
 			}
 			$selectedfields = explode(":", $fieldcolname);
-			if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && !in_array($selectedfields[3], $permitted_fields[$module])) {
+			if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && !in_array($selectedfields[3], $permitted_fields[$module])) {
 				//user has no access to this field, skip it.
 				continue;
 			}
@@ -710,7 +710,7 @@ class ReportRun extends CRMEntity
 			$value = str_replace("yes", "1", str_replace("no", "0", $value));
 		}
 
-		if ($is_field == true) {
+		if ($is_field === true) {
 			$value = $this->getFilterComparedField($temp);
 		}
 		if ($comparator == "e") {
@@ -768,7 +768,7 @@ class ReportRun extends CRMEntity
 		if ($comparator == "a") {
 			$rtvalue = " > " . $adb->quote($value);
 		}
-		if ($is_field == true) {
+		if ($is_field === true) {
 			$rtvalue = str_replace("'", "", $rtvalue);
 			$rtvalue = str_replace("\\", "", $rtvalue);
 		}
@@ -1597,7 +1597,7 @@ class ReportRun extends CRMEntity
 				$selectedfields = explode(":", $fieldcolname);
 				if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule)
 					$selectedfields[0] = "vtiger_crmentity";
-				if (stripos($selectedfields[1], 'cf_') == 0 && stristr($selectedfields[1], 'cf_') == true) {
+				if (stripos($selectedfields[1], 'cf_') == 0 && stristr($selectedfields[1], 'cf_') === true) {
 					//In sql queries forward slash(/) is treated as query terminator,so to avoid this problem
 					//the column names are enclosed within ('[]'),which will treat this as part of column name
 					$sqlvalue = "`" . $adb->sql_escape_string(decode_html($selectedfields[2])) . "` " . $sortorder;
@@ -1750,7 +1750,7 @@ class ReportRun extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
 		$tabId = \includes\Modules::getModuleId($module);
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $$sharingRuleInfoVariable;
 			$sharedTabId = null;
@@ -2178,7 +2178,7 @@ class ReportRun extends CRMEntity
 		//columns list
 		if (isset($selectlist)) {
 			$selectedcolumns = implode(", ", $selectlist);
-			if ($chartReport == true) {
+			if ($chartReport === true) {
 				$selectedcolumns .= ", count(*) AS 'groupby_count'";
 			}
 		}
@@ -2232,7 +2232,7 @@ class ReportRun extends CRMEntity
 		$reportquery = listQueryNonAdminChange($reportquery, $this->primarymodule);
 
 		if (trim($groupsquery) != "" && $type !== 'COLUMNSTOTOTAL') {
-			if ($chartReport == true) {
+			if ($chartReport === true) {
 				$reportquery .= sprintf(' group by %s', $this->GetFirstSortByField($reportid));
 			} else {
 				$reportquery .= sprintf(' order by %s', $groupsquery);
@@ -2355,7 +2355,7 @@ class ReportRun extends CRMEntity
 			}
 			// END
 
-			if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
+			if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 				$picklistarray = $this->getAccessPickListValues();
 			if ($result) {
 				$y = $adb->getFieldsCount($result);
@@ -2562,7 +2562,7 @@ class ReportRun extends CRMEntity
 		} elseif ($outputformat == "PDF") {
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, $outputformat, false, $startLimit, $endLimit);
 			$result = $adb->pquery($sSQL, array());
-			if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
+			if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 				$picklistarray = $this->getAccessPickListValues();
 
 			if ($result) {
@@ -2824,7 +2824,7 @@ class ReportRun extends CRMEntity
 		} elseif ($outputformat == "PRINT") {
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, $outputformat);
 			$result = $adb->query($sSQL);
-			if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
+			if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 				$picklistarray = $this->getAccessPickListValues();
 
 			if ($result) {
@@ -3100,7 +3100,7 @@ class ReportRun extends CRMEntity
 					$field_permitted = true;
 				}
 
-				if ($field_permitted == true) {
+				if ($field_permitted === true) {
 					$field = $this->getColumnsTotalSQL($fieldlist, $premod);
 
 					if ($fieldlist[4] == 2) {

@@ -1065,7 +1065,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function showLineItemFieldsInFilter($calculationFields = false)
 	{
-		if ($calculationFields == false)
+		if ($calculationFields === false)
 			$calculationFields = $this->getSelectedCalculationFields();
 
 		$primaryModule = $this->getPrimaryModule();

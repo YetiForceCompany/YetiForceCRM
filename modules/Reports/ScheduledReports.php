@@ -42,7 +42,7 @@ class VTScheduledReport extends Reports
 		if (!empty($this->id)) {
 			$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
 
-			if ($cachedInfo == false) {
+			if ($cachedInfo === false) {
 				$result = $adb->pquery('SELECT * FROM vtiger_scheduled_reports WHERE reportid=?', array($this->id));
 
 				if ($adb->num_rows($result) > 0) {

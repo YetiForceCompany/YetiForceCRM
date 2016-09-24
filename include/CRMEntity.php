@@ -287,7 +287,7 @@ class CRMEntity
 			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			$tabid = \includes\Modules::getModuleId($module);
-			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+			if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 				$columns = [
 					'smownerid' => $ownerid,
 					'modifiedby' => $current_user->id,
@@ -417,7 +417,7 @@ class CRMEntity
 			$updateColumns = [];
 			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
-			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+			if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 				$sql = sprintf('SELECT * FROM vtiger_field WHERE tabid in (%s) && tablename = ? && presence IN (0,2) GROUP BY columnname', $adb->generateQuestionMarks($tabid));
 				$params = [$tabid, $table_name];
 			} else {
@@ -1054,11 +1054,11 @@ class CRMEntity
 				$reset_value = false;
 
 			/*
-			  if (isset($this->additional_column_fields) && in_array($fieldname, $this->additional_column_fields) == true)
+			  if (isset($this->additional_column_fields) && in_array($fieldname, $this->additional_column_fields) === true)
 			  $reset_value = false;
 			 */
 
-			if ($reset_value == true)
+			if ($reset_value === true)
 				$this->column_fields[$fieldname] = "";
 		}
 	}
@@ -2147,7 +2147,7 @@ class CRMEntity
 			require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 		}
 		$sec_query = '';
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 			$sec_query .= " and (vtiger_crmentity.smownerid in($current_user->id) or vtiger_crmentity.smownerid
 					in (select vtiger_user2role.userid from vtiger_user2role
 							inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid
@@ -2433,7 +2433,7 @@ class CRMEntity
 
 		$query = '';
 		$tabId = \includes\Modules::getModuleId($moduleName);
-		if ($userPrivileges['is_admin'] == false && $userPrivileges['profile_global_permission'][1] == 1 && $userPrivileges['profile_global_permission'][2] == 1 && $userPrivileges['defaultOrgSharingPermission'][$tabId] == 3) {
+		if ($userPrivileges['is_admin'] === false && $userPrivileges['profile_global_permission'][1] == 1 && $userPrivileges['profile_global_permission'][2] == 1 && $userPrivileges['defaultOrgSharingPermission'][$tabId] == 3) {
 			$parentRoleSeq = $userPrivileges['parent_role_seq'];
 			$query .= " vtiger_crmentity.smownerid = '$user->id'";
 			if (\AppConfig::security('PERMITTED_BY_ROLES')) {
@@ -2458,7 +2458,7 @@ class CRMEntity
 
 	public function getUserAccessConditionsQuerySR($module, $currentUser = false, $relatedRecord = false)
 	{
-		if ($currentUser == false)
+		if ($currentUser === false)
 			$currentUser = vglobal('current_user');
 
 		$userid = $currentUser->id;
@@ -2484,7 +2484,7 @@ class CRMEntity
 			}
 		}
 
-		if ($userPrivileges['is_admin'] == false && $userPrivileges['profile_global_permission'][1] == 1 && $userPrivileges['profile_global_permission'][2] == 1 && $userPrivileges['defaultOrgSharingPermission'][$tabId] == 3) {
+		if ($userPrivileges['is_admin'] === false && $userPrivileges['profile_global_permission'][1] == 1 && $userPrivileges['profile_global_permission'][2] == 1 && $userPrivileges['defaultOrgSharingPermission'][$tabId] == 3) {
 			$securityParameter = $this->getUserAccessConditionsQuery($module, $currentUser);
 			$shownerid = array_merge([$userid], $userPrivileges['groups']);
 			if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
@@ -2598,7 +2598,7 @@ class CRMEntity
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
 		$tabId = \includes\Modules::getModuleId($module);
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $$sharingRuleInfoVariable;

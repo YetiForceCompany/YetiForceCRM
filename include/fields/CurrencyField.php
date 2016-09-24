@@ -155,11 +155,11 @@ class CurrencyField
 		$this->initialize($user);
 
 		$value = $this->value;
-		if ($skipConversion == false) {
+		if ($skipConversion === false) {
 			$value = self::convertFromDollar($value, $this->conversionRate);
 		}
 
-		if ($skipFormatting == false) {
+		if ($skipFormatting === false) {
 			$value = $this->_formatCurrencyValue($value);
 		}
 		return $this->currencyDecimalFormat($value, $user);
@@ -380,7 +380,7 @@ class CurrencyField
 		$value = str_replace("$currencySeparator", "", $value);
 		$value = str_replace("$decimalSeparator", ".", $value);
 
-		if ($skipConversion == false) {
+		if ($skipConversion === false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}
 		$value = preg_replace('/\s+/u', '', $value);
@@ -445,7 +445,7 @@ class CurrencyField
 		if (!$user) {
 			$user = $current_user;
 		}
-		if ($user->truncate_trailing_zeros == true) {
+		if ($user->truncate_trailing_zeros === true) {
 			if (strpos($value, $user->currency_decimal_separator) != 0) {
 				/**
 				 * We should trim extra zero's if only the value had decimal separator(Ex :- 1600.00)

@@ -124,7 +124,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 
 		$reportModuleModel = Vtiger_Module_Model::getInstance('Reports');
 
-		if ($fldrId == false) {
+		if ($fldrId === false) {
 			return $this->getAllReportModels($reportsList, $reportModuleModel);
 		} else {
 			$reportModels = array();

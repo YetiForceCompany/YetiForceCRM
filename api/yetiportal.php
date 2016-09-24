@@ -339,7 +339,7 @@ function get_combo_values($input_array)
 	$noofrows = $adb->num_rows($result);
 	for ($i = 0; $i < $noofrows; $i++) {
 		$check = checkModuleActive('Products');
-		if ($check == false) {
+		if ($check === false) {
 			break;
 		}
 		$output['productid'][$i] = $adb->query_result($result, $i, "productid");
@@ -445,7 +445,7 @@ function get_KBase_details($input_array)
 
 	$check = checkModuleActive('Products');
 
-	if ($check == true) {
+	if ($check === true) {
 		$product_query = "select productid, productname from vtiger_products inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_products.productid where vtiger_crmentity.deleted=0";
 		$product_result = $adb->pquery($product_query, []);
 		$product_noofrows = $adb->num_rows($product_result);
@@ -466,7 +466,7 @@ function get_KBase_details($input_array)
 		$moduleid = $adb->query_result($faq_result, $k, 'faq_no');
 		$result['faq'][$k]['faqno'] = $moduleid;
 		$result['faq'][$k]['id'] = $faqid;
-		if ($check == true) {
+		if ($check === true) {
 			$result['faq'][$k]['product_id'] = $adb->query_result($faq_result, $k, 'product_id');
 		}
 		$result['faq'][$k]['question'] = nl2br($adb->query_result($faq_result, $k, 'question'));
@@ -1102,7 +1102,7 @@ function get_ticket_attachments($input_array)
 	$adb->println($input_array);
 
 	$check = checkModuleActive('Documents');
-	if ($check == false) {
+	if ($check === false) {
 		return array(array('error' => "#MODULE NO ACTIVE#"));
 	}
 	$id = $input_array['id'];
@@ -1110,7 +1110,7 @@ function get_ticket_attachments($input_array)
 	$ticketid = $input_array['ticketid'];
 
 	$isPermitted = check_permission($id, 'HelpDesk', $ticketid);
-	if ($isPermitted == false) {
+	if ($isPermitted === false) {
 		return array(array('error' => "#NOT AUTHORIZED#"));
 	}
 
@@ -1433,7 +1433,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering customer portal function get_list_values");
 	$check = checkModuleActive($module);
-	if ($check == false) {
+	if ($check === false) {
 		return array("#MODULE INACTIVE#");
 	}
 
@@ -1664,7 +1664,7 @@ function get_filecontent_detail($id, $folderid, $module, $customerid, $sessionid
 	$site_URL = AppConfig::main('site_URL');
 	$log->debug("Entering customer portal function get_filecontent_detail ");
 	$isPermitted = check_permission($customerid, $module, $id);
-	if ($isPermitted == false) {
+	if ($isPermitted === false) {
 		return array("#NOT AUTHORIZED#");
 	}
 
@@ -1752,7 +1752,7 @@ function get_inventory_products($id, $module, $customerid, $sessionid)
 	$current_user = $user->retrieveCurrentUserInfoFromFile($userid);
 
 	$isPermitted = check_permission($customerid, $module, $id);
-	if ($isPermitted == false) {
+	if ($isPermitted === false) {
 		return array("#NOT AUTHORIZED#");
 	}
 	return [];
@@ -1769,7 +1769,7 @@ function get_product_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering customer portal function get_product_list_values ..");
 	$check = checkModuleActive($modulename);
-	if ($check == false) {
+	if ($check === false) {
 		return array("#MODULE INACTIVE#");
 	}
 	$user = new Users();
@@ -1883,7 +1883,7 @@ function get_details($id, $module, $customerid, $sessionid)
 	$current_user = $user->retrieveCurrentUserInfoFromFile($userid);
 
 	$isPermitted = check_permission($customerid, $module, $id);
-	if ($isPermitted == false) {
+	if ($isPermitted === false) {
 		return array("#NOT AUTHORIZED#");
 	}
 
@@ -2168,7 +2168,7 @@ function check_permission($customerid, $module, $entityid)
 	$show_all = show_all($module);
 	$allowed_contacts_and_accounts = [];
 	$check = checkModuleActive($module);
-	if ($check == false) {
+	if ($check === false) {
 		return false;
 	}
 
@@ -2356,7 +2356,7 @@ function get_documents($id, $module, $customerid, $sessionid)
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering customer portal function get_documents ..");
 	$check = checkModuleActive($module);
-	if ($check == false) {
+	if ($check === false) {
 		return array("#MODULE INACTIVE#");
 	}
 	$fields_list = array(
@@ -2424,7 +2424,7 @@ function get_project_components($id, $module, $customerid, $sessionid)
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering customer portal function get_project_components ..");
 	$check = checkModuleActive($module);
-	if ($check == false) {
+	if ($check === false) {
 		return array("#MODULE INACTIVE#");
 	}
 
@@ -2504,7 +2504,7 @@ function get_project_tickets($id, $module, $customerid, $sessionid)
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering customer portal function get_project_tickets ..");
 	$check = checkModuleActive($module);
-	if ($check == false) {
+	if ($check === false) {
 		return array("#MODULE INACTIVE#");
 	}
 
@@ -2586,7 +2586,7 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering customer portal Function get_service_list_values");
 	$check = checkModuleActive($modulename);
-	if ($check == false) {
+	if ($check === false) {
 		return array("#MODULE INACTIVE#");
 	}
 	$user = new Users();

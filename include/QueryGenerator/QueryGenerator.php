@@ -1022,7 +1022,7 @@ class QueryGenerator
 		$db = PearDatabase::getInstance();
 		$inEqualityFieldTypes = ['currency', 'percentage', 'double', 'integer', 'number'];
 
-		if (is_string($value) && $this->ignoreComma == false) {
+		if (is_string($value) && $this->ignoreComma === false) {
 			$commaSeparatedFieldTypes = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
 			if (in_array($field->getFieldDataType(), $commaSeparatedFieldTypes)) {
 				$valueArray = explode(',', $value);

@@ -88,7 +88,7 @@ class GlobalPrivileges
 		$result = $adb->pquery('SELECT * FROM `s_yf_privileges_updater` WHERE module = ? && type = ?', [$moduleName, 1]);
 		if ($adb->getRowCount($result) == 1) {
 			$row = $adb->getRow($result);
-			if ($record == false) {
+			if ($record === false) {
 				if ($row['crmid'] != 0) {
 					$update = true;
 					$params['crmid'] = 0;

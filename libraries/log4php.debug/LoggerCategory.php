@@ -107,7 +107,7 @@ class LoggerCategory {
      */
     function assertLog($assertion = true, $msg = '')
     {
-        if ($assertion == false) {
+        if ($assertion === false) {
             $this->error($msg);
         }
     } 

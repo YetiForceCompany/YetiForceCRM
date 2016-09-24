@@ -122,7 +122,7 @@ class Utils
 		$utilsLog = vglobal('tiger_Utils_Log');
 
 		$log->debug($message);
-		if (!isset($utilsLog) || $utilsLog == false)
+		if (!isset($utilsLog) || $utilsLog === false)
 			return;
 
 		echo $message;

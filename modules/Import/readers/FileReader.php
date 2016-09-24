@@ -43,7 +43,7 @@ class Import_FileReader_Reader
 
 	public function hasHeader()
 	{
-		if ($this->request->get('has_header') == 'on' || $this->request->get('has_header') == 1 || $this->request->get('has_header') == true) {
+		if ($this->request->get('has_header') == 'on' || $this->request->get('has_header') == 1 || $this->request->get('has_header') === true) {
 			return true;
 		}
 		return false;

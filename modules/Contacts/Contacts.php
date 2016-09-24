@@ -203,7 +203,7 @@ class Contacts extends CRMEntity
 		$log->debug("Entering process_list_query1(" . $query . ") method ...");
 		$permitted_field_lists = Array();
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select columnname from vtiger_field where tabid=4 and block <> 75 and vtiger_field.presence in (0,2)";
 			$params1 = array();
 		} else {
@@ -559,7 +559,7 @@ class Contacts extends CRMEntity
 		$log = vglobal('log');
 		$log->debug("Entering getColumnNames() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select fieldlabel from vtiger_field where tabid=4 and block <> 75 and vtiger_field.presence in (0,2)";
 			$params1 = array();
 		} else {
@@ -645,7 +645,7 @@ class Contacts extends CRMEntity
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select tablename,columnname from vtiger_field where tabid=4 and vtiger_field.presence in (0,2)";
 			$params1 = array();
 		} else {

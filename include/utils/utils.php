@@ -207,13 +207,13 @@ function to_html($string, $encode = true)
 	if (is_string($string)) {
 		if ($action != 'CustomView' && $action != 'Export' && $action != $ajaxAction && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && AppRequest::get('module') != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!AppRequest::has('submode'))) {
 			$doconvert = true;
-		} else if ($search == true) {
+		} else if ($search === true) {
 			// Fix for tickets #4647, #4648. Conversion required in case of search results also.
 			$doconvert = true;
 		}
 
 		// In vtiger5 ajax request are treated specially and the data is encoded
-		if ($doconvert == true) {
+		if ($doconvert === true) {
 			if ($inUTF8)
 				$string = htmlentities($string, ENT_QUOTES, $default_charset);
 			else
@@ -798,7 +798,7 @@ function formatForSqlLike($str, $flag = 0, $is_field = false)
 {
 	$adb = PearDatabase::getInstance();
 	if (isset($str)) {
-		if ($is_field == false) {
+		if ($is_field === false) {
 			$str = str_replace('%', '\%', $str);
 			$str = str_replace('_', '\_', $str);
 			if ($flag == 0) {
@@ -1310,7 +1310,7 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 		$log->fatal("$module already exists!");
 		$module_exists = true;
 	}
-	if ($module_exists == false) {
+	if ($module_exists === false) {
 		$log->debug("$module - Installation starts here");
 		$package->import($packagepath, true);
 		$moduleInstance = vtlib\Module::getInstance($module);

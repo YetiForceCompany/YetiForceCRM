@@ -572,7 +572,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					}
 				}
 
-				if ($entityId == false) {
+				if ($entityId === false) {
 					$referenceModuleName = AppRequest::get($fieldName . '_defaultvalue');
 				}
 			}

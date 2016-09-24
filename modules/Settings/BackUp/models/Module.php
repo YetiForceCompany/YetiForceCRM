@@ -734,7 +734,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				$tar->addFile($path, $path);
 			}
 			$this->markFile($id);
-			if ($count == $this->ajaxFilesLimit && $cron == FALSE) {
+			if ($count == $this->ajaxFilesLimit && $cron === false) {
 				$percentage = $this->getPercentage();
 				exit(json_encode(['percentage' => $percentage]));
 			}

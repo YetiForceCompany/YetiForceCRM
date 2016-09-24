@@ -61,7 +61,7 @@ function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = n
 	// Rewrite query and extract related records if there at least one.
 	if (!empty($relatedIds)) {
 		$relatedIdClause = "id IN ('" . implode("','", $relatedIds) . "')";
-		if (stripos($query, 'WHERE') == false) {
+		if (stripos($query, 'WHERE') === false) {
 			$query .= sprintf(" WHERE %s", $relatedIdClause);
 		} else {
 			$queryParts = explode('WHERE', $query);

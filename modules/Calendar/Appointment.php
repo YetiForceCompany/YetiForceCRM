@@ -117,7 +117,7 @@ class Appointment
 			$startDate->getDBInsertDateTimeValue(), $endDate->getDBInsertDateTimeValue(),
 			$startDate->getDBInsertDateTimeValue(), $endDate->getDBInsertDateTimeValue()
 		);
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[16] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[16] == 3) {
 			//Added for User Based Custom View for Calendar
 			$sec_parameter = getCalendarViewSecurityParameter();
 			$q .= $sec_parameter;

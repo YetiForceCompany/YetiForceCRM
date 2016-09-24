@@ -122,7 +122,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 		foreach ($fields as $field) {
 			if (isset($element[$field['name']])) {
 				$newElement[$field['name']] = $element[$field['name']];
-			} else if ($field['name'] != 'id' && $selectedOnly == false) {
+			} else if ($field['name'] != 'id' && $selectedOnly === false) {
 				$newElement[$field['name']] = '';
 			}
 		}

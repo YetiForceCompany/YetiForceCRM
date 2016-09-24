@@ -360,7 +360,7 @@ Class ChartUtils
 
 		$restrictedModules = false;
 		foreach ($reportModules as $mod) {
-			if (isPermitted($mod, 'index') != 'yes' || \includes\Modules::isModuleActive($mod) == false) {
+			if (isPermitted($mod, 'index') != 'yes' || \includes\Modules::isModuleActive($mod) === false) {
 				if (!is_array($restrictedModules))
 					$restrictedModules = [];
 				$restrictedModules[] = $mod;

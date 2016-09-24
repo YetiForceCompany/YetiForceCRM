@@ -13,7 +13,7 @@ class Project_Field_Model extends Vtiger_Field_Model
 		$notEditableFields = $this->getProjectNotEditabeFields();
 		if (!$this->isEditEnabled() || !$this->isViewable() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
-			$this->isReadOnly() == true || $this->get('uitype') == 4 || in_array($this->get('column'), $notEditableFields)) {
+			$this->isReadOnly() === true || $this->get('uitype') == 4 || in_array($this->get('column'), $notEditableFields)) {
 			return false;
 		}
 		return true;

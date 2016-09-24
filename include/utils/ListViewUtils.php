@@ -164,7 +164,7 @@ function getListQuery($module, $where = '')
 				ON vtiger_contactdetails.reportsto = vtiger_contactdetails2.contactid
 			LEFT JOIN vtiger_customerdetails
 				ON vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
-			if (AppRequest::get('from_dashboard') == true && AppRequest::get('type') == 'dbrd') {
+			if (AppRequest::get('from_dashboard') === true && AppRequest::get('type') == 'dbrd') {
 				$query .= " INNER JOIN vtiger_campaign_records on vtiger_campaign_records.crmid = " .
 					"vtiger_contactdetails.contactid";
 			}
@@ -419,7 +419,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		onkeypress=\"$jsHandler\">";
 	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
 	$computeCount = AppRequest::get('withCount');
-	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true || ((boolean) $computeCount) == true) {
+	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true || ((boolean) $computeCount) === true) {
 		$output .= \includes\Language::translate('LBL_LIST_OF') . ' ' . $navigation_array['verylast'];
 	} else {
 		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . \includes\Language::translate('LBL_HOME_COUNT') . "'

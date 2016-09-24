@@ -698,7 +698,7 @@ class PearDatabase
 	public function formatDate($datetime, $strip_quotes = false)
 	{
 		/* remove single quotes to use the date as parameter for Prepared statement */
-		if ($strip_quotes == true) {
+		if ($strip_quotes === true) {
 			return trim($datetime, "'");
 		}
 		return $datetime;

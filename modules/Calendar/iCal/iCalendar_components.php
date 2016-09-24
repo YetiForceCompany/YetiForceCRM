@@ -300,7 +300,7 @@ class iCalendar_component
 				$durationTypeCharacters = array('W', 'D', 'T', 'H', 'M', 'S');
 				$reminder_time = 0;
 				foreach ($durationTypeCharacters as $durationType) {
-					if (strpos($temp, $durationType) == false) {
+					if (strpos($temp, $durationType) === false) {
 						continue;
 					}
 					$parts = explode($durationType, $temp);

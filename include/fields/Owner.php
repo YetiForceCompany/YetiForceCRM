@@ -17,7 +17,7 @@ class Owner
 	{
 		if ($currentUser && $currentUser instanceof Users) {
 			$currentUser = \Users_Record_Model::getInstanceFromUserObject($currentUser);
-		} elseif ($currentUser == false) {
+		} elseif ($currentUser === false) {
 			$currentUser = \Users_Record_Model::getCurrentUserModel();
 		}
 		$cacheKey = $moduleName . $currentUser->getId();
@@ -275,7 +275,7 @@ class Owner
 		$tempResult = $this->initUsers($status, $assignedUser, $private);
 
 		$users = [];
-		if ($addBlank == true) {
+		if ($addBlank === true) {
 			// Add in a blank row
 			$users[''] = '';
 		}
@@ -348,7 +348,7 @@ class Owner
 		$query .= ' order by groupname ASC';
 		$result = $db->pquery($query, $params);
 
-		if ($addBlank == true) {
+		if ($addBlank === true) {
 			// Add in a blank row
 			$tempResult[''] = '';
 		}

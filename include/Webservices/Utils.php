@@ -85,7 +85,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	require('user_privileges/user_privileges_' . $user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $user->id . '.php');
 	$tabName = getTabname($moduleId);
-	if ($is_admin == false && $profileGlobalPermission[2] == 1 &&
+	if ($is_admin === false && $profileGlobalPermission[2] == 1 &&
 		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
 		$result = get_current_user_access_groups($tabName);
 	} else {
@@ -306,7 +306,7 @@ function vtws_addDefaultActorTypeEntity($actorName, $actorNameDetails, $withName
 {
 	$actorHandler = array('file' => 'include/Webservices/VtigerActorOperation.php',
 		'class' => 'VtigerActorOperation');
-	if ($withName == true) {
+	if ($withName === true) {
 		vtws_addActorTypeWebserviceEntityWithName($actorName, $actorHandler['file'], $actorHandler['class'], $actorNameDetails);
 	} else {
 		vtws_addActorTypeWebserviceEntityWithoutName($actorName, $actorHandler['file'], $actorHandler['class'], $actorNameDetails);

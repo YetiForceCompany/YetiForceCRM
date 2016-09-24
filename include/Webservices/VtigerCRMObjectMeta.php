@@ -84,7 +84,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	{
 		$adb = PearDatabase::getInstance();
 		$active = \includes\Modules::isModuleActive($this->getTabName());
-		if ($active == false) {
+		if ($active === false) {
 			$this->hasAccess = false;
 			$this->hasReadAccess = false;
 			$this->hasWriteAccess = false;
@@ -92,7 +92,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 			return;
 		}
 		$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($this->user->id);
-		if ($userPrivileges['is_admin'] == true || $userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
+		if ($userPrivileges['is_admin'] === true || $userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
 			$this->hasAccess = true;
 			$this->hasReadAccess = true;
 			$this->hasWriteAccess = true;
@@ -379,7 +379,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$tabid = $this->getTabId();
 		require('user_privileges/user_privileges_' . $this->user->id . '.php');
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql = sprintf("select *, '0' as readonly from vtiger_field where tabid = ? and block in (%s)", generateQuestionMarks($block));
 			$params = array($tabid, $block);
 		} else {

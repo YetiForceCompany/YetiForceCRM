@@ -151,7 +151,7 @@ class VtigerCRMObject
 		$error = false;
 
 		$error = $this->read($this->getObjectId());
-		if ($error == false) {
+		if ($error === false) {
 			return $error;
 		}
 

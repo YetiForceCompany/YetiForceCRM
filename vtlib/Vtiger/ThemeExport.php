@@ -173,7 +173,7 @@ class ThemeExport extends Package
 
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
-		if (strtolower($name) == 'basic' && $overrideCore == false)
+		if (strtolower($name) == 'basic' && $overrideCore === false)
 			return;
 
 		$useisdefault = ($isdefault) ? 1 : 0;

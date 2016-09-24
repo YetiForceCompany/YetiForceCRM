@@ -670,7 +670,7 @@ class Activity extends CRMEntity
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select tablename,columnname from vtiger_field where tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.presence in (0,2)";
 			$params1 = [];
 		} else {
@@ -724,7 +724,7 @@ class Activity extends CRMEntity
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select tablename,columnname from vtiger_field where tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.presence in (0,2)";
 			$params1 = [];
 		} else {
@@ -867,7 +867,7 @@ class Activity extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
 		$tabId = \includes\Modules::getModuleId($module);
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id . '_t' . $tabId;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $$sharingRuleInfoVariable;

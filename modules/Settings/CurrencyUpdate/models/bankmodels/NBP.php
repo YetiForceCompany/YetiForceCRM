@@ -143,7 +143,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 				}
 			}
 
-			if ($stateA == false) {
+			if ($stateA === false) {
 				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
 				$newDate = date('Y-m-d', $newDate);
 
@@ -182,7 +182,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 					$exchangeVtiger = $exchangeRate / $exchange;
 					$exchange = $exchange / $exchangeRate;
 
-					if ($cron == true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+					if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 						$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 					}
 
@@ -208,7 +208,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 			}
 
 			if ($mainCurrencyId) {
-				if ($cron == true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $exchangeRate);
 				}
 

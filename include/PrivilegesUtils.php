@@ -88,7 +88,7 @@ class PrivilegesUtils
 
 	public static function getDatashareRelatedModules()
 	{
-		if (self::$datashareRelatedCache == false) {
+		if (self::$datashareRelatedCache === false) {
 			$relModSharArr = [];
 			$adb = \PearDatabase::getInstance();
 			$result = $adb->query('select * from vtiger_datashare_relatedmodules');
@@ -112,7 +112,7 @@ class PrivilegesUtils
 
 	public static function getAllDefaultSharingAction()
 	{
-		if (self::$defaultSharingActionCache == false) {
+		if (self::$defaultSharingActionCache === false) {
 			$log = \LoggerManager::getInstance();
 			$log->debug('Entering getAllDefaultSharingAction() method ...');
 			$adb = \PearDatabase::getInstance();
