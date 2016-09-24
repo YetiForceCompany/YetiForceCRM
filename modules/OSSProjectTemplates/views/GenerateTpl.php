@@ -20,7 +20,7 @@ class OSSProjectTemplates_GenerateTpl_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('REL_ID', $request->get('rel_id'));
 		$viewer->assign('TPL_LIST', Settings_Vtiger_Module_Model::getInstance('Settings:OSSProjectTemplates')->getListTpl('Project'));
-		echo $viewer->view('GenerateTpl.tpl', $moduleName, TRUE);
+		echo $viewer->view('GenerateTpl.tpl', $moduleName, true);
 		//GenerateTpl
 	}
 }

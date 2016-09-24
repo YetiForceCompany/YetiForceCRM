@@ -83,7 +83,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 			$adb->pquery($insertQuery, [$data]);
 		}
 		$log->debug("Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
-		return TRUE;
+		return true;
 	}
 
 	public function getAllTicketStatus()
@@ -106,7 +106,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		$getTicketStatusClosed = self::getTicketStatusNotModify();
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::getOpenTicketStatus() method ...");
 		if (empty($getTicketStatusClosed)) {
-			$result = FALSE;
+			$result = false;
 		} else {
 			$getAllTicketStatus = self::getAllTicketStatus();
 			foreach ($getTicketStatusClosed as $key => $closedStatus) {

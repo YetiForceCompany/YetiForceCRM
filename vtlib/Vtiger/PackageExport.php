@@ -27,7 +27,7 @@ class PackageExport
 	 */
 	public function __construct()
 	{
-		if (is_dir($this->_export_tmpdir) === FALSE) {
+		if (is_dir($this->_export_tmpdir) === false) {
 			mkdir($this->_export_tmpdir);
 		}
 	}

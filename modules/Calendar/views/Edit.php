@@ -111,7 +111,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			$followUpTime = $requestFollowUpTime;
 		}
 		if ($followUpStatus == 'on') {
-			$viewer->assign('FOLLOW_UP_STATUS', TRUE);
+			$viewer->assign('FOLLOW_UP_STATUS', true);
 		}
 
 		$isRelationOperation = $request->get('relationOperation');

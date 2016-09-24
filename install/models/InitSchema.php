@@ -263,7 +263,7 @@ class Install_InitSchema_Model
 	{
 		$log = LoggerManager::getInstance();
 		$rootDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if ($rootDirectory && strpos($src, $rootDirectory) === FALSE) {
+		if ($rootDirectory && strpos($src, $rootDirectory) === false) {
 			$src = $rootDirectory . $src;
 		}
 		if (!file_exists($src) || !$rootDirectory)

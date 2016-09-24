@@ -834,7 +834,7 @@ class API_CalDAV_Model
 				$attendee->add('CN', $owner->getName());
 				$attendee->add('ROLE', 'CHAIR');
 				$attendee->add('PARTSTAT', 'ACCEPTED');
-				$attendee->add('RSVP', 'FALSE');
+				$attendee->add('RSVP', 'false');
 				$component->add($attendee);
 			}
 		} else {
@@ -854,7 +854,7 @@ class API_CalDAV_Model
 			$attendee->add('CN', vtlib\Functions::getCRMRecordLabel($row['crmid']));
 			$attendee->add('ROLE', 'REQ-PARTICIPANT');
 			$attendee->add('PARTSTAT', $this->getAttendeeStatus($row['status'], false));
-			$attendee->add('RSVP', $row['status'] == '0' ? 'TRUE' : 'FALSE');
+			$attendee->add('RSVP', $row['status'] == '0' ? 'true' : 'false');
 			$component->add($attendee);
 		}
 	}

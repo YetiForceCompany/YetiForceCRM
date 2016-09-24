@@ -213,7 +213,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			$listId = explode(',', $value);
 			$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 			$getListUserSql = "select $usersSqlFullName as uname from vtiger_users WHERE id IN (" . generateQuestionMarks($listId) . ') ';
-			$getListUserResult = $db->pquery($getListUserSql, array($listId), TRUE);
+			$getListUserResult = $db->pquery($getListUserSql, array($listId), true);
 
 			$fieldvalue = '';
 			$finalList = array();

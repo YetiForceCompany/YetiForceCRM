@@ -185,7 +185,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function addConditions($conditions, $relId, $mendatory = TRUE)
+	public function addConditions($conditions, $relId, $mendatory = true)
 	{
 		$db = PearDatabase::getInstance();
 		$conditionObj = json_decode($conditions);
@@ -193,15 +193,15 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			foreach ($conditionObj as $key => $obj) {
 				$insertConditionSql = "INSERT INTO vtiger_dataaccess_cnd VALUES(?, ?, ?, ?, ?, ?, ?)";
 				if (is_array($obj->val)) {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), TRUE);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), true);
 				} else {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), TRUE);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), true);
 				}
 			}
 		}
 	}
 
-	public function updateConditions($conditions, $relId, $mendatory = TRUE)
+	public function updateConditions($conditions, $relId, $mendatory = true)
 	{
 		$db = PearDatabase::getInstance();
 		if ($mendatory) {
@@ -209,15 +209,15 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		} else {
 			$deleteOldConditionsSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ? && required = 0";
 		}
-		$db->pquery($deleteOldConditionsSql, array($relId), TRUE);
+		$db->pquery($deleteOldConditionsSql, array($relId), true);
 		$conditionObj = json_decode($conditions);
 		if (count($conditionObj)) {
 			foreach ($conditionObj as $key => $obj) {
 				$insertConditionSql = "INSERT INTO vtiger_dataaccess_cnd VALUES(?, ?, ?, ?, ?, ?, ?)";
 				if (is_array($obj->val)) {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), TRUE);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), true);
 				} else {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), TRUE);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), true);
 				}
 			}
 		}

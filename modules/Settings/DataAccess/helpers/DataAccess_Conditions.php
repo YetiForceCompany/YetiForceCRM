@@ -50,18 +50,18 @@ class DataAccess_Conditions
 			}
 		}
 		for ($i = 0; $i < count($responeListRequired); $i++) {
-			if (TRUE != $responeListRequired[$i]) {
+			if (true != $responeListRequired[$i]) {
 				$responeListRequiredStatus = false;
 			}
 		}
 		if (count($responeListOptional)) {
 			for ($i = 0; $i < count($responeListOptional); $i++) {
-				if (TRUE == $responeListOptional[$i]) {
+				if (true == $responeListOptional[$i]) {
 					$responeListOptionalStatus = true;
 				}
 			}
 		} else {
-			$responeListOptionalStatus = TRUE;
+			$responeListOptionalStatus = true;
 		}
 		if ($responeListRequiredStatus && $responeListOptionalStatus) {
 			return array('test' => true, 'ID' => $ID, 'condition' => $condition[$ID][0]);
@@ -77,7 +77,7 @@ class DataAccess_Conditions
 			. " FROM " . self::$tab
 			. " LEFT JOIN " . self::$tab_cnd . " ON " . self::$tab_cnd . ".dataaccessid = dataaccessid"
 			. " WHERE module_name = ?";
-		$result = $db->pquery($sql, array($module), TRUE);
+		$result = $db->pquery($sql, array($module), true);
 		$output = array();
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$id = $db->query_result_raw($result, $i, 'dataaccessid');
@@ -98,7 +98,7 @@ class DataAccess_Conditions
 			 FROM  %s
 			 LEFT JOIN %s ON %s.dataaccessid = %s.dataaccessid
 			 WHERE %s.dataaccessid = ?', self::$tab, self::$tab, self::$tab_cnd, self::$tab_cnd, self::$tab, self::$tab);
-		$result = $db->pquery($sql, [$ID], TRUE);
+		$result = $db->pquery($sql, [$ID], true);
 		$output = array();
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$id = $db->query_result_raw($result, $i, 'dataaccessid');
@@ -166,7 +166,7 @@ class DataAccess_Conditions
 	  $responeListRequiredStatus = true;
 
 	  for ($i = 0; $i < count($responeListRequired); $i++) {
-	  if (TRUE != $responeListRequired[$i]) {
+	  if (true != $responeListRequired[$i]) {
 	  $responeListRequiredStatus = false;
 	  }
 	  }
@@ -175,12 +175,12 @@ class DataAccess_Conditions
 
 	  if (count($responeListOptional)) {
 	  for ($i = 0; $i < count($responeListOptional); $i++) {
-	  if (TRUE == $responeListOptional[$i]) {
+	  if (true == $responeListOptional[$i]) {
 	  $responeListOptionalStatus = true;
 	  }
 	  }
 	  } else {
-	  $responeListOptionalStatus = TRUE;
+	  $responeListOptionalStatus = true;
 	  }
 
 	  if ($responeListRequiredStatus && $responeListOptionalStatus) {
@@ -200,7 +200,7 @@ class DataAccess_Conditions
 		$db = PearDatabase::getInstance();
 
 		$getListDocumentRelSql = "SELECT * FROM vtiger_senotesrel WHERE crmid = ?";
-		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), TRUE);
+		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), true);
 
 		for ($i = 0; $i < $db->num_rows($getListDocumentRelResult); $i++) {
 			$ID = $db->query_result($getListDocumentRelResult, $i, 'notesid');
@@ -209,7 +209,7 @@ class DataAccess_Conditions
 				$documentModel = Vtiger_Record_Model::getInstanceById($ID);
 
 				if ($docName == $documentModel->get('notes_title') && $folder == $documentModel->get('folderid')) {
-					return TRUE;
+					return true;
 				}
 			}
 		}
@@ -222,7 +222,7 @@ class DataAccess_Conditions
 		$db = PearDatabase::getInstance();
 
 		$getListDocumentRelSql = "SELECT * FROM vtiger_senotesrel WHERE crmid = ?";
-		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), TRUE);
+		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), true);
 
 		for ($i = 0; $i < $db->num_rows($getListDocumentRelResult); $i++) {
 			$ID = $db->query_result($getListDocumentRelResult, $i, 'notesid');

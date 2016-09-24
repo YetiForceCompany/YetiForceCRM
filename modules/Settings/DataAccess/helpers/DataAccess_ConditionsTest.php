@@ -40,9 +40,9 @@ class DataAccess_ConditionsTest
 			$recordDate = DateTime::createFromFormat($format, $val);
 
 			if ($cndDate == $recordDate) {
-				return TRUE;
+				return true;
 			} else {
-				return FALSE;
+				return false;
 			}
 		} else if ('multipicklist' == $cndArray['field_type']) {
 
@@ -59,7 +59,7 @@ class DataAccess_ConditionsTest
 			$recordTime = new DateTime($val);
 
 
-			if ($dateTime != FALSE) {
+			if ($dateTime != false) {
 				if ($dateTime->diff($recordTime)->format('%R') == '+') {
 					return true;
 				} else {
@@ -68,9 +68,9 @@ class DataAccess_ConditionsTest
 			}
 		} else {
 			if ($cndArray['val'] == $val) {
-				return TRUE;
+				return true;
 			} else {
-				return FALSE;
+				return false;
 			}
 		}
 	}
@@ -87,9 +87,9 @@ class DataAccess_ConditionsTest
 			$recordDate = DateTime::createFromFormat($format, $val);
 
 			if ($cndDate != $recordDate) {
-				return TRUE;
+				return true;
 			} else {
-				return FALSE;
+				return false;
 			}
 		} else if ('multipicklist' == $cndArray['field_type']) {
 
@@ -105,7 +105,7 @@ class DataAccess_ConditionsTest
 			$dateTime = new DateTime($cndArray['val'] . ':00');
 			$recordTime = new DateTime($val);
 
-			if ($dateTime != FALSE) {
+			if ($dateTime != false) {
 				if ($dateTime->diff($recordTime)->format('%R') != '+') {
 					return true;
 				} else {
@@ -114,9 +114,9 @@ class DataAccess_ConditionsTest
 			}
 		} else {
 			if ($cndArray['val'] != $val) {
-				return TRUE;
+				return true;
 			} else {
-				return FALSE;
+				return false;
 			}
 		}
 	}
@@ -125,9 +125,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if (strpos($val, $cndArray['val']) !== false) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -136,9 +136,9 @@ class DataAccess_ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 
 		if (strpos($val, $cndArray['val']) === false) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -146,9 +146,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] === "" || strpos($val, $cndArray['val']) === 0) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -156,9 +156,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] === "" || substr($val, -strlen($cndArray['val'])) === $cndArray['val']) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -166,9 +166,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if (empty($val)) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -177,9 +177,9 @@ class DataAccess_ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 
 		if (!empty($val)) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -187,9 +187,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ('1' == $val) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -197,9 +197,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ('0' == $val) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -207,9 +207,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] == $val) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -217,9 +217,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] > $val) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -227,9 +227,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] < $val) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -237,9 +237,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] != $val) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -247,9 +247,9 @@ class DataAccess_ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] >= $val) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -258,9 +258,9 @@ class DataAccess_ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 
 		if ($cndArray['val'] <= $val) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -273,9 +273,9 @@ class DataAccess_ConditionsTest
 		$recordDate = DateTime::createFromFormat($format, $val);
 
 		if ($cndDate < $recordDate) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -290,11 +290,11 @@ class DataAccess_ConditionsTest
 		$recordDate = DateTime::createFromFormat($format, $val);
 
 		if ($cndDate == $recordDate) {
-			return FALSE;
+			return false;
 		} else if ($cndDate > $recordDate) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -307,9 +307,9 @@ class DataAccess_ConditionsTest
 		$cndDate = new DateTime();
 
 		if ($recordDate == $cndDate) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -328,9 +328,9 @@ class DataAccess_ConditionsTest
 		$maxInterval = $cndArray['val'] * -1;
 
 		if ($dayDiff > $maxInterval) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -349,9 +349,9 @@ class DataAccess_ConditionsTest
 		$maxInterval = $cndArray['val'] * -1;
 
 		if ($dayDiff < $maxInterval) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -370,9 +370,9 @@ class DataAccess_ConditionsTest
 		$maxInterval = $cndArray['val'] * -1;
 
 		if ($dayDiff == $maxInterval) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -391,9 +391,9 @@ class DataAccess_ConditionsTest
 		$maxInterval = (int) $cndArray['val'];
 
 		if ($dayDiff == $maxInterval) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -410,9 +410,9 @@ class DataAccess_ConditionsTest
 		$testDate = DateTime::createFromFormat($format, $val);
 
 		if ($testDate >= $startDate && $testDate <= $endDate) {
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -421,7 +421,7 @@ class DataAccess_ConditionsTest
 		$new_value = self::getValue($form, $cndArray['fieldname']);
 		$pre_value = self::getValue($form, 'p_' . $cndArray['fieldname']);
 		if (empty($new_value)) {
-			return FALSE;
+			return false;
 		} else {
 			return !($new_value == $pre_value);
 		}

@@ -177,16 +177,16 @@ $davHistoryDir = 'storage/FilesHistory';
 $systemMode = 'prod';
 
 // Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.
-$forceSSL = FALSE;
+$forceSSL = false;
 
 // Maximum number of records in a mass edition
 $listMaxEntriesMassEdit = 500;
 
 // Enable closing of mondal window by clicking on the background
-$backgroundClosingModal = TRUE;
+$backgroundClosingModal = true;
 
 // Enable CSRF-protection
-$csrfProtection = TRUE;
+$csrfProtection = true;
 
 // Enable encrypt backup, Support from PHP 5.6.x
 $encryptBackup = false;

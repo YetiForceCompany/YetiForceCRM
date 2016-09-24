@@ -43,7 +43,7 @@ class freetag {
 	 * @access private
 	 * @param bool Prints out limited debugging information if true, not fully implemented yet.
 	 */
-	var $_debug = FALSE;
+	var $_debug = false;
 	/**
 	 * @access private
 	 * @param string The prefix of freetag database vtiger_tables.
@@ -66,11 +66,7 @@ class freetag {
 	 * @param string Whether to prevent multiple vtiger_users from tagging the same object. By default, set to block (ala Upcoming.org)
 	 */
 	var $_block_multiuser_tag_on_object =0;
-	/**
-	 * @access private
-	 * @param bool Whether to use persistent ADODB connections. False by default.
-	 */
-	//var $_PCONNECT = FALSE;
+
 	/**
 	 * @access private
 	 * @param int The maximum length of a tag.
@@ -88,7 +84,7 @@ class freetag {
 	 *
 	 * @param array An associative array of options to pass to the instance of Freetag.
 	 * The following options are valid:
-	 * - debug: Set to TRUE for debugging information. [default:FALSE]
+	 * - debug: Set to TRUE for debugging information. [default:false]
 	 * - db: If you've already got an ADODB ADOConnection, you can pass it directly and Freetag will use that. [default:NULL]
 	 * - db_user: Database username
 	 * - db_pass: Database password

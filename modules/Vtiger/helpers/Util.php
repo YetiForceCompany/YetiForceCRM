@@ -22,7 +22,7 @@ class Vtiger_Util_Helper
 	 * 									array(1=> array('name'=> 'name2','type' => 'type2'),
 	 * 												...);
 	 */
-	public static function transformUploadedFiles(array $_files, $top = TRUE)
+	public static function transformUploadedFiles(array $_files, $top = true)
 	{
 		$files = [];
 		foreach ($_files as $name => $file) {
@@ -40,7 +40,7 @@ class Vtiger_Util_Helper
 						'error' => $file['error'][$key],
 						'size' => $file['size'][$key],
 					);
-					$files[$name] = self::transformUploadedFiles($files[$name], FALSE);
+					$files[$name] = self::transformUploadedFiles($files[$name], false);
 				}
 			} else {
 				$files[$name] = $file;
