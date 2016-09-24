@@ -106,7 +106,8 @@ class HistoryCall{
 		$modulesInstance = array();
 		$sql = "SELECT columnname,tablename,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = 0 && uitype = '11' && vtiger_tab.name IN ('Contacts','Accounts','Leads','OSSEmployees','Vendors')";
 		$result = $adb->query($sql,true);
-		for($i = 0; $i < $adb->num_rows($result); $i++){
+		$rows = $adb->num_rows($result);
+		for($i = 0; $i < $rows; $i++){
 			$module = $adb->query_result_raw($result, $i, 'name');
 			$columnname = $adb->query_result_raw($result, $i, 'columnname');
 			$tablename = $adb->query_result_raw($result, $i, 'tablename');

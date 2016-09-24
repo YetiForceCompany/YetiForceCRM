@@ -355,12 +355,14 @@ function get_combo_values($input_array)
 		$admin_role = $adb->query_result($roleres, 0, 'roleid');
 	}
 	$result1 = $adb->pquery("select vtiger_ticketpriorities.ticketpriorities from vtiger_ticketpriorities inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_ticketpriorities.picklist_valueid and vtiger_role2picklist.roleid='$admin_role' order by sortorderid", []);
-	for ($i = 0; $i < $adb->num_rows($result1); $i++) {
+	$rows1 = $adb->num_rows($result1);
+	for ($i = 0; $i < $rows1; $i++) {
 		$output['ticketpriorities'][$i] = array($adb->query_result($result1, $i, "ticketpriorities"), Vtiger_Language_Handler::getTranslatedString($adb->query_result($result1, $i, "ticketpriorities"), 'HelpDesk', vglobal('default_language')));
 	}
 
 	$result2 = $adb->pquery("select vtiger_ticketseverities.ticketseverities from vtiger_ticketseverities inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_ticketseverities.picklist_valueid and vtiger_role2picklist.roleid='$admin_role' order by sortorderid", []);
-	for ($i = 0; $i < $adb->num_rows($result2); $i++) {
+	$rows2 = $adb->num_rows($result2);
+	for ($i = 0; $i < $rows2; $i++) {
 		$output['ticketseverities'][$i] = array($adb->query_result($result2, $i, "ticketseverities"), Vtiger_Language_Handler::getTranslatedString($adb->query_result($result2, $i, "ticketseverities"), 'HelpDesk', vglobal('default_language')));
 	}
 
@@ -394,8 +396,8 @@ function get_combo_values($input_array)
 			array_push($params, $id);
 		}
 		$serviceResult = $adb->pquery($servicequery, $params);
-
-		for ($i = 0; $i < $adb->num_rows($serviceResult); $i++) {
+		$rows3 = $adb->num_rows($$serviceResult);
+		for ($i = 0; $i < $rows3; $i++) {
 			$serviceid = $adb->query_result($serviceResult, $i, 'servicecontractsid');
 			$output['serviceid'][$i] = $serviceid;
 			$output['servicename'][$i] = $adb->query_result($serviceResult, $i, 'subject');
@@ -1076,7 +1078,8 @@ function get_picklists($input_array)
 	$res = $adb->pquery(sprintf('SELECT vtiger_%s.* FROM vtiger_%s
 		INNER JOIN vtiger_role2picklist ON vtiger_role2picklist.picklistvalueid = vtiger_%s.picklist_valueid 
 		AND vtiger_role2picklist.roleid = ?', $picklist_name, $picklist_name, $picklist_name), [$admin_role]);
-	for ($i = 0; $i < $adb->num_rows($res); $i++) {
+	$rows4 = $adb->num_rows($res);
+	for ($i = 0; $i < $rows4; $i++) {
 		$picklist_val = $adb->query_result($res, $i, $picklist_name);
 		$picklist_array[$i] = $picklist_val;
 	}
@@ -2839,7 +2842,8 @@ function get_summary_widgets($id, $type)
 		}
 		$sql .= ' GROUP BY smownerid;';
 		$result = $adb->query($sql);
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$rows = $adb->num_rows($result);
+		for ($i = 0; $i < $rows; $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$output['OpenTickets'][$i] = $row;
 		}
@@ -2854,7 +2858,8 @@ function get_summary_widgets($id, $type)
 		}
 		$sql .= ' GROUP BY statusvalue;';
 		$result = $adb->query($sql);
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$rows = $adb->num_rows($result);
+		for ($i = 0; $i < $rows; $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$row['statusvalue'] = Vtiger_Language_Handler::getTranslatedString($row['statusvalue'], 'HelpDesk', $session['lang']);
 			$output['TicketsByStatus'][$i] = $row;
@@ -2873,7 +2878,9 @@ function get_summary_widgets($id, $type)
 		}
 		$sql .= ' GROUP BY smownerid;';
 		$result = $adb->query($sql);
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		
+		$rows = $adb->num_rows($result);
+		for ($i = 0; $i < $rows; $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$output['TicketsSumTime'][$i] = $row;
 		}
@@ -2884,7 +2891,8 @@ function get_summary_widgets($id, $type)
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_project.projectid
 					WHERE vtiger_crmentity.deleted = 0 && vtiger_project.linktoaccountscontacts IN (%s)", generateQuestionMarks($allowed_contacts_and_accounts));
 		$result = $adb->pquery($sql, array($allowed_contacts_and_accounts));
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$rows = $adb->num_rows($result);
+		for ($i = 0; $i < $rows; $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$output['ProjectSumTime'][$i] = $row;
 		}
