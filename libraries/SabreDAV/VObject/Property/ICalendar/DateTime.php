@@ -321,7 +321,7 @@ class DateTime extends Property {
         // those.
         $this->setValue(
             array_map(
-                public function($item) {
+                function($item) {
 
                     return strtr($item, [':' => '', '-' => '']);
 

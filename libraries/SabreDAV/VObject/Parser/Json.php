@@ -105,7 +105,7 @@ class Json extends Parser {
         if (isset($jComp[2])) {
 
             $components = array_map(
-                public function($jComp) use ($self) {
+                function($jComp) use ($self) {
                     return $self->parseComponent($jComp);
                 },
                 $jComp[2]

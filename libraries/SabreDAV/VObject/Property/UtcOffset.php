@@ -66,7 +66,7 @@ class UtcOffset extends Text {
     public function getJsonValue() {
 
         return array_map(
-            public function($value) {
+            function($value) {
                 return substr($value, 0, -2) . ':' .
                        substr($value, -2);
             },
