@@ -1947,7 +1947,7 @@ class CRMEntity
 		$fields_query = $adb->pquery("SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)", [$module]);
 
 		if ($adb->num_rows($fields_query) > 0) {
-			$rows_fields_query = $adb->num_rows($fields_query)
+			$rows_fields_query = $adb->num_rows($fields_query);
 			for ($i = 0; $i < $rows_fields_query; $i++) {
 				$field_name = $adb->query_result($fields_query, $i, 'fieldname');
 				$field_id = $adb->query_result($fields_query, $i, 'fieldid');
