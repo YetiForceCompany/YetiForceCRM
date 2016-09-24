@@ -20,12 +20,12 @@ interface DataCollectorInterface
      *
      * @return array Collected data
      */
-    function collect();
+    public function collect();
 
     /**
      * Returns the unique name of the collector
      *
      * @return string
      */
-    function getName();
+    public function getName();
 }

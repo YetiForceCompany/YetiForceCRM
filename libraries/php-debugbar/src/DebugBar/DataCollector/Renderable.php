@@ -21,5 +21,5 @@ interface Renderable
      *
      * @return array
      */
-    function getWidgets();
+    public function getWidgets();
 }
