@@ -1820,7 +1820,8 @@ function get_product_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 	$params[] = array($entity_ids_list);
 
 	$fieldValuesToRound = array('unit_price', 'weight', 'commissionrate', 'qtyinstock');
-	for ($k = 0; $k < count($query); $k++) {
+	$rows_count = count($query);
+	for ($k = 0; $k < $rows_count; $k++) {
 		$res[$k] = $adb->pquery($query[$k], $params[$k]);
 		$noofdata[$k] = $adb->num_rows($res[$k]);
 		if ($noofdata[$k] == 0)
@@ -2144,7 +2145,8 @@ function get_details($id, $module, $customerid, $sessionid)
 			$modulename = 'ServiceContracts';
 			$blocklable = Vtiger_Language_Handler::getTranslatedString('LBL_SERVICE_CONTRACT_INFORMATION', $modulename, vglobal('default_language'));
 			$j = $i;
-			for ($k = 0; $k < count($sc_info); $k++) {
+			$rows_count = count($sc_info);
+			for ($k = 0; $k < $rows_count; $k++) {
 				foreach ($sc_info[$k] as $label => $value) {
 					$output[0][$module][$j]['fieldlabel'] = Vtiger_Language_Handler::getTranslatedString($label, $modulename, vglobal('default_language'));
 					$output[0][$module][$j]['fieldvalue'] = $value;
@@ -2651,8 +2653,8 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 	}
 
 	$fieldValuesToRound = array('unit_price', 'commissionrate');
-
-	for ($k = 0; $k < count($query); $k++) {
+	$rows_count = count($query);
+	for ($k = 0; $k < $rows_count; $k++) {
 		$res[$k] = $adb->pquery($query[$k], $params[$k]);
 		$noofdata[$k] = $adb->num_rows($res[$k]);
 		if ($noofdata[$k] == 0) {
