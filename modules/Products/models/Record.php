@@ -420,7 +420,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 			}
 
 			$res = $adb->pquery($query, $params);
-			for ($i = 0; $i < $adb->num_rows($res); $i++) {
+			$rows_rew = $adb->num_rows($res);
+			for ($i = 0; $i < $rows_rew; $i++) {
 				$price_details[$i]['productid'] = $productid;
 				$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
 				$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
@@ -465,7 +466,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 				$params = array();
 
 				$res = $adb->pquery($query, $params);
-				for ($i = 0; $i < $adb->num_rows($res); $i++) {
+				$rows_res = $adb->num_rows($res);
+				for ($i = 0; $i < $rows_res; $i++) {
 					$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
 					$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
 					$price_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');

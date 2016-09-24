@@ -1114,7 +1114,8 @@ class Users extends CRMEntity
 		if ($id != '') {
 			$qry = " select distinct(vtiger_homedefault.hometype) from vtiger_homedefault inner join vtiger_homestuff  on vtiger_homestuff.stuffid=vtiger_homedefault.stuffid where vtiger_homestuff.visible=0 and vtiger_homestuff.userid=?";
 			$res = $adb->pquery($qry, array($id));
-			for ($q = 0; $q < $adb->num_rows($res); $q++) {
+			$rows_res = $adb->num_rows($res);
+			for ($q = 0; $q < $rows_res; $q++) {
 				$homeorder[] = $adb->query_result($res, $q, "hometype");
 			}
 			for ($i = 0; $i < count($this->homeorder_array); $i++) {

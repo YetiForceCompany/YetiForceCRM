@@ -1947,7 +1947,8 @@ class CRMEntity
 		$fields_query = $adb->pquery("SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)", [$module]);
 
 		if ($adb->num_rows($fields_query) > 0) {
-			for ($i = 0; $i < $adb->num_rows($fields_query); $i++) {
+			$rows_fields_query = $adb->num_rows($fields_query)
+			for ($i = 0; $i < $rows_fields_query; $i++) {
 				$field_name = $adb->query_result($fields_query, $i, 'fieldname');
 				$field_id = $adb->query_result($fields_query, $i, 'fieldid');
 				$tab_name = $adb->query_result($fields_query, $i, 'tablename');
@@ -2063,7 +2064,8 @@ class CRMEntity
 					$crmentityRelSecModuleTable = "vtiger_crmentityRel$secmodule$field_id";
 
 					$crmentityRelSecModuleTableDeps = [];
-					for ($j = 0; $j < $adb->num_rows($ui10_modules_query); $j++) {
+					$rows_ui10_modules_query = $adb->num_rows($ui10_modules_query);
+					for ($j = 0; $j < $rows_ui10_modules_query; $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
 						vtlib_setup_modulevars($rel_mod, $rel_obj);

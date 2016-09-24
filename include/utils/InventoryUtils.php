@@ -233,7 +233,8 @@ function getTaxDetailsForProduct($productid, $available = 'all')
 			$query = fixPostgresQuery($query, $log, 0);
 
 		$res = $adb->pquery($query, $params);
-		for ($i = 0; $i < $adb->num_rows($res); $i++) {
+		$rows_res = $adb->num_rows($res);
+		for ($i = 0; $i < $rows_res; $i++) {
 			$tax_details[$i]['productid'] = $adb->query_result($res, $i, 'productid');
 			$tax_details[$i]['taxid'] = $adb->query_result($res, $i, 'taxid');
 			$tax_details[$i]['taxname'] = $adb->query_result($res, $i, 'taxname');
@@ -481,7 +482,8 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 			$query = fixPostgresQuery($query, $log, 0);
 
 		$res = $adb->pquery($query, $params);
-		for ($i = 0; $i < $adb->num_rows($res); $i++) {
+		$rows_res = $adb->num_rows($res);
+		for ($i = 0; $i < $rows_res; $i++) {
 			$price_details[$i]['productid'] = $productid;
 			$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
 			$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
@@ -525,7 +527,8 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 			$params = [];
 
 			$res = $adb->pquery($query, $params);
-			for ($i = 0; $i < $adb->num_rows($res); $i++) {
+			$rows = $adb->num_rows($res);
+			for ($i = 0; $i < $rows; $i++) {
 				$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
 				$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
 				$price_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');

@@ -1099,7 +1099,8 @@ class CustomView extends CRMEntity
 		$value = '(';
 		$sql = sprintf('select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t.%s = c.crmid', $adb->sql_escape_string($tablename), $adb->sql_escape_string($fieldname));
 		$res = $adb->query($sql);
-		for ($s = 0; $s < $adb->num_rows($res); $s++) {
+		$rows = $adb->num_rows($res);
+		for ($s = 0; $s < $rows; $s++) {
 			$modulename = $adb->query_result($res, $s, "setype");
 			if ($modulename == 'Vendors') {
 				continue;
