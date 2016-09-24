@@ -417,7 +417,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 * @param type $currentUserId
 	 * @param type $sharedIds
 	 */
-	public function insertSharedUsers($currentUserId, $sharedIds, $sharedType = false)
+	public function insertSharedUsers($currentUserId, $sharedIds, $sharedType = FALSE)
 	{
 		$db = PearDatabase::getInstance();
 		foreach ($sharedIds as $sharedId) {

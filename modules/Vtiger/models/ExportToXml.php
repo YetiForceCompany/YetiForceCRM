@@ -164,7 +164,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	{
 		$xml = new XMLWriter();
 		$xml->openMemory();
-		$xml->setIndent(true);
+		$xml->setIndent(TRUE);
 		$xml->startDocument('1.0', 'UTF-8');
 
 		$xml->startElement('MODULE_FIELDS');

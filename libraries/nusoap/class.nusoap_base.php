@@ -896,10 +896,10 @@ class nusoap_base {
 function timestamp_to_iso8601($timestamp,$utc=true){
 	$datestr = date('Y-m-d\TH:i:sO',$timestamp);
 	$pos = strrpos($datestr, "+");
-	if ($pos === false) {
+	if ($pos === FALSE) {
 		$pos = strrpos($datestr, "-");
 	}
-	if ($pos !== false) {
+	if ($pos !== FALSE) {
 		if (strlen($datestr) == $pos + 5) {
 			$datestr = substr($datestr, 0, $pos + 3) . ':' . substr($datestr, -2);
 		}

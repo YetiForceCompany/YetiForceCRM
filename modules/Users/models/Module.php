@@ -231,7 +231,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 
 		$sql = "SELECT COUNT(*) as num FROM vtiger_users WHERE email1 = ? && id != ?";
-		$result = $db->pquery($sql, array($email, $id), true);
+		$result = $db->pquery($sql, array($email, $id), TRUE);
 
 		return !!$db->query_result($result, 0, 'num');
 	}

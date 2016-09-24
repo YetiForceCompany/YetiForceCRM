@@ -19,7 +19,7 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler
 			$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
 
 			if (array_key_exists('assigned_user_id', $delta)) {
-				$usersUpadated = true;
+				$usersUpadated = TRUE;
 				$oldValue = vtlib\Functions::getArrayFromValue($delta['assigned_user_id']['oldValue']);
 				$currentValue = vtlib\Functions::getArrayFromValue($delta['assigned_user_id']['currentValue']);
 				$addUsers = $currentValue;

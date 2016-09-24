@@ -580,14 +580,14 @@ class PearDatabase
 		$stmt = $this->database->query("SHOW COLUMNS FROM " . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
 		foreach ($stmt as $col) {
-			if (strpos($col->Type, '(') !== false) {
+			if (strpos($col->Type, '(') !== FALSE) {
 				$showType = explode("(", $col->Type); //PREG_SPLIT IS BETTER
 			}
 			$type = $showType[0];
 			$vals = explode(")", $showType[1]);
 			if (is_integer((int) $vals[0])) {
 				$maxLength = $vals[0];
-			} elseif (strpos($vals[0], ',') !== false) {
+			} elseif (strpos($vals[0], ',') !== FALSE) {
 				$vs = explode(',', $vals[0]);
 				$vs = array_map('str_replace', $vs, ['\'', '', $vs[0]]);
 				$maxLength = [];

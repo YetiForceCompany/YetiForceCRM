@@ -24,7 +24,7 @@ class Settings_DataAccess_DeleteTemplate_Action extends Settings_Vtiger_Index_Ac
 		$db = PearDatabase::getInstance();
 
 		$deleteConditionSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ?";
-		$db->pquery($deleteConditionSql, array($tplId), true);
+		$db->pquery($deleteConditionSql, array($tplId), TRUE);
 
 		$deleteMineRecordSql = "DELETE FROM vtiger_dataaccess WHERE dataaccessid = ?";
 		$db->pquery($deleteMineRecordSql, array($tplId), true);

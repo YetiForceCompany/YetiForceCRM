@@ -245,7 +245,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 			$result = 'not valid';
 
 		if ($result == 'not valid')
-			return false;
+			return FALSE;
 		else
 			return $field;
 	}

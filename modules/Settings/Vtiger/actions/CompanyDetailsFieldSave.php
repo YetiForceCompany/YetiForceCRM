@@ -41,7 +41,7 @@ class Settings_Vtiger_CompanyDetailsFieldSave_Action extends Settings_Vtiger_Bas
 			$log->info('Settings_Vtiger_SaveCompanyField_Action::addFieldToModule - add line to modules/Settings/Vtiger/models/CompanyDetails.php ');
 		} else {
 			$log->info('Settings_Vtiger_SaveCompanyField_Action::addFieldToModule - File does not exist');
-			return false;
+			return FALSE;
 		}
 
 		$filePointer = fopen($fileName, 'w');

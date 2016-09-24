@@ -1210,7 +1210,7 @@ class soap_transport_http extends nusoap_base {
 		}
 						
 		$cookie_param = ';secure;';
-		if (strpos($cookie_str, $cookie_param) !== false) {
+		if (strpos($cookie_str, $cookie_param) !== FALSE) {
 			$secure = true;
 		} else {
 			$secure = false;

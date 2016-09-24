@@ -19,7 +19,7 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 
 		if (file_exists($path)) {
 			$json = file_get_contents($path);
-			$fieldTab = json_decode($json, true);
+			$fieldTab = json_decode($json, TRUE);
 			return $fieldTab;
 		} else {
 			return false;

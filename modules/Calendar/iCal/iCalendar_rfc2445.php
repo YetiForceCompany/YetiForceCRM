@@ -150,7 +150,7 @@ function rfc2445_is_valid_value($value, $type)
 			}
 			if (is_string($value)) {
 				$value = strtoupper($value);
-				return ($value == 'true' || $value == 'false');
+				return ($value == 'TRUE' || $value == 'FALSE');
 			}
 			return false;
 			break;

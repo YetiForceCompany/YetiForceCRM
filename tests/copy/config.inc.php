@@ -177,7 +177,7 @@ $forceSSL = false;
 $listMaxEntriesMassEdit = 500;
 
 // enable closing of mondal window by clicking on the background
-$backgroundClosingModal = true;
+$backgroundClosingModal = TRUE;
 
 // enable CSRF-protection
 $csrfProtection = true;

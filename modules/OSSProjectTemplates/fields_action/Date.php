@@ -45,7 +45,7 @@ class Field_Model_Date extends Field_Model_Base
 
 			$typeFielddName = $fieldName . '_day_type';
 			$onlyBusinessDaySql = "SELECT fld_val FROM vtiger_oss_project_templates WHERE fld_name = ? && id_tpl = ? ";
-			$onlyBusinessDayResult = $db->pquery($onlyBusinessDaySql, array($typeFielddName, $templateId), true);
+			$onlyBusinessDayResult = $db->pquery($onlyBusinessDaySql, array($typeFielddName, $templateId), TRUE);
 			$dayType = $db->query_result($onlyBusinessDayResult, 0, 'fld_val');
 
 			$date = new DateTime();

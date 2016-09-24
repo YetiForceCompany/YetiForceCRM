@@ -37,12 +37,12 @@ class Settings_OSSDocumentControl_UpdateTpl_Action extends Settings_Vtiger_Index
 		$db->pquery($insertBaseRecord, array($baseModule, $summary, $docFolder, $docName, $docRequest, $docOrder, $tplId), true);
 
 		$this->updateConditions($conditionAll, $tplId);
-		$this->updateConditions($conditionOption, $tplId, false);
+		$this->updateConditions($conditionOption, $tplId, FALSE);
 
 		header("Location: index.php?module=OSSDocumentControl&parent=Settings&view=Index");
 	}
 
-	private function updateConditions($conditions, $relId, $mendatory = true)
+	private function updateConditions($conditions, $relId, $mendatory = TRUE)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -54,7 +54,7 @@ class Settings_OSSDocumentControl_UpdateTpl_Action extends Settings_Vtiger_Index
 			$deleteOldConditionsSql = "DELETE FROM vtiger_ossdocumentcontrol_cnd WHERE ossdocumentcontrolid = ? && required = 0";
 		}
 
-		$db->pquery($deleteOldConditionsSql, array($relId), true);
+		$db->pquery($deleteOldConditionsSql, array($relId), TRUE);
 
 		$conditionObj = json_decode($conditions);
 
@@ -62,9 +62,9 @@ class Settings_OSSDocumentControl_UpdateTpl_Action extends Settings_Vtiger_Index
 			foreach ($conditionObj as $key => $obj) {
 				$insertConditionSql = "INSERT INTO vtiger_ossdocumentcontrol_cnd VALUES(?, ?, ?, ?, ?, ?, ?)";
 				if (is_array($obj->val)) {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), true);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), TRUE);
 				} else {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), true);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), TRUE);
 				}
 			}
 		}

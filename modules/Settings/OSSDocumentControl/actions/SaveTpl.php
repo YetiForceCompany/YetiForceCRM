@@ -36,12 +36,12 @@ class Settings_OSSDocumentControl_SaveTpl_Action extends Settings_Vtiger_Index_A
 		$recordId = $db->getLastInsertID();
 
 		$this->addConditions($conditionAll, $recordId);
-		$this->addConditions($conditionOption, $recordId, false);
+		$this->addConditions($conditionOption, $recordId, FALSE);
 
 		header("Location: index.php?module=OSSDocumentControl&parent=Settings&view=Index");
 	}
 
-	public function addConditions($conditions, $relId, $mendatory = true)
+	public function addConditions($conditions, $relId, $mendatory = TRUE)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -51,9 +51,9 @@ class Settings_OSSDocumentControl_SaveTpl_Action extends Settings_Vtiger_Index_A
 			foreach ($conditionObj as $key => $obj) {
 				$insertConditionSql = "INSERT INTO vtiger_ossdocumentcontrol_cnd VALUES(?, ?, ?, ?, ?, ?, ?)";
 				if (is_array($obj->val)) {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), true);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), TRUE);
 				} else {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), true);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), TRUE);
 				}
 			}
 		}

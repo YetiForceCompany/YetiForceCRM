@@ -966,7 +966,7 @@ class Functions
 		$crmUrl = \AppConfig::main('site_URL');
 
 		$doc = new \DOMDocument('1.0', 'UTF-8');
-		$previousValue = libxml_use_internal_errors(true);
+		$previousValue = libxml_use_internal_errors(TRUE);
 		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);
 		libxml_clear_errors();
 		libxml_use_internal_errors($previousValue);
@@ -981,7 +981,7 @@ class Functions
 					$imgDom->loadHTML($htmlNode);
 					$xpath = new \DOMXPath($imgDom);
 					$src = $xpath->evaluate("string(//img/@src)");
-					if ($src == '' || 0 !== strpos('index.php', $src) || false === strpos($crmUrl, $src)) {
+					if ($src == '' || 0 !== strpos('index.php', $src) || FALSE === strpos($crmUrl, $src)) {
 						$nodes->item($i)->parentNode->removeChild($nodes->item($i));
 					}
 				} else {

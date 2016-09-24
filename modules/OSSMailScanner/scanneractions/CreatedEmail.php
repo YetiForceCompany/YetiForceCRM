@@ -27,7 +27,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 		if (!empty($exceptionsAll['crating_mails'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_mails']);
 			foreach ($exceptions as $exception) {
-				if (strpos($mailForExceptions, $exception) !== false) {
+				if (strpos($mailForExceptions, $exception) !== FALSE) {
 					return $id;
 				}
 			}

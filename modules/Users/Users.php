@@ -320,7 +320,7 @@ class Users extends CRMEntity
 			$this->log->debug('Start LDAP authentication');
 			$users = explode(',', $auth['ldap']['users']);
 			if (in_array($userid, $users)) {
-				$bind = false;
+				$bind = FALSE;
 				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
 				$ds = @ldap_connect($auth['ldap']['server'], $port);
 				if (!$ds) {
@@ -347,7 +347,7 @@ class Users extends CRMEntity
 		$result = $this->db->pquery("SELECT crypt_type FROM $this->table_name WHERE id=?", [$userid]);
 		if ($result->rowCount() != 1) {
 			$this->log->error("User not found: $userName");
-			return false;
+			return FALSE;
 		}
 		$cryptType = $this->db->getSingleValue($result);
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
@@ -355,10 +355,10 @@ class Users extends CRMEntity
 		$result = $this->db->pquery($query, [$userName, $encryptedPassword, 'Active']);
 		if ($result->rowCount() == 1) {
 			$this->log->debug("Authentication OK. User: $userName");
-			return true;
+			return TRUE;
 		}
 		$this->log->debug("Authentication failed. User: $userName");
-		return false;
+		return FALSE;
 	}
 
 	/**

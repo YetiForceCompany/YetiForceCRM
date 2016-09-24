@@ -48,7 +48,7 @@ class Field_Model_Base
 			$templateId = $parentTplId;
 		}
 
-		$result = $db->pquery($sql, array($fieldName, $templateId), true);
+		$result = $db->pquery($sql, array($fieldName, $templateId), TRUE);
 		return $db->query_result($result, 0, 'fld_val');
 	}
 }

@@ -22,7 +22,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 		}
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
 		$viewer = $this->getViewer($request);
-		$qualifiedName = $request->getModule(false);
+		$qualifiedName = $request->getModule(FALSE);
 
 		$viewer->assign('PICKLIST_MODULES', $pickListSupportedModules);
 

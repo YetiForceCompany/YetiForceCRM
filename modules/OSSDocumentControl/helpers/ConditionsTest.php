@@ -34,9 +34,9 @@ class ConditionsTest
 			$recordDate = DateTime::createFromFormat($format, $val);
 
 			if ($cndDate == $recordDate) {
-				return true;
+				return TRUE;
 			} else {
-				return false;
+				return FALSE;
 			}
 		} else if ('multipicklist' == $cndArray['field_type']) {
 
@@ -53,7 +53,7 @@ class ConditionsTest
 			$recordTime = new DateTime($val);
 
 
-			if ($dateTime != false) {
+			if ($dateTime != FALSE) {
 				if ($dateTime->diff($recordTime)->format('%R') == '+') {
 					return true;
 				} else {
@@ -62,9 +62,9 @@ class ConditionsTest
 			}
 		} else {
 			if ($cndArray['val'] == $val) {
-				return true;
+				return TRUE;
 			} else {
-				return false;
+				return FALSE;
 			}
 		}
 	}
@@ -81,9 +81,9 @@ class ConditionsTest
 			$recordDate = DateTime::createFromFormat($format, $val);
 
 			if ($cndDate != $recordDate) {
-				return true;
+				return TRUE;
 			} else {
-				return false;
+				return FALSE;
 			}
 		} else if ('multipicklist' == $cndArray['field_type']) {
 
@@ -99,7 +99,7 @@ class ConditionsTest
 			$dateTime = new DateTime($cndArray['val'] . ':00');
 			$recordTime = new DateTime($val);
 
-			if ($dateTime != false) {
+			if ($dateTime != FALSE) {
 				if ($dateTime->diff($recordTime)->format('%R') != '+') {
 					return true;
 				} else {
@@ -108,9 +108,9 @@ class ConditionsTest
 			}
 		} else {
 			if ($cndArray['val'] != $val) {
-				return true;
+				return TRUE;
 			} else {
-				return false;
+				return FALSE;
 			}
 		}
 	}
@@ -120,9 +120,9 @@ class ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 
 		if (strpos($val, $cndArray['val']) !== false) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -131,9 +131,9 @@ class ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 
 		if (strpos($val, $cndArray['val']) === false) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -141,9 +141,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] === "" || strpos($val, $cndArray['val']) === 0) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -151,9 +151,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] === "" || substr($val, -strlen($cndArray['val'])) === $cndArray['val']) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -161,9 +161,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if (empty($val)) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -172,9 +172,9 @@ class ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 
 		if (!empty($val)) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -182,9 +182,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ('1' == $val) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -192,9 +192,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ('0' == $val) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -202,9 +202,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] == $val) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -212,9 +212,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] > $val) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -222,9 +222,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] < $val) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -232,9 +232,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] != $val) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -242,9 +242,9 @@ class ConditionsTest
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		if ($cndArray['val'] >= $val) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -253,9 +253,9 @@ class ConditionsTest
 		$val = self::getValue($form, $cndArray['fieldname']);
 
 		if ($cndArray['val'] <= $val) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -268,9 +268,9 @@ class ConditionsTest
 		$recordDate = DateTime::createFromFormat($format, $val);
 
 		if ($cndDate < $recordDate) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -285,11 +285,11 @@ class ConditionsTest
 		$recordDate = DateTime::createFromFormat($format, $val);
 
 		if ($cndDate == $recordDate) {
-			return false;
+			return FALSE;
 		} else if ($cndDate > $recordDate) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -302,9 +302,9 @@ class ConditionsTest
 		$cndDate = new DateTime();
 
 		if ($recordDate == $cndDate) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -323,9 +323,9 @@ class ConditionsTest
 		$maxInterval = $cndArray['val'] * -1;
 
 		if ($dayDiff > $maxInterval) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -344,9 +344,9 @@ class ConditionsTest
 		$maxInterval = $cndArray['val'] * -1;
 
 		if ($dayDiff < $maxInterval) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -365,9 +365,9 @@ class ConditionsTest
 		$maxInterval = $cndArray['val'] * -1;
 
 		if ($dayDiff == $maxInterval) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -386,9 +386,9 @@ class ConditionsTest
 		$maxInterval = (int) $cndArray['val'];
 
 		if ($dayDiff == $maxInterval) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -405,9 +405,9 @@ class ConditionsTest
 		$testDate = DateTime::createFromFormat($format, $val);
 
 		if ($testDate >= $startDate && $testDate <= $endDate) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 }

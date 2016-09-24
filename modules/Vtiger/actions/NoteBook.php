@@ -53,7 +53,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$id = $adb->getLastInsertID();
 
 		$result = [];
-		$result['success'] = true;
+		$result['success'] = TRUE;
 		$result['widgetId'] = $id;
 		$response = new Vtiger_Response();
 		$response->setResult($result);

@@ -166,7 +166,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param <array> $date - start and end date to get holidays
 	 * @return - holidays count group by type if exist or false
 	 */
-	public static function getHolidayGroupType($date = false)
+	public static function getHolidayGroupType($date = FALSE)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidayGroupType method ...");
@@ -182,7 +182,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->pquery($sql, $params);
 		$numRows = $db->num_rows($result);
 		if (0 == $numRows)
-			$return = false;
+			$return = FALSE;
 		else {
 			for ($i = 0; $i < $numRows; $i++) {
 				$count = $db->query_result($result, $i, 'count');
