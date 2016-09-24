@@ -396,8 +396,8 @@ function get_combo_values($input_array)
 			array_push($params, $id);
 		}
 		$serviceResult = $adb->pquery($servicequery, $params);
-		$rows3 = $adb->num_rows($$serviceResult);
-		for ($i = 0; $i < $rows3; $i++) {
+		$rows_serviceResult = $adb->num_rows($serviceResult);
+		for ($i = 0; $i < $rows_serviceResult; $i++) {
 			$serviceid = $adb->query_result($serviceResult, $i, 'servicecontractsid');
 			$output['serviceid'][$i] = $serviceid;
 			$output['servicename'][$i] = $adb->query_result($serviceResult, $i, 'subject');
