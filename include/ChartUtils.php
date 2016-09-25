@@ -43,7 +43,8 @@ Class ChartUtils
 
 		$alts = [];
 		$temp = [];
-		for ($i = 0; $i < count($xaxisData); $i++) {
+		$count_xaxisData = count($xaxisData);
+		for ($i = 0; $i < $count_xaxisData; $i++) {
 			$name = html_entity_decode($xaxisData[$i], ENT_QUOTES, $default_charset);
 			$pos = substr_count($name, " ");
 			$alts[] = $name;
@@ -54,7 +55,8 @@ Class ChartUtils
 				$val = explode(" ", $name);
 				$n = count($val) - 1;
 				$x = "";
-				for ($j = 0; $j < count($val); $j++) {
+				$count_val = count($val);
+				for ($j = 0; $j < $count_val; $j++) {
 					if ($j != $n) {
 						$x .=" " . $val[$j];
 					} else {
