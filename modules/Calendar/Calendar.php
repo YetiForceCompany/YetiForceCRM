@@ -14,19 +14,19 @@ require_once('modules/Calendar/Date.php');
 class Calendar
 {
 
-	public var $view = 'day';
-	public var $date_time;
-	public var $hour_format = 12;
-	public var $day_slice;
-	public var $week_slice;
-	public var $week_array;
-	public var $month_array;
-	public var $week_hour_slices = Array();
-	public var $slices = Array();
+	var $view = 'day';
+	var $date_time;
+	var $hour_format = 12;
+	var $day_slice;
+	var $week_slice;
+	var $week_array;
+	var $month_array;
+	var $week_hour_slices = Array();
+	var $slices = Array();
 	/* for dayview */
-	public var $day_start_hour = 0;
-	public var $day_end_hour = 23;
-	public var $sharedusers = Array();
+	var $day_start_hour = 0;
+	var $day_end_hour = 23;
+	var $sharedusers = Array();
 
 	/*
 	  constructor
@@ -219,10 +219,10 @@ class Calendar
 class Layout
 {
 
-	public var $view = 'day';
-	public var $start_time;
-	public var $end_time;
-	public var $activities = Array();
+	var $view = 'day';
+	var $start_time;
+	var $end_time;
+	var $activities = Array();
 
 	/**
 	 * Constructor for Layout class

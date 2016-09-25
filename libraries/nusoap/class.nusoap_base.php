@@ -89,28 +89,28 @@ class nusoap_base {
 	 * @var string
 	 * @access private
 	 */
-	public var $title = 'NuSOAP';
+	var $title = 'NuSOAP';
 	/**
 	 * Version for HTTP headers.
 	 *
 	 * @var string
 	 * @access private
 	 */
-	public var $version = '0.9.6';
+	var $version = '0.9.6';
 	/**
 	 * CVS revision for HTTP headers.
 	 *
 	 * @var string
 	 * @access private
 	 */
-	public var $revision = '$Revision: 1.57 $';
+	var $revision = '$Revision: 1.57 $';
     /**
      * Current error string (manipulated by getError/setError)
 	 *
 	 * @var string
 	 * @access private
 	 */
-	public var $error_str = '';
+	var $error_str = '';
     /**
      * Current debug string (manipulated by debug/appendDebug/clearDebug/getDebug/getDebugAsXMLComment)
 	 *
@@ -125,14 +125,14 @@ class nusoap_base {
 	 * @var boolean
 	 * @access private
 	 */
-	public var $charencoding = true;
+	var $charencoding = true;
 	/**
 	 * the debug level for this instance
 	 *
 	 * @var	integer
 	 * @access private
 	 */
-	public var $debugLevel;
+	var $debugLevel;
 
     /**
 	* set schema version
@@ -140,7 +140,7 @@ class nusoap_base {
 	* @var      string
 	* @access   public
 	*/
-	public var $XMLSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
+	var $XMLSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
 	
     /**
 	* charset encoding for outgoing messages
@@ -159,7 +159,7 @@ class nusoap_base {
 	* @var      array
 	* @access   public
 	*/
-	public var $namespaces = array(
+	var $namespaces = array(
 		'SOAP-ENV' => 'http://schemas.xmlsoap.org/soap/envelope/',
 		'xsd' => 'http://www.w3.org/2001/XMLSchema',
 		'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
@@ -172,7 +172,7 @@ class nusoap_base {
 	* @var      array
 	* @access   private
 	*/
-	public var $usedNamespaces = array();
+	var $usedNamespaces = array();
 
 	/**
 	* XML Schema types in an array of uri => (array of xml type => php type)
@@ -181,7 +181,7 @@ class nusoap_base {
 	* @var      array
 	* @access   public
 	*/
-	public var $typemap = array(
+	var $typemap = array(
 	'http://www.w3.org/2001/XMLSchema' => array(
 		'string'=>'string','boolean'=>'boolean','float'=>'double','double'=>'double','decimal'=>'double',
 		'duration'=>'','dateTime'=>'string','time'=>'string','date'=>'string','gYearMonth'=>'',
@@ -214,7 +214,7 @@ class nusoap_base {
 	* @deprecated
 	* @see	expandEntities
 	*/
-	public var $xmlEntities = array('quot' => '"','amp' => '&',
+	var $xmlEntities = array('quot' => '"','amp' => '&',
 		'lt' => '<','gt' => '>','apos' => "'");
 
 	/**

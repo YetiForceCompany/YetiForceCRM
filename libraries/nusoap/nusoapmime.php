@@ -57,18 +57,18 @@ class nusoap_client_mime extends nusoap_client {
 	 * data, filename, contenttype, cid
 	 * @access private
 	 */
-	public var $requestAttachments = array();
+	var $requestAttachments = array();
 	/**
 	 * @var array Each array element in the return is an associative array with keys
 	 * data, filename, contenttype, cid
 	 * @access private
 	 */
-	public var $responseAttachments;
+	var $responseAttachments;
 	/**
 	 * @var string
 	 * @access private
 	 */
-	public var $mimeContentType;
+	var $mimeContentType;
 	
 	/**
 	* adds a MIME attachment to the current request.
@@ -287,18 +287,18 @@ class nusoap_server_mime extends nusoap_server {
 	 * data, filename, contenttype, cid
 	 * @access private
 	 */
-	public var $requestAttachments = array();
+	var $requestAttachments = array();
 	/**
 	 * @var array Each array element in the return is an associative array with keys
 	 * data, filename, contenttype, cid
 	 * @access private
 	 */
-	public var $responseAttachments;
+	var $responseAttachments;
 	/**
 	 * @var string
 	 * @access private
 	 */
-	public var $mimeContentType;
+	var $mimeContentType;
 	
 	/**
 	* adds a MIME attachment to the current response.

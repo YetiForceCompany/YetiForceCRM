@@ -19,8 +19,8 @@ require_once('include/utils/GetParentGroups.php');
 class GetGroupUsers
 {
 
-	public var $group_users = [];
-	public var $group_subgroups = [];
+	var $group_users = [];
+	var $group_subgroups = [];
 
 	/** to get all the vtiger_users and vtiger_groups of the specified group
 	 * @params $groupId --> Group Id :: Type Integer

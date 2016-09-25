@@ -17,25 +17,25 @@ class nusoap_fault extends nusoap_base {
 	 * @var string
 	 * @access private
 	 */
-	public var $faultcode;
+	var $faultcode;
 	/**
 	 * The fault actor
 	 * @var string
 	 * @access private
 	 */
-	public var $faultactor;
+	var $faultactor;
 	/**
 	 * The fault string, a description of the fault
 	 * @var string
 	 * @access private
 	 */
-	public var $faultstring;
+	var $faultstring;
 	/**
 	 * The fault detail, typically a string or array of string
 	 * @var mixed
 	 * @access private
 	 */
-	public var $faultdetail;
+	var $faultdetail;
 
 	/**
 	* constructor

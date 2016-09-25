@@ -9,7 +9,7 @@
 class Vtiger_Inventory_Model
 {
 
-	public var $name = false;
+	var $name = false;
 
 	/**
 	 * Get invnetory instance

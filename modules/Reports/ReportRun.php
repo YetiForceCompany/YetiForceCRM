@@ -228,34 +228,34 @@ class ReportRun extends CRMEntity
 
 	// Maximum rows that should be emitted in HTML view.
 	static $HTMLVIEW_MAX_ROWS = 1000;
-	public var $reportid;
-	public var $primarymodule;
-	public var $secondarymodule;
-	public var $orderbylistsql;
-	public var $orderbylistcolumns;
-	public var $selectcolumns;
-	public var $groupbylist;
-	public var $reporttype;
-	public var $reportname;
-	public var $totallist;
-	public var $_groupinglist = false;
-	public var $_columnslist = false;
-	public var $_stdfilterlist = false;
-	public var $_columnstotallist = false;
-	public var $_advfiltersql = false;
+	var $reportid;
+	var $primarymodule;
+	var $secondarymodule;
+	var $orderbylistsql;
+	var $orderbylistcolumns;
+	var $selectcolumns;
+	var $groupbylist;
+	var $reporttype;
+	var $reportname;
+	var $totallist;
+	var $_groupinglist = false;
+	var $_columnslist = false;
+	var $_stdfilterlist = false;
+	var $_columnstotallist = false;
+	var $_advfiltersql = false;
 	// All UItype 72 fields are added here so that in reports the values are append currencyId::value
-	public var $append_currency_symbol_to_value = array('Products_Unit_Price', 'Services_Price'
+	var $append_currency_symbol_to_value = array('Products_Unit_Price', 'Services_Price'
 	);
-	public var $ui10_fields = array();
-	public var $ui101_fields = array();
-	public var $groupByTimeParent = array('Quarter' => array('Year'),
+	var $ui10_fields = array();
+	var $ui101_fields = array();
+	var $groupByTimeParent = array('Quarter' => array('Year'),
 		'Month' => array('Year')
 	);
-	public var $queryPlanner = null;
+	var $queryPlanner = null;
 	protected static $instances = false;
 	// Added to support line item fields calculation, if line item fields
 	// are selected then module fields cannot be selected and vice versa
-	public var $lineItemFieldsInCalculation = false;
+	var $lineItemFieldsInCalculation = false;
 
 	/** Function to set reportid,primarymodule,secondarymodule,reporttype,reportname, for given reportid
 	 *  This function accepts the $reportid as argument

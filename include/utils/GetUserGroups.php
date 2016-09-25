@@ -18,7 +18,7 @@ require_once('include/utils/GetParentGroups.php');
 class GetUserGroups
 {
 
-	public var $user_groups = [];
+	var $user_groups = [];
 
 	//var $userRole='';
 

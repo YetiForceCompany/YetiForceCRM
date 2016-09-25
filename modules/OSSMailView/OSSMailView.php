@@ -13,29 +13,29 @@
 class OSSMailView extends CRMEntity
 {
 
-	public var $db, $log; // Used in class functions of CRMEntity
-	public var $table_name = 'vtiger_ossmailview';
-	public var $table_index = 'ossmailviewid';
-	public var $column_fields = Array();
+	var $db, $log; // Used in class functions of CRMEntity
+	var $table_name = 'vtiger_ossmailview';
+	var $table_index = 'ossmailviewid';
+	var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	public var $IsCustomModule = true;
+	var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_ossmailviewcf', 'ossmailviewid');
+	var $customFieldTable = Array('vtiger_ossmailviewcf', 'ossmailviewid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_ossmailview', 'vtiger_ossmailviewcf');
-	public var $related_tables = Array('vtiger_ossmailviewcf' => Array('ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid'));
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_ossmailview', 'vtiger_ossmailviewcf');
+	var $related_tables = Array('vtiger_ossmailviewcf' => Array('ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid'));
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ossmailview' => 'ossmailviewid',
 		'vtiger_ossmailviewcf' => 'ossmailviewid');
@@ -43,7 +43,7 @@ class OSSMailView extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'number' => Array('ossmailview' => 'ossmailview_no'),
@@ -53,7 +53,7 @@ class OSSMailView extends CRMEntity
 		'SendType' => Array('ossmailview' => 'ossmailview_sendtype'),
 		'Assigned To' => Array('ossmailview' => 'assigned_user_id')
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'number' => 'ossmailview_no',
 		'From' => 'from_email',
@@ -63,9 +63,9 @@ class OSSMailView extends CRMEntity
 		'Assigned To' => 'assigned_user_id'
 	);
 	// Make the field link to detail view
-	public var $list_link_field = 'subject';
+	var $list_link_field = 'subject';
 	// For Popup listview and UI type support
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'number' => Array('ossmailview' => 'ossmailview_no'),
@@ -75,7 +75,7 @@ class OSSMailView extends CRMEntity
 		'SendType' => Array('ossmailview' => 'ossmailview_sendtype'),
 		'Assigned To' => Array('ossmailview' => 'assigned_user_id')
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'number' => 'ossmailview_no',
 		'From' => 'from_email',
@@ -85,21 +85,21 @@ class OSSMailView extends CRMEntity
 		'Assigned To' => 'assigned_user_id'
 	);
 	// For Popup window record selection
-	public var $popup_fields = Array('from', 'subject', 'ossmailview_sendtype');
+	var $popup_fields = Array('from', 'subject', 'ossmailview_sendtype');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public var $sortby_fields = Array();
+	var $sortby_fields = Array();
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'subject';
+	var $def_basicsearch_col = 'subject';
 	// Required Information for enabling Import feature
-	public var $required_fields = Array('subject' => 1);
+	var $required_fields = Array('subject' => 1);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('subject', 'from');
+	var $mandatory_fields = Array('subject', 'from');
 	// Callback function list during Importing
-	public var $special_functions = Array('set_import_assigned_user');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'DESC';
-	public var $unit_price;
+	var $special_functions = Array('set_import_assigned_user');
+	var $default_order_by = '';
+	var $default_sort_order = 'DESC';
+	var $unit_price;
 
 	public function save_module($module)
 	{

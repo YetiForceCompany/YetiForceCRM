@@ -22,18 +22,18 @@ require_once 'include/events/include.inc';
 class Import_Data_Action extends Vtiger_Action_Controller
 {
 
-	public var $id;
-	public var $user;
-	public var $module;
-	public var $type;
-	public var $fieldMapping;
-	public var $mergeType;
-	public var $mergeFields;
-	public var $defaultValues;
-	public var $importedRecordInfo = [];
+	var $id;
+	var $user;
+	var $module;
+	var $type;
+	var $fieldMapping;
+	var $mergeType;
+	var $mergeFields;
+	var $defaultValues;
+	var $importedRecordInfo = [];
 	protected $allPicklistValues = [];
 	protected $inventoryFieldMapData = [];
-	public var $batchImport = true;
+	var $batchImport = true;
 	public $entitydata = [];
 	static $IMPORT_RECORD_NONE = 0;
 	static $IMPORT_RECORD_CREATED = 1;

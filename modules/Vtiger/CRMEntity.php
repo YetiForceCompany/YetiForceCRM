@@ -11,17 +11,17 @@
 class Vtiger_CRMEntity extends CRMEntity
 {
 
-	public var $db, $log; // Used in class functions of CRMEntity
-	public var $column_fields = [];
+	var $db, $log; // Used in class functions of CRMEntity
+	var $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
-	public var $IsCustomModule = true;
+	var $IsCustomModule = true;
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public var $sortby_fields = [];
+	var $sortby_fields = [];
 	// Required Information for enabling Import feature
-	public var $required_fields = Array('assigned_user_id' => 1);
+	var $required_fields = Array('assigned_user_id' => 1);
 	// Callback function list during Importing
-	public var $special_functions = Array('set_import_assigned_user');
+	var $special_functions = Array('set_import_assigned_user');
 
 	public function __construct()
 	{

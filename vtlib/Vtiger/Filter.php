@@ -18,18 +18,18 @@ class Filter
 {
 
 	/** ID of this filter instance */
-	public var $id;
-	public var $name;
-	public var $isdefault;
-	public var $status = false; // 5.1.0 onwards
-	public var $inmetrics = false;
-	public var $entitytype = false;
-	public var $presence = 1;
-	public var $featured = 0;
-	public var $description;
-	public var $privileges = 1;
-	public var $sort;
-	public var $module;
+	var $id;
+	var $name;
+	var $isdefault;
+	var $status = false; // 5.1.0 onwards
+	var $inmetrics = false;
+	var $entitytype = false;
+	var $presence = 1;
+	var $featured = 0;
+	var $description;
+	var $privileges = 1;
+	var $sort;
+	var $module;
 
 	/**
 	 * Get unique id for this instance

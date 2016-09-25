@@ -9,28 +9,28 @@
 class ServiceContracts extends CRMEntity
 {
 
-	public var $db, $log; // Used in class functions of CRMEntity
-	public var $table_name = 'vtiger_servicecontracts';
-	public var $table_index = 'servicecontractsid';
-	public var $column_fields = Array();
+	var $db, $log; // Used in class functions of CRMEntity
+	var $table_name = 'vtiger_servicecontracts';
+	var $table_index = 'servicecontractsid';
+	var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	public var $IsCustomModule = true;
+	var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_servicecontractscf', 'servicecontractsid');
+	var $customFieldTable = Array('vtiger_servicecontractscf', 'servicecontractsid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_servicecontracts', 'vtiger_servicecontractscf', 'vtiger_entity_stats');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_servicecontracts', 'vtiger_servicecontractscf', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_servicecontracts' => 'servicecontractsid',
 		'vtiger_servicecontractscf' => 'servicecontractsid',
@@ -39,7 +39,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Subject' => Array('servicecontracts', 'subject'),
@@ -48,7 +48,7 @@ class ServiceContracts extends CRMEntity
 		'Used Units' => Array('servicecontracts', 'used_units'),
 		'Total Units' => Array('servicecontracts', 'total_units')
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Subject' => 'subject',
 		'Assigned To' => 'assigned_user_id',
@@ -57,9 +57,9 @@ class ServiceContracts extends CRMEntity
 		'Total Units' => 'total_units'
 	);
 	// Make the field link to detail view
-	public var $list_link_field = 'subject';
+	var $list_link_field = 'subject';
 	// For Popup listview and UI type support
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Subject' => Array('servicecontracts', 'subject'),
@@ -68,7 +68,7 @@ class ServiceContracts extends CRMEntity
 		'Used Units' => Array('servicecontracts', 'used_units'),
 		'Total Units' => Array('servicecontracts', 'total_units')
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Subject' => 'subject',
 		'Contract No' => 'contract_no',
@@ -77,22 +77,22 @@ class ServiceContracts extends CRMEntity
 		'Total Units' => 'total_units'
 	);
 	// For Popup window record selection
-	public var $popup_fields = Array('subject');
+	var $popup_fields = Array('subject');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public var $sortby_fields = Array();
+	var $sortby_fields = Array();
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'subject';
+	var $def_basicsearch_col = 'subject';
 	// Column value to use on detail view record text display
-	public var $def_detailview_recname = 'subject';
+	var $def_detailview_recname = 'subject';
 	// Required Information for enabling Import feature
-	public var $required_fields = Array('assigned_user_id' => 1);
+	var $required_fields = Array('assigned_user_id' => 1);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('subject', 'assigned_user_id');
+	var $mandatory_fields = Array('subject', 'assigned_user_id');
 	// Callback function list during Importing
-	public var $special_functions = Array('set_import_assigned_user');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'ASC';
+	var $special_functions = Array('set_import_assigned_user');
+	var $default_order_by = '';
+	var $default_sort_order = 'ASC';
 
 	public function save_module($module)
 	{

@@ -11,28 +11,28 @@
 class Project extends CRMEntity
 {
 
-	public var $db, $log; // Used in class functions of CRMEntity
-	public var $table_name = 'vtiger_project';
-	public var $table_index = 'projectid';
-	public var $column_fields = Array();
+	var $db, $log; // Used in class functions of CRMEntity
+	var $table_name = 'vtiger_project';
+	var $table_index = 'projectid';
+	var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	public var $IsCustomModule = true;
+	var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_projectcf', 'projectid');
+	var $customFieldTable = Array('vtiger_projectcf', 'projectid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_project', 'vtiger_projectcf', 'vtiger_entity_stats');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_project', 'vtiger_projectcf', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_project' => 'projectid',
 		'vtiger_projectcf' => 'projectid',
@@ -41,7 +41,7 @@ class Project extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Project Name' => Array('project', 'projectname'),
@@ -51,7 +51,7 @@ class Project extends CRMEntity
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Total time [Sum]' => Array('project', 'sum_time_all')
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Project Name' => 'projectname',
 		'Start Date' => 'startdate',
@@ -61,9 +61,9 @@ class Project extends CRMEntity
 		'Total time [Sum]' => 'sum_time_all'
 	);
 	// Make the field link to detail view from list view (Fieldname)
-	public var $list_link_field = 'projectname';
+	var $list_link_field = 'projectname';
 	// For Popup listview and UI type support
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Project Name' => Array('project', 'projectname'),
@@ -71,7 +71,7 @@ class Project extends CRMEntity
 		'Status' => Array('project', 'projectstatus'),
 		'Type' => Array('project', 'projecttype'),
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Project Name' => 'projectname',
 		'Start Date' => 'startdate',
@@ -79,22 +79,22 @@ class Project extends CRMEntity
 		'Type' => 'projecttype',
 	);
 	// For Popup window record selection
-	public var $popup_fields = Array('projectname');
+	var $popup_fields = Array('projectname');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public var $sortby_fields = Array();
+	var $sortby_fields = Array();
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'projectname';
+	var $def_basicsearch_col = 'projectname';
 	// Column value to use on detail view record text display
-	public var $def_detailview_recname = 'projectname';
+	var $def_detailview_recname = 'projectname';
 	// Required Information for enabling Import feature
-	public var $required_fields = Array('projectname' => 1);
+	var $required_fields = Array('projectname' => 1);
 	// Callback function list during Importing
-	public var $special_functions = Array('set_import_assigned_user');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'ASC';
+	var $special_functions = Array('set_import_assigned_user');
+	var $default_order_by = '';
+	var $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectname', 'assigned_user_id');
+	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectname', 'assigned_user_id');
 
 	public function save_module($module)
 	{

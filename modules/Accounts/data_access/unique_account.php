@@ -14,7 +14,7 @@
 Class DataAccess_unique_account
 {
 
-	public var $config = false;
+	var $config = false;
 
 	public function process($moduleName, $ID, $recordForm, $config)
 	{

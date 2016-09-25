@@ -43,35 +43,35 @@ class freetag {
 	 * @access private
 	 * @param bool Prints out limited debugging information if true, not fully implemented yet.
 	 */
-	public var $_debug = false;
+	var $_debug = false;
 	/**
 	 * @access private
 	 * @param string The prefix of freetag database vtiger_tables.
 	 */
-	public var $_table_prefix = 'vtiger_';
+	var $_table_prefix = 'vtiger_';
 	/**
 	 * @access private
 	 * @param string The regex-style set of characters that are valid for normalized tags.
 	 */
-	public var $_normalized_valid_chars = 'a-zA-Z0-9';
+	var $_normalized_valid_chars = 'a-zA-Z0-9';
 	/**
 	 * @access private
 	 * @param string Whether to normalize tags at all.
 	 * value 0 saves the tag in case insensitive mode
 	 * value 1 save the tag in lower case
 	 */
-	public var $_normalize_tags = 0;
+	var $_normalize_tags = 0;
 	/**
 	 * @access private
 	 * @param string Whether to prevent multiple vtiger_users from tagging the same object. By default, set to block (ala Upcoming.org)
 	 */
-	public var $_block_multiuser_tag_on_object =0;
+	var $_block_multiuser_tag_on_object =0;
 
 	/**
 	 * @access private
 	 * @param int The maximum length of a tag.
 	 */ 
-	public var $_MAX_TAG_LENGTH = 30;
+	var $_MAX_TAG_LENGTH = 30;
 	/**
 	 * @access private
 	 * @param string The file path to the installation of ADOdb used.

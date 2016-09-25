@@ -15,7 +15,7 @@
 class Vtiger_Field_Model extends vtlib\Field
 {
 
-	public var $webserviceField = false;
+	var $webserviceField = false;
 
 	const REFERENCE_TYPE = 'reference';
 

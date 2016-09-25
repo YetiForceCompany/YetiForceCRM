@@ -128,85 +128,85 @@ class HTTP_Request
 	 * Instance of Net_URL
 	 * @var Net_URL
 	 */
-	public var $_url;
+	var $_url;
 
 	/**
 	 * Type of request
 	 * @var string
 	 */
-	public var $_method;
+	var $_method;
 
 	/**
 	 * HTTP Version
 	 * @var string
 	 */
-	public var $_http;
+	var $_http;
 
 	/**
 	 * Request headers
 	 * @var array
 	 */
-	public var $_requestHeaders;
+	var $_requestHeaders;
 
 	/**
 	 * Basic Auth Username
 	 * @var string
 	 */
-	public var $_user;
+	var $_user;
 
 	/**
 	 * Basic Auth Password
 	 * @var string
 	 */
-	public var $_pass;
+	var $_pass;
 
 	/**
 	 * Socket object
 	 * @var Net_Socket
 	 */
-	public var $_sock;
+	var $_sock;
 
 	/**
 	 * Proxy server
 	 * @var string
 	 */
-	public var $_proxy_host;
+	var $_proxy_host;
 
 	/**
 	 * Proxy port
 	 * @var integer
 	 */
-	public var $_proxy_port;
+	var $_proxy_port;
 
 	/**
 	 * Proxy username
 	 * @var string
 	 */
-	public var $_proxy_user;
+	var $_proxy_user;
 
 	/**
 	 * Proxy password
 	 * @var string
 	 */
-	public var $_proxy_pass;
+	var $_proxy_pass;
 
 	/**
 	 * Post data
 	 * @var array
 	 */
-	public var $_postData;
+	var $_postData;
 
 	/**
 	 * Request body
 	 * @var string
 	 */
-	public var $_body;
+	var $_body;
 
 	/**
 	 * A list of methods that MUST NOT have a request body, per RFC 2616
 	 * @var array
 	 */
-	public var $_bodyDisallowed = array('TRACE');
+	var $_bodyDisallowed = array('TRACE');
 
 	/**
 	 * Methods having defined semantics for request body
@@ -216,73 +216,73 @@ class HTTP_Request
 	 *
 	 * @var array
 	 */
-	public var $_bodyRequired = array('POST', 'PUT');
+	var $_bodyRequired = array('POST', 'PUT');
 
 	/**
 	 * Files to post
 	 * @var array
 	 */
-	public var $_postFiles = array();
+	var $_postFiles = array();
 
 	/**
 	 * Connection timeout.
 	 * @var float
 	 */
-	public var $_timeout;
+	var $_timeout;
 
 	/**
 	 * HTTP_Response object
 	 * @var HTTP_Response
 	 */
-	public var $_response;
+	var $_response;
 
 	/**
 	 * Whether to allow redirects
 	 * @var boolean
 	 */
-	public var $_allowRedirects;
+	var $_allowRedirects;
 
 	/**
 	 * Maximum redirects allowed
 	 * @var integer
 	 */
-	public var $_maxRedirects;
+	var $_maxRedirects;
 
 	/**
 	 * Current number of redirects
 	 * @var integer
 	 */
-	public var $_redirects;
+	var $_redirects;
 
 	/**
 	 * Whether to append brackets [] to array variables
 	 * @var bool
 	 */
-	public var $_useBrackets = true;
+	var $_useBrackets = true;
 
 	/**
 	 * Attached listeners
 	 * @var array
 	 */
-	public var $_listeners = array();
+	var $_listeners = array();
 
 	/**
 	 * Whether to save response body in response object property
 	 * @var bool
 	 */
-	public var $_saveBody = true;
+	var $_saveBody = true;
 
 	/**
 	 * Timeout for reading from socket (array(seconds, microseconds))
 	 * @var array
 	 */
-	public var $_readTimeout = null;
+	var $_readTimeout = null;
 
 	/**
 	 * Options to pass to Net_Socket::connect. See stream_context_create
 	 * @var array
 	 */
-	public var $_socketOptions = null;
+	var $_socketOptions = null;
 
 	/*	 * #@- */
 
@@ -1121,61 +1121,61 @@ class HTTP_Response
 	 * Socket object
 	 * @var Net_Socket
 	 */
-	public var $_sock;
+	var $_sock;
 
 	/**
 	 * Protocol
 	 * @var string
 	 */
-	public var $_protocol;
+	var $_protocol;
 
 	/**
 	 * Return code
 	 * @var string
 	 */
-	public var $_code;
+	var $_code;
 
 	/**
 	 * Response reason phrase
 	 * @var string
 	 */
-	public var $_reason;
+	var $_reason;
 
 	/**
 	 * Response headers
 	 * @var array
 	 */
-	public var $_headers;
+	var $_headers;
 
 	/**
 	 * Cookies set in response
 	 * @var array
 	 */
-	public var $_cookies;
+	var $_cookies;
 
 	/**
 	 * Response body
 	 * @var string
 	 */
-	public var $_body = '';
+	var $_body = '';
 
 	/**
 	 * Used by _readChunked(): remaining length of the current chunk
 	 * @var string
 	 */
-	public var $_chunkLength = 0;
+	var $_chunkLength = 0;
 
 	/**
 	 * Attached listeners
 	 * @var array
 	 */
-	public var $_listeners = array();
+	var $_listeners = array();
 
 	/**
 	 * Bytes left to read from message-body
 	 * @var null|int
 	 */
-	public var $_toRead;
+	var $_toRead;
 
 	/**
 	 * Constructor

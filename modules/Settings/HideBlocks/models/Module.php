@@ -12,12 +12,12 @@
 class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public var $baseTable = 'vtiger_blocks_hide';
-	public var $baseIndex = 'id';
-	public var $nameFields = array('name');
-	public var $listFields = array('name' => 'LBL_MODULE', 'blocklabel' => 'LBL_BLOCK_LABEL', 'enabled' => 'LBL_ENABLED', 'view' => 'LBL_VIEW');
-	public var $name = 'HideBlocks';
-	public var $views = array('Detail', 'Edit');
+	var $baseTable = 'vtiger_blocks_hide';
+	var $baseIndex = 'id';
+	var $nameFields = array('name');
+	var $listFields = array('name' => 'LBL_MODULE', 'blocklabel' => 'LBL_BLOCK_LABEL', 'enabled' => 'LBL_ENABLED', 'view' => 'LBL_VIEW');
+	var $name = 'HideBlocks';
+	var $views = array('Detail', 'Edit');
 
 	/**
 	 * Function to get Create view url

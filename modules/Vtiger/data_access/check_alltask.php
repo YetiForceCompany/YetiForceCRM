@@ -12,7 +12,7 @@
 Class DataAccess_check_alltask
 {
 
-	public var $config = true;
+	var $config = true;
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{

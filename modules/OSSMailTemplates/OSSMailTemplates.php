@@ -12,23 +12,23 @@
 class OSSMailTemplates extends Vtiger_CRMEntity
 {
 
-	public var $table_name = 'vtiger_ossmailtemplates';
-	public var $table_index = 'ossmailtemplatesid';
+	var $table_name = 'vtiger_ossmailtemplates';
+	var $table_index = 'ossmailtemplatesid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_ossmailtemplatescf', 'ossmailtemplatesid');
+	var $customFieldTable = Array('vtiger_ossmailtemplatescf', 'ossmailtemplatesid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_ossmailtemplates', 'vtiger_ossmailtemplatescf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_ossmailtemplates', 'vtiger_ossmailtemplatescf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ossmailtemplates' => 'ossmailtemplatesid',
 		'vtiger_ossmailtemplatescf' => 'ossmailtemplatesid');
@@ -36,42 +36,42 @@ class OSSMailTemplates extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Name' => Array('ossmailtemplates', 'name'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Name' => 'name',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// Make the field link to detail view
-	public var $list_link_field = 'name';
+	var $list_link_field = 'name';
 	// For Popup listview and UI type support
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Name' => Array('ossmailtemplates', 'name'),
 		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Name' => 'name',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// For Popup window record selection
-	public var $popup_fields = Array('name');
+	var $popup_fields = Array('name');
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'name';
+	var $def_basicsearch_col = 'name';
 	// Column value to use on detail view record text display
-	public var $def_detailview_recname = 'name';
+	var $def_detailview_recname = 'name';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('name', 'assigned_user_id');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'ASC';
+	var $mandatory_fields = Array('name', 'assigned_user_id');
+	var $default_order_by = '';
+	var $default_sort_order = 'ASC';
 
 	/**
 	 * Invoked when special actions are performed on the module.

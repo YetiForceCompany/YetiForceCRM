@@ -12,57 +12,57 @@
 class Vendors extends CRMEntity
 {
 
-	public var $log;
-	public var $db;
-	public var $table_name = "vtiger_vendor";
-	public var $table_index = 'vendorid';
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_vendor', 'vtiger_vendoraddress', 'vtiger_vendorcf', 'vtiger_entity_stats');
-	public var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_vendor' => 'vendorid', 'vtiger_vendoraddress' => 'vendorid', 'vtiger_vendorcf' => 'vendorid', 'vtiger_entity_stats' => 'crmid');
+	var $log;
+	var $db;
+	var $table_name = "vtiger_vendor";
+	var $table_index = 'vendorid';
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_vendor', 'vtiger_vendoraddress', 'vtiger_vendorcf', 'vtiger_entity_stats');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_vendor' => 'vendorid', 'vtiger_vendoraddress' => 'vendorid', 'vtiger_vendorcf' => 'vendorid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_vendorcf', 'vendorid');
-	public var $column_fields = Array();
-	public var $related_tables = Array(
+	var $customFieldTable = Array('vtiger_vendorcf', 'vendorid');
+	var $column_fields = Array();
+	var $related_tables = Array(
 		'vtiger_vendorcf' => Array('vendorid', 'vtiger_vendor', 'vendorid'),
 		'vtiger_vendoraddress' => Array('vendorid', 'vtiger_vendor', 'vendorid'),
 	);
 	//Pavani: Assign value to entity_table
-	public var $entity_table = "vtiger_crmentity";
-	public var $sortby_fields = Array('vendorname', 'category');
+	var $entity_table = "vtiger_crmentity";
+	var $sortby_fields = Array('vendorname', 'category');
 	// This is the list of vtiger_fields that are in the lists.
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		'Vendor Name' => Array('vendor' => 'vendorname'),
 		'Phone' => Array('vendor' => 'phone'),
 		'Email' => Array('vendor' => 'email'),
 		'Category' => Array('vendor' => 'category')
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		'Vendor Name' => 'vendorname',
 		'Phone' => 'phone',
 		'Email' => 'email',
 		'Category' => 'category'
 	);
-	public var $list_link_field = 'vendorname';
-	public var $search_fields = Array(
+	var $list_link_field = 'vendorname';
+	var $search_fields = Array(
 		'Vendor Name' => Array('vendor' => 'vendorname'),
 		'Phone' => Array('vendor' => 'phone')
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		'Vendor Name' => 'vendorname',
 		'Phone' => 'phone'
 	);
 	//Specifying required fields for vendors
-	public var $required_fields = array();
+	var $required_fields = array();
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id');
+	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id');
 	//Added these variables which are used as default order by and sortorder in ListView
-	public var $default_order_by = '';
-	public var $default_sort_order = 'ASC';
+	var $default_order_by = '';
+	var $default_sort_order = 'ASC';
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'vendorname';
+	var $def_basicsearch_col = 'vendorname';
 
 	public function save_module($module)
 	{

@@ -13,9 +13,9 @@ class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 
 	const tableName = 'vtiger_currency_info';
 
-	public var $listFields = array('currency_name' => 'Currency Name', 'currency_code' => 'Currency Code', 'currency_symbol' => 'Symbol',
+	var $listFields = array('currency_name' => 'Currency Name', 'currency_code' => 'Currency Code', 'currency_symbol' => 'Symbol',
 		'conversion_rate' => 'Conversion Rate', 'currency_status' => 'Status');
-	public var $name = 'Currency';
+	var $name = 'Currency';
 
 	public function isPagingSupported()
 	{

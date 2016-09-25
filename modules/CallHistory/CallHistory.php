@@ -13,24 +13,24 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class CallHistory extends Vtiger_CRMEntity
 {
 
-	public var $table_name = 'vtiger_callhistory';
-	public var $table_index = 'callhistoryid';
+	var $table_name = 'vtiger_callhistory';
+	var $table_index = 'callhistoryid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_callhistorycf', 'callhistoryid');
-	public var $related_tables = Array('vtiger_callhistorycf' => Array('callhistoryid', 'vtiger_callhistory', 'callhistoryid'));
+	var $customFieldTable = Array('vtiger_callhistorycf', 'callhistoryid');
+	var $related_tables = Array('vtiger_callhistorycf' => Array('callhistoryid', 'vtiger_callhistory', 'callhistoryid'));
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_callhistory', 'vtiger_callhistorycf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_callhistory', 'vtiger_callhistorycf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_callhistory' => 'callhistoryid',
 		'vtiger_callhistorycf' => 'callhistoryid');
@@ -38,7 +38,7 @@ class CallHistory extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'LBL_TO_NUMBER' => Array('callhistory', 'to_number'),
@@ -47,7 +47,7 @@ class CallHistory extends Vtiger_CRMEntity
 		'LBL_TYPE' => Array('callhistory', 'callhistorytype'),
 		'LBL_START_TIME' => Array('callhistory', 'start_time'),
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'LBL_TO_NUMBER' => 'to_number',
 		'LBL_FROM_NUMBER' => 'from_number',
@@ -56,9 +56,9 @@ class CallHistory extends Vtiger_CRMEntity
 		'LBL_START_TIME' => 'start_time',
 	);
 	// Make the field link to detail view
-	public var $list_link_field = 'to_number';
+	var $list_link_field = 'to_number';
 	// For Popup listview and UI type support
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'LBL_TO_NUMBER' => Array('callhistory', 'to_number'),
@@ -67,7 +67,7 @@ class CallHistory extends Vtiger_CRMEntity
 		'LBL_TYPE' => Array('callhistory', 'callhistorytype'),
 		'LBL_START_TIME' => Array('callhistory', 'start_time'),
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'LBL_TO_NUMBER' => 'to_number',
 		'LBL_FROM_NUMBER' => 'from_number',
@@ -76,16 +76,16 @@ class CallHistory extends Vtiger_CRMEntity
 		'LBL_START_TIME' => 'start_time',
 	);
 	// For Popup window record selection
-	public var $popup_fields = Array('to_number');
+	var $popup_fields = Array('to_number');
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'to_number';
+	var $def_basicsearch_col = 'to_number';
 	// Column value to use on detail view record text display
-	public var $def_detailview_recname = 'to_number';
+	var $def_detailview_recname = 'to_number';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('to_number', 'assigned_user_id');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'DESC';
+	var $mandatory_fields = Array('to_number', 'assigned_user_id');
+	var $default_order_by = '';
+	var $default_sort_order = 'DESC';
 
 	/**
 	 * Invoked when special actions are performed on the module.

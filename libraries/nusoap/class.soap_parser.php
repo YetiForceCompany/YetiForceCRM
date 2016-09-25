@@ -14,39 +14,39 @@
 */
 class nusoap_parser extends nusoap_base {
 
-	public var $xml = '';
-	public var $xml_encoding = '';
-	public var $method = '';
-	public var $root_struct = '';
-	public var $root_struct_name = '';
-	public var $root_struct_namespace = '';
-	public var $root_header = '';
+	var $xml = '';
+	var $xml_encoding = '';
+	var $method = '';
+	var $root_struct = '';
+	var $root_struct_name = '';
+	var $root_struct_namespace = '';
+	var $root_header = '';
     var $document = '';			// incoming SOAP body (text)
 	// determines where in the message we are (envelope,header,body,method)
-	public var $status = '';
-	public var $position = 0;
-	public var $depth = 0;
-	public var $default_namespace = '';
-	public var $namespaces = array();
-	public var $message = array();
+	var $status = '';
+	var $position = 0;
+	var $depth = 0;
+	var $default_namespace = '';
+	var $namespaces = array();
+	var $message = array();
     var $parent = '';
-	public var $fault = false;
-	public var $fault_code = '';
-	public var $fault_str = '';
-	public var $fault_detail = '';
-	public var $depth_array = array();
-	public var $debug_flag = true;
-	public var $soapresponse = NULL;	// parsed SOAP Body
-	public var $soapheader = NULL;		// parsed SOAP Header
-	public var $responseHeaders = '';	// incoming SOAP headers (text)
-	public var $body_position = 0;
+	var $fault = false;
+	var $fault_code = '';
+	var $fault_str = '';
+	var $fault_detail = '';
+	var $depth_array = array();
+	var $debug_flag = true;
+	var $soapresponse = NULL;	// parsed SOAP Body
+	var $soapheader = NULL;		// parsed SOAP Header
+	var $responseHeaders = '';	// incoming SOAP headers (text)
+	var $body_position = 0;
 	// for multiref parsing:
 	// array of id => pos
-	public var $ids = array();
+	var $ids = array();
 	// array of id => hrefs => pos
-	public var $multirefs = array();
+	var $multirefs = array();
 	// toggle for auto-decoding element content
-	public var $decode_utf8 = true;
+	var $decode_utf8 = true;
 
 	/**
 	* constructor that actually does the parsing

@@ -33,11 +33,11 @@ require_once('include/database/PearDatabase.php');
 class Tracker
 {
 
-	public var $log;
-	public var $db;
-	public var $table_name = "vtiger_tracker";
+	var $log;
+	var $db;
+	var $table_name = "vtiger_tracker";
 	// Tracker vtiger_table
-	public var $column_fields = Array(
+	var $column_fields = Array(
 		"id",
 		"user_id",
 		"module_name",

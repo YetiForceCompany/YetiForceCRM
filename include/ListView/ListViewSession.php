@@ -15,12 +15,12 @@ require_once('modules/CustomView/CustomView.php');
 class ListViewSession
 {
 
-	public var $module = null;
-	public var $viewname = null;
-	public var $start = null;
-	public var $sorder = null;
-	public var $sortby = null;
-	public var $page_view = null;
+	var $module = null;
+	var $viewname = null;
+	var $start = null;
+	var $sorder = null;
+	var $sortby = null;
+	var $page_view = null;
 
 	/*	 * initializes ListViewSession
 	 * Portions created by vtigerCRM are Copyright (C) vtigerCRM.

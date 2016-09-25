@@ -21,42 +21,42 @@ class soapval extends nusoap_base {
 	 * @var string
 	 * @access private
 	 */
-	public var $name;
+	var $name;
 	/**
 	 * The XML type name (string or false)
 	 *
 	 * @var mixed
 	 * @access private
 	 */
-	public var $type;
+	var $type;
 	/**
 	 * The PHP value
 	 *
 	 * @var mixed
 	 * @access private
 	 */
-	public var $value;
+	var $value;
 	/**
 	 * The XML element namespace (string or false)
 	 *
 	 * @var mixed
 	 * @access private
 	 */
-	public var $element_ns;
+	var $element_ns;
 	/**
 	 * The XML type namespace (string or false)
 	 *
 	 * @var mixed
 	 * @access private
 	 */
-	public var $type_ns;
+	var $type_ns;
 	/**
 	 * The XML element attributes (array or false)
 	 *
 	 * @var mixed
 	 * @access private
 	 */
-	public var $attributes;
+	var $attributes;
 
 	/**
 	* constructor

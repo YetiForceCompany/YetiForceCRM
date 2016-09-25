@@ -15,11 +15,11 @@
 class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 {
 
-	public var $baseTable = 'vtiger_settings_field';
-	public var $baseIndex = 'fieldid';
-	public var $listFields = array('name' => 'Name', 'description' => 'Description');
-	public var $nameFields = array('name');
-	public var $name = 'Vtiger';
+	var $baseTable = 'vtiger_settings_field';
+	var $baseIndex = 'fieldid';
+	var $listFields = array('name' => 'Name', 'description' => 'Description');
+	var $nameFields = array('name');
+	var $name = 'Vtiger';
 
 	public function getName($includeParentIfExists = false)
 	{

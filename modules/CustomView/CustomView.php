@@ -32,15 +32,15 @@ $adv_filter_options = array(
 class CustomView extends CRMEntity
 {
 
-	public var $module_list = [];
-	public var $customviewmodule;
-	public var $list_fields;
-	public var $list_fields_name;
-	public var $setdefaultviewid;
-	public var $escapemodule;
-	public var $mandatoryvalues;
-	public var $showvalues;
-	public var $data_type;
+	var $module_list = [];
+	var $customviewmodule;
+	var $list_fields;
+	var $list_fields_name;
+	var $setdefaultviewid;
+	var $escapemodule;
+	var $mandatoryvalues;
+	var $showvalues;
+	var $data_type;
 	// Information as defined for this instance in the database table.
 	protected $_status = false;
 	protected $_userid = false;

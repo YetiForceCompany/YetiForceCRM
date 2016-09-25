@@ -18,7 +18,7 @@ require_once('modules/Emails/class.phpmailer.php');
 class Mailer extends \PHPMailer
 {
 
-	public var $_serverConfigured = false;
+	var $_serverConfigured = false;
 
 	/**
 	 * Constructor
@@ -163,7 +163,7 @@ class Mailer extends \PHPMailer
 
 	/** Mail Queue * */
 	// Check if this instance is initialized.
-	public var $_queueinitialized = false;
+	var $_queueinitialized = false;
 
 	public function __initializeQueue()
 	{

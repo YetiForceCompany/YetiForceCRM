@@ -13,27 +13,27 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class OSSOutsourcedServices extends Vtiger_CRMEntity
 {
 
-	public var $table_name = 'vtiger_ossoutsourcedservices';
-	public var $table_index = 'ossoutsourcedservicesid';
-	public var $column_fields = Array();
+	var $table_name = 'vtiger_ossoutsourcedservices';
+	var $table_index = 'ossoutsourcedservicesid';
+	var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	public var $IsCustomModule = true;
+	var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_ossoutsourcedservicescf', 'ossoutsourcedservicesid');
+	var $customFieldTable = Array('vtiger_ossoutsourcedservicescf', 'ossoutsourcedservicesid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_ossoutsourcedservices', 'vtiger_ossoutsourcedservicescf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_ossoutsourcedservices', 'vtiger_ossoutsourcedservicescf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ossoutsourcedservices' => 'ossoutsourcedservicesid',
 		'vtiger_ossoutsourcedservicescf' => 'ossoutsourcedservicesid');
@@ -41,7 +41,7 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Product Name' => Array('ossoutsourcedservices' => 'productname'),
@@ -51,7 +51,7 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 		'Date Sold' => Array('ossoutsourcedservices' => 'datesold'),
 		'LBL_osservicesstatus' => Array('ossoutsourcedservices' => 'osservicesstatus'),
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Product Name' => 'productname',
 		'Category' => 'pscategory',
@@ -61,9 +61,9 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 		'LBL_osservicesstatus' => 'osservicesstatus',
 	);
 	// Make the field link to detail view from list view (Fieldname)
-	public var $list_link_field = 'productname';
+	var $list_link_field = 'productname';
 	// For Popup listview and UI type support
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		'Product Name' => Array('ossoutsourcedservices' => 'productname'),
 		'Category' => Array('ossoutsourcedservices' => 'pscategory'),
 		'Sub Category' => Array('ossoutsourcedservices' => 'pssubcategory'),
@@ -71,7 +71,7 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 		'Date Sold' => Array('ossoutsourcedservices' => 'datesold'),
 		'LBL_osservicesstatus' => Array('ossoutsourcedservices' => 'osservicesstatus'),
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		'Product Name' => 'productname',
 		'Category' => 'pscategory',
 		'Sub Category' => 'pssubcategory',
@@ -80,22 +80,22 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 		'LBL_osservicesstatus' => 'osservicesstatus',
 	);
 	// For Popup window record selection
-	public var $popup_fields = Array('productname');
+	var $popup_fields = Array('productname');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public var $sortby_fields = Array();
+	var $sortby_fields = Array();
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'productname';
+	var $def_basicsearch_col = 'productname';
 	// Column value to use on detail view record text display
-	public var $def_detailview_recname = 'productname';
+	var $def_detailview_recname = 'productname';
 	// Required Information for enabling Import feature
-	public var $required_fields = Array('productname' => 1);
+	var $required_fields = Array('productname' => 1);
 	// Callback function list during Importing
-	public var $special_functions = Array('set_import_assigned_user');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'ASC';
+	var $special_functions = Array('set_import_assigned_user');
+	var $default_order_by = '';
+	var $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('createdtime', 'modifiedtime', 'productname');
+	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'productname');
 
 	/**
 	 * Invoked when special actions are performed on the module.

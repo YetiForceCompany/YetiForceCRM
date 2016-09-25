@@ -13,27 +13,27 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class Reservations extends Vtiger_CRMEntity
 {
 
-	public var $table_name = 'vtiger_reservations';
-	public var $table_index = 'reservationsid';
-	public var $column_fields = Array();
+	var $table_name = 'vtiger_reservations';
+	var $table_index = 'reservationsid';
+	var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	public var $IsCustomModule = true;
+	var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_reservationscf', 'reservationsid');
+	var $customFieldTable = Array('vtiger_reservationscf', 'reservationsid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_reservations', 'vtiger_reservationscf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_reservations', 'vtiger_reservationscf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_reservations' => 'reservationsid',
 		'vtiger_reservationscf' => 'reservationsid');
@@ -41,49 +41,49 @@ class Reservations extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'No.' => Array('reservations', 'reservations_no'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'No.' => 'reservations_no',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
 	// Make the field link to detail view from list view (Fieldname)
-	public var $list_link_field = 'assigned_user_id';
+	var $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		'No.' => Array('reservations', 'reservations_no'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		'No.' => 'reservations_no',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
 	// For Popup window record selection
-	public var $popup_fields = Array('name');
+	var $popup_fields = Array('name');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public var $sortby_fields = Array();
+	var $sortby_fields = Array();
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'name';
+	var $def_basicsearch_col = 'name';
 	// Column value to use on detail view record text display
-	public var $def_detailview_recname = 'name';
+	var $def_detailview_recname = 'name';
 	// Required Information for enabling Import feature
-	public var $required_fields = Array('assigned_user_id' => 1);
+	var $required_fields = Array('assigned_user_id' => 1);
 	// Callback function list during Importing
-	public var $special_functions = Array('set_import_assigned_user');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'DESC';
+	var $special_functions = Array('set_import_assigned_user');
+	var $default_order_by = '';
+	var $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('createdtime', 'modifiedtime', 'assigned_user_id');
+	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'assigned_user_id');
 
 	/**
 	 * Invoked when special actions are performed on the module.

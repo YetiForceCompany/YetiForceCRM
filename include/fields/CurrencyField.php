@@ -20,60 +20,60 @@ class CurrencyField
 	 * Currency Format(3,3,3) or (2,2,3)
 	 * @var String
 	 */
-	public var $currencyFormat = '123,456,789';
+	var $currencyFormat = '123,456,789';
 
 	/**
 	 * Currency Separator for example (comma, dot, hash)
 	 * @var String
 	 */
-	public var $currencySeparator = ',';
+	var $currencySeparator = ',';
 
 	/**
 	 * Decimal Separator for example (dot, comma, space)
 	 * @var <type>
 	 */
-	public var $decimalSeparator = '.';
+	var $decimalSeparator = '.';
 
 	/**
 	 * Number of Decimal Numbers
 	 * @var Integer
 	 */
-	public var $numberOfDecimal = 3;
+	var $numberOfDecimal = 3;
 
 	/**
 	 * Currency Id
 	 * @var Integer
 	 */
-	public var $currencyId = 1;
+	var $currencyId = 1;
 
 	/**
 	 * Currency Symbol
 	 * @var String
 	 */
-	public var $currencySymbol;
+	var $currencySymbol;
 
 	/**
 	 * Currency Symbol Placement
 	 */
-	public var $currencySymbolPlacement;
+	var $currencySymbolPlacement;
 
 	/**
 	 * Currency Conversion Rate
 	 * @var Number
 	 */
-	public var $conversionRate = 1;
+	var $conversionRate = 1;
 
 	/**
 	 * Value to be converted
 	 * @param Number $value
 	 */
-	public var $value = null;
+	var $value = null;
 
 	/**
 	 * Maximum Number Of Currency Decimals
 	 * @var Number
 	 */
-	public var $maxNumberOfDecimals = 5;
+	var $maxNumberOfDecimals = 5;
 
 	/**
 	 * Constructor

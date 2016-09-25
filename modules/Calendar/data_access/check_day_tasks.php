@@ -10,7 +10,7 @@
 class DataAccess_check_day_tasks
 {
 
-	public var $config = true;
+	var $config = true;
 
 	public function process($moduleName, $ID, $recordData, $config)
 	{

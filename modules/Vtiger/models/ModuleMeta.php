@@ -12,9 +12,9 @@
 class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 {
 
-	public var $moduleName = false;
-	public var $webserviceMeta = false;
-	public var $user;
+	var $moduleName = false;
+	var $webserviceMeta = false;
+	var $user;
 	static $_cached_module_meta;
 
 	/**

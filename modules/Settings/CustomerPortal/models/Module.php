@@ -11,7 +11,7 @@
 class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public var $name = 'CustomerPortal';
+	var $name = 'CustomerPortal';
 
 	/**
 	 * Function to get Current portal user

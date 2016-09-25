@@ -12,28 +12,28 @@
 class LettersIn extends CRMEntity
 {
 
-	public var $db, $log; // Used in class functions of CRMEntity
-	public var $table_name = 'vtiger_lettersin';
-	public var $table_index = 'lettersinid';
-	public var $column_fields = Array();
+	var $db, $log; // Used in class functions of CRMEntity
+	var $table_name = 'vtiger_lettersin';
+	var $table_index = 'lettersinid';
+	var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	public var $IsCustomModule = true;
+	var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_lettersincf', 'lettersinid');
+	var $customFieldTable = Array('vtiger_lettersincf', 'lettersinid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_lettersin', 'vtiger_lettersincf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_lettersin', 'vtiger_lettersincf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_lettersin' => 'lettersinid',
 		'vtiger_lettersincf' => 'lettersinid');
@@ -41,7 +41,7 @@ class LettersIn extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Number' => Array('lettersin', 'number'),
@@ -49,7 +49,7 @@ class LettersIn extends CRMEntity
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Number' => 'number',
 		'Title' => 'title',
@@ -57,37 +57,37 @@ class LettersIn extends CRMEntity
 		'Created Time' => 'createdtime',
 	);
 	// Make the field link to detail view from list view (Fieldname)
-	public var $list_link_field = 'title';
+	var $list_link_field = 'title';
 	// For Popup listview and UI type support
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		'Number' => Array('lettersin', 'number'),
 		'Title' => Array('lettersin', 'title'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		'Number' => 'number',
 		'Title' => 'title',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
 	// For Popup window record selection
-	public var $popup_fields = Array('title');
+	var $popup_fields = Array('title');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public var $sortby_fields = Array();
+	var $sortby_fields = Array();
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'title';
+	var $def_basicsearch_col = 'title';
 	// Column value to use on detail view record text display
-	public var $def_detailview_recname = 'title';
+	var $def_detailview_recname = 'title';
 	// Required Information for enabling Import feature
-	public var $required_fields = Array('title' => 1);
+	var $required_fields = Array('title' => 1);
 	// Callback function list during Importing
-	public var $special_functions = Array('set_import_assigned_user');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'ASC';
+	var $special_functions = Array('set_import_assigned_user');
+	var $default_order_by = '';
+	var $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('createdtime', 'modifiedtime', 'title', 'assigned_user_id');
+	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'title', 'assigned_user_id');
 
 	public function save_module($module)
 	{

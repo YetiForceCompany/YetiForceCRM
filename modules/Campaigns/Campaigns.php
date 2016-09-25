@@ -16,20 +16,20 @@
 class Campaigns extends CRMEntity
 {
 
-	public var $log;
-	public var $db;
-	public var $table_name = "vtiger_campaign";
-	public var $table_index = 'campaignid';
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_campaign', 'vtiger_campaignscf', 'vtiger_entity_stats');
-	public var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_campaign' => 'campaignid', 'vtiger_campaignscf' => 'campaignid', 'vtiger_entity_stats' => 'crmid');
+	var $log;
+	var $db;
+	var $table_name = "vtiger_campaign";
+	var $table_index = 'campaignid';
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_campaign', 'vtiger_campaignscf', 'vtiger_entity_stats');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_campaign' => 'campaignid', 'vtiger_campaignscf' => 'campaignid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_campaignscf', 'campaignid');
-	public var $column_fields = Array();
-	public var $sortby_fields = Array('campaignname', 'smownerid', 'campaigntype', 'productname', 'expectedrevenue', 'closingdate', 'campaignstatus', 'expectedresponse', 'targetaudience', 'expectedcost');
-	public var $list_fields = Array(
+	var $customFieldTable = Array('vtiger_campaignscf', 'campaignid');
+	var $column_fields = Array();
+	var $sortby_fields = Array('campaignname', 'smownerid', 'campaigntype', 'productname', 'expectedrevenue', 'closingdate', 'campaignstatus', 'expectedresponse', 'targetaudience', 'expectedcost');
+	var $list_fields = Array(
 		'Campaign Name' => Array('campaign' => 'campaignname'),
 		'Campaign Type' => Array('campaign' => 'campaigntype'),
 		'Campaign Status' => Array('campaign' => 'campaignstatus'),
@@ -37,7 +37,7 @@ class Campaigns extends CRMEntity
 		'Expected Close Date' => Array('campaign' => 'closingdate'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		'Campaign Name' => 'campaignname',
 		'Campaign Type' => 'campaigntype',
 		'Campaign Status' => 'campaignstatus',
@@ -45,23 +45,23 @@ class Campaigns extends CRMEntity
 		'Expected Close Date' => 'closingdate',
 		'Assigned To' => 'assigned_user_id'
 	);
-	public var $list_link_field = 'campaignname';
+	var $list_link_field = 'campaignname';
 	//Added these variables which are used as default order by and sortorder in ListView
-	public var $default_order_by = '';
-	public var $default_sort_order = 'DESC';
-	public var $search_fields = Array(
+	var $default_order_by = '';
+	var $default_sort_order = 'DESC';
+	var $search_fields = Array(
 		'Campaign Name' => Array('vtiger_campaign' => 'campaignname'),
 		'Campaign Type' => Array('vtiger_campaign' => 'campaigntype'),
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		'Campaign Name' => 'campaignname',
 		'Campaign Type' => 'campaigntype',
 	);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('campaignname', 'createdtime', 'modifiedtime', 'assigned_user_id');
+	var $mandatory_fields = Array('campaignname', 'createdtime', 'modifiedtime', 'assigned_user_id');
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'campaignname';
+	var $def_basicsearch_col = 'campaignname';
 
 	/** Function to handle module specific operations when saving a entity
 	 */

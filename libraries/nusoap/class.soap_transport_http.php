@@ -14,33 +14,33 @@
 */
 class soap_transport_http extends nusoap_base {
 
-	public var $url = '';
-	public var $uri = '';
-	public var $digest_uri = '';
-	public var $scheme = '';
-	public var $host = '';
-	public var $port = '';
-	public var $path = '';
-	public var $request_method = 'POST';
-	public var $protocol_version = '1.0';
-	public var $encoding = '';
-	public var $outgoing_headers = array();
-	public var $incoming_headers = array();
-	public var $incoming_cookies = array();
-	public var $outgoing_payload = '';
-	public var $incoming_payload = '';
-	public var $response_status_line;	// HTTP response status line
-	public var $useSOAPAction = true;
-	public var $persistentConnection = false;
-	public var $ch = false;	// cURL handle
-	public var $ch_options = array();	// cURL custom options
-	public var $use_curl = false;		// force cURL use
-	public var $proxy = null;			// proxy information (associative array)
-	public var $username = '';
-	public var $password = '';
-	public var $authtype = '';
-	public var $digestRequest = array();
-	public var $certRequest = array();	// keys must be cainfofile (optional), sslcertfile, sslkeyfile, passphrase, certpassword (optional), verifypeer (optional), verifyhost (optional)
+	var $url = '';
+	var $uri = '';
+	var $digest_uri = '';
+	var $scheme = '';
+	var $host = '';
+	var $port = '';
+	var $path = '';
+	var $request_method = 'POST';
+	var $protocol_version = '1.0';
+	var $encoding = '';
+	var $outgoing_headers = array();
+	var $incoming_headers = array();
+	var $incoming_cookies = array();
+	var $outgoing_payload = '';
+	var $incoming_payload = '';
+	var $response_status_line;	// HTTP response status line
+	var $useSOAPAction = true;
+	var $persistentConnection = false;
+	var $ch = false;	// cURL handle
+	var $ch_options = array();	// cURL custom options
+	var $use_curl = false;		// force cURL use
+	var $proxy = null;			// proxy information (associative array)
+	var $username = '';
+	var $password = '';
+	var $authtype = '';
+	var $digestRequest = array();
+	var $certRequest = array();	// keys must be cainfofile (optional), sslcertfile, sslkeyfile, passphrase, certpassword (optional), verifypeer (optional), verifyhost (optional)
 								// cainfofile: certificate authority file, e.g. '$pathToPemFiles/rootca.pem'
 								// sslcertfile: SSL certificate file, e.g. '$pathToPemFiles/mycert.pem'
 								// sslkeyfile: SSL key file, e.g. '$pathToPemFiles/mykey.pem'

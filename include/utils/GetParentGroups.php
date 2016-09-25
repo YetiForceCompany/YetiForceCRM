@@ -15,7 +15,7 @@
 class GetParentGroups
 {
 
-	public var $parent_groups = [];
+	var $parent_groups = [];
 
 	/** to get all the parent vtiger_groups of the specified group
 	 * @params $groupId --> Group Id :: Type Integer

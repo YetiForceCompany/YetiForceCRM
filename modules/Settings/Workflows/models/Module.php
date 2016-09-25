@@ -14,9 +14,9 @@ require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager
 class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public var $baseTable = 'com_vtiger_workflows';
-	public var $baseIndex = 'workflow_id';
-	public var $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS');
+	var $baseTable = 'com_vtiger_workflows';
+	var $baseIndex = 'workflow_id';
+	var $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS');
 	public static $allFields = [
 		'module_name',
 		'summary',
@@ -32,7 +32,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		'schtime',
 		'nexttrigger_time'
 	];
-	public var $name = 'Workflows';
+	var $name = 'Workflows';
 	static $metaVariables = [
 		'Current Date' => '(general : (__VtigerMeta__) date) ($_DATE_FORMAT_)',
 		'Current Time' => '(general : (__VtigerMeta__) time)',

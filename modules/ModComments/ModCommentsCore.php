@@ -14,24 +14,24 @@ require_once('include/Tracker.php');
 class ModCommentsCore extends CRMEntity
 {
 
-	public var $db, $log; // Used in class functions of CRMEntity
-	public var $table_name = 'vtiger_modcomments';
-	public var $table_index = 'modcommentsid';
+	var $db, $log; // Used in class functions of CRMEntity
+	var $table_name = 'vtiger_modcomments';
+	var $table_index = 'modcommentsid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_modcommentscf', 'modcommentsid');
+	var $customFieldTable = Array('vtiger_modcommentscf', 'modcommentsid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_modcomments', 'vtiger_modcommentscf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_modcomments', 'vtiger_modcommentscf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_modcomments' => 'modcommentsid',
 		'vtiger_modcommentscf' => 'modcommentsid');
@@ -39,48 +39,48 @@ class ModCommentsCore extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Comment' => Array('modcomments', 'commentcontent'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Comment' => 'commentcontent',
 		'Assigned To' => 'assigned_user_id'
 	);
 	// Make the field link to detail view
-	public var $list_link_field = 'commentcontent';
+	var $list_link_field = 'commentcontent';
 	// For Popup listview and UI type support
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Comment' => Array('modcomments', 'commentcontent')
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Comment' => 'commentcontent'
 	);
 	// For Popup window record selection
-	public var $popup_fields = Array('commentcontent');
+	var $popup_fields = Array('commentcontent');
 	// Allow sorting on the following (field column names)
-	public var $sortby_fields = Array('commentcontent');
+	var $sortby_fields = Array('commentcontent');
 	// Should contain field labels
 	//var $detailview_links = Array ('Comment');
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'commentcontent';
+	var $def_basicsearch_col = 'commentcontent';
 	// Column value to use on detail view record text display
-	public var $def_detailview_recname = 'commentcontent';
+	var $def_detailview_recname = 'commentcontent';
 	// Required Information for enabling Import feature
-	public var $required_fields = Array('assigned_user_id' => 1);
+	var $required_fields = Array('assigned_user_id' => 1);
 	// Callback function list during Importing
-	public var $special_functions = Array('set_import_assigned_user');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'DESC';
+	var $special_functions = Array('set_import_assigned_user');
+	var $default_order_by = '';
+	var $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = Array('createdtime', 'modifiedtime', 'commentcontent');
+	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'commentcontent');
 
 	public function __construct()
 	{

@@ -12,29 +12,29 @@
 class vt_DateTime
 {
 
-	public var $second = 0;
-	public var $minute = 0;
-	public var $hour = 0;
-	public var $z_hour = '00';
-	public var $day;
-	public var $z_day;
-	public var $week;
-	public var $month;
-	public var $z_month;
-	public var $year;
-	public var $dayofweek;
-	public var $dayofyear;
-	public var $daysinmonth;
-	public var $daysinyear;
-	public var $dayofweek_inshort;
-	public var $dayofweek_inlong;
-	public var $month_inshort;
-	public var $month_inlong;
-	public var $ts;
-	public var $offset;
-	public var $format;
-	public var $tz;
-	public var $ts_def;
+	var $second = 0;
+	var $minute = 0;
+	var $hour = 0;
+	var $z_hour = '00';
+	var $day;
+	var $z_day;
+	var $week;
+	var $month;
+	var $z_month;
+	var $year;
+	var $dayofweek;
+	var $dayofyear;
+	var $daysinmonth;
+	var $daysinyear;
+	var $dayofweek_inshort;
+	var $dayofweek_inlong;
+	var $month_inshort;
+	var $month_inlong;
+	var $ts;
+	var $offset;
+	var $format;
+	var $tz;
+	var $ts_def;
 
 	/**
 	 * Constructor for vt_DateTime class

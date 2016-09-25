@@ -280,7 +280,6 @@ Class ChartUtils
 		for ($i = 0; $i < count($yaxisData); $i++) {
 			$sum += $yaxisData[$i];
 		}
-		
 		for ($i = 0; $i < count($yaxisData); $i++) {
 			// To have unique names even in case of duplicates let us add the id
 			$datalabel = $xaxisData[$i];

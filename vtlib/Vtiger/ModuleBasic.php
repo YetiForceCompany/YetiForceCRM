@@ -18,26 +18,26 @@ class ModuleBasic
 {
 
 	/** ID of this instance */
-	public var $id = false;
-	public var $name = false;
-	public var $label = false;
-	public var $version = 0;
-	public var $minversion = false;
-	public var $maxversion = false;
-	public var $presence = 0;
-	public var $ownedby = 0; // 0 - Sharing Access Enabled, 1 - Sharing Access Disabled
-	public var $tabsequence = false;
-	public var $parent = false;
-	public var $customized = 0;
-	public var $isentitytype = true; // Real module or an extension?
-	public var $entityidcolumn = false;
-	public var $entityidfield = false;
-	public var $basetable = false;
-	public var $basetableid = false;
-	public var $customtable = false;
-	public var $grouptable = false;
-	public var $type = 0;
-	public var $tableName;
+	var $id = false;
+	var $name = false;
+	var $label = false;
+	var $version = 0;
+	var $minversion = false;
+	var $maxversion = false;
+	var $presence = 0;
+	var $ownedby = 0; // 0 - Sharing Access Enabled, 1 - Sharing Access Disabled
+	var $tabsequence = false;
+	var $parent = false;
+	var $customized = 0;
+	var $isentitytype = true; // Real module or an extension?
+	var $entityidcolumn = false;
+	var $entityidfield = false;
+	var $basetable = false;
+	var $basetableid = false;
+	var $customtable = false;
+	var $grouptable = false;
+	var $type = 0;
+	var $tableName;
 
 	const EVENT_MODULE_ENABLED = 'module.enabled';
 	const EVENT_MODULE_DISABLED = 'module.disabled';

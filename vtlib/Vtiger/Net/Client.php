@@ -16,9 +16,9 @@ include 'vtlib/thirdparty/network/Request.php';
 class Vtiger_Net_Client
 {
 
-	public var $client;
-	public var $url;
-	public var $response;
+	var $client;
+	var $url;
+	var $response;
 
 	/**
 	 * Constructor

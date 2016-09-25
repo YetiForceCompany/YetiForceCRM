@@ -12,7 +12,7 @@
 class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 {
 
-	public var $name = 'Leads';
+	var $name = 'Leads';
 
 	/**
 	 * Function to get detail view url of this model

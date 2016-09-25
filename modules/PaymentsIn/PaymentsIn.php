@@ -13,28 +13,28 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class PaymentsIn extends Vtiger_CRMEntity
 {
 
-	public var $db, $log; // Used in class functions of CRMEntity
-	public var $table_name = 'vtiger_paymentsin';
-	public var $table_index = 'paymentsinid';
-	public var $column_fields = Array();
+	var $db, $log; // Used in class functions of CRMEntity
+	var $table_name = 'vtiger_paymentsin';
+	var $table_index = 'paymentsinid';
+	var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	public var $IsCustomModule = true;
+	var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_paymentsincf', 'paymentsinid');
+	var $customFieldTable = Array('vtiger_paymentsincf', 'paymentsinid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_paymentsin', 'vtiger_paymentsincf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_paymentsin', 'vtiger_paymentsincf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public var $tab_name_index = Array(
+	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_paymentsin' => 'paymentsinid',
 		'vtiger_paymentsincf' => 'paymentsinid');
@@ -42,14 +42,14 @@ class PaymentsIn extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public var $list_fields = array(
+	var $list_fields = array(
 		'LBL_PAYMENTSNO' => array('vtiger_paymentsin' => 'paymentsno'),
 		'LBL_PAYMENTSNAME' => array('vtiger_paymentsin' => 'paymentsname'),
 		'LBL_PAYMENTSVALUE' => array('vtiger_paymentsin' => 'paymentsvalue'),
 		'LBL_PAYMENTSCURRENCY' => array('vtiger_paymentsin' => 'paymentscurrency'),
 		'LBL_PAYMENTSSTATUS' => array('vtiger_paymentsin' => 'paymentsin_status')
 	);
-	public var $list_fields_name = array(
+	var $list_fields_name = array(
 		'LBL_PAYMENTSNO' => 'paymentsno',
 		'LBL_PAYMENTSNAME' => 'paymentsname',
 		'LBL_PAYMENTSVALUE' => 'paymentsvalue',
@@ -57,16 +57,16 @@ class PaymentsIn extends Vtiger_CRMEntity
 		'LBL_PAYMENTSSTATUS' => 'paymentsin_status'
 	);
 	// Make the field link to detail view from list view (Fieldname)
-	public var $list_link_field = 'paymentsname';
+	var $list_link_field = 'paymentsname';
 	// For Popup listview and UI type support
-	public var $search_fields = array(
+	var $search_fields = array(
 		'LBL_PAYMENTSNO' => array('paymentsin', 'paymentsno'),
 		'LBL_PAYMENTSNAME' => array('paymentsin', 'paymentsname'),
 		'LBL_PAYMENTSVALUE' => array('paymentsin', 'paymentsvalue'),
 		'LBL_PAYMENTSCURRENCY' => array('paymentsin', 'paymentscurrency'),
 		'LBL_PAYMENTSSTATUS' => array('paymentsin', 'paymentsin_status'),
 	);
-	public var $search_fields_name = array(
+	var $search_fields_name = array(
 		'LBL_PAYMENTSNO' => 'paymentsno',
 		'LBL_PAYMENTSNAME' => 'paymentsname',
 		'LBL_PAYMENTSVALUE' => 'paymentsvalue',
@@ -74,22 +74,22 @@ class PaymentsIn extends Vtiger_CRMEntity
 		'LBL_PAYMENTSSTATUS' => 'paymentsin_status',
 	);
 	// For Popup window record selection
-	public var $popup_fields = array('paymentsname');
+	var $popup_fields = array('paymentsname');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public var $sortby_fields = Array();
+	var $sortby_fields = Array();
 	// For Alphabetical search
-	public var $def_basicsearch_col = 'paymentsname';
+	var $def_basicsearch_col = 'paymentsname';
 	// Column value to use on detail view record text display
-	public var $def_detailview_recname = 'paymentsname';
+	var $def_detailview_recname = 'paymentsname';
 	// Required Information for enabling Import feature
-	public var $required_fields = array('paymentsname' => 1);
+	var $required_fields = array('paymentsname' => 1);
 	// Callback function list during Importing
-	public var $special_functions = Array('set_import_assigned_user');
-	public var $default_order_by = '';
-	public var $default_sort_order = 'ASC';
+	var $special_functions = Array('set_import_assigned_user');
+	var $default_order_by = '';
+	var $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public var $mandatory_fields = array('createdtime', 'modifiedtime', 'paymentsname');
+	var $mandatory_fields = array('createdtime', 'modifiedtime', 'paymentsname');
 
 	/**
 	 * Invoked when special actions are performed on the module.

@@ -36,44 +36,44 @@ require_once('modules/Users/UserTimeZonesArray.php');
 class Users extends CRMEntity
 {
 
-	public var $log;
+	var $log;
 
 	/**
 	 * @var PearDatabase
 	 */
-	public var $db;
+	var $db;
 	// Stored fields
-	public var $id;
-	public var $authenticated = false;
-	public var $error_string;
-	public var $is_admin;
-	public var $deleted;
-	public var $tab_name = Array('vtiger_users', 'vtiger_attachments', 'vtiger_user2role', 'vtiger_asteriskextensions');
-	public var $tab_name_index = Array('vtiger_users' => 'id', 'vtiger_attachments' => 'attachmentsid', 'vtiger_user2role' => 'userid', 'vtiger_asteriskextensions' => 'userid');
-	public var $table_name = "vtiger_users";
-	public var $table_index = 'id';
+	var $id;
+	var $authenticated = false;
+	var $error_string;
+	var $is_admin;
+	var $deleted;
+	var $tab_name = Array('vtiger_users', 'vtiger_attachments', 'vtiger_user2role', 'vtiger_asteriskextensions');
+	var $tab_name_index = Array('vtiger_users' => 'id', 'vtiger_attachments' => 'attachmentsid', 'vtiger_user2role' => 'userid', 'vtiger_asteriskextensions' => 'userid');
+	var $table_name = "vtiger_users";
+	var $table_index = 'id';
 	// This is the list of fields that are in the lists.
-	public var $list_link_field = 'last_name';
-	public var $list_mode;
-	public var $popup_type;
-	public var $search_fields = Array(
+	var $list_link_field = 'last_name';
+	var $list_mode;
+	var $popup_type;
+	var $search_fields = Array(
 		'Name' => Array('vtiger_users' => 'last_name'),
 		'Email' => Array('vtiger_users' => 'email1')
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		'Name' => 'last_name',
 		'Email' => 'email1'
 	);
-	public var $module_name = "Users";
-	public var $object_name = "User";
-	public var $user_preferences;
-	public var $homeorder_array = array('HDB', 'ALVT', 'CVLVT', 'HLT', 'GRT', 'MNL', 'LTFAQ', 'UA', 'PA');
-	public var $encodeFields = Array("first_name", "last_name", "description");
+	var $module_name = "Users";
+	var $object_name = "User";
+	var $user_preferences;
+	var $homeorder_array = array('HDB', 'ALVT', 'CVLVT', 'HLT', 'GRT', 'MNL', 'LTFAQ', 'UA', 'PA');
+	var $encodeFields = Array("first_name", "last_name", "description");
 	// This is used to retrieve related fields from form posts.
-	public var $additional_column_fields = Array('reports_to_name');
-	public var $sortby_fields = Array('status', 'email1', 'is_admin', 'user_name', 'last_name');
+	var $additional_column_fields = Array('reports_to_name');
+	var $sortby_fields = Array('status', 'email1', 'is_admin', 'user_name', 'last_name');
 	// This is the list of vtiger_fields that are in the lists.
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		'First Name' => Array('vtiger_users' => 'first_name'),
 		'Last Name' => Array('vtiger_users' => 'last_name'),
 		'Role Name' => Array('vtiger_user2role' => 'roleid'),
@@ -82,7 +82,7 @@ class Users extends CRMEntity
 		'Email' => Array('vtiger_users' => 'email1'),
 		'Admin' => Array('vtiger_users' => 'is_admin')
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		'First Name' => 'first_name',
 		'Last Name' => 'last_name',
 		'Role Name' => 'roleid',
@@ -92,16 +92,16 @@ class Users extends CRMEntity
 		'Admin' => 'is_admin'
 	);
 	//Default Fields for Email Templates -- Pavani
-	public var $emailTemplate_defaultFields = array('first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
-	public var $popup_fields = array('last_name');
+	var $emailTemplate_defaultFields = array('first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
+	var $popup_fields = array('last_name');
 	// This is the list of fields that are in the lists.
-	public var $default_order_by = '';
-	public var $default_sort_order = 'ASC';
-	public var $record_id;
-	public var $new_schema = true;
-	public var $DEFAULT_PASSWORD_CRYPT_TYPE = 'PHP5.3MD5'; //'BLOWFISH', /* before PHP5.3*/ MD5;
+	var $default_order_by = '';
+	var $default_sort_order = 'ASC';
+	var $record_id;
+	var $new_schema = true;
+	var $DEFAULT_PASSWORD_CRYPT_TYPE = 'PHP5.3MD5'; //'BLOWFISH', /* before PHP5.3*/ MD5;
 	//Default Widgests
-	public var $default_widgets = array('CVLVT', 'UA');
+	var $default_widgets = array('CVLVT', 'UA');
 
 	/** constructor function for the main user class
 	  instantiates the Logger class and PearDatabase Class

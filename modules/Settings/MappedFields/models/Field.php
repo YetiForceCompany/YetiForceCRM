@@ -9,7 +9,7 @@
 class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 {
 
-	public var $inventoryField = false;
+	var $inventoryField = false;
 
 	/**
 	 * Function to get field uitype

@@ -15,10 +15,10 @@
 class Settings_Roles_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public var $baseTable = 'vtiger_role';
-	public var $baseIndex = 'roleid';
-	public var $listFields = array('roleid' => 'Role Id', 'rolename' => 'Name');
-	public var $name = 'Roles';
+	var $baseTable = 'vtiger_role';
+	var $baseIndex = 'roleid';
+	var $listFields = array('roleid' => 'Role Id', 'rolename' => 'Name');
+	var $name = 'Roles';
 
 	/**
 	 * Function to get the url for default view of the module

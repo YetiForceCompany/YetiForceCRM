@@ -14,12 +14,12 @@ require_once 'modules/Reports/ReportRun.php';
 class VTScheduledReport extends Reports
 {
 
-	public var $db;
-	public var $user;
-	public var $isScheduled = false;
-	public var $scheduledInterval = null;
-	public var $scheduledFormat = null;
-	public var $scheduledRecipients = null;
+	var $db;
+	var $user;
+	var $isScheduled = false;
+	var $scheduledInterval = null;
+	var $scheduledFormat = null;
+	var $scheduledRecipients = null;
 	static $SCHEDULED_HOURLY = 1;
 	static $SCHEDULED_DAILY = 2;
 	static $SCHEDULED_WEEKLY = 3;

@@ -12,55 +12,55 @@
 class Documents extends CRMEntity
 {
 
-	public var $log;
-	public var $db;
-	public var $table_name = "vtiger_notes";
-	public var $table_index = 'notesid';
-	public var $default_note_name_dom = array('Meeting vtiger_notes', 'Reminder');
-	public var $tab_name = Array('vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf');
-	public var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid', 'vtiger_notescf' => 'notesid');
+	var $log;
+	var $db;
+	var $table_name = "vtiger_notes";
+	var $table_index = 'notesid';
+	var $default_note_name_dom = array('Meeting vtiger_notes', 'Reminder');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf');
+	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid', 'vtiger_notescf' => 'notesid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public var $customFieldTable = Array('vtiger_notescf', 'notesid');
-	public var $column_fields = Array();
-	public var $sortby_fields = Array('title', 'modifiedtime', 'filename', 'createdtime', 'lastname', 'filedownloadcount', 'smownerid');
+	var $customFieldTable = Array('vtiger_notescf', 'notesid');
+	var $column_fields = Array();
+	var $sortby_fields = Array('title', 'modifiedtime', 'filename', 'createdtime', 'lastname', 'filedownloadcount', 'smownerid');
 	// This is used to retrieve related vtiger_fields from form posts.
-	public var $additional_column_fields = Array('', '', '', '');
+	var $additional_column_fields = Array('', '', '', '');
 	// This is the list of vtiger_fields that are in the lists.
-	public var $list_fields = Array(
+	var $list_fields = Array(
 		'Title' => Array('notes' => 'title'),
 		'File Name' => Array('notes' => 'filename'),
 		'Modified Time' => Array('crmentity' => 'modifiedtime'),
 		'Assigned To' => Array('crmentity' => 'smownerid'),
 		'Folder Name' => Array('attachmentsfolder' => 'folderid')
 	);
-	public var $list_fields_name = Array(
+	var $list_fields_name = Array(
 		'Title' => 'notes_title',
 		'File Name' => 'filename',
 		'Modified Time' => 'modifiedtime',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
 	);
-	public var $search_fields = Array(
+	var $search_fields = Array(
 		'Title' => Array('notes' => 'notes_title'),
 		'File Name' => Array('notes' => 'filename'),
 		'Assigned To' => Array('crmentity' => 'smownerid'),
 		'Folder Name' => Array('attachmentsfolder' => 'foldername')
 	);
-	public var $search_fields_name = Array(
+	var $search_fields_name = Array(
 		'Title' => 'notes_title',
 		'File Name' => 'filename',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
 	);
-	public var $list_link_field = 'notes_title';
-	public var $old_filename = '';
-	public var $mandatory_fields = Array('notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id');
+	var $list_link_field = 'notes_title';
+	var $old_filename = '';
+	var $mandatory_fields = Array('notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id');
 	//Added these variables which are used as default order by and sortorder in ListView
-	public var $default_order_by = '';
-	public var $default_sort_order = 'DESC';
+	var $default_order_by = '';
+	var $default_sort_order = 'DESC';
 
 	public function save_module($module)
 	{

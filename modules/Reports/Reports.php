@@ -38,32 +38,32 @@ class Reports extends CRMEntity
 	 * and also the required functions for the same
 	 * Contributor(s): ______________________________________..
 	 */
-	public var $srptfldridjs;
-	public var $column_fields = [];
-	public var $sort_fields = [];
-	public var $sort_values = [];
-	public var $id;
-	public var $mode;
-	public var $mcount;
-	public var $startdate;
-	public var $enddate;
-	public var $ascdescorder;
-	public var $stdselectedfilter;
-	public var $stdselectedcolumn;
-	public var $primodule;
-	public var $secmodule;
-	public var $columnssummary;
-	public var $is_editable;
-	public var $reporttype;
-	public var $reportname;
-	public var $reportdescription;
-	public var $folderid;
-	public var $module_blocks;
-	public var $pri_module_columnslist;
-	public var $sec_module_columnslist;
-	public var $advft_criteria;
-	public var $adv_rel_fields = [];
-	public var $module_list = [];
+	var $srptfldridjs;
+	var $column_fields = [];
+	var $sort_fields = [];
+	var $sort_values = [];
+	var $id;
+	var $mode;
+	var $mcount;
+	var $startdate;
+	var $enddate;
+	var $ascdescorder;
+	var $stdselectedfilter;
+	var $stdselectedcolumn;
+	var $primodule;
+	var $secmodule;
+	var $columnssummary;
+	var $is_editable;
+	var $reporttype;
+	var $reportname;
+	var $reportdescription;
+	var $folderid;
+	var $module_blocks;
+	var $pri_module_columnslist;
+	var $sec_module_columnslist;
+	var $advft_criteria;
+	var $adv_rel_fields = [];
+	var $module_list = [];
 
 	/** Function to set primodule,secmodule,reporttype,reportname,reportdescription,folderid for given vtiger_reportid
 	 *  This function accepts the vtiger_reportid as argument

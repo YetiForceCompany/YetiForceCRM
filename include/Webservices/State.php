@@ -11,9 +11,9 @@
 class State
 {
 
-	public var $success;
-	public var $result;
-	public var $error;
+	var $success;
+	var $result;
+	var $error;
 
 	public function State()
 	{
