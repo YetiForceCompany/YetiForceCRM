@@ -13,27 +13,27 @@ require_once('modules/Vtiger/CRMEntity.php');
 class SMSNotifierBase extends CRMEntity
 {
 
-	var $db, $log; // Used in class functions of CRMEntity
-	var $table_name = 'vtiger_smsnotifier';
-	var $table_index = 'smsnotifierid';
+	public var $db, $log; // Used in class functions of CRMEntity
+	public var $table_name = 'vtiger_smsnotifier';
+	public var $table_index = 'smsnotifierid';
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
+	public var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_smsnotifiercf', 'smsnotifierid');
+	public var $customFieldTable = Array('vtiger_smsnotifiercf', 'smsnotifierid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_smsnotifier', 'vtiger_smsnotifiercf');
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_smsnotifier', 'vtiger_smsnotifiercf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_smsnotifier' => 'smsnotifierid',
 		'vtiger_smsnotifiercf' => 'smsnotifierid');
@@ -41,48 +41,48 @@ class SMSNotifierBase extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Message' => Array('smsnotifier', 'message'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Message' => 'message',
 		'Assigned To' => 'assigned_user_id'
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'message';
+	public var $list_link_field = 'message';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Message' => Array('smsnotifier', 'message')
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Message' => 'message'
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('message');
+	public var $popup_fields = Array('message');
 	// Allow sorting on the following (field column names)
-	var $sortby_fields = Array('message');
+	public var $sortby_fields = Array('message');
 	// Should contain field labels
 	//var $detailview_links = Array ('Message');
 	// For Alphabetical search
-	var $def_basicsearch_col = 'message';
+	public var $def_basicsearch_col = 'message';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'message';
+	public var $def_detailview_recname = 'message';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('assigned_user_id' => 1);
+	public var $required_fields = Array('assigned_user_id' => 1);
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'DESC';
+	public var $special_functions = Array('set_import_assigned_user');
+	public var $default_order_by = '';
+	public var $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'message', 'assigned_user_id');
+	public var $mandatory_fields = Array('createdtime', 'modifiedtime', 'message', 'assigned_user_id');
 
 	public function __construct()
 	{

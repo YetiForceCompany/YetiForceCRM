@@ -17,33 +17,33 @@ require_once('modules/Calendar/Activity.php');
 class Appointment
 {
 
-	var $start_time;
-	var $end_time;
-	var $subject;
-	var $participant;
-	var $participant_state;
-	var $contact_name;
-	var $account_id;
-	var $account_name;
-	var $creatorid;
-	var $creator;
-	var $owner;
-	var $ownerid;
-	var $assignedto;
-	var $eventstatus;
-	var $priority;
-	var $activity_type;
-	var $description;
-	var $record;
-	var $temphour;
-	var $tempmin;
-	var $image_name;
-	var $formatted_datetime;
-	var $duration_min;
-	var $duration_hour;
-	var $shared = false;
-	var $recurring;
-	var $dur_hour;
+	public var $start_time;
+	public var $end_time;
+	public var $subject;
+	public var $participant;
+	public var $participant_state;
+	public var $contact_name;
+	public var $account_id;
+	public var $account_name;
+	public var $creatorid;
+	public var $creator;
+	public var $owner;
+	public var $ownerid;
+	public var $assignedto;
+	public var $eventstatus;
+	public var $priority;
+	public var $activity_type;
+	public var $description;
+	public var $record;
+	public var $temphour;
+	public var $tempmin;
+	public var $image_name;
+	public var $formatted_datetime;
+	public var $duration_min;
+	public var $duration_hour;
+	public var $shared = false;
+	public var $recurring;
+	public var $dur_hour;
 
 	public function __construct()
 	{

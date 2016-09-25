@@ -12,7 +12,7 @@
 class Vtiger_EmailList_Widget extends Vtiger_Basic_Widget
 {
 
-	var $dbParams = array('relatedmodule' => 'Emails');
+	public var $dbParams = array('relatedmodule' => 'Emails');
 
 	public function getUrl()
 	{

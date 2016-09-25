@@ -15,9 +15,9 @@
 class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $baseTable = 'vtiger_profile';
-	var $baseIndex = 'profileid';
-	var $listFields = array('profilename' => 'Name', 'description' => 'Description');
+	public var $baseTable = 'vtiger_profile';
+	public var $baseIndex = 'profileid';
+	public var $listFields = array('profilename' => 'Name', 'description' => 'Description');
 
 	const GLOBAL_ACTION_VIEW = 1;
 	const GLOBAL_ACTION_EDIT = 2;
@@ -29,7 +29,7 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 	const FIELD_READWRITE = 0;
 	const FIELD_READONLY = 1;
 
-	var $name = 'Profiles';
+	public var $name = 'Profiles';
 
 	/**
 	 * Function to get the url for default view of the module

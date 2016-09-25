@@ -9,7 +9,7 @@
 class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 {
 
-	var $allowedModules = ['Campaigns'];
+	public var $allowedModules = ['Campaigns'];
 
 	public function getUrl()
 	{

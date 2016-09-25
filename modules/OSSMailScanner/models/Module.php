@@ -12,7 +12,7 @@
 class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 {
 
-	var $actionsDir = false;
+	public var $actionsDir = false;
 
 	public function __construct()
 	{

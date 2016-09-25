@@ -12,8 +12,8 @@ class Import_Map_Model extends Vtiger_Base_Model
 {
 
 	static $tableName = 'vtiger_import_maps';
-	var $map;
-	var $user;
+	public var $map;
+	public var $user;
 
 	public function __construct($map, $user)
 	{

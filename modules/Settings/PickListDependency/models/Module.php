@@ -12,9 +12,9 @@ vimport('~~modules/PickList/DependentPickListUtils.php');
 class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $baseTable = 'vtiger_picklist_dependency';
-	var $baseIndex = 'id';
-	var $name = 'PickListDependency';
+	public var $baseTable = 'vtiger_picklist_dependency';
+	public var $baseIndex = 'id';
+	public var $name = 'PickListDependency';
 
 	/**
 	 * Function to get the url for default view of the module

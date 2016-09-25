@@ -19,13 +19,13 @@ class Vtiger_StringTemplate
 {
 
 	// Template variables set dynamically
-	var $tplvars = [];
+	public var $tplvars = [];
 
 	/**
 	 * Identify variable with the following pattern
 	 * $VARIABLE_KEY$
 	 */
-	var $_lookfor = '/\$([^\$]+)\$/';
+	public var $_lookfor = '/\$([^\$]+)\$/';
 
 	/**
 	 * Constructor

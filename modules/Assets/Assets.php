@@ -11,29 +11,29 @@
 class Assets extends CRMEntity
 {
 
-	var $db, $log; // Used in class functions of CRMEntity
-	var $table_name = 'vtiger_assets';
-	var $table_index = 'assetsid';
-	var $column_fields = Array();
+	public var $db, $log; // Used in class functions of CRMEntity
+	public var $table_name = 'vtiger_assets';
+	public var $table_index = 'assetsid';
+	public var $column_fields = Array();
 	protected $lockFields = ['assetstatus' => ['PLL_ACCEPTED', 'PLL_CANCELLED']];
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
+	public var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_assetscf', 'assetsid');
+	public var $customFieldTable = Array('vtiger_assetscf', 'assetsid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_assets', 'vtiger_assetscf');
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_assets', 'vtiger_assetscf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_assets' => 'assetsid',
 		'vtiger_assetscf' => 'assetsid');
@@ -41,7 +41,7 @@ class Assets extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Asset No' => Array('assets' => 'asset_no'),
@@ -49,7 +49,7 @@ class Assets extends CRMEntity
 		'Customer Name' => Array('account' => 'account'),
 		'Product Name' => Array('products' => 'product'),
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Asset No' => 'asset_no',
 		'Asset Name' => 'assetname',
@@ -57,9 +57,9 @@ class Assets extends CRMEntity
 		'Product Name' => 'product',
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'assetname';
+	public var $list_link_field = 'assetname';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Asset No' => Array('assets' => 'asset_no'),
@@ -67,7 +67,7 @@ class Assets extends CRMEntity
 		'Customer Name' => Array('account' => 'account'),
 		'Product Name' => Array('products' => 'product')
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Asset No' => 'asset_no',
 		'Asset Name' => 'assetname',
@@ -75,21 +75,21 @@ class Assets extends CRMEntity
 		'Product Name' => 'product'
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('assetname', 'account', 'product');
+	public var $popup_fields = Array('assetname', 'account', 'product');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	public var $sortby_fields = Array();
 	// For Alphabetical search
-	var $def_basicsearch_col = 'assetname';
+	public var $def_basicsearch_col = 'assetname';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('assetname' => 1);
+	public var $required_fields = Array('assetname' => 1);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('assetname', 'product', 'assigned_user_id');
+	public var $mandatory_fields = Array('assetname', 'product', 'assigned_user_id');
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
-	var $unit_price;
+	public var $special_functions = Array('set_import_assigned_user');
+	public var $default_order_by = '';
+	public var $default_sort_order = 'ASC';
+	public var $unit_price;
 
 	public function save_module($module)
 	{

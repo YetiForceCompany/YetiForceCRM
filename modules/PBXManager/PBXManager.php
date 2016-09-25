@@ -18,16 +18,16 @@ class PBXManager extends CRMEntity
 	protected $tabId = 0;
 	protected $headerScriptLinkType = 'HEADERSCRIPT';
 	protected $dependentModules = array('Contacts', 'Leads', 'Accounts');
-	var $db;
-	var $table_name = 'vtiger_pbxmanager';
-	var $table_index = 'pbxmanagerid';
-	var $customFieldTable = Array('vtiger_pbxmanagercf', 'pbxmanagerid');
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_pbxmanager', 'vtiger_pbxmanagercf');
-	var $tab_name_index = Array(
+	public var $db;
+	public var $table_name = 'vtiger_pbxmanager';
+	public var $table_index = 'pbxmanagerid';
+	public var $customFieldTable = Array('vtiger_pbxmanagercf', 'pbxmanagerid');
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_pbxmanager', 'vtiger_pbxmanagercf');
+	public var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_pbxmanager' => 'pbxmanagerid',
 		'vtiger_pbxmanagercf' => 'pbxmanagerid');
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Call Status' => Array('vtiger_pbxmanager', 'callstatus'),
@@ -36,7 +36,7 @@ class PBXManager extends CRMEntity
 		'Recording' => Array('vtiger_pbxmanager', 'recordingurl'),
 		'Start Time' => Array('vtiger_pbxmanager', 'starttime'),
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Call Status' => 'callstatus',
 		'Customer' => 'customer',
@@ -45,29 +45,29 @@ class PBXManager extends CRMEntity
 		'Start Time' => 'starttime',
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'customernumber';
+	public var $list_link_field = 'customernumber';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Customer' => Array('vtiger_pbxmanager', 'customer'),
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Customer' => 'customer',
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('customernumber');
+	public var $popup_fields = Array('customernumber');
 	// For Alphabetical search
-	var $def_basicsearch_col = 'customer';
+	public var $def_basicsearch_col = 'customer';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'customernumber';
+	public var $def_detailview_recname = 'customernumber';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 //    var $mandatory_fields = Array('assigned_user_id');
-	var $column_fields = Array();
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public var $column_fields = Array();
+	public var $default_order_by = '';
+	public var $default_sort_order = 'ASC';
 
 	/**
 	 * Invoked when special actions are performed on the module.

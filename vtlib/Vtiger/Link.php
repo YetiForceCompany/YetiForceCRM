@@ -19,19 +19,19 @@ include_once('vtlib/Vtiger/Utils/StringTemplate.php');
 class Link
 {
 
-	var $tabid;
-	var $linkid;
-	var $linktype;
-	var $linklabel;
-	var $linkurl;
-	var $linkicon;
-	var $glyphicon;
-	var $sequence;
-	var $status = false;
-	var $handler_path;
-	var $handler_class;
-	var $handler;
-	var $params;
+	public var $tabid;
+	public var $linkid;
+	public var $linktype;
+	public var $linklabel;
+	public var $linkurl;
+	public var $linkicon;
+	public var $glyphicon;
+	public var $sequence;
+	public var $status = false;
+	public var $handler_path;
+	public var $handler_class;
+	public var $handler;
+	public var $params;
 
 	// Ignore module while selection
 	const IGNORE_MODULE = -1;

@@ -108,7 +108,7 @@ class PEAR
 	 * @var     bool
 	 * @access  private
 	 */
-	var $_debug = false;
+	public var $_debug = false;
 
 	/**
 	 * Default error mode for this object.
@@ -116,7 +116,7 @@ class PEAR
 	 * @var     int
 	 * @access  private
 	 */
-	var $_default_error_mode = null;
+	public var $_default_error_mode = null;
 
 	/**
 	 * Default error options used for this object when error mode
@@ -125,7 +125,7 @@ class PEAR
 	 * @var     int
 	 * @access  private
 	 */
-	var $_default_error_options = null;
+	public var $_default_error_options = null;
 
 	/**
 	 * Default error handler (callback) for this object, if error mode is
@@ -134,7 +134,7 @@ class PEAR
 	 * @var     string
 	 * @access  private
 	 */
-	var $_default_error_handler = '';
+	public var $_default_error_handler = '';
 
 	/**
 	 * Which class to use for error objects.
@@ -142,7 +142,7 @@ class PEAR
 	 * @var     string
 	 * @access  private
 	 */
-	var $_error_class = 'PEAR_Error';
+	public var $_error_class = 'PEAR_Error';
 
 	/**
 	 * An array of expected errors.
@@ -150,7 +150,7 @@ class PEAR
 	 * @var     array
 	 * @access  private
 	 */
-	var $_expected_errors = array();
+	public var $_expected_errors = array();
 
 	// }}}
 	// {{{ constructor
@@ -802,13 +802,13 @@ class PEAR_Error
 
 	// {{{ properties
 
-	var $error_message_prefix = '';
-	var $mode = PEAR_ERROR_RETURN;
-	var $level = E_USER_NOTICE;
-	var $code = -1;
-	var $message = '';
-	var $userinfo = '';
-	var $backtrace = null;
+	public var $error_message_prefix = '';
+	public var $mode = PEAR_ERROR_RETURN;
+	public var $level = E_USER_NOTICE;
+	public var $code = -1;
+	public var $message = '';
+	public var $userinfo = '';
+	public var $backtrace = null;
 
 	// }}}
 	// {{{ constructor

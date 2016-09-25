@@ -17,10 +17,10 @@ class Menu
 {
 
 	/** ID of this menu instance */
-	var $id = false;
-	var $label = false;
-	var $sequence = false;
-	var $visible = 0;
+	public var $id = false;
+	public var $label = false;
+	public var $sequence = false;
+	public var $visible = 0;
 
 	/**
 	 * Initialize this instance

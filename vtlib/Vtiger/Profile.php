@@ -17,9 +17,9 @@ namespace vtlib;
 class Profile
 {
 
-	var $id;
-	var $name;
-	var $desc;
+	public var $id;
+	public var $name;
+	public var $desc;
 
 	public function save()
 	{

@@ -11,9 +11,9 @@
 class iCalLastImport
 {
 
-	var $tableName = 'vtiger_ical_import';
-	var $fields = array('id', 'userid', 'entitytype', 'crmid');
-	var $fieldData = [];
+	public var $tableName = 'vtiger_ical_import';
+	public var $fields = array('id', 'userid', 'entitytype', 'crmid');
+	public var $fieldData = [];
 
 	public function clearRecords($userId)
 	{

@@ -9,7 +9,7 @@
 class DataAccess_checkType
 {
 
-	var $config = false;
+	public var $config = false;
 
 	public function process($moduleName, $id, $recordData, $config)
 	{

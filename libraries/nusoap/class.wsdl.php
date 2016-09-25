@@ -41,19 +41,19 @@ class wsdl extends nusoap_base {
     var $depth = 0;
     var $depth_array = array();
 	// for getting wsdl
-	var $proxyhost = '';
+	public var $proxyhost = '';
     var $proxyport = '';
-	var $proxyusername = '';
-	var $proxypassword = '';
-	var $timeout = 0;
-	var $response_timeout = 30;
-	var $curl_options = array();	// User-specified cURL options
-	var $use_curl = false;			// whether to always try to use cURL
+	public var $proxyusername = '';
+	public var $proxypassword = '';
+	public var $timeout = 0;
+	public var $response_timeout = 30;
+	public var $curl_options = array();	// User-specified cURL options
+	public var $use_curl = false;			// whether to always try to use cURL
 	// for HTTP authentication
-	var $username = '';				// Username for HTTP authentication
-	var $password = '';				// Password for HTTP authentication
-	var $authtype = '';				// Type of HTTP authentication
-	var $certRequest = array();		// Certificate for HTTP SSL authentication
+	public var $username = '';				// Username for HTTP authentication
+	public var $password = '';				// Password for HTTP authentication
+	public var $authtype = '';				// Type of HTTP authentication
+	public var $certRequest = array();		// Certificate for HTTP SSL authentication
 
     /**
      * constructor
@@ -806,7 +806,7 @@ class wsdl extends nusoap_base {
 		    this.bw=(this.ie6 || this.ie5 || this.ie4 || this.ns4 || this.ns6 || this.opera5)
 		    return this
 		}
-		var bw = new lib_bwcheck()
+		public var bw = new lib_bwcheck()
 		//Makes crossbrowser object.
 		public function makeObj(obj){
 		    this.evnt=bw.dom? document.getElementById(obj):bw.ie4?document.all[obj]:bw.ns4?document.layers[obj]:0;
@@ -823,7 +823,7 @@ class wsdl extends nusoap_base {
 		    else this.wref.innerHTML = text
 		}
 		//Shows the messages
-		var oDesc;
+		public var oDesc;
 		public function popup(divid){
 		    if(oDesc = new makeObj(divid)){
 			oDesc.css.visibility = "visible"

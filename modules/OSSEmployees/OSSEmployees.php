@@ -13,27 +13,27 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class OSSEmployees extends Vtiger_CRMEntity
 {
 
-	var $table_name = 'vtiger_ossemployees';
-	var $table_index = 'ossemployeesid';
-	var $column_fields = Array();
+	public var $table_name = 'vtiger_ossemployees';
+	public var $table_index = 'ossemployeesid';
+	public var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
+	public var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_ossemployeescf', 'ossemployeesid');
+	public var $customFieldTable = Array('vtiger_ossemployeescf', 'ossemployeesid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_ossemployees', 'vtiger_ossemployeescf', 'vtiger_entity_stats');
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_ossemployees', 'vtiger_ossemployeescf', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ossemployees' => 'ossemployeesid',
 		'vtiger_ossemployeescf' => 'ossemployeesid',
@@ -42,14 +42,14 @@ class OSSEmployees extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'No.' => Array('ossemployees', 'ossemployees_no'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'No.' => 'ossemployees_no',
 		'LBL_LASTNAME' => 'last_name',
@@ -58,35 +58,35 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'Assigned To' => 'assigned_user_id',
 	);
 	// Make the field link to detail view from list view (Fieldname)
-	var $list_link_field = 'assigned_user_id';
+	public var $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public var $search_fields = Array(
 		'No.' => Array('ossemployees', 'ossemployees_no'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		'No.' => 'ossemployees_no',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('last_name');
+	public var $popup_fields = Array('last_name');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	public var $sortby_fields = Array();
 	// For Alphabetical search
-	var $def_basicsearch_col = 'last_name';
+	public var $def_basicsearch_col = 'last_name';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'last_name';
+	public var $def_detailview_recname = 'last_name';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('assigned_user_id' => 1);
+	public var $required_fields = Array('assigned_user_id' => 1);
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public var $special_functions = Array('set_import_assigned_user');
+	public var $default_order_by = '';
+	public var $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'assigned_user_id');
+	public var $mandatory_fields = Array('createdtime', 'modifiedtime', 'assigned_user_id');
 
 	/**
 	 * Function to get Employees hierarchy of the given Employees

@@ -12,28 +12,28 @@
 class LettersOut extends CRMEntity
 {
 
-	var $db, $log; // Used in class functions of CRMEntity
-	var $table_name = 'vtiger_lettersout';
-	var $table_index = 'lettersoutid';
-	var $column_fields = Array();
+	public var $db, $log; // Used in class functions of CRMEntity
+	public var $table_name = 'vtiger_lettersout';
+	public var $table_index = 'lettersoutid';
+	public var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
+	public var $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_lettersoutcf', 'lettersoutid');
+	public var $customFieldTable = Array('vtiger_lettersoutcf', 'lettersoutid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_lettersout', 'vtiger_lettersoutcf');
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_lettersout', 'vtiger_lettersoutcf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_lettersout' => 'lettersoutid',
 		'vtiger_lettersoutcf' => 'lettersoutid');
@@ -41,7 +41,7 @@ class LettersOut extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Number' => Array('lettersout', 'number'),
@@ -49,7 +49,7 @@ class LettersOut extends CRMEntity
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Number' => 'number',
 		'Title' => 'title',
@@ -57,37 +57,37 @@ class LettersOut extends CRMEntity
 		'Created Time' => 'createdtime',
 	);
 	// Make the field link to detail view from list view (Fieldname)
-	var $list_link_field = 'title';
+	public var $list_link_field = 'title';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public var $search_fields = Array(
 		'Number' => Array('lettersout', 'number'),
 		'Title' => Array('lettersout', 'title'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		'Number' => 'number',
 		'Title' => 'title',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('title');
+	public var $popup_fields = Array('title');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	public var $sortby_fields = Array();
 	// For Alphabetical search
-	var $def_basicsearch_col = 'title';
+	public var $def_basicsearch_col = 'title';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'title';
+	public var $def_detailview_recname = 'title';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('title' => 1);
+	public var $required_fields = Array('title' => 1);
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public var $special_functions = Array('set_import_assigned_user');
+	public var $default_order_by = '';
+	public var $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'title', 'assigned_user_id');
+	public var $mandatory_fields = Array('createdtime', 'modifiedtime', 'title', 'assigned_user_id');
 
 	public function save_module($module)
 	{

@@ -61,7 +61,7 @@ class HTTP_Request_Listener
 	 * A listener's identifier
 	 * @var string
 	 */
-	var $_id;
+	public var $_id;
 
 	/**
 	 * Constructor, sets the object's identifier

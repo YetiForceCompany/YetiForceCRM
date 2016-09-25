@@ -41,67 +41,67 @@
 class Net_URL
 {
 
-	var $options = array('encode_query_keys' => false);
+	public var $options = array('encode_query_keys' => false);
 
 	/**
 	 * Full url
 	 * @var string
 	 */
-	var $url;
+	public var $url;
 
 	/**
 	 * Protocol
 	 * @var string
 	 */
-	var $protocol;
+	public var $protocol;
 
 	/**
 	 * Username
 	 * @var string
 	 */
-	var $username;
+	public var $username;
 
 	/**
 	 * Password
 	 * @var string
 	 */
-	var $password;
+	public var $password;
 
 	/**
 	 * Host
 	 * @var string
 	 */
-	var $host;
+	public var $host;
 
 	/**
 	 * Port
 	 * @var integer
 	 */
-	var $port;
+	public var $port;
 
 	/**
 	 * Path
 	 * @var string
 	 */
-	var $path;
+	public var $path;
 
 	/**
 	 * Query string
 	 * @var array
 	 */
-	var $querystring;
+	public var $querystring;
 
 	/**
 	 * Anchor
 	 * @var string
 	 */
-	var $anchor;
+	public var $anchor;
 
 	/**
 	 * Whether to use []
 	 * @var bool
 	 */
-	var $useBrackets;
+	public var $useBrackets;
 
 	/**
 	 * PHP4 Constructor

@@ -17,19 +17,19 @@ class Block
 {
 
 	/** ID of this block instance */
-	var $id;
+	public var $id;
 
 	/** Label for this block instance */
-	var $label;
-	var $sequence;
-	var $showtitle = 0;
-	var $visible = 0;
-	var $increateview = 0;
-	var $ineditview = 0;
-	var $indetailview = 0;
-	var $display_status = 1;
-	var $iscustom = 0;
-	var $module;
+	public var $label;
+	public var $sequence;
+	public var $showtitle = 0;
+	public var $visible = 0;
+	public var $increateview = 0;
+	public var $ineditview = 0;
+	public var $indetailview = 0;
+	public var $display_status = 1;
+	public var $iscustom = 0;
+	public var $module;
 
 	/**
 	 * Get unquie id for this instance

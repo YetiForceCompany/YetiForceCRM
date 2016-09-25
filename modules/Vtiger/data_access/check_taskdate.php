@@ -12,7 +12,7 @@
 Class DataAccess_check_taskdate
 {
 
-	var $config = false;
+	public var $config = false;
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{

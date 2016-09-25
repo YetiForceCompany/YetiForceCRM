@@ -19,16 +19,16 @@ class Event
 {
 
 	/** Event name like: vtiger.entity.aftersave, vtiger.entity.beforesave */
-	var $eventname;
+	public var $eventname;
 
 	/** Event handler class to use */
-	var $classname;
+	public var $classname;
 
 	/** Filename where class is defined */
-	var $filename;
+	public var $filename;
 
 	/** Condition for the event */
-	var $condition;
+	public var $condition;
 
 	/** Internal caching */
 	static $is_supported = '';

@@ -9,7 +9,7 @@
 class DataAccess_checkHierarchy
 {
 
-	var $config = false;
+	public var $config = false;
 
 	public function process($moduleName, $id, $recordData, $config)
 	{

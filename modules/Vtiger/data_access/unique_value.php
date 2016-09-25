@@ -14,7 +14,7 @@
 Class DataAccess_unique_value
 {
 
-	var $config = true;
+	public var $config = true;
 
 	public function process($moduleName, $ID, $record_form, $config)
 	{

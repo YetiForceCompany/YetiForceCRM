@@ -13,7 +13,7 @@ require_once 'include/Webservices/DescribeObject.php';
 class Webforms
 {
 
-	var $LBL_WEBFORMS = 'Webforms';
+	public var $LBL_WEBFORMS = 'Webforms';
 	// Cache to speed up describe information store
 	protected static $moduleDescribeCache = array();
 

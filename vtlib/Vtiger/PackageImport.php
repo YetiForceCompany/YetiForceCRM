@@ -21,23 +21,23 @@ class PackageImport extends PackageExport
 	 * Module Meta XML File (Parsed)
 	 * @access private
 	 */
-	var $_modulexml;
+	public var $_modulexml;
 
 	/**
 	 * Module Fields mapped by [modulename][fieldname] which
 	 * will be used to create customviews.
 	 * @access private
 	 */
-	var $_modulefields_cache = [];
+	public var $_modulefields_cache = [];
 
 	/**
 	 * License of the package.
 	 * @access private
 	 */
-	var $_licensetext = false;
-	var $_errorText = '';
-	var $packageType = '';
-	var $parameters = [];
+	public var $_licensetext = false;
+	public var $_errorText = '';
+	public var $packageType = '';
+	public var $parameters = [];
 
 	/**
 	 * Parse the manifest file

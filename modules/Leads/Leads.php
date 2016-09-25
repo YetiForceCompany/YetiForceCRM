@@ -16,56 +16,56 @@
 class Leads extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_leaddetails";
-	var $table_index = 'leadid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_leaddetails', 'vtiger_leadsubdetails', 'vtiger_leadaddress', 'vtiger_leadscf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_leaddetails' => 'leadid', 'vtiger_leadsubdetails' => 'leadsubscriptionid', 'vtiger_leadaddress' => 'leadaddressid', 'vtiger_leadscf' => 'leadid', 'vtiger_entity_stats' => 'crmid');
-	var $entity_table = "vtiger_crmentity";
+	public var $log;
+	public var $db;
+	public var $table_name = "vtiger_leaddetails";
+	public var $table_index = 'leadid';
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_leaddetails', 'vtiger_leadsubdetails', 'vtiger_leadaddress', 'vtiger_leadscf', 'vtiger_entity_stats');
+	public var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_leaddetails' => 'leadid', 'vtiger_leadsubdetails' => 'leadsubscriptionid', 'vtiger_leadaddress' => 'leadaddressid', 'vtiger_leadscf' => 'leadid', 'vtiger_entity_stats' => 'crmid');
+	public var $entity_table = "vtiger_crmentity";
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_leadscf', 'leadid');
+	public var $customFieldTable = Array('vtiger_leadscf', 'leadid');
 	//construct this from database;
-	var $column_fields = Array();
-	var $sortby_fields = Array('email', 'phone', 'company', 'smownerid', 'website');
+	public var $column_fields = Array();
+	public var $sortby_fields = Array('email', 'phone', 'company', 'smownerid', 'website');
 	// This is used to retrieve related vtiger_fields from form posts.
-	var $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'crmid');
+	public var $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'crmid');
 	// This is the list of vtiger_fields that are in the lists.
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		'Company' => Array('leaddetails' => 'company'),
 		'Phone' => Array('leadaddress' => 'phone'),
 		'Website' => Array('leadsubdetails' => 'website'),
 		'Email' => Array('leaddetails' => 'email'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		'Company' => 'company',
 		'Phone' => 'phone',
 		'Website' => 'website',
 		'Email' => 'email',
 		'Assigned To' => 'assigned_user_id'
 	);
-	var $list_link_field = 'company';
-	var $search_fields = Array(
+	public var $list_link_field = 'company';
+	public var $search_fields = Array(
 		'Company' => Array('leaddetails' => 'company')
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		'Company' => 'company'
 	);
-	var $required_fields = array();
+	public var $required_fields = array();
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime');
+	public var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime');
 	//Default Fields for Email Templates -- Pavani
-	var $emailTemplate_defaultFields = array('leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue', 'designation', 'salutation');
+	public var $emailTemplate_defaultFields = array('leadsource', 'leadstatus', 'rating', 'industry', 'secondaryemail', 'email', 'annualrevenue', 'designation', 'salutation');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'DESC';
+	public var $default_order_by = '';
+	public var $default_sort_order = 'DESC';
 	// For Alphabetical search
-	var $def_basicsearch_col = 'company';
+	public var $def_basicsearch_col = 'company';
 
 	/** Function to handle module specific operations when saving a entity
 	 */

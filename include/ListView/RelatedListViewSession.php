@@ -20,11 +20,11 @@ require_once('include/ListView/ListViewSession.php');
 class RelatedListViewSession
 {
 
-	var $module = null;
-	var $start = null;
-	var $sorder = null;
-	var $sortby = null;
-	var $page_view = null;
+	public var $module = null;
+	public var $start = null;
+	public var $sorder = null;
+	public var $sortby = null;
+	public var $page_view = null;
 
 	public function __construct()
 	{

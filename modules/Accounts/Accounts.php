@@ -24,54 +24,54 @@
 class Accounts extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = 'vtiger_account';
-	var $table_index = 'accountid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_account', 'vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_account' => 'accountid', 'vtiger_accountaddress' => 'accountaddressid', 'vtiger_accountscf' => 'accountid', 'vtiger_entity_stats' => 'crmid');
+	public var $log;
+	public var $db;
+	public var $table_name = 'vtiger_account';
+	public var $table_index = 'accountid';
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_account', 'vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_entity_stats');
+	public var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_account' => 'accountid', 'vtiger_accountaddress' => 'accountaddressid', 'vtiger_accountscf' => 'accountid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_accountscf', 'accountid');
-	var $entity_table = 'vtiger_crmentity';
-	var $column_fields = [];
-	var $sortby_fields = Array('accountname', 'bill_city', 'website', 'phone', 'smownerid');
+	public var $customFieldTable = Array('vtiger_accountscf', 'accountid');
+	public var $entity_table = 'vtiger_crmentity';
+	public var $column_fields = [];
+	public var $sortby_fields = Array('accountname', 'bill_city', 'website', 'phone', 'smownerid');
 	// This is the list of vtiger_fields that are in the lists.
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		'Account Name' => Array('vtiger_account' => 'accountname'),
 		'Website' => Array('vtiger_account' => 'website'),
 		'Phone' => Array('vtiger_account' => 'phone'),
 		'Assigned To' => Array('vtiger_crmentity' => 'smownerid')
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		'Account Name' => 'accountname',
 		'Website' => 'website',
 		'Phone' => 'phone',
 		'Assigned To' => 'assigned_user_id'
 	);
-	var $list_link_field = 'accountname';
-	var $search_fields = Array(
+	public var $list_link_field = 'accountname';
+	public var $search_fields = Array(
 		'Account Name' => Array('vtiger_account' => 'accountname'),
 		'Assigned To' => Array('vtiger_crmentity' => 'smownerid'),
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		'Account Name' => 'accountname',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// This is the list of vtiger_fields that are required
-	var $required_fields = [];
+	public var $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'accountname');
+	public var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'accountname');
 	//Default Fields for Email Templates -- Pavani
-	var $emailTemplate_defaultFields = array('accountname', 'account_type', 'industry', 'annualrevenue', 'phone', 'email1', 'rating', 'website', 'fax');
+	public var $emailTemplate_defaultFields = array('accountname', 'account_type', 'industry', 'annualrevenue', 'phone', 'email1', 'rating', 'website', 'fax');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public var $default_order_by = '';
+	public var $default_sort_order = 'ASC';
 	// For Alphabetical search
-	var $def_basicsearch_col = 'accountname';
+	public var $def_basicsearch_col = 'accountname';
 
 	/** Function to handle module specific operations when saving a entity
 	 */

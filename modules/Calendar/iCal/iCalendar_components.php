@@ -5,11 +5,11 @@ require_once('include/utils/utils.php');
 class iCalendar_component
 {
 
-	var $name = NULL;
-	var $properties = NULL;
-	var $components = NULL;
-	var $valid_properties = NULL;
-	var $valid_components = NULL;
+	public var $name = NULL;
+	public var $properties = NULL;
+	public var $components = NULL;
+	public var $valid_properties = NULL;
+	public var $valid_components = NULL;
 
 	public function __construct()
 	{
@@ -376,7 +376,7 @@ class iCalendar_component
 class iCalendar extends iCalendar_component
 {
 
-	var $name = 'VCALENDAR';
+	public var $name = 'VCALENDAR';
 
 	public function construct()
 	{
@@ -398,9 +398,9 @@ class iCalendar extends iCalendar_component
 class iCalendar_event extends iCalendar_component
 {
 
-	var $name = 'VEVENT';
-	var $properties;
-	var $mapping_arr = array(
+	public var $name = 'VEVENT';
+	public var $properties;
+	public var $mapping_arr = array(
 		'CLASS' => array('component' => 'visibility', 'type' => 'string'),
 		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendar_event_dtstart', 'type' => 'datetime'),
 		'DTEND' => array('component' => array('due_date', 'time_end'), 'function' => 'iCalendar_event_dtend', 'type' => 'datetime'),
@@ -414,7 +414,7 @@ class iCalendar_event extends iCalendar_component
 		'RESOURCES' => array('component' => array('location', 'activitystatus'), 'type' => 'string'),
 		'DESCRIPTION' => array('component' => 'description', 'type' => 'string'),
 	);
-	var $field_mapping_arr = array(
+	public var $field_mapping_arr = array(
 		'priority' => 'taskpriority'
 	);
 
@@ -545,9 +545,9 @@ class iCalendar_event extends iCalendar_component
 class iCalendar_todo extends iCalendar_component
 {
 
-	var $name = 'VTODO';
-	var $properties;
-	var $mapping_arr = array(
+	public var $name = 'VTODO';
+	public var $properties;
+	public var $mapping_arr = array(
 		'DESCRIPTION' => array('component' => 'description', 'type' => 'string'),
 		//'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendar_event_dtstamp','type'=>'datetime'),
 		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendar_event_dtstart', 'type' => 'datetime'),
@@ -557,7 +557,7 @@ class iCalendar_todo extends iCalendar_component
 		'PRIORITY' => array('component' => 'priority', 'type' => 'string'),
 		'RESOURCES' => array('component' => array('status'), 'type' => 'string'),
 	);
-	var $field_mapping_arr = array(
+	public var $field_mapping_arr = array(
 		'status' => 'activitystatus',
 		'priority' => 'taskpriority'
 	);
@@ -646,9 +646,9 @@ class iCalendar_freebusy extends iCalendar_component
 class iCalendar_alarm extends iCalendar_component
 {
 
-	var $name = 'VALARM';
-	var $properties;
-	var $mapping_arr = array(
+	public var $name = 'VALARM';
+	public var $properties;
+	public var $mapping_arr = array(
 		'TRIGGER' => array('component' => 'reminder_time', 'function' => 'iCalendar_event_trigger'),
 	);
 
@@ -686,8 +686,8 @@ class iCalendar_alarm extends iCalendar_component
 class iCalendar_timezone extends iCalendar_component
 {
 
-	var $name = 'VTIMEZONE';
-	var $properties;
+	public var $name = 'VTIMEZONE';
+	public var $properties;
 
 	public function construct()
 	{

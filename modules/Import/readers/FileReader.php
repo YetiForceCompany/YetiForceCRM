@@ -12,12 +12,12 @@
 class Import_FileReader_Reader
 {
 
-	var $temp_status = 'success';
-	var $numberOfRecordsRead = 0;
-	var $errorMessage = '';
-	var $user;
-	var $request;
-	var $moduleModel;
+	public var $temp_status = 'success';
+	public var $numberOfRecordsRead = 0;
+	public var $errorMessage = '';
+	public var $user;
+	public var $request;
+	public var $moduleModel;
 
 	public function __construct($request, $user)
 	{

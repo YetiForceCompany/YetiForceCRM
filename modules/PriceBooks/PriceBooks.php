@@ -12,41 +12,41 @@
 class PriceBooks extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_pricebook";
-	var $table_index = 'pricebookid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_pricebook', 'vtiger_pricebookcf');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_pricebook' => 'pricebookid', 'vtiger_pricebookcf' => 'pricebookid');
+	public var $log;
+	public var $db;
+	public var $table_name = "vtiger_pricebook";
+	public var $table_index = 'pricebookid';
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_pricebook', 'vtiger_pricebookcf');
+	public var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_pricebook' => 'pricebookid', 'vtiger_pricebookcf' => 'pricebookid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_pricebookcf', 'pricebookid');
-	var $column_fields = Array();
-	var $sortby_fields = Array('bookname');
+	public var $customFieldTable = Array('vtiger_pricebookcf', 'pricebookid');
+	public var $column_fields = Array();
+	public var $sortby_fields = Array('bookname');
 	// This is the list of fields that are in the lists.
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		'Price Book Name' => Array('pricebook' => 'bookname'),
 		'Active' => Array('pricebook' => 'active')
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		'Price Book Name' => 'bookname',
 		'Active' => 'active'
 	);
-	var $list_link_field = 'bookname';
-	var $search_fields = Array(
+	public var $list_link_field = 'bookname';
+	public var $search_fields = Array(
 		'Price Book Name' => Array('pricebook' => 'bookname')
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		'Price Book Name' => 'bookname'
 	);
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
-	var $mandatory_fields = Array('bookname', 'currency_id', 'pricebook_no', 'createdtime', 'modifiedtime');
+	public var $default_order_by = '';
+	public var $default_sort_order = 'ASC';
+	public var $mandatory_fields = Array('bookname', 'currency_id', 'pricebook_no', 'createdtime', 'modifiedtime');
 	// For Alphabetical search
-	var $def_basicsearch_col = 'bookname';
+	public var $def_basicsearch_col = 'bookname';
 
 	public function save_module($module)
 	{

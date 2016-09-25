@@ -25,19 +25,19 @@
 class Faq extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_faq";
-	var $table_index = 'id';
+	public var $log;
+	public var $db;
+	public var $table_name = "vtiger_faq";
+	public var $table_index = 'id';
 	//fix for Custom Field for FAQ 
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_faq', 'vtiger_faqcf');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_faq' => 'id', 'vtiger_faqcomments' => 'faqid', 'vtiger_faqcf' => 'faqid');
-	var $customFieldTable = Array('vtiger_faqcf', 'faqid');
-	var $entity_table = "vtiger_crmentity";
-	var $column_fields = Array();
-	var $sortby_fields = Array('question', 'category', 'id');
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_faq', 'vtiger_faqcf');
+	public var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_faq' => 'id', 'vtiger_faqcomments' => 'faqid', 'vtiger_faqcf' => 'faqid');
+	public var $customFieldTable = Array('vtiger_faqcf', 'faqid');
+	public var $entity_table = "vtiger_crmentity";
+	public var $column_fields = Array();
+	public var $sortby_fields = Array('question', 'category', 'id');
 	// This is the list of vtiger_fields that are in the lists.
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		'FAQ Id' => Array('faq' => 'id'),
 		'Question' => Array('faq' => 'question'),
 		'Category' => Array('faq' => 'category'),
@@ -45,7 +45,7 @@ class Faq extends CRMEntity
 		'Created Time' => Array('crmentity' => 'createdtime'),
 		'Modified Time' => Array('crmentity' => 'modifiedtime')
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		'FAQ Id' => '',
 		'Question' => 'question',
 		'Category' => 'faqcategories',
@@ -53,21 +53,21 @@ class Faq extends CRMEntity
 		'Created Time' => 'createdtime',
 		'Modified Time' => 'modifiedtime'
 	);
-	var $list_link_field = 'question';
-	var $search_fields = Array(
+	public var $list_link_field = 'question';
+	public var $search_fields = Array(
 		'Account Name' => Array('account' => 'accountname'),
 		'City' => Array('accountaddress' => 'addresslevel5a'),
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		'Account Name' => 'accountname',
 		'City' => 'addresslevel5a',
 	);
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'DESC';
-	var $mandatory_fields = Array('question', 'faq_answer', 'createdtime', 'modifiedtime');
+	public var $default_order_by = '';
+	public var $default_sort_order = 'DESC';
+	public var $mandatory_fields = Array('question', 'faq_answer', 'createdtime', 'modifiedtime');
 	// For Alphabetical search
-	var $def_basicsearch_col = 'question';
+	public var $def_basicsearch_col = 'question';
 
 	public function save_module($module)
 	{

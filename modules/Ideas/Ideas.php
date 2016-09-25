@@ -14,24 +14,24 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class Ideas extends Vtiger_CRMEntity
 {
 
-	var $table_name = 'vtiger_ideas';
-	var $table_index = 'ideasid';
-	var $column_fields = Array();
+	public var $table_name = 'vtiger_ideas';
+	public var $table_index = 'ideasid';
+	public var $column_fields = Array();
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_ideascf', 'ideasid');
+	public var $customFieldTable = Array('vtiger_ideascf', 'ideasid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_ideas', 'vtiger_ideascf');
+	public var $tab_name = Array('vtiger_crmentity', 'vtiger_ideas', 'vtiger_ideascf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ideas' => 'ideasid',
 		'vtiger_ideascf' => 'ideasid');
@@ -39,46 +39,46 @@ class Ideas extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public var $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'LBL_NO' => Array('ideas', 'ideas_no'),
 		'LBL_SUBJECT' => Array('ideas', 'subject'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
-	var $list_fields_name = Array(
+	public var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'LBL_NO' => 'ideas_no',
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'subject';
+	public var $list_link_field = 'subject';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'LBL_NO' => Array('ideas', 'ideas_no'),
 		'LBL_SUBJECT' => Array('ideas', 'subject'),
 		'Assigned To' => Array('crmentity', 'assigned_user_id'),
 	);
-	var $search_fields_name = Array(
+	public var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'LBL_NO' => 'ideas_no',
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('subject');
+	public var $popup_fields = Array('subject');
 	// For Alphabetical search
-	var $def_basicsearch_col = 'subject';
+	public var $def_basicsearch_col = 'subject';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'subject';
+	public var $def_detailview_recname = 'subject';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('subject', 'assigned_user_id');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public var $mandatory_fields = Array('subject', 'assigned_user_id');
+	public var $default_order_by = '';
+	public var $default_sort_order = 'ASC';
 
 	/**
 	 * Invoked when special actions are performed on the module.

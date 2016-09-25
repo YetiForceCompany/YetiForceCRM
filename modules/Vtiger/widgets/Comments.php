@@ -12,7 +12,7 @@
 class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 {
 
-	var $dbParams = array('relatedmodule' => 'ModComments');
+	public var $dbParams = array('relatedmodule' => 'ModComments');
 
 	public function getUrl()
 	{
