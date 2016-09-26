@@ -90,6 +90,9 @@ $languageStrings = [
 	'LBL_YEARLY' => 'Jährlich',
 	'LBL_MAIN' => 'Haupt',
 	'LBL_SELECT_REPORT' => 'Bericht wählen',
+	'LBL_FILE_TYPE' => 'File type',
+	'LBL_CSV' => 'CSV',
+	'LBL_EXCEL' => 'EXCEL',
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Wählen Sie die Diagrammart',
 	'LBL_CLICK_THROUGH_NOT_AVAILABLE' => 'Durchklicken nicht möglich, weil Sie mehr als ein Modul ausgewählt haben',
