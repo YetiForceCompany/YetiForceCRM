@@ -140,11 +140,11 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['linkm'] = $record['linkmod'];
 			//Process
 			$item['process'] = $record['process'];
-			$item['procl'] = $labels[$record['process']];
+			$item['procl'] = vtlib\Functions::textLength($labels[$record['process']]);
 			$item['procm'] = $record['processmod'];
 			//Subprocess
 			$item['subprocess'] = $record['subprocess'];
-			$item['subprocl'] = $labels[$record['subprocess']];
+			$item['subprocl'] = vtlib\Functions::textLength($labels[$record['subprocess']]);
 			$item['subprocm'] = $record['subprocessmod'];
 
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
