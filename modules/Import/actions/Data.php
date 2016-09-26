@@ -339,7 +339,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 						$inventoryFieldData = $this->transformInventoryForImport($inventoryFieldData);
 						$fieldData['inventoryData'] = $inventoryFieldData;
 					}
-					if ($fieldData == null) {
+					if ($fieldData === null) {
 						$entityInfo = null;
 					} else {
 						if ($this->type) {
@@ -355,7 +355,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					}
 				}
 			}
-			if ($entityInfo == null) {
+			if ($entityInfo === null) {
 				$entityInfo = array('id' => null, 'status' => self::$IMPORT_RECORD_FAILED);
 			} else if ($createRecord) {
 				$entityInfo['status'] = self::$IMPORT_RECORD_CREATED;
@@ -684,7 +684,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue, $defaultFieldValues);
 			} else {
 				if ($fieldInstance->getFieldDataType() == 'datetime' && !empty($fieldValue)) {
-					if ($fieldValue == null || $fieldValue == '0000-00-00 00:00:00') {
+					if ($fieldValue === null || $fieldValue == '0000-00-00 00:00:00') {
 						$fieldValue = '';
 					}
 					$valuesList = explode(' ', $fieldValue);
@@ -697,7 +697,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$fieldData[$fieldName] = $fieldValue;
 				}
 				if ($fieldInstance->getFieldDataType() == 'date' && !empty($fieldValue)) {
-					if ($fieldValue == null || $fieldValue == '0000-00-00') {
+					if ($fieldValue === null || $fieldValue == '0000-00-00') {
 						$fieldValue = '';
 					}
 					$fieldValue = getValidDBInsertDateValue($fieldValue);

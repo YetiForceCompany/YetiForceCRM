@@ -131,7 +131,7 @@ class PriceBooks extends CRMEntity
 		$this->retrieve_entity_info($id, $this_module);
 		$return_value = getPriceBookRelatedProducts($query, $this, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
@@ -187,7 +187,7 @@ class PriceBooks extends CRMEntity
 		$this->retrieve_entity_info($id, $this_module);
 		$return_value = $other->getPriceBookRelatedServices($query, $this, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 

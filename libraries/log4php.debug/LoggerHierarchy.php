@@ -266,7 +266,7 @@ class LoggerHierarchy {
      */ 
     public function &getRootLogger()
     {
-        if (!isset($this->root) || $this->root == null)
+        if (!isset($this->root) || $this->root === null)
             $this->root = new LoggerRoot();
         return $this->root;
     }

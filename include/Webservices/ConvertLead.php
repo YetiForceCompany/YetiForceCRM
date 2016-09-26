@@ -173,11 +173,11 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 		}
 		do {
 			$entityField = vtws_getFieldfromFieldId($row[$column], $entityFields);
-			if ($entityField == null) {
+			if ($entityField === null) {
 				continue;
 			}
 			$leadField = vtws_getFieldfromFieldId($row['leadfid'], $leadFields);
-			if ($leadField == null) {
+			if ($leadField === null) {
 				continue;
 			}
 			$leadFieldName = $leadField->getFieldName();

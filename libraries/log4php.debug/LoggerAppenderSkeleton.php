@@ -287,7 +287,7 @@ class LoggerAppenderSkeleton extends LoggerAppender {
      */
     public function setErrorHandler($errorHandler)
     {
-        if($errorHandler == null) {
+        if($errorHandler === null) {
           // We do not throw exception here since the cause is probably a
           // bad config file.
             LoggerLog::warn("You have tried to set a null error-handler.");

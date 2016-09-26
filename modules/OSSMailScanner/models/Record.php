@@ -146,7 +146,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public function setConfigWidget($conf_type, $type, $vale)
 	{
 		$adb = PearDatabase::getInstance();
-		if ($vale == null || $vale == 'null') {
+		if ($vale === null || $vale == 'null') {
 			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = ? && parameter = ?", [$conf_type, $type]);
 		} else {
 			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = ? && parameter = ?", [$vale, $conf_type, $type]);
@@ -342,7 +342,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
-		if ($vale == null || $vale == 'null') {
+		if ($vale === null || $vale == 'null') {
 			$adb->query("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
 		} else {
 			if ($adb->getRowCount($result) == 0) {

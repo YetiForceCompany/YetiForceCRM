@@ -672,7 +672,7 @@ class Smarty_Security
         } elseif (is_object($security_class)) {
             throw new SmartyException("Class '" . get_class($security_class) . "' must extend Smarty_Security.");
         }
-        if ($security_class == null) {
+        if ($security_class === null) {
             $security_class = $smarty->security_class;
         }
         if (!class_exists($security_class)) {

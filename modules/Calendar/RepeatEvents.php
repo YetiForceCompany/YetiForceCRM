@@ -92,7 +92,7 @@ class Calendar_RepeatEvents
 				$repeatInterval[] = $interval;
 			}
 		} else if ($type == 'Weekly') {
-			if ($recurringInfo->dayofweek_to_rpt == null) {
+			if ($recurringInfo->dayofweek_to_rpt === null) {
 				$count = 0;
 				$weekcount = 7;
 				while (true) {

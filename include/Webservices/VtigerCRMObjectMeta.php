@@ -56,7 +56,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	 */
 	public function getTabId()
 	{
-		if ($this->tabId == null) {
+		if ($this->tabId === null) {
 			$this->tabId = \includes\Modules::getModuleId($this->objectName);
 		}
 		return $this->tabId;
@@ -211,7 +211,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$userId = $idComponents[1];
 		$ownerTypeId = $idComponents[0];
 
-		if ($userId == null || $userId == '' || $ownerTypeId == null || $ownerTypeId == '') {
+		if ($userId === null || $userId == '' || $ownerTypeId === null || $ownerTypeId == '') {
 			return false;
 		}
 		$webserviceObject = VtigerWebserviceObject::fromId($adb, $ownerTypeId);

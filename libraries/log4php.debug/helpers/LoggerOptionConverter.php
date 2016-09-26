@@ -327,7 +327,7 @@ class LoggerOptionConverter {
                     // first try in System properties
 	                $replacement = LoggerOptionConverter::getSystemProperty($key, null);
 	                // then try props parameter
-	                if($replacement == null && $props !== null) {
+	                if($replacement === null && $props !== null) {
             	        $replacement = @$props[$key];
 	                }
 

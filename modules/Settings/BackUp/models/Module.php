@@ -88,7 +88,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
-		if ($this->get('id') == NULL) {
+		if ($this->get('id') === null) {
 			$name = date('Ymd_Hi');
 			$db->pquery('INSERT INTO vtiger_backup (filename, starttime) VALUES (?,?)', [ $name, date('Y-m-d H:i:s')]);
 			$this->set('id', $db->getLastInsertID());
@@ -264,7 +264,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	public function updateDBPrecent($time)
 	{
 		$db = PearDatabase::getInstance();
-		if ($this->get('allCountTables') == null) {
+		if ($this->get('allCountTables') === null) {
 			$result = $db->pquery('SELECT SUM(`count`) AS `count` FROM vtiger_backup_db');
 			$allCount = $db->query_result_raw($result, 0, 'count');
 			$this->set('allCountTables', $allCount);

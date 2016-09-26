@@ -58,7 +58,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 	// End
 
 
-	if (!isset($elementType) || $elementType == '' || $elementType == null) {
+	if (!isset($elementType) || $elementType == '' || $elementType === null) {
 		$typed = false;
 	}
 

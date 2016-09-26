@@ -554,7 +554,7 @@ class Documents extends CRMEntity
 
 		$query = sprintf($query, $other->table_name);
 		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);
-		if ($returnValue == null)
+		if ($returnValue === null)
 			$returnValue = [];
 		$returnValue['CUSTOM_BUTTON'] = $button;
 		return $returnValue;

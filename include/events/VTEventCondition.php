@@ -24,7 +24,7 @@ class VTEventCondition
 	public function test($obj)
 	{
 		$this->data = $obj;
-		if ($this->expr == null) {
+		if ($this->expr === null) {
 			return true;
 		} else {
 			return $this->evaluate($this->expr);

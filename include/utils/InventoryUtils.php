@@ -502,7 +502,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 			if ($currency_id == $product_currency_id) {
 				$is_basecurrency = true;
 			}
-			if ($cur_value == null || $cur_value == '') {
+			if ($cur_value === null || $cur_value == '') {
 				$price_details[$i]['check_value'] = false;
 				if ($unit_price != null) {
 					$cur_value = CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
@@ -653,7 +653,7 @@ function getPricesForProducts($currencyid, $product_ids, $module = 'Products')
 			if (getFieldVisibilityPermission($module, $current_user->id, 'unit_price') == '0') {
 				$actual_price = (float) $adb->query_result($result, $i, 'actual_price');
 
-				if ($actual_price == null || $actual_price == '') {
+				if ($actual_price === null || $actual_price == '') {
 					$unit_price = $adb->query_result($result, $i, 'unit_price');
 					$product_conv_rate = $adb->query_result($result, $i, 'conversion_rate');
 					$product_base_conv_rate = getBaseConversionRateForProduct($product_id, 'edit', $module);
@@ -811,7 +811,7 @@ function createRecords($obj)
 			}
 		}
 
-		if ($entityInfo == null) {
+		if ($entityInfo === null) {
 			$entityInfo = array('id' => null, 'status' => $obj->getImportRecordStatus('failed'));
 		}
 		foreach ($subjectRowIDs as $id) {

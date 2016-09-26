@@ -68,7 +68,7 @@ class Import_Main_View extends Vtiger_View_Controller
 
 	public static function showImportStatus($importInfo, $user)
 	{
-		if ($importInfo == null) {
+		if ($importInfo === null) {
 			Import_Utils_Helper::showErrorPage(vtranslate('ERR_IMPORT_INTERRUPTED', 'Import'));
 			exit;
 		}
@@ -157,7 +157,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		if ($saveMap && !empty($mapName)) {
 			$fieldMapping = $this->request->get('field_mapping');
 			$fileReader = Import_Utils_Helper::getFileReader($this->request, $this->user);
-			if ($fileReader == null) {
+			if ($fileReader === null) {
 				return false;
 			}
 			$hasHeader = $fileReader->hasHeader();

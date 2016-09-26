@@ -136,7 +136,7 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
@@ -204,7 +204,7 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
@@ -265,7 +265,7 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
@@ -329,7 +329,7 @@ class Accounts extends CRMEntity
 		$query = sprintf($query, $entityIds);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
@@ -873,7 +873,7 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 		return $return_value;
@@ -998,7 +998,7 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
@@ -1009,7 +1009,7 @@ class Accounts extends CRMEntity
 	public function getRelatedContactsIds($id = null)
 	{
 		$adb = PearDatabase::getInstance();
-		if ($id == null)
+		if ($id === null)
 			$id = $this->id;
 		$entityIds = [];
 		$query = 'SELECT contactid FROM vtiger_contactdetails

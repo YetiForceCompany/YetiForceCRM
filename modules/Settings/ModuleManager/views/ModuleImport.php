@@ -84,7 +84,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 			$importModuleName = $package->getModuleNameFromZip($uploadFileName);
 			$importModuleDepVtVersion = $package->getDependentVtigerVersion();
 
-			if ($importModuleName == null) {
+			if ($importModuleName === null) {
 				$error = $package->_errorText;
 				\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 				unlink($uploadFileName);

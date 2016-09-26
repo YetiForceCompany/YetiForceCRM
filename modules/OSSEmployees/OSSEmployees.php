@@ -316,7 +316,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 				WHERE  vtiger_crmentity.deleted = 0 && vtiger_crmentity.`smownerid`= " . $userId;
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 		$log->debug("Exiting get_osstimecontrol method ...");

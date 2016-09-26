@@ -103,7 +103,7 @@ function _recaptcha_http_post($host, $path, $data, $port = 80)
  */
 function recaptcha_get_html($pubkey, $error = null, $use_ssl = false)
 {
-	if ($pubkey == null || $pubkey == '') {
+	if ($pubkey === null || $pubkey == '') {
 		die("To use reCAPTCHA you must get an API key from <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>");
 	}
 
@@ -148,18 +148,18 @@ class ReCaptchaResponse
  */
 function recaptcha_check_answer($privkey, $remoteip, $challenge, $response, $extra_params = [])
 {
-	if ($privkey == null || $privkey == '') {
+	if ($privkey === null || $privkey == '') {
 		die("To use reCAPTCHA you must get an API key from <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>");
 	}
 
-	if ($remoteip == null || $remoteip == '') {
+	if ($remoteip === null || $remoteip == '') {
 		die("For security reasons, you must pass the remote ip to reCAPTCHA");
 	}
 
 
 
 	//discard spam submissions
-	if ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0) {
+	if ($challenge === null || strlen($challenge) == 0 || $response === null || strlen($response) == 0) {
 		$recaptcha_response = new ReCaptchaResponse();
 		$recaptcha_response->is_valid = false;
 		$recaptcha_response->error = 'incorrect-captcha-sol';
@@ -225,7 +225,7 @@ function _recaptcha_mailhide_urlbase64($x)
 
 function recaptcha_mailhide_url($pubkey, $privkey, $email)
 {
-	if ($pubkey == '' || $pubkey == null || $privkey == "" || $privkey == null) {
+	if ($pubkey == '' || $pubkey === null || $privkey == "" || $privkey === null) {
 		die("To use reCAPTCHA Mailhide, you have to sign up for a public and private key, " .
 			"you can do so at <a href='http://www.google.com/recaptcha/mailhide/apikey'>http://www.google.com/recaptcha/mailhide/apikey</a>");
 	}

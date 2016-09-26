@@ -232,12 +232,12 @@ class Deprecated
 
 	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
 	{
-		if ($path == null) {
+		if ($path === null) {
 			$path = ROOT_DIRECTORY . '/cache/templates_c/';
 		}
 		$mydir = @opendir($path);
 		$compiled_file = null;
-		while (false !== ($file = readdir($mydir)) && $compiled_file == null) {
+		while (false !== ($file = readdir($mydir)) && $compiled_file === null) {
 			if ($file != '.' && $file != '..' && $file != '.svn') {
 				if (is_dir($path . $file)) {
 					chdir('.');

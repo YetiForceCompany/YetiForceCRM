@@ -113,7 +113,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$tm = new VTTaskManager($db);
 		$task = $tm->retrieveTask($taskId);
-		if ($workflowModel == null) {
+		if ($workflowModel === null) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($task->workflowId);
 		}
 		return self::getInstanceFromTaskObject($task, $workflowModel, $tm);

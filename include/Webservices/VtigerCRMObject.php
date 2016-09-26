@@ -41,7 +41,7 @@ class VtigerCRMObject
 
 	public function getInstance()
 	{
-		if ($this->instance == null) {
+		if ($this->instance === null) {
 			$this->instance = $this->getModuleClassInstance($this->moduleName);
 		}
 		return $this->instance;
@@ -49,7 +49,7 @@ class VtigerCRMObject
 
 	public function getObjectId()
 	{
-		if ($this->instance == null) {
+		if ($this->instance === null) {
 			$this->getInstance();
 		}
 		return $this->instance->id;
@@ -57,7 +57,7 @@ class VtigerCRMObject
 
 	public function setObjectId($id)
 	{
-		if ($this->instance == null) {
+		if ($this->instance === null) {
 			$this->getInstance();
 		}
 		$this->instance->id = $id;

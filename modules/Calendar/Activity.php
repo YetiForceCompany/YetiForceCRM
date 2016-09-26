@@ -447,7 +447,7 @@ class Activity extends CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
@@ -477,7 +477,7 @@ class Activity extends CRMEntity
 		$query = sprintf($query, $id);
 		$return_data = GetRelatedList('Calendar', 'Users', $focus, $query, $button, $returnset);
 
-		if ($return_data == null)
+		if ($return_data === null)
 			$return_data = [];
 		$return_data['CUSTOM_BUTTON'] = $button;
 

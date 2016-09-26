@@ -47,7 +47,7 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 		$task = $tm->createTask($taskClass, $workflowId);
 	}
 
-	if ($task == null) {
+	if ($task === null) {
 		$errorUrl = $module->errorPageUrl($mod['LBL_ERROR_NO_TASK']);
 		$util->redirectTo($errorUrl, $mod['LBL_ERROR_NO_TASK']);
 		return;
@@ -55,7 +55,7 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 
 	$wm = new VTWorkflowManager($adb);
 	$workflow = $wm->retrieve($workflowId);
-	if ($workflow == null) {
+	if ($workflow === null) {
 		$errorUrl = $module->errorPageUrl($mod['LBL_ERROR_NO_WORKFLOW']);
 		$util->redirectTo($errorUrl, $mod['LBL_ERROR_NO_WORKFLOW']);
 		return;

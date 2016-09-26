@@ -168,7 +168,7 @@ class Campaigns extends CRMEntity
 		$query = sprintf($query, $id);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = Array();
 		else if ($is_CampaignStatusAllowed) {
 			$statusPos = count($return_value['header']) - 2; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.

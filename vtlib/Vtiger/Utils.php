@@ -140,7 +140,7 @@ class Utils
 	 */
 	static function SQLEscape($value)
 	{
-		if ($value == null)
+		if ($value === null)
 			return $value;
 		$adb = \PearDatabase::getInstance();
 		return $adb->sql_escape_string($value);

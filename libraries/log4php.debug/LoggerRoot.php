@@ -55,7 +55,7 @@ class LoggerRoot extends Logger {
     public function LoggerRoot($level = null)
     {
         $this->Logger($this->name);
-        if ($level == null)
+        if ($level === null)
             $level = LoggerLevel::getLevelAll();
         $this->setLevel($level);
     } 

@@ -116,7 +116,7 @@ Class ChartUtils
 
 			// To have unique names even in case of duplicates let us add the id
 			$xaxisData_appearance = $uniquex[$xaxisData[$i]];
-			if ($xaxisData_appearance == null) {
+			if ($xaxisData_appearance === null) {
 				$uniquex[$xaxisData[$i]] = 1;
 			} else {
 				$xlabels[$x] = $xaxisData[$i] . ' [' . $xaxisData_appearance . ']';
@@ -284,7 +284,7 @@ Class ChartUtils
 			// To have unique names even in case of duplicates let us add the id
 			$datalabel = $xaxisData[$i];
 			$xaxisData_appearance = $uniquex[$xaxisData[$i]];
-			if ($xaxisData_appearance == null) {
+			if ($xaxisData_appearance === null) {
 				$uniquex[$xaxisData[$i]] = 1;
 			} else {
 				$datalabel = $xaxisData[$i] . ' [' . $xaxisData_appearance . ']';

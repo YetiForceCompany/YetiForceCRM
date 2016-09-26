@@ -71,7 +71,7 @@ class LoggerRendererMap {
     {
         LoggerLog::debug("LoggerRendererMap::addRenderer() Rendering class: [{$renderingClassName}], Rendered class: [{$renderedClassName}].");
         $renderer = LoggerObjectRenderer::factory($renderingClassName);
-        if($renderer == null) {
+        if($renderer === null) {
             LoggerLog::warn("LoggerRendererMap::addRenderer() Could not instantiate renderer [{$renderingClassName}].");
             return;
         } else {
@@ -94,7 +94,7 @@ class LoggerRendererMap {
      */
     public function findAndRender($o)
     {
-        if($o == null) {
+        if($o === null) {
             return null;
         } else {
             if (is_object($o)) {
@@ -120,7 +120,7 @@ class LoggerRendererMap {
      */
     public function &getByObject($o)
     {
-        return ($o == null) ? null : $this->getByClassName(get_class($o));
+        return ($o === null) ? null : $this->getByClassName(get_class($o));
     }
 
 

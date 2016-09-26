@@ -130,7 +130,7 @@ class LoggerPatternParser {
     {
         // LoggerLog::debug("LoggerPatternParser::addToList()");
     
-        if($this->head == null) {
+        if($this->head === null) {
             $this->head = $pc;
             $this->tail =& $this->head;
         } else {
@@ -313,7 +313,7 @@ class LoggerPatternParser {
                     $df = LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_DATE;
                 } else {
                     $df = $dateFormatStr;
-                    if ($df == null) {
+                    if ($df === null) {
                         $df = LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ISO8601;
                     }
 	            }

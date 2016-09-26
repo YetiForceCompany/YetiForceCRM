@@ -300,7 +300,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
         $value = null;
         $scheme = null;
         list($scheme, $value) = explode(":", $uri, 2);
-        if ($value == null) return null;
+        if ($value === null) return null;
 
         $uri = null;
         switch ($scheme){

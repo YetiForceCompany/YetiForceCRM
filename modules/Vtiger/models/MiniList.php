@@ -29,7 +29,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if (is_string($this->extraData)) {
 			$this->extraData = \includes\utils\Json::decode(decode_html($this->extraData));
 		}
-		if ($this->extraData == NULL) {
+		if ($this->extraData === null) {
 			throw new Exception("Invalid data");
 		}
 	}

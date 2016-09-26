@@ -245,7 +245,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function getModFromLang($lang)
 	{
 		$adb = PearDatabase::getInstance();
-		if ($lang == '' || $lang == NULL) {
+		if ($lang == '' || $lang === null) {
 			$lang = 'en_us';
 		} else {
 			if (self::parse_data(',', $lang)) {

@@ -723,7 +723,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	public function getReportsCount($query = null)
 	{
-		if ($query == null)
+		if ($query === null)
 			$query = $this->get('recordCountQuery');
 		$adb = PearDatabase::getInstance();
 		$count = 0;

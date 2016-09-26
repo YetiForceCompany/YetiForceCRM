@@ -97,7 +97,7 @@ class LoggerPatternConverter {
         LoggerLog::debug("LoggerPatternConverter::format() converted event is '$s'");    
         
     
-        if($s == null || empty($s)) {
+        if($s === null || empty($s)) {
             if(0 < $this->min)
                 $this->spacePad($sbuf, $this->min);
             return;

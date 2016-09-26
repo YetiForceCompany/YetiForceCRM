@@ -266,7 +266,7 @@ class Import_Utils_Helper
 		}
 		$fileReader = Import_Utils_Helper::getFileReader($request, $current_user);
 
-		if ($fileReader == null) {
+		if ($fileReader === null) {
 			$request->set('error_message', vtranslate('LBL_INVALID_FILE', 'Import'));
 			return false;
 		}

@@ -666,7 +666,7 @@ class Users extends CRMEntity
 			}
 		}
 
-		if (Settings_Roles_Record_Model::getInstanceById($this->column_fields['roleid']) == null) {
+		if (Settings_Roles_Record_Model::getInstanceById($this->column_fields['roleid']) === null) {
 			$roleid = Settings_Roles_Record_Model::getInstanceByName($this->column_fields['roleid']);
 			if ($roleid) {
 				$this->column_fields['roleid'] = $roleid->getId();

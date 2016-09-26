@@ -557,7 +557,7 @@ class CRMEntity
 						$fldvalue = $this->column_fields[$fieldname];
 					}
 				} elseif ($uitype == 28) {
-					if ($this->column_fields[$fieldname] == null) {
+					if ($this->column_fields[$fieldname] === null) {
 						$fileQuery = $adb->pquery("SELECT filename from vtiger_notes WHERE notesid = ?", array($this->id));
 						$fldvalue = null;
 						if (isset($fileQuery)) {
@@ -1480,7 +1480,7 @@ class CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 		return $return_value;
@@ -1715,7 +1715,7 @@ class CRMEntity
 		$query .= " WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid = $id || vtiger_crmentityrel.relcrmid = $id)";
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
@@ -1794,7 +1794,7 @@ class CRMEntity
 			$query = $this->createDependentQuery($other, $row, $id);
 			$return_value = GetRelatedList($currentModule, $relatedModule, $other, $query, $button, $returnset);
 		}
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 

@@ -78,7 +78,7 @@ class PearDatabase
 		$config = AppConfig::main('dbconfig');
 		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
 
-		if ($db->database == NULL) {
+		if ($db->database === null) {
 			$db->log('Database getInstance: Error connecting to the database', 'error');
 			$db->checkError('Error connecting to the database');
 			return false;
@@ -530,9 +530,9 @@ class PearDatabase
 	 */
 	public function flatten_array($input, $output = null)
 	{
-		if ($input == null)
+		if ($input === null)
 			return null;
-		if ($output == null)
+		if ($output === null)
 			$output = [];
 		foreach ($input as $value) {
 			if (is_array($value)) {
