@@ -260,8 +260,7 @@ class CRMEntity
 	public function insertIntoCrmEntity($module, $fileid = '')
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-		$log = LoggerManager::getInstance();
+		$currentUser = vglobal('current_user');
 
 		if ($fileid != '') {
 			$this->id = $fileid;
@@ -273,7 +272,7 @@ class CRMEntity
 
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if (empty($ownerid)) {
-			$ownerid = $current_user->id;
+			$ownerid = $currentUser->getId();
 		}
 
 		if ($module == 'Events') {
@@ -284,13 +283,13 @@ class CRMEntity
 			$description_val = \vtlib\Functions::fromHTML($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
-			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
+			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->id);
 			$tabid = \includes\Modules::getModuleId($module);
-			if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+			
+			if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
 				$columns = [
 					'smownerid' => $ownerid,
-					'modifiedby' => $current_user->id,
+					'modifiedby' => $currentUser->id,
 					'description' => $description_val,
 					'attention' => $attention_val,
 					'modifiedtime' => $adb->formatDate($date_var, true),
@@ -298,7 +297,7 @@ class CRMEntity
 				];
 			} else {
 				$profileList = getCurrentUserProfileList();
-				$perm_qry = sprintf('SELECT columnname FROM vtiger_field 
+				$permQuery = sprintf('SELECT columnname FROM vtiger_field 
 					INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid 
 					INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid 
 					WHERE vtiger_field.tabid = ? && vtiger_profile2field.visible = 0 
@@ -306,14 +305,14 @@ class CRMEntity
 					AND vtiger_profile2field.profileid IN (%s) 
 					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=\'vtiger_crmentity\' 
 					and vtiger_field.presence in (0,2)', generateQuestionMarks($profileList));
-				$perm_result = $adb->pquery($perm_qry, [$tabid, $profileList]);
-				while ($columnname = $adb->getSingleValue($perm_result)) {
+				$permResult = $adb->pquery($permQuery, [$tabid, $profileList]);
+				while ($columnname = $adb->getSingleValue($permResult)) {
 					$columname[] = $columnname;
 				}
 				if (is_array($columname) && in_array('description', $columname)) {
 					$columns = [
 						'smownerid' => $ownerid,
-						'modifiedby' => $current_user->id,
+						'modifiedby' => $currentUser->id,
 						'description' => $description_val,
 						'attention' => $attention_val,
 						'modifiedtime' => $adb->formatDate($date_var, true),
@@ -322,7 +321,7 @@ class CRMEntity
 				} else {
 					$columns = [
 						'smownerid' => $ownerid,
-						'modifiedby' => $current_user->id,
+						'modifiedby' => $currentUser->id,
 						'modifiedtime' => $adb->formatDate($date_var, true)
 					];
 				}
@@ -330,7 +329,7 @@ class CRMEntity
 			$params = [$this->id];
 			$adb->update('vtiger_crmentity', $columns, 'crmid = ?', $params);
 			$this->column_fields['modifiedtime'] = $adb->formatDate($date_var, true);
-			$this->column_fields['modifiedby'] = $current_user->id;
+			$this->column_fields['modifiedby'] = $currentUser->id;
 		} else {
 			//if this is the create mode and the group allocation is chosen, then do the following
 			if (empty($this->newRecord)) {
@@ -338,8 +337,8 @@ class CRMEntity
 			} else {
 				$this->id = $this->newRecord;
 			}
-			if (empty($current_user->id))
-				$current_user->id = 0;
+			if (empty($currentUser->id))
+				$currentUser->id = 0;
 
 			// Customization
 			$created_date_var = $adb->formatDate($date_var, true);
@@ -356,12 +355,12 @@ class CRMEntity
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$params = [
 				'crmid' => $this->id,
-				'smcreatorid' => $current_user->id,
+				'smcreatorid' => $currentUser->id,
 				'smownerid' => $ownerid,
 				'setype' => $module,
 				'description' => $description_val,
 				'attention' => $attention_val,
-				'modifiedby' => $current_user->id,
+				'modifiedby' => $currentUser->id,
 				'createdtime' => $created_date_var,
 				'modifiedtime' => $modified_date_var
 			];
@@ -369,7 +368,7 @@ class CRMEntity
 
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
-			$this->column_fields['modifiedby'] = $current_user->id;
+			$this->column_fields['modifiedby'] = $currentUser->id;
 		}
 	}
 
@@ -415,9 +414,8 @@ class CRMEntity
 		}
 		if ($insertion_mode == 'edit') {
 			$updateColumns = [];
-			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
-			if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->id);
+			if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
 				$sql = sprintf('SELECT * FROM vtiger_field WHERE tabid in (%s) && tablename = ? && presence IN (0,2) GROUP BY columnname', $adb->generateQuestionMarks($tabid));
 				$params = [$tabid, $table_name];
 			} else {
@@ -2145,11 +2143,13 @@ class CRMEntity
 		$tabid = \includes\Modules::getModuleId($module);
 		$current_user = vglobal('current_user');
 		if ($current_user) {
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
-			require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($current_user->id);
+			$sharingPrivileges = Vtiger_Util_Helper::getUserSharingFile($current_user->id);
+		} else {
+			return '';
 		}
 		$sec_query = '';
-		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
+		if ($privileges['is_admin'] === false && $privileges['profile_global_permission'][1] == 1 && $privileges['profile_global_permission'][2] == 1 && $sharingPrivileges['defOrgShare'][$tabid] == 3) {
 			$sec_query .= " and (vtiger_crmentity.smownerid in($current_user->id) or vtiger_crmentity.smownerid
 					in (select vtiger_user2role.userid from vtiger_user2role
 							inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid
@@ -2157,8 +2157,8 @@ class CRMEntity
 							where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%') or vtiger_crmentity.smownerid
 					in(select shareduserid from vtiger_tmp_read_user_sharing_per
 						where userid=" . $current_user->id . " and tabid=" . $tabid . ") or (";
-			if (sizeof($current_user_groups) > 0) {
-				$sec_query .= " vtiger_groups.groupid in (" . implode(",", $current_user_groups) . ") or ";
+			if (sizeof($privileges['groups']) > 0) {
+				$sec_query .= " vtiger_groups.groupid in (" . implode(",", $privileges['groups']) . ") or ";
 			}
 			$sec_query .= " vtiger_groups.groupid in(select vtiger_tmp_read_group_sharing_per.sharedgroupid
 						from vtiger_tmp_read_group_sharing_per where userid=" . $current_user->id . " and tabid=" . $tabid . "))) ";
