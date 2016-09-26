@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 return [
 	'vtlib\\' => [$baseDir . '/vtlib/Vtiger'],
 	'includes\\' => [$baseDir . '/include'],
+	'App\\' => [$baseDir . '/vendor/yetiforce'],
 	'Exception\\' => [$baseDir . '/include/exceptions'],
 	'Psr\\Log\\' => [$baseDir . '/libraries/Psr/Log'],
 	'DebugBar\\' => [$baseDir . '/libraries/php-debugbar/src/DebugBar'],
