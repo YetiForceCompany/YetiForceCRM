@@ -16,7 +16,7 @@
 						<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 							<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
 								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-								<span class="badge hide">0</span>
+								<span class="badge bgDanger hide">0</span>
 							</a>
 						</div>
 					</div>
