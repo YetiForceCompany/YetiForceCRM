@@ -1091,7 +1091,11 @@ class ReportRun extends CRMEntity
 
 								if (($selectedfields[0] == "vtiger_users" . $this->primarymodule || $selectedfields[0] == "vtiger_users" . $this->secondarymodule) && $selectedfields[1] == 'user_name') {
 									$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
-									$advcolsql[] = " (trim($concatSql)" . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . " or vtiger_groups" . $module_from_tablename . ".groupname " . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . ")";
+									if(is_numeric($valuearray[$n])){
+										$advcolsql[] = $selectedfields[0].'.id ' . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . " OR vtiger_groups$module_from_tablename.groupid " . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
+									} else {
+										$advcolsql[] = " (trim($concatSql)" . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . " or vtiger_groups$module_from_tablename.groupname " . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . ")";
+									}
 									$this->queryPlanner->addTable("vtiger_groups" . $module_from_tablename);
 								} elseif ($selectedfields[1] == 'status') {//when you use comma seperated values.
 									if ($selectedfields[2] == 'Calendar_Status') {
@@ -1131,7 +1135,11 @@ class ReportRun extends CRMEntity
 						} elseif ($selectedfields[1] == 'user_name') {
 							if ($selectedfields[0] == "vtiger_users" . $this->primarymodule) {
 								$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
-								$fieldvalue = " trim(case when (" . $selectedfields[0] . ".last_name NOT LIKE '') then " . $concatSql . " else vtiger_groups" . $module_from_tablename . ".groupname end) " . $this->getAdvComparator($comparator, trim($value), $datatype);
+								if(is_numeric($value)){
+									$fieldvalue = $selectedfields[0].'.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupname" . $this->getAdvComparator($comparator, trim($value), $datatype);
+								} else {
+									$fieldvalue = " trim(case when (" . $selectedfields[0] . ".last_name NOT LIKE '') then " . $concatSql . " else vtiger_groups" . $module_from_tablename . ".groupname end) " . $this->getAdvComparator($comparator, trim($value), $datatype);
+								}
 								$this->queryPlanner->addTable("vtiger_groups" . $module_from_tablename);
 							} else {
 								$secondaryModules = explode(':', $this->secondarymodule);
@@ -1140,7 +1148,11 @@ class ReportRun extends CRMEntity
 								if (($firstSecondaryModule && $firstSecondaryModule == $selectedfields[0]) || ($secondSecondaryModule && $secondSecondaryModule == $selectedfields[0])) {
 									$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
 									$moduleInstance = CRMEntity::getInstance($module_from_tablename);
-									$fieldvalue = " trim(case when (" . $selectedfields[0] . ".last_name NOT LIKE '') then " . $concatSql . " else vtiger_groups" . $module_from_tablename . ".groupname end) " . $this->getAdvComparator($comparator, trim($value), $datatype);
+									if(is_numeric($value)){
+										$fieldvalue = $selectedfields[0].'.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupname" . $this->getAdvComparator($comparator, trim($value), $datatype);
+									} else {
+										$fieldvalue = " trim(case when (" . $selectedfields[0] . ".last_name NOT LIKE '') then " . $concatSql . " else vtiger_groups" . $module_from_tablename . ".groupname end) " . $this->getAdvComparator($comparator, trim($value), $datatype);
+									}
 									$this->queryPlanner->addTable("vtiger_groups" . $module_from_tablename);
 									$this->queryPlanner->addTable($moduleInstance->table_name);
 								}
