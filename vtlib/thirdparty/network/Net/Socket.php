@@ -38,45 +38,45 @@ class Net_Socket extends PEAR {
      * Socket file pointer.
      * @var resource $fp
      */
-    var $fp = null;
+    public $fp = null;
 
     /**
      * Whether the socket is blocking. Defaults to true.
      * @var boolean $blocking
      */
-    var $blocking = true;
+    public $blocking = true;
 
     /**
      * Whether the socket is persistent. Defaults to false.
      * @var boolean $persistent
      */
-    var $persistent = false;
+    public $persistent = false;
 
     /**
      * The IP address to connect to.
      * @var string $addr
      */
-    var $addr = '';
+    public $addr = '';
 
     /**
      * The port number to connect to.
      * @var integer $port
      */
-    var $port = 0;
+    public $port = 0;
 
     /**
      * Number of seconds to wait on socket connections before assuming
      * there's no more data. Defaults to no timeout.
      * @var integer $timeout
      */
-    var $timeout = false;
+    public $timeout = false;
 
     /**
      * Number of bytes to read at a time in readLine() and
      * readAll(). Defaults to 2048.
      * @var integer $lineLength
      */
-    var $lineLength = 2048;
+    public $lineLength = 2048;
 
     /**
      * Connect to the specified port. If called when the socket is

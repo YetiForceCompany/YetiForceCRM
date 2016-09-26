@@ -3,7 +3,7 @@
 class iCal
 {
 
-	var $folders;
+	public $folders;
 
 	public function iCal()
 	{

@@ -82,7 +82,7 @@ class LoggerFilter {
     /**
      * @var LoggerFilter Points to the next {@link LoggerFilter} in the filter chain.
      */
-    var $next;
+    public $next;
 
     /**
      * Usually filters options become active when set. We provide a

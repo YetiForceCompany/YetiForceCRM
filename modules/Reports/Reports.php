@@ -38,32 +38,32 @@ class Reports extends CRMEntity
 	 * and also the required functions for the same
 	 * Contributor(s): ______________________________________..
 	 */
-	var $srptfldridjs;
-	var $column_fields = [];
-	var $sort_fields = [];
-	var $sort_values = [];
-	var $id;
-	var $mode;
-	var $mcount;
-	var $startdate;
-	var $enddate;
-	var $ascdescorder;
-	var $stdselectedfilter;
-	var $stdselectedcolumn;
-	var $primodule;
-	var $secmodule;
-	var $columnssummary;
-	var $is_editable;
-	var $reporttype;
-	var $reportname;
-	var $reportdescription;
-	var $folderid;
-	var $module_blocks;
-	var $pri_module_columnslist;
-	var $sec_module_columnslist;
-	var $advft_criteria;
-	var $adv_rel_fields = [];
-	var $module_list = [];
+	public $srptfldridjs;
+	public $column_fields = [];
+	public $sort_fields = [];
+	public $sort_values = [];
+	public $id;
+	public $mode;
+	public $mcount;
+	public $startdate;
+	public $enddate;
+	public $ascdescorder;
+	public $stdselectedfilter;
+	public $stdselectedcolumn;
+	public $primodule;
+	public $secmodule;
+	public $columnssummary;
+	public $is_editable;
+	public $reporttype;
+	public $reportname;
+	public $reportdescription;
+	public $folderid;
+	public $module_blocks;
+	public $pri_module_columnslist;
+	public $sec_module_columnslist;
+	public $advft_criteria;
+	public $adv_rel_fields = [];
+	public $module_list = [];
 
 	/** Function to set primodule,secmodule,reporttype,reportname,reportdescription,folderid for given vtiger_reportid
 	 *  This function accepts the vtiger_reportid as argument

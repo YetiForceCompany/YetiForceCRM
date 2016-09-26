@@ -57,7 +57,7 @@ class LoggerPropertySetter {
      * @var object the target object
      * @access private
      */
-    var $obj;
+    public $obj;
   
     /**
      * Create a new LoggerPropertySetter for the specified Object. 

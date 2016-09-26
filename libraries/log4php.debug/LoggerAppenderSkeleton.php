@@ -44,45 +44,45 @@ class LoggerAppenderSkeleton extends LoggerAppender {
     /**
      * @var boolean closed appender flag
      */
-    var $closed;
+    public $closed;
     
     /**
      * @var object unused
      */
-    var $errorHandler;
+    public $errorHandler;
            
     /**
      * The first filter in the filter chain
      * @var LoggerFilter
      */
-    var $headFilter = null;
+    public $headFilter = null;
             
     /**
      * LoggerLayout for this appender. It can be null if appender has its own layout
      * @var LoggerLayout
      */
-    var $layout = null; 
+    public $layout = null; 
            
     /**
      * @var string Appender name
      */
-    var $name;
+    public $name;
            
     /**
      * The last filter in the filter chain
      * @var LoggerFilter
      */
-    var $tailFilter = null; 
+    public $tailFilter = null; 
            
     /**
      * @var LoggerLevel There is no level threshold filtering by default.
      */
-    var $threshold = null;
+    public $threshold = null;
     
     /**
      * @var boolean needs a layout formatting ?
      */
-    var $requiresLayout = false;
+    public $requiresLayout = false;
     
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/

@@ -87,32 +87,32 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
     /**
      * @var LoggerHierarchy
      */
-    var $repository;
+    public $repository;
     
     /**
      * @var array state stack 
      */
-    var $state;
+    public $state;
 
     /**
      * @var Logger parsed Logger  
      */
-    var $logger;
+    public $logger;
     
     /**
      * @var LoggerAppender parsed LoggerAppender 
      */
-    var $appender;
+    public $appender;
     
     /**
      * @var LoggerFilter parsed LoggerFilter 
      */
-    var $filter;
+    public $filter;
     
     /**
      * @var LoggerLayout parsed LoggerLayout 
      */
-    var $layout;
+    public $layout;
     
     /**
      * Constructor

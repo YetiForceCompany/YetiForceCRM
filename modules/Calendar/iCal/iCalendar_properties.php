@@ -7,13 +7,13 @@ class iCalendar_property
 
 	// Properties can have parameters, but cannot have other properties or components
 
-	var $parent_component = NULL;
-	var $value = NULL;
-	var $parameters = NULL;
-	var $valid_parameters = NULL;
+	public $parent_component = NULL;
+	public $value = NULL;
+	public $parameters = NULL;
+	public $valid_parameters = NULL;
 	// These are common for 95% of properties, so define them here and override as necessary
-	var $val_multi = false;
-	var $val_default = NULL;
+	public $val_multi = false;
+	public $val_default = NULL;
 
 	public function __construct()
 	{
@@ -212,8 +212,8 @@ class iCalendar_property
 class iCalendar_property_calscale extends iCalendar_property
 {
 
-	var $name = 'CALSCALE';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'CALSCALE';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -232,8 +232,8 @@ class iCalendar_property_calscale extends iCalendar_property
 class iCalendar_property_method extends iCalendar_property
 {
 
-	var $name = 'METHOD';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'METHOD';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -254,9 +254,9 @@ class iCalendar_property_method extends iCalendar_property
 class iCalendar_property_prodid extends iCalendar_property
 {
 
-	var $name = 'PRODID';
-	var $val_type = RFC2445_TYPE_TEXT;
-	var $val_default = NULL;
+	public $name = 'PRODID';
+	public $val_type = RFC2445_TYPE_TEXT;
+	public $val_default = NULL;
 
 	public function construct()
 	{
@@ -271,9 +271,9 @@ class iCalendar_property_prodid extends iCalendar_property
 class iCalendar_property_version extends iCalendar_property
 {
 
-	var $name = 'VERSION';
-	var $val_type = RFC2445_TYPE_TEXT;
-	var $val_default = '2.0';
+	public $name = 'VERSION';
+	public $val_type = RFC2445_TYPE_TEXT;
+	public $val_default = '2.0';
 
 	public function construct()
 	{
@@ -294,8 +294,8 @@ class iCalendar_property_version extends iCalendar_property
 class iCalendar_property_attach extends iCalendar_property
 {
 
-	var $name = 'ATTACH';
-	var $val_type = RFC2445_TYPE_URI;
+	public $name = 'ATTACH';
+	public $val_type = RFC2445_TYPE_URI;
 
 	public function construct()
 	{
@@ -343,9 +343,9 @@ class iCalendar_property_attach extends iCalendar_property
 class iCalendar_property_categories extends iCalendar_property
 {
 
-	var $name = 'CATEGORIES';
-	var $val_type = RFC2445_TYPE_TEXT;
-	var $val_multi = true;
+	public $name = 'CATEGORIES';
+	public $val_type = RFC2445_TYPE_TEXT;
+	public $val_multi = true;
 
 	public function construct()
 	{
@@ -359,9 +359,9 @@ class iCalendar_property_categories extends iCalendar_property
 class iCalendar_property_class extends iCalendar_property
 {
 
-	var $name = 'CLASS';
-	var $val_type = RFC2445_TYPE_TEXT;
-	var $val_default = 'PUBLIC';
+	public $name = 'CLASS';
+	public $val_type = RFC2445_TYPE_TEXT;
+	public $val_default = 'PUBLIC';
 
 	public function construct()
 	{
@@ -381,8 +381,8 @@ class iCalendar_property_class extends iCalendar_property
 class iCalendar_property_comment extends iCalendar_property
 {
 
-	var $name = 'COMMENT';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'COMMENT';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -397,8 +397,8 @@ class iCalendar_property_comment extends iCalendar_property
 class iCalendar_property_description extends iCalendar_property
 {
 
-	var $name = 'DESCRIPTION';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'DESCRIPTION';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -413,8 +413,8 @@ class iCalendar_property_description extends iCalendar_property
 class iCalendar_property_geo extends iCalendar_property
 {
 
-	var $name = 'GEO';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'GEO';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -456,8 +456,8 @@ class iCalendar_property_geo extends iCalendar_property
 class iCalendar_property_location extends iCalendar_property
 {
 
-	var $name = 'LOCATION';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'LOCATION';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -472,8 +472,8 @@ class iCalendar_property_location extends iCalendar_property
 class iCalendar_property_percent_complete extends iCalendar_property
 {
 
-	var $name = 'PERCENT-COMPLETE';
-	var $val_type = RFC2445_TYPE_INTEGER;
+	public $name = 'PERCENT-COMPLETE';
+	public $val_type = RFC2445_TYPE_INTEGER;
 
 	public function construct()
 	{
@@ -496,8 +496,8 @@ class iCalendar_property_percent_complete extends iCalendar_property
 class iCalendar_property_priority extends iCalendar_property
 {
 
-	var $name = 'PRIORITY';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'PRIORITY';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -519,9 +519,9 @@ class iCalendar_property_priority extends iCalendar_property
 class iCalendar_property_resources extends iCalendar_property
 {
 
-	var $name = 'RESOURCES';
-	var $val_type = RFC2445_TYPE_TEXT;
-	var $val_multi = true;
+	public $name = 'RESOURCES';
+	public $val_type = RFC2445_TYPE_TEXT;
+	public $val_multi = true;
 
 	public function construct()
 	{
@@ -536,8 +536,8 @@ class iCalendar_property_resources extends iCalendar_property
 class iCalendar_property_status extends iCalendar_property
 {
 
-	var $name = 'STATUS';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'STATUS';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -567,8 +567,8 @@ class iCalendar_property_status extends iCalendar_property
 class iCalendar_property_summary extends iCalendar_property
 {
 
-	var $name = 'SUMMARY';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'SUMMARY';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -586,8 +586,8 @@ class iCalendar_property_summary extends iCalendar_property
 class iCalendar_property_completed extends iCalendar_property
 {
 
-	var $name = 'COMPLETED';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
+	public $name = 'COMPLETED';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
 
 	public function construct()
 	{
@@ -609,8 +609,8 @@ class iCalendar_property_completed extends iCalendar_property
 class iCalendar_property_dtend extends iCalendar_property
 {
 
-	var $name = 'DTEND';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
+	public $name = 'DTEND';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
 
 	public function construct()
 	{
@@ -654,8 +654,8 @@ class iCalendar_property_dtend extends iCalendar_property
 class iCalendar_property_due extends iCalendar_property
 {
 
-	var $name = 'DUE';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
+	public $name = 'DUE';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
 
 	public function construct()
 	{
@@ -699,8 +699,8 @@ class iCalendar_property_due extends iCalendar_property
 class iCalendar_property_dtstart extends iCalendar_property
 {
 
-	var $name = 'DTSTART';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
+	public $name = 'DTSTART';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
 
 	public function construct()
 	{
@@ -743,8 +743,8 @@ class iCalendar_property_dtstart extends iCalendar_property
 class iCalendar_property_duration extends iCalendar_property
 {
 
-	var $name = 'DURATION';
-	var $val_type = RFC2445_TYPE_DURATION;
+	public $name = 'DURATION';
+	public $val_type = RFC2445_TYPE_DURATION;
 
 	public function construct()
 	{
@@ -767,9 +767,9 @@ class iCalendar_property_duration extends iCalendar_property
 class iCalendar_property_freebusy extends iCalendar_property
 {
 
-	var $name = 'FREEBUSY';
-	var $val_type = RFC2445_TYPE_PERIOD;
-	var $val_multi = true;
+	public $name = 'FREEBUSY';
+	public $val_type = RFC2445_TYPE_PERIOD;
+	public $val_multi = true;
 
 	public function construct()
 	{
@@ -802,9 +802,9 @@ class iCalendar_property_freebusy extends iCalendar_property
 class iCalendar_property_transp extends iCalendar_property
 {
 
-	var $name = 'TRANSP';
-	var $val_type = RFC2445_TYPE_TEXT;
-	var $val_default = 'OPAQUE';
+	public $name = 'TRANSP';
+	public $val_type = RFC2445_TYPE_TEXT;
+	public $val_default = 'OPAQUE';
 
 	public function construct()
 	{
@@ -822,8 +822,8 @@ class iCalendar_property_transp extends iCalendar_property
 class iCalendar_property_attendee extends iCalendar_property
 {
 
-	var $name = 'ATTENDEE';
-	var $val_type = RFC2445_TYPE_CAL_ADDRESS;
+	public $name = 'ATTENDEE';
+	public $val_type = RFC2445_TYPE_CAL_ADDRESS;
 
 	public function construct()
 	{
@@ -864,8 +864,8 @@ class iCalendar_property_attendee extends iCalendar_property
 class iCalendar_property_contact extends iCalendar_property
 {
 
-	var $name = 'CONTACT';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'CONTACT';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -880,8 +880,8 @@ class iCalendar_property_contact extends iCalendar_property
 class iCalendar_property_organizer extends iCalendar_property
 {
 
-	var $name = 'ORGANIZER';
-	var $val_type = RFC2445_TYPE_CAL_ADDRESS;
+	public $name = 'ORGANIZER';
+	public $val_type = RFC2445_TYPE_CAL_ADDRESS;
 
 	public function construct()
 	{
@@ -898,8 +898,8 @@ class iCalendar_property_organizer extends iCalendar_property
 class iCalendar_property_recurrence_id extends iCalendar_property
 {
 
-	var $name = 'RECURRENCE-ID';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
+	public $name = 'RECURRENCE-ID';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
 
 	public function construct()
 	{
@@ -930,8 +930,8 @@ class iCalendar_property_recurrence_id extends iCalendar_property
 class iCalendar_property_related_to extends iCalendar_property
 {
 
-	var $name = 'RELATED-TO';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'RELATED-TO';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -945,8 +945,8 @@ class iCalendar_property_related_to extends iCalendar_property
 class iCalendar_property_url extends iCalendar_property
 {
 
-	var $name = 'URL';
-	var $val_type = RFC2445_TYPE_URI;
+	public $name = 'URL';
+	public $val_type = RFC2445_TYPE_URI;
 
 	public function construct()
 	{
@@ -959,8 +959,8 @@ class iCalendar_property_url extends iCalendar_property
 class iCalendar_property_uid extends iCalendar_property
 {
 
-	var $name = 'UID';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'UID';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -981,9 +981,9 @@ class iCalendar_property_uid extends iCalendar_property
 class iCalendar_property_exdate extends iCalendar_property
 {
 
-	var $name = 'EXDATE';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
-	var $val_multi = true;
+	public $name = 'EXDATE';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
+	public $val_multi = true;
 
 	public function construct()
 	{
@@ -1013,8 +1013,8 @@ class iCalendar_property_exdate extends iCalendar_property
 class iCalendar_property_exrule extends iCalendar_property
 {
 
-	var $name = 'EXRULE';
-	var $val_type = RFC2445_TYPE_RECUR;
+	public $name = 'EXRULE';
+	public $val_type = RFC2445_TYPE_RECUR;
 
 	public function construct()
 	{
@@ -1027,9 +1027,9 @@ class iCalendar_property_exrule extends iCalendar_property
 class iCalendar_property_rdate extends iCalendar_property
 {
 
-	var $name = 'RDATE';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
-	var $val_multi = true;
+	public $name = 'RDATE';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
+	public $val_multi = true;
 
 	public function construct()
 	{
@@ -1059,8 +1059,8 @@ class iCalendar_property_rdate extends iCalendar_property
 class iCalendar_property_rrule extends iCalendar_property
 {
 
-	var $name = 'RRULE';
-	var $val_type = RFC2445_TYPE_RECUR;
+	public $name = 'RRULE';
+	public $val_type = RFC2445_TYPE_RECUR;
 
 	public function construct()
 	{
@@ -1073,8 +1073,8 @@ class iCalendar_property_rrule extends iCalendar_property
 class iCalendar_property_created extends iCalendar_property
 {
 
-	var $name = 'CREATED';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
+	public $name = 'CREATED';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
 
 	public function construct()
 	{
@@ -1096,8 +1096,8 @@ class iCalendar_property_created extends iCalendar_property
 class iCalendar_property_dtstamp extends iCalendar_property
 {
 
-	var $name = 'DTSTAMP';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
+	public $name = 'DTSTAMP';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
 
 	public function construct()
 	{
@@ -1119,8 +1119,8 @@ class iCalendar_property_dtstamp extends iCalendar_property
 class iCalendar_property_last_modified extends iCalendar_property
 {
 
-	var $name = 'LAST-MODIFIED';
-	var $val_type = RFC2445_TYPE_DATE_TIME;
+	public $name = 'LAST-MODIFIED';
+	public $val_type = RFC2445_TYPE_DATE_TIME;
 
 	public function construct()
 	{
@@ -1142,9 +1142,9 @@ class iCalendar_property_last_modified extends iCalendar_property
 class iCalendar_property_sequence extends iCalendar_property
 {
 
-	var $name = 'SEQUENCE';
-	var $val_type = RFC2445_TYPE_INTEGER;
-	var $val_default = 0;
+	public $name = 'SEQUENCE';
+	public $val_type = RFC2445_TYPE_INTEGER;
+	public $val_default = 0;
 
 	public function construct()
 	{
@@ -1169,8 +1169,8 @@ class iCalendar_property_sequence extends iCalendar_property
 class iCalendar_property_x extends iCalendar_property
 {
 
-	var $name = RFC2445_XNAME;
-	var $val_type = NULL;
+	public $name = RFC2445_XNAME;
+	public $val_type = NULL;
 
 	public function construct()
 	{
@@ -1202,8 +1202,8 @@ class iCalendar_property_request_status extends iCalendar_property
 	// cannot be used in this case. As an exception, the value passed
 	// to this property MUST be already escaped.
 
-	var $name = 'REQUEST-STATUS';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'REQUEST-STATUS';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -1328,8 +1328,8 @@ class iCalendar_property_request_status extends iCalendar_property
 class iCalendar_property_trigger extends iCalendar_property
 {
 
-	var $name = 'TRIGGER';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'TRIGGER';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -1342,8 +1342,8 @@ class iCalendar_property_trigger extends iCalendar_property
 class iCalendar_property_action extends iCalendar_property
 {
 
-	var $name = 'ACTION';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'ACTION';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -1357,8 +1357,8 @@ class iCalendar_property_action extends iCalendar_property
 class iCalendar_property_x_wr_alarmuid extends iCalendar_property
 {
 
-	var $name = 'X_WR_ALARMUID';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'X_WR_ALARMUID';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -1371,8 +1371,8 @@ class iCalendar_property_x_wr_alarmuid extends iCalendar_property
 class iCalendar_property_tzoffsetto extends iCalendar_property
 {
 
-	var $name = 'TZOFFSETTO';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'TZOFFSETTO';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{
@@ -1385,8 +1385,8 @@ class iCalendar_property_tzoffsetto extends iCalendar_property
 class iCalendar_property_daylightc extends iCalendar_property
 {
 
-	var $name = 'DAYLIGHTC';
-	var $val_type = RFC2445_TYPE_INTEGER;
+	public $name = 'DAYLIGHTC';
+	public $val_type = RFC2445_TYPE_INTEGER;
 
 	public function construct()
 	{
@@ -1399,8 +1399,8 @@ class iCalendar_property_daylightc extends iCalendar_property
 class iCalendar_property_standardc extends iCalendar_property
 {
 
-	var $name = 'STANDARDC';
-	var $val_type = RFC2445_TYPE_INTEGER;
+	public $name = 'STANDARDC';
+	public $val_type = RFC2445_TYPE_INTEGER;
 
 	public function construct()
 	{
@@ -1413,8 +1413,8 @@ class iCalendar_property_standardc extends iCalendar_property
 class iCalendar_property_tzid extends iCalendar_property
 {
 
-	var $name = 'TZID';
-	var $val_type = RFC2445_TYPE_TEXT;
+	public $name = 'TZID';
+	public $val_type = RFC2445_TYPE_TEXT;
 
 	public function construct()
 	{

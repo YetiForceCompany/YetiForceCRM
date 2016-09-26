@@ -46,42 +46,42 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
      * Create the log table if it does not exists (optional).
      * @var boolean
      */
-    var $createTable = true;
+    public $createTable = true;
     
     /**
      * PEAR::Db Data source name. Read PEAR::Db for dsn syntax (mandatory).
      * @var string
      */
-    var $dsn;
+    public $dsn;
     
     /**
      * A {@link LoggerPatternLayout} string used to format a valid insert query (mandatory).
      * @var string
      */
-    var $sql;
+    public $sql;
     
     /**
      * Table name to write events. Used only if {@link $createTable} is true.
      * @var string
      */    
-    var $table;
+    public $table;
     
     /**
      * @var object PEAR::Db instance
      * @access private
      */
-    var $db = null;
+    public $db = null;
     
     /**
      * @var boolean used to check if all conditions to append are true
      * @access private
      */
-    var $canAppend = true;
+    public $canAppend = true;
     
     /**    
      * @access private
      */
-    var $requiresLayout = false;
+    public $requiresLayout = false;
     
     /**
      * Constructor.

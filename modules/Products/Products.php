@@ -12,57 +12,57 @@
 class Products extends CRMEntity
 {
 
-	var $db, $log; // Used in class functions of CRMEntity
-	var $table_name = 'vtiger_products';
-	var $table_index = 'productid';
-	var $column_fields = Array();
+	public $db, $log; // Used in class functions of CRMEntity
+	public $table_name = 'vtiger_products';
+	public $table_index = 'productid';
+	public $column_fields = Array();
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_productcf', 'productid');
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_products', 'vtiger_productcf');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_products' => 'productid', 'vtiger_productcf' => 'productid', 'vtiger_seproductsrel' => 'productid', 'vtiger_producttaxrel' => 'productid');
+	public $customFieldTable = Array('vtiger_productcf', 'productid');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_products', 'vtiger_productcf');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_products' => 'productid', 'vtiger_productcf' => 'productid', 'vtiger_seproductsrel' => 'productid', 'vtiger_producttaxrel' => 'productid');
 	// This is the list of vtiger_fields that are in the lists.
-	var $list_fields = Array(
+	public $list_fields = Array(
 		'Product Name' => Array('products' => 'productname'),
 		'Part Number' => Array('products' => 'productcode'),
 		'Commission Rate' => Array('products' => 'commissionrate'),
 		'Qty/Unit' => Array('products' => 'qty_per_unit'),
 		'Unit Price' => Array('products' => 'unit_price')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'Product Name' => 'productname',
 		'Part Number' => 'productcode',
 		'Commission Rate' => 'commissionrate',
 		'Qty/Unit' => 'qty_per_unit',
 		'Unit Price' => 'unit_price'
 	);
-	var $list_link_field = 'productname';
-	var $search_fields = Array(
+	public $list_link_field = 'productname';
+	public $search_fields = Array(
 		'Product Name' => Array('products' => 'productname'),
 		'Part Number' => Array('products' => 'productcode'),
 		'Unit Price' => Array('products' => 'unit_price')
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		'Product Name' => 'productname',
 		'Part Number' => 'productcode',
 		'Unit Price' => 'unit_price'
 	);
-	var $required_fields = Array(
+	public $required_fields = Array(
 		'productname' => 1
 	);
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
-	var $def_basicsearch_col = 'productname';
+	public $sortby_fields = Array();
+	public $def_basicsearch_col = 'productname';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'productname', 'assigned_user_id');
+	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'productname', 'assigned_user_id');
 	// Josh added for importing and exporting -added in patch2
-	var $unit_price;
+	public $unit_price;
 
 	public function save_module($module)
 	{

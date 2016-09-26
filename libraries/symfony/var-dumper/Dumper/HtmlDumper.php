@@ -130,7 +130,7 @@ if (!doc.addEventListener) {
 }
 
 function toggle(a, recursive) {
-    var s = a.nextSibling || {}, oldClass = s.className, arrow, newClass;
+    public s = a.nextSibling || {}, oldClass = s.className, arrow, newClass;
 
     if ('sf-dump-compact' == oldClass) {
         arrow = '▼';
@@ -193,7 +193,7 @@ return function (root) {
         if (/\bsf-dump-toggle\b/.test(a.className)) {
             e.preventDefault();
             if (!toggle(a, isCtrlKey(e))) {
-                var r = doc.getElementById(a.getAttribute('href').substr(1)),
+                public r = doc.getElementById(a.getAttribute('href').substr(1)),
                     s = r.previousSibling,
                     f = r.parentNode,
                     t = a.parentNode;
@@ -222,7 +222,7 @@ return function (root) {
         }
     });
 
-    var indentRx = new RegExp('^('+(root.getAttribute('data-indent-pad') || '  ').replace(rxEsc, '\\$1')+')+', 'm'),
+    public indentRx = new RegExp('^('+(root.getAttribute('data-indent-pad') || '  ').replace(rxEsc, '\\$1')+')+', 'm'),
         elt = root.getElementsByTagName('A'),
         len = elt.length,
         i = 0,

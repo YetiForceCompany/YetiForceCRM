@@ -25,22 +25,22 @@
 class Contacts extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_contactdetails";
-	var $table_index = 'contactid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_contactdetails', 'vtiger_contactaddress', 'vtiger_contactsubdetails', 'vtiger_contactscf', 'vtiger_customerdetails', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_contactdetails' => 'contactid', 'vtiger_contactaddress' => 'contactaddressid', 'vtiger_contactsubdetails' => 'contactsubscriptionid', 'vtiger_contactscf' => 'contactid', 'vtiger_customerdetails' => 'customerid', 'vtiger_entity_stats' => 'crmid');
+	public $log;
+	public $db;
+	public $table_name = "vtiger_contactdetails";
+	public $table_index = 'contactid';
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_contactdetails', 'vtiger_contactaddress', 'vtiger_contactsubdetails', 'vtiger_contactscf', 'vtiger_customerdetails', 'vtiger_entity_stats');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_contactdetails' => 'contactid', 'vtiger_contactaddress' => 'contactaddressid', 'vtiger_contactsubdetails' => 'contactsubscriptionid', 'vtiger_contactscf' => 'contactid', 'vtiger_customerdetails' => 'customerid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_contactscf', 'contactid');
-	var $column_fields = Array();
-	var $sortby_fields = Array('lastname', 'firstname', 'title', 'email', 'phone', 'smownerid', 'accountname');
-	var $list_link_field = 'lastname';
+	public $customFieldTable = Array('vtiger_contactscf', 'contactid');
+	public $column_fields = Array();
+	public $sortby_fields = Array('lastname', 'firstname', 'title', 'email', 'phone', 'smownerid', 'accountname');
+	public $list_link_field = 'lastname';
 	// This is the list of vtiger_fields that are in the lists.
-	var $list_fields = Array(
+	public $list_fields = Array(
 		'First Name' => Array('contactdetails' => 'firstname'),
 		'Last Name' => Array('contactdetails' => 'lastname'),
 		'Title' => Array('contactdetails' => 'title'),
@@ -49,7 +49,7 @@ class Contacts extends CRMEntity
 		'Office Phone' => Array('contactdetails' => 'phone'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
-	var $range_fields = Array(
+	public $range_fields = Array(
 		'first_name',
 		'last_name',
 		'primary_address_city',
@@ -80,7 +80,7 @@ class Contacts extends CRMEntity
 		'birthdate',
 		'assistant_name',
 		'assistant_phone');
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'First Name' => 'firstname',
 		'Last Name' => 'lastname',
 		'Title' => 'title',
@@ -89,14 +89,14 @@ class Contacts extends CRMEntity
 		'Office Phone' => 'phone',
 		'Assigned To' => 'assigned_user_id'
 	);
-	var $search_fields = Array(
+	public $search_fields = Array(
 		'First Name' => Array('contactdetails' => 'firstname'),
 		'Last Name' => Array('contactdetails' => 'lastname'),
 		'Title' => Array('contactdetails' => 'title'),
 		'Member Of' => Array('contactdetails' => 'parent_id'),
 		'Assigned To' => Array('crmentity' => 'smownerid'),
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		'First Name' => 'firstname',
 		'Last Name' => 'lastname',
 		'Title' => 'title',
@@ -104,17 +104,17 @@ class Contacts extends CRMEntity
 		'Assigned To' => 'assigned_user_id'
 	);
 	// This is the list of vtiger_fields that are required
-	var $required_fields = array("lastname" => 1);
+	public $required_fields = array("lastname" => 1);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('assigned_user_id', 'lastname', 'createdtime', 'modifiedtime');
+	public $mandatory_fields = Array('assigned_user_id', 'lastname', 'createdtime', 'modifiedtime');
 	//Default Fields for Email Templates -- Pavani
-	var $emailTemplate_defaultFields = array('firstname', 'lastname', 'salutation', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date');
+	public $emailTemplate_defaultFields = array('firstname', 'lastname', 'salutation', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 	// For Alphabetical search
-	var $def_basicsearch_col = 'lastname';
+	public $def_basicsearch_col = 'lastname';
 
 	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
 	/** Function to get the number of Contacts assigned to a particular User.

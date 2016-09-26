@@ -42,12 +42,12 @@ class LoggerLoggingEvent {
     /** 
     * @var string Fully Qualified Class Name of the calling category class.
     */
-    var $fqcn;
+    public $fqcn;
     
     /**
     * @var Logger reference
     */
-    var $logger = null;
+    public $logger = null;
     
     /** 
     * The category (logger) name.
@@ -56,7 +56,7 @@ class LoggerLoggingEvent {
     * Use the {@link getLoggerName()} method instead.
     * @deprecated 
     */
-    var $categoryName;
+    public $categoryName;
     
     /** 
     * Level of logging event.
@@ -66,12 +66,12 @@ class LoggerLoggingEvent {
     * @deprecated
     * @var LoggerLevel
     */
-    var $level;
+    public $level;
     
     /** 
      * @var string The nested diagnostic context (NDC) of logging event. 
      */
-    var $ndc;
+    public $ndc;
     
     /** 
      * Have we tried to do an NDC lookup? If we did, there is no need
@@ -80,7 +80,7 @@ class LoggerLoggingEvent {
      * (incorrect) NDC. See also writeObject method.
      * @var boolean
      */
-    var $ndcLookupRequired = true;
+    public $ndcLookupRequired = true;
     
     /** 
      * Have we tried to do an MDC lookup? If we did, there is no need
@@ -88,46 +88,46 @@ class LoggerLoggingEvent {
      * serialized. See also the getMDC and getMDCCopy methods.
      * @var boolean  
      */
-    var $mdcCopyLookupRequired = true;
+    public $mdcCopyLookupRequired = true;
     
     /** 
      * @var mixed The application supplied message of logging event. 
      */
-    var $message;
+    public $message;
     
     /** 
      * The application supplied message rendered through the log4php
      * objet rendering mechanism. At present renderedMessage == message.
      * @var string
      */
-    var $renderedMessage;
+    public $renderedMessage;
     
     /** 
      * The name of thread in which this logging event was generated.
      * log4php saves here the process id via {@link PHP_MANUAL#getmypid getmypid()} 
      * @var mixed
      */
-    var $threadName = null;
+    public $threadName = null;
     
     /** 
     * The number of seconds elapsed from 1/1/1970 until logging event
     * was created plus microseconds if available.
     * @var float
     */
-    var $timeStamp;
+    public $timeStamp;
     
     /** 
     * @var LoggerLocationInfo Location information for the caller. 
     */
-    var $locationInfo = null;
+    public $locationInfo = null;
     
     // Serialization
     /*
-    var $serialVersionUID = -868428216207166145L;
-    var $PARAM_ARRAY = array();
-    var $TO_LEVEL = "toLevel";
-    var $TO_LEVEL_PARAMS = null;
-    var $methodCache = array(); // use a tiny table
+    public $serialVersionUID = -868428216207166145L;
+    public $PARAM_ARRAY = array();
+    public $TO_LEVEL = "toLevel";
+    public $TO_LEVEL_PARAMS = null;
+    public $methodCache = array(); // use a tiny table
     */
 
     /**

@@ -49,32 +49,32 @@ class LoggerAppenderMailEvent extends LoggerAppenderSkeleton {
     /**
      * @var string 'from' field
      */
-    var $from           = null;
+    public $from           = null;
 
     /**
      * @var integer 'from' field
      */
-    var $port           = 25;
+    public $port           = 25;
 
     /**
      * @var string hostname. 
      */
-    var $smtpHost       = null;
+    public $smtpHost       = null;
 
     /**
      * @var string 'subject' field
      */
-    var $subject        = '';
+    public $subject        = '';
 
     /**
      * @var string 'to' field
      */
-    var $to             = null;
+    public $to             = null;
     
     /**
      * @access private
      */
-    var $requiresLayout = true;
+    public $requiresLayout = true;
 
     /**
      * Constructor.

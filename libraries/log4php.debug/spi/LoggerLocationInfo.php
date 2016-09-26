@@ -43,27 +43,27 @@ class LoggerLocationInfo {
     /**
     * @var string Caller's line number.
     */
-    var $lineNumber = null;
+    public $lineNumber = null;
     
     /**
     * @var string Caller's file name.
     */
-    var $fileName = null;
+    public $fileName = null;
     
     /**
     * @var string Caller's fully qualified class name.
     */
-    var $className = null;
+    public $className = null;
     
     /**
     * @var string Caller's method name.
     */
-    var $methodName = null;
+    public $methodName = null;
     
     /**
     * @var string 
     */
-    var $fullInfo = null;
+    public $fullInfo = null;
 
     /**
      * Instantiate location information based on a {@link PHP_MANUAL#debug_backtrace}.

@@ -50,12 +50,12 @@ class LoggerLevelMatchFilter extends LoggerFilter {
     /**
      * @var boolean
      */
-    var $acceptOnMatch = true;
+    public $acceptOnMatch = true;
 
     /**
      * @var LoggerLevel
      */
-    var $levelToMatch;
+    public $levelToMatch;
   
     /**
      * @return boolean

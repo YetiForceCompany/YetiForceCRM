@@ -11,7 +11,7 @@
 class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 {
 
-	var $scheduledFormat = 'CSV';
+	public $scheduledFormat = 'CSV';
 	static $SCHEDULED_DAILY = 1;
 	static $SCHEDULED_WEEKLY = 2;
 	static $SCHEDULED_MONTHLY_BY_DATE = 3;

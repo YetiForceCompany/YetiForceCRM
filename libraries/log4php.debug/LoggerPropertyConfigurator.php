@@ -94,7 +94,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
     /**
      * @var LoggerFactory
      */
-    var $loggerFactory = null;
+    public $loggerFactory = null;
     
     /**
      * Constructor

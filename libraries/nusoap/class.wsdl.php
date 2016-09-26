@@ -14,46 +14,46 @@
 */
 class wsdl extends nusoap_base {
 	// URL or filename of the root of this WSDL
-    var $wsdl; 
+    public $wsdl; 
     // define internal arrays of bindings, ports, operations, messages, etc.
-    var $schemas = array();
-    var $currentSchema;
-    var $message = array();
-    var $complexTypes = array();
-    var $messages = array();
-    var $currentMessage;
-    var $currentOperation;
-    var $portTypes = array();
-    var $currentPortType;
-    var $bindings = array();
-    var $currentBinding;
-    var $ports = array();
-    var $currentPort;
-    var $opData = array();
-    var $status = '';
-    var $documentation = false;
-    var $endpoint = ''; 
+    public $schemas = array();
+    public $currentSchema;
+    public $message = array();
+    public $complexTypes = array();
+    public $messages = array();
+    public $currentMessage;
+    public $currentOperation;
+    public $portTypes = array();
+    public $currentPortType;
+    public $bindings = array();
+    public $currentBinding;
+    public $ports = array();
+    public $currentPort;
+    public $opData = array();
+    public $status = '';
+    public $documentation = false;
+    public $endpoint = ''; 
     // array of wsdl docs to import
-    var $import = array(); 
+    public $import = array(); 
     // parser vars
-    var $parser;
-    var $position = 0;
-    var $depth = 0;
-    var $depth_array = array();
+    public $parser;
+    public $position = 0;
+    public $depth = 0;
+    public $depth_array = array();
 	// for getting wsdl
-	var $proxyhost = '';
-    var $proxyport = '';
-	var $proxyusername = '';
-	var $proxypassword = '';
-	var $timeout = 0;
-	var $response_timeout = 30;
-	var $curl_options = array();	// User-specified cURL options
-	var $use_curl = false;			// whether to always try to use cURL
+	public $proxyhost = '';
+    public $proxyport = '';
+	public $proxyusername = '';
+	public $proxypassword = '';
+	public $timeout = 0;
+	public $response_timeout = 30;
+	public $curl_options = array();	// User-specified cURL options
+	public $use_curl = false;			// whether to always try to use cURL
 	// for HTTP authentication
-	var $username = '';				// Username for HTTP authentication
-	var $password = '';				// Password for HTTP authentication
-	var $authtype = '';				// Type of HTTP authentication
-	var $certRequest = array();		// Certificate for HTTP SSL authentication
+	public $username = '';				// Username for HTTP authentication
+	public $password = '';				// Password for HTTP authentication
+	public $authtype = '';				// Type of HTTP authentication
+	public $certRequest = array();		// Certificate for HTTP SSL authentication
 
     /**
      * constructor
@@ -806,7 +806,7 @@ class wsdl extends nusoap_base {
 		    this.bw=(this.ie6 || this.ie5 || this.ie4 || this.ns4 || this.ns6 || this.opera5)
 		    return this
 		}
-		var bw = new lib_bwcheck()
+		public bw = new lib_bwcheck()
 		//Makes crossbrowser object.
 		public function makeObj(obj){
 		    this.evnt=bw.dom? document.getElementById(obj):bw.ie4?document.all[obj]:bw.ns4?document.layers[obj]:0;
@@ -823,7 +823,7 @@ class wsdl extends nusoap_base {
 		    else this.wref.innerHTML = text
 		}
 		//Shows the messages
-		var oDesc;
+		public oDesc;
 		public function popup(divid){
 		    if(oDesc = new makeObj(divid)){
 			oDesc.css.visibility = "visible"

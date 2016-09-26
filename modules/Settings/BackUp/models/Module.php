@@ -9,12 +9,12 @@
 class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 {
 
-	var $tempDir = 'cache/backup';
-	var $destDir = 'backup';
-	var $backupInfo = false;
-	var $ajaxFilesLimit = 100;
-	var $ajaxDBLimit = 100;
-	var $cron = false;
+	public $tempDir = 'cache/backup';
+	public $destDir = 'backup';
+	public $backupInfo = false;
+	public $ajaxFilesLimit = 100;
+	public $ajaxDBLimit = 100;
+	public $cron = false;
 
 	public static function getCleanInstance()
 	{

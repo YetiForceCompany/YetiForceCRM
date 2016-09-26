@@ -77,15 +77,15 @@ define ('LOG4PHP_LOGGER_LAYOUT_RELATIVE_TIME_DATE_FORMAT', 'RELATIVE');
 class LoggerLayoutTTCC extends LoggerLayout {
 
     // Internal representation of options
-    var $threadPrinting    = true;
-    var $categoryPrefixing = true;
-    var $contextPrinting   = true;
-    var $microSecondsPrinting = true;
+    public $threadPrinting    = true;
+    public $categoryPrefixing = true;
+    public $contextPrinting   = true;
+    public $microSecondsPrinting = true;
     
     /**
      * @var string date format. See {@link PHP_MANUAL#strftime} for details
      */
-    var $dateFormat = '%c';
+    public $dateFormat = '%c';
 
     /**
      * Constructor

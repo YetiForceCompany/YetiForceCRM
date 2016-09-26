@@ -11,9 +11,9 @@
 class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $fileName = 'config/config.inc.php';
-	var $completeData;
-	var $data;
+	public $fileName = 'config/config.inc.php';
+	public $completeData;
+	public $data;
 
 	/**
 	 * Function to read config file

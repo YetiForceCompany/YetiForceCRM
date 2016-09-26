@@ -12,9 +12,9 @@
 class Import_Main_View extends Vtiger_View_Controller
 {
 
-	var $request;
-	var $user;
-	var $numberOfRecords;
+	public $request;
+	public $user;
+	public $numberOfRecords;
 
 	public function process(Vtiger_Request $request)
 	{

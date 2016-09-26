@@ -42,23 +42,23 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     /**
      * @var boolean if {@link $file} exists, appends events.
      */
-    var $append = true;  
+    public $append = true;  
 
     /**
      * @var string the file name used to append events
      */
-    var $fileName;
+    public $fileName;
 
     /**
      * @var mixed file resource
      * @access private
      */
-    var $fp = false;
+    public $fp = false;
     
     /**
      * @access private
      */
-    var $requiresLayout = true;
+    public $requiresLayout = true;
     
     /**
      * Constructor.

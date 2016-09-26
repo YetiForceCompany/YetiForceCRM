@@ -54,11 +54,11 @@ class LoggerPatternConverter {
     /**
      * @var LoggerPatternConverter next converter in converter chain
      */
-    var $next = null;
+    public $next = null;
     
-    var $min = -1;
-    var $max = 0x7FFFFFFF;
-    var $leftAlign = false;
+    public $min = -1;
+    public $max = 0x7FFFFFFF;
+    public $leftAlign = false;
 
     /**
      * Constructor 
@@ -162,7 +162,7 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
     /**
      * @var integer
      */
-    var $type;
+    public $type;
 
     /**
      * Constructor
@@ -219,7 +219,7 @@ class LoggerLiteralPatternConverter extends LoggerPatternConverter {
     /**
      * @var string
      */
-    var $literal;
+    public $literal;
 
     /**
      * Constructor
@@ -262,7 +262,7 @@ class LoggerDatePatternConverter extends LoggerPatternConverter {
     /**
      * @var string
      */
-    var $df;
+    public $df;
     
     /**
      * Constructor
@@ -303,7 +303,7 @@ class LoggerMDCPatternConverter extends LoggerPatternConverter {
     /**
      * @var string
      */
-    var $key;
+    public $key;
 
     /**
      * Constructor
@@ -339,7 +339,7 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
     /**
      * @var integer
      */
-    var $type;
+    public $type;
 
     /**
      * Constructor
@@ -388,7 +388,7 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
     /**
      * @var integer
      */
-    var $precision;
+    public $precision;
 
     /**
      * Constructor

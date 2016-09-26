@@ -39,12 +39,12 @@ class LoggerRoot extends Logger {
     /**
      * @var string name of logger 
      */
-    var $name   = 'root';
+    public $name   = 'root';
 
     /**
      * @var object must be null for LoggerRoot
      */
-    var $parent = null;
+    public $parent = null;
     
 
     /**

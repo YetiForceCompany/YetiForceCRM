@@ -58,25 +58,25 @@ class LoggerXmlLayout extends LoggerLayout {
      * origin of the log statement will be output.
      * @var boolean
      */
-    var $locationInfo = true;
+    public $locationInfo = true;
   
     /**
      * @var boolean set the elements namespace
      */
-    var $log4jNamespace = false;
+    public $log4jNamespace = false;
     
     
     /**
      * @var string namespace
      * @private
      */
-    var $_namespace = LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS;
+    public $_namespace = LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS;
     
     /**
      * @var string namespace prefix
      * @private
      */
-    var $_namespacePrefix = LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS_PREFIX;
+    public $_namespacePrefix = LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS_PREFIX;
      
     /** 
      * No options to activate. 

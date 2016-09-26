@@ -68,17 +68,17 @@ class LoggerLevelRangeFilter extends LoggerFilter {
     /**
      * @var boolean
      */
-    var $acceptOnMatch = true;
+    public $acceptOnMatch = true;
 
     /**
      * @var LoggerLevel
      */
-    var $levelMin;
+    public $levelMin;
   
     /**
      * @var LoggerLevel
      */
-    var $levelMax;
+    public $levelMax;
 
     /**
      * @return boolean

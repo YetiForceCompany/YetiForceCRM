@@ -41,28 +41,28 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
     /**
      * @var string 'from' field
      */
-    var $from = null;
+    public $from = null;
 
     /**
      * @var string 'subject' field
      */
-    var $subject = 'Log4php Report';
+    public $subject = 'Log4php Report';
     
     /**
      * @var string 'to' field
      */
-    var $to = null;
+    public $to = null;
 
     /**
      * @var string used to create mail body
      * @access private
      */
-    var $body = '';
+    public $body = '';
     
     /**
      * @access private
      */
-    var $requiresLayout = true;
+    public $requiresLayout = true;
     
     /**
      * Constructor.

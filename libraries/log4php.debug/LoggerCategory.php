@@ -41,38 +41,38 @@ class LoggerCategory {
      * appenders of their ancestors by default.
      * @var boolean
      */
-    var $additive       = true;
+    public $additive       = true;
     
     /**
      * @var string fully qualified class name
      */  
-    var $fqcn           = 'LoggerCategory';
+    public $fqcn           = 'LoggerCategory';
 
     /**
      * @var LoggerLevel The assigned level of this category.
      */
-    var $level          = null;
+    public $level          = null;
     
     /**
      * @var string name of this category.
      */
-    var $name           = '';
+    public $name           = '';
     
     /**
      * @var Logger The parent of this category.
      */
-    var $parent         = null;
+    public $parent         = null;
 
     /**
      * @var LoggerHierarchy the object repository
      */
-    var $repository     = null; 
+    public $repository     = null; 
 
     /**
      * @var array collection of appenders
      * @see LoggerAppender
      */
-    var $aai            = array();
+    public $aai            = array();
     
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/

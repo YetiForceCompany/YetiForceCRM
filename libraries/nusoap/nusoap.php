@@ -93,7 +93,7 @@ class nusoap_base
 	 * @var string
 	 * @access private
 	 */
-	var $title = 'NuSOAP';
+	public $title = 'NuSOAP';
 
 	/**
 	 * Version for HTTP headers.
@@ -101,7 +101,7 @@ class nusoap_base
 	 * @var string
 	 * @access private
 	 */
-	var $version = '0.9.6';
+	public $version = '0.9.6';
 
 	/**
 	 * CVS revision for HTTP headers.
@@ -109,7 +109,7 @@ class nusoap_base
 	 * @var string
 	 * @access private
 	 */
-	var $revision = '$Revision: 1.124 $';
+	public $revision = '$Revision: 1.124 $';
 
 	/**
 	 * Current error string (manipulated by getError/setError)
@@ -117,7 +117,7 @@ class nusoap_base
 	 * @var string
 	 * @access private
 	 */
-	var $error_str = '';
+	public $error_str = '';
 
 	/**
 	 * Current debug string (manipulated by debug/appendDebug/clearDebug/getDebug/getDebugAsXMLComment)
@@ -125,7 +125,7 @@ class nusoap_base
 	 * @var string
 	 * @access private
 	 */
-	var $debug_str = '';
+	public $debug_str = '';
 
 	/**
 	 * toggles automatic encoding of special characters as entities
@@ -134,7 +134,7 @@ class nusoap_base
 	 * @var boolean
 	 * @access private
 	 */
-	var $charencoding = true;
+	public $charencoding = true;
 
 	/**
 	 * the debug level for this instance
@@ -142,7 +142,7 @@ class nusoap_base
 	 * @var	integer
 	 * @access private
 	 */
-	var $debugLevel;
+	public $debugLevel;
 
 	/**
 	 * set schema version
@@ -150,7 +150,7 @@ class nusoap_base
 	 * @var      string
 	 * @access   public
 	 */
-	var $XMLSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
+	public $XMLSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
 
 	/**
 	 * charset encoding for outgoing messages
@@ -158,8 +158,8 @@ class nusoap_base
 	 * @var      string
 	 * @access   public
 	 */
-	var $soap_defencoding = 'ISO-8859-1';
-//	var $soap_defencoding = 'UTF-8';
+	public $soap_defencoding = 'ISO-8859-1';
+//	public $soap_defencoding = 'UTF-8';
 
 	/**
 	 * namespaces in an array of prefix => uri
@@ -169,7 +169,7 @@ class nusoap_base
 	 * @var      array
 	 * @access   public
 	 */
-	var $namespaces = array(
+	public $namespaces = array(
 		'SOAP-ENV' => 'http://schemas.xmlsoap.org/soap/envelope/',
 		'xsd' => 'http://www.w3.org/2001/XMLSchema',
 		'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
@@ -182,7 +182,7 @@ class nusoap_base
 	 * @var      array
 	 * @access   private
 	 */
-	var $usedNamespaces = array();
+	public $usedNamespaces = array();
 
 	/**
 	 * XML Schema types in an array of uri => (array of xml type => php type)
@@ -191,7 +191,7 @@ class nusoap_base
 	 * @var      array
 	 * @access   public
 	 */
-	var $typemap = array(
+	public $typemap = array(
 		'http://www.w3.org/2001/XMLSchema' => array(
 			'string' => 'string', 'boolean' => 'boolean', 'float' => 'double', 'double' => 'double', 'decimal' => 'double',
 			'duration' => '', 'dateTime' => 'string', 'time' => 'string', 'date' => 'string', 'gYearMonth' => '',
@@ -224,7 +224,7 @@ class nusoap_base
 	 * @deprecated
 	 * @see	expandEntities
 	 */
-	var $xmlEntities = array('quot' => '"', 'amp' => '&',
+	public $xmlEntities = array('quot' => '"', 'amp' => '&',
 		'lt' => '<', 'gt' => '>', 'apos' => "'");
 
 	/**
@@ -1037,28 +1037,28 @@ class nusoap_fault extends nusoap_base
 	 * @var string
 	 * @access private
 	 */
-	var $faultcode;
+	public $faultcode;
 
 	/**
 	 * The fault actor
 	 * @var string
 	 * @access private
 	 */
-	var $faultactor;
+	public $faultactor;
 
 	/**
 	 * The fault string, a description of the fault
 	 * @var string
 	 * @access private
 	 */
-	var $faultstring;
+	public $faultstring;
 
 	/**
 	 * The fault detail, typically a string or array of string
 	 * @var mixed
 	 * @access private
 	 */
-	var $faultdetail;
+	public $faultdetail;
 
 	/**
 	 * constructor
@@ -1127,33 +1127,33 @@ class nusoap_xmlschema extends nusoap_base
 {
 
 	// files
-	var $schema = '';
-	var $xml = '';
+	public $schema = '';
+	public $xml = '';
 	// namespaces
-	var $enclosingNamespaces;
+	public $enclosingNamespaces;
 	// schema info
-	var $schemaInfo = array();
-	var $schemaTargetNamespace = '';
+	public $schemaInfo = array();
+	public $schemaTargetNamespace = '';
 	// types, elements, attributes defined by the schema
-	var $attributes = array();
-	var $complexTypes = array();
-	var $complexTypeStack = array();
-	var $currentComplexType = null;
-	var $elements = array();
-	var $elementStack = array();
-	var $currentElement = null;
-	var $simpleTypes = array();
-	var $simpleTypeStack = array();
-	var $currentSimpleType = null;
+	public $attributes = array();
+	public $complexTypes = array();
+	public $complexTypeStack = array();
+	public $currentComplexType = null;
+	public $elements = array();
+	public $elementStack = array();
+	public $currentElement = null;
+	public $simpleTypes = array();
+	public $simpleTypeStack = array();
+	public $currentSimpleType = null;
 	// imports
-	var $imports = array();
+	public $imports = array();
 	// parser vars
-	var $parser;
-	var $position = 0;
-	var $depth = 0;
-	var $depth_array = array();
-	var $message = array();
-	var $defaultNamespace = array();
+	public $parser;
+	public $position = 0;
+	public $depth = 0;
+	public $depth_array = array();
+	public $message = array();
+	public $defaultNamespace = array();
 
 	/**
 	 * constructor
@@ -2095,7 +2095,7 @@ class soapval extends nusoap_base
 	 * @var string
 	 * @access private
 	 */
-	var $name;
+	public $name;
 
 	/**
 	 * The XML type name (string or false)
@@ -2103,7 +2103,7 @@ class soapval extends nusoap_base
 	 * @var mixed
 	 * @access private
 	 */
-	var $type;
+	public $type;
 
 	/**
 	 * The PHP value
@@ -2111,7 +2111,7 @@ class soapval extends nusoap_base
 	 * @var mixed
 	 * @access private
 	 */
-	var $value;
+	public $value;
 
 	/**
 	 * The XML element namespace (string or false)
@@ -2119,7 +2119,7 @@ class soapval extends nusoap_base
 	 * @var mixed
 	 * @access private
 	 */
-	var $element_ns;
+	public $element_ns;
 
 	/**
 	 * The XML type namespace (string or false)
@@ -2127,7 +2127,7 @@ class soapval extends nusoap_base
 	 * @var mixed
 	 * @access private
 	 */
-	var $type_ns;
+	public $type_ns;
 
 	/**
 	 * The XML element attributes (array or false)
@@ -2135,7 +2135,7 @@ class soapval extends nusoap_base
 	 * @var mixed
 	 * @access private
 	 */
-	var $attributes;
+	public $attributes;
 
 	/**
 	 * constructor
@@ -2197,33 +2197,33 @@ class soapval extends nusoap_base
 class soap_transport_http extends nusoap_base
 {
 
-	var $url = '';
-	var $uri = '';
-	var $digest_uri = '';
-	var $scheme = '';
-	var $host = '';
-	var $port = '';
-	var $path = '';
-	var $request_method = 'POST';
-	var $protocol_version = '1.0';
-	var $encoding = '';
-	var $outgoing_headers = array();
-	var $incoming_headers = array();
-	var $incoming_cookies = array();
-	var $outgoing_payload = '';
-	var $incoming_payload = '';
-	var $response_status_line; // HTTP response status line
-	var $useSOAPAction = true;
-	var $persistentConnection = false;
-	var $ch = false; // cURL handle
-	var $ch_options = array(); // cURL custom options
-	var $use_curl = false;  // force cURL use
-	var $proxy = null;   // proxy information (associative array)
-	var $username = '';
-	var $password = '';
-	var $authtype = '';
-	var $digestRequest = array();
-	var $certRequest = array(); // keys must be cainfofile (optional), sslcertfile, sslkeyfile, passphrase, certpassword (optional), verifypeer (optional), verifyhost (optional)
+	public $url = '';
+	public $uri = '';
+	public $digest_uri = '';
+	public $scheme = '';
+	public $host = '';
+	public $port = '';
+	public $path = '';
+	public $request_method = 'POST';
+	public $protocol_version = '1.0';
+	public $encoding = '';
+	public $outgoing_headers = array();
+	public $incoming_headers = array();
+	public $incoming_cookies = array();
+	public $outgoing_payload = '';
+	public $incoming_payload = '';
+	public $response_status_line; // HTTP response status line
+	public $useSOAPAction = true;
+	public $persistentConnection = false;
+	public $ch = false; // cURL handle
+	public $ch_options = array(); // cURL custom options
+	public $use_curl = false;  // force cURL use
+	public $proxy = null;   // proxy information (associative array)
+	public $username = '';
+	public $password = '';
+	public $authtype = '';
+	public $digestRequest = array();
+	public $certRequest = array(); // keys must be cainfofile (optional), sslcertfile, sslkeyfile, passphrase, certpassword (optional), verifypeer (optional), verifyhost (optional)
 
 	// cainfofile: certificate authority file, e.g. '$pathToPemFiles/rootca.pem'
 	// sslcertfile: SSL certificate file, e.g. '$pathToPemFiles/mycert.pem'
@@ -3503,140 +3503,140 @@ class nusoap_server extends nusoap_base
 	 * @var array
 	 * @access private
 	 */
-	var $headers = array();
+	public $headers = array();
 
 	/**
 	 * HTTP request
 	 * @var string
 	 * @access private
 	 */
-	var $request = '';
+	public $request = '';
 
 	/**
 	 * SOAP headers from request (incomplete namespace resolution; special characters not escaped) (text)
 	 * @var string
 	 * @access public
 	 */
-	var $requestHeaders = '';
+	public $requestHeaders = '';
 
 	/**
 	 * SOAP Headers from request (parsed)
 	 * @var mixed
 	 * @access public
 	 */
-	var $requestHeader = NULL;
+	public $requestHeader = NULL;
 
 	/**
 	 * SOAP body request portion (incomplete namespace resolution; special characters not escaped) (text)
 	 * @var string
 	 * @access public
 	 */
-	var $document = '';
+	public $document = '';
 
 	/**
 	 * SOAP payload for request (text)
 	 * @var string
 	 * @access public
 	 */
-	var $requestSOAP = '';
+	public $requestSOAP = '';
 
 	/**
 	 * requested method namespace URI
 	 * @var string
 	 * @access private
 	 */
-	var $methodURI = '';
+	public $methodURI = '';
 
 	/**
 	 * name of method requested
 	 * @var string
 	 * @access private
 	 */
-	var $methodname = '';
+	public $methodname = '';
 
 	/**
 	 * method parameters from request
 	 * @var array
 	 * @access private
 	 */
-	var $methodparams = array();
+	public $methodparams = array();
 
 	/**
 	 * SOAP Action from request
 	 * @var string
 	 * @access private
 	 */
-	var $SOAPAction = '';
+	public $SOAPAction = '';
 
 	/**
 	 * character set encoding of incoming (request) messages
 	 * @var string
 	 * @access public
 	 */
-	var $xml_encoding = '';
+	public $xml_encoding = '';
 
 	/**
 	 * toggles whether the parser decodes element content w/ utf8_decode()
 	 * @var boolean
 	 * @access public
 	 */
-	var $decode_utf8 = true;
+	public $decode_utf8 = true;
 
 	/**
 	 * HTTP headers of response
 	 * @var array
 	 * @access public
 	 */
-	var $outgoing_headers = array();
+	public $outgoing_headers = array();
 
 	/**
 	 * HTTP response
 	 * @var string
 	 * @access private
 	 */
-	var $response = '';
+	public $response = '';
 
 	/**
 	 * SOAP headers for response (text or array of soapval or associative array)
 	 * @var mixed
 	 * @access public
 	 */
-	var $responseHeaders = '';
+	public $responseHeaders = '';
 
 	/**
 	 * SOAP payload for response (text)
 	 * @var string
 	 * @access private
 	 */
-	var $responseSOAP = '';
+	public $responseSOAP = '';
 
 	/**
 	 * method return value to place in response
 	 * @var mixed
 	 * @access private
 	 */
-	var $methodreturn = false;
+	public $methodreturn = false;
 
 	/**
 	 * whether $methodreturn is a string of literal XML
 	 * @var boolean
 	 * @access public
 	 */
-	var $methodreturnisliteralxml = false;
+	public $methodreturnisliteralxml = false;
 
 	/**
 	 * SOAP fault for response (or false)
 	 * @var mixed
 	 * @access private
 	 */
-	var $fault = false;
+	public $fault = false;
 
 	/**
 	 * text indication of result (for debugging)
 	 * @var string
 	 * @access private
 	 */
-	var $result = 'successful';
+	public $result = 'successful';
 
 	/**
 	 * assoc array of operations => opData; operations are added by the register()
@@ -3644,28 +3644,28 @@ class nusoap_server extends nusoap_base
 	 * @var array
 	 * @access private
 	 */
-	var $operations = array();
+	public $operations = array();
 
 	/**
 	 * wsdl instance (if one)
 	 * @var mixed
 	 * @access private
 	 */
-	var $wsdl = false;
+	public $wsdl = false;
 
 	/**
 	 * URL for WSDL (if one)
 	 * @var mixed
 	 * @access private
 	 */
-	var $externalWSDLURL = false;
+	public $externalWSDLURL = false;
 
 	/**
 	 * whether to append debug to response as XML comment
 	 * @var boolean
 	 * @access public
 	 */
-	var $debug_flag = false;
+	public $debug_flag = false;
 
 	/**
 	 * constructor
@@ -4626,46 +4626,46 @@ class wsdl extends nusoap_base
 {
 
 	// URL or filename of the root of this WSDL
-	var $wsdl;
+	public $wsdl;
 	// define internal arrays of bindings, ports, operations, messages, etc.
-	var $schemas = array();
-	var $currentSchema;
-	var $message = array();
-	var $complexTypes = array();
-	var $messages = array();
-	var $currentMessage;
-	var $currentOperation;
-	var $portTypes = array();
-	var $currentPortType;
-	var $bindings = array();
-	var $currentBinding;
-	var $ports = array();
-	var $currentPort;
-	var $opData = array();
-	var $status = '';
-	var $documentation = false;
-	var $endpoint = '';
+	public $schemas = array();
+	public $currentSchema;
+	public $message = array();
+	public $complexTypes = array();
+	public $messages = array();
+	public $currentMessage;
+	public $currentOperation;
+	public $portTypes = array();
+	public $currentPortType;
+	public $bindings = array();
+	public $currentBinding;
+	public $ports = array();
+	public $currentPort;
+	public $opData = array();
+	public $status = '';
+	public $documentation = false;
+	public $endpoint = '';
 	// array of wsdl docs to import
-	var $import = array();
+	public $import = array();
 	// parser vars
-	var $parser;
-	var $position = 0;
-	var $depth = 0;
-	var $depth_array = array();
+	public $parser;
+	public $position = 0;
+	public $depth = 0;
+	public $depth_array = array();
 	// for getting wsdl
-	var $proxyhost = '';
-	var $proxyport = '';
-	var $proxyusername = '';
-	var $proxypassword = '';
-	var $timeout = 0;
-	var $response_timeout = 30;
-	var $curl_options = array(); // User-specified cURL options
-	var $use_curl = false;   // whether to always try to use cURL
+	public $proxyhost = '';
+	public $proxyport = '';
+	public $proxyusername = '';
+	public $proxypassword = '';
+	public $timeout = 0;
+	public $response_timeout = 30;
+	public $curl_options = array(); // User-specified cURL options
+	public $use_curl = false;   // whether to always try to use cURL
 	// for HTTP authentication
-	var $username = ''; // Username for HTTP authentication
-	var $password = ''; // Password for HTTP authentication
-	var $authtype = ''; // Type of HTTP authentication
-	var $certRequest = array();  // Certificate for HTTP SSL authentication
+	public $username = ''; // Username for HTTP authentication
+	public $password = ''; // Password for HTTP authentication
+	public $authtype = ''; // Type of HTTP authentication
+	public $certRequest = array();  // Certificate for HTTP SSL authentication
 
 	/**
 	 * constructor
@@ -5423,7 +5423,7 @@ class wsdl extends nusoap_base
 		    this.bw=(this.ie6 || this.ie5 || this.ie4 || this.ns4 || this.ns6 || this.opera5)
 		    return this
 		}
-		var bw = new lib_bwcheck()
+		public bw = new lib_bwcheck()
 		//Makes crossbrowser object.
 		public function makeObj(obj){
 		    this.evnt=bw.dom? document.getElementById(obj):bw.ie4?document.all[obj]:bw.ns4?document.layers[obj]:0;
@@ -5440,7 +5440,7 @@ class wsdl extends nusoap_base
 		    else this.wref.innerHTML = text
 		}
 		//Shows the messages
-		var oDesc;
+		public oDesc;
 		public function popup(divid){
 		    if(oDesc = new makeObj(divid)){
 			oDesc.css.visibility = "visible"
@@ -6540,39 +6540,39 @@ class wsdl extends nusoap_base
 class nusoap_parser extends nusoap_base
 {
 
-	var $xml = '';
-	var $xml_encoding = '';
-	var $method = '';
-	var $root_struct = '';
-	var $root_struct_name = '';
-	var $root_struct_namespace = '';
-	var $root_header = '';
-	var $document = '';   // incoming SOAP body (text)
+	public $xml = '';
+	public $xml_encoding = '';
+	public $method = '';
+	public $root_struct = '';
+	public $root_struct_name = '';
+	public $root_struct_namespace = '';
+	public $root_header = '';
+	public $document = '';   // incoming SOAP body (text)
 	// determines where in the message we are (envelope,header,body,method)
-	var $status = '';
-	var $position = 0;
-	var $depth = 0;
-	var $default_namespace = '';
-	var $namespaces = array();
-	var $message = array();
-	var $parent = '';
-	var $fault = false;
-	var $fault_code = '';
-	var $fault_str = '';
-	var $fault_detail = '';
-	var $depth_array = array();
-	var $debug_flag = true;
-	var $soapresponse = NULL; // parsed SOAP Body
-	var $soapheader = NULL;  // parsed SOAP Header
-	var $responseHeaders = ''; // incoming SOAP headers (text)
-	var $body_position = 0;
+	public $status = '';
+	public $position = 0;
+	public $depth = 0;
+	public $default_namespace = '';
+	public $namespaces = array();
+	public $message = array();
+	public $parent = '';
+	public $fault = false;
+	public $fault_code = '';
+	public $fault_str = '';
+	public $fault_detail = '';
+	public $depth_array = array();
+	public $debug_flag = true;
+	public $soapresponse = NULL; // parsed SOAP Body
+	public $soapheader = NULL;  // parsed SOAP Header
+	public $responseHeaders = ''; // incoming SOAP headers (text)
+	public $body_position = 0;
 	// for multiref parsing:
 	// array of id => pos
-	var $ids = array();
+	public $ids = array();
 	// array of id => hrefs => pos
-	var $multirefs = array();
+	public $multirefs = array();
 	// toggle for auto-decoding element content
-	var $decode_utf8 = true;
+	public $decode_utf8 = true;
 
 	/**
 	 * constructor that actually does the parsing

@@ -28,24 +28,24 @@ require_once('modules/Calendar/CalendarCommon.php');
 class Activity extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_activity";
-	var $table_index = 'activityid';
-	var $reminder_table = 'vtiger_activity_reminder';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_activitycf');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_recurringevents' => 'activityid', 'vtiger_activitycf' => 'activityid');
-	var $column_fields = [];
-	var $sortby_fields = Array('subject', 'due_date', 'date_start', 'smownerid', 'activitytype', 'lastname'); //Sorting is added for due date and start date
+	public $log;
+	public $db;
+	public $table_name = "vtiger_activity";
+	public $table_index = 'activityid';
+	public $reminder_table = 'vtiger_activity_reminder';
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_activitycf');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_recurringevents' => 'activityid', 'vtiger_activitycf' => 'activityid');
+	public $column_fields = [];
+	public $sortby_fields = Array('subject', 'due_date', 'date_start', 'smownerid', 'activitytype', 'lastname'); //Sorting is added for due date and start date
 	// This is used to retrieve related vtiger_fields from form posts.
-	var $additional_column_fields = Array('assigned_user_name', 'assigned_user_id', 'contactname', 'contact_phone', 'contact_email', 'parent_name');
+	public $additional_column_fields = Array('assigned_user_name', 'assigned_user_id', 'contactname', 'contact_phone', 'contact_email', 'parent_name');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_activitycf', 'activityid');
+	public $customFieldTable = Array('vtiger_activitycf', 'activityid');
 	// This is the list of vtiger_fields that are in the lists.
-	var $list_fields = Array(
+	public $list_fields = Array(
 		'Close' => Array('activity' => 'status'),
 		'Type' => Array('activity' => 'activitytype'),
 		'Subject' => Array('activity' => 'subject'),
@@ -57,7 +57,7 @@ class Activity extends CRMEntity
 		'Recurring Type' => Array('recurringevents' => 'recurringtype'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
-	var $range_fields = Array(
+	public $range_fields = Array(
 		'name',
 		'date_modified',
 		'start_date',
@@ -71,7 +71,7 @@ class Activity extends CRMEntity
 		'dueminutes',
 		'location'
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'Close' => 'status',
 		'Type' => 'activitytype',
 		'Subject' => 'subject',
@@ -84,10 +84,10 @@ class Activity extends CRMEntity
 		'Start Time' => 'time_start',
 		'End Date' => 'due_date',
 		'End Time' => 'time_end');
-	var $list_link_field = 'subject';
+	public $list_link_field = 'subject';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 
 	public function __construct()
 	{

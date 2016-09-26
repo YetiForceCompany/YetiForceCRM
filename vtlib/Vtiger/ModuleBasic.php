@@ -18,26 +18,26 @@ class ModuleBasic
 {
 
 	/** ID of this instance */
-	var $id = false;
-	var $name = false;
-	var $label = false;
-	var $version = 0;
-	var $minversion = false;
-	var $maxversion = false;
-	var $presence = 0;
-	var $ownedby = 0; // 0 - Sharing Access Enabled, 1 - Sharing Access Disabled
-	var $tabsequence = false;
-	var $parent = false;
-	var $customized = 0;
-	var $isentitytype = true; // Real module or an extension?
-	var $entityidcolumn = false;
-	var $entityidfield = false;
-	var $basetable = false;
-	var $basetableid = false;
-	var $customtable = false;
-	var $grouptable = false;
-	var $type = 0;
-	var $tableName;
+	public $id = false;
+	public $name = false;
+	public $label = false;
+	public $version = 0;
+	public $minversion = false;
+	public $maxversion = false;
+	public $presence = 0;
+	public $ownedby = 0; // 0 - Sharing Access Enabled, 1 - Sharing Access Disabled
+	public $tabsequence = false;
+	public $parent = false;
+	public $customized = 0;
+	public $isentitytype = true; // Real module or an extension?
+	public $entityidcolumn = false;
+	public $entityidfield = false;
+	public $basetable = false;
+	public $basetableid = false;
+	public $customtable = false;
+	public $grouptable = false;
+	public $type = 0;
+	public $tableName;
 
 	const EVENT_MODULE_ENABLED = 'module.enabled';
 	const EVENT_MODULE_DISABLED = 'module.disabled';

@@ -38,7 +38,7 @@ class LoggerAppenderNull extends LoggerAppenderSkeleton {
     /**
      * @access private
      */
-    var $requiresLayout = false;
+    public $requiresLayout = false;
     
     /**
      * Constructor.

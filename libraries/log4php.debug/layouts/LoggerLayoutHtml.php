@@ -65,7 +65,7 @@ class LoggerLayoutHtml extends LoggerLayout {
      * <b>LocationInfo</b> option of that appender as well.
      * @var boolean
      */
-    var $locationInfo = false;
+    public $locationInfo = false;
     
     /**
      * The <b>Title</b> option takes a String value. This option sets the
@@ -73,7 +73,7 @@ class LoggerLayoutHtml extends LoggerLayout {
      * Defaults to 'Log4php Log Messages'.
      * @var string
      */
-    var $title = "Log4php Log Messages";
+    public $title = "Log4php Log Messages";
     
     /**
      * Constructor

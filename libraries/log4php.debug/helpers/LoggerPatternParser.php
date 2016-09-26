@@ -83,30 +83,30 @@ define('LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_DATE',       'd M Y H:i:s,u');
  */
 class LoggerPatternParser {
 
-    var $state;
-    var $currentLiteral;
-    var $patternLength;
-    var $i;
+    public $state;
+    public $currentLiteral;
+    public $patternLength;
+    public $i;
     
     /**
      * @var LoggerPatternConverter
      */
-    var $head = null;
+    public $head = null;
      
     /**
      * @var LoggerPatternConverter
      */
-    var $tail = null;
+    public $tail = null;
     
     /**
      * @var LoggerFormattingInfo
      */
-    var $formattingInfo;
+    public $formattingInfo;
     
     /**
      * @var string pattern to parse
      */
-    var $pattern;
+    public $pattern;
 
     /**
      * Constructor 

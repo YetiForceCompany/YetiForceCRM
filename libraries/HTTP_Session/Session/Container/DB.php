@@ -65,7 +65,7 @@ class HTTP_Session_Container_DB extends HTTP_Session_Container
      * @var object DB
      * @access private
      */
-    var $db = null;
+    public $db = null;
 
     /**
      * Session data cache id
@@ -73,7 +73,7 @@ class HTTP_Session_Container_DB extends HTTP_Session_Container
      * @var mixed
      * @access private
      */
-    var $crc = false;
+    public $crc = false;
 
     /**
      * Constrtuctor method

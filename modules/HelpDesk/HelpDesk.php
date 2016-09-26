@@ -16,22 +16,22 @@
 class HelpDesk extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_troubletickets";
-	var $table_index = 'ticketid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
+	public $log;
+	public $db;
+	public $table_name = "vtiger_troubletickets";
+	public $table_index = 'ticketid';
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_ticketcf', 'ticketid');
-	var $column_fields = Array();
+	public $customFieldTable = Array('vtiger_ticketcf', 'ticketid');
+	public $column_fields = Array();
 	//Pavani: Assign value to entity_table
-	var $entity_table = "vtiger_crmentity";
-	var $sortby_fields = Array('title', 'status', 'priority', 'crmid', 'firstname', 'smownerid');
-	var $list_fields = Array(
+	public $entity_table = "vtiger_crmentity";
+	public $sortby_fields = Array('title', 'status', 'priority', 'crmid', 'firstname', 'smownerid');
+	public $list_fields = Array(
 		//Module Sequence Numbering
 		//'Ticket ID'=>Array('crmentity'=>'crmid'),
 		'Ticket No' => Array('troubletickets' => 'ticket_no'),
@@ -44,7 +44,7 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'FL_TOTAL_TIME_H' => Array('troubletickets', 'sum_time')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'Ticket No' => 'ticket_no',
 		'Subject' => 'ticket_title',
 		'Related To' => 'parent_id',
@@ -54,8 +54,8 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
 	);
-	var $list_link_field = 'ticket_title';
-	var $range_fields = Array(
+	public $list_link_field = 'ticket_title';
+	public $range_fields = Array(
 		'ticketid',
 		'title',
 		'firstname',
@@ -72,25 +72,25 @@ class HelpDesk extends CRMEntity
 		'modifiedtime',
 		'createdtime'
 	);
-	var $search_fields = Array(
+	public $search_fields = Array(
 		//'Ticket ID' => Array('vtiger_crmentity'=>'crmid'),
 		'Ticket No' => Array('vtiger_troubletickets' => 'ticket_no'),
 		'Title' => Array('vtiger_troubletickets' => 'title')
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		'Ticket No' => 'ticket_no',
 		'Title' => 'ticket_title',
 	);
 	//Specify Required fields
-	var $required_fields = array();
+	public $required_fields = array();
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
+	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 	// For Alphabetical search
-	var $def_basicsearch_col = 'ticket_title';
+	public $def_basicsearch_col = 'ticket_title';
 
 	public function save_module($module)
 	{

@@ -55,43 +55,43 @@ class LoggerHierarchy {
     /**
      * @var object currently unused
      */
-    var $defaultFactory;
+    public $defaultFactory;
     
     /**
      * @var boolean activate internal logging
      * @see LoggerLog
      */
-    var $debug = false;
+    public $debug = false;
 
     /**
      * @var array hierarchy tree. saves here all loggers
      */
-    var $ht = array();
+    public $ht = array();
     
     /**
      * @var LoggerRoot
      */
-    var $root = null;
+    public $root = null;
     
     /**
      * @var LoggerRendererMap
      */
-    var $rendererMap;
+    public $rendererMap;
 
     /**
      * @var LoggerLevel main level threshold
      */
-    var $threshold;
+    public $threshold;
     
     /**
      * @var boolean currently unused
      */
-    var $emittedNoAppenderWarning       = false;
+    public $emittedNoAppenderWarning       = false;
 
     /**
      * @var boolean currently unused
      */
-    var $emittedNoResourceBundleWarning = false;
+    public $emittedNoResourceBundleWarning = false;
     
     
 /* --------------------------------------------------------------------------*/

@@ -37,9 +37,9 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  */
 class LoggerFormattingInfo {
 
-    var $min        = -1;
-    var $max        = 0x7FFFFFFF;
-    var $leftAlign  = false;
+    public $min        = -1;
+    public $max        = 0x7FFFFFFF;
+    public $leftAlign  = false;
 
     /**
      * Constructor

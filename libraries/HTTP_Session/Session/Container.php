@@ -50,7 +50,7 @@ class HTTP_Session_Container
      * @var array
      * @access private
      */
-    var $options = array();
+    public $options = array();
 
     /**
      * Constrtuctor method

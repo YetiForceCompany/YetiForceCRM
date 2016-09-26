@@ -47,52 +47,52 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
      * @var mixed socket connection resource
      * @access private
      */
-    var $sp = false;
+    public $sp = false;
     
     /**
      * Target host. On how to define remote hostaname see 
      * {@link PHP_MANUAL#fsockopen}
      * @var string 
      */
-    var $remoteHost     = '';
+    public $remoteHost     = '';
     
     /**
      * @var integer the network port.
      */
-    var $port           = LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_PORT;
+    public $port           = LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_PORT;
     
     /**
      * @var boolean get event's location info.
      */
-    var $locationInfo   = false;
+    public $locationInfo   = false;
     
     /**
      * @var integer connection timeout
      */
-    var $timeout        = LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_TIMEOUT;
+    public $timeout        = LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_TIMEOUT;
     
     /**
      * @var boolean output events via {@link LoggerXmlLayout}
      */
-    var $useXml         = false;
+    public $useXml         = false;
     
     /**
      * @var boolean forward this option to {@link LoggerXmlLayout}. 
      *              Ignored if {@link $useXml} is <i>false</i>.
      */
-    var $log4jNamespace = false;
+    public $log4jNamespace = false;
 
     /**
      * @var LoggerXmlLayout
      * @access private
      */
-    var $xmlLayout      = null;
+    public $xmlLayout      = null;
     
     /**
      * @var boolean
      * @access private
      */
-    var $requiresLayout = false;
+    public $requiresLayout = false;
     
     /**
      * Constructor

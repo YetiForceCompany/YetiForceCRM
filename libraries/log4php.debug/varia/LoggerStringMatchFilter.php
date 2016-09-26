@@ -49,12 +49,12 @@ class LoggerStringMatchFilter extends LoggerFilter {
     /**
      * @var boolean
      */
-    var $acceptOnMatch = true;
+    public $acceptOnMatch = true;
 
     /**
      * @var string
      */
-    var $stringToMatch = null;
+    public $stringToMatch = null;
   
     /**
      * @return boolean

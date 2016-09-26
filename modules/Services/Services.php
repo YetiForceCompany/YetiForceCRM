@@ -12,28 +12,28 @@
 class Services extends CRMEntity
 {
 
-	var $db, $log; // Used in class functions of CRMEntity
-	var $table_name = 'vtiger_service';
-	var $table_index = 'serviceid';
-	var $column_fields = Array();
+	public $db, $log; // Used in class functions of CRMEntity
+	public $table_name = 'vtiger_service';
+	public $table_index = 'serviceid';
+	public $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
+	public $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_servicecf', 'serviceid');
+	public $customFieldTable = Array('vtiger_servicecf', 'serviceid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_service', 'vtiger_servicecf');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_service', 'vtiger_servicecf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_service' => 'serviceid',
 		'vtiger_servicecf' => 'serviceid',
@@ -42,7 +42,7 @@ class Services extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Service No' => Array('service' => 'service_no'),
@@ -51,7 +51,7 @@ class Services extends CRMEntity
 		'No of Units' => Array('service' => 'qty_per_unit'),
 		'Price' => Array('service' => 'unit_price')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Service No' => 'service_no',
 		'Service Name' => 'servicename',
@@ -60,37 +60,37 @@ class Services extends CRMEntity
 		'Price' => 'unit_price'
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'servicename';
+	public $list_link_field = 'servicename';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Service No' => Array('service' => 'service_no'),
 		'Service Name' => Array('service' => 'servicename'),
 		'Price' => Array('service' => 'unit_price')
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Service No' => 'service_no',
 		'Service Name' => 'servicename',
 		'Price' => 'unit_price'
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('servicename', 'service_usageunit', 'unit_price');
+	public $popup_fields = Array('servicename', 'service_usageunit', 'unit_price');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	public $sortby_fields = Array();
 	// For Alphabetical search
-	var $def_basicsearch_col = 'servicename';
+	public $def_basicsearch_col = 'servicename';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'servicename';
+	public $def_detailview_recname = 'servicename';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('servicename' => 1);
+	public $required_fields = Array('servicename' => 1);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('servicename', 'assigned_user_id');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
-	var $unit_price;
+	public $mandatory_fields = Array('servicename', 'assigned_user_id');
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
+	public $unit_price;
 
 	public function save_module($module)
 	{

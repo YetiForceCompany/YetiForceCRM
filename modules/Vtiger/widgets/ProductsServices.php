@@ -12,7 +12,7 @@
 class Vtiger_ProductsServices_Widget extends Vtiger_Basic_Widget
 {
 
-	var $allowedModules = ['Accounts'];
+	public $allowedModules = ['Accounts'];
 
 	public function getUrl()
 	{

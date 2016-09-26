@@ -25,21 +25,21 @@
 class Emails extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_activity";
-	var $table_index = 'activityid';
+	public $log;
+	public $db;
+	public $table_name = "vtiger_activity";
+	public $table_index = 'activityid';
 	// Stored vtiger_fields
 	// added to check email save from plugin or not
-	var $plugin_save = false;
-	var $rel_users_table = "vtiger_salesmanactivityrel";
-	var $rel_contacts_table = "vtiger_cntactivityrel";
-	var $rel_serel_table = "vtiger_seactivityrel";
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_emaildetails');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid',
+	public $plugin_save = false;
+	public $rel_users_table = "vtiger_salesmanactivityrel";
+	public $rel_contacts_table = "vtiger_cntactivityrel";
+	public $rel_serel_table = "vtiger_seactivityrel";
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_emaildetails');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid',
 		'vtiger_seactivityrel' => 'activityid', 'vtiger_cntactivityrel' => 'activityid', 'vtiger_email_track' => 'mailid', 'vtiger_emaildetails' => 'emailid');
 	// This is the list of vtiger_fields that are in the lists.
-	var $list_fields = Array(
+	public $list_fields = Array(
 		'Subject' => Array('activity' => 'subject'),
 		'Related to' => Array('seactivityrel' => 'parent_id'),
 		'Date Sent' => Array('activity' => 'date_start'),
@@ -47,7 +47,7 @@ class Emails extends CRMEntity
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Access Count' => Array('email_track', 'access_count')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'Subject' => 'subject',
 		'Related to' => 'parent_id',
 		'Date Sent' => 'date_start',
@@ -55,15 +55,15 @@ class Emails extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Access Count' => 'access_count'
 	);
-	var $list_link_field = 'subject';
-	var $column_fields = Array();
-	var $sortby_fields = Array('subject', 'date_start', 'saved_toid');
+	public $list_link_field = 'subject';
+	public $column_fields = Array();
+	public $sortby_fields = Array('subject', 'date_start', 'saved_toid');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'DESC';
+	public $default_order_by = '';
+	public $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('subject', 'assigned_user_id');
+	public $mandatory_fields = Array('subject', 'assigned_user_id');
 
 	public function save_module($module)
 	{

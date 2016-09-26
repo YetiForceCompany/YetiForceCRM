@@ -89,35 +89,35 @@ class nusoap_base {
 	 * @var string
 	 * @access private
 	 */
-	var $title = 'NuSOAP';
+	public $title = 'NuSOAP';
 	/**
 	 * Version for HTTP headers.
 	 *
 	 * @var string
 	 * @access private
 	 */
-	var $version = '0.9.6';
+	public $version = '0.9.6';
 	/**
 	 * CVS revision for HTTP headers.
 	 *
 	 * @var string
 	 * @access private
 	 */
-	var $revision = '$Revision: 1.57 $';
+	public $revision = '$Revision: 1.57 $';
     /**
      * Current error string (manipulated by getError/setError)
 	 *
 	 * @var string
 	 * @access private
 	 */
-	var $error_str = '';
+	public $error_str = '';
     /**
      * Current debug string (manipulated by debug/appendDebug/clearDebug/getDebug/getDebugAsXMLComment)
 	 *
 	 * @var string
 	 * @access private
 	 */
-    var $debug_str = '';
+    public $debug_str = '';
     /**
 	 * toggles automatic encoding of special characters as entities
 	 * (should always be true, I think)
@@ -125,14 +125,14 @@ class nusoap_base {
 	 * @var boolean
 	 * @access private
 	 */
-	var $charencoding = true;
+	public $charencoding = true;
 	/**
 	 * the debug level for this instance
 	 *
 	 * @var	integer
 	 * @access private
 	 */
-	var $debugLevel;
+	public $debugLevel;
 
     /**
 	* set schema version
@@ -140,7 +140,7 @@ class nusoap_base {
 	* @var      string
 	* @access   public
 	*/
-	var $XMLSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
+	public $XMLSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
 	
     /**
 	* charset encoding for outgoing messages
@@ -148,7 +148,7 @@ class nusoap_base {
 	* @var      string
 	* @access   public
 	*/
-    var $soap_defencoding = 'UTF-8';
+    public $soap_defencoding = 'UTF-8';
 	//var $soap_defencoding = 'UTF-8';
 
 	/**
@@ -159,7 +159,7 @@ class nusoap_base {
 	* @var      array
 	* @access   public
 	*/
-	var $namespaces = array(
+	public $namespaces = array(
 		'SOAP-ENV' => 'http://schemas.xmlsoap.org/soap/envelope/',
 		'xsd' => 'http://www.w3.org/2001/XMLSchema',
 		'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
@@ -172,7 +172,7 @@ class nusoap_base {
 	* @var      array
 	* @access   private
 	*/
-	var $usedNamespaces = array();
+	public $usedNamespaces = array();
 
 	/**
 	* XML Schema types in an array of uri => (array of xml type => php type)
@@ -181,7 +181,7 @@ class nusoap_base {
 	* @var      array
 	* @access   public
 	*/
-	var $typemap = array(
+	public $typemap = array(
 	'http://www.w3.org/2001/XMLSchema' => array(
 		'string'=>'string','boolean'=>'boolean','float'=>'double','double'=>'double','decimal'=>'double',
 		'duration'=>'','dateTime'=>'string','time'=>'string','date'=>'string','gYearMonth'=>'',
@@ -214,7 +214,7 @@ class nusoap_base {
 	* @deprecated
 	* @see	expandEntities
 	*/
-	var $xmlEntities = array('quot' => '"','amp' => '&',
+	public $xmlEntities = array('quot' => '"','amp' => '&',
 		'lt' => '<','gt' => '>','apos' => "'");
 
 	/**

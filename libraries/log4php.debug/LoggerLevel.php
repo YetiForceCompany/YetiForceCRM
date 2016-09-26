@@ -52,17 +52,17 @@ class LoggerLevel {
     /**
      * @var integer
      */
-    var $level;
+    public $level;
   
     /**
      * @var string
      */
-    var $levelStr;
+    public $levelStr;
   
     /**
      * @var integer
      */
-    var $syslogEquivalent;
+    public $syslogEquivalent;
 
     /**
      * Constructor

@@ -14,17 +14,17 @@ require_once('modules/Calendar/Date.php');
 class RecurringType
 {
 
-	var $recur_type;
-	var $startdate;
-	var $enddate;
-	var $recur_freq;
-	var $dayofweek_to_rpt = [];
-	var $repeat_monthby;
-	var $rptmonth_datevalue;
-	var $rptmonth_daytype;
-	var $recurringdates = [];
-	var $reminder;
-	var $recurringenddate;
+	public $recur_type;
+	public $startdate;
+	public $enddate;
+	public $recur_freq;
+	public $dayofweek_to_rpt = [];
+	public $repeat_monthby;
+	public $rptmonth_datevalue;
+	public $rptmonth_daytype;
+	public $recurringdates = [];
+	public $reminder;
+	public $recurringenddate;
 
 	/**
 	 * Constructor for class RecurringType

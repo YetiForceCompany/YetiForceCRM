@@ -51,19 +51,19 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
      * Default is STDOUT
      * @var string    
      */
-    var $target = 'php://stdout';
+    public $target = 'php://stdout';
     
     /**
      * @var boolean
      * @access private     
      */
-    var $requiresLayout = true;
+    public $requiresLayout = true;
 
     /**
      * @var mixed the resource used to open stdout/stderr
      * @access private     
      */
-    var $fp = false;
+    public $fp = false;
     
     /**
      * Constructor.

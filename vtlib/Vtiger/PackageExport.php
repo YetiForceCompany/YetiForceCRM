@@ -17,9 +17,9 @@ namespace vtlib;
 class PackageExport
 {
 
-	var $_export_tmpdir = 'cache/vtlib';
-	var $_export_modulexml_filename = null;
-	var $_export_modulexml_file = null;
+	public $_export_tmpdir = 'cache/vtlib';
+	public $_export_modulexml_filename = null;
+	public $_export_modulexml_file = null;
 	protected $moduleInstance = false;
 
 	/**

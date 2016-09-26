@@ -16,9 +16,9 @@ namespace vtlib;
 class PackageUpdate extends PackageImport
 {
 
-	var $_migrationinfo = false;
-	var $listFields = [];
-	var $listBlocks = [];
+	public $_migrationinfo = false;
+	public $listFields = [];
+	public $listBlocks = [];
 
 	/**
 	 * Initialize Update

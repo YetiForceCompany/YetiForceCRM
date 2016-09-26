@@ -12,12 +12,12 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 {
 
 	STATIC $logoSupportedFormats = array('jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png');
-	var $baseTable = 'vtiger_organizationdetails';
-	var $baseIndex = 'organization_id';
-	var $listFields = array('organizationname');
-	var $nameFields = array('organizationname');
-	var $logoPath = 'storage/Logo/';
-	var $fields = array(
+	public $baseTable = 'vtiger_organizationdetails';
+	public $baseIndex = 'organization_id';
+	public $listFields = array('organizationname');
+	public $nameFields = array('organizationname');
+	public $logoPath = 'storage/Logo/';
+	public $fields = array(
 		'organizationname' => 'text',
 		'logoname' => 'text',
 		'logo' => 'file',
@@ -37,7 +37,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		'id2' => 'text',
 		'height_panellogo' => 'text',
 	);
-	var $heights = array(
+	public $heights = array(
 		'256', '192', '128', '96', '64', '32', '16'
 	);
 

@@ -29,7 +29,7 @@ require_once('include/utils/UserInfoUtil.php');
 class CRMEntity
 {
 
-	var $ownedby;
+	public $ownedby;
 
 	/** 	Constructor which will set the column_fields in this object
 	 */

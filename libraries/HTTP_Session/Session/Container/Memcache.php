@@ -49,7 +49,7 @@ class HTTP_Session_Container_Memcache extends HTTP_Session_Container
      * @var     object  Memcache
      * @access  private
      */
-    var $mc;
+    public $mc;
 
     /**
      * Constructor method

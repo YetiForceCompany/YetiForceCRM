@@ -42,13 +42,13 @@ class LoggerAppenderEcho extends LoggerAppenderSkeleton {
     /**
      * @access private 
      */
-    var $requiresLayout = true;
+    public $requiresLayout = true;
 
     /**
      * @var boolean used internally to mark first append 
      * @access private 
      */
-    var $firstAppend    = true;
+    public $firstAppend    = true;
     
     /**
      * Constructor.

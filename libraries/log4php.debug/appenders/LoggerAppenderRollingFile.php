@@ -55,7 +55,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      *
      * @var integer
      */
-    var $maxFileSize = 10485760;
+    public $maxFileSize = 10485760;
     
     /**
      * Set the maximum number of backup files to keep around.
@@ -69,13 +69,13 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      *
      * @var integer 
      */
-    var $maxBackupIndex  = 1;
+    public $maxBackupIndex  = 1;
     
     /**
      * @var string the filename expanded
      * @access private
      */
-    var $expandedFileName = null;
+    public $expandedFileName = null;
 
     /**
      * Constructor.
