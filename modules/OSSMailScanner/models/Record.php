@@ -198,7 +198,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$log = LoggerManager::getInstance();
 		$log->debug('Start execute actions: ' . $account['username']);
 
-		global $who_trigger;
 		$actions = [];
 		if ($params && array_key_exists('actions', $params)) {
 			$actions = $params['actions'];
