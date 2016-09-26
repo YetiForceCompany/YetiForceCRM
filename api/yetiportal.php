@@ -2346,8 +2346,8 @@ function check_permission($customerid, $module, $entityid)
 			}
 			break;
 	}
-	return false;
 	$log->debug("Exiting customerportal function check_permission ..");
+	return false;
 }
 /* Function to get related Documents for faq
  *  @params $id :: INT parent's Id
@@ -2788,8 +2788,8 @@ function getRelatedServiceContracts($crmid)
 		$sc_info[$i]['Total Units'] = $adb->query_result($res, $i, 'total_units');
 		$sc_info[$i]['Available Units'] = $adb->query_result($res, $i, 'total_units') - $adb->query_result($res, $i, 'used_units');
 	}
-	return $sc_info;
 	$log->debug("Exiting customerportal function getRelatedServiceContracts");
+	return $sc_info;
 }
 
 /**     function to get summary widgets
@@ -2920,8 +2920,8 @@ function getPortalUserid()
 			Vtiger_Soap_YetiPortal::updatePrefValue('userid', $userid);
 		}
 	}
-	return $userid;
 	$log->debug("Exiting customerportal function getPortalUserid");
+	return $userid;
 }
 
 function checkModuleActive($module)
