@@ -23,7 +23,7 @@ class PearDatabase
 	public $dieOnError = false;
 	protected $log = null;
 	static private $dbConfig = false;
-	static private $dbCache = [];
+	static private $dbCache = false;
 	protected $dbType = null;
 	protected $dbHostName = null;
 	protected $dbName = null;
@@ -72,17 +72,10 @@ class PearDatabase
 	 */
 	public static function &getInstance($type = 'base')
 	{
-		if (key_exists($type, self::$dbCache)) {
-			return self::$dbCache[$type];
+		if (self::$dbCache !== false) {
+			return self::$dbCache;
 		}
-		$config = self::getDBConfig($type);
-		if ($config === false) {
-			if (isset(self::$dbCache['base'])) {
-				return self::$dbCache['base'];
-			} else {
-				$config = self::getDBConfig('base');
-			}
-		}
+		$config = AppConfig::main('dbconfig');
 		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
 
 		if ($db->database == NULL) {
@@ -90,10 +83,8 @@ class PearDatabase
 			$db->checkError('Error connecting to the database');
 			return false;
 		} else {
-			self::$dbCache[$type] = $db;
-			if ($type == 'base') {
-				vglobal('adb', $db);
-			}
+			vglobal('adb', $db);
+			self::$dbCache = $db;
 		}
 		return $db;
 	}
@@ -125,18 +116,6 @@ class PearDatabase
 			$this->log('Database connect : ' . $e->getMessage(), 'error');
 			$this->checkError($e->getMessage());
 		}
-	}
-
-	public static function getDBConfig($type)
-	{
-		if (!self::$dbConfig) {
-			require('config/config.db.php');
-			self::$dbConfig = $dbConfig;
-		}
-		if (self::$dbConfig[$type]['db_server'] != '_SERVER_') {
-			return self::$dbConfig[$type];
-		}
-		return false;
 	}
 
 	protected function loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port)
