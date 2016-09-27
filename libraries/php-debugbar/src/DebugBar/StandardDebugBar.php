@@ -12,7 +12,6 @@ namespace DebugBar;
 
 use DebugBar\DataCollector\ExceptionsCollector;
 use DebugBar\DataCollector\MemoryCollector;
-use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\PhpInfoCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DataCollector\TimeDataCollector;
@@ -25,7 +24,6 @@ class StandardDebugBar extends DebugBar
     public function __construct()
     {
         $this->addCollector(new PhpInfoCollector());
-        $this->addCollector(new MessagesCollector());
         $this->addCollector(new RequestDataCollector());
         $this->addCollector(new TimeDataCollector());
         $this->addCollector(new MemoryCollector());
