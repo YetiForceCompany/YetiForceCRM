@@ -90,4 +90,21 @@ class DB extends \yii\db\Connection
 	{
 		return str_replace('#__', $this->tablePrefix, $sql);
 	}
+
+	/**
+	 * Creates the PDO instance.
+	 * This method is called by [[open]] to establish a DB connection.
+	 * The default implementation will create a PHP PDO instance.
+	 * You may override this method if the default PDO needs to be adapted for certain DBMS.
+	 * @return PDO the pdo instance
+	 */
+	protected function createPdoInstance()
+	{
+		if (\AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && $debugBar = \App\Debuger::getDebugBar()) {
+			$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO(parent::createPdoInstance());
+			$debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null, $this->dbName));
+			return $pdo;
+		}
+		return parent::createPdoInstance();
+	}
 }

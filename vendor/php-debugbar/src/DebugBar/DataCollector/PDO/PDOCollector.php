@@ -24,11 +24,11 @@ class PDOCollector extends DataCollector implements Renderable, AssetProvider
      * @param TraceablePDO $pdo
      * @param TimeDataCollector $timeCollector
      */
-    public function __construct(TraceablePDO $pdo = null, TimeDataCollector $timeCollector = null)
+    public function __construct(TraceablePDO $pdo = null, TimeDataCollector $timeCollector = null, $dbName = 'base')
     {
         $this->timeCollector = $timeCollector;
         if ($pdo !== null) {
-            $this->addConnection($pdo, 'default');
+            $this->addConnection($pdo, $dbName);
         }
     }
 
@@ -140,7 +140,8 @@ class PDOCollector extends DataCollector implements Renderable, AssetProvider
                 'end_memory_str' => $this->getDataFormatter()->formatBytes($stmt->getEndMemory()),
                 'is_success' => $stmt->isSuccess(),
                 'error_code' => $stmt->getErrorCode(),
-                'error_message' => $stmt->getErrorMessage()
+                'error_message' => $stmt->getErrorMessage(),
+				'backtrace' => $stmt->getBackTrace(),
             );
             if ($timeCollector !== null) {
                 $timeCollector->addMeasure($stmt->getSql(), $stmt->getStartTime(), $stmt->getEndTime());

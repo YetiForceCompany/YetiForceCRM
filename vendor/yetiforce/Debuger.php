@@ -20,7 +20,7 @@ class Debuger
         $debugbar->addCollector(new DataCollector\RequestDataCollector());
         $debugbar->addCollector(new DataCollector\TimeDataCollector());
         $debugbar->addCollector(new DataCollector\MemoryCollector());
-        $debugbar->addCollector(new DataCollector\ExceptionsCollector());
+        //$debugbar->addCollector(new DataCollector\ExceptionsCollector());
 		return self::$debugBar = $debugbar;
 	}
 

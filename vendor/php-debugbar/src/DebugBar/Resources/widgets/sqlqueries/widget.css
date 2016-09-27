@@ -53,7 +53,6 @@ div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-stmt-id:before {
 }
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params {
   display: none;
-  width: 70%;
   margin: 10px;
   border: 1px solid #ddd;
   font-family: monospace;
@@ -61,7 +60,6 @@ div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params {
 }
   div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params td {
     border: 1px solid #ddd;
-    text-align: center;
   }
   div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params .phpdebugbar-widgets-name {
     width: 20%;

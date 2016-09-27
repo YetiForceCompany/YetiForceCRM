@@ -608,7 +608,7 @@ class JavascriptRenderer
                 $additionalAssets[] = $collector->getAssets();
             }
         }
-
+		
         foreach ($additionalAssets as $assets) {
             $basePath = isset($assets['base_path']) ? $assets['base_path'] : null;
             $baseUrl = isset($assets['base_url']) ? $assets['base_url'] : null;
