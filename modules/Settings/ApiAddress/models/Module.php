@@ -14,9 +14,6 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getConfig($type = NULL)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . "(" . $type . ") method ...");
-
 		$rawData = [];
 		$query = (new \App\db\Query())->from('vtiger_apiaddress');
 		if ($type) {
@@ -26,17 +23,12 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$rawData[$row['type']][$row['name']] = $row['val'];
 		}
-
-		$log->debug("Exiting " . __CLASS__ . "::" . __METHOD__ . "(" . $type . ") method ...");
 		return $rawData;
 	}
 
 	public function setConfig(array $elements)
 	{
-
-		$log = vglobal('log');
-		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . " method ...");
-
+		\App\log::info('Entering set api address config');
 		$apiName = $elements['api_name'];
 		unset($elements['api_name']);
 		$result = 0;
@@ -50,7 +42,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 					->execute();
 			}
 		}
-		$log->debug("Exiting " . __CLASS__ . "::" . __METHOD__ . " method ...");
+		\App\log::info('Exiting set api address config');
 		return $result;
 	}
 	/*
