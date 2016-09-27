@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar\DataCollector;
 
 /**
@@ -15,11 +14,12 @@ namespace DebugBar\DataCollector;
  */
 interface Renderable
 {
-    /**
-     * Returns a hash where keys are control names and their values
-     * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
-     *
-     * @return array
-     */
-    public function getWidgets();
+
+	/**
+	 * Returns a hash where keys are control names and their values
+	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
+	 *
+	 * @return array
+	 */
+	public function getWidgets();
 }

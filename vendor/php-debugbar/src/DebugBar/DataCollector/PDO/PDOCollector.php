@@ -1,6 +1,4 @@
-<?php
-
-namespace DebugBar\DataCollector\PDO;
+<?php namespace DebugBar\DataCollector\PDO;
 
 use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\DataCollector;
@@ -12,190 +10,190 @@ use DebugBar\DataCollector\TimeDataCollector;
  */
 class PDOCollector extends DataCollector implements Renderable, AssetProvider
 {
-    protected $connections = array();
 
-    protected $timeCollector;
+	protected $connections = array();
+	protected $timeCollector;
+	protected $renderSqlWithParams = false;
+	protected $sqlQuotationChar = '<>';
 
-    protected $renderSqlWithParams = false;
+	/**
+	 * @param TraceablePDO $pdo
+	 * @param TimeDataCollector $timeCollector
+	 */
+	public function __construct(TraceablePDO $pdo = null, TimeDataCollector $timeCollector = null, $dbName = 'base')
+	{
+		$this->timeCollector = $timeCollector;
+		if ($pdo !== null) {
+			$this->addConnection($pdo, $dbName);
+		}
+	}
 
-    protected $sqlQuotationChar = '<>';
+	/**
+	 * Renders the SQL of traced statements with params embeded
+	 *
+	 * @param boolean $enabled
+	 */
+	public function setRenderSqlWithParams($enabled = true, $quotationChar = '<>')
+	{
+		$this->renderSqlWithParams = $enabled;
+		$this->sqlQuotationChar = $quotationChar;
+	}
 
-    /**
-     * @param TraceablePDO $pdo
-     * @param TimeDataCollector $timeCollector
-     */
-    public function __construct(TraceablePDO $pdo = null, TimeDataCollector $timeCollector = null, $dbName = 'base')
-    {
-        $this->timeCollector = $timeCollector;
-        if ($pdo !== null) {
-            $this->addConnection($pdo, $dbName);
-        }
-    }
+	/**
+	 * @return bool
+	 */
+	public function isSqlRenderedWithParams()
+	{
+		return $this->renderSqlWithParams;
+	}
 
-    /**
-     * Renders the SQL of traced statements with params embeded
-     *
-     * @param boolean $enabled
-     */
-    public function setRenderSqlWithParams($enabled = true, $quotationChar = '<>')
-    {
-        $this->renderSqlWithParams = $enabled;
-        $this->sqlQuotationChar = $quotationChar;
-    }
+	/**
+	 * @return string
+	 */
+	public function getSqlQuotationChar()
+	{
+		return $this->sqlQuotationChar;
+	}
 
-    /**
-     * @return bool
-     */
-    public function isSqlRenderedWithParams()
-    {
-        return $this->renderSqlWithParams;
-    }
+	/**
+	 * Adds a new PDO instance to be collector
+	 *
+	 * @param TraceablePDO $pdo
+	 * @param string $name Optional connection name
+	 */
+	public function addConnection(TraceablePDO $pdo, $name = null)
+	{
+		if ($name === null) {
+			$name = spl_object_hash($pdo);
+		}
+		$this->connections[$name] = $pdo;
+	}
 
-    /**
-     * @return string
-     */
-    public function getSqlQuotationChar()
-    {
-        return $this->sqlQuotationChar;
-    }
+	/**
+	 * Returns PDO instances to be collected
+	 *
+	 * @return array
+	 */
+	public function getConnections()
+	{
+		return $this->connections;
+	}
 
-    /**
-     * Adds a new PDO instance to be collector
-     *
-     * @param TraceablePDO $pdo
-     * @param string $name Optional connection name
-     */
-    public function addConnection(TraceablePDO $pdo, $name = null)
-    {
-        if ($name === null) {
-            $name = spl_object_hash($pdo);
-        }
-        $this->connections[$name] = $pdo;
-    }
+	/**
+	 * @return array
+	 */
+	public function collect()
+	{
+		$data = array(
+			'nb_statements' => 0,
+			'nb_failed_statements' => 0,
+			'accumulated_duration' => 0,
+			'memory_usage' => 0,
+			'peak_memory_usage' => 0,
+			'statements' => array()
+		);
 
-    /**
-     * Returns PDO instances to be collected
-     *
-     * @return array
-     */
-    public function getConnections()
-    {
-        return $this->connections;
-    }
+		foreach ($this->connections as $name => $pdo) {
+			$pdodata = $this->collectPDO($pdo, $this->timeCollector);
+			$data['nb_statements'] += $pdodata['nb_statements'];
+			$data['nb_failed_statements'] += $pdodata['nb_failed_statements'];
+			$data['accumulated_duration'] += $pdodata['accumulated_duration'];
+			$data['memory_usage'] += $pdodata['memory_usage'];
+			$data['peak_memory_usage'] = max($data['peak_memory_usage'], $pdodata['peak_memory_usage']);
+			$data['statements'] = array_merge($data['statements'], array_map(function ($s) use ($name) {
+					$s['connection'] = $name;
+					return $s;
+				}, $pdodata['statements']));
+		}
 
-    /**
-     * @return array
-     */
-    public function collect()
-    {
-        $data = array(
-            'nb_statements' => 0,
-            'nb_failed_statements' => 0,
-            'accumulated_duration' => 0,
-            'memory_usage' => 0,
-            'peak_memory_usage' => 0,
-            'statements' => array()
-        );
+		$data['accumulated_duration_str'] = $this->getDataFormatter()->formatDuration($data['accumulated_duration']);
+		$data['memory_usage_str'] = $this->getDataFormatter()->formatBytes($data['memory_usage']);
+		$data['peak_memory_usage_str'] = $this->getDataFormatter()->formatBytes($data['peak_memory_usage']);
 
-        foreach ($this->connections as $name => $pdo) {
-            $pdodata = $this->collectPDO($pdo, $this->timeCollector);
-            $data['nb_statements'] += $pdodata['nb_statements'];
-            $data['nb_failed_statements'] += $pdodata['nb_failed_statements'];
-            $data['accumulated_duration'] += $pdodata['accumulated_duration'];
-            $data['memory_usage'] += $pdodata['memory_usage'];
-            $data['peak_memory_usage'] = max($data['peak_memory_usage'], $pdodata['peak_memory_usage']);
-            $data['statements'] = array_merge($data['statements'],
-                array_map(function ($s) use ($name) { $s['connection'] = $name; return $s; }, $pdodata['statements']));
-        }
+		return $data;
+	}
 
-        $data['accumulated_duration_str'] = $this->getDataFormatter()->formatDuration($data['accumulated_duration']);
-        $data['memory_usage_str'] = $this->getDataFormatter()->formatBytes($data['memory_usage']);
-        $data['peak_memory_usage_str'] = $this->getDataFormatter()->formatBytes($data['peak_memory_usage']);
-
-        return $data;
-    }
-
-    /**
-     * Collects data from a single TraceablePDO instance
-     *
-     * @param TraceablePDO $pdo
-     * @param TimeDataCollector $timeCollector
-     * @return array
-     */
-    protected function collectPDO(TraceablePDO $pdo, TimeDataCollector $timeCollector = null)
-    {
-        $stmts = array();
-        foreach ($pdo->getExecutedStatements() as $stmt) {
-            $stmts[] = array(
-                'sql' => $this->renderSqlWithParams ? $stmt->getSqlWithParams($this->sqlQuotationChar) : $stmt->getSql(),
-                'row_count' => $stmt->getRowCount(),
-                'stmt_id' => $stmt->getPreparedId(),
-                'prepared_stmt' => $stmt->getSql(),
-                'params' => (object) $stmt->getParameters(),
-                'duration' => $stmt->getDuration(),
-                'duration_str' => $this->getDataFormatter()->formatDuration($stmt->getDuration()),
-                'memory' => $stmt->getMemoryUsage(),
-                'memory_str' => $this->getDataFormatter()->formatBytes($stmt->getMemoryUsage()),
-                'end_memory' => $stmt->getEndMemory(),
-                'end_memory_str' => $this->getDataFormatter()->formatBytes($stmt->getEndMemory()),
-                'is_success' => $stmt->isSuccess(),
-                'error_code' => $stmt->getErrorCode(),
-                'error_message' => $stmt->getErrorMessage(),
+	/**
+	 * Collects data from a single TraceablePDO instance
+	 *
+	 * @param TraceablePDO $pdo
+	 * @param TimeDataCollector $timeCollector
+	 * @return array
+	 */
+	protected function collectPDO(TraceablePDO $pdo, TimeDataCollector $timeCollector = null)
+	{
+		$stmts = array();
+		foreach ($pdo->getExecutedStatements() as $stmt) {
+			$stmts[] = array(
+				'sql' => $this->renderSqlWithParams ? $stmt->getSqlWithParams($this->sqlQuotationChar) : $stmt->getSql(),
+				'row_count' => $stmt->getRowCount(),
+				'stmt_id' => $stmt->getPreparedId(),
+				'prepared_stmt' => $stmt->getSql(),
+				'params' => (object) $stmt->getParameters(),
+				'duration' => $stmt->getDuration(),
+				'duration_str' => $this->getDataFormatter()->formatDuration($stmt->getDuration()),
+				'memory' => $stmt->getMemoryUsage(),
+				'memory_str' => $this->getDataFormatter()->formatBytes($stmt->getMemoryUsage()),
+				'end_memory' => $stmt->getEndMemory(),
+				'end_memory_str' => $this->getDataFormatter()->formatBytes($stmt->getEndMemory()),
+				'is_success' => $stmt->isSuccess(),
+				'error_code' => $stmt->getErrorCode(),
+				'error_message' => $stmt->getErrorMessage(),
 				'backtrace' => $stmt->getBackTrace(),
-            );
-            if ($timeCollector !== null) {
-                $timeCollector->addMeasure($stmt->getSql(), $stmt->getStartTime(), $stmt->getEndTime());
-            }
-        }
+			);
+			if ($timeCollector !== null) {
+				$timeCollector->addMeasure($stmt->getSql(), $stmt->getStartTime(), $stmt->getEndTime());
+			}
+		}
 
-        return array(
-            'nb_statements' => count($stmts),
-            'nb_failed_statements' => count($pdo->getFailedExecutedStatements()),
-            'accumulated_duration' => $pdo->getAccumulatedStatementsDuration(),
-            'accumulated_duration_str' => $this->getDataFormatter()->formatDuration($pdo->getAccumulatedStatementsDuration()),
-            'memory_usage' => $pdo->getMemoryUsage(),
-            'memory_usage_str' => $this->getDataFormatter()->formatBytes($pdo->getPeakMemoryUsage()),
-            'peak_memory_usage' => $pdo->getPeakMemoryUsage(),
-            'peak_memory_usage_str' => $this->getDataFormatter()->formatBytes($pdo->getPeakMemoryUsage()),
-            'statements' => $stmts
-        );
-    }
+		return array(
+			'nb_statements' => count($stmts),
+			'nb_failed_statements' => count($pdo->getFailedExecutedStatements()),
+			'accumulated_duration' => $pdo->getAccumulatedStatementsDuration(),
+			'accumulated_duration_str' => $this->getDataFormatter()->formatDuration($pdo->getAccumulatedStatementsDuration()),
+			'memory_usage' => $pdo->getMemoryUsage(),
+			'memory_usage_str' => $this->getDataFormatter()->formatBytes($pdo->getPeakMemoryUsage()),
+			'peak_memory_usage' => $pdo->getPeakMemoryUsage(),
+			'peak_memory_usage_str' => $this->getDataFormatter()->formatBytes($pdo->getPeakMemoryUsage()),
+			'statements' => $stmts
+		);
+	}
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'pdo';
-    }
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return 'pdo';
+	}
 
-    /**
-     * @return array
-     */
-    public function getWidgets()
-    {
-        return array(
-            "database" => array(
-                "icon" => "inbox",
-                "widget" => "PhpDebugBar.Widgets.SQLQueriesWidget",
-                "map" => "pdo",
-                "default" => "[]"
-            ),
-            "database:badge" => array(
-                "map" => "pdo.nb_statements",
-                "default" => 0
-            )
-        );
-    }
+	/**
+	 * @return array
+	 */
+	public function getWidgets()
+	{
+		return array(
+			"database" => array(
+				"icon" => "inbox",
+				"widget" => "PhpDebugBar.Widgets.SQLQueriesWidget",
+				"map" => "pdo",
+				"default" => "[]"
+			),
+			"database:badge" => array(
+				"map" => "pdo.nb_statements",
+				"default" => 0
+			)
+		);
+	}
 
-    /**
-     * @return array
-     */
-    public function getAssets()
-    {
-        return array(
-            'css' => 'widgets/sqlqueries/widget.css',
-            'js' => 'widgets/sqlqueries/widget.js'
-        );
-    }
+	/**
+	 * @return array
+	 */
+	public function getAssets()
+	{
+		return array(
+			'css' => 'widgets/sqlqueries/widget.css',
+			'js' => 'widgets/sqlqueries/widget.js'
+		);
+	}
 }

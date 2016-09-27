@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar\DataCollector;
 
 /**
@@ -15,59 +14,60 @@ namespace DebugBar\DataCollector;
  */
 class LocalizationCollector extends DataCollector implements Renderable
 {
-    /**
-     * Get the current locale
-     *
-     * @return string
-     */
-    public function getLocale()
-    {
-        return setlocale(LC_ALL, 0);
-    }
 
-    /**
-     * Get the current translations domain
-     *
-     * @return string
-     */
-    public function getDomain()
-    {
-        return textdomain();
-    }
+	/**
+	 * Get the current locale
+	 *
+	 * @return string
+	 */
+	public function getLocale()
+	{
+		return setlocale(LC_ALL, 0);
+	}
 
-    /**
-     * @return array
-     */
-    public function collect()
-    {
-        return array(
-          'locale' => $this->getLocale(),
-          'domain' => $this->getDomain(),
-        );
-    }
+	/**
+	 * Get the current translations domain
+	 *
+	 * @return string
+	 */
+	public function getDomain()
+	{
+		return textdomain();
+	}
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'localization';
-    }
+	/**
+	 * @return array
+	 */
+	public function collect()
+	{
+		return array(
+			'locale' => $this->getLocale(),
+			'domain' => $this->getDomain(),
+		);
+	}
 
-    /**
-     * @return array
-     */
-    public function getWidgets()
-    {
-        return array(
-            'domain' => array(
-                'icon' => 'bookmark',
-                'map'  => 'localization.domain',
-            ),
-            'locale' => array(
-                'icon' => 'flag',
-                'map'  => 'localization.locale',
-            )
-        );
-    }
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return 'localization';
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getWidgets()
+	{
+		return array(
+			'domain' => array(
+				'icon' => 'bookmark',
+				'map' => 'localization.domain',
+			),
+			'locale' => array(
+				'icon' => 'flag',
+				'map' => 'localization.locale',
+			)
+		);
+	}
 }

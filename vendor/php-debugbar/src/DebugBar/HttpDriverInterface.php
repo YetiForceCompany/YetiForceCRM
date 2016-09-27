@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar;
 
 /**
@@ -16,49 +15,50 @@ namespace DebugBar;
  */
 interface HttpDriverInterface
 {
-    /**
-     * Sets HTTP headers
-     *
-     * @param array $headers
-     * @return
-     */
-    public function setHeaders(array $headers);
 
-    /**
-     * Checks if the session is started
-     *
-     * @return boolean
-     */
-    public function isSessionStarted();
+	/**
+	 * Sets HTTP headers
+	 *
+	 * @param array $headers
+	 * @return
+	 */
+	public function setHeaders(array $headers);
 
-    /**
-     * Sets a value in the session
-     *
-     * @param string $name
-     * @param string $value
-     */
-    public function setSessionValue($name, $value);
+	/**
+	 * Checks if the session is started
+	 *
+	 * @return boolean
+	 */
+	public function isSessionStarted();
 
-    /**
-     * Checks if a value is in the session
-     *
-     * @param string $name
-     * @return boolean
-     */
-    public function hasSessionValue($name);
+	/**
+	 * Sets a value in the session
+	 *
+	 * @param string $name
+	 * @param string $value
+	 */
+	public function setSessionValue($name, $value);
 
-    /**
-     * Returns a value from the session
-     *
-     * @param string $name
-     * @return mixed
-     */
-    public function getSessionValue($name);
+	/**
+	 * Checks if a value is in the session
+	 *
+	 * @param string $name
+	 * @return boolean
+	 */
+	public function hasSessionValue($name);
 
-    /**
-     * Deletes a value from the session
-     *
-     * @param string $name
-     */
-    public function deleteSessionValue($name);
+	/**
+	 * Returns a value from the session
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function getSessionValue($name);
+
+	/**
+	 * Deletes a value from the session
+	 *
+	 * @param string $name
+	 */
+	public function deleteSessionValue($name);
 }

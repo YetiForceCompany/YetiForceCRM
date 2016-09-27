@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar\DataCollector;
 
 use Exception;
@@ -18,124 +17,125 @@ use Symfony\Component\Debug\Exception\FatalThrowableError;
  */
 class ExceptionsCollector extends DataCollector implements Renderable
 {
-    protected $exceptions = array();
-    protected $chainExceptions = false;
 
-    /**
-     * Adds an exception to be profiled in the debug bar
-     *
-     * @param Exception $e
-     * @deprecated in favor on addThrowable
-     */
-    public function addException(Exception $e)
-    {
-        $this->addThrowable($e);
-    }
+	protected $exceptions = array();
+	protected $chainExceptions = false;
 
-    /**
-     * Adds a Throwable to be profiled in the debug bar
-     *
-     * @param \Throwable $e
-     */
-    public function addThrowable($e)
-    {
-        $this->exceptions[] = $e;
-        if ($this->chainExceptions && $previous = $e->getPrevious()) {
-            $this->addThrowable($previous);
-        }
-    }
+	/**
+	 * Adds an exception to be profiled in the debug bar
+	 *
+	 * @param Exception $e
+	 * @deprecated in favor on addThrowable
+	 */
+	public function addException(Exception $e)
+	{
+		$this->addThrowable($e);
+	}
 
-    /**
-     * Configure whether or not all chained exceptions should be shown.
-     *
-     * @param bool $chainExceptions
-     */
-    public function setChainExceptions($chainExceptions = true)
-    {
-        $this->chainExceptions = $chainExceptions;
-    }
+	/**
+	 * Adds a Throwable to be profiled in the debug bar
+	 *
+	 * @param \Throwable $e
+	 */
+	public function addThrowable($e)
+	{
+		$this->exceptions[] = $e;
+		if ($this->chainExceptions && $previous = $e->getPrevious()) {
+			$this->addThrowable($previous);
+		}
+	}
 
-    /**
-     * Returns the list of exceptions being profiled
-     *
-     * @return array[\Throwable]
-     */
-    public function getExceptions()
-    {
-        return $this->exceptions;
-    }
+	/**
+	 * Configure whether or not all chained exceptions should be shown.
+	 *
+	 * @param bool $chainExceptions
+	 */
+	public function setChainExceptions($chainExceptions = true)
+	{
+		$this->chainExceptions = $chainExceptions;
+	}
 
-    public function collect()
-    {
-        return array(
-            'count' => count($this->exceptions),
-            'exceptions' => array_map(array($this, 'formatThrowableData'), $this->exceptions)
-        );
-    }
+	/**
+	 * Returns the list of exceptions being profiled
+	 *
+	 * @return array[\Throwable]
+	 */
+	public function getExceptions()
+	{
+		return $this->exceptions;
+	}
 
-    /**
-     * Returns exception data as an array
-     *
-     * @param Exception $e
-     * @return array
-     * @deprecated in favor on formatThrowableData
-     */
-    public function formatExceptionData(Exception $e)
-    {
-        return $this->formatThrowableData($e);
-    }
+	public function collect()
+	{
+		return array(
+			'count' => count($this->exceptions),
+			'exceptions' => array_map(array($this, 'formatThrowableData'), $this->exceptions)
+		);
+	}
 
-    /**
-     * Returns Throwable data as an array
-     *
-     * @param \Throwable $e
-     * @return array
-     */
-    public function formatThrowableData($e)
-    {
-        $filePath = $e->getFile();
-        if ($filePath && file_exists($filePath)) {
-            $lines = file($filePath);
-            $start = $e->getLine() - 4;
-            $lines = array_slice($lines, $start < 0 ? 0 : $start, 7);
-        } else {
-            $lines = array("Cannot open the file ($filePath) in which the exception occurred ");
-        }
+	/**
+	 * Returns exception data as an array
+	 *
+	 * @param Exception $e
+	 * @return array
+	 * @deprecated in favor on formatThrowableData
+	 */
+	public function formatExceptionData(Exception $e)
+	{
+		return $this->formatThrowableData($e);
+	}
 
-        return array(
-            'type' => get_class($e),
-            'message' => $e->getMessage(),
-            'code' => $e->getCode(),
-            'file' => $filePath,
-            'line' => $e->getLine(),
-            'surrounding_lines' => $lines
-        );
-    }
+	/**
+	 * Returns Throwable data as an array
+	 *
+	 * @param \Throwable $e
+	 * @return array
+	 */
+	public function formatThrowableData($e)
+	{
+		$filePath = $e->getFile();
+		if ($filePath && file_exists($filePath)) {
+			$lines = file($filePath);
+			$start = $e->getLine() - 4;
+			$lines = array_slice($lines, $start < 0 ? 0 : $start, 7);
+		} else {
+			$lines = array("Cannot open the file ($filePath) in which the exception occurred ");
+		}
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'exceptions';
-    }
+		return array(
+			'type' => get_class($e),
+			'message' => $e->getMessage(),
+			'code' => $e->getCode(),
+			'file' => $filePath,
+			'line' => $e->getLine(),
+			'surrounding_lines' => $lines
+		);
+	}
 
-    /**
-     * @return array
-     */
-    public function getWidgets()
-    {
-        return array(
-            'exceptions' => array(
-                'icon' => 'bug',
-                'widget' => 'PhpDebugBar.Widgets.ExceptionsWidget',
-                'map' => 'exceptions.exceptions',
-                'default' => '[]'
-            ),
-            'exceptions:badge' => array(
-                'map' => 'exceptions.count',
-                'default' => 'null'
-            )
-        );
-    }
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return 'exceptions';
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getWidgets()
+	{
+		return array(
+			'exceptions' => array(
+				'icon' => 'bug',
+				'widget' => 'PhpDebugBar.Widgets.ExceptionsWidget',
+				'map' => 'exceptions.exceptions',
+				'default' => '[]'
+			),
+			'exceptions:badge' => array(
+				'map' => 'exceptions.count',
+				'default' => 'null'
+			)
+		);
+	}
 }

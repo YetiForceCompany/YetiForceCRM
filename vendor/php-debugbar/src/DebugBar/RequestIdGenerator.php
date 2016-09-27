@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar;
 
 /**
@@ -15,11 +14,12 @@ namespace DebugBar;
  */
 class RequestIdGenerator implements RequestIdGeneratorInterface
 {
-    /**
-     * @return string
-     */
-    public function generate()
-    {
-        return md5(serialize($_SERVER) . microtime());
-    }
+
+	/**
+	 * @return string
+	 */
+	public function generate()
+	{
+		return md5(serialize($_SERVER) . microtime());
+	}
 }

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar\DataCollector;
 
 use Psr\Log\AbstractLogger;
@@ -18,157 +17,155 @@ use DebugBar\DataFormatter\DataFormatterInterface;
  */
 class MessagesCollector extends AbstractLogger implements DataCollectorInterface, MessagesAggregateInterface, Renderable
 {
-    protected $name;
 
-    protected $messages = array();
+	protected $name;
+	protected $messages = array();
+	protected $aggregates = array();
+	protected $dataFormater;
 
-    protected $aggregates = array();
+	/**
+	 * @param string $name
+	 */
+	public function __construct($name = 'messages')
+	{
+		$this->name = $name;
+	}
 
-    protected $dataFormater;
+	/**
+	 * Sets the data formater instance used by this collector
+	 *
+	 * @param DataFormatterInterface $formater
+	 * @return $this
+	 */
+	public function setDataFormatter(DataFormatterInterface $formater)
+	{
+		$this->dataFormater = $formater;
+		return $this;
+	}
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name = 'messages')
-    {
-        $this->name = $name;
-    }
+	/**
+	 * @return DataFormatterInterface
+	 */
+	public function getDataFormatter()
+	{
+		if ($this->dataFormater === null) {
+			$this->dataFormater = DataCollector::getDefaultDataFormatter();
+		}
+		return $this->dataFormater;
+	}
 
-    /**
-     * Sets the data formater instance used by this collector
-     *
-     * @param DataFormatterInterface $formater
-     * @return $this
-     */
-    public function setDataFormatter(DataFormatterInterface $formater)
-    {
-        $this->dataFormater = $formater;
-        return $this;
-    }
+	/**
+	 * Adds a message
+	 *
+	 * A message can be anything from an object to a string
+	 *
+	 * @param mixed $message
+	 * @param string $label
+	 */
+	public function addMessage($message, $label = 'info', $isString = true)
+	{
+		if (!is_string($message)) {
+			$message = $this->getDataFormatter()->formatVar($message);
+			$isString = false;
+		}
+		$this->messages[] = array(
+			'message' => $message,
+			'is_string' => $isString,
+			'label' => $label,
+			'time' => microtime(true)
+		);
+	}
 
-    /**
-     * @return DataFormatterInterface
-     */
-    public function getDataFormatter()
-    {
-        if ($this->dataFormater === null) {
-            $this->dataFormater = DataCollector::getDefaultDataFormatter();
-        }
-        return $this->dataFormater;
-    }
+	/**
+	 * Aggregates messages from other collectors
+	 *
+	 * @param MessagesAggregateInterface $messages
+	 */
+	public function aggregate(MessagesAggregateInterface $messages)
+	{
+		$this->aggregates[] = $messages;
+	}
 
-    /**
-     * Adds a message
-     *
-     * A message can be anything from an object to a string
-     *
-     * @param mixed $message
-     * @param string $label
-     */
-    public function addMessage($message, $label = 'info', $isString = true)
-    {
-        if (!is_string($message)) {
-            $message = $this->getDataFormatter()->formatVar($message);
-            $isString = false;
-        }
-        $this->messages[] = array(
-            'message' => $message,
-            'is_string' => $isString,
-            'label' => $label,
-            'time' => microtime(true)
-        );
-    }
+	/**
+	 * @return array
+	 */
+	public function getMessages()
+	{
+		$messages = $this->messages;
+		foreach ($this->aggregates as $collector) {
+			$msgs = array_map(function ($m) use ($collector) {
+				$m['collector'] = $collector->getName();
+				return $m;
+			}, $collector->getMessages());
+			$messages = array_merge($messages, $msgs);
+		}
 
-    /**
-     * Aggregates messages from other collectors
-     *
-     * @param MessagesAggregateInterface $messages
-     */
-    public function aggregate(MessagesAggregateInterface $messages)
-    {
-        $this->aggregates[] = $messages;
-    }
+		// sort messages by their timestamp
+		usort($messages, function ($a, $b) {
+			if ($a['time'] === $b['time']) {
+				return 0;
+			}
+			return $a['time'] < $b['time'] ? -1 : 1;
+		});
 
-    /**
-     * @return array
-     */
-    public function getMessages()
-    {
-        $messages = $this->messages;
-        foreach ($this->aggregates as $collector) {
-            $msgs = array_map(function ($m) use ($collector) {
-                $m['collector'] = $collector->getName();
-                return $m;
-            }, $collector->getMessages());
-            $messages = array_merge($messages, $msgs);
-        }
+		return $messages;
+	}
 
-        // sort messages by their timestamp
-        usort($messages, function ($a, $b) {
-            if ($a['time'] === $b['time']) {
-                return 0;
-            }
-            return $a['time'] < $b['time'] ? -1 : 1;
-        });
+	/**
+	 * @param $level
+	 * @param $message
+	 * @param array $context
+	 */
+	public function log($level, $message, array $context = array())
+	{
+		$this->addMessage($message, $level);
+	}
 
-        return $messages;
-    }
+	/**
+	 * Deletes all messages
+	 */
+	public function clear()
+	{
+		$this->messages = array();
+	}
 
-    /**
-     * @param $level
-     * @param $message
-     * @param array $context
-     */
-    public function log($level, $message, array $context = array())
-    {
-        $this->addMessage($message, $level);
-    }
+	/**
+	 * @return array
+	 */
+	public function collect()
+	{
+		$messages = $this->getMessages();
+		return array(
+			'count' => count($messages),
+			'messages' => $messages
+		);
+	}
 
-    /**
-     * Deletes all messages
-     */
-    public function clear()
-    {
-        $this->messages = array();
-    }
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * @return array
-     */
-    public function collect()
-    {
-        $messages = $this->getMessages();
-        return array(
-            'count' => count($messages),
-            'messages' => $messages
-        );
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return array
-     */
-    public function getWidgets()
-    {
-        $name = $this->getName();
-        return array(
-            "$name" => array(
-                'icon' => 'list-alt',
-                "widget" => "PhpDebugBar.Widgets.MessagesWidget",
-                "map" => "$name.messages",
-                "default" => "[]"
-            ),
-            "$name:badge" => array(
-                "map" => "$name.count",
-                "default" => "null"
-            )
-        );
-    }
+	/**
+	 * @return array
+	 */
+	public function getWidgets()
+	{
+		$name = $this->getName();
+		return array(
+			"$name" => array(
+				'icon' => 'list-alt',
+				"widget" => "PhpDebugBar.Widgets.MessagesWidget",
+				"map" => "$name.messages",
+				"default" => "[]"
+			),
+			"$name:badge" => array(
+				"map" => "$name.count",
+				"default" => "null"
+			)
+		);
+	}
 }

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar\DataCollector;
 
 /**
@@ -15,43 +14,44 @@ namespace DebugBar\DataCollector;
  */
 class RequestDataCollector extends DataCollector implements Renderable
 {
-    /**
-     * @return array
-     */
-    public function collect()
-    {
-        $vars = array('_GET', '_POST', '_SESSION', '_COOKIE', '_SERVER');
-        $data = array();
 
-        foreach ($vars as $var) {
-            if (isset($GLOBALS[$var])) {
-                $data["$" . $var] = $this->getDataFormatter()->formatVar($GLOBALS[$var]);
-            }
-        }
+	/**
+	 * @return array
+	 */
+	public function collect()
+	{
+		$vars = array('_GET', '_POST', '_SESSION', '_COOKIE', '_SERVER');
+		$data = array();
 
-        return $data;
-    }
+		foreach ($vars as $var) {
+			if (isset($GLOBALS[$var])) {
+				$data["$" . $var] = $this->getDataFormatter()->formatVar($GLOBALS[$var]);
+			}
+		}
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'request';
-    }
+		return $data;
+	}
 
-    /**
-     * @return array
-     */
-    public function getWidgets()
-    {
-        return array(
-            "request" => array(
-                "icon" => "tags",
-                "widget" => "PhpDebugBar.Widgets.VariableListWidget",
-                "map" => "request",
-                "default" => "{}"
-            )
-        );
-    }
+	/**
+	 * @return string
+	 */
+	public function getName()
+	{
+		return 'request';
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getWidgets()
+	{
+		return array(
+			"request" => array(
+				"icon" => "tags",
+				"widget" => "PhpDebugBar.Widgets.VariableListWidget",
+				"map" => "request",
+				"default" => "{}"
+			)
+		);
+	}
 }

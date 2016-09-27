@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar\DataCollector;
 
 /**
@@ -15,14 +14,15 @@ namespace DebugBar\DataCollector;
  */
 interface AssetProvider
 {
-    /**
-     * Returns an array with the following keys:
-     *  - base_path
-     *  - base_url
-     *  - css: an array of filenames
-     *  - js: an array of filenames
-     *
-     * @return array
-     */
-    public function getAssets();
+
+	/**
+	 * Returns an array with the following keys:
+	 *  - base_path
+	 *  - base_url
+	 *  - css: an array of filenames
+	 *  - js: an array of filenames
+	 *
+	 * @return array
+	 */
+	public function getAssets();
 }

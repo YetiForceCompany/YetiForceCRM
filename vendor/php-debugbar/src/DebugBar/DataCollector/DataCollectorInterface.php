@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar\DataCollector;
 
 /**
@@ -15,17 +14,18 @@ namespace DebugBar\DataCollector;
  */
 interface DataCollectorInterface
 {
-    /**
-     * Called by the DebugBar when data needs to be collected
-     *
-     * @return array Collected data
-     */
-    public function collect();
 
-    /**
-     * Returns the unique name of the collector
-     *
-     * @return string
-     */
-    public function getName();
+	/**
+	 * Called by the DebugBar when data needs to be collected
+	 *
+	 * @return array Collected data
+	 */
+	public function collect();
+
+	/**
+	 * Returns the unique name of the collector
+	 *
+	 * @return string
+	 */
+	public function getName();
 }

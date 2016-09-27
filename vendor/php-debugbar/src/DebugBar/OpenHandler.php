@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace DebugBar;
 
 /**
@@ -15,103 +14,104 @@ namespace DebugBar;
  */
 class OpenHandler
 {
-    protected $debugBar;
 
-    /**
-     * @param DebugBar $debugBar
-     * @throws DebugBarException
-     */
-    public function __construct(DebugBar $debugBar)
-    {
-        if (!$debugBar->isDataPersisted()) {
-            throw new DebugBarException("DebugBar must have a storage backend to use OpenHandler");
-        }
-        $this->debugBar = $debugBar;
-    }
+	protected $debugBar;
 
-    /**
-     * Handles the current request
-     *
-     * @param array $request Request data
-     * @param bool $echo
-     * @param bool $sendHeader
-     * @return string
-     * @throws DebugBarException
-     */
-    public function handle($request = null, $echo = true, $sendHeader = true)
-    {
-        if ($request === null) {
-            $request = $_REQUEST;
-        }
+	/**
+	 * @param DebugBar $debugBar
+	 * @throws DebugBarException
+	 */
+	public function __construct(DebugBar $debugBar)
+	{
+		if (!$debugBar->isDataPersisted()) {
+			throw new DebugBarException("DebugBar must have a storage backend to use OpenHandler");
+		}
+		$this->debugBar = $debugBar;
+	}
 
-        $op = 'find';
-        if (isset($request['op'])) {
-            $op = $request['op'];
-            if (!in_array($op, array('find', 'get', 'clear'))) {
-                throw new DebugBarException("Invalid operation '{$request['op']}'");
-            }
-        }
+	/**
+	 * Handles the current request
+	 *
+	 * @param array $request Request data
+	 * @param bool $echo
+	 * @param bool $sendHeader
+	 * @return string
+	 * @throws DebugBarException
+	 */
+	public function handle($request = null, $echo = true, $sendHeader = true)
+	{
+		if ($request === null) {
+			$request = $_REQUEST;
+		}
 
-        if ($sendHeader) {
-            $this->debugBar->getHttpDriver()->setHeaders(array(
-                    'Content-Type' => 'application/json'
-                ));
-        }
+		$op = 'find';
+		if (isset($request['op'])) {
+			$op = $request['op'];
+			if (!in_array($op, array('find', 'get', 'clear'))) {
+				throw new DebugBarException("Invalid operation '{$request['op']}'");
+			}
+		}
 
-        $response = json_encode(call_user_func(array($this, $op), $request));
-        if ($echo) {
-            echo $response;
-        }
-        return $response;
-    }
+		if ($sendHeader) {
+			$this->debugBar->getHttpDriver()->setHeaders(array(
+				'Content-Type' => 'application/json'
+			));
+		}
 
-    /**
-     * Find operation
-     * @param $request
-     * @return array
-     */
-    protected function find($request)
-    {
-        $max = 20;
-        if (isset($request['max'])) {
-            $max = $request['max'];
-        }
+		$response = json_encode(call_user_func(array($this, $op), $request));
+		if ($echo) {
+			echo $response;
+		}
+		return $response;
+	}
 
-        $offset = 0;
-        if (isset($request['offset'])) {
-            $offset = $request['offset'];
-        }
+	/**
+	 * Find operation
+	 * @param $request
+	 * @return array
+	 */
+	protected function find($request)
+	{
+		$max = 20;
+		if (isset($request['max'])) {
+			$max = $request['max'];
+		}
 
-        $filters = array();
-        foreach (array('utime', 'datetime', 'ip', 'uri', 'method') as $key) {
-            if (isset($request[$key])) {
-                $filters[$key] = $request[$key];
-            }
-        }
+		$offset = 0;
+		if (isset($request['offset'])) {
+			$offset = $request['offset'];
+		}
 
-        return $this->debugBar->getStorage()->find($filters, $max, $offset);
-    }
+		$filters = array();
+		foreach (array('utime', 'datetime', 'ip', 'uri', 'method') as $key) {
+			if (isset($request[$key])) {
+				$filters[$key] = $request[$key];
+			}
+		}
 
-    /**
-     * Get operation
-     * @param $request
-     * @return array
-     * @throws DebugBarException
-     */
-    protected function get($request)
-    {
-        if (!isset($request['id'])) {
-            throw new DebugBarException("Missing 'id' parameter in 'get' operation");
-        }
-        return $this->debugBar->getStorage()->get($request['id']);
-    }
+		return $this->debugBar->getStorage()->find($filters, $max, $offset);
+	}
 
-    /**
-     * Clear operation
-     */
-    protected function clear($request)
-    {
-        $this->debugBar->getStorage()->clear();
-        return array('success' => true);
-    }
+	/**
+	 * Get operation
+	 * @param $request
+	 * @return array
+	 * @throws DebugBarException
+	 */
+	protected function get($request)
+	{
+		if (!isset($request['id'])) {
+			throw new DebugBarException("Missing 'id' parameter in 'get' operation");
+		}
+		return $this->debugBar->getStorage()->get($request['id']);
+	}
+
+	/**
+	 * Clear operation
+	 */
+	protected function clear($request)
+	{
+		$this->debugBar->getStorage()->clear();
+		return array('success' => true);
+	}
 }
