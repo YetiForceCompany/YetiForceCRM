@@ -768,6 +768,10 @@ class ReportRun extends CRMEntity
 		if ($comparator == "a") {
 			$rtvalue = " > " . $adb->quote($value);
 		}
+		if ($comparator == "om") {
+			$currentUser = Users_Privileges_Model::getCurrentUserModel();
+			$rtvalue = " = " . $adb->quote($currentUser->getId());
+		}
 		if ($is_field === true) {
 			$rtvalue = str_replace("'", "", $rtvalue);
 			$rtvalue = str_replace("\\", "", $rtvalue);
@@ -1135,7 +1139,7 @@ class ReportRun extends CRMEntity
 						} elseif ($selectedfields[1] == 'user_name') {
 							if ($selectedfields[0] == "vtiger_users" . $this->primarymodule) {
 								$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
-								if(is_numeric($value)){
+								if(is_numeric($value) || empty($value)) {
 									$fieldvalue = $selectedfields[0].'.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupname" . $this->getAdvComparator($comparator, trim($value), $datatype);
 								} else {
 									$fieldvalue = " trim(case when (" . $selectedfields[0] . ".last_name NOT LIKE '') then " . $concatSql . " else vtiger_groups" . $module_from_tablename . ".groupname end) " . $this->getAdvComparator($comparator, trim($value), $datatype);
