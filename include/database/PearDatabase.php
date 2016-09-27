@@ -113,7 +113,7 @@ class PearDatabase
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
-			if (AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && $debugBar = \includes\Debuger::getDebugBar()) {
+			if (AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && $debugBar = \App\Debuger::getDebugBar()) {
 				$pdo = new DebugBar\DataCollector\PDO\TraceablePDO($this->database);
 				$debugBar->addCollector(new DebugBar\DataCollector\PDO\PDOCollector($pdo));
 				$this->database = $pdo;

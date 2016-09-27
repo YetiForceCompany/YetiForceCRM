@@ -19,7 +19,7 @@ require 'include/Webservices/Relation.php';
 require 'include/main/WebUI.php';
 
 if(AppConfig::debug('DISPLAY_DEBUG_CONSOLE')){
-	\includes\Debuger::init();
+	\App\Debuger::init();
 }
 
 $webUI = new Vtiger_WebUI();

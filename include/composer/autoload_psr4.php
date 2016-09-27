@@ -9,6 +9,6 @@ return [
 	'includes\\' => [$baseDir . '/include'],
 	'App\\' => [$baseDir . '/vendor/yetiforce'],
 	'Exception\\' => [$baseDir . '/include/exceptions'],
-	'DebugBar\\' => [$baseDir . '/libraries/php-debugbar/src/DebugBar'],
-	'Symfony\\Component\\VarDumper\\' => [$baseDir . '/libraries/symfony/var-dumper'],
+	'DebugBar\\' => [$baseDir . '/vendor/php-debugbar/src/DebugBar'],
+	'Symfony\\Component\\VarDumper\\' => [$baseDir . '/vendor/symfony/var-dumper'],
 ];

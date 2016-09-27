@@ -71,7 +71,7 @@
 	{include file='JSResources.tpl'|@vtemplate_path}
 </div>
 {if AppConfig::debug('DISPLAY_DEBUG_CONSOLE')}
-	{\includes\Debuger::getDebugBar()->getJavascriptRenderer()->render()}
+	{\App\Debuger::getDebugBar()->getJavascriptRenderer()->render()}
 {/if}
 </body>
 </html>
