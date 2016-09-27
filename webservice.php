@@ -17,7 +17,7 @@ require_once('include/Webservices/SessionManager.php');
 
 require_once('config/api.php');
 if (!in_array('webservices', $enabledServices)) {
-	die('Webservice - Service is not active');
+	throw new \Exception\NoPermitted('Webservice - Service is not active');
 }
 
 $API_VERSION = "0.22";

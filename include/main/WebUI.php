@@ -109,7 +109,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		}
 		if ($this->isInstalled() === false) {
 			header('Location:install/Install.php');
-			exit;
 		}
 		$request_URL = (vtlib\Functions::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		if (AppConfig::main('forceRedirect') && stripos($request_URL, AppConfig::main('site_URL')) !== 0) {

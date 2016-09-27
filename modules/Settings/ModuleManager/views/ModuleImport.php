@@ -25,7 +25,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	{
 		$systemMode = vglobal('systemMode');
 		if ($systemMode == 'demo') {
-			die(vtlib\Functions::throwNewException(vtranslate('LBL_ERROR_IMPORT_IN_DEMO')));
+			throw new \Exception\AppException('LBL_ERROR_IMPORT_IN_DEMO');
 		}
 
 		$mode = $request->getMode();

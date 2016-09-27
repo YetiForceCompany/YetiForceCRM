@@ -145,9 +145,7 @@ class Admin_WebUI extends Admin_EntryPoint
 		try {
 			if ($this->isInstalled() === false && $module != 'Install') {
 				header('Location:install/Install.php');
-				exit;
 			}
-
 			if (empty($module)) {
 				if ($this->hasLogin()) {
 					$defaultModule = vglobal('default_module');

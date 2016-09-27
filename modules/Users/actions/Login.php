@@ -31,7 +31,6 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		if ($checkBlocked && $bruteForceSettings['active']) {
 			Settings_BruteForce_Module_Model::sendNotificationEmail();
 			header('Location: index.php?module=Users&parent=Settings&view=Login&error=2');
-			exit;
 		}
 
 		$user = CRMEntity::getInstance('Users');
@@ -62,17 +61,14 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			if (isset($_SESSION['return_params'])) {
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
-				exit();
 			} else {
 				header('Location: index.php');
-				exit();
 			}
 		} else {
 			//Track the login History
 			$browser = Settings_BruteForce_Module_Model::browserDetect();
 			$moduleModel->saveLoginHistory($username, 'Failed login', $browser);
 			header('Location: index.php?module=Users&parent=Settings&view=Login&error=1');
-			exit;
 		}
 	}
 }

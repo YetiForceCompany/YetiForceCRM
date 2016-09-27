@@ -99,7 +99,7 @@ class Users_ForgotPassword_Action
 			if (AppConfig::security('RESET_LOGIN_PASSWORD')) {
 				$instance->requestForgotPassword($request);
 			} else {
-				die(vtranslate('LBL_PERMISSION_DENIED'));
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		} else {
 			$instance->changePassword($request);

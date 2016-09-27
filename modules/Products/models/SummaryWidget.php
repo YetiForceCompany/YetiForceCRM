@@ -23,9 +23,9 @@ class Products_SummaryWidget_Model
 		$fromModule = $request->get('fromModule');
 		$record = $request->get('record');
 		$mod = $request->get('mod');
-		if (!in_array($mod, ['Products', 'Services']))
-			die('Not supported Module');
-
+		if (!in_array($mod, ['Products', 'Services'])){
+			throw new \Exception\AppException('Not supported Module');
+		}
 		$db = PearDatabase::getInstance();
 
 		$limit = 10;

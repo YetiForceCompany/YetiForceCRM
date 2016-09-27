@@ -126,8 +126,7 @@ class Deprecated
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
 				if (!$handle = fopen($filename, 'w+')) {
-					echo "Cannot open file ($filename)";
-					exit;
+					throw new \Exception\NoPermitted("Cannot open file ($filename)");
 				}
 				require_once('modules/Users/CreateUserPrivilegeFile.php');
 				$newbuf = "<?php\n";

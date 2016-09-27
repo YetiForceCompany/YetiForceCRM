@@ -209,8 +209,9 @@ class Calendar
 						$this->year_array[$value->formatted_datetime]->activities = array();
 					}
 					array_push($this->year_array[$value->formatted_datetime]->activities, $value);
-				} else
-					die("view:" . $this->view . " is not defined");
+				} else{
+					throw new \Exception\AppException("view: $this->view is not defined");
+				}
 			}
 		}
 	}

@@ -96,7 +96,7 @@ class vt_DateTime
 		$day_array = array();
 
 		if ($index < 0 || $index > 23) {
-			die("hour is invalid");
+			throw new \Exception\AppException('hour is invalid');
 		}
 
 		$day_array['hour'] = $index;
@@ -117,7 +117,7 @@ class vt_DateTime
 	{
 		$week_array = array();
 		if ($index < 1 || $index > 7) {
-			die("day is invalid");
+			throw new \Exception\AppException('day is invalid');
 		}
 		$week_array['day'] = $this->day + ($index - $this->dayofweek);
 		$week_array['month'] = $this->month;
@@ -164,7 +164,7 @@ class vt_DateTime
 		$year_array = array();
 		$year_array['day'] = 1;
 		if ($index < 0 || $index > 11) {
-			die("month is invalid");
+			throw new \Exception\AppException('month is invalid');
 		}
 		$year_array['month'] = $index + 1;
 		$year_array['year'] = $this->year;
@@ -354,7 +354,7 @@ class vt_DateTime
 		if (isset($this->year) && $this->year !== '') {
 			$year = $this->year;
 		} else {
-			die("year was not set");
+			throw new \Exception\AppException('year was not set');
 		}
 		if (empty($hour) && $hour !== 0)
 			$hour = 0;

@@ -34,9 +34,6 @@
  * @copyright 2004 - 2009 Andy Prevost
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  */
-if (version_compare(PHP_VERSION, '5.0.0', '<')) {
-	exit("Sorry, PHPMailer will only run on PHP version 5 or greater!\n");
-}
 
 /**
  * PHP email creation and transport class

@@ -90,7 +90,7 @@ class Webforms
 		</tbody></table>
 		</div>";
 		echo "</td></tr></table>";
-		exit;
+		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
 	static function getModuleDescribe($module)

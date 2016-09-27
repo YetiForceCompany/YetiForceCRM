@@ -482,7 +482,7 @@ class RecurringType
 					$index = $year + 1;
 				if ($index > 2037 || $index < 1970) {
 					print("<font color='red'>" . \includes\Language::translate('LBL_CAL_LIMIT_MSG') . "</font>");
-					exit;
+					throw new \Exception\AppException('LBL_CAL_LIMIT_MSG');
 				}
 				$date_arr = Array(
 					'day' => $date,
@@ -495,7 +495,7 @@ class RecurringType
 					$recurringDates[] = $tempdate;
 				}
 			} else {
-				die("Recurring Type " . $this->recur_type . " is not defined");
+				throw new \Exception\AppException("Recurring Type " . $this->recur_type . " is not defined");
 			}
 		}
 		return $recurringDates;

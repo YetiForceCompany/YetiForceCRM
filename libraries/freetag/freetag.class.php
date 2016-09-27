@@ -407,7 +407,7 @@ class freetag {
 
 	public function safe_tag($tagger_id, $object_id, $tag, $module) {
 		if(!isset($tagger_id)||!isset($object_id)||!isset($tag)) {
-			die("safe_tag argument missing");
+			throw new \Exception\AppException('safe_tag argument missing');
 			return false;
 		}
 		$adb = PearDatabase::getInstance();
@@ -510,7 +510,7 @@ class freetag {
 	 */ 
 	public function delete_object_tag($tagger_id, $object_id, $tag) {
 		if(!isset($tagger_id)||!isset($object_id)||!isset($tag)) {
-			die("delete_object_tag argument missing");
+			throw new \Exception\AppException('delete_object_tag argument missing');
 			return false;
 		}
 		$adb = PearDatabase::getInstance();
@@ -571,7 +571,7 @@ class freetag {
 
 	public function delete_all_object_tags_for_user($tagger_id, $object_id) {
 		if(!isset($tagger_id)||!isset($object_id)) {
-			die("delete_all_object_tags_for_user argument missing");
+			throw new \Exception\AppException('delete_all_object_tags_for_user argument missing');
 			return false;
 		}
 		$adb = PearDatabase::getInstance();
@@ -601,7 +601,7 @@ class freetag {
 	 */ 
 	public function get_tag_id($tag) {
 		if(!isset($tag)) {
-			die("get_tag_id argument missing");
+			throw new \Exception\AppException('get_tag_id argument missing');
 			return false;
 		}
 		$adb = PearDatabase::getInstance();
@@ -629,7 +629,7 @@ class freetag {
 
 	public function get_raw_tag_id($tag) {
 		if(!isset($tag)) {
-			die("get_tag_id argument missing");
+			throw new \Exception\AppException('get_tag_id argument missing');
 			return false;
 		}
 		$adb = PearDatabase::getInstance();

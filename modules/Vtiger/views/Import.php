@@ -115,7 +115,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$fileReader = Import_Utils_Helper::getFileReader($request, $user);
 			if ($fileReader === null) {
 				$this->importBasicStep($request);
-				exit;
+				return;
 			}
 			$hasHeader = $fileReader->hasHeader();
 			$rowData = $fileReader->getFirstRowData($hasHeader);
@@ -185,7 +185,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		if (!$user->isAdminUser() && $user->id != $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
-			exit;
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		if (empty($type)) {
 			vglobal('VTIGER_BULK_SAVE_MODE', true);
@@ -280,7 +280,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$lockedBy = $lockInfo['userid'];
 			if ($user->id != $lockedBy && !$user->isAdminUser()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
-				exit;
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			} else {
 				if ($mode == 'continueImport' && $user->id == $lockedBy) {
 					$importController = new Import_Main_View($request, $user);
@@ -293,7 +293,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 					}
 					Import_Main_View::showImportStatus($importInfo, $lockOwner);
 				}
-				exit;
+				return;
 			}
 		}
 
@@ -301,10 +301,10 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($user);
 			if ($importInfo != null) {
 				Import_Main_View::showImportStatus($importInfo, $user);
-				exit;
+				return;
 			} else {
 				Import_Utils_Helper::showImportTableBlockedError($moduleName, $user);
-				exit;
+				return;
 			}
 		}
 		Import_Utils_Helper::clearUserImportInfo($user);

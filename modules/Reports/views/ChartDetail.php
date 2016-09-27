@@ -47,7 +47,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 			$viewer->assign('MODULE', $primaryModule);
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', $primaryModule);
-			exit;
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		// Advanced filter conditions

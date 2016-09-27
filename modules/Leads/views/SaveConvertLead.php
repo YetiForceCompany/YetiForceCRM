@@ -92,17 +92,17 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 					$message = vtranslate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
 				}
 				$this->showError($request, '', $message);
-				exit;
+				throw new \Exception\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
 			}
 		} catch (Exception $e) {
 			$this->showError($request, $e);
-			exit;
+			throw new \Exception\AppException($e->getMessage());
 		}
 		try {
 			$result = vtws_convertlead($entityValues, $currentUser);
 		} catch (Exception $e) {
 			$this->showError($request, $e);
-			exit;
+			throw new \Exception\AppException($e->getMessage());
 		}
 
 		if (!empty($result['Accounts'])) {
@@ -122,7 +122,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
 		} else {
 			$this->showError($request);
-			exit;
+			throw new \Exception\AppException('Error');
 		}
 	}
 

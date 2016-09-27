@@ -67,7 +67,6 @@ class Install_Index_view extends Vtiger_View_Controller
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
-			exit;
 		}
 
 		$request = $this->setLanguage($request);
@@ -234,7 +233,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$isInstalled = $webuiInstance->isInstalled();
 		if (!$isInstalled) {
 			if ($_SESSION['config_file_info']['authentication_key'] != $request->get('auth_key')) {
-				die(vtranslate('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION', $moduleName));
+				throw new \Exception\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
 
 			// Create configuration file

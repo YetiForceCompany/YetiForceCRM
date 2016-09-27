@@ -978,7 +978,7 @@ function undoLastImport($obj, $user)
 	if (!vtlib\Functions::userIsAdministrator($user) && $user->id != $owner->id) {
 		$viewer = new Vtiger_Viewer();
 		$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
-		exit;
+		throw new \Exception\AppException('Operation Not Permitted');
 	}
 	$result = $adb->query("SELECT recordid FROM $dbTableName WHERE temp_status = " . Import_Data_Controller::$IMPORT_RECORD_CREATED
 		. " && recordid IS NOT NULL;");
