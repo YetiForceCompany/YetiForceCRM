@@ -76,6 +76,13 @@ class PearDatabase
 			return self::$dbCache;
 		}
 		$config = AppConfig::main('dbconfig');
+		if ($config === false) {
+			include('config/config.inc.php');
+			if (file_exists('config/config_override.php')) {
+				include 'config/config_override.php';
+			}
+			$config = $dbconfig;
+		}
 		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
 
 		if ($db->database === null) {
