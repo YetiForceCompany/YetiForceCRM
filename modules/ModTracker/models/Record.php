@@ -115,25 +115,39 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getId();
 		}
-		$unreviewed = [];
+
 		if (!is_array($recordsId)) {
 			$recordsId = [$recordsId];
 		}
-		$listQuery = sprintf('SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (%s) && status <> ?', $db->generateQuestionMarks($recordsId));
+		$select = 'SELECT `crmid`,`last_reviewed_users` AS u';
+		$from = ' FROM vtiger_modtracker_basic';
+		$where = sprintf(' WHERE crmid IN (%s) AND status <> ?', $db->generateQuestionMarks($recordsId));
 		if ($sort) {
-			$listQuery .=' ORDER BY crmid, id DESC';
+			$select .= ',vtiger_ossmailview.type';
+			$from .= ' LEFT JOIN vtiger_modtracker_relations ON vtiger_modtracker_relations.id = vtiger_modtracker_basic.id';
+			$from .= ' LEFT JOIN vtiger_ossmailview ON vtiger_ossmailview.ossmailviewid = vtiger_modtracker_relations.targetid';
+			$where .=' ORDER BY vtiger_modtracker_basic.crmid, vtiger_modtracker_basic.id DESC';
 		}
-		$result = $db->pquery($listQuery, [$recordsId, self::DISPLAYED]);
-		$changes = $db->getColumnByGroup($result);
-		foreach ($changes as $crmId => $reviewedUsers) {
-			$count = 0;
-			foreach ($reviewedUsers as $users) {
-				if (strpos($users, "#$userId#") !== false) {
+		$result = $db->pquery($select . $from . $where, [$recordsId, self::DISPLAYED]);
+		$changes = [];
+		while ($row = $db->getRow($result)) {
+			$changes[$row['crmid']][] = $row;
+		}
+		$unreviewed = [];
+		foreach ($changes as $crmId => $rows) {
+			$all = $mails = 0;
+			foreach ($rows as $row) {
+				if (strpos($row['u'], "#$userId#") !== false) {
 					break;
 				}
-				++$count;
-				$unreviewed[$crmId] = $count;
+				if ($row['type'] == 1) {
+					++$mails;
+				} else {
+					++$all;
+				}
 			}
+			$unreviewed[$crmId]['a'] = $all;
+			$unreviewed[$crmId]['m'] = $mails;
 		}
 		return $unreviewed;
 	}

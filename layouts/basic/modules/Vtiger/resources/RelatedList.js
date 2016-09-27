@@ -656,11 +656,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		};
 		AppConnector.request(actionParams).then(function (appData) {
 			var data = appData.result;
-			for (var i in data) {
-				if (data[i] > 0) {
-					listViewRelatedContentDiv.find('tr[data-id="' + i + '"] .unreviewed .badge').text(data[i]);
+			$.each(data, function (id, value) {
+				if (value.a > 0) {
+					listViewRelatedContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a);
 				}
-			}
+				if (value.m > 0) {
+					listViewRelatedContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m);
+				}
+			});
 		});
 	},
 	init: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {

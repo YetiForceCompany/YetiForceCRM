@@ -593,7 +593,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var mapView = new OpenStreetMap_Map_Js();
 			mapView.setSelectedParams(selectedParams);
 			mapView.registerModalView(container);
-			
+
 		});
 	}
 }, {
@@ -1938,11 +1938,14 @@ jQuery.Class("Vtiger_List_Js", {
 		};
 		AppConnector.request(actionParams).then(function (appData) {
 			var data = appData.result;
-			for (var i in data) {
-				if (data[i] > 0) {
-					listViewContentDiv.find('tr[data-id="' + i + '"] .unreviewed .badge').text(data[i]);
+			$.each(data, function (id, value) {
+				if (value.a > 0) {
+					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a);
 				}
-			}
+				if (value.m > 0) {
+					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m);
+				}
+			});
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
 	},
