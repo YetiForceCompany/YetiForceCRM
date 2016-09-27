@@ -260,7 +260,7 @@ class CRMEntity
 	public function insertIntoCrmEntity($module, $fileid = '')
 	{
 		$adb = PearDatabase::getInstance();
-		$currentUser = vglobal('current_user');
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 
 		if ($fileid != '') {
 			$this->id = $fileid;
@@ -283,13 +283,13 @@ class CRMEntity
 			$description_val = \vtlib\Functions::fromHTML($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
-			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->id);
+			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
 			$tabid = \includes\Modules::getModuleId($module);
 			
 			if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
 				$columns = [
 					'smownerid' => $ownerid,
-					'modifiedby' => $currentUser->id,
+					'modifiedby' => $currentUser->getId(),
 					'description' => $description_val,
 					'attention' => $attention_val,
 					'modifiedtime' => $adb->formatDate($date_var, true),
@@ -312,7 +312,7 @@ class CRMEntity
 				if (is_array($columname) && in_array('description', $columname)) {
 					$columns = [
 						'smownerid' => $ownerid,
-						'modifiedby' => $currentUser->id,
+						'modifiedby' => $currentUser->getId(),
 						'description' => $description_val,
 						'attention' => $attention_val,
 						'modifiedtime' => $adb->formatDate($date_var, true),
@@ -321,7 +321,7 @@ class CRMEntity
 				} else {
 					$columns = [
 						'smownerid' => $ownerid,
-						'modifiedby' => $currentUser->id,
+						'modifiedby' => $currentUser->getId(),
 						'modifiedtime' => $adb->formatDate($date_var, true)
 					];
 				}
@@ -329,7 +329,7 @@ class CRMEntity
 			$params = [$this->id];
 			$adb->update('vtiger_crmentity', $columns, 'crmid = ?', $params);
 			$this->column_fields['modifiedtime'] = $adb->formatDate($date_var, true);
-			$this->column_fields['modifiedby'] = $currentUser->id;
+			$this->column_fields['modifiedby'] = $currentUser->getId();
 		} else {
 			//if this is the create mode and the group allocation is chosen, then do the following
 			if (empty($this->newRecord)) {
@@ -355,12 +355,12 @@ class CRMEntity
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$params = [
 				'crmid' => $this->id,
-				'smcreatorid' => $currentUser->id,
+				'smcreatorid' => $currentUser->getId(),
 				'smownerid' => $ownerid,
 				'setype' => $module,
 				'description' => $description_val,
 				'attention' => $attention_val,
-				'modifiedby' => $currentUser->id,
+				'modifiedby' => $currentUser->getId(),
 				'createdtime' => $created_date_var,
 				'modifiedtime' => $modified_date_var
 			];
@@ -368,7 +368,7 @@ class CRMEntity
 
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
-			$this->column_fields['modifiedby'] = $currentUser->id;
+			$this->column_fields['modifiedby'] = $currentUser->getId();
 		}
 	}
 
