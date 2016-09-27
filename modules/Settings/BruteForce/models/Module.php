@@ -12,31 +12,18 @@
 class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public function getConfig()
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT * FROM vtiger_bruteforce", true);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$output[] = $db->query_result($result, $i, 'value');
-		}
-		return $output;
-	}
-
 	static public function getBruteForceSettings()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT * FROM vtiger_bruteforce", true);
-		$output = $db->query_result_rowdata($result, 0);
-		return $output;
+		return (new App\db\Query())->from('vtiger_bruteforce')->one();
 	}
 
-	static public function getBlockedIP()
+	public static function getBlockedIP()
 	{
 		$db = PearDatabase::getInstance();
 		$bruteforceSettings = self::getBruteForceSettings();
 		$attempsNumber = $bruteforceSettings['attempsnumber'];
 		$blockTime = $bruteforceSettings['timelock'];
-		$now = date("Y-m-d H:i:s");
+		$now = date('Y-m-d H:i:s');
 
 		$query = "SELECT  COUNT(*) AS COUNT, user_ip, GROUP_CONCAT(DISTINCT(user_name)) as usersName, login_time, GROUP_CONCAT(DISTINCT(browser)) as browsers"
 			. " FROM `vtiger_loginhistory` vlh WHERE "
@@ -78,23 +65,19 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	static public function checkBlocked()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT * FROM `vtiger_bruteforce` LIMIT 1";
-		$result = $db->pquery($query, array());
-		$ip = vtlib\Functions::getRemoteIP();
-		$bruteforceSettings = $db->query_result_rowdata($result, 0);
-		$attempsNumber = $bruteforceSettings['attempsnumber'];
-		$blockTime = $bruteforceSettings['timelock'];
-
+		$config = self::getBruteForceSettings();
 		$blockDate = new DateTime();
-		$blockDate->modify("-$blockTime minutes");
+		$blockDate->modify("-{$config['timelock']} minutes");
+		$ip = vtlib\Functions::getRemoteIP();
 
-		$query = "SELECT count(login_id) as cn FROM `vtiger_loginhistory` vlh 
-			WHERE STATUS = 'Failed login' && user_ip = ? && unblock = 0 
-			AND vlh.login_time > ?";
-		$result = $db->pquery($query, array($ip, $blockDate->format('Y-m-d H:i:s')));
-		if ($db->getSingleValue($result) >= $attempsNumber) {
+		$count = (new \App\db\Query())
+			->from('vtiger_loginhistory')
+			->where(['>', 'login_time', $blockDate->format('Y-m-d H:i:s')])
+			->andWhere(['status' => 'Failed login'])
+			->andWhere(['user_ip' => $ip])
+			->andWhere(['unblock' => 0])
+			->count(1);
+		if ($count >= $config['attempsnumber']) {
 			return true;
 		}
 		return false;
@@ -117,18 +100,17 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function updateConfig($number, $timelock, $active)
 	{
-		$adb = PearDatabase::getInstance();
-
 		if ('true' == $active) {
 			$active = true;
 		} else {
 			$active = false;
 		}
-
-		$query = "UPDATE vtiger_bruteforce SET attempsnumber = ?, timelock = ?, active = ?;";
-		$params = array($number, $timelock, $active);
-		$result = $adb->pquery($query, $params);
-
+		$result = \App\DB::getInstance()->createCommand()
+				->update('vtiger_bruteforce', [
+					'attempsnumber' => $number,
+					'timelock' => $timelock,
+					'active' => $active,
+				])->execute();
 		return $result;
 	}
 
