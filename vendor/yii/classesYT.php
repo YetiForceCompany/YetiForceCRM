@@ -110,4 +110,8 @@ return [
 	'yii\base\ViewEvent' => YII2_PATH . '/base/ViewEvent.php',
 	'yii\base\ViewRenderer' => YII2_PATH . '/base/ViewRenderer.php',
 	'yii\base\Widget' => YII2_PATH . '/base/Widget.php',
+	'yii\helpers\BaseArrayHelper' => YII2_PATH . '/helpers/BaseArrayHelper.php',
+	'yii\helpers\BaseVarDumper' => YII2_PATH . '/helpers/BaseVarDumper.php',
+	'yii\helpers\ArrayHelper' => YII2_PATH . '/helpers/ArrayHelper.php',
+	'yii\helpers\VarDumper' => YII2_PATH . '/helpers/VarDumper.php',
 ];
