@@ -16,23 +16,68 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 		$flat = $request->get('flat');
 		$tlon = $request->get('tlon');
 		$tlat = $request->get('tlat');
+		$ilon = $request->get('ilon');
+		$ilat = $request->get('ilat');
+
+		$track = [];
+		$startLat = $flat;
+		$startLon = $flon;
+		foreach ($ilon as $key => $tempLon) {
+			if(!empty($tempLon)){
+				$endLon = $ilon[$key];
+				$endLat = $ilat[$key];
+				$tracks [] = [
+					'startLat' => $startLat,
+					'startLon' => $startLon,
+					'endLat' => $endLat,
+					'endLon' => $endLon
+				];
+				$startLat = $endLat;
+				$startLon = $endLon;
+			}
+			
+		}
+		$tracks [] = [
+			'startLat' => $startLat,
+			'startLon' => $startLon,
+			'endLat' => $tlat,
+			'endLon' => $tlon
+		];
 		$language = vglobal('default_language');
-		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE') . "?format=geojson&flat=$flat&flon=$flon&tlat=$tlat&tlon=$tlon&lang=$language&instructions=1";
-		$curl = curl_init();
-		curl_setopt_array($curl, [
-			CURLOPT_URL => $url,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => "",
-			CURLOPT_MAXREDIRS => 3,
-			CURLOPT_TIMEOUT => 10,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => "GET",
-		]);
-		$json = curl_exec($curl);
-		curl_close($curl);
+		$coordinates = [];
+		$travel = 0;
+		$description = '';
+		foreach ($tracks as $track) {
+			$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE') . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . $language . '&instructions=1';
+			$curl = curl_init();
+			curl_setopt_array($curl, [
+				CURLOPT_URL => $url,
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_MAXREDIRS => 3,
+				CURLOPT_TIMEOUT => 10,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "GET",
+			]);
+			$json = curl_exec($curl);
+			$json = \includes\utils\Json::decode($json);
+			$coordinates = array_merge($coordinates, $json['coordinates']);
+			$description .= $json['properties']['description'];
+			$travel = $travel + $json['properties']['traveltime'];
+			$distance = $distance + $json['properties']['distance'];
+			curl_close($curl);
+		}
+		$result = [
+			'type' => 'LineString',
+			'coordinates' => $coordinates,
+			'properties' => [
+				'description' => $description,
+				'traveltime' => $travel,
+				'distance' => $distance
+			]
+		];
 		$response = new Vtiger_Response();
-		$response->setResult($json);
-		$response->setEmitType(Vtiger_Response::$EMIT_RAW);
+		$response->setResult($result);
 		$response->emit();
 	}
 }
