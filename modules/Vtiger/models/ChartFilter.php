@@ -52,6 +52,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function getDataFunnel()
 	{
 		$groupData = $this->getDataFromFilter();
+		uasort($groupData, function($first, $second) {
+			if ($first['count'] == $second['count']) {
+				return 0;
+			}
+			return ($first['count'] < $second['count']) ? 1 : -1;
+		});
 		$data = [];
 		foreach ($groupData as $fieldName => $value) {
 			$data [] = [$fieldName, $value['count'], $value['link']];
