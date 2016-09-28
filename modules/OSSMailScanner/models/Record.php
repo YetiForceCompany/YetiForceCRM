@@ -454,9 +454,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$result = $adb->query("SELECT * FROM vtiger_ossmails_logs ORDER BY id DESC LIMIT $startNumber , $endNumber");
 		$output = [];
 		for ($i = 0; $i < $adb->getRowCount($result); $i++) {
+			$startTime = new DateTimeField($adb->query_result($result, $i, 'start_time'));
+			$endTime = new DateTimeField($adb->query_result($result, $i, 'end_time'));
 			$output[$i]['id'] = $adb->query_result($result, $i, 'id');
-			$output[$i]['start_time'] = DateTimeField::convertToUserFormat($adb->query_result($result, $i, 'start_time'));
-			$output[$i]['end_time'] = DateTimeField::convertToUserFormat($adb->query_result($result, $i, 'end_time'));
+			$output[$i]['start_time'] = $startTime->getDisplayDateTimeValue();
+			$output[$i]['end_time'] = $endTime->getDisplayDateTimeValue();
 			$output[$i]['status'] = self::getHistoryStatus($adb->query_result($result, $i, 'status'));
 			$output[$i]['user'] = $adb->query_result($result, $i, 'user');
 			$output[$i]['stop_user'] = $adb->query_result($result, $i, 'stop_user');
