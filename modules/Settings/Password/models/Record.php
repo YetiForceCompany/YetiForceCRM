@@ -16,10 +16,10 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_password';
-		$p = array();
+		$p = [];
 		if ($type) {
 			$sql .= " WHERE type = ?";
-			$p = array($type);
+			$p = [$type];
 		}
 		$result = $db->pquery($sql, $p, true);
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
@@ -31,7 +31,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 	public function setPassDetail($type, $vale)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("UPDATE vtiger_password SET `val` = ? WHERE `type` = ?", array($vale, $type), true);
+		$db->pquery("UPDATE vtiger_password SET `val` = ? WHERE `type` = ?", [$vale, $type]);
 	}
 
 	public function validation($type, $vale)
@@ -40,7 +40,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 			return is_numeric($vale);
 		}
 		if ($type == 'big_letters' || $type == 'small_letters' || $type == 'numbers' || $type == 'special') {
-			if ($vale === false || $vale === true) {
+			if ($vale == 'false' || $vale == 'true') {
 				return true;
 			} else {
 				return false;
