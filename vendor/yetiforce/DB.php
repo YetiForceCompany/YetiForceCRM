@@ -66,15 +66,25 @@ class DB extends \yii\db\Connection
 	 * @param array $type
 	 * @return Array with database configuration.
 	 */
-	public static function getConfig($type)
+	public static function getConfig($type, $reload = false)
 	{
-		if (static::$config === false) {
+		if (static::$config === false || $reload) {
 			static::$config = require('config/config.db.php');
 		}
 		if (isset(static::$config[$type])) {
 			return static::$config[$type];
 		}
 		return static::$config['base'];
+	}
+
+	/**
+	 * Set database connection configuration
+	 * @param array $config
+	 * @param string $type 
+	 */
+	public static function setConfig($config, $type = 'base')
+	{
+		static::$config[$type] = $config;
 	}
 
 	/**
