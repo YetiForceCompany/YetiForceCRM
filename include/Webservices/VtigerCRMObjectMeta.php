@@ -510,9 +510,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	public function getNameFields()
 	{
-		$adb = PearDatabase::getInstance();
-
-		$data = \includes\Modules::getEntityInfo(getTabModuleName($this->getEffectiveTabId()));
+		$data = \includes\Modules::getEntityInfo(\includes\Modules::getModuleName($this->getEffectiveTabId()));
 		$fieldNames = '';
 		if ($data) {
 			$fieldNames = $data['fieldname'];

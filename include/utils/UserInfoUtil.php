@@ -556,7 +556,7 @@ function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
 		foreach ($relatedModuleArray as $parModId) {
 			$parRecordOwner = getParentRecordOwner($tabid, $parModId, $record_id);
 			if (sizeof($parRecordOwner) > 0) {
-				$parModName = getTabname($parModId);
+				$parModName = \includes\Modules::getModuleName($parModId);
 				$rel_var = $parModName . "_" . $module . "_share_read_permission";
 				$read_related_per_arr = $$rel_var;
 				$rel_owner_type = '';
@@ -665,7 +665,7 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 		foreach ($relatedModuleArray as $parModId) {
 			$parRecordOwner = getParentRecordOwner($tabid, $parModId, $record_id);
 			if (sizeof($parRecordOwner) > 0) {
-				$parModName = getTabname($parModId);
+				$parModName = \includes\Modules::getModuleName($parModId);
 				$rel_var = $parModName . "_" . $module . "_share_write_permission";
 				$write_related_per_arr = $$rel_var;
 				$rel_owner_type = '';
@@ -1789,13 +1789,13 @@ function getPermittedModuleNames()
 	if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 		foreach ($tab_seq_array as $tabid => $seq_value) {
 			if ($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
-				$permittedModules[] = getTabModuleName($tabid);
+				$permittedModules[] = \includes\Modules::getModuleName($tabid);
 			}
 		}
 	} else {
 		foreach ($tab_seq_array as $tabid => $seq_value) {
 			if ($seq_value === 0) {
-				$permittedModules[] = getTabModuleName($tabid);
+				$permittedModules[] = \includes\Modules::getModuleName($tabid);
 			}
 		}
 	}

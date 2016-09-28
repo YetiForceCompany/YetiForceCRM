@@ -522,7 +522,7 @@ class Emails extends CRMEntity
 	{
 		$module = null;
 		if (!empty($tabId)) {
-			$module = getTabname($tabId);
+			$module = \includes\Modules::getModuleName($tabId);
 		}
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared int(1) default 0) ignore " . $query;

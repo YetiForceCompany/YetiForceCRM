@@ -94,7 +94,7 @@ class ModTracker
 			$visible = $adb->query_result($moduleResult, $i, 'visible');
 			self::updateCache($tabId, $visible);
 			if ($visible == 1) {
-				$modules[] = getTabModuleName($tabId);
+				$modules[] = \includes\Modules::getModuleName($tabId);
 			}
 		}
 		return $modules;

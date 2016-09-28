@@ -43,7 +43,7 @@ class Vtiger_DependencyPicklist
 
 				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($targetField));
 				$targetFieldLabel = $adb->query_result($fieldResult, 0, 'fieldlabel');
-				$forModule = getTabModuleName($fieldTabId);
+				$forModule = \includes\Modules::getModuleName($fieldTabId);
 				$dependentPicklists[] = array(
 					'sourcefield' => $sourceField,
 					'sourcefieldlabel' => vtranslate($sourceFieldLabel, $forModule),

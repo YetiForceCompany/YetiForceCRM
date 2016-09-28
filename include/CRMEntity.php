@@ -2575,7 +2575,7 @@ class CRMEntity
 	{
 		$module = null;
 		if (!empty($tabId)) {
-			$module = getTabModuleName($tabId);
+			$module = \includes\Modules::getModuleName($tabId);
 		}
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key) ignore " .

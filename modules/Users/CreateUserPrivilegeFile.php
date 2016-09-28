@@ -1334,10 +1334,10 @@ function populateSharingtmptables($userid)
 	}
 	//Populating Values into the temp related sharing tables
 	foreach ($related_module_share as $rel_tab_id => $tabid_arr) {
-		$rel_tab_name = getTabname($rel_tab_id);
+		$rel_tab_name = \includes\Modules::getModuleName($rel_tab_id);
 		if (!empty($rel_tab_name)) {
 			foreach ($tabid_arr as $taid) {
-				$tab_name = getTabname($taid);
+				$tab_name = \includes\Modules::getModuleName($taid);
 
 				$relmodule_sharing_read_permvar = $tab_name . '_' . $rel_tab_name . '_share_read_permission';
 				$relmodule_sharing_write_permvar = $tab_name . '_' . $rel_tab_name . '_share_write_permission';

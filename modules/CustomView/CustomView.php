@@ -1351,7 +1351,7 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_language = vglobal('current_language');
-		$current_mod_strings = return_specified_module_language($current_language, $module);
+		$current_mod_strings = \vtlib\Deprecated::return_app_list_strings_language($current_language, $module);
 		$blockInfo = [];
 		$modulesList = explode(',', $module);
 		if ($module == 'Calendar') {

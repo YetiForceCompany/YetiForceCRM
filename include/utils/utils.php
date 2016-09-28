@@ -97,24 +97,6 @@ function return_name(&$row, $first_column, $last_column)
 
 
 
-/* This function returns the mod_strings for the current language and the specified module
- */
-
-function return_specified_module_language($language, $module)
-{
-	return vtlib\Deprecated::return_app_list_strings_language($language, $module);
-}
-
-/**
- * Return an array of directory names.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
- * All Rights Reserved.
- * Contributor(s): ______________________________________..
- */
-function get_themes()
-{
-	return Vtiger_Theme::getAllSkins();
-}
 
 /** Function to set default varibles on to the global variable
  * @param $defaults -- default values:: Type array
@@ -190,24 +172,6 @@ function to_html($string, $encode = true)
 	return $string;
 }
 
-/** Function to get the tablabel for a given id
- * @param $tabid -- tab id:: Type integer
- * @returns $string -- string:: Type string
- */
-function getTabname($tabid)
-{
-	return \vtlib\Functions::getModuleName($tabid);
-}
-
-/** Function to get the tab module name for a given id
- * @param $tabid -- tab id:: Type integer
- * @returns $string -- string:: Type string
- *
- */
-function getTabModuleName($tabid)
-{
-	return vtlib\Functions::getModuleName($tabid);
-}
 
 /** Function to get column fields for a given module
  * @param $module -- module:: Type string

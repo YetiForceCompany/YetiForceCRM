@@ -380,7 +380,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			$fieldName = $db->query_result($result, $i, 'fieldname');
 			$typeOfData = $db->query_result($result, $i, 'typeofdata');
 			$referenceModule = $db->query_result($result, $i, 'reference_module');
-			$tabModuleName = getTabModuleName($tabId);
+			$tabModuleName = \includes\Modules::getModuleName($tabId);
 			if (in_array($tabModuleName, $filterModules))
 				continue;
 			if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {

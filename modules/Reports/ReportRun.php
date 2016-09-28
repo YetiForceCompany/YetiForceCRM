@@ -1776,7 +1776,7 @@ class ReportRun extends CRMEntity
 			}
 
 			if (!empty($sharedTabId)) {
-				$module = getTabModuleName($sharedTabId);
+				$module = \includes\Modules::getModuleName($sharedTabId);
 				if ($module == "Calendar") {
 					// For calendar we have some special case to check like, calendar shared type
 					$moduleInstance = CRMEntity::getInstance($module);
@@ -2334,7 +2334,7 @@ class ReportRun extends CRMEntity
 		if ($referencefieldres) {
 			foreach ($referencefieldres as $referencefieldrow) {
 				$uiType = $referencefieldrow['uitype'];
-				$modprefixedlabel = getTabModuleName($referencefieldrow['tabid']) . ' ' . $referencefieldrow['fieldlabel'];
+				$modprefixedlabel = \includes\Modules::getModuleName($referencefieldrow['tabid']) . ' ' . $referencefieldrow['fieldlabel'];
 				$modprefixedlabel = str_replace(' ', '__', $modprefixedlabel);
 
 				if ($uiType == 10 && !in_array($modprefixedlabel, $this->ui10_fields)) {
@@ -2622,7 +2622,7 @@ class ReportRun extends CRMEntity
 						$fieldlist = explode(":", $key);
 						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 						if ($adb->num_rows($mod_query) > 0) {
-							$module_name = getTabModuleName($adb->query_result($mod_query, 0, 'tabid'));
+							$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
@@ -2732,7 +2732,7 @@ class ReportRun extends CRMEntity
 						if (!isset($modulename_cache[$cachekey])) {
 							$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 							if ($adb->num_rows($mod_query) > 0) {
-								$module_name = getTabModuleName($adb->query_result($mod_query, 0, 'tabid'));
+								$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 								$modulename_cache[$cachekey] = $module_name;
 							}
 						} else {
@@ -2942,7 +2942,7 @@ class ReportRun extends CRMEntity
 						$fieldlist = explode(":", $key);
 						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 						if ($adb->num_rows($mod_query) > 0) {
-							$module_name = getTabModuleName($adb->query_result($mod_query, 0, 'tabid'));
+							$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
@@ -3076,7 +3076,7 @@ class ReportRun extends CRMEntity
 				if (!isset($modulename_cache[$cachekey])) {
 					$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 					if ($adb->num_rows($mod_query) > 0) {
-						$module_name = getTabModuleName($adb->query_result($mod_query, 0, 'tabid'));
+						$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 						$modulename_cache[$cachekey] = $module_name;
 					}
 				} else {
@@ -3290,7 +3290,7 @@ class ReportRun extends CRMEntity
 			$uitype = $adb->query_result($result, $i, "uitype");
 
 			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
-			$keyvalue = getTabModuleName($tabid) . "__" . $fieldlabel1;
+			$keyvalue = \includes\Modules::getModuleName($tabid) . "__" . $fieldlabel1;
 			$fieldvalues = Array();
 			if (count($roleids) > 1) {
 				$mulsel = "select distinct $fieldname from vtiger_$fieldname inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$fieldname.picklist_valueid where roleid in (\"" . implode($roleids, "\",\"") . "\") and picklistid in (select picklistid from vtiger_$fieldname)"; // order by sortid asc - not requried

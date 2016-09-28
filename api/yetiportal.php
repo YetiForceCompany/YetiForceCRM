@@ -2726,7 +2726,7 @@ function get_modules($id)
 		$norows = $adb->num_rows($query);
 		if ($norows) {
 			while ($resultrow = $adb->fetch_array($query)) {
-				$name = getTabModuleName($resultrow['tabid']);
+				$name = \includes\Modules::getModuleName($resultrow['tabid']);
 				$modules[(int) $resultrow['sequence']] = array('name' => $name, 'translated_name' => Vtiger_Language_Handler::getTranslatedString($name, $name, vglobal('default_language')));
 			}
 			ksort($modules); // Order via SQL might cost us, so handling it ourselves in this case
