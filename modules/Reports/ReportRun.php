@@ -333,10 +333,6 @@ class ReportRun extends CRMEntity
 				continue;
 			}
 			$querycolumns = $this->getEscapedColumns($selectedfields);
-			if (isset($module) && $module != "") {
-				$current_language = vglobal('current_language');
-				$mod_strings = return_module_language($current_language, $module);
-			}
 
 			$targetTableName = $tablename;
 
@@ -3355,7 +3351,7 @@ class ReportRun extends CRMEntity
 
 		$currentModule = vglobal('currentModule');
 		$current_language = vglobal('current_language');
-		$mod_strings = return_module_language($current_language, $currentModule);
+		$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, $currentModule);
 
 		require_once("libraries/PHPExcel/PHPExcel.php");
 

@@ -1506,7 +1506,7 @@ class CustomView extends CRMEntity
 	{
 		global $current_user, $log;
 		$current_language = vglobal('current_language');
-		$custom_strings = return_module_language($current_language, "CustomView");
+		$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, "CustomView");
 
 		$log->debug("Entering isPermittedChangeStatus($status) method..............");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');

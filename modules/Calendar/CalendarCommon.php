@@ -79,7 +79,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	$adb = PearDatabase::getInstance();
 	require_once 'include/utils/utils.php';
 	$current_language = vglobal('current_language');
-	$mod_strings = return_module_language($current_language, 'Calendar');
+	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');
 	$log->debug("Entering getActivityDetails(" . $description . ") method ...");
 	$updated = $mod_strings['LBL_UPDATED'];
 	$created = $mod_strings['LBL_CREATED'];

@@ -480,7 +480,7 @@ class Services extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$current_language = vglobal('current_language');
-		$current_module_strings = return_module_language($current_language, 'Services');
+		$current_module_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Services');
 		$no_of_decimal_places = getCurrencyDecimalPlaces();
 		$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');
 		global $urlPrefix;

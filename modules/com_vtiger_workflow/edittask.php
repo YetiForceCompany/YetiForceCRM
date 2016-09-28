@@ -25,7 +25,7 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 
 	$module = new VTWorkflowApplication('edittask');
 
-	$mod = return_module_language($current_language, $module->name);
+	$mod = \vtlib\Deprecated::getModuleTranslationStrings($current_language, $module->name);
 
 	if (!$util->checkAdminAccess()) {
 		$errorUrl = $module->errorPageUrl($mod['LBL_ERROR_NOT_ADMIN']);
@@ -114,7 +114,7 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 	$smarty->assign("USER_TIME", $task->formatTimeForTimePicker($time));
 	$smarty->assign("USER_DATE", $date->getDisplayDate());
 	$smarty->assign("MOD", array_merge(
-			return_module_language($current_language, 'Settings'), return_module_language($current_language, 'Calendar'), return_module_language($current_language, $module->name)));
+	\vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Settings'), \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar'), \vtlib\Deprecated::getModuleTranslationStrings($current_language, $module->name)));
 	$smarty->assign("APP", $app_strings);
 	$smarty->assign("dateFormat", \vtlib\Functions::currentUserJSDateFormat($app_strings['NTC_DATE_FORMAT']));
 	$smarty->assign("IMAGE_PATH", $image_path);

@@ -94,43 +94,9 @@ function return_name(&$row, $first_column, $last_column)
 	return $full_name;
 }
 
-/** This function retrieves an application language file and returns the array of strings included in the $app_list_strings var.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
- * All Rights Reserved.
- * Contributor(s): ______________________________________..
- * If you are using the current language, do not call this function unless you are loading it for the first time */
-function return_app_list_strings_language($language)
-{
-	return vtlib\Deprecated::return_app_list_strings_language($language);
-}
 
-/**
- * Retrieve the app_currency_strings for the required language.
- */
-function return_app_currency_strings_language($language)
-{
-	return vtlib\Deprecated::return_app_list_strings_language($language);
-}
 
-/** This function retrieves an application language file and returns the array of strings included.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
- * All Rights Reserved.
- * Contributor(s): ______________________________________..
- * If you are using the current language, do not call this function unless you are loading it for the first time */
-function return_application_language($language)
-{
-	return vtlib\Deprecated::return_app_list_strings_language($language);
-}
 
-/** This function retrieves a module's language file and returns the array of strings included.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
- * All Rights Reserved.
- * Contributor(s): ______________________________________..
- * If you are in the current module, do not call this function unless you are loading it for the first time */
-function return_module_language($language, $module)
-{
-	return vtlib\Deprecated::getModuleTranslationStrings($language, $module);
-}
 /* This function returns the mod_strings for the current language and the specified module
  */
 
