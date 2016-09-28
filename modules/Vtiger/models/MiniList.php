@@ -130,16 +130,20 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		}
 		$params = [];
 		if (!empty($user)) {
-			$ownerSql = ' && vtiger_crmentity.smownerid = ? ';
+			$ownerSql = ' AND vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
 		if (!$this->listviewRecords) {
 			$db = PearDatabase::getInstance();
-
 			$query = $this->queryGenerator->getQuery() . $ownerSql;
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
-			if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
+			$filterId = $this->widgetModel->get('filterid');
+			$filterModel = CustomView_Record_Model::getInstanceById($filterId);
+			if(!empty($filterModel->get('sort'))){
+				$sort = $filterModel->get('sort');
+				$query .= sprintf(' ORDER BY %s ', str_replace(',', ' ', $sort));
+			} else if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
 				$query .= sprintf(' ORDER BY %s %s', $targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
 			}
 			$query .= sprintf(' LIMIT 0,%d', $this->getRecordLimit());
