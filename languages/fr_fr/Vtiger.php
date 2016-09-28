@@ -1244,6 +1244,7 @@ $languageStrings = [
 	'LBL_MAP' => 'Map',
 	'LBL_SHOW_MAP' => 'Show on the map',
 	'FL_CAMPAIGN_STATUS' => 'Statut Campagne',
+	'LBL_SECTOR' => 'Sectors',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',

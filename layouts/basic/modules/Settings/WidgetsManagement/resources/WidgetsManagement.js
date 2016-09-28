@@ -566,7 +566,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
 			var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
 			var fieldsSelectDOM = jQuery('select[name="groupField"]', wizardContainer);
-
+			var sectorContainer = form.find('.sectorContainer');
+			app.showSelect2ElementView(sectorContainer.find('[name="sectorField"]'), {
+				tags: true,
+				tokenSeparators: [',', ' ']
+			});
 			var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
 				placeholder: app.vtranslate('JS_SELECT_MODULE')
 			});
@@ -627,6 +631,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				if (!fieldsSelect2.val()) {
 					footer.hide();
 				} else {
+					if (chartType.val() == 'Funnel') {
+						var fieldType = fieldsSelect2.find(':selected').data('fieldType');
+						if (fieldType == 'currency') {
+							sectorContainer.removeClass('hide');
+						} else {
+							sectorContainer.addClass('hide');
+						}
+					}
 					footer.show();
 				}
 			});
@@ -647,7 +659,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					module: selectedModule,
 					groupField: fieldsSelect2.val(),
 					chartType: chartType.val(),
-					color: isColorValue
+					color: isColorValue,
+					sector: sectorContainer.find('[name="sectorField"]').val()
 				};
 				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, fieldLabel, data, form);
 			});

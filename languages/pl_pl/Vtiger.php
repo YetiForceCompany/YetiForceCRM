@@ -1257,7 +1257,8 @@ $languageStrings = [
 	'LBL_PICKLIST_FIELD' => 'Lista wyboru z pola',
 	'LBL_MAP' => 'Mapa',
 	'LBL_SHOW_MAP' => 'Pokaż na mapie',
-	'FL_CAMPAIGN_STATUS' => 'Status kampani'
+	'FL_CAMPAIGN_STATUS' => 'Status kampani',
+	'LBL_SECTOR' => 'Sektory',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
