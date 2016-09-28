@@ -201,8 +201,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$actions = [];
 		if ($params && array_key_exists('actions', $params)) {
 			$actions = $params['actions'];
-		} else {
+		} elseif (is_string($account['actions'])) {
 			$actions = explode(',', $account['actions']);
+		} else {
+			$actions = $account['actions'];
 		}
 		$mail->setAccount($account);
 		$mail->setFolder($folder);
@@ -405,7 +407,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$log->debug('Start checking folder: ' . $folder);
 
 				$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder, false);
-				if (!is_resource($mbox)) {
+				if (is_resource($mbox)) {
 					$countEmails = $scannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
 					imap_close($mbox);
 					if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
@@ -415,7 +417,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 						return 'ok';
 					}
 				} else {
-					$log->fatal('Incorrect mail access data: ' . $account['username']);
+					$log->fatal('Incorrect mail access data: ' . $account['username'] . ' , ' . $folder);
 				}
 			}
 		}
