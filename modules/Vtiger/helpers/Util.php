@@ -87,8 +87,16 @@ class Vtiger_Util_Helper
 			return $prefix . self::pluralize($days, "LBL_DAY") . $suffix;
 		if ($months < 12)
 			return $prefix . self::pluralize($months, "LBL_MONTH") . $suffix;
-		if ($months > 11)
-			return $prefix . self::pluralize(floor($days / 365), "LBL_YEAR") . $suffix;
+		if ($months > 11){
+			$month = $months % 12;
+			$monthAgo = '';
+			if ($month != 0) {
+				$monthAgo = self::pluralize($month, "LBL_MONTH");
+			}
+			$result = self::pluralize(floor($months / 12), "LBL_YEAR") . ' ' . $monthAgo;
+			return $prefix . $result . $suffix;
+		}
+			
 	}
 
 	/**
