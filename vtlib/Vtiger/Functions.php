@@ -244,9 +244,9 @@ class Functions
 		}
 
 		if ($reload) {
-			$query = (new \App\db\Query())->from('vtiger_tab');
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
+			$adb = \PearDatabase::getInstance();
+			$result = $adb->query('SELECT * FROM vtiger_tab');
+			while ($row = $adb->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
 				self::$moduleNameIdCache[$row['name']] = $row;
 				self::$moduleIdDataCache[$row['tabid']] = $row;

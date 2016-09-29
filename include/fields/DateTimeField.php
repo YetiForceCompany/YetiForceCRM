@@ -192,9 +192,8 @@ class DateTimeField
 	 */
 	public static function convertToUserFormat($date, $user = null)
 	{
-		$current_user = vglobal('current_user');
 		if (empty($user)) {
-			$user = $current_user;
+			$user = vglobal('current_user');
 		}
 		$format = $user->date_format;
 		if (empty($format)) {
