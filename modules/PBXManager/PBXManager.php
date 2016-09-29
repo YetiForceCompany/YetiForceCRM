@@ -120,7 +120,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addUserExtensionField()
 	{
-		
+		$log = vglobal('log');
 		$module = vtlib\Module::getInstance('Users');
 		if ($module) {
 			$module->initTables();
@@ -142,7 +142,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function registerLookupEvents()
 	{
-		
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$EventManager = new VTEventsManager($adb);
 		$createEvent = 'vtiger.entity.aftersave';
@@ -166,7 +166,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function setModuleRelatedDependencies()
 	{
-		
+		$log = vglobal('log');
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
@@ -180,7 +180,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function unsetModuleRelatedDependencies()
 	{
-		
+		$log = vglobal('log');
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
@@ -194,7 +194,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function unregisterLookupEvents()
 	{
-		
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$EventManager = new VTEventsManager($adb);
 		$className = 'PBXManagerHandler';
@@ -209,7 +209,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addLinksForPBXManager()
 	{
-		
+		$log = vglobal('log');
 		$handlerInfo = array('path' => 'modules/PBXManager/PBXManager.php',
 			'class' => 'PBXManager',
 			'method' => 'checkLinkPermission');
@@ -223,7 +223,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeLinksForPBXManager()
 	{
-		
+		$log = vglobal('log');
 		//Deleting Headerscripts links
 		vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js');
 		$log->fatal('Links Removed');
@@ -234,7 +234,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addSettingsLinks()
 	{
-		
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$integrationBlock = $adb->pquery('SELECT * FROM vtiger_settings_blocks WHERE label=?', array('LBL_INTEGRATION'));
 		$integrationBlockCount = $adb->num_rows($integrationBlock);
@@ -263,7 +263,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeSettingsLinks()
 	{
-		
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
 		$log->fatal('Settings Field Removed');
@@ -274,7 +274,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addActionMapping()
 	{
-		
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
@@ -305,7 +305,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeActionMapping()
 	{
-		
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');

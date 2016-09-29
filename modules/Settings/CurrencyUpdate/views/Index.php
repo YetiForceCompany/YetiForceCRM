@@ -10,7 +10,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$qualifiedModule = $request->getModule(false);

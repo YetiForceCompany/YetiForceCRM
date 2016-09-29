@@ -6,7 +6,7 @@ class PickListHandler extends VTEventHandler
 	public function handleEvent($eventName, $entityData)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 
 		if ($eventName == 'vtiger.picklist.afterrename') {
 			$this->operationsAfterPicklistRename($entityData);

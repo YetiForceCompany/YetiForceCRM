@@ -1091,7 +1091,7 @@ class CustomView extends CRMEntity
 	 */
 	public function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname)
 	{
-		
+		$log = vglobal('log');
 		$log->info("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
 		$adb = PearDatabase::getInstance();
 
@@ -1423,7 +1423,7 @@ class CustomView extends CRMEntity
 	public function isPermittedCustomView($record_id, $action, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$log->debug("Entering isPermittedCustomView($record_id,$action,$module) method....");
 

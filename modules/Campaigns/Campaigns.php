@@ -278,7 +278,7 @@ class Campaigns extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		
+		$log = vglobal('log');
 		if (empty($returnModule) || empty($returnId))
 			return;
 

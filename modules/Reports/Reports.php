@@ -393,7 +393,7 @@ class Reports extends CRMEntity
 		$srptdetails = "";
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-		
+		$log = vglobal('log');
 		$mod_strings = vglobal('mod_strings');
 		$returndata = [];
 
@@ -593,7 +593,7 @@ class Reports extends CRMEntity
 	public function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 
 		if (is_string($block))
@@ -757,7 +757,7 @@ class Reports extends CRMEntity
 	public function getStdCriteriaByModule($module)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
@@ -862,7 +862,7 @@ class Reports extends CRMEntity
 	{
 
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 
 		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
 		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
@@ -949,7 +949,7 @@ class Reports extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 
 		$advft_criteria = array();
@@ -1045,7 +1045,7 @@ class Reports extends CRMEntity
 	public function sgetRptFldrSaveReport()
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, array());
@@ -1084,7 +1084,7 @@ class Reports extends CRMEntity
 	public function sgetColumntoTotalSelected($primarymodule, $secondarymodule, $reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$options = [];
 		if ($reportid != "") {
 			$ssql = "select vtiger_reportsummary.* from vtiger_reportsummary inner join vtiger_report on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid where vtiger_report.reportid=?";
@@ -1281,7 +1281,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 {
 
 	$adb = PearDatabase::getInstance();
-	
+	$log = vglobal('log');
 
 	$idelrelcriteriasql = "delete from vtiger_relcriteria where queryid=?";
 	$idelrelcriteriasqlresult = $adb->pquery($idelrelcriteriasql, array($reportid));

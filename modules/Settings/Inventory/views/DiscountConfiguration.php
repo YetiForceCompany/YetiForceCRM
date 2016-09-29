@@ -15,7 +15,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 
 	public function process(Vtiger_Request $request)
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$qualifiedModule = $request->getModule(false);
 		$view = $this->getView();

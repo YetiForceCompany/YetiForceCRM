@@ -309,7 +309,7 @@ class OSSMailView extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		
+		$log = vglobal('log');
 		parent::unlinkDependencies($module, $id);
 	}
 

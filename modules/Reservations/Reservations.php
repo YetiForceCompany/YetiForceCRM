@@ -94,7 +94,7 @@ class Reservations extends Vtiger_CRMEntity
 	{
 		$registerLink = false;
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		if ($event_type == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Reservations');
 			\includes\fields\RecordNumber::setNumber($moduleName, 'RES', '1');

@@ -197,7 +197,7 @@ class DataTransform
 	public static function sanitizeReferences($row, $meta)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$references = $meta->getReferenceFieldDetails();
 		foreach ($references as $field => $typeList) {
 			if (strtolower($meta->getEntityName()) == "emails") {

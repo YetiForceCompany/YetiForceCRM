@@ -69,7 +69,7 @@ function GetHistoryBase($parentmodule, $query, $id)
  */
 function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 {
-	
+	$log = vglobal('log');
 	$log->debug("Entering getPriceBookRelatedProducts(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
 
 	$adb = PearDatabase::getInstance();

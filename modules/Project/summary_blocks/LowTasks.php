@@ -18,7 +18,7 @@ class LowTasks
 
 	public function process($instance)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering LowTasks::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 

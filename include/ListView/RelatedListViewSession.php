@@ -28,7 +28,7 @@ class RelatedListViewSession
 
 	public function __construct()
 	{
-		
+		$log = vglobal('log');
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering RelatedListViewSession() method ...");
 

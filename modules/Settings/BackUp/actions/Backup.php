@@ -44,7 +44,7 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 	public function saveftp(Vtiger_Request $request)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$log->debug('Settings_BackUp_SaveFTPConfig_Action: process started');
 		$ftpServerName = $request->get('ftpservername');
 		$ftpLogin = $request->get('ftplogin');
@@ -84,7 +84,7 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 
 	public static function stopBackup()
 	{
-		
+		$log = vglobal('log');
 		Settings_BackUp_Module_Model::stopBackup();
 		$response = new Vtiger_Response();
 		$response->setResult([]);

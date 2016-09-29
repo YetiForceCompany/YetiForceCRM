@@ -39,7 +39,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 			throw new DAV\Exception\Forbidden('Permission denied to create file: '.$name);
 		include_once 'include/main/WebUI.php';
 		$adb = PearDatabase::getInstance(); 
-		
+		$log = vglobal('log');
 		$adb = \PearDatabase::getInstance();
 		$log = \LoggerManager::getLogger('DavToCRM');
 		$user = new \Users();

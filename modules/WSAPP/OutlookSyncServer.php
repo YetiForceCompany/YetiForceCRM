@@ -31,7 +31,7 @@ class OutlookSyncServer extends SyncServer
 
 	public function put($key, $element, $user)
 	{
-		
+		$log = vglobal('log');
 		$db = PearDatabase::getInstance();
 		$appid = parent::appid_with_key($key);
 		if (empty($appid)) {

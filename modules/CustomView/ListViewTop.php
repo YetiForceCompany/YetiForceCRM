@@ -54,7 +54,7 @@ function getKeyMetrics($maxval, $calCnt)
 
 	global $app_strings;
 	$adb = PearDatabase::getInstance();
-	
+	$log = vglobal('log');
 	$log = LoggerManager::getLogger('metrics');
 
 	$metriclists = getMetricList();

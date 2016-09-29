@@ -462,7 +462,7 @@ class Activity extends CRMEntity
 	 */
 	public function get_users($id)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 
 		$focus = new Users();
@@ -493,7 +493,7 @@ class Activity extends CRMEntity
 	 */
 	public function getCount_Meeting($user_name)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering getCount_Meeting(" . $user_name . ") method ...");
 		$query = "select count(*) from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.activityid=vtiger_activity.activityid inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid where user_name=? and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
 		$result = $this->db->pquery($query, array($user_name), true, "Error retrieving contacts count");
@@ -505,7 +505,7 @@ class Activity extends CRMEntity
 
 	public function get_calendars($user_name, $from_index, $offset)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering get_calendars(" . $user_name . "," . $from_index . "," . $offset . ") method ...");
 		$query = 'select vtiger_activity.location as location,vtiger_activity.duration_hours as duehours, vtiger_activity.duration_minutes as dueminutes,vtiger_activity.time_start as time_start, vtiger_activity.subject as name,vtiger_crmentity.modifiedtime as date_modified, vtiger_activity.date_start start_date,vtiger_activity.activityid as id,vtiger_activity.status as status, vtiger_crmentity.description as description, vtiger_activity.priority as vtiger_priority, vtiger_activity.due_date as date_due ,vtiger_contactdetails.firstname cfn, vtiger_contactdetails.lastname cln '
 			. 'from vtiger_activity inner '
@@ -526,7 +526,7 @@ class Activity extends CRMEntity
 	 */
 	public function getCount($user_name)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering getCount(" . $user_name . ") method ...");
 		$query = "select count(*) from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.activityid=vtiger_activity.activityid inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid where user_name=? and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
 		$result = $this->db->pquery($query, array($user_name), true, "Error retrieving contacts count");
@@ -546,7 +546,7 @@ class Activity extends CRMEntity
 	 */
 	public function get_tasks($user_name, $from_index, $offset)
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Entering get_tasks(' . $user_name . ',' . $from_index . ',' . $offset . ') method ...');
 		$query = 'select vtiger_activity.subject as name,vtiger_crmentity.modifiedtime as date_modified, vtiger_activity.date_start start_date,vtiger_activity.activityid as id,vtiger_activity.status as status, vtiger_crmentity.description as description, vtiger_activity.priority as priority, vtiger_activity.due_date as date_due ,vtiger_contactdetails.firstname cfn, vtiger_contactdetails.lastname cln '
 			. 'from vtiger_activity '
@@ -565,7 +565,7 @@ class Activity extends CRMEntity
 	 */
 	public function process_list_query1($query)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering process_list_query1(" . $query . ") method ...");
 		$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
 		$list = [];
@@ -713,7 +713,7 @@ class Activity extends CRMEntity
 	public function get_calendarsforol($user_name)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$log->debug("Entering get_calendarsforol(" . $user_name . ") method ...");
 		$current_user = vglobal('current_user');
 		require_once("modules/Users/Users.php");
@@ -770,7 +770,7 @@ class Activity extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		
+		$log = vglobal('log');
 
 		$sql = 'DELETE FROM vtiger_activity_reminder WHERE activity_id=?';
 		$this->db->pquery($sql, array($id));

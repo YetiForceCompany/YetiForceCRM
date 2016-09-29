@@ -76,7 +76,7 @@ class OutlookVtigerCRMHandler extends vtigerCRMHandler
 
 	public function put($recordDetails, $user)
 	{
-		
+		$log = vglobal('log');
 		$this->user = $user;
 		$recordDetails = $this->syncToNativeFormat($recordDetails);
 		$createdRecords = $recordDetails['created'];

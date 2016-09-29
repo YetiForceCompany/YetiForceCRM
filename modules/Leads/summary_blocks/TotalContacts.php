@@ -18,7 +18,7 @@ class TotalContacts
 
 	public function process($instance)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering TotalContacts::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$contact = 'SELECT COUNT(contactid) as count FROM vtiger_contactdetails

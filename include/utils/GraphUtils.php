@@ -33,7 +33,7 @@ DEFINE("FF_FONT1", 'Vera');
 
 function calculate_font_name($locale)
 {
-	
+	$log = vglobal('log');
 	$log->debug("Entering calculate_font_name(" . $locale . ") method ...");
 
 	switch ($locale) {
@@ -66,7 +66,7 @@ function calculate_font_name($locale)
 
 function color_generator($count = 1, $start = '33CCFF', $step = '221133')
 {
-	
+	$log = vglobal('log');
 	$log->debug("Entering color_generator(" . $count . "," . $start . "," . $step . ") method ...");
 	// explode color strings to RGB array
 	if ($start{0} == "#")

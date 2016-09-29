@@ -59,7 +59,7 @@ class Vtiger_DependencyPicklist
 	static function getAvailablePicklists($module)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$tabId = \includes\Modules::getModuleId($module);
 
 		$query = "select vtiger_field.fieldlabel,vtiger_field.fieldname" .

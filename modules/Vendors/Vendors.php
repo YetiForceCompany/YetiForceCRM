@@ -75,7 +75,7 @@ class Vendors extends CRMEntity
 	 */
 	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -139,7 +139,7 @@ class Vendors extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $where . ") method ...");
 
@@ -178,7 +178,7 @@ class Vendors extends CRMEntity
 	 */
 	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -414,7 +414,7 @@ class Vendors extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		
+		$log = vglobal('log');
 		//Backup Product-Vendor Relation
 		$pro_q = 'SELECT productid FROM vtiger_products WHERE vendor_id=?';
 		$pro_res = $this->db->pquery($pro_q, array($id));
@@ -475,7 +475,7 @@ class Vendors extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		
+		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
 			return;
 		if ($return_module == 'Campaigns') {

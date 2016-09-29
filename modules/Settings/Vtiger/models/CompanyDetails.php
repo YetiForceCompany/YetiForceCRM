@@ -194,7 +194,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 	public static function addNewField(Vtiger_Request $request)
 	{
-		
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$newField = self::newFieldValidation($request->get('fieldName'));
 		$response = new Vtiger_Response();

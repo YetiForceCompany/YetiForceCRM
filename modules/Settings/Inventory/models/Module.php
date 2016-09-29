@@ -30,7 +30,7 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 
 	public static function getConfig($type, $name = false)
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
 		$db = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($type);
@@ -54,7 +54,7 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 
 	public function setConfig($type, $param)
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($type);

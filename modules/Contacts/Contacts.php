@@ -123,7 +123,7 @@ class Contacts extends CRMEntity
 	 */
 	public function getCount($user_name)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering getCount(" . $user_name . ") method ...");
 		$query = "select count(*) from vtiger_contactdetails  inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid where user_name=? and vtiger_crmentity.deleted=0";
 		$result = $this->db->pquery($query, array($user_name), true, "Error retrieving contacts count");
@@ -144,7 +144,7 @@ class Contacts extends CRMEntity
 	 */
 	public function get_contacts($user_name, $from_index, $offset)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering get_contacts(" . $user_name . "," . $from_index . "," . $offset . ") method ...");
 		$query = "select vtiger_users.user_name,vtiger_groups.groupname,vtiger_contactdetails.department department, vtiger_contactdetails.phone office_phone, vtiger_contactdetails.fax fax, vtiger_contactsubdetails.assistant assistant_name, vtiger_contactsubdetails.otherphone other_phone, vtiger_contactsubdetails.homephone home_phone,vtiger_contactsubdetails.birthday birthdate, vtiger_contactdetails.lastname last_name,vtiger_contactdetails.firstname first_name,vtiger_contactdetails.contactid as id, vtiger_contactdetails.salutation as salutation, vtiger_contactdetails.email as email1,vtiger_contactdetails.title as title,vtiger_contactdetails.mobile as phone_mobile,vtiger_account.accountname as account_name,vtiger_account.accountid as parent_id, vtiger_contactaddress.mailingcity as primary_address_city,vtiger_contactaddress.mailingstreet as primary_address_street, vtiger_contactaddress.mailingcountry as primary_address_country,vtiger_contactaddress.mailingstate as primary_address_state, vtiger_contactaddress.mailingzip as primary_address_postalcode,   vtiger_contactaddress.othercity as alt_address_city,vtiger_contactaddress.otherstreet as alt_address_street, vtiger_contactaddress.othercountry as alt_address_country,vtiger_contactaddress.otherstate as alt_address_state, vtiger_contactaddress.otherzip as alt_address_postalcode  from vtiger_contactdetails inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid left join vtiger_account on vtiger_account.accountid=vtiger_contactdetails.parentid left join vtiger_contactaddress on vtiger_contactaddress.contactaddressid=vtiger_contactdetails.contactid left join vtiger_contactsubdetails on vtiger_contactsubdetails.contactsubscriptionid = vtiger_contactdetails.contactid left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid left join vtiger_users on vtiger_crmentity.smownerid=vtiger_users.id where user_name='%s' and vtiger_crmentity.deleted=0 limit %s, %s";
 		$query = sprintf($query, $user_name, $from_index, $offset);
@@ -158,7 +158,7 @@ class Contacts extends CRMEntity
 	 */
 	public function process_list_query1($query)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering process_list_query1(" . $query . ") method ...");
 
 		$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
@@ -199,7 +199,7 @@ class Contacts extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		
+		$log = vglobal('log');
 		$log->debug("Entering process_list_query1(" . $query . ") method ...");
 		$permitted_field_lists = Array();
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -260,7 +260,7 @@ class Contacts extends CRMEntity
 	 */
 	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -323,7 +323,7 @@ class Contacts extends CRMEntity
 	 */
 	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -390,7 +390,7 @@ class Contacts extends CRMEntity
 	 */
 	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -453,7 +453,7 @@ class Contacts extends CRMEntity
 	 */
 	public function get_vendors($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -513,7 +513,7 @@ class Contacts extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $where . ") method ...");
 
@@ -556,7 +556,7 @@ class Contacts extends CRMEntity
 	public function getColumnNames()
 	{
 		$current_user = vglobal('current_user');
-		
+		$log = vglobal('log');
 		$log->debug("Entering getColumnNames() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
@@ -592,7 +592,7 @@ class Contacts extends CRMEntity
 	 */
 	public function get_searchbyemailid($username, $emailaddress)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		require_once("modules/Users/Users.php");
 		$seed_user = new Users();
@@ -635,7 +635,7 @@ class Contacts extends CRMEntity
 	public function get_contactsforol($user_name)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		require_once("modules/Users/Users.php");
 		$seed_user = new Users();
@@ -751,7 +751,7 @@ class Contacts extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
@@ -868,7 +868,7 @@ class Contacts extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		
+		$log = vglobal('log');
 
 		//Backup Contact-Trouble Tickets Relation
 		/* $tkt_q = 'SELECT ticketid FROM vtiger_troubletickets WHERE contact_id=?';
@@ -894,7 +894,7 @@ class Contacts extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		
+		$log = vglobal('log');
 		if (empty($return_module) || empty($return_id))
 			return;
 

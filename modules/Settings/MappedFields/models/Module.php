@@ -110,7 +110,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
@@ -143,7 +143,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getInstance($moduleName = 'Settings:Vtiger')
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if ($moduleModel) {
@@ -159,7 +159,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		$instance = new self();
 		$instance->record = Vtiger_MappedFields_Model::getInstanceById($recordId, $moduleName);
@@ -208,7 +208,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getFields($source = false)
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getName());
 		$moduleMeta = $moduleModel->getModuleMeta();
@@ -244,7 +244,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function deleteMapping($mappedIds)
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		$db = PearDatabase::getInstance();
 		if (!is_array($mappedIds)) {
@@ -270,7 +270,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function save($saveMapping = false)
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $saveMapping . ') method ...');
 		$db = PearDatabase::getInstance();
 		$fields = self::$allFields;
@@ -314,7 +314,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function transformAdvanceFilterToWorkFlowFilter()
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		$conditions = $this->get('conditions');
 		$wfCondition = [];

@@ -26,7 +26,7 @@ function vtws_listtypes($fieldTypeList, $user)
 		return $types[$user->id][$fieldTypeString];
 	}
 	try {
-		
+		$log = vglobal('log');
 		/**
 		 * @var PearDatabase
 		 */

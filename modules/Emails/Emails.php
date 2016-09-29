@@ -130,7 +130,7 @@ class Emails extends CRMEntity
 	public function insertIntoAttachment($id, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -164,7 +164,7 @@ class Emails extends CRMEntity
 
 	public function saveForwardAttachments($id, $module, $file_details)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering into saveForwardAttachments($id,$module,$file_details) method.");
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -221,7 +221,7 @@ class Emails extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		
+		$log = vglobal('log');
 		$currentModule = vglobal('currentModule');
 		$singlepane_view = vglobal('singlepane_view');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
@@ -291,7 +291,7 @@ class Emails extends CRMEntity
 	 */
 	public function getSortOrder()
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering getSortOrder() method ...");
 		if (isset($_REQUEST['sorder']))
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
@@ -309,7 +309,7 @@ class Emails extends CRMEntity
 	 */
 	public function getOrderBy()
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
@@ -334,7 +334,7 @@ class Emails extends CRMEntity
 	 */
 	public function get_users($id)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering get_users(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
 		global $app_strings;
@@ -405,7 +405,7 @@ class Emails extends CRMEntity
 	 */
 	public function create_export_query(&$order_by, &$where)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $order_by . "," . $where . ") method ...");
 
@@ -449,7 +449,7 @@ class Emails extends CRMEntity
 	 */
 	public function set_emails_contact_invitee_relationship($email_id, $contact_id)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering set_emails_contact_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
 		$query = "insert into $this->rel_contacts_table (contactid,activityid) values(?,?)";
 		$this->db->pquery($query, array($contact_id, $email_id), true, "Error setting email to contact relationship: " . "<BR>$query");
@@ -461,7 +461,7 @@ class Emails extends CRMEntity
 	 */
 	public function set_emails_se_invitee_relationship($email_id, $contact_id)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering set_emails_se_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
 		$query = "insert into $this->rel_serel_table (crmid,activityid) values(?,?)";
 		$this->db->pquery($query, array($contact_id, $email_id), true, "Error setting email to contact relationship: " . "<BR>$query");
@@ -473,7 +473,7 @@ class Emails extends CRMEntity
 	 */
 	public function set_emails_user_invitee_relationship($email_id, $user_id)
 	{
-		
+		$log = vglobal('log');
 		$log->debug("Entering set_emails_user_invitee_relationship(" . $email_id . "," . $user_id . ") method ...");
 		$query = "insert into $this->rel_users_table (smid,activityid) values (?,?)";
 		$this->db->pquery($query, array($user_id, $email_id), true, "Error setting email to user relationship: " . "<BR>$query");
@@ -483,7 +483,7 @@ class Emails extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		
+		$log = vglobal('log');
 
 		$sql = 'DELETE FROM vtiger_seactivityrel WHERE activityid=? && crmid = ?';
 		$this->db->pquery($sql, array($id, $returnId));
@@ -620,7 +620,7 @@ class Emails extends CRMEntity
 //added for attach the generated pdf with email
 function pdfAttach($obj, $module, $file_name, $id)
 {
-	
+	$log = vglobal('log');
 	$log->debug("Entering into pdfAttach() method.");
 
 	$adb = PearDatabase::getInstance();

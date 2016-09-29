@@ -11,7 +11,7 @@
 global $calpath;
 global $mod_strings;
 global $theme;
-
+$log = vglobal('log');
 
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
@@ -300,7 +300,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid";
@@ -644,7 +644,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		
+		$log = vglobal('log');
 
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid where vtiger_report.reportid = ? ";
@@ -843,7 +843,7 @@ class ReportRun extends CRMEntity
 	public function getAdvFilterList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 
 		$advft_criteria = array();
 
@@ -1267,7 +1267,7 @@ class ReportRun extends CRMEntity
 		if ($this->_advfiltersql !== false) {
 			return $this->_advfiltersql;
 		}
-		
+		$log = vglobal('log');
 
 		$advfilterlist = $this->getAdvFilterList($reportid);
 		$advfiltersql = $this->generateAdvFilterSql($advfilterlist);
@@ -1294,7 +1294,7 @@ class ReportRun extends CRMEntity
 		}
 
 		$adb = PearDatabase::getInstance();
-		
+		$log = vglobal('log');
 		$stdfilterlist = array();
 
 		$stdfiltersql = "select vtiger_reportdatefilter.* from vtiger_report";
@@ -1500,7 +1500,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		
+		$log = vglobal('log');
 
 		$sreportstdfiltersql = "select vtiger_reportdatefilter.* from vtiger_report";
 		$sreportstdfiltersql .= " inner join vtiger_reportdatefilter on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid";
@@ -1578,7 +1578,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		
+		$log = vglobal('log');
 
 		// Have we initialized information already?
 		if ($this->_groupinglist !== false) {
@@ -1674,7 +1674,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		
+		$log = vglobal('log');
 
 		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
 		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
@@ -1718,7 +1718,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function getRelatedModulesQuery($module, $secmodule)
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$query = '';
 		if ($secmodule != '') {
@@ -1805,7 +1805,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function getReportsQuery($module, $type = '')
 	{
-		
+		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$secondary_module = "'";
 		$secondary_module .= str_replace(":", "','", $this->secondarymodule);
@@ -2174,7 +2174,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function sGetSQLforReport($reportid, $filtersql, $type = '', $chartReport = false, $startLimit = false, $endLimit = false)
 	{
-		
+		$log = vglobal('log');
 
 		$columnlist = $this->getQueryColumnsList($reportid, $type);
 		$groupslist = $this->getGroupingList($reportid);
@@ -3191,7 +3191,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		
+		$log = vglobal('log');
 
 		$sreportstdfiltersql = "select vtiger_reportsummary.* from vtiger_report";
 		$sreportstdfiltersql .= " inner join vtiger_reportsummary on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid";

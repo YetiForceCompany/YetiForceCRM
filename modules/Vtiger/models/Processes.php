@@ -14,7 +14,7 @@ class Vtiger_Processes_Model
 
 	public static function getConfig($process, $type, $procesParam = false)
 	{
-		
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Process: $process, Type: $type");
 		$db = PearDatabase::getInstance();
 		$processList = [
