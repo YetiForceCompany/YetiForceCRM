@@ -175,7 +175,6 @@ class Vtiger_Language_Handler
 			$language = Users_Record_Model::getCurrentUserModel()->get('language');
 		}
 		$language = empty($language) ? vglobal('default_language') : $language;
-		$language = strtolower($language);
 		self::$lang = $language;
 		return $language;
 	}
