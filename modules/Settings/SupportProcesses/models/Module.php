@@ -51,9 +51,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		if (self::$ticketStatusNotModify) {
 			return self::$ticketStatusNotModify;
 		}
-		$log = LoggerManager::getInstance();
 		$db = PearDatabase::getInstance();
-		$log->debug('Entering Settings_SupportProcesses_Module_Model::getTicketStatusNotModify() method ...');
 		$result = $db->query('SELECT ticket_status_indicate_closing FROM `vtiger_support_processes`');
 
 		$return = [];
@@ -62,8 +60,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 			$return = explode(',', $ticketStatus);
 		}
 		self::$ticketStatusNotModify = $return;
-		$log->debug('Exiting Settings_SupportProcesses_Module_Model::getTicketStatusNotModify() method ...');
-		return array_flip($return);
+		return $return;
 	}
 
 	/**
