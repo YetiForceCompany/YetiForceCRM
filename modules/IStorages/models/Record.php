@@ -19,7 +19,7 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 		$hierarchy = $focus->getHierarchy($this->getId());
 		foreach ($hierarchy['entries'] as $storageId => $storageInfo) {
 			preg_match('/<a href="+/', $storageInfo[0], $matches);
-			if ($matches !== null) {
+			if (!empty($matches)) {
 				preg_match('/[.\s]+/', $storageInfo[0], $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $storageInfo[0], $name);
 
