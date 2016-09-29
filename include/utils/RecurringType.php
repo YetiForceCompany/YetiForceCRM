@@ -114,7 +114,7 @@ class RecurringType
 		}
 
 		if ($requestArray['type'] == 'Weekly') {
-			if ($requestArray['dayofweek_to_repeat'] != null) {
+			if ($requestArray['dayofweek_to_repeat'] !== null) {
 				$userStartDateTime = DateTimeField::convertToUserTimeZone($startDate . ' ' . $startTime);
 				$dayOfWeek = $requestArray['dayofweek_to_repeat'];
 				$dbDaysOfWeek = [];
@@ -223,7 +223,7 @@ class RecurringType
 		if ($recurringType == 'Daily' || $recurringType == 'Yearly') {
 			$recurringInfo = $recurringType;
 		} elseif ($recurringType == 'Weekly') {
-			if ($this->dayofweek_to_rpt != null) {
+			if ($this->dayofweek_to_rpt !== null) {
 				$recurringInfo = $recurringType . '::' . implode('::', $this->dayofweek_to_rpt);
 			} else {
 				$recurringInfo = $recurringType;
@@ -246,7 +246,7 @@ class RecurringType
 		$recurringInfo = [];
 
 		if ($recurringType == 'Weekly') {
-			if ($this->dayofweek_to_rpt != null) {
+			if ($this->dayofweek_to_rpt !== null) {
 				$recurringInfo['dayofweek_to_repeat'] = $this->dayofweek_to_rpt;
 			}
 		} elseif ($recurringType == 'Monthly') {

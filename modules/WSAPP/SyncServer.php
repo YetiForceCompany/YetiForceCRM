@@ -462,7 +462,7 @@ class SyncServer
 		foreach ($updatedDetails as $clientid => $serverDetails) {
 			$this->idmap_updateMapDetails($appid, $clientid, $serverDetails['modifiedtime'], $serverDetails['_modifiedtime'], $this->update);
 			$syncServerId = $this->getSyncServerId($clientid, $serverDetails['serverid'], $appid);
-			if (isset($syncServerId) && $syncServerId != NULL) {
+			if (isset($syncServerId) && $syncServerId !== null) {
 				$deleteQueueSyncServerIds[] = $syncServerId;
 			}
 		}
@@ -472,7 +472,7 @@ class SyncServer
 				if (isset($deleteLookUps[$clientid])) {
 					$serverId = $deleteLookUps[$clientid];
 					$syncServerId = $this->getSyncServerId($clientid, $serverId, $appid);
-					if (isset($syncServerId) && $syncServerId != NULL) {
+					if (isset($syncServerId) && $syncServerId !== null) {
 						$deleteQueueSyncServerIds[] = $syncServerId;
 					}
 					$this->idmap_delete($appid, $serverId, $clientid, $serverAppId);

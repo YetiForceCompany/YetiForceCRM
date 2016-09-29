@@ -177,7 +177,7 @@ class Vtiger_DependencyPicklist
 			$criteria = decode_html($adb->query_result($result, $i, 'criteria'));
 			$unserializedCriteria = \includes\utils\Json::decode(html_entity_decode($criteria));
 
-			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] != null) {
+			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] !== null) {
 				$conditionValue = array(
 					"condition" => array($unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']),
 					"values" => $unserializedTargetValues

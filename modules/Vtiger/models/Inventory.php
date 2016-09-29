@@ -44,7 +44,7 @@ class Vtiger_Inventory_Model
 	 */
 	public static function getDiscountsConfig()
 	{
-		if (self::$discountsConfig != false) {
+		if (self::$discountsConfig !== false) {
 			return self::$discountsConfig;
 		}
 
@@ -85,7 +85,7 @@ class Vtiger_Inventory_Model
 	 */
 	public static function getTaxesConfig()
 	{
-		if (self::$taxsConfig != false) {
+		if (self::$taxsConfig !== false) {
 			return self::$taxsConfig;
 		}
 
@@ -150,7 +150,7 @@ class Vtiger_Inventory_Model
 		$accountTaxs = [];
 		$name = '';
 		$taxField = Vtiger_InventoryField_Model::getTaxField('Accounts');
-		if ($accountField != '' && $taxField != false) {
+		if ($accountField != '' && $taxField !== false) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$relationFieldValue = $recordModel->get($accountField);
 			if ($relationFieldValue != 0) {

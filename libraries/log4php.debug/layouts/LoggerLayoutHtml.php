@@ -198,7 +198,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 
         $sbuf .= "</tr>" . LOG4PHP_LINE_SEP;
         
-        if ($event->getNDC() != null) {
+        if ($event->getNDC() !== null) {
             $sbuf .= "<tr><td bgcolor=\"#EEEEEE\" style=\"font-size : xx-small;\" colspan=\"6\" title=\"Nested Diagnostic Context\">";
             $sbuf .= "NDC: " . htmlentities($event->getNDC(), ENT_QUOTES);
             $sbuf .= "</td></tr>" . LOG4PHP_LINE_SEP;

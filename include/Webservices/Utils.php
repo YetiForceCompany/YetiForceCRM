@@ -93,7 +93,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	}
 
 	$groups = [];
-	if ($result != null && $result != '' && is_object($result)) {
+	if ($result !== null && $result != '' && is_object($result)) {
 		$rowCount = $adb->num_rows($result);
 		for ($i = 0; $i < $rowCount; $i++) {
 			$nameArray = $adb->query_result_rowdata($result, $i);
@@ -254,7 +254,7 @@ function vtws_getCalendarEntityType($id)
 	$sql = 'select activitytype from vtiger_activity where activityid=?';
 	$result = $adb->pquery($sql, array($id));
 	$seType = 'Calendar';
-	if ($result != null && isset($result)) {
+	if ($result !== null && isset($result)) {
 		if ($adb->num_rows($result) > 0) {
 			$activityType = $adb->query_result($result, 0, 'activitytype');
 			if ($activityType !== 'Task') {

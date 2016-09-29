@@ -450,7 +450,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relatedModuleModel = $this->getRelatedModuleModel();
 		$relatedModuleName = $relatedModuleModel->getName();
 		$this->loadCondition($relationModuleName);
-		if (!empty($relationModel) && $relationModel->get('name') != NULL) {
+		if (!empty($relationModel) && $relationModel->get('name') !== null) {
 			$recordModel = $this->getParentRecordModel();
 			$this->query = $relationModel->getQuery($recordModel, false, $this);
 			return $this->query;

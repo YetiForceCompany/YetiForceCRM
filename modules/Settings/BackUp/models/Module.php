@@ -44,15 +44,15 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 				$mainBar += $progress['b5'] * 0.45;
 			}
 			return [
-				'b1' => $progress['b1'] != null ? $progress['b1'] : 0,
-				'b2' => $progress['b2'] != null ? $progress['b2'] : 0,
-				'b3' => $progress['b3'] != null ? $progress['b3'] : 0,
-				'b4' => $progress['b4'] != null ? $progress['b4'] : 0,
-				'b5' => $progress['b5'] != null ? $progress['b5'] : 0,
-				'b6' => $progress['b6'] != null ? $progress['b6'] : 0,
-				'b7' => $progress['b7'] != null ? $progress['b7'] : 0,
-				'b8' => $progress['b8'] != null ? $progress['b8'] : 0,
-				'b9' => $progress['b9'] != null ? $progress['b9'] : 0,
+				'b1' => $progress['b1'] !== null ? $progress['b1'] : 0,
+				'b2' => $progress['b2'] !== null ? $progress['b2'] : 0,
+				'b3' => $progress['b3'] !== null ? $progress['b3'] : 0,
+				'b4' => $progress['b4'] !== null ? $progress['b4'] : 0,
+				'b5' => $progress['b5'] !== null ? $progress['b5'] : 0,
+				'b6' => $progress['b6'] !== null ? $progress['b6'] : 0,
+				'b7' => $progress['b7'] !== null ? $progress['b7'] : 0,
+				'b8' => $progress['b8'] !== null ? $progress['b8'] : 0,
+				'b9' => $progress['b9'] !== null ? $progress['b9'] : 0,
 				'mainBar' => round($mainBar, 2)
 			];
 		} else {
@@ -518,7 +518,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 			$return[] = [
 				'id' => $db->query_result_raw($result, $i, 'id'),
 				'starttime' => $db->query_result_raw($result, $i, 'starttime'),
-				'endtime' => $db->query_result_raw($result, $i, 'endtime') != null ? $db->query_result_raw($result, $i, 'endtime') : '',
+				'endtime' => $db->query_result_raw($result, $i, 'endtime') !== null ? $db->query_result_raw($result, $i, 'endtime') : '',
 				'filename' => $db->query_result_raw($result, $i, 'filename') . '.zip',
 				'status' => vtranslate(self::getStatusName($db->query_result_raw($result, $i, 'status')), $moduleName),
 				'backuptime' => Settings_BackUp_Module_Model::formatBackupTime($db->query_result_raw($result, $i, 'backuptime')),

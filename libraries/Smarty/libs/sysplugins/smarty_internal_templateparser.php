@@ -1443,7 +1443,7 @@ class Smarty_Internal_Templateparser
     #line 228 "../smarty/lexer/smarty_internal_templateparser.y"
     public function yy_r1()
     {
-        if ($this->yystack[ $this->yyidx + 0 ]->minor != null) {
+        if ($this->yystack[ $this->yyidx + 0 ]->minor !== null) {
             $this->current_buffer->append_subtree($this, $this->yystack[ $this->yyidx + 0 ]->minor);
         }
     }
@@ -1451,7 +1451,7 @@ class Smarty_Internal_Templateparser
     #line 235 "../smarty/lexer/smarty_internal_templateparser.y"
     public function yy_r2()
     {
-        if ($this->yystack[ $this->yyidx + 0 ]->minor != null) {
+        if ($this->yystack[ $this->yyidx + 0 ]->minor !== null) {
             // because of possible code injection
             $this->current_buffer->append_subtree($this, $this->yystack[ $this->yyidx + 0 ]->minor);
         }

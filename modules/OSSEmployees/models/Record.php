@@ -23,7 +23,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 		$i = 0;
 		foreach ($hierarchy['entries'] as $employeeId => $employeeInfo) {
 			preg_match('/<a href="+/', $employeeInfo[0], $matches);
-			if ($matches != null) {
+			if ($matches !== null) {
 				preg_match('/[.\s]+/', $employeeInfo[0], $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $employeeInfo[0], $name);
 

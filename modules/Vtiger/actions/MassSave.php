@@ -66,7 +66,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 				if ($fieldDataType == 'time') {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
-				if (isset($fieldValue) && $fieldValue != null) {
+				if (isset($fieldValue) && $fieldValue !== null) {
 					if (!is_array($fieldValue)) {
 						$fieldValue = trim($fieldValue);
 					}

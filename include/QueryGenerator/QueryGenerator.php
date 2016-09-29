@@ -1304,7 +1304,7 @@ class QueryGenerator
 	public function addCondition($fieldname, $value, $operator, $glue = null, $custom = false, $newGroupType = null, $ignoreComma = false)
 	{
 		$conditionNumber = $this->conditionInstanceCount++;
-		if ($glue != null && $conditionNumber > 0)
+		if ($glue !== null && $conditionNumber > 0)
 			$this->addConditionGlue($glue);
 
 		$this->groupInfo .= "$conditionNumber ";
@@ -1326,7 +1326,7 @@ class QueryGenerator
 	public function addReferenceModuleFieldCondition($relatedModule, $referenceField, $fieldName, $value, $SQLOperator, $glue = null)
 	{
 		$conditionNumber = $this->conditionInstanceCount++;
-		if ($glue != null && $conditionNumber > 0)
+		if ($glue !== null && $conditionNumber > 0)
 			$this->addConditionGlue($glue);
 
 		$this->groupInfo .= "$conditionNumber ";

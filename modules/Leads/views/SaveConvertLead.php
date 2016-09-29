@@ -132,7 +132,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		if ($exception != false) {
+		if ($exception !== false) {
 			$viewer->assign('EXCEPTION', vtranslate($exception->getMessage(), $moduleName));
 		} elseif ($message) {
 			$viewer->assign('EXCEPTION', $message);

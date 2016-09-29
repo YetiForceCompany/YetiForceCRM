@@ -48,7 +48,7 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		foreach ($hierarchy['entries'] as $accountId => $accountInfo) {
 			$link = $accountInfo[0]['data'];
 			preg_match('/<a href="+/', $link, $matches);
-			if ($matches != null) {
+			if ($matches !== null) {
 				preg_match('/[.\s]+/', $link, $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $link, $name);
 

@@ -1216,7 +1216,7 @@ class Smarty extends Smarty_Internal_TemplateBase
         // remove noop 'DS DS' and 'DS.DS' patterns
         $path = preg_replace('#([\\\\/]([.]?[\\\\/])+)#', DS, $path);
         // resolve '..DS' pattern, smallest first
-        if (strpos($path, '..' . DS) != false &&
+        if (strpos($path, '..' . DS) !== false &&
             preg_match_all('#(([.]?[\\\\/])*([.][.])[\\\\/]([.]?[\\\\/])*)+#', $path, $match)
         ) {
             $counts = array();
