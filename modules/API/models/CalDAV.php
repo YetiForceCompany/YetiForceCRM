@@ -541,10 +541,12 @@ class API_CalDAV_Model
 				'PLL_COMPLETED' => 'COMPLETED'
 			];
 		}
-
+		$value = false;
 		if ($toCrm) {
 			$values = array_flip($values);
-			$value = isset($component->STATUS) ? $component->STATUS->getValue() : false;
+			if (isset($component->STATUS)) {
+				$value = strtoupper($component->STATUS->getValue());
+			}
 		} else {
 			$value = $component;
 		}
