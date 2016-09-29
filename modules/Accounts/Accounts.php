@@ -510,7 +510,7 @@ class Accounts extends CRMEntity
 	 */
 	public function getAccountHierarchy($id, $listColumns = false)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$log->debug('Entering getAccountHierarchy(' . $id . ') method ...');
 
@@ -561,7 +561,7 @@ class Accounts extends CRMEntity
 	 */
 	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
@@ -615,7 +615,7 @@ class Accounts extends CRMEntity
 	public function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering __getParentAccounts(' . $id . ') method ...');
 
 		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
@@ -679,7 +679,7 @@ class Accounts extends CRMEntity
 	public function __getChildAccounts($id, &$child_accounts, $depthBase)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
 
 		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {

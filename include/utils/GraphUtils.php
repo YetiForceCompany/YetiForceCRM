@@ -98,7 +98,7 @@ function color_generator($count = 1, $start = '33CCFF', $step = '221133')
 
 function get_tickspacing($max = 10)
 {
-	
+	$log = LoggerManager::getInstance();
 	$log->debug("Entering get_tickspacing(" . $max . ") method ...");
 	$result = array(1, 1);
 

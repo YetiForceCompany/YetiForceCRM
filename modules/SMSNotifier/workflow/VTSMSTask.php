@@ -31,7 +31,7 @@ class VTSMSTask extends VTTask
 		if (SMSNotifier::checkServer()) {
 
 			$adb = PearDatabase::getInstance();
-			
+			$log = LoggerManager::getInstance();
 			$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 			$util = new VTWorkflowUtils();

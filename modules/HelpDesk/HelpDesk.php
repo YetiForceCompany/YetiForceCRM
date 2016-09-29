@@ -128,7 +128,7 @@ class HelpDesk extends CRMEntity
 	 */
 	public function insertIntoAttachment($id, $module)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -154,7 +154,7 @@ class HelpDesk extends CRMEntity
 	public function get_ticket_history($ticketid)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into get_ticket_history($ticketid) method ...");
 
 		$query = 'select title,update_log from vtiger_troubletickets where ticketid=?';
@@ -175,7 +175,7 @@ class HelpDesk extends CRMEntity
 	 * */
 	public function getColumnNames_Hd()
 	{
-		
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$log->debug("Entering getColumnNames_Hd() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -209,7 +209,7 @@ class HelpDesk extends CRMEntity
 	 * */
 	public function getCustomerName($id)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering getCustomerName(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$sql = "select * from vtiger_portalinfo inner join vtiger_troubletickets on vtiger_troubletickets.contact_id = vtiger_portalinfo.id where vtiger_troubletickets.ticketid=?";
@@ -226,7 +226,7 @@ class HelpDesk extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $where . ") method ...");
 
@@ -342,7 +342,7 @@ class HelpDesk extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Attachments" => "vtiger_seattachmentsrel", "Documents" => "vtiger_senotesrel");
@@ -444,7 +444,7 @@ class HelpDesk extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		
+		$log = LoggerManager::getInstance();
 		if (empty($return_module) || empty($return_id))
 			return;
 

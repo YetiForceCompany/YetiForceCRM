@@ -47,7 +47,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function getFields($returnInBlock = false, $ids = [], $viewType = false)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 		$key = $returnInBlock ? 'block' : 'noBlock';
 		if (!isset($this->fields[$key])) {
@@ -124,7 +124,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function getColumns()
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 		if ($this->columns) {
 			return $this->columns;
@@ -151,7 +151,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function getInventoryFieldInstance($valueArray)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
 		$className = Vtiger_Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
@@ -170,7 +170,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function getAllFields()
 	{
 		$moduleName = $this->get('module');
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ' . $moduleName);
 
 		$instance = Vtiger_Cache::get('InventoryFields', $moduleName);
@@ -210,7 +210,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public static function getMainParams($fields)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$params = false;

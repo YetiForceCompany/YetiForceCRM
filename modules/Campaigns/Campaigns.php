@@ -77,7 +77,7 @@ class Campaigns extends CRMEntity
 	 */
 	public function get_campaigns_records($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering get_campaigns_records(" . $id . ") method ...");

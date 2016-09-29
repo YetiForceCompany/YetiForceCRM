@@ -86,7 +86,7 @@ class CustomView extends CRMEntity
 	 */
 	public function getViewId($module)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
 		$nowAction = AppRequest::get('view');
 		if (AppRequest::isEmpty('viewname')) {
@@ -127,7 +127,7 @@ class CustomView extends CRMEntity
 
 	public function getDefaultCvId($module)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -172,7 +172,7 @@ class CustomView extends CRMEntity
 
 	public function getViewIdByName($viewname, $module)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		$db = PearDatabase::getInstance();
 		if (!empty($viewname)) {
@@ -459,7 +459,7 @@ class CustomView extends CRMEntity
 	public function getColumnsListByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 
 		$sSQL = 'select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist';

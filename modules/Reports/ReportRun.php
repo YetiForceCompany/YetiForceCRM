@@ -693,7 +693,7 @@ class ReportRun extends CRMEntity
 
 		global $ogReport;
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$default_charset = AppConfig::main('default_charset');
 		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
 		$value_len = strlen($value);
@@ -3050,7 +3050,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		
+		$log = LoggerManager::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		static $modulename_cache = array();
 

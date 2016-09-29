@@ -88,7 +88,7 @@ class CRMEntity
 	public function saveInventoryData($moduleName)
 	{
 		$db = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
@@ -160,7 +160,7 @@ class CRMEntity
 	 */
 	public function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
 		$adb = PearDatabase::getInstance();
@@ -388,7 +388,7 @@ class CRMEntity
 	 */
 	public function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
-		
+		$log = LoggerManager::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
@@ -650,7 +650,7 @@ class CRMEntity
 	 */
 	public function getOldFileName($notesid)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->info("in getOldFileName  " . $notesid);
 		$adb = PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
@@ -815,7 +815,7 @@ class CRMEntity
 	 */
 	public function save($module_name, $fileid = '')
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("module name is " . $module_name);
 
 		//Event triggering code
@@ -1012,7 +1012,7 @@ class CRMEntity
 	 */
 	public function get_column_value($columName, $fldvalue, $fieldname, $uitype, $datatype = '')
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function get_column_value ($columName, $fldvalue, $fieldname, $uitype, $datatype='')");
 
 		// Added for the fields of uitype '57' which has datatype mismatch in crmentity table and particular entity table
@@ -1127,7 +1127,7 @@ class CRMEntity
 	public function trash($module, $id)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$recordType = vtlib\Functions::getCRMRecordType($id);
@@ -1162,7 +1162,7 @@ class CRMEntity
 	/** Function to unlink all the dependent entities of the given Entity by Id */
 	public function unlinkDependencies($module, $id)
 	{
-		
+		$log = LoggerManager::getInstance();
 
 		$result = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
 			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', [$module]);
@@ -1206,7 +1206,7 @@ class CRMEntity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $currentModule;
-		
+		$log = LoggerManager::getInstance();
 		switch ($relatedName) {
 			case 'get_many_to_many':
 				$this->deleteRelatedM2M($currentModule, $id, $returnModule, $returnId);
@@ -1328,7 +1328,7 @@ class CRMEntity
 	public function initSortByField($module)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function initSortByField ($module)");
 		// Define the columnname's and uitype's which needs to be excluded
 		$exclude_columns = Array('parent_id', 'vendorid', 'access_count');
@@ -1381,7 +1381,7 @@ class CRMEntity
 	public function updateMissingSeqNumber($module)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
@@ -1853,7 +1853,7 @@ class CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$db = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$relTables = $this->setRelationTables();
@@ -2684,7 +2684,7 @@ class CRMEntity
 	 */
 	public function getSortOrder()
 	{
-		
+		$log = LoggerManager::getInstance();
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering getSortOrder() method ...");
 		if (AppRequest::has('sorder'))
@@ -2702,7 +2702,7 @@ class CRMEntity
 	public function getOrderBy()
 	{
 		global $currentModule;
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';

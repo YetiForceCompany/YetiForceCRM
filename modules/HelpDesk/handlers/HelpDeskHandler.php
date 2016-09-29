@@ -17,7 +17,7 @@ class HelpDeskHandler extends VTEventHandler
 	public function handleEvent($eventName, $entityData)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 
 		if ($eventName == 'vtiger.entity.aftersave.final') {
 			$moduleName = $entityData->getModuleName();

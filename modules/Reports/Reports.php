@@ -295,7 +295,7 @@ class Reports extends CRMEntity
 
 		global $mod_strings;
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$returndata = [];
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, array());
@@ -342,7 +342,7 @@ class Reports extends CRMEntity
 	public function sgetAllRpt($fldrId, $paramsList)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$returndata = [];
 		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
 		$sql.=" inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid";
@@ -890,7 +890,7 @@ class Reports extends CRMEntity
 	public function getSelectedColumnsList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
@@ -1119,7 +1119,7 @@ class Reports extends CRMEntity
 		//retreive the vtiger_tabid
 		$adb = PearDatabase::getInstance();
 
-		
+		$log = LoggerManager::getInstance();
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
 

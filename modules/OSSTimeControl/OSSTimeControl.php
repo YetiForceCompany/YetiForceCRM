@@ -146,7 +146,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $currentModule;
-		
+		$log = LoggerManager::getInstance();
 		$results = [];
 
 		$where = '(crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';

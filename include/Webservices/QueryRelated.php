@@ -16,7 +16,7 @@ function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = n
 {
 
 	$adb = PearDatabase::getInstance();
-	
+	$log = LoggerManager::getInstance();
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();

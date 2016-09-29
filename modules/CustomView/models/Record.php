@@ -92,7 +92,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isDefault()
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
 			$db = PearDatabase::getInstance();
@@ -167,7 +167,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function isFeatured($editView = false)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isFeatured === false) {
 			if (empty($editView)) {
@@ -921,7 +921,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getAll($moduleName = '')
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($moduleName) method ...");
 		$cacheName = 'getAll:' . $moduleName;
 		$customViews = Vtiger_Cache::get('CustomViews', $cacheName);

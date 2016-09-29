@@ -64,7 +64,7 @@ class Documents extends CRMEntity
 
 	public function save_module($module)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$adb = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
 		if (isset($this->parentid) && $this->parentid != '')
@@ -150,7 +150,7 @@ class Documents extends CRMEntity
 	public function insertIntoAttachment($id, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -170,7 +170,7 @@ class Documents extends CRMEntity
 	 */
 	public function getSortOrder()
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering getSortOrder() method ...');
 		if (AppRequest::has('sorder'))
 			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
@@ -185,7 +185,7 @@ class Documents extends CRMEntity
 	 */
 	public function getOrderBy()
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering getOrderBy() method ...');
 
 		$use_default_order_by = '';
@@ -245,7 +245,7 @@ class Documents extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $where . ") method ...");
 
@@ -373,7 +373,7 @@ class Documents extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		
+		$log = LoggerManager::getInstance();
 		/* //Backup Documents Related Records
 		  $se_q = 'SELECT crmid FROM vtiger_senotesrel WHERE notesid = ?';
 		  $se_res = $this->db->pquery($se_q, array($id));
@@ -394,7 +394,7 @@ class Documents extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		
+		$log = LoggerManager::getInstance();
 		if (empty($returnModule) || empty($returnId))
 			return;
 
@@ -416,7 +416,7 @@ class Documents extends CRMEntity
 	public function getFileTypeFieldName()
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
 		$tabid = \includes\Modules::getModuleId('Documents');
 		$filetype_uitype = 27;
@@ -436,7 +436,7 @@ class Documents extends CRMEntity
 	public function getFile_FieldName()
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
 		$tabid = \includes\Modules::getModuleId('Documents');
 		$filename_uitype = 28;

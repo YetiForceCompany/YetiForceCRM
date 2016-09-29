@@ -87,7 +87,7 @@ class DateTimeField
 	 */
 	public static function convertToDBFormat($date, $user = null)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date));
 		if (empty($user)) {
@@ -267,7 +267,7 @@ class DateTimeField
 	public static function convertToUserTimeZone($value, $user = null)
 	{
 		global $default_timezone;
-		
+		$log = LoggerManager::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value) method ...");
 		if (empty($user)) {
@@ -288,7 +288,7 @@ class DateTimeField
 	public static function convertToDBTimeZone($value, $user = null, $formatDate = true)
 	{
 		global $default_timezone;
-		
+		$log = LoggerManager::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value)");
 		if (empty($user)) {
@@ -389,7 +389,7 @@ class DateTimeField
 
 	public function getFullcalenderTime($user = null)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering getDisplayTime(" . $this->datetime . ") method ...");
 		$date = self::convertToUserTimeZone($this->datetime, $user);
 		$time = $date->format("H:i:s");

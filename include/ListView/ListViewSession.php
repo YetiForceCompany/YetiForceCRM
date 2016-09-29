@@ -62,7 +62,7 @@ class ListViewSession
 	public static function getListViewNavigation($currentRecordId)
 	{
 		$adb = PearDatabase::getInstance();
-		
+		$log = LoggerManager::getInstance();
 		$currentModule = vglobal('currentModule');
 		$current_user = vglobal('current_user');
 		$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');

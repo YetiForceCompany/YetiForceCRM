@@ -33,7 +33,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public static function getDefaultUserId($widgetModel, $moduleName = false)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug('Entering Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$user = '';
@@ -172,7 +172,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * */
 	public function saveDetails($data, $moduleName)
 	{
-		
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::saveDetails($moduleName) method ...");
 
 		$adb = PearDatabase::getInstance();
