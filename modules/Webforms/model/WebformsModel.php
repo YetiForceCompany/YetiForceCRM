@@ -188,7 +188,7 @@ class Webforms_Model
 	public function generatePublicId($name)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$uid = md5(microtime(true) + $name);
 		return $uid;
 	}
@@ -206,7 +206,7 @@ class Webforms_Model
 	public function save()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$isNew = !$this->hasId();
 
@@ -243,7 +243,7 @@ class Webforms_Model
 	public function delete()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$adb->pquery("DELETE from vtiger_webforms_field where webformid=?", array($this->getId()));
 		$adb->pquery("DELETE from vtiger_webforms where id=?", array($this->getId()));
@@ -253,7 +253,7 @@ class Webforms_Model
 	static function retrieveWithPublicId($publicid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$model = false;
 		// Retrieve model and populate information
@@ -268,7 +268,7 @@ class Webforms_Model
 	static function retrieveWithId($data)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$id = $data;
 		$model = false;
@@ -284,7 +284,7 @@ class Webforms_Model
 	static function listAll()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$webforms = array();
 
 		$sql = "SELECT * FROM vtiger_webforms";
@@ -302,7 +302,7 @@ class Webforms_Model
 	static function isWebformField($webformid, $fieldname)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$checkSQL = "SELECT 1 from vtiger_webforms_field where webformid=? && fieldname=?";
 		$result = $adb->pquery($checkSQL, array($webformid, $fieldname));

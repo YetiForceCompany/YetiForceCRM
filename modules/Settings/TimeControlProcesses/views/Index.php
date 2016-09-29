@@ -14,7 +14,7 @@ class Settings_TimeControlProcesses_Index_View extends Settings_Vtiger_Index_Vie
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();

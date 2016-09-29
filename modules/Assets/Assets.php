@@ -335,7 +335,7 @@ class Assets extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+		
 		parent::unlinkDependencies($module, $id);
 	}
 
@@ -417,7 +417,7 @@ class Assets extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");

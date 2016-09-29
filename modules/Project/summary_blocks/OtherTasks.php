@@ -18,7 +18,7 @@ class OtherTasks
 
 	public function process($instance)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering OtherTasks::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 

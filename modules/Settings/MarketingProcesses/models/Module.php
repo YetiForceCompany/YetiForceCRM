@@ -20,7 +20,7 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 
 	public static function getConfig($type)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type");
 		$cache = Vtiger_Cache::get('MarketingProcesses', $type);
 		if ($cache) {
@@ -50,7 +50,7 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 
 	public static function setConfig($param)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$value = $param['val'];

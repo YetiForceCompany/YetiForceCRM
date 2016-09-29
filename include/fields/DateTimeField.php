@@ -37,7 +37,7 @@ class DateTimeField
 	 */
 	public function getDBInsertDateValue($user = null)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
 		$value = explode(' ', $this->datetime);
 		if (count($value) == 2) {
@@ -61,14 +61,14 @@ class DateTimeField
 	 */
 	public function getDBInsertDateTimeValue($user = null)
 	{
-		$log = vglobal('log');
+		
 		$log->debug(__CLASS__ . ':' . __FUNCTION__);
 		return $this->getDBInsertDateValue($user) . ' ' . $this->getDBInsertTimeValue($user);
 	}
 
 	public function getDisplayDateTimeValue($user = null)
 	{
-		$log = vglobal('log');
+		
 		$log->debug(__CLASS__ . ':' . __FUNCTION__);
 		return $this->getDisplayDate($user) . ' ' . $this->getDisplayTime($user);
 	}
@@ -111,7 +111,7 @@ class DateTimeField
 	 */
 	public static function __convertToDBFormat($date, $format)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date) . ' | ' . $format);
 		if (empty($date)) {
 			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
@@ -210,7 +210,7 @@ class DateTimeField
 	 */
 	public static function __convertToUserFormat($date, $format)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date) . ' | ' . $format);
 		$date = self::convertToInternalFormat($date);
 		$separator = '-';
@@ -314,7 +314,7 @@ class DateTimeField
 	 */
 	public static function convertTimeZone($time, $sourceTimeZoneName, $targetTimeZoneName)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($time, $sourceTimeZoneName, $targetTimeZoneName)");
 
 		$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
@@ -346,7 +346,7 @@ class DateTimeField
 	 */
 	public function getDBInsertTimeValue($user = null)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
 		$date = self::convertToDBTimeZone($this->datetime, $user);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
@@ -373,7 +373,7 @@ class DateTimeField
 
 	public function getDisplayTime($user = null)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
 		$date = self::convertToUserTimeZone($this->datetime, $user);
 		$time = $date->format("H:i");

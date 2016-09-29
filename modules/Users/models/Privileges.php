@@ -265,7 +265,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function setSharedOwnerRecursively($recordId, $addUser, $removeUser, $moduleName)
 	{
-		$log = vglobal('log');
+		
 		$db = PearDatabase::getInstance();
 		$log->info('Entering Into setSharedOwnerRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
@@ -321,7 +321,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
-		$log = vglobal('log');
+		
 		$log->info('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
 		$db = PearDatabase::getInstance();

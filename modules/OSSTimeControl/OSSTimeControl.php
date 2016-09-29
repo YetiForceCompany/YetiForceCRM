@@ -95,7 +95,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$registerLink = false;
 		$displayLabel = 'Time Control';
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		if ($event_type == 'module.postinstall') {
 
 			$tabid = \includes\Modules::getModuleId($modulename);

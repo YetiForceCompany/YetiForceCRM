@@ -599,7 +599,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 	public static function zipAndDownload(array $fileNames)
 	{
-		$log = vglobal('log');
+		
 		//create the object
 		$zip = new ZipArchive();
 

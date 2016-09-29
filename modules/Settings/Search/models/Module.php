@@ -143,7 +143,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function updateSequenceNumber($modulesSequence)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_Search_Module_Model::updateSequenceNumber(" . $modulesSequence . ") method ...");
 		$tabIdList = array();
 		$db = PearDatabase::getInstance();

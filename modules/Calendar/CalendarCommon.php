@@ -74,7 +74,7 @@ function getaddEventPopupTime($starttime, $endtime, $format)
  */
 function getActivityDetails($description, $user_id, $from = '')
 {
-	$log = vglobal('log');
+	
 	$current_user = vglobal('current_user');
 	$adb = PearDatabase::getInstance();
 	require_once 'include/utils/utils.php';

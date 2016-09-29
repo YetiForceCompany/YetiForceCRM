@@ -111,7 +111,7 @@ class Services extends CRMEntity
 	public function insertTaxInformation($tablename, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$log->debug("Entering into insertTaxInformation($tablename, $module) method ...");
 		$tax_details = getAllTaxes();
 
@@ -155,7 +155,7 @@ class Services extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$log = vglobal('log');
+		
 		$log->debug("Entering into insertPriceInformation($tablename, $module) method ...");
 		//removed the update of currency_id based on the logged in user's preference : fix 6490
 
@@ -474,7 +474,7 @@ class Services extends CRMEntity
 	 */
 	public function getPriceBookRelatedServices($query, $focus, $returnset = '')
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering getPriceBookRelatedServices(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
 
 		$adb = PearDatabase::getInstance();
@@ -582,7 +582,7 @@ class Services extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("PriceBooks" => "vtiger_pricebookproductrel", "Documents" => "vtiger_senotesrel");
@@ -733,7 +733,7 @@ class Services extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+		
 		$this->db->pquery('DELETE from vtiger_seproductsrel WHERE productid=? or crmid=?', array($id, $id));
 
 		parent::unlinkDependencies($module, $id);
@@ -821,7 +821,7 @@ class Services extends CRMEntity
 	 */
 	public function get_services($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');

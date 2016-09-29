@@ -18,7 +18,7 @@ class TotalEmails
 
 	public function process($instance)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering TotalEmails::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$emails = 'SELECT COUNT(DISTINCT vtiger_ossmailview.ossmailviewid) AS mails

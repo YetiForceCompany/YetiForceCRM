@@ -382,7 +382,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public function executeCron($who_trigger)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {

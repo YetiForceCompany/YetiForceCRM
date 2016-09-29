@@ -32,7 +32,7 @@ require_once 'modules/PickList/DependentPickListUtils.php';
  */
 function getAssociatedProducts($module, $focus, $seid = '')
 {
-	$log = vglobal('log');
+	
 	$log->debug("Entering getAssociatedProducts(" . $module . "," . get_class($focus) . "," . $seid . "='') method ...");
 	$adb = PearDatabase::getInstance();
 	$output = '';
@@ -341,7 +341,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
  */
 function split_validationdataArray($validationData)
 {
-	$log = vglobal('log');
+	
 	$log->debug("Entering split_validationdataArray(" . $validationData . ") method ...");
 	$fieldName = '';
 	$fieldLabel = '';

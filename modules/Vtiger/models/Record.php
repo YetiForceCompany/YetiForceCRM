@@ -581,7 +581,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function trackView()
 	{
-		$log = vglobal('log');
+		
 		$db = PearDatabase::getInstance();
 		$id = $this->getId();
 		$log->debug("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
@@ -686,7 +686,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getInventoryData()
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
 		if (!$this->inventoryData) {
 			$module = $this->getModuleName();

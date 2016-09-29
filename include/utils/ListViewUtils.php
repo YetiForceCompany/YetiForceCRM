@@ -32,7 +32,7 @@ require_once('include/utils/UserInfoUtil.php');
  */
 function getListQuery($module, $where = '')
 {
-	$log = vglobal('log');
+	
 	$log->debug("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
 	$current_user = vglobal('current_user');
@@ -449,7 +449,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 function getEntityId($module, $entityName)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$log->info("in getEntityId " . $entityName);
 
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";

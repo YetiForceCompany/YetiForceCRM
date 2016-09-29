@@ -222,7 +222,7 @@ class SMSNotifier extends SMSNotifierBase
 
 	static function fireSendSMS($message, $tonumbers)
 	{
-		$log = vglobal('log');
+		
 		$provider = SMSNotifierManager::getActiveProviderInstance();
 		if ($provider) {
 			return $provider->send($message, $tonumbers);

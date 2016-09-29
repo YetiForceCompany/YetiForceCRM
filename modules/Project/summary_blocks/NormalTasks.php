@@ -18,7 +18,7 @@ class NormalTasks
 
 	public function process($instance)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering NormalTasks::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 

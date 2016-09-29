@@ -14,7 +14,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_WidgetsManagement_Configuration_View::process() method ...");
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$sourceModule = $request->get('sourceModule');

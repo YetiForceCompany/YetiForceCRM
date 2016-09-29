@@ -397,7 +397,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$log->debug("Entering into function getPriceDetailsForProduct($productid)");
 		if ($productid != '') {
 			$product_currency_id = $this->getProductBaseCurrency($productid, $itemtype);

@@ -14,7 +14,7 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_PublicHoliday_Configuration_View::process() method ...");
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

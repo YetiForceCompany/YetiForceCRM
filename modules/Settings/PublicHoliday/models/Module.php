@@ -20,7 +20,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getHolidays($date)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidays(" . print_r($date, true) . ") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -64,7 +64,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function delete($id)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::delete(" . $id . ") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -91,7 +91,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function save($date, $name, $type)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::save(" . $date . ', ' . $name . ', ' . $type . ") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -119,7 +119,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function edit($id, $date, $name, $type)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::edit(" . $id . ', ' . $date . ', ' . $name . ', ' . $type . ") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -144,7 +144,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function checkIfHoliday($date)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::checkIfHoliday(" . $date . ") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -168,7 +168,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getHolidayGroupType($date = false)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidayGroupType method ...");
 		$db = PearDatabase::getInstance();
 		$params = [];

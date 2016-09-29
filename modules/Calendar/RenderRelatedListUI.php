@@ -24,7 +24,7 @@ require_once('include/utils/UserInfoUtil.php');
  */
 function get_duration($time_start, $duration_hours, $duration_minutes)
 {
-	$log = vglobal('log');
+	
 	$log->debug("Entering get_duration(" . $time_start . "," . $duration_hours . "," . $duration_minutes . ") method ...");
 	$time = explode(":", $time_start);
 	$time_mins = $time[1];
@@ -51,7 +51,7 @@ function get_duration($time_start, $duration_hours, $duration_minutes)
  */
 function time_to_number($time_start)
 {
-	$log = vglobal('log');
+	
 	$log->debug("Entering time_to_number(" . $time_start . ") method ...");
 	$start_time_array = explode(":", $time_start);
 	if (preg_match("/^[0]/", $start_time_array[0])) {

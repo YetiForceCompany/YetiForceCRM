@@ -15,7 +15,7 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 
 		$moduleName = $request->getModule();

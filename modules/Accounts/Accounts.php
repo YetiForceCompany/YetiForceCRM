@@ -87,7 +87,7 @@ class Accounts extends CRMEntity
 	 */
 	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering get_campaigns(" . $id . ") method ...");
@@ -151,7 +151,7 @@ class Accounts extends CRMEntity
 	 */
 	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
@@ -219,7 +219,7 @@ class Accounts extends CRMEntity
 	 */
 	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering get_tickets(" . $id . ") method ...");
@@ -280,7 +280,7 @@ class Accounts extends CRMEntity
 	 */
 	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering get_products(" . $id . ") method ...");
@@ -343,7 +343,7 @@ class Accounts extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $where . ") method ...");
 
@@ -387,7 +387,7 @@ class Accounts extends CRMEntity
 	 */
 	public function getColumnNames_Acnt()
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$log->debug("Entering getColumnNames_Acnt() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -730,7 +730,7 @@ class Accounts extends CRMEntity
 	// Function to unlink the dependent records of the given record by id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+		
 		//Backup Contact-Account Relation
 		$con_q = 'SELECT contactid FROM vtiger_contactdetails WHERE parentid = ?';
 		$con_res = $this->db->pquery($con_q, array($id));
@@ -767,7 +767,7 @@ class Accounts extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		$log = vglobal('log');
+		
 		if (empty($return_module) || empty($return_id))
 			return;
 

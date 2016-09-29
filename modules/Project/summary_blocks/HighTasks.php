@@ -18,7 +18,7 @@ class HighTasks
 
 	public function process($instance)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering HighTasks::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 

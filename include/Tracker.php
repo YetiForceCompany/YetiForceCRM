@@ -64,7 +64,7 @@ class Tracker
 	{
 		$adb = PearDatabase::getInstance();
 		$this->delete_history($user_id, $item_id);
-		$log = vglobal('log');
+		
 		$log->info("in  track view method " . $current_module);
 
 //No genius required. Just add an if case and change the query so that it puts the tracker entry whenever you touch on the DetailView of the required entity

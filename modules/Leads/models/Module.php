@@ -200,7 +200,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 	public function searchAccountsToConvert($recordModel)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		if ($recordModel) {
 			$params = [];

@@ -86,7 +86,7 @@ class Products extends CRMEntity
 	public function insertTaxInformation($tablename, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$log->debug("Entering into insertTaxInformation($tablename, $module) method ...");
 		$tax_details = getAllTaxes();
 
@@ -130,7 +130,7 @@ class Products extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$log = vglobal('log');
+		
 		$log->debug("Entering into insertPriceInformation($tablename, $module) method ...");
 		//removed the update of currency_id based on the logged in user's preference : fix 6490
 
@@ -248,7 +248,7 @@ class Products extends CRMEntity
 	 */
 	public function get_leads($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -309,7 +309,7 @@ class Products extends CRMEntity
 	 */
 	public function get_accounts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -369,7 +369,7 @@ class Products extends CRMEntity
 	 */
 	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -432,7 +432,7 @@ class Products extends CRMEntity
 	 */
 	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -561,7 +561,7 @@ class Products extends CRMEntity
 	 */
 	public function product_novendor()
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering product_novendor() method ...");
 		$query = "SELECT vtiger_products.productname, vtiger_crmentity.deleted
 			FROM vtiger_products
@@ -581,7 +581,7 @@ class Products extends CRMEntity
 	 */
 	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -684,7 +684,7 @@ class Products extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $where . ") method ...");
 
@@ -745,7 +745,7 @@ class Products extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel", "Attachments" => "vtiger_seattachmentsrel",
@@ -871,7 +871,7 @@ class Products extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+		
 		//Backup Campaigns-Product Relation
 		$cmp_q = 'SELECT campaignid FROM vtiger_campaign WHERE product_id = ?';
 		$cmp_res = $this->db->pquery($cmp_q, array($id));
@@ -894,7 +894,7 @@ class Products extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		$log = vglobal('log');
+		
 		if (empty($return_module) || empty($return_id))
 			return;
 

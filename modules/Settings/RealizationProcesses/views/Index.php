@@ -14,7 +14,7 @@ class Settings_RealizationProcesses_Index_View extends Settings_Vtiger_Index_Vie
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
+		
 		$log->debug("Entering Settings_RealizationProcesses_Index_View::process() method ...");
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);

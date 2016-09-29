@@ -85,7 +85,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function backupInit()
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		if ($this->get('id') === null) {
@@ -102,7 +102,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function performDBBackup()
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		if ($this->get('b1') == 0) {
@@ -122,7 +122,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function createTablesStructure()
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$result = $this->getTablesName();
@@ -164,7 +164,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function backupTable($result)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$rowLimit = 1000;
@@ -279,7 +279,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	public function postDBBackup()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		if (extension_loaded('zip')) {
 			$zip = new ZipArchive();
@@ -303,7 +303,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function performBackupFiles()
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		if (!extension_loaded('zip')) {
 			$log->warn('ZIP library was not found');
@@ -329,7 +329,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function generateFilesStructure()
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 
 		$configFolder = $this->getConfig('folder');
@@ -388,7 +388,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function zipData()
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$dbFiles = $this->getFilesStructure();
 
@@ -432,7 +432,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	public function postBackup()
 	{
 		$start = self::getTime();
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 
 		$dbZip = $this->get('filename') . '.db.zip';
@@ -461,7 +461,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function addToSQLFiles($content = '')
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$fileName = $this->get('filename');
 		@file_put_contents($this->tempDir . "/$fileName.sql", $content, FILE_APPEND);
@@ -593,7 +593,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function sendNotification()
 	{
-		$log = vglobal('log');
+		
 		$usersId = $this->getUsersForNotifications();
 		if ($usersId) {
 			foreach ($usersId as $id) {
@@ -629,7 +629,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 	public function sendBackupToFTP()
 	{
 		$start = self::getTime();
-		$log = vglobal('log');
+		
 		$ftp = $this->getFTPSettings();
 
 		$backupFile = $this->get('filename') . '.zip';
@@ -705,7 +705,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function updateSettings($params)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$val = $params['val'];
@@ -719,7 +719,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function tarData($tarFile, $cron)
 	{
-		$log = vglobal('log');
+		
 		$log->info('BackUp - Start ZipArchive');
 		$dbFiles = $this->getFilesStructure();
 
@@ -814,7 +814,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 
 	public function stopBackup()
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 
 		$db = PearDatabase::getInstance();

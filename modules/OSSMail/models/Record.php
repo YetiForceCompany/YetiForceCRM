@@ -114,14 +114,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function imapThrowError($error)
 	{
-		$log = vglobal('log');
+		
 		$log->error("Error OSSMail_Record_Model::imapConnect(): " . $error);
 		vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
 	{
-		$log = vglobal('log');
+		
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		if (count($users) == 0) {
@@ -154,7 +154,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function getMailBoxmsgInfo($users)
 	{
-		$log = vglobal('log');
+		
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));

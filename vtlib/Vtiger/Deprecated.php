@@ -305,7 +305,7 @@ class Deprecated
 	public static function checkFileAccess($filepath)
 	{
 		if (!self::isFileAccessible($filepath)) {
-			$log = vglobal('log');
+			
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}

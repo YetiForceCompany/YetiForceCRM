@@ -20,7 +20,7 @@ class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
 
 	public function getConfigInstance($type = false)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: " . print_r($type, true));
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM `yetiforce_proc_tc`';
@@ -44,7 +44,7 @@ class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
 
 	public function setConfig($param)
 	{
-		$log = vglobal('log');
+		
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$db->pquery('UPDATE `yetiforce_proc_tc` SET `value` = ? WHERE `type` = ? && `param` = ?;', $param);

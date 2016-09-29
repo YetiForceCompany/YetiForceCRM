@@ -15,7 +15,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	public function process(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$log->debug('Starting Quick Edit OSSPasswords');
 
 		// czy to 'password'????
