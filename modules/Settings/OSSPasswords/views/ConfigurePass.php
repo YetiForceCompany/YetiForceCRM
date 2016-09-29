@@ -40,7 +40,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 

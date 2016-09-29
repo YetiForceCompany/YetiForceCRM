@@ -100,7 +100,7 @@ class IStorages extends Vtiger_CRMEntity
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 		$current_user = vglobal('current_user');
 		$log->debug("Entering getHierarchy(" . $id . ") method ...");
 
@@ -146,7 +146,7 @@ class IStorages extends Vtiger_CRMEntity
 	 */
 	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false, $getLinks = true)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
@@ -205,7 +205,7 @@ class IStorages extends Vtiger_CRMEntity
 	public function getParentIStorages($id, &$parentIStorages, &$encounteredIStorages, $depthBase = 0)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 		$log->debug('Entering getParentIStorages(' . $id . ') method ...');
 
 		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
@@ -272,7 +272,7 @@ class IStorages extends Vtiger_CRMEntity
 	public function getChildIStorages($id, &$childIStorages, $depthBase)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 		$log->debug('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
 
 		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {

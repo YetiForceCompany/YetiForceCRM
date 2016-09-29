@@ -183,7 +183,7 @@ class Activity extends CRMEntity
 	 */
 	public function insertIntoReminderTable($table_name, $module, $recurid)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->info('in insertIntoReminderTable  ' . $table_name . '    module is  ' . $module);
 		if (AppRequest::get('set_reminder') == 'Yes') {
 			unset($_SESSION['next_reminder_time']);
@@ -217,7 +217,7 @@ class Activity extends CRMEntity
 	public function insertIntoRecurringTable(& $recurObj)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 		$st_date = $recurObj->startdate->get_DB_formatted_date();
 		$end_date = $recurObj->enddate->get_DB_formatted_date();
 		if (!empty($recurObj->recurringenddate)) {
@@ -288,7 +288,7 @@ class Activity extends CRMEntity
 	 */
 	public function insertIntoInviteeTable($module)
 	{
-		$log = LoggerManager::getInstance();
+		
 		if (!AppRequest::has('inviteesid')) {
 			$log->fatal('No invitations in request, Exiting insertIntoInviteeTable method ...');
 			return;
@@ -372,7 +372,7 @@ class Activity extends CRMEntity
 	 */
 	public function getSortOrder()
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug('Entering getSortOrder() method ...');
 		if (AppRequest::has('sorder'))
 			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
@@ -388,7 +388,7 @@ class Activity extends CRMEntity
 	 */
 	public function getOrderBy()
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
@@ -413,7 +413,7 @@ class Activity extends CRMEntity
 	 */
 	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
@@ -614,7 +614,7 @@ class Activity extends CRMEntity
 	 */
 	public function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
 		//Check for vtiger_activityid already present in the reminder_table
 		$query = sprintf('SELECT activity_id FROM %s WHERE activity_id = ?', $this->reminder_table);
@@ -659,7 +659,7 @@ class Activity extends CRMEntity
 	public function get_tasksforol($username)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering get_tasksforol(" . $username . ") method ...");
 		$current_user = vglobal('current_user');
 		require_once("modules/Users/Users.php");

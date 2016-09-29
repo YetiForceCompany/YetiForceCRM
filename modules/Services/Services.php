@@ -417,7 +417,7 @@ class Services extends CRMEntity
 	public function get_service_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		global $currentModule, $singlepane_view, $mod_strings;
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering get_service_pricebooks(" . $id . ") method ...");
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -791,7 +791,7 @@ class Services extends CRMEntity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		global $currentModule;
-		$log = LoggerManager::getInstance();
+		
 		$log->fatal('id:--' . $id);
 		$log->fatal('return_module:--' . $return_module);
 		$log->fatal('return_id:---' . $return_id);

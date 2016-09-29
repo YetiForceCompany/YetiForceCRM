@@ -36,7 +36,7 @@ function getContactsMailsFromTicket($id)
 
 function HeldDeskChangeNotifyContacts($entityData)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Entering HeldDeskChangeNotifyContacts');
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
@@ -64,7 +64,7 @@ function HeldDeskChangeNotifyContacts($entityData)
 
 function HeldDeskClosedNotifyContacts($entityData)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Entering HeldDeskClosedNotifyContacts');
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
@@ -92,7 +92,7 @@ function HeldDeskClosedNotifyContacts($entityData)
 
 function HeldDeskNewCommentAccount($entityData)
 {
-	$log = LoggerManager::getInstance();
+	
 	$db = PearDatabase::getInstance();
 	$log->debug('Entering HeldDeskNewCommentAccount');
 
@@ -137,7 +137,7 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
 
 function HeldDeskNewCommentContacts($entityData)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Entering HeldDeskNewCommentAccount');
 
 	$wsId = $entityData->getId();
@@ -169,7 +169,7 @@ function HeldDeskNewCommentContacts($entityData)
 
 function HeldDeskNewCommentOwner($entityData)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Entering HeldDeskNewCommentAccount');
 	$db = PearDatabase::getInstance();
 

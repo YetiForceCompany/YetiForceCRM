@@ -125,7 +125,7 @@ class Users extends CRMEntity
 	 */
 	public function getSortOrder()
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering getSortOrder() method ...");
 		if (AppRequest::has('sorder'))
 			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
@@ -141,7 +141,7 @@ class Users extends CRMEntity
 	 */
 	public function getOrderBy()
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
@@ -465,7 +465,7 @@ class Users extends CRMEntity
 	public function change_password($userPassword, $newPassword, $dieOnError = true)
 	{
 		$db = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 
 		$usr_name = $this->column_fields['user_name'];
 		$current_user = vglobal('current_user');
@@ -692,7 +692,7 @@ class Users extends CRMEntity
 	public function createAccessKey()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 
 		$log->info("Entering Into function createAccessKey()");
 		$updateQuery = "update vtiger_users set accesskey=? where id=?";
@@ -706,7 +706,7 @@ class Users extends CRMEntity
 	 */
 	public function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -878,7 +878,7 @@ class Users extends CRMEntity
 	 */
 	public function insertIntoAttachment($id, $module)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		foreach ($_FILES as $fileindex => $files) {
@@ -898,7 +898,7 @@ class Users extends CRMEntity
 	public function retrieve_entity_info($record, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering into retrieve_entity_info($record, $module) method.");
 
 		if ($record == '') {
@@ -965,7 +965,7 @@ class Users extends CRMEntity
 	 */
 	public function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
 		$current_user = vglobal('current_user');
@@ -1025,7 +1025,7 @@ class Users extends CRMEntity
 	public function save($module_name, $fileid = '')
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 
 		//Event triggering code
 		require_once('include/events/include.inc');
@@ -1240,7 +1240,7 @@ class Users extends CRMEntity
 	public function saveHomeStuffOrder($id)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering in function saveHomeOrder($id)");
 
 		if ($this->mode == 'edit') {

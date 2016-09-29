@@ -195,7 +195,7 @@ class Products extends CRMEntity
 	public function insertIntoAttachment($id, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -506,7 +506,7 @@ class Products extends CRMEntity
 	public function get_product_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		global $singlepane_view, $currentModule;
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering get_product_pricebooks(" . $id . ") method ...");
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -648,7 +648,7 @@ class Products extends CRMEntity
 	public function get_parent_products($id)
 	{
 		global $singlepane_view;
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering get_products(" . $id . ") method ...");
 
 		$focus = new Products();

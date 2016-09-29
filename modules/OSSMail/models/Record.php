@@ -61,7 +61,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
 		$rcConfig = self::load_roundcube_config();
 		$cacheName = $user . $host . $folder;

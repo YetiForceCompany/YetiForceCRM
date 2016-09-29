@@ -702,7 +702,7 @@ class Contacts extends CRMEntity
 	 */
 	public function insertIntoAttachment($id, $module)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$adb = PearDatabase::getInstance();
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 

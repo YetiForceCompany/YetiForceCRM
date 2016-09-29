@@ -30,7 +30,7 @@ function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $content
 {
 
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 
 	$log->debug('To id => ' . $to_email . ' Subject => ' . $subject . 'Contents => ' . $contents);
 
@@ -106,7 +106,7 @@ function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $content
  */
 function getUserEmailId($name, $val)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Inside the function getUserEmailId. --- ' . $name . ' = ' . $val);
 	if ($val != '') {
 		$adb = PearDatabase::getInstance();
@@ -128,7 +128,7 @@ function getUserEmailId($name, $val)
  */
 function addSignature($contents, $fromname)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Inside the function addSignature');
 
 	$sign = VTCacheUtils::getUserSignature($fromname);
@@ -165,7 +165,7 @@ function addSignature($contents, $fromname)
  */
 function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, $to_email, $attachment = '', $emailid = '', $module = '', $logo = '')
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Inside the function setMailerProperties');
 	$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
 	$logourl = 'storage/Logo/' . $companyDetails->get('logoname');
@@ -241,7 +241,7 @@ function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, 
 function setMailServerProperties($mail)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Inside the function setMailServerProperties');
 
 	$res = $adb->pquery('select * from vtiger_systems where server_type=?', array('email'));
@@ -300,7 +300,7 @@ function setMailServerProperties($mail)
  */
 function addAttachment($mail, $filename, $record)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Inside the function addAttachment');
 	$log->debug('The file name is => ' . $filename);
 
@@ -316,7 +316,7 @@ function addAttachment($mail, $filename, $record)
  */
 function addAllAttachments($mail, $record)
 {
-	$log = LoggerManager::getInstance();
+	
 	$adb = PearDatabase::getInstance();
 	$log->debug('Inside the function addAllAttachments');
 
@@ -350,7 +350,7 @@ function addAllAttachments($mail, $record)
  */
 function setCCAddress($mail, $cc_mod, $cc_val)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Inside the functin setCCAddress');
 
 	if ($cc_mod == 'cc')
@@ -378,7 +378,7 @@ function setCCAddress($mail, $cc_mod, $cc_val)
  */
 function MailSend($mail)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->info('Inside of Send Mail function.');
 	if (!$mail->Send()) {
 		$log->error('Error in Mail Sending: ' . $mail->ErrorInfo);
@@ -395,7 +395,7 @@ function MailSend($mail)
  */
 function getParentMailId($parentmodule, $parentid)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Inside the function getParentMailId. \n parent module and id => ' . $parentmodule . '&' . $parentid);
 
 	if ($parentmodule == 'Contacts') {
@@ -431,7 +431,7 @@ function getMailError($mail, $mail_status, $to)
 	  provide_address, mailer_not_supported, execute, instantiate, file_access, file_open, encoding, data_not_accepted, authenticate,
 	  connect_host, recipients_failed, from_failed
 	 */
-	$log = LoggerManager::getInstance();
+	
 	$log->info('Inside the function getMailError');
 
 	$msg = array_search($mail_status, $mail->language);
@@ -458,7 +458,7 @@ function getMailError($mail, $mail_status, $to)
  */
 function getMailErrorString($mail_status_str)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Inside getMailErrorString function.\nMail status string ==> ' . $mail_status_str);
 
 	$mail_status_str = trim($mail_status_str, '&&&');
@@ -485,7 +485,7 @@ function getMailErrorString($mail_status_str)
  */
 function parseEmailErrorString($mail_error_str)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Inside the parseEmailErrorString function.\n encoded mail error string ==> ' . $mail_error_str);
 
 	$mail_error = base64_decode($mail_error_str);

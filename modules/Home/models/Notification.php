@@ -96,7 +96,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 
 	public function save($parseContent = true)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
 		$currentUser = vglobal('current_user');

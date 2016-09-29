@@ -63,7 +63,7 @@ define("RB_RECORD_UPDATED", 'update');
  */
 function return_name(&$row, $first_column, $last_column)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering return_name(" . $row . "," . $first_column . "," . $last_column . ") method ...");
 	$first_name = "";
 	$last_name = "";
@@ -103,7 +103,7 @@ function return_name(&$row, $first_column, $last_column)
  */
 function set_default_config(&$defaults)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering set_default_config(" . $defaults . ") method ...");
 
 	foreach ($defaults as $name => $value) {
@@ -180,7 +180,7 @@ function to_html($string, $encode = true)
  */
 function getColumnFields($module)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Entering getColumnFields(' . $module . ') method ...');
 
 	// Lookup in cache for information
@@ -228,7 +228,7 @@ function getColumnFields($module)
  */
 function getUserEmail($userid)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getUserEmail(" . $userid . ") method ...");
 	$log->info("in getUserEmail " . $userid);
 
@@ -247,7 +247,7 @@ function getUserEmail($userid)
 //outlook security
 function getUserId_Ol($username)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getUserId_Ol(" . $username . ") method ...");
 	$log->info("in getUserId_Ol " . $username);
 	$cache = Vtiger_Cache::getInstance();
@@ -277,7 +277,7 @@ function getUserId_Ol($username)
 
 function getActionid($action)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Entering getActionid(' . $action . ') method ...');
 
 	if (empty($action)) {
@@ -309,7 +309,7 @@ function getActionid($action)
  */
 function getActionname($actionid)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug('Entering getActionname(' . $actionid . ') method ...');
 	$adb = PearDatabase::getInstance();
 
@@ -337,7 +337,7 @@ function getActionname($actionid)
  */
 function getRecordOwnerId($record)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getRecordOwnerId($record) method ...");
 	$ownerArr = [];
 
@@ -356,7 +356,7 @@ function getRecordOwnerId($record)
  */
 function insertProfile2field($profileid)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering insertProfile2field(" . $profileid . ") method ...");
 	$log->info("in insertProfile2field " . $profileid);
 
@@ -377,7 +377,7 @@ function insertProfile2field($profileid)
  */
 function insert_def_org_field()
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering insert_def_org_field() method ...");
 	$adb = PearDatabase::getInstance();
 	$adb->database->SetFetchMode(ADODB_FETCH_ASSOC);
@@ -398,7 +398,7 @@ function insert_def_org_field()
  */
 function updateProductQty($product_id, $upd_qty)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering updateProductQty(" . $product_id . "," . $upd_qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "update vtiger_products set qtyinstock=? where productid=?";
@@ -413,7 +413,7 @@ function updateProductQty($product_id, $upd_qty)
  */
 function addToProductStock($productId, $qty)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering addToProductStock(" . $productId . "," . $qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck = getProductQtyInStock($productId);
@@ -429,7 +429,7 @@ function addToProductStock($productId, $qty)
  */
 function addToProductDemand($productId, $qty)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering addToProductDemand(" . $productId . "," . $qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck = getProductQtyInDemand($productId);
@@ -445,7 +445,7 @@ function addToProductDemand($productId, $qty)
  */
 function deductFromProductStock($productId, $qty)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering deductFromProductStock(" . $productId . "," . $qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck = getProductQtyInStock($productId);
@@ -461,7 +461,7 @@ function deductFromProductStock($productId, $qty)
  */
 function deductFromProductDemand($productId, $qty)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering deductFromProductDemand(" . $productId . "," . $qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck = getProductQtyInDemand($productId);
@@ -477,7 +477,7 @@ function deductFromProductDemand($productId, $qty)
  */
 function getProductQtyInStock($product_id)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getProductQtyInStock(" . $product_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query1 = "select qtyinstock from vtiger_products where productid=?";
@@ -493,7 +493,7 @@ function getProductQtyInStock($product_id)
  */
 function getProductQtyInDemand($product_id)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getProductQtyInDemand(" . $product_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query1 = "select qtyindemand from vtiger_products where productid=?";
@@ -510,7 +510,7 @@ function getProductQtyInDemand($product_id)
  */
 function getTableNameForField($module, $fieldname)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getTableNameForField(" . $module . "," . $fieldname . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$tabid = \includes\Modules::getModuleId($module);
@@ -538,7 +538,7 @@ function getTableNameForField($module, $fieldname)
  */
 function getParentRecordOwner($tabid, $parModId, $record_id)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getParentRecordOwner(" . $tabid . "," . $parModId . "," . $record_id . ") method ...");
 	$parentRecOwner = [];
 	$parentTabName = \vtlib\Functions::getModuleName($parModId);
@@ -558,7 +558,7 @@ function getParentRecordOwner($tabid, $parModId, $record_id)
  */
 function getEmailsRelatedAccounts($record_id)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getEmailsRelatedAccounts(" . $record_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Accounts' and activityid=?";
@@ -574,7 +574,7 @@ function getEmailsRelatedAccounts($record_id)
  */
 function getEmailsRelatedLeads($record_id)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getEmailsRelatedLeads(" . $record_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Leads' and activityid=?";
@@ -590,7 +590,7 @@ function getEmailsRelatedLeads($record_id)
  */
 function getHelpDeskRelatedAccounts($record_id)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getHelpDeskRelatedAccounts(" . $record_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
@@ -762,7 +762,7 @@ function formatForSqlLike($str, $flag = 0, $is_field = false)
 function getAccessPickListValues($module)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 	$current_user = vglobal('current_user');
 	$log->debug("Entering into function getAccessPickListValues($module)");
 
@@ -862,7 +862,7 @@ function transferCurrency($old_cur, $new_cur)
 function transferUserCurrency($old_cur, $new_cur)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 	$current_user = vglobal('current_user');
 	$log->debug("Entering function transferUserCurrency...");
 
@@ -877,7 +877,7 @@ function transferUserCurrency($old_cur, $new_cur)
 function transferProductCurrency($old_cur, $new_cur)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering function updateProductCurrency...");
 	$prod_res = $adb->pquery("select productid from vtiger_products where currency_id = ?", array($old_cur));
 	$numRows = $adb->num_rows($prod_res);
@@ -904,7 +904,7 @@ function transferProductCurrency($old_cur, $new_cur)
 function transferPriceBookCurrency($old_cur, $new_cur)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering function updatePriceBookCurrency...");
 	$pb_res = $adb->pquery("select pricebookid from vtiger_pricebook where currency_id = ?", array($old_cur));
 	$numRows = $adb->num_rows($pb_res);
@@ -940,7 +940,7 @@ function transferPriceBookCurrency($old_cur, $new_cur)
 function getCallerInfo($number)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 	if (empty($number)) {
 		return false;
 	}
@@ -1113,7 +1113,7 @@ function getRelationTables($module, $secmodule)
 function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 	require_once('include/events/include.inc');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
@@ -1152,7 +1152,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
 	require_once('include/events/include.inc');
 	//require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
@@ -1206,7 +1206,7 @@ $_installOrUpdateVtlibModule = [];
 function installVtlibModule($packagename, $packagepath, $customized = false)
 {
 	global $Vtiger_Utils_Log, $_installOrUpdateVtlibModule;
-	$log = LoggerManager::getInstance();
+	
 	if (!file_exists($packagepath))
 		return;
 
@@ -1257,7 +1257,7 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 function updateVtlibModule($module, $packagepath)
 {
 	global $_installOrUpdateVtlibModule;
-	$log = LoggerManager::getInstance();
+	
 	if (!file_exists($packagepath))
 		return;
 
@@ -1340,7 +1340,7 @@ function isRecordExists($recordId, $cache = true)
  */
 function getValidDBInsertDateValue($value)
 {
-	$log = LoggerManager::getInstance();
+	
 	$log->debug("Entering getValidDBInsertDateValue(" . $value . ") method ...");
 	$value = trim($value);
 	$delim = array('/', '.');
@@ -1550,7 +1550,7 @@ function getInventoryModules()
 
 function initUpdateVtlibModule($module, $packagepath)
 {
-	$log = LoggerManager::getInstance();
+	
 
 	$Vtiger_Utils_Log = true;
 	$package = new vtlib\Package();
