@@ -304,7 +304,7 @@ function getRoleBasesdPickList($fldname, $exist_val)
 		$sql = "select * from vtiger_$fldname where $fldname=?";
 		$res = $adb->pquery($sql, array(decode_html($exist_val)));
 		$picklistvalueid = $adb->query_result($res, 0, 'picklist_valueid');
-		if ($picklistvalueid != null) {
+		if ($picklistvalueid !== null) {
 			$pick_query = "select * from vtiger_role2picklist where picklistvalueid=$picklistvalueid and roleid in (" . generateQuestionMarks($roleids) . ")";
 
 			$res_val = $adb->pquery($pick_query, array($roleids));

@@ -93,7 +93,7 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 	$smarty->assign('dateFields', $dateFields);
 
 
-	if ($task->trigger != null) {
+	if ($task->trigger !== null) {
 		$trigger = $task->trigger;
 		$days = $trigger['days'];
 		if ($days < 0) {

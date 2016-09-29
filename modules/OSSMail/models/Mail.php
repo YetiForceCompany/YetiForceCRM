@@ -113,7 +113,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 
 	public function getMailCrmId()
 	{
-		if ($this->mailCrmId != false) {
+		if ($this->mailCrmId !== false) {
 			return $this->mailCrmId;
 		}
 		$db = PearDatabase::getInstance();

@@ -438,7 +438,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		if ($this->objectName == 'Users') {
 			$sql = "select user_name from vtiger_users where id=? and deleted=0";
 			$result = $adb->pquery($sql, array($id));
-			if ($result != null && isset($result)) {
+			if ($result !== null && isset($result)) {
 				if ($adb->num_rows($result) > 0) {
 					$seType = 'Users';
 				}
@@ -446,7 +446,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		} else {
 			$sql = "select setype from vtiger_crmentity where crmid=? and deleted=0";
 			$result = $adb->pquery($sql, array($id));
-			if ($result != null && isset($result)) {
+			if ($result !== null && isset($result)) {
 				if ($adb->num_rows($result) > 0) {
 					$seType = $adb->query_result($result, 0, "setype");
 					if ($seType == "Calendar") {
@@ -495,7 +495,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		if ($sql) {
 			$result = $adb->pquery($sql, $params);
-			if ($result != null && isset($result)) {
+			if ($result !== null && isset($result)) {
 				if ($adb->num_rows($result) > 0) {
 					$exists = true;
 				}

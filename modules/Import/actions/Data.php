@@ -72,7 +72,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			if (!is_array($this->defaultValues)) {
 				$this->defaultValues = \includes\utils\Json::decode($this->defaultValues);
 			}
-			if ($this->defaultValues != null) {
+			if ($this->defaultValues !== null) {
 				$defaultValues = $this->defaultValues;
 			}
 		}
@@ -133,7 +133,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public function initializeImport()
 	{
 		$lockInfo = Import_Lock_Action::isLockedForModule($this->module);
-		if ($lockInfo != null) {
+		if ($lockInfo !== null) {
 			if ($lockInfo['userid'] != $this->user->id) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				return false;
@@ -722,7 +722,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		// We should sanitizeData before doing final mandatory check below.
 		$fieldData = DataTransform::sanitizeData($fieldData, $moduleMeta);
 
-		if ($fieldData != null && $checkMandatoryFieldValues) {
+		if ($fieldData !== null && $checkMandatoryFieldValues) {
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
 				if (empty($fieldData[$fieldName]) && $fieldInstance->isMandatory()) {
 					return null;

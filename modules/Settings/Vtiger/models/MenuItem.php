@@ -255,7 +255,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		$params = [];
 
 		$conditionsSqls = [];
-		if ($menuModel != false) {
+		if ($menuModel !== false) {
 			$conditionsSqls[] = 'blockid = ?';
 			$params[] = $menuModel->getId();
 		}

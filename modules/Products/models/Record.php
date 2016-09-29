@@ -443,7 +443,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 				if ($cur_value === null || $cur_value == '') {
 					$price_details[$i]['check_value'] = false;
-					if ($unit_price != null) {
+					if ($unit_price !== null) {
 						$cur_value = CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
 					} else {
 						$cur_value = '0';

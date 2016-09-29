@@ -311,7 +311,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleId = 'H' . $roleIdNumber;
 		}
 		$parentRole = $this->getParent();
-		if ($parentRole != null) {
+		if ($parentRole !== null) {
 			$this->set('depth', $parentRole->getDepth() + 1);
 			$this->set('parentrole', $parentRole->getParentRoleString() . '::' . $roleId);
 		}

@@ -986,7 +986,7 @@ class ReportRun extends CRMEntity
 								$tableColumnSql = $selectedFields[0] . '.' . $selectedFields[1];
 							}
 
-							if ($value != null && $value != '') {
+							if ($value !== null && $value != '') {
 								if ($comparator == 'e' || $comparator == 'n') {
 									$dateTimeComponents = explode(' ', $value);
 									$dateTime = new DateTime($dateTimeComponents[0] . ' ' . '00:00:00');

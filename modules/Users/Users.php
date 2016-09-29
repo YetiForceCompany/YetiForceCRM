@@ -578,7 +578,7 @@ class Users extends CRMEntity
 		$row = $this->db->fetchByAssoc($result);
 		$this->log->debug("additional detail query results: $row");
 
-		if ($row != null) {
+		if ($row !== null) {
 			$this->reports_to_name = stripslashes(\vtlib\Deprecated::getFullNameFromArray('Users', $row));
 		} else {
 			$this->reports_to_name = '';
