@@ -42,7 +42,7 @@ class Privileges
 			} else {
 				$permission = true;
 			}
-			self::$isPermittedLevel = 'SEC_ADMINISTRATION_MODULE_' . $permission;
+			self::$isPermittedLevel = 'SEC_ADMINISTRATION_MODULE_' . $permission ? 'YES' : 'NO';
 			$log->debug('Exiting isPermitted method ...');
 			return $permission;
 		}
@@ -70,7 +70,7 @@ class Privileges
 				} else {
 					$permission = false;
 				}
-				self::$isPermittedLevel = 'SEC_USER_IS_ADMIN' . $permission;
+				self::$isPermittedLevel = 'SEC_USER_IS_ADMIN' . $permission ? 'YES' : 'NO';
 				$log->debug('Exiting isPermitted method ...');
 				return $permission;
 			}
@@ -216,7 +216,7 @@ class Privileges
 			if (\AppConfig::security('PERMITTED_BY_SHARING')) {
 				$permission = self::isPermittedBySharing($moduleName, $tabid, $actionid, $record, $userId);
 			}
-			self::$isPermittedLevel = 'SEC_RECORD_BY_SHARING_' . $permission;
+			self::$isPermittedLevel = 'SEC_RECORD_BY_SHARING_' . $permission ? 'YES' : 'NO';
 			$log->debug('Exiting isPermitted method ... - isPermittedBySharing');
 		} else {
 			$permission = false;
