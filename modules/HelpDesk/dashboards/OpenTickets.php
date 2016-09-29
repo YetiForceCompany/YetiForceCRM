@@ -43,7 +43,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 			$sql .= $securityParameter;
 		}
 		if (!empty($ticketStatus)) {
-			$ticketStatusSearch = implode("','", $ticketStatus);
+			$ticketStatusSearch = implode("','", array_keys($ticketStatus));
 			$sql .= " && vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
