@@ -4,8 +4,9 @@
  * @package YetiForce.Cron
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-$log = LoggerManager::getLogger();
+$log = LoggerManager::getLogger('CRON');
 $log->debug('Start create AddressBoock');
 
 $limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_ADDRESS_BOOCK_UPDATER');
@@ -18,10 +19,12 @@ $break = false;
 $table = OSSMail_AddressBoock_Model::TABLE;
 $last = OSSMail_AddressBoock_Model::getLastRecord();
 
-$query = 'SELECT DISTINCT module_name FROM `com_vtiger_workflows` LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id WHERE `task` LIKE \'%VTAddressBookTask%\'';
+$query = 'SELECT module_name, task FROM `com_vtiger_workflows` LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id WHERE `task` LIKE \'%VTAddressBookTask%\'';
 $mainResult = $db->query($query);
-while (($moduleName = $db->getSingleValue($mainResult)) !== false) {
-	if ($last !== false && $last['module'] != $moduleName) {
+while ($row = $db->getRow($mainResult)) {
+	$task = (array) unserialize($row['task']);
+	$moduleName = $row['module_name'];
+	if (empty($task['active']) || ($last !== false && $last['module'] != $moduleName)) {
 		continue;
 	}
 	$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -52,6 +55,7 @@ while (($moduleName = $db->getSingleValue($mainResult)) !== false) {
 	}
 	$query .= ' AND (' . implode(' OR ', $emailCondition);
 	$query .= ') LIMIT ' . ($limit + 1);
+
 	$result = $db->query($query);
 	while ($row = $db->getRow($result)) {
 		$users = $name = '';
@@ -65,9 +69,11 @@ while (($moduleName = $db->getSingleValue($mainResult)) !== false) {
 				$users .= ',' . $userId;
 			}
 		}
+		$added = [];
 		$db->delete($table, 'id = ?', [$record]);
 		foreach ($emailFields as &$fieldName) {
-			if (!empty($row[$fieldName])) {
+			if (!empty($row[$fieldName]) && !in_array($row[$fieldName], $added)) {
+				$added[] = $row[$fieldName];
 				$db->insert($table, ['id' => $record, 'email' => $row[$fieldName], 'name' => trim($name), 'users' => $users]);
 			}
 		}

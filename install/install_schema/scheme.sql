@@ -2125,8 +2125,8 @@ CREATE TABLE `u_yf_mail_address_boock` (
   `email` varchar(100) NOT NULL,
   `name` varchar(255) NOT NULL,
   `users` text NOT NULL,
-  PRIMARY KEY (`id`),
   KEY `email` (`email`,`name`),
+  KEY `id` (`id`),
   CONSTRAINT `u_yf_mail_address_boock_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
