@@ -159,7 +159,7 @@ Class DataAccess_unique_account
 				$dash = explode($dashes[0], $value[0]['data']);
 				$value[0] = $dash[1];
 			} else {
-				$value[0] = $value[0]['dtata'];
+				$value[0] = $value[0]['data'];
 			}
 			$hierarchyAll[$hId] = strip_tags($value[0]);
 		}
