@@ -257,7 +257,6 @@ class ServiceContracts extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		global $currentModule;
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		include("include/utils/ExportUtils.php");

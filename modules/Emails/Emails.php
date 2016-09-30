@@ -223,7 +223,6 @@ class Emails extends CRMEntity
 		$current_user = vglobal('current_user');
 		$log = vglobal('log');
 		$currentModule = vglobal('currentModule');
-		$singlepane_view = vglobal('singlepane_view');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 

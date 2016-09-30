@@ -414,7 +414,6 @@ class Activity extends CRMEntity
 	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = LoggerManager::getInstance();
-		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;

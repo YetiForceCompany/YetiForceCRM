@@ -75,7 +75,7 @@ function getaddEventPopupTime($starttime, $endtime, $format)
 function getActivityDetails($description, $user_id, $from = '')
 {
 	$log = vglobal('log');
-	$current_user = vglobal('current_user');
+	$currentUser = vglobal('current_user');
 	$adb = PearDatabase::getInstance();
 	require_once 'include/utils/utils.php';
 	$current_language = vglobal('current_language');
@@ -103,7 +103,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	else
 		$msg = \includes\Language::translate($mod_strings['LBL_ACTIVITY_NOTIFICATION']);
 
-	$current_username = \includes\fields\Owner::getUserLabel($current_user->id);
+	$currentUsername = \includes\fields\Owner::getUserLabel($currentUser->id);
 	$status = \includes\Language::translate($description['status'], 'Calendar');
 	$list = $name . ',';
 	$list .= '<br><br>' . $msg . ' ' . $reply . '.<br> ' . $mod_strings['LBL_DETAILS_STRING'] . ':<br>';
@@ -120,7 +120,7 @@ function getActivityDetails($description, $user_id, $from = '')
 
 	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_APP_DESCRIPTION"] . ': ' . $description['description'];
 	$list .= '<br><br>' . $mod_strings["LBL_REGARDS_STRING"] . ' ,';
-	$list .= '<br>' . $current_username . '.';
+	$list .= '<br>' . $currentUsername . '.';
 
 	$log->debug("Exiting getActivityDetails method ...");
 	return $list;
@@ -141,32 +141,33 @@ function twoDigit($no)
  */
 function calendarview_getSelectedUserId()
 {
-	global $current_user, $default_charset;
-	$only_for_user = htmlspecialchars(strip_tags(AppRequest::getForSql('onlyforuser')), ENT_QUOTES, $default_charset);
-	if ($only_for_user == '')
-		$only_for_user = $current_user->id;
-	return $only_for_user;
+	$currentUser = Users_Privileges_Model::getCurrentUserModel();
+	$onlyForUser = htmlspecialchars(strip_tags(AppRequest::getForSql('onlyforuser')), ENT_QUOTES, AppConfig::main('default_charset'));
+	if ($onlyForUser == '')
+		$onlyForUser = $currentUser->id;
+	return $onlyForUser;
 }
 
 function calendarview_getSelectedUserFilterQuerySuffix()
 {
-	global $current_user, $adb;
-	$only_for_user = calendarview_getSelectedUserId();
+	$currentUser = Users_Privileges_Model::getCurrentUserModel();
+	$adb = PearDatabase::getInstance();
+	$onlyForUser = calendarview_getSelectedUserId();
 	$qcondition = '';
-	if (!empty($only_for_user)) {
-		if ($only_for_user != 'ALL') {
+	if (!empty($onlyForUser)) {
+		if ($onlyForUser != 'ALL') {
 			// For logged in user include the group records also.
-			if ($only_for_user == $current_user->id) {
-				$user_group_ids = fetchUserGroupids($current_user->id);
+			if ($onlyForUser == $currentUser->id) {
+				$userGroupIds = fetchUserGroupids($currentUser->id);
 				// User does not belong to any group? Let us reset to non-existent group
-				if (!empty($user_group_ids))
-					$user_group_ids .= ',';
+				if (!empty($userGroupIds))
+					$userGroupIds .= ',';
 				else
-					$user_group_ids = '';
-				$user_group_ids .= $current_user->id;
-				$qcondition = " && vtiger_crmentity.smownerid IN (" . $user_group_ids . ")";
+					$userGroupIds = '';
+				$userGroupIds .= $currentUser->id;
+				$qcondition = " && vtiger_crmentity.smownerid IN (" . $userGroupIds . ")";
 			} else {
-				$qcondition = " && vtiger_crmentity.smownerid = " . $adb->sql_escape_string($only_for_user);
+				$qcondition = " && vtiger_crmentity.smownerid = " . $adb->sql_escape_string($onlyForUser);
 			}
 		}
 	}
