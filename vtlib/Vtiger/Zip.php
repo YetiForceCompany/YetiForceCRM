@@ -100,7 +100,7 @@ class Zip extends \dZip
 					$this->copyDirectoryFromDisk("$dirname$file", $zipdirname, $excludeList, $basedirname);
 				} else {
 					$zippath = $dirname;
-					if ($zipdirname !== null && $zipdirname != '') {
+					if ($zipdirname != null && $zipdirname != '') {
 						$zipdirname = $this->__fixDirSeparator($zipdirname);
 						$zippath = $zipdirname . $this->__getRelativePath($basedirname, $dirname);
 					}

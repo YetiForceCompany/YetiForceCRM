@@ -172,7 +172,7 @@ class CRMEntity
 		if (!isset($ownerid) || $ownerid == '')
 			$ownerid = $current_user->id;
 
-		if (isset($file_details['original_name']) && $file_details['original_name'] !== null) {
+		if (isset($file_details['original_name']) && $file_details['original_name'] != null) {
 			$file_name = $file_details['original_name'];
 		} else {
 			$file_name = $file_details['name'];
@@ -409,7 +409,7 @@ class CRMEntity
 		}
 
 		$tabid = \includes\Modules::getModuleId($module);
-		if ($module == 'Calendar' && $this->column_fields["activitytype"] !== null && $this->column_fields["activitytype"] != 'Task') {
+		if ($module == 'Calendar' && $this->column_fields["activitytype"] != null && $this->column_fields["activitytype"] != 'Task') {
 			$tabid = \includes\Modules::getModuleId('Events');
 		}
 		if ($insertion_mode == 'edit') {

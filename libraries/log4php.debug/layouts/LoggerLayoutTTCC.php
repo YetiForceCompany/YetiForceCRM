@@ -221,7 +221,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
        
         if($this->contextPrinting) {
             $ndc = $event->getNDC();
-            if($ndc !== null) {
+            if($ndc != null) {
     	        $format .= $ndc.' ';
             }
         }

@@ -97,7 +97,7 @@ class Cron
 	 */
 	public function getLastEndDateTime()
 	{
-		if ($this->data['lastend'] !== null) {
+		if ($this->data['lastend'] != NULL) {
 			$lastEndDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['lastend']));
 			return $lastEndDateTime->getDisplayDateTimeValue();
 		} else {
@@ -111,7 +111,7 @@ class Cron
 	 */
 	public function getLastStartDateTime()
 	{
-		if ($this->data['laststart'] !== null) {
+		if ($this->data['laststart'] != NULL) {
 			$lastStartDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['laststart']));
 			return $lastStartDateTime->getDisplayDateTimeValue();
 		} else {

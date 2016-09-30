@@ -967,7 +967,7 @@ class CustomView extends CRMEntity
 					}
 
 					$advfiltergroupsql .= $advfiltersql;
-					if ($columncondition !== null && $columncondition != '' && count($groupcolumns) > $columnindex) {
+					if ($columncondition != NULL && $columncondition != '' && count($groupcolumns) > $columnindex) {
 						$advfiltergroupsql .= ' ' . $columncondition . ' ';
 					}
 				}
@@ -975,7 +975,7 @@ class CustomView extends CRMEntity
 
 			if (trim($advfiltergroupsql) != "") {
 				$advfiltergroupsql = "( $advfiltergroupsql ) ";
-				if ($groupcondition !== null && $groupcondition != '' && $advfilter > $groupid) {
+				if ($groupcondition != NULL && $groupcondition != '' && $advfilter > $groupid) {
 					$advfiltergroupsql .= ' ' . $groupcondition . ' ';
 				}
 

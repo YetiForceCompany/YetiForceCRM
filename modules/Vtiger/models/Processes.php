@@ -40,7 +40,7 @@ class Vtiger_Processes_Model
 			} else {
 				$config[$param] = $value;
 			}
-			if ($procesParam !== false && $param == $procesParam) {
+			if ($procesParam != false && $param == $procesParam) {
 				Vtiger_Cache::set('ProcessesModel', $process . $type . $procesParam, $value);
 				$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 				return $value;

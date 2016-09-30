@@ -124,7 +124,7 @@ class LoggerCategory {
                 $this->aai[$appenderName]->doAppend($event);
             }
         }
-        if ($this->parent !== null && $this->getAdditivity()) {
+        if ($this->parent != null && $this->getAdditivity()) {
             $this->parent->callAppenders($event);
         }
     }
@@ -287,7 +287,7 @@ class LoggerCategory {
      */
     public function getEffectiveLevel()
     {
-        for($c = $this; $c !== null; $c = $c->parent) {
+        for($c = $this; $c != null; $c = $c->parent) {
             if($c->level !== null)
             	return $c->level;
         }

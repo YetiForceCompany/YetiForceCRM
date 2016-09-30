@@ -188,7 +188,7 @@ class VtigerCRMObject
 		$exists = false;
 		$sql = "select * from vtiger_crmentity where crmid=? and deleted=0";
 		$result = $adb->pquery($sql, array($id));
-		if ($result !== null && isset($result)) {
+		if ($result != null && isset($result)) {
 			if ($adb->num_rows($result) > 0) {
 				$exists = true;
 			}
@@ -203,7 +203,7 @@ class VtigerCRMObject
 		$seType = null;
 		$sql = "select * from vtiger_crmentity where crmid=? and deleted=0";
 		$result = $adb->pquery($sql, array($id));
-		if ($result !== null && isset($result)) {
+		if ($result != null && isset($result)) {
 			if ($adb->num_rows($result) > 0) {
 				$seType = $adb->query_result($result, 0, "setype");
 			}

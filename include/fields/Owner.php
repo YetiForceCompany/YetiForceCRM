@@ -24,7 +24,7 @@ class Owner
 		$instance = \Vtiger_Cache::get('includes\fields\Owner', $cacheKey);
 		if ($instance === false) {
 			$instance = new self();
-			$instance->moduleName = $moduleName !== false ? $moduleName : \AppRequest::get('module');
+			$instance->moduleName = $moduleName != false ? $moduleName : \AppRequest::get('module');
 			$instance->currentUser = $currentUser;
 			\Vtiger_Cache::set('includes\fields\Owner', $cacheKey, $instance);
 		}

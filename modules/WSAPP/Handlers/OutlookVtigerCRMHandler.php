@@ -39,7 +39,7 @@ class OutlookVtigerCRMHandler extends vtigerCRMHandler
 						$recordInfo[$referenceFieldName] = $entityNameIds[strtolower($recordInfo[$referenceFieldName])];
 					} else {
 						if ($referenceFieldName == 'account_id') {
-							if ($recordInfo[$referenceFieldName] !== null) {
+							if ($recordInfo[$referenceFieldName] != NULL) {
 								$element['accountname'] = $recordInfo[$referenceFieldName];
 								$element['assigned_user_id'] = vtws_getWebserviceEntityId('Users', $user->id);
 								$element['module'] = "Accounts";

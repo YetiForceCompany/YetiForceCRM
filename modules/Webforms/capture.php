@@ -46,7 +46,7 @@ class Webform_Capture
 			$parameters = array();
 			$webformFields = $webform->getFields();
 			foreach ($webformFields as $webformField) {
-				if ($webformField->getDefaultValue() !== null) {
+				if ($webformField->getDefaultValue() != null) {
 					$parameters[$webformField->getFieldName()] = decode_html($webformField->getDefaultValue());
 				} else {
 					$webformNeutralizedField = html_entity_decode($webformField->getNeutralizedField(), ENT_COMPAT, 'UTF-8');

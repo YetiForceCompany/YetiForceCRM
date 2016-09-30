@@ -53,7 +53,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$stmt = $this->exData->pdo->prepare('SELECT crmid, smownerid, deleted FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.hash = ?;');
 		$stmt->execute([$hash]);
 		$rows = $stmt->fetch(\PDO::FETCH_ASSOC);
-		if($rows !== false && ($rows['smownerid'] != $this->exData->crmUserId || $rows['deleted'] == 1)){
+		if($rows != false && ($rows['smownerid'] != $this->exData->crmUserId || $rows['deleted'] == 1)){
 			throw new DAV\Exception\Conflict('File with name ' . $file . ' could not be located');
 		}
 		file_put_contents($this->exData->localStorageDir . $localPath, $data);

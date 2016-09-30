@@ -33,7 +33,7 @@ class PackageUpdate extends PackageImport
 			return false;
 		}
 
-		if ($module !== null) {
+		if ($module != null) {
 			$unzip = new Unzip($zipfile, $overwrite);
 
 			// Unzip selectively
@@ -82,7 +82,7 @@ class PackageUpdate extends PackageImport
 
 		$module = $this->getModuleNameFromZip($zipfile);
 
-		if ($module !== null) {
+		if ($module != null) {
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
 				$this->__parseManifestFile($unzip);

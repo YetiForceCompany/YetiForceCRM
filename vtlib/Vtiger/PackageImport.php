@@ -415,7 +415,7 @@ class PackageImport extends PackageExport
 	public function initImport($zipfile, $overwrite = true)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
-		if ($module !== null) {
+		if ($module != null) {
 			$unzip = new Unzip($zipfile, $overwrite);
 			// Unzip selectively
 			$unzip->unzipAllEx(".", [
@@ -545,7 +545,7 @@ class PackageImport extends PackageExport
 	public function import($zipfile, $overwrite = false)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
-		if ($module !== null) {
+		if ($module != null) {
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
 				$this->__parseManifestFile($unzip);
@@ -609,7 +609,7 @@ class PackageImport extends PackageExport
 		$moduleInstance = new Module();
 		$moduleInstance->name = $tabname;
 		$moduleInstance->label = $tabLabel;
-		$moduleInstance->isentitytype = ($isextension !== true);
+		$moduleInstance->isentitytype = ($isextension != true);
 		$moduleInstance->version = (!$tabVersion) ? 0 : $tabVersion;
 		$moduleInstance->minversion = (!$vtigerMinVersion) ? false : $vtigerMinVersion;
 		$moduleInstance->maxversion = (!$vtigerMaxVersion) ? false : $vtigerMaxVersion;
@@ -1034,7 +1034,7 @@ class PackageImport extends PackageExport
 			$updateInstance = new \YetiForceUpdate($modulenode);
 			$updateInstance->package = $this;
 			$result = $updateInstance->preupdate();
-			if ($result !== false) {
+			if ($result != false) {
 				$updateInstance->update();
 				if ($updateInstance->filesToDelete) {
 					foreach ($updateInstance->filesToDelete as $path) {

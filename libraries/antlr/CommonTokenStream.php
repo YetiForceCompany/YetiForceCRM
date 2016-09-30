@@ -59,7 +59,7 @@ class CommonTokenStream implements TokenStream {
 		$this->channel = TokenConst::$DEFAULT_CHANNEL;
 		$this->tokens = array();
 		$this->tokenSource = $tokenSource;
-		if($channel !== null){
+		if($channel != null){
 			$this->channel = $channel;
 		}
 	}

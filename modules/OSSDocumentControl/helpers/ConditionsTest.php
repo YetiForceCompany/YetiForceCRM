@@ -53,7 +53,7 @@ class ConditionsTest
 			$recordTime = new DateTime($val);
 
 
-			if ($dateTime !== false) {
+			if ($dateTime != false) {
 				if ($dateTime->diff($recordTime)->format('%R') == '+') {
 					return true;
 				} else {
@@ -99,7 +99,7 @@ class ConditionsTest
 			$dateTime = new DateTime($cndArray['val'] . ':00');
 			$recordTime = new DateTime($val);
 
-			if ($dateTime !== false) {
+			if ($dateTime != false) {
 				if ($dateTime->diff($recordTime)->format('%R') != '+') {
 					return true;
 				} else {

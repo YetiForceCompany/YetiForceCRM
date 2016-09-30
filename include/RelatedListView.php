@@ -135,7 +135,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	for ($i = 0; $i < $numRows; $i++) {
 		$entity_id = $adb->query_result($list_result, $i, "crmid");
 		$unit_price = $adb->query_result($list_result, $i, "unit_price");
-		if ($currency_id !== null) {
+		if ($currency_id != null) {
 			$prod_prices = getPricesForProducts($currency_id, array($entity_id));
 			$unit_price = $prod_prices[$entity_id];
 		}

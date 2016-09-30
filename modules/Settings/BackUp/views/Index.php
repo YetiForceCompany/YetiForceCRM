@@ -14,7 +14,7 @@ class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$backupModel = Settings_BackUp_Module_Model::getCleanInstance();
 		$ftpSettings = $backupModel->getFTPSettings();
-		if ($ftpSettings !== false) {
+		if ($ftpSettings != false) {
 			$viewer->assign('FTP_HOST', $ftpSettings['host']);
 			$viewer->assign('FTP_LOGIN', $ftpSettings['login']);
 			$password = $backupModel->encrypt_decrypt('decrypt', $ftpSettings['password']);

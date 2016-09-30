@@ -124,7 +124,7 @@ class LoggerXmlLayout extends LoggerLayout {
         $buf .= "]]></{$this->_namespacePrefix}:message>\r\n";        
 
         $ndc = $event->getNDC();
-        if($ndc !== null) {
+        if($ndc != null) {
             $buf .= "<{$this->_namespacePrefix}:NDC><![CDATA[";
             LoggerTransform::appendEscapingCDATA($buf, $ndc);
             $buf .= "]]></{$this->_namespacePrefix}:NDC>\r\n";       

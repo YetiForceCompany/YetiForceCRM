@@ -23,7 +23,7 @@ class Settings_Vtiger_Tracker_Model
 		if ($type == 'view' && Vtiger_Request::isAjax()) {
 			self::lockTracking();
 		}
-		if (self::$id !== false || self::$lockTrack) {
+		if (self::$id != false || self::$lockTrack) {
 			return true;
 		}
 		$db = PearDatabase::getInstance('log');
@@ -54,7 +54,7 @@ class Settings_Vtiger_Tracker_Model
 		if (self::$lockTrack) {
 			return true;
 		}
-		if (self::$id !== false) {
+		if (self::$id != false) {
 			self::addBasic('save');
 		}
 		$db = PearDatabase::getInstance('log');

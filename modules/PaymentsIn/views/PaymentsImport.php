@@ -34,7 +34,7 @@ class PaymentsIn_PaymentsImport_View extends Vtiger_Index_View
 						if ($bank[$i] == $banks[1])
 							$status = true;
 					}
-					if ($status !== true)
+					if ($status != true)
 						$bank[] = $banks[1];
 				}
 			}

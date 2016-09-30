@@ -74,7 +74,7 @@ class DataTransform
 		}
 		// added to handle the setting reminder time
 		if (strtolower($meta->getEntityName()) == "events") {
-			if (isset($row['reminder_time']) && $row['reminder_time'] !== null && $row['reminder_time'] != 0) {
+			if (isset($row['reminder_time']) && $row['reminder_time'] != null && $row['reminder_time'] != 0) {
 				AppRequest::set('set_reminder', 'Yes');
 				AppRequest::set('mode', 'edit');
 
@@ -109,7 +109,7 @@ class DataTransform
 		}
 		$ownerFields = $meta->getOwnerFields();
 		foreach ($ownerFields as $index => $field) {
-			if (isset($row[$field]) && $row[$field] !== null) {
+			if (isset($row[$field]) && $row[$field] != null) {
 				$ownerDetails = vtws_getIdComponents($row[$field]);
 				$row[$field] = $ownerDetails[1];
 			}
@@ -240,7 +240,7 @@ class DataTransform
 		$adb = PearDatabase::getInstance();
 		$ownerFields = $meta->getOwnerFields();
 		foreach ($ownerFields as $index => $field) {
-			if (isset($row[$field]) && $row[$field] !== null) {
+			if (isset($row[$field]) && $row[$field] != null) {
 				$ownerType = vtws_getOwnerType($row[$field]);
 				$webserviceObject = VtigerWebserviceObject::fromName($adb, $ownerType);
 				$row[$field] = vtws_getId($webserviceObject->getEntityId(), $row[$field]);

@@ -41,7 +41,7 @@ function vtws_getActiveToken($userId)
 
 	$sql = "select * from vtiger_ws_userauthtoken where userid=? and expiretime >= ?";
 	$result = $adb->pquery($sql, array($userId, time()));
-	if ($result !== null && isset($result)) {
+	if ($result != null && isset($result)) {
 		if ($adb->num_rows($result) > 0) {
 			return $adb->query_result($result, 0, "token");
 		}
@@ -55,7 +55,7 @@ function vtws_getUserAccessKey($userId)
 
 	$sql = "select * from vtiger_users where id=?";
 	$result = $adb->pquery($sql, array($userId));
-	if ($result !== null && isset($result)) {
+	if ($result != null && isset($result)) {
 		if ($adb->num_rows($result) > 0) {
 			return $adb->query_result($result, 0, "accesskey");
 		}

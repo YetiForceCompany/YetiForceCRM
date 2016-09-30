@@ -1071,10 +1071,10 @@ class Functions
 			$browser = new \stdClass;
 			$browser->ver = 0;
 			$browser->https = false;
-			$browser->win = strpos($HTTP_USER_AGENT, 'win') !== false;
-			$browser->mac = strpos($HTTP_USER_AGENT, 'mac') !== false;
-			$browser->linux = strpos($HTTP_USER_AGENT, 'linux') !== false;
-			$browser->unix = strpos($HTTP_USER_AGENT, 'unix') !== false;
+			$browser->win = strpos($HTTP_USER_AGENT, 'win') != false;
+			$browser->mac = strpos($HTTP_USER_AGENT, 'mac') != false;
+			$browser->linux = strpos($HTTP_USER_AGENT, 'linux') != false;
+			$browser->unix = strpos($HTTP_USER_AGENT, 'unix') != false;
 
 			$browser->webkit = strpos($HTTP_USER_AGENT, 'applewebkit') !== false;
 			$browser->opera = strpos($HTTP_USER_AGENT, 'opera') !== false || ($browser->webkit && strpos($HTTP_USER_AGENT, 'opr/') !== false);

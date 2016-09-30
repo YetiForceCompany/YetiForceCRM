@@ -199,7 +199,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		$newField = self::newFieldValidation($request->get('fieldName'));
 		$response = new Vtiger_Response();
 		$moduleName = 'Settings:' . $request->getModule();
-		if ($newField !== false) {
+		if ($newField != false) {
 			$query = "SELECT * 
 					FROM information_schema.COLUMNS 
 					WHERE 

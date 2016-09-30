@@ -59,7 +59,7 @@ class ModTracker
 			$seq_res = $adb->pquery("SELECT max(sequence) AS max_seq FROM vtiger_settings_field WHERE blockid = ?", array($blockid));
 			if ($adb->num_rows($seq_res) > 0) {
 				$cur_seq = $adb->query_result($seq_res, 0, 'max_seq');
-				if ($cur_seq !== null)
+				if ($cur_seq != null)
 					$seq = $cur_seq + 1;
 			}
 
@@ -277,7 +277,7 @@ class ModTracker
 			$params[] = $entityModule;
 		}
 
-		if ($limit !== false)
+		if ($limit != false)
 			$query .=" LIMIT $limit";
 
 		$result = $adb->pquery($query, $params);
