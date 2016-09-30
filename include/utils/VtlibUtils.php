@@ -14,15 +14,13 @@
  * use the common one.
  */
 // Let us create cache to improve performance
-if (!isset($__cache_vtiger_imagepath)) {
-	$__cache_vtiger_imagepath = [];
-}
+
 
 function vtiger_imageurl($imagename, $themename)
 {
-	global $__cache_vtiger_imagepath;
-	if ($__cache_vtiger_imagepath[$imagename]) {
-		$imagepath = $__cache_vtiger_imagepath[$imagename];
+	static $cacheVtigerImagepath = [];
+	if ($cacheVtigerImagepath[$imagename]) {
+		$imagepath = $cacheVtigerImagepath[$imagename];
 	} else {
 		$imagepath = false;
 		// Check in theme specific folder
@@ -35,7 +33,7 @@ function vtiger_imageurl($imagename, $themename)
 			// Not found anywhere? Return whatever is sent
 			$imagepath = $imagename;
 		}
-		$__cache_vtiger_imagepath[$imagename] = $imagepath;
+		$cacheVtigerImagepath[$imagename] = $imagepath;
 	}
 	return $imagepath;
 }
@@ -46,24 +44,16 @@ function vtiger_imageurl($imagename, $themename)
  */
 function vtlib_getModuleNameForSharing()
 {
-	$adb = PearDatabase::getInstance();
 	$std_modules = array('Calendar', 'Leads', 'Accounts', 'Contacts',
 		'HelpDesk', 'Campaigns', 'Events');
 	$modulesList = getSharingModuleList($std_modules);
 	return $modulesList;
 }
 /**
- * Cache the module active information for performance
- */
-$__cache_module_activeinfo = [];
-
-/**
  * Fetch module active information at one shot, but return all the information fetched.
  */
 function vtlib_prefetchModuleActiveInfo($force = true)
 {
-	global $__cache_module_activeinfo;
-
 	// Look up if cache has information
 	$tabrows = VTCacheUtils::lookupAllTabsInfo();
 
@@ -75,7 +65,6 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 		if ($tabres) {
 			while ($tabresrow = $adb->fetch_array($tabres)) {
 				$tabrows[] = $tabresrow;
-				$__cache_module_activeinfo[$tabresrow['name']] = $tabresrow['presence'];
 			}
 			// Update cache for further re-use
 			VTCacheUtils::updateAllTabsInfo($tabrows);
@@ -491,8 +480,6 @@ function vtlib_isDirWriteable($dirpath)
 	}
 	return false;
 }
-/** HTML Purifier global instance */
-$__htmlpurifier_instance = false;
 
 /**
  * Purify (Cleanup) malicious snippets of code from the input
@@ -503,7 +490,7 @@ $__htmlpurifier_instance = false;
  */
 function vtlib_purify($input, $ignore = false)
 {
-	global $__htmlpurifier_instance;
+	static $htmlpurifieInstance = false;
 	$value = $input;
 
 	if (!is_array($input)) {
@@ -521,7 +508,7 @@ function vtlib_purify($input, $ignore = false)
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
-		if ($__htmlpurifier_instance === false) {
+		if ($htmlpurifieInstance === false) {
 			if (empty($use_charset))
 				$use_charset = 'UTF-8';
 
@@ -531,9 +518,9 @@ function vtlib_purify($input, $ignore = false)
 			$config->set('Core.Encoding', $use_charset);
 			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
 
-			$__htmlpurifier_instance = new HTMLPurifier($config);
+			$htmlpurifieInstance = new HTMLPurifier($config);
 		}
-		if ($__htmlpurifier_instance) {
+		if ($htmlpurifieInstance) {
 			// Composite type
 			if (is_array($input)) {
 				$value = [];
@@ -541,7 +528,7 @@ function vtlib_purify($input, $ignore = false)
 					$value[$k] = vtlib_purify($v, $ignore);
 				}
 			} else { // Simple type
-				$value = $__htmlpurifier_instance->purify($input);
+				$value = $htmlpurifieInstance->purify($input);
 				$value = purifyHtmlEventAttributes($value);
 			}
 		}
@@ -571,7 +558,7 @@ function purifyHtmlEventAttributes($value)
 
 function vtlib_purifyForHtml($input, $ignore = false)
 {
-	global $htmlPurifierForHtml;
+	static $htmlPurifierForHtml = false;
 	$value = $input;
 
 	if (!is_array($input)) {

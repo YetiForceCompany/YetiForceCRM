@@ -554,7 +554,7 @@ function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
 	$relatedModuleArray = $related_module_share[$tabid];
 	if (is_array($relatedModuleArray)) {
 		foreach ($relatedModuleArray as $parModId) {
-			$parRecordOwner = getParentRecordOwner($tabid, $parModId, $record_id);
+			$parRecordOwner = App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
 			if (sizeof($parRecordOwner) > 0) {
 				$parModName = \includes\Modules::getModuleName($parModId);
 				$rel_var = $parModName . "_" . $module . "_share_read_permission";
@@ -663,7 +663,7 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 	$relatedModuleArray = $related_module_share[$tabid];
 	if (is_array($relatedModuleArray)) {
 		foreach ($relatedModuleArray as $parModId) {
-			$parRecordOwner = getParentRecordOwner($tabid, $parModId, $record_id);
+			$parRecordOwner = App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
 			if (sizeof($parRecordOwner) > 0) {
 				$parModName = \includes\Modules::getModuleName($parModId);
 				$rel_var = $parModName . "_" . $module . "_share_write_permission";
