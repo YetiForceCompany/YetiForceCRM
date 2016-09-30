@@ -253,6 +253,9 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 
 			app.showModalWindow(null, "index.php?module=Home&view=ChartFilter&step=step1", function (wizardContainer) {
 				var form = jQuery('form', wizardContainer);
+				form.on("keypress", function(event) {
+					return event.keyCode != 13;
+				});
 				var sectorContainer = form.find('.sectorContainer');
 				var chartType = jQuery('select[name="chartType"]', wizardContainer);
 				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
@@ -407,7 +410,9 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 
 			app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function (wizardContainer) {
 				var form = jQuery('form', wizardContainer);
-
+				form.on("keypress", function(event) {
+					return event.keyCode != 13;
+				});
 				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
 				var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
 				var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
