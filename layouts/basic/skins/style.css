@@ -5639,6 +5639,7 @@ select.form-control {
 	table-layout: fixed;
 	word-wrap: break-word;
 }
+.dashboardWidget .rowActivities .activityContainer > *,
 .dashboardWidget .rowActivities > *{
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -5718,4 +5719,7 @@ select.form-control {
 .openStreetMapModalHeader .radius{
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
+}
+.activityContainer{
+	padding-left: 35px;
 }
