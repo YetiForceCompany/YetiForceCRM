@@ -23,7 +23,7 @@ class Products_SummaryWidget_Model
 		$fromModule = $request->get('fromModule');
 		$record = $request->get('record');
 		$mod = $request->get('mod');
-		if (!in_array($mod, ['Products', 'Services'])){
+		if (!in_array($mod, ['Products', 'Services'])) {
 			throw new \Exception\AppException('Not supported Module');
 		}
 		$db = PearDatabase::getInstance();
@@ -33,11 +33,6 @@ class Products_SummaryWidget_Model
 		if (!empty($request->get('limit'))) {
 			$limit = $request->get('limit');
 		}
-
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($mod);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($mod, $currentUser);
-
 		if ($mod == 'Products') {
 			$sql = 'SELECT vtiger_products.productid AS id, vtiger_products.pscategory AS category, vtiger_products.productname AS name, vtiger_crmentity.smownerid '
 				. 'FROM vtiger_products '
@@ -59,10 +54,7 @@ class Products_SummaryWidget_Model
 			$params[] = $record;
 			$params[] = $record;
 		}
-
-		if ($securityParameter != '')
-			$sql.= $securityParameter;
-
+		$sql.= \App\PrivilegeQuery::getAccessConditions($mod);
 		$sql.= sprintf(' LIMIT %s', $limit);
 		$result = $db->pquery($sql, $params);
 		$returnData = [];

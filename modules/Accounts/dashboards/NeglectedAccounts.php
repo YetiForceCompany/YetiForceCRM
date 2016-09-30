@@ -13,9 +13,6 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 
 	private function getAccounts($moduleName, $user, $pagingModel)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($moduleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 		$sql = 'SELECT vtiger_crmentity.crmid ,vtiger_account.accountname, vtiger_crmentity.smownerid,	vtiger_entity_stats.crmactivity 
 			FROM vtiger_account
 			INNER JOIN vtiger_crmentity ON vtiger_account.accountid = vtiger_crmentity.crmid
@@ -30,7 +27,8 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$sql .= ' && vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
-		$sql .= $securityParameter . ' ORDER BY vtiger_entity_stats.crmactivity IS NULL, vtiger_entity_stats.crmactivity  ASC  LIMIT ?, ?';
+		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
+		$sql .= ' ORDER BY vtiger_entity_stats.crmactivity IS NULL, vtiger_entity_stats.crmactivity  ASC  LIMIT ?, ?';
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit();
 		$db = PearDatabase::getInstance();

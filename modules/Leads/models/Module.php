@@ -57,10 +57,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$module = $this->getName();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-
+		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
 		if (!empty($owner)) {
 			$ownerSql = ' && smownerid = ' . $owner;
 		}
@@ -97,10 +94,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 
 		$module = $this->getName();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-
+		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
 		if (!empty($owner)) {
 			$ownerSql = ' && smownerid = ' . $owner;
 		}

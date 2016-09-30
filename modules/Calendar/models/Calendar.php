@@ -27,7 +27,6 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 	public function getQuery()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = 'SELECT vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf ON vtiger_activitycf.activityid = vtiger_activity.activityid
@@ -36,10 +35,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		LEFT JOIN vtiger_crmentity procrm ON procrm.crmid = vtiger_activity.process
 		LEFT JOIN vtiger_crmentity subprocrm ON subprocrm.crmid = vtiger_activity.subprocess
 		WHERE vtiger_activity.deleted = 0 ';
-		$instance = CRMEntity::getInstance($this->getModuleName());
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getModuleName(), $currentUser);
-		if (!empty($securityParameter))
-			$query.= $securityParameter;
+		$query.= \App\PrivilegeQuery::getAccessConditions($this->getModuleName());
 
 		$params = [];
 		if ($this->get('start') && $this->get('end')) {

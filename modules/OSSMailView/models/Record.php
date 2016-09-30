@@ -85,12 +85,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 			$query = 'SELECT vtiger_ossmailview.* FROM vtiger_ossmailview INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid';
 			$query .= sprintf(' WHERE ossmailviewid IN (%s) %s', generateQuestionMarks($ids), $ifwhere);
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$moduleName = 'OSSMailView';
-			$instance = CRMEntity::getInstance($moduleName);
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser, $srecord);
-			if ($securityParameter != '')
-				$query .= $securityParameter;
+			$query .= \App\PrivilegeQuery::getAccessConditions('OSSMailView', false, $srecord);
 			$query .= ' ORDER BY date DESC';
 			if ($config['widget_limit'] != '') {
 				$query .= sprintf(' LIMIT %s', $config['widget_limit']);
@@ -244,10 +239,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid 
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid 
 			WHERE vtiger_crmentity.deleted = 0 && vtiger_ossmailview_relation.crmid = '$recordId'";
-		$instance = CRMEntity::getInstance($moduleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, false, $recordId);
-		if ($securityParameter != '')
-			$sql .= $securityParameter;
+		$sql .= \App\PrivilegeQuery::getAccessConditions($moduleName, false, $recordId);
 		return $sql;
 	}
 

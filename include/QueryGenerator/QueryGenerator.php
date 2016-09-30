@@ -1002,8 +1002,11 @@ class QueryGenerator
 		}
 
 		if (!$onlyWhereQuery && $this->permissions) {
-			$instance = CRMEntity::getInstance($baseModule);
-			$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user, $this->getSourceRecord());
+			if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+				$sql .= " AND vtiger_crmentity.users LIKE '%,{$current_user->id},%'";
+			} else {
+				$sql .= \App\PrivilegeQuery::getAccessConditions($baseModule, $current_user->id, $this->getSourceRecord());
+			}
 		}
 		$this->whereClause = $sql;
 		return $sql;

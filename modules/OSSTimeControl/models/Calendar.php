@@ -44,11 +44,8 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 				$query.= ' && vtiger_crmentity.smownerid IN (' . $this->get('user') . ')';
 			}
 		}
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-		if ($securityParameter != '')
-			$query.= $securityParameter;
-		$query.= ' ORDER BY date_start,time_start ASC';
+		$query .= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->getId());
+		$query .= ' ORDER BY date_start,time_start ASC';
 
 		$queryResult = $db->pquery($query, $params);
 		$result = array();

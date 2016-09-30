@@ -29,9 +29,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	public function getComments($pagingModel)
 	{
 		$db = PearDatabase::getInstance();
-
-		$instance = CRMEntity::getInstance('ModComments');
-		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('ModComments');
+		$userAccessConditions = \App\PrivilegeQuery::getAccessConditions('ModComments');
 		$sql = 'SELECT *, vtiger_crmentity.createdtime AS createdtime, vtiger_crmentity.smownerid AS smownerid,
 			crmentity2.crmid AS parentId, crmentity2.setype AS parentModule 
 			FROM vtiger_modcomments
@@ -39,7 +37,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
 			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 %s
 			ORDER BY vtiger_modcomments.modcommentsid DESC LIMIT ?, ?';
-		$sql = sprintf($sql, $UserAccessConditions);
+		$sql = sprintf($sql, $userAccessConditions);
 		$result = $db->pquery($sql, array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
 
 		$comments = array();
@@ -91,24 +89,18 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if (empty($sortOrder) || !in_array(strtolower($sortOrder), ['asc', 'desc'])) {
 			$sortOrder = 'ASC';
 		}
-
 		if (empty($orderBy)) {
 			$orderBy = "due_date $sortOrder, time_end $sortOrder";
 		} else {
 			$orderBy .= ' ' . $sortOrder;
 		}
 
-		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
-		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
-		$instance = CRMEntity::getInstance('Calendar');
-		$userAccessConditions = $instance->getUserAccessConditionsQuerySR('Calendar');
-
 		$params = [];
 		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*
 			FROM vtiger_activity
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 			WHERE vtiger_crmentity.deleted=0 ';
-		$query .= $userAccessConditions;
+		$query .= \App\PrivilegeQuery::getAccessConditions('Calendar', $currentUser->getId());
 		if ($mode === 'upcoming') {
 			if (!is_array($paramsMore['status'])) {
 				$paramsMore['status'] = [$paramsMore['status']];
@@ -216,8 +208,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
-		$instance = CRMEntity::getInstance('ProjectTask');
-		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('ProjectTask');
 
 		$params = array();
 		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_projecttask.*
@@ -225,7 +215,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid
 			WHERE vtiger_crmentity.deleted=0 && vtiger_crmentity.smcreatorid = ?";
 		$params[] = $currentUser->getId();
-		$query .= $UserAccessConditions;
+		$query .= \App\PrivilegeQuery::getAccessConditions('ProjectTask', $currentUser->getId());
 		if ($mode === 'upcoming') {
 			$query .= " && targetenddate >= ?";
 		} elseif ($mode === 'overdue') {

@@ -33,8 +33,6 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = 'HelpDesk';
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		$db = PearDatabase::getInstance();
 		$param = array('OSSTimeControl', $user, $time['start'], $time['end']);
 		$sql = "SELECT sum_time AS daytime, due_date, timecontrol_type FROM vtiger_osstimecontrol
@@ -42,6 +40,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid = ? ";
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
+		$sql .= \App\PrivilegeQuery::getAccessConditions($module);
 		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? && vtiger_osstimecontrol.due_date <= ?) && vtiger_osstimecontrol.deleted = 0 ORDER BY due_date ";
 		$result = $db->pquery($sql, $param);
 		$data = array();

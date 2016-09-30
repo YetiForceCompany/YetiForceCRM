@@ -186,13 +186,11 @@ class ModCommentsCore extends CRMEntity
 				$joinedTables[] = $other->table_name;
 			}
 		}
-		$current_user = vglobal('current_user');
 		$query .= "	WHERE vtiger_crmentity.deleted = 0 ";
 		if ($usewhere) {
 			$query .= $usewhere;
 		}
-		$instance = CRMEntity::getInstance($module);
-		$query .= $instance->getUserAccessConditionsQuerySR($module, $current_user);
+		$query .= \App\PrivilegeQuery::getAccessConditions($module);
 		$query .= $this->getListViewSecurityParameter($module);
 		return $query;
 	}
@@ -402,17 +400,17 @@ class ModCommentsCore extends CRMEntity
 	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
-
+			
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
-
+			
 		}
 	}
 	/**

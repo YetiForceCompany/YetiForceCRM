@@ -197,11 +197,7 @@ function getListQuery($module, $where = '')
 				$query.=' LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid';
 			}
 			//end
-			$instance = CRMEntity::getInstance($module);
-			$query.=" WHERE vtiger_crmentity.deleted = 0 && activitytype != 'Emails' ";
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $current_user);
-			if ($securityParameter != '')
-				$query.= $securityParameter;
+			$query .= \App\PrivilegeQuery::getAccessConditions($module, $current_user->id);
 			$query.= ' ' . $where;
 			break;
 		Case "Emails":
@@ -498,7 +494,6 @@ function popup_decode_html($str)
 	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $defaultCharset);
 	return decode_html(\vtlib\Functions::br2nl($slashes_str));
 }
-
 
 /**
  * this function accepts a modulename and a fieldname and returns the first related module for it
