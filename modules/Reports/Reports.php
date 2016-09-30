@@ -916,7 +916,7 @@ class Reports extends CRMEntity
 				}
 			}
 			if ($selmod_field_disabled === false) {
-				list($tablename, $colname, $module_field, $fieldname, $single) = split(':', $fieldcolname);
+				list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 				require('user_privileges/user_privileges_' . $current_user->id . '.php');
 				list($module, $field) = explode('__', $module_field);
 				if (sizeof($permitted_fields) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
