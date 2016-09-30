@@ -33,12 +33,10 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 		$cronTasks = vtlib\Cron::listAllActiveInstances();
 	}
 
-	$cronStarts = date('Y-m-d H:i:s');
-
+	$cronStart = microtime(true);
 	//set global current user permissions
-	$current_user = vglobal('current_user');
 	$current_user = Users::getActiveAdminUser();
-
+	vglobal('current_user', $current_user);
 	if ($user) {
 		echo '<pre>';
 	}
@@ -96,7 +94,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 			echo $e->getTraceAsString() . PHP_EOL;
 		}
 	}
-	echo sprintf('===============  %s | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
+	echo sprintf('===============  %s (' . round(microtime(true) - $cronStart, 2) . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 } else {
 	echo('Access denied!');
 }

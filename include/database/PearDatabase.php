@@ -532,9 +532,9 @@ class PearDatabase
 	 */
 	public function flatten_array($input, $output = null)
 	{
-		if ($input === null)
+		if (empty($input))
 			return null;
-		if ($output === null)
+		if (empty($output))
 			$output = [];
 		foreach ($input as $value) {
 			if (is_array($value)) {
