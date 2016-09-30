@@ -499,25 +499,6 @@ function popup_decode_html($str)
 	return decode_html(\vtlib\Functions::br2nl($slashes_str));
 }
 
-//function added to check the text length in the listview.
-function textlength_check($field_val)
-{
-	$defaultCharset = AppConfig::main('default_charset');
-	$listview_max_textlength = AppConfig::main('listview_max_textlength');
-	if ($listview_max_textlength && $listview_max_textlength > 0) {
-		$temp_val = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $field_val);
-		if (function_exists('mb_strlen')) {
-			if (mb_strlen(html_entity_decode($temp_val)) > $listview_max_textlength) {
-				$temp_val = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', html_entity_decode($temp_val)), 0, $listview_max_textlength, $defaultCharset) . '...';
-			}
-		} elseif (strlen(html_entity_decode($field_val)) > $listview_max_textlength) {
-			$temp_val = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', html_entity_decode($temp_val)), 0, $listview_max_textlength) . '...';
-		}
-	} else {
-		$temp_val = $field_val;
-	}
-	return $temp_val;
-}
 
 /**
  * this function accepts a modulename and a fieldname and returns the first related module for it

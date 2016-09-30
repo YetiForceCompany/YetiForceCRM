@@ -544,8 +544,8 @@ class Services extends CRMEntity
 			$listprice = $adb->query_result($list_result, $i, "listprice");
 			$field_name = $entity_id . "_listprice";
 
-			$entries = Array();
-			$entries[] = textlength_check($adb->query_result($list_result, $i, "servicename"));
+			$entries = [];
+			$entries[] = \vtlib\Functions::textLength($adb->query_result($list_result, $i, "servicename"));
 			if (getFieldVisibilityPermission('Services', $current_user->id, 'unit_price') == '0')
 				$entries[] = CurrencyField::convertToUserFormat($unit_price, null, true);
 

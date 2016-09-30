@@ -143,7 +143,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 		$field_name = $entity_id . "_listprice";
 
 		$entries = [];
-		$entries[] = textlength_check($adb->query_result($list_result, $i, "productname"));
+		$entries[] = \vtlib\Functions::textLength($adb->query_result($list_result, $i, "productname"));
 		if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
 			$entries[] = $adb->query_result($list_result, $i, "productcode");
 		if (getFieldVisibilityPermission('Products', $current_user->id, 'unit_price') == '0')

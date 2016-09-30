@@ -26,7 +26,7 @@ class Deprecated
 		if ($rowdata != '' && count($rowdata) > 0) {
 			$name = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $rowdata);
 		}
-		$name = textlength_check($name);
+		$name = Functions::textLength($name);
 		return $name;
 	}
 

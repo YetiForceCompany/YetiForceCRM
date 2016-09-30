@@ -393,7 +393,7 @@ class ListViewController
 						$value = $value . '<a class="phoneField" data-value="' . $phoneNumber . '" record="' . $recordId . '"onclick="Vtiger_PBXManager_Js.registerPBXOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')"> <img style="vertical-align:middle;" src="layouts/basic/skins/images/small_Call.png"/></a>';
 					} elseif ($outgoingMobilePermission && !empty($value)) {
 						$phoneNumber = preg_replace('/[-()\s]/', '', $value);
-						$value = '<a class="phoneField" data-phoneNumber="' . $phoneNumber . '" record="' . $recordId . '" onclick="Vtiger_Mobile_Js.registerOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')">' . textlength_check($value) . '</a>';
+						$value = '<a class="phoneField" data-phoneNumber="' . $phoneNumber . '" record="' . $recordId . '" onclick="Vtiger_Mobile_Js.registerOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')">' . \vtlib\Functions::textLength($value) . '</a>';
 						$callUsers = Vtiger_Mobile_Model::getPrivilegesUsers();
 						if ($callUsers) {
 							$value .= '  <a class="btn btn-xs noLinkBtn" onclick="Vtiger_Mobile_Js.registerOutboundCallToUser(this,\'' . $phoneNumber . '\',' . $recordId . ')" data-placement="right" data-original-title="' . vtranslate('LBL_SELECT_USER_TO_CALL', $module) . '" data-content=\'<select class="select sesectedUser" name="sesectedUser">';
