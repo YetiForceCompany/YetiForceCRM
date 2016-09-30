@@ -285,7 +285,7 @@ class CRMEntity
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
 			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
 			$tabid = \includes\Modules::getModuleId($module);
-			
+
 			if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
 				$columns = [
 					'smownerid' => $ownerid,
@@ -2427,80 +2427,6 @@ class CRMEntity
 			return 'LEFT JOIN';
 		}
 		return 'INNER JOIN';
-	}
-
-	public function getUserAccessConditionsQuery($moduleName, $user)
-	{
-		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($user->id);
-
-		$query = '';
-		$tabId = \includes\Modules::getModuleId($moduleName);
-		if ($userPrivileges['is_admin'] === false && $userPrivileges['profile_global_permission'][1] == 1 && $userPrivileges['profile_global_permission'][2] == 1 && $userPrivileges['defaultOrgSharingPermission'][$tabId] == 3) {
-			$parentRoleSeq = $userPrivileges['parent_role_seq'];
-			$query .= " vtiger_crmentity.smownerid = '$user->id'";
-			if (\AppConfig::security('PERMITTED_BY_ROLES')) {
-				$query .= " || vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
-			}
-			if (count($userPrivileges['groups']) > 0) {
-				$query .= ' || vtiger_crmentity.smownerid IN (' . implode(',', $userPrivileges['groups']) . ')';
-			}
-		}
-		if (\AppConfig::security('PERMITTED_BY_SHARING') && !empty($moduleName)) {
-			$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($user->id);
-			if (isset($sharingPrivileges['permission'][$moduleName])) {
-				$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
-				$sharingRuleInfo = $sharingPrivilegesModule['read'];
-				if (count($sharingRuleInfo['ROLE']) > 0 || count($sharingRuleInfo['GROUP']) > 0) {
-					$query .= " || vtiger_crmentity.smownerid IN (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per WHERE userid=$user->id && tabid=$tabId) || vtiger_crmentity.smownerid IN (SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid FROM vtiger_tmp_read_group_sharing_per WHERE userid=$user->id && tabid=$tabId)";
-				}
-			}
-		}
-		return $query;
-	}
-
-	public function getUserAccessConditionsQuerySR($module, $currentUser = false, $relatedRecord = false)
-	{
-		if ($currentUser === false)
-			$currentUser = vglobal('current_user');
-
-		$userid = $currentUser->id;
-		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($userid);
-
-		$query = $sharedParameter = $securityParameter = '';
-		$tabId = \includes\Modules::getModuleId($module);
-		if ($relatedRecord && \AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
-			$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$role = $userModel->getRoleDetail();
-			if ($role->get('listrelatedrecord') == 2) {
-				$rparentRecord = Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
-				if ($rparentRecord) {
-					$relatedRecord = $rparentRecord;
-				}
-			}
-			if ($role->get('listrelatedrecord') != 0) {
-				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($relatedRecord);
-				$recordPermission = Users_Privileges_Model::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord);
-				if ($recordPermission) {
-					return '';
-				}
-			}
-		}
-
-		if ($userPrivileges['is_admin'] === false && $userPrivileges['profile_global_permission'][1] == 1 && $userPrivileges['profile_global_permission'][2] == 1 && $userPrivileges['defaultOrgSharingPermission'][$tabId] == 3) {
-			$securityParameter = $this->getUserAccessConditionsQuery($module, $currentUser);
-			$shownerid = array_merge([$userid], $userPrivileges['groups']);
-			if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
-				$sharedParameter .= 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
-			}
-		}
-		if (!empty($securityParameter) && !empty($sharedParameter)) {
-			$query .= " && (($securityParameter) || ($sharedParameter))";
-		} elseif (!empty($sharedParameter)) {
-			$query .= " && ($sharedParameter)";
-		} elseif (!empty($securityParameter)) {
-			$query .= " && ($securityParameter)";
-		}
-		return $query;
 	}
 
 	/**
