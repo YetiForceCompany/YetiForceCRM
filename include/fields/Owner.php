@@ -454,7 +454,7 @@ class Owner
 
 	protected static $usersIdsCache = [];
 
-	public static function getUsersIds($status = 'Active')
+	public static function &getUsersIds($status = 'Active')
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
 			$rows = [];
