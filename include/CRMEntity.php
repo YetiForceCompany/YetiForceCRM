@@ -1034,7 +1034,7 @@ class CRMEntity
 	 */
 	public function apply_field_security($moduleName = '')
 	{
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($moduleName == '') {
 			$moduleName = $currentModule;
@@ -1202,7 +1202,7 @@ class CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		switch ($relatedName) {
 			case 'get_many_to_many':
@@ -2623,7 +2623,7 @@ class CRMEntity
 	 */
 	public function getOrderBy()
 	{
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		\App\Log::trace("Entering getOrderBy() method ...");
 

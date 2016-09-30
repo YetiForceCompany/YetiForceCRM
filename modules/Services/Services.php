@@ -415,7 +415,7 @@ class Services extends CRMEntity
 	 */
 	public function get_service_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		global $currentModule, $singlepane_view, $mod_strings;
+		global $currentModule, $singlepane_view;
 
 		\App\Log::trace("Entering get_service_pricebooks(" . $id . ") method ...");
 
