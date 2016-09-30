@@ -60,7 +60,7 @@ function getKeyMetrics($maxval, $calCnt)
 		return count($metriclists);
 	}
 
-	\App\log::trace("Metrics :: Successfully got MetricList to be displayed");
+	\App\Log::trace("Metrics :: Successfully got MetricList to be displayed");
 	if (isset($metriclists)) {
 		$current_user = vglobal('current_user');
 		foreach ($metriclists as $key => $metriclist) {
@@ -86,7 +86,7 @@ function getKeyMetrics($maxval, $calCnt)
 				}
 			}
 		}
-		\App\log::trace("Metrics :: Successfully build the Metrics");
+		\App\Log::trace("Metrics :: Successfully build the Metrics");
 	}
 	$title = [];
 	$title[] = 'keyMetrics.gif';

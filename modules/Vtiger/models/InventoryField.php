@@ -48,7 +48,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function getFields($returnInBlock = false, $ids = [], $viewType = false)
 	{
 		
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 		$key = $returnInBlock ? 'block' : 'noBlock';
 		if (!isset($this->fields[$key])) {
 			$db = PearDatabase::getInstance();
@@ -96,7 +96,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				$fields[2] = [];
 			}
 		}
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
 	}
 
@@ -125,7 +125,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function getColumns()
 	{
 		
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 		if ($this->columns) {
 			return $this->columns;
 		}
@@ -140,7 +140,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			}
 		}
 		$this->columns = $columns;
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $columns;
 	}
 
@@ -152,13 +152,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function getInventoryFieldInstance($valueArray)
 	{
 		
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
 		$className = Vtiger_Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
 		$instance = new $className();
 		$instance->initialize($valueArray);
 		$instance->set('module', $this->get('module'));
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $instance;
 	}
 
@@ -171,11 +171,11 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		$moduleName = $this->get('module');
 		
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ' . $moduleName);
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ' . $moduleName);
 
 		$instance = Vtiger_Cache::get('InventoryFields', $moduleName);
 		if ($instance) {
-			\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 			return $instance;
 		}
 
@@ -199,7 +199,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			}
 		}
 		Vtiger_Cache::set('InventoryFields', $moduleName, $fields);
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $fields;
 	}
 
@@ -211,7 +211,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public static function getMainParams($fields)
 	{
 		
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$params = false;
 		if (isset($fields)) {
@@ -224,7 +224,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		if (is_string($params['modules'])) {
 			$params['modules'] = [$params['modules']];
 		}
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $params;
 	}
 

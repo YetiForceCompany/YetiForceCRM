@@ -80,7 +80,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	require_once 'include/utils/utils.php';
 	$current_language = vglobal('current_language');
 	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');
-	\App\log::trace("Entering getActivityDetails(" . $description . ") method ...");
+	\App\Log::trace("Entering getActivityDetails(" . $description . ") method ...");
 	$updated = $mod_strings['LBL_UPDATED'];
 	$created = $mod_strings['LBL_CREATED'];
 	$reply = (($description['mode'] == 'edit') ? "$updated" : "$created");
@@ -122,7 +122,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	$list .= '<br><br>' . $mod_strings["LBL_REGARDS_STRING"] . ' ,';
 	$list .= '<br>' . $currentUsername . '.';
 
-	\App\log::trace("Exiting getActivityDetails method ...");
+	\App\Log::trace("Exiting getActivityDetails method ...");
 	return $list;
 }
 

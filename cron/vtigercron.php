@@ -40,7 +40,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 	echo sprintf('---------------  %s | Start CRON  ----------', date('Y-m-d H:i:s')) . PHP_EOL;
 	foreach ($cronTasks as $cronTask) {
 		try {
-			\App\log::trace($cronTask->getName() . ' - Start');
+			\App\Log::trace($cronTask->getName() . ' - Start');
 			// Timeout could happen if intermediate cron-tasks fails
 			// and affect the next task. Which need to be handled in this cycle.				
 			if ($cronTask->hadTimeout()) {
@@ -52,14 +52,14 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 
 			// Not ready to run yet?
 			if ($cronTask->isRunning()) {
-				\App\log::error($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning');
+				\App\Log::error($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning');
 				echo sprintf('%s | %s - Task omitted, it has not been finished during the last scanning' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
 			}
 
 			// Not ready to run yet?
 			if (!$cronTask->isRunnable()) {
-				\App\log::trace($cronTask->getName() . ' - Not ready to run as the time to run again is not completed');
+				\App\Log::trace($cronTask->getName() . ' - Not ready to run as the time to run again is not completed');
 				echo sprintf('%s | %s - Not ready to run as the time to run again is not completed' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
 			}
@@ -77,14 +77,14 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 
 			$taskTime = round(microtime(true) - $startTime, 2);
 			if ($taskResponse != '') {
-				\App\log::warning($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse);
+				\App\Log::warning($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse);
 				echo 'Task response:' . PHP_EOL . $taskResponse . PHP_EOL;
 			}
 
 			// Mark the status - finished
 			$cronTask->markFinished();
 			echo sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime) . PHP_EOL;
-			\App\log::trace($cronTask->getName() . ' - End');
+			\App\Log::trace($cronTask->getName() . ' - End');
 		} catch (\Exception\AppException $e) {
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->getMessage() . PHP_EOL;

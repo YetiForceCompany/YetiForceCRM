@@ -217,7 +217,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
 		} catch (Exception $e) {
-			\App\log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 			$tpl = 'OperationNotPermitted.tpl';
 			if ($e instanceof \Exception\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';

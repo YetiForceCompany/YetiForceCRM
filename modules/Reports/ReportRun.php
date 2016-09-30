@@ -384,7 +384,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_columnslist = $columnslist;
 
-		\App\log::trace('ReportRun :: Successfully returned getQueryColumnsList' . $reportid);
+		\App\Log::trace('ReportRun :: Successfully returned getQueryColumnsList' . $reportid);
 		return $columnslist;
 	}
 
@@ -679,7 +679,7 @@ class ReportRun extends CRMEntity
 		}
 		$sSQL .= implode(",", $sSQLList);
 
-		\App\log::trace("ReportRun :: Successfully returned getSelectedColumnsList" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned getSelectedColumnsList" . $reportid);
 		return $sSQL;
 	}
 
@@ -772,7 +772,7 @@ class ReportRun extends CRMEntity
 			$rtvalue = str_replace("'", "", $rtvalue);
 			$rtvalue = str_replace("\\", "", $rtvalue);
 		}
-		\App\log::trace("ReportRun :: Successfully returned getAdvComparator");
+		\App\Log::trace("ReportRun :: Successfully returned getAdvComparator");
 		return $rtvalue;
 	}
 
@@ -1275,7 +1275,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_advfiltersql = $advfiltersql;
 
-		\App\log::trace("ReportRun :: Successfully returned getAdvFilterSql" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned getAdvFilterSql" . $reportid);
 		return $advfiltersql;
 	}
 
@@ -1365,7 +1365,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_stdfilterlist = $stdfilterlist;
 
-		\App\log::trace("ReportRun :: Successfully returned getStdFilterList" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned getStdFilterList" . $reportid);
 		return $stdfilterlist;
 	}
 
@@ -1545,7 +1545,7 @@ class ReportRun extends CRMEntity
 				}
 			}
 		}
-		\App\log::trace("ReportRun :: Successfully returned getStandardCriterialSql" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned getStandardCriterialSql" . $reportid);
 		return $sSQL;
 	}
 
@@ -1646,7 +1646,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_groupinglist = $grouplist;
 
-		\App\log::trace("ReportRun :: Successfully returned getGroupingList" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned getGroupingList" . $reportid);
 		return $grouplist;
 	}
 
@@ -1707,7 +1707,7 @@ class ReportRun extends CRMEntity
 				$this->orderbylistsql .= $selectedfields[0] . "." . $selectedfields[1] . " " . $selectedfields[2];
 			}
 		}
-		\App\log::trace("ReportRun :: Successfully returned getSelectedOrderbyList" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned getSelectedOrderbyList" . $reportid);
 		return $sSQL;
 	}
 
@@ -1741,7 +1741,7 @@ class ReportRun extends CRMEntity
 				}
 			}
 		}
-		\App\log::trace("ReportRun :: Successfully returned getRelatedModulesQuery" . $secmodule);
+		\App\Log::trace("ReportRun :: Successfully returned getRelatedModulesQuery" . $secmodule);
 
 		return $query;
 	}
@@ -2161,7 +2161,7 @@ class ReportRun extends CRMEntity
 					" WHERE vtiger_crmentity.deleted=0";
 			}
 		}
-		\App\log::trace("ReportRun :: Successfully returned getReportsQuery" . $module);
+		\App\Log::trace("ReportRun :: Successfully returned getReportsQuery" . $module);
 
 		return $query;
 	}
@@ -2263,7 +2263,7 @@ class ReportRun extends CRMEntity
 			$report = str_replace('&amp;', '&', $reportquery);
 			$reportquery = $this->replaceSpecialChar($report);
 		}
-		\App\log::trace("ReportRun :: Successfully returned sGetSQLforReport" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned sGetSQLforReport" . $reportid);
 
 		$this->queryPlanner->initializeTempTables();
 
@@ -3136,7 +3136,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_columnstotallist = $stdfilterlist;
 
-		\App\log::trace("ReportRun :: Successfully returned getColumnsTotal" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned getColumnsTotal" . $reportid);
 		return $stdfilterlist;
 	}
 
@@ -3222,7 +3222,7 @@ class ReportRun extends CRMEntity
 		if (isset($sSQLList)) {
 			$sSQL = implode(",", $sSQLList);
 		}
-		\App\log::trace("ReportRun :: Successfully returned getColumnsToTotalColumns" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned getColumnsToTotalColumns" . $reportid);
 		return $sSQL;
 	}
 

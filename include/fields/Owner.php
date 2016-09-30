@@ -207,13 +207,13 @@ class Owner
 			// Including deleted vtiger_users for now.
 			if ($private == 'private') {
 				$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
-				\App\log::trace('Sharing is Private. Only the current user should be listed');
+				\App\Log::trace('Sharing is Private. Only the current user should be listed');
 				$query = "SELECT id,%s,is_admin,cal_color,status FROM vtiger_users WHERE id=? UNION SELECT vtiger_user2role.userid AS id,%s,is_admin,cal_color,status FROM vtiger_user2role 
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? UNION
 							SELECT shareduserid AS id,%s,is_admin,cal_color,status FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? && vtiger_tmp_write_user_sharing_per.tabid=?";
 				$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), \includes\Modules::getModuleId($this->moduleName));
 			} else {
-				\App\log::trace('Sharing is Public. All vtiger_users should be listed');
+				\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 				$query = 'SELECT id,%s,is_admin,cal_color,status FROM vtiger_users';
 				$params = [];
 			}
@@ -268,7 +268,7 @@ class Owner
 	 */
 	public function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false)
 	{
-		\App\log::trace("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
+		\App\Log::trace("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
 
 		$tempResult = $this->initUsers($status, $assignedUser, $private);
 
@@ -285,13 +285,13 @@ class Owner
 			}
 		}
 		asort($users);
-		\App\log::trace('Exiting getUsers method ...');
+		\App\Log::trace('Exiting getUsers method ...');
 		return $users;
 	}
 
 	public function getGroups($addBlank = true, $status = 'Active', $assignedUser = '', $private = '')
 	{
-		\App\log::trace("Entering getGroups($addBlank,$status,$assignedUser,$private) method ...");
+		\App\Log::trace("Entering getGroups($addBlank,$status,$assignedUser,$private) method ...");
 
 		if (\AppRequest::get('parent') != 'Settings' && $this->moduleName) {
 			$moduleName = $this->moduleName;
@@ -306,7 +306,7 @@ class Owner
 
 		$db = \PearDatabase::getInstance();
 		// Including deleted vtiger_users for now.
-		\App\log::trace('Sharing is Public. All vtiger_users should be listed');
+		\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 		$query = 'SELECT groupid, groupname FROM vtiger_groups';
 		$tempResult = $params = [];
 
@@ -327,7 +327,7 @@ class Owner
 				$query .= ' || vtiger_groups.groupid in (' . generateQuestionMarks($userPrivileges['groups']) . ')';
 				array_push($params, $userPrivileges['groups']);
 			}
-			\App\log::trace('Sharing is Private. Only the current user should be listed');
+			\App\Log::trace('Sharing is Private. Only the current user should be listed');
 			$query .= ' union select vtiger_group2role.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_group2role inner join vtiger_groups on vtiger_groups.groupid=vtiger_group2role.groupid inner join vtiger_role on vtiger_role.roleid=vtiger_group2role.roleid where vtiger_role.parentrole like ?';
 			array_push($params, $userPrivileges['parent_role_seq'] . '::%');
 
@@ -355,7 +355,7 @@ class Owner
 			$tempResult[$row['groupid']] = decode_html($row['groupname']);
 		}
 		\Vtiger_Cache::set('getGroups', $cacheKey, $tempResult);
-		\App\log::trace('Exiting getGroups method ...');
+		\App\Log::trace('Exiting getGroups method ...');
 		return $tempResult;
 	}
 

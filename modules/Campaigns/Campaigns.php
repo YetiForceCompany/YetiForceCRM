@@ -78,7 +78,7 @@ class Campaigns extends CRMEntity
 
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_campaigns_records(" . $id . ") method ...");
+		\App\Log::trace("Entering get_campaigns_records(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -175,7 +175,7 @@ class Campaigns extends CRMEntity
 
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_campaigns_records method ...");
+		\App\Log::trace("Exiting get_campaigns_records method ...");
 		return $return_value;
 	}
 	/*

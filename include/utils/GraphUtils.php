@@ -34,27 +34,27 @@ DEFINE("FF_FONT1", 'Vera');
 function calculate_font_name($locale)
 {
 	
-	\App\log::trace("Entering calculate_font_name(" . $locale . ") method ...");
+	\App\Log::trace("Entering calculate_font_name(" . $locale . ") method ...");
 
 	switch ($locale) {
 		case 'cn_zh':
-			\App\log::trace("Exiting calculate_font_name method ...");
+			\App\Log::trace("Exiting calculate_font_name method ...");
 			return FF_SIMSUN;
 		case 'tw_zh':
 			if (!function_exists('iconv')) {
 				echo " Unable to display traditional Chinese on the graphs.<BR>The function iconv does not exists please read more about <a href='http://us4.php.net/iconv'>iconv here</a><BR>";
-				\App\log::trace("Exiting calculate_font_name method ...");
+				\App\Log::trace("Exiting calculate_font_name method ...");
 				return FF_DEJAVUSAN;
 			} else {
-				\App\log::trace("Exiting calculate_font_name method ...");
+				\App\Log::trace("Exiting calculate_font_name method ...");
 				return FF_CHINESE;
 			}
 		default:
-			\App\log::trace("Exiting calculate_font_name method ...");
+			\App\Log::trace("Exiting calculate_font_name method ...");
 			return FF_DEJAVUSAN;
 	}
 
-	\App\log::trace("Exiting calculate_font_name method ...");
+	\App\Log::trace("Exiting calculate_font_name method ...");
 	return FF_DEJAVUSAN;
 }
 /* * This function is used to generate the n colors.
@@ -67,7 +67,7 @@ function calculate_font_name($locale)
 function color_generator($count = 1, $start = '33CCFF', $step = '221133')
 {
 	
-	\App\log::trace("Entering color_generator(" . $count . "," . $start . "," . $step . ") method ...");
+	\App\Log::trace("Entering color_generator(" . $count . "," . $start . "," . $step . ") method ...");
 	// explode color strings to RGB array
 	if ($start{0} == "#")
 		$start = substr($start, 1);
@@ -88,7 +88,7 @@ function color_generator($count = 1, $start = '33CCFF', $step = '221133')
 				$colors[$j] -= 0xFF;
 		}
 	}
-	\App\log::trace("Exiting color_generator method ...");
+	\App\Log::trace("Exiting color_generator method ...");
 	return $result;
 }
 /* * This function is used to define the optimum spacin for tick marks on an axis
@@ -99,7 +99,7 @@ function color_generator($count = 1, $start = '33CCFF', $step = '221133')
 function get_tickspacing($max = 10)
 {
 	
-	\App\log::trace("Entering get_tickspacing(" . $max . ") method ...");
+	\App\Log::trace("Entering get_tickspacing(" . $max . ") method ...");
 	$result = array(1, 1);
 
 	// normalize $max to get value between 1 and 10
@@ -107,7 +107,7 @@ function get_tickspacing($max = 10)
 	if ($coef == 0) {
 		$data = 0;
 		echo "<h3>" . \includes\Language::translate('NO_DATA_AVAILABLE_WITH_SPECIFIED_PERIOD') . "</h3>";
-		\App\log::trace("Exiting get_tickspacing method ...");
+		\App\Log::trace("Exiting get_tickspacing method ...");
 		return $data;
 	}
 	$normalized = $max / $coef;
@@ -124,6 +124,6 @@ function get_tickspacing($max = 10)
 	}
 	$result[0] *= $coef;
 	$result[1] *= $coef;
-	\App\log::trace("Exiting get_tickspacing method ...");
+	\App\Log::trace("Exiting get_tickspacing method ...");
 	return $result;
 }

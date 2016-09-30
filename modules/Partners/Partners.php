@@ -130,7 +130,7 @@ class Partners extends Vtiger_CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_campaigns(" . $id . ") method ...");
+		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -175,7 +175,7 @@ class Partners extends Vtiger_CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_campaigns method ...");
+		\App\Log::trace("Exiting get_campaigns method ...");
 		return $return_value;
 	}
 
@@ -189,7 +189,7 @@ class Partners extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		
-		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = ['Campaigns' => 'vtiger_campaign_records'];
 
@@ -213,7 +213,7 @@ class Partners extends Vtiger_CRMEntity
 				}
 			}
 		}
-		\App\log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the relation tables for related modules

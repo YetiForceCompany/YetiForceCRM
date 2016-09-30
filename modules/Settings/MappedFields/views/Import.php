@@ -17,7 +17,7 @@ class Settings_MappedFields_Import_View extends Settings_Vtiger_BasicModal_View
 	public function process(Vtiger_Request $request)
 	{
 		
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
@@ -26,6 +26,6 @@ class Settings_MappedFields_Import_View extends Settings_Vtiger_BasicModal_View
 		$viewer->view('Import.tpl', $qualifiedModule);
 		$this->postProcess($request);
 
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
 }

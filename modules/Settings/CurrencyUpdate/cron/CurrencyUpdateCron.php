@@ -6,7 +6,7 @@
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 require_once('include/main/WebUI.php');
-\App\log::trace('Start CRON:' . __FILE__);
+\App\Log::trace('Start CRON:' . __FILE__);
 
 $moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 $activeBankId = $moduleModel->getActiveBankId();
@@ -16,11 +16,11 @@ if (!empty($activeBankId)) {
 	$status = $moduleModel->fetchCurrencyRates($lastWorkingDay, true);
 
 	if ($status) {
-		\App\log::trace('Successfully fetched new currency exchange rates for date: ' . $lastWorkingDay . ' from bank: ' . $moduleModel->getActiveBankName());
+		\App\Log::trace('Successfully fetched new currency exchange rates for date: ' . $lastWorkingDay . ' from bank: ' . $moduleModel->getActiveBankName());
 	} else {
-		\App\log::warning('Failed to fetch new currency exchange rates for date: ' . $lastWorkingDay . ' from bank: ' . $moduleModel->getActiveBankName());
+		\App\Log::warning('Failed to fetch new currency exchange rates for date: ' . $lastWorkingDay . ' from bank: ' . $moduleModel->getActiveBankName());
 	}
 } else {
-	\App\log::warning('Update of system currency rates ignored, no active bankin settings.');
+	\App\Log::warning('Update of system currency rates ignored, no active bankin settings.');
 }
-\App\log::trace('End CRON:' . __FILE__);
+\App\Log::trace('End CRON:' . __FILE__);

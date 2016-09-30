@@ -99,7 +99,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$current_user = vglobal('current_user');
 		
 
-		\App\log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
+		\App\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
 		$listview_header = Array();
@@ -145,7 +145,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$listview_entries[$employees_id] = $account_info_data;
 		}
 		$hierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
-		\App\log::trace("Exiting getEmployeeHierarchy method ...");
+		\App\Log::trace("Exiting getEmployeeHierarchy method ...");
 		return $hierarchy;
 	}
 
@@ -153,7 +153,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		
-		\App\log::trace("Entering __getParentEmployees(" . $id . "," . $parent_accounts . ") method ...");
+		\App\Log::trace("Entering __getParentEmployees(" . $id . "," . $parent_accounts . ") method ...");
 		$query = "SELECT parentid FROM vtiger_ossemployees " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid" .
 			" WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?";
@@ -196,7 +196,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			}
 		}
 		$parent_accounts[$id] = $parent_account_info;
-		\App\log::trace("Exiting __getParentEmployees method ...");
+		\App\Log::trace("Exiting __getParentEmployees method ...");
 		return $parent_accounts;
 	}
 
@@ -204,7 +204,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		
-		\App\log::trace("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
+		\App\Log::trace("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_ossemployees.*," .
@@ -240,7 +240,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 				$this->__getChildEmployees($child_acc_id, $child_accounts, $depth);
 			}
 		}
-		\App\log::trace("Exiting __getChildEmployees method ...");
+		\App\Log::trace("Exiting __getChildEmployees method ...");
 		return $child_accounts;
 	}
 	/* function addWidgetTo($moduleNames, $widgetType='DETAILVIEWWIDGET', $widgetName='DetailViewBlockEMPLOYEEHOLIDAY') {
@@ -268,7 +268,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_osstimecontrol(" . $id . ") method ...");
+		\App\Log::trace("Entering get_osstimecontrol(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -319,7 +319,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		if ($return_value === null)
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
-		\App\log::trace("Exiting get_osstimecontrol method ...");
+		\App\Log::trace("Exiting get_osstimecontrol method ...");
 		return $return_value;
 	}
 

@@ -49,7 +49,7 @@ class VTCreateTodoTask extends VTTask
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		
-		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$userId = $entityData->get('assigned_user_id');
 		if ($userId === null) {
 			$userId = vtws_getWebserviceEntityId('Users', 1);
@@ -71,7 +71,7 @@ class VTCreateTodoTask extends VTTask
 			$duplicates = $adb->pquery($sql, [$entityId, $entityId, 'Task', $this->todo]);
 			$num = $adb->query_result_raw($duplicates, 0, 'num');
 			if ($num > 0) {
-				\App\log::warning(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.' . $this->todo);
+				\App\Log::warning(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.' . $this->todo);
 				return;
 			}
 		}
@@ -188,7 +188,7 @@ class VTCreateTodoTask extends VTTask
 
 		$current_user = vglobal('current_user');
 		$current_user = $this->originalUser;
-		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	static function conv12to24hour($timeStr)

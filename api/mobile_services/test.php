@@ -14,7 +14,7 @@ class Test{
 	public function post($app_name = ''){
 		$adb = PearDatabase::getInstance();
 		
-		\App\log::trace('Start Test metod');
+		\App\Log::trace('Start Test metod');
 		$return = 'false';
 		if ($app_name == 'PushCall')
 			$return = "true";
@@ -22,7 +22,7 @@ class Test{
 			$return = "true";
 		if ($app_name == 'HistoryCall')
 			$return = "true";
-		\App\log::trace('tart Test metod | return: '.$return);
+		\App\Log::trace('tart Test metod | return: '.$return);
 		return $return;
 	}
 }

@@ -86,7 +86,7 @@ class Products extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering into insertTaxInformation($tablename, $module) method ...");
+		\App\Log::trace("Entering into insertTaxInformation($tablename, $module) method ...");
 		$tax_details = getAllTaxes();
 
 		$tax_per = '';
@@ -106,18 +106,18 @@ class Products extends CRMEntity
 				$taxid = getTaxId($tax_name);
 				$tax_per = AppRequest::get($tax_name);
 				if ($tax_per == '') {
-					\App\log::trace('Tax selected but value not given so default value will be saved.');
+					\App\Log::trace('Tax selected but value not given so default value will be saved.');
 					$tax_per = getTaxPercentage($tax_name);
 				}
 
-				\App\log::trace("Going to save the Product - $tax_name tax relationship");
+				\App\Log::trace("Going to save the Product - $tax_name tax relationship");
 
 				$query = 'insert into vtiger_producttaxrel values(?,?,?)';
 				$adb->pquery($query, array($this->id, $taxid, $tax_per));
 			}
 		}
 
-		\App\log::trace("Exiting from insertTaxInformation($tablename, $module) method ...");
+		\App\Log::trace("Exiting from insertTaxInformation($tablename, $module) method ...");
 	}
 
 	/** 	function to save the product price information in vtiger_productcurrencyrel table
@@ -130,7 +130,7 @@ class Products extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 
-		\App\log::trace("Entering into insertPriceInformation($tablename, $module) method ...");
+		\App\Log::trace("Entering into insertPriceInformation($tablename, $module) method ...");
 		//removed the update of currency_id based on the logged in user's preference : fix 6490
 
 		$currency_details = getAllCurrencies('all');
@@ -160,7 +160,7 @@ class Products extends CRMEntity
 				$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 				$converted_price = $actual_conversion_rate * $requestPrice;
 
-				\App\log::trace("Going to save the Product - $curname currency relationship");
+				\App\Log::trace("Going to save the Product - $curname currency relationship");
 
 				$query = "insert into vtiger_productcurrencyrel values(?,?,?,?)";
 				$adb->pquery($query, array($this->id, $curid, $converted_price, $actualPrice));
@@ -177,7 +177,7 @@ class Products extends CRMEntity
 			}
 		}
 
-		\App\log::trace("Exiting from insertPriceInformation($tablename, $module) method ...");
+		\App\Log::trace("Exiting from insertPriceInformation($tablename, $module) method ...");
 	}
 
 	public function updateUnitPrice()
@@ -195,7 +195,7 @@ class Products extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering into insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
 		foreach ($_FILES as $fileindex => $files) {
@@ -238,7 +238,7 @@ class Products extends CRMEntity
 			}
 		}
 
-		\App\log::trace("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/** 	function used to get the list of leads which are related to the product
@@ -251,7 +251,7 @@ class Products extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_leads(" . $id . ") method ...");
+		\App\Log::trace("Entering get_leads(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -298,7 +298,7 @@ class Products extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_leads method ...");
+		\App\Log::trace("Exiting get_leads method ...");
 		return $return_value;
 	}
 
@@ -312,7 +312,7 @@ class Products extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_accounts(" . $id . ") method ...");
+		\App\Log::trace("Entering get_accounts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -358,7 +358,7 @@ class Products extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_accounts method ...");
+		\App\Log::trace("Exiting get_accounts method ...");
 		return $return_value;
 	}
 
@@ -372,7 +372,7 @@ class Products extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_contacts(" . $id . ") method ...");
+		\App\Log::trace("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -421,7 +421,7 @@ class Products extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_contacts method ...");
+		\App\Log::trace("Exiting get_contacts method ...");
 		return $return_value;
 	}
 
@@ -435,7 +435,7 @@ class Products extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_tickets(" . $id . ") method ...");
+		\App\Log::trace("Entering get_tickets(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -486,7 +486,7 @@ class Products extends CRMEntity
 			WHERE vtiger_crmentity.deleted = 0
 			AND vtiger_products.productid = " . $id;
 
-		\App\log::trace("Exiting get_tickets method ...");
+		\App\Log::trace("Exiting get_tickets method ...");
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -494,7 +494,7 @@ class Products extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_tickets method ...");
+		\App\Log::trace("Exiting get_tickets method ...");
 		return $return_value;
 	}
 
@@ -506,7 +506,7 @@ class Products extends CRMEntity
 	{
 		global $singlepane_view, $currentModule;
 
-		\App\log::trace("Entering get_product_pricebooks(" . $id . ") method ...");
+		\App\Log::trace("Entering get_product_pricebooks(" . $id . ") method ...");
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
@@ -543,7 +543,7 @@ class Products extends CRMEntity
 				ON vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
 			WHERE vtiger_crmentity.deleted = 0
 			AND vtiger_pricebookproductrel.productid = %s', $id);
-		\App\log::trace("Exiting get_product_pricebooks method ...");
+		\App\Log::trace("Exiting get_product_pricebooks method ...");
 
 		$return_value = GetRelatedList($currentModule, $related_module, $focus, $query, $button, $returnset);
 
@@ -561,7 +561,7 @@ class Products extends CRMEntity
 	public function product_novendor()
 	{
 
-		\App\log::trace("Entering product_novendor() method ...");
+		\App\Log::trace("Entering product_novendor() method ...");
 		$query = "SELECT vtiger_products.productname, vtiger_crmentity.deleted
 			FROM vtiger_products
 			INNER JOIN vtiger_crmentity
@@ -569,7 +569,7 @@ class Products extends CRMEntity
 			WHERE vtiger_crmentity.deleted = 0
 			AND vtiger_products.vendor_id is NULL";
 		$result = $this->db->pquery($query, array());
-		\App\log::trace("Exiting product_novendor method ...");
+		\App\Log::trace("Exiting product_novendor method ...");
 		return $this->db->num_rows($result);
 	}
 
@@ -584,7 +584,7 @@ class Products extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_products(" . $id . ") method ...");
+		\App\Log::trace("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -635,7 +635,7 @@ class Products extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_products method ...");
+		\App\Log::trace("Exiting get_products method ...");
 		return $return_value;
 	}
 
@@ -648,7 +648,7 @@ class Products extends CRMEntity
 	{
 		global $singlepane_view;
 
-		\App\log::trace("Entering get_products(" . $id . ") method ...");
+		\App\Log::trace("Entering get_products(" . $id . ") method ...");
 
 		$focus = new Products();
 
@@ -673,7 +673,7 @@ class Products extends CRMEntity
 
 			WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.crmid = $id ";
 
-		\App\log::trace("Exiting get_products method ...");
+		\App\Log::trace("Exiting get_products method ...");
 		return GetRelatedList('Products', 'Products', $focus, $query, $button, $returnset);
 	}
 
@@ -685,7 +685,7 @@ class Products extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -711,7 +711,7 @@ class Products extends CRMEntity
 		else
 			$query .= " WHERE $where_auto";
 
-		\App\log::trace("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -745,7 +745,7 @@ class Products extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel", "Attachments" => "vtiger_seattachmentsrel",
 			"PriceBooks" => "vtiger_pricebookproductrel", "Leads" => "vtiger_seproductsrel",
@@ -776,7 +776,7 @@ class Products extends CRMEntity
 				}
 			}
 		}
-		\App\log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report

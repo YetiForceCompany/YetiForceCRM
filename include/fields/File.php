@@ -75,7 +75,7 @@ class File
 	public function validate($type = false)
 	{
 		$return = true;
-		\App\log::trace('File validate - Start');
+		\App\Log::trace('File validate - Start');
 		try {
 			$this->checkFile();
 			$this->validateFormat();
@@ -88,9 +88,9 @@ class File
 			}
 		} catch (\Exception $e) {
 			$return = false;
-			\App\log::error('Error: ' . $e->getMessage());
+			\App\Log::error('Error: ' . $e->getMessage());
 		}
-		\App\log::trace('File validate - End');
+		\App\Log::trace('File validate - End');
 		return $return;
 	}
 

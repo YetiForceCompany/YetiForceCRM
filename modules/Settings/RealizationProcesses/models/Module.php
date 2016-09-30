@@ -20,7 +20,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	{
 		$adb = PearDatabase::getInstance();
 		
-		\App\log::trace("Entering Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
+		\App\Log::trace("Entering Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
 		$sql = 'SELECT * FROM `vtiger_projectstatus`;';
 		$result = $adb->query($sql);
 		$rowsNum = $adb->num_rows($result);
@@ -30,7 +30,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 			$return[$i]['statusTranslate'] = vtranslate($adb->query_result($result, $i, 'projectstatus'), 'Project');
 			$return[$i]['status'] = $adb->query_result($result, $i, 'projectstatus');
 		}
-		\App\log::trace("Exiting Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
+		\App\Log::trace("Exiting Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
 		return $return;
 	}
 
@@ -42,7 +42,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	{
 		
 		$adb = PearDatabase::getInstance();
-		\App\log::trace("Entering Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
+		\App\Log::trace("Entering Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
 		$sql = 'SELECT * FROM `vtiger_realization_process`;';
 		$result = $adb->query($sql);
 		$rowsNum = $adb->num_rows($result);
@@ -57,7 +57,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 			$return[$moduleName]['status'] = $status;
 		}
 
-		\App\log::trace("Exiting Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
+		\App\Log::trace("Exiting Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
 		return $return;
 	}
 
@@ -69,11 +69,11 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	{
 		$adb = PearDatabase::getInstance();
 		
-		\App\log::trace("Entering Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
+		\App\Log::trace("Entering Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
 		$query = "UPDATE `vtiger_realization_process` SET `status_indicate_closing` = ? WHERE `module_id` = ?";
 		$data = \includes\utils\Json::encode($status);
 		$adb->pquery($query, array($data, $moduleId));
-		\App\log::trace("Exiting Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
+		\App\Log::trace("Exiting Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
 		return true;
 	}
 }

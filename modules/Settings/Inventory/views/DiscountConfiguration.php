@@ -16,7 +16,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 	public function process(Vtiger_Request $request)
 	{
 		
-		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$qualifiedModule = $request->getModule(false);
 		$view = $this->getView();
 		$config = Settings_Inventory_Module_Model::getConfig($view);
@@ -29,7 +29,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('CONFIG', $config);
 		$viewer->view('Config.tpl', $qualifiedModule);
-		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	public function getPageLabels(Vtiger_Request $request)

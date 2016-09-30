@@ -181,18 +181,18 @@ class Activity extends CRMEntity
 	public function insertIntoReminderTable($table_name, $module, $recurid)
 	{
 
-		\App\log::trace('in insertIntoReminderTable  ' . $table_name . '    module is  ' . $module);
+		\App\Log::trace('in insertIntoReminderTable  ' . $table_name . '    module is  ' . $module);
 		if (AppRequest::get('set_reminder') == 'Yes') {
 			unset($_SESSION['next_reminder_time']);
-			\App\log::trace('set reminder is set');
+			\App\Log::trace('set reminder is set');
 			$rem_days = AppRequest::get('remdays');
-			\App\log::trace('rem_days is ' . $rem_days);
+			\App\Log::trace('rem_days is ' . $rem_days);
 			$rem_hrs = AppRequest::get('remhrs');
-			\App\log::trace('rem_hrs is ' . $rem_hrs);
+			\App\Log::trace('rem_hrs is ' . $rem_hrs);
 			$rem_min = AppRequest::get('remmin');
-			\App\log::trace('rem_minutes is ' . $rem_min);
+			\App\Log::trace('rem_minutes is ' . $rem_min);
 			$reminder_time = $rem_days * 24 * 60 + $rem_hrs * 60 + $rem_min;
-			\App\log::trace('reminder_time is ' . $reminder_time);
+			\App\Log::trace('reminder_time is ' . $reminder_time);
 			if ($recurid == '') {
 				if (AppRequest::get('mode') == 'edit') {
 					$this->activity_reminder($this->id, $reminder_time, 0, $recurid, 'edit');
@@ -287,10 +287,10 @@ class Activity extends CRMEntity
 	{
 
 		if (!AppRequest::has('inviteesid')) {
-			\App\log::error('No invitations in request, Exiting insertIntoInviteeTable method ...');
+			\App\Log::error('No invitations in request, Exiting insertIntoInviteeTable method ...');
 			return;
 		}
-		\App\log::trace("Entering insertIntoInviteeTable($module) method ...");
+		\App\Log::trace("Entering insertIntoInviteeTable($module) method ...");
 
 		$inviteesRequest = AppRequest::get('inviteesid');
 		$db = PearDatabase::getInstance();
@@ -315,7 +315,7 @@ class Activity extends CRMEntity
 		foreach ($invities as &$invitation) {
 			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation['inviteesid']]);
 		}
-		\App\log::trace('Exiting insertIntoInviteeTable method ...');
+		\App\Log::trace('Exiting insertIntoInviteeTable method ...');
 	}
 
 	/** Function to insert values in vtiger_salesmanactivityrel table for the specified module
@@ -370,12 +370,12 @@ class Activity extends CRMEntity
 	public function getSortOrder()
 	{
 
-		\App\log::trace('Entering getSortOrder() method ...');
+		\App\Log::trace('Entering getSortOrder() method ...');
 		if (AppRequest::has('sorder'))
 			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['ACTIVITIES_SORT_ORDER'] != '') ? ($_SESSION['ACTIVITIES_SORT_ORDER']) : ($this->default_sort_order));
-		\App\log::trace('Exiting getSortOrder method ...');
+		\App\Log::trace('Exiting getSortOrder method ...');
 		return $sorder;
 	}
 
@@ -386,7 +386,7 @@ class Activity extends CRMEntity
 	public function getOrderBy()
 	{
 
-		\App\log::trace("Entering getOrderBy() method ...");
+		\App\Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
 		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
@@ -397,7 +397,7 @@ class Activity extends CRMEntity
 			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
-		\App\log::trace("Exiting getOrderBy method ...");
+		\App\Log::trace("Exiting getOrderBy method ...");
 		return $order_by;
 	}
 
@@ -412,7 +412,7 @@ class Activity extends CRMEntity
 	{
 
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_contacts(" . $id . ") method ...");
+		\App\Log::trace("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -447,7 +447,7 @@ class Activity extends CRMEntity
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_contacts method ...");
+		\App\Log::trace("Exiting get_contacts method ...");
 		return $return_value;
 	}
 
@@ -459,7 +459,7 @@ class Activity extends CRMEntity
 	public function get_users($id)
 	{
 
-		\App\log::trace("Entering get_contacts(" . $id . ") method ...");
+		\App\Log::trace("Entering get_contacts(" . $id . ") method ...");
 
 		$focus = new Users();
 
@@ -477,7 +477,7 @@ class Activity extends CRMEntity
 			$return_data = [];
 		$return_data['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_users method ...");
+		\App\Log::trace("Exiting get_users method ...");
 		return $return_data;
 	}
 
@@ -490,19 +490,19 @@ class Activity extends CRMEntity
 	public function getCount_Meeting($user_name)
 	{
 
-		\App\log::trace("Entering getCount_Meeting(" . $user_name . ") method ...");
+		\App\Log::trace("Entering getCount_Meeting(" . $user_name . ") method ...");
 		$query = "select count(*) from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.activityid=vtiger_activity.activityid inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid where user_name=? and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
 		$result = $this->db->pquery($query, array($user_name), true, "Error retrieving contacts count");
 		$rows_found = $this->db->getRowCount($result);
 		$row = $this->db->fetchByAssoc($result, 0);
-		\App\log::trace("Exiting getCount_Meeting method ...");
+		\App\Log::trace("Exiting getCount_Meeting method ...");
 		return $row["count(*)"];
 	}
 
 	public function get_calendars($user_name, $from_index, $offset)
 	{
 
-		\App\log::trace("Entering get_calendars(" . $user_name . "," . $from_index . "," . $offset . ") method ...");
+		\App\Log::trace("Entering get_calendars(" . $user_name . "," . $from_index . "," . $offset . ") method ...");
 		$query = 'select vtiger_activity.location as location,vtiger_activity.duration_hours as duehours, vtiger_activity.duration_minutes as dueminutes,vtiger_activity.time_start as time_start, vtiger_activity.subject as name,vtiger_crmentity.modifiedtime as date_modified, vtiger_activity.date_start start_date,vtiger_activity.activityid as id,vtiger_activity.status as status, vtiger_crmentity.description as description, vtiger_activity.priority as vtiger_priority, vtiger_activity.due_date as date_due ,vtiger_contactdetails.firstname cfn, vtiger_contactdetails.lastname cln '
 			. 'from vtiger_activity inner '
 			. 'join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.activityid=vtiger_activity.activityid '
@@ -510,7 +510,7 @@ class Activity extends CRMEntity
 			. 'left join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_activity.link '
 			. 'inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid '
 			. "where user_name='" . $user_name . "' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting' limit " . $from_index . "," . $offset;
-		\App\log::trace("Exiting get_calendars method ...");
+		\App\Log::trace("Exiting get_calendars method ...");
 		return $this->process_list_query1($query);
 	}
 
@@ -523,13 +523,13 @@ class Activity extends CRMEntity
 	public function getCount($user_name)
 	{
 
-		\App\log::trace("Entering getCount(" . $user_name . ") method ...");
+		\App\Log::trace("Entering getCount(" . $user_name . ") method ...");
 		$query = "select count(*) from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.activityid=vtiger_activity.activityid inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid where user_name=? and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
 		$result = $this->db->pquery($query, array($user_name), true, "Error retrieving contacts count");
 		$rows_found = $this->db->getRowCount($result);
 		$row = $this->db->fetchByAssoc($result, 0);
 
-		\App\log::trace("Exiting getCount method ...");
+		\App\Log::trace("Exiting getCount method ...");
 		return $row["count(*)"];
 	}
 
@@ -543,14 +543,14 @@ class Activity extends CRMEntity
 	public function get_tasks($user_name, $from_index, $offset)
 	{
 
-		\App\log::trace('Entering get_tasks(' . $user_name . ',' . $from_index . ',' . $offset . ') method ...');
+		\App\Log::trace('Entering get_tasks(' . $user_name . ',' . $from_index . ',' . $offset . ') method ...');
 		$query = 'select vtiger_activity.subject as name,vtiger_crmentity.modifiedtime as date_modified, vtiger_activity.date_start start_date,vtiger_activity.activityid as id,vtiger_activity.status as status, vtiger_crmentity.description as description, vtiger_activity.priority as priority, vtiger_activity.due_date as date_due ,vtiger_contactdetails.firstname cfn, vtiger_contactdetails.lastname cln '
 			. 'from vtiger_activity '
 			. 'inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.activityid=vtiger_activity.activityid '
 			. 'inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid '
 			. 'left join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_activity.link '
 			. "inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid where user_name='" . $user_name . "' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task' limit " . $from_index . "," . $offset;
-		\App\log::trace('Exiting get_tasks method ...');
+		\App\Log::trace('Exiting get_tasks method ...');
 		return $this->process_list_query1($query);
 	}
 
@@ -562,7 +562,7 @@ class Activity extends CRMEntity
 	public function process_list_query1($query)
 	{
 
-		\App\log::trace("Entering process_list_query1(" . $query . ") method ...");
+		\App\Log::trace("Entering process_list_query1(" . $query . ") method ...");
 		$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
 		$list = [];
 		$rows_found = $this->db->getRowCount($result);
@@ -596,7 +596,7 @@ class Activity extends CRMEntity
 		$response['previous_offset'] = $previous_offset;
 
 
-		\App\log::trace("Exiting process_list_query1 method ...");
+		\App\Log::trace("Exiting process_list_query1 method ...");
 		return $response;
 	}
 
@@ -611,7 +611,7 @@ class Activity extends CRMEntity
 	public function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
 	{
 
-		\App\log::trace("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
+		\App\Log::trace("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
 		//Check for vtiger_activityid already present in the reminder_table
 		$query = sprintf('SELECT activity_id FROM %s WHERE activity_id = ?', $this->reminder_table);
 		$resultExist = $this->db->pquery($query, array($activityId));
@@ -643,7 +643,7 @@ class Activity extends CRMEntity
 				]);
 			}
 		}
-		\App\log::trace('Exiting vtiger_activity_reminder method ...');
+		\App\Log::trace('Exiting vtiger_activity_reminder method ...');
 	}
 
 	//Used for vtigerCRM Outlook Add-In
@@ -656,7 +656,7 @@ class Activity extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering get_tasksforol(" . $username . ") method ...");
+		\App\Log::trace("Entering get_tasksforol(" . $username . ") method ...");
 		$current_user = vglobal('current_user');
 		require_once("modules/Users/Users.php");
 		$seed_user = new Users();
@@ -699,7 +699,7 @@ class Activity extends CRMEntity
 			 where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
 		$columnTableList = implode(',', $column_table_lists, $username);
 		$query = sprintf($query, $columnTableList);
-		\App\log::trace("Exiting get_tasksforol method ...");
+		\App\Log::trace("Exiting get_tasksforol method ...");
 		return $query;
 	}
 
@@ -710,7 +710,7 @@ class Activity extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering get_calendarsforol(" . $user_name . ") method ...");
+		\App\Log::trace("Entering get_calendarsforol(" . $user_name . ") method ...");
 		$current_user = vglobal('current_user');
 		require_once("modules/Users/Users.php");
 		$seed_user = new Users();
@@ -759,7 +759,7 @@ class Activity extends CRMEntity
 				where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
 		$columnTableLists = implode(',', $column_table_lists);
 		$query = sprintf($query, $columnTableLists, $user_name);
-		\App\log::trace("Exiting get_calendarsforol method ...");
+		\App\Log::trace("Exiting get_calendarsforol method ...");
 		return $query;
 	}
 

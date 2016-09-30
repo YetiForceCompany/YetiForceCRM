@@ -29,7 +29,7 @@ class ListViewSession
 	{
 		
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering ListViewSession() method ...");
+		\App\Log::trace("Entering ListViewSession() method ...");
 
 		$this->module = $currentModule;
 		$this->sortby = 'ASC';

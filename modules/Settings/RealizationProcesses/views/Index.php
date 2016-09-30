@@ -15,7 +15,7 @@ class Settings_RealizationProcesses_Index_View extends Settings_Vtiger_Index_Vie
 	public function process(Vtiger_Request $request)
 	{
 		
-		\App\log::trace("Entering Settings_RealizationProcesses_Index_View::process() method ...");
+		\App\Log::trace("Entering Settings_RealizationProcesses_Index_View::process() method ...");
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
@@ -26,6 +26,6 @@ class Settings_RealizationProcesses_Index_View extends Settings_Vtiger_Index_Vie
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 
 		$viewer->view('Index.tpl', $qualifiedModule);
-		\App\log::trace("Exiting Settings_RealizationProcesses_Index_View::process() method ...");
+		\App\Log::trace("Exiting Settings_RealizationProcesses_Index_View::process() method ...");
 	}
 }

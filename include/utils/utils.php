@@ -63,7 +63,7 @@ define("RB_RECORD_UPDATED", 'update');
 function return_name(&$row, $first_column, $last_column)
 {
 	
-	\App\log::trace("Entering return_name(" . $row . "," . $first_column . "," . $last_column . ") method ...");
+	\App\Log::trace("Entering return_name(" . $row . "," . $first_column . "," . $last_column . ") method ...");
 	$first_name = "";
 	$last_name = "";
 	$full_name = "";
@@ -89,7 +89,7 @@ function return_name(&$row, $first_column, $last_column)
 		$full_name .= $last_name;
 	}
 
-	\App\log::trace("Exiting return_name method ...");
+	\App\Log::trace("Exiting return_name method ...");
 	return $full_name;
 }
 
@@ -103,14 +103,14 @@ function return_name(&$row, $first_column, $last_column)
 function set_default_config(&$defaults)
 {
 	
-	\App\log::trace("Entering set_default_config(" . $defaults . ") method ...");
+	\App\Log::trace("Entering set_default_config(" . $defaults . ") method ...");
 
 	foreach ($defaults as $name => $value) {
 		if (!isset($GLOBALS[$name])) {
 			$GLOBALS[$name] = $value;
 		}
 	}
-	\App\log::trace("Exiting set_default_config method ...");
+	\App\Log::trace("Exiting set_default_config method ...");
 }
 $toHtml = array(
 	'"' => '&quot;',
@@ -180,7 +180,7 @@ function to_html($string, $encode = true)
 function getColumnFields($module)
 {
 	
-	\App\log::trace('Entering getColumnFields(' . $module . ') method ...');
+	\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
 
 	// Lookup in cache for information
 	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
@@ -216,7 +216,7 @@ function getColumnFields($module)
 		}
 	}
 
-	\App\log::trace("Exiting getColumnFields method ...");
+	\App\Log::trace("Exiting getColumnFields method ...");
 	return $column_fld;
 }
 
@@ -228,14 +228,14 @@ function getColumnFields($module)
 function getUserEmail($userid)
 {
 	
-	\App\log::trace("Entering getUserEmail(" . $userid . ") method ...");
-	\App\log::trace("in getUserEmail " . $userid);
+	\App\Log::trace("Entering getUserEmail(" . $userid . ") method ...");
+	\App\Log::trace("in getUserEmail " . $userid);
 
 	$adb = PearDatabase::getInstance();
 	if ($userid != '') {
 		$email = Vtiger_Util_Helper::getUserDetail($userid, 'email1');
 	}
-	\App\log::trace("Exiting getUserEmail method ...");
+	\App\Log::trace("Exiting getUserEmail method ...");
 	return $email;
 }
 
@@ -247,8 +247,8 @@ function getUserEmail($userid)
 function getUserId_Ol($username)
 {
 	
-	\App\log::trace("Entering getUserId_Ol(" . $username . ") method ...");
-	\App\log::trace("in getUserId_Ol " . $username);
+	\App\Log::trace("Entering getUserId_Ol(" . $username . ") method ...");
+	\App\Log::trace("in getUserId_Ol " . $username);
 	$cache = Vtiger_Cache::getInstance();
 	if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
 		return $cache->getUserId($username);
@@ -262,7 +262,7 @@ function getUserId_Ol($username)
 		} else {
 			$user_id = 0;
 		}
-		\App\log::trace("Exiting getUserId_Ol method ...");
+		\App\Log::trace("Exiting getUserId_Ol method ...");
 		$cache->setUserId($username, $user_id);
 		return $user_id;
 	}
@@ -277,14 +277,14 @@ function getUserId_Ol($username)
 function getActionid($action)
 {
 	
-	\App\log::trace('Entering getActionid(' . $action . ') method ...');
+	\App\Log::trace('Entering getActionid(' . $action . ') method ...');
 
 	if (empty($action)) {
 		return null;
 	}
 	$actionid = Vtiger_Cache::get('getActionid', $action);
 	if ($actionid) {
-		\App\log::trace('Exiting getActionid method ... - ' . $actionid);
+		\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
 		return $actionid;
 	}
 	$actionIds = \includes\Modules::getTabData('actionId');
@@ -298,7 +298,7 @@ function getActionid($action)
 		$actionid = $db->getSingleValue($result);
 	}
 	Vtiger_Cache::set('getActionid', $action, $actionid);
-	\App\log::trace('Exiting getActionid method ... - ' . $actionid);
+	\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
 	return $actionid;
 }
 
@@ -309,12 +309,12 @@ function getActionid($action)
 function getActionname($actionid)
 {
 	
-	\App\log::trace('Entering getActionname(' . $actionid . ') method ...');
+	\App\Log::trace('Entering getActionname(' . $actionid . ') method ...');
 	$adb = PearDatabase::getInstance();
 
 	$actionName = Vtiger_Cache::get('getActionName', $actionid);
 	if ($actionName) {
-		\App\log::trace('Exiting getActionname method ...');
+		\App\Log::trace('Exiting getActionname method ...');
 		return $actionName;
 	}
 	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
@@ -326,7 +326,7 @@ function getActionname($actionid)
 		$actionName = $adb->getSingleValue($result);
 	}
 	Vtiger_Cache::set('getActionName', $actionid, $actionName);
-	\App\log::trace('Exiting getActionname method ...');
+	\App\Log::trace('Exiting getActionname method ...');
 	return $actionName;
 }
 
@@ -337,7 +337,7 @@ function getActionname($actionid)
 function getRecordOwnerId($record)
 {
 	
-	\App\log::trace("Entering getRecordOwnerId($record) method ...");
+	\App\Log::trace("Entering getRecordOwnerId($record) method ...");
 	$ownerArr = [];
 
 	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
@@ -346,7 +346,7 @@ function getRecordOwnerId($record)
 		$type = \includes\fields\Owner::getType($ownerId);
 		$ownerArr[$type] = $ownerId;
 	}
-	\App\log::trace('Exiting getRecordOwnerId method ...');
+	\App\Log::trace('Exiting getRecordOwnerId method ...');
 	return $ownerArr;
 }
 
@@ -356,8 +356,8 @@ function getRecordOwnerId($record)
 function insertProfile2field($profileid)
 {
 	
-	\App\log::trace("Entering insertProfile2field(" . $profileid . ") method ...");
-	\App\log::trace("in insertProfile2field " . $profileid);
+	\App\Log::trace("Entering insertProfile2field(" . $profileid . ") method ...");
+	\App\Log::trace("in insertProfile2field " . $profileid);
 
 	$adb = PearDatabase::getInstance();
 	$adb->database->SetFetchMode(ADODB_FETCH_ASSOC);
@@ -369,7 +369,7 @@ function insertProfile2field($profileid)
 		$params = array($profileid, $tab_id, $field_id, 0, 0);
 		$adb->pquery("insert into vtiger_profile2field values (?,?,?,?,?)", $params);
 	}
-	\App\log::trace("Exiting insertProfile2field method ...");
+	\App\Log::trace("Exiting insertProfile2field method ...");
 }
 
 /** Function to insert into default org field
@@ -377,7 +377,7 @@ function insertProfile2field($profileid)
 function insert_def_org_field()
 {
 	
-	\App\log::trace("Entering insert_def_org_field() method ...");
+	\App\Log::trace("Entering insert_def_org_field() method ...");
 	$adb = PearDatabase::getInstance();
 	$adb->database->SetFetchMode(ADODB_FETCH_ASSOC);
 	$fld_result = $adb->pquery("select * from vtiger_field where generatedtype=1 and displaytype in (1,2,3) and vtiger_field.presence in (0,2) and tabid != 29", []);
@@ -388,7 +388,7 @@ function insert_def_org_field()
 		$params = array($tab_id, $field_id, 0, 0);
 		$adb->pquery("insert into vtiger_def_org_field values (?,?,?,?)", $params);
 	}
-	\App\log::trace("Exiting insert_def_org_field() method ...");
+	\App\Log::trace("Exiting insert_def_org_field() method ...");
 }
 
 /** Function to update product quantity
@@ -398,11 +398,11 @@ function insert_def_org_field()
 function updateProductQty($product_id, $upd_qty)
 {
 	
-	\App\log::trace("Entering updateProductQty(" . $product_id . "," . $upd_qty . ") method ...");
+	\App\Log::trace("Entering updateProductQty(" . $product_id . "," . $upd_qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "update vtiger_products set qtyinstock=? where productid=?";
 	$adb->pquery($query, array($upd_qty, $product_id));
-	\App\log::trace("Exiting updateProductQty method ...");
+	\App\Log::trace("Exiting updateProductQty method ...");
 }
 
 /** This Function adds the specified product quantity to the Product Quantity in Stock in the Warehouse
@@ -413,13 +413,13 @@ function updateProductQty($product_id, $upd_qty)
 function addToProductStock($productId, $qty)
 {
 	
-	\App\log::trace("Entering addToProductStock(" . $productId . "," . $qty . ") method ...");
+	\App\Log::trace("Entering addToProductStock(" . $productId . "," . $qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck = getProductQtyInStock($productId);
 	$updQty = $qtyInStck + $qty;
 	$sql = "UPDATE vtiger_products set qtyinstock=? where productid=?";
 	$adb->pquery($sql, array($updQty, $productId));
-	\App\log::trace("Exiting addToProductStock method ...");
+	\App\Log::trace("Exiting addToProductStock method ...");
 }
 
 /** 	This Function adds the specified product quantity to the Product Quantity in Demand in the Warehouse
@@ -429,13 +429,13 @@ function addToProductStock($productId, $qty)
 function addToProductDemand($productId, $qty)
 {
 	
-	\App\log::trace("Entering addToProductDemand(" . $productId . "," . $qty . ") method ...");
+	\App\Log::trace("Entering addToProductDemand(" . $productId . "," . $qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck = getProductQtyInDemand($productId);
 	$updQty = $qtyInStck + $qty;
 	$sql = "UPDATE vtiger_products set qtyindemand=? where productid=?";
 	$adb->pquery($sql, array($updQty, $productId));
-	\App\log::trace("Exiting addToProductDemand method ...");
+	\App\Log::trace("Exiting addToProductDemand method ...");
 }
 
 /** 	This Function subtract the specified product quantity to the Product Quantity in Stock in the Warehouse
@@ -445,13 +445,13 @@ function addToProductDemand($productId, $qty)
 function deductFromProductStock($productId, $qty)
 {
 	
-	\App\log::trace("Entering deductFromProductStock(" . $productId . "," . $qty . ") method ...");
+	\App\Log::trace("Entering deductFromProductStock(" . $productId . "," . $qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck = getProductQtyInStock($productId);
 	$updQty = $qtyInStck - $qty;
 	$sql = "UPDATE vtiger_products set qtyinstock=? where productid=?";
 	$adb->pquery($sql, array($updQty, $productId));
-	\App\log::trace("Exiting deductFromProductStock method ...");
+	\App\Log::trace("Exiting deductFromProductStock method ...");
 }
 
 /** 	This Function subtract the specified product quantity to the Product Quantity in Demand in the Warehouse
@@ -461,13 +461,13 @@ function deductFromProductStock($productId, $qty)
 function deductFromProductDemand($productId, $qty)
 {
 	
-	\App\log::trace("Entering deductFromProductDemand(" . $productId . "," . $qty . ") method ...");
+	\App\Log::trace("Entering deductFromProductDemand(" . $productId . "," . $qty . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck = getProductQtyInDemand($productId);
 	$updQty = $qtyInStck - $qty;
 	$sql = "UPDATE vtiger_products set qtyindemand=? where productid=?";
 	$adb->pquery($sql, array($updQty, $productId));
-	\App\log::trace("Exiting deductFromProductDemand method ...");
+	\App\Log::trace("Exiting deductFromProductDemand method ...");
 }
 
 /** This Function returns the current product quantity in stock.
@@ -477,12 +477,12 @@ function deductFromProductDemand($productId, $qty)
 function getProductQtyInStock($product_id)
 {
 	
-	\App\log::trace("Entering getProductQtyInStock(" . $product_id . ") method ...");
+	\App\Log::trace("Entering getProductQtyInStock(" . $product_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query1 = "select qtyinstock from vtiger_products where productid=?";
 	$result = $adb->pquery($query1, array($product_id));
 	$qtyinstck = $adb->query_result($result, 0, "qtyinstock");
-	\App\log::trace("Exiting getProductQtyInStock method ...");
+	\App\Log::trace("Exiting getProductQtyInStock method ...");
 	return $qtyinstck;
 }
 
@@ -493,12 +493,12 @@ function getProductQtyInStock($product_id)
 function getProductQtyInDemand($product_id)
 {
 	
-	\App\log::trace("Entering getProductQtyInDemand(" . $product_id . ") method ...");
+	\App\Log::trace("Entering getProductQtyInDemand(" . $product_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query1 = "select qtyindemand from vtiger_products where productid=?";
 	$result = $adb->pquery($query1, array($product_id));
 	$qtyInDemand = $adb->query_result($result, 0, "qtyindemand");
-	\App\log::trace("Exiting getProductQtyInDemand method ...");
+	\App\Log::trace("Exiting getProductQtyInDemand method ...");
 	return $qtyInDemand;
 }
 
@@ -510,7 +510,7 @@ function getProductQtyInDemand($product_id)
 function getTableNameForField($module, $fieldname)
 {
 	
-	\App\log::trace("Entering getTableNameForField(" . $module . "," . $fieldname . ") method ...");
+	\App\Log::trace("Entering getTableNameForField(" . $module . "," . $fieldname . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$tabid = \includes\Modules::getModuleId($module);
 	//Asha
@@ -525,7 +525,7 @@ function getTableNameForField($module, $fieldname)
 		$tablename = $adb->query_result($res, 0, 'tablename');
 	}
 
-	\App\log::trace("Exiting getTableNameForField method ...");
+	\App\Log::trace("Exiting getTableNameForField method ...");
 	return $tablename;
 }
 
@@ -538,7 +538,7 @@ function getTableNameForField($module, $fieldname)
 function getParentRecordOwner($tabid, $parModId, $record_id)
 {
 	
-	\App\log::trace("Entering getParentRecordOwner(" . $tabid . "," . $parModId . "," . $record_id . ") method ...");
+	\App\Log::trace("Entering getParentRecordOwner(" . $tabid . "," . $parModId . "," . $record_id . ") method ...");
 	$parentRecOwner = [];
 	$parentTabName = \vtlib\Functions::getModuleName($parModId);
 	$relTabName = \vtlib\Functions::getModuleName($tabid);
@@ -547,7 +547,7 @@ function getParentRecordOwner($tabid, $parModId, $record_id)
 	if ($ent_id != '') {
 		$parentRecOwner = getRecordOwnerId($ent_id);
 	}
-	\App\log::trace("Exiting getParentRecordOwner method ...");
+	\App\Log::trace("Exiting getParentRecordOwner method ...");
 	return $parentRecOwner;
 }
 
@@ -558,12 +558,12 @@ function getParentRecordOwner($tabid, $parModId, $record_id)
 function getEmailsRelatedAccounts($record_id)
 {
 	
-	\App\log::trace("Entering getEmailsRelatedAccounts(" . $record_id . ") method ...");
+	\App\Log::trace("Entering getEmailsRelatedAccounts(" . $record_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Accounts' and activityid=?";
 	$result = $adb->pquery($query, array($record_id));
 	$accountid = $adb->query_result($result, 0, 'crmid');
-	\App\log::trace("Exiting getEmailsRelatedAccounts method ...");
+	\App\Log::trace("Exiting getEmailsRelatedAccounts method ...");
 	return $accountid;
 }
 
@@ -574,12 +574,12 @@ function getEmailsRelatedAccounts($record_id)
 function getEmailsRelatedLeads($record_id)
 {
 	
-	\App\log::trace("Entering getEmailsRelatedLeads(" . $record_id . ") method ...");
+	\App\Log::trace("Entering getEmailsRelatedLeads(" . $record_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Leads' and activityid=?";
 	$result = $adb->pquery($query, array($record_id));
 	$leadid = $adb->query_result($result, 0, 'crmid');
-	\App\log::trace("Exiting getEmailsRelatedLeads method ...");
+	\App\Log::trace("Exiting getEmailsRelatedLeads method ...");
 	return $leadid;
 }
 
@@ -590,12 +590,12 @@ function getEmailsRelatedLeads($record_id)
 function getHelpDeskRelatedAccounts($record_id)
 {
 	
-	\App\log::trace("Entering getHelpDeskRelatedAccounts(" . $record_id . ") method ...");
+	\App\Log::trace("Entering getHelpDeskRelatedAccounts(" . $record_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
 	$result = $adb->pquery($query, array($record_id));
 	$accountid = $adb->query_result($result, 0, 'parent_id');
-	\App\log::trace("Exiting getHelpDeskRelatedAccounts method ...");
+	\App\Log::trace("Exiting getHelpDeskRelatedAccounts method ...");
 	return $accountid;
 }
 
@@ -763,7 +763,7 @@ function getAccessPickListValues($module)
 	$adb = PearDatabase::getInstance();
 	
 	$current_user = vglobal('current_user');
-	\App\log::trace("Entering into function getAccessPickListValues($module)");
+	\App\Log::trace("Entering into function getAccessPickListValues($module)");
 
 	$id = \includes\Modules::getModuleId($module);
 	$query = "select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid = ? and uitype in ('15','33','55') and vtiger_field.presence in (0,2)";
@@ -817,7 +817,7 @@ function getAccessPickListValues($module)
 		else if ($uitype == 15)
 			$fieldlists[$keyvalue] = $fieldvalues;
 	}
-	\App\log::trace("Exit from function getAccessPickListValues($module)");
+	\App\Log::trace("Exit from function getAccessPickListValues($module)");
 
 	return $fieldlists;
 }
@@ -863,13 +863,13 @@ function transferUserCurrency($old_cur, $new_cur)
 	$adb = PearDatabase::getInstance();
 	
 	$current_user = vglobal('current_user');
-	\App\log::trace("Entering function transferUserCurrency...");
+	\App\Log::trace("Entering function transferUserCurrency...");
 
 	$sql = "update vtiger_users set currency_id=? where currency_id=?";
 	$adb->pquery($sql, array($new_cur, $old_cur));
 
 	$current_user->retrieve_entity_info($current_user->id, "Users");
-	\App\log::trace("Exiting function transferUserCurrency...");
+	\App\Log::trace("Exiting function transferUserCurrency...");
 }
 
 // Function to transfer the products with currency $old_cur to $new_cur as currency
@@ -877,7 +877,7 @@ function transferProductCurrency($old_cur, $new_cur)
 {
 	$adb = PearDatabase::getInstance();
 	
-	\App\log::trace("Entering function updateProductCurrency...");
+	\App\Log::trace("Entering function updateProductCurrency...");
 	$prod_res = $adb->pquery("select productid from vtiger_products where currency_id = ?", array($old_cur));
 	$numRows = $adb->num_rows($prod_res);
 	$prod_ids = [];
@@ -895,7 +895,7 @@ function transferProductCurrency($old_cur, $new_cur)
 			$adb->pquery($query, $params);
 		}
 	}
-	\App\log::trace("Exiting function updateProductCurrency...");
+	\App\Log::trace("Exiting function updateProductCurrency...");
 }
 
 // Function to transfer the pricebooks with currency $old_cur to $new_cur as currency
@@ -904,7 +904,7 @@ function transferPriceBookCurrency($old_cur, $new_cur)
 {
 	$adb = PearDatabase::getInstance();
 	
-	\App\log::trace("Entering function updatePriceBookCurrency...");
+	\App\Log::trace("Entering function updatePriceBookCurrency...");
 	$pb_res = $adb->pquery("select pricebookid from vtiger_pricebook where currency_id = ?", array($old_cur));
 	$numRows = $adb->num_rows($pb_res);
 	$pb_ids = [];
@@ -926,7 +926,7 @@ function transferPriceBookCurrency($old_cur, $new_cur)
 		}
 	}
 
-	\App\log::trace("Exiting function updatePriceBookCurrency...");
+	\App\Log::trace("Exiting function updatePriceBookCurrency...");
 }
 
 /**
@@ -1113,7 +1113,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 {
 	$adb = PearDatabase::getInstance();
 	
-	\App\log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
+	\App\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 	require_once('include/events/include.inc');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
 		$em = new VTEventsManager($adb);
@@ -1142,7 +1142,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 		}
 		$focus->trash($destinationModule, $destinationRecordId);
 	}
-	\App\log::trace('Exiting DeleteEntity method ...');
+	\App\Log::trace('Exiting DeleteEntity method ...');
 }
 
 /**
@@ -1152,7 +1152,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 {
 	$adb = PearDatabase::getInstance();
 	
-	\App\log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
+	\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
 	require_once('include/events/include.inc');
 	//require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
 	//require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
@@ -1190,7 +1190,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 		 */
 		$em->triggerEvent('vtiger.entity.link.after', $data);
 	}
-	\App\log::trace("Exiting relateEntities method ...");
+	\App\Log::trace("Exiting relateEntities method ...");
 }
 /**
  * Track install/update vtlib module in current run.
@@ -1234,17 +1234,17 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 	$module_exists = false;
 	$module_dir_exists = false;
 	if ($module === null) {
-		\App\log::error("$packagename Module zipfile is not valid!");
+		\App\Log::error("$packagename Module zipfile is not valid!");
 	} else if (vtlib\Module::getInstance($module)) {
-		\App\log::error("$module already exists!");
+		\App\Log::error("$module already exists!");
 		$module_exists = true;
 	}
 	if ($module_exists === false) {
-		\App\log::trace("$module - Installation starts here");
+		\App\Log::trace("$module - Installation starts here");
 		$package->import($packagepath, true);
 		$moduleInstance = vtlib\Module::getInstance($module);
 		if (empty($moduleInstance)) {
-			\App\log::error("$module module installation failed!");
+			\App\Log::error("$module module installation failed!");
 		}
 	}
 }
@@ -1274,14 +1274,14 @@ function updateVtlibModule($module, $packagepath)
 	}
 
 	if ($module === null) {
-		\App\log::error("Module name is invalid");
+		\App\Log::error("Module name is invalid");
 	} else {
 		$moduleInstance = vtlib\Module::getInstance($module);
 		if ($moduleInstance || $package->isModuleBundle($packagepath)) {
-			\App\log::trace("$module - Module instance found - Update starts here");
+			\App\Log::trace("$module - Module instance found - Update starts here");
 			$package->update($moduleInstance, $packagepath);
 		} else {
-			\App\log::error("$module doesn't exists!");
+			\App\Log::error("$module doesn't exists!");
 		}
 	}
 }
@@ -1340,7 +1340,7 @@ function isRecordExists($recordId, $cache = true)
 function getValidDBInsertDateValue($value)
 {
 	
-	\App\log::trace("Entering getValidDBInsertDateValue(" . $value . ") method ...");
+	\App\Log::trace("Entering getValidDBInsertDateValue(" . $value . ") method ...");
 	$value = trim($value);
 	$delim = array('/', '.');
 	foreach ($delim as $delimiter) {
@@ -1371,7 +1371,7 @@ function getValidDBInsertDateValue($value)
 		return '';
 	}
 
-	\App\log::trace("Exiting getValidDBInsertDateValue method ...");
+	\App\Log::trace("Exiting getValidDBInsertDateValue method ...");
 	return $insert_date;
 }
 
@@ -1555,14 +1555,14 @@ function initUpdateVtlibModule($module, $packagepath)
 	$package = new vtlib\Package();
 
 	if ($module === null) {
-		\App\log::error("Module name is invalid");
+		\App\Log::error("Module name is invalid");
 	} else {
 		$moduleInstance = vtlib\Module::getInstance($module);
 		if ($moduleInstance) {
-			\App\log::trace("$module - Module instance found - Init Update starts here");
+			\App\Log::trace("$module - Module instance found - Init Update starts here");
 			$package->initUpdate($moduleInstance, $packagepath, true);
 		} else {
-			\App\log::error("$module doesn't exists!");
+			\App\Log::error("$module doesn't exists!");
 		}
 	}
 }

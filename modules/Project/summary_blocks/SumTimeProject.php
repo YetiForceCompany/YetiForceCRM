@@ -19,9 +19,9 @@ class SumTimeProject
 	public function process($instance)
 	{
 		
-		\App\log::trace("Entering SumTimeProject::process() method ...");
+		\App\Log::trace("Entering SumTimeProject::process() method ...");
 		$sum_time = vtlib\Functions::decimalTimeFormat($instance->get('sum_time'));
-		\App\log::trace("Exiting SumTimeProject::process() method ...");
+		\App\Log::trace("Exiting SumTimeProject::process() method ...");
 		return $sum_time['short'];
 	}
 }

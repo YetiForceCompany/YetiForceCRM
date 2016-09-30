@@ -24,7 +24,7 @@ function vtws_convertlead($entityvalues, $user)
 {
 	$adb = PearDatabase::getInstance();
 	
-	\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+	\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 	if (empty($entityvalues['assignedTo'])) {
 		$entityvalues['assignedTo'] = vtws_getWebserviceEntityId('Users', $user->id);
 	}
@@ -47,13 +47,13 @@ function vtws_convertlead($entityvalues, $user)
 	$leadIdComponents = vtws_getIdComponents($entityvalues['leadId']);
 	$result = $adb->pquery($sql, array($leadIdComponents[1]));
 	if ($result === false) {
-		\App\log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR));
+		\App\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR));
 		throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_' .
 			WebServiceErrorCode::$DATABASEQUERYERROR));
 	}
 	$rowCount = $adb->num_rows($result);
 	if ($rowCount > 0) {
-		\App\log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
+		\App\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 	}
 
@@ -105,7 +105,7 @@ function vtws_convertlead($entityvalues, $user)
 					$entityIds[$entityName] = $entityRecord['id'];
 				}
 			} catch (Exception $e) {
-				\App\log::error('Error converting a lead: ' . $e->getMessage());
+				\App\Log::error('Error converting a lead: ' . $e->getMessage());
 				throw new WebServiceException(WebServiceErrorCode::$UNKNOWNOPERATION, $e->getMessage() . ' : ' . $entityvalue['name']);
 			}
 		}
@@ -128,13 +128,13 @@ function vtws_convertlead($entityvalues, $user)
 			$em->triggerEvent('entity.convertlead.after', [$entityvalues, $user, $leadInfo, $entityIds]);
 		}
 	} catch (Exception $e) {
-		\App\log::error('Error converting a lead: ' . $e->getMessage());
+		\App\Log::error('Error converting a lead: ' . $e->getMessage());
 		foreach ($entityIds as $entity => $id) {
 			vtws_delete($id, $user);
 		}
 		return null;
 	}
-	\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+	\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	return $entityIds;
 }
 /*

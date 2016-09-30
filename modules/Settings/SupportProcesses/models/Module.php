@@ -26,7 +26,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	{
 		
 		$adb = PearDatabase::getInstance();
-		\App\log::trace("Entering Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
+		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
 		$sql = 'SELECT * FROM `vtiger_ticketstatus`;';
 		$result = $adb->query($sql);
 		$rowsNum = $adb->num_rows($result);
@@ -36,7 +36,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 			$return[$i]['statusTranslate'] = vtranslate($adb->query_result($result, $i, 'ticketstatus'), 'HelpDesk');
 			$return[$i]['status'] = $adb->query_result($result, $i, 'ticketstatus');
 		}
-		\App\log::trace("Exiting Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
+		\App\Log::trace("Exiting Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
 		return $return;
 	}
 
@@ -71,7 +71,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	{
 		
 		$adb = PearDatabase::getInstance();
-		\App\log::trace("Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
+		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		$deleteQuery = "UPDATE `vtiger_support_processes` SET `ticket_status_indicate_closing` = NULL WHERE `id` = 1";
 		$adb->query($deleteQuery);
 		if ('null' != $data['val']) {
@@ -79,7 +79,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 			$data = implode(',', $data['val']);
 			$adb->pquery($insertQuery, [$data]);
 		}
-		\App\log::trace("Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
+		\App\Log::trace("Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		return true;
 	}
 
@@ -87,7 +87,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	{
 		$adb = PearDatabase::getInstance();
 		
-		\App\log::trace("Entering Settings_SupportProcesses_Module_Model::getAllTicketStatus() method ...");
+		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getAllTicketStatus() method ...");
 		$sql = 'SELECT `ticketstatus` FROM `vtiger_ticketstatus`';
 		$result = $adb->query($sql);
 		$rowsNum = $adb->num_rows($result);
@@ -101,7 +101,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	{
 		
 		$getTicketStatusClosed = self::getTicketStatusNotModify();
-		\App\log::trace("Entering Settings_SupportProcesses_Module_Model::getOpenTicketStatus() method ...");
+		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getOpenTicketStatus() method ...");
 		if (empty($getTicketStatusClosed)) {
 			$result = false;
 		} else {

@@ -302,7 +302,7 @@ class nusoap_base
 		if ($this->debugLevel > 0) {
 			// it would be nice to use a memory stream here to use
 			// memory more efficiently
-			\App\log::trace($string, 'soap');
+			\App\Log::trace($string, 'soap');
 			$this->debug_str .= $string;
 		}
 	}

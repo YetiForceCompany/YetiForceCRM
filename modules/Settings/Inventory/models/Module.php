@@ -31,7 +31,7 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 	public static function getConfig($type, $name = false)
 	{
 		
-		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
 		$db = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($type);
 		$sql = sprintf('SELECT * FROM `%s`', $tableName);
@@ -48,18 +48,18 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 		while ($row = $db->fetch_array($result)) {
 			$output[$row['param']] = $row['value'];
 		}
-		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $output;
 	}
 
 	public function setConfig($type, $param)
 	{
 		
-		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($type);
 		$db->update($tableName, ['value' => $param['value']], '`param` = ?', [$param['param']]);
-		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
 	}
 }

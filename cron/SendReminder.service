@@ -1,6 +1,6 @@
 <?php
 $adb = PearDatabase::getInstance();
-\App\log::trace(' Start SendReminder ');
+\App\Log::trace(' Start SendReminder ');
 
 $query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_activity.*, vtiger_activity_reminder.reminder_time, vtiger_activity_reminder.reminder_sent, vtiger_activity_reminder.recurringid, vtiger_recurringevents.recurringdate, vtiger_crmentity.setype AS crmsetype
 FROM vtiger_activity 
@@ -54,7 +54,7 @@ if ($adb->getRowCount($result) >= 1) {
 		$differenceOfActivityTimeAndCurrentTime = ($activity_time - $curr_time);
 
 		if (($differenceOfActivityTimeAndCurrentTime > 0) && (($differenceOfActivityTimeAndCurrentTime <= $reminder_time) || ($differenceOfActivityTimeAndCurrentTime <= $reminderFrequency))) {
-			\App\log::trace('Start Send SendReminder');
+			\App\Log::trace('Start Send SendReminder');
 			$toEmail = includes\fields\Email::getUserMail($row['smownerid']);
 			$invitees = [];
 
@@ -100,7 +100,7 @@ if ($adb->getRowCount($result) >= 1) {
 					$recordModel->sendMailFromTemplate($data);
 				}
 			}
-			\App\log::trace('End Send SendReminder');
+			\App\Log::trace('End Send SendReminder');
 		}
 	}
 }

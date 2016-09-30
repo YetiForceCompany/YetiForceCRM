@@ -28,7 +28,7 @@ class RelatedListViewSession
 	{
 		
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering RelatedListViewSession() method ...");
+		\App\Log::trace("Entering RelatedListViewSession() method ...");
 
 		$this->module = $currentModule;
 		$this->start = 1;

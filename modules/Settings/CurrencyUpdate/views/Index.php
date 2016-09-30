@@ -11,7 +11,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 	public function process(Vtiger_Request $request)
 	{
 		
-		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
@@ -82,6 +82,6 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SUPPORTED_CURRENCIES', $moduleModel->getSupportedCurrencies());
 		$viewer->assign('UNSUPPORTED_CURRENCIES', $moduleModel->getUnSupportedCurrencies());
 		$viewer->view('Index.tpl', $qualifiedModule);
-		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 }

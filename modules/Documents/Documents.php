@@ -149,7 +149,7 @@ class Documents extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering into insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
 
@@ -160,7 +160,7 @@ class Documents extends CRMEntity
 			}
 		}
 
-		\App\log::trace("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/**    Function used to get the sort order for Documents listview
@@ -169,12 +169,12 @@ class Documents extends CRMEntity
 	public function getSortOrder()
 	{
 
-		\App\log::trace('Entering getSortOrder() method ...');
+		\App\Log::trace('Entering getSortOrder() method ...');
 		if (AppRequest::has('sorder'))
 			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['NOTES_SORT_ORDER'] != '') ? ($_SESSION['NOTES_SORT_ORDER']) : ($this->default_sort_order));
-		\App\log::trace('Exiting getSortOrder() method ...');
+		\App\Log::trace('Exiting getSortOrder() method ...');
 		return $sorder;
 	}
 
@@ -184,7 +184,7 @@ class Documents extends CRMEntity
 	public function getOrderBy()
 	{
 
-		\App\log::trace('Entering getOrderBy() method ...');
+		\App\Log::trace('Entering getOrderBy() method ...');
 
 		$use_default_order_by = '';
 		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
@@ -195,7 +195,7 @@ class Documents extends CRMEntity
 			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['NOTES_ORDER_BY'] != '') ? ($_SESSION['NOTES_ORDER_BY']) : ($use_default_order_by));
-		\App\log::trace('Exiting getOrderBy method ...');
+		\App\Log::trace('Exiting getOrderBy method ...');
 		return $order_by;
 	}
 
@@ -245,7 +245,7 @@ class Documents extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 		//To get the Permitted fields query and the permitted fields list
@@ -270,7 +270,7 @@ class Documents extends CRMEntity
 			$query .= '  WHERE %s';
 
 		$query = sprintf($query, $where_auto);
-		\App\log::trace("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 

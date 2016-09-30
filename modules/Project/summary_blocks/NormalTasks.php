@@ -19,7 +19,7 @@ class NormalTasks
 	public function process($instance)
 	{
 		
-		\App\log::trace("Entering NormalTasks::process() method ...");
+		\App\Log::trace("Entering NormalTasks::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask
@@ -27,7 +27,7 @@ class NormalTasks
 						WHERE vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskpriority = ? && vtiger_crmentity.deleted=0';
 		$result = $adb->pquery($query, array($instance->getId(), 'normal'));
 		$count = $adb->query_result($result, 0, 'count');
-		\App\log::trace("Exiting NormalTasks::process() method ...");
+		\App\Log::trace("Exiting NormalTasks::process() method ...");
 		return $count;
 	}
 }

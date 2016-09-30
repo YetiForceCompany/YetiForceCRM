@@ -19,7 +19,7 @@ class TaskDue
 	public function process($instance)
 	{
 		
-		\App\log::trace("Entering TaskDue::process() method ...");
+		\App\Log::trace("Entering TaskDue::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$currentDate = date('Y-m-d');
 		$query = 'SELECT COUNT(projecttaskid) as count 
@@ -28,7 +28,7 @@ class TaskDue
 						WHERE vtiger_crmentity.deleted=0 && vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskstatus IN (?,?) && vtiger_projecttask.enddate IS NOT NULL && vtiger_projecttask.enddate < ? ';
 		$result = $adb->pquery($query, array($instance->getId(), 'Open', 'In Progress', $currentDate));
 		$count = $adb->query_result($result, 0, 'count');
-		\App\log::trace("Exiting TaskDue::process() method ...");
+		\App\Log::trace("Exiting TaskDue::process() method ...");
 		return $count;
 	}
 }

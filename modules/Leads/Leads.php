@@ -81,7 +81,7 @@ class Leads extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -115,7 +115,7 @@ class Leads extends CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		\App\log::trace("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -129,7 +129,7 @@ class Leads extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_campaigns(" . $id . ") method ...");
+		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -174,7 +174,7 @@ class Leads extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_campaigns method ...");
+		\App\Log::trace("Exiting get_campaigns method ...");
 		return $return_value;
 	}
 
@@ -189,7 +189,7 @@ class Leads extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_products(" . $id . ") method ...");
+		\App\Log::trace("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -239,7 +239,7 @@ class Leads extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_products method ...");
+		\App\Log::trace("Exiting get_products method ...");
 		return $return_value;
 	}
 
@@ -251,7 +251,7 @@ class Leads extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering getColumnNames_Lead() method ...");
+		\App\Log::trace("Entering getColumnNames_Lead() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select fieldlabel from vtiger_field where tabid=7 and vtiger_field.presence in (0,2)";
@@ -273,7 +273,7 @@ class Leads extends CRMEntity
 			$custom_fields[$i] = strtoupper($custom_fields[$i]);
 		}
 		$mergeflds = $custom_fields;
-		\App\log::trace("Exiting getColumnNames_Lead method ...");
+		\App\Log::trace("Exiting getColumnNames_Lead method ...");
 		return $mergeflds;
 	}
 
@@ -287,7 +287,7 @@ class Leads extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array('Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel',
 			'Products' => 'vtiger_seproductsrel', 'Campaigns' => 'vtiger_campaign_records');
@@ -315,7 +315,7 @@ class Leads extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report

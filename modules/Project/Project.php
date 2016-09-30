@@ -596,7 +596,7 @@ class Project extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("ProjectTask" => "vtiger_projecttask", 'ProjectMilestone' => 'vtiger_projectmilestone',
 			"Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
@@ -624,6 +624,6 @@ class Project extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 }

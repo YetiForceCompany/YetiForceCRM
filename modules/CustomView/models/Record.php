@@ -93,7 +93,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function isDefault()
 	{
 		
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
 			$db = PearDatabase::getInstance();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -101,7 +101,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$result = $db->pquery($sql, ['Users:' . $currentUser->getId(), $this->getModule()->getId(), $this->getId()]);
 			$this->isDefault = $result->rowCount();
 		}
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $this->isDefault;
 	}
 
@@ -168,7 +168,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function isFeatured($editView = false)
 	{
 		
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isFeatured === false) {
 			if (empty($editView)) {
 				if (!empty($this->get('featured'))) {
@@ -180,7 +180,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				$this->isFeatured = $this->checkFeaturedInEditView();
 			}
 		}
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $this->isFeatured;
 	}
 
@@ -922,7 +922,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public static function getAll($moduleName = '')
 	{
 		
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($moduleName) method ...");
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($moduleName) method ...");
 		$cacheName = 'getAll:' . $moduleName;
 		$customViews = Vtiger_Cache::get('CustomViews', $cacheName);
 		if ($customViews) {
@@ -979,7 +979,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		Vtiger_Cache::set('CustomViews', $cacheName, $customViews);
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $customViews;
 	}
 

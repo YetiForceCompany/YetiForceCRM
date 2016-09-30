@@ -5,7 +5,7 @@ include_once 'include/main/WebUI.php';
 $current_user = Users::getActiveAdminUser();
 
 
-\App\log::trace('Cron BackUp - Start backup');
+\App\Log::trace('Cron BackUp - Start backup');
 $backupModel = new Settings_BackUp_Module_Model();
 $backupModel->runBackup();
-\App\log::trace('Cron BackUp - End backup');
+\App\Log::trace('Cron BackUp - End backup');

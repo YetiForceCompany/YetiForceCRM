@@ -269,13 +269,13 @@ class Install_InitSchema_Model
 		if (!file_exists($src) || !$rootDirectory)
 			return;
 		@chmod($src, 0777);
-		\App\log::trace("Exiting VT620_to_YT::testest(" . $src . ") method ...");
+		\App\Log::trace("Exiting VT620_to_YT::testest(" . $src . ") method ...");
 		if (is_dir($src)) {
 			$dir = new DirectoryIterator($src);
 			foreach ($dir as $fileinfo) {
 				if (!$fileinfo->isDot()) {
 					if ($fileinfo->isDir()) {
-						\App\log::trace("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
+						\App\Log::trace("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
 						$this->deleteDirFile($fileinfo->getPathname());
 						rmdir($fileinfo->getPathname());
 					} else {

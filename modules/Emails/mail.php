@@ -32,7 +32,7 @@ function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $content
 	$adb = PearDatabase::getInstance();
 	
 
-	\App\log::trace('To id => ' . $to_email . ' Subject => ' . $subject . 'Contents => ' . $contents);
+	\App\Log::trace('To id => ' . $to_email . ' Subject => ' . $subject . 'Contents => ' . $contents);
 
 	//Get the email id of assigned_to user -- pass the value and name, name must be "user_name" or "id"(field names of vtiger_users vtiger_table)
 	//if module is HelpDesk then from_email will come based on support email id
@@ -107,17 +107,17 @@ function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $content
 function getUserEmailId($name, $val)
 {
 	
-	\App\log::trace('Inside the function getUserEmailId. --- ' . $name . ' = ' . $val);
+	\App\Log::trace('Inside the function getUserEmailId. --- ' . $name . ' = ' . $val);
 	if ($val != '') {
 		$adb = PearDatabase::getInstance();
 		//done to resolve the PHP5 specific behaviour
 		$sql = sprintf("SELECT email1 from vtiger_users WHERE status='Active' && %s = ?", $adb->sql_escape_string($name));
 		$res = $adb->pquery($sql, array($val));
 		$email = $adb->query_result($res, 0, 'email1');
-		\App\log::trace('Email id is selected  => ' . $email);
+		\App\Log::trace('Email id is selected  => ' . $email);
 		return $email;
 	} else {
-		\App\log::trace('User id is empty. so return value is ""');
+		\App\Log::trace('User id is empty. so return value is ""');
 		return '';
 	}
 }
@@ -129,7 +129,7 @@ function getUserEmailId($name, $val)
 function addSignature($contents, $fromname)
 {
 	
-	\App\log::trace('Inside the function addSignature');
+	\App\Log::trace('Inside the function addSignature');
 
 	$sign = VTCacheUtils::getUserSignature($fromname);
 	if ($sign === null) {
@@ -144,9 +144,9 @@ function addSignature($contents, $fromname)
 
 	if ($sign != '') {
 		$contents .= '<br><br>' . $sign;
-		\App\log::trace('Signature is added with the body => ' . $sign);
+		\App\Log::trace('Signature is added with the body => ' . $sign);
 	} else {
-		\App\log::trace('Signature is empty for the user => ' . $fromname);
+		\App\Log::trace('Signature is empty for the user => ' . $fromname);
 	}
 	return $contents;
 }
@@ -166,7 +166,7 @@ function addSignature($contents, $fromname)
 function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, $to_email, $attachment = '', $emailid = '', $module = '', $logo = '')
 {
 	
-	\App\log::trace('Inside the function setMailerProperties');
+	\App\Log::trace('Inside the function setMailerProperties');
 	$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
 	$logourl = 'storage/Logo/' . $companyDetails->get('logoname');
 	if ($logo == 1) {
@@ -242,7 +242,7 @@ function setMailServerProperties($mail)
 {
 	$adb = PearDatabase::getInstance();
 	
-	\App\log::trace('Inside the function setMailServerProperties');
+	\App\Log::trace('Inside the function setMailServerProperties');
 
 	$res = $adb->pquery('select * from vtiger_systems where server_type=?', array('email'));
 	if (AppRequest::has('server'))
@@ -274,7 +274,7 @@ function setMailServerProperties($mail)
 		}
 	}
 
-	\App\log::trace('Mail server name,username,password => ' . $server . ',' . $username . ',' . $password);
+	\App\Log::trace('Mail server name,username,password => ' . $server . ',' . $username . ',' . $password);
 	if ($smtp_auth) {
 		$mail->SMTPAuth = true; // turn on SMTP authentication
 	}
@@ -301,8 +301,8 @@ function setMailServerProperties($mail)
 function addAttachment($mail, $filename, $record)
 {
 	
-	\App\log::trace('Inside the function addAttachment');
-	\App\log::trace('The file name is => ' . $filename);
+	\App\Log::trace('Inside the function addAttachment');
+	\App\Log::trace('The file name is => ' . $filename);
 
 	//This is the file which has been selected in Email EditView
 	if (is_file($filename) && $filename != '') {
@@ -318,7 +318,7 @@ function addAllAttachments($mail, $record)
 {
 	
 	$adb = PearDatabase::getInstance();
-	\App\log::trace('Inside the function addAllAttachments');
+	\App\Log::trace('Inside the function addAllAttachments');
 
 	//Retrieve the vtiger_files from database where avoid the file which has been currently selected
 	$sql = 'SELECT vtiger_attachments.* 
@@ -351,7 +351,7 @@ function addAllAttachments($mail, $record)
 function setCCAddress($mail, $cc_mod, $cc_val)
 {
 	
-	\App\log::trace('Inside the functin setCCAddress');
+	\App\Log::trace('Inside the functin setCCAddress');
 
 	if ($cc_mod == 'cc')
 		$method = 'AddCC';
@@ -379,12 +379,12 @@ function setCCAddress($mail, $cc_mod, $cc_val)
 function MailSend($mail)
 {
 	
-	\App\log::trace('Inside of Send Mail function.');
+	\App\Log::trace('Inside of Send Mail function.');
 	if (!$mail->Send()) {
-		\App\log::error('Error in Mail Sending: ' . $mail->ErrorInfo);
+		\App\Log::error('Error in Mail Sending: ' . $mail->ErrorInfo);
 		return $mail->ErrorInfo;
 	} else {
-		\App\log::trace('Mail has been sent from the YetiForce system: ' . $mail->ErrorInfo);
+		\App\Log::trace('Mail has been sent from the YetiForce system: ' . $mail->ErrorInfo);
 		return 1;
 	}
 }
@@ -396,7 +396,7 @@ function MailSend($mail)
 function getParentMailId($parentmodule, $parentid)
 {
 	
-	\App\log::trace('Inside the function getParentMailId. \n parent module and id => ' . $parentmodule . '&' . $parentid);
+	\App\Log::trace('Inside the function getParentMailId. \n parent module and id => ' . $parentmodule . '&' . $parentid);
 
 	if ($parentmodule == 'Contacts') {
 		$tablename = 'vtiger_contactdetails';
@@ -432,10 +432,10 @@ function getMailError($mail, $mail_status, $to)
 	  connect_host, recipients_failed, from_failed
 	 */
 	
-	\App\log::trace('Inside the function getMailError');
+	\App\Log::trace('Inside the function getMailError');
 
 	$msg = array_search($mail_status, $mail->language);
-	\App\log::trace("Error message ==> $msg");
+	\App\Log::trace("Error message ==> $msg");
 
 	if ($msg == 'connect_host') {
 		$error_msg = $msg;
@@ -444,11 +444,11 @@ function getMailError($mail, $mail_status, $to)
 	} elseif (strstr($msg, 'recipients_failed')) {
 		$error_msg = $msg;
 	} else {
-		\App\log::trace('Mail error is not as connect_host or from_failed or recipients_failed');
+		\App\Log::trace('Mail error is not as connect_host or from_failed or recipients_failed');
 		$error_msg = $msg;
 	}
 
-	\App\log::trace("return error => $error_msg");
+	\App\Log::trace("return error => $error_msg");
 	return $error_msg;
 }
 
@@ -459,20 +459,20 @@ function getMailError($mail, $mail_status, $to)
 function getMailErrorString($mail_status_str)
 {
 	
-	\App\log::trace('Inside getMailErrorString function.\nMail status string ==> ' . $mail_status_str);
+	\App\Log::trace('Inside getMailErrorString function.\nMail status string ==> ' . $mail_status_str);
 
 	$mail_status_str = trim($mail_status_str, '&&&');
 	$mail_status_array = explode('&&&', $mail_status_str);
-	\App\log::trace('All Mail status ==>\n' . $mail_status_str . '\n');
+	\App\Log::trace('All Mail status ==>\n' . $mail_status_str . '\n');
 
 	foreach ($mail_status_array as $key => $val) {
 		$list = explode('=', $val);
-		\App\log::trace('Mail id & status => ' . $list[0] . ' = ' . $list[1]);
+		\App\Log::trace('Mail id & status => ' . $list[0] . ' = ' . $list[1]);
 		if ($list[1] == 0) {
 			$mail_error_str .= $list[0] . '=' . $list[1] . '&&&';
 		}
 	}
-	\App\log::trace('Mail error string => ' . $mail_error_str);
+	\App\Log::trace('Mail error string => ' . $mail_error_str);
 	if ($mail_error_str != '') {
 		$mail_error_str = 'mail_error=' . base64_encode($mail_error_str);
 	}
@@ -486,22 +486,22 @@ function getMailErrorString($mail_status_str)
 function parseEmailErrorString($mail_error_str)
 {
 	
-	\App\log::trace('Inside the parseEmailErrorString function.\n encoded mail error string ==> ' . $mail_error_str);
+	\App\Log::trace('Inside the parseEmailErrorString function.\n encoded mail error string ==> ' . $mail_error_str);
 
 	$mail_error = base64_decode($mail_error_str);
-	\App\log::trace('Original error string => ' . $mail_error);
+	\App\Log::trace('Original error string => ' . $mail_error);
 	$mail_status = explode("&&&", trim($mail_error, "&&&"));
 	foreach ($mail_status as $key => $val) {
 		$status_str = explode("=", $val);
-		\App\log::trace('Mail id => "' . $status_str[0] . '".........status => "' . $status_str[1] . '"');
+		\App\Log::trace('Mail id => "' . $status_str[0] . '".........status => "' . $status_str[1] . '"');
 		if ($status_str[1] != 1 && $status_str[1] != '') {
-			\App\log::trace('Error in mail sending');
+			\App\Log::trace('Error in mail sending');
 			if ($status_str[1] == 'connect_host') {
-				\App\log::trace('if part - Mail sever is not configured');
+				\App\Log::trace('if part - Mail sever is not configured');
 				$errorstr .= '<br><b><font color=red>' . vtranslate('MESSAGE_CHECK_MAIL_SERVER_NAME') . '</font></b>';
 				break;
 			} elseif ($status_str[1] == '0') {
-				\App\log::trace("first elseif part - status will be 0 which is the case of assigned to vtiger_users's email is empty.");
+				\App\Log::trace("first elseif part - status will be 0 which is the case of assigned to vtiger_users's email is empty.");
 				$errorstr .= '<br><b><font color=red> ' . vtranslate('MESSAGE_MAIL_COULD_NOT_BE_SEND') . ' ' . vtranslate('MESSAGE_PLEASE_CHECK_FROM_THE_MAILID') . '</font></b>';
 				//Added to display the message about the CC && BCC mail sending status
 				if ($status_str[0] == 'cc_success') {
@@ -509,16 +509,16 @@ function parseEmailErrorString($mail_error_str)
 					$errorstr .= '<br><b><font color=purple>' . $cc_msg . '</font></b>';
 				}
 			} elseif (strstr($status_str[1], 'from_failed')) {
-				\App\log::trace('second elseif part - from email id is failed.');
+				\App\Log::trace('second elseif part - from email id is failed.');
 				$from = explode('from_failed', $status_str[1]);
 				$errorstr .= "<br><b><font color=red>" . vtranslate('MESSAGE_PLEASE_CHECK_THE_FROM_MAILID') . " '" . $from[1] . "'</font></b>";
 			} else {
-				\App\log::trace('else part - mail send process failed due to the following reason.');
+				\App\Log::trace('else part - mail send process failed due to the following reason.');
 				$errorstr .= "<br><b><font color=red> " . vtranslate('MESSAGE_MAIL_COULD_NOT_BE_SEND_TO_THIS_EMAILID') . " '" . $status_str[0] . "'. " . vtranslate('PLEASE_CHECK_THIS_EMAILID') . "</font></b>";
 			}
 		}
 	}
-	\App\log::trace('Return Error string => ' . $errorstr);
+	\App\Log::trace('Return Error string => ' . $errorstr);
 	return $errorstr;
 }
 
@@ -555,10 +555,10 @@ function getDefaultAssigneeEmailIds($groupId)
 			$email = $adb->query_result($result, $i, 'email1');
 			array_push($emails, $email);
 		}
-		\App\log::trace('Email ids are selected  => ' . $emails);
+		\App\Log::trace('Email ids are selected  => ' . $emails);
 		return $emails;
 	} else {
-		\App\log::trace('User id is empty. so return value is ');
+		\App\Log::trace('User id is empty. so return value is ');
 		return [];
 	}
 }

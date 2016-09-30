@@ -86,7 +86,7 @@ class CRMEntity
 	{
 		$db = PearDatabase::getInstance();
 
-		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
@@ -98,7 +98,7 @@ class CRMEntity
 				$db->insert($table, $insertData);
 			}
 		}
-		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 	}
 
 	public function saveentity($module, $fileid = '')
@@ -158,7 +158,7 @@ class CRMEntity
 	public function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
 
-		\App\log::trace("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
+		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -246,7 +246,7 @@ class CRMEntity
 
 			return true;
 		} else {
-			\App\log::trace('Skip the save attachment process.');
+			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}
 	}
@@ -387,7 +387,7 @@ class CRMEntity
 	{
 
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		\App\log::trace("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
+		\App\Log::trace("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
 
@@ -648,7 +648,7 @@ class CRMEntity
 	public function getOldFileName($notesid)
 	{
 
-		\App\log::trace("in getOldFileName  " . $notesid);
+		\App\Log::trace("in getOldFileName  " . $notesid);
 		$adb = PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
 		$result = $adb->pquery($query1, array($notesid));
@@ -813,7 +813,7 @@ class CRMEntity
 	public function save($module_name, $fileid = '')
 	{
 
-		\App\log::trace("module name is " . $module_name);
+		\App\Log::trace("module name is " . $module_name);
 
 		//Event triggering code
 		require_once("include/events/include.inc");
@@ -844,7 +844,7 @@ class CRMEntity
 
 	public function process_full_list_query($query)
 	{
-		\App\log::trace("CRMEntity:process_full_list_query");
+		\App\Log::trace("CRMEntity:process_full_list_query");
 		$result = & $this->db->query($query, false);
 
 
@@ -894,7 +894,7 @@ class CRMEntity
 		$where_clause = $this->get_where($fields_array);
 
 		$query = "SELECT * FROM $this->table_name $where_clause";
-		\App\log::trace("Retrieve $this->object_name: " . $query);
+		\App\Log::trace("Retrieve $this->object_name: " . $query);
 		$result = & $this->db->requireSingleResult($query, true, "Retrieving record $where_clause:");
 		if (empty($result)) {
 			return null;
@@ -979,7 +979,7 @@ class CRMEntity
 	 */
 	public function get_full_list($order_by = "", $where = "")
 	{
-		\App\log::trace("get_full_list:  order_by = '$order_by' and where = '$where'");
+		\App\Log::trace("get_full_list:  order_by = '$order_by' and where = '$where'");
 		$query = $this->create_list_query($order_by, $where);
 		return $this->process_full_list_query($query);
 	}
@@ -993,7 +993,7 @@ class CRMEntity
 	 */
 	public function track_view($user_id, $current_module, $id = '')
 	{
-		\App\log::trace("About to call vtiger_tracker (user_id, module_name, item_id)($user_id, $current_module, $this->id)");
+		\App\Log::trace("About to call vtiger_tracker (user_id, module_name, item_id)($user_id, $current_module, $this->id)");
 
 		$tracker = new Tracker();
 		$tracker->track_view($user_id, $current_module, $id, '');
@@ -1010,7 +1010,7 @@ class CRMEntity
 	public function get_column_value($columName, $fldvalue, $fieldname, $uitype, $datatype = '')
 	{
 
-		\App\log::trace("Entering function get_column_value ($columName, $fldvalue, $fieldname, $uitype, $datatype='')");
+		\App\Log::trace("Entering function get_column_value ($columName, $fldvalue, $fieldname, $uitype, $datatype='')");
 
 		// Added for the fields of uitype '57' which has datatype mismatch in crmentity table and particular entity table
 		if ($uitype == 57 && $fldvalue == '') {
@@ -1025,7 +1025,7 @@ class CRMEntity
 		if ($datatype == 'I' || $datatype == 'N' || $datatype == 'NN') {
 			return 0;
 		}
-		\App\log::trace("Exiting function get_column_value");
+		\App\Log::trace("Exiting function get_column_value");
 		return $fldvalue;
 	}
 
@@ -1326,7 +1326,7 @@ class CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering function initSortByField ($module)");
+		\App\Log::trace("Entering function initSortByField ($module)");
 		// Define the columnname's and uitype's which needs to be excluded
 		$exclude_columns = Array('parent_id', 'vendorid', 'access_count');
 		$exclude_uitypes = [];
@@ -1358,7 +1358,7 @@ class CRMEntity
 		}
 		if ($tabid == 21 || $tabid == 22)
 			$this->sortby_fields[] = 'crmid';
-		\App\log::trace("Exiting initSortByField");
+		\App\Log::trace("Exiting initSortByField");
 	}
 	/* Function to check if the mod number already exits */
 
@@ -1379,7 +1379,7 @@ class CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entered updateMissingSeqNumber function");
+		\App\Log::trace("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
 		$tabid = \includes\Modules::getModuleId($module);
@@ -1416,7 +1416,7 @@ class CRMEntity
 					}
 				}
 			} else {
-				\App\log::error("Updating Missing Sequence Number FAILED! REASON: Field table and module table mismatching.");
+				\App\Log::error("Updating Missing Sequence Number FAILED! REASON: Field table and module table mismatching.");
 			}
 		}
 		return $returninfo;
@@ -1851,7 +1851,7 @@ class CRMEntity
 	{
 		$db = PearDatabase::getInstance();
 
-		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$relTables = $this->setRelationTables();
 		if (key_exists('Documents', $relTables)) {
@@ -1902,7 +1902,7 @@ class CRMEntity
 				);
 			}
 		}
-		\App\log::trace('Exiting transferRelatedRecords...');
+		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 	/*
 	 * Function to get the primary query part of a report for which generateReportsQuery Doesnt exist in module
@@ -2609,12 +2609,12 @@ class CRMEntity
 	{
 
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering getSortOrder() method ...");
+		\App\Log::trace("Entering getSortOrder() method ...");
 		if (AppRequest::has('sorder'))
 			$sorder = $this->db->sql_escape_string(AppRequest::getForSql('sorder'));
 		else
 			$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
-		\App\log::trace("Exiting getSortOrder() method ...");
+		\App\Log::trace("Exiting getSortOrder() method ...");
 		return $sorder;
 	}
 
@@ -2626,7 +2626,7 @@ class CRMEntity
 	{
 		global $currentModule;
 
-		\App\log::trace("Entering getOrderBy() method ...");
+		\App\Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
 		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
@@ -2637,7 +2637,7 @@ class CRMEntity
 			$order_by = $this->db->sql_escape_string(AppRequest::getForSql('order_by'));
 		else
 			$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
-		\App\log::trace("Exiting getOrderBy method ...");
+		\App\Log::trace("Exiting getOrderBy method ...");
 		return $order_by;
 	}
 	// Mike Crowe Mod --------------------------------------------------------

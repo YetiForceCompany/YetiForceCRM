@@ -28,7 +28,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function setConfig(array $elements)
 	{
-		\App\log::trace('Entering set api address config');
+		\App\Log::trace('Entering set api address config');
 		$apiName = $elements['api_name'];
 		unset($elements['api_name']);
 		$result = 0;
@@ -42,7 +42,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 					->execute();
 			}
 		}
-		\App\log::trace('Exiting set api address config');
+		\App\Log::trace('Exiting set api address config');
 		return $result;
 	}
 	/*

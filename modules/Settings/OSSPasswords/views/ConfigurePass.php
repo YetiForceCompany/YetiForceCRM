@@ -132,7 +132,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					// commit transaction
 					$adb->completeTransaction();
 				} else {
-					\App\log::error('New encryption password incorrect!');
+					\App\Log::error('New encryption password incorrect!');
 					$error = 'New encryption password is incorrect!';
 				}
 			}
@@ -172,7 +172,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 						$save_ini = $recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
 						$success = 'Your key has been changed correctly.';
 					} else {
-						\App\log::error('Changing password encryption keys was unsuccessfull!');
+						\App\Log::error('Changing password encryption keys was unsuccessfull!');
 						$error = 'Changing encryption key!';
 					}
 
@@ -214,7 +214,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				}
 			}
 		} else if (!empty($uninstall_passwords) && !empty($status)) {
-			\App\log::trace('Uninstallation started...');
+			\App\Log::trace('Uninstallation started...');
 			$moduleName = $request->getModule();
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			if ($moduleModel) {

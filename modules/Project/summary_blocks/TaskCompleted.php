@@ -19,7 +19,7 @@ class TaskCompleted
 	public function process($instance)
 	{
 		
-		\App\log::trace("Entering TaskCompleted::process() method ...");
+		\App\Log::trace("Entering TaskCompleted::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask
@@ -27,7 +27,7 @@ class TaskCompleted
 						WHERE vtiger_crmentity.deleted=0 && vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskstatus = ? ';
 		$result = $adb->pquery($query, array($instance->getId(), 'Completed'));
 		$count = $adb->query_result($result, 0, 'count');
-		\App\log::trace("Exiting TaskCompleted::process() method ...");
+		\App\Log::trace("Exiting TaskCompleted::process() method ...");
 		return $count;
 	}
 }

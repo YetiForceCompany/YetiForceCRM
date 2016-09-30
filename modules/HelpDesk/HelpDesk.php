@@ -127,7 +127,7 @@ class HelpDesk extends CRMEntity
 	public function insertIntoAttachment($id, $module)
 	{
 
-		\App\log::trace("Entering into insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
 
@@ -138,7 +138,7 @@ class HelpDesk extends CRMEntity
 			}
 		}
 
-		\App\log::trace("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/**     Function to get the Ticket History information as in array format
@@ -153,7 +153,7 @@ class HelpDesk extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering into get_ticket_history($ticketid) method ...");
+		\App\Log::trace("Entering into get_ticket_history($ticketid) method ...");
 
 		$query = 'select title,update_log from vtiger_troubletickets where ticketid=?';
 		$result = $adb->pquery($query, array($ticketid));
@@ -164,7 +164,7 @@ class HelpDesk extends CRMEntity
 
 		$return_value = ['header' => $header, 'entries' => $splitval];
 
-		\App\log::trace("Exiting from get_ticket_history($ticketid) method ...");
+		\App\Log::trace("Exiting from get_ticket_history($ticketid) method ...");
 		return $return_value;
 	}
 
@@ -175,7 +175,7 @@ class HelpDesk extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering getColumnNames_Hd() method ...");
+		\App\Log::trace("Entering getColumnNames_Hd() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select fieldlabel from vtiger_field where tabid=13 and block <> 30 and vtiger_field.uitype <> '61' and vtiger_field.presence in (0,2)";
@@ -197,7 +197,7 @@ class HelpDesk extends CRMEntity
 			$custom_fields[$i] = strtoupper($custom_fields[$i]);
 		}
 		$mergeflds = $custom_fields;
-		\App\log::trace("Exiting getColumnNames_Hd method ...");
+		\App\Log::trace("Exiting getColumnNames_Hd method ...");
 		return $mergeflds;
 	}
 
@@ -208,12 +208,12 @@ class HelpDesk extends CRMEntity
 	public function getCustomerName($id)
 	{
 
-		\App\log::trace("Entering getCustomerName(" . $id . ") method ...");
+		\App\Log::trace("Entering getCustomerName(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$sql = "select * from vtiger_portalinfo inner join vtiger_troubletickets on vtiger_troubletickets.contact_id = vtiger_portalinfo.id where vtiger_troubletickets.ticketid=?";
 		$result = $adb->pquery($sql, array($id));
 		$customername = $adb->query_result($result, 0, 'user_name');
-		\App\log::trace("Exiting getCustomerName method ...");
+		\App\Log::trace("Exiting getCustomerName method ...");
 		return $customername;
 	}
 
@@ -226,7 +226,7 @@ class HelpDesk extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -261,7 +261,7 @@ class HelpDesk extends CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		\App\log::trace("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -341,7 +341,7 @@ class HelpDesk extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Attachments" => "vtiger_seattachmentsrel", "Documents" => "vtiger_senotesrel");
 
@@ -366,7 +366,7 @@ class HelpDesk extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report

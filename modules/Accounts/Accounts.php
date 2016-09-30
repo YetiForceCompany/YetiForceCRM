@@ -88,7 +88,7 @@ class Accounts extends CRMEntity
 
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_campaigns(" . $id . ") method ...");
+		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -138,7 +138,7 @@ class Accounts extends CRMEntity
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_campaigns method ...");
+		\App\Log::trace("Exiting get_campaigns method ...");
 		return $return_value;
 	}
 
@@ -152,7 +152,7 @@ class Accounts extends CRMEntity
 
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_contacts(" . $id . ") method ...");
+		\App\Log::trace("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -206,7 +206,7 @@ class Accounts extends CRMEntity
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_contacts method ...");
+		\App\Log::trace("Exiting get_contacts method ...");
 		return $return_value;
 	}
 
@@ -220,7 +220,7 @@ class Accounts extends CRMEntity
 
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_tickets(" . $id . ") method ...");
+		\App\Log::trace("Entering get_tickets(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -267,7 +267,7 @@ class Accounts extends CRMEntity
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_tickets method ...");
+		\App\Log::trace("Exiting get_tickets method ...");
 		return $return_value;
 	}
 
@@ -281,7 +281,7 @@ class Accounts extends CRMEntity
 
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_products(" . $id . ") method ...");
+		\App\Log::trace("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -331,7 +331,7 @@ class Accounts extends CRMEntity
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_products method ...");
+		\App\Log::trace("Exiting get_products method ...");
 		return $return_value;
 	}
 
@@ -343,7 +343,7 @@ class Accounts extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -375,7 +375,7 @@ class Accounts extends CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		\App\log::trace("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -387,7 +387,7 @@ class Accounts extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering getColumnNames_Acnt() method ...");
+		\App\Log::trace("Entering getColumnNames_Acnt() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "SELECT fieldlabel FROM vtiger_field WHERE tabid = 6 and vtiger_field.presence in (0,2)";
@@ -409,7 +409,7 @@ class Accounts extends CRMEntity
 			$custom_fields[$i] = strtoupper($custom_fields[$i]);
 		}
 		$mergeflds = $custom_fields;
-		\App\log::trace("Exiting getColumnNames_Acnt method ...");
+		\App\Log::trace("Exiting getColumnNames_Acnt method ...");
 		return $mergeflds;
 	}
 	/*
@@ -510,7 +510,7 @@ class Accounts extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace('Entering getAccountHierarchy(' . $id . ') method ...');
+		\App\Log::trace('Entering getAccountHierarchy(' . $id . ') method ...');
 
 		$listview_header = [];
 		$listview_entries = [];
@@ -545,7 +545,7 @@ class Accounts extends CRMEntity
 		$accountHierarchy = $this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listview_entries);
 
 		$accountHierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
-		\App\log::trace('Exiting getAccountHierarchy method ...');
+		\App\Log::trace('Exiting getAccountHierarchy method ...');
 		return $accountHierarchy;
 	}
 
@@ -560,7 +560,7 @@ class Accounts extends CRMEntity
 	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
 	{
 
-		\App\log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
+		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
@@ -600,7 +600,7 @@ class Accounts extends CRMEntity
 				$listviewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listviewEntries);
 			}
 		}
-		\App\log::trace('Exiting getHierarchyData method ...');
+		\App\Log::trace('Exiting getHierarchyData method ...');
 		return $listviewEntries;
 	}
 
@@ -614,10 +614,10 @@ class Accounts extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace('Entering __getParentAccounts(' . $id . ') method ...');
+		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
 
 		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
-			\App\log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
+			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
 			return $parent_accounts;
 		}
 
@@ -663,7 +663,7 @@ class Accounts extends CRMEntity
 			}
 			$parent_accounts[$id] = $parent_account_info;
 		}
-		\App\log::trace('Exiting __getParentAccounts method ...');
+		\App\Log::trace('Exiting __getParentAccounts method ...');
 		return $parent_accounts;
 	}
 
@@ -678,10 +678,10 @@ class Accounts extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
+		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
 
 		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
-			\App\log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
+			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
 			return $child_accounts;
 		}
 
@@ -721,7 +721,7 @@ class Accounts extends CRMEntity
 				$this->__getChildAccounts($child_acc_id, $child_accounts[$child_acc_id], $depth);
 			}
 		}
-		\App\log::trace('Exiting __getChildAccounts method ...');
+		\App\Log::trace('Exiting __getChildAccounts method ...');
 		return $child_accounts;
 	}
 

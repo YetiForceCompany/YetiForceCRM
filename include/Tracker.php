@@ -60,7 +60,7 @@ class Tracker
 		$adb = PearDatabase::getInstance();
 		$this->delete_history($user_id, $item_id);
 
-		\App\log::trace("in  track view method " . $current_module);
+		\App\Log::trace("in  track view method " . $current_module);
 
 //No genius required. Just add an if case and change the query so that it puts the tracker entry whenever you touch on the DetailView of the required entity
 		//get the first name and last name from the respective modules
@@ -93,7 +93,7 @@ class Tracker
 		$query = "INSERT into $this->table_name (user_id, module_name, item_id, item_summary) values (?,?,?,?)";
 		$qparams = array($user_id, $current_module, $item_id, $item_summary);
 
-		\App\log::trace("Track Item View: " . $query);
+		\App\Log::trace("Track Item View: " . $query);
 
 		$this->db->pquery($query, $qparams, true);
 
@@ -115,7 +115,7 @@ class Tracker
 			return;
 		}
 		$query = "SELECT * from $this->table_name inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_tracker.item_id WHERE user_id=? and vtiger_crmentity.deleted=0 ORDER BY id DESC";
-		\App\log::trace("About to retrieve list: $query");
+		\App\Log::trace("About to retrieve list: $query");
 		$result = $this->db->pquery($query, array($userId), true);
 		$list = [];
 		while ($row = $this->db->fetchByAssoc($result, -1, false)) {
@@ -180,20 +180,20 @@ class Tracker
 		// Check to see if the number of items in the list is now greater than the config max.
 		$query = "SELECT count(*) from $this->table_name WHERE user_id='$user_id'";
 
-		\App\log::trace("About to verify history size: $query");
+		\App\Log::trace("About to verify history size: $query");
 		$count = $this->db->getOne($query);
 
-		\App\log::trace("history size: (current, max)($count, $history_max_viewed)");
+		\App\Log::trace("history size: (current, max)($count, $history_max_viewed)");
 		while ($count > $history_max_viewed) {
 			// delete the last one.  This assumes that entries are added one at a time.
 			// we should never add a bunch of entries
 			$query = "SELECT * from $this->table_name WHERE user_id='$user_id' ORDER BY id ASC LIMIT 0,1";
-			\App\log::trace("About to try and find oldest item: $query");
+			\App\Log::trace("About to try and find oldest item: $query");
 			$result = $this->db->query($query);
 
 			$oldest_item = $this->db->fetchByAssoc($result, -1, false);
 			$query = "DELETE from $this->table_name WHERE id=?";
-			\App\log::trace("About to delete oldest item: ");
+			\App\Log::trace("About to delete oldest item: ");
 
 			$result = $this->db->pquery($query, array($oldest_item['id']), true);
 			$count--;

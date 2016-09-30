@@ -119,12 +119,12 @@ class Users extends CRMEntity
 	public function getSortOrder()
 	{
 
-		\App\log::trace("Entering getSortOrder() method ...");
+		\App\Log::trace("Entering getSortOrder() method ...");
 		if (AppRequest::has('sorder'))
 			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
-		\App\log::trace("Exiting getSortOrder method ...");
+		\App\Log::trace("Exiting getSortOrder method ...");
 		return $sorder;
 	}
 
@@ -135,7 +135,7 @@ class Users extends CRMEntity
 	public function getOrderBy()
 	{
 
-		\App\log::trace("Entering getOrderBy() method ...");
+		\App\Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
 		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
@@ -146,7 +146,7 @@ class Users extends CRMEntity
 			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
-		\App\log::trace("Exiting getOrderBy method ...");
+		\App\Log::trace("Exiting getOrderBy method ...");
 		return $order_by;
 	}
 	// Mike Crowe Mod --------------------------------------------------------
@@ -165,7 +165,7 @@ class Users extends CRMEntity
 				$this->user_preferences = [];
 		}
 		if (!array_key_exists($name, $this->user_preferences) || $this->user_preferences[$name] != $value) {
-			\App\log::trace("Saving To Preferences:" . $name . "=" . $value);
+			\App\Log::trace("Saving To Preferences:" . $name . "=" . $value);
 			$this->user_preferences[$name] = $value;
 			$this->savePreferecesToDB();
 		}
@@ -180,7 +180,7 @@ class Users extends CRMEntity
 		$data = base64_encode(serialize($this->user_preferences));
 		$query = "UPDATE $this->table_name SET user_preferences=? where id=?";
 		$result = & $this->db->pquery($query, array($data, $this->id));
-		\App\log::trace("SAVING: PREFERENCES SIZE " . strlen($data) . "ROWS AFFECTED WHILE UPDATING USER PREFERENCES:" . $this->db->getAffectedRowCount($result));
+		\App\Log::trace("SAVING: PREFERENCES SIZE " . strlen($data) . "ROWS AFFECTED WHILE UPDATING USER PREFERENCES:" . $this->db->getAffectedRowCount($result));
 		$_SESSION["USER_PREFERENCES"] = $this->user_preferences;
 	}
 
@@ -191,10 +191,10 @@ class Users extends CRMEntity
 	{
 
 		if (isset($value) && !empty($value)) {
-			\App\log::trace("LOADING :PREFERENCES SIZE " . strlen($value));
+			\App\Log::trace("LOADING :PREFERENCES SIZE " . strlen($value));
 			$this->user_preferences = unserialize(base64_decode($value));
 			$_SESSION = array_merge($this->user_preferences, $_SESSION);
-			\App\log::trace("Finished Loading");
+			\App\Log::trace("Finished Loading");
 			$_SESSION["USER_PREFERENCES"] = $this->user_preferences;
 		}
 	}
@@ -253,7 +253,7 @@ class Users extends CRMEntity
 		$result = $this->db->requirePsSingleResult($query, $params, false);
 
 		if (empty($result)) {
-			\App\log::error("SECURITY: failed login by $usr_name");
+			\App\Log::error("SECURITY: failed login by $usr_name");
 			return false;
 		}
 
@@ -303,21 +303,21 @@ class Users extends CRMEntity
 	{
 		$userName = $this->column_fields["user_name"];
 		$userid = $this->retrieve_user_id($userName);
-		\App\log::trace("Start of authentication for user: $userName");
+		\App\Log::trace("Start of authentication for user: $userName");
 		$result = $this->db->pquery('SELECT * FROM yetiforce_auth');
 		$auth = [];
 		while ($row = $this->db->getRow($result)) {
 			$auth[$row['type']][$row['param']] = $row['value'];
 		}
 		if ($auth['ldap']['active'] == 'true') {
-			\App\log::trace('Start LDAP authentication');
+			\App\Log::trace('Start LDAP authentication');
 			$users = explode(',', $auth['ldap']['users']);
 			if (in_array($userid, $users)) {
 				$bind = false;
 				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
 				$ds = @ldap_connect($auth['ldap']['server'], $port);
 				if (!$ds) {
-					\App\log::error('Error LDAP authentication: Could not connect to LDAP server.');
+					\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.');
 				}
 				@ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
 				@ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
@@ -326,20 +326,20 @@ class Users extends CRMEntity
 				}
 				$bind = @ldap_bind($ds, $userName . $auth['ldap']['domain'], $userPassword);
 				if (!$bind) {
-					\App\log::error('LDAP authentication: LDAP bind failed.');
+					\App\Log::error('LDAP authentication: LDAP bind failed.');
 				}
 				return $bind;
 			} else {
-				\App\log::error("$userName user does not belong to the LDAP");
+				\App\Log::error("$userName user does not belong to the LDAP");
 			}
-			\App\log::trace('End LDAP authentication');
+			\App\Log::trace('End LDAP authentication');
 		}
 
 		//Default authentication
-		\App\log::trace('Using integrated/SQL authentication');
+		\App\Log::trace('Using integrated/SQL authentication');
 		$result = $this->db->pquery("SELECT crypt_type FROM $this->table_name WHERE id=?", [$userid]);
 		if ($result->rowCount() != 1) {
-			\App\log::error("User not found: $userName");
+			\App\Log::error("User not found: $userName");
 			return false;
 		}
 		$cryptType = $this->db->getSingleValue($result);
@@ -347,10 +347,10 @@ class Users extends CRMEntity
 		$query = "SELECT 1 from $this->table_name where user_name=? && user_password=? && status = ?";
 		$result = $this->db->pquery($query, [$userName, $encryptedPassword, 'Active']);
 		if ($result->rowCount() == 1) {
-			\App\log::trace("Authentication OK. User: $userName");
+			\App\Log::trace("Authentication OK. User: $userName");
 			return true;
 		}
-		\App\log::trace("Authentication failed. User: $userName");
+		\App\Log::trace("Authentication failed. User: $userName");
 		return false;
 	}
 
@@ -370,9 +370,9 @@ class Users extends CRMEntity
 			$_SESSION['loginattempts'] = 1;
 		}
 		if ($_SESSION['loginattempts'] > 5) {
-			\App\log::warning("SECURITY: " . $usr_name . " has attempted to login " . $_SESSION['loginattempts'] . " times.");
+			\App\Log::warning("SECURITY: " . $usr_name . " has attempted to login " . $_SESSION['loginattempts'] . " times.");
 		}
-		\App\log::trace("Starting user load for $usr_name");
+		\App\Log::trace("Starting user load for $usr_name");
 
 		if (!isset($this->column_fields["user_name"]) || $this->column_fields["user_name"] == "" || !isset($user_password) || $user_password == "")
 			return null;
@@ -381,7 +381,7 @@ class Users extends CRMEntity
 		$authCheck = $this->doLogin($user_password);
 
 		if (!$authCheck) {
-			\App\log::warning("User authentication for $usr_name failed");
+			\App\Log::warning("User authentication for $usr_name failed");
 			return null;
 		}
 
@@ -462,7 +462,7 @@ class Users extends CRMEntity
 
 		$usr_name = $this->column_fields['user_name'];
 		$current_user = vglobal('current_user');
-		\App\log::trace('Starting password change for ' . $usr_name);
+		\App\Log::trace('Starting password change for ' . $usr_name);
 
 		if (!isset($newPassword) || $newPassword == "") {
 			$this->error_string = vtranslate('ERR_PASSWORD_CHANGE_FAILED_1') . $user_name . vtranslate('ERR_PASSWORD_CHANGE_FAILED_2');
@@ -471,7 +471,7 @@ class Users extends CRMEntity
 
 		if (!\vtlib\Functions::userIsAdministrator($current_user)) {
 			if (!$this->verifyPassword($userPassword)) {
-				\App\log::warning('Incorrect old password for ' . $usr_name);
+				\App\Log::warning('Incorrect old password for ' . $usr_name);
 				$this->error_string = vtranslate('ERR_PASSWORD_INCORRECT_OLD');
 				return false;
 			}
@@ -501,7 +501,7 @@ class Users extends CRMEntity
 
 		$this->triggerAfterSaveEventHandlers();
 		$db->completeTransaction();
-		\App\log::trace('Ending password change for ' . $usr_name);
+		\App\Log::trace('Ending password change for ' . $usr_name);
 		return true;
 	}
 
@@ -510,8 +510,8 @@ class Users extends CRMEntity
 		$query = "SELECT user_name,user_password,crypt_type FROM {$this->table_name} WHERE id=?";
 		$result = $this->db->pquery($query, array($this->id));
 		$row = $this->db->fetchByAssoc($result);
-		\App\log::trace("select old password query: $query");
-		\App\log::trace("return result of $row");
+		\App\Log::trace("select old password query: $query");
+		\App\Log::trace("return result of $row");
 		$encryptedPassword = $this->encrypt_password($password, $row['crypt_type']);
 		if ($encryptedPassword != $row['user_password']) {
 			return false;
@@ -569,7 +569,7 @@ class Users extends CRMEntity
 		$result = $this->db->pquery($query, array($this->id), true, "Error filling in additional detail vtiger_fields");
 
 		$row = $this->db->fetchByAssoc($result);
-		\App\log::trace("additional detail query results: $row");
+		\App\Log::trace("additional detail query results: $row");
 
 		if ($row != null) {
 			$this->reports_to_name = stripslashes(\vtlib\Deprecated::getFullNameFromArray('Users', $row));
@@ -687,10 +687,10 @@ class Users extends CRMEntity
 		$adb = PearDatabase::getInstance();
 
 
-		\App\log::trace("Entering Into function createAccessKey()");
+		\App\Log::trace("Entering Into function createAccessKey()");
 		$updateQuery = "update vtiger_users set accesskey=? where id=?";
 		$insertResult = $adb->pquery($updateQuery, array(vtws_generateRandomAccessKey(16), $this->id));
-		\App\log::trace("Exiting function createAccessKey()");
+		\App\Log::trace("Exiting function createAccessKey()");
 	}
 
 	/** Function to insert values in the specifed table for the specified module
@@ -700,7 +700,7 @@ class Users extends CRMEntity
 	public function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
 
-		\App\log::trace("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
+		\App\Log::trace("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$insertion_mode = $this->mode;
@@ -872,7 +872,7 @@ class Users extends CRMEntity
 	public function insertIntoAttachment($id, $module)
 	{
 
-		\App\log::trace("Entering into insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
@@ -881,7 +881,7 @@ class Users extends CRMEntity
 			}
 		}
 
-		\App\log::trace("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array
@@ -892,10 +892,10 @@ class Users extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering into retrieve_entity_info($record, $module) method.");
+		\App\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
 
 		if ($record == '') {
-			\App\log::error('record is empty. returning null');
+			\App\Log::error('record is empty. returning null');
 			return null;
 		}
 
@@ -947,7 +947,7 @@ class Users extends CRMEntity
 		}
 
 		$this->id = $record;
-		\App\log::trace('Exit from retrieve_entity_info() method.');
+		\App\Log::trace('Exit from retrieve_entity_info() method.');
 		return $this;
 	}
 
@@ -959,7 +959,7 @@ class Users extends CRMEntity
 	public function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
 
-		\App\log::trace("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
+		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
 		$current_user = vglobal('current_user');
 
@@ -972,7 +972,7 @@ class Users extends CRMEntity
 
 		$fileInstance = \includes\fields\File::loadFromRequest($file_details);
 		if (!$fileInstance->validate('image')) {
-			\App\log::trace('Skip the save attachment process.');
+			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}
 		$binFile = $fileInstance->getSanitizeName();
@@ -1007,7 +1007,7 @@ class Users extends CRMEntity
 
 		//we should update the imagename in the users table
 		$this->db->pquery("update vtiger_users set imagename=? where id=?", array($filename, $id));
-		\App\log::trace("Exiting from uploadAndSaveFile($id,$module,$file_details) method.");
+		\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$file_details) method.");
 		return;
 	}
 
@@ -1234,7 +1234,7 @@ class Users extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering in function saveHomeOrder($id)");
+		\App\Log::trace("Entering in function saveHomeOrder($id)");
 
 		if ($this->mode == 'edit') {
 			for ($i = 0; $i < count($this->homeorder_array); $i++) {
@@ -1254,7 +1254,7 @@ class Users extends CRMEntity
 		else {
 			$this->insertUserdetails('postinstall');
 		}
-		\App\log::trace("Exiting from function saveHomeOrder($id)");
+		\App\Log::trace("Exiting from function saveHomeOrder($id)");
 	}
 
 	/**
@@ -1266,7 +1266,7 @@ class Users extends CRMEntity
 	 */
 	public function track_view($user_id, $current_module, $id = '')
 	{
-		\App\log::trace("About to call vtiger_tracker (user_id, module_name, item_id)($user_id, $current_module, $this->id)");
+		\App\Log::trace("About to call vtiger_tracker (user_id, module_name, item_id)($user_id, $current_module, $this->id)");
 
 		$tracker = new Tracker();
 		$tracker->track_view($user_id, $current_module, $id, '');

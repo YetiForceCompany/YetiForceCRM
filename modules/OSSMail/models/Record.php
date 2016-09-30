@@ -62,7 +62,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
 	{
 		
-		\App\log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
+		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
 		$rcConfig = self::load_roundcube_config();
 		$cacheName = $user . $host . $folder;
 		if (isset(self::$imapConnectCache[$cacheName])) {
@@ -102,27 +102,27 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 
 		imap_timeout(IMAP_OPENTIMEOUT, 5);
-		\App\log::trace("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password) method ...");
+		\App\Log::trace("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password) method ...");
 		$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password);
 		if ($mbox === false && $dieOnError) {
 			self::imapThrowError(imap_last_error());
 		}
 		self::$imapConnectCache[$cacheName] = $mbox;
-		\App\log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
+		\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
 		return $mbox;
 	}
 
 	public static function imapThrowError($error)
 	{
 		
-		\App\log::error("Error OSSMail_Record_Model::imapConnect(): " . $error);
+		\App\Log::error("Error OSSMail_Record_Model::imapConnect(): " . $error);
 		vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
 	{
 		
-		\App\log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		if (count($users) == 0) {
 			return false;
@@ -148,14 +148,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		\App\log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - End');
 		return true;
 	}
 
 	public static function getMailBoxmsgInfo($users)
 	{
 		
-		\App\log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
 		$result = $adb->query($query);
@@ -163,7 +163,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		for ($i = 0; $i < $adb->num_rows($result); $i++) {
 			$account[$adb->query_result_raw($result, $i, 'userid')] = $adb->query_result_raw($result, $i, 'num');
 		}
-		\App\log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - End');
 		return $account;
 	}
 

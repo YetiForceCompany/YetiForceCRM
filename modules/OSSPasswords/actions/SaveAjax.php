@@ -16,7 +16,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		$db = PearDatabase::getInstance();
 		
-		\App\log::trace('Starting Quick Edit OSSPasswords');
+		\App\Log::trace('Starting Quick Edit OSSPasswords');
 
 		// czy to 'password'????
 		$isPassword = $request->get('field') == 'password' ? true : false;
@@ -34,22 +34,22 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$recordId = $request->get('record');
 			$properPassword = $isPassword ? $request->get('value') : '**********';
 
-			\App\log::trace('recordid: ' . $recordId . ' properpass:' . $properPassword);
+			\App\Log::trace('recordid: ' . $recordId . ' properpass:' . $properPassword);
 
 			// if the password is hidden, get the proper one
 			if (strcmp($properPassword, '**********') == 0) {
-				\App\log::trace('Hidden password...');
+				\App\Log::trace('Hidden password...');
 				if ($config) { // when encryption is on
-					\App\log::trace('Get encrypted password.');
+					\App\Log::trace('Get encrypted password.');
 					$sql = sprintf("SELECT AES_DECRYPT(`password`, '%s') AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;", $config['key']);
 					$result = $db->pquery($sql, [$recordId], true);
 					$properPassword = $db->query_result($result, 0, 'pass');
 				} else {  // encryption mode is off
-					\App\log::trace('Get plain text password.');
+					\App\Log::trace('Get plain text password.');
 					$sql = "SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;";
 					$result = $db->pquery($sql, array($recordId), true);
 					$properPassword = $db->query_result($result, 0, 'pass');
-					\App\log::trace('Plain text pass: ' . $properPassword);
+					\App\Log::trace('Plain text pass: ' . $properPassword);
 				}
 			}
 
@@ -60,7 +60,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 		// apply encryption if encryption mode is on
 		if ($isPassword && $config) {
-			\App\log::trace('Encrypt new password: ' . $properPassword);
+			\App\Log::trace('Encrypt new password: ' . $properPassword);
 			$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?, ?) WHERE `osspasswordsid` = ?;";
 			$result = $db->pquery($sql, array($properPassword, $config['key'], $recordId), true);
 		}
@@ -68,7 +68,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		else if ($isRelatedPassword && $config) {
 			$record = $recordModel->getId();
 			$properPassword = $request->get('password');
-			\App\log::trace('Encrypt new related module password: ' . $properPassword);
+			\App\Log::trace('Encrypt new related module password: ' . $properPassword);
 			$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?, ?) WHERE `osspasswordsid` = ?;";
 			$result = $db->pquery($sql, array($properPassword, $config['key'], $record), true);
 		}

@@ -146,10 +146,10 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	public static function sendNotificationEmail()
 	{
 		
-		\App\log::trace('Start ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Start ' . __CLASS__ . '::' . __METHOD__);
 		$usersId = self::getUsersForNotifications();
 		if (count($usersId) == 0) {
-			\App\log::error('No brute force users found to send email');
+			\App\Log::error('No brute force users found to send email');
 			return false;
 		}
 		foreach ($usersId as $id) {
@@ -167,8 +167,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$mail_status = $recordModel->sendMailFromTemplate($data);
 
 		if ($mail_status != 1) {
-			\App\log::error('Do not sent mail with information about brute force attack');
+			\App\Log::error('Do not sent mail with information about brute force attack');
 		}
-		\App\log::trace('End ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('End ' . __CLASS__ . '::' . __METHOD__);
 	}
 }

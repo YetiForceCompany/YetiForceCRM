@@ -77,7 +77,7 @@ class Vendors extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_products(" . $id . ") method ...");
+		\App\Log::trace("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -126,7 +126,7 @@ class Vendors extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_products method ...");
+		\App\Log::trace("Exiting get_products method ...");
 		return $return_value;
 	}
 
@@ -139,7 +139,7 @@ class Vendors extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -166,7 +166,7 @@ class Vendors extends CRMEntity
 		else
 			$query .= sprintf("  WHERE %s", $where_auto);
 
-		\App\log::trace("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -180,7 +180,7 @@ class Vendors extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_contacts(" . $id . ") method ...");
+		\App\Log::trace("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -230,7 +230,7 @@ class Vendors extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_contacts method ...");
+		\App\Log::trace("Exiting get_contacts method ...");
 		return $return_value;
 	}
 
@@ -244,7 +244,7 @@ class Vendors extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_campaigns(" . $id . ") method ...");
+		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -289,7 +289,7 @@ class Vendors extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_campaigns method ...");
+		\App\Log::trace("Exiting get_campaigns method ...");
 		return $return_value;
 	}
 
@@ -303,7 +303,7 @@ class Vendors extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = ['Products' => 'vtiger_products', 'Contacts' => 'vtiger_vendorcontactrel', 'Campaigns' => 'vtiger_campaign_records'];
 
@@ -327,7 +327,7 @@ class Vendors extends CRMEntity
 				}
 			}
 		}
-		\App\log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the primary query part of a report

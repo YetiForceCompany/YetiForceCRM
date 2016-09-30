@@ -21,7 +21,7 @@ class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
 	public function getConfigInstance($type = false)
 	{
 		
-		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: " . print_r($type, true));
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: " . print_r($type, true));
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM `yetiforce_proc_tc`';
 		if ($type && !is_array($type)) {
@@ -38,17 +38,17 @@ class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
 			$output[$row['type']][$row['param']] = $row['value'];
 		}
 		$this->setData($output);
-		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $this;
 	}
 
 	public function setConfig($param)
 	{
 		
-		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$db->pquery('UPDATE `yetiforce_proc_tc` SET `value` = ? WHERE `type` = ? && `param` = ?;', $param);
-		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
 	}
 }

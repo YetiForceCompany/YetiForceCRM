@@ -70,7 +70,7 @@ function GetHistoryBase($parentmodule, $query, $id)
 function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 {
 	
-	\App\log::trace("Entering getPriceBookRelatedProducts(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
+	\App\Log::trace("Entering getPriceBookRelatedProducts(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
 
 	$adb = PearDatabase::getInstance();
 	global $mod_strings;
@@ -169,7 +169,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	$navigationOutput[] = getRelatedTableHeaderNavigation($navigation_array, '', $module, $relatedmodule, $focus->id);
 	$return_data = array('header' => $header, 'entries' => $entries_list, 'navigation' => $navigationOutput);
 
-	\App\log::trace("Exiting getPriceBookRelatedProducts method ...");
+	\App\Log::trace("Exiting getPriceBookRelatedProducts method ...");
 	return $return_data;
 }
 

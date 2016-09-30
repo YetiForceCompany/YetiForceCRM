@@ -219,7 +219,7 @@ class Functions
 	public static function getModuleData($mixed)
 	{
 		if (empty($mixed)) {
-			\App\log::error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
+			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
 			return false;
 		}
 		$id = $name = NULL;

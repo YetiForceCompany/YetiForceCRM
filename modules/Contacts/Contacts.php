@@ -122,14 +122,14 @@ class Contacts extends CRMEntity
 	public function getCount($user_name)
 	{
 
-		\App\log::trace("Entering getCount(" . $user_name . ") method ...");
+		\App\Log::trace("Entering getCount(" . $user_name . ") method ...");
 		$query = "select count(*) from vtiger_contactdetails  inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid where user_name=? and vtiger_crmentity.deleted=0";
 		$result = $this->db->pquery($query, array($user_name), true, "Error retrieving contacts count");
 		$rows_found = $this->db->getRowCount($result);
 		$row = $this->db->fetchByAssoc($result, 0);
 
 
-		\App\log::trace("Exiting getCount method ...");
+		\App\Log::trace("Exiting getCount method ...");
 		return $row["count(*)"];
 	}
 
@@ -143,10 +143,10 @@ class Contacts extends CRMEntity
 	public function get_contacts($user_name, $from_index, $offset)
 	{
 
-		\App\log::trace("Entering get_contacts(" . $user_name . "," . $from_index . "," . $offset . ") method ...");
+		\App\Log::trace("Entering get_contacts(" . $user_name . "," . $from_index . "," . $offset . ") method ...");
 		$query = "select vtiger_users.user_name,vtiger_groups.groupname,vtiger_contactdetails.department department, vtiger_contactdetails.phone office_phone, vtiger_contactdetails.fax fax, vtiger_contactsubdetails.assistant assistant_name, vtiger_contactsubdetails.otherphone other_phone, vtiger_contactsubdetails.homephone home_phone,vtiger_contactsubdetails.birthday birthdate, vtiger_contactdetails.lastname last_name,vtiger_contactdetails.firstname first_name,vtiger_contactdetails.contactid as id, vtiger_contactdetails.salutation as salutation, vtiger_contactdetails.email as email1,vtiger_contactdetails.title as title,vtiger_contactdetails.mobile as phone_mobile,vtiger_account.accountname as account_name,vtiger_account.accountid as parent_id, vtiger_contactaddress.mailingcity as primary_address_city,vtiger_contactaddress.mailingstreet as primary_address_street, vtiger_contactaddress.mailingcountry as primary_address_country,vtiger_contactaddress.mailingstate as primary_address_state, vtiger_contactaddress.mailingzip as primary_address_postalcode,   vtiger_contactaddress.othercity as alt_address_city,vtiger_contactaddress.otherstreet as alt_address_street, vtiger_contactaddress.othercountry as alt_address_country,vtiger_contactaddress.otherstate as alt_address_state, vtiger_contactaddress.otherzip as alt_address_postalcode  from vtiger_contactdetails inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid left join vtiger_account on vtiger_account.accountid=vtiger_contactdetails.parentid left join vtiger_contactaddress on vtiger_contactaddress.contactaddressid=vtiger_contactdetails.contactid left join vtiger_contactsubdetails on vtiger_contactsubdetails.contactsubscriptionid = vtiger_contactdetails.contactid left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid left join vtiger_users on vtiger_crmentity.smownerid=vtiger_users.id where user_name='%s' and vtiger_crmentity.deleted=0 limit %s, %s";
 		$query = sprintf($query, $user_name, $from_index, $offset);
-		\App\log::trace("Exiting get_contacts method ...");
+		\App\Log::trace("Exiting get_contacts method ...");
 		return $this->process_list_query1($query);
 	}
 
@@ -157,7 +157,7 @@ class Contacts extends CRMEntity
 	public function process_list_query1($query)
 	{
 
-		\App\log::trace("Entering process_list_query1(" . $query . ") method ...");
+		\App\Log::trace("Entering process_list_query1(" . $query . ") method ...");
 
 		$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
 		$list = Array();
@@ -185,7 +185,7 @@ class Contacts extends CRMEntity
 		$response['previous_offset'] = $previous_offset;
 
 
-		\App\log::trace("Exiting process_list_query1 method ...");
+		\App\Log::trace("Exiting process_list_query1 method ...");
 		return $response;
 	}
 
@@ -198,7 +198,7 @@ class Contacts extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 
-		\App\log::trace("Entering process_list_query1(" . $query . ") method ...");
+		\App\Log::trace("Entering process_list_query1(" . $query . ") method ...");
 		$permitted_field_lists = Array();
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
@@ -247,7 +247,7 @@ class Contacts extends CRMEntity
 		$response['row_count'] = $rows_found;
 		$response['next_offset'] = $next_offset;
 		$response['previous_offset'] = $previous_offset;
-		\App\log::trace("Exiting process_list_query1 method ...");
+		\App\Log::trace("Exiting process_list_query1 method ...");
 		return $response;
 	}
 
@@ -262,7 +262,7 @@ class Contacts extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_tickets(" . $id . ") method ...");
+		\App\Log::trace("Entering get_tickets(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -310,7 +310,7 @@ class Contacts extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_tickets method ...");
+		\App\Log::trace("Exiting get_tickets method ...");
 		return $return_value;
 	}
 
@@ -325,7 +325,7 @@ class Contacts extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_products(" . $id . ") method ...");
+		\App\Log::trace("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -378,7 +378,7 @@ class Contacts extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_products method ...");
+		\App\Log::trace("Exiting get_products method ...");
 		return $return_value;
 	}
 
@@ -392,7 +392,7 @@ class Contacts extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_campaigns(" . $id . ") method ...");
+		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -440,7 +440,7 @@ class Contacts extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_campaigns method ...");
+		\App\Log::trace("Exiting get_campaigns method ...");
 		return $return_value;
 	}
 
@@ -455,7 +455,7 @@ class Contacts extends CRMEntity
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		\App\log::trace("Entering get_vendors(" . $id . ") method ...");
+		\App\Log::trace("Entering get_vendors(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -501,7 +501,7 @@ class Contacts extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		\App\log::trace("Exiting get_vendors method ...");
+		\App\Log::trace("Exiting get_vendors method ...");
 		return $return_value;
 	}
 
@@ -513,7 +513,7 @@ class Contacts extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -542,8 +542,8 @@ class Contacts extends CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		\App\log::trace("Export Query Constructed Successfully");
-		\App\log::trace("Exiting create_export_query method ...");
+		\App\Log::trace("Export Query Constructed Successfully");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -555,7 +555,7 @@ class Contacts extends CRMEntity
 	{
 		$current_user = vglobal('current_user');
 
-		\App\log::trace("Entering getColumnNames() method ...");
+		\App\Log::trace("Entering getColumnNames() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select fieldlabel from vtiger_field where tabid=4 and block <> 75 and vtiger_field.presence in (0,2)";
@@ -577,7 +577,7 @@ class Contacts extends CRMEntity
 			$custom_fields[$i] = strtoupper($custom_fields[$i]);
 		}
 		$mergeflds = $custom_fields;
-		\App\log::trace("Exiting getColumnNames method ...");
+		\App\Log::trace("Exiting getColumnNames method ...");
 		return $mergeflds;
 	}
 
@@ -599,7 +599,7 @@ class Contacts extends CRMEntity
 		$current_user->retrieve_entity_info($user_id, 'Users');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-		\App\log::trace("Entering get_searchbyemailid(" . $username . "," . $emailaddress . ") method ...");
+		\App\Log::trace("Entering get_searchbyemailid(" . $username . "," . $emailaddress . ") method ...");
 		$query = "select vtiger_contactdetails.lastname,vtiger_contactdetails.firstname,
 					vtiger_contactdetails.contactid, vtiger_contactdetails.salutation,
 					vtiger_contactdetails.email,vtiger_contactdetails.title,
@@ -622,7 +622,7 @@ class Contacts extends CRMEntity
 				"' and vtiger_contactdetails.email != '')";
 		}
 
-		\App\log::trace("Exiting get_searchbyemailid method ...");
+		\App\Log::trace("Exiting get_searchbyemailid method ...");
 		return $this->plugin_process_list_query($query);
 	}
 
@@ -670,7 +670,7 @@ class Contacts extends CRMEntity
 			$column_table_lists[] = implode(".", $permitted_lists[$i]);
 		}
 
-		\App\log::trace("Entering get_contactsforol(" . $user_name . ") method ...");
+		\App\Log::trace("Entering get_contactsforol(" . $user_name . ") method ...");
 		$query = sprintf("select vtiger_contactdetails.contactid as id, %s from vtiger_contactdetails
 						inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid
 						inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
@@ -682,7 +682,7 @@ class Contacts extends CRMEntity
                         left join vtiger_campaignrelstatus on vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid
 			      LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 						where vtiger_crmentity.deleted=0 and vtiger_users.user_name='%s'", implode(',', $column_table_lists), $user_name);
-		\App\log::trace("Exiting get_contactsforol method ...");
+		\App\Log::trace("Exiting get_contactsforol method ...");
 		return $query;
 	}
 
@@ -702,7 +702,7 @@ class Contacts extends CRMEntity
 	{
 
 		$adb = PearDatabase::getInstance();
-		\App\log::trace("Entering into insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
 		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
@@ -737,7 +737,7 @@ class Contacts extends CRMEntity
 			}
 		}
 
-		\App\log::trace("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/**
@@ -750,7 +750,7 @@ class Contacts extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
 			"Attachments" => "vtiger_seattachmentsrel", "Campaigns" => "vtiger_campaign_records",
@@ -783,7 +783,7 @@ class Contacts extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report

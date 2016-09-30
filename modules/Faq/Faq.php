@@ -80,7 +80,7 @@ class Faq extends CRMEntity
 	public function insertIntoFAQCommentTable($table_name, $module)
 	{
 
-		\App\log::trace("in insertIntoFAQCommentTable  " . $table_name . "    module is  " . $module);
+		\App\Log::trace("in insertIntoFAQCommentTable  " . $table_name . "    module is  " . $module);
 		$adb = PearDatabase::getInstance();
 
 		$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);

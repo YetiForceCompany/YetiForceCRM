@@ -45,7 +45,7 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 	{
 		$adb = PearDatabase::getInstance();
 		
-		\App\log::trace('Settings_BackUp_SaveFTPConfig_Action: process started');
+		\App\Log::trace('Settings_BackUp_SaveFTPConfig_Action: process started');
 		$ftpServerName = $request->get('ftpservername');
 		$ftpLogin = $request->get('ftplogin');
 		$ftpPassword = $request->get('ftppassword');
@@ -69,10 +69,10 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$loginResult = @ftp_login($ftpConnect, $ftpLogin, $ftpPassword);
 			if (false == $loginResult) {
-				\App\log::trace('FTP connection has failed!');
+				\App\Log::trace('FTP connection has failed!');
 				$result = array('success' => true, 'fptConnection' => false, 'message' => 'JS_CONNECTION_FAIL');
 			} else {
-				\App\log::trace('FTP connection has success!');
+				\App\Log::trace('FTP connection has success!');
 				$result = array('success' => true, 'fptConnection' => true, 'message' => 'JS_SAVE_CHANGES');
 				Settings_BackUp_Module_Model::saveFTPSettings($ftpServerName, $ftpLogin, $ftpPassword, true, $ftpPort, $ftpActive, $ftpPath);
 			}
