@@ -1,4 +1,4 @@
-<?php namespace includes;
+<?php namespace App;
 
 /**
  * Global privileges basic class
@@ -6,10 +6,8 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class GlobalPrivileges
+class PrivilegeUpdater
 {
-
-	protected static $globalSearchCache = [];
 
 	public static function globalSearchByModule($moduleName, $userId = false)
 	{
@@ -29,7 +27,7 @@ class GlobalPrivileges
 		if (self::globalSearchByModule($moduleName, $userId)) {
 			return true;
 		}
-		return Privileges::isPermitted($moduleName, 'DetailView', $record, $userId);
+		return Privilege::isPermitted($moduleName, 'DetailView', $record, $userId);
 	}
 
 	public static function updateGlobalSearch($record, $moduleName)
