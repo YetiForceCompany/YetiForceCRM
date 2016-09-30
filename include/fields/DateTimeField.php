@@ -266,14 +266,13 @@ class DateTimeField
 	 */
 	public static function convertToUserTimeZone($value, $user = null)
 	{
-		global $default_timezone;
 		$log = LoggerManager::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value) method ...");
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = $user->time_zone ? $user->time_zone : $default_timezone;
+		$timeZone = $user->time_zone ? $user->time_zone : AppConfig::main('default_timezone');
 		$return = DateTimeField::convertTimeZone($value, self::getDBTimeZone(), $timeZone);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $return;
@@ -287,14 +286,13 @@ class DateTimeField
 	 */
 	public static function convertToDBTimeZone($value, $user = null, $formatDate = true)
 	{
-		global $default_timezone;
 		$log = LoggerManager::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value)");
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = $user->time_zone ? $user->time_zone : $default_timezone;
+		$timeZone = $user->time_zone ? $user->time_zone : AppConfig::main('default_timezone');
 
 		if ($formatDate) {
 			$value = self::sanitizeDate($value, $user);

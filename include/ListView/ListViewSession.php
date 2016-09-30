@@ -187,7 +187,6 @@ class ListViewSession
 
 	public function getRequestCurrentPage($currentModule, $query, $viewid, $queryMode = false)
 	{
-		global $listMaxEntriesPerPage;
 		$adb = PearDatabase::getInstance();
 		$start = 1;
 		if (AppRequest::has('query') && AppRequest::get('query') == 'true' && AppRequest::get('start') != 'last') {
@@ -199,7 +198,7 @@ class ListViewSession
 				$count_result = $adb->query(vtlib\Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");
 				if ($noofrows > 0) {
-					$start = ceil($noofrows / $listMaxEntriesPerPage);
+					$start = ceil($noofrows / AppConfig::main('list_max_entries_per_page'));
 				}
 			}
 			if (!is_numeric($start)) {

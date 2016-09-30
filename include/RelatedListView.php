@@ -121,14 +121,14 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 			" LIMIT $limit_start_rec, $listMaxEntriesPerPage ", []);
 
 	$header = [];
-	$header[] = $mod_strings['LBL_LIST_PRODUCT_NAME'];
+	$header[] = \includes\Language::translate('LBL_LIST_PRODUCT_NAME');
 	if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
-		$header[] = $mod_strings['LBL_PRODUCT_CODE'];
+		$header[] = \includes\Language::translate('LBL_PRODUCT_CODE');
 	if (getFieldVisibilityPermission('Products', $current_user->id, 'unit_price') == '0')
-		$header[] = $mod_strings['LBL_PRODUCT_UNIT_PRICE'];
-	$header[] = $mod_strings['LBL_PB_LIST_PRICE'];
+		$header[] = \includes\Language::translate('LBL_PRODUCT_UNIT_PRICE');
+	$header[] = \includes\Language::translate('LBL_PB_LIST_PRICE');
 	if (isPermitted("PriceBooks", "EditView", "") == 'yes' || isPermitted("PriceBooks", "Delete", "") == 'yes')
-		$header[] = $mod_strings['LBL_ACTION'];
+		$header[] = \includes\Language::translate('LBL_ACTION');
 
 	$currency_id = $focus->column_fields['currency_id'];
 	$numRows = $adb->num_rows($list_result);

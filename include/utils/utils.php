@@ -25,7 +25,6 @@ require_once 'include/utils/EditViewUtils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/InventoryUtils.php';
 require_once 'include/utils/SearchUtils.php';
-require_once 'include/FormValidationUtil.php';
 require_once 'include/events/SqlResultIterator.inc';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';

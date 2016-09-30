@@ -369,27 +369,6 @@ class Deprecated
 		return $sqlString;
 	}
 
-	public static function getModuleFieldTypeOfDataInfos($tables, $tabid = '')
-	{
-		$result = [];
-		if (!empty($tabid)) {
-			$module = Functions::getModuleName($tabid);
-			$fieldInfos = Functions::getModuleFieldInfos($tabid);
-			foreach ($fieldInfos as $name => $field) {
-				if (($field['displaytype'] == '1' || $field['displaytype'] == '3') &&
-					($field['presence'] == '0' || $field['presence'] == '2')) {
-
-					$label = Functions::getTranslatedString($field['fieldlabel'], $module);
-					$result[$name] = array($label => $field['typeofdata']);
-				}
-			}
-		} else {
-			throw new \Exception('Field lookup by table no longer supported');
-		}
-
-		return $result;
-	}
-
 	public static function return_app_list_strings_language($language, $module = 'Vtiger')
 	{
 		$strings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
