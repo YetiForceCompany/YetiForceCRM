@@ -1364,7 +1364,7 @@ class QueryGenerator
 
 	public function addUserSearchConditions($input)
 	{
-		
+
 		$default_charset = AppConfig::main('default_charset');
 		if ($input['searchtype'] == 'advance') {
 			$advftCriteria = AppRequest::get('advft_criteria');
@@ -1456,20 +1456,7 @@ class QueryGenerator
 				}
 
 				if ($type == 'picklist') {
-					global $mod_strings;
-					// Get all the keys for the for the Picklist value
-					$mod_keys = array_keys($mod_strings, $value);
-					if (sizeof($mod_keys) >= 1) {
-						// Iterate on the keys, to get the first key which doesn't start with LBL_      (assuming it is not used in PickList)
-						foreach ($mod_keys as $mod_idx => $mod_key) {
-							$stridx = strpos($mod_key, 'LBL_');
-							// Use strict type comparision, refer strpos for more details
-							if ($stridx !== 0) {
-								$value = $mod_key;
-								break;
-							}
-						}
-					}
+					$value = \includes\Language::translate($value, $this->module)
 				}
 				if ($type == 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion

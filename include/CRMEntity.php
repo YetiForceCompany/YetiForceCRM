@@ -2232,7 +2232,6 @@ class CRMEntity
 	 */
 	public function add_related_to($module, $fieldname)
 	{
-		global $imported_ids;
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$related_to = $this->column_fields[$fieldname];

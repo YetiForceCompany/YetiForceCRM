@@ -69,11 +69,10 @@ function GetHistoryBase($parentmodule, $query, $id)
  */
 function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 {
-	
+
 	\App\Log::trace("Entering getPriceBookRelatedProducts(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
 
 	$adb = PearDatabase::getInstance();
-	global $mod_strings;
 	$current_user = vglobal('current_user');
 	$no_of_decimal_places = getCurrencyDecimalPlaces();
 	$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');

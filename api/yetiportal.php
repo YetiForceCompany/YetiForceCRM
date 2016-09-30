@@ -757,7 +757,6 @@ function create_ticket($input_array)
  */
 function update_ticket_comment($input_array)
 {
-	global $mod_strings;
 	$adb = PearDatabase::getInstance();
 	$adb->println("Inside customer portal function update_ticket_comment");
 	$adb->println($input_array);
@@ -795,7 +794,6 @@ function update_ticket_comment($input_array)
  */
 function close_current_ticket($input_array)
 {
-	global $mod_strings;
 	$adb = PearDatabase::getInstance();
 
 

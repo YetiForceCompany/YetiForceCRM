@@ -18,8 +18,6 @@ Class ChartUtils
 	public static function getBarChart($xaxisData, $yaxisData, $title = '', $width = '', $height = '', $charttype = 'vertical', $cachedFileName = false, $target = false, $color = '')
 	{
 
-		global $lang_crm;
-		
 		$default_charset = AppConfig::main('default_charset');
 		require_once('include/utils/utils.php');
 		require_once('include/utils/GraphUtils.php');
@@ -206,8 +204,6 @@ Class ChartUtils
 	public static function getPieChart($xaxisData, $yaxisData, $title = '', $width = '', $height = '', $charttype = 'vertical', $cachedFileName = false, $target = false, $color = '')
 	{
 
-		global $lang_crm;
-		
 		$default_charset = AppConfig::main('default_charset');
 		require_once('include/utils/utils.php');
 		require_once('include/utils/GraphUtils.php');
