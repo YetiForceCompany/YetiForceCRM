@@ -175,14 +175,13 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 
 function CheckFieldPermission($fieldname, $module)
 {
-	$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-	$adb = PearDatabase::getInstance();
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
+	$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+	require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 	if ($fieldname == '' || $module == '') {
 		return "false";
 	}
 
-	if (getFieldVisibilityPermission($module, $current_user->id, $fieldname) == '0') {
+	if (getFieldVisibilityPermission($module, $currentUser->id, $fieldname) == '0') {
 		return "true";
 	}
 	return "false";

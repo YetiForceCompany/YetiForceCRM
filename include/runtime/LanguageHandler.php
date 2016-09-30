@@ -279,8 +279,3 @@ function vtranslate($key, $moduleName = 'Vtiger')
 	return $formattedString;
 }
 
-function vJSTranslate($key, $moduleName = 'Vtiger')
-{
-	$args = func_get_args();
-	return call_user_func_array(array('Vtiger_Language_Handler', 'getJSTranslatedString'), $args);
-}
