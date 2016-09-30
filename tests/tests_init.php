@@ -11,6 +11,7 @@ chdir(dirname(__FILE__) . '/../');
 $startTime = microtime(true);
 define('REQUEST_MODE', 'TEST');
 define('ROOT_DIRECTORY', getcwd());
+require_once 'vendor/yii/Yii.php';
 
 if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
