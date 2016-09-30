@@ -194,8 +194,8 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 	public function searchAccountsToConvert($recordModel)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
+		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		if ($recordModel) {
 			$params = [];
 			$db = PearDatabase::getInstance();
@@ -213,14 +213,14 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$result = $db->pquery($sql, $params);
 			$num = $db->num_rows($result);
 			if ($num > 1) {
-				$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+				\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 				return false;
 			} elseif ($num == 1) {
-				$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+				\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 				return (int) $db->query_result($result, 0, 'accountid');
 			}
 		}
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
 	}
 

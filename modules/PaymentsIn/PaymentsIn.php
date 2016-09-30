@@ -13,7 +13,6 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class PaymentsIn extends Vtiger_CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_paymentsin';
 	public $table_index = 'paymentsinid';
 	public $column_fields = Array();
@@ -139,13 +138,13 @@ class PaymentsIn extends Vtiger_CRMEntity
 
 			$this->addWorkflow($modulename);
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 			
 		}

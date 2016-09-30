@@ -195,8 +195,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function executeActions($account, $mail, $folder, $params = false)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Start execute actions: ' . $account['username']);
+		
+		\App\log::trace('Start execute actions: ' . $account['username']);
 
 		$actions = [];
 		if ($params && array_key_exists('actions', $params)) {
@@ -212,14 +212,14 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$handlerClass = Vtiger_Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
 			$handler = new $handlerClass();
 			if ($handler) {
-				$log->debug('Start action: ' . $action);
+				\App\log::trace('Start action: ' . $action);
 
 				$mail->addActionResult($action, $handler->process($mail));
 
-				$log->debug('End action');
+				\App\log::trace('End action');
 			}
 		}
-		$log->debug('End execute actions');
+		\App\log::trace('End execute actions');
 		return $mail->getActionResult();
 	}
 
@@ -382,11 +382,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public function executeCron($who_trigger)
 	{
-		$log = vglobal('log');
-		$log->debug('Start executeCron');
+		
+		\App\log::trace('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {
-			$log->warn(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
+			\App\log::warning(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
@@ -395,35 +395,35 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$scanId = 0;
 		$accounts = OSSMail_Record_Model::getAccountsList();
 		if (!$accounts) {
-			$log->warn('There are no accounts to be scanned');
+			\App\log::warning('There are no accounts to be scanned');
 			return false;
 		}
 		self::setCronStatus('2');
 		$scanId = $scannerModel->add_scan_history(['user' => $who_trigger]);
 		foreach ($accounts as $account) {
-			$log->debug('Start checking account: ' . $account['username']);
+			\App\log::trace('Start checking account: ' . $account['username']);
 			foreach ($scannerModel->getFolders($account['user_id']) as &$folderRow) {
 				$folder = $folderRow['folder'];
-				$log->debug('Start checking folder: ' . $folder);
+				\App\log::trace('Start checking folder: ' . $folder);
 
 				$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder, false);
 				if (is_resource($mbox)) {
 					$countEmails = $scannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
 					imap_close($mbox);
 					if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
-						$log->warn('Reached the maximum number of scanned mails');
+						\App\log::warning('Reached the maximum number of scanned mails');
 						$scannerModel->updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 						self::setCronStatus('1');
 						return 'ok';
 					}
 				} else {
-					$log->fatal('Incorrect mail access data: ' . $account['username'] . ' , ' . $folder);
+					\App\log::error('Incorrect mail access data: ' . $account['username'] . ' , ' . $folder);
 				}
 			}
 		}
 		$scannerModel->updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 		self::setCronStatus('1');
-		$log->debug('End executeCron');
+		\App\log::trace('End executeCron');
 		return 'ok';
 	}
 

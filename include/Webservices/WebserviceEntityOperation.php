@@ -26,7 +26,6 @@ abstract class WebserviceEntityOperation
 	protected function __construct($webserviceObject, $user, $adb, $log)
 	{
 		$this->user = $user;
-		$this->log = $log;
 		$this->webserviceObject = $webserviceObject;
 		$this->pearDB = $adb;
 	}

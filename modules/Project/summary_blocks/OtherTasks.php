@@ -18,8 +18,8 @@ class OtherTasks
 
 	public function process($instance)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering OtherTasks::process() method ...");
+		
+		\App\log::trace("Entering OtherTasks::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask
@@ -27,7 +27,7 @@ class OtherTasks
 						WHERE vtiger_crmentity.deleted=0 && vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskpriority NOT IN (?,?,?) ';
 		$result = $adb->pquery($query, array($instance->getId(), 'high', 'low', 'normal'));
 		$count = $adb->query_result($result, 0, 'count');
-		$log->debug("Exiting OtherTasks::process() method ...");
+		\App\log::trace("Exiting OtherTasks::process() method ...");
 		return $count;
 	}
 }

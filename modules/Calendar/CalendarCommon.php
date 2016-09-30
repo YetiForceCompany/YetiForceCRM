@@ -74,13 +74,13 @@ function getaddEventPopupTime($starttime, $endtime, $format)
  */
 function getActivityDetails($description, $user_id, $from = '')
 {
-	$log = vglobal('log');
+	
 	$currentUser = vglobal('current_user');
 	$adb = PearDatabase::getInstance();
 	require_once 'include/utils/utils.php';
 	$current_language = vglobal('current_language');
 	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');
-	$log->debug("Entering getActivityDetails(" . $description . ") method ...");
+	\App\log::trace("Entering getActivityDetails(" . $description . ") method ...");
 	$updated = $mod_strings['LBL_UPDATED'];
 	$created = $mod_strings['LBL_CREATED'];
 	$reply = (($description['mode'] == 'edit') ? "$updated" : "$created");
@@ -122,7 +122,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	$list .= '<br><br>' . $mod_strings["LBL_REGARDS_STRING"] . ' ,';
 	$list .= '<br>' . $currentUsername . '.';
 
-	$log->debug("Exiting getActivityDetails method ...");
+	\App\log::trace("Exiting getActivityDetails method ...");
 	return $list;
 }
 

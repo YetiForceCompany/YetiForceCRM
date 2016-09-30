@@ -13,7 +13,6 @@ class API_CardDAV_Model
 	const PRODID = 'YetiForceCRM';
 
 	public $pdo = false;
-	public $log = false;
 	public $user = false;
 	public $addressBookId = false;
 	public $davUsers = [];
@@ -38,10 +37,10 @@ class API_CardDAV_Model
 
 	public function cardDavCrm2Dav()
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$this->syncCrmRecord('Contacts');
 		$this->syncCrmRecord('OSSEmployees');
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function syncCrmRecord($moduleName)
@@ -71,12 +70,12 @@ class API_CardDAV_Model
 			}
 			$this->markComplete($moduleName, $record['crmid']);
 		}
-		$this->log->info("syncCrmRecord $moduleName | create: $create | deletes: $deletes | updates: $updates");
+		\App\log::trace("syncCrmRecord $moduleName | create: $create | deletes: $deletes | updates: $updates");
 	}
 
 	public function cardDav2Crm()
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		foreach ($this->davUsers as $key => $user) {
 			$this->addressBookId = $user->get('addressbooksid');
 			$this->user = $user;
@@ -84,12 +83,12 @@ class API_CardDAV_Model
 			$current_user = $user;
 			$this->syncAddressBooks();
 		}
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function syncAddressBooks()
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
 		$result = $this->getDavCardsToSync();
 		$create = $deletes = $updates = 0;
@@ -113,13 +112,13 @@ class API_CardDAV_Model
 				}
 			}
 		}
-		$this->log->info("cardDavDav2Crm | create: $create | deletes: $deletes | updates: $updates");
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\log::trace("cardDavDav2Crm | create: $create | deletes: $deletes | updates: $updates");
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function createCard($moduleName, $record)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
 
 		$vcard = new Sabre\VObject\Component\VCard();
 		$vcard->PRODID = self::PRODID;
@@ -170,12 +169,12 @@ class API_CardDAV_Model
 		]);
 		$this->addChange($cardUri, 1);
 
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function updateCard($moduleName, $record, $card)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		$vcard->PRODID = self::PRODID;
 
@@ -225,23 +224,23 @@ class API_CardDAV_Model
 			$card['id']
 		]);
 		$this->addChange($card['uri'], 2);
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function deletedCard($card)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Card ID:' . $card['id']);
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start Card ID:' . $card['id']);
 		$this->addChange($card['crmid'] . '.vcf', 3);
 		$stmt = $this->pdo->prepare('DELETE FROM dav_cards WHERE id = ?;');
 		$stmt->execute([
 			$card['id']
 		]);
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function createRecord($moduleName, $card)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Card ID' . $card['id']);
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start Card ID' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		if (isset($vcard->ORG)) {
 			$lead = Vtiger_Record_Model::getCleanInstance('Leads');
@@ -290,12 +289,12 @@ class API_CardDAV_Model
 			date('Y-m-d H:i:s', $card['lastmodified']),
 			$record->getId()
 		]);
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function updateRecord($record, $card)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Card ID:' . $card['id']);
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start Card ID:' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		$head = $vcard->N->getParts();
 		$moduleName = $record->getModuleName();
@@ -330,7 +329,7 @@ class API_CardDAV_Model
 			date('Y-m-d H:i:s', $card['lastmodified']),
 			$record->getId()
 		]);
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function getCrmRecordsToSync($moduleName)
@@ -370,9 +369,9 @@ class API_CardDAV_Model
 
 	public function getCardTel($vcard, $type)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start | Type:' . $type);
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start | Type:' . $type);
 		if (!isset($vcard->TEL)) {
-			$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
+			\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
 			return '';
 		}
 		foreach ($vcard->TEL as $t) {
@@ -380,20 +379,20 @@ class API_CardDAV_Model
 				$vcardType = $p->getValue();
 				$vcardType = strtoupper(trim(str_replace('VOICE', '', $vcardType), ','));
 				if ($vcardType == strtoupper($type) && $t->getValue() != '') {
-					$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End | return: ' . $t->getValue());
+					\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End | return: ' . $t->getValue());
 					return $t->getValue();
 				}
 			}
 		}
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
 		return '';
 	}
 
 	public function getCardMail($vcard, $type)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start | Type:' . $type);
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start | Type:' . $type);
 		if (!isset($vcard->EMAIL)) {
-			$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
+			\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
 			return '';
 		}
 		foreach ($vcard->EMAIL as $e) {
@@ -402,12 +401,12 @@ class API_CardDAV_Model
 				$vcardType = trim(str_replace('pref', '', $vcardType), ',');
 				$vcardType = strtoupper(trim(str_replace('INTERNET', '', $vcardType), ','));
 				if ($vcardType == strtoupper($type) && $vcardType != '') {
-					$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End | return: ' . $e->getValue());
+					\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End | return: ' . $e->getValue());
 					return $e->getValue();
 				}
 			}
 		}
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
 		return '';
 	}
 

@@ -96,8 +96,8 @@ class Home_Notification_Model extends Vtiger_Base_Model
 
 	public function save($parseContent = true)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
+		
+		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
 		$currentUser = vglobal('current_user');
 		$user = CRMEntity::getInstance('Users');
@@ -105,14 +105,14 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		vglobal('current_user', $user);
 
 		if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
-			$log->warn('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			\App\log::warning('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
+			\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($this->get('moduleName') != 'Users' && !Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
-			$log->error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) .
+			\App\log::error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) .
 				' does not have permission for this record ' . $this->get('record'));
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($parseContent) {
@@ -138,7 +138,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			'time' => $this->get('time')
 		]);
 
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 		return true;
 	}
 

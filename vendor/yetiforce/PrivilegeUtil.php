@@ -17,8 +17,7 @@ class PrivilegeUtil
 	 */
 	public static function getParentRecordOwner($tabid, $parModId, $recordId)
 	{
-		$log = \LoggerManager::getInstance();
-		$log->debug("Entering getParentRecordOwner($tabid,$parModId,$recordId) method ...");
+		\App\log::trace("Entering getParentRecordOwner($tabid,$parModId,$recordId) method ...");
 		$parentRecOwner = [];
 		$parentTabName = \vtlib\Functions::getModuleName($parModId);
 		$relTabName = \vtlib\Functions::getModuleName($tabid);
@@ -32,7 +31,7 @@ class PrivilegeUtil
 				$parentRecOwner[$type] = $ownerId;
 			}
 		}
-		$log->debug('Exiting getParentRecordOwner method ...');
+		\App\log::trace('Exiting getParentRecordOwner method ...');
 		return $parentRecOwner;
 	}
 
@@ -42,13 +41,12 @@ class PrivilegeUtil
 	 */
 	private static function getEmailsRelatedAccounts($recordId)
 	{
-		$log = \LoggerManager::getInstance();
-		$log->debug("Entering getEmailsRelatedAccounts($recordId) method ...");
+		\App\log::trace("Entering getEmailsRelatedAccounts($recordId) method ...");
 		$adb = \PearDatabase::getInstance();
 		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Accounts' and activityid=?";
 		$result = $adb->pquery($query, array($recordId));
 		$accountid = $adb->getSingleValue($result);
-		$log->debug('Exiting getEmailsRelatedAccounts method ...');
+		\App\log::trace('Exiting getEmailsRelatedAccounts method ...');
 		return $accountid;
 	}
 
@@ -58,13 +56,12 @@ class PrivilegeUtil
 	 */
 	private static function getEmailsRelatedLeads($recordId)
 	{
-		$log = \LoggerManager::getInstance();
-		$log->debug("Entering getEmailsRelatedLeads($recordId) method ...");
+		\App\log::trace("Entering getEmailsRelatedLeads($recordId) method ...");
 		$adb = \PearDatabase::getInstance();
 		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Leads' and activityid=?";
 		$result = $adb->pquery($query, array($recordId));
 		$leadid = $adb->getSingleValue($result);
-		$log->debug('Exiting getEmailsRelatedLeads method ...');
+		\App\log::trace('Exiting getEmailsRelatedLeads method ...');
 		return $leadid;
 	}
 
@@ -74,13 +71,12 @@ class PrivilegeUtil
 	 */
 	private static function getHelpDeskRelatedAccounts($recordId)
 	{
-		$log = \LoggerManager::getInstance();
-		$log->debug("Entering getHelpDeskRelatedAccounts($recordId) method ...");
+		\App\log::trace("Entering getHelpDeskRelatedAccounts($recordId) method ...");
 		$adb = \PearDatabase::getInstance();
 		$query = "select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
 		$result = $adb->pquery($query, array($recordId));
 		$accountid = $adb->getSingleValue($result);
-		$log->debug('Exiting getHelpDeskRelatedAccounts method ...');
+		\App\log::trace('Exiting getHelpDeskRelatedAccounts method ...');
 		return $accountid;
 	}
 
@@ -113,8 +109,7 @@ class PrivilegeUtil
 	public static function getAllDefaultSharingAction()
 	{
 		if (self::$defaultSharingActionCache === false) {
-			$log = \LoggerManager::getInstance();
-			$log->debug('Entering getAllDefaultSharingAction() method ...');
+			\App\log::trace('Entering getAllDefaultSharingAction() method ...');
 			$adb = \PearDatabase::getInstance();
 			$copy = [];
 			//retreiving the standard permissions
@@ -123,7 +118,7 @@ class PrivilegeUtil
 				$copy[$row['tabid']] = $row['permission'];
 			}
 			self::$defaultSharingActionCache = $copy;
-			$log->debug('Exiting getAllDefaultSharingAction method ...');
+			\App\log::trace('Exiting getAllDefaultSharingAction method ...');
 		}
 		return self::$defaultSharingActionCache;
 	}
@@ -138,8 +133,7 @@ class PrivilegeUtil
 	public static function getRoleUserIds($roleId)
 	{
 		if (!isset(self::$roleUserCache[$roleId])) {
-			$log = \LoggerManager::getInstance();
-			$log->debug("Entering getRoleUserIds($roleId) method ...");
+			\App\log::trace("Entering getRoleUserIds($roleId) method ...");
 			$adb = \PearDatabase::getInstance();
 			$query = 'select vtiger_user2role.userid,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?';
 			$result = $adb->pquery($query, array($roleId));
@@ -148,7 +142,7 @@ class PrivilegeUtil
 				$roleRelatedUsers[] = $userid;
 			}
 			self::$roleUserCache[$roleId] = $roleRelatedUsers;
-			$log->debug('Exiting getRoleUserIds method ...');
+			\App\log::trace('Exiting getRoleUserIds method ...');
 		}
 		return self::$roleUserCache[$roleId];
 	}

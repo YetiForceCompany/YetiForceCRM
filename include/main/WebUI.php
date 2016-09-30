@@ -102,8 +102,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = LoggerManager::getLogger('System');
-		vglobal('log', $log);
 		if (AppConfig::main('forceSSL') && !vtlib\Functions::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
@@ -219,7 +217,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
 		} catch (Exception $e) {
-			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			\App\log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 			$tpl = 'OperationNotPermitted.tpl';
 			if ($e instanceof \Exception\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';

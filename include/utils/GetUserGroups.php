@@ -29,8 +29,8 @@ class GetUserGroups
 	public function getAllUserGroups($userid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering getAllUserGroups(" . $userid . ") method...");
+		
+		\App\log::trace("Entering getAllUserGroups(" . $userid . ") method...");
 		//Retreiving from the user2grouptable
 		$query = "select * from vtiger_users2group where userid=?";
 		$result = $adb->pquery($query, array($userid));
@@ -82,6 +82,6 @@ class GetUserGroups
 				}
 			}
 		}
-		$log->debug("Exiting getAllUserGroups method...");
+		\App\log::trace("Exiting getAllUserGroups method...");
 	}
 }

@@ -68,8 +68,7 @@ class Utils
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			if ($dieOnFail) {
-				$log = \LoggerManager::getInstance();
-				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+				\App\log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
@@ -102,8 +101,7 @@ class Utils
 
 		if (stripos($realfilepath, $rootdirpath) !== 0) {
 			if ($dieOnFail) {
-				$log = \LoggerManager::getInstance();
-				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+				\App\log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
@@ -118,10 +116,9 @@ class Utils
 	 */
 	static function Log($message, $delimit = true)
 	{
-		$log = \LoggerManager::getInstance();
 		$utilsLog = vglobal('tiger_Utils_Log');
 
-		$log->debug($message);
+		\App\log::trace($message);
 		if (!isset($utilsLog) || $utilsLog === false)
 			return;
 
@@ -176,7 +173,7 @@ class Utils
 				if ($adb->isMySQL()) {
 					$suffixTableMeta = ' ENGINE=InnoDB DEFAULT CHARSET=utf8';
 				} else {
-
+					
 				}
 			}
 			$sql .= $suffixTableMeta;

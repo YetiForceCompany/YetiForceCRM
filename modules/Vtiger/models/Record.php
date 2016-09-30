@@ -581,10 +581,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function trackView()
 	{
-		$log = vglobal('log');
+		
 		$db = PearDatabase::getInstance();
 		$id = $this->getId();
-		$log->debug("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
+		\App\log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
 		if ($id != '') {
 			$updateQuery = "UPDATE vtiger_crmentity SET viewedtime=? WHERE crmid=?;";
 			$updateParams = array(date('Y-m-d H:i:s'), $this->getId());
@@ -686,8 +686,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getInventoryData()
 	{
-		$log = vglobal('log');
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+		
+		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
 		if (!$this->inventoryData) {
 			$module = $this->getModuleName();
 			$record = $this->getId();
@@ -699,7 +699,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 			$this->inventoryData = self::getInventoryDataById($record, $module);
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $this->inventoryData;
 	}
 
@@ -721,8 +721,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function initInventoryData()
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+		
+		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$moduleName = $this->getModuleName();
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
@@ -757,7 +757,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		$this->inventoryData = $inventoryData;
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 	}
 
 	/**

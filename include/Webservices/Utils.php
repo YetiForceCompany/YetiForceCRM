@@ -339,7 +339,7 @@ function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
 function vtws_getName($id, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
@@ -431,7 +431,7 @@ function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, 
 function vtws_getModuleHandlerFromName($name, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $name);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -445,7 +445,7 @@ function vtws_getModuleHandlerFromName($name, $user)
 function vtws_getModuleHandlerFromId($id, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -562,7 +562,7 @@ function vtws_getConvertLeadFieldMapping()
 function vtws_getRelatedNotesAttachments($id, $relatedId)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 
 	$sql = 'SELECT notesid FROM vtiger_senotesrel WHERE crmid=?';
 	$result = $adb->pquery($sql, [$id]);

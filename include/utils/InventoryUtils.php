@@ -20,20 +20,20 @@
  */
 function updateStk($product_id, $qty, $mode, $ext_prod_arr, $module)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering updateStk(" . $product_id . "," . $qty . "," . $mode . "," . $ext_prod_arr . "," . $module . ") method ...");
+
+	\App\log::trace("Entering updateStk(" . $product_id . "," . $qty . "," . $mode . "," . $ext_prod_arr . "," . $module . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 
-	$log->debug("Inside updateStk function, module=" . $module);
-	$log->debug("Product Id = $product_id & Qty = $qty");
+	\App\log::trace("Inside updateStk function, module=" . $module);
+	\App\log::trace("Product Id = $product_id & Qty = $qty");
 
 	$prod_name = \vtlib\Functions::getCRMRecordLabel($product_id);
 	$qtyinstk = getPrdQtyInStck($product_id);
-	$log->debug("Prd Qty in Stock " . $qtyinstk);
+	\App\log::trace("Prd Qty in Stock " . $qtyinstk);
 
 	$upd_qty = $qtyinstk - $qty;
-	$log->debug("Exiting updateStk method ...");
+	\App\log::trace("Exiting updateStk method ...");
 }
 /* * This function is used to get the quantity in stock of a given product
  * Param $product_id - product id
@@ -42,13 +42,13 @@ function updateStk($product_id, $qty, $mode, $ext_prod_arr, $module)
 
 function getPrdQtyInStck($product_id)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering getPrdQtyInStck(" . $product_id . ") method ...");
+
+	\App\log::trace("Entering getPrdQtyInStck(" . $product_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query1 = "SELECT qtyinstock FROM vtiger_products WHERE productid = ?";
 	$result = $adb->pquery($query1, array($product_id));
 	$qtyinstck = $adb->query_result($result, 0, "qtyinstock");
-	$log->debug("Exiting getPrdQtyInStck method ...");
+	\App\log::trace("Exiting getPrdQtyInStck method ...");
 	return $qtyinstck;
 }
 /* * This function is used to get the reorder level of a product
@@ -58,13 +58,13 @@ function getPrdQtyInStck($product_id)
 
 function getPrdReOrderLevel($product_id)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering getPrdReOrderLevel(" . $product_id . ") method ...");
+
+	\App\log::trace("Entering getPrdReOrderLevel(" . $product_id . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query1 = "SELECT reorderlevel FROM vtiger_products WHERE productid = ?";
 	$result = $adb->pquery($query1, array($product_id));
 	$reorderlevel = $adb->query_result($result, 0, "reorderlevel");
-	$log->debug("Exiting getPrdReOrderLevel method ...");
+	\App\log::trace("Exiting getPrdReOrderLevel method ...");
 	return $reorderlevel;
 }
 
@@ -75,13 +75,13 @@ function getPrdReOrderLevel($product_id)
 function getTaxId($type)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering into getTaxId($type) function.");
+
+	\App\log::trace("Entering into getTaxId($type) function.");
 
 	$res = $adb->pquery("SELECT taxid FROM vtiger_inventorytaxinfo WHERE taxname=?", array($type));
 	$taxid = $adb->query_result($res, 0, 'taxid');
 
-	$log->debug("Exiting from getTaxId($type) function. return value=$taxid");
+	\App\log::trace("Exiting from getTaxId($type) function. return value=$taxid");
 	return $taxid;
 }
 
@@ -92,15 +92,15 @@ function getTaxId($type)
 function getTaxPercentage($type)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering into getTaxPercentage($type) function.");
+
+	\App\log::trace("Entering into getTaxPercentage($type) function.");
 
 	$taxpercentage = '';
 
 	$res = $adb->pquery("SELECT percentage FROM vtiger_inventorytaxinfo WHERE taxname = ?", array($type));
 	$taxpercentage = $adb->query_result($res, 0, 'percentage');
 
-	$log->debug("Exiting from getTaxPercentage($type) function. return value=$taxpercentage");
+	\App\log::trace("Exiting from getTaxPercentage($type) function. return value=$taxpercentage");
 	return $taxpercentage;
 }
 
@@ -113,9 +113,9 @@ function getTaxPercentage($type)
 function getProductTaxPercentage($type, $productid, $default = '')
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+
 	$current_user = vglobal('current_user');
-	$log->debug("Entering into getProductTaxPercentage($type,$productid) function.");
+	\App\log::trace("Entering into getProductTaxPercentage($type,$productid) function.");
 
 	$taxpercentage = '';
 
@@ -132,7 +132,7 @@ function getProductTaxPercentage($type, $productid, $default = '')
 		$taxpercentage = getTaxPercentage($type);
 
 
-	$log->debug("Exiting from getProductTaxPercentage($productid,$type) function. return value=$taxpercentage");
+	\App\log::trace("Exiting from getProductTaxPercentage($productid,$type) function. return value=$taxpercentage");
 	if ($current_user->truncate_trailing_zeros === true)
 		return \vtlib\Functions::formatDecimal($taxpercentage);
 	else
@@ -149,8 +149,8 @@ function getProductTaxPercentage($type, $productid, $default = '')
 function getAllTaxes($available = 'all', $sh = '', $mode = '', $id = '')
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering into the function getAllTaxes($available,$sh,$mode,$id)");
+
+	\App\log::trace("Entering into the function getAllTaxes($available,$sh,$mode,$id)");
 	$taxtypes = [];
 
 	$name = $available . $mode . $id;
@@ -201,7 +201,7 @@ function getAllTaxes($available = 'all', $sh = '', $mode = '', $id = '')
 		$taxtypes[$i]['deleted'] = $adb->query_result($res, $i, 'deleted');
 	}
 	Vtiger_Cache::set('getAllTaxes', $name, $taxtypes);
-	$log->debug("Exit from the function getAllTaxes($available,$sh,$mode,$id)");
+	\App\log::trace("Exit from the function getAllTaxes($available,$sh,$mode,$id)");
 	return $taxtypes;
 }
 
@@ -213,8 +213,8 @@ function getAllTaxes($available = 'all', $sh = '', $mode = '', $id = '')
 function getTaxDetailsForProduct($productid, $available = 'all')
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering into function getTaxDetailsForProduct($productid)");
+
+	\App\log::trace("Entering into function getTaxDetailsForProduct($productid)");
 	if ($productid != '') {
 		//where condition added to avoid to retrieve the non available taxes
 		$where = '';
@@ -228,10 +228,6 @@ function getTaxDetailsForProduct($productid, $available = 'all')
 		}
 		$params = array($productid);
 
-		//Postgres 8 fixes
-		if ($adb->isPostgres())
-			$query = fixPostgresQuery($query, $log, 0);
-
 		$res = $adb->pquery($query, $params);
 		$rows_res = $adb->num_rows($res);
 		for ($i = 0; $i < $rows_res; $i++) {
@@ -243,10 +239,10 @@ function getTaxDetailsForProduct($productid, $available = 'all')
 			$tax_details[$i]['deleted'] = $adb->query_result($res, $i, 'deleted');
 		}
 	} else {
-		$log->debug("Product id is empty. we cannot retrieve the associated products.");
+		\App\log::trace("Product id is empty. we cannot retrieve the associated products.");
 	}
 
-	$log->debug("Exit from function getTaxDetailsForProduct($productid)");
+	\App\log::trace("Exit from function getTaxDetailsForProduct($productid)");
 	return $tax_details;
 }
 
@@ -259,9 +255,9 @@ function deleteInventoryProductDetails($focus)
 {
 	global $updateInventoryProductRel_update_product_array;
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
 
-	$log->debug("Entering into function deleteInventoryProductDetails(" . $focus->id . ").");
+
+	\App\log::trace("Entering into function deleteInventoryProductDetails(" . $focus->id . ").");
 
 	$product_info = $adb->pquery("SELECT productid, quantity, sequence_no, incrementondel from vtiger_inventoryproductrel WHERE id=?", array($focus->id));
 	$numrows = $adb->num_rows($product_info);
@@ -285,19 +281,19 @@ function deleteInventoryProductDetails($focus)
 	$updateInventoryProductRel_update_product_array = $focus->update_product_array;
 	$adb->pquery("delete from vtiger_inventoryproductrel where id=?", array($focus->id));
 	$adb->pquery("delete from vtiger_inventorysubproductrel where id=?", array($focus->id));
-	$log->debug("Exit from function deleteInventoryProductDetails(" . $focus->id . ")");
+	\App\log::trace("Exit from function deleteInventoryProductDetails(" . $focus->id . ")");
 }
 
 function updateInventoryProductRel($entity)
 {
 	global $updateInventoryProductRel_update_product_array, $updateInventoryProductRel_deduct_stock;
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+
 
 	$entity_id = vtws_getIdComponents($entity->getId());
 	$entity_id = $entity_id[1];
 	$update_product_array = $updateInventoryProductRel_update_product_array;
-	$log->debug("Entering into function updateInventoryProductRel(" . $entity_id . ").");
+	\App\log::trace("Entering into function updateInventoryProductRel(" . $entity_id . ").");
 
 	if (!empty($update_product_array)) {
 		foreach ($update_product_array as $id => $seq) {
@@ -356,7 +352,7 @@ function updateInventoryProductRel($entity)
 			}
 		}
 	}
-	$log->debug("Exit from function updateInventoryProductRel(" . $entity_id . ")");
+	\App\log::trace("Exit from function updateInventoryProductRel(" . $entity_id . ")");
 }
 
 /** 	function used to get the tax type for the entity (PO or Invoice)
@@ -367,9 +363,9 @@ function updateInventoryProductRel($entity)
 function getInventoryTaxType($module, $id)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
 
-	$log->debug("Entering into function getInventoryTaxType($module, $id).");
+
+	\App\log::trace("Entering into function getInventoryTaxType($module, $id).");
 
 	$inv_table_array = [];
 	$inv_id_array = [];
@@ -380,7 +376,7 @@ function getInventoryTaxType($module, $id)
 
 	$taxtype = $adb->query_result($res, 0, 'taxtype');
 
-	$log->debug("Exit from function getInventoryTaxType($module, $id).");
+	\App\log::trace("Exit from function getInventoryTaxType($module, $id).");
 
 	return $taxtype;
 }
@@ -393,9 +389,9 @@ function getInventoryTaxType($module, $id)
 function getInventoryCurrencyInfo($module, $id)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
 
-	$log->debug("Entering into function getInventoryCurrencyInfo($module, $id).");
+
+	\App\log::trace("Entering into function getInventoryCurrencyInfo($module, $id).");
 
 	$focus = new $module();
 
@@ -409,7 +405,7 @@ function getInventoryCurrencyInfo($module, $id)
 	$currency_info['currency_code'] = $adb->query_result($res, 0, 'currency_code');
 	$currency_info['currency_symbol'] = $adb->query_result($res, 0, 'currency_symbol');
 
-	$log->debug("Exit from function getInventoryCurrencyInfo($module, $id).");
+	\App\log::trace("Exit from function getInventoryCurrencyInfo($module, $id).");
 
 	return $currency_info;
 }
@@ -423,8 +419,8 @@ function getInventoryCurrencyInfo($module, $id)
 function getInventoryProductTaxValue($id, $productid, $taxname)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering into function getInventoryProductTaxValue($id, $productid, $taxname).");
+
+	\App\log::trace("Entering into function getInventoryProductTaxValue($id, $productid, $taxname).");
 
 	$res = $adb->pquery("select $taxname from vtiger_inventoryproductrel where id = ? and productid = ?", array($id, $productid));
 	$taxvalue = $adb->query_result($res, 0, $taxname);
@@ -432,7 +428,7 @@ function getInventoryProductTaxValue($id, $productid, $taxname)
 	if ($taxvalue == '')
 		$taxvalue = '0';
 
-	$log->debug("Exit from function getInventoryProductTaxValue($id, $productid, $taxname).");
+	\App\log::trace("Exit from function getInventoryProductTaxValue($id, $productid, $taxname).");
 
 	return $taxvalue;
 }
@@ -455,8 +451,8 @@ function getAllCurrencies($available = 'available')
 function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
-	$log->debug("Entering into function getPriceDetailsForProduct($productid)");
+
+	\App\log::trace("Entering into function getPriceDetailsForProduct($productid)");
 	if ($productid != '') {
 		$product_currency_id = getProductBaseCurrency($productid, $itemtype);
 		$product_base_conv_rate = getBaseConversionRateForProduct($productid, 'edit', $itemtype);
@@ -476,10 +472,6 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
 			$params = array($productid);
 		}
-
-		//Postgres 8 fixes
-		if ($adb->isPostgres())
-			$query = fixPostgresQuery($query, $log, 0);
 
 		$res = $adb->pquery($query, $params);
 		$rows_res = $adb->num_rows($res);
@@ -554,11 +546,11 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 				$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 			}
 		} else {
-			$log->debug("Product id is empty. we cannot retrieve the associated prices.");
+			\App\log::trace("Product id is empty. we cannot retrieve the associated prices.");
 		}
 	}
 
-	$log->debug("Exit from function getPriceDetailsForProduct($productid)");
+	\App\log::trace("Exit from function getPriceDetailsForProduct($productid)");
 	return $price_details;
 }
 
@@ -569,7 +561,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 function getProductBaseCurrency($productid, $module = 'Products')
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+
 	if ($module == 'Services') {
 		$sql = "select currency_id from vtiger_service where serviceid=?";
 	} else {
@@ -624,7 +616,7 @@ function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = '
 function getPricesForProducts($currencyid, $product_ids, $module = 'Products')
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+
 	$current_user = vglobal('current_user');
 	$price_list = [];
 	if (count($product_ids) > 0) {
@@ -826,7 +818,7 @@ function createRecords($obj)
 function isRecordExistInDB($fieldData, $moduleMeta, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+
 	$moduleFields = $moduleMeta->getModuleFields();
 	$isRecordExist = false;
 	if (array_key_exists('productid', $fieldData)) {
@@ -875,7 +867,7 @@ function isRecordExistInDB($fieldData, $moduleMeta, $user)
 function importRecord($obj, $inventoryFieldData, $lineItemDetails)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+
 	$moduleName = $obj->module;
 	$fieldMapping = $obj->fieldMapping;
 

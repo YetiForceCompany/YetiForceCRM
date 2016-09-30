@@ -14,7 +14,6 @@ require_once('include/Tracker.php');
 class ModCommentsCore extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_modcomments';
 	public $table_index = 'modcommentsid';
 
@@ -84,11 +83,8 @@ class ModCommentsCore extends CRMEntity
 
 	public function __construct()
 	{
-		global $currentModule;
-		$log = LoggerManager::getInstance();
 		$this->column_fields = getColumnFields('ModComments');
 		$this->db = PearDatabase::getInstance();
-		$this->log = $log;
 	}
 
 	public function getSortOrder()

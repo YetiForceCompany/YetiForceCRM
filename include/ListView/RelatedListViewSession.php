@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-
-require_once('include/logging.php');
 require_once('include/ListView/ListViewSession.php');
 
 /* * initializes Related ListViewSession
@@ -28,9 +26,9 @@ class RelatedListViewSession
 
 	public function __construct()
 	{
-		$log = vglobal('log');
+		
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering RelatedListViewSession() method ...");
+		\App\log::trace("Entering RelatedListViewSession() method ...");
 
 		$this->module = $currentModule;
 		$this->start = 1;

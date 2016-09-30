@@ -16,8 +16,6 @@
 class Campaigns extends CRMEntity
 {
 
-	public $log;
-	public $db;
 	public $table_name = "vtiger_campaign";
 	public $table_index = 'campaignid';
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_campaign', 'vtiger_campaignscf', 'vtiger_entity_stats');
@@ -77,10 +75,10 @@ class Campaigns extends CRMEntity
 	 */
 	public function get_campaigns_records($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = LoggerManager::getInstance();
+
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_campaigns_records(" . $id . ") method ...");
+		\App\log::trace("Entering get_campaigns_records(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -177,7 +175,7 @@ class Campaigns extends CRMEntity
 
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_campaigns_records method ...");
+		\App\log::trace("Exiting get_campaigns_records method ...");
 		return $return_value;
 	}
 	/*
@@ -278,7 +276,7 @@ class Campaigns extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$log = vglobal('log');
+
 		if (empty($returnModule) || empty($returnId))
 			return;
 

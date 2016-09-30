@@ -12,7 +12,7 @@
 function vtws_relatedtypes($elementType, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = LoggerManager::getInstance();
+	
 
 	$allowedTypes = vtws_listtypes(null, $user);
 

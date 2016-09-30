@@ -12,8 +12,6 @@
 class Vendors extends CRMEntity
 {
 
-	public $log;
-	public $db;
 	public $table_name = "vtiger_vendor";
 	public $table_index = 'vendorid';
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_vendor', 'vtiger_vendoraddress', 'vtiger_vendorcf', 'vtiger_entity_stats');
@@ -75,11 +73,11 @@ class Vendors extends CRMEntity
 	 */
 	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_products(" . $id . ") method ...");
+		\App\log::trace("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -128,7 +126,7 @@ class Vendors extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_products method ...");
+		\App\log::trace("Exiting get_products method ...");
 		return $return_value;
 	}
 
@@ -139,9 +137,9 @@ class Vendors extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering create_export_query(" . $where . ") method ...");
+		\App\log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -168,7 +166,7 @@ class Vendors extends CRMEntity
 		else
 			$query .= sprintf("  WHERE %s", $where_auto);
 
-		$log->debug("Exiting create_export_query method ...");
+		\App\log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -178,11 +176,11 @@ class Vendors extends CRMEntity
 	 */
 	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_contacts(" . $id . ") method ...");
+		\App\log::trace("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -232,7 +230,7 @@ class Vendors extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_contacts method ...");
+		\App\log::trace("Exiting get_contacts method ...");
 		return $return_value;
 	}
 
@@ -242,11 +240,11 @@ class Vendors extends CRMEntity
 	 */
 	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = LoggerManager::getInstance();
+
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_campaigns(" . $id . ") method ...");
+		\App\log::trace("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -291,7 +289,7 @@ class Vendors extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_campaigns method ...");
+		\App\log::trace("Exiting get_campaigns method ...");
 		return $return_value;
 	}
 
@@ -304,8 +302,8 @@ class Vendors extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+
+		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = ['Products' => 'vtiger_products', 'Contacts' => 'vtiger_vendorcontactrel', 'Campaigns' => 'vtiger_campaign_records'];
 
@@ -329,7 +327,7 @@ class Vendors extends CRMEntity
 				}
 			}
 		}
-		$log->debug("Exiting transferRelatedRecords...");
+		\App\log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the primary query part of a report
@@ -414,7 +412,7 @@ class Vendors extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+
 		//Backup Product-Vendor Relation
 		$pro_q = 'SELECT productid FROM vtiger_products WHERE vendor_id=?';
 		$pro_res = $this->db->pquery($pro_q, array($id));
@@ -475,7 +473,7 @@ class Vendors extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		$log = vglobal('log');
+
 		if (empty($return_module) || empty($return_id))
 			return;
 		if ($return_module == 'Campaigns') {

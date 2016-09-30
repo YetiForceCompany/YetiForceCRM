@@ -32,8 +32,8 @@ require_once('include/utils/UserInfoUtil.php');
  */
 function getListQuery($module, $where = '')
 {
-	$log = vglobal('log');
-	$log->debug("Entering getListQuery(" . $module . "," . $where . ") method ...");
+	
+	\App\log::trace("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -315,7 +315,7 @@ function getListQuery($module, $where = '')
 	if ($module != 'Users') {
 		$query = listQueryNonAdminChange($query, $module);
 	}
-	$log->debug("Exiting getListQuery method ...");
+	\App\log::trace("Exiting getListQuery method ...");
 	return $query;
 }
 /* * This function stores the variables in session sent in list view url string.
@@ -376,9 +376,9 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 
 function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $related_module, $recordid)
 {
-	$log = LoggerManager::getInstance();
+	
 	$adb = PearDatabase::getInstance();
-	$log->debug("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
+	\App\log::trace("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
 	global $theme;
 	$relatedTabId = \includes\Modules::getModuleId($related_module);
 	$tabid = \includes\Modules::getModuleId($module);
@@ -434,7 +434,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		$output .= '<img src="' . vtiger_imageurl('end_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
 	}
 	$output .= '</td>';
-	$log->debug("Exiting getTableHeaderNavigation method ...");
+	\App\log::trace("Exiting getTableHeaderNavigation method ...");
 	if ($navigation_array['first'] == '')
 		return;
 	else
@@ -445,8 +445,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 function getEntityId($module, $entityName)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	$log->info("in getEntityId " . $entityName);
+	
+	\App\log::trace("in getEntityId " . $entityName);
 
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
 	$result = $adb->pquery($query, array($module));

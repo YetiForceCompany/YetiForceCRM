@@ -12,14 +12,12 @@
 class API_DAV_Model
 {
 
-	public $log = '';
 	public $davUsers = [];
 
-	public function runCronCardDav($log)
+	public function runCronCardDav()
 	{
 		$dav = new self();
-		$dav->log = $log;
-		$dav->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CardDAV Sync ');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start CardDAV Sync ');
 		$crmUsers = Users_Record_Model::getAll();
 		$davUsers = $dav->getAllUser(1);
 		foreach ($crmUsers as $key => $user) {
@@ -27,9 +25,9 @@ class API_DAV_Model
 				$user->set('david', $davUsers[$key]['david']);
 				$user->set('addressbooksid', $davUsers[$key]['addressbooksid']);
 				$dav->davUsers[$key] = $user;
-				$dav->log->debug(__CLASS__ . '::' . __METHOD__ . ' | User is active ' . $user->getName());
+				\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | User is active ' . $user->getName());
 			} else { // User is inactive
-				$dav->log->warn(__CLASS__ . '::' . __METHOD__ . ' | User is inactive ' . $user->getName());
+				\App\log::warning(__CLASS__ . '::' . __METHOD__ . ' | User is inactive ' . $user->getName());
 			}
 		}
 		$cardDav = new API_CardDAV_Model();
@@ -37,14 +35,13 @@ class API_DAV_Model
 		$cardDav->davUsers = $dav->davUsers;
 		$cardDav->cardDavCrm2Dav();
 		$cardDav->cardDav2Crm();
-		$dav->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End CardDAV Sync ');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End CardDAV Sync ');
 	}
 
-	public function runCronCalDav($log)
+	public function runCronCalDav()
 	{
 		$dav = new self();
-		$dav->log = $log;
-		$dav->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CalDAV Sync ');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start CalDAV Sync ');
 		$crmUsers = Users_Record_Model::getAll();
 		$davUsers = $dav->getAllUser(2);
 		foreach ($crmUsers as $key => $user) {
@@ -52,9 +49,9 @@ class API_DAV_Model
 				$user->set('david', $davUsers[$key]['david']);
 				$user->set('calendarsid', $davUsers[$key]['calendarsid']);
 				$dav->davUsers[$key] = $user;
-				$dav->log->debug(__CLASS__ . '::' . __METHOD__ . ' | User is active ' . $user->getName());
+				\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | User is active ' . $user->getName());
 			} else { // User is inactive
-				$dav->log->warn(__CLASS__ . '::' . __METHOD__ . ' | User is inactive ' . $user->getName());
+				\App\log::warning(__CLASS__ . '::' . __METHOD__ . ' | User is inactive ' . $user->getName());
 			}
 		}
 		$cardDav = new API_CalDAV_Model();
@@ -62,7 +59,7 @@ class API_DAV_Model
 		$cardDav->davUsers = $dav->davUsers;
 		$cardDav->calDavCrm2Dav();
 		$cardDav->calDav2Crm();
-		$dav->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End CalDAV Sync ');
+		\App\log::trace(__CLASS__ . '::' . __METHOD__ . ' | End CalDAV Sync ');
 	}
 
 	public function getAllUser($type = 0)

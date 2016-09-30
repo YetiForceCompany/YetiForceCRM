@@ -13,8 +13,8 @@ class Test{
 	
 	public function post($app_name = ''){
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->info('Start Test metod');
+		
+		\App\log::trace('Start Test metod');
 		$return = 'false';
 		if ($app_name == 'PushCall')
 			$return = "true";
@@ -22,7 +22,7 @@ class Test{
 			$return = "true";
 		if ($app_name == 'HistoryCall')
 			$return = "true";
-		$log->info('tart Test metod | return: '.$return);
+		\App\log::trace('tart Test metod | return: '.$return);
 		return $return;
 	}
 }

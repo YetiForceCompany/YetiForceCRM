@@ -19,8 +19,8 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	public static function getProjectStatus()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
+		
+		\App\log::trace("Entering Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
 		$sql = 'SELECT * FROM `vtiger_projectstatus`;';
 		$result = $adb->query($sql);
 		$rowsNum = $adb->num_rows($result);
@@ -30,7 +30,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 			$return[$i]['statusTranslate'] = vtranslate($adb->query_result($result, $i, 'projectstatus'), 'Project');
 			$return[$i]['status'] = $adb->query_result($result, $i, 'projectstatus');
 		}
-		$log->debug("Exiting Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
+		\App\log::trace("Exiting Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
 		return $return;
 	}
 
@@ -40,9 +40,9 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	 */
 	public static function getStatusNotModify()
 	{
-		$log = vglobal('log');
+		
 		$adb = PearDatabase::getInstance();
-		$log->debug("Entering Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
+		\App\log::trace("Entering Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
 		$sql = 'SELECT * FROM `vtiger_realization_process`;';
 		$result = $adb->query($sql);
 		$rowsNum = $adb->num_rows($result);
@@ -57,7 +57,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 			$return[$moduleName]['status'] = $status;
 		}
 
-		$log->debug("Exiting Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
+		\App\log::trace("Exiting Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
 		return $return;
 	}
 
@@ -68,12 +68,12 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	public function updateStatusNotModify($moduleId, $status)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
+		
+		\App\log::trace("Entering Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
 		$query = "UPDATE `vtiger_realization_process` SET `status_indicate_closing` = ? WHERE `module_id` = ?";
 		$data = \includes\utils\Json::encode($status);
 		$adb->pquery($query, array($data, $moduleId));
-		$log->debug("Exiting Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
+		\App\log::trace("Exiting Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
 		return true;
 	}
 }

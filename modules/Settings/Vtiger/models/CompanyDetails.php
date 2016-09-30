@@ -194,7 +194,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 	public static function addNewField(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
+		
 		$adb = PearDatabase::getInstance();
 		$newField = self::newFieldValidation($request->get('fieldName'));
 		$response = new Vtiger_Response();
@@ -213,14 +213,14 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 			if ($rowsNum > 0) {
 				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_ADDING_ERROR', $moduleName)));
-				$log->info("Settings_Vtiger_SaveCompanyField_Action::process - column $newField exist in table vtiger_organizationdetails");
+				\App\log::trace("Settings_Vtiger_SaveCompanyField_Action::process - column $newField exist in table vtiger_organizationdetails");
 			} else {
 				$alterFieldQuery = "ALTER TABLE `vtiger_organizationdetails` ADD `$newField` VARCHAR(255)";
 				$alterFieldResult = $adb->query($alterFieldQuery, $alterFieldParams);
 				$rowsNum = $adb->getRowCount($alterFieldResult);
 				Settings_Vtiger_CompanyDetailsFieldSave_Action::addFieldToModule($newField);
 				$response->setResult(array('success' => true, 'message' => vtranslate('LBL_ADDED_COMPANY_FIELD', $moduleName)));
-				$log->info("Settings_Vtiger_SaveCompanyField_Action::process - add column $newField in table vtiger_organizationdetails");
+				\App\log::trace("Settings_Vtiger_SaveCompanyField_Action::process - add column $newField in table vtiger_organizationdetails");
 			}
 		} else {
 			$response->setResult(array('success' => false, 'message' => vtranslate('LBL_FIELD_NOT_VALID', $moduleName)));

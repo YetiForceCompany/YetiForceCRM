@@ -33,8 +33,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public static function getDefaultUserId($widgetModel, $moduleName = false)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...');
+		
+		\App\log::trace('Entering Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$user = '';
 
@@ -69,29 +69,29 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		}
 		if (empty($user))
 			$user = false;
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...");
 		return $user;
 	}
 
 	public function getFilterSelect()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
 
 		$filterSelect = array('LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups');
 
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
 		return $filterSelect;
 	}
 
 	public function getFilterSelectDefault()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
 
 		$filterSelectDefault = array('LBL_MINE' => 'mine', 'LBL_ALL' => 'all');
 
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
 		return $filterSelectDefault;
 	}
 
@@ -109,31 +109,31 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getSize()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSize() method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::getSize() method ...");
 
 		$width = array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 		$height = array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getSize() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::getSize() method ...");
 		return array('width' => $width, 'height' => $height);
 	}
 
 	public function getDefaultValues()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...");
 
 		$defaultValues = array('width' => 4, 'height' => 4);
 
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...");
 		return $defaultValues;
 	}
 
 	public function getSelectableDashboard()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
@@ -160,7 +160,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
 			$widgets[$moduleName][] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
 		return $widgets;
 	}
 
@@ -172,8 +172,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * */
 	public function saveDetails($data, $moduleName)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::saveDetails($moduleName) method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::saveDetails($moduleName) method ...");
 
 		$adb = PearDatabase::getInstance();
 		$query = 'SELECT * FROM `vtiger_module_dashboard` WHERE `id` = ? LIMIT 1; ';
@@ -201,28 +201,28 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$insert['active'] = isset($data['isdefault']) ? 1 : 0;
 			$adb->update('vtiger_module_dashboard_widgets', $insert, '`templateid` = ?', [$data['id']]);
 		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::saveData() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::saveData() method ...");
 		return array('success' => true);
 	}
 
 	public function addBlock($data, $moduleName)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::addBlock(" . $data . ", " . $moduleName . ") method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::addBlock(" . $data . ", " . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$tabId = \includes\Modules::getModuleId($moduleName);
 		$query = 'INSERT INTO vtiger_module_dashboard_blocks (`authorized`, `tabid`) VALUES (?, ?);';
 		$params = array($data['authorized'], $tabId);
 		$adb->pquery($query, $params);
 		$blockId = $adb->getLastInsertID();
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::addBlock() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::addBlock() method ...");
 		return array('success' => true, 'id' => $blockId);
 	}
 
 	public function addWidget($data, $moduleName, $addToUser = false)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::addWidget(" . $data . ", " . $moduleName . ") method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::addWidget(" . $data . ", " . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
 
 		$status = false;
@@ -259,14 +259,14 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$widgetId = $adb->getLastInsertID();
 		}
 		$text = vtranslate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement');
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...");
 		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => $text);
 	}
 
 	public function getBlocksId()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getBlocksId() method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::getBlocksId() method ...");
 		$adb = PearDatabase::getInstance();
 		$data = array();
 		$query = 'SELECT 
@@ -285,14 +285,14 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$data[$moduleName][$blockId]['name'] = $authorizedName;
 			$data[$moduleName][$blockId]['code'] = $authorized;
 		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getBlocksId() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::getBlocksId() method ...");
 		return $data;
 	}
 
 	public static function getBlocksFromModule($moduleName, $authorized = '')
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getBlocksFromModule(" . $moduleName . ", " . $authorized . ") method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::getBlocksFromModule(" . $moduleName . ", " . $authorized . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$tabId = \includes\Modules::getModuleId($moduleName);
 		$data = [];
@@ -306,14 +306,14 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		while ($row = $adb->fetch_array($result)) {
 			$data[$row['authorized']] = $row['id'];
 		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getBlocksFromModule() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::getBlocksFromModule() method ...");
 		return $data;
 	}
 
 	public static function getSpecialWidgets($moduleName)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
 		$db = PearDatabase::getInstance();
 		$tabId = \includes\Modules::getModuleId($moduleName);
 		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? && linklabel IN (?, ?, ?, ?, ?)';
@@ -322,7 +322,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		while ($row = $db->fetch_array($result)) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
-		$log->debug('Exiting Settings_WidgetsManagement_Module_Model::getSpecialWidgets() method ...');
+		\App\log::trace('Exiting Settings_WidgetsManagement_Module_Model::getSpecialWidgets() method ...');
 		return $widgets;
 	}
 
@@ -333,8 +333,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * */
 	public function getDashboardForModule($moduleName)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getDashboardForModule(" . $moduleName . ") method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::getDashboardForModule(" . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$tabId = \includes\Modules::getModuleId($moduleName);
 		$data = array();
@@ -381,32 +381,32 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			} else
 				$data[$row['blockid']][$i] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getDashboardForModule() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::getDashboardForModule() method ...");
 		return $data;
 	}
 
 	public function removeWidget($data)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::removeWidget(" . $data . ") method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::removeWidget(" . $data . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$query = 'DELETE FROM vtiger_module_dashboard WHERE vtiger_module_dashboard.id = ?;';
 		$params = array($data['id']);
 		$adb->pquery($query, $params);
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::removeWidget() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::removeWidget() method ...");
 		return array('success' => true);
 	}
 
 	public function removeBlock($data)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::removeBlock(" . $data . ") method ...");
+		
+		\App\log::trace("Entering Settings_WidgetsManagement_Module_Model::removeBlock(" . $data . ") method ...");
 		$adb = PearDatabase::getInstance();
 
 		$adb->pquery('DELETE FROM `vtiger_module_dashboard_blocks` WHERE id = ?;', [$data['blockid']]);
 		$adb->pquery('DELETE FROM `vtiger_module_dashboard` WHERE blockid = ?;', [$data['blockid']]);
 
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::removeBlock() method ...");
+		\App\log::trace("Exiting Settings_WidgetsManagement_Module_Model::removeBlock() method ...");
 		return array('success' => true);
 	}
 }

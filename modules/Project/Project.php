@@ -11,7 +11,6 @@
 class Project extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_project';
 	public $table_index = 'projectid';
 	public $column_fields = Array();
@@ -380,13 +379,13 @@ class Project extends CRMEntity
 
 			\includes\fields\RecordNumber::setNumber($modulename, 'PROJ', 1);
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 			$adb = PearDatabase::getInstance();
 
@@ -551,7 +550,7 @@ class Project extends CRMEntity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		global $currentModule;
-		$log = LoggerManager::getInstance();
+
 		if ($return_module == 'Accounts') {
 			$focus = CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);
@@ -596,8 +595,8 @@ class Project extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+
+		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("ProjectTask" => "vtiger_projecttask", 'ProjectMilestone' => 'vtiger_projectmilestone',
 			"Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
@@ -625,6 +624,6 @@ class Project extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		$log->debug("Exiting transferRelatedRecords...");
+		\App\log::trace("Exiting transferRelatedRecords...");
 	}
 }

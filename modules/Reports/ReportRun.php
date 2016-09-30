@@ -11,7 +11,7 @@
 global $calpath;
 global $mod_strings;
 global $theme;
-$log = vglobal('log');
+
 
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
@@ -300,7 +300,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid";
@@ -384,7 +384,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_columnslist = $columnslist;
 
-		$log->info('ReportRun :: Successfully returned getQueryColumnsList' . $reportid);
+		\App\log::trace('ReportRun :: Successfully returned getQueryColumnsList' . $reportid);
 		return $columnslist;
 	}
 
@@ -644,7 +644,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		$log = vglobal('log');
+		
 
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid where vtiger_report.reportid = ? ";
@@ -679,7 +679,7 @@ class ReportRun extends CRMEntity
 		}
 		$sSQL .= implode(",", $sSQLList);
 
-		$log->info("ReportRun :: Successfully returned getSelectedColumnsList" . $reportid);
+		\App\log::trace("ReportRun :: Successfully returned getSelectedColumnsList" . $reportid);
 		return $sSQL;
 	}
 
@@ -693,7 +693,7 @@ class ReportRun extends CRMEntity
 
 		global $ogReport;
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 		$default_charset = AppConfig::main('default_charset');
 		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
 		$value_len = strlen($value);
@@ -772,7 +772,7 @@ class ReportRun extends CRMEntity
 			$rtvalue = str_replace("'", "", $rtvalue);
 			$rtvalue = str_replace("\\", "", $rtvalue);
 		}
-		$log->info("ReportRun :: Successfully returned getAdvComparator");
+		\App\log::trace("ReportRun :: Successfully returned getAdvComparator");
 		return $rtvalue;
 	}
 
@@ -843,7 +843,7 @@ class ReportRun extends CRMEntity
 	public function getAdvFilterList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$advft_criteria = array();
 
@@ -1267,7 +1267,7 @@ class ReportRun extends CRMEntity
 		if ($this->_advfiltersql !== false) {
 			return $this->_advfiltersql;
 		}
-		$log = vglobal('log');
+		
 
 		$advfilterlist = $this->getAdvFilterList($reportid);
 		$advfiltersql = $this->generateAdvFilterSql($advfilterlist);
@@ -1275,7 +1275,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_advfiltersql = $advfiltersql;
 
-		$log->info("ReportRun :: Successfully returned getAdvFilterSql" . $reportid);
+		\App\log::trace("ReportRun :: Successfully returned getAdvFilterSql" . $reportid);
 		return $advfiltersql;
 	}
 
@@ -1294,7 +1294,7 @@ class ReportRun extends CRMEntity
 		}
 
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$stdfilterlist = array();
 
 		$stdfiltersql = "select vtiger_reportdatefilter.* from vtiger_report";
@@ -1365,7 +1365,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_stdfilterlist = $stdfilterlist;
 
-		$log->info("ReportRun :: Successfully returned getStdFilterList" . $reportid);
+		\App\log::trace("ReportRun :: Successfully returned getStdFilterList" . $reportid);
 		return $stdfilterlist;
 	}
 
@@ -1500,7 +1500,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		$log = vglobal('log');
+		
 
 		$sreportstdfiltersql = "select vtiger_reportdatefilter.* from vtiger_report";
 		$sreportstdfiltersql .= " inner join vtiger_reportdatefilter on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid";
@@ -1545,7 +1545,7 @@ class ReportRun extends CRMEntity
 				}
 			}
 		}
-		$log->info("ReportRun :: Successfully returned getStandardCriterialSql" . $reportid);
+		\App\log::trace("ReportRun :: Successfully returned getStandardCriterialSql" . $reportid);
 		return $sSQL;
 	}
 
@@ -1578,7 +1578,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		$log = vglobal('log');
+		
 
 		// Have we initialized information already?
 		if ($this->_groupinglist !== false) {
@@ -1646,7 +1646,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_groupinglist = $grouplist;
 
-		$log->info("ReportRun :: Successfully returned getGroupingList" . $reportid);
+		\App\log::trace("ReportRun :: Successfully returned getGroupingList" . $reportid);
 		return $grouplist;
 	}
 
@@ -1674,7 +1674,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		$log = vglobal('log');
+		
 
 		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
 		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
@@ -1707,7 +1707,7 @@ class ReportRun extends CRMEntity
 				$this->orderbylistsql .= $selectedfields[0] . "." . $selectedfields[1] . " " . $selectedfields[2];
 			}
 		}
-		$log->info("ReportRun :: Successfully returned getSelectedOrderbyList" . $reportid);
+		\App\log::trace("ReportRun :: Successfully returned getSelectedOrderbyList" . $reportid);
 		return $sSQL;
 	}
 
@@ -1718,7 +1718,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function getRelatedModulesQuery($module, $secmodule)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$query = '';
 		if ($secmodule != '') {
@@ -1741,7 +1741,7 @@ class ReportRun extends CRMEntity
 				}
 			}
 		}
-		$log->info("ReportRun :: Successfully returned getRelatedModulesQuery" . $secmodule);
+		\App\log::trace("ReportRun :: Successfully returned getRelatedModulesQuery" . $secmodule);
 
 		return $query;
 	}
@@ -1805,7 +1805,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function getReportsQuery($module, $type = '')
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$secondary_module = "'";
 		$secondary_module .= str_replace(":", "','", $this->secondarymodule);
@@ -2161,7 +2161,7 @@ class ReportRun extends CRMEntity
 					" WHERE vtiger_crmentity.deleted=0";
 			}
 		}
-		$log->info("ReportRun :: Successfully returned getReportsQuery" . $module);
+		\App\log::trace("ReportRun :: Successfully returned getReportsQuery" . $module);
 
 		return $query;
 	}
@@ -2174,7 +2174,7 @@ class ReportRun extends CRMEntity
 	 */
 	public function sGetSQLforReport($reportid, $filtersql, $type = '', $chartReport = false, $startLimit = false, $endLimit = false)
 	{
-		$log = vglobal('log');
+		
 
 		$columnlist = $this->getQueryColumnsList($reportid, $type);
 		$groupslist = $this->getGroupingList($reportid);
@@ -2263,7 +2263,7 @@ class ReportRun extends CRMEntity
 			$report = str_replace('&amp;', '&', $reportquery);
 			$reportquery = $this->replaceSpecialChar($report);
 		}
-		$log->info("ReportRun :: Successfully returned sGetSQLforReport" . $reportid);
+		\App\log::trace("ReportRun :: Successfully returned sGetSQLforReport" . $reportid);
 
 		$this->queryPlanner->initializeTempTables();
 
@@ -3050,7 +3050,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		$log = LoggerManager::getInstance();
+		
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		static $modulename_cache = array();
 
@@ -3136,7 +3136,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_columnstotallist = $stdfilterlist;
 
-		$log->info("ReportRun :: Successfully returned getColumnsTotal" . $reportid);
+		\App\log::trace("ReportRun :: Successfully returned getColumnsTotal" . $reportid);
 		return $stdfilterlist;
 	}
 
@@ -3191,7 +3191,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		$log = vglobal('log');
+		
 
 		$sreportstdfiltersql = "select vtiger_reportsummary.* from vtiger_report";
 		$sreportstdfiltersql .= " inner join vtiger_reportsummary on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid";
@@ -3222,7 +3222,7 @@ class ReportRun extends CRMEntity
 		if (isset($sSQLList)) {
 			$sSQL = implode(",", $sSQLList);
 		}
-		$log->info("ReportRun :: Successfully returned getColumnsToTotalColumns" . $reportid);
+		\App\log::trace("ReportRun :: Successfully returned getColumnsToTotalColumns" . $reportid);
 		return $sSQL;
 	}
 

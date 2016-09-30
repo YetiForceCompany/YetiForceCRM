@@ -6,8 +6,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-$log = LoggerManager::getLogger('CRON');
-$log->debug('Start create AddressBoock');
+\App\log::trace('Start create AddressBoock');
 
 $limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_ADDRESS_BOOCK_UPDATER');
 $db = PearDatabase::getInstance();
@@ -91,5 +90,5 @@ while ($row = $db->getRow($mainResult)) {
 	$last = false;
 }
 OSSMail_AddressBoock_Model::createABFile();
-$log->debug(vtlib\Functions::varExportMin($i));
-$log->debug('End create AddressBoock');
+\App\log::trace(vtlib\Functions::varExportMin($i));
+\App\log::trace('End create AddressBoock');

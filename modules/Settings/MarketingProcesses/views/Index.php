@@ -14,8 +14,8 @@ class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
+		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -27,7 +27,7 @@ class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('LEADS_MODULE_MODEL', Vtiger_Module_Model::getInstance('Leads'));
 		$viewer->assign('ACCOUNTS_MODULE_MODEL', Vtiger_Module_Model::getInstance('Accounts'));
 		$viewer->view('Index.tpl', $qualifiedModule);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	public function getFooterScripts(Vtiger_Request $request)

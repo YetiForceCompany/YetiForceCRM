@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-
-require_once('include/logging.php');
 require_once('modules/CustomView/CustomView.php');
 
 class ListViewSession
@@ -29,9 +27,9 @@ class ListViewSession
 
 	public function ListViewSession()
 	{
-		$log = vglobal('log');
+		
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering ListViewSession() method ...");
+		\App\log::trace("Entering ListViewSession() method ...");
 
 		$this->module = $currentModule;
 		$this->sortby = 'ASC';
@@ -62,7 +60,7 @@ class ListViewSession
 	public static function getListViewNavigation($currentRecordId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+
 		$currentModule = vglobal('currentModule');
 		$current_user = vglobal('current_user');
 		$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');

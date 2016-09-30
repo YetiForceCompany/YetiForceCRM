@@ -355,8 +355,8 @@ function vtlib_tosingular($text)
  */
 function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 {
-	$log = vglobal('log');
-	$log->debug('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
+	
+	\App\log::trace('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
 	$adb = PearDatabase::getInstance();
 
 	$columnname = $adb->quote($fieldColumnname, false);
@@ -394,7 +394,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 			$allrolevalues[] = $picklistval;
 	}
 
-	$log->debug('Exiting ' . __METHOD__ . ' method ...');
+	\App\log::trace('Exiting ' . __METHOD__ . ' method ...');
 	return $allrolevalues;
 }
 

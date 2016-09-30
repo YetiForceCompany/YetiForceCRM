@@ -39,12 +39,12 @@ class Deprecated
 	}
 
 	/**
-	* this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
-	* @param1 $module - name of the module
-	* @param2 $fieldsName - fieldname with respect to module (ex : 'Accounts' - 'accountname', 'Contacts' - 'lastname','firstname')
-	* @param3 $fieldValues - array of fieldname and its value
-	* @return string $fieldConcatName - the entity field name for the module
-	*/
+	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
+	 * @param1 $module - name of the module
+	 * @param2 $fieldsName - fieldname with respect to module (ex : 'Accounts' - 'accountname', 'Contacts' - 'lastname','firstname')
+	 * @param3 $fieldValues - array of fieldname and its value
+	 * @return string $fieldConcatName - the entity field name for the module
+	 */
 	public static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
 	{
 		$current_user = vglobal('current_user');
@@ -178,10 +178,10 @@ class Deprecated
 	}
 
 	/**
-	* Get translated currency name string.
-	* @param String $str - input currency name
-	* @return String $str - translated currency name
-	*/
+	 * Get translated currency name string.
+	 * @param String $str - input currency name
+	 * @return String $str - translated currency name
+	 */
 	public static function getTranslatedCurrencyString($str)
 	{
 		global $app_currency_strings;
@@ -190,11 +190,11 @@ class Deprecated
 		}
 		return $str;
 	}
-	
+
 	/**
-	* This function is used to get cvid of default "all" view for any module.
-	* @return a cvid of a module
-	*/
+	 * This function is used to get cvid of default "all" view for any module.
+	 * @return a cvid of a module
+	 */
 	public static function getIdOfCustomViewByNameAll($module)
 	{
 		$adb = \PearDatabase::getInstance();
@@ -209,9 +209,9 @@ class Deprecated
 	}
 
 	/** Stores the option in database to display  the tagclouds or not for the current user
-	* * @param $id -- user id:: Type integer
-	* * Added to provide User based Tagcloud
-	* */
+	 * * @param $id -- user id:: Type integer
+	 * * Added to provide User based Tagcloud
+	 * */
 	public static function SaveTagCloudView($id = '')
 	{
 		$adb = \PearDatabase::getInstance();
@@ -271,8 +271,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
-			$log = \LoggerManager::getInstance();
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -295,8 +294,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
-			$log = \LoggerManager::getInstance();
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -305,8 +303,8 @@ class Deprecated
 	public static function checkFileAccess($filepath)
 	{
 		if (!self::isFileAccessible($filepath)) {
-			$log = vglobal('log');
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+
+			\App\log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -336,10 +334,10 @@ class Deprecated
 	}
 
 	/**
-	* This function is used to get the blockid of the settings block for a given label.
-	* @param $label - settings label
-	* @return string type value
-	*/
+	 * This function is used to get the blockid of the settings block for a given label.
+	 * @param $label - settings label
+	 * @return string type value
+	 */
 	public static function getSettingsBlockId($label)
 	{
 		$adb = \PearDatabase::getInstance();

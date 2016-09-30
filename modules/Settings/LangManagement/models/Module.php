@@ -383,8 +383,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function setAsDefault($lang)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_LangManagement_Module_Model::setAsDefault(" . $lang . ") method ...");
+		
+		\App\log::trace("Entering Settings_LangManagement_Module_Model::setAsDefault(" . $lang . ") method ...");
 		$db = PearDatabase::getInstance();
 		$prefix = $lang['prefix'];
 		$fileName = 'config/config.inc.php';
@@ -409,7 +409,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$status = true;
 		else
 			$status = false;
-		$log->debug("Exiting Settings_LangManagement_Module_Model::setAsDefault() method ...");
+		\App\log::trace("Exiting Settings_LangManagement_Module_Model::setAsDefault() method ...");
 		return array('success' => $status, 'prefixOld' => $prefixOld);
 	}
 

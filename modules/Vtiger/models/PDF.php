@@ -599,7 +599,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 	public static function zipAndDownload(array $fileNames)
 	{
-		$log = vglobal('log');
+		
 		//create the object
 		$zip = new ZipArchive();
 
@@ -611,7 +611,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 		//create the file and throw the error if unsuccessful
 		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
-			$log->error("cannot open <$zipPath.$zipName>\n");
+			\App\log::error("cannot open <$zipPath.$zipName>\n");
 			throw new \Exception\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 

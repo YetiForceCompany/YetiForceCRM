@@ -11,7 +11,6 @@
 class Assets extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_assets';
 	public $table_index = 'assetsid';
 	public $column_fields = Array();
@@ -335,7 +334,7 @@ class Assets extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+
 		parent::unlinkDependencies($module, $id);
 	}
 
@@ -374,13 +373,13 @@ class Assets extends CRMEntity
 
 			\includes\fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.enabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
 			$this->addModuleToCustomerPortal();
 			\includes\fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
@@ -417,8 +416,8 @@ class Assets extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+
+		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
 
@@ -443,6 +442,6 @@ class Assets extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		$log->debug("Exiting transferRelatedRecords...");
+		\App\log::trace("Exiting transferRelatedRecords...");
 	}
 }

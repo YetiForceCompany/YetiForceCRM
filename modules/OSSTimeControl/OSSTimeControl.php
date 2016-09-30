@@ -95,7 +95,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$registerLink = false;
 		$displayLabel = 'Time Control';
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		if ($event_type == 'module.postinstall') {
 
 			$tabid = \includes\Modules::getModuleId($modulename);
@@ -146,7 +146,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $currentModule;
-		$log = LoggerManager::getInstance();
+		
 		$results = [];
 
 		$where = '(crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';

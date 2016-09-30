@@ -14,15 +14,15 @@ class Settings_Vtiger_CompanyDetailsFieldSave_Action extends Settings_Vtiger_Bas
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
+		
 		Settings_Vtiger_CompanyDetails_Model::addNewField($request);
-		$log->info('Settings_Vtiger_CompanyFieldSave_Action::process - Add field started');
+		\App\log::trace('Settings_Vtiger_CompanyFieldSave_Action::process - Add field started');
 	}
 
 	public static function addFieldToModule($field)
 	{
 
-		$log = vglobal('log');
+		
 		$fileName = 'modules/Settings/Vtiger/models/CompanyDetails.php';
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
@@ -38,9 +38,9 @@ class Settings_Vtiger_CompanyDetailsFieldSave_Action extends Settings_Vtiger_Bas
 				}
 				$fileContent = $fileContent . PHP_EOL . $placeToAdd . PHP_EOL . '	' . $newField . PHP_EOL . ');';
 			}
-			$log->info('Settings_Vtiger_SaveCompanyField_Action::addFieldToModule - add line to modules/Settings/Vtiger/models/CompanyDetails.php ');
+			\App\log::trace('Settings_Vtiger_SaveCompanyField_Action::addFieldToModule - add line to modules/Settings/Vtiger/models/CompanyDetails.php ');
 		} else {
-			$log->info('Settings_Vtiger_SaveCompanyField_Action::addFieldToModule - File does not exist');
+			\App\log::trace('Settings_Vtiger_SaveCompanyField_Action::addFieldToModule - File does not exist');
 			return false;
 		}
 

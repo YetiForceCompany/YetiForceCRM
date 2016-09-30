@@ -86,8 +86,8 @@ class CustomView extends CRMEntity
 	 */
 	public function getViewId($module)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
+
+		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
 		$nowAction = AppRequest::get('view');
 		if (AppRequest::isEmpty('viewname')) {
 			if (isset($_SESSION['lvs'][$module]['viewname']) && $_SESSION['lvs'][$module]['viewname'] != '') {
@@ -114,7 +114,7 @@ class CustomView extends CRMEntity
 				$viewid = 0;
 		}
 		ListViewSession::setCurrentView($module, $viewid);
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $viewid;
 	}
 
@@ -127,8 +127,8 @@ class CustomView extends CRMEntity
 
 	public function getDefaultCvId($module)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+
+		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$tabId = vtlib\Functions::getModuleId($module);
@@ -166,14 +166,14 @@ class CustomView extends CRMEntity
 		}
 		$query = 'select cvid from vtiger_customview where setdefault = ? and entitytype = ?';
 		$result = $db->pquery($query, [1, $module]);
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $db->getSingleValue($result);
 	}
 
 	public function getViewIdByName($viewname, $module)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+
+		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		$db = PearDatabase::getInstance();
 		if (!empty($viewname)) {
 			$query = "select cvid from vtiger_customview where viewname = ? and entitytype = ?";
@@ -183,7 +183,7 @@ class CustomView extends CRMEntity
 		} else {
 			return 0;
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
 
 	// return type array
@@ -459,8 +459,8 @@ class CustomView extends CRMEntity
 	public function getColumnsListByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+
+		\App\log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 
 		$sSQL = 'select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist';
 		$sSQL .= ' inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid';
@@ -468,7 +468,7 @@ class CustomView extends CRMEntity
 		$result = $adb->pquery($sSQL, [$cvid]);
 
 		if ($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
-			$log->debug("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
+			\App\log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
 			throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
@@ -479,7 +479,7 @@ class CustomView extends CRMEntity
 					$columnlist = $handler->getColumnList();
 				}
 			} else {
-				$log->debug("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
+				\App\log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
 				throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 			}
 		} else {
@@ -487,7 +487,7 @@ class CustomView extends CRMEntity
 				$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
 			}
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $columnlist;
 	}
 
@@ -1091,8 +1091,8 @@ class CustomView extends CRMEntity
 	 */
 	public function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname)
 	{
-		$log = vglobal('log');
-		$log->info("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
+
+		\App\log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
 		$adb = PearDatabase::getInstance();
 
 		$adv_chk_value = $value;
@@ -1150,7 +1150,7 @@ class CustomView extends CRMEntity
 			$value .= $this->getAdvComparator($comparator, $adv_chk_value, $datatype);
 		}
 		$value .= ")";
-		$log->info("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
+		\App\log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
 		return $value;
 	}
 
@@ -1423,9 +1423,9 @@ class CustomView extends CRMEntity
 	public function isPermittedCustomView($record_id, $action, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering isPermittedCustomView($record_id,$action,$module) method....");
+		\App\log::trace("Entering isPermittedCustomView($record_id,$action,$module) method....");
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		$permission = "yes";
@@ -1438,23 +1438,23 @@ class CustomView extends CRMEntity
 				$userid = $status_userid_info['userid'];
 
 				if ($status == CV_STATUS_DEFAULT) {
-					$log->debug('Entering when status=0');
+					\App\log::trace('Entering when status=0');
 					$permission = 'yes';
 				} elseif ($is_admin) {
 					$permission = 'yes';
 				} elseif ($action != 'ChangeStatus') {
 					if ($userid == $current_user->id) {
-						$log->debug("Entering when $userid=$current_user->id");
+						\App\log::trace("Entering when $userid=$current_user->id");
 						$permission = 'yes';
 					} elseif ($status == CV_STATUS_PUBLIC) {
-						$log->debug('Entering when status=3');
+						\App\log::trace('Entering when status=3');
 						$permission = 'yes';
 					} elseif ($status == CV_STATUS_PRIVATE || $status == CV_STATUS_PENDING) {
-						$log->debug('Entering when status=1 or 2');
+						\App\log::trace('Entering when status=1 or 2');
 						if ($userid == $current_user->id)
 							$permission = "yes";
 						else {
-							$log->debug("Entering when status=1 or status=2 & action = ListView or $module.Ajax or index");
+							\App\log::trace("Entering when status=1 or status=2 & action = ListView or $module.Ajax or index");
 							$sql = sprintf('SELECT 
 										vtiger_users.id 
 									  FROM
@@ -1489,27 +1489,27 @@ class CustomView extends CRMEntity
 						$permission = 'yes';
 				}
 				else {
-					$log->debug('Entering else condition............');
+					\App\log::trace('Entering else condition............');
 					$permission = 'no';
 				}
 			} else {
-				$log->debug('Enters when count =0');
+				\App\log::trace('Enters when count =0');
 				$permission = 'no';
 			}
 		}
-		$log->debug("Permission @@@@@@@@@@@@@@@@@@@@@@@@@@@ : $permission");
-		$log->debug("Exiting isPermittedCustomView($record_id,$action,$module) method....");
+		\App\log::trace("Permission @@@@@@@@@@@@@@@@@@@@@@@@@@@ : $permission");
+		\App\log::trace("Exiting isPermittedCustomView($record_id,$action,$module) method....");
 		return $permission;
 	}
 
 	public function isPermittedChangeStatus($status)
 	{
-		global $current_user, $log;
-		$current_language = vglobal('current_language');
-		$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, "CustomView");
+		$currentLanguage = vglobal('current_language');
+		$currentUser = vglobal('current_user');
+		$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($currentLanguage, "CustomView");
 
-		$log->debug("Entering isPermittedChangeStatus($status) method..............");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		\App\log::trace("Entering isPermittedChangeStatus($status) method..............");
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 		$status_details = [];
 		if ($is_admin) {
 			if ($status == CV_STATUS_PENDING) {
@@ -1521,7 +1521,7 @@ class CustomView extends CRMEntity
 			}
 			$status_details = Array('Status' => $status, 'ChangedStatus' => $changed_status, 'Label' => $status_label);
 		}
-		$log->debug("Exiting isPermittedChangeStatus($status) method..............");
+		\App\log::trace("Exiting isPermittedChangeStatus($status) method..............");
 		return $status_details;
 	}
 }

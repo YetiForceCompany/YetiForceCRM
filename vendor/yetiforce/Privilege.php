@@ -21,8 +21,7 @@ class Privilege
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false, $userId = false)
 	{
-		$log = \LoggerManager::getInstance();
-		$log->debug("Entering isPermitted($moduleName,$actionName,$record,$userId) method ...");
+		\App\log::trace("Entering isPermitted($moduleName,$actionName,$record,$userId) method ...");
 		if (!$userId) {
 			$currentUser = vglobal('current_user');
 			$userId = $currentUser->id;
@@ -32,7 +31,7 @@ class Privilege
 		if (($moduleName == 'Users' || $moduleName == 'Home' || $moduleName == 'uploads') && \AppRequest::get('parenttab') != 'Settings') {
 			//These modules dont have security right now
 			self::$isPermittedLevel = 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT';
-			$log->debug('Exiting isPermitted method ...');
+			\App\log::trace('Exiting isPermitted method ...');
 			return true;
 		}
 		//Checking the Access for the Settings Module
@@ -43,7 +42,7 @@ class Privilege
 				$permission = true;
 			}
 			self::$isPermittedLevel = 'SEC_ADMINISTRATION_MODULE_' . $permission ? 'YES' : 'NO';
-			$log->debug('Exiting isPermitted method ...');
+			\App\log::trace('Exiting isPermitted method ...');
 			return $permission;
 		}
 		//Retreiving the Tabid and Action Id
@@ -59,7 +58,7 @@ class Privilege
 			//Checking whether the user is admin
 			if ($userPrivileges['is_admin']) {
 				self::$isPermittedLevel = 'SEC_USER_IS_ADMIN';
-				$log->debug('Exiting isPermitted method ...');
+				\App\log::trace('Exiting isPermitted method ...');
 				return true;
 			}
 
@@ -71,43 +70,43 @@ class Privilege
 					$permission = false;
 				}
 				self::$isPermittedLevel = 'SEC_USER_IS_ADMIN' . $permission ? 'YES' : 'NO';
-				$log->debug('Exiting isPermitted method ...');
+				\App\log::trace('Exiting isPermitted method ...');
 				return $permission;
 			}
 			//Checking for vtiger_tab permission
 			if ($userPrivileges['profile_tabs_permission'][$tabid] != 0) {
 				self::$isPermittedLevel = 'SEC_MODULE_PERMISSIONS_NO';
-				$log->debug('Exiting isPermitted method ... - no');
+				\App\log::trace('Exiting isPermitted method ... - no');
 				return false;
 			}
 
 			if ($actionid === false) {
 				self::$isPermittedLevel = 'SEC_ACTION_DOES_NOT_EXIST';
-				$log->debug('Exiting isPermitted method ... - no');
+				\App\log::trace('Exiting isPermitted method ... - no');
 				return false;
 			}
 			//Checking for Action Permission
 			if (!isset($userPrivileges['profile_action_permission'][$tabid][$actionid])) {
 				self::$isPermittedLevel = 'SEC_MODULE_NO_ACTION_TOOL';
-				$log->debug('Exiting isPermitted method ... - no');
+				\App\log::trace('Exiting isPermitted method ... - no');
 				return false;
 			}
 			if (strlen($userPrivileges['profile_action_permission'][$tabid][$actionid]) < 1 && $userPrivileges['profile_action_permission'][$tabid][$actionid] == '') {
 				self::$isPermittedLevel = 'SEC_MODULE_RIGHTS_TO_ACTION';
-				$log->debug('Exiting isPermitted method ...');
+				\App\log::trace('Exiting isPermitted method ...');
 				return true;
 			}
 
 			if ($userPrivileges['profile_action_permission'][$tabid][$actionid] != 0 && $userPrivileges['profile_action_permission'][$tabid][$actionid] != '') {
 				self::$isPermittedLevel = 'SEC_MODULE_NO_RIGHTS_TO_ACTION';
-				$log->debug('Exiting isPermitted method ... - no');
+				\App\log::trace('Exiting isPermitted method ... - no');
 				return false;
 			}
 			//Checking for view all permission
 			if ($userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
 				if ($actionid == 3 || $actionid == 4) {
 					self::$isPermittedLevel = 'SEC_MODULE_VIEW_ALL_PERMISSION';
-					$log->debug('Exiting isPermitted method ...');
+					\App\log::trace('Exiting isPermitted method ...');
 					return true;
 				}
 			}
@@ -115,14 +114,14 @@ class Privilege
 			if ($userPrivileges['profile_global_permission'][2] == 0) {
 				if ($actionid == 3 || $actionid == 4 || $actionid == 0 || $actionid == 1) {
 					self::$isPermittedLevel = 'SEC_MODULE_EDIT_ALL_PERMISSION';
-					$log->debug('Exiting isPermitted method ...');
+					\App\log::trace('Exiting isPermitted method ...');
 					return true;
 				}
 			}
 			//Checking and returning true if recorid is null
 			if ($record == '') {
 				self::$isPermittedLevel = 'SEC_RECORID_IS_NULL';
-				$log->debug('Exiting isPermitted method ...');
+				\App\log::trace('Exiting isPermitted method ...');
 				return true;
 			}
 
@@ -130,7 +129,7 @@ class Privilege
 			if ($record != '') {
 				if (\vtlib\Functions::getModuleOwner($moduleName) == 1) {
 					self::$isPermittedLevel = 'SEC_MODULE_IS_OWNEDBY';
-					$log->debug('Exiting isPermitted method ...');
+					\App\log::trace('Exiting isPermitted method ...');
 					return true;
 				}
 			}
@@ -138,7 +137,7 @@ class Privilege
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
 			if (!isset($recordMetaData) || $recordMetaData['deleted'] == 1) {
 				self::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
-				$log->debug('Exiting isPermitted method ... - no');
+				\App\log::trace('Exiting isPermitted method ... - no');
 				return false;
 			}
 
@@ -151,7 +150,7 @@ class Privilege
 				$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
 				if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 					self::$isPermittedLevel = 'SEC_RECORD_SHARED_OWNER';
-					$log->debug('Exiting isPermitted method ... - Shared Owner');
+					\App\log::trace('Exiting isPermitted method ... - Shared Owner');
 					return true;
 				}
 			}
@@ -159,7 +158,7 @@ class Privilege
 				//Checking if the Record Owner is the current User
 				if ($userId == $recOwnId) {
 					self::$isPermittedLevel = 'SEC_RECORD_OWNER_CURRENT_USER';
-					$log->debug('Exiting isPermitted method ...');
+					\App\log::trace('Exiting isPermitted method ...');
 					return true;
 				}
 				if (\AppConfig::security('PERMITTED_BY_ROLES')) {
@@ -167,7 +166,7 @@ class Privilege
 					foreach ($userPrivileges['subordinate_roles_users'] as $roleid => $userids) {
 						if (in_array($recOwnId, $userids)) {
 							self::$isPermittedLevel = 'SEC_RECORD_OWNER_SUBORDINATE_USER';
-							$log->debug('Exiting isPermitted method ...');
+							\App\log::trace('Exiting isPermitted method ...');
 							return true;
 						}
 					}
@@ -176,7 +175,7 @@ class Privilege
 				//Checking if the record owner is the current user's group
 				if (in_array($recOwnId, $userPrivileges['groups'])) {
 					self::$isPermittedLevel = 'SEC_RECORD_OWNER_CURRENT_GROUP';
-					$log->debug('Exiting isPermitted method ...');
+					\App\log::trace('Exiting isPermitted method ...');
 					return true;
 				}
 			}
@@ -206,7 +205,7 @@ class Privilege
 							}
 							if ($relatedPermission) {
 								self::$isPermittedLevel = 'SEC_RECORD_HIERARCHY_USER';
-								$log->debug('Exiting isPermitted method ... - Parent Record Owner');
+								\App\log::trace('Exiting isPermitted method ... - Parent Record Owner');
 								return true;
 							}
 						}
@@ -217,13 +216,13 @@ class Privilege
 				$permission = self::isPermittedBySharing($moduleName, $tabid, $actionid, $record, $userId);
 			}
 			self::$isPermittedLevel = 'SEC_RECORD_BY_SHARING_' . $permission ? 'YES' : 'NO';
-			$log->debug('Exiting isPermitted method ... - isPermittedBySharing');
+			\App\log::trace('Exiting isPermitted method ... - isPermittedBySharing');
 		} else {
 			$permission = false;
 			self::$isPermittedLevel = 'SEC_MODULE_IS_INACTIVE';
 		}
 
-		$log->debug('Exiting isPermitted method ...');
+		\App\log::trace('Exiting isPermitted method ...');
 		return $permission;
 	}
 
@@ -274,8 +273,7 @@ class Privilege
 	 */
 	public static function isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
-		$log = \LoggerManager::getInstance();
-		$log->debug("Entering isReadPermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
+		\App\log::trace("Entering isReadPermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
 		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
 
 		if (!isset($sharingPrivileges['permission'][$moduleName])) {
@@ -292,20 +290,20 @@ class Privilege
 			//Checking the Read Sharing Permission Array in Role Users
 			foreach ($read['ROLE'] as $userids) {
 				if (in_array($ownerId, $userids)) {
-					$log->debug('Exiting isReadPermittedBySharing method ...');
+					\App\log::trace('Exiting isReadPermittedBySharing method ...');
 					return true;
 				}
 			}
 			//Checking the Read Sharing Permission Array in Groups Users
 			foreach ($read['GROUP'] as $userids) {
 				if (in_array($ownerId, $userids)) {
-					$log->debug('Exiting isReadPermittedBySharing method ...');
+					\App\log::trace('Exiting isReadPermittedBySharing method ...');
 					return true;
 				}
 			}
 		} else {
 			if (isset($read['GROUP'][$ownerId])) {
-				$log->debug('Exiting isReadPermittedBySharing method ...');
+				\App\log::trace('Exiting isReadPermittedBySharing method ...');
 				return true;
 			}
 		}
@@ -330,20 +328,20 @@ class Privilege
 							//Checking in Role Users
 							foreach ($readRelated['ROLE'] as $userids) {
 								if (in_array($relOwnerId, $userids)) {
-									$log->debug('Exiting isReadPermittedBySharing method ...');
+									\App\log::trace('Exiting isReadPermittedBySharing method ...');
 									return true;
 								}
 							}
 							//Checking in Group Users
 							foreach ($readRelated['GROUP'] as $userids) {
 								if (in_array($relOwnerId, $userids)) {
-									$log->debug('Exiting isReadPermittedBySharing method ...');
+									\App\log::trace('Exiting isReadPermittedBySharing method ...');
 									return true;
 								}
 							}
 						} else {
 							if (isset($readRelated['GROUP'][$relOwnerId])) {
-								$log->debug('Exiting isReadPermittedBySharing method ...');
+								\App\log::trace('Exiting isReadPermittedBySharing method ...');
 								return true;
 							}
 						}
@@ -351,7 +349,7 @@ class Privilege
 				}
 			}
 		}
-		$log->debug('Exiting isReadPermittedBySharing method ...');
+		\App\log::trace('Exiting isReadPermittedBySharing method ...');
 		return false;
 	}
 
@@ -364,8 +362,7 @@ class Privilege
 	 */
 	public static function isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
-		$log = \LoggerManager::getInstance();
-		$log->debug("Entering isReadWritePermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
+		\App\log::trace("Entering isReadWritePermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
 		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
 		if (!isset($sharingPrivileges['permission'][$moduleName])) {
 			return false;
@@ -381,20 +378,20 @@ class Privilege
 			//Checking the Write Sharing Permission Array in Role Users
 			foreach ($write['ROLE'] as $userids) {
 				if (in_array($ownerId, $userids)) {
-					$log->debug('Exiting isReadWritePermittedBySharing method ...');
+					\App\log::trace('Exiting isReadWritePermittedBySharing method ...');
 					return true;
 				}
 			}
 			//Checking the Write Sharing Permission Array in Groups Users
 			foreach ($write['GROUP'] as $userids) {
 				if (in_array($ownerId, $userids)) {
-					$log->debug('Exiting isReadWritePermittedBySharing method ...');
+					\App\log::trace('Exiting isReadWritePermittedBySharing method ...');
 					return true;
 				}
 			}
 		} elseif ($ownerType == 'Groups') {
 			if (isset($write['GROUP'][$ownerId])) {
-				$log->debug('Exiting isReadWritePermittedBySharing method ...');
+				\App\log::trace('Exiting isReadWritePermittedBySharing method ...');
 				return true;
 			}
 		}
@@ -417,20 +414,20 @@ class Privilege
 							//Checking in Role Users
 							foreach ($writeRelated['ROLE'] as $userids) {
 								if (in_array($relOwnerId, $userids)) {
-									$log->debug('Exiting isReadWritePermittedBySharing method ...');
+									\App\log::trace('Exiting isReadWritePermittedBySharing method ...');
 									return true;
 								}
 							}
 							//Checking in Group Users
 							foreach ($writeRelated['GROUP'] as $userids) {
 								if (in_array($relOwnerId, $userids)) {
-									$log->debug('Exiting isReadWritePermittedBySharing method ...');
+									\App\log::trace('Exiting isReadWritePermittedBySharing method ...');
 									return true;
 								}
 							}
 						} else {
 							if (isset($writeRelated['GROUP'][$relOwnerId])) {
-								$log->debug('Exiting isReadWritePermittedBySharing method ...');
+								\App\log::trace('Exiting isReadWritePermittedBySharing method ...');
 								return true;
 							}
 						}
@@ -438,7 +435,7 @@ class Privilege
 				}
 			}
 		}
-		$log->debug('Exiting isReadWritePermittedBySharing method ...');
+		\App\log::trace('Exiting isReadWritePermittedBySharing method ...');
 		return false;
 	}
 

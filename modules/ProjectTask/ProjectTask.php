@@ -11,7 +11,6 @@
 class ProjectTask extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_projecttask';
 	public $table_index = 'projecttaskid';
 	public $column_fields = Array();
@@ -357,13 +356,13 @@ class ProjectTask extends CRMEntity
 
 			\includes\fields\RecordNumber::setNumber($modulename, 'PT', 1);
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

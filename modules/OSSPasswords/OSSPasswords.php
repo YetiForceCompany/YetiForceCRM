@@ -13,7 +13,6 @@
 class OSSPasswords extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_osspasswords';
 	public $table_index = 'osspasswordsid';
 	public $column_fields = Array();
@@ -302,7 +301,7 @@ class OSSPasswords extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+
 		parent::unlinkDependencies($module, $id);
 	}
 
@@ -332,13 +331,13 @@ class OSSPasswords extends CRMEntity
 			$em = new VTEventsManager($adb);
 			$em->setHandlerActive($handlerClass);
 		} else if ($eventType == 'module.preuninstall') {
-			$this->log->debug('Before starting uninstall script...');
+			\App\log::trace('Before starting uninstall script...');
 			require_once( 'modules/Settings/' . $moduleName . '/views/uninstall.php' );
-			$this->log->debug('After uninstall script.');
+			\App\log::trace('After uninstall script.');
 
 			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
 			
 		}

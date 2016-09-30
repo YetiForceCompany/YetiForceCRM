@@ -49,14 +49,10 @@ function getKeyMetrics($maxval, $calCnt)
 {
 	require_once("include/Tracker.php");
 	require_once('modules/CustomView/CustomView.php');
-	require_once('include/logging.php');
 	require_once('include/ListView/ListView.php');
 
 	global $app_strings;
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	$log = LoggerManager::getLogger('metrics');
-
 	$metriclists = getMetricList();
 
 	// Determine if the KeyMetrics widget should appear or not?
@@ -64,7 +60,7 @@ function getKeyMetrics($maxval, $calCnt)
 		return count($metriclists);
 	}
 
-	$log->info("Metrics :: Successfully got MetricList to be displayed");
+	\App\log::trace("Metrics :: Successfully got MetricList to be displayed");
 	if (isset($metriclists)) {
 		$current_user = vglobal('current_user');
 		foreach ($metriclists as $key => $metriclist) {
@@ -90,7 +86,7 @@ function getKeyMetrics($maxval, $calCnt)
 				}
 			}
 		}
-		$log->info("Metrics :: Successfully build the Metrics");
+		\App\log::trace("Metrics :: Successfully build the Metrics");
 	}
 	$title = [];
 	$title[] = 'keyMetrics.gif';

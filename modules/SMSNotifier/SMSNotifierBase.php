@@ -13,7 +13,6 @@ require_once('modules/Vtiger/CRMEntity.php');
 class SMSNotifierBase extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_smsnotifier';
 	public $table_index = 'smsnotifierid';
 
@@ -86,11 +85,8 @@ class SMSNotifierBase extends CRMEntity
 
 	public function __construct()
 	{
-		global $currentModule;
-		$log = LoggerManager::getInstance();
-		$this->column_fields = getColumnFields($currentModule);
+		$this->column_fields = getColumnFields(vglobal('currentModule'));
 		$this->db = PearDatabase::getInstance();
-		$this->log = $log;
 	}
 
 	public function getSortOrder()
@@ -369,11 +365,11 @@ class SMSNotifierBase extends CRMEntity
 		} else if ($event_type == 'module.enabled') {
 			$registerLinks = true;
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
-
+			
 		}
 
 		if ($unregisterLinks) {

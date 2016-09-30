@@ -25,8 +25,6 @@
 class Faq extends CRMEntity
 {
 
-	public $log;
-	public $db;
 	public $table_name = "vtiger_faq";
 	public $table_index = 'id';
 	//fix for Custom Field for FAQ 
@@ -81,8 +79,8 @@ class Faq extends CRMEntity
 	 */
 	public function insertIntoFAQCommentTable($table_name, $module)
 	{
-		$log = vglobal('log');
-		$log->info("in insertIntoFAQCommentTable  " . $table_name . "    module is  " . $module);
+
+		\App\log::trace("in insertIntoFAQCommentTable  " . $table_name . "    module is  " . $module);
 		$adb = PearDatabase::getInstance();
 
 		$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);

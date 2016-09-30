@@ -30,7 +30,6 @@ require_once("include/Webservices/WebServiceError.php");
 require_once 'include/utils/UserInfoUtil.php';
 require_once 'include/Webservices/ModuleTypes.php';
 require_once 'include/utils/VtlibUtils.php';
-require_once('include/logging.php');
 require_once 'include/Webservices/WebserviceEntityOperation.php';
 require_once 'include/Webservices/Retrieve.php';
 require_once('modules/Emails/mail.php');

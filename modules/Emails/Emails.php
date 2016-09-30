@@ -25,8 +25,6 @@
 class Emails extends CRMEntity
 {
 
-	public $log;
-	public $db;
 	public $table_name = "vtiger_activity";
 	public $table_index = 'activityid';
 	// Stored vtiger_fields
@@ -130,8 +128,8 @@ class Emails extends CRMEntity
 	public function insertIntoAttachment($id, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
+
+		\App\log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
 
@@ -159,13 +157,13 @@ class Emails extends CRMEntity
 				}
 			}
 		}
-		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	public function saveForwardAttachments($id, $module, $file_details)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering into saveForwardAttachments($id,$module,$file_details) method.");
+
+		\App\log::trace("Entering into saveForwardAttachments($id,$module,$file_details) method.");
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 
@@ -209,7 +207,7 @@ class Emails extends CRMEntity
 		$sql3 = 'insert into vtiger_seattachmentsrel values(?,?)';
 		$adb->pquery($sql3, array($id, $current_id));
 		return true;
-		$log->debug("exiting from  saveforwardattachment function.");
+		\App\log::trace("exiting from  saveforwardattachment function.");
 	}
 
 	/** Returns a list of the associated contacts
@@ -221,9 +219,9 @@ class Emails extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$log = vglobal('log');
+
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_contacts(" . $id . ") method ...");
+		\App\log::trace("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -279,7 +277,7 @@ class Emails extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_contacts method ...");
+		\App\log::trace("Exiting get_contacts method ...");
 		return $return_value;
 	}
 
@@ -290,14 +288,14 @@ class Emails extends CRMEntity
 	 */
 	public function getSortOrder()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering getSortOrder() method ...");
+
+		\App\log::trace("Entering getSortOrder() method ...");
 		if (isset($_REQUEST['sorder']))
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
 		else
 			$sorder = (($_SESSION['EMAILS_SORT_ORDER'] != '') ? ($_SESSION['EMAILS_SORT_ORDER']) : ($this->default_sort_order));
 
-		$log->debug("Exiting getSortOrder method ...");
+		\App\log::trace("Exiting getSortOrder method ...");
 		return $sorder;
 	}
 
@@ -308,8 +306,8 @@ class Emails extends CRMEntity
 	 */
 	public function getOrderBy()
 	{
-		$log = vglobal('log');
-		$log->debug("Entering getOrderBy() method ...");
+
+		\App\log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
 		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
@@ -321,7 +319,7 @@ class Emails extends CRMEntity
 		else
 			$order_by = (($_SESSION['EMAILS_ORDER_BY'] != '') ? ($_SESSION['EMAILS_ORDER_BY']) : ($use_default_order_by));
 
-		$log->debug("Exiting getOrderBy method ...");
+		\App\log::trace("Exiting getOrderBy method ...");
 		return $order_by;
 	}
 	// Mike Crowe Mod --------------------------------------------------------
@@ -333,8 +331,8 @@ class Emails extends CRMEntity
 	 */
 	public function get_users($id)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering get_users(" . $id . ") method ...");
+
+		\App\log::trace("Entering get_users(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
 		global $app_strings;
 
@@ -395,7 +393,7 @@ class Emails extends CRMEntity
 			$return_data = Array();
 		$return_data['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_users method ...");
+		\App\log::trace("Exiting get_users method ...");
 		return $return_data;
 	}
 
@@ -404,9 +402,9 @@ class Emails extends CRMEntity
 	 */
 	public function create_export_query(&$order_by, &$where)
 	{
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering create_export_query(" . $order_by . "," . $where . ") method ...");
+		\App\log::trace("Entering create_export_query(" . $order_by . "," . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -439,7 +437,7 @@ class Emails extends CRMEntity
 		$query .= getNonAdminAccessControlQuery('Emails', $current_user);
 		$query .= "WHERE vtiger_activity.activitytype='Emails' && vtiger_crmentity.deleted=0 ";
 
-		$log->debug("Exiting create_export_query method ...");
+		\App\log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -448,11 +446,11 @@ class Emails extends CRMEntity
 	 */
 	public function set_emails_contact_invitee_relationship($email_id, $contact_id)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering set_emails_contact_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
+
+		\App\log::trace("Entering set_emails_contact_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
 		$query = "insert into $this->rel_contacts_table (contactid,activityid) values(?,?)";
 		$this->db->pquery($query, array($contact_id, $email_id), true, "Error setting email to contact relationship: " . "<BR>$query");
-		$log->debug("Exiting set_emails_contact_invitee_relationship method ...");
+		\App\log::trace("Exiting set_emails_contact_invitee_relationship method ...");
 	}
 
 	/**
@@ -460,11 +458,11 @@ class Emails extends CRMEntity
 	 */
 	public function set_emails_se_invitee_relationship($email_id, $contact_id)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering set_emails_se_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
+
+		\App\log::trace("Entering set_emails_se_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
 		$query = "insert into $this->rel_serel_table (crmid,activityid) values(?,?)";
 		$this->db->pquery($query, array($contact_id, $email_id), true, "Error setting email to contact relationship: " . "<BR>$query");
-		$log->debug("Exiting set_emails_se_invitee_relationship method ...");
+		\App\log::trace("Exiting set_emails_se_invitee_relationship method ...");
 	}
 
 	/**
@@ -472,17 +470,17 @@ class Emails extends CRMEntity
 	 */
 	public function set_emails_user_invitee_relationship($email_id, $user_id)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering set_emails_user_invitee_relationship(" . $email_id . "," . $user_id . ") method ...");
+
+		\App\log::trace("Entering set_emails_user_invitee_relationship(" . $email_id . "," . $user_id . ") method ...");
 		$query = "insert into $this->rel_users_table (smid,activityid) values (?,?)";
 		$this->db->pquery($query, array($user_id, $email_id), true, "Error setting email to user relationship: " . "<BR>$query");
-		$log->debug("Exiting set_emails_user_invitee_relationship method ...");
+		\App\log::trace("Exiting set_emails_user_invitee_relationship method ...");
 	}
 
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$log = vglobal('log');
+
 
 		$sql = 'DELETE FROM vtiger_seactivityrel WHERE activityid=? && crmid = ?';
 		$this->db->pquery($sql, array($id, $returnId));
@@ -619,8 +617,8 @@ class Emails extends CRMEntity
 //added for attach the generated pdf with email
 function pdfAttach($obj, $module, $file_name, $id)
 {
-	$log = vglobal('log');
-	$log->debug("Entering into pdfAttach() method.");
+
+	\App\log::trace("Entering into pdfAttach() method.");
 
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
@@ -657,7 +655,7 @@ function pdfAttach($obj, $module, $file_name, $id)
 
 		return true;
 	} else {
-		$log->debug("pdf not attached");
+		\App\log::trace("pdf not attached");
 		return false;
 	}
 }

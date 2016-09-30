@@ -17,7 +17,7 @@ class ModTrackerHandler extends VTEventHandler
 	public function handleEvent($eventName, $data)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 
 		if (!is_object($data)) {
 			$extendedData = $data;

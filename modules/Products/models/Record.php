@@ -397,8 +397,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering into function getPriceDetailsForProduct($productid)");
+		
+		\App\log::trace("Entering into function getPriceDetailsForProduct($productid)");
 		if ($productid != '') {
 			$product_currency_id = $this->getProductBaseCurrency($productid, $itemtype);
 			$product_base_conv_rate = $this->getBaseConversionRateForProduct($productid, 'edit', $itemtype);
@@ -493,11 +493,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 					$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 				}
 			} else {
-				$log->debug("Product id is empty. we cannot retrieve the associated prices.");
+				\App\log::trace("Product id is empty. we cannot retrieve the associated prices.");
 			}
 		}
 
-		$log->debug("Exit from function getPriceDetailsForProduct($productid)");
+		\App\log::trace("Exit from function getPriceDetailsForProduct($productid)");
 		return $price_details;
 	}
 

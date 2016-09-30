@@ -11,8 +11,8 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
+		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
@@ -69,7 +69,7 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('Import.tpl', $qualifiedModule);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	public function getHeaderCss(Vtiger_Request $request)

@@ -9,7 +9,6 @@
 class ServiceContracts extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_servicecontracts';
 	public $table_index = 'servicecontractsid';
 	public $column_fields = Array();
@@ -390,11 +389,11 @@ class ServiceContracts extends CRMEntity
 			$em = new VTEventsManager($adb);
 			$em->setHandlerActive('ServiceContractsHandler');
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -597,7 +596,7 @@ class ServiceContracts extends CRMEntity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		global $currentModule;
-		$log = LoggerManager::getInstance();
+
 		if ($return_module == 'Accounts') {
 			$focus = CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);
@@ -641,8 +640,8 @@ class ServiceContracts extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+
+		\App\log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
 
@@ -667,6 +666,6 @@ class ServiceContracts extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		$log->debug("Exiting transferRelatedRecords...");
+		\App\log::trace("Exiting transferRelatedRecords...");
 	}
 }

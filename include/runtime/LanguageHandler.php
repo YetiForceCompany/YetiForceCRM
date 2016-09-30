@@ -134,8 +134,8 @@ class Vtiger_Language_Handler
 			if (file_exists($file)) {
 				require $file;
 			} else {
-				$log = LoggerManager::getInstance();
-				$log->warn('Language file does not exist, module:' . $module . ' ,language: ' . $language);
+				
+				\App\log::warning('Language file does not exist, module:' . $module . ' ,language: ' . $language);
 			}
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;

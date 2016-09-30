@@ -31,7 +31,7 @@ class OutlookSyncServer extends SyncServer
 
 	public function put($key, $element, $user)
 	{
-		$log = vglobal('log');
+		
 		$db = PearDatabase::getInstance();
 		$appid = parent::appid_with_key($key);
 		if (empty($appid)) {
@@ -118,7 +118,7 @@ class OutlookSyncServer extends SyncServer
 		$response['updated'] = array();
 		$response['deleted'] = array();
 
-		$log->fatal($result['updated']);
+		\App\log::error($result['updated']);
 
 		$nextSyncDeleteRecords = $this->destHandler->getAssignToChangedRecords();
 		foreach ($result['created'] as $clientRecordId => $record) {

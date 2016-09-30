@@ -13,7 +13,6 @@
 class OSSMailView extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_ossmailview';
 	public $table_index = 'ossmailviewid';
 	public $column_fields = Array();
@@ -309,7 +308,7 @@ class OSSMailView extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+
 		parent::unlinkDependencies($module, $id);
 	}
 
@@ -350,14 +349,12 @@ class OSSMailView extends CRMEntity
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
 			$registerLink = false;
-
 		} else if ($eventType == 'module.enabled') {
 			$registerLink = true;
-
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
 			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');

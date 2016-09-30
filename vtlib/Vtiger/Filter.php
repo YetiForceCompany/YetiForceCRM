@@ -160,7 +160,7 @@ class Filter
 		$adb->pquery("UPDATE vtiger_cvcolumnlist SET columnindex=columnindex+1 WHERE cvid=? && columnindex>=? ORDER BY columnindex DESC", Array($this->id, $index));
 		$adb->pquery("INSERT INTO vtiger_cvcolumnlist(cvid,columnindex,columnname) VALUES(?,?,?)", Array($this->id, $index, $cvcolvalue));
 
-		$this->log("Adding $fieldInstance->name to $this->name filter ... DONE");
+		\App\log::trace("Adding $fieldInstance->name to $this->name filter ... DONE");
 		return $this;
 	}
 

@@ -11,7 +11,6 @@
 class ProjectMilestone extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
 	public $table_name = 'vtiger_projectmilestone';
 	public $table_index = 'projectmilestoneid';
 	public $column_fields = Array();
@@ -343,13 +342,13 @@ class ProjectMilestone extends CRMEntity
 
 			\includes\fields\RecordNumber::setNumber($modulename, 'PM', 1);
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 
 			\includes\fields\RecordNumber::setNumber($modulename, 'PM', 1);

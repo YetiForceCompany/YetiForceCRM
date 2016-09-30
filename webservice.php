@@ -21,10 +21,6 @@ if (!in_array('webservices', $enabledServices)) {
 }
 
 $API_VERSION = "0.22";
-
-global $seclog, $log;
-$seclog = & LoggerManager::getLogger('SECURITY');
-$log = & LoggerManager::getLogger('webservice');
 $adb = & PearDatabase::getInstance();
 
 function getRequestParamsArrayForOperation($operation)

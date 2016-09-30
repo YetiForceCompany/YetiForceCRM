@@ -19,7 +19,7 @@ Class ChartUtils
 	{
 
 		global $lang_crm;
-		$log = LoggerManager::getInstance();
+		
 		$default_charset = AppConfig::main('default_charset');
 		require_once('include/utils/utils.php');
 		require_once('include/utils/GraphUtils.php');
@@ -207,7 +207,7 @@ Class ChartUtils
 	{
 
 		global $lang_crm;
-		$log = LoggerManager::getInstance();
+		
 		$default_charset = AppConfig::main('default_charset');
 		require_once('include/utils/utils.php');
 		require_once('include/utils/GraphUtils.php');

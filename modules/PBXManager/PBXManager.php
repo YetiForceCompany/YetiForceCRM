@@ -120,7 +120,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addUserExtensionField()
 	{
-		$log = vglobal('log');
+		
 		$module = vtlib\Module::getInstance('Users');
 		if ($module) {
 			$module->initTables();
@@ -134,7 +134,7 @@ class PBXManager extends CRMEntity
 				$blockInstance->addField($fieldInstance);
 			}
 		}
-		$log->fatal('User Extension Field added');
+		\App\log::error('User Extension Field added');
 	}
 
 	/**
@@ -142,7 +142,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function registerLookupEvents()
 	{
-		$log = vglobal('log');
+		
 		$adb = PearDatabase::getInstance();
 		$EventManager = new VTEventsManager($adb);
 		$createEvent = 'vtiger.entity.aftersave';
@@ -158,7 +158,7 @@ class PBXManager extends CRMEntity
 		$EventManager->registerHandler($restoreEvent, $handler_path, $className);
 		$EventManager->registerHandler($batchSaveEvent, $handler_path, $batchEventClassName);
 		$EventManager->registerHandler($batchDeleteEvent, $handler_path, $batchEventClassName);
-		$log->fatal('Lookup Events Registered');
+		\App\log::error('Lookup Events Registered');
 	}
 
 	/**
@@ -166,13 +166,13 @@ class PBXManager extends CRMEntity
 	 */
 	public function setModuleRelatedDependencies()
 	{
-		$log = vglobal('log');
+		
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
 			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'get_dependents_list');
 		}
-		$log->fatal('Successfully added Module Related lists');
+		\App\log::error('Successfully added Module Related lists');
 	}
 
 	/**
@@ -180,13 +180,13 @@ class PBXManager extends CRMEntity
 	 */
 	public function unsetModuleRelatedDependencies()
 	{
-		$log = vglobal('log');
+		
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
 			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'get_dependents_list');
 		}
-		$log->fatal('Successfully removed Module Related lists');
+		\App\log::error('Successfully removed Module Related lists');
 	}
 
 	/**
@@ -194,14 +194,14 @@ class PBXManager extends CRMEntity
 	 */
 	public function unregisterLookupEvents()
 	{
-		$log = vglobal('log');
+		
 		$adb = PearDatabase::getInstance();
 		$EventManager = new VTEventsManager($adb);
 		$className = 'PBXManagerHandler';
 		$batchEventClassName = 'PBXManagerBatchHandler';
 		$EventManager->unregisterHandler($className);
 		$EventManager->unregisterHandler($batchEventClassName);
-		$log->fatal('Lookup Events Unregistered');
+		\App\log::error('Lookup Events Unregistered');
 	}
 
 	/**
@@ -209,13 +209,13 @@ class PBXManager extends CRMEntity
 	 */
 	public function addLinksForPBXManager()
 	{
-		$log = vglobal('log');
+		
 		$handlerInfo = array('path' => 'modules/PBXManager/PBXManager.php',
 			'class' => 'PBXManager',
 			'method' => 'checkLinkPermission');
 
 		vtlib\Link::addLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
-		$log->fatal('Links added');
+		\App\log::error('Links added');
 	}
 
 	/**
@@ -223,10 +223,10 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeLinksForPBXManager()
 	{
-		$log = vglobal('log');
+		
 		//Deleting Headerscripts links
 		vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js');
-		$log->fatal('Links Removed');
+		\App\log::error('Links Removed');
 	}
 
 	/**
@@ -234,7 +234,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addSettingsLinks()
 	{
-		$log = vglobal('log');
+		
 		$adb = PearDatabase::getInstance();
 		$integrationBlock = $adb->pquery('SELECT * FROM vtiger_settings_blocks WHERE label=?', array('LBL_INTEGRATION'));
 		$integrationBlockCount = $adb->num_rows($integrationBlock);
@@ -255,7 +255,7 @@ class PBXManager extends CRMEntity
 		$fieldid = $adb->getUniqueID('vtiger_settings_field');
 		$adb->pquery("INSERT INTO vtiger_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active)
             VALUES(?,?,?,?,?,?,?,?)", array($fieldid, $blockid, 'LBL_PBXMANAGER', '', 'PBXManager module Configuration', 'index.php?module=PBXManager&parent=Settings&view=Index', 2, 0));
-		$log->fatal('Settings Block and Field added');
+		\App\log::error('Settings Block and Field added');
 	}
 
 	/**
@@ -263,10 +263,10 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeSettingsLinks()
 	{
-		$log = vglobal('log');
+		
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
-		$log->fatal('Settings Field Removed');
+		\App\log::error('Settings Field Removed');
 	}
 
 	/**
@@ -274,7 +274,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addActionMapping()
 	{
-		$log = vglobal('log');
+		
 		$adb = PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
@@ -287,7 +287,7 @@ class PBXManager extends CRMEntity
 		$adb->pquery('INSERT INTO vtiger_actionmapping
                      (actionid, actionname, securitycheck) VALUES(?,?,?)', array($actionId, 'ReceiveIncomingCalls', 0));
 		$moduleInstance->enableTools('ReceiveIncomingcalls');
-		$log->fatal('ReceiveIncomingcalls ActionName Added');
+		\App\log::error('ReceiveIncomingcalls ActionName Added');
 
 		//To add actionname as MakeOutgoingCalls
 		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', array());
@@ -297,7 +297,7 @@ class PBXManager extends CRMEntity
 		$adb->pquery('INSERT INTO vtiger_actionmapping
                      (actionid, actionname, securitycheck) VALUES(?,?,?)', array($actionId, 'MakeOutgoingCalls', 0));
 		$moduleInstance->enableTools('MakeOutgoingCalls');
-		$log->fatal('MakeOutgoingCalls ActionName Added');
+		\App\log::error('MakeOutgoingCalls ActionName Added');
 	}
 
 	/**
@@ -305,7 +305,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeActionMapping()
 	{
-		$log = vglobal('log');
+		
 		$adb = PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
@@ -313,12 +313,12 @@ class PBXManager extends CRMEntity
 		$moduleInstance->disableTools('ReceiveIncomingcalls');
 		$adb->pquery('DELETE FROM vtiger_actionmapping 
                      WHERE actionname=?', array('ReceiveIncomingCalls'));
-		$log->fatal('ReceiveIncomingcalls ActionName Removed');
+		\App\log::error('ReceiveIncomingcalls ActionName Removed');
 
 		$moduleInstance->disableTools('MakeOutgoingCalls');
 		$adb->pquery('DELETE FROM vtiger_actionmapping 
                       WHERE actionname=?', array('MakeOutgoingCalls'));
-		$log->fatal('MakeOutgoingCalls ActionName Removed');
+		\App\log::error('MakeOutgoingCalls ActionName Removed');
 	}
 
 	public static function checkLinkPermission($linkData)

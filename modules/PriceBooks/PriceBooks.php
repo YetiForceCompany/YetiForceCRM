@@ -12,8 +12,6 @@
 class PriceBooks extends CRMEntity
 {
 
-	public $log;
-	public $db;
 	public $table_name = "vtiger_pricebook";
 	public $table_index = 'pricebookid';
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_pricebook', 'vtiger_pricebookcf');
@@ -59,8 +57,8 @@ class PriceBooks extends CRMEntity
 	public function updateListPrices()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering function updateListPrices...");
+
+		\App\log::trace("Entering function updateListPrices...");
 		$pricebook_currency = $this->column_fields['currency_id'];
 		$prod_res = $adb->pquery("select * from vtiger_pricebookproductrel where pricebookid=? && usedcurrency != ?", array($this->id, $pricebook_currency));
 		$numRows = $adb->num_rows($prod_res);
@@ -80,7 +78,7 @@ class PriceBooks extends CRMEntity
 			$params = array($computed_list_price, $pricebook_currency, $this->id, $product_id);
 			$adb->pquery($query, $params);
 		}
-		$log->debug("Exiting function updateListPrices...");
+		\App\log::trace("Exiting function updateListPrices...");
 	}
 
 	/** 	function used to get the products which are related to the pricebook
@@ -89,11 +87,11 @@ class PriceBooks extends CRMEntity
 	 * */
 	public function get_pricebook_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_pricebook_products(" . $id . ") method ...");
+		\App\log::trace("Entering get_pricebook_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -135,7 +133,7 @@ class PriceBooks extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_pricebook_products method ...");
+		\App\log::trace("Exiting get_pricebook_products method ...");
 		return $return_value;
 	}
 
@@ -145,11 +143,11 @@ class PriceBooks extends CRMEntity
 	 * */
 	public function get_pricebook_services($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_pricebook_services(" . $id . ") method ...");
+		\App\log::trace("Entering get_pricebook_services(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -191,7 +189,7 @@ class PriceBooks extends CRMEntity
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_pricebook_services method ...");
+		\App\log::trace("Exiting get_pricebook_services method ...");
 		return $return_value;
 	}
 
@@ -201,8 +199,8 @@ class PriceBooks extends CRMEntity
 	 */
 	public function get_pricebook_noproduct($id)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering get_pricebook_noproduct(" . $id . ") method ...");
+
+		\App\log::trace("Entering get_pricebook_noproduct(" . $id . ") method ...");
 
 		$query = "select vtiger_crmentity.crmid, vtiger_pricebook.* from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0";
 		$result = $this->db->pquery($query, array());
@@ -211,17 +209,17 @@ class PriceBooks extends CRMEntity
 			$pb_query = 'select vtiger_crmentity.crmid, vtiger_pricebook.pricebookid,vtiger_pricebookproductrel.productid from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid inner join vtiger_pricebookproductrel on vtiger_pricebookproductrel.pricebookid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0 and vtiger_pricebookproductrel.productid=?';
 			$result_pb = $this->db->pquery($pb_query, array($id));
 			if ($no_count == $this->db->num_rows($result_pb)) {
-				$log->debug("Exiting get_pricebook_noproduct method ...");
+				\App\log::trace("Exiting get_pricebook_noproduct method ...");
 				return false;
 			} elseif ($this->db->num_rows($result_pb) == 0) {
-				$log->debug("Exiting get_pricebook_noproduct method ...");
+				\App\log::trace("Exiting get_pricebook_noproduct method ...");
 				return true;
 			} elseif ($this->db->num_rows($result_pb) < $no_count) {
-				$log->debug("Exiting get_pricebook_noproduct method ...");
+				\App\log::trace("Exiting get_pricebook_noproduct method ...");
 				return true;
 			}
 		} else {
-			$log->debug("Exiting get_pricebook_noproduct method ...");
+			\App\log::trace("Exiting get_pricebook_noproduct method ...");
 			return false;
 		}
 	}

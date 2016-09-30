@@ -261,7 +261,7 @@ class Install_InitSchema_Model
 
 	public function deleteDirFile($src)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$rootDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if ($rootDirectory && strpos($src, $rootDirectory) === false) {
 			$src = $rootDirectory . $src;
@@ -269,13 +269,13 @@ class Install_InitSchema_Model
 		if (!file_exists($src) || !$rootDirectory)
 			return;
 		@chmod($src, 0777);
-		$log->debug("Exiting VT620_to_YT::testest(" . $src . ") method ...");
+		\App\log::trace("Exiting VT620_to_YT::testest(" . $src . ") method ...");
 		if (is_dir($src)) {
 			$dir = new DirectoryIterator($src);
 			foreach ($dir as $fileinfo) {
 				if (!$fileinfo->isDot()) {
 					if ($fileinfo->isDir()) {
-						$log->debug("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
+						\App\log::trace("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
 						$this->deleteDirFile($fileinfo->getPathname());
 						rmdir($fileinfo->getPathname());
 					} else {

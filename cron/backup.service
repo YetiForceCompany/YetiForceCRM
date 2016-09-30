@@ -4,8 +4,8 @@
 include_once 'include/main/WebUI.php';
 $current_user = Users::getActiveAdminUser();
 
-$log = vglobal('log');
-$log->info('Cron BackUp - Start backup');
+
+\App\log::trace('Cron BackUp - Start backup');
 $backupModel = new Settings_BackUp_Module_Model();
 $backupModel->runBackup();
-$log->info('Cron BackUp - End backup');
+\App\log::trace('Cron BackUp - End backup');

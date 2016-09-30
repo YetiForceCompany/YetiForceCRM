@@ -20,11 +20,11 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 
 	public static function getConfig($type = false)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type");
+		
+		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type");
 		$cache = Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
 		if ($cache) {
-			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+			\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 			return $cache;
 		}
 		$db = PearDatabase::getInstance();
@@ -54,21 +54,21 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 			}
 		}
 		Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $config;
 	}
 
 	public static function setConfig($param)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
+		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
 		$value = $param['val'];
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
 		$db->pquery('UPDATE yetiforce_proc_sales SET value = ? WHERE type = ? && param = ?;', [$value, $param['type'], $param['param']]);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
 	}
 

@@ -11,7 +11,7 @@
 class Vtiger_CRMEntity extends CRMEntity
 {
 
-	public $db, $log; // Used in class functions of CRMEntity
+	public $db; // Used in class functions of CRMEntity
 	public $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
@@ -27,7 +27,6 @@ class Vtiger_CRMEntity extends CRMEntity
 	{
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
-		$this->log = LoggerManager::getInstance(get_class($this));
 	}
 
 	public function save_module($module)

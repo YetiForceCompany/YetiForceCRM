@@ -32,8 +32,8 @@ require_once 'modules/PickList/DependentPickListUtils.php';
  */
 function getAssociatedProducts($module, $focus, $seid = '')
 {
-	$log = vglobal('log');
-	$log->debug("Entering getAssociatedProducts(" . $module . "," . get_class($focus) . "," . $seid . "='') method ...");
+	
+	\App\log::trace("Entering getAssociatedProducts(" . $module . "," . get_class($focus) . "," . $seid . "='') method ...");
 	$adb = PearDatabase::getInstance();
 	$output = '';
 	global $theme;
@@ -331,7 +331,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	$grandTotal = number_format($grandTotal, $no_of_decimal_places, '.', '');
 	$product_Detail[1]['final_details']['grandTotal'] = $grandTotal;
 
-	$log->debug("Exiting getAssociatedProducts method ...");
+	\App\log::trace("Exiting getAssociatedProducts method ...");
 	return $product_Detail;
 }
 
@@ -341,8 +341,8 @@ function getAssociatedProducts($module, $focus, $seid = '')
  */
 function split_validationdataArray($validationData)
 {
-	$log = vglobal('log');
-	$log->debug("Entering split_validationdataArray(" . $validationData . ") method ...");
+	
+	\App\log::trace("Entering split_validationdataArray(" . $validationData . ") method ...");
 	$fieldName = '';
 	$fieldLabel = '';
 	$fldDataType = '';
@@ -369,6 +369,6 @@ function split_validationdataArray($validationData)
 	$data['fieldname'] = $fieldName;
 	$data['fieldlabel'] = $fieldLabel;
 	$data['datatype'] = $fldDataType;
-	$log->debug("Exiting split_validationdataArray method ...");
+	\App\log::trace("Exiting split_validationdataArray method ...");
 	return $data;
 }

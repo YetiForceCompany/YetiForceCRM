@@ -1,5 +1,4 @@
 <?php
-require_once('include/logging.php');
 /*
   $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
 
@@ -72,8 +71,6 @@ require_once('include/logging.php');
 // class variable emulation
 // cf. http://www.webkreator.com/php/techniques/php-static-class-variables.html
 $GLOBALS['_transient']['static']['nusoap_base']['globalDebugLevel'] = 9;
-global $soap_log;
-$soap_log = & LoggerManager::getLogger('SOAP');
 
 /**
  *
@@ -305,8 +302,7 @@ class nusoap_base
 		if ($this->debugLevel > 0) {
 			// it would be nice to use a memory stream here to use
 			// memory more efficiently
-			global $soap_log;
-			$soap_log->debug($string);
+			\App\log::trace($string, 'soap');
 			$this->debug_str .= $string;
 		}
 	}

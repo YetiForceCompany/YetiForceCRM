@@ -14,8 +14,8 @@ class Settings_TimeControlProcesses_Index_View extends Settings_Vtiger_Index_Vie
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
+		\App\log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -25,7 +25,7 @@ class Settings_TimeControlProcesses_Index_View extends Settings_Vtiger_Index_Vie
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel->getConfigInstance());
 		$viewer->view('Index.tpl', $qualifiedModule);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	public function getFooterScripts(Vtiger_Request $request)
