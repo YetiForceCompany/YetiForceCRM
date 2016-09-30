@@ -799,16 +799,15 @@ class Services extends CRMEntity
 			$focus = CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);
 			array_push($entityIds, $return_id);
-			$entityIds = implode(',', $entityIds);
-			$return_modules = "'Accounts','Contacts'";
+			$return_modules = ['Accounts', 'Contacts'];
 		} else {
 			$entityIds = $return_id;
-			$return_modules = "'" . $return_module . "'";
+			$return_modules = [$return_module];
 		}
 		if ($relatedName && $relatedName != 'get_related_list') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$where = '(relcrmid= ? && module IN (?) && crmid IN (?)) || (crmid= ? && relmodule IN (?) && relcrmid IN (?))';
+			$where = '(relcrmid= ? AND module IN ('.  generateQuestionMarks($return_modules).') AND crmid IN ('.generateQuestionMarks($entityIds).')) OR (crmid= ? AND relmodule IN ('.generateQuestionMarks($return_modules).') AND relcrmid IN ('.generateQuestionMarks($entityIds).'))';
 			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
 			$this->db->delete('vtiger_crmentityrel', $where, $params);
 		}
