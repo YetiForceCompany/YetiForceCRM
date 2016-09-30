@@ -178,20 +178,6 @@ class Deprecated
 	}
 
 	/**
-	 * Get translated currency name string.
-	 * @param String $str - input currency name
-	 * @return String $str - translated currency name
-	 */
-	public static function getTranslatedCurrencyString($str)
-	{
-		global $app_currency_strings;
-		if (isset($app_currency_strings) && isset($app_currency_strings[$str])) {
-			return $app_currency_strings[$str];
-		}
-		return $str;
-	}
-
-	/**
 	 * This function is used to get cvid of default "all" view for any module.
 	 * @return a cvid of a module
 	 */

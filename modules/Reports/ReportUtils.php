@@ -128,7 +128,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		}
 	} elseif ($dbField->name == "PriceBooks_Currency") {
 		if ($value != '') {
-			$fieldvalue = \vtlib\Deprecated::getTranslatedCurrencyString($value);
+			$fieldvalue = \includes\Language::translate($value, 'Currency');
 		}
 	} elseif (in_array($dbField->name, $report->ui101_fields) && !empty($value)) {
 		$entityNames = getEntityName('Users', $value);

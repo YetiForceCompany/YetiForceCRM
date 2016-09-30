@@ -134,7 +134,7 @@ class Functions
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
 		if ($show_symbol) {
-			return sprintf("%s : %s", Deprecated::getTranslatedCurrencyString($currencyInfo['currency_name']), $currencyInfo['currency_symbol']);
+			return sprintf("%s : %s", \includes\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
 		}
 		return $currencyInfo['currency_name'];
 	}
