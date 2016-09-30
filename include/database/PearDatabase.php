@@ -143,7 +143,6 @@ class PearDatabase
 
 	public function println($msg)
 	{
-		\App\log::trace($msg);
 		return $msg;
 	}
 
@@ -289,7 +288,6 @@ class PearDatabase
 
 	public function disconnect()
 	{
-		\App\log::trace('Database disconnect');
 		if (isset($this->database)) {
 			unset($this->database);
 		}
@@ -297,7 +295,6 @@ class PearDatabase
 
 	public function query($query, $dieOnError = false, $msg = '')
 	{
-		\App\log::trace("Start query: $query");
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
 
@@ -309,7 +306,6 @@ class PearDatabase
 			\App\log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage(), $dieOnError, $query);
 		}
-		\App\log::trace('End query');
 		return $this->stmt;
 	}
 	/* Prepared statement Execution
@@ -321,12 +317,11 @@ class PearDatabase
 
 	public function pquery($query, $params = [], $dieOnError = false, $msg = '')
 	{
-		\App\log::trace('Start query: ' . $query);
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
 		$params = $this->flatten_array($params);
 		if (count($params) > 0) {
-			\App\log::trace('Query parameters: [' . implode(",", $params) . ']');
+			
 		} else {
 			return $this->query($query, $dieOnError, $msg);
 		}
@@ -340,7 +335,6 @@ class PearDatabase
 			\App\log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage(), $dieOnError, $query, $params);
 		}
-		\App\log::trace('End query');
 		return $this->stmt;
 	}
 
@@ -574,7 +568,6 @@ class PearDatabase
 
 	public function updateBlob($table, $column, $val, $where)
 	{
-		\App\log::trace("Update Blob: $table, $column, $val, $where, $blobtype");
 		$success = $this->pquery("UPDATE $table SET $column=? WHERE $where", [$val]);
 		return $success;
 	}
@@ -667,7 +660,6 @@ class PearDatabase
 
 	public function getOne($sql, $dieOnError = false, $msg = '')
 	{
-		\App\log::trace('getOne: ' . $sql);
 		$result = $this->query($sql, $dieOnError, $msg);
 		$val = $this->getSingleValue($result);
 		return $val;
@@ -675,7 +667,6 @@ class PearDatabase
 
 	public function getFieldsDefinition(&$result)
 	{
-		\App\log::trace('getFieldsDefinition');
 		$fieldArray = [];
 		if (!isset($result) || empty($result)) {
 			return 0;
@@ -693,7 +684,6 @@ class PearDatabase
 
 	public function getFieldsArray(&$result)
 	{
-		\App\log::trace('getFieldsArray');
 		$fieldArray = [];
 		if (!isset($result) || empty($result)) {
 			return 0;
@@ -749,7 +739,6 @@ class PearDatabase
 	public function getAffectedRowCount(&$result)
 	{
 		$rows = $result->rowCount();
-		\App\log::trace('getAffectedRowCount: ' . $rows);
 		return $rows;
 	}
 
