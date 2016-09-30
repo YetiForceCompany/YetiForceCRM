@@ -1,13 +1,13 @@
-<?php namespace includes;
+<?php namespace App;
 
 /**
- * Privileges basic class
+ * Privilege basic class
  * @package YetiForce.Include
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Privileges
+class Privilege
 {
 
 	protected static $isPermittedLevel = [];
@@ -47,7 +47,7 @@ class Privileges
 			return $permission;
 		}
 		//Retreiving the Tabid and Action Id
-		$tabid = Modules::getModuleId($moduleName);
+		$tabid = \includes\Modules::getModuleId($moduleName);
 		$actionid = getActionid($actionName);
 		$checkModule = $moduleName;
 
@@ -314,7 +314,7 @@ class Privileges
 		$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
 		if (is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
-				$parRecordOwner = PrivilegesUtils::getParentRecordOwner($tabId, $parModId, $recordId);
+				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (sizeof($parRecordOwner) > 0) {
 					$parModName = \vtlib\Functions::getModuleName($parModId);
 					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
@@ -402,7 +402,7 @@ class Privileges
 		$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
 		if (is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
-				$parRecordOwner = PrivilegesUtils::getParentRecordOwner($tabId, $parModId, $recordId);
+				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (!empty($parRecordOwner)) {
 					$parModName = \vtlib\Functions::getModuleName($parModId);
 					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
@@ -451,11 +451,11 @@ class Privileges
 	 */
 	public static function setUpdater($moduleName, $record = false, $priority = false, $type = 1)
 	{
-		GlobalPrivileges::setUpdater($moduleName, $record, $priority, $type);
+		PrivilegeUpdater::setUpdater($moduleName, $record, $priority, $type);
 	}
 
 	public static function setAllUpdater()
 	{
-		GlobalPrivileges::setAllUpdater();
+		PrivilegeUpdater::setAllUpdater();
 	}
 }

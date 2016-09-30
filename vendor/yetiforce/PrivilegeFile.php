@@ -1,4 +1,4 @@
-<?php namespace includes;
+<?php namespace App;
 
 /**
  * Privilege File basic class

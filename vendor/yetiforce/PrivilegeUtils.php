@@ -1,12 +1,12 @@
-<?php namespace includes;
+<?php namespace App;
 
 /**
- * Privileges Utils basic class
+ * Privilege Util basic class
  * @package YetiForce.Include
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class PrivilegesUtils
+class PrivilegeUtil
 {
 
 	/** Function to get parent record owner

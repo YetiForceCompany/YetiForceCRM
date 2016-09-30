@@ -16,7 +16,7 @@ class OSSMailView_Relation_Action extends Vtiger_Action_Controller
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if (!\includes\Privileges::isPermitted($moduleName, 'ReloadRelationRecord')) {
+		if (!\App\Privilege::isPermitted($moduleName, 'ReloadRelationRecord')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

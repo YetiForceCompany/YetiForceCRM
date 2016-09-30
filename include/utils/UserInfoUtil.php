@@ -930,7 +930,7 @@ function getRoleUsers($roleId)
  */
 function getRoleUserIds($roleId)
 {
-	return \includes\PrivilegesUtils::getRoleUserIds($roleId);
+	return \App\PrivilegeUtil::getRoleUserIds($roleId);
 }
 
 /** Function to get the vtiger_role and subordinate vtiger_users

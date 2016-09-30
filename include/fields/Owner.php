@@ -459,7 +459,7 @@ class Owner
 		if (!isset(self::$usersIdsCache[$status])) {
 			$rows = [];
 			if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$rows = \includes\PrivilegeFile::getUser('id');
+				$rows = \App\PrivilegeFile::getUser('id');
 			} else {
 				$instance = new self();
 				$rows = $instance->initUsers($status);
@@ -528,7 +528,7 @@ class Owner
 		}
 
 		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \includes\PrivilegeFile::getUser('id');
+			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
 			if ($single) {
@@ -552,7 +552,7 @@ class Owner
 			return self::$typeCache[$id];
 		}
 		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \includes\PrivilegeFile::getUser('id');
+			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
 			$users = $instance->initUsers();

@@ -538,7 +538,7 @@ class Users extends CRMEntity
 	public function retrieve_user_id($userName)
 	{
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \includes\PrivilegeFile::getUser('userName');
+			$users = \App\PrivilegeFile::getUser('userName');
 			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
 				return $users[$userName]['id'];
 			}
@@ -685,7 +685,7 @@ class Users extends CRMEntity
 		unset($_SESSION['next_reminder_time']);
 
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-			\includes\PrivilegeFile::createUsersFile();
+			\App\PrivilegeFile::createUsersFile();
 		}
 	}
 
@@ -1050,7 +1050,7 @@ class Users extends CRMEntity
 				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_USER_EXISTS'));
 				return false;
 			}
-			\includes\Privileges::setAllUpdater();
+			\App\Privilege::setAllUpdater();
 		} else {// update dashboard widgets when changing users role
 			$query = 'SELECT `roleid` FROM `vtiger_user2role` WHERE `userid` = ? LIMIT 1;';
 			$oldRoleResult = $adb->pquery($query, [$this->id]);
@@ -1058,12 +1058,12 @@ class Users extends CRMEntity
 
 			$privilegesModel = Users_Privileges_Model::getInstanceById($this->id);
 			if ($this->column_fields['is_admin'] != $privilegesModel->get('is_admin')) {
-				\includes\Privileges::setAllUpdater();
+				\App\Privilege::setAllUpdater();
 			}
 			if ($oldRole != $this->column_fields['roleid']) {
 				$query = 'DELETE FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ?;';
 				$adb->pquery($query, [$this->id]);
-				\includes\Privileges::setAllUpdater();
+				\App\Privilege::setAllUpdater();
 			}
 		}
 		//Save entity being called with the modulename as parameter
@@ -1398,7 +1398,7 @@ class Users extends CRMEntity
 			return $cache->getAdminUserId();
 		} else {
 			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$users = \includes\PrivilegeFile::getUser('id');
+				$users = \App\PrivilegeFile::getUser('id');
 				foreach ($users as $id => $user) {
 					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
 						$adminId = $id;

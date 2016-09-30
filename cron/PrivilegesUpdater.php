@@ -11,7 +11,7 @@ $limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_PRIVILEGES_UPDATER');
 $i = 0;
 $result = $adb->query(sprintf('SELECT * FROM u_yf_crmentity_search_label WHERE `userid` = \'\' LIMIT %s', $limit));
 while ($row = $adb->getRow($result)) {
-	\includes\GlobalPrivileges::updateGlobalSearch($row['crmid'], $row['setype']);
+	\App\PrivilegeUpdater::updateGlobalSearch($row['crmid'], $row['setype']);
 	$i++;
 	if ($i == $limit) {
 		return;
@@ -21,7 +21,7 @@ $resultUpdater = $adb->query(sprintf('SELECT * FROM s_yf_privileges_updater ORDE
 while ($row = $adb->getRow($resultUpdater)) {
 	$crmid = $row['crmid'];
 	if ($row['type'] == 0) {
-		\includes\GlobalPrivileges::updateGlobalSearch($crmid, $row['module']);
+		\App\PrivilegeUpdater::updateGlobalSearch($crmid, $row['module']);
 		$i++;
 		if ($i == $limit) {
 			return;
@@ -29,7 +29,7 @@ while ($row = $adb->getRow($resultUpdater)) {
 	} else {
 		$resultCrm = $adb->pquery(sprintf('SELECT crmid FROM vtiger_crmentity WHERE setype =? && crmid > ? LIMIT %s', $limit), [$row['module'], $crmid]);
 		while ($rowCrm = $adb->getRow($resultCrm)) {
-			\includes\GlobalPrivileges::updateGlobalSearch($rowCrm['crmid'], $row['module']);
+			\App\PrivilegeUpdater::updateGlobalSearch($rowCrm['crmid'], $row['module']);
 			$affected = $adb->update('s_yf_privileges_updater', ['crmid' => $rowCrm['crmid']], 'module =? && type =? && crmid =?', [$row['module'], 1, $crmid]);
 			$crmid = $rowCrm['crmid'];
 			$i++;

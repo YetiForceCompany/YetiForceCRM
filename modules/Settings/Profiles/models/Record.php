@@ -630,7 +630,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$isModulePermitted = Settings_Profiles_Module_Model::NOT_PERMITTED_VALUE;
 		}
 		if ($isModulePermitted != $profileTabPermissions) {
-			\includes\Privileges::setUpdater($moduleModel->getName());
+			\App\Privilege::setUpdater($moduleModel->getName());
 		}
 		$sql = 'INSERT INTO vtiger_profile2tab(profileid, tabid, permissions) VALUES (?,?,?)';
 		$params = array($profileId, $tabId, $isModulePermitted);

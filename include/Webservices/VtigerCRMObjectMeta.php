@@ -476,7 +476,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$params = [$recordId];
 		if ($this->objectName == 'Users') {
 			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$users = \includes\PrivilegeFile::getUser('id');
+				$users = \App\PrivilegeFile::getUser('id');
 				if (isset($users[$recordId]) && $users[$recordId]['deleted'] == '0') {
 					self::$userExistsCache[$recordId] = true;
 					return true;

@@ -23,7 +23,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$recordPermission = \includes\Privileges::isPermitted($moduleName, 'EditView', $recordId);
+		$recordPermission = \App\Privilege::isPermitted($moduleName, 'EditView', $recordId);
 		if (!$recordPermission) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}

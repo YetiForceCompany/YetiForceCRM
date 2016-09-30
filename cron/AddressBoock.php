@@ -65,7 +65,7 @@ while ($row = $db->getRow($mainResult)) {
 		}
 		$record = reset($row);
 		foreach ($usersIds as &$userId) {
-			if (\includes\Privileges::isPermitted($moduleName, 'DetailView', $record, $userId)) {
+			if (\App\Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$users .= ',' . $userId;
 			}
 		}

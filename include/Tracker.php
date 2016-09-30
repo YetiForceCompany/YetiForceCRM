@@ -137,7 +137,7 @@ class Tracker
 						$per = true;
 					}
 				} else {
-					$per = \includes\Privileges::isPermitted($module, 'DetailView', $entityId);
+					$per = \App\Privilege::isPermitted($module, 'DetailView', $entityId);
 				}
 				if ($per) {
 					$list[] = $row;

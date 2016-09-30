@@ -94,11 +94,11 @@ function createUserSharingPrivilegesfile($userid)
 		} else {
 			$sharingPrivileges = [];
 			//Constructig the Default Org Share Array
-			$def_org_share = \includes\PrivilegesUtils::getAllDefaultSharingAction();
+			$def_org_share = \App\PrivilegeUtil::getAllDefaultSharingAction();
 			$newbuf .= "\$defaultOrgSharingPermission=" . constructArray($def_org_share) . ";\n";
 			$sharingPrivileges['defOrgShare'] = $def_org_share;
 
-			$relatedModuleShare = \includes\PrivilegesUtils::getDatashareRelatedModules();
+			$relatedModuleShare = \App\PrivilegeUtil::getDatashareRelatedModules();
 			$newbuf .= "\$related_module_share=" . constructTwoDimensionalValueArray($relatedModuleShare) . ";\n";
 			$sharingPrivileges['relatedModuleShare'] = $relatedModuleShare;
 			//Constructing Account Sharing Rules

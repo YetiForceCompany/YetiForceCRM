@@ -168,7 +168,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false)
 	{
-		return \includes\Privileges::isPermitted($moduleName, $actionName, $record);
+		return \App\Privilege::isPermitted($moduleName, $actionName, $record);
 	}
 
 	public static function getLastPermittedAccessLog()
@@ -313,7 +313,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	public static function isPermittedByUserId($userId, $moduleName, $actionName = '', $record = false)
 	{
-		return \includes\Privileges::isPermitted($moduleName, $actionName, $record, $userId);
+		return \App\Privilege::isPermitted($moduleName, $actionName, $record, $userId);
 	}
 
 	/**

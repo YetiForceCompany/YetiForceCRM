@@ -353,7 +353,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				$oldRole['editrelatedrecord'] != $this->get('editrelatedrecord') ||
 				$oldRole['permissionsrelatedfield'] != $permissionsRelatedField ||
 				$oldRole['searchunpriv'] != $searchunpriv) {
-				\includes\Privileges::setAllUpdater();
+				\App\Privilege::setAllUpdater();
 			}
 		}
 		if (empty($profileIds)) {
@@ -424,7 +424,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				createUserSharingPrivilegesfile($userid);
 			}
 		}
-		\includes\Privileges::setAllUpdater();
+		\App\Privilege::setAllUpdater();
 	}
 
 	/**
