@@ -99,8 +99,9 @@ Class ChartUtils
 		} else {
 			$fill = & Image_Graph::factory('gradient', array(IMAGE_GRAPH_GRAD_HORIZONTAL_MIRRORED, $color, 'white'));
 		}
-
-		for ($i = 0; $i < count($yaxisData); $i++) {
+		
+		$countYaxisData = count($yaxisData);
+		for ($i = 0; $i < $countYaxisData; $i++) {
 			$x = 1 + $i;
 			if ($yaxisData[$i] >= $max)
 				$max = $yaxisData[$i];
@@ -225,7 +226,8 @@ Class ChartUtils
 
 		$alts = [];
 		$temp = [];
-		for ($i = 0; $i < count($xaxisData); $i++) {
+		$countXaxisData = count($xaxisData);
+		for ($i = 0; $i < $countXaxisData; $i++) {
 			$name = html_entity_decode($xaxisData[$i], ENT_QUOTES, $default_charset);
 			$pos = substr_count($name, " ");
 			$alts[] = $name;
@@ -236,7 +238,9 @@ Class ChartUtils
 				$val = explode(" ", $name);
 				$n = count($val) - 1;
 				$x = "";
-				for ($j = 0; $j < count($val); $j++) {
+				
+				$countVal = count($val);
+				for ($j = 0; $j < $countVal; $j++) {
 					if ($j != $n) {
 						$x .=" " . $val[$j];
 					} else {
@@ -273,10 +277,14 @@ Class ChartUtils
 		$fills = & Image_Graph::factory('Image_Graph_Fill_Array');
 		$sum = 0;
 		$pcvalues = [];
-		for ($i = 0; $i < count($yaxisData); $i++) {
+		
+		$countYaxisData = count($yaxisData);
+		for ($i = 0; $i < $countYaxisData; $i++) {
 			$sum += $yaxisData[$i];
 		}
-		for ($i = 0; $i < count($yaxisData); $i++) {
+		
+		$countYaxisData = count($yaxisData);
+		for ($i = 0; $i < $countYaxisData; $i++) {
 			// To have unique names even in case of duplicates let us add the id
 			$datalabel = $xaxisData[$i];
 			$xaxisData_appearance = $uniquex[$xaxisData[$i]];
