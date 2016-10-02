@@ -678,15 +678,12 @@ class Activity extends CRMEntity
 				array_push($params1, $profileList);
 			}
 		}
+		
 		$result1 = $adb->pquery($sql1, $params1);
-		for ($i = 0; $i < $adb->num_rows($result1); $i++) {
+		$countResult = $adb->num_rows($result1);
+		for ($i = 0; $i < $countResult; $i++) {
 			$permitted_lists[] = $adb->query_result($result1, $i, 'tablename');
 			$permitted_lists[] = $adb->query_result($result1, $i, 'columnname');
-			/* if($adb->query_result($result1,$i,'columnname') == "parentid")
-			  {
-			  $permitted_lists[] = 'vtiger_account';
-			  $permitted_lists[] = 'accountname';
-			  } */
 		}
 		$permitted_lists = array_chunk($permitted_lists, 2);
 		$column_table_lists = [];
@@ -734,7 +731,8 @@ class Activity extends CRMEntity
 			}
 		}
 		$result1 = $adb->pquery($sql1, $params1);
-		for ($i = 0; $i < $adb->num_rows($result1); $i++) {
+		$countResult = $adb->num_rows($result1);
+		for ($i = 0; $i < $countResult; $i++) {
 			$permitted_lists[] = $adb->query_result($result1, $i, 'tablename');
 			$permitted_lists[] = $adb->query_result($result1, $i, 'columnname');
 			if ($adb->query_result($result1, $i, 'columnname') == "date_start") {

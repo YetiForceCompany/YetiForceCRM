@@ -89,7 +89,8 @@ class ModTracker
 	{
 		$adb = PearDatabase::getInstance();
 		$moduleResult = $adb->pquery('SELECT * FROM vtiger_modtracker_tabs', array());
-		for ($i = 0; $i < $adb->num_rows($moduleResult); $i++) {
+		$countModuleResult = $adb->num_rows($moduleResult);
+		for ($i = 0; $i < $countModuleResult; $i++) {
 			$tabId = $adb->query_result($moduleResult, $i, 'tabid');
 			$visible = $adb->query_result($moduleResult, $i, 'visible');
 			self::updateCache($tabId, $visible);
@@ -364,7 +365,8 @@ class ModTracker
 		$fieldResult = $adb->pquery('SELECT * FROM vtiger_modtracker_detail
                         INNER JOIN vtiger_modtracker_basic ON vtiger_modtracker_basic.id = vtiger_modtracker_detail.id
                         WHERE crmid = ? && changedon >= ?', array($crmid, $date));
-		for ($i = 0; $i < $adb->num_rows($fieldResult); $i++) {
+		$countFieldResult = $adb->num_rows($fieldResult);
+		for ($i = 0; $i < $countFieldResult; $i++) {
 			$fieldName = $adb->query_result($fieldResult, $i, 'fieldname');
 			if ($fieldName == 'record_id' || $fieldName == 'record_module' ||
 				$fieldName == 'createdtime')

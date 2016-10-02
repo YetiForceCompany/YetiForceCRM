@@ -3286,7 +3286,8 @@ class ReportRun extends CRMEntity
 		}
 
 		$temp_status = Array();
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$fieldname = $adb->query_result($result, $i, "fieldname");
 			$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
 			$tabid = $adb->query_result($result, $i, "tabid");
@@ -3302,7 +3303,8 @@ class ReportRun extends CRMEntity
 			}
 			if ($fieldname != 'firstname')
 				$mulselresult = $adb->query($mulsel);
-			for ($j = 0; $j < $adb->num_rows($mulselresult); $j++) {
+			$countMulSelResult = $adb->num_rows($mulselresult);
+			for ($j = 0; $j < $countMulSelResult; $j++) {
 				$fldvalue = $adb->query_result($mulselresult, $j, $fieldname);
 				if (in_array($fldvalue, $fieldvalues))
 					continue;

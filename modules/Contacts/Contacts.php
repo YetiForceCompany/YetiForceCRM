@@ -214,7 +214,8 @@ class Contacts extends CRMEntity
 			}
 		}
 		$result1 = $this->db->pquery($sql1, $params1);
-		for ($i = 0; $i < $adb->num_rows($result1); $i++) {
+		$countResult = $adb->num_rows($result1);
+		for ($i = 0; $i < $countResult; $i++) {
 			$permitted_field_lists[] = $adb->query_result($result1, $i, 'columnname');
 		}
 
@@ -656,7 +657,8 @@ class Contacts extends CRMEntity
 			}
 		}
 		$result1 = $adb->pquery($sql1, $params1);
-		for ($i = 0; $i < $adb->num_rows($result1); $i++) {
+		$countResult = $adb->num_rows($result1);
+		for ($i = 0; $i < $countResult; $i++) {
 			$permitted_lists[] = $adb->query_result($result1, $i, 'tablename');
 			$permitted_lists[] = $adb->query_result($result1, $i, 'columnname');
 			if ($adb->query_result($result1, $i, 'columnname') == "parentid") {

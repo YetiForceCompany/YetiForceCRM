@@ -30,7 +30,8 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 			$translatedHeaders[] = vtranslate(html_entity_decode($header, ENT_QUOTES), $moduleName);
 		}
 		$entries = array();
-		for ($j = 0; $j < $adb->num_rows($result); $j++) {
+		$countResult = $adb->num_rows($result);
+		for ($j = 0; $j < $countResult; $j++) {
 			$entries[] = $adb->fetchByAssoc($result, $j);
 		}
 

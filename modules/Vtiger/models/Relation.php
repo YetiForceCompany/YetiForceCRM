@@ -513,7 +513,8 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$result = $adb->pquery($query, [$relationId]);
 		if ($onlyFields) {
 			$fields = [];
-			for ($i = 0; $i < $adb->num_rows($result); $i++) {
+			$countResult = $adb->num_rows($result);
+			for ($i = 0; $i < $countResult; $i++) {
 				$columnname = $adb->query_result_raw($result, $i, 'columnname');
 				$fieldname = $adb->query_result_raw($result, $i, 'fieldname');
 				if ($association)

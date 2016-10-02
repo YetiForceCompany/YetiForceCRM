@@ -20,7 +20,8 @@ function getSharedCalendarId($sharedid)
 	$query = "SELECT * from vtiger_sharedcalendar where sharedid=?";
 	$result = $adb->pquery($query, array($sharedid));
 	if ($adb->num_rows($result) != 0) {
-		for ($j = 0; $j < $adb->num_rows($result); $j++)
+		$countResult = $adb->num_rows($result);
+		for ($j = 0; $j < $countResult; $j++)
 			$userid[] = $adb->query_result($result, $j, 'userid');
 		$shared_ids = implode(",", $userid);
 	}

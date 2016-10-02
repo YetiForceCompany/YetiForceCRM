@@ -296,7 +296,8 @@ class Filter
 		$queryParams = Array($moduleInstance->name);
 
 		$result = $adb->pquery($query, $queryParams);
-		for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+		$countResult = $adb->num_rows($result);
+		for ($index = 0; $index < $countResult; ++$index) {
 			$instance = new self();
 			$instance->initialize($adb->fetch_array($result), $moduleInstance);
 			$instances[] = $instance;

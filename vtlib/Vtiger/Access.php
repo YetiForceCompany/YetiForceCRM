@@ -75,8 +75,9 @@ class Access
 
 		$result = $adb->query("SELECT share_action_id from vtiger_org_share_action_mapping WHERE share_action_name in
 			('Public: Read Only', 'Public: Read, Create/Edit', 'Public: Read, Create/Edit, Delete', 'Private')");
-
-		for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+		
+		$countResult = $adb->num_rows($result);
+		for ($index = 0; $index < $countResult; ++$index) {
 			$actionid = $adb->query_result($result, $index, 'share_action_id');
 			$adb->pquery("INSERT INTO vtiger_org_share_action2tab(share_action_id,tabid) VALUES(?,?)", Array($actionid, $moduleInstance->id));
 		}

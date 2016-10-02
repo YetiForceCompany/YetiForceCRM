@@ -160,7 +160,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
 		$result = $adb->query($query);
 		$account = [];
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$account[$adb->query_result_raw($result, $i, 'userid')] = $adb->query_result_raw($result, $i, 'num');
 		}
 		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - End');

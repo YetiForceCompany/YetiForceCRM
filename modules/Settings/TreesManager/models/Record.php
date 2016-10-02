@@ -150,7 +150,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		if (is_numeric($module)) {
 			$module = vtlib\Functions::getModuleName($module);
 		}
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$row = $adb->raw_query_result_rowdata($result, $i);
 			$treeID = (int) str_replace('T', '', $row['tree']);
 			$cut = strlen('::' . $row['tree']);
@@ -252,7 +253,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$templateId = $adb->query_result_raw($result, 0, 'fieldparams');
 		$values = explode(',', $fieldValue);
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', array($templateId));
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$tree = $adb->query_result_raw($result, $i, 'tree');
 			$parent = '';
 			if ($adb->query_result_raw($result, $i, 'depth') > 0) {

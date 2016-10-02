@@ -780,7 +780,8 @@ function getAccessPickListValues($module)
 	}
 
 	$temp_status = [];
-	for ($i = 0; $i < $adb->num_rows($result); $i++) {
+	$countResult = $adb->num_rows($result);
+	for ($i = 0; $i < $countResult; $i++) {
 		$fieldname = $adb->query_result($result, $i, "fieldname");
 		$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
 		$columnname = $adb->query_result($result, $i, "columnname");
@@ -796,7 +797,8 @@ function getAccessPickListValues($module)
 		}
 		if ($fieldname != 'firstname')
 			$mulselresult = $adb->query($mulsel);
-		for ($j = 0; $j < $adb->num_rows($mulselresult); $j++) {
+		$countMulSelResult = $adb->num_rows($mulselresult);
+		for ($j = 0; $j < $countMulSelResult; $j++) {
 			$fieldvalues[] = $adb->query_result($mulselresult, $j, $fieldname);
 		}
 		$field_count = count($fieldvalues);
@@ -1412,7 +1414,8 @@ function getTabInfo($tabId)
 
 	$tabInfoResult = $adb->pquery('SELECT prefname, prefvalue FROM vtiger_tab_info WHERE tabid=?', array($tabId));
 	$tabInfo = [];
-	for ($i = 0; $i < $adb->num_rows($tabInfoResult); ++$i) {
+	$countTabInfoResult = $adb->num_rows($tabInfoResult);
+	for ($i = 0; $i < $countTabInfoResult; ++$i) {
 		$prefName = $adb->query_result($tabInfoResult, $i, 'prefname');
 		$prefValue = $adb->query_result($tabInfoResult, $i, 'prefvalue');
 		$tabInfo[$prefName] = $prefValue;
@@ -1637,7 +1640,8 @@ function getSelectedRecords($input, $module, $idstring, $excludedRecords)
 			$storearray = [];
 			$focus = CRMEntity::getInstance($module);
 
-			for ($i = 0; $i < $adb->num_rows($result); $i++) {
+			$countResult = $adb->num_rows($result);
+			for ($i = 0; $i < $countResult; $i++) {
 				$storearray[] = $adb->query_result($result, $i, $focus->table_index);
 			}
 
@@ -1656,7 +1660,8 @@ function getSelectedRecords($input, $module, $idstring, $excludedRecords)
 		$storearray = [];
 		$focus = CRMEntity::getInstance($module);
 
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$storearray[] = $adb->query_result($result, $i, $focus->table_index);
 		}
 
@@ -1759,7 +1764,8 @@ function getExportRecordIds($moduleName, $viewid, $input)
 		$result = $adb->pquery($query, []);
 		$idstring = [];
 		$focus = CRMEntity::getInstance($moduleName);
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$idstring[] = $adb->query_result($result, $i, $focus->table_index);
 		}
 		$idstring = implode(';', $idstring);

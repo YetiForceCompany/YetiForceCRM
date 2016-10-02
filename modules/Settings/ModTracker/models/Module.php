@@ -28,7 +28,8 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$result = $adb->pquery($sql, $params);
 		$modules = Array();
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$modules[] = array(
 				'id' => $row['tabid'],

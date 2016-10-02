@@ -380,7 +380,8 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model
 		$adb = PearDatabase::getInstance();
 		$files = [];
 		$result = $adb->pquery('SELECT id, backup, name FROM `vtiger_backup_files` WHERE backup=?', [0]);
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$files[$adb->query_result($result, $i, 'id')] = $adb->query_result($result, $i, 'name');
 		}
 		return $files;

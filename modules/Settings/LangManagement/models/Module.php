@@ -25,7 +25,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$where[] = $data['prefix'];
 		}
 		$result = $adb->pquery($sql, $where, true);
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$output[$adb->query_result($result, $i, 'prefix')] = $adb->query_result_rowdata($result, $i);
 		}
 		return $output;
@@ -231,7 +232,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$langs[] = $lang;
 		}
 		$output['langs'] = $langs;
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = vtranslate($row['fieldlabel'], $mod);
 			$output['php'][$mod . '|' . $row['fieldlabel']]['info'] = array('view' => explode(',', $row['helpinfo']), 'fieldid' => $row['fieldid']);

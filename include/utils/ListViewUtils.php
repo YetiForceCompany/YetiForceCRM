@@ -628,7 +628,8 @@ function getUsersPasswordInfo()
 	$sql = "SELECT user_name, user_hash FROM vtiger_users WHERE deleted=?";
 	$result = $adb->pquery($sql, array(0));
 	$usersList = [];
-	for ($i = 0; $i < $adb->num_rows($result); $i++) {
+	$countResult = $adb->num_rows($result);
+	for ($i = 0; $i < $countResult; $i++) {
 		$userList['name'] = $adb->query_result($result, $i, "user_name");
 		$userList['hash'] = $adb->query_result($result, $i, "user_hash");
 		$usersList[] = $userList;

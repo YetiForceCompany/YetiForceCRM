@@ -517,7 +517,8 @@ class PackageExport
 					$this->outputNode($adb->query_result_raw($trees, 0, 'access'), 'access');
 					$treesData = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
 					$this->openNode('tree_values');
-					for ($i = 0; $i < $adb->num_rows($treesData); $i++) {
+					$countTreesData = $adb->num_rows($treesData);
+					for ($i = 0; $i < $countTreesData; $i++) {
 						$this->openNode('tree_value');
 						$this->outputNode($adb->query_result_raw($treesData, $i, 'name'), 'name');
 						$this->outputNode($adb->query_result_raw($treesData, $i, 'tree'), 'tree');
@@ -688,7 +689,8 @@ class PackageExport
 		if ($adb->num_rows($result)) {
 			$this->openNode('relatedlists');
 
-			for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+			$countResult = $adb->num_rows($result);
+			for ($index = 0; $index < $countResult; ++$index) {
 				$row = $adb->fetch_array($result);
 				$this->openNode('relatedlist');
 
@@ -719,7 +721,8 @@ class PackageExport
 		if ($adb->num_rows($result)) {
 			$this->openNode('inrelatedlists');
 
-			for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+			$countResult = $adb->num_rows($result);
+			for ($index = 0; $index < $countResult; ++$index) {
 				$row = $adb->fetch_array($result);
 				$this->openNode('inrelatedlist');
 

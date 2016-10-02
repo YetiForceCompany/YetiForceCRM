@@ -125,7 +125,8 @@ function vtlib_getToggleLanguageInfo()
 	$langinfo = [];
 	$sqlresult = $adb->query("SELECT * FROM vtiger_language");
 	if ($sqlresult) {
-		for ($idx = 0; $idx < $adb->num_rows($sqlresult); ++$idx) {
+		$countResult = $adb->num_rows($sqlresult);
+		for ($idx = 0; $idx < $countResult; ++$idx) {
 			$row = $adb->fetch_array($sqlresult);
 			$langinfo[$row['prefix']] = Array('label' => $row['label'], 'active' => $row['active']);
 		}

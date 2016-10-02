@@ -157,7 +157,8 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 		$sql .= "AND (vtiger_osstimecontrol.date_start = DATE(NOW()) || vtiger_osstimecontrol.due_date = DATE(NOW()))";
 		$result = $adb->pquery($sql, array('OSSTimeControl', $current_user->id), true);
 		$today = date('Y-m-d');
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$date_start = $adb->query_result($result, $i, 'date_start');
 			$due_date = $adb->query_result($result, $i, 'due_date');
 			if ($date_start == $today && $due_date != $today) {

@@ -222,7 +222,8 @@ class LanguageExport extends Package
 			else
 				$result = $adb->pquery(sprintf('SELECT * FROM %s WHERE active = ?', self::TABLENAME), [1]);
 
-			for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+			$countResult = $adb->num_rows($result);
+			for ($index = 0; $index < $countResult; ++$index) {
 				$resultrow = $adb->fetch_array($result);
 				$prefix = $resultrow['prefix'];
 				$label = $resultrow['label'];

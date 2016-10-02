@@ -132,7 +132,8 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		$subprodname_str = '';
 		$subProductArray = [];
 		if ($adb->num_rows($sub_prod_query) > 0) {
-			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
+			$countSubProdQuery = $adb->num_rows($sub_prod_query);
+			for ($j = 0; $j < $countSubProdQuery; $j++) {
 				$sprod_id = $adb->query_result($sub_prod_query, $j, 'prod_id');
 				$sprod_name = $subProductArray[] = \vtlib\Functions::getCRMRecordLabel($sprod_id);
 				$str_sep = "";

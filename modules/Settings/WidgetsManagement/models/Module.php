@@ -276,7 +276,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				  INNER JOIN `vtiger_role` 
 				  ON `vtiger_module_dashboard_blocks`.`authorized` = `vtiger_role`.`roleid`;';
 		$result = $adb->query($query);
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$blockId = $adb->query_result($result, $i, 'id');
 			$authorizedName = $adb->query_result($result, $i, 'rolename');
 			$tabId = $adb->query_result($result, $i, 'tabid');

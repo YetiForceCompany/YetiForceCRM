@@ -271,7 +271,8 @@ function deleteInventoryProductDetails($focus)
 			$focus->update_product_array[$focus->id][$sequence_no][$productid] = $qty;
 			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($focus->id, $sequence_no));
 			if ($adb->num_rows($sub_prod_query) > 0) {
-				for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
+				$countSubProdQuery = $adb->num_rows($sub_prod_query);
+				for ($j = 0; $j < $countSubProdQuery; $j++) {
 					$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
 					$focus->update_product_array[$focus->id][$sequence_no][$sub_prod_id] = $qty;
 				}
@@ -343,7 +344,8 @@ function updateInventoryProductRel($entity)
 			updateProductQty($productid, $upd_qty);
 			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($entity_id, $sequence_no));
 			if ($adb->num_rows($sub_prod_query) > 0) {
-				for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
+				$countSubProdQuery = $adb->num_rows($sub_prod_query);
+				for ($j = 0; $j < $countSubProdQuery; $j++) {
 					$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
 					$sqtyinstk = getPrdQtyInStck($sub_prod_id);
 					$supd_qty = $sqtyinstk - $qty;
@@ -640,7 +642,8 @@ function getPricesForProducts($currencyid, $product_ids, $module = 'Products')
 		$params = array($product_ids, $currencyid);
 		$result = $adb->pquery($query, $params);
 
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$product_id = $adb->query_result($result, $i, 'productid');
 			if (getFieldVisibilityPermission($module, $current_user->id, 'unit_price') == '0') {
 				$actual_price = (float) $adb->query_result($result, $i, 'actual_price');
@@ -691,7 +694,8 @@ function deductProductsFromStock($recordId)
 		updateProductQty($productid, $upd_qty);
 		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($recordId, $sequence_no));
 		if ($adb->num_rows($sub_prod_query) > 0) {
-			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
+			$countSubProdQuery = $adb->num_rows($sub_prod_query);
+			for ($j = 0; $j < $countSubProdQuery; $j++) {
 				$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
 				$sqtyinstk = getPrdQtyInStck($sub_prod_id);
 				$supd_qty = $sqtyinstk - $qty;
@@ -717,7 +721,8 @@ function addProductsToStock($recordId)
 		updateProductQty($productid, $upd_qty);
 		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($recordId, $sequence_no));
 		if ($adb->num_rows($sub_prod_query) > 0) {
-			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
+			$countSubProdQuery = $adb->num_rows($sub_prod_query);
+			for ($j = 0; $j < $countSubProdQuery; $j++) {
 				$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
 				$sqtyinstk = getPrdQtyInStck($sub_prod_id);
 				$supd_qty = $sqtyinstk + $qty;
