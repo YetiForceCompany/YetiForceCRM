@@ -756,7 +756,8 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		if ($tokenType === 0) {
 			return 'End of Input';
 		}
-		if ($tokenType > 0 && $tokenType < count(self::$yyTokenName)) {
+		$countYyTokenName = count(self::$yyTokenName);
+		if ($tokenType > 0 && $tokenType < $countYyTokenName) {
 			return self::$yyTokenName[$tokenType];
 		} else {
 			return "Unknown";
@@ -1001,7 +1002,8 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		$i += $iLookAhead;
 		if ($i < 0 || $i >= self::YY_SZ_ACTTAB ||
 			self::$yy_lookahead[$i] != $iLookAhead) {
-			if (count(self::$yyFallback) && $iLookAhead < count(self::$yyFallback) && ($iFallback = self::$yyFallback[$iLookAhead]) != 0) {
+			$countYyFallback = count(self::$yyFallback);
+			if (count(self::$yyFallback) && $iLookAhead < $countYyFallback && ($iFallback = self::$yyFallback[$iLookAhead]) != 0) {
 				if (self::$yyTraceFILE) {
 					fwrite(self::$yyTraceFILE, self::$yyTracePrompt . "FALLBACK " .
 						self::$yyTokenName[$iLookAhead] . " => " .
@@ -1488,7 +1490,8 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		//VTQL_ParseryyStackEntry $yymsp;            /* The top of the parser's stack */
 		//int $yysize;                     /* Amount to pop the stack */
 		$yymsp = $this->yystack[$this->yyidx];
-		if (self::$yyTraceFILE && $yyruleno >= 0 && $yyruleno < count(self::$yyRuleName)) {
+		$countYyRuleName = count(self::$yyRuleName);
+		if (self::$yyTraceFILE && $yyruleno >= 0 && $yyruleno < $countYyRuleName) {
 			fprintf(self::$yyTraceFILE, "%sReduce (%d) [%s].\n", self::$yyTracePrompt, $yyruleno, self::$yyRuleName[$yyruleno]);
 		}
 

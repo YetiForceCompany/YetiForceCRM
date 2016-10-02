@@ -98,7 +98,8 @@ class ListViewSession
 						}
 					}
 				}
-				if ($searchKey > $displayBufferRecordCount - 1 && $searchKey < count($recordList) - $displayBufferRecordCount) {
+				$countRecordList = count($recordList);
+				if ($searchKey > $displayBufferRecordCount - 1 && $searchKey < $countRecordList - $displayBufferRecordCount) {
 					$reUseData = true;
 				}
 			}

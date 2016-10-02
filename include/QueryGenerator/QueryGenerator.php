@@ -387,7 +387,8 @@ class QueryGenerator
 						$value = [];
 						$value[] = $this->fixDateTimeValue($name, $date, false);
 						// Still fixDateTimeValue returns only date value, we need to append time because it is DT type
-						for ($i = 0; $i < count($value); $i++) {
+						$countValue = count($value);
+						for ($i = 0; $i < $countValue; $i++) {
 							$values = explode(' ', $value[$i]);
 							if ($values[1] == '') {
 								$values[1] = '00:00:00';

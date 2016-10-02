@@ -120,7 +120,8 @@ function getDefaultSharingEditAction()
 	$result = $adb->pquery($sql, []);
 	$permissionRow = $adb->fetch_array($result);
 	do {
-		for ($j = 0; $j < count($permissionRow); $j++) {
+		$countPermissionRow = count($permissionRow);
+		for ($j = 0; $j < $countPermissionRow; $j++) {
 			$copy[$permissionRow[1]] = $permissionRow[2];
 		}
 	} while ($permissionRow = $adb->fetch_array($result));
@@ -148,7 +149,8 @@ function getDefaultSharingAction()
 	$result = $adb->pquery($sql, []);
 	$permissionRow = $adb->fetch_array($result);
 	do {
-		for ($j = 0; $j < count($permissionRow); $j++) {
+		$countPermissionRow = count($permissionRow);
+		for ($j = 0; $j < $countPermissionRow; $j++) {
 			$copy[$permissionRow[1]] = $permissionRow[2];
 		}
 	} while ($permissionRow = $adb->fetch_array($result));

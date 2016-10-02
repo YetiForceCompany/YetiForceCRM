@@ -118,7 +118,9 @@ class RecurringType
 				$userStartDateTime = DateTimeField::convertToUserTimeZone($startDate . ' ' . $startTime);
 				$dayOfWeek = $requestArray['dayofweek_to_repeat'];
 				$dbDaysOfWeek = [];
-				for ($i = 0; $i < count($dayOfWeek); ++$i) {
+				
+				$countDayOfWeek = count($dayOfWeek);
+				for ($i = 0; $i < $countDayOfWeek; ++$i) {
 					$selectedDayOfWeek = $dayOfWeek[$i];
 					$currentDayOfWeek = $userStartDateTime->format('w');
 					$newDate = $userStartDateTime->format('d') + ($selectedDayOfWeek - $currentDayOfWeek);
@@ -371,8 +373,9 @@ class RecurringType
 				if (count($this->dayofweek_to_rpt) == 0) {
 					$this->dayofweek_to_rpt[] = $this->startdate->dayofweek;
 				}
-
-				for ($i = 0; $i < count($this->dayofweek_to_rpt); $i++) {
+				
+				$countDayofweekToRpt = count($this->dayofweek_to_rpt);
+				for ($i = 0; $i < $countDayofweekToRpt; $i++) {
 					$repeat = $this->dayofweek_to_rpt[$i];
 					if ($repeat == 0) {
 						$repeat = $repeat + 1;

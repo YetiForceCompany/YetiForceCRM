@@ -887,7 +887,8 @@ function transferProductCurrency($old_cur, $new_cur)
 	if (count($prod_ids) > 0) {
 		$prod_price_list = getPricesForProducts($new_cur, $prod_ids);
 
-		for ($i = 0; $i < count($prod_ids); $i++) {
+		$countProdIds = count($prod_ids);
+		for ($i = 0; $i < $countProdIds; $i++) {
 			$product_id = $prod_ids[$i];
 			$unit_price = $prod_price_list[$product_id];
 			$query = "update vtiger_products set currency_id=?, unit_price=? where productid=?";
@@ -915,7 +916,8 @@ function transferPriceBookCurrency($old_cur, $new_cur)
 	if (count($pb_ids) > 0) {
 		require_once('modules/PriceBooks/PriceBooks.php');
 
-		for ($i = 0; $i < count($pb_ids); $i++) {
+		$countPbIds = count($pb_ids);
+		for ($i = 0; $i < $countPbIds; $i++) {
 			$pb_id = $pb_ids[$i];
 			$focus = new PriceBooks();
 			$focus->id = $pb_id;
@@ -1774,7 +1776,8 @@ function getExportRecordIds($moduleName, $viewid, $input)
  */
 function getCombinations($array, $tempString = '')
 {
-	for ($i = 0; $i < count($array); $i++) {
+	$countArray = count($array);
+	for ($i = 0; $i < $countArray; $i++) {
 		$splicedArray = $array;
 		$element = array_splice($splicedArray, $i, 1); // removes and returns the i'th element
 		if (count($splicedArray) > 0) {

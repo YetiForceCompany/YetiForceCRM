@@ -128,7 +128,8 @@ class Vtiger_InventoryPDFController
 			$taxable_total = number_format($taxable_total, $no_of_decimal_places, '.', '');
 			$producttotal = $taxable_total;
 			if ($this->focus->column_fields["hdnTaxType"] == "individual") {
-				for ($tax_count = 0; $tax_count < count($productLineItem['taxes']); $tax_count++) {
+				$countProductLineItem = count($productLineItem['taxes']);
+				for ($tax_count = 0; $tax_count < $countProductLineItem; $tax_count++) {
 					$tax_percent = $productLineItem['taxes'][$tax_count]['percentage'];
 					$total_tax_percent += $tax_percent;
 					$tax_amount = (($taxable_total * $tax_percent) / 100);
@@ -216,7 +217,8 @@ class Vtiger_InventoryPDFController
 		//To calculate the group tax amount
 		if ($final_details['taxtype'] == 'group') {
 			$group_tax_details = $final_details['taxes'];
-			for ($i = 0; $i < count($group_tax_details); $i++) {
+			$countGroupTaxDetails = count($group_tax_details);
+			for ($i = 0; $i < $countGroupTaxDetails; $i++) {
 				$group_total_tax_percent += $group_tax_details[$i]['percentage'];
 			}
 			$summaryModel->set(\includes\Language::translate("Tax:", $this->moduleName) . "($group_total_tax_percent%)", $this->formatPrice($final_details['tax_totalamount']));

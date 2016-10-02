@@ -212,7 +212,8 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		//First we should get all available taxes and then retrieve the corresponding tax values
 		$allTaxes = getAllTaxes('available', '', 'edit', $focus->id);
 		$taxtype = getInventoryTaxType($module, $focus->id);
-		for ($tax_count = 0; $tax_count < count($tax_details); $tax_count++) {
+		$countTaxDetails = count($tax_details);
+		for ($tax_count = 0; $tax_count < $countTaxDetails; $tax_count++) {
 			$tax_name = $tax_details[$tax_count]['taxname'];
 			$tax_label = $tax_details[$tax_count]['taxlabel'];
 			$tax_value = '0';
@@ -303,8 +304,9 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	//To set the Final Tax values
 	//we will get all taxes. if individual then show the product related taxes only else show all taxes
 	//suppose user want to change individual to group or vice versa in edit time the we have to show all taxes. so that here we will store all the taxes and based on need we will show the corresponding taxes
-
-	for ($tax_count = 0; $tax_count < count($allTaxes); $tax_count++) {
+	
+	$countAllTaxes = count($allTaxes);
+	for ($tax_count = 0; $tax_count < $countAllTaxes; $tax_count++) {
 		$tax_name = $allTaxes[$tax_count]['taxname'];
 		$tax_label = $allTaxes[$tax_count]['taxlabel'];
 
