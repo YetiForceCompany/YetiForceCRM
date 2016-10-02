@@ -453,7 +453,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 					$temp_val = explode(",", $advFitlerValue);
 					if (($fieldType == 'date' || ($fieldType == 'time' && $fieldName != 'time_start' && $fieldName != 'time_end') || ($fieldType == 'datetime')) && ($fieldType != '' && $advFitlerValue != '' )) {
 						$val = Array();
-						for ($x = 0; $x < count($temp_val); $x++) {
+						$countTempVal = count($temp_val);
+						for ($x = 0; $x < $countTempVal; $x++) {
 							//if date and time given then we have to convert the date and
 							//leave the time as it is, if date only given then temp_time
 							//value will be empty
@@ -688,7 +689,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				$temp_val = explode(",", $relcriteriarow["value"]);
 				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 					$val = Array();
-					for ($x = 0; $x < count($temp_val); $x++) {
+					$countTempVal = count($temp_val);
+					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($col[4] == 'D') {
 							/** while inserting in db for due_date it was taking date and time values also as it is 
 							 * date time field. We only need to take date from that value

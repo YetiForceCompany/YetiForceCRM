@@ -359,7 +359,8 @@ function setCCAddress($mail, $cc_mod, $cc_val)
 		$method = 'AddBCC';
 	if ($cc_val != '') {
 		$ccmail = explode(",", trim($cc_val, ","));
-		for ($i = 0; $i < count($ccmail); $i++) {
+		$countCcMail = count($ccmail);
+		for ($i = 0; $i < $countCcMail; $i++) {
 			$addr = $ccmail[$i];
 			$cc_name = preg_replace('/([^@]+)@(.*)/', '$1', $addr); // First Part Of Email
 			if (stripos($addr, '<')) {

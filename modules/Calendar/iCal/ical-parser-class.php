@@ -21,7 +21,8 @@ class iCal
 		$ical = file_get_contents($rootDirectory . $this->folders . $file);
 		preg_match_all('/BEGIN:VEVENT.*?END:VEVENT/si', $ical, $eventresult, PREG_PATTERN_ORDER);
 		preg_match_all('/BEGIN:VTODO.*?END:VTODO/si', $ical, $todoresult, PREG_PATTERN_ORDER);
-		for ($i = 0; $i < count($eventresult[0]); $i++) {
+		$countEventResult = count($eventresult[0]);
+		for ($i = 0; $i < $countEventResult; $i++) {
 			$tmpbyline = explode("\n", $eventresult[0][$i]);
 			$begin = false;
 			$key = NULL;
@@ -61,8 +62,9 @@ class iCal
 			$icalarray[] = $majorarray;
 			unset($majorarray);
 		}
-
-		for ($i = 0; $i < count($todoresult[0]); $i++) {
+		
+		$countTodoResult = count($todoresult[0]);
+		for ($i = 0; $i < $countTodoResult; $i++) {
 			$tmpbyline = explode("\n", $todoresult[0][$i]);
 			$begin = false;
 			$key = NULL;

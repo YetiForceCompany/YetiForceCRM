@@ -159,7 +159,8 @@ class nusoap_xmlschema extends nusoap_base  {
 	 */
 	public function CreateTypeName($ename) {
 		$scope = '';
-		for ($i = 0; $i < count($this->complexTypeStack); $i++) {
+		$countComplexTypeStack = count($this->complexTypeStack);
+		for ($i = 0; $i < $countComplexTypeStack; $i++) {
 			$scope .= $this->complexTypeStack[$i] . '_';
 		}
 		return $scope . $ename . '_ContainedType';

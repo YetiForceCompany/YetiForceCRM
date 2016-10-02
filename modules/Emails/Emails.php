@@ -608,7 +608,8 @@ class Emails extends CRMEntity
 		}
 		$successIds = array_unique($successIds);
 		sort($successIds);
-		for ($i = 0; $i < count($successIds); $i++) {
+		$countSuccessIds = count($successIds);
+		for ($i = 0; $i < $countSuccessIds; $i++) {
 			$adb->pquery("INSERT INTO vtiger_email_track(crmid, mailid,  access_count) VALUES(?,?,?)", array($successIds[$i], $mailid, 0));
 		}
 	}

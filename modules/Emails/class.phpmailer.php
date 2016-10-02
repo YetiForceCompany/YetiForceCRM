@@ -1294,10 +1294,12 @@ class PHPMailer
 
 		$line = explode($this->LE, $message);   // Magic. We know FixEOL uses $LE
 		$message = '';
-		for ($i = 0; $i < count($line); $i++) {
+		$countLine = count($line);
+		for ($i = 0; $i < $countLine; $i++) {
 			$line_part = explode(' ', $line[$i]);
 			$buf = '';
-			for ($e = 0; $e < count($line_part); $e++) {
+			$countLinePart = count($line_part);
+			for ($e = 0; $e < $countLinePart; $e++) {
 				$word = $line_part[$e];
 				if ($qp_mode && (strlen($word) > $length)) {
 					$space_left = $length - strlen($buf) - $crlflen;
@@ -1511,7 +1513,8 @@ class PHPMailer
 		}
 
 		// Add custom headers
-		for ($index = 0; $index < count($this->CustomHeader); $index++) {
+		$countCustomHeader = count($this->CustomHeader);
+		for ($index = 0; $index < $countCustomHeader; $index++) {
 			$result .= $this->HeaderLine(trim($this->CustomHeader[$index][0]), $this->EncodeHeader(trim($this->CustomHeader[$index][1])));
 		}
 		if (!$this->sign_key_file) {

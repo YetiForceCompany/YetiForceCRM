@@ -1268,7 +1268,8 @@ class nusoap_xmlschema extends nusoap_base
 	public function CreateTypeName($ename)
 	{
 		$scope = '';
-		for ($i = 0; $i < count($this->complexTypeStack); $i++) {
+		$countComplexTypeStack = count($this->complexTypeStack);
+		for ($i = 0; $i < $countComplexTypeStack; $i++) {
 			$scope .= $this->complexTypeStack[$i] . '_';
 		}
 		return $scope . $ename . '_ContainedType';
@@ -4716,7 +4717,8 @@ class wsdl extends nusoap_base
 				foreach ($list as $xs) {
 					$wsdlparts = parse_url($this->wsdl); // this is bogusly simple!
 					foreach ($xs->imports as $ns2 => $list2) {
-						for ($ii = 0; $ii < count($list2); $ii++) {
+						$countList2 = count($list2);
+						for ($ii = 0; $ii < $countList2; $ii++) {
 							if (!$list2[$ii]['loaded']) {
 								/*
 								 * Substituted with line below
@@ -4747,7 +4749,8 @@ class wsdl extends nusoap_base
 			// WSDL imports
 			$wsdlparts = parse_url($this->wsdl); // this is bogusly simple!
 			foreach ($this->import as $ns => $list) {
-				for ($ii = 0; $ii < count($list); $ii++) {
+				$countList = count($list);
+				for ($ii = 0; $ii < $countList; $ii++) {
 					if (!$list[$ii]['loaded']) {
 						$this->import[$ns][$ii]['loaded'] = true;
 						$url = $list[$ii]['location'];
@@ -5318,7 +5321,8 @@ class wsdl extends nusoap_base
 		}
 		if (isset($this->schemas[$ns])) {
 			$this->debug("in getTypeDef: have schema for namespace $ns");
-			for ($i = 0; $i < count($this->schemas[$ns]); $i++) {
+			$countSchemas = count($this->schemas[$ns]);
+			for ($i = 0; $i < $countSchemas; $i++) {
 				$xs = &$this->schemas[$ns][$i];
 				$t = $xs->getTypeDef($type);
 				$this->appendDebug($xs->getDebug());

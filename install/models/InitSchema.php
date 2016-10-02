@@ -140,7 +140,8 @@ class Install_InitSchema_Model
 			$queries[] = $query;
 		}
 		// Add function part as is
-		for ($f = 1; $f < count($funct); $f++) {
+		$countFunct = count($funct);
+		for ($f = 1; $f < $countFunct; $f++) {
 			$queries[] = 'CREATE || REPLACE FUNCTION ' . $funct[$f];
 		}
 		return $queries;

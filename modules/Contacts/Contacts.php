@@ -666,7 +666,8 @@ class Contacts extends CRMEntity
 		}
 		$permitted_lists = array_chunk($permitted_lists, 2);
 		$column_table_lists = array();
-		for ($i = 0; $i < count($permitted_lists); $i++) {
+		$countPermittedLists = count($permitted_lists);
+		for ($i = 0; $i < $countPermittedLists; $i++) {
 			$column_table_lists[] = implode(".", $permitted_lists[$i]);
 		}
 

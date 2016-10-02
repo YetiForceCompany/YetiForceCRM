@@ -694,7 +694,8 @@ class CustomView extends CRMEntity
 		$temp_val = explode(",", $relcriteriarow["value"]);
 		if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 			$val = [];
-			for ($x = 0; $x < count($temp_val); $x++) {
+			$countTempVal = count($temp_val);
+			for ($x = 0; $x < $countTempVal; $x++) {
 				if ($col[4] == 'D') {
 					/** while inserting in db for due_date it was taking date and time values also as it is
 					 * date time field. We only need to take date from that value
@@ -936,7 +937,8 @@ class CustomView extends CRMEntity
 
 					if (isset($valuearray) && count($valuearray) > 1 && $comparator != 'bw') {
 						$advorsql = "";
-						for ($n = 0; $n < count($valuearray); $n++) {
+						$countValueArray = count($valuearray);
+						for ($n = 0; $n < $countValueArray; $n++) {
 							$advorsql[] = $this->getRealValues($columns[0], $columns[1], $comparator, trim($valuearray[$n]), $datatype);
 						}
 						//If negative logic filter ('not equal to', 'does not contain') is used, 'and' condition should be applied instead of 'or'

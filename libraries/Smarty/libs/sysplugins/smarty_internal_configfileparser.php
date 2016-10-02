@@ -448,7 +448,8 @@ class Smarty_Internal_Configfileparser
         if ($tokenType === 0) {
             return 'End of Input';
         }
-        if ($tokenType > 0 && $tokenType < count($this->yyTokenName)) {
+		$countYyTokenName = count($this->yyTokenName);
+        if ($tokenType > 0 && $tokenType < $countYyTokenName) {
             return $this->yyTokenName[ $tokenType ];
         } else {
             return "Unknown";
@@ -685,7 +686,8 @@ class Smarty_Internal_Configfileparser
         }
         $i += $iLookAhead;
         if ($i < 0 || $i >= self::YY_SZ_ACTTAB || self::$yy_lookahead[ $i ] != $iLookAhead) {
-            if (count(self::$yyFallback) && $iLookAhead < count(self::$yyFallback) &&
+			$countYyFallback = count(self::$yyFallback);
+            if (count(self::$yyFallback) && $iLookAhead < $countYyFallback &&
                 ($iFallback = self::$yyFallback[ $iLookAhead ]) != 0
             ) {
                 if ($this->yyTraceFILE) {
@@ -879,7 +881,8 @@ class Smarty_Internal_Configfileparser
 
     public function yy_reduce($yyruleno)
     {
-        if ($this->yyTraceFILE && $yyruleno >= 0 && $yyruleno < count(self::$yyRuleName)) {
+		$countYyRuleName = count(self::$yyRuleName);
+        if ($this->yyTraceFILE && $yyruleno >= 0 && $yyruleno < $countYyRuleName) {
             fprintf($this->yyTraceFILE, "%sReduce (%d) [%s].\n", $this->yyTracePrompt, $yyruleno,
                     self::$yyRuleName[ $yyruleno ]);
         }
