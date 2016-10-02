@@ -527,7 +527,8 @@ class Reports extends CRMEntity
 	{
 		if ($module != "") {
 			$secmodule = explode(":", $module);
-			for ($i = 0; $i < count($secmodule); $i++) {
+			$countSecModule = count($secmodule);
+			for ($i = 0; $i < $countSecModule; $i++) {
 				if ($this->module_list[$secmodule[$i]]) {
 					$this->sec_module_columnslist[$secmodule[$i]] = $this->getModuleFieldList(
 						$secmodule[$i]);
@@ -735,8 +736,9 @@ class Reports extends CRMEntity
 			"Next Month", "Last 7 Days", "Last 30 Days", "Last 60 Days", "Last 90 Days", "Last 120 Days",
 			"Next 7 Days", "Next 30 Days", "Next 60 Days", "Next 90 Days", "Next 120 Days"
 		);
-
-		for ($i = 0; $i < count($datefiltervalue); $i++) {
+		
+		$countDateFilterValue = count($datefiltervalue);
+		for ($i = 0; $i < $countDateFilterValue; $i++) {
 			if ($selecteddatefilter == $datefiltervalue[$i]) {
 				$sshtml .= "<option selected value='" . $datefiltervalue[$i] . "'>" . $mod_strings[$datefilterdisplay[$i]] . "</option>";
 			} else {
@@ -1001,7 +1003,8 @@ class Reports extends CRMEntity
 				$temp_val = explode(",", $relcriteriarow["value"]);
 				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 					$val = [];
-					for ($x = 0; $x < count($temp_val); $x++) {
+					$countTempVal = count($temp_val);
+					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($col[4] == 'D') {
 							$date = new DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayDate();
@@ -1067,7 +1070,8 @@ class Reports extends CRMEntity
 		$options = [];
 		$options [] = $this->sgetColumnstoTotalHTML($primarymodule, 0);
 		if (!empty($secondarymodule)) {
-			for ($i = 0; $i < count($secondarymodule); $i++) {
+			$countSecondaryModule = count($secondarymodule);
+			for ($i = 0; $i < $countSecondaryModule; $i++) {
 				$options [] = $this->sgetColumnstoTotalHTML($secondarymodule[$i], ($i + 1));
 			}
 		}
@@ -1098,7 +1102,8 @@ class Reports extends CRMEntity
 		$options [] = $this->sgetColumnstoTotalHTML($primarymodule, 0);
 		if ($secondarymodule != "") {
 			$secondarymodule = explode(":", $secondarymodule);
-			for ($i = 0; $i < count($secondarymodule); $i++) {
+			$countSecondaryModule = count($secondarymodule);
+			for ($i = 0; $i < $countSecondaryModule; $i++) {
 				$options [] = $this->sgetColumnstoTotalHTML($secondarymodule[$i], ($i + 1));
 			}
 		}
@@ -1175,7 +1180,8 @@ class Reports extends CRMEntity
 					$selectedcolumn = "";
 					$selectedcolumn1 = "";
 
-					for ($i = 0; $i < count($this->columnssummary); $i++) {
+					$countColumnsSummary = count($this->columnssummary);
+					for ($i = 0; $i < $countColumnsSummary; $i++) {
 						$selectedcolumnarray = explode(":", $this->columnssummary[$i]);
 						$selectedcolumn = $selectedcolumnarray[1] . ":" . $selectedcolumnarray[2] . ":" .
 							str_replace($escapedchars, "", $selectedcolumnarray[3]);
@@ -1318,7 +1324,8 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		$temp_val = explode(",", $adv_filter_value);
 		if (($column_info[4] == 'D' || ($column_info[4] == 'T' && $column_info[1] != 'time_start' && $column_info[1] != 'time_end') || ($column_info[4] == 'DT')) && ($column_info[4] != '' && $adv_filter_value != '' )) {
 			$val = [];
-			for ($x = 0; $x < count($temp_val); $x++) {
+			$countTempVal = count($temp_val);
+			for ($x = 0; $x < $countTempVal; $x++) {
 				if (trim($temp_val[$x]) != '') {
 					$date = new DateTimeField(trim($temp_val[$x]));
 					if ($column_info[4] == 'D') {

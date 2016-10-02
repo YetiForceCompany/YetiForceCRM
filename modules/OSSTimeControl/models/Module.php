@@ -79,7 +79,8 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		if ($position) {
 			$split = preg_split('/ FROM /i', $relationQuery);
 			$mainQuery = '';
-			for ($i = 1; $i < count($split); $i++) {
+			$countSplit = count($split);
+			for ($i = 1; $i < $countSplit; $i++) {
 				$mainQuery = $mainQuery . ' FROM ' . $split[$i];
 			}
 		}

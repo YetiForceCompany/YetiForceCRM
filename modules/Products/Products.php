@@ -93,13 +93,15 @@ class Products extends CRMEntity
 		//Save the Product - tax relationship if corresponding tax check box is enabled
 		//Delete the existing tax if any
 		if ($this->mode == 'edit') {
-			for ($i = 0; $i < count($tax_details); $i++) {
+			$countTaxDetails = count($tax_details);
+			for ($i = 0; $i < $countTaxDetails; $i++) {
 				$taxid = getTaxId($tax_details[$i]['taxname']);
 				$sql = "delete from vtiger_producttaxrel where productid=? and taxid=?";
 				$adb->pquery($sql, array($this->id, $taxid));
 			}
 		}
-		for ($i = 0; $i < count($tax_details); $i++) {
+		$countTaxDetails = count($tax_details);
+		for ($i = 0; $i < $countTaxDetails; $i++) {
 			$tax_name = $tax_details[$i]['taxname'];
 			$tax_checkname = $tax_details[$i]['taxname'] . "_check";
 			if (AppRequest::get($tax_checkname) == 'on' || AppRequest::get($tax_checkname) == 1) {
@@ -137,7 +139,8 @@ class Products extends CRMEntity
 
 		//Delete the existing currency relationship if any
 		if ($this->mode == 'edit' && AppRequest::get('action') !== 'MassEditSave') {
-			for ($i = 0; $i < count($currency_details); $i++) {
+			$countCurrencyDetails = count($currency_details);
+			for ($i = 0; $i < $countCurrencyDetails; $i++) {
 				$curid = $currency_details[$i]['curid'];
 				$sql = "delete from vtiger_productcurrencyrel where productid=? and currencyid=?";
 				$adb->pquery($sql, array($this->id, $curid));
@@ -147,7 +150,8 @@ class Products extends CRMEntity
 		$product_base_conv_rate = getBaseConversionRateForProduct($this->id, $this->mode);
 		$currencySet = 0;
 		//Save the Product - Currency relationship if corresponding currency check box is enabled
-		for ($i = 0; $i < count($currency_details); $i++) {
+		$countCurrencyDetails = count($currency_details);
+		for ($i = 0; $i < $countCurrencyDetails; $i++) {
 			$curid = $currency_details[$i]['curid'];
 			$curname = $currency_details[$i]['currencylabel'];
 			$cur_checkname = 'cur_' . $curid . '_check';

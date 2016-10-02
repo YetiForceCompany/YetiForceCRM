@@ -141,7 +141,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$zip = new ZipArchive();
 		$zip->open($zipName, ZipArchive::CREATE);
 
-		for ($i = 0; $i < count($this->xmlList); $i++) {
+		$countXmlList = count($this->xmlList);
+		for ($i = 0; $i < $countXmlList; $i++) {
 			$xmlFile = basename($this->xmlList[$i]);
 			$xmlFile = explode('_', $xmlFile);
 			array_shift($xmlFile);

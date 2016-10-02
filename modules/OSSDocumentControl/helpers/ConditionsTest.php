@@ -14,8 +14,8 @@ class ConditionsTest
 
 	public static function getValue($form, $name)
 	{
-
-		for ($i = 0; $i < count($form); $i++) {
+		$countForm = count($form);
+		for ($i = 0; $i < $countForm; $i++) {
 			if ($form[$i]['name'] == $name) {
 				return $form[$i]['value'];
 			}

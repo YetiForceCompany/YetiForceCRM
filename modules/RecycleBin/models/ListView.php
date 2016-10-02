@@ -142,7 +142,8 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		if ($position) {
 			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
-			for ($i = 1; $i < count($split); $i++) {
+			$countSplit = count($split);
+			for ($i = 1; $i < $countSplit; $i++) {
 				$listQuery .= sprintf(' FROM %s', $split[$i]);
 			}
 		}

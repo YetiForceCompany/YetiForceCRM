@@ -2720,7 +2720,7 @@ class Smarty_Internal_Templateparser
 
     public function yy_reduce($yyruleno)
     {
-		$countYyRuleName = count(self::$yyRuleName)
+		$countYyRuleName = count(self::$yyRuleName);
         if ($this->yyTraceFILE && $yyruleno >= 0 && $yyruleno < $countYyRuleName) {
             fprintf($this->yyTraceFILE, "%sReduce (%d) [%s].\n", $this->yyTracePrompt, $yyruleno,
                     self::$yyRuleName[ $yyruleno ]);

@@ -660,7 +660,8 @@ class ReportRun extends CRMEntity
 			$fieldcolname = $adb->query_result($result, $i, "columnname");
 			$ordercolumnsequal = true;
 			if ($fieldcolname != "") {
-				for ($j = 0; $j < count($this->orderbylistcolumns); $j++) {
+				$countOrderByListColumns = count($this->orderbylistcolumns);
+				for ($j = 0; $j < $countOrderByListColumns; $j++) {
 					if ($this->orderbylistcolumns[$j] == $fieldcolname) {
 						$ordercolumnsequal = false;
 						break;
@@ -1086,7 +1087,8 @@ class ReportRun extends CRMEntity
 						if (isset($valuearray) && count($valuearray) > 1 && $comparator != 'bw') {
 
 							$advcolumnsql = "";
-							for ($n = 0; $n < count($valuearray); $n++) {
+							$countValueArray = count($valuearray);
+							for ($n = 0; $n < $countValueArray; $n++) {
 
 								if (($selectedfields[0] == "vtiger_users" . $this->primarymodule || $selectedfields[0] == "vtiger_users" . $this->secondarymodule) && $selectedfields[1] == 'user_name') {
 									$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
@@ -1447,7 +1449,8 @@ class ReportRun extends CRMEntity
 				$temp_val = explode(",", $adv_filter_value);
 				if (($column_info[4] == 'D' || ($column_info[4] == 'T' && $column_info[1] != 'time_start' && $column_info[1] != 'time_end') || ($column_info[4] == 'DT')) && ($column_info[4] != '' && $adv_filter_value != '' )) {
 					$val = Array();
-					for ($x = 0; $x < count($temp_val); $x++) {
+					$countTempVal = count($temp_val);
+					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($column_info[4] == 'D') {
 							$date = new DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDBInsertDateValue();
@@ -2323,7 +2326,8 @@ class ReportRun extends CRMEntity
 		$modules_selected[] = $this->primarymodule;
 		if (!empty($this->secondarymodule)) {
 			$sec_modules = explode(':', $this->secondarymodule);
-			for ($i = 0; $i < count($sec_modules); $i++) {
+			$countSecModules = count($sec_modules);
+			for ($i = 0; $i < $countSecModules; $i++) {
 				$modules_selected[] = $sec_modules[$i];
 			}
 		}

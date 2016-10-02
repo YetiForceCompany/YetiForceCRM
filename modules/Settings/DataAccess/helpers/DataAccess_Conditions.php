@@ -49,13 +49,15 @@ class DataAccess_Conditions
 				}
 			}
 		}
-		for ($i = 0; $i < count($responeListRequired); $i++) {
+		$countResponeListRequired = count($responeListRequired);
+		for ($i = 0; $i < $countResponeListRequired; $i++) {
 			if (true != $responeListRequired[$i]) {
 				$responeListRequiredStatus = false;
 			}
 		}
 		if (count($responeListOptional)) {
-			for ($i = 0; $i < count($responeListOptional); $i++) {
+			$countResponeListOptional = count($responeListOptional);
+			for ($i = 0; $i < $countResponeListOptional; $i++) {
 				if (true == $responeListOptional[$i]) {
 					$responeListOptionalStatus = true;
 				}
@@ -118,7 +120,8 @@ class DataAccess_Conditions
 		$class = new ReflectionClass('DataAccess_ConditionsTest');
 		$methodList = $class->getMethods(ReflectionMethod::IS_STATIC);
 		$exist = false;
-		for ($i = 0; $i < count($methodList); $i++) {
+		$countMethodList = count($methodList);
+		for ($i = 0; $i < $countMethodList; $i++) {
 			if ($methodList[$i]->name == $methodName) {
 				$exist = true;
 			}
@@ -132,68 +135,14 @@ class DataAccess_Conditions
 	private function createFunctionName($condition)
 	{
 		$tabConditionName = explode(' ', $condition);
-		for ($i = 0; $i < count($tabConditionName); $i++) {
+		$countTabConditionName = count($tabConditionName);
+		for ($i = 0; $i < $countTabConditionName; $i++) {
 			if (0 != $i) {
 				$tabConditionName[$i] = ucfirst($tabConditionName[$i]);
 			}
 		}
 		return implode('', $tabConditionName);
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/* function getListValidDoc($moduleName, $record) {
-	  $listDocAndConditions = $this->getListConditions($moduleName);
-	  $output = array();
-
-	  foreach ($listDocAndConditions as $key => $lisConditions) {
-	  $responeListRequired = array();
-	  $responeListOptional = array();
-
-	  foreach ($lisConditions as $cndKey => $singleCnd) {
-
-	  if ('1' == $singleCnd['cnd_required']) {
-	  if (NULL != $singleCnd['comparator']) {
-	  $responeListRequired[] = $this->checkSingleCondition($record, $singleCnd);
-	  }
-	  } else {
-	  if (NULL != $singleCnd['comparator']) {
-	  $responeListOptional[] = $this->checkSingleCondition($record, $singleCnd);
-	  }
-	  }
-	  }
-
-	  $responeListRequiredStatus = true;
-
-	  for ($i = 0; $i < count($responeListRequired); $i++) {
-	  if (true != $responeListRequired[$i]) {
-	  $responeListRequiredStatus = false;
-	  }
-	  }
-
-	  $responeListOptionalStatus = false;
-
-	  if (count($responeListOptional)) {
-	  for ($i = 0; $i < count($responeListOptional); $i++) {
-	  if (true == $responeListOptional[$i]) {
-	  $responeListOptionalStatus = true;
-	  }
-	  }
-	  } else {
-	  $responeListOptionalStatus = true;
-	  }
-
-	  if ($responeListRequiredStatus && $responeListOptionalStatus) {
-	  $singleDocInfo = array_shift(array_values($listDocAndConditions[$key]));
-
-	  $folderModel = Documents_Folder_Model::getInstanceById($singleDocInfo['doc_folder']);
-	  $singleDocInfo['folder'] = $folderModel->getName();
-	  $output[] = $singleDocInfo;
-	  }
-	  }
-
-	  return $output;
-	  } */
 
 	public function docIsAttachet($record, $folder, $docName)
 	{

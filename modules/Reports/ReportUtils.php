@@ -220,7 +220,8 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 
 			$listUsers = $getListUserResult->GetAll();
 
-			for ($i = 0; $i < count($listUsers); $i++) {
+			$countListUsers = count($listUsers);
+			for ($i = 0; $i < $countListUsers; $i++) {
 				$finalList[] = $listUsers[$i][0];
 			}
 

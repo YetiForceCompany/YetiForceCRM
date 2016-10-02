@@ -29,15 +29,17 @@ Class Settings_OSSDocumentControl_Edit2_View extends Settings_OSSDocumentControl
 		if ($idTpl) {
 			$docInfo = Settings_OSSDocumentControl_Module_Model::getDocInfo($idTpl);
 			$viewer->assign('BASE_INFO', $docInfo['basic_info']);
-			//var_dump($docInfo['required_conditions']);
-			for ($i = 0; $i < count($docInfo['required_conditions']); $i++) {
+
+			$countRequiredConditions = count($docInfo['required_conditions']);
+			for ($i = 0; $i < $countRequiredConditions; $i++) {
 				$fieldModel = Vtiger_Field_Model::getInstance($docInfo['required_conditions'][$i]['fieldname'], Vtiger_Module_Model::getInstance($baseModule));
 				$docInfo['required_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 
 			$viewer->assign('REQUIRED_CONDITIONS', $docInfo['required_conditions']);
 
-			for ($i = 0; $i < count($docInfo['optional_conditions']); $i++) {
+			$countOptionalConditions = count($docInfo['optional_conditions']);
+			for ($i = 0; $i < $countOptionalConditions; $i++) {
 
 				$fieldModel = Vtiger_Field_Model::getInstance($docInfo['optional_conditions'][$i]['fieldname'], Vtiger_Module_Model::getInstance($baseModule));
 				$docInfo['optional_conditions'][$i]['info'] = $fieldModel->getFieldInfo();

@@ -1111,7 +1111,8 @@ class Users extends CRMEntity
 			for ($q = 0; $q < $rows_res; $q++) {
 				$homeorder[] = $adb->query_result($res, $q, "hometype");
 			}
-			for ($i = 0; $i < count($this->homeorder_array); $i++) {
+			$countHomeorderArray = count($this->homeorder_array);
+			for ($i = 0; $i < $countHomeorderArray; $i++) {
 				if (in_array($this->homeorder_array[$i], $homeorder)) {
 					$return_array[$this->homeorder_array[$i]] = $this->homeorder_array[$i];
 				} else {
@@ -1119,7 +1120,8 @@ class Users extends CRMEntity
 				}
 			}
 		} else {
-			for ($i = 0; $i < count($this->homeorder_array); $i++) {
+			$countHomeorderArray = count($this->homeorder_array);
+			for ($i = 0; $i < $countHomeorderArray; $i++) {
 				if (in_array($this->homeorder_array[$i], $this->default_widgets)) {
 					$return_array[$this->homeorder_array[$i]] = $this->homeorder_array[$i];
 				} else {
@@ -1237,7 +1239,8 @@ class Users extends CRMEntity
 		\App\Log::trace("Entering in function saveHomeOrder($id)");
 
 		if ($this->mode == 'edit') {
-			for ($i = 0; $i < count($this->homeorder_array); $i++) {
+			$countHomeorderArray = count($this->homeorder_array);
+			for ($i = 0; $i < $countHomeorderArray; $i++) {
 				if (AppRequest::get($this->homeorder_array[$i]) != '') {
 					$save_array[] = $this->homeorder_array[$i];
 					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid = ? and vtiger_homedefault.hometype= ?"; //To show the default Homestuff on the the Home Page

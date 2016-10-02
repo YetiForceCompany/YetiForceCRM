@@ -30,7 +30,8 @@ class PaymentsIn_PaymentsImport_View extends Vtiger_Index_View
 				if (strpos($file->getFilename(), '.php') !== false) {
 					$banks = explode('_', str_replace(".php", "", $file->getFilename()));
 					$status = false;
-					for ($i = 0; $i < count($bank); $i++) {
+					$countBank = count($bank);
+					for ($i = 0; $i < $countBank; $i++) {
 						if ($bank[$i] == $banks[1])
 							$status = true;
 					}

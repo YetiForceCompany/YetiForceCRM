@@ -55,7 +55,8 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 				} else {
 					$state = array();
 
-					for ($i = 0; $i < count($profile); $i++) {
+					$countProfile = count($profile);
+					for ($i = 0; $i < $countProfile; $i++) {
 						if (in_array($profile[$i], $userProfileList)) {
 							$state[] = true;
 						} else {

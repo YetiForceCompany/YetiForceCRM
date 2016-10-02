@@ -19,13 +19,6 @@ class DataAccess_ConditionsTest
 				return $row;
 			}
 		}
-		/*
-		  for ($i = 0; $i < count($form); $i++) {
-		  if ($form[$i]['name'] == $name) {
-		  return $form[$i]['value'];
-		  }
-		  }
-		 */
 	}
 
 	public static function is($form, $cndArray)

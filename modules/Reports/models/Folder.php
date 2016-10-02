@@ -128,7 +128,8 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 			return $this->getAllReportModels($reportsList, $reportModuleModel);
 		} else {
 			$reportModels = array();
-			for ($i = 0; $i < count($reportsList); $i++) {
+			$countReportsList = count($reportsList);
+			for ($i = 0; $i < $countReportsList; $i++) {
 				$reportModel = new Reports_Record_Model();
 
 				$reportModel->setData($reportsList[$i])->setModuleFromInstance($reportModuleModel);
@@ -378,7 +379,8 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 		$allReportModels = array();
 		$folders = self::getAll();
 		foreach ($allReportsList as $key => $reportsList) {
-			for ($i = 0; $i < count($reportsList); $i++) {
+			$countReportsList = count($reportsList);
+			for ($i = 0; $i < $countReportsList; $i++) {
 				$reportModel = new Reports_Record_Model();
 				$reportModel->setData($reportsList[$i])->setModuleFromInstance($reportModuleModel);
 				$reportModel->set('foldername', $folders[$key]->getName());

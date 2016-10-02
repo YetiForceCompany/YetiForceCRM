@@ -87,7 +87,8 @@ class Vtiger_DependencyPicklist
 		$targetField = $dependencyMap['targetfield'];
 
 		$valueMapping = $dependencyMap['valuemapping'];
-		for ($i = 0; $i < count($valueMapping); ++$i) {
+		$countValueMapping = count($valueMapping);
+		for ($i = 0; $i < $countValueMapping; ++$i) {
 			$mapping = $valueMapping[$i];
 			$sourceValue = $mapping['sourcevalue'];
 			$targetValues = $mapping['targetvalues'];
