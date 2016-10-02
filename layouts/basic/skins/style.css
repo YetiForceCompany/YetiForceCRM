@@ -4819,7 +4819,7 @@ html,body,.baseContainer
 		margin-top: 5px;
 	}
 	.footerContainer{
-		height: 17px;
+		height: 33px;
 	}
 	.logoFooter{
 		height: 13px;
@@ -5614,7 +5614,7 @@ select.form-control {
 }
 .dashboardViewContainer .dashboardHeading {
 	position: absolute;
-	top: 3px;
+	top: 50px;
 	right: 0;
 }
 .iconsInFooter{
