@@ -4821,6 +4821,18 @@ html,body,.baseContainer
 	.footerContainer{
 		height: 17px;
 	}
+	.infoUser{
+		bottom: 17px !important;
+	}
+	.iconsInFooter span{
+		font-size: 10px !important;
+	}
+	.iconsInFooter{
+		margin-top: 1px !important;
+	}
+	.userInfoFooter .mainBody{
+		bottom: 33px;
+	}
 	.logoFooter{
 		height: 13px;
 		margin-top: 3px;
