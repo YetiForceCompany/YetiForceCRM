@@ -129,7 +129,6 @@ var Colors_Js = {
 		var params = {}
 		params.data = {
 			module: app.getModuleName(),
-			//	parent: app.getParentModuleName(), 
 			action: 'SaveAjax',
 			mode: 'activeColor',
 			params: {
@@ -150,8 +149,8 @@ var Colors_Js = {
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 					if (closestTrElement.data('color') == '') {
-						closestTrElement.find('.moduleColor').css('background', '#' + response['color']);
-						closestTrElement.data('color', '#' + response['color']);
+						closestTrElement.find('.calendarColor').css('background', response['color']);
+						closestTrElement.data('color', response['color']);
 					}
 				}
 		);
