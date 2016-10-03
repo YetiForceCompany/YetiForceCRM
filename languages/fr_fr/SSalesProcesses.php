@@ -21,6 +21,7 @@ $languageStrings = [
 	'FL_SOURCE' => 'Source',
 	'FL_TYPE' => 'Type',
 	'FL_STATUS' => 'Statut',
+	'FL_CAMPAIGN' => 'Campagne',
 	//Picklist
 	'PLL_WEBSITE' => 'Site web',
 	'PLL_PHONE' => 'Téléphone',
