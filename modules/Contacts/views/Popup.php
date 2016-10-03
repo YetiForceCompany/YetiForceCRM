@@ -13,6 +13,8 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
+	 * @param Vtiger_Request $request
+	 * @param Vtiger_Viewer $viewer
 	 */
 
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
@@ -23,25 +25,34 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 		$relParentModule = 'Accounts';
 		//list of records is narrowed to contacts related to help desks account, only in Help Desk Contacts relation view
 		if ($moduleName == 'Contacts' && $sourceModule == 'HelpDesk' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=HelpDesk') === 0) {
-			$request->set('related_parent_module', $relParentModule);
 			$helpDeskRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'HelpDesk');
-			$request->set('related_parent_id', $helpDeskRecord->get('parent_id'));
-			$viewer->assign('SWITCH', true);
-			$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+			$relId = $helpDeskRecord->get('parent_id');
+			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+				$request->set('related_parent_module', $relParentModule);
+				$request->set('related_parent_id', $relId);
+				$viewer->assign('SWITCH', true);
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+			}
 		}
 		if ($moduleName == 'Contacts' && $sourceModule == 'SSalesProcesses' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=SSalesProcesses') === 0) {
-			$request->set('related_parent_module', $relParentModule);
 			$moduleRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'SSalesProcesses');
-			$request->set('related_parent_id', $moduleRecord->get('related_to'));
-			$viewer->assign('SWITCH', true);
-			$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+			$relId = $moduleRecord->get('related_to');
+			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+				$request->set('related_parent_module', $relParentModule);
+				$request->set('related_parent_id', $relId);
+				$viewer->assign('SWITCH', true);
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+			}
 		}
 		if ($moduleName == 'Contacts' && $sourceModule == 'Project' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=Project') === 0) {
-			$request->set('related_parent_module', $relParentModule);
 			$moduleRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'Project');
-			$request->set('related_parent_id', $moduleRecord->get('linktoaccountscontacts'));
-			$viewer->assign('SWITCH', true);
-			$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+			$relId = $moduleRecord->get('linktoaccountscontacts');
+			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+				$request->set('related_parent_module', $relParentModule);
+				$request->set('related_parent_id', $relId);
+				$viewer->assign('SWITCH', true);
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+			}
 		}
 
 		parent::initializeListViewContents($request, $viewer);
