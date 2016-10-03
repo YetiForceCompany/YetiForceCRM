@@ -119,7 +119,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 		$deleteQuery = "DELETE FROM `vtiger_bruteforce_users`";
 		$adb->query($deleteQuery);
-		if ('null' != $selectedUsers) {
+		if (!empty($selectedUsers)) {
 			$insertQuery = "INSERT INTO `vtiger_bruteforce_users` (id) VALUES(?)";
 			foreach ($selectedUsers as $userId) {
 				$adb->pquery($insertQuery, array($userId));
