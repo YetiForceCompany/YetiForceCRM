@@ -1259,6 +1259,7 @@ $languageStrings = [
 	'LBL_SHOW_MAP' => 'Show on the map',
 	'FL_CAMPAIGN_STATUS' => 'Kampagnenstatus',
 	'LBL_SECTOR' => 'Sectors',
+	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Closed ticket by priority',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

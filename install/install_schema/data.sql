@@ -6463,10 +6463,11 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (294,13,'DASHBOARDWIDGET','Rss','index.php?module=Home&view=ShowWidget&name=Rss','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (295,54,'DASHBOARDWIDGET','Rss','index.php?module=Home&view=ShowWidget&name=Rss','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (296,61,'DASHBOARDWIDGET','Rss','index.php?module=Home&view=ShowWidget&name=Rss','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (297,3,'DASHBOARDWIDGET','LBL_CLOSED_TICKETS_BY_PRIORITY','index.php?module=Home&view=ShowWidget&name=ClosedTicketsByPriority','',0,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (296);
+insert  into `vtiger_links_seq`(`id`) values (297);
 
 /*Data for the table `vtiger_loginhistory` */
 

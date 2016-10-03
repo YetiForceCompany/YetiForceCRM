@@ -625,7 +625,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 		var isColored = false;
 		var container = this.getContainer();
 		var isColoredInput = container.find('.color');
-		if(isColoredInput.length){
+		if (isColoredInput.length) {
 			isColored = isColoredInput.val() == 0 ? false : true;
 		}
 		var data = this.generateChartData();
@@ -689,7 +689,7 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 		var isColored = false;
 		var container = this.getContainer();
 		var isColoredInput = container.find('.color');
-		if(isColoredInput.length){
+		if (isColoredInput.length) {
 			isColored = isColoredInput.val() == 0 ? false : true;
 		}
 		var data = this.generateChartData();
@@ -1520,6 +1520,53 @@ YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {
 						window.location.href = this[1];
 				});
 			}
+		});
+	}
+});
+Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
+	generateData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		var colorData = [];
+		var urlData = [];
+		for (var index in data) {
+			var row = data[index];
+			var rowData = [row.name, row.count];
+			chartData.push(rowData);
+			colorData.push(row.color);
+			urlData.push(row.url);
+		}
+		
+		return {'chartData': chartData, color: colorData, url: urlData};
+	},
+	loadChart: function () {
+		var chartData = this.generateData();
+		if (chartData['chartData'].length > 0) {
+			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.PieRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value'
+					}
+				},
+				seriesColors: chartData['color'],
+				legend: {
+					show: true,
+					location: 'e'
+				},
+				title: chartData['title']
+			});
+			this.registerSectionClick();
+		}
+	},
+	registerSectionClick: function () {
+		var chartData = this.generateData();
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+			var url = chartData['url'][pointIndex];
+			window.location.href = url;
 		});
 	}
 });
