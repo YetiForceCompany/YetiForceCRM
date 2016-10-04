@@ -38,7 +38,7 @@ $languageStrings = [
 	'SINGLE_Profiles' => 'Profil',
 	'Name' => 'Name',
 	//Actions
-	'LBL_VIEW_PRVILIGE' => 'Anzeigen',
+	'LBL_VIEW_PRIVILEGE' => 'Anzeigen',
 	'LBL_CREATE_PRIVILIGE' => 'Erstellen',
 	'LBL_EDIT_PRIVILIGE' => 'Bearbeiten',
 	'LBL_DELETE_PRIVILIGE' => 'Löschen',
