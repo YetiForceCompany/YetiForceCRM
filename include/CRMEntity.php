@@ -798,11 +798,13 @@ class CRMEntity
 					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [52, 53])) {
 						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = vtlib\Functions::getOwnerRecordLabel($fieldvalue);
 					}
+					if ($fieldinfo['uitype'] === 71) {
+						$fieldvalue = CurrencyField::convertToUserFormat($fieldvalue, null, true);
+					}
 					$this->column_fields[$fieldinfo['fieldname']] = $fieldvalue;
 				}
 			}
 		}
-
 		$this->column_fields['record_id'] = $record;
 		$this->column_fields['record_module'] = $module;
 	}
