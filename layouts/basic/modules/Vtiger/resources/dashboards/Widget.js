@@ -1570,3 +1570,4 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 		});
 	}
 });
+Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});

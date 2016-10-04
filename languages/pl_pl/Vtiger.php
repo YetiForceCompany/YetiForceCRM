@@ -1260,6 +1260,7 @@ $languageStrings = [
 	'FL_CAMPAIGN_STATUS' => 'Status kampani',
 	'LBL_SECTOR' => 'Sektory',
 	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Zamknięte zgłoszenie według priorytetu',
+	'LBL_CLOSED_TICKETS_BY_USER' => 'Zamknięte zgłoszenia według użytkowników'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

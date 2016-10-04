@@ -1260,6 +1260,7 @@ $languageStrings = [
 	'FL_CAMPAIGN_STATUS' => 'Kampagnenstatus',
 	'LBL_SECTOR' => 'Sectors',
 	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Closed ticket by priority',
+	'LBL_CLOSED_TICKETS_BY_USER' => 'Closed ticket by user'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
