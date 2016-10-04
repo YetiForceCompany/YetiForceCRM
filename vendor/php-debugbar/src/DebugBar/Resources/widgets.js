@@ -444,6 +444,97 @@ if (typeof (PhpDebugBar) == 'undefined') {
 		}
 
 	});
+	var DebugLogsWidget = PhpDebugBar.Widgets.DebugLogsWidget = PhpDebugBar.Widget.extend({
+		className: csscls('messages'),
+		render: function () {
+			var self = this;
 
+			this.$list = new ListWidget({itemRenderer: function (li, value) {
+					var m = value.message;
+					var val = $('<span />').addClass(csscls('value')).text(m).appendTo(li);
+					var prettyVal = value.message;
+					if (!value.is_string) {
+						prettyVal = null;
+					}
+					li.css('cursor', 'pointer').click(function () {
+						if (val.hasClass(csscls('pretty'))) {
+							val.text(m).removeClass(csscls('pretty'));
+						} else {
+							prettyVal = prettyVal || createCodeBlock(value.trace, 'php');
+							val.addClass(csscls('pretty')).append(prettyVal);
+						}
+					});
+					if (value.label) {
+						val.addClass(csscls(value.label));
+						$('<span />').addClass(csscls('label')).text(value.label).appendTo(li);
+					}
+					if (value.collector) {
+						$('<span />').addClass(csscls('collector')).text(value.collector).appendTo(li);
+					}
+				}});
+
+			this.$list.$el.appendTo(this.$el);
+			this.$toolbar = $('<div><i class="phpdebugbar-fa phpdebugbar-fa-search"></i></div>').addClass(csscls('toolbar')).appendTo(this.$el);
+			$('<input type="text" />')
+					.on('change', function () {
+						self.set('search', this.value);
+					}).css('border', 'solid 1px #000')
+					.appendTo(this.$toolbar);
+
+			this.bindAttr('data', function (data) {
+				this.set({exclude: [], search: ''});
+				this.$toolbar.find(csscls('.filter')).remove();
+
+				var filters = [], self = this;
+				for (var i = 0; i < data.length; i++) {
+					if (!data[i].label || $.inArray(data[i].label, filters) > -1) {
+						continue;
+					}
+					filters.push(data[i].label);
+					$('<a />')
+							.addClass(csscls('filter'))
+							.text(data[i].label)
+							.attr('rel', data[i].label)
+							.on('click', function () {
+								self.onFilterClick(this);
+							})
+							.appendTo(this.$toolbar);
+				}
+			});
+
+			this.bindAttr(['exclude', 'search'], function () {
+				var data = this.get('data'),
+						exclude = this.get('exclude'),
+						search = this.get('search'),
+						caseless = false,
+						fdata = [];
+
+				if (search && search === search.toLowerCase()) {
+					caseless = true;
+				}
+
+				for (var i = 0; i < data.length; i++) {
+					var message = caseless ? data[i].message.toLowerCase() : data[i].message;
+
+					if ((!data[i].label || $.inArray(data[i].label, exclude) === -1) && (!search || message.indexOf(search) > -1)) {
+						fdata.push(data[i]);
+					}
+				}
+
+				this.$list.set('data', fdata);
+			});
+		},
+		onFilterClick: function (el) {
+			$(el).toggleClass(csscls('excluded'));
+
+			var excludedLabels = [];
+			this.$toolbar.find(csscls('.filter') + csscls('.excluded')).each(function () {
+				excludedLabels.push(this.rel);
+			});
+
+			this.set('exclude', excludedLabels);
+		}
+
+	});
 
 })(PhpDebugBar.$);

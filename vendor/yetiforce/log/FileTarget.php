@@ -100,17 +100,15 @@ class FileTarget extends \yii\log\FileTarget
 				$text = \yii\helpers\VarDumper::export($text);
 			}
 		}
-		$traces = [];
+		$traces = '';
 		if (isset($message[4])) {
-			foreach ($message[4] as $trace) {
-				$traces[] = "in {$trace['file']}:{$trace['line']}";
-			}
+			$traces = $message[4];
 		}
 		if ($category !== '') {
 			$category = '[' . $category . ']';
 		}
 		$micro = end(explode('.', $timestamp));
 		return date('Y-m-d H:i:s', $timestamp) . ".$micro [$level]$category - $text"
-			. (empty($traces) ? '' : "\n  " . implode("\n  ", $traces));
+			. (empty($traces) ? '' : "\n" . $traces);
 	}
 }

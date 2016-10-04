@@ -24,24 +24,14 @@ class Log extends Logger
 	 */
 	public function log($message, $level, $category = '')
 	{
-		$time = microtime(true);
-		$traces = [];
+		$traces = '';
 		if ($this->traceLevel > 0) {
-			$count = 0;
-			$ts = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-			array_shift($ts);
-			foreach ($ts as $trace) {
-				if (isset($trace['file'], $trace['line'])) {
-					unset($trace['object'], $trace['args']);
-					$traces[] = $trace;
-					if (++$count >= $this->traceLevel) {
-						break;
-					}
-				}
-			}
+			$traces = Debuger::getBacktrace(2, $this->traceLevel, ' - ');
 		}
-		//\App\Debuger::addLogs($message, $level, $category, $time, $traces);
-		$this->messages[] = [$message, $level, $category, $time, $traces];
+		if (\AppConfig::debug('LOG_TO_CONSOLE')) {
+			Debuger::addLogs($message, self::getLevelName($level), $traces);
+		}
+		$this->messages[] = [$message, $level, $category, microtime(true), $traces];
 		if ($this->flushInterval > 0 && count($this->messages) >= $this->flushInterval) {
 			$this->flush();
 		}

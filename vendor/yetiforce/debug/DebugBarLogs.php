@@ -1,21 +1,15 @@
-<?php
-/*
- * This file is part of the DebugBar package.
- *
- * (c) 2013 Maxime Bouroumeau-Fuseau
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-namespace DebugBar\DataCollector;
+<?php namespace App\debug;
 
-
+use DebugBar\DataCollector\DataCollector;
+use DebugBar\DataCollector\Renderable;
 use DebugBar\DataFormatter\DataFormatterInterface;
+use DebugBar\DataCollector\DataCollectorInterface;
+use DebugBar\DataCollector\MessagesAggregateInterface;
 
 /**
  * Provides a way to log messages
  */
-class MessagesCollector  implements DataCollectorInterface, MessagesAggregateInterface, Renderable
+class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface, Renderable
 {
 
 	protected $name;
@@ -26,7 +20,7 @@ class MessagesCollector  implements DataCollectorInterface, MessagesAggregateInt
 	/**
 	 * @param string $name
 	 */
-	public function __construct($name = 'messages')
+	public function __construct($name = 'logs')
 	{
 		$this->name = $name;
 	}
@@ -62,17 +56,15 @@ class MessagesCollector  implements DataCollectorInterface, MessagesAggregateInt
 	 * @param mixed $message
 	 * @param string $label
 	 */
-	public function addMessage($message, $label = 'info', $isString = true)
+	public function addMessage($message, $label = 'info', $traces = [])
 	{
-		if (!is_string($message)) {
-			$message = $this->getDataFormatter()->formatVar($message);
-			$isString = false;
+		if (!is_string($traces)) {
+			$traces = $this->getDataFormatter()->formatVar($traces);
 		}
 		$this->messages[] = array(
 			'message' => $message,
-			'is_string' => $isString,
 			'label' => $label,
-			'time' => microtime(true)
+			'trace' => $traces
 		);
 	}
 
@@ -91,34 +83,7 @@ class MessagesCollector  implements DataCollectorInterface, MessagesAggregateInt
 	 */
 	public function getMessages()
 	{
-		$messages = $this->messages;
-		foreach ($this->aggregates as $collector) {
-			$msgs = array_map(function ($m) use ($collector) {
-				$m['collector'] = $collector->getName();
-				return $m;
-			}, $collector->getMessages());
-			$messages = array_merge($messages, $msgs);
-		}
-
-		// sort messages by their timestamp
-		usort($messages, function ($a, $b) {
-			if ($a['time'] === $b['time']) {
-				return 0;
-			}
-			return $a['time'] < $b['time'] ? -1 : 1;
-		});
-
-		return $messages;
-	}
-
-	/**
-	 * @param $level
-	 * @param $message
-	 * @param array $context
-	 */
-	public function log($level, $message, array $context = array())
-	{
-		$this->addMessage($message, $level);
+		return $this->messages;
 	}
 
 	/**
@@ -158,7 +123,7 @@ class MessagesCollector  implements DataCollectorInterface, MessagesAggregateInt
 		return array(
 			"$name" => array(
 				'icon' => 'list-alt',
-				"widget" => "PhpDebugBar.Widgets.MessagesWidget",
+				"widget" => "PhpDebugBar.Widgets.DebugLogsWidget",
 				"map" => "$name.messages",
 				"default" => "[]"
 			),
