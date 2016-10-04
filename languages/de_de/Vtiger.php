@@ -1531,6 +1531,6 @@ $jsLanguageStrings = [
 	'JS_SEARCHING' => 'Suchen...',
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Messenbearbeitung fehlgeschlagen',
 	'JS_GET_PAGINATION_INFO' => 'Gesamtanzahl Datensätze wird ermittelt. Fertigstellung hängt von der Anzahl der Datensatze ab.',
-	'JS_WIDGET_DELETED' => 'Widget deleted',
-	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domain restricted. Please enter a different one.',
+	'JS_WIDGET_DELETED' => 'Widget gelöscht',
+	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domain beschränkt. Bitte geben Sie eine andere.',
 ];
