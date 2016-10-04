@@ -1,13 +1,51 @@
 <?php namespace App;
 
+use \yii\log\Logger;
+
 /**
  * Logger class
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Log
+class Log extends Logger
 {
+
+	/**
+	 * Logs a message with the given type and category.
+	 * If [[traceLevel]] is greater than 0, additional call stack information about
+	 * the application code will be logged as well.
+	 * @param string|array $message the message to be logged. This can be a simple string or a more
+	 * complex data structure that will be handled by a [[Target|log target]].
+	 * @param integer $level the level of the message. This must be one of the following:
+	 * `Logger::LEVEL_ERROR`, `Logger::LEVEL_WARNING`, `Logger::LEVEL_INFO`, `Logger::LEVEL_TRACE`,
+	 * `Logger::LEVEL_PROFILE_BEGIN`, `Logger::LEVEL_PROFILE_END`.
+	 * @param string $category the category of the message.
+	 */
+	public function log($message, $level, $category = '')
+	{
+		$time = microtime(true);
+		$traces = [];
+		if ($this->traceLevel > 0) {
+			$count = 0;
+			$ts = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			array_shift($ts);
+			foreach ($ts as $trace) {
+				if (isset($trace['file'], $trace['line'])) {
+					unset($trace['object'], $trace['args']);
+					$traces[] = $trace;
+					if (++$count >= $this->traceLevel) {
+						break;
+					}
+				}
+			}
+		}
+		//\App\Debuger::addLogs($message, $level, $category, $time, $traces);
+		$this->messages[] = [$message, $level, $category, $time, $traces];
+		if ($this->flushInterval > 0 && count($this->messages) >= $this->flushInterval) {
+			$this->flush();
+		}
+	}
 
 	/**
 	 * Logs a trace message.
@@ -16,7 +54,7 @@ class Log
 	 * @param string $message the message to be logged.
 	 * @param string $category the category of the message.
 	 */
-	public static function trace($message, $category = 'application')
+	public static function trace($message, $category = '')
 	{
 		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_TRACE, $category);
 	}
@@ -28,7 +66,7 @@ class Log
 	 * @param string $message the message to be logged.
 	 * @param string $category the category of the message.
 	 */
-	public static function info($message, $category = 'application')
+	public static function info($message, $category = '')
 	{
 		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_INFO, $category);
 	}
@@ -40,7 +78,7 @@ class Log
 	 * @param string $message the message to be logged.
 	 * @param string $category the category of the message.
 	 */
-	public static function warning($message, $category = 'application')
+	public static function warning($message, $category = '')
 	{
 		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_WARNING, $category);
 	}
@@ -52,7 +90,7 @@ class Log
 	 * @param string $message the message to be logged.
 	 * @param string $category the category of the message.
 	 */
-	public static function error($message, $category = 'application')
+	public static function error($message, $category = '')
 	{
 		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_ERROR, $category);
 	}
@@ -74,7 +112,7 @@ class Log
 	 * @param string $category the category of this log message
 	 * @see endProfile()
 	 */
-	public static function beginProfile($token, $category = 'application')
+	public static function beginProfile($token, $category = '')
 	{
 		\Yii::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_BEGIN, $category);
 	}
@@ -86,7 +124,7 @@ class Log
 	 * @param string $category the category of this log message
 	 * @see beginProfile()
 	 */
-	public static function endProfile($token, $category = 'application')
+	public static function endProfile($token, $category = '')
 	{
 		\Yii::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_END, $category);
 	}
