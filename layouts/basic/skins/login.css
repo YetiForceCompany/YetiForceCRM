@@ -58,6 +58,9 @@ html,body{
 .fieldContainer .form-group{
 	padding-bottom: 10px;
 }
+.noPadding{
+	padding: 0 !important;
+}
 #forgotpass, .login-text a{
 	color: #adb0b5;
 }

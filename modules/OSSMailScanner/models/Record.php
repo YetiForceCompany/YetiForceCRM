@@ -38,7 +38,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$sql = "SELECT * FROM roundcube_identities WHERE user_id = ?";
 		$result = $db->pquery($sql, array($id), true);
-		$output = array();
+		$output = [];
 		for ($i = 0; $i < $db->getRowCount($result); $i++) {
 			$output[$i]['name'] = $db->query_result($result, $i, 'name');
 			$output[$i]['email'] = $db->query_result($result, $i, 'email');
@@ -56,7 +56,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function getEmailActionsListName($data)
 	{
-		$return = array();
+		$return = [];
 		foreach ($data as $row) {
 			if ($row[0] == 'files') {
 				$return[] = array($row[1], $row[1]);
@@ -104,7 +104,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				]);
 			}
 			foreach ($toRemove as $folder) {
-				$db->delete('vtiger_ossmailscanner_folders_uid', 'user_id = ? AND type = ? AND folder = ?', [$user, $type, $folder]);
+				$db->delete('vtiger_ossmailscanner_folders_uid', 'user_id = ? && type = ? && folder = ?', [$user, $type, $folder]);
 			}
 		}
 	}
@@ -113,10 +113,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		if ($folder) {
-			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' AND value LIKE '%$folder%' ORDER BY parameter", true);
+			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' && value LIKE '%$folder%' ORDER BY parameter");
 			$return = $adb->query_result($result, 0, 'parameter');
 		} else {
-			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' ORDER BY parameter DESC", true);
+			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' ORDER BY parameter DESC");
 			while ($row = $adb->fetch_array($result)) {
 				$return[$row['parameter']] = $row['value'];
 			}
@@ -127,12 +127,12 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function getConfig($conf_type)
 	{
 		$adb = PearDatabase::getInstance();
-		$queryParams = array();
+		$queryParams = [];
 		if ($conf_type != '' || $conf_type != false) {
-			$sql = "WHERE conf_type = ?";
+			$sql = 'WHERE conf_type = ?';
 			$queryParams[] = $conf_type;
 		}
-		$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_config $sql ORDER BY parameter DESC", $queryParams, true);
+		$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_config $sql ORDER BY parameter DESC", $queryParams);
 		while ($row = $adb->fetch_array($result)) {
 			if ($conf_type != '' || $conf_type != false) {
 				$return[$row['parameter']] = $row['value'];
@@ -146,10 +146,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public function setConfigWidget($conf_type, $type, $vale)
 	{
 		$adb = PearDatabase::getInstance();
-		if ($vale == null || $vale == 'null') {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = ? AND parameter = ?", [$conf_type, $type]);
+		if ($vale === null || $vale == 'null') {
+			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = ? && parameter = ?", [$conf_type, $type]);
 		} else {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = ? AND parameter = ?", [$vale, $conf_type, $type]);
+			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = ? && parameter = ?", [$vale, $conf_type, $type]);
 		}
 		return vtranslate('LBL_SAVE', 'OSSMailScanner');
 	}
@@ -175,7 +175,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$uid = 0;
-		$result = $db->pquery('SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? AND BINARY folder = ?', [$accountID, $folder]);
+		$result = $db->pquery('SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? && BINARY folder = ?', [$accountID, $folder]);
 		while ($value = $db->getSingleValue($result)) {
 			$uid = $value;
 		}
@@ -195,47 +195,48 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function executeActions($account, $mail, $folder, $params = false)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Start execute actions: ' . $account['username']);
+		
+		\App\Log::trace('Start execute actions: ' . $account['username']);
 
-		global $who_trigger;
 		$actions = [];
 		if ($params && array_key_exists('actions', $params)) {
 			$actions = $params['actions'];
+		} elseif (is_string($account['actions'])) {
+			$actions = explode(',', $account['actions']);
 		} else {
 			$actions = $account['actions'];
 		}
-
 		$mail->setAccount($account);
 		$mail->setFolder($folder);
 		foreach ($actions as &$action) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
 			$handler = new $handlerClass();
 			if ($handler) {
-				$log->debug('Start action: ' . $action);
+				\App\Log::trace('Start action: ' . $action);
 
 				$mail->addActionResult($action, $handler->process($mail));
 
-				$log->debug('End action');
+				\App\Log::trace('End action');
 			}
 		}
-		$log->debug('End execute actions');
+		\App\Log::trace('End execute actions');
 		return $mail->getActionResult();
 	}
 
-	function manualScanMail($params)
+	public function manualScanMail($params)
 	{
 		$account = OSSMail_Record_Model::getAccountByHash($params['rcId']);
 		if (!$account) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$params['folder'] = urldecode($params['folder']);
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 		$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $params['folder']);
 		$mail = $mailModel->getMail($mbox, $params['uid']);
-		if (!empty($account['actions'])) {
-			$params['actions'] = explode(',', $account['actions']);
-		} else {
+		if (!$mail) {
+			return [];
+		}
+		if (empty($account['actions'])) {
 			$params['actions'] = ['CreatedEmail', 'BindAccounts', 'BindContacts', 'BindLeads'];
 		}
 		$return = self::executeActions($account, $mail, $params['folder'], $params);
@@ -270,6 +271,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$get_emails = true;
 			}
 		} else if ($msgno < $num_msg) {
+			++$msgno;
 			$get_emails = true;
 		}
 
@@ -283,9 +285,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				self::executeActions($account, $mail, $folder);
 				unset($mail);
 				$adb = PearDatabase::getInstance();
-				$adb->pquery('UPDATE vtiger_ossmailscanner_folders_uid SET uid=? WHERE user_id=? AND BINARY folder = ?', [$uid, $account['user_id'], $folder]);
+				$adb->pquery('UPDATE vtiger_ossmailscanner_folders_uid SET uid=? WHERE user_id=? && BINARY folder = ?', [$uid, $account['user_id'], $folder]);
 				$countEmails++;
-				self::update_scan_history($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+				self::updateScanHistory($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 				if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 					return $countEmails;
 				}
@@ -299,12 +301,12 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$return = [];
-		$queryParams = [];
+		$queryParams = ['Users'];
 		if ($module) {
 			$ifwhere = 'AND vtiger_tab.name = ? ';
 			$queryParams[] = $module;
 		}
-		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' OR uitype = '104') AND vtiger_field.presence <> '1' $ifwhere ORDER BY name", [$queryParams]);
+		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' || uitype = '104') && vtiger_field.presence <> '1' AND vtiger_tab.name <> ? $ifwhere ORDER BY name", $queryParams);
 		while ($row = $db->getRow($result)) {
 			$return[] = [
 				'key' => $row['tablename'] . '=' . $row['columnname'] . '=' . $row['name'],
@@ -321,36 +323,41 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function getEmailSearchList()
 	{
+		$cache = Vtiger_Cache::get('Mail', 'EmailSearchList');
+		if ($cache !== false) {
+			return $cache;
+		}
+		$return = [];
 		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT value FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' AND parameter = 'fields'", true);
+		$result = $db->query("SELECT value FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
 		if ($result->rowCount()) {
 			$value = $db->getSingleValue($result);
-			if (empty($value)) {
-				return [];
+			if (!empty($value)) {
+				$return = explode(',', $value);
 			}
-			return explode(',', $value);
 		}
-		return [];
+		Vtiger_Cache::set('Mail', 'EmailSearchList', $return);
+		return $return;
 	}
 
 	public static function setEmailSearchList($vale)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' AND parameter = 'fields'", true);
-		if ($vale == null || $vale == 'null') {
-			$adb->query("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = 'emailsearch' AND parameter = 'fields'", true);
+		$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
+		if ($vale === null || $vale == 'null') {
+			$adb->query("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
 		} else {
 			if ($adb->getRowCount($result) == 0) {
 				$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'fields', $vale));
 			} else {
-				$adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = 'emailsearch' AND parameter = 'fields'", array($vale), true);
+				$adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = 'emailsearch' && parameter = 'fields'", array($vale), true);
 			}
 		}
 	}
 
 	public static function _merge_array($tab1, $tab2)
 	{
-		$return = array();
+		$return = [];
 		if (count($tab1) != 0 && count($tab2) != 0) {
 			$return = array_unique(array_merge($tab1, $tab2));
 		} elseif (count($tab1) != 0) {
@@ -375,51 +382,48 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public function executeCron($who_trigger)
 	{
-		$log = vglobal('log');
-		$log->debug('Start executeCron');
+		
+		\App\Log::trace('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {
-			$log->warn(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
+			\App\Log::warning(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$countEmails = 0;
 		$scanId = 0;
-		$accounts = $mailModel->getAccountsList();
+		$accounts = OSSMail_Record_Model::getAccountsList();
 		if (!$accounts) {
-			$log->warn('There are no accounts to be scanned');
+			\App\Log::warning('There are no accounts to be scanned');
 			return false;
 		}
 		self::setCronStatus('2');
 		$scanId = $scannerModel->add_scan_history(['user' => $who_trigger]);
 		foreach ($accounts as $account) {
-			$log->debug('Start checking account: ' . $account['username']);
+			\App\Log::trace('Start checking account: ' . $account['username']);
 			foreach ($scannerModel->getFolders($account['user_id']) as &$folderRow) {
 				$folder = $folderRow['folder'];
-				$log->debug('Start checking folder: ' . $folder);
+				\App\Log::trace('Start checking folder: ' . $folder);
 
 				$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder, false);
-				if (!$mbox) {
-					$log->fatal('Incorrect mail access data: ' . $account['username']);
-					continue;
-				}
-
-				$countEmails = $scannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
-
-				imap_close($mbox);
-
-				if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
-					$log->warn('Reached the maximum number of scanned mails');
-					$scannerModel->update_scan_history($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
-					self::setCronStatus('1');
-					return 'ok';
+				if (is_resource($mbox)) {
+					$countEmails = $scannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
+					imap_close($mbox);
+					if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+						\App\Log::warning('Reached the maximum number of scanned mails');
+						$scannerModel->updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+						self::setCronStatus('1');
+						return 'ok';
+					}
+				} else {
+					\App\Log::error('Incorrect mail access data: ' . $account['username'] . ' , ' . $folder);
 				}
 			}
 		}
-		$scannerModel->update_scan_history($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+		$scannerModel->updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 		self::setCronStatus('1');
-		$log->debug('End executeCron');
+		\App\Log::trace('End executeCron');
 		return 'ok';
 	}
 
@@ -448,16 +452,16 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$limit = 30;
 		$endNumber = $startNumber + $limit;
 		$result = $adb->query("SELECT * FROM vtiger_ossmails_logs ORDER BY id DESC LIMIT $startNumber , $endNumber");
-		$output = array();
+		$output = [];
 		for ($i = 0; $i < $adb->getRowCount($result); $i++) {
+			$startTime = new DateTimeField($adb->query_result($result, $i, 'start_time'));
+			$endTime = new DateTimeField($adb->query_result($result, $i, 'end_time'));
 			$output[$i]['id'] = $adb->query_result($result, $i, 'id');
-			$output[$i]['start_time'] = DateTimeField::convertToUserFormat($adb->query_result($result, $i, 'start_time'));
-			$output[$i]['end_time'] = DateTimeField::convertToUserFormat($adb->query_result($result, $i, 'end_time'));
+			$output[$i]['start_time'] = $startTime->getDisplayDateTimeValue();
+			$output[$i]['end_time'] = $endTime->getDisplayDateTimeValue();
 			$output[$i]['status'] = self::getHistoryStatus($adb->query_result($result, $i, 'status'));
 			$output[$i]['user'] = $adb->query_result($result, $i, 'user');
 			$output[$i]['stop_user'] = $adb->query_result($result, $i, 'stop_user');
-			//$output[$i]['folder'] = $adb->query_result($result, $i, 'folder'); 
-			///$output[$i]['action'] = $adb->query_result($result, $i, 'action'); 
 			$output[$i]['count'] = $adb->query_result($result, $i, 'count');
 			$output[$i]['action'] = vtranslate($adb->query_result($result, $i, 'action'), 'OSSMailScanner');
 			$output[$i]['info'] = $adb->query_result($result, $i, 'info');
@@ -472,7 +476,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $adb->getLastInsertID();
 	}
 
-	public function update_scan_history($id, $array)
+	public function updateScanHistory($id, $array)
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = "update vtiger_ossmails_logs set end_time=?,status=? ,count=? ,action=? where id=?";
@@ -484,7 +488,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$return = false;
-		$result = $adb->pquery("SELECT * FROM vtiger_ossmails_logs ORDER BY id DESC", array());
+		$result = $adb->pquery("SELECT * FROM vtiger_ossmails_logs ORDER BY id DESC", []);
 		if ($adb->getRowCount($result) > 0) {
 			$row = $adb->query_result_rowdata($result, 0);
 			if ($row['status'] == 1) {
@@ -511,7 +515,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$return = false;
-		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE name = ? AND status = '2'", array('MailScannerAction'));
+		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE name = ? && status = '2'", array('MailScannerAction'));
 		if ($adb->getRowCount($result) > 0) {
 			$return = $adb->query_result_rowdata($result, 0);
 		}
@@ -592,46 +596,42 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $this->group;
 	}
 
-	public function BindRecords()
+	public function bindMail($row)
 	{
-		$adb = PearDatabase::getInstance();
-		$actions = array('BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk', 'BindProject', 'BindServiceContracts', 'BindCampaigns');
-		$result = $adb->query("SELECT * FROM vtiger_ossmailview WHERE verify = '1' ");
-		$getRowCount = $adb->getRowCount($result);
-		if ($getRowCount == 0) {
+		if (empty($row['actions'])) {
 			return false;
 		}
-		$return = [];
-		$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$scan_id = $OSSMailScannerModel->add_scan_history(Array('user' => PHP_SAPI));
-		for ($i = 0; $i < $getRowCount; $i++) {
-			$mail_detail['ossmailviewid'] = $adb->query_result($result, $i, 'ossmailviewid');
-			$mail_detail['message_id'] = $adb->query_result($result, $i, 'uid');
-			$mail_detail['fromaddress'] = $adb->query_result($result, $i, 'from_email');
-			$mail_detail['toaddress'] = $adb->query_result($result, $i, 'to_email');
-			$mail_detail['ccaddress'] = $adb->query_result($result, $i, 'cc_email');
-			$mail_detail['bccaddress'] = $adb->query_result($result, $i, 'bcc_email');
-			$mail_detail['subject'] = $adb->query_result($result, $i, 'subject');
-			$mail_detail['folder'] = $adb->query_result($result, $i, 'mbox');
-			foreach ($actions as $user_action) {
-				$OSSMailScanner_Module_Model = Vtiger_Module_Model::getCleanInstance('OSSMailScanner');
-				$action_adress = $OSSMailScanner_Module_Model->actionsDir . '/' . $user_action . '.php';
-				if (file_exists($action_adress)) {
-					require_once $action_adress;
-					$fn_name = '_' . $user_action;
-					$return[$mail_detail['ossmailviewid']][$user_action] = $fn_name('', $mail_detail, $mail_detail['folder'], $return[$mail_detail['ossmailviewid']]);
-				}
-			}
-			$adb->pquery("update vtiger_ossmailview set verify = '0' WHERE ossmailviewid = ?", array($mail_detail['ossmailviewid']));
-			self::update_scan_history($scan_id, Array('status' => '1', 'count' => $i, 'action' => 'Action_CronBind'));
+		$actions = array_diff(explode(',', $row['actions']), ['CreatedEmail', 'CreatedHelpDesk']);
+		if (empty($actions)) {
+			return false;
 		}
-		$OSSMailScannerModel->update_scan_history($scan_id, Array('status' => '0', 'count' => $getRowCount, 'action' => 'Action_CronBind'));
-		return $return;
+
+		$mail = new OSSMail_Mail_Model();
+		$mail->setMailCrmId($row['ossmailviewid']);
+		$mail->setFolder($row['mbox']);
+		$mail->set('message_id', $row['uid']);
+		$mail->set('toaddress', $row['to_email']);
+		$mail->set('fromaddress', $row['from_email']);
+		$mail->set('reply_to_email', $row['reply_to_email']);
+		$mail->set('ccaddress', $row['cc_email']);
+		$mail->set('bccaddress', $row['bcc_email']);
+		$mail->set('subject', $row['subject']);
+		$mail->set('udate_formated', $row['date']);
+		$mail->set('body', $row['content']);
+
+		foreach ($actions as $action) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
+			$handler = new $handlerClass();
+			if ($handler) {
+				$handler->process($mail);
+			}
+		}
+		return true;
 	}
 
 	public static function AccontDelete($id)
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM roundcube_users WHERE user_id = '$id';", array());
+		$adb->pquery("DELETE FROM roundcube_users WHERE user_id = '$id';", []);
 	}
 }

@@ -21,21 +21,14 @@ class Settings_Vtiger_UpdateCompanyLogo_Action extends Settings_Vtiger_Basic_Act
 		$fileType = explode('/', $logoDetails['type']);
 		$fileType = $fileType[1];
 
-		$logoContent = file_get_contents($logoDetails['tmp_name']);
-		if (preg_match('(<\?php?(.*?))', $imageContent) != 0) {
-			$securityError = true;
+		$fileInstance = \includes\fields\File::loadFromRequest($logoDetails);
+		if ($fileInstance->validate('image') && in_array($fileType, Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
+			$saveLogo = true;
 		}
-
-		if (!$securityError) {
-			if ($logoDetails['size'] && in_array($fileType, Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
-				$saveLogo = true;
-			}
-
-			if ($saveLogo) {
-				$moduleModel->saveLogo();
-				$moduleModel->set('logoname', ltrim(basename(' ' . Vtiger_Util_Helper::sanitizeUploadFileName($logoDetails['name'], vglobal('upload_badext')))));
-				$moduleModel->save();
-			}
+		if ($saveLogo) {
+			$moduleModel->saveLogo();
+			$moduleModel->set('logoname', ltrim(basename(' ' . \includes\fields\File::sanitizeUploadFileName($logoDetails['name']))));
+			$moduleModel->save();
 		}
 
 		$reloadUrl = $moduleModel->getIndexViewUrl();

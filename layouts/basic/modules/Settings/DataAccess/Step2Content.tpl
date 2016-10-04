@@ -20,7 +20,7 @@
 	{if $TPL_ID}
 		<input type="hidden" name="tpl_id" value="{$TPL_ID}" />
 	{/if}
-	<div class="row padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+	<div class="row padding1per contentsBackground no-margin" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 		<div id="advanceFilterContainer" class="">
 			<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
 			<div class="allConditionContainer conditionGroup contentsBackground well">
@@ -36,7 +36,7 @@
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($item['info']))}"
 															>{vtranslate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>
@@ -54,7 +54,7 @@
 									</select>
 								</div>
 								<div class="col-md-4 fieldUiHolder">
-									{if $cnd_item['field_type'] eq 'picklist'}
+									{if $cnd_item['field_type'] eq 'picklist' || $cnd_item['field_type'] eq 'tree' }
 										<select name="val" data-value=value" class="form-control select2">
 											{foreach from=$cnd_item['info']['picklistvalues'] key=pick_key item=pick_item}
 												<option value="{$pick_key}" {if $cnd_item['val'] eq $pick_key}selected{/if}>{$pick_item}</option>
@@ -101,7 +101,7 @@
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($item['info']))}"
 															>{vtranslate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>
@@ -165,4 +165,4 @@
 	</div>
 	<div class="clearfix"></div>
 </form>
-<div id="condition_list" style="display: none;">{ZEND_JSON::encode($CONDITION_BY_TYPE)}</div>
+<div id="condition_list" style="display: none;">{\includes\utils\Json::encode($CONDITION_BY_TYPE)}</div>

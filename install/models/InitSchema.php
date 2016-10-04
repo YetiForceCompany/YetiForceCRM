@@ -15,7 +15,7 @@ class Install_InitSchema_Model
 	protected $migration_schema = 'install/migrate_schema/';
 	protected $db = false;
 
-	function __construct($db = '')
+	public function __construct($db = '')
 	{
 		$this->db = $db;
 	}
@@ -25,14 +25,13 @@ class Install_InitSchema_Model
 	 */
 	public function initialize()
 	{
-		global $YetiForce_current_version;
 		$this->initializeDatabase($this->sql_directory, array('scheme', 'data'));
 		$this->setDefaultUsersAccess();
 		$currencyName = $_SESSION['config_file_info']['currency_name'];
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
 		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
 		$this->db->pquery('UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?', [$currencyName, $currencyCode, $currencySymbol]);
-		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [$YetiForce_current_version, $YetiForce_current_version]);
+		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [AppConfig::main('YetiForce_current_version'), AppConfig::main('YetiForce_current_version')]);
 
 		// recalculate all sharing rules for users
 		vimport('~include/utils/UserInfoUtil.php');
@@ -115,7 +114,7 @@ class Install_InitSchema_Model
 		// Remove PostgreSQL comment lines.
 		$query = preg_replace("/\n\--[^\n]*/", '', "\n" . $query);
 		// Find function
-		$funct = explode('CREATE OR REPLACE FUNCTION', $query);
+		$funct = explode('CREATE || REPLACE FUNCTION', $query);
 		// Save sql before function and parse it
 		$query = $funct[0];
 
@@ -141,8 +140,9 @@ class Install_InitSchema_Model
 			$queries[] = $query;
 		}
 		// Add function part as is
-		for ($f = 1; $f < count($funct); $f++) {
-			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
+		$countFunct = count($funct);
+		for ($f = 1; $f < $countFunct; $f++) {
+			$queries[] = 'CREATE || REPLACE FUNCTION ' . $funct[$f];
 		}
 		return $queries;
 	}
@@ -167,12 +167,12 @@ class Install_InitSchema_Model
 	{
 		include_once $this->migration_schema . $system . '.php';
 		$migrationObject = new $system;
-		Vtiger_Access::syncSharingAccess();
+		vtlib\Access::syncSharingAccess();
 		$migrationObject->preProcess($userName, $source);
 		$migrationObject->process();
 		$return = $migrationObject->postProcess();
-		Vtiger_Access::syncSharingAccess();
-		Vtiger_Deprecated::createModuleMetaFile();
+		vtlib\Access::syncSharingAccess();
+		vtlib\Deprecated::createModuleMetaFile();
 		return $return;
 	}
 
@@ -213,27 +213,19 @@ class Install_InitSchema_Model
 		}
 
 		include_once $config_directory;
-		if (!isset($root_directory)) {
-			return array('result' => false, 'text' => 'LBL_ERROR_EMPTY_CONFIG');
-		}
-		$rootDirectory = getcwd();
-		if (substr($rootDirectory, -1) != '/') {
-			$rootDirectory = $rootDirectory . '/';
-		}
+
 		$webRoot = ($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
 		$webRoot .= $_SERVER["REQUEST_URI"];
 		$webRoot = str_replace("install/Install.php", "", $webRoot);
 		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? "https://" : "http://") . $webRoot;
 
 		$configFileParameters = array();
-		$configFileParameters['root_directory'] = $rootDirectory;
 		$configFileParameters['site_URL'] = $webRoot;
 		$configFileParameters['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
 		$configFileParameters['db_username'] = $dbconfig['db_username'];
 		$configFileParameters['db_password'] = $dbconfig['db_password'];
 		$configFileParameters['db_name'] = $dbconfig['db_name'];
 		$configFileParameters['db_type'] = $dbconfig['db_type'];
-		$configFileParameters['admin_email'] = $HELPDESK_SUPPORT_EMAIL_ID;
 		$configFileParameters['currency_name'] = $currency_name;
 		$configFileParameters['vt_charset'] = $default_charset;
 		$configFileParameters['default_language'] = $default_language;
@@ -270,20 +262,21 @@ class Install_InitSchema_Model
 
 	public function deleteDirFile($src)
 	{
-		global $root_directory, $log;
-		if ($root_directory && strpos($src, $root_directory) === FALSE) {
-			$src = $root_directory . $src;
+		
+		$rootDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		if ($rootDirectory && strpos($src, $rootDirectory) === false) {
+			$src = $rootDirectory . $src;
 		}
-		if (!file_exists($src) || !$root_directory)
+		if (!file_exists($src) || !$rootDirectory)
 			return;
 		@chmod($src, 0777);
-		$log->debug("Exiting VT620_to_YT::testest(" . $src . ") method ...");
+		\App\Log::trace("Exiting VT620_to_YT::testest(" . $src . ") method ...");
 		if (is_dir($src)) {
 			$dir = new DirectoryIterator($src);
 			foreach ($dir as $fileinfo) {
 				if (!$fileinfo->isDot()) {
 					if ($fileinfo->isDir()) {
-						$log->debug("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
+						\App\Log::trace("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
 						$this->deleteDirFile($fileinfo->getPathname());
 						rmdir($fileinfo->getPathname());
 					} else {

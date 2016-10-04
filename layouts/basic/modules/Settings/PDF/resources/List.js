@@ -22,6 +22,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			thisInstance.getListViewRecords(params).then(
 					function (data) {
 						thisInstance.updatePagination();
+						thisInstance.registerTemplateDelete(thisInstance.getListContainer());
 					}
 			);
 		});
@@ -46,8 +47,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			'page': pageNumber,
 			'view': "List",
 			sourceModule: jQuery('#moduleFilter').val()
-		}
-
+		};
 		return params;
 	},
 	registerAddNewTemplate: function (container) {
@@ -62,12 +62,15 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 		});
 	},
 	registerTemplateDelete: function (container) {
+		var thisInstance = this;
 		container.find('.templateDelete').each(function (index) {
 			jQuery(this).on('click', function (e) {
 				e.stopPropagation();
 				e.preventDefault();
 				var templateId = jQuery(this).closest('tr').data('id');
-				Vtiger_List_Js.deleteRecord(templateId);
+				Vtiger_List_Js.deleteRecord(templateId).then(function(){
+					thisInstance.registerTemplateDelete(container);
+				});
 			});
 		});
 	},

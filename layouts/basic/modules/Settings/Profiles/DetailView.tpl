@@ -88,7 +88,12 @@
 							{assign var=IS_RESTRICTED_MODULE value=$RECORD_MODEL->isRestrictedModule($PROFILE_MODULE->getName())}
 							<tr>
 								<td>
-									<img src="{if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" class="alignMiddle" />&nbsp;{$PROFILE_MODULE->get('label')|vtranslate:$PROFILE_MODULE->getName()}
+									<img src="{if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" class="alignMiddle" />&nbsp;
+									{if $PROFILE_MODULE->getName() eq 'Emails'}
+										{vtranslate($PROFILE_MODULE->get('label'), $QUALIFIED_MODULE)}
+									{else}
+										{$PROFILE_MODULE->get('label')|vtranslate:$PROFILE_MODULE->getName()}
+									{/if}
 								</td>
 								{assign var="BASIC_ACTION_ORDER" value=array(2,3,0,1)}
 								{foreach from=$BASIC_ACTION_ORDER item=ACTION_ID}

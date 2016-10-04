@@ -12,7 +12,7 @@
 class Settings_DataAccess_UpdateTpl_Action extends Settings_Vtiger_Index_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		return;
 	}
@@ -32,7 +32,7 @@ class Settings_DataAccess_UpdateTpl_Action extends Settings_Vtiger_Index_Action
 		$db->pquery($insertBaseRecord, array($baseModule, $summary, $tplId), true);
 
 		Settings_DataAccess_Module_Model::updateConditions($conditionAll, $tplId);
-		Settings_DataAccess_Module_Model::updateConditions($conditionOption, $tplId, FALSE);
+		Settings_DataAccess_Module_Model::updateConditions($conditionOption, $tplId, false);
 
 		header("Location: index.php?module=DataAccess&parent=Settings&view=Index");
 	}

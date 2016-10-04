@@ -27,15 +27,6 @@ class Campaigns_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
-	 */
-	public function isSummaryViewSupported()
-	{
-		return false;
-	}
-
-	/**
 	 * Function to get list view query for popup window
 	 * @param <String> $sourceModule Parent module
 	 * @param <String> $field parent fieldname
@@ -50,7 +41,7 @@ class Campaigns_Module_Model extends Vtiger_Module_Model
 			$pos = stripos($listQuery, 'where');
 
 			if ($pos) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
+				$overRideQuery = $listQuery . ' && ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}

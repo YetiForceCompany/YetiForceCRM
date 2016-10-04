@@ -225,8 +225,7 @@ function DataAccessConditions() {
 				jQuery('.comparator-select').on('change', function () {
 					var valInput = jQuery(this).parents('.conditionRow').find('[name="val"]'),
 							fieldInfo = jQuery(this).find('option:selected').data('info');
-
-					if (fieldInfo.type == 'picklist') {
+					if (fieldInfo.type == 'picklist' || 'tree' == fieldInfo.type) {
 						thisInstance.showPicklist(this);
 					} else if (fieldInfo.type == 'boolean') {
 						thisInstance.hideValElement(this);

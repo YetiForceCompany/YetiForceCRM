@@ -15,11 +15,11 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 		$record = $request->get('record');
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -28,7 +28,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
-			throw new NoPermittedException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 
 		$viewer = $this->getViewer($request);
@@ -36,7 +36,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('RELATED_RECORD', $relatedRecord);
 		$viewer->assign('RELATED_MODULE', $relatedModuleName);
 		$viewer->assign('COMMENT', $rcmModel->getComment());
-		
+
 		$this->preProcess($request);
 		$viewer->view('RelatedCommentModal.tpl', $moduleName);
 		$this->postProcess($request);

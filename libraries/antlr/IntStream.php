@@ -31,14 +31,14 @@
  *  or token type sequence (such as interpretation).
  */
 interface IntStream {
-	function consume();
+	public function consume();
 
 	/** Get int at current input pointer + i ahead where i=1 is next int.
 	 *  Negative indexes are allowed.  LA(-1) is previous token (token
 	 *  just matched).  LA(-i) where i is before first token should
 	 *  yield -1, invalid char / EOF.
 	 */
-	function LA($i);
+	public function LA($i);
 
 	/** Tell the stream to start buffering if it hasn't already.  Return
      *  current input position, index(), or some other marker so that
@@ -47,13 +47,13 @@ interface IntStream {
 	 *  track line/col info as well as input index so its markers are
 	 *  not pure input indexes.  Same for tree node streams.
      */
-	function mark();
+	public function mark();
 
 	/** Return the current input symbol index 0..n where n indicates the
      *  last symbol has been read.  The index is the symbol about to be
 	 *  read not the most recently read symbol.
      */
-	function index();
+	public function index();
 
 	/** Reset the stream so that next call to index would return marker.
 	 *  The marker will usually be index() but it doesn't have to be.  It's
@@ -63,7 +63,7 @@ interface IntStream {
 	 *  like a stack.  Assume the state the stream was in when this marker
 	 *  was created.
 	 */
-	function rewind($marker=null);
+	public function rewind($marker=null);
 
 	/** You may want to commit to a backtrack but don't want to force the
 	 *  stream to keep bookkeeping objects around for a marker that is
@@ -73,7 +73,7 @@ interface IntStream {
 	 *  argument.  So if you're nested 5 levels of mark(), and then release(2)
 	 *  you have to release resources for depths 2..5.
 	 */
-	function release($marker);
+	public function release($marker);
 
 	/** Set the input cursor to the position indicated by index.  This is
 	 *  normally used to seek ahead in the input stream.  No buffering is
@@ -95,13 +95,13 @@ interface IntStream {
 	 *  return the ith symbol.  So, seeking to 0 means LA(1) will return the
 	 *  first element in the stream. 
 	 */
-	function seek($index);
+	public function seek($index);
 
 	/** Only makes sense for streams that buffer everything up probably, but
 	 *  might be useful to display the entire stream or for testing.  This
 	 *  value includes a single EOF.
 	 */
-	function size();
+	public function size();
 
 	/** Where are you getting symbols from?  Normally, implementations will
 	 *  pass the buck all the way to the lexer who can ask its input stream

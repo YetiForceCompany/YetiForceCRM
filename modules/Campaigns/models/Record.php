@@ -22,10 +22,10 @@ class Campaigns_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$query = 'SELECT vtiger_campaign_records.crmid FROM vtiger_campaign_records
-					INNER JOIN vtiger_crmentity ON vtiger_campaign_records.crmid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted = ?
+					INNER JOIN vtiger_crmentity ON vtiger_campaign_records.crmid = vtiger_crmentity.crmid && vtiger_crmentity.deleted = ?
 					WHERE campaignid = ?';
 		if ($excludedIds) {
-			$query .= ' AND vtiger_campaign_records.crmid NOT IN (' . implode(',', $excludedIds) . ')';
+			$query .= ' && vtiger_campaign_records.crmid NOT IN (' . implode(',', $excludedIds) . ')';
 		}
 
 		$result = $db->pquery($query, array(0, $this->getId()));

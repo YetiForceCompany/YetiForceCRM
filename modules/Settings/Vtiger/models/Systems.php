@@ -36,10 +36,10 @@ class Settings_Vtiger_Systems_Model extends Vtiger_Base_Model
 			$id = $db->getUniqueID(self::tableName);
 			//To keep id in the beginning
 			array_unshift($params, $id);
-			$query = 'INSERT INTO ' . self::tableName . ' VALUES(?,?,?,?,?,?,?,?,?)';
+			$query = sprintf('INSERT INTO %s VALUES(?,?,?,?,?,?,?,?,?)', self::tableName);
 		} else {
-			$query = 'UPDATE ' . self::tableName . ' SET server = ?, server_port= ?, server_username = ?, server_password = ?,
-                server_type = ?,  smtp_auth= ?, server_path = ?, from_email_field=? WHERE id = ?';
+			$query = sprintf('UPDATE %s SET server = ?, server_port= ?, server_username = ?, server_password = ?,
+                server_type = ?,  smtp_auth= ?, server_path = ?, from_email_field=? WHERE id = ?', self::tableName);
 			$params[] = $id;
 		}
 		$db->pquery($query, $params);
@@ -49,8 +49,8 @@ class Settings_Vtiger_Systems_Model extends Vtiger_Base_Model
 	public static function getInstanceFromServerType($type, $componentName)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM ' . self::tableName . ' WHERE server_type=?';
-		$params = array($type);
+		$query = sprintf('SELECT * FROM %s WHERE server_type = ?', self::tableName);
+		$params = [$type];
 		$result = $db->pquery($query, $params);
 		try {
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, 'Settings:Vtiger');

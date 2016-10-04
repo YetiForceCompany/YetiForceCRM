@@ -16,11 +16,9 @@ class WebServiceException extends Exception
 	public $code;
 	public $message;
 
-	function WebServiceException($errCode, $msg)
+	public function WebServiceException($errCode, $msg)
 	{
 		$this->code = $errCode;
 		$this->message = $msg;
 	}
 }
-
-?>

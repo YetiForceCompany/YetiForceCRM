@@ -118,7 +118,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 				if (in_array($fieldName, $this->getRestrictFields())) {
 					continue;
 				}
-				$fieldObj = Vtiger_Field::getInstance($webserviceField->getFieldId());
+				$fieldObj = vtlib\Field::getInstance($webserviceField->getFieldId());
 				$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstanceFromFieldObject($fieldObj);
 			}
 			$this->listviewHeaders = $headerFieldModels;
@@ -140,8 +140,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 			$db = PearDatabase::getInstance();
 			$conditions = $this->getConditions();
 			$query = $this->queryGenerator->getQuery() . $conditions['where'];
-			$query .= ' ORDER BY ' . $this->getFromData('orderby') . ' ' . $this->getFromData('sortorder');
-			$query .= ' LIMIT 0,' . $this->getRecordLimit();
+			$query .= sprintf(' ORDER BY %s %s LIMIT 0,%d', $this->getFromData('orderby'), $this->getFromData('sortorder'), $this->getRecordLimit());
 			$result = $db->pquery($query, $conditions['params']);
 
 			$targetModuleName = $this->getTargetModule();
@@ -168,7 +167,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getConditions()
 	{
-		$where = ' AND assetstatus = ? AND assets_renew NOT IN (?, ?, ?)';
+		$where = ' && assetstatus = ? && assets_renew NOT IN (?, ?, ?)';
 		$params = ['PLL_ACCEPTED', 'PLL_RENEWED', 'PLL_NOT_RENEWED', 'PLL_NOT_APPLICABLE'];
 		return ['where' => $where, 'params' => $params];
 	}

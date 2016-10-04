@@ -25,7 +25,7 @@ class API
 
 	public function __construct()
 	{
-		$this->request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		$this->request = AppRequest::init();
 		$this->response = APIResponse::getInstance($this->acceptableHeaders);
 		$this->db = PearDatabase::getInstance();
 		$this->method = $this->request->getRequestMetod();
@@ -45,7 +45,7 @@ class API
 		if (isset($this->headers['Encrypted']) && $this->headers['Encrypted'] == 1) {
 			$requestData = $this->decryptData(file_get_contents('php://input'));
 		} else {
-			$requestData = $_POST;
+			$requestData = json_decode(file_get_contents('php://input'), 1);
 		}
 
 		$this->data = new Vtiger_Request($requestData, $requestData);
@@ -78,15 +78,17 @@ class API
 			$data['record'] = $this->request->get('record');
 		}
 
-		if($this->request->get('action') != 'Login'){
-			if(!$handler->checkSession($this->headers['Sessionid'])){
+		if (!($this->request->get('action') == 'Login' && $this->request->get('module') == 'Users')) {
+			$session = APISession::checkSession($this->headers['Sessionid']);
+
+			if ($session === false) {
 				throw new APIException('Invalid Sessionid', 401);
 			}
-			if(!$handler->checkPermission($this->request->get('action'))){
+			if (!$handler->checkPermission($this->request->get('action'), $session->get('user_id'))) {
 				throw new APIException('No permission to action', 405);
 			}
 		}
-		
+
 		if (is_array($data)) {
 			$return = call_user_func_array([$handler, $function], $data);
 		} else {
@@ -112,16 +114,16 @@ class API
 
 	public function encryptData($data)
 	{
-		$publicKey = 'file://' . vglobal('root_directory') . vglobal('publicKey');
+		$publicKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('publicKey');
 		openssl_public_encrypt(json_encode($data), $encrypted, $publicKey);
 		return $encrypted;
 	}
 
 	public function decryptData($data)
 	{
-		$privateKey = 'file://' . vglobal('root_directory') . vglobal('privateKey');
+		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('privateKey');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
-			throw new AppException('Private Key failed');
+			throw new \Exception\AppException('Private Key failed');
 		}
 		$privateKey = openssl_pkey_get_private($privateKey);
 		openssl_private_decrypt($data, $decrypted, $privateKey);

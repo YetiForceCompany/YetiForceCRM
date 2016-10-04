@@ -11,10 +11,10 @@
 class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $baseTable = 'vtiger_smsnotifier_servers';
-	var $nameFields = array();
-	var $listFields = array('providertype' => 'Provider', 'username' => 'User Name', 'isactive' => 'Active');
-	var $name = 'SMSNotifier';
+	public $baseTable = 'vtiger_smsnotifier_servers';
+	public $nameFields = array();
+	public $listFields = array('providertype' => 'Provider', 'username' => 'User Name', 'isactive' => 'Active');
+	public $name = 'SMSNotifier';
 
 	/**
 	 * Function to get editable fields from this module
@@ -75,8 +75,7 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		if ($recordIdsList) {
 			$db = PearDatabase::getInstance();
-			$query = 'DELETE FROM vtiger_smsnotifier_servers WHERE id IN (' . generateQuestionMarks($recordIdsList) . ')';
-			$db->pquery($query, $recordIdsList);
+			$db->delete('vtiger_smsnotifier_servers', 'id IN (' . generateQuestionMarks($recordIdsList) . ')', $recordIdsList);
 			return true;
 		}
 		return false;

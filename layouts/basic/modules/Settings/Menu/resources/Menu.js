@@ -141,7 +141,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		thisInstance.getMenuData($('[name="roleMenu"]').val()).then(
 				function (data) {
 					contentsDiv.html(data);
-					app.showSelect2ElementView(contentsDiv.find('select'));
+					app.showSelect2ElementView(contentsDiv.find("[name='roleMenu']"));
 					thisInstance.registerEvents();
 					progress.progressIndicator({'mode': 'hide'});
 				}
@@ -241,6 +241,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		thisInstance.save('removeMenu', id).then(function (data) {
 			Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			inst.delete_node(id);
+			thisInstance.loadContent();
 		});
 	},
 	registerHotkeys: function (container) {
@@ -288,11 +289,72 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		});
 		app.showSelect2ElementView(container.find('[name="filters"]'), {width: '100%'});
 	},
+	registerModalButton: function () {
+		var thisInstance = this;
+		var container = jQuery('.menuConfigContainer');
+
+		container.find('.copyMenu').on('click', function () {
+
+			var myModal = container.find('.copyMenuModal').clone(true, true);
+			var callBackFunction = function (data) {
+				
+				var selectElement = data.find("[name='roles']");
+				app.showSelect2ElementView(selectElement);
+				var form = data.find('form');
+				form.submit(function (e) {
+					var currentTarget = jQuery(e.currentTarget);
+					var role = currentTarget.find('#roleList');
+					if (role.length && role.val()) {
+						thisInstance.copyMenu(role.val());
+					}
+					e.preventDefault();
+				})
+			}
+			app.showModalWindow(myModal, function (data) {
+				if (typeof callBackFunction == 'function') {
+					callBackFunction(data);
+				}
+			});
+		})
+	},
+	copyMenu: function (fromRole) {
+		var thisInstance = this;
+		var aDeferred = jQuery.Deferred();
+		var progressIndicatorElement = jQuery.progressIndicator({
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
+			}
+		});
+		var toRole = $('[name="roleMenu"]').val()
+		var params = {};
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName();
+		params['action'] = 'SaveAjax';
+		params['mode'] = 'copyMenu';
+		params['fromRole'] = fromRole;
+		params['toRole'] = toRole;
+		AppConnector.request(params).then(
+			function (data) {
+				app.hideModalWindow();
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				thisInstance.loadContent();
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aDeferred.reject(error);
+			}
+		);
+		return aDeferred.promise();
+	},
+	
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.treeInstance = false;
 		thisInstance.loadMenuTree();
 		thisInstance.registerChangeRoleMenu();
 		thisInstance.registerAddMenu();
+		thisInstance.registerModalButton();
 	}
 });

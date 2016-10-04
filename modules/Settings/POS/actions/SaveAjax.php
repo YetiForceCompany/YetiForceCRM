@@ -9,7 +9,7 @@
 class Settings_POS_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
 
-	function checkIfUsersExists($userId)
+	public function checkIfUsersExists($userId)
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT 1 FROM w_yf_pos_users WHERE user_id = ?', [$userId]);
@@ -19,7 +19,7 @@ class Settings_POS_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		return false;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$keyLength = 32;
 		$userId = $request->get('user');
@@ -37,7 +37,7 @@ class Settings_POS_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		} else {
 			$response['success'] = true;
 			$actionsPos = $request->get('actionPos');
-			
+
 			$db = PearDatabase::getInstance();
 			if (empty($id)) {
 				$db->insert('w_yf_pos_users', [
@@ -45,7 +45,7 @@ class Settings_POS_SaveAjax_Action extends Settings_Vtiger_Index_Action
 					'user_id' => $userId,
 					'pass' => $pass,
 					'action' => empty($actionsPos) ? '' : implode(',', $actionsPos),
-					'status' => $status == 'true' ? 1 : 0,  
+					'status' => $status == 'true' ? 1 : 0,
 					'server_id' => $serverId,
 					'first_name' => $firstName,
 					'last_name' => $lastName,

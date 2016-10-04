@@ -49,6 +49,8 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
+		$recordModel->clearPrivilegesCache();
+		$result['isEditable'] = $recordModel->isEditable();
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);

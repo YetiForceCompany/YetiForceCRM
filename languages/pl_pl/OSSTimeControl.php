@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Brutto' => 'Brutto',
 	'SINGLE_OSSTimeControl' => 'Czas pracy',
@@ -38,7 +38,6 @@ $languageStrings = [
 	'Free' => 'Bezpłatne',
 	'LBL_CALENDAR_VIEW' => 'Kalendarz',
 	'LBL_TIMECONTROL_TYPE' => 'Rodzaje czasu pracy',
-
 	// Settings
 	'SETTINGS' => 'Konfiguracja',
 	'LBL_HELP_SETTINGS' => 'Pomoc',
@@ -53,52 +52,46 @@ $languageStrings = [
 	'1 hour' => '1 godziny',
 	'MSG_EDIT_OK' => 'Pomyślnie zapisano zmiany.',
 	'MSG_EDIT_ERROR' => 'Nie udało się zapisać zmian.',
-
 	//YetiForce
-	'Calculations'=>'Kalkulacja',
-	'As part of the order'=>'W ramach zlecenia',
-	'As part of the support'=>'W ramach wsparcia',
-	'Extra cost'=>'Dodatkowo płatne',
-	'Free'=>'Bezpłatne',
-	'LBL_STATUS'=>'Status',
-	'LBL_PRODUCT_INFORMATION'=>'Informacje dodatkowe',
-
-	'To approval'=>'Do akceptacji',
-	'Accepted'=>'Zaakceptowano',
-	
+	'Calculations' => 'Kalkulacja',
+	'As part of the order' => 'W ramach zlecenia',
+	'As part of the support' => 'W ramach wsparcia',
+	'Extra cost' => 'Dodatkowo płatne',
+	'Free' => 'Bezpłatne',
+	'LBL_STATUS' => 'Status',
+	'LBL_PRODUCT_INFORMATION' => 'Informacje dodatkowe',
+	'To approval' => 'Do akceptacji',
+	'Accepted' => 'Zaakceptowano',
 	/*  subject  */
-	'Telephone contact'=>'Kontakt telefoniczny',
-	'Email contact'=>'Kontakt mailowy',
-	'Data verification'=>'Weryfikacja danych',
-	'Information completing'=>'Uzupełnianie informacji',
-	'Company presentation'=>'Prezentacja firmy',
-	'Product/service presentation'=>'Prezentacja produktu/usługi',
-	'Calculations preparation'=>'Przygotowanie kalkulacji',
-	'Quote preparation'=>'Przygotowanie oferty',
-	'Order/Service preparation'=>'Przygotowanie zlecenia/umowy',
-	'Project preparation'=>'Przygotowanie projektu',
-	'Task realization'=>'Realizacja Zadania',
-	'Event realization'=>'Realizacja Terminu',
-	'Support'=>'Wsparcie',
-	'Document Verification'=>'Weryfikacja dokumentów',
-	'Visits at Organizations'=>'Wizyta u Kontrahenta',
-	'Trips to Organizations'=>'Podróż do Kontrahenta',
-	'Office work'=>'Prace biurowe',
-	'Administrative work'=>'Prace administracyjne',
-	'Accounting work'=>'Prace księgowe',
-	
+	'Telephone contact' => 'Kontakt telefoniczny',
+	'Email contact' => 'Kontakt mailowy',
+	'Data verification' => 'Weryfikacja danych',
+	'Information completing' => 'Uzupełnianie informacji',
+	'Company presentation' => 'Prezentacja firmy',
+	'Product/service presentation' => 'Prezentacja produktu/usługi',
+	'Calculations preparation' => 'Przygotowanie kalkulacji',
+	'Quote preparation' => 'Przygotowanie oferty',
+	'Order/Service preparation' => 'Przygotowanie zlecenia/umowy',
+	'Project preparation' => 'Przygotowanie projektu',
+	'Task realization' => 'Realizacja Zadania',
+	'Event realization' => 'Realizacja Terminu',
+	'Support' => 'Wsparcie',
+	'Document Verification' => 'Weryfikacja dokumentów',
+	'Visits at Organizations' => 'Wizyta u Kontrahenta',
+	'Trips to Organizations' => 'Podróż do Kontrahenta',
+	'Office work' => 'Prace biurowe',
+	'Administrative work' => 'Prace administracyjne',
+	'Accounting work' => 'Prace księgowe',
 	//PickList
 	'PLL_WORKING_TIME' => 'Czas pracy',
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'PLL_HOLIDAY' => 'Urlop',
-	
 	//widget
 	'LBL_Holidays' => 'Urlopy',
 	'LBL_YEAR' => 'Rok:',
 	'LBL_Used_Entitled' => 'Wykorzystano/Przysługuje:',
 	'LBL_DAYS' => 'dni',
 	'Brak danych' => 'Brak danych',
-
 	'LBL_DAYWORKSUM' => 'Czas pracy',
 	'LBL_ALLDAYS_INFO' => 'Wszystkie dni',
 	'LBL_WEEKENDDAYS_INFO' => 'Dni weekendowe',
@@ -113,7 +106,7 @@ $languageStrings = [
 	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Wykres czasu pracy z podziałem na użytkowników',
 ];
 $jsLanguageStrings = [
-    'MSG_ERROR_NUMBER' => 'Dopuszczalne znaki: [0-9]',
+	'MSG_ERROR_NUMBER' => 'Dopuszczalne znaki: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Czas pracy nie może przekraczać 24 godzin',
 	'JS_START_DATE' => 'Czas rozpoczęcia',

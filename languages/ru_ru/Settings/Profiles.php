@@ -6,9 +6,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * VERSION YetiForceCRM: 1.1.0 RC
  * *********************************************************************************** */
 $languageStrings = [
+	'PrintMail' => 'Печатать из почты',
+	'CreateDashboardChartFilter' => 'Создавать диаграмму по Фильтру',
+	'Administrator' => 'Профиль - Администратор',
 	'LBL_ADD_RECORD' => 'Добавить Профиль',
 	'LBL_CHOOSE_PROFILES' => 'Выбрать профили',
 	'LBL_CREATE_PROFILE' => 'Создать Профиль',
@@ -33,6 +35,7 @@ $languageStrings = [
 	'LBL_TRANSFER_ROLES_TO_PROFILE' => 'Назначить роли Профилю',
 	'LBL_VIEW_ALL_DESC' => 'Разрешено просматривать все данные модуля',
 	'LBL_VIEW_ALL' => 'Просматривать все',
+	'LBL_VIEW_PRIVILEGE' => 'Просматривать',
 	'LBL_WRITE' => 'Запись',
 	'Profiles' => 'Профили',
 	'SINGLE_Profiles' => 'Профиль',
@@ -69,17 +72,30 @@ $languageStrings = [
 	'ExportPdf' => 'Экспорт в PDF',
 	'RecordMapping' => 'Просмотр записи - Отображаемые поля записи',
 	'RecordMappingList' => 'Отображаемые поля записи',
-	'WatchingRecords' => 'Track changes in record',
-	'WatchingModule' => 'Track changes in module',
+	'WatchingRecords' => 'Отслеживать изменения в записи',
+	'WatchingModule' => 'Отслеживать изменения в модуле',
+	'NotificationCreateMessage' => 'Отправка уведомлений',
+	'NotificationCreateMail' => 'Отправка уведомлений на E-mail',
+	'NotificationPreview' => 'Предварительный просмотр уведомлений',
+	'NotificationSendToAll' => 'Отправить уведомления всем пользователям',
+	'FavoriteRecords' => 'Избраные записи',
+	'OpenRecord' => 'Открыть запись',
+	'CloseRecord' => 'Закрыть запись',
+	'ReviewingUpdates' => 'Просмотр истории изменений',
 	//end Actions
 	'Profile Related to Sales' => 'Профиль связанный с продажами',
 	'Profile Related to Support' => 'Профиль связанный с поддержкой',
 	'Guest Profile for Test Users' => 'Профиль для гостей (Например для тестирования системы)',
-	'Admin Profile' => 'Профиль - Администратор',
+	'Admin Profile' => 'Профиль администратора системы',
 	'Support Profile' => 'Профиль - Поддержка',
 	'Sales Profile' => 'Профиль - Продажи',
 	'Guest Profile' => 'Профиль - Гость',
-	'RemoveRelation' => 'Remove relation',
+	'RemoveRelation' => 'Удалить связь',
+	'ReceivingMailNotifications' => 'Получать уведомления по почте',
+	'ActivityCancel' => 'Отмена зписи',
+	'ActivityComplete' => 'Закритые записи',
+	'ActivityPostponed' => 'Отложить записи',
+	'Emails' => 'Отправить почту [SMTP]',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',

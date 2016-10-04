@@ -7,9 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-
-vimport('include.exceptions.AppException');
-
 vimport('include.http.Request');
 vimport('include.http.Response');
 vimport('include.http.Session');
@@ -35,7 +32,7 @@ abstract class Vtiger_EntryPoint
 	/**
 	 * Get login data.
 	 */
-	function getLogin()
+	public function getLogin()
 	{
 		return $this->login;
 	}
@@ -43,17 +40,17 @@ abstract class Vtiger_EntryPoint
 	/**
 	 * Set login data.
 	 */
-	function setLogin($login)
+	public function setLogin($login)
 	{
 		if ($this->login)
-			throw new AppException('Login is already set.');
+			throw new \Exception\AppException('Login is already set.');
 		$this->login = $login;
 	}
 
 	/**
 	 * Check if login data is present.
 	 */
-	function hasLogin()
+	public function hasLogin()
 	{
 		return $this->getLogin() ? true : false;
 	}

@@ -151,7 +151,7 @@
 				<select multiple name="duplicateStatus" class="chzn-select form-control">
 					<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
 					{foreach from=Vtiger_Util_Helper::getPickListValues('activitystatus') key=KEY item=ITEM}
-						<option value="{$ITEM}" {if in_array($ITEM,Vtiger_Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{vtranslate($ITEM,'Calendar')}</option>
+						<option value="{$ITEM}" {if in_array($ITEM,vtlib\Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{vtranslate($ITEM,'Calendar')}</option>
 					{/foreach}
 				</select>
 			</span>

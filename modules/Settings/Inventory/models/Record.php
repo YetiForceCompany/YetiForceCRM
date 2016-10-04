@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package YetiForce.Model
  * @license licenses/License.html
@@ -69,9 +70,11 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$id = $this->getId();
 
 		if (!empty($id) && $tablename) {
-			$query = 'UPDATE ' . $tablename . ' SET `name`=?,`value`=?,`status`=? WHERE id = ?';
-			$params = array($this->getName(), $this->get('value'), $this->get('status'), $id);
-			$db->pquery($query, $params);
+			$columns = ['name' => $this->getName(),
+				'value' => $this->get('value'),
+				'status' => $this->get('status')
+			];
+			$db->update($tablename, $columns, 'id = ?', [$id]);
 		} else {
 			$id = $this->add();
 		}
@@ -96,14 +99,13 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		}
 		throw new Error('Error occurred while adding value');
 	}
+
 	public function delete()
 	{
 		$adb = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($this->getType());
 		if ($tableName) {
-			$query = 'DELETE FROM `' . $tableName . '` WHERE id = ?;';
-			$params = [$this->getId()];
-			$adb->pquery($query, $params);
+			$adb->delete($tableName, 'id = ?', [$this->getId()]);
 			return true;
 		}
 		throw new Error('Error occurred while deleting value');
@@ -114,11 +116,11 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$recordList = [];
 		$tableName = self::getTableNameFromType($type);
-		
-		if(!$tableName){
+
+		if (!$tableName) {
 			return $recordList;
 		}
-		$query = 'SELECT * FROM ' . $tableName;
+		$query = sprintf('SELECT * FROM %s', $tableName);
 		$result = $db->query($query);
 		while ($row = $db->fetch_array($result)) {
 			$recordModel = new self();
@@ -133,10 +135,10 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($type);
 
-		if(!$tableName){
+		if (!$tableName) {
 			return false;
 		}
-		$query = 'SELECT * FROM ' . $tableName . ' WHERE `id` = ?;';
+		$query = sprintf('SELECT * FROM %s WHERE `id` = ?;', $tableName);
 		$result = $db->pquery($query, [$id]);
 		$recordModel = new self();
 		while ($row = $db->fetch_array($result)) {
@@ -144,6 +146,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		}
 		return $recordModel;
 	}
+
 	public static function checkDuplicate($label, $excludedIds = [], $type = '')
 	{
 		$db = PearDatabase::getInstance();
@@ -155,11 +158,11 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		$tableName = self::getTableNameFromType($type);
-		$query = 'SELECT 1 FROM ' . $tableName . ' WHERE `name` = ?';
+		$query = sprintf('SELECT 1 FROM %s WHERE `name` = ?', $tableName);
 		$params = [$label];
 
 		if (!empty($excludedIds)) {
-			$query .= " AND `id` NOT IN (" . generateQuestionMarks($excludedIds) . ")";
+			$query .= " && `id` NOT IN (" . generateQuestionMarks($excludedIds) . ")";
 			$params = array_merge($params, $excludedIds);
 		}
 		$result = $db->pquery($query, $params);

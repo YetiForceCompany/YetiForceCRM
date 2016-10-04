@@ -30,4 +30,9 @@ $languageStrings = [
 	'LBL_NOTICE_WELCOME' => 'Welcome to platform',
 	'LBL_NOTICE_FOOTER' => 'If you don\'t want to receive any notifications from our project management system, please inform us by sending an email to <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. If you are not an addressee of this message, please notify us about it and delete the message.',
 	'LBL_NOTICE_CREATED' => 'It was created by',
+	//Others
+	'LBL_COMMENTS_0' => 'Current record',
+	'LBL_COMMENTS_1' => 'Processes',
+	'LBL_COMMENTS_2' => 'Subprocesses',
+	'LBL_COMMENTS_SEARCH' => 'Search',
 ];

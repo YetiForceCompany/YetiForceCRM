@@ -400,7 +400,6 @@ function OSSProjectTemplatesEdit() {
 
 			},
 			this.showTime = function (element, info) {
-				//  console.log(info)
 				var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder'),
 						html = '<div class="input-group time"><input type="text" data-format="' + info['time-format'] + '" class="timepicker-default input-sm ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>';
 
@@ -420,14 +419,12 @@ function OSSProjectTemplatesEdit() {
 					var dateValidatorInstance = new Vtiger_Date_Validator_Js();
 					dateValidatorInstance.setElement(jQuery('[name="val"]'));
 					var response = dateValidatorInstance.validate();
-					//  console.log(response);
 				})
 			},
 			this.convertTimeFormat = function (time) {
 				var hrs = Number(time.match(/^(\d+)/)[1]);
 				var mnts = Number(time.match(/:(\d+)/)[1]);
 				var format = time.match(/\s(.*)$/)[1];
-//                console.log(format);
 				if (format == "PM" && hrs < 12)
 					hrs = hrs + 12;
 				if (format == "AM" && hrs == 12)

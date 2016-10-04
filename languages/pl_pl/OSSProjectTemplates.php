@@ -49,4 +49,5 @@ $languageStrings = [
 	'NO_TPL' => 'Brak szablonów',
 	'ONLY_WORK_DAY' => 'Tylko dni robocze',
 	'TPL_VISIBILITY' => 'Jakie grupy mogą korzystać z szablonu',
+	'LBL_VIEW_GENERATEPROJECT' => 'Tworzenie projektu',
 ];

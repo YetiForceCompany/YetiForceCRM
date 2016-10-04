@@ -21,7 +21,7 @@ class DateTime extends DateAndOrTime {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'DATE-TIME';
 

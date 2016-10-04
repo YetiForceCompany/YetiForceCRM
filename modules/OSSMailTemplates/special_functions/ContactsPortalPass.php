@@ -14,7 +14,7 @@ class ContactsPortalPass
 
 	private $moduleList = array('Contacts');
 
-	function process($data)
+	public function process($data)
 	{
 		if ($data['password'] && $data['password'] != '')
 			return $data['password'];
@@ -28,7 +28,7 @@ class ContactsPortalPass
 		}
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

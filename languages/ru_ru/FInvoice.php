@@ -6,26 +6,26 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $languageStrings = [
-	'FInvoice' => 'Invoices',
-	'SINGLE_FInvoice' => 'Invoice',
+	'FInvoice' => 'Счета',
+	'SINGLE_FInvoice' => 'Счет',
 	//BLOCKS
-	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_INVOICE_ADDRESS' => 'Invoice address',
-	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Delivery address',
+	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
+	'LBL_INVOICE_ADDRESS' => 'Адрес выставления счета',
+	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Адрес доставки',
 	//FIELDS
-	'FL_SUBJECT' => 'Subject',
-	'FL_PAYMENT_DATE' => 'Due date',
-	'FL_SALE_DATE' => 'Sale date',
-	'FL_FORM_PAYMENT' => 'Payment method',
-	'FL_BANK_ACCOUNT' => 'Bank account number',
-	'FL_NUMBER' => 'Invoice number',
-	'FL_ACCOUNT' => 'Account',
-	'FL_TOTAL' => 'Net',
-	'FL_GROSS' => 'Gross',
-	'FL_STATUS' => 'Status',
+	'FL_SUBJECT' => 'Предмет',
+	'FL_PAYMENT_DATE' => 'Срок',
+	'FL_SALE_DATE' => 'Срок продажи',
+	'FL_FORM_PAYMENT' => 'Метод оплаты',
+	'FL_BANK_ACCOUNT' => 'Номер банковского счета',
+	'FL_NUMBER' => 'Счет №',
+	'FL_ACCOUNT' => 'Контрагент',
+	'FL_TOTAL' => 'Чистый',
+	'FL_GROSS' => 'Брутто',
+	'FL_STATUS' => 'Статус',
 	//PICKLIST VALUES
-	'PLL_TRANSFER' => 'transfer',
-	'PLL_CASH' => 'cash',
+	'PLL_TRANSFER' => 'Банковский перевод',
+	'PLL_CASH' => 'Наличные',
 	//OTHERS
-	'LBL_YEAR' => 'Year',
+	'LBL_YEAR' => 'Год',
 ];

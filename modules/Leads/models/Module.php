@@ -17,7 +17,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getDeletedRecordCondition()
 	{
-		return 'vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted = 0';
+		return 'vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted = 0';
 	}
 
 	/**
@@ -34,12 +34,12 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$query = 'SELECT * FROM vtiger_crmentity ' .
 			' INNER JOIN vtiger_leaddetails ON
                 vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-                WHERE setype=? AND ' . $deletedCondition . ' AND modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
+                WHERE setype=? && ' . $deletedCondition . ' && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
 		$params = array($this->get('name'), $currentUserModel->id, $limit);
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
 
-		$recentRecords = array();
+		$recentRecords = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			$row['id'] = $row['crmid'];
@@ -56,27 +56,28 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	public function getLeadsCreated($owner, $dateFilter)
 	{
 		$db = PearDatabase::getInstance();
-
-		$ownerSql = $this->getOwnerWhereConditionForDashBoards($owner);
-		if (!empty($ownerSql)) {
-			$ownerSql = ' AND ' . $ownerSql;
+		$module = $this->getName();
+		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
+		if (!empty($owner)) {
+			$ownerSql = ' && smownerid = ' . $owner;
 		}
 
-		$params = array();
+		$params = [];
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
+			$dateFilterSql = ' && createdtime BETWEEN ? AND ? ';
 			//client is not giving time frame so we are appending it
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
 
-		$result = $db->pquery('SELECT COUNT(*) AS count, date(createdtime) AS time FROM vtiger_leaddetails
-						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-						AND deleted=0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . ' ' . $dateFilterSql . ' AND converted = 0 GROUP BY week(createdtime)', $params);
+		$sql = sprintf('SELECT COUNT(*) AS count, date(createdtime) AS time FROM vtiger_leaddetails
+		INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
+		WHERE deleted = 0 %s %s %s', $ownerSql, $dateFilterSql, $securityParameter);
+		$sql .= ' && converted = 0 GROUP BY week(createdtime)';
+		$result = $db->pquery($sql, $params);
 
-		$response = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$response = [];
+		while ($row = $db->getRow($result)) {
 			$response[$i][0] = $row['count'];
 			$response[$i][1] = $row['time'];
 		}
@@ -92,41 +93,41 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$ownerSql = $this->getOwnerWhereConditionForDashBoards($owner);
-		if (!empty($ownerSql)) {
-			$ownerSql = ' AND ' . $ownerSql;
+		$module = $this->getName();
+		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
+		if (!empty($owner)) {
+			$ownerSql = ' && smownerid = ' . $owner;
 		}
 
-		$params = array();
+		$params = [];
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
+			$dateFilterSql = ' && createdtime BETWEEN ? AND ?';
 			//client is not giving time frame so we are appending it
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
 
-		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL OR vtiger_leadstatus.leadstatus = "" THEN "" ELSE vtiger_leadstatus.leadstatus END AS leadstatusvalue 
+		$sql = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL || vtiger_leadstatus.leadstatus = "" THEN "" ELSE vtiger_leadstatus.leadstatus END AS leadstatusvalue 
 		FROM vtiger_leaddetails 
 		INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-		AND deleted=0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . ' ' . $dateFilterSql .
-			'INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus 
-		GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid', $params);
+		INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus
+		WHERE deleted = 0 %s %s %s', $ownerSql, $dateFilterSql, $securityParameter);
+		$sql .= ' GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid';
+		$result = $db->pquery($sql, $params);
 
-		$response = array();
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$response = [];
+		while ($row = $db->getRow($result)) {
 			$response[$i][0] = $row['count'];
 			$leadStatusVal = $row['leadstatusvalue'];
 			if ($leadStatusVal == '') {
 				$leadStatusVal = 'LBL_BLANK';
 			}
-			$response[$i][1] = vtranslate($leadStatusVal, $this->getName());
+			$response[$i][1] = vtranslate($leadStatusVal, $module);
 			$response[$i][2] = $leadStatusVal;
 		}
 		return $response;
 	}
-	
+
 	/**
 	 * Function to get Converted Information for selected records
 	 * @param <array> $recordIdsList
@@ -137,7 +138,8 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$convertedInfo = [];
 		if ($recordIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->query('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (' . implode(',',$recordIdsList) . ')');
+			$query = sprintf('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (%s)', implode(',', $recordIdsList));
+			$result = $db->query($query);
 			while ($row = $db->getRow($result)) {
 				$convertedInfo[$row['leadid']] = $row['converted'];
 			}
@@ -177,7 +179,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 			$position = stripos($listQuery, 'where');
 			if ($position) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
+				$overRideQuery = $listQuery . ' && ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}
@@ -192,33 +194,33 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 	public function searchAccountsToConvert($recordModel)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		if ($recordModel) {
 			$params = [];
 			$db = PearDatabase::getInstance();
 			$mappingFields = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'mapping');
-			$mappingFields = Zend_Json::decode($mappingFields);
+			$mappingFields = \includes\utils\Json::decode($mappingFields);
 			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "
 				. "INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_account.accountid "
 				. "INNER JOIN `vtiger_accountaddress` ON vtiger_accountaddress.accountaddressid=vtiger_account.accountid "
 				. "INNER JOIN `vtiger_accountscf` ON vtiger_accountscf.accountid=vtiger_account.accountid "
 				. "WHERE vtiger_crmentity.deleted=0";
 			foreach ($mappingFields as $fields) {
-				$sql .= ' AND `' . current($fields) . '` = ?';
+				$sql .= ' && `' . current($fields) . '` = ?';
 				$params[] = $recordModel->get(key($fields));
 			}
 			$result = $db->pquery($sql, $params);
 			$num = $db->num_rows($result);
 			if ($num > 1) {
-				$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+				\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 				return false;
 			} elseif ($num == 1) {
-				$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+				\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 				return (int) $db->query_result($result, 0, 'accountid');
 			}
 		}
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
 	}
 

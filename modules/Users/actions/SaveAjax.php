@@ -13,7 +13,7 @@ vimport('~include/Webservices/Custom/ChangePassword.php');
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('userExists');
@@ -36,9 +36,9 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		if (!$currentUserModel->isAdminUser()) {
 			$mode = $request->getMode();
 			if ($mode == 'savePassword' && (isset($userId) && $currentUserModel->getId() != $userId)) {
-				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			} else if ($mode != 'savePassword' && ($currentUserModel->getId() != $request->get('record'))) {
-				throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
 	}

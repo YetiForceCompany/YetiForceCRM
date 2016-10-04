@@ -29,4 +29,9 @@ $languageStrings = [
 	'LBL_AT_UNLINK_P' => 'Usunięto powiązanie',
 	'LBL_AT_CONVERTTOACCOUNT_P' => 'Skonwertowano leada',
 	'LBL_AT_DISPLAY_P' => 'Wyświetlono',
+	'LBL_REVIEW_HISTORY' => 'Historia przeglądania',
+	'LBL_REVIEWED' => 'Zapoznane',
+	'BTN_CHANGES_REVIEWED_ON' => 'Zapoznano się ze zmianami',
+	'LBL_NUMBER_UNREAD_MAILS' => 'Ilość nieprzeczytanych przychodzących wiadomości mail',
+	'LBL_NUMBER_UNREAD_CHANGES' => 'Ilość nieprzeczytanych zmian',
 ];

@@ -40,12 +40,13 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
 		$idColName = $fieldName . 'id';
-		$query = 'SELECT ' . $fieldName;
+		$query = 'SELECT %s';
 		if ($intersectionMode) {
 			$query .= ',count(roleid) as rolecount ';
 		}
-		$query .= ' FROM  vtiger_role2picklist INNER JOIN ' . $tableName . ' ON vtiger_role2picklist.picklistvalueid = ' . $tableName . '.picklist_valueid' .
-			' WHERE roleid IN (' . generateQuestionMarks($roleIdList) . ') order by sortid';
+		$query .= ' FROM  vtiger_role2picklist INNER JOIN %s ON vtiger_role2picklist.picklistvalueid = %s.picklist_valueid' .
+			' WHERE roleid IN (%s) order by sortid';
+		$query = sprintf($query, $fieldName, $tableName, $tableName, generateQuestionMarks($roleIdList));
 		if ($intersectionMode) {
 			$query .= ' GROUP BY picklistvalueid';
 		}
@@ -82,11 +83,11 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Static Function to get the instance fo Vtiger Field Model from a given Vtiger_Field object
-	 * @param Vtiger_Field $fieldObj - vtlib field object
+	 * Static Function to get the instance fo Vtiger Field Model from a given vtlib\Field object
+	 * @param vtlib\Field $fieldObj - vtlib field object
 	 * @return Vtiger_Field_Model instance
 	 */
-	public static function getInstanceFromFieldObject(Vtiger_Field $fieldObj)
+	public static function getInstanceFromFieldObject(vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
 		$fieldModel = new self();
@@ -111,7 +112,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$db = PearDatabase::getInstance();
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
 
-		$query = "SELECT $primaryKey ,$fieldName FROM vtiger_$fieldName WHERE presence=1 AND $fieldName <> '--None--'";
+		$query = "SELECT $primaryKey ,$fieldName FROM vtiger_$fieldName WHERE presence=1 && $fieldName <> '--None--'";
 		$values = array();
 		$result = $db->pquery($query, array());
 		$num_rows = $db->num_rows($result);

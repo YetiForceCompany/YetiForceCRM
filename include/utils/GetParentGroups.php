@@ -15,17 +15,17 @@
 class GetParentGroups
 {
 
-	var $parent_groups = [];
+	public $parent_groups = [];
 
 	/** to get all the parent vtiger_groups of the specified group
 	 * @params $groupId --> Group Id :: Type Integer
 	 * @returns updates the parent group in the varibale $parent_groups of the class
 	 */
-	function getAllParentGroups($groupid)
+	public function getAllParentGroups($groupid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering getAllParentGroups(" . $groupid . ") method...");
+		
+		\App\Log::trace("Entering getAllParentGroups(" . $groupid . ") method...");
 		$query = "select groupid from vtiger_group2grouprel where containsgroupid=?";
 		$result = $adb->pquery($query, array($groupid));
 		$num_rows = $adb->num_rows($result);
@@ -38,8 +38,6 @@ class GetParentGroups
 				}
 			}
 		}
-		$log->debug("Exiting getAllParentGroups method...");
+		\App\Log::trace("Exiting getAllParentGroups method...");
 	}
 }
-
-?>

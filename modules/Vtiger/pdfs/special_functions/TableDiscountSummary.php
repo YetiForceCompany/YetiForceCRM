@@ -39,7 +39,7 @@ class Pdf_TableDiscountSummary extends Vtiger_SpecialFunction_Pdf
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencySymbolRate = Vtiger_Functions::getCurrencySymbolandRate($currency);
+			$currencySymbolRate = vtlib\Functions::getCurrencySymbolandRate($currency);
 		}
 		$html .=
 			'<style>' .

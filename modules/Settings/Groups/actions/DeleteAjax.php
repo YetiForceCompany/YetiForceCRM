@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Basic_Action
+class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
 
 	public function process(Vtiger_Request $request)
@@ -20,13 +20,23 @@ class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Basic_Action
 
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
-
+		$members = $recordModel->getMembers();
+		$membersToDipslay = [];
+		foreach ($members as $typeMembers) {
+			foreach ($typeMembers as $member) {
+				$membersToDipslay[] = $member->get('id');
+			}
+		}
+		$recordModel->set('group_members', $membersToDipslay);
+		$recordModel->set('modules', $recordModel->getModules());
+		$prevValues = $recordModel->getDisplayData();
 		$transferToOwner = Settings_Groups_Record_Model::getInstance($transferRecordId);
 		if (!$transferToOwner) {
 			$transferToOwner = Users_Record_Model::getInstanceById($transferRecordId, 'Users');
 		}
 
 		if ($recordModel && $transferToOwner) {
+			Settings_Vtiger_Tracker_Model::addDetail([], $prevValues);
 			$recordModel->delete($transferToOwner);
 		}
 

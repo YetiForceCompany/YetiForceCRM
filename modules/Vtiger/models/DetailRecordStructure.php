@@ -46,9 +46,9 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 							if ($fieldModel->isHeaderField()) {
 								$this->fieldsInHeader[$fieldModel->get('label')] = [
-									'value' => $recordModel->getDisplayValue($fieldName), 
+									'value' => $recordModel->getDisplayValue($fieldName),
 									'class' => $fieldModel->get('header_field')
-									];
+								];
 							}
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;

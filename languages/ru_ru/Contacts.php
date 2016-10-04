@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): iRsystem by YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
 	'LBL_SWITCH_OFF_DECISION_MAKER' => 'Отключить принятие решений',
@@ -54,10 +55,6 @@ $languageStrings = [
 	'SINGLE_Vendors' => 'Поставщик',
 	'Job title' => 'Должность',
 	'Decision maker' => 'Принимающий решения',
-	// popup
-	'LBL_ACCOUNT' => 'Account',
-	'LBL_SWITCH_BUTTON' => 'Switch button',
-	'LBL_NARROW_DOWN_RECORDS_LIST' => 'Narrow down the records list to the ones related to Account',
 ];
 $jsLanguageStrings = [
 ];

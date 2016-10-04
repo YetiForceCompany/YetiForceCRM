@@ -44,7 +44,7 @@ class Digest extends AbstractAuth {
     /**
      * Initializes the object
      */
-    function __construct($realm = 'SabreTooth', RequestInterface $request, ResponseInterface $response) {
+    public function __construct($realm = 'SabreTooth', RequestInterface $request, ResponseInterface $response) {
 
         $this->nonce = uniqid();
         $this->opaque = md5($realm);
@@ -59,7 +59,7 @@ class Digest extends AbstractAuth {
      *
      * @return void
      */
-    function init() {
+    public function init() {
 
         $digest = $this->getDigest();
         $this->digestParts = $this->parseDigest($digest);
@@ -82,7 +82,7 @@ class Digest extends AbstractAuth {
      * @param int $qop
      * @return void
      */
-    function setQOP($qop) {
+    public function setQOP($qop) {
 
         $this->qop = $qop;
 
@@ -96,7 +96,7 @@ class Digest extends AbstractAuth {
      * @param string $A1
      * @return bool
      */
-    function validateA1($A1) {
+    public function validateA1($A1) {
 
         $this->A1 = $A1;
         return $this->validate();
@@ -110,7 +110,7 @@ class Digest extends AbstractAuth {
      * @param string $password
      * @return bool
      */
-    function validatePassword($password) {
+    public function validatePassword($password) {
 
         $this->A1 = md5($this->digestParts['username'] . ':' . $this->realm . ':' . $password);
         return $this->validate();
@@ -122,7 +122,7 @@ class Digest extends AbstractAuth {
      *
      * @return string
      */
-    function getUsername() {
+    public function getUsername() {
 
         return $this->digestParts['username'];
 
@@ -166,7 +166,7 @@ class Digest extends AbstractAuth {
      *
      * @return void
      */
-    function requireLogin() {
+    public function requireLogin() {
 
         $qop = '';
         switch ($this->qop) {
@@ -196,7 +196,7 @@ class Digest extends AbstractAuth {
      *
      * @return mixed
      */
-    function getDigest() {
+    public function getDigest() {
 
         return $this->request->getHeader('Authorization');
 

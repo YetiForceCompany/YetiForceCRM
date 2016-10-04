@@ -5,7 +5,7 @@
 	{else}
 		{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getUITypeModel()->getPicklistValues()}
 	{/if}
-	{assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+	{assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
 	{assign var="PARAMS" value=$FIELD_MODEL->getUITypeModel()->get('field')->getFieldParams()}
 	{assign var="RELATED_FIELD_MODEL" value=Vtiger_Field_Model::getInstanceFromFieldId($PARAMS['field'])}

@@ -18,7 +18,7 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
 		$data = $db->query_result($result, 0, 'data');
 		if (!empty($data)) {
-			$decodeData = Zend_Json::decode(decode_html($data));
+			$decodeData = \includes\utils\Json::decode(decode_html($data));
 			$self->setData($decodeData);
 			$self->setParent($reportModel);
 			$self->setId($reportModel->getId());
@@ -26,27 +26,27 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 		return $self;
 	}
 
-	function getId()
+	public function getId()
 	{
 		return $this->get('reportid');
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->set('reportid', $id);
 	}
 
-	function getParent()
+	public function getParent()
 	{
 		return $this->parent;
 	}
 
-	function setParent($parent)
+	public function setParent($parent)
 	{
 		$this->parent = $parent;
 	}
 
-	function getChartType()
+	public function getChartType()
 	{
 		$type = $this->get('type');
 		if (empty($type))
@@ -54,17 +54,17 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 		return $type;
 	}
 
-	function getGroupByField()
+	public function getGroupByField()
 	{
 		return $this->get('groupbyfield');
 	}
 
-	function getDataFields()
+	public function getDataFields()
 	{
 		return $this->get('datafields');
 	}
 
-	function getData()
+	public function getData()
 	{
 		$type = ucfirst($this->getChartType());
 		$chartModel = new $type($this);
@@ -75,7 +75,7 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 abstract class Base_Chart extends Vtiger_Base_Model
 {
 
-	function __construct($parent)
+	public function __construct($parent)
 	{
 		$this->setParent($parent);
 		$this->setReportRunObject();
@@ -84,45 +84,45 @@ abstract class Base_Chart extends Vtiger_Base_Model
 		$this->setGroupByColumns($this->getParent()->getGroupByField());
 	}
 
-	function setParent($parent)
+	public function setParent($parent)
 	{
 		$this->parent = $parent;
 	}
 
-	function getParent()
+	public function getParent()
 	{
 		return $this->parent;
 	}
 
-	function getReportModel()
+	public function getReportModel()
 	{
 		$parent = $this->getParent();
 		return $parent->getParent();
 	}
 
-	function isRecordCount()
+	public function isRecordCount()
 	{
 		return $this->isRecordCount;
 	}
 
-	function setRecordCount()
+	public function setRecordCount()
 	{
 		$this->isRecordCount = true;
 	}
 
-	function setReportRunObject()
+	public function setReportRunObject()
 	{
 		$chartModel = $this->getParent();
 		$reportModel = $chartModel->getParent();
 		$this->reportRun = ReportRun::getInstance($reportModel->getId());
 	}
 
-	function getReportRunObject()
+	public function getReportRunObject()
 	{
 		return $this->reportRun;
 	}
 
-	function getFieldModelByReportColumnName($column)
+	public function getFieldModelByReportColumnName($column)
 	{
 		$fieldInfo = explode(':', $column);
 		$moduleFieldLabelInfo = explode('__', $fieldInfo[2]);
@@ -136,12 +136,12 @@ abstract class Base_Chart extends Vtiger_Base_Model
 		return false;
 	}
 
-	function getQueryColumnsByFieldModel()
+	public function getQueryColumnsByFieldModel()
 	{
 		return $this->fieldModels;
 	}
 
-	function setQueryColumns($columns)
+	public function setQueryColumns($columns)
 	{
 		if ($columns && is_string($columns))
 			$columns = array($columns);
@@ -160,7 +160,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 					$aggregateFunction = $columnInfo[5];
 					if (empty($referenceFieldReportColumnSQL)) {
 						$reportColumnSQL = $this->getReportTotalColumnSQL($columnInfo);
-						$reportColumnSQLInfo = split(' AS ', $reportColumnSQL);
+						$reportColumnSQLInfo = preg_split('/ AS /i', $reportColumnSQL);
 
 						if ($aggregateFunction == 'AVG') { // added as mysql will ignore null values
 							$label = $this->reportRun->replaceSpecialChar($reportColumnSQLInfo[1]) . '__AVG';
@@ -174,7 +174,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 						$fieldModel->set('reportlabel', $this->reportRun->replaceSpecialChar($label));
 					} else {
 						$reportColumn = $referenceFieldReportColumnSQL;
-						$groupColumnSQLInfo = split(' AS ', $referenceFieldReportColumnSQL);
+						$groupColumnSQLInfo = preg_split('/ AS /i', $referenceFieldReportColumnSQL);
 						$fieldModel->set('reportlabel', $this->reportRun->replaceSpecialChar($groupColumnSQLInfo[1]));
 						$fieldModel->set('reportcolumn', $this->reportRun->replaceSpecialChar($reportColumn));
 					}
@@ -191,7 +191,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 			$this->fieldModels = $fieldModels;
 	}
 
-	function setGroupByColumns($columns)
+	public function setGroupByColumns($columns)
 	{
 		if ($columns && is_string($columns))
 			$columns = array($columns);
@@ -209,13 +209,13 @@ abstract class Base_Chart extends Vtiger_Base_Model
 						$fieldModel->set('reportcolumn', $this->reportRun->replaceSpecialChar($reportColumnSQL));
 						// Added support for date and date time fields with Year and Month support
 						if ($columnInfo[4] == 'D' || $columnInfo[4] == 'DT') {
-							$reportColumnSQLInfo = split(' AS ', $reportColumnSQL);
+							$reportColumnSQLInfo = preg_split('/ AS /i', $reportColumnSQL);
 							$fieldModel->set('reportlabel', trim($this->reportRun->replaceSpecialChar($reportColumnSQLInfo[1]), '\'')); // trim added as single quote on labels was not grouping properly
 						} else {
 							$fieldModel->set('reportlabel', $this->reportRun->replaceSpecialChar($columnInfo[2]));
 						}
 					} else {
-						$groupColumnSQLInfo = split(' AS ', $referenceFieldReportColumnSQL);
+						$groupColumnSQLInfo = preg_split('/ AS /i', $referenceFieldReportColumnSQL);
 						$fieldModel->set('reportlabel', $this->reportRun->replaceSpecialChar($groupColumnSQLInfo[1]));
 						$fieldModel->set('reportcolumn', $this->reportRun->replaceSpecialChar($referenceFieldReportColumnSQL));
 					}
@@ -230,7 +230,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 			$this->groupByFieldModels = $fieldModels;
 	}
 
-	function getGroupbyColumnsByFieldModel()
+	public function getGroupbyColumnsByFieldModel()
 	{
 		return $this->groupByFieldModels;
 	}
@@ -240,7 +240,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * @param <Array> $selectedfields - field info report format
 	 * @return <String>
 	 */
-	function getReportColumnSQL($selectedfields)
+	public function getReportColumnSQL($selectedfields)
 	{
 		$reportRunObject = $this->getReportRunObject();
 		$appendCurrencySymbolToValue = $reportRunObject->append_currency_symbol_to_value;
@@ -264,7 +264,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * @param <Array> $fieldInfo - field info report format
 	 * @return <string>
 	 */
-	function getReportTotalColumnSQL($fieldInfo)
+	public function getReportTotalColumnSQL($fieldInfo)
 	{
 		$primaryModule = $this->getPrimaryModule();
 		$columnTotalSQL = $this->getReportRunObject()->getColumnsTotalSQL($fieldInfo, $primaryModule) . ' AS ' . $fieldInfo[2];
@@ -276,7 +276,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * @param type $aggregateFunction
 	 * @return string
 	 */
-	function getAggregateFunctionLabel($aggregateFunction)
+	public function getAggregateFunctionLabel($aggregateFunction)
 	{
 		switch ($aggregateFunction) {
 			case 'SUM' : return 'LBL_TOTAL_SUM_OF';
@@ -291,7 +291,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * Report label format MODULE_FIELD_LABEL eg:Leads_Lead_Source
 	 * @param <String> $column
 	 */
-	function getTranslatedLabelFromReportLabel($column)
+	public function getTranslatedLabelFromReportLabel($column)
 	{
 		$columnLabelInfo = explode('__', $column);
 		$columnLabelInfo = array_diff($columnLabelInfo, array('SUM', 'MIN', 'MAX', 'AVG')); // added to remove aggregate functions from the graph labels
@@ -302,7 +302,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * Function returns primary module of the report
 	 * @return <String>
 	 */
-	function getPrimaryModule()
+	public function getPrimaryModule()
 	{
 		$chartModel = $this->getParent();
 		$reportModel = $chartModel->getParent();
@@ -314,7 +314,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * Function returns list view url of the Primary module
 	 * @return <String>
 	 */
-	function getBaseModuleListViewURL()
+	public function getBaseModuleListViewURL()
 	{
 		$primaryModule = $this->getPrimaryModule();
 		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
@@ -325,7 +325,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 
 	abstract function generateData();
 
-	function getQuery()
+	public function getQuery()
 	{
 		$chartModel = $this->getParent();
 		$reportModel = $chartModel->getParent();
@@ -352,13 +352,12 @@ abstract class Base_Chart extends Vtiger_Base_Model
 			}
 		}
 
-		$sql = explode(' from ', $this->reportRun->sGetSQLforReport($reportModel->getId(), $advFilterSql, 'PDF'));
-
+		$sql = preg_split('/ from /i', $this->reportRun->sGetSQLforReport($reportModel->getId(), $advFilterSql, 'PDF'));
 		$columnLabels = [];
 
-		$chartSQL = "SELECT ";
+		$chartSQL = 'SELECT ';
 		if ($this->isRecordCount()) {
-			$chartSQL .= " count(*) AS RECORD_COUNT,";
+			$chartSQL .= ' count(*) AS RECORD_COUNT,';
 		}
 
 		// Add other columns
@@ -370,7 +369,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 		$chartSQL .= " FROM $sql[1] ";
 
 		if ($groupByColumns && is_array($groupByColumns)) {
-			$chartSQL .= " GROUP BY " . implode(',', $groupByColumns);
+			$chartSQL .= ' GROUP BY ' . implode(',', $groupByColumns);
 		}
 		return $chartSQL;
 	}
@@ -381,7 +380,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * @param <Decimal> $value - value
 	 * @return <String>
 	 */
-	function generateLink($field, $value)
+	public function generateLink($field, $value)
 	{
 		$reportRunObject = $this->getReportRunObject();
 
@@ -450,7 +449,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * Function generates graph label
 	 * @return <String>
 	 */
-	function getGraphLabel()
+	public function getGraphLabel()
 	{
 		return $this->getReportModel()->getName();
 	}
@@ -459,11 +458,10 @@ abstract class Base_Chart extends Vtiger_Base_Model
 class PieChart extends Base_Chart
 {
 
-	function generateData()
+	public function generateData()
 	{
 		$db = PearDatabase::getInstance();
-		$values = array();
-
+		$values = [];
 		$chartSQL = $this->getQuery();
 		$result = $db->pquery($chartSQL, array());
 		$rows = $db->num_rows($result);
@@ -471,13 +469,13 @@ class PieChart extends Base_Chart
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 		if (is_array($queryColumnsByFieldModel)) {
 			foreach ($queryColumnsByFieldModel as $field) {
-				$sector = strtolower($field->get('reportlabel'));
+				$sector = $field->get('reportlabel');
 				$sectorField = $field;
 			}
 		}
 
 		if ($this->isRecordCount()) {
-			$sector = strtolower('RECORD_COUNT');
+			$sector = 'RECORD_COUNT';
 		}
 
 		$groupByColumnsByFieldModel = $this->getGroupbyColumnsByFieldModel();
@@ -490,32 +488,30 @@ class PieChart extends Base_Chart
 		}
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$currencyRateAndSymbol = getCurrencySymbolandCRate($currentUserModel->currency_id);
+		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$value = (float) $row[$sector];
-
 			if (!$this->isRecordCount()) {
 				if ($sectorField) {
-					if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
-						$value = (float) ($row[$sector]);
-						$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
-					} else {
-						$value = (int) $sectorField->getDisplayValue($row[$sector]);
+					if ($sectorField->get('uitype') != '7') {
+						if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
+							$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
+						} else {
+							$value = (int) $sectorField->getDisplayValue($row[$sector]);
+						}
 					}
 				}
 			}
-
 			$values[] = $value;
-
 			//translate picklist and multiselect picklist values
 			if ($legendField) {
 				$fieldDataType = $legendField->getFieldDataType();
 				if ($fieldDataType == 'picklist') {
-					$label = vtranslate($row[strtolower($legend)], $legendField->getModuleName());
+					$label = vtranslate($row[$legend], $legendField->getModuleName());
 				} else if ($fieldDataType == 'multipicklist') {
-					$multiPicklistValue = $row[strtolower($legend)];
+					$multiPicklistValue = $row[$legend];
 					$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 					foreach ($multiPicklistValues as $multiPicklistValue) {
 						$labelList[] = vtranslate($multiPicklistValue, $legendField->getModuleName());
@@ -526,10 +522,10 @@ class PieChart extends Base_Chart
 				} else if ($fieldDataType == 'datetime') {
 					$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else {
-					$label = $row[strtolower($legend)];
+					$label = $row[$legend];
 				}
 			} else {
-				$label = $row[strtolower($legend)];
+				$label = $row[$legend];
 			}
 			$labels[] = (strlen($label) > 30) ? substr($label, 0, 30) . '..' : $label;
 			$links[] = $this->generateLink($legendField->get('reportcolumninfo'), $row[strtolower($legend)]);
@@ -547,7 +543,7 @@ class PieChart extends Base_Chart
 class VerticalbarChart extends Base_Chart
 {
 
-	function generateData()
+	public function generateData()
 	{
 		$db = PearDatabase::getInstance();
 		$chartSQL = $this->getQuery();
@@ -566,23 +562,23 @@ class VerticalbarChart extends Base_Chart
 		$groupByColumnsByFieldModel = $this->getGroupbyColumnsByFieldModel();
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$currencyRateAndSymbol = getCurrencySymbolandCRate($currentUserModel->currency_id);
+		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 		$links = array();
 
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 
 			if ($recordCountLabel) {
-				$values[$i][] = (int) $row[strtolower($recordCountLabel)];
+				$values[$i][] = (int) $row[$recordCountLabel];
 			}
 
 			if ($queryColumnsByFieldModel) {
 				foreach ($queryColumnsByFieldModel as $fieldModel) {
 					if ($fieldModel->get('uitype') == '71' || $fieldModel->get('uitype') == '72') {
-						$value = (float) ($row[strtolower($fieldModel->get('reportlabel'))]);
+						$value = (float) ($row[$fieldModel->get('reportlabel')]);
 						$values[$i][] = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 					} else {
-						$values[$i][] = (int) $row[strtolower($fieldModel->get('reportlabel'))];
+						$values[$i][] = (float) $row[$fieldModel->get('reportlabel')];
 					}
 				}
 			}
@@ -591,23 +587,23 @@ class VerticalbarChart extends Base_Chart
 				foreach ($groupByColumnsByFieldModel as $gFieldModel) {
 					$fieldDataType = $gFieldModel->getFieldDataType();
 					if ($fieldDataType == 'picklist') {
-						$label = vtranslate($row[strtolower($gFieldModel->get('reportlabel'))], $gFieldModel->getModuleName());
+						$label = vtranslate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
 					} else if ($fieldDataType == 'multipicklist') {
-						$multiPicklistValue = $row[strtolower($gFieldModel->get('reportlabel'))];
+						$multiPicklistValue = $row[$gFieldModel->get('reportlabel')];
 						$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 						foreach ($multiPicklistValues as $multiPicklistValue) {
 							$labelList[] = vtranslate($multiPicklistValue, $gFieldModel->getModuleName());
 						}
 						$label = implode(',', $labelList);
 					} else if ($fieldDataType == 'date') {
-						$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($gFieldModel->get('reportlabel'))]);
+						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
 					} else if ($fieldDataType == 'datetime') {
-						$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($gFieldModel->get('reportlabel'))]);
+						$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[$gFieldModel->get('reportlabel')]);
 					} else {
-						$label = $row[strtolower($gFieldModel->get('reportlabel'))];
+						$label = $row[$gFieldModel->get('reportlabel')];
 					}
 					$labels[] = (strlen($label) > 30) ? substr($label, 0, 30) . '..' : $label;
-					$links[] = $this->generateLink($gFieldModel->get('reportcolumninfo'), $row[strtolower($gFieldModel->get('reportlabel'))]);
+					$links[] = $this->generateLink($gFieldModel->get('reportcolumninfo'), $row[$gFieldModel->get('reportlabel')]);
 				}
 			}
 		}
@@ -622,7 +618,7 @@ class VerticalbarChart extends Base_Chart
 		return $data;
 	}
 
-	function getDataLabels()
+	public function getDataLabels()
 	{
 		$dataLabels = array();
 		if ($this->isRecordCount()) {

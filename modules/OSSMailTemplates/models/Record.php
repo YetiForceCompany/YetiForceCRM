@@ -12,7 +12,7 @@
 class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 {
 
-	function getTempleteList($module)
+	public function getTempleteList($module)
 	{
 		$db = PearDatabase::getInstance();
 		$sql = "SELECT * FROM vtiger_ossmailtemplates WHERE oss_module_list = ?";
@@ -24,7 +24,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $list;
 	}
 
-	function getTemplete($id = false, $sysname = false)
+	public function getTemplete($id = false, $sysname = false)
 	{
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_ossmailtemplates WHERE ';
@@ -42,7 +42,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		];
 		$query = 'SELECT notesid FROM vtiger_senotesrel '
 			. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_senotesrel.notesid '
-			. 'WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.crmid = ?';
+			. 'WHERE vtiger_crmentity.deleted = 0 && vtiger_senotesrel.crmid = ?';
 		$res = $db->pquery($query, [$id]);
 		$aid = [];
 		while ($notesid = $db->getSingleValue($res)) {
@@ -54,10 +54,10 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $output;
 	}
 
-	function sendMailFromTemplate($data)
+	public function sendMailFromTemplate($data)
 	{
 		require_once('modules/Emails/mail.php');
-		global $site_URL, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID;
+
 		$id = key_exists('id', $data) ? $data['id'] : false;
 		$sysname = key_exists('sysname', $data) ? $data['sysname'] : false;
 		$output = self::getTemplete($id, $sysname);
@@ -105,11 +105,11 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$this->findVar($output['subject'], 0, $entityId, $module, 't', $data);
 
 		vglobal('translated_language', $translatedLanguage);
-		$mailStatus = send_mail($module, $toEmail, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID, $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
+		$mailStatus = send_mail($module, $toEmail, '', '', $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
 		return $mailStatus;
 	}
 
-	function findVar(&$tpl, $offset, $recordId, $module, $type, $request)
+	public function findVar(&$tpl, $offset, $recordId, $module, $type, $request)
 	{
 		$startType = "#" . $type . '#';
 		$endType = '#' . $type . 'End#';
@@ -181,7 +181,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	function replaceVar($fieldId, $tpl, $recordId, $module, $start, $positionLength, $allLength)
+	public function replaceVar($fieldId, $tpl, $recordId, $module, $start, $positionLength, $allLength)
 	{
 		$db = PearDatabase::getInstance();
 		$getFieldInfoSql = "SELECT * FROM vtiger_field WHERE fieldid = $fieldId";
@@ -212,11 +212,11 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$getValueResult = $db->query($getValueSql, true);
 		$finalValue = $db->query_result_raw($getValueResult, 0, $fieldColumnName);
 		if ($uitype == 10 || $uitype == 51 || $uitype == 73 || $uitype == 66 || $uitype == 57) {
-			$finalValue = Vtiger_Functions::getCRMRecordLabel($finalValue);
+			$finalValue = vtlib\Functions::getCRMRecordLabel($finalValue);
 		} elseif ($uitype == 15 || $uitype == 16) {
 			$finalValue = vtranslate($finalValue, $module);
 		} elseif ($uitype == 53 || $uitype == 52) {
-			$finalValue = Vtiger_Functions::getOwnerRecordLabel($finalValue);
+			$finalValue = vtlib\Functions::getOwnerRecordLabel($finalValue);
 		} elseif ($uitype == 56) {
 			if (0 == $finalValue) {
 				$finalValue = vtranslate('LBL_NO');
@@ -229,12 +229,12 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 	}
 
 	//Funkcja podmieniająca pola z modułów powiązanych - Funkcja do wymiany
-	function replaceRelVar($fieldId, $tpl, $recordId, $module, $start, $positionLength, $allLength)
+	public function replaceRelVar($fieldId, $tpl, $recordId, $module, $start, $positionLength, $allLength)
 	{
 		$db = PearDatabase::getInstance();
 		vimport("~~modules/$module/$module.php");
 		$IDs = explode('||', $fieldId);
-		$getFieldInfoSql = "SELECT * FROM vtiger_field WHERE fieldid = '" . $IDs[0] . "'";
+		$getFieldInfoSql = sprintf('SELECT * FROM vtiger_field WHERE fieldid = %s', $IDs[0]);
 		$getFieldInfoResult = $db->query($getFieldInfoSql, true);
 		$fieldTab = $db->query_result_raw($getFieldInfoResult, 0, 'tablename');
 		$fieldname = $db->query_result_raw($getFieldInfoResult, 0, 'fieldname');
@@ -253,17 +253,17 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$getValueResult = $db->pquery($getValueSql, array($rel_id), true);
 		$finalValue = $db->query_result_raw($getValueResult, 0, $fieldColumnName);
 		if ($uitype == 10 || $uitype == 51 || $uitype == 73 || $uitype == 66 || $uitype == 57) {
-			$finalValue = Vtiger_Functions::getCRMRecordLabel($finalValue);
+			$finalValue = vtlib\Functions::getCRMRecordLabel($finalValue);
 		} elseif ($uitype == 15 || $uitype == 16) {
 			$finalValue = vtranslate($finalValue, $module);
 		} elseif ($uitype == 53 || $uitype == 52) {
-			$finalValue = Vtiger_Functions::getOwnerRecordLabel($finalValue);
+			$finalValue = vtlib\Functions::getOwnerRecordLabel($finalValue);
 		}
 		$tpl = substr_replace($tpl, $finalValue, $start, $allLength + $positionLength);
 		return $tpl;
 	}
 
-	function replaceLabel($fieldId, $tpl, $module, $start, $positionLength, $allLength, $rel = false)
+	public function replaceLabel($fieldId, $tpl, $module, $start, $positionLength, $allLength, $rel = false)
 	{
 		$db = PearDatabase::getInstance();
 		$getFieldInfoSql = "SELECT * FROM vtiger_field WHERE fieldid = ?";
@@ -281,7 +281,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $tpl;
 	}
 
-	function replaceSpecialFunction($className, $tpl, $recordId, $module, $start, $positionLength, $allLength, $request)
+	public function replaceSpecialFunction($className, $tpl, $recordId, $module, $start, $positionLength, $allLength, $request)
 	{
 		$fullPath = 'modules' . DIRECTORY_SEPARATOR . 'OSSMailTemplates' .
 			DIRECTORY_SEPARATOR . 'special_functions' . DIRECTORY_SEPARATOR . $className . '.php';
@@ -295,7 +295,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		return $tpl;
 	}
 
-	function replaceTranslation($label, $tpl, $recordId, $module, $start, $positionLength, $allLength, $request)
+	public function replaceTranslation($label, $tpl, $recordId, $module, $start, $positionLength, $allLength, $request)
 	{
 		$translatedLabel = vtranslate($label, $module);
 		$tpl = substr_replace($tpl, $translatedLabel, $start, $allLength + $positionLength);

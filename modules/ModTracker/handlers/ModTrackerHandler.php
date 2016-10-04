@@ -14,10 +14,10 @@ require_once 'include/events/VTEntityDelta.php';
 class ModTrackerHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $data)
+	public function handleEvent($eventName, $data)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 
 		if (!is_object($data)) {
 			$extendedData = $data;
@@ -44,7 +44,7 @@ class ModTrackerHandler extends VTEventHandler
 					if (is_array($delta)) {
 						$inserted = false;
 						foreach ($delta as $fieldName => $values) {
-							if ($fieldName != 'modifiedtime') {
+							if (!in_array($fieldName, ['modifiedtime', 'modifiedby'])) {
 								if (!$inserted) {
 									$checkRecordPresentResult = $adb->pquery('SELECT * FROM vtiger_modtracker_basic WHERE crmid = ?', array($recordId));
 									if (!$adb->num_rows($checkRecordPresentResult) && $data->isNew()) {
@@ -64,15 +64,19 @@ class ModTrackerHandler extends VTEventHandler
 										'module' => $moduleName,
 										'whodid' => $currentUser->getRealId(),
 										'changedon' => $newerColumnFields['modifiedtime'],
-										'status' => $status
+										'status' => $status,
+										'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 									]);
+									if ($status != ModTracker::$CREATED) {
+										ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $this->id);
+									}
 									$inserted = true;
 								}
 								$adb->pquery('INSERT INTO vtiger_modtracker_detail(id,fieldname,prevalue,postvalue) VALUES(?,?,?,?)', Array($this->id, $fieldName, $values['oldValue'], $values['currentValue']));
 							}
 						}
 					}
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $recordId));
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $recordId));
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
@@ -89,9 +93,11 @@ class ModTrackerHandler extends VTEventHandler
 						'module' => $moduleName,
 						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
-						'status' => ModTracker::$DELETED
+						'status' => ModTracker::$DELETED,
+						'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 					]);
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $recordId));
+					ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $id);
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $recordId));
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
@@ -110,9 +116,11 @@ class ModTrackerHandler extends VTEventHandler
 						'module' => $moduleName,
 						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
-						'status' => ModTracker::$RESTORED
+						'status' => ModTracker::$RESTORED,
+						'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 					]);
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $recordId));
+					ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $id);
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $recordId));
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
@@ -126,7 +134,7 @@ class ModTrackerHandler extends VTEventHandler
 					ModTracker::linkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
 					$watchdogTitle = 'LBL_ADDED';
 					if (AppConfig::module('ModTracker', 'WATCHDOG')) {
-						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . Vtiger_Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
+						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
 						$watchdogMessage .= ' (translate: [LBL_WITH]) ';
 						$watchdogMessage .= '<a href="index.php?module=' . $extendedData['destinationModule'] . '&view=Detail&record=' . $extendedData['destinationRecordId'] . '">(general: RecordLabel)</a>';
 					}
@@ -139,7 +147,7 @@ class ModTrackerHandler extends VTEventHandler
 					ModTracker::unLinkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
 					$watchdogTitle = 'LBL_REMOVED';
 					if (AppConfig::module('ModTracker', 'WATCHDOG')) {
-						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . Vtiger_Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
+						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
 						$watchdogMessage .= ' (translate: [LBL_WITH]) ';
 						$watchdogMessage .= '<a href="index.php?module=' . $extendedData['destinationModule'] . '&view=Detail&record=' . $extendedData['destinationRecordId'] . '">(general: RecordLabel)</a>';
 					}
@@ -159,7 +167,7 @@ class ModTrackerHandler extends VTEventHandler
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$DISPLAYED
 					]);
-					
+
 					break;
 			}
 			if (AppConfig::module('ModTracker', 'WATCHDOG') && $watchdogTitle != '') {

@@ -35,7 +35,7 @@
 							{if $SOURCE_MODULE eq 'Home'}
 								<div class="textAlignCenter">{vtranslate('LBL_PLEASE_SELECT_MODULE',$MODULE)}</div>
 							{else}
-								<input type="hidden" name="labelFields" data-value='{ZEND_JSON::encode($SOURCE_MODULE_MODEL->getNameFields())}' />
+								<input type="hidden" name="labelFields" data-value='{\includes\utils\Json::encode($SOURCE_MODULE_MODEL->getNameFields())}' />
 								{include file='AdvanceFilter.tpl'|@vtemplate_path}
 							{/if}	
 						</form>
@@ -49,7 +49,7 @@
 						<button class="btn hide btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
 							<strong>{vtranslate('LBL_SAVE_FILTER', $MODULE)}</strong>
 						</button>
-						{if Users_Privileges_Model::isPermitted($MODULE, 'CreateCustomFilter')}
+						{if Users_Privileges_Model::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
 							<button class="btn btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
 								<strong>{vtranslate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
 							</button>
@@ -62,6 +62,4 @@
 			</div>
 		</div>
 	</div>
-</div>
-</div>
 {/strip}

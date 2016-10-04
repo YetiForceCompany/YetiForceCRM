@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
-{assign var=ACCESSIBLE_USERS value=$CURRENTUSER->getAccessibleUsers()}
-{assign var=ACCESSIBLE_GROUPS value=$CURRENTUSER->getAccessibleGroups()}
+{strip}
+{assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+{assign var=ACCESSIBLE_GROUPS value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
 	<div class="row">
@@ -43,3 +44,4 @@
 <div class="dashboardWidgetContent">
 	{include file="dashboards/ProductsSoldToRenewContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
+{/strip}

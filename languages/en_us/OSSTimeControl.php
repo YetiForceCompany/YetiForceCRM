@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * Contributor(s): 
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PLL_HOLIDAY' => 'Holiday',
 	'PLL_BREAK_TIME' => 'Break from work',
@@ -41,7 +41,6 @@ $languageStrings = [
 	'Free' => 'Free',
 	'LBL_CALENDAR_VIEW' => 'Calendar',
 	'LBL_TIMECONTROL_TYPE' => 'Type',
-
 	// Settings
 	'SETTINGS' => 'Settings',
 	'LBL_HELP_SETTINGS' => 'Help',
@@ -56,47 +55,43 @@ $languageStrings = [
 	'1 hour' => '1 hour',
 	'MSG_EDIT_OK' => 'You have successfully made ​​changes to the configuration.',
 	'MSG_EDIT_ERROR' => 'Failed to save the changes.',
-
 	//YetiForce
-	'Calculations'=>'Calculations',
-	'As part of the order'=>'As part of the service contract',
-	'As part of the support'=>'As part of the support',
-	'Extra cost'=>'Extra cost',
-	'Free'=>'Free',
-	'LBL_STATUS'=>'Status',
-	'LBL_PRODUCT_INFORMATION'=>'Description information',
-	'To approval'=>'For approval',
-	'Accepted'=>'Accepted',
+	'Calculations' => 'Calculations',
+	'As part of the order' => 'As part of the service contract',
+	'As part of the support' => 'As part of the support',
+	'Extra cost' => 'Extra cost',
+	'Free' => 'Free',
+	'LBL_STATUS' => 'Status',
+	'LBL_PRODUCT_INFORMATION' => 'Description information',
+	'To approval' => 'For approval',
+	'Accepted' => 'Accepted',
 	'Brutto' => 'Gross',
-		
 	/*  subject  */
-	'Telephone contact'=>'Telephone contact',
-	'Email contact'=>'Email contact',
-	'Data verification'=>'Data verification',
-	'Information completing'=>'Information completing',
-	'Company presentation'=>'Company presentation',
-	'Product/service presentation'=>'Product/service presentation',
-	'Calculations preparation'=>'Calculations preparation',
-	'Quote preparation'=>'Quote preparation',
-	'Order/Service preparation'=>'Order/Service preparation',
-	'Project preparation'=>'Project preparation',
-	'Task realization'=>'Task realization',
-	'Event realization'=>'Event realization',
-	'Support'=>'Support',
-	'Document Verification'=>'Document verification',
-	'Visits at Organizations'=>'Visits at Accounts',
-	'Trips to Organizations'=>'Trips to Accounts',
-	'Office work'=>'Office work',
-	'Administrative work'=>'Administrative work',
-	'Accounting work'=>'Accounting work',
-	
+	'Telephone contact' => 'Telephone contact',
+	'Email contact' => 'Email contact',
+	'Data verification' => 'Data verification',
+	'Information completing' => 'Information completing',
+	'Company presentation' => 'Company presentation',
+	'Product/service presentation' => 'Product/service presentation',
+	'Calculations preparation' => 'Calculations preparation',
+	'Quote preparation' => 'Quote preparation',
+	'Order/Service preparation' => 'Order/Service preparation',
+	'Project preparation' => 'Project preparation',
+	'Task realization' => 'Task realization',
+	'Event realization' => 'Event realization',
+	'Support' => 'Support',
+	'Document Verification' => 'Document verification',
+	'Visits at Organizations' => 'Visits at Accounts',
+	'Trips to Organizations' => 'Trips to Accounts',
+	'Office work' => 'Office work',
+	'Administrative work' => 'Administrative work',
+	'Accounting work' => 'Accounting work',
 	//widget
 	'LBL_Holidays' => 'Holidays',
 	'LBL_YEAR' => 'Year:',
 	'LBL_Used_Entitled' => 'Used/Entitled:',
 	'LBL_DAYS' => 'days',
 	'Brak danych' => 'No data',
-
 	'LBL_DAYWORKSUM' => 'Working time',
 	'LBL_ALLDAYS_INFO' => 'All days',
 	'LBL_WEEKENDDAYS_INFO' => 'Weekend days',

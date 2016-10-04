@@ -43,13 +43,13 @@ class VTCreateTodoTask extends VTTask
 
 	public function doTask($entityData)
 	{
-		if (!vtlib_isModuleActive('Calendar')) {
+		if (!\includes\Modules::isModuleActive('Calendar')) {
 			return;
 		}
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$userId = $entityData->get('assigned_user_id');
 		if ($userId === null) {
 			$userId = vtws_getWebserviceEntityId('Users', 1);
@@ -64,14 +64,14 @@ class VTCreateTodoTask extends VTTask
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 					WHERE vtiger_crmentity.deleted = 0 AND (vtiger_activity.link = ? OR vtiger_activity.process = ?) 
 					AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
-			$status = Vtiger_Functions::getArrayFromValue($this->duplicateStatus);
+			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
 				$sql .= " AND vtiger_activity.status NOT IN ('" . implode("','", $status) . "')";
 			}
 			$duplicates = $adb->pquery($sql, [$entityId, $entityId, 'Task', $this->todo]);
 			$num = $adb->query_result_raw($duplicates, 0, 'num');
 			if ($num > 0) {
-				$log->warn(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.' . $this->todo);
+				\App\Log::warning(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.' . $this->todo);
 				return;
 			}
 		}
@@ -167,11 +167,9 @@ class VTCreateTodoTask extends VTTask
 			'visibility' => 'Private',
 			//'eventstatus' => ''
 		);
-		if (in_array($moduleName, ['Accounts', 'Leads', 'Contacts', 'Vendors', 'OSSEmployees'])) {
-			$fields['link'] = $id;
-		}
-		if (in_array($moduleName, ['Campaigns', 'HelpDesk', 'Project', 'ServiceContracts'])) {
-			$fields['process'] = $id;
+		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+		if ($field) {
+			$fields[$field] = $id;
 		}
 
 		$todo = vtws_create('Calendar', $fields, $adminUser);
@@ -190,7 +188,7 @@ class VTCreateTodoTask extends VTTask
 
 		$current_user = vglobal('current_user');
 		$current_user = $this->originalUser;
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	static function conv12to24hour($timeStr)

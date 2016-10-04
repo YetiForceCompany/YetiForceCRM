@@ -14,7 +14,6 @@
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>
 		</div>
-        <hr>
         <div id="breadcrumb">
             <ul class="crumbs marginLeftZero">
                 <li class="first step"  style="z-index:9" id="step1">

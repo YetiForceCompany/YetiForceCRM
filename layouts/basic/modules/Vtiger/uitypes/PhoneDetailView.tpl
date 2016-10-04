@@ -9,7 +9,7 @@
    * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
-
+{strip}
 {* To check current user has permission to make outbound call. If so, make all the detail view phone fields as links to call *}
 {assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 {if $FIELD_VALUE}
@@ -32,3 +32,4 @@
 		{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
 	{/if}
 {/if}
+{/strip}

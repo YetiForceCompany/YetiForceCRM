@@ -78,6 +78,7 @@ $languageStrings = [
 	'Lock edit on the status' => 'Zablokuj edycję statusu',
 	'is enabled' => 'jest włączony',
 	'is disabled' => 'jest wyłączony',
+	'has changed to' => 'zmienił się na',
 ];
 
 $jsLanguageStrings = [
@@ -112,4 +113,5 @@ $jsLanguageStrings = [
 	'has changed' => 'uległ zmianie',
 	'is enabled' => 'jest włączony',
 	'is disabled' => 'jest wyłączony',
+	'has changed to' => 'zmienił się na',
 ];

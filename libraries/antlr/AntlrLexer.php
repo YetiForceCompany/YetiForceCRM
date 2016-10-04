@@ -6,7 +6,7 @@ abstract class AntlrLexer extends BaseRecognizer{
 	public static $DEFAULT_TOKEN_CHANNEL = 0;
 	protected $input;
 	
-	public function __construct($input, $state=null) {
+	public function __construct($input, &$state=null) {
 		if($state==null){
 			$state = new RecognizerSharedState();
 		}
@@ -122,7 +122,7 @@ abstract class AntlrLexer extends BaseRecognizer{
 		return $token;
 	}
 	
-	function matchString($s){
+	public function matchString($s){
 		$i = 0;
 		while ( $i<strlen($s)) {
 			if ( $this->input->LA(1)!=charAt($s, $i) ) {
@@ -136,11 +136,11 @@ abstract class AntlrLexer extends BaseRecognizer{
 			}
 			$i++;
 			$this->input->consume();
-			$state->failed = false;
+			$this->state->failed = false;
 		}
 	}
 	
-	public function matchAny() {
+	public function matchAny($x=null) {
 		$this->input->consume();
 	}
 	
@@ -204,17 +204,6 @@ abstract class AntlrLexer extends BaseRecognizer{
 	}
 	
 	public function reportError($e) {
-		/** TODO: not thought about recovery in lexer yet.
-		 *
-		// if we've already reported an error and have not matched a token
-		// yet successfully, don't report any errors.
-		if ( errorRecovery ) {
-			//System.err.print("[SPURIOUS] ");
-			return;
-		}
-		errorRecovery = true;
-		 */
-
 		$this->displayRecognitionError($this->getTokenNames(), $e);
 	}
 	
@@ -280,17 +269,17 @@ abstract class AntlrLexer extends BaseRecognizer{
 	 *  it all works out.  You can instead use the rule invocation stack
 	 *  to do sophisticated error recovery if you are in a fragment rule.
 	 */
-	public function recover($re) {
+	public function recover($re, $input=null) {
 		$this->input->consume();
 	}
 	
 	
-	public function traceIn($ruleName, $ruleIndex)  {
+	public function traceIn($ruleName, $ruleIndex, $inputSymbol=null)  {
 		$inputSymbol = $this->input->LT(1)." line=".$this->getLine().":".$this->getCharPositionInLine();
 		parent::traceIn($ruleName, $ruleIndex, $inputSymbol);
 	}
 
-	public function traceOut($ruleName, $ruleIndex)  {
+	public function traceOut($ruleName, $ruleIndex, $inputSymbol=null)  {
 		$inputSymbol = $this->input->LT(1)." line=".$this->getLine().":".$this->getCharPositionInLine();
 		parent::traceOut($ruleName, $ruleIndex, $inputSymbol);
 	}

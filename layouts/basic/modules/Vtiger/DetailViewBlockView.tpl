@@ -1,3 +1,4 @@
+{strip}
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -9,7 +10,6 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-{strip}
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 		{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
 	{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
@@ -19,7 +19,7 @@
 	{if $BLOCKS_HIDE}
 	
 	<div class="detailViewTable">
-		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">					
+		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL_KEY}">
 			<div class="row blockHeader panel-heading no-margin">
 				<div class="iconCollapse">
 					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
@@ -105,7 +105,7 @@
 										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 									</span>
 									{assign var=EDIT value=false}
-									{if in_array($FIELD_MODEL->getName(),['date_start','due_date']) && $MODULE eq 'Calendar'}
+									{if in_array($FIELD_MODEL->getName(),['date_start','due_date']) && ($MODULE_NAME eq 'Calendar' || $MODULE_NAME eq 'Events')}
 										{assign var=EDIT value=true}
 									{/if}
 									{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
@@ -114,18 +114,16 @@
 										</span>
 										<span class="hide edit">
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
-											{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist' || $FIELD_MODEL->getFieldDataType() eq 'sharedOwner' || $FIELD_MODEL->getFieldDataType() eq 'taxes' }
-												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD, true)}' />
+											{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist' || $FIELD_MODEL->getFieldDataType() eq 'taxes' }
+												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD, true)}' />
 											{elseif $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
-												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />		
+												<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />		
 											{else}
-												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
-											{*{if in_array($FIELD_MODEL->getName(),['date_start','due_date']) && $MODULE eq 'Calendar'}
-												{assign var=TIME_FIELDS value=['due_date'=>'time_end','date_start'=>'time_start']}
-												{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
-												{assign var=TIME_FIELD value=$RECORD_STRUCTURE_MODEL->getModule()->getField($TIME_FIELDS.$FIELD_NAME)}
-												<input type="hidden" class="fieldname" value='{$TIME_FIELDS.$FIELD_NAME}' data-prev-value='{$TIME_FIELD->getEditViewDisplayValue($RECORD->get($TIME_FIELDS.$FIELD_NAME))}' />
-											{/if}*}
+												{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId())}
+												{if $FIELD_VALUE|is_array}
+													{assign var=FIELD_VALUE value=\includes\utils\Json::encode($FIELD_VALUE)}
+												{/if}
+												<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_VALUE)}' />
 											{/if}
 										</span>
 									{/if}

@@ -567,11 +567,6 @@
                 // firefox will fire a keypress if meta or control is down
                 if ((action == 'keypress' && !e.metaKey && !e.ctrlKey) || _modifiersMatch(modifiers, callback.modifiers)) {
 
-                    // when you bind a combination or sequence a second time it
-                    // should overwrite the first one.  if a sequenceName or
-                    // combination is specified in this call it does just that
-                    //
-                    // @todo make deleting its own method?
                     var deleteCombo = !sequenceName && callback.combo == combination;
                     var deleteSequence = sequenceName && callback.seq == sequenceName && callback.level == level;
                     if (deleteCombo || deleteSequence) {
@@ -907,9 +902,6 @@
      * the unbinding sets the callback function of the specified key combo
      * to an empty function and deletes the corresponding key in the
      * _directMap dict.
-     *
-     * TODO: actually remove this from the _callbacks dictionary instead
-     * of binding an empty function
      *
      * the keycombo+action has to be exactly the same as
      * it was defined in the bind method

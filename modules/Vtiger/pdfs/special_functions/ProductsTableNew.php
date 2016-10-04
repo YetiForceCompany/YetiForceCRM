@@ -54,7 +54,7 @@ class Pdf_ProductsTableNew extends Vtiger_SpecialFunction_Pdf
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
 					if ($field->getName() == 'ItemNumber') {
-						$html .= '<td><strong>'.$inventoryRow['seq'].'</strong></td>';
+						$html .= '<td><strong>' . $inventoryRow['seq'] . '</strong></td>';
 					} else if ($field->get('columnname') == 'ean') {
 						$code = $inventoryRow[$field->get('columnname')];
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';

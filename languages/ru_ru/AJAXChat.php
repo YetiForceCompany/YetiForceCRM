@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  * VERSION YetiForceCRM: 1.1.0 RC
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
-	'AJAXChat'  => 'Чат',
+	'AJAXChat' => 'Чат',
 ];

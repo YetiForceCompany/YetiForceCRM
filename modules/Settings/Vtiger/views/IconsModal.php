@@ -13,7 +13,7 @@ class Settings_Vtiger_IconsModal_View extends Vtiger_BasicModal_View
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -26,10 +26,9 @@ class Settings_Vtiger_IconsModal_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('IconsModal.tpl', $qualifiedModuleName);
-		
+
 		$this->postProcess($request);
 	}
-	
 
 	public function getModalScripts(Vtiger_Request $request)
 	{

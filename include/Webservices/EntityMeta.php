@@ -33,7 +33,7 @@ abstract class EntityMeta
 	protected $ownerFields;
 	protected $moduleFields = null;
 
-	protected function EntityMeta($webserviceObject, $user)
+	protected function __construct($webserviceObject, $user)
 	{
 		$this->webserviceObject = $webserviceObject;
 		$this->objectName = $this->webserviceObject->getEntityName();
@@ -179,12 +179,12 @@ abstract class EntityMeta
 		return $this->columnTableMapping;
 	}
 
-	function getUser()
+	public function getUser()
 	{
 		return $this->user;
 	}
 
-	function hasMandatoryFields($row)
+	public function hasMandatoryFields($row)
 	{
 
 		$mandatoryFields = $this->getMandatoryFields();
@@ -319,5 +319,3 @@ abstract class EntityMeta
 
 	abstract public function isModuleEntity();
 }
-
-?>

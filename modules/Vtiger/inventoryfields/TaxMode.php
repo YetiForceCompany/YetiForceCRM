@@ -24,7 +24,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value)
 	{
-		if($value === ''){
+		if ($value === '') {
 			return '';
 		}
 		return 'LBL_' . strtoupper($this->values[$value]);

@@ -12,7 +12,7 @@
 class Settings_OSSDocumentControl_DeleteTemplate_Action extends Settings_Vtiger_Index_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		return;
 	}
@@ -24,7 +24,7 @@ class Settings_OSSDocumentControl_DeleteTemplate_Action extends Settings_Vtiger_
 		$db = PearDatabase::getInstance();
 
 		$deleteConditionSql = "DELETE FROM vtiger_ossdocumentcontrol_cnd WHERE ossdocumentcontrolid = ?";
-		$db->pquery($deleteConditionSql, array($tplId), TRUE);
+		$db->pquery($deleteConditionSql, array($tplId), true);
 
 		$deleteMineRecordSql = "DELETE FROM vtiger_ossdocumentcontrol WHERE ossdocumentcontrolid = ?";
 		$db->pquery($deleteMineRecordSql, array($tplId), true);

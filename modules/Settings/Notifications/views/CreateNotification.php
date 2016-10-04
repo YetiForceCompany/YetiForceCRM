@@ -9,12 +9,11 @@
 class Settings_Notifications_CreateNotification_View extends Settings_Vtiger_BasicModal_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$listSize = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 		$recordModel = false;
 		if ($request->has('id')) {
 			$recordModel = Settings_Notifications_Record_Model::getInstanceById($request->get('id'));
@@ -23,7 +22,6 @@ class Settings_Notifications_CreateNotification_View extends Settings_Vtiger_Bas
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('LIST_SIZE', $listSize);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->view('CreateNotification.tpl', $qualifiedModuleName);

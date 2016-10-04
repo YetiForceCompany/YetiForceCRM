@@ -9,7 +9,7 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-
+{strip}
 <div style='padding:5px;'>
 	{if $LIST neq false}
 		<table class="table table-bordered">
@@ -32,3 +32,4 @@
 		</span>
 	{/if}
 </div>
+{/strip}

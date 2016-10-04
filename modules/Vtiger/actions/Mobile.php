@@ -12,19 +12,19 @@
 class Vtiger_Mobile_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('performCall');
@@ -38,7 +38,7 @@ class Vtiger_Mobile_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function performCall(Vtiger_Request $request)
+	public function performCall(Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$phoneNumber = $request->get('phoneNumber');

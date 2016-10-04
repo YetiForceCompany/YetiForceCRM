@@ -4,9 +4,6 @@
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
-	<input type="hidden" id="alphabetSearchKey" value= "{$MODULE_MODEL->getAlphabetSearchField()}" />
-	<input type="hidden" id="Operator" value="{$OPERATOR}" />
-	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 	<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
 	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
@@ -76,20 +73,19 @@
 						</td>
 					</tr>
 				{/if}
+				{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 					{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
 					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
-					<td class="{$WIDTHTYPE}">
-						{if $LISTVIEW_ENTRY->isEditable()}
-							<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
-						{/if}
-					</td>
-					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-						{if $LISTVIEW_HEADERNAME eq 'password'} 
+						{if array_key_exists('password',$LISTVIEW_HEADERS)}
 							{$PASS_ID="{$LISTVIEW_ENTRY->get('id')}"}
 						{/if}
-						<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $LISTVIEW_HEADERNAME eq 'password'} id="{$PASS_ID}" {/if}>
+						<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+							{include file=vtemplate_path('ListViewLeftSide.tpl',$MODULE_NAME)}
+						</td>
+					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
+						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
+						<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $LISTVIEW_HEADERNAME eq 'password'} id="{$PASS_ID}" {/if} {if $smarty.foreach.listHeaderForeach.iteration eq $LISTVIEW_HEADER_COUNT}colspan="2"{/if}>
 							{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
 								<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 									{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
@@ -101,7 +97,7 @@
 									{if $LISTVIEW_HEADERNAME eq 'password'}
 										{str_repeat('*', 10)}
 									{else if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
-										{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
+										{\vtlib\Functions::formatDecimal($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
 									{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
 										{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 									{else}
@@ -109,11 +105,6 @@
 									{/if}
 								{/if}
 						</td>
-						{if $LISTVIEW_HEADER@last}
-							<td class="{$WIDTHTYPE} noWrap">
-								{include file=vtemplate_path('ListViewRecordActions.tpl',$MODULE_NAME)}
-							</td>
-						{/if}
 					{/foreach}
 					</tr>
 				{/foreach}

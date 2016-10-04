@@ -9,7 +9,9 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 {include file="Header.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer row">
 		<div class="contentsDiv col-md-12 marginLeftZero">
+{/strip}

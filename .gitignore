@@ -2,11 +2,15 @@
 /.settings
 /.project
 /.buildpath
-/README.md
+README.md
 /cache/templates_c
 /config/csrf_secret.php
 /config/config_override.php
 /cache/logs/*.log
 /cache/vtlib/
 /test/templates_c/basic/*.php
-/nbproject/private/
+/nbproject/
+/libraries/mPDF/
+/modules/OSSMail/roundcube/
+/libraries/PHPExcel/
+/libraries/AJAXChat/

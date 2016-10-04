@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Leads' => 'Leady',
 	'LBL_OPPURTUNITIES' => 'Szanse sprzedaży',
@@ -39,6 +39,7 @@ $languageStrings = [
 	'time' => 'Pole czasu',
 	'url' => 'Adres WWW',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Konwersja na kontrahenta',
+	'sharedOwner' => ' ',
 ];
 
 $jsLanguageStrings = [
@@ -65,5 +66,5 @@ $jsLanguageStrings = [
 	'JS_url' => 'Adres WWW',
 	'JS_WITH' => 'z',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Zapisano mapowanie pól',
-
+	'JS_sharedOwner' => ' ',
 ];

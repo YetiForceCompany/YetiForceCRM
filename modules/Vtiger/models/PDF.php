@@ -108,7 +108,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -142,7 +142,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `module_name` = ? and `status` = ?;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `module_name` = ? and `status` = ?;', self::$baseTable);
 		$result = $db->pquery($query, [$moduleName, 'active']);
 		$templates = [];
 
@@ -162,7 +162,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 			return $pdf;
 		}
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `' . self::$baseIndex . '` = ? LIMIT 1;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `%s` = ? LIMIT 1', self::$baseTable, self::$baseIndex);
 		$result = $db->pquery($query, [$recordId]);
 		if ($result->rowCount() == 0) {
 			return false;
@@ -201,7 +201,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$db->update(self::$baseTable, [
 			'conditions' => ''
-			], self::$baseIndex.' = ? LIMIT 1', [$this->getId()]
+			], self::$baseIndex . ' = ? LIMIT 1', [$this->getId()]
 		);
 	}
 
@@ -218,7 +218,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	{
 		$test = Vtiger_Cache::get('PdfCheckFiltersForRecord' . $this->getId(), $recordId);
 		if ($test !== false) {
-			return (bool)$test;
+			return (bool) $test;
 		}
 		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.inc");
 		vimport("~/modules/com_vtiger_workflow/VTEntityCache.inc");
@@ -242,16 +242,27 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		}
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$permissions = explode(',', $permissions);
-
+		$getTypes = [];
+		foreach ($permissions as $name) {
+			$valueType = explode(':', $name);
+			$getTypes[$valueType[0]][] = $valueType[1];
+		}
 		if (in_array('Users:' . $currentUser->getId(), $permissions)) { // check user id
 			return true;
-		} else {
-			$userGroups = new GetUserGroups();
-			$userGroups->getAllUserGroups($currentUser->getId());
-			foreach ($userGroups->user_groups as $group) {
-				if (in_array('Groups:' . $group, $permissions)) {
-					return true;
-				}
+		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
+			return true;
+		} elseif (array_key_exists('Groups', $getTypes)) {
+			$accessibleGroups = array_keys(\includes\fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
+			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
+			if (array_intersect($groups, $accessibleGroups)) {
+				return true;
+			}
+		}
+		if (array_key_exists('RoleAndSubordinates', $getTypes)) {
+			$roles = $currentUser->getParentRoles();
+			$roles[] = $currentUser->getRole();
+			if (array_intersect($getTypes['RoleAndSubordinates'], array_filter($roles))) {
+				return true;
 			}
 		}
 		return false;
@@ -584,12 +595,11 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	public static function attachToEmail($salt)
 	{
 		header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $salt);
-		exit;
 	}
 
 	public static function zipAndDownload(array $fileNames)
 	{
-		$log = vglobal('log');
+		
 		//create the object
 		$zip = new ZipArchive();
 
@@ -601,8 +611,8 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 		//create the file and throw the error if unsuccessful
 		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
-			$log->error("cannot open <$zipPath.$zipName>\n");
-			exit(__CLASS__ . ':' . __METHOD__ . " | cannot open <$zipPath.$zipName>\n");
+			\App\Log::error("cannot open <$zipPath.$zipName>\n");
+			throw new \Exception\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 
 		//add each files of $file_name array to archive
@@ -615,7 +625,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		foreach ($fileNames as $file) {
 			unlink($file);
 		}
-		$mimeType = Vtiger_Functions::getMimeContentType($fileName);
+		$mimeType = \includes\fields\File::getMimeContentType($fileName);
 		$size = filesize($fileName);
 		$name = basename($fileName);
 

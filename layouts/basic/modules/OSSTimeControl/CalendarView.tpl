@@ -20,7 +20,9 @@
 </style>
 <div class="rowContent paddingLRZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
-		{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
+		<div class="pull-left paddingLeftMd">
+			{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
+		</div>
 		<div class="col-xs-10">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
 		</div>

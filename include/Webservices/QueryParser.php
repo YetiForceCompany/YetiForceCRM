@@ -21,7 +21,7 @@ class Parser
 	private $error;
 	private $user;
 
-	function Parser($user, $q)
+	public function Parser($user, $q)
 	{
 		$this->query = $q;
 		$this->out = [];
@@ -29,7 +29,7 @@ class Parser
 		$this->user = $user;
 	}
 
-	function parse()
+	public function parse()
 	{
 
 		$lex = new VTQL_Lexer($this->query);
@@ -51,20 +51,18 @@ class Parser
 		return $this->hasError;
 	}
 
-	function getSql()
+	public function getSql()
 	{
 		return $this->query;
 	}
 
-	function getObjectMetaData()
+	public function getObjectMetaData()
 	{
 		return $this->meta;
 	}
 
-	function getError()
+	public function getError()
 	{
 		return $this->error;
 	}
 }
-
-?>

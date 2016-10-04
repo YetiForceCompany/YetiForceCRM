@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 //A collection of util functions for the workflow module
@@ -16,7 +17,7 @@ class VTWorkflowUtils
 	static $userStack;
 	static $loggedInUser;
 
-	function __construct()
+	public function __construct()
 	{
 		$current_user = vglobal('current_user');
 		if (empty(self::$userStack)) {
@@ -27,7 +28,7 @@ class VTWorkflowUtils
 	/**
 	 * Check whether the given identifier is valid.
 	 */
-	function validIdentifier($identifier)
+	public function validIdentifier($identifier)
 	{
 		if (is_string($identifier)) {
 			return preg_match("/^[a-zA-Z][a-zA-Z_0-9]+$/", $identifier);
@@ -41,7 +42,7 @@ class VTWorkflowUtils
 	 * and make it the $current_user
 	 *
 	 */
-	function adminUser()
+	public function adminUser()
 	{
 		$user = Users::getActiveAdminUser();
 		$current_user = vglobal('current_user');
@@ -57,7 +58,7 @@ class VTWorkflowUtils
 	 * Push the logged in user on the user stack
 	 * and make it the $current_user
 	 */
-	function loggedInUser()
+	public function loggedInUser()
 	{
 		$user = self::$loggedInUser;
 		$current_user = vglobal('current_user');
@@ -69,7 +70,7 @@ class VTWorkflowUtils
 	/**
 	 * Revert to the previous use on the user stack
 	 */
-	function revertUser()
+	public function revertUser()
 	{
 		$current_user = vglobal('current_user');
 		if (count(self::$userStack) != 0) {
@@ -83,7 +84,7 @@ class VTWorkflowUtils
 	/**
 	 * Get the current user
 	 */
-	function currentUser()
+	public function currentUser()
 	{
 		return $current_user;
 	}
@@ -91,13 +92,14 @@ class VTWorkflowUtils
 	/**
 	 * The the webservice entity type of an EntityData object
 	 */
-	function toWSModuleName($entityData)
+	public function toWSModuleName($entityData)
 	{
 		$moduleName = $entityData->getModuleName();
 		if ($moduleName == 'Activity') {
 			$arr = array('Task' => 'Calendar', 'Emails' => 'Emails');
-			$moduleName = $arr[getActivityType($entityData->getId())];
-			if ($moduleName == null) {
+			$type = \vtlib\Functions::getActivityType($entityData->getId());
+			$moduleName = $arr[$type];
+			if ($moduleName === null) {
 				$moduleName = 'Events';
 			}
 		}
@@ -107,7 +109,7 @@ class VTWorkflowUtils
 	/**
 	 * Insert redirection script
 	 */
-	function redirectTo($to, $message)
+	public function redirectTo($to, $message)
 	{
 
 		?>
@@ -133,10 +135,10 @@ class VTWorkflowUtils
 	public static function checkModuleWorkflow($modulename)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = getTabid($modulename);
-		$modules_not_supported = array('Calendar', 'Emails', 'Faq', 'Events', 'Users');
-		$query = "SELECT name FROM vtiger_tab WHERE name not in (" . generateQuestionMarks($modules_not_supported) . ") AND isentitytype=1 AND presence = 0 AND tabid = ?";
-		$result = $adb->pquery($query, array($modules_not_supported, $tabid));
+		$tabid = \includes\Modules::getModuleId($modulename);
+		$modules_not_supported = ['Calendar', 'Emails', 'Faq', 'Events', 'Users'];
+		$query = sprintf('SELECT name FROM vtiger_tab WHERE name not in (%s) && isentitytype=1 && presence = 0 && tabid = ?', generateQuestionMarks($modules_not_supported));
+		$result = $adb->pquery($query, [$modules_not_supported, $tabid]);
 		$rows = $adb->num_rows($result);
 		if ($rows > 0) {
 			return true;
@@ -147,13 +149,13 @@ class VTWorkflowUtils
 
 	public function vtGetModules($adb)
 	{
-		$modules_not_supported = array('Emails', 'PBXManager');
-		$sql = "select distinct vtiger_field.tabid, name
+		$modules_not_supported = ['Emails', 'PBXManager'];
+		$sql = sprintf('select distinct vtiger_field.tabid, name
 			from vtiger_field
 			inner join vtiger_tab
 				on vtiger_field.tabid=vtiger_tab.tabid
-			where vtiger_tab.name not in(" . generateQuestionMarks($modules_not_supported) . ") and vtiger_tab.isentitytype=1 and vtiger_tab.presence in (0,2) ";
-		$it = new SqlResultIterator($adb, $adb->pquery($sql, array($modules_not_supported)));
+			where vtiger_tab.name not in(%s) and vtiger_tab.isentitytype=1 and vtiger_tab.presence in (0,2) ', generateQuestionMarks($modules_not_supported));
+		$it = new SqlResultIterator($adb, $adb->pquery($sql, [$modules_not_supported]));
 		$modules = array();
 		foreach ($it as $row) {
 			$modules[] = $row->name;

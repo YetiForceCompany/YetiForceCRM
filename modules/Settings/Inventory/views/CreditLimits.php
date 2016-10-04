@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package YetiForce.Views
  * @license licenses/License.html
@@ -8,10 +9,11 @@
 class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 {
 
-	public function getView(){
+	public function getView()
+	{
 		return 'CreditLimits';
 	}
-	
+
 	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
@@ -34,7 +36,7 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	function getPageLabels(Vtiger_Request $request)
+	public function getPageLabels(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if ($request->get('type')) {

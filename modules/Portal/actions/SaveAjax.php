@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
@@ -13,11 +14,9 @@ class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$moduleId = Vtiger_Functions::getModuleId($moduleName);
-		if (!$currentUserModel->hasModulePermission($moduleId)) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+		if (!$currentUserModel->hasModulePermission($request->getModule())) {
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

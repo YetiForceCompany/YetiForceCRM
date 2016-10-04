@@ -165,10 +165,15 @@
 				}
 			}
 		};
-		this.getCategory = function () {
+		this.getCategory = function (fullData) {
+			var fullData = typeof fullData !== 'undefined' ? true : false;
 			var i, j, selected = [];
 			for (i = 0, j = this._data.category.selected.length; i < j; i++) {
-				selected.push(this._model.data[this._data.category.selected[i]].original.record_id);
+				if (fullData) {
+					selected.push(this._model.data[this._data.category.selected[i]].original);
+				} else {
+					selected.push(this._model.data[this._data.category.selected[i]].original.record_id);
+				}
 			}
 			return selected;
 		};

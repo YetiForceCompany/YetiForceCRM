@@ -20,7 +20,7 @@
         <input type="hidden" name="tpl_id" value="{$TPL_ID}" />
     {/if}
 
-    <div class="row padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);">
+    <div class="row padding1per contentsBackground no-margin" style="border:1px solid #ccc;box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);">
         <div id="advanceFilterContainer" class="row padding1per contentsBackground col-md-12">
             <div class="allConditionContainer conditionGroup contentsBackground well">
                 <table style="width: 70%;">
@@ -72,7 +72,7 @@
                                             <optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
                                                 {foreach from=$FIELD key=key item=item}
                                                     <option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-                                                            data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($item['info']))}"
+                                                            data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($item['info']))}"
                                                             >{vtranslate($item['label'], $BASE_MODULE)}</option>
                                                 {/foreach}
                                             </optgroup>
@@ -136,7 +136,7 @@
                                             <optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
                                                 {foreach from=$FIELD key=key item=item}
                                                     <option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-                                                            data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($item['info']))}"
+                                                            data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($item['info']))}"
                                                             >{vtranslate($item['label'], $BASE_MODULE)}</option>
                                                 {/foreach}
                                             </optgroup>
@@ -201,4 +201,4 @@
     <input type="hidden" name="condition_all_json" value="" />
     <input type="hidden" name="condition_option_json" value="" />
 </form>
-<div id="condition_list" style="display: none;">{ZEND_JSON::encode($CONDITION_BY_TYPE)}</div>
+<div id="condition_list" style="display: none;">{\includes\utils\Json::encode($CONDITION_BY_TYPE)}</div>

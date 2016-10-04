@@ -17,7 +17,7 @@
 			{else}
 				{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
 			{/if}
-			{assign var="CURRENCY_SYMBOLAND" value=Vtiger_Functions::getCurrencySymbolandRate($CURRENCY)}
+			{assign var="CURRENCY_SYMBOLAND" value=vtlib\Functions::getCurrencySymbolandRate($CURRENCY)}
 		{/if}
 		{if count($FIELDS[0]) neq 0}
 			<table class="table table-bordered inventoryHeader blockContainer">
@@ -50,7 +50,7 @@
 				{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 					{assign var="ROW_NO" value=$KEY+1}
 					{if $INVENTORY_ROW['name']}
-						{assign var="ROW_MODULE" value=Vtiger_Functions::getCRMRecordType($INVENTORY_ROW['name'])}
+						{assign var="ROW_MODULE" value=vtlib\Functions::getCRMRecordType($INVENTORY_ROW['name'])}
 					{/if}
 					<tr>
 						{foreach item=FIELD from=$FIELDS[1]}

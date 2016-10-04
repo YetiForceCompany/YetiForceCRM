@@ -7,7 +7,7 @@
 			&nbsp;{vtranslate('LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
-	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
+	{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
 		<li class="active"><a href="#configuration" data-toggle="tab">{vtranslate('LBL_MAIL_ICON_CONFIG', $QUALIFIED_MODULE)}</a></li>
 		<li><a href="#signature" data-toggle="tab">{vtranslate('LBL_SIGNATURE', $QUALIFIED_MODULE)}</a></li>

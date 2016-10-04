@@ -67,7 +67,7 @@ class VtigerTaxOperation extends VtigerActorOperation
 		$elemId = $ids[1];
 
 		$result = null;
-		$query = 'update ' . $this->entityTableName . ' set deleted=1 where ' . $this->meta->getObectIndexColumn() . '=?';
+		$query = sprintf('update %s set deleted=1 where $s=?', $this->entityTableName, $this->meta->getObectIndexColumn());
 		$transactionSuccessful = vtws_runQueryAsTransaction($query, array($elemId), $result);
 		if (!$transactionSuccessful) {
 			throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, "Database error while performing required operation");
@@ -112,5 +112,3 @@ class VtigerTaxOperation extends VtigerActorOperation
 		return 'tax1';
 	}
 }
-
-?>

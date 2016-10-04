@@ -7,25 +7,25 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/LanguageExport.php');
+namespace vtlib;
 
 /**
  * Provides API to import language into vtiger CRM
  * @package vtlib
  */
-class Vtiger_LanguageImport extends Vtiger_LanguageExport
+class LanguageImport extends LanguageExport
 {
 
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_export_tmpdir;
 	}
 
-	function getPrefix()
+	public function getPrefix()
 	{
 		return (string) $this->_modulexml->prefix;
 	}
@@ -34,7 +34,7 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport
 	 * Initialize Import
 	 * @access private
 	 */
-	function initImport($zipfile, $overwrite)
+	public function initImport($zipfile, $overwrite = true)
 	{
 		$this->__initSchema();
 
@@ -47,7 +47,7 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function import($zipfile, $overwrite = false)
+	public function import($zipfile, $overwrite = false)
 	{
 		$this->initImport($zipfile, $overwrite);
 
@@ -61,7 +61,7 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function update($instance, $zipfile, $overwrite = true)
+	public function update($instance, $zipfile, $overwrite = true)
 	{
 		$this->import($zipfile, $overwrite);
 	}
@@ -70,14 +70,14 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport
 	 * Import Module
 	 * @access private
 	 */
-	function import_Language($zipfile)
+	public function import_Language($zipfile)
 	{
 		$name = $this->_modulexml->name;
 		$prefix = $this->_modulexml->prefix;
 		$label = $this->_modulexml->label;
 
 		self::log("Importing $label [$prefix] ... STARTED");
-		$unzip = new Vtiger_Unzip($zipfile);
+		$unzip = new Unzip($zipfile);
 		$filelist = $unzip->getList();
 		$vtiger6format = false;
 
@@ -90,7 +90,7 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport
 				$targetdir = substr($filename, 0, strripos($filename, '/'));
 				$targetfile = basename($filename);
 
-				$prefixparts = split('_', $prefix);
+				$prefixparts = explode('_', $prefix);
 
 				$dounzip = false;
 				if (is_dir($targetdir)) {

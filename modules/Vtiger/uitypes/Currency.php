@@ -122,10 +122,10 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 		if ($uiType == '72' && $recordId) {
 			$moduleName = $this->get('field')->getModuleName();
 			if (!$moduleName)
-				$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+				$moduleName = vtlib\Functions::getCRMRecordType($recordId);
 			if ($this->get('field')->getName() == 'unit_price') {
 				$currencyId = getProductBaseCurrency($recordId, $moduleName);
-				$cursym_convrate = getCurrencySymbolandCRate($currencyId);
+				$cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($currencyId);
 				$currencySymbol = $cursym_convrate['symbol'];
 			} else {
 				$currencyInfo = getInventoryCurrencyInfo($moduleName, $recordId);

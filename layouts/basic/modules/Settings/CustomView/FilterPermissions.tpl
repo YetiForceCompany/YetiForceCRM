@@ -41,7 +41,9 @@
 						<optgroup label="{vtranslate($LABEL, $QUALIFIED_MODULE)}">
 							{foreach from=$GROUP item=USER}
 								{assign 'MEMBER' $MEMBERS[$LABEL][$USER]}
-								<option value="{$USER}"  data-member-type="{$LABEL}">{vtranslate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
+								{if $MEMBER}
+									<option value="{$USER}"  data-member-type="{$LABEL}">{vtranslate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
+								{/if}
 							{/foreach}
 						</optgroup>
 					{/foreach}

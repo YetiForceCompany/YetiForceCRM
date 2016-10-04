@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Fehler beim Upload',
 	'ModuleManager' => 'Modul Manager',
@@ -34,11 +34,11 @@ $languageStrings = [
 	'LBL_VERIFY_IMPORT_DETAILS' => 'Import Informationen überprüfen',
 	'LBL_MODULE_NAME' => 'Bundle Name',
 	'LBL_REQ_YETIFORCE_VERSION' => 'YetiForce Version',
-	'LBL_MODULE_VERSION' => 'Bundle version',
-	'LBL_UPDATE_FROM_VERSION' => 'From version',
-	'LBL_UPDATE_TO_VERSION' => 'To version',
+	'LBL_MODULE_VERSION' => 'Bundle Version',
+	'LBL_UPDATE_FROM_VERSION' => 'Von Version',
+	'LBL_UPDATE_TO_VERSION' => 'Zu Version',
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'Ich akzeptiere die Lizenzvereinbarung.',
-	'LBL_EXISTS'=>'Existiert',
+	'LBL_EXISTS' => 'Existiert',
 	'LBL_PROCEED_WITH_IMPORT' => 'Wollen Sie mit dem Import fortfahren?',
 	'LBL_VERSION_NOT_SUPPORTED' => 'Modulversion ist nicht mit dieser Yetiforce Version kompatibel',
 	'LBL_FINISH' => 'Beenden',
@@ -57,7 +57,7 @@ $languageStrings = [
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Fehler, keine Layout Datei',
 	'LBL_IMPORT' => 'Import',
 	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Upload limit ist zu klein',
-	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Upload limit ist zu klein (%s) daher kann die Datei nicht auf den Server geladen werden. Es ist erforderlich die Systemkonfiguration zu prüfen <a href="index.php?parent=Settings&module=ConfReport&view=Index">Systemkonfiguration prüfen</a>',	
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Upload limit ist zu klein (%s) daher kann die Datei nicht auf den Server geladen werden. Es ist erforderlich die Systemkonfiguration zu prüfen <a href="index.php?parent=Settings&module=ConfReport&view=Index">Systemkonfiguration prüfen</a>',
 	'LBL_CREATE_MODULE' => 'Modul erstellen',
 	'LBL_CREATING_MODULE' => 'Neues Modul erstellen',
 	'LBL_ENTER_MODULE_NAME' => 'Modulname',
@@ -69,8 +69,8 @@ $languageStrings = [
 	'LBL_MODULE_TYPE' => 'Modultyp',
 	'LBL_BASE_MODULE' => 'Basis Modul',
 	'LBL_INVENTORY_MODULE' => 'Erweitertes Modul',
-	'LBL_EXTENSION_MODULE' => 'Extensions module',
-	'LBL_LANGUAGE_MODULE' => 'Sprach Modul',
+	'LBL_EXTENSION_MODULE' => 'Erweiterungs Modul',
+	'LBL_LANGUAGE_MODULE' => 'Sprachmodul',
 	'LBL_VIEW_MODULEIMPORT' => 'Import',
 ];
 $jsLanguageStrings = [

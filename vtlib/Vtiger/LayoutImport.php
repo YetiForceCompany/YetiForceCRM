@@ -7,19 +7,19 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/LayoutExport.php');
+namespace vtlib;
 
 /**
  * Provides API to import layout into vtiger CRM
  * @package vtlib
  */
-class Vtiger_LayoutImport extends Vtiger_LayoutExport
+class LayoutImport extends LayoutExport
 {
 
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_export_tmpdir;
@@ -29,7 +29,7 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 	 * Initialize Import
 	 * @access private
 	 */
-	function initImport($zipfile, $overwrite)
+	public function initImport($zipfile, $overwrite)
 	{
 		$name = $this->getModuleNameFromZip($zipfile);
 		return $name;
@@ -40,7 +40,7 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function import($zipfile, $overwrite = false)
+	public function import($zipfile, $overwrite = false)
 	{
 		$this->initImport($zipfile, $overwrite);
 
@@ -54,7 +54,7 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function update($instance, $zipfile, $overwrite = true)
+	public function update($instance, $zipfile, $overwrite = true)
 	{
 		$this->import($zipfile, $overwrite);
 	}
@@ -63,13 +63,13 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 	 * Import Layout
 	 * @access private
 	 */
-	function import_Layout($zipfile)
+	public function import_Layout($zipfile)
 	{
 		$name = $this->_modulexml->name;
 		$label = $this->_modulexml->label;
 
 		self::log("Importing $name ... STARTED");
-		$unzip = new Vtiger_Unzip($zipfile);
+		$unzip = new Unzip($zipfile);
 		$filelist = $unzip->getList();
 		$vtiger6format = false;
 
@@ -107,7 +107,7 @@ class Vtiger_LayoutImport extends Vtiger_LayoutExport
 						$targetdir = "layouts/$name/" . str_replace("layouts/$name", "", $targetdir);
 						@mkdir($targetdir, 0755, true);
 					}
-					$filepath = 'zip://' . vglobal('root_directory') . $zipfile . '#' . $filename;
+					$filepath = 'zip://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $zipfile . '#' . $filename;
 					$fileInfo = pathinfo($filepath);
 					if (in_array($fileInfo['extension'], $badFileExtensions)) {
 						$fileValidation = false;

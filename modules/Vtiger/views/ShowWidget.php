@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,22 +7,24 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View {
+class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
+{
 
-	function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$moduleName = $request->getModule();
 		$componentName = $request->get('name');
 		$linkId = $request->get('linkid');
 		$id = $request->get('widgetid');
-		if(!empty($componentName)) {
+		if (!empty($componentName)) {
 			$className = Vtiger_Loader::getComponentClassName('Dashboard', $componentName, $moduleName);
-			if(!empty($className)) {
+			if (!empty($className)) {
 				$widget = NULL;
-				if(!empty($linkId)) {
+				if (!empty($linkId)) {
 					$widget = new Vtiger_Widget_Model();
 					$widget->set('linkid', $linkId);
 					$widget->set('userid', $currentUser->getId());
@@ -38,14 +40,15 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View {
 				$classInstance->process($request, $widget);
 				return;
 			}
-	}
+		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('success'=>false,'message'=>  vtranslate('NO_DATA')));
+		$response->setResult(array('success' => false, 'message' => vtranslate('NO_DATA')));
 		$response->emit();
 	}
-        
-        public function validateRequest(Vtiger_Request $request) { 
-            $request->validateWriteAccess(); 
-        } 
+
+	public function validateRequest(Vtiger_Request $request)
+	{
+		$request->validateWriteAccess();
+	}
 }

@@ -54,7 +54,7 @@ class XML extends Parser {
      *
      * @return void
      */
-    function __construct($input = null, $options = 0) {
+    public function __construct($input = null, $options = 0) {
 
         if (0 === $options) {
             $options = parent::OPTION_FORGIVING;
@@ -74,7 +74,7 @@ class XML extends Parser {
      *
      * @return Sabre\VObject\Document
      */
-    function parse($input = null, $options = 0) {
+    public function parse($input = null, $options = 0) {
 
         if (!is_null($input)) {
             $this->setInput($input);
@@ -390,7 +390,7 @@ class XML extends Parser {
      *
      * @return void
      */
-    function setInput($input) {
+    public function setInput($input) {
 
         if (is_resource($input)) {
             $input = stream_get_contents($input);

@@ -21,7 +21,7 @@ class Date extends DateAndOrTime {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'DATE';
 
@@ -34,7 +34,7 @@ class Date extends DateAndOrTime {
      *
      * @return void
      */
-    function setDateTime(\DateTimeInterface $dt) {
+    public function setDateTime(\DateTimeInterface $dt) {
 
         $this->value = $dt->format('Ymd');
 

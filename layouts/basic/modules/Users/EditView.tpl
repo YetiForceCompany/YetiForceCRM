@@ -22,6 +22,7 @@
 			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 			<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 		{/if}
+		<input type="hidden" name="mappingRelatedField" value="{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}" />
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="widget_header row">
 			<div class="col-md-8">

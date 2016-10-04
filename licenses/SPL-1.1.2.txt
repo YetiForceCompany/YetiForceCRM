@@ -6,7 +6,6 @@ http://www.mozilla.org/MPL/MPL-1.1.html
 SUGARCRM PUBLIC LICENSE 
 Version 1.1.2 
 
-
 --------------------------------------------------------------------------------
 
 1. Definitions. 
@@ -364,11 +363,10 @@ responsibility on an equitable basis. Nothing herein is intended or shall be dee
 constitute any admission of liability.
 
 13. MULTIPLE-LICENSED CODE. 
-Initial Developer may designate portions of the Covered Code as “Multiple-Licensed”.  
-“Multiple-Licensed” means that the Initial Developer permits you to utilize portions of 
+Initial Developer may designate portions of the Covered Code as ï¿½Multiple-Licensedï¿½.  
+ï¿½Multiple-Licensedï¿½ means that the Initial Developer permits you to utilize portions of 
 the Covered Code under Your choice of the SPL or the alternative licenses, if any, specified 
 by the Initial Developer in the file described in Exhibit A.
-
 
 SugarCRM Public License 1.1.2 - Exhibit A
 The contents of this file are subject to the SugarCRM Public License Version 1.1.2
@@ -385,13 +383,10 @@ Portions created by SugarCRM are Copyright (C) 2004 SugarCRM, Inc.;
 All Rights Reserved.
 Contributor(s): ______________________________________.
 
-
 [NOTE: The text of this Exhibit A may differ slightly from the text of the notices 
 in the Source Code files of the Original Code. You should use the text of this 
 Exhibit A rather than the text found in the Original Code Source Code for Your 
 Modifications.]
-
-
 
 SugarCRM Public License 1.1.2 - Exhibit B 
   

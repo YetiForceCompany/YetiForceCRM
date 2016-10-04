@@ -9,12 +9,9 @@
 *
 ********************************************************************************/
 -->*}
-
 {strip}
-    {assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}
     {assign var='count' value=0}
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
-
 	<div class="navbar-form navbar-right">
 		<div class="dropdown quickActions historyBtn">
 			<a data-placement="left" data-toggle="dropdown" class="showHistoryBtn" aria-expanded="false" href="#"><img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" /></a>
@@ -56,13 +53,6 @@
 			</ul>
 		</div>	
 	</div>
-	{if !empty($announcement)}
-		<div class="navbar-form navbar-right">
-			<div class="quickActions">
-				<img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
-			</div>	
-		</div>
-	{/if}
 	<div class="navbar-form navbar-left">
 		<div class="quickActions">
 			<a id="companyLogo-container" class="" href="#"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/></a>

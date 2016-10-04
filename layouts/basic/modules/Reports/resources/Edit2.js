@@ -108,7 +108,6 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 			var currentElement = jQuery(element);
 			var field = currentElement.find('.selectedSortFields').val();
 			var order = currentElement.find('.sortOrder').filter(':checked').val();
-			//TODO: need to handle sort type for Reports
 			var type = currentElement.find('.sortType').val();
 			selectedSortOrderFields.push([field,order,type]);
 		});

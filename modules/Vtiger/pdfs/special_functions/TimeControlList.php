@@ -17,10 +17,10 @@ class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fields = $moduleModel->getFields();
 		$ids = $pdf->getRecordIds();
-		if(!is_array($ids)){
+		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
-		
+
 		$html = '<br><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .
@@ -58,7 +58,7 @@ class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
 		foreach ($this->columnNames as $key => $column) {
 			$class = $content = '';
 			if ($column == 'sum_time') {
-				$time = Vtiger_Functions::decimalTimeFormat($summary['sum_time']);
+				$time = vtlib\Functions::decimalTimeFormat($summary['sum_time']);
 				$content = '<strong>' . $time['short'] . '</strong>';
 				$class = 'center';
 			} elseif ($column == 'name') {

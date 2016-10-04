@@ -14,8 +14,8 @@ class Vtiger_Processes_Model
 
 	public static function getConfig($process, $type, $procesParam = false)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Process: $process, Type: $type");
+		
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Process: $process, Type: $type");
 		$db = PearDatabase::getInstance();
 		$processList = [
 			'marketing' => 'yetiforce_proc_marketing',
@@ -23,11 +23,11 @@ class Vtiger_Processes_Model
 		];
 		$cache = Vtiger_Cache::get('ProcessesModel', $process . $type);
 		if ($cache) {
-			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+			\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 			return $cache;
 		}
 
-		$result = $db->pquery('SELECT * FROM ' . $processList[$process] . ' WHERE type = ?;', [$type]);
+		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE type = ?;', $processList[$process]), [$type]);
 		if ($db->num_rows($result) == 0) {
 			return [];
 		}
@@ -42,12 +42,12 @@ class Vtiger_Processes_Model
 			}
 			if ($procesParam != false && $param == $procesParam) {
 				Vtiger_Cache::set('ProcessesModel', $process . $type . $procesParam, $value);
-				$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+				\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 				return $value;
 			}
 		}
 		Vtiger_Cache::set('ProcessesModel', $process . $type, $config);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $config;
 	}
 }

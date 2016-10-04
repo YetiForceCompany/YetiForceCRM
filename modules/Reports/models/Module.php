@@ -8,24 +8,26 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_Module_Model extends Vtiger_Module_Model {
+class Reports_Module_Model extends Vtiger_Module_Model
+{
 
 	/**
 	 * Function deletes report
 	 * @param Reports_Record_Model $reportModel
 	 */
-	function deleteRecord($reportModel) {
+	public function deleteRecord($reportModel)
+	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$subOrdinateUsers = $currentUser->getSubordinateUsers();
 
 		$subOrdinates = array();
-		foreach($subOrdinateUsers as $id=>$name) {
+		foreach ($subOrdinateUsers as $id => $name) {
 			$subOrdinates[] = $id;
 		}
 
 		$owner = $reportModel->get('owner');
 
-		if($currentUser->isAdminUser() || in_array($owner, $subOrdinates) || $owner == $currentUser->getId()) {
+		if ($currentUser->isAdminUser() || in_array($owner, $subOrdinates) || $owner == $currentUser->getId()) {
 			$reportId = $reportModel->getId();
 			$db = PearDatabase::getInstance();
 
@@ -35,16 +37,16 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 
 			$db->pquery('DELETE FROM vtiger_schedulereports WHERE reportid = ?', array($reportId));
 
-            $db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($reportId));
+			$db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($reportId));
 
-			$result = $db->pquery('SELECT * FROM vtiger_homereportchart WHERE reportid = ?',array($reportId));
+			$result = $db->pquery('SELECT * FROM vtiger_homereportchart WHERE reportid = ?', array($reportId));
 			$numOfRows = $db->num_rows($result);
 			for ($i = 0; $i < $numOfRows; $i++) {
 				$homePageChartIdsList[] = $adb->query_result($result, $i, 'stuffid');
 			}
 			if ($homePageChartIdsList) {
-				$deleteQuery = 'DELETE FROM vtiger_homestuff WHERE stuffid IN (' . implode(",", $homePageChartIdsList) . ')';
-				$db->pquery($deleteQuery, array());
+				$where = sprintf('stuffid IN (%s)', implode(",", $homePageChartIdsList));
+				$db->delete('vtiger_homestuff', $where);
 			}
 			return true;
 		}
@@ -55,7 +57,8 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 	 * Function returns quick links for the module
 	 * @return <Array of Vtiger_Link_Model>
 	 */
-	function getSideBarLinks($linkParams = '') {
+	public function getSideBarLinks($linkParams = '')
+	{
 		$quickLinks = array(
 			array(
 				'linktype' => 'SIDEBARLINK',
@@ -64,7 +67,7 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 				'linkicon' => '',
 			),
 		);
-		foreach($quickLinks as $quickLink) {
+		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
 
@@ -72,11 +75,11 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 			array(
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_RECENTLY_MODIFIED',
-				'linkurl' => 'module='.$this->get('name').'&view=IndexAjax&mode=showActiveRecords',
+				'linkurl' => 'module=' . $this->get('name') . '&view=IndexAjax&mode=showActiveRecords',
 				'linkicon' => ''
 			),
 		);
-		foreach($quickWidgets as $quickWidget) {
+		foreach ($quickWidgets as $quickWidget) {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
 		}
 
@@ -88,14 +91,15 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 	 * @param <Number> $limit
 	 * @return <Array of Reports_Record_Model>
 	 */
-	function getRecentRecords($limit = 10) {
+	public function getRecentRecords($limit = 10)
+	{
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM vtiger_report ORDER BY reportid DESC LIMIT ?', array($limit));
 		$rows = $db->num_rows($result);
 
 		$recentRecords = array();
-		for($i=0; $i<$rows; ++$i) {
+		for ($i = 0; $i < $rows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			$recentRecords[$row['reportid']] = $this->getRecordFromArray($row);
 		}
@@ -106,7 +110,8 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 	 * Function returns the report folders
 	 * @return <Array of Reports_Folder_Model>
 	 */
-	function getFolders() {
+	public function getFolders()
+	{
 		return Reports_Folder_Model::getAll();
 	}
 
@@ -114,15 +119,17 @@ class Reports_Module_Model extends Vtiger_Module_Model {
 	 * Function to get the url for add folder from list view of the module
 	 * @return <string> - url
 	 */
-	function getAddFolderUrl() {
-		return 'index.php?module='.$this->get('name').'&view=EditFolder';
+	public function getAddFolderUrl()
+	{
+		return 'index.php?module=' . $this->get('name') . '&view=EditFolder';
 	}
-    
-    /**
-     * Function to check if the extension module is permitted for utility action
-     * @return <boolean> true
-     */
-    public function isUtilityActionEnabled() {
-        return true;
-    }
+
+	/**
+	 * Function to check if the extension module is permitted for utility action
+	 * @return <boolean> true
+	 */
+	public function isUtilityActionEnabled()
+	{
+		return true;
+	}
 }

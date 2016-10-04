@@ -1,3 +1,4 @@
+{strip}
 {assign var=FIELD value=$SAVED_DATA['field']}
 <div class="row">
 	<div class="col-md-12 padding-bottom1per">
@@ -21,3 +22,4 @@
 		<input type="text" name="info" class="marginLeftZero col-md-6 " value="{$SAVED_DATA['info']}">
 	</div>
 </div>
+{/strip}

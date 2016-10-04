@@ -61,7 +61,7 @@ $languageStrings = [
 	'LBL_HOME_PAGE_COMPO' => 'Komponenty strony głównej',
 	'LBL_HOME_PAGE_COMPONENTS' => 'Komponenty strony głównej',
 	'LBL_INACTIVE_USERS' => 'Nieaktywni użytkownicy',
-	'LBL_INVALID_USER_OR_EMAIL' => 'Niepoprawna nazwa uzytkownika lub hasło.',
+	'LBL_INVALID_USER_OR_EMAIL' => 'Niepoprawna nazwa użytkownika lub hasło.',
 	'LBL_INVALID_USER_OR_PASSWORD' => 'Niepoprawna nazwa użytkownika lub hasło.',
 	'LBL_JOB_TITLE' => 'Zawód',
 	'LBL_LANGUAGE' => 'Język',
@@ -327,5 +327,6 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' niepowodzenie. Nowe hasło musi zostać ustawione.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'Podano niepoprawne stare hasło. Wpisz ponownie.',
 	'JS_REENTER_PASSWORDS' => 'Wpisz hasła ponownie. Nowe hasło i potwierdzenie hasła nie są identyczne.',
+	'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
 ];
 

@@ -9,14 +9,20 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_GlobalPermission_Save_Action extends Vtiger_Action_Controller
+class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 {
+
+	public function __construct()
+	{
+		Settings_Vtiger_Tracker_Model::setRecordId(AppRequest::get('profileID'));
+		parent::__construct();
+	}
 
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -25,8 +31,21 @@ class Settings_GlobalPermission_Save_Action extends Vtiger_Action_Controller
 		$profileID = $request->get('profileID');
 		$checked = $request->get('checked');
 		$globalactionid = $request->get('globalactionid');
-		$checked == 'true' ? $checked = 1 : $checked = 0;
-		$recordModel = Settings_GlobalPermission_Record_Model::save($profileID, $globalactionid, $checked);
+		if ($globalactionid == 1) {
+			$globalActionName = 'LBL_VIEW_ALL';
+		} else {
+			$globalActionName = 'LBL_EDIT_ALL';
+		}
+		if ($checked == 'true') {
+			$checked = 1;
+			$prev[$globalActionName] = 0;
+		} else {
+			$checked = 0;
+			$prev[$globalActionName] = 1;
+		}
+		$post[$globalActionName] = $checked;
+		Settings_GlobalPermission_Record_Model::save($profileID, $globalactionid, $checked);
+		Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 		$response = new Vtiger_Response();
 		$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SAVE_OK', $request->getModule(false))));
 		$response->emit();

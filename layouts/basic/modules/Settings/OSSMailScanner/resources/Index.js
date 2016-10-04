@@ -15,12 +15,17 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		app.showSelect2ElementView(field, params);
 	},
 	registerEditFolders: function (container) {
-		var url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders';
 		container.find('.editFolders').on('click', function () {
-			url += '&record=' + $(this).data('user');
-			var progressIndicatorElement = jQuery.progressIndicator();
+			var url = 'index.php?module=OSSMailScanner&parent=Settings&view=Folders' + '&record=' + $(this).data('user');
+			var progressIndicatorElement = jQuery.progressIndicator({
+				message: app.vtranslate('LBL_LOADING_LIST_OF_FOLDERS'),
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
 			app.showModalWindow("", url, function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
 
 				data.find('[name="saveButton"]').click(function (e) {
 					var folder = {};
@@ -90,11 +95,22 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			$('#confirm').attr('disabled', !this.checked);
 		});
 
-		jQuery('#conftab_change_ticket_status').on('click', function () {
-			var ajaxParams = {};
-			ajaxParams.data = {module: 'OSSMailScanner', action: "SaveRcConfig", ct: "emailsearch", type: "change_ticket_status", vale: $("#conftab_change_ticket_status").prop('checked')},
-			ajaxParams.async = true;
-			AppConnector.request(ajaxParams).then(
+		jQuery('.conftabChangeTicketStatus').on('click', function () {
+			if ($(this).data('active') == '1') {
+				return false;
+			}
+			$('.conftabChangeTicketStatus').data('active', 0);
+			$(this).data('active', 1);
+			AppConnector.request({
+				async: true,
+				data: {
+					module: 'OSSMailScanner',
+					action: "SaveRcConfig",
+					ct: "emailsearch",
+					type: "changeTicketStatus",
+					vale: $(this).val()
+				}
+			}).then(
 					function (data) {
 						if (data.success) {
 							var params = {
@@ -189,8 +205,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			var value = jQuery(this).val();
 			if (!!thisIstance.email_validate(value)) {
 				thisIstance.saveWidgetConfig('email', value, 'cron');
-			}
-			else {
+			} else {
 				var params = {
 					text: app.vtranslate('JS_mail_error'),
 					type: 'error',

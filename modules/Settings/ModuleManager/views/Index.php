@@ -11,7 +11,7 @@
 Class Settings_ModuleManager_Index_View extends Settings_Vtiger_Index_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}

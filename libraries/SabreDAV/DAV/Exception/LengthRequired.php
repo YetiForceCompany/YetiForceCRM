@@ -21,7 +21,7 @@ class LengthRequired extends DAV\Exception {
      *
      * @return int
      */
-    function getHTTPCode() {
+    public function getHTTPCode() {
 
         return 411;
 

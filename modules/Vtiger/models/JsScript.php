@@ -43,11 +43,11 @@ class Vtiger_JsScript_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Static Function to get an instance of Vtiger JsScript Model from a given Vtiger_Link object
-	 * @param Vtiger_Link $linkObj
+	 * Static Function to get an instance of Vtiger JsScript Model from a given vtlib\Link object
+	 * @param vtlib\Link $linkObj
 	 * @return Vtiger_JsScript_Model instance
 	 */
-	public static function getInstanceFromLinkObject(Vtiger_Link $linkObj)
+	public static function getInstanceFromLinkObject(vtlib\Link $linkObj)
 	{
 		$objectProperties = get_object_vars($linkObj);
 		$linkModel = new self();

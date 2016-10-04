@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="row padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+<div class="row padding1per contentsBackground no-margin" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 	<div id="advanceFilterContainer" class="">
 		<a class="btn btn-primary pull-right marginBottom10px" href="index.php?module={$MODULE_NAME}&parent=Settings&view=AddAction&id={$TPL_ID}&base_module={$BASE_MODULE}">
 			<strong>{vtranslate('LBL_NEW_ACTION', $QUALIFIED_MODULE)}</strong>

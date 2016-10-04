@@ -9,11 +9,6 @@
  *
  * ******************************************************************************* */
 
-/**
- * Description of RelatedModuleMeta
- * TODO to add and extend a way to track many-many and many-one relationships.
- * @author MAK
- */
 class RelatedModuleMeta
 {
 
@@ -49,9 +44,9 @@ class RelatedModuleMeta
 	private function getRelationMetaInfo($relationId)
 	{
 		return [
-		'relationTable' => 'vtiger_campaign_records',
-		'Campaigns' => 'campaignid',
-		'Contacts' => 'crmid'
+			'relationTable' => 'vtiger_campaign_records',
+			'Campaigns' => 'campaignid',
+			'Contacts' => 'crmid'
 		];
 	}
 }

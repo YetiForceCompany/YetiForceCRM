@@ -13,7 +13,7 @@
 $languageStrings = [
 	'LBL_SAVE' => 'Сохранить',
 	'ApiAddress' => 'Поиск адресов',
-	'LBL_API_ADDRESS' => 'Maps [Google & OSM]',
+	'LBL_API_ADDRESS' => 'Карты [Google & OSM]',
 	'LBL_API_ADDRESS_DESCRIPTION' => 'Модуль позволяет искать и автоматически заполнять формы с адресами во время создания или изменения записей',
 	'LBL_USE_OPENCAGE_GEOCODER' => 'Использовать OpenCage',
 	'LBL_REMOVE_CONNECTION' => 'Удалить ключ приложения',

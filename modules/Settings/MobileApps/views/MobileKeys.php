@@ -27,7 +27,7 @@ class Settings_MobileApps_MobileKeys_View extends Settings_Vtiger_Index_View
 		$viewer->view('MobileKeys.tpl', $qualifiedModuleName);
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

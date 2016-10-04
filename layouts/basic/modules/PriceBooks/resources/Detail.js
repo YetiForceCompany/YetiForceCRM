@@ -119,6 +119,7 @@ Vtiger_Detail_Js("PriceBooks_Detail_Js",{},{
 	registerBasicEvents : function(container){
 		this._super(container);
 		this.registerEventForSelectRecords();
+		this.registerEventForEditListPrice();
 	},
 	/**
 	 * Function to register events
@@ -127,6 +128,5 @@ Vtiger_Detail_Js("PriceBooks_Detail_Js",{},{
 	registerEvents : function(){
 		this._super();
 		this.registerEventForSelectRecords();
-		this.registerEventForEditListPrice();
 	}
 })

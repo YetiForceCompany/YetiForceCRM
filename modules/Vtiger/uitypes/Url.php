@@ -25,9 +25,9 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		$matchPattern = "^[\w]+:\/\/^";
 		preg_match($matchPattern, $value, $matches);
 		if (!empty($matches[0])) {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank">' . textlength_check($value) . '</a>';
+			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value) . '</a>';
 		} else {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank">' . textlength_check($value) . '</a>';
+			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value) . '</a>';
 		}
 		return $value;
 	}

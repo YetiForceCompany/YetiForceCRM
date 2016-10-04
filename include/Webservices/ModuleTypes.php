@@ -26,7 +26,7 @@ function vtws_listtypes($fieldTypeList, $user)
 		return $types[$user->id][$fieldTypeString];
 	}
 	try {
-		$log = vglobal('log');
+		
 		/**
 		 * @var PearDatabase
 		 */
@@ -58,7 +58,7 @@ function vtws_listtypes($fieldTypeList, $user)
 			$it = new SqlResultIterator($db, $result);
 			$moduleList = [];
 			foreach ($it as $row) {
-				$moduleList[] = getTabModuleName($row->tabid);
+				$moduleList[] = \includes\Modules::getModuleName($row->tabid);
 			}
 			$allModuleNames = array_intersect($moduleList, $allModuleNames);
 
@@ -111,16 +111,16 @@ function vtws_listtypes($fieldTypeList, $user)
 		$current_language = $default_language;
 	$current_language = vtws_preserveGlobal('current_language', $current_language);
 
-	$appStrings = return_application_language($current_language);
-	$appListString = return_app_list_strings_language($current_language);
+	$appStrings = \vtlib\Deprecated::return_app_list_strings_language($current_language);
+	$appListString = \vtlib\Deprecated::return_app_list_strings_language($current_language);
 	vtws_preserveGlobal('app_strings', $appStrings);
 	vtws_preserveGlobal('app_list_strings', $appListString);
 
 	$informationArray = [];
 	foreach ($accessibleModules as $module) {
 		$vtigerModule = ($module == 'Events') ? 'Calendar' : $module;
-		$informationArray[$module] = array('isEntity' => true, 'label' => getTranslatedString($module, $vtigerModule),
-			'singular' => getTranslatedString('SINGLE_' . $module, $vtigerModule));
+		$informationArray[$module] = array('isEntity' => true, 'label' => \includes\Language::translate($module, $vtigerModule),
+			'singular' => \includes\Language::translate('SINGLE_' . $module, $vtigerModule));
 	}
 
 	foreach ($accessibleEntities as $entity) {
@@ -135,5 +135,3 @@ function vtws_listtypes($fieldTypeList, $user)
 		'information' => $informationArray);
 	return $types[$user->id][$fieldTypeString];
 }
-
-?>

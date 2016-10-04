@@ -21,7 +21,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function isReadOnly()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (($currentUserModel->isAdminUser() == false && $this->get('uitype') == 98) || $this->get('uitype') == 156 || $this->get('uitype') == 115) {
+		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || $this->get('uitype') == 156 || $this->get('uitype') == 115) {
 			return true;
 		}
 	}
@@ -76,15 +76,16 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 * Function to get all the available picklist values for the current field
 	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
-	public function getPicklistValues()
+	public function getPicklistValues($skipCheckingRole = false)
 	{
 		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getAllLanguages();
 		} else if ($this->get('uitype') == '115') {
 			$db = PearDatabase::getInstance();
 
-			$query = 'SELECT ' . $this->getFieldName() . ' FROM vtiger_' . $this->getFieldName();
-			$result = $db->pquery($query, array());
+			$query = 'SELECT %s FROM vtiger_%s';
+			$query = sprintf($query, $this->getFieldName(), $this->getFieldName());
+			$result = $db->pquery($query, []);
 			$num_rows = $db->num_rows($result);
 			$fieldPickListValues = array();
 			for ($i = 0; $i < $num_rows; $i++) {
@@ -93,7 +94,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 			}
 			return $fieldPickListValues;
 		}
-		return parent::getPicklistValues();
+		return parent::getPicklistValues($skipCheckingRole);
 	}
 
 	/**
@@ -110,7 +111,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 * @param <String> $value - value which need to be converted to display value
 	 * @return <String> - converted display value
 	 */
-	public function getDisplayValue($value, $recordId = false)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getLanguageLabel($value);
@@ -119,7 +120,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if (($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($value == '&nbsp;')) {
 			return vtranslate('LBL_SPACE', 'Users');
 		}
-		return parent::getDisplayValue($value, $recordId);
+		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**

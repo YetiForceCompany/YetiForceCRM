@@ -36,7 +36,7 @@
 												<strong>{vtranslate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
 											</div>
 											<div class="col-xs-8 col-xs-pull-1">
-												<input type="text" class="dateField dateFilter marginbottomZero form-control" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
+												<input type="text" class="dateField dateFilter marginbottomZero form-control" data-date-format="{$CURRENTUSER->get('date_format')}" data-calendar-type="range" value="{$DATE}" />
 											</div>
 										</div>
 									</div>
@@ -56,9 +56,9 @@
 						</thead>
 						<tbody>
 						{foreach item=HOLIDAY from=$HOLIDAYS}
-							<tr data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}">
+							<tr class="holidayElement" data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{vtlib\Functions::currentUserDisplayDate($HOLIDAY['date'])}">
 								<td>
-									<span class="fieldLabel marginLeft20">{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}</span>
+									<span class="fieldLabel marginLeft20">{vtlib\Functions::currentUserDisplayDate($HOLIDAY['date'])}</span>
 								</td>
 								<td>
 									<span class="fieldLabel marginLeft20">{vtranslate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
@@ -102,7 +102,7 @@
 										<span class="redColor">*</span>
 									</div>
 									<div class="col-sm-6 controls">
-										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{Vtiger_Functions::currentUserDisplayDate(date('Y-m-d'))}" required >
+										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{vtlib\Functions::currentUserDisplayDate(date('Y-m-d'))}" required >
 
 									</div>
 								</div>

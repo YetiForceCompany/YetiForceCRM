@@ -37,22 +37,34 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
+		$params = [];
+		$params['status'] = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
+		$params['user'] = $currentUser->getId();
+		$conditions = [
+			['vtiger_activity.status', "'" . $params['status'] . "'", 'in', QueryGenerator::$AND],
+			['vtiger_crmentity.smcreatorid', $params['user'], 'e', QueryGenerator::$AND]
+		];
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_over', $pagingModel, $owner);
+		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_over', $pagingModel, $owner, false, $params);
 
-
+		$colorList = [];
+		foreach ($calendarActivities as $activityModel) {
+			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+		}
 		$viewer->assign('WIDGET', $widget);
+		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
-		$viewer->assign('PAGING', $pagingModel);
+		$viewer->assign('COLOR_LIST', $colorList);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$title_max_length = vglobal('title_max_length');
-		$href_max_length = vglobal('href_max_length');
-		$viewer->assign('NAMELENGHT', $title_max_length);
-		$viewer->assign('HREFNAMELENGHT', $href_max_length);
+		$viewer->assign('NAMELENGHT', AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGHT', AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('USER_CONDITIONS', $conditions);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

@@ -40,4 +40,5 @@ $languageStrings = [
 	'administrative' => 'Внутренний',
 	'operative' => 'Внешний',
 	'other' => 'Общий',
+	'Add Project Task' => 'Добавить пректную задачу',
 ];

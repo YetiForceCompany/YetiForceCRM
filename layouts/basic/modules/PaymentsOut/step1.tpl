@@ -120,7 +120,7 @@ function generateRecords() {
 						}
 					})
 					*/
-//console.log(jsonTab);  
+
 //
 	//var progressIndicatorElement = jQuery.progressIndicator({'position' : 'html','blockInfo' : {'enabled' : true}});
 	//var element = jQuery('<div></div>');

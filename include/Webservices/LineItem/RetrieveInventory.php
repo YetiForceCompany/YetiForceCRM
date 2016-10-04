@@ -29,5 +29,3 @@ function vtws_retrieve_inventory($id)
 
 	return $record;
 }
-
-?>

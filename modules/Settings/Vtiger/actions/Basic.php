@@ -8,16 +8,24 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Settings_Vtiger_Basic_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('updateFieldPinnedStatus');
 	}
 
-	function process(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+	}
+
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {

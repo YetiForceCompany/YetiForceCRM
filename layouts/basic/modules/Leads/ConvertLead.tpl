@@ -13,14 +13,14 @@
 	<div id="convertLeadContainer" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				{if !$CONVERT_LEAD_FIELDS['Accounts'] && !$CONVERT_LEAD_FIELDS['Contacts']}
+				{if !$CONVERT_LEAD_FIELDS['Accounts']}
 					<input type="hidden" id="convertLeadErrorTitle" value="{vtranslate('LBL_CONVERT_LEAD_ERROR_TITLE',$MODULE)}"/>
 					<input id="convertLeadError" class="convertLeadError" type="hidden" value="{vtranslate('LBL_CONVERT_LEAD_ERROR',$MODULE)}"/>
 				{else}
 					{assign var=CONVERSION_CONFIG value=Vtiger_Processes_Model::getConfig('marketing','conversion')}
 					<div class="modal-header contentsBackground">
 						<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title">{vtranslate('LBL_CONVERT_LEAD', $MODULE)} : {$RECORD->getName()}</h3>
+						<h3 class="modal-title">{vtranslate('LBL_CONVERT_LEAD', $MODULE)}: {$RECORD->getName()}</h3>
 					</div>
 					<form class="form-horizontal" id="convertLeadForm" method="post" action="index.php">
 						<input type="hidden" name="module" value="{$MODULE}"/>
@@ -35,16 +35,11 @@
 										<div data-parent="#leadAccordion" data-toggle="collapse" class="panel-heading paddingTBZero accordion-toggle table-bordered moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
 											<div class="form-control-static checkbox">
 												<label>
-													{if $CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()}
-														<input type="hidden" id="conAccMandatory" value={$CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()} />
-													{/if}
-													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} hide{/if}" data-module="{vtranslate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" {if $MODULE_NAME == 'Accounts' && $CONTACT_ACCOUNT_FIELD_MODEL && $CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()} disabled="disabled" {/if} checked="" />
+													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} hide{/if}" data-module="{vtranslate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" checked="" />
 													{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
-													<span class="panel-title">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_CREATE', $MODULE)}&nbsp;{vtranslate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
-
-
+													<span class="panel-title">&nbsp;{vtranslate('LBL_CREATING_NEW', $MODULE_NAME)}&nbsp;{vtranslate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
 												</label>
-												<span class="pull-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} glyphicon glyphicon-chevron-up {elseif !$CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Contacts"} glyphicon glyphicon-chevron-up {else} glyphicon glyphicon-chevron-down {/if}alignBottom"></i></span>
+												<span class="pull-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} glyphicon glyphicon-chevron-up {else} glyphicon glyphicon-chevron-down {/if}alignBottom"></i></span>
 											</div>	
 										</div>
 									</div>
@@ -79,40 +74,8 @@
 											</label>
 										</td>
 										<td class="fieldValue col-xs-7">
-											{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
-											{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 											{if $FIELD_MODEL->get('uitype') eq '53'}
-												{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
-												{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups()}
-												{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
-												{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
-												{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-
-												{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
-												{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
-
-												{if $FIELD_VALUE eq '' || $CONVERSION_CONFIG['change_owner'] == 'true'}
-													{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
-												{/if}
-												<select class="chzn-select {$ASSIGNED_USER_ID} form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
-													<optgroup label="{vtranslate('LBL_USERS')}">
-														{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-
-															<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' 
-																	{if $FIELD_VALUE eq $OWNER_ID} selected {/if}
-																	data-userId="{$CURRENT_USER_ID}">
-																{$OWNER_NAME}	
-															</option>
-														{/foreach}
-													</optgroup>
-													<optgroup label="{vtranslate('LBL_GROUPS')}">
-														{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-															<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_VALUE eq $OWNER_ID} selected {/if}>
-																{$OWNER_NAME}
-															</option>
-														{/foreach}
-													</optgroup>
-												</select>
+												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME)}
 											{/if}
 										</td>
 									</tr>

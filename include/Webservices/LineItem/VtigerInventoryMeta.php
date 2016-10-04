@@ -26,7 +26,7 @@ class VtigerInventoryMeta extends VtigerCRMObjectMeta
 		$this->retrieveMetaForTables();
 	}
 
-	function retrieveMetaForTables()
+	public function retrieveMetaForTables()
 	{
 		$db = PearDatabase::getInstance();
 		foreach ($this->metaTableList as $tableName) {
@@ -45,7 +45,7 @@ class VtigerInventoryMeta extends VtigerCRMObjectMeta
 		}
 	}
 
-	function getFieldArrayFromTaxRow($row, $tableName, $prefix)
+	public function getFieldArrayFromTaxRow($row, $tableName, $prefix)
 	{
 		$field = [];
 		$field['fieldname'] = $row->taxname;
@@ -64,5 +64,3 @@ class VtigerInventoryMeta extends VtigerCRMObjectMeta
 		return $field;
 	}
 }
-
-?>

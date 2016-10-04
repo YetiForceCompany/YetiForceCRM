@@ -1,12 +1,13 @@
 <?php
-/* +********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl/ruls.html
- * *******************************************************************************
- *  Module				: OSSMailView
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- * *******************************************************************************+ */
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
+ * *********************************************************************************** */
 
 class Vtiger_DetailView_Model extends Vtiger_Base_Model
 {
@@ -101,7 +102,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				];
 			}
 		}
-		if ($moduleModel->isPermitted('WatchingRecords')) {
+		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 			$class = 'btn-default';
 			if ($watchdog->isWatchingRecord()) {
@@ -110,11 +111,21 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.changeWatchingRecord(this,' . $recordId . ')',
+				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkicon' => 'glyphicon glyphicon-eye-open',
 				'linkhint' => 'BTN_WATCHING_RECORD',
 				'linkclass' => $class,
-				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1],
+				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
+			];
+		}
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission('Dashboard', 'NotificationCreateMessage')) {
+			$detailViewLinks[] = [
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => '',
+				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
+				'linkicon' => 'glyphicon glyphicon-send',
+				'linkhint' => 'LBL_SEND_NOTIFICATION'
 			];
 		}
 		foreach ($detailViewLinks as $detailViewLink) {
@@ -149,7 +160,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		if ($recordModel->isDeletable()) {
 			$deletelinkModel = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), vtranslate('SINGLE_' . $moduleName, $moduleName)),
+				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'title' => vtranslate('LBL_DELETE_RECORD')
@@ -166,7 +177,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
@@ -213,7 +224,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = array(array(
 					'linktype' => 'DETAILVIEWTAB',
-					'linklabel' => vtranslate('LBL_RECORD_SUMMARY', $moduleName),
+					'linklabel' => 'LBL_RECORD_SUMMARY',
 					'linkKey' => 'LBL_RECORD_SUMMARY',
 					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
 					'linkicon' => '',
@@ -223,7 +234,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = array(
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => vtranslate('LBL_RECORD_DETAILS', $moduleName),
+			'linklabel' => 'LBL_RECORD_DETAILS',
 			'linkKey' => 'LBL_RECORD_DETAILS',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
@@ -235,28 +246,28 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments&type=' . $modCommentsModel::getDefaultViewComments(),
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => 'Comments',
-				'countRelated' => true
+				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 
 		if ($parentModuleModel->isTrackingEnabled()) {
-			$relatedLinks[] = array(
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_UPDATES',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
-				'related' => 'Updates'
-			);
+				'related' => 'Updates',
+				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'badgeClass' => 'bgDanger'
+			];
 		}
-
 
 		$relationModels = $parentModuleModel->getRelations();
 
 		foreach ($relationModels as $relation) {
-			//TODO : Way to get limited information than getting all the information
 			$link = array(
 				'linktype' => 'DETAILVIEWRELATED',
 				'linklabel' => $relation->get('label'),
@@ -361,7 +372,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$recordModel->trackView();
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
 	}
 
@@ -375,7 +385,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$headerFields = [];
 		foreach (new DirectoryIterator($path) as $fileinfo) {
 			if (!$fileinfo->isDot()) {
-				$name = reset(explode('.', $fileinfo->getFilename()));
+				$filename = explode('.', $fileinfo->getFilename());
+				$name = reset($filename);
 
 				$modelClassName = Vtiger_Loader::getComponentClassName('HeaderField', $name, $moduleName);
 				$instance = new $modelClassName;
@@ -383,10 +394,11 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 					continue;
 				}
 				if ($result = $instance->process($this)) {
-					$headerFields[] = $result;
+					$headerFields[$name] = $result;
 				}
 			}
 		}
+		ksort($headerFields);
 		return $headerFields;
 	}
 }

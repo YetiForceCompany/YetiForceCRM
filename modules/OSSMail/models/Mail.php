@@ -117,7 +117,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 			return $this->mailCrmId;
 		}
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? AND rc_user = ? ', [$this->get('message_id'), $this->getAccountOwner()]);
+		$result = $db->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? && rc_user = ? ', [$this->get('message_id'), $this->getAccountOwner()]);
 		if ($db->getRowCount($result) > 0) {
 			$this->mailCrmId = $db->getSingleValue($result);
 		}
@@ -155,30 +155,29 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 		if (empty($emails)) {
 			return [];
 		} elseif (strpos($emails, ',')) {
-			$emailsArray = explode(',', $emails);
+			$emails = explode(',', $emails);
 		} else {
-			$emailsArray[0] = $emails;
+			settype($emails, 'array');
 		}
 		if (!empty($emailSearchList)) {
 			foreach ($emailSearchList as $field) {
 				$enableFind = true;
 				$row = explode('=', $field);
-				$module = $row[2];
+				$moduleName = $row[2];
 				if ($searchModule) {
-					if ($searchModule != $module) {
+					if ($searchModule != $moduleName) {
 						$enableFind = false;
 					}
 				}
 
 				if ($enableFind) {
-					require_once("modules/$module/$module.php");
-					$instance = new $module();
+					$instance = CRMEntity::getInstance($moduleName);
 					$table_index = $instance->table_index;
-					foreach ($emailsArray as $email) {
+					foreach ($emails as $email) {
 						if (empty($email)) {
 							continue;
 						}
-						$name = 'MSFindEmail_' . $module . '_' . $row[1];
+						$name = 'MSFindEmail_' . $moduleName . '_' . $row[1];
 						$cache = Vtiger_Cache::get($name, $email);
 						if ($cache !== false) {
 							if ($cache != 0) {
@@ -186,7 +185,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 							}
 						} else {
 							$ids = [];
-							$result = $db->pquery("SELECT $table_index FROM " . $row[0] . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $row[0] . ".$table_index WHERE vtiger_crmentity.deleted = 0 AND " . $row[1] . ' = ? ', [$email]);
+							$result = $db->pquery("SELECT $table_index FROM " . $row[0] . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $row[0] . ".$table_index WHERE vtiger_crmentity.deleted = 0 && " . $row[1] . ' = ? ', [$email]);
 							while (($crmid = $db->getSingleValue($result)) !== false) {
 								$ids[] = $crmid;
 							}

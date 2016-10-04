@@ -1,15 +1,15 @@
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce.com
-********************************************************************************/
--->*}
 {strip}
+	{*<!--
+	/*********************************************************************************
+	** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+	* ("License"); You may not use this file except in compliance with the License
+	* The Original Code is:  vtiger CRM Open Source
+	* The Initial Developer of the Original Code is vtiger.
+	* Portions created by vtiger are Copyright (C) vtiger.
+	* All Rights Reserved.
+	* Contributor(s): YetiForce.com
+	********************************************************************************/
+	-->*}
 	{assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
@@ -61,13 +61,14 @@
 				{/foreach}
 			{/if}
 			{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
-			<div class="pull-left paddingTop10 tagContainer col-md-12 paddingLRZero row">
-			</div>
+			{if Users_Privileges_Model::isPermitted($MODULE, 'TagCloud', $RECORD->getId())}
+				<div class="pull-left paddingTop10 tagContainer col-md-12 paddingLRZero row"></div>
+			{/if}
 		</div>
 		<div class="detailViewInfo row">
 			{include file="RelatedListButtons.tpl"|vtemplate_path:$MODULE}
 			<div class="col-md-12 {if !empty($DETAILVIEW_LINKS['DETAILVIEWTAB']) || !empty($DETAILVIEW_LINKS['DETAILVIEWRELATED']) } details {/if}">
-				<form id="detailView" data-name-fields='{ZEND_JSON::encode($MODULE_MODEL->getNameFields())}' method="POST">
+				<form id="detailView" data-name-fields='{\includes\utils\Json::encode($MODULE_MODEL->getNameFields())}' method="POST">
 					{if !empty($PICKLIST_DEPENDENCY_DATASOURCE)} 
 						<input type="hidden" name="picklistDependency" value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_DEPENDENCY_DATASOURCE)}"> 
 					{/if} 

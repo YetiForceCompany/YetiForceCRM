@@ -21,9 +21,7 @@ class Settings_BruteForce_SaveConfig_Action extends Settings_Vtiger_Basic_Action
 		$selectedUsers = $request->get('selectedUsers');
 		$updateResult = Settings_BruteForce_Module_Model::updateConfig($number, $timelock, $active);
 
-		if ($selectedUsers != NULL) {
-			$updateUsersForNotificationsResult = Settings_BruteForce_Module_Model::updateUsersForNotifications($selectedUsers);
-		}
+		Settings_BruteForce_Module_Model::updateUsersForNotifications($selectedUsers);
 		$moduleName = $request->getModule();
 
 		if ($updateResult == 0) {

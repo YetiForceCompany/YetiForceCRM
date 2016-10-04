@@ -9,16 +9,8 @@
 * All Rights Reserved.
 *************************************************************************************************************************************/
 -->*}
-<style type="text/css">
-	.visibility{
-		visibility: hidden;
-	}
-	.turn_off{
-		min-width: 20px;
-	}
-</style>
 {strip}
-	{assign var="ModulesEntity" value=$MODULE_MODEL->getModulesEntity()}
+	{assign var="ModulesEntity" value=$MODULE_MODEL->getModulesEntity(false, true)}
 	{assign var="Fields" value=$MODULE_MODEL->getFieldFromModule()}
 	<div class=" SearchFieldsEdit">
 		<div class="widget_header row">

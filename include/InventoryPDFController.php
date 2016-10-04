@@ -24,12 +24,12 @@ class Vtiger_InventoryPDFController
 	protected $module;
 	protected $focus = null;
 
-	function __construct($module)
+	public function __construct($module)
 	{
 		$this->moduleName = $module;
 	}
 
-	function loadRecord($id)
+	public function loadRecord($id)
 	{
 		$current_user = vglobal('current_user');
 		$this->focus = $focus = CRMEntity::getInstance($this->moduleName);
@@ -39,12 +39,12 @@ class Vtiger_InventoryPDFController
 		$this->associated_products = getAssociatedProducts($this->moduleName, $focus);
 	}
 
-	function getPDFGenerator()
+	public function getPDFGenerator()
 	{
 		return new Vtiger_PDF_Generator();
 	}
 
-	function getContentViewer()
+	public function getContentViewer()
 	{
 		if ($this->focusColumnValue('hdnTaxType') == "individual") {
 			$contentViewer = new Vtiger_PDF_InventoryContentViewer();
@@ -58,14 +58,14 @@ class Vtiger_InventoryPDFController
 		return $contentViewer;
 	}
 
-	function getHeaderViewer()
+	public function getHeaderViewer()
 	{
 		$headerViewer = new Vtiger_PDF_InventoryHeaderViewer();
 		$headerViewer->setModel($this->buildHeaderModel());
 		return $headerViewer;
 	}
 
-	function getFooterViewer()
+	public function getFooterViewer()
 	{
 		$footerViewer = new Vtiger_PDF_InventoryFooterViewer();
 		$footerViewer->setModel($this->buildFooterModel());
@@ -74,14 +74,14 @@ class Vtiger_InventoryPDFController
 		return $footerViewer;
 	}
 
-	function getPagerViewer()
+	public function getPagerViewer()
 	{
 		$pagerViewer = new Vtiger_PDF_PagerViewer();
 		$pagerViewer->setModel($this->buildPagermodel());
 		return $pagerViewer;
 	}
 
-	function Output($filename, $type)
+	public function Output($filename, $type)
 	{
 		if (is_null($this->focus))
 			return;
@@ -98,7 +98,7 @@ class Vtiger_InventoryPDFController
 
 	// Helper methods
 
-	function buildContentModels()
+	public function buildContentModels()
 	{
 		$associated_products = $this->associated_products;
 		$contentModels = [];
@@ -128,7 +128,8 @@ class Vtiger_InventoryPDFController
 			$taxable_total = number_format($taxable_total, $no_of_decimal_places, '.', '');
 			$producttotal = $taxable_total;
 			if ($this->focus->column_fields["hdnTaxType"] == "individual") {
-				for ($tax_count = 0; $tax_count < count($productLineItem['taxes']); $tax_count++) {
+				$countProductLineItem = count($productLineItem['taxes']);
+				for ($tax_count = 0; $tax_count < $countProductLineItem; $tax_count++) {
 					$tax_percent = $productLineItem['taxes'][$tax_count]['percentage'];
 					$total_tax_percent += $tax_percent;
 					$tax_amount = (($taxable_total * $tax_percent) / 100);
@@ -167,21 +168,21 @@ class Vtiger_InventoryPDFController
 		return $contentModels;
 	}
 
-	function buildContentLabelModel()
+	public function buildContentLabelModel()
 	{
 		$labelModel = new Vtiger_PDF_Model();
-		$labelModel->set('Code', getTranslatedString('Product Code', $this->moduleName));
-		$labelModel->set('Name', getTranslatedString('Product Name', $this->moduleName));
-		$labelModel->set('Quantity', getTranslatedString('Quantity', $this->moduleName));
-		$labelModel->set('Price', getTranslatedString('LBL_LIST_PRICE', $this->moduleName));
-		$labelModel->set('Discount', getTranslatedString('Discount', $this->moduleName));
-		$labelModel->set('Tax', getTranslatedString('Tax', $this->moduleName));
-		$labelModel->set('Total', getTranslatedString('Total', $this->moduleName));
-		$labelModel->set('Comment', getTranslatedString('Comment'), $this->moduleName);
+		$labelModel->set('Code', \includes\Language::translate('Product Code', $this->moduleName));
+		$labelModel->set('Name', \includes\Language::translate('Product Name', $this->moduleName));
+		$labelModel->set('Quantity', \includes\Language::translate('Quantity', $this->moduleName));
+		$labelModel->set('Price', \includes\Language::translate('LBL_LIST_PRICE', $this->moduleName));
+		$labelModel->set('Discount', \includes\Language::translate('Discount', $this->moduleName));
+		$labelModel->set('Tax', \includes\Language::translate('Tax', $this->moduleName));
+		$labelModel->set('Total', \includes\Language::translate('Total', $this->moduleName));
+		$labelModel->set('Comment', \includes\Language::translate('Comment'), $this->moduleName);
 		return $labelModel;
 	}
 
-	function buildSummaryModel()
+	public function buildSummaryModel()
 	{
 		$associated_products = $this->associated_products;
 		$final_details = $associated_products[1]['final_details'];
@@ -197,7 +198,7 @@ class Vtiger_InventoryPDFController
 			$netTotal += $productLineItem["netPrice{$productLineItemIndex}"];
 		}
 		$netTotal = number_format(($netTotal + $this->totaltaxes), getCurrencyDecimalPlaces(), '.', '');
-		$summaryModel->set(getTranslatedString("Net Total", $this->moduleName), $this->formatPrice($netTotal));
+		$summaryModel->set(\includes\Language::translate("Net Total", $this->moduleName), $this->formatPrice($netTotal));
 
 		$discount_amount = $final_details["discount_amount_final"];
 		$discount_percent = $final_details["discount_percentage_final"];
@@ -210,26 +211,27 @@ class Vtiger_InventoryPDFController
 			$discount_final_percent = $discount_percent;
 			$discount = (($discount_percent * $final_details["hdnSubTotal"]) / 100);
 		}
-		$summaryModel->set(getTranslatedString("Discount", $this->moduleName) . "($discount_final_percent%)", $this->formatPrice($discount));
+		$summaryModel->set(\includes\Language::translate("Discount", $this->moduleName) . "($discount_final_percent%)", $this->formatPrice($discount));
 
 		$group_total_tax_percent = '0.00';
 		//To calculate the group tax amount
 		if ($final_details['taxtype'] == 'group') {
 			$group_tax_details = $final_details['taxes'];
-			for ($i = 0; $i < count($group_tax_details); $i++) {
+			$countGroupTaxDetails = count($group_tax_details);
+			for ($i = 0; $i < $countGroupTaxDetails; $i++) {
 				$group_total_tax_percent += $group_tax_details[$i]['percentage'];
 			}
-			$summaryModel->set(getTranslatedString("Tax:", $this->moduleName) . "($group_total_tax_percent%)", $this->formatPrice($final_details['tax_totalamount']));
+			$summaryModel->set(\includes\Language::translate("Tax:", $this->moduleName) . "($group_total_tax_percent%)", $this->formatPrice($final_details['tax_totalamount']));
 		}
 		//obtain the Currency Symbol
 		$currencySymbol = $this->buildCurrencySymbol();
 
-		$summaryModel->set(getTranslatedString("Grand Total:", $this->moduleName) . "(in $currencySymbol)", $this->formatPrice($final_details['grandTotal'])); // TODO add currency string
+		$summaryModel->set(\includes\Language::translate("Grand Total:", $this->moduleName) . "(in $currencySymbol)", $this->formatPrice($final_details['grandTotal']));
 
 		return $summaryModel;
 	}
 
-	function buildHeaderModel()
+	public function buildHeaderModel()
 	{
 		$headerModel = new Vtiger_PDF_Model();
 		$headerModel->set('title', $this->buildHeaderModelTitle());
@@ -239,12 +241,12 @@ class Vtiger_InventoryPDFController
 		return $headerModel;
 	}
 
-	function buildHeaderModelTitle()
+	public function buildHeaderModelTitle()
 	{
 		return $this->moduleName;
 	}
 
-	function buildHeaderModelColumnLeft()
+	public function buildHeaderModelColumnLeft()
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -267,13 +269,13 @@ class Vtiger_InventoryPDFController
 
 			$additionalCompanyInfo = [];
 			if (!empty($resultrow['phone']))
-				$additionalCompanyInfo[] = "\n" . getTranslatedString("Phone: ", $this->moduleName) . $resultrow['phone'];
+				$additionalCompanyInfo[] = "\n" . \includes\Language::translate("Phone: ", $this->moduleName) . $resultrow['phone'];
 			if (!empty($resultrow['fax']))
-				$additionalCompanyInfo[] = "\n" . getTranslatedString("Fax: ", $this->moduleName) . $resultrow['fax'];
+				$additionalCompanyInfo[] = "\n" . \includes\Language::translate("Fax: ", $this->moduleName) . $resultrow['fax'];
 			if (!empty($resultrow['website']))
-				$additionalCompanyInfo[] = "\n" . getTranslatedString("Website: ", $this->moduleName) . $resultrow['website'];
+				$additionalCompanyInfo[] = "\n" . \includes\Language::translate("Website: ", $this->moduleName) . $resultrow['website'];
 			if (!empty($resultrow['vatid']))
-				$additionalCompanyInfo[] = "\n" . getTranslatedString("VAT ID: ", $this->moduleName) . $resultrow['vatid'];
+				$additionalCompanyInfo[] = "\n" . \includes\Language::translate("VAT ID: ", $this->moduleName) . $resultrow['vatid'];
 
 			$modelColumnLeft = array(
 				'logo' => "storage/Logo/" . $resultrow['logoname'],
@@ -284,13 +286,13 @@ class Vtiger_InventoryPDFController
 		return $modelColumnLeft;
 	}
 
-	function buildHeaderModelColumnCenter()
+	public function buildHeaderModelColumnCenter()
 	{
 		$customerName = $this->resolveReferenceLabel($this->focusColumnValue('account_id'), 'Accounts');
 		$contactName = $this->resolveReferenceLabel($this->focusColumnValue('contact_id'), 'Contacts');
 
-		$customerNameLabel = getTranslatedString('Customer Name', $this->moduleName);
-		$contactNameLabel = getTranslatedString('Contact Name', $this->moduleName);
+		$customerNameLabel = \includes\Language::translate('Customer Name', $this->moduleName);
+		$contactNameLabel = \includes\Language::translate('Contact Name', $this->moduleName);
 		$modelColumnCenter = array(
 			$customerNameLabel => $customerName,
 			$contactNameLabel => $contactName,
@@ -298,12 +300,12 @@ class Vtiger_InventoryPDFController
 		return $modelColumnCenter;
 	}
 
-	function buildHeaderModelColumnRight()
+	public function buildHeaderModelColumnRight()
 	{
-		$issueDateLabel = getTranslatedString('Issued Date', $this->moduleName);
-		$validDateLabel = getTranslatedString('Valid Date', $this->moduleName);
-		$billingAddressLabel = getTranslatedString('Billing Address', $this->moduleName);
-		$shippingAddressLabel = getTranslatedString('Shipping Address', $this->moduleName);
+		$issueDateLabel = \includes\Language::translate('Issued Date', $this->moduleName);
+		$validDateLabel = \includes\Language::translate('Valid Date', $this->moduleName);
+		$billingAddressLabel = \includes\Language::translate('Billing Address', $this->moduleName);
+		$shippingAddressLabel = \includes\Language::translate('Shipping Address', $this->moduleName);
 
 		$modelColumnRight = array(
 			'dates' => array(
@@ -316,42 +318,42 @@ class Vtiger_InventoryPDFController
 		return $modelColumnRight;
 	}
 
-	function buildFooterModel()
+	public function buildFooterModel()
 	{
 		$footerModel = new Vtiger_PDF_Model();
-		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$DESCRIPTION_DATA_KEY, from_html($this->focusColumnValue('description')));
-		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$TERMSANDCONDITION_DATA_KEY, from_html($this->focusColumnValue('terms_conditions')));
+		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$DESCRIPTION_DATA_KEY, \vtlib\Functions::fromHTML($this->focusColumnValue('description')));
+		$footerModel->set(Vtiger_PDF_InventoryFooterViewer::$TERMSANDCONDITION_DATA_KEY, \vtlib\Functions::fromHTML($this->focusColumnValue('terms_conditions')));
 		return $footerModel;
 	}
 
-	function buildFooterLabelModel()
+	public function buildFooterLabelModel()
 	{
 		$labelModel = new Vtiger_PDF_Model();
-		$labelModel->set(Vtiger_PDF_InventoryFooterViewer::$DESCRIPTION_LABEL_KEY, getTranslatedString('Description', $this->moduleName));
-		$labelModel->set(Vtiger_PDF_InventoryFooterViewer::$TERMSANDCONDITION_LABEL_KEY, getTranslatedString('Terms & Conditions', $this->moduleName));
+		$labelModel->set(Vtiger_PDF_InventoryFooterViewer::$DESCRIPTION_LABEL_KEY, \includes\Language::translate('Description', $this->moduleName));
+		$labelModel->set(Vtiger_PDF_InventoryFooterViewer::$TERMSANDCONDITION_LABEL_KEY, \includes\Language::translate('Terms & Conditions', $this->moduleName));
 		return $labelModel;
 	}
 
-	function buildPagerModel()
+	public function buildPagerModel()
 	{
 		$footerModel = new Vtiger_PDF_Model();
 		$footerModel->set('format', '-%s-');
 		return $footerModel;
 	}
 
-	function getWatermarkContent()
+	public function getWatermarkContent()
 	{
 		return '';
 	}
 
-	function buildWatermarkModel()
+	public function buildWatermarkModel()
 	{
 		$watermarkModel = new Vtiger_PDF_Model();
 		$watermarkModel->set('content', $this->getWatermarkContent());
 		return $watermarkModel;
 	}
 
-	function buildHeaderBillingAddress()
+	public function buildHeaderBillingAddress()
 	{
 		$billPoBox = $this->focusColumnValues(array('bill_pobox'));
 		$billStreet = $this->focusColumnValues(array('bill_street'));
@@ -365,7 +367,7 @@ class Vtiger_InventoryPDFController
 		return $address;
 	}
 
-	function buildHeaderShippingAddress()
+	public function buildHeaderShippingAddress()
 	{
 		$shipPoBox = $this->focusColumnValues(array('ship_pobox'));
 		$shipStreet = $this->focusColumnValues(array('ship_street'));
@@ -379,7 +381,7 @@ class Vtiger_InventoryPDFController
 		return $address;
 	}
 
-	function buildCurrencySymbol()
+	public function buildCurrencySymbol()
 	{
 		$adb = PearDatabase::getInstance();
 		$currencyId = $this->focus->column_fields['currency_id'];
@@ -390,7 +392,7 @@ class Vtiger_InventoryPDFController
 		return false;
 	}
 
-	function focusColumnValues($names, $delimeter = "\n")
+	public function focusColumnValues($names, $delimeter = "\n")
 	{
 		if (!is_array($names)) {
 			$names = array($names);
@@ -405,7 +407,7 @@ class Vtiger_InventoryPDFController
 		return $this->joinValues($values, $delimeter);
 	}
 
-	function focusColumnValue($key, $defvalue = '')
+	public function focusColumnValue($key, $defvalue = '')
 	{
 		$focus = $this->focus;
 		if (isset($focus->column_fields[$key])) {
@@ -414,19 +416,19 @@ class Vtiger_InventoryPDFController
 		return $defvalue;
 	}
 
-	function resolveReferenceLabel($id, $module = false)
+	public function resolveReferenceLabel($id, $module = false)
 	{
 		if (empty($id)) {
 			return '';
 		}
 		if ($module === false) {
-			$module = getSalesEntityType($id);
+			$module = \vtlib\Functions::getCRMRecordType($id);
 		}
 		$label = getEntityName($module, array($id));
 		return decode_html($label[$id]);
 	}
 
-	function joinValues($values, $delimeter = "\n")
+	public function joinValues($values, $delimeter = "\n")
 	{
 		$valueString = '';
 		foreach ($values as $value) {
@@ -437,21 +439,19 @@ class Vtiger_InventoryPDFController
 		return rtrim($valueString, $delimeter);
 	}
 
-	function formatNumber($value)
+	public function formatNumber($value)
 	{
 		return number_format($value);
 	}
 
-	function formatPrice($value, $decimal = 2)
+	public function formatPrice($value, $decimal = 2)
 	{
 		$currencyField = new CurrencyField($value);
 		return $currencyField->getDisplayValue(null, true);
 	}
 
-	function formatDate($value)
+	public function formatDate($value)
 	{
 		return DateTimeField::convertToUserFormat($value);
 	}
 }
-
-?>

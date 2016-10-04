@@ -10,8 +10,7 @@
 Vtiger_List_Js("Campaigns_List_Js",{},{
 	
 	readSelectedIds : function(decode){
-		var view = jQuery('#view').val();
-		if(view != "Detail"){
+		if(app.getViewName() != "Detail"){
 			return this._super(decode);
 		}
 		var selectedIdsElement = jQuery('#selectedIds');
@@ -33,8 +32,7 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 	},
 	
 	readExcludedIds : function(decode){
-		var view = jQuery('#view').val();
-		if(view != "Detail"){
+		if(app.getViewName() != "Detail"){
 			return this._super(decode);
 		}
 		var exlcudedIdsElement = jQuery('#excludedIds');
@@ -56,8 +54,7 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 	},
 
 	writeSelectedIds : function(selectedIds){
-		var view = jQuery('#view').val();
-		if(view != "Detail"){
+		if(app.getViewName() != "Detail"){
 			this._super(selectedIds);
 			return;
 		}
@@ -65,8 +62,7 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 	},
 
 	writeExcludedIds : function(excludedIds){
-		var view = jQuery('#view').val();
-		if(view != "Detail"){
+		if(app.getViewName() != "Detail"){
 			this._super(excludedIds);
 			return;
 		}
@@ -106,22 +102,22 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 	},
 	
 	getRecordsCount : function(){
-		var aDeferred = jQuery.Deferred();
-		var view = jQuery('#view').val();
-		if(view != "Detail"){
+		if(app.getViewName() != "Detail"){
 			return this._super();
 		}
+		var detailInstance = Vtiger_Detail_Js.getInstance();
+		var aDeferred = jQuery.Deferred();
 		var recordCountVal = jQuery("#recordsCount").val();
 		if(recordCountVal != ''){
 			aDeferred.resolve(recordCountVal);
 		} else {
 			var count = '';
-			var cvId = this.getCurrentCvId();
+			var cvId = jQuery('#recordsFilter').val();
 			var module = app.getModuleName();
 			var parent = app.getParentModuleName();
 			var relatedModuleName = jQuery('[name="relatedModuleName"]').val();
-			var recordId = jQuery('#recordId').val();
-			var tab_label = jQuery('div.related').find('li.active').data('labelKey');
+			var recordId = app.getRecordId();
+			var tab_label = detailInstance.getSelectedTab().data('labelKey');
 			var postData = {
 				"module": module,
 				"parent": parent,
@@ -151,8 +147,7 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 	 * Function to register events
 	 */
 	registerEvents : function(){
-		var view = jQuery('#view').val();
-		if(view != "Detail"){
+		if(app.getViewName() != "Detail"){
 			this._super();
 			return;
 		}

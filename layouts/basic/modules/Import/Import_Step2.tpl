@@ -12,8 +12,7 @@
 {strip}
 <div class='col-md-12 paddingLRZero'>
 	<div>
-		<div><strong>{'LBL_IMPORT_STEP_2'|@vtranslate:$MODULE}:</strong></div>
-		<div class="big">{'LBL_IMPORT_STEP_2_DESCRIPTION'|@vtranslate:$MODULE}</div>
+		<div><strong>{'LBL_IMPORT_STEP_2'|@vtranslate:$MODULE}: </strong> {'LBL_IMPORT_STEP_2_DESCRIPTION'|@vtranslate:$MODULE}</div>
 		<div>&nbsp;</div>
 	</div>
 	<div id="file_type_container">

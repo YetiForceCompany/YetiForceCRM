@@ -106,6 +106,8 @@ $languageStrings = [
 	'LBL_FOOTER_HEIGHT' => 'Marge pied de page',
 	'LBL_HEADER_IN_MILIMETERS' => 'Marge en-tête en millimètres depuis le haut de la page',
 	'LBL_FOOTER_IN_MILIMETERS' => 'Marge pied de page en millimètres depuis le bas de la page',
+	'LBL_GENERATE_ONE_PDF' => 'Generate one PDF for many records',
+	'LBL_GENERATE_ONE_PDF_INFO' => 'In case when PDF includes a special function that generates one table for many records, checking this box will result in generating one PDF file.',
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',
@@ -165,8 +167,8 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'Modèle PDF sauvegardé.',
-	'LBL_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
-	'LBL_NOTIFY_COPY_TITLE' => 'Texte',
+	'JS_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
+	'JS_NOTIFY_COPY_TITLE' => 'Texte',
 	'JS_PDF_TEMPLATE_EXPORTED' => 'Modèle PDF exporté avec succès.',
 	'JS_RECALCULATING' => 'Mise à jour des droits d\'accès...',
 ];

@@ -7,24 +7,16 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Package.php');
+namespace vtlib;
 
 /**
  * Provides API to package vtiger CRM language files.
  * @package vtlib
  */
-class Vtiger_ThemeExport extends Vtiger_Package
+class ThemeExport extends Package
 {
 
 	const TABLENAME = 'vtiger_layoutskins';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
 
 	/**
 	 * Generate unique id for insertion
@@ -32,7 +24,7 @@ class Vtiger_ThemeExport extends Vtiger_Package
 	 */
 	static function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
 	}
 
@@ -40,10 +32,10 @@ class Vtiger_ThemeExport extends Vtiger_Package
 	 * Initialize Export
 	 * @access private
 	 */
-	function __initExport($layoutName, $themeName)
+	public function __initExport($layoutName, $themeName)
 	{
 		// Security check to ensure file is withing the web folder.
-		Vtiger_Utils::checkFileAccessForInclusion("layouts/$layoutName/skins/$themeName/style.less");
+		Utils::checkFileAccessForInclusion("layouts/$layoutName/skins/$themeName/style.less");
 
 		$this->_export_modulexml_file = fopen($this->__getManifestFilePath(), 'w');
 		$this->__write("<?xml version='1.0'?>\n");
@@ -51,12 +43,12 @@ class Vtiger_ThemeExport extends Vtiger_Package
 
 	/**
 	 * Export Module as a zip file.
-	 * @param Vtiger_Module Instance of module
+	 * @param Module Instance of module
 	 * @param Path Output directory path
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	function export($layoutName, $themeName, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export($layoutName, $themeName, $todir = '', $zipfilename = '', $directDownload = false)
 	{
 		$this->__initExport($layoutName, $themeName);
 
@@ -70,7 +62,7 @@ class Vtiger_ThemeExport extends Vtiger_Package
 			$zipfilename = "$layoutName-$themeName" . date('YmdHis') . ".zip";
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
-		$zip = new Vtiger_Zip($zipfilename);
+		$zip = new Zip($zipfilename);
 
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), "manifest.xml");
@@ -95,9 +87,9 @@ class Vtiger_ThemeExport extends Vtiger_Package
 	 * Export Language Handler
 	 * @access private
 	 */
-	function export_Theme($layoutName, $themeName)
+	public function export_Theme($layoutName, $themeName)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", array($themeName));
 		$layoutresultrow = $adb->fetch_array($sqlresult);
@@ -140,11 +132,9 @@ class Vtiger_ThemeExport extends Vtiger_Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	function export_Dependencies()
+	public function export_Dependencies()
 	{
-		global $YetiForce_current_version, $adb;
-
-		$vtigerMinVersion = $YetiForce_current_version;
+		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = false;
 
 		$this->openNode('dependencies');
@@ -160,14 +150,14 @@ class Vtiger_ThemeExport extends Vtiger_Package
 	 */
 	static function __initSchema()
 	{
-		$hastable = Vtiger_Utils::CheckTable(self::TABLENAME);
+		$hastable = Utils::CheckTable(self::TABLENAME);
 		if (!$hastable) {
-			Vtiger_Utils::CreateTable(
+			Utils::CreateTable(
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
                             name VARCHAR(50), label VARCHAR(30), parent VARCHAR(100), lastupdated DATETIME, isdefault INT(1), active INT(1))', true
 			);
-			global $languages, $adb;
-			foreach ($languages as $langkey => $langlabel) {
+			$adb = \PearDatabase::getInstance();
+			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
 				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,label,parent,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
 			}
@@ -183,14 +173,15 @@ class Vtiger_ThemeExport extends Vtiger_Package
 
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
-		if (strtolower($name) == 'basic' && $overrideCore == false)
+		if (strtolower($name) == 'basic' && $overrideCore === false)
 			return;
 
 		$useisdefault = ($isdefault) ? 1 : 0;
 		$useisactive = ($isactive) ? 1 : 0;
 
-		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE name=?', Array($name));
+		$adb = \PearDatabase::getInstance();
+		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
+		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->num_rows($checkres)) {
 			$adb->update(self::TABLENAME, [

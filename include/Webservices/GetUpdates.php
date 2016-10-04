@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Webservices/ModuleTypes.php';
@@ -14,8 +15,8 @@ require_once 'include/Webservices/DescribeObject.php';
 
 function vtws_sync($mtime, $elementType, $syncType, $user)
 {
-	global $adb, $recordString, $modifiedTimeString;
-
+	global $recordString, $modifiedTimeString;
+	$adb = PearDatabase::getInstance();
 	$numRecordsLimit = 100;
 	$ignoreModules = array("Users");
 	$typed = true;
@@ -39,7 +40,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$userAndGroupSync = true;
 	}
 
-	if ($applicationSync && !is_admin($user)) {
+	if ($applicationSync && !\vtlib\Functions::userIsAdministrator($user)) {
 		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Only admin users can perform application sync");
 	}
 
@@ -57,7 +58,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 	// End
 
 
-	if (!isset($elementType) || $elementType == '' || $elementType == null) {
+	if (!isset($elementType) || $elementType == '' || $elementType === null) {
 		$typed = false;
 	}
 
@@ -120,7 +121,8 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 	$result = $adb->pquery($q, $params);
 
 	$modTime = [];
-	for ($i = 0; $i < $adb->num_rows($result); $i++) {
+	$countResult = $adb->num_rows($result);
+	for ($i = 0; $i < $countResult; $i++) {
 		$modTime[] = $adb->query_result($result, $i, 'modifiedtime');
 	}
 	if (!empty($modTime)) {
@@ -150,7 +152,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$moduleFieldNames = getSelectClauseFields($elementType, $moduleMeta, $user);
 		$moduleFieldNames[] = 'id';
 		$queryGenerator->setFields($moduleFieldNames);
-		$selectClause = "SELECT " . $queryGenerator->getSelectClauseColumnSQL();
+		$selectClause = sprintf("SELECT %s", $queryGenerator->getSelectClauseColumnSQL());
 		// adding the fieldnames that are present in the delete condition to the select clause
 		// since not all fields present in delete condition will be present in the fieldnames of the module
 		foreach ($deleteColumnNames as $table_fieldName => $columnName) {
@@ -239,7 +241,6 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 
 function vtws_getSeconds($mtimeString)
 {
-	//TODO handle timezone and change time to gmt.
 	return strtotime($mtimeString);
 }
 
@@ -303,5 +304,3 @@ function getSelectClauseFields($module, $moduleMeta, $user)
 	}
 	return array_keys($moduleFieldNames);
 }
-
-?>

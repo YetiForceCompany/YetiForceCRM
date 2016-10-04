@@ -24,7 +24,6 @@ jQuery.Class('Settings_Mail_Autologin_Js', {}, {
 			params['mode'] = 'updateUsers';
 			params['id'] = row.data('id');
 			params['user'] = users;
-			console.log(users);
 			AppConnector.request(params).then(
 				function(data) {
 					progressIndicator.progressIndicator({'mode' : 'hide'});

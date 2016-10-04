@@ -31,7 +31,7 @@ class File extends AbstractBackend {
      *
      * @param string $locksFile path to file
      */
-    function __construct($locksFile) {
+    public function __construct($locksFile) {
 
         $this->locksFile = $locksFile;
 
@@ -50,7 +50,7 @@ class File extends AbstractBackend {
      * @param bool $returnChildLocks
      * @return array
      */
-    function getLocks($uri, $returnChildLocks) {
+    public function getLocks($uri, $returnChildLocks) {
 
         $newLocks = [];
 
@@ -86,7 +86,7 @@ class File extends AbstractBackend {
      * @param LockInfo $lockInfo
      * @return bool
      */
-    function lock($uri, LockInfo $lockInfo) {
+    public function lock($uri, LockInfo $lockInfo) {
 
         // We're making the lock timeout 30 minutes
         $lockInfo->timeout = 1800;
@@ -116,7 +116,7 @@ class File extends AbstractBackend {
      * @param LockInfo $lockInfo
      * @return bool
      */
-    function unlock($uri, LockInfo $lockInfo) {
+    public function unlock($uri, LockInfo $lockInfo) {
 
         $locks = $this->getData();
         foreach ($locks as $k => $lock) {

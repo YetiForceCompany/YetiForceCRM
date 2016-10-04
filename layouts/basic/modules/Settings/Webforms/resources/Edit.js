@@ -413,29 +413,6 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 	},
 	
 	/**
-	 * Function to regiser the event to make the menu items list sortable
-	 */
-/*	makeMenuItemsListSortable : function() {
-		var selectElement = jQuery('#fieldsList');
-		var select2Element = app.getSelect2ElementFromSelect(selectElement);
-		
-		//TODO : peform the selection operation in context this might break if you have multi select element in menu editor
-		//The sorting is only available when Select2 is attached to a hidden input field.
-		var select2ChoiceElement = select2Element.find('ul.select2-choices');
-		select2ChoiceElement.sortable({
-			'containment': select2ChoiceElement,
-			start: function() {  },
-			update: function() { 
-
-			//If arragments of fileds is completed save field order button should be enabled
-			 if(selectElement.val().length > 1){
-				 jQuery('#saveFieldsOrder').attr('disabled',false);
-			 }
-			}
-		});
-	},
-*/	
-	/**
 	 * Function to save fields order in a webform
 	 */
 	registerEventForFieldsSaveOrder : function(){
@@ -547,7 +524,6 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 				} else {
 					//If validation fails, form should submit again
 					editViewForm.removeData('submit');
-					// to avoid hiding of error message under the fixed nav bar
 					app.formAlignmentAfterValidation(editViewForm);
 				}
 			}

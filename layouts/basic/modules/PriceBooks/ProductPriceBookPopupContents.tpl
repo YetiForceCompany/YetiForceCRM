@@ -72,11 +72,11 @@
 	<!--added this div for Temporarily -->
 	{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 		<div class="row">
-			<div class="emptyRecordsDiv">{vtranslate('LBL_NO', $MODULE_NAME)} {vtranslate($MODULE_NAME, $MODULE_NAME)} {vtranslate('LBL_FOUND', $MODULE_NAME)}.</div>
+			<div class="emptyRecordsDiv">{vtranslate('LBL_RECORDS_NO_FOUND')}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{vtranslate('LBL_CREATE_SINGLE_RECORD')}</a>.{/if}</div>
 		</div>
 	{/if}
 </div>
-<div class="clearfix form-actions pushDown" style="border: 1px solid #DDDDDD;">
+<div class="clearfix form-actions pushDown">
 	<button class="cancelLink pull-right btn btn-warning" type="button">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
 	<button class="btn btn-success addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_TO',$MODULE_NAME)}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
 </div>

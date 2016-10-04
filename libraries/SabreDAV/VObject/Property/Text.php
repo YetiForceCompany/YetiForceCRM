@@ -72,7 +72,7 @@ class Text extends Property {
      *
      * @return void
      */
-    function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null) {
+    public function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null) {
 
         // There's two types of multi-valued text properties:
         // 1. multivalue properties.
@@ -97,7 +97,7 @@ class Text extends Property {
      *
      * @return void
      */
-    function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val) {
 
         $this->setValue(MimeDir::unescapeValue($val, $this->delimiter));
 
@@ -110,7 +110,7 @@ class Text extends Property {
      *
      * @return void
      */
-    function setQuotedPrintableValue($val) {
+    public function setQuotedPrintableValue($val) {
 
         $val = quoted_printable_decode($val);
 
@@ -131,7 +131,7 @@ class Text extends Property {
      *
      * @return string
      */
-    function getRawMimeDirValue() {
+    public function getRawMimeDirValue() {
 
         $val = $this->getParts();
 
@@ -172,7 +172,7 @@ class Text extends Property {
      *
      * @return array
      */
-    function getJsonValue() {
+    public function getJsonValue() {
 
         // Structured text values should always be returned as a single
         // array-item. Multi-value text should be returned as multiple items in
@@ -192,7 +192,7 @@ class Text extends Property {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'TEXT';
 
@@ -203,7 +203,7 @@ class Text extends Property {
      *
      * @return string
      */
-    function serialize() {
+    public function serialize() {
 
         // We need to kick in a special type of encoding, if it's a 2.1 vcard.
         if ($this->root->getDocumentType() !== Document::VCARD21) {
@@ -386,7 +386,7 @@ class Text extends Property {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $warnings = parent::validate($options);
 

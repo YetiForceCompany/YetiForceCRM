@@ -251,7 +251,6 @@ jQuery.Class("Settings_BackUp_Index_Js", {}, {
 
 		content.find('.backup-list').empty();
 		jQuery(data.result.backups).each(function () {
-			console.log(this);
 			content.find('.backup-list').append('<tr><td><label class="marginRight5px" >' + this.starttime + '</label></td><td><label class="marginRight5px" >' + this.endtime + '</label></td><td><label class="marginRight5px" >' + this.filename + '</label></td><td><label class="marginRight5px" >' + this.status + '</label></td><td><label class="marginRight5px" >' + this.backuptime + '</label></td></tr>')
 		});
 	},

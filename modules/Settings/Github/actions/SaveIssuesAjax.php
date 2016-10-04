@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Save issue to github
  * @package YetiForce.Github
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-
 class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
 {
 

@@ -15,7 +15,6 @@ $enabledServices = [
 	//'yetiportal',
 	//'dav',
 	//'webservices',
-	//'mobileModule',
 	//'webservice',
 ];
 /* +***************   DAV   **************** */

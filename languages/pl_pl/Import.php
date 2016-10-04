@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'csv' => 'CSV',
 	'xml' => 'XML',
@@ -54,7 +54,7 @@ $languageStrings = [
 	'LBL_NUMBER_OF_RECORDS_CREATED' => 'Rekordy utworzone',
 	'LBL_NUMBER_OF_RECORDS_UPDATED' => 'Rekordy nadpisane',
 	'LBL_NUMBER_OF_RECORDS_SKIPPED' => 'Rekordy pominięte',
-	'LBL_NUMBER_OF_RECORDS_MERGED' => 'Rekordy połączone', 
+	'LBL_NUMBER_OF_RECORDS_MERGED' => 'Rekordy połączone',
 	'LBL_TOTAL_RECORDS_FAILED' => 'Rekordy, które nie zostały zaimportowane',
 	'LBL_IMPORT_MORE' => 'Importuj więcej',
 	'LBL_VIEW_LAST_IMPORTED_RECORDS' => 'Ostatnio importowane rekordy',
@@ -86,6 +86,5 @@ $languageStrings = [
 	'skipped' => 'Pominięte rekordy',
 	'failed' => 'Niepoprawne rekordy',
 	'LBL_SELECT_FILE' => 'Wybierz plik do zaimportowania',
-	
 ];
 

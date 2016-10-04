@@ -54,11 +54,31 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 		if ($action == 'Header')
 			$action = 0;
-		$sql = " SELECT vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid, mdw.id as widgetid, mdw.position as position, vtiger_links.linkid as id, mdw.limit, mdw.cache, mdw.owners 
-			FROM vtiger_links 
-			LEFT JOIN vtiger_module_dashboard_widgets mdw ON vtiger_links.linkid = mdw.linkid
-			WHERE mdw.userid = ? AND vtiger_links.linktype = ? AND mdw.module = ? AND `active` = ?";
-		$params = array($currentUser->getId(), 'DASHBOARDWIDGET', $moduleModel->getId(), $action);
+		$sql = " SELECT 
+					vtiger_links.*,
+					mdw.userid,
+					mdw.data,
+					mdw.active,
+					mdw.title,
+					mdw.size,
+					mdw.filterid,
+					mdw.id AS widgetid,
+					mdw.position,
+					vtiger_links.linkid AS id,
+					mdw.limit,
+					mdw.cache,
+					mdw.owners,
+					mdw.isdefault
+				  FROM
+					vtiger_links 
+					LEFT JOIN vtiger_module_dashboard_widgets mdw 
+					  ON vtiger_links.linkid = mdw.linkid 
+				  WHERE mdw.userid = ? 
+					AND vtiger_links.linktype = ? 
+					AND mdw.module = ? 
+					AND `active` = ?";
+		$params = [$currentUser->getId(), 'DASHBOARDWIDGET', $moduleModel->getId(), $action];
+
 		$result = $db->pquery($sql, $params);
 
 		$widgets = [];
@@ -66,11 +86,21 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 		while ($row = $db->fetch_array($result)) {
 			$row['linkid'] = $row['id'];
 			if ($row['linklabel'] == 'Mini List') {
+				if (!$row['isdeafult'])
+					$row['deleteFromList'] = true;
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
+			} elseif ($row['linklabel'] == 'ChartFilter') {
+				if (!$row['isdeafult'])
+					$row['deleteFromList'] = true;
+				$charFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
+				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
+				$chartFilterWidgetModel->setWidgetModel($charFilterWidget);
+				$charFilterWidget->set('title', $chartFilterWidgetModel->getTitle());
+				$widgets[] = $charFilterWidget;
 			} else
 				$widgets[] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
@@ -83,10 +113,10 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 			$module = $this->getModuleNameFromLink($url, $label);
 
 			if ($module == 'Home' && !empty($filterid) && !empty($data)) {
-				$filterData = Zend_Json::decode(htmlspecialchars_decode($data));
+				$filterData = \includes\utils\Json::decode(htmlspecialchars_decode($data));
 				$module = $filterData['module'];
 			}
-			if (!$currentUserPrivilegeModel->hasModulePermission(getTabid($module))) {
+			if (!$currentUserPrivilegeModel->hasModulePermission($module)) {
 				unset($widgets[$index]);
 			}
 		}
@@ -102,7 +132,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 */
 	public function getModuleNameFromLink($linkUrl, $linkLabel)
 	{
-		$params = Vtiger_Functions::getQueryParams($linkUrl);
+		$params = vtlib\Functions::getQueryParams($linkUrl);
 		$module = $params['module'];
 		if ($linkLabel == 'Overdue Activities' || $linkLabel == 'Upcoming Activities') {
 			$module = 'Calendar';
@@ -116,7 +146,6 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 */
 	public function getDefaultWidgets()
 	{
-		//TODO: Need to review this API is needed?
 		$moduleModel = $this->getModule();
 		$widgets = [];
 
@@ -125,37 +154,44 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 	public function verifyDashboard($moduleName)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Vtiger_DashBoard_Model::verifyDashboard() method ...");
-		$adb = PearDatabase::getInstance();
+		\App\Log::trace('Entering ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $moduleName . ')');
+		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole());
-		$query = 'SELECT vtiger_module_dashboard.*, vtiger_links.tabid FROM `vtiger_module_dashboard` INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard.linkid WHERE vtiger_module_dashboard.blockid IN (0,?);';
-		if (count($blockId) == 0)
+		if (count($blockId) == 0) {
+			\App\Log::trace('Exiting ' . __CLASS__ . ':' . __FUNCTION__);
 			return;
-		$params = array($blockId);
-		$result = $adb->pquery($query, $params);
-		$num = $adb->num_rows($result);
-		for ($i = 0; $i < $num; $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
+		}
+		$query = 'SELECT vtiger_module_dashboard.*, vtiger_links.tabid FROM `vtiger_module_dashboard` 
+			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard.linkid 
+			WHERE vtiger_module_dashboard.blockid = ?;';
+		$result = $db->pquery($query, $blockId);
+		while ($row = $db->getRow($result)) {
 			$row['data'] = htmlspecialchars_decode($row['data']);
 			$row['size'] = htmlspecialchars_decode($row['size']);
 			$row['owners'] = htmlspecialchars_decode($row['owners']);
-			$query = 'SELECT * FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ? AND `templateid` = ?;';
-			$params = array($currentUser->getId(), $row['id']);
-			$resultVerify = $adb->pquery($query, $params);
-			if (!$adb->num_rows($resultVerify)) {
-
-				$query = 'INSERT INTO vtiger_module_dashboard_widgets(`linkid`, `userid`, `templateid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`, `isdefault`, `active`, `module`, `cache`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);';
-				$active = 0;
-				if ($row['isdefault'])
-					$active = 1;
-				$params = array($row['linkid'], $currentUser->getId(), $row['id'], $row['filterid'], $row['title'], $row['data'], $row['size'], $row['limit'], $row['owners'], $row['isdefault'], $active, $row['tabid'], $row['cache']);
-				$adb->pquery($query, $params);
+			$query = 'SELECT 1 FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ? && `templateid` = ?;';
+			$resultVerify = $db->pquery($query, [$currentUser->getId(), $row['id']]);
+			if (!$db->getRowCount($resultVerify)) {
+				$active = $row['isdefault'] ? 1 : 0;
+				$db->insert('vtiger_module_dashboard_widgets', [
+					'linkid' => $row['linkid'],
+					'userid' => $currentUser->getId(),
+					'templateid' => $row['id'],
+					'filterid' => $row['filterid'],
+					'title' => $row['title'],
+					'data' => $row['data'],
+					'size' => $row['size'],
+					'limit' => $row['limit'],
+					'owners' => $row['owners'],
+					'isdefault' => $row['isdefault'],
+					'active' => $active,
+					'module' => $row['tabid'],
+					'cache' => $row['cache']
+				]);
 			}
 		}
-		$log->debug("Exiting Vtiger_DashBoard_Model::verifyDashboard() method ...");
-		return $num;
+		\App\Log::trace('Exiting ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	/**
@@ -167,9 +203,35 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
 		$instance = new $modelClassName();
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		return $instance->setModule($moduleModel);
+	}
+
+	/**
+	 * Function to get modules with widgets
+	 * @param <String> $moduleName - module name
+	 * @return <Array> $modules
+	 */
+	public static function getModulesWithWidgets($moduleName = false)
+	{
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT vtiger_module_dashboard_widgets.module, vtiger_module_dashboard_blocks.tabid FROM vtiger_module_dashboard 
+			LEFT JOIN vtiger_module_dashboard_blocks ON vtiger_module_dashboard_blocks.id = vtiger_module_dashboard.blockid
+			LEFT JOIN `vtiger_module_dashboard_widgets` ON `vtiger_module_dashboard_widgets`.templateid = vtiger_module_dashboard.id
+			WHERE userid = ? OR authorized = ? GROUP BY module, tabid;', [$currentUser->getId(), $currentUser->getRole()]);
+		$modules = [];
+		while ($row = $db->getRow($result)) {
+			$tabId = $row['module'] ? $row['module'] : $row['tabid'];
+			if (!isset($modules[$tabId])) {
+				$modules[$tabId] = vtlib\Functions::getModuleName($tabId);
+			}
+		}
+		ksort($modules);
+		if ($moduleName && ($tabId = vtlib\Functions::getModuleId($moduleName))) {
+			unset($modules[$tabId]);
+			$modules = array_merge([$tabId => $moduleName], $modules);
+		}
+		return $modules;
 	}
 }

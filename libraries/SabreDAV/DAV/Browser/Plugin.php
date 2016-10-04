@@ -60,7 +60,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @param bool $enablePost
      */
-    function __construct($enablePost = true) {
+    public function __construct($enablePost = true) {
 
         $this->enablePost = $enablePost;
 
@@ -72,7 +72,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         $this->server = $server;
         $this->server->on('method:GET', [$this, 'httpGetEarly'], 90);
@@ -89,7 +89,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpGetEarly(RequestInterface $request, ResponseInterface $response) {
+    public function httpGetEarly(RequestInterface $request, ResponseInterface $response) {
 
         $params = $request->getQueryParameters();
         if (isset($params['sabreAction']) && $params['sabreAction'] === 'info') {
@@ -105,7 +105,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpGet(RequestInterface $request, ResponseInterface $response) {
+    public function httpGet(RequestInterface $request, ResponseInterface $response) {
 
         // We're not using straight-up $_GET, because we want everything to be
         // unit testable.
@@ -162,7 +162,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpPOST(RequestInterface $request, ResponseInterface $response) {
+    public function httpPOST(RequestInterface $request, ResponseInterface $response) {
 
         $contentType = $request->getHeader('Content-Type');
         list($contentType) = explode(';', $contentType);
@@ -250,7 +250,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $value
      * @return string
      */
-    function escapeHTML($value) {
+    public function escapeHTML($value) {
 
         return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 
@@ -262,7 +262,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $path
      * @return string
      */
-    function generateDirectoryIndex($path) {
+    public function generateDirectoryIndex($path) {
 
         $html = $this->generateHeader($path ? $path : '/', $path);
 
@@ -379,7 +379,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return string
      */
-    function generatePluginListing() {
+    public function generatePluginListing() {
 
         $html = $this->generateHeader('Plugins');
 
@@ -416,7 +416,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $path
      * @return void
      */
-    function generateHeader($title, $path = null) {
+    public function generateHeader($title, $path = null) {
 
         $version = DAV\Version::VERSION;
 
@@ -473,7 +473,7 @@ HTML;
      *
      * @return string
      */
-    function generateFooter() {
+    public function generateFooter() {
 
         $version = DAV\Version::VERSION;
         return <<<HTML
@@ -495,7 +495,7 @@ HTML;
      * @param mixed $output
      * @return void
      */
-    function htmlActionsPanel(DAV\INode $node, &$output) {
+    public function htmlActionsPanel(DAV\INode $node, &$output) {
 
         if (!$node instanceof DAV\ICollection)
             return;
@@ -767,7 +767,7 @@ HTML;
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'browser';
 
@@ -784,7 +784,7 @@ HTML;
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

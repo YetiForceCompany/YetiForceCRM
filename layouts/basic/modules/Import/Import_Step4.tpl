@@ -16,7 +16,7 @@
 			<strong>{'LBL_IMPORT_STEP_4'|@vtranslate:$MODULE}:</strong>
 		</td>
 		<td>
-			<span class="big">{'LBL_IMPORT_STEP_4_DESCRIPTION'|@vtranslate:$MODULE}</span>
+			<span>{'LBL_IMPORT_STEP_4_DESCRIPTION'|@vtranslate:$MODULE}</span>
 		</td>
 		<td>
             <div id="savedMapsContainer" class="textAlignRight pull-right">
@@ -60,7 +60,7 @@
 								</td>
 								{/if}
 								<td class="cellLabel">
-									<span>{$_FIELD_VALUE|@textlength_check}</span>
+									<span>{\vtlib\Functions::textLength($_FIELD_VALUE)}</span>
 								</td>
 								<td class="cellLabel">
 									<input type="hidden" name="row_counter" value="{$_COUNTER}" />

@@ -2,11 +2,11 @@
 {strip}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_EDITING', $MODULE_NAME)}</h3>
+		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_EDITING', $MODULE)}</h3>
 		<div class="input-group paddingTop10">
-			<input id="valueSearchTree" type="text" class="form-control" placeholder="{vtranslate('LBL_SEARCH', $MODULE_NAME)} ..." >
+			<input id="valueSearchTree" type="text" class="form-control" placeholder="{vtranslate('LBL_SEARCH', $MODULE)} ..." >
 			<span class="input-group-btn">
-				<button id="btnSearchTree" class="btn btn-danger" type="button">{vtranslate('LBL_SEARCH', $MODULE_NAME)}</button>
+				<button id="btnSearchTree" class="btn btn-danger" type="button">{vtranslate('LBL_SEARCH', $MODULE)}</button>
 			</span>
 		</div>
 	</div>
@@ -20,7 +20,7 @@
 				<div class="col-md-12" id="treePopupContents"></div>
 			</div>
 		{else}	
-			<h4 class="textAlignCenter ">{vtranslate('LBL_RECORDS_NO_FOUND', $MODULE_NAME)}</h4>
+			<h4 class="textAlignCenter ">{vtranslate('LBL_RECORDS_NO_FOUND', $MODULE)}</h4>
 		{/if}
 	</div>
 	<div class="modal-footer">

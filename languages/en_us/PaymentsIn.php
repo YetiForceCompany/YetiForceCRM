@@ -18,8 +18,8 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_RECORDS_LIST' => 'Records list',
 	'LBL_PARENTID' => 'Parent payment in',
-	'Denied'=>'Denied',
-	'Created'=>'Created',
+	'Denied' => 'Denied',
+	'Created' => 'Created',
 	'Paid' => 'Paid',
 	'LBL_PAYMENTSCURRENCY' => 'Currency',
 	'Account' => 'Account account number',
@@ -59,5 +59,4 @@ $languageStrings = [
 	'SGB' => 'Spółdzielcza Grupa Bankowa',
 	'Citi' => 'Citi Handlowy',
 	'idea' => 'Idea Bank S.A.',
-	
 ];

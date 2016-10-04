@@ -2,16 +2,14 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Liste Produkte',
-	'Inactive'	=>	'Inaktiv',
-	'Active'	=>	'Aktiv',
+	'Inactive' => 'Inaktiv',
+	'Active' => 'Aktiv',
 	// Basic Strings
-	'OutsourcedProducts'        => 'Outsourcing-Produkte',
+	'OutsourcedProducts' => 'Outsourcing-Produkte',
 	'SINGLE_OutsourcedProducts' => 'Outsourcing-Produkt',
 	'LBL_ADD_RECORD' => 'Produkt hinzufügen',
-
 	// Blocks
 	'LBL_INFORMATION' => 'Ausgelagerte Produkte',
-
 	//Field Labels
 	'Assigned To' => 'zuständig',
 	'LBL_RODZAJUMOWY' => 'Art der Vereinbarung',
@@ -30,6 +28,6 @@ $languageStrings = [
 	'Where bought' => 'Wo gekauft',
 	'Number' => 'Nummer',
 	'Save' => 'Speichern',
-	'Selling proposition'=>'Gelegenheit',
+	'Selling proposition' => 'Gelegenheit',
 	'LBL_GENERATE_EXTENSION' => 'Generiere Verlängerung',
 ];

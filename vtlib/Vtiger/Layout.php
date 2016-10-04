@@ -7,21 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-vimport('vtlib.Vtiger.LayoutImport');
+namespace vtlib;
 
 /**
  * Layout Manager class for vtiger Modules.
  * @package vtlib
  */
-class Vtiger_Layout extends Vtiger_LayoutImport
+class Layout extends LayoutImport
 {
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-
-		parent::__construct();
-	}
+	
 }

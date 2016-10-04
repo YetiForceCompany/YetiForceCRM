@@ -22,11 +22,13 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 		$addressbook = $calendarid = [];
 		$result = $adb->query('SELECT addressbookid, COUNT(id) AS num FROM dav_cards GROUP BY addressbookid;');
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$addressbook[$adb->query_result_raw($result, $i, 'addressbookid')] = $adb->query_result_raw($result, $i, 'num');
 		}
 		$result = $adb->query('SELECT calendarid, COUNT(id) AS num FROM dav_calendarobjects GROUP BY calendarid;');
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$calendarid[$adb->query_result_raw($result, $i, 'calendarid')] = $adb->query_result_raw($result, $i, 'num');
 		}
 		return ['calendar' => $calendarid, 'addressbook' => $addressbook];
@@ -75,7 +77,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
 		$davStorageDir = vglobal('davStorageDir');
-		Vtiger_Functions::recurseDelete($davStorageDir . '/' . $user_name);
+		vtlib\Functions::recurseDelete($davStorageDir . '/' . $user_name);
 	}
 
 	public function getTypes()
@@ -95,7 +97,5 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$davStorageDir = vglobal('davStorageDir');
 		@mkdir($davStorageDir . $path);
 
-		//$adb->pquery('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime,userid) VALUES (?,?,?,?, NOW(),?);', 
-		//	array($user_name, $path, $parent_dirid, $dirHash, $params['user']));
 	}
 }

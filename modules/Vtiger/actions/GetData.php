@@ -11,14 +11,14 @@
 class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('source_module');
 		$recordId = $request->get('record');
 
 		$recordPermission = Users_Privileges_Model::isPermitted($sourceModule, 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}

@@ -56,6 +56,7 @@ function SaveResult() {
 	}
 	this.executeTask = function (data, key, form) {
 		var instance = this;
+		data.type = parseInt(data.type)
 		switch (data.type) {
 			case 0:
 				this.showNotify(data.info)
@@ -212,7 +213,7 @@ function SaveResult() {
 		headerInstance.getQuickCreateForm(quickcreateUrl, moduleName, quickCreateParams).then(function (data) {
 			headerInstance.handleQuickCreateData(data, quickCreateParams);
 			progress.progressIndicator({'mode': 'hide'});
-			jQuery('form[name="QuickCreate"]').closest('.modal').on('click', '.cancelLinkContainer,.close', function (e) {
+			jQuery('form[name="QuickCreate"]').closest('.modal').on('click', '.cancelLink ,.close', function (e) {
 				if (typeof form != 'undefined') {
 					instance.skipCheckDataOneTime = key;
 					form.submit();

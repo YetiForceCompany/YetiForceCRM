@@ -20,8 +20,8 @@
 				<form class="form-horizontal contentsBackground" id="moveDocuments" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="MoveDocuments" />
-					<input type="hidden" name="selected_ids" value={ZEND_JSON::encode($SELECTED_IDS)} />
-					<input type="hidden" name="excluded_ids" value={ZEND_JSON::encode($EXCLUDED_IDS)} />
+					<input type="hidden" name="selected_ids" value={\includes\utils\Json::encode($SELECTED_IDS)} />
+					<input type="hidden" name="excluded_ids" value={\includes\utils\Json::encode($EXCLUDED_IDS)} />
 					<input type="hidden" name="viewname" value="{$VIEWNAME}" />
 					<input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
 					<input type="hidden" name="operator" value="{$OPERATOR}" />

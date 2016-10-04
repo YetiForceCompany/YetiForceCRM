@@ -7,20 +7,22 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+namespace vtlib;
+
 require_once('vtlib/thirdparty/dUnzip2.inc.php');
 
 /**
  * Provides API to make working with zip file extractions easy
  * @package vtlib
  */
-class Vtiger_Unzip extends dUnzip2
+class Unzip extends \dUnzip2
 {
 
 	/**
 	 * Check existence of path in the given array
 	 * @access private
 	 */
-	function __checkPathInArray($path, $pathArray)
+	public function __checkPathInArray($path, $pathArray)
 	{
 		foreach ($pathArray as $checkPath) {
 			if (strpos($path, $checkPath) === 0)
@@ -33,7 +35,7 @@ class Vtiger_Unzip extends dUnzip2
 	 * Check if the file path is directory
 	 * @param String Zip file path
 	 */
-	function isdir($filepath)
+	public function isdir($filepath)
 	{
 		if (substr($filepath, -1, 1) == "/")
 			return true;
@@ -45,7 +47,7 @@ class Vtiger_Unzip extends dUnzip2
 	 * Allows you to rename while unzipping and handle exclusions.
 	 * @access private
 	 */
-	Function unzipAllEx($targetDir = false, $includeExclude = false, $renamePaths = false, $ignoreFiles = false, $baseDir = "", $applyChmod = 0755)
+	public function unzipAllEx($targetDir = false, $includeExclude = false, $renamePaths = false, $ignoreFiles = false, $baseDir = "", $applyChmod = 0755)
 	{
 
 		// We want to always maintain the structure
@@ -55,7 +57,7 @@ class Vtiger_Unzip extends dUnzip2
 			$targetDir = dirname(__FILE__) . "/";
 
 		if ($renamePaths === false)
-			$renamePaths = Array();
+			$renamePaths = [];
 
 		/*
 		 * Setup includeExclude parameter
@@ -69,7 +71,7 @@ class Vtiger_Unzip extends dUnzip2
 		 * If exclude is specified folders or files will be excluded.
 		 */
 		if ($includeExclude === false)
-			$includeExclude = Array();
+			$includeExclude = [];
 
 		$lista = $this->getList();
 		if (sizeof($lista))
@@ -106,7 +108,7 @@ class Vtiger_Unzip extends dUnzip2
 					continue;
 
 				if (!is_dir($outDN) && $maintainStructure) {
-					$str = "";
+					$str = '';
 					$folders = explode("/", $dirname);
 					foreach ($folders as $folder) {
 						$str = $str ? "$str/$folder" : $folder;
@@ -118,7 +120,7 @@ class Vtiger_Unzip extends dUnzip2
 						}
 					}
 				}
-				if (substr($fileName, -1, 1) == "/")
+				if (substr($fileName, -1, 1) == '/')
 					continue;
 
 				if (substr($fileName, -3) == '.sh')
@@ -132,7 +134,7 @@ class Vtiger_Unzip extends dUnzip2
 	 * @param type $fileName
 	 * @return boolean
 	 */
-	function checkFileExistsInRootFolder($fileName)
+	public function checkFileExistsInRootFolder($fileName)
 	{
 		$fileList = $this->getList();
 		foreach ($fileList as $file => $details) {
@@ -142,5 +144,3 @@ class Vtiger_Unzip extends dUnzip2
 		return false;
 	}
 }
-
-?>

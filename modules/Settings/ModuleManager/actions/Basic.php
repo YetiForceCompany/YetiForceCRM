@@ -12,7 +12,7 @@
 class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('updateModuleStatus');
@@ -21,9 +21,10 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('checkModuleName');
 		$this->exposeMethod('createModule');
 		$this->exposeMethod('deleteModule');
+		$this->exposeMethod('downloadLibrary');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -39,13 +40,16 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 
-		if ($updateStatus == 'true') {
-			$moduleManagerModel->enableModule($moduleName);
-		} else {
-			$moduleManagerModel->disableModule($moduleName);
-		}
-
 		$response = new Vtiger_Response();
+		try {
+			if ($updateStatus == 'true') {
+				$moduleManagerModel->enableModule($moduleName);
+			} else {
+				$moduleManagerModel->disableModule($moduleName);
+			}
+		} catch (\Exception\NotAllowedMethod $e) {
+			$response->setError($e->getMessage());
+		}
 		$response->emit();
 	}
 
@@ -55,20 +59,20 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		checkFileAccess($uploadFileName);
+		vtlib\Deprecated::checkFileAccess($uploadFileName);
 
 		$importType = $request->get('module_import_type');
 		if (strtolower($importType) == 'language') {
-			$package = new Vtiger_Language();
+			$package = new vtlib\Language();
 		} else if (strtolower($importType) == 'layout') {
-			vimport('vtlib.Vtiger.Layout');
-			$package = new Vtiger_Layout();
+			$package = new vtlib\Layout();
 		} else {
-			$package = new Vtiger_Package();
+			$package = new vtlib\Package();
 		}
 
 		$package->import($uploadFileName);
-		checkFileAccessForDeletion($uploadFileName);
+
+		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
 		$result = array('success' => true, 'importModuleName' => $importModuleName);
@@ -83,25 +87,24 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		checkFileAccess($uploadFileName);
+		vtlib\Deprecated::checkFileAccess($uploadFileName);
 
 		$importType = strtolower($request->get('module_import_type'));
 		if ($importType == 'language') {
-			$package = new Vtiger_Language();
+			$package = new vtlib\Language();
 		} else if ($importType == 'layout') {
-			vimport('vtlib.Vtiger.Layout');
-			$package = new Vtiger_Layout();
+			$package = new vtlib\Layout();
 		} else {
-			$package = new Vtiger_Package();
+			$package = new vtlib\Package();
 		}
 
 		if ($importType == 'language' || $importType == 'layout') {
 			$package->import($uploadFileName);
 		} else {
-			$package->update(Vtiger_Module::getInstance($importModuleName), $uploadFileName);
+			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
 		}
 
-		checkFileAccessForDeletion($uploadFileName);
+		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
 		$result = array('success' => true, 'importModuleName' => $importModuleName);
@@ -112,14 +115,18 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function validateRequest(Vtiger_Request $request)
 	{
-		$request->validateWriteAccess();
+		$mode = $request->getMode();
+		if ('downloadLibrary' == $mode)
+			$request->validateReadAccess();
+		else
+			$request->validateWriteAccess();
 	}
 
 	public function checkModuleName(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('moduleName');
-		$module = Vtiger_Module::getInstance($moduleName);
+		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
 			$result = array('success' => false, 'text' => vtranslate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
 		} elseif (preg_match('/[^A-Za-z]/i', $moduleName)) {
@@ -151,7 +158,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 	public function deleteModule(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('forModule');
-		$moduleInstance = Vtiger_Module::getInstance($moduleName);
+		$moduleInstance = vtlib\Module::getInstance($moduleName);
 		if ($moduleInstance) {
 			$moduleInstance->delete();
 			$result = array('success' => true);
@@ -160,5 +167,16 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
+	}
+
+	public function downloadLibrary(Vtiger_Request $request)
+	{
+		if ($request->has('name')) {
+			Settings_ModuleManager_Library_Model::download($request->get('name'));
+		} else {
+			Settings_ModuleManager_Library_Model::downloadAll();
+		}
+		$httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php?module=ModuleManager&parent=Settings&view=List';
+		header("Location: $httpReferer");
 	}
 }

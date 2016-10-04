@@ -1,12 +1,12 @@
 <?php
-/*+********************************************************************************
+/* +********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *********************************************************************************/
+ * ******************************************************************************* */
 require_once 'include/runtime/Cache.php';
 /**
  * this file will be used to store the functions to be used in the picklist module
@@ -18,31 +18,33 @@ require_once 'include/runtime/Cache.php';
  * It gets the picklist details array for the given module in the given format
  * $fieldlist = Array(Array('fieldlabel'=>$fieldlabel,'generatedtype'=>$generatedtype,'columnname'=>$columnname,'fieldname'=>$fieldname,'value'=>picklistvalues))
  */
-function getUserFldArray($fld_module,$roleid){
-	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+function getUserFldArray($fld_module, $roleid)
+{
+	$adb = PearDatabase::getInstance();
+	
 	$user_fld = Array();
-	$tabid = getTabid($fld_module);
+	$tabid = \includes\Modules::getModuleId($fld_module);
 
-	$query="select vtiger_field.fieldlabel,vtiger_field.columnname,vtiger_field.fieldname, vtiger_field.uitype" .
-			" FROM vtiger_field inner join vtiger_picklist on vtiger_field.fieldname = vtiger_picklist.name" .
-			" where (displaytype=1 and vtiger_field.tabid=? and vtiger_field.uitype in ('15','55','33','16') " .
-			" or (vtiger_field.tabid=? and fieldname='salutationtype' and fieldname !='vendortype')) " .
-			" and vtiger_field.presence in (0,2) ORDER BY vtiger_picklist.picklistid ASC";
+	$query = "select vtiger_field.fieldlabel,vtiger_field.columnname,vtiger_field.fieldname, vtiger_field.uitype" .
+		" FROM vtiger_field inner join vtiger_picklist on vtiger_field.fieldname = vtiger_picklist.name" .
+		" where (displaytype=1 and vtiger_field.tabid=? and vtiger_field.uitype in ('15','55','33','16') " .
+		" or (vtiger_field.tabid=? and fieldname='salutationtype' and fieldname !='vendortype')) " .
+		" and vtiger_field.presence in (0,2) ORDER BY vtiger_picklist.picklistid ASC";
 
 	$result = $adb->pquery($query, array($tabid, $tabid));
 	$noofrows = $adb->num_rows($result);
 
-    if($noofrows > 0){
+	if ($noofrows > 0) {
 		$fieldlist = [];
-    	for($i=0; $i<$noofrows; $i++){
+		for ($i = 0; $i < $noofrows; $i++) {
 			$user_fld = [];
-			$fld_name = $adb->query_result($result,$i,"fieldname");
+			$fld_name = $adb->query_result($result, $i, "fieldname");
 
-			$user_fld['fieldlabel'] = $adb->query_result($result,$i,"fieldlabel");
-			$user_fld['generatedtype'] = $adb->query_result($result,$i,"generatedtype");
-			$user_fld['columnname'] = $adb->query_result($result,$i,"columnname");
-			$user_fld['fieldname'] = $adb->query_result($result,$i,"fieldname");
-			$user_fld['uitype'] = $adb->query_result($result,$i,"uitype");
+			$user_fld['fieldlabel'] = $adb->query_result($result, $i, "fieldlabel");
+			$user_fld['generatedtype'] = $adb->query_result($result, $i, "generatedtype");
+			$user_fld['columnname'] = $adb->query_result($result, $i, "columnname");
+			$user_fld['fieldname'] = $adb->query_result($result, $i, "fieldname");
+			$user_fld['uitype'] = $adb->query_result($result, $i, "uitype");
 			$user_fld['value'] = getAssignedPicklistValues($user_fld['fieldname'], $roleid, $adb);
 			$fieldlist[] = $user_fld;
 		}
@@ -55,13 +57,14 @@ function getUserFldArray($fld_module,$roleid){
  * It gets the picklist modules and return in an array in the following format
  * $modules = Array($tabid=>$tablabel,$tabid1=>$tablabel1,$tabid2=>$tablabel2,-------------,$tabidn=>$tablabeln)
  */
-function getPickListModules(){
+function getPickListModules()
+{
 	$adb = PearDatabase::getInstance();
 	// vtlib customization: Ignore disabled modules.
 	$query = 'select distinct vtiger_field.fieldname,vtiger_field.tabid,vtiger_tab.tablabel, vtiger_tab.name as tabname,uitype from vtiger_field inner join vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid where uitype IN (15,33) and vtiger_field.tabid != 29 and vtiger_tab.presence != 1 and vtiger_field.presence in (0,2) order by vtiger_field.tabid ASC';
 	// END
 	$result = $adb->pquery($query, []);
-	while($row = $adb->fetch_array($result)){
+	while ($row = $adb->fetch_array($result)) {
 		$modules[$row['tablabel']] = $row['tabname'];
 	}
 	return $modules;
@@ -71,15 +74,15 @@ function getPickListModules(){
  * this function returns all the roles present in the CRM so that they can be displayed in the picklist module
  * @return array $role - the roles present in the CRM in the array format
  */
-function getrole2picklist(){
+function getrole2picklist()
+{
 	$adb = PearDatabase::getInstance();
 	$query = "select rolename,roleid from vtiger_role where roleid not in('H1') order by roleid";
 	$result = $adb->pquery($query, []);
-	while($row = $adb->fetch_array($result)){
+	while ($row = $adb->fetch_array($result)) {
 		$role[$row['roleid']] = $row['rolename'];
 	}
 	return $role;
-
 }
 
 /**
@@ -87,10 +90,11 @@ function getrole2picklist(){
  * @param array $picklist_details - the details about the picklists in the module
  * @return array $module_pick - the picklists present in the module in an array format
  */
-function get_available_module_picklist($picklist_details){
+function get_available_module_picklist($picklist_details)
+{
 	$avail_pick_values = $picklist_details;
-	foreach($avail_pick_values as $key => $val){
-		$module_pick[$avail_pick_values[$key]['fieldname']] = getTranslatedString($avail_pick_values[$key]['fieldlabel']);
+	foreach ($avail_pick_values as $key => $val) {
+		$module_pick[$avail_pick_values[$key]['fieldname']] = \includes\Language::translate($avail_pick_values[$key]['fieldlabel']);
 	}
 	return $module_pick;
 }
@@ -100,23 +104,23 @@ function get_available_module_picklist($picklist_details){
  * @param string $fieldName - the name of the field
  * @return array $arr - the array containing the picklist values
  */
-function getAllPickListValues($fieldName,$lang = Array() ){
+function getAllPickListValues($fieldName, $lang = Array())
+{
 	$db = PearDatabase::getInstance();
-	$result = $db->query('SELECT * FROM vtiger_'.$fieldName);
-	
+	$query = sprintf('SELECT * FROM vtiger_%s', $fieldName);
+	$result = $db->query($query);
+
 	$arr = [];
-	while($row = $db->fetchByAssoc($result)){
+	while ($row = $db->fetchByAssoc($result)) {
 		$pick_val = decode_html($row[$fieldName]);
-		if($lang[$pick_val] != ''){
+		if (!empty($lang[$pick_val])) {
 			$arr[$pick_val] = $lang[$pick_val];
-		}
-		else{
+		} else {
 			$arr[$pick_val] = $pick_val;
 		}
 	}
 	return $arr;
 }
-
 
 /**
  * this function accepts the fieldname and the language string array and returns all the editable picklist values for that fieldname
@@ -125,19 +129,20 @@ function getAllPickListValues($fieldName,$lang = Array() ){
  * @param object $adb - the peardatabase object
  * @return array $pick - the editable picklist values
  */
-function getEditablePicklistValues($fieldName, $lang= [], $adb){
+function getEditablePicklistValues($fieldName, $lang = [], $adb)
+{
 	$values = [];
 	$fieldName = $adb->sql_escape_string($fieldName);
-	$sql="select $fieldName from vtiger_$fieldName where presence=1 and $fieldName <> '--None--'";
+	$sql = "select $fieldName from vtiger_$fieldName where presence=1 and $fieldName <> '--None--'";
 	$res = $adb->query($sql);
 	$RowCount = $adb->num_rows($res);
-	if($RowCount > 0){
-		for($i=0;$i<$RowCount;$i++){
-			$pick_val = $adb->query_result($res,$i,$fieldName);
-			if($lang[$pick_val] != ''){
-				$values[$pick_val]=$lang[$pick_val];
-			}else{
-				$values[$pick_val]=$pick_val;
+	if ($RowCount > 0) {
+		for ($i = 0; $i < $RowCount; $i++) {
+			$pick_val = $adb->query_result($res, $i, $fieldName);
+			if ($lang[$pick_val] != '') {
+				$values[$pick_val] = $lang[$pick_val];
+			} else {
+				$values[$pick_val] = $pick_val;
 			}
 		}
 	}
@@ -151,21 +156,22 @@ function getEditablePicklistValues($fieldName, $lang= [], $adb){
  * @param object $adb - the peardatabase object
  * @return array $pick - the no-editable picklist values
  */
-function getNonEditablePicklistValues($fieldName, $lang=[], $adb){
+function getNonEditablePicklistValues($fieldName, $lang = [], $adb)
+{
 	$values = [];
 	$fieldName = $adb->sql_escape_string($fieldName);
 	$sql = "select $fieldName from vtiger_$fieldName where presence=0";
 	$result = $adb->query($sql);
 	$count = $adb->num_rows($result);
-	for($i=0;$i<$count;$i++){
-		$non_val = $adb->query_result($result,$i,$fieldName);
-		if($lang[$non_val] != ''){
-			$values[]=$lang[$non_val];
-		}else{
-			$values[]=$non_val;
+	for ($i = 0; $i < $count; $i++) {
+		$non_val = $adb->query_result($result, $i, $fieldName);
+		if ($lang[$non_val] != '') {
+			$values[] = $lang[$non_val];
+		} else {
+			$values[] = $non_val;
 		}
 	}
-	if(count($values)==0){
+	if (count($values) == 0) {
 		$values = "";
 	}
 	return $values;
@@ -178,52 +184,52 @@ function getNonEditablePicklistValues($fieldName, $lang=[], $adb){
  * @param object $adb - the peardatabase object
  * @return array $val - the assigned picklist values in array format
  */
-function getAssignedPicklistValues($tableName, $roleid, $adb, $lang=[]){
+function getAssignedPicklistValues($tableName, $roleid, $adb, $lang = [])
+{
 	$cache = Vtiger_Cache::getInstance();
-	if($cache->hasAssignedPicklistValues($tableName,$roleid)) {
-		return $cache->getAssignedPicklistValues($tableName,$roleid);
+	if ($cache->hasAssignedPicklistValues($tableName, $roleid)) {
+		return $cache->getAssignedPicklistValues($tableName, $roleid);
 	} else {
-	$arr = [];
+		$arr = [];
 
-	$sql = "select picklistid from vtiger_picklist where name = ?";
-	$result = $adb->pquery($sql, array($tableName));
-	if($adb->num_rows($result)){
-		$picklistid = $adb->query_result($result, 0, "picklistid");
+		$sql = "select picklistid from vtiger_picklist where name = ?";
+		$result = $adb->pquery($sql, array($tableName));
+		if ($adb->num_rows($result)) {
+			$picklistid = $adb->query_result($result, 0, "picklistid");
 
-		$sub = getSubordinateRoleAndUsers($roleid);
-		$subRoles = array($roleid);
-		$subRoles = array_merge($subRoles, array_keys($sub));
+			$sub = getSubordinateRoleAndUsers($roleid);
+			$subRoles = array($roleid);
+			$subRoles = array_merge($subRoles, array_keys($sub));
 
-		$roleids = [];
-		foreach($subRoles as $role){
-			$roleids[] = $role;
-		}
+			$roleids = [];
+			foreach ($subRoles as $role) {
+				$roleids[] = $role;
+			}
 
-		$sql = 'SELECT distinct '.$adb->sql_escape_string($tableName,true).' FROM '. $adb->sql_escape_string("vtiger_$tableName",true)
-				. ' inner join vtiger_role2picklist on '.$adb->sql_escape_string("vtiger_$tableName",true).'.picklist_valueid=vtiger_role2picklist.picklistvalueid'
-				. ' and roleid in ('.$adb->generateQuestionMarks($roleids).') order by sortid';
-		$result = $adb->pquery($sql, $roleids);
-		$count = $adb->num_rows($result);
+			$sql = sprintf('SELECT distinct %s FROM %s inner join vtiger_role2picklist on %s.picklist_valueid=vtiger_role2picklist.picklistvalueid'
+				. ' and roleid in (%s) order by sortid', $adb->sql_escape_string($tableName, true), $adb->sql_escape_string("vtiger_$tableName", true), $adb->sql_escape_string("vtiger_$tableName", true), $adb->generateQuestionMarks($roleids));
+			$result = $adb->pquery($sql, $roleids);
+			$count = $adb->num_rows($result);
 
-		if($count) {
-			while($resultrow = $adb->fetch_array($result)) {
-                /** Earlier we used to save picklist values by encoding it. Now, we are directly saving those(getRaw()).
-                 *  If value in DB is like "test1 &amp; test2" then $abd->fetch_[] is giving it as
-                 *  "test1 &amp;$amp; test2" which we should decode two time to get result
-                 */
-				$pick_val = decode_html(decode_html($resultrow[$tableName]));
-				if($lang[$pick_val] != '') {
-					$arr[$pick_val] = $lang[$pick_val];
-				}
-				else {
-					$arr[$pick_val] = $pick_val;
+			if ($count) {
+				while ($resultrow = $adb->fetch_array($result)) {
+					/** Earlier we used to save picklist values by encoding it. Now, we are directly saving those(getRaw()).
+					 *  If value in DB is like "test1 &amp; test2" then $abd->fetch_[] is giving it as
+					 *  "test1 &amp;$amp; test2" which we should decode two time to get result
+					 */
+					$pick_val = decode_html(decode_html($resultrow[$tableName]));
+					if ($lang[$pick_val] != '') {
+						$arr[$pick_val] = $lang[$pick_val];
+					} else {
+						$arr[$pick_val] = $pick_val;
+					}
 				}
 			}
 		}
-	}
-	// END
-		$cache->setAssignedPicklistValues($tableName,$roleid,$arr);
-	return $arr;
+		// END
+		$cache->setAssignedPicklistValues($tableName, $roleid, $arr);
+		return $arr;
 	}
 }
+
 ?>

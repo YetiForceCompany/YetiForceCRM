@@ -1,3 +1,4 @@
+{strip}
 <div class="summaryWidgetContainer recordDetails">
 	{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 		<div class="widget_header marginBottom10px">
@@ -26,3 +27,4 @@
 		</div>
 	{/foreach}
 </div>
+{/strip}

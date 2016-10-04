@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 
  * @package YetiForce.uitypes
@@ -13,13 +14,13 @@ class OSSTimeControl_Double_UIType extends Vtiger_Double_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($this->get('field')->getFieldName() == 'sum_time') {
-			$return = Vtiger_Functions::decimalTimeFormat($value);
+			$return = vtlib\Functions::decimalTimeFormat($value);
 			return $return['short'];
 		} else {
-			return decimalFormat($value);
+			return \vtlib\Functions::formatDecimal($value);
 		}
 	}
 }

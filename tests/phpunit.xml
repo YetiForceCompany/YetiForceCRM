@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+		 backupStaticAttributes="false"
+		 colors="true"
+		 processIsolation="false"
+		 stopOnFailure="true"
+		 syntaxCheck="false"
+		 bootstrap="tests_init.php"
+>
+	<php>
+		<ini name="error_reporting" value="E_ALL &amp; E_ERROR &amp; ~E_NOTICE &amp; ~E_DEPRECATED &amp; ~E_STRICT"/>
+		<ini name="memory_limit" value="1G"/>
+		<ini name="output_buffering" value="On"/>
+		<ini name="display_errors" value="On"/>
+	</php>
+	<testsuites>
+		<testsuite name="AllTests">
+			<directory suffix=".php">./phpunit/</directory>
+			<exclude>./phpunit/copy/</exclude>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">./</directory>
+		</whitelist>
+	</filter>
+</phpunit>

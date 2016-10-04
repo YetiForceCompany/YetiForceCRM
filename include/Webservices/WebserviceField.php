@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * **************************************************************************** */
 require_once 'include/runtime/Cache.php';
 
@@ -61,8 +62,8 @@ class WebserviceField
 		$typeOfData = $row['typeofdata'];
 		$this->presence = $row['presence'];
 		$this->typeOfData = $typeOfData;
-		$typeOfData = explode("~", $typeOfData);
-		$this->mandatory = ($typeOfData[1] == 'M') ? true : false;
+		$typeOfData = explode('~', $typeOfData);
+		$this->mandatory = (isset($typeOfData[1]) && $typeOfData[1] == 'M') ? true : false;
 		if ($this->uitype == 4) {
 			$this->mandatory = false;
 		}
@@ -78,7 +79,7 @@ class WebserviceField
 		$this->fieldparams = $row['fieldparams'];
 		$this->readOnly = (isset($row['readonly'])) ? $row['readonly'] : 0;
 
-		if (array_key_exists('defaultvalue', $row)) {
+		if (isset($row['defaultvalue'])) {
 			$this->setDefault($row['defaultvalue']);
 		}
 	}
@@ -192,7 +193,7 @@ class WebserviceField
 
 	public function getFieldParams()
 	{
-		return Zend_Json::decode($this->fieldparams);
+		return \includes\utils\Json::decode($this->fieldparams);
 	}
 
 	public function isReadOnly()
@@ -289,17 +290,17 @@ class WebserviceField
 
 			$accessibleTypes = $types['types'];
 			//If it is non admin user or the edit and view is there for profile then users module will be accessible
-			if (!is_admin($current_user) && !in_array("Users", $accessibleTypes)) {
+			if (!\vtlib\Functions::userIsAdministrator($current_user) && !in_array("Users", $accessibleTypes)) {
 				array_push($accessibleTypes, 'Users');
 			}
 
 			$referenceTypes = [];
 			if (!in_array($this->getUIType(), [66, 67, 68])) {
 				if ($this->getUIType() != $this->genericUIType) {
-					$sql = "select vtiger_ws_referencetype.`type` from vtiger_ws_referencetype INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_ws_referencetype.`type` where fieldtypeid=? AND vtiger_tab.`presence` NOT IN (?)";
+					$sql = "select vtiger_ws_referencetype.`type` from vtiger_ws_referencetype INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_ws_referencetype.`type` where fieldtypeid=? && vtiger_tab.`presence` NOT IN (?)";
 					$params = array($fieldTypeData['fieldtypeid'], 1);
 				} else {
-					$sql = 'select relmodule as type from vtiger_fieldmodulerel INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_fieldmodulerel.`relmodule` WHERE fieldid=? AND vtiger_tab.`presence` NOT IN (?) ORDER BY sequence ASC';
+					$sql = 'select relmodule as type from vtiger_fieldmodulerel INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_fieldmodulerel.`relmodule` WHERE fieldid=? && vtiger_tab.`presence` NOT IN (?) ORDER BY sequence ASC';
 					$params = array($this->getFieldId(), 1);
 				}
 				$result = $this->pearDB->pquery($sql, $params);
@@ -379,7 +380,7 @@ class WebserviceField
 		}
 	}
 
-	function getPicklistDetails()
+	public function getPicklistDetails()
 	{
 		$cache = Vtiger_Cache::getInstance();
 		if ($cache->getPicklistDetails($this->getTabId(), $this->getFieldName())) {
@@ -406,7 +407,7 @@ class WebserviceField
 		}
 	}
 
-	function getPickListOptions()
+	public function getPickListOptions()
 	{
 		$fieldName = $this->getFieldName();
 
@@ -423,23 +424,23 @@ class WebserviceField
 				$elem = [];
 				$picklistValue = $this->pearDB->query_result($result, $i, $fieldName);
 				$picklistValue = decode_html($picklistValue);
-				$moduleName = getTabModuleName($this->getTabId());
+				$moduleName = \includes\Modules::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
-				$elem["label"] = getTranslatedString($picklistValue, $moduleName);
+				$elem["label"] = \includes\Language::translate($picklistValue, $moduleName);
 				$elem["value"] = $picklistValue;
 				array_push($options, $elem);
 			}
 		}else {
 			$user = VTWS_PreserveGlobal::getGlobal('current_user');
-			$details = getPickListValues($fieldName, $user->roleid);
+			$details = \includes\fields\Picklist::getRoleBasedPicklistValues($fieldName, $user->roleid);
 			for ($i = 0; $i < sizeof($details); ++$i) {
 				$elem = [];
 				$picklistValue = decode_html($details[$i]);
-				$moduleName = getTabModuleName($this->getTabId());
+				$moduleName = \includes\Modules::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
-				$elem["label"] = getTranslatedString($picklistValue, $moduleName);
+				$elem["label"] = \includes\Language::translate($picklistValue, $moduleName);
 				$elem["value"] = $picklistValue;
 				array_push($options, $elem);
 			}
@@ -447,25 +448,25 @@ class WebserviceField
 		return $options;
 	}
 
-	function getPresence()
+	public function getPresence()
 	{
 		return $this->presence;
 	}
 
 	private static $treeDetails = [];
 
-	function getTreeDetails()
+	public function getTreeDetails()
 	{
 		if (count(self::$treeDetails) > 0) {
 			return self::$treeDetails;
 		}
 		$result = $this->pearDB->pquery('SELECT module FROM vtiger_trees_templates WHERE templateid = ?', [$this->getFieldParams()]);
 		$module = $this->pearDB->getSingleValue($result);
-		$moduleName = getTabModuleName($module);
+		$moduleName = \includes\Modules::getModuleName($module);
 
 		$result = $this->pearDB->pquery('SELECT tree,label FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getFieldParams()]);
 		while ($row = $this->pearDB->fetch_array($result)) {
-			self::$treeDetails[$row['tree']] = getTranslatedString($row['label'], $moduleName);
+			self::$treeDetails[$row['tree']] = \includes\Language::translate($row['label'], $moduleName);
 		}
 		return self::$treeDetails;
 	}

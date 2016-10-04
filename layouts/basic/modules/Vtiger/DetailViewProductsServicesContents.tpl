@@ -12,7 +12,7 @@
 {strip}
 <div>
 	{* Summary View Products Widget*}
-	{if vtlib_isModuleActive('Products')}
+	{if \includes\Modules::isModuleActive('Products')}
 		<div class="summaryWidgetContainer">
 			<div class="widgetContainer_products hideActionImages" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Products&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_PRODUCTS">
 				<div class="widget_header row">
@@ -39,7 +39,7 @@
 		</div>
 	{/if}
 	{* Summary View OutsourcedProducts Widget*}
-	{if vtlib_isModuleActive('OutsourcedProducts')}
+	{if \includes\Modules::isModuleActive('OutsourcedProducts')}
 		<div class="summaryWidgetContainer">
 			<div class="widgetContainer_assets" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OutsourcedProducts&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_OP">
 				<div class="widget_header row">
@@ -66,7 +66,7 @@
 		</div>
 	{/if}
 	{* Summary View Assets Widget*}
-	{if $MODULE_NAME != 'Leads' && vtlib_isModuleActive('Assets')}
+	{if $MODULE_NAME != 'Leads' && \includes\Modules::isModuleActive('Assets')}
 		<div class="summaryWidgetContainer">
 			<div class="widgetContainer_assets2" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Assets&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_ASSETS">
 				<div class="widget_header row">
@@ -88,7 +88,7 @@
 		</div>
 	{/if}
 	{* Summary View Services Widget Ends Here*}
-	{if vtlib_isModuleActive('Services')}
+	{if \includes\Modules::isModuleActive('Services')}
 		<div class="summaryWidgetContainer">
 			<div class="widgetContainer_service hideActionImages" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Services&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_SERVICES">
 				<div class="widget_header row">
@@ -115,7 +115,7 @@
 		</div>
 	{/if}
 	{* Summary View OSSOutsourcedServices Widget Start Here*}
-	{if vtlib_isModuleActive('OSSOutsourcedServices')}
+	{if \includes\Modules::isModuleActive('OSSOutsourcedServices')}
 	<div class="summaryWidgetContainer">
 		<div class="widgetContainer_service" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OSSOutsourcedServices&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_OSSOS">
 			<div class="widget_header row">
@@ -141,7 +141,7 @@
 		</div>
 	</div>
 	{/if}
-	{if $MODULE_NAME != 'Leads' && vtlib_isModuleActive('OSSSoldServices')}
+	{if $MODULE_NAME != 'Leads' && \includes\Modules::isModuleActive('OSSSoldServices')}
 		<div class="summaryWidgetContainer">
 			<div class="widgetContainer_service" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OSSSoldServices&mode=showRelatedRecords&page=1&limit={$LIMIT}" data-name="LBL_RELATED_OSSSS">
 				<div class="widget_header row">

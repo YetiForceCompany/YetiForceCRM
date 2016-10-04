@@ -28,5 +28,3 @@ function vtws_getchallenge($username)
 
 	return array("token" => $authToken, "serverTime" => $servertime, "expireTime" => $expireTime);
 }
-
-?>

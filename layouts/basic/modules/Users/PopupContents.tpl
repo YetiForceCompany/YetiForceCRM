@@ -48,7 +48,7 @@
 				</tr>
 			</thead>
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
-			<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData())}'
+			<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{\includes\utils\Json::encode($LISTVIEW_ENTRY->getRawData())}'
 				{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
 				{if $MULTI_SELECT}
 				<td class="{$WIDTHTYPE}">
@@ -73,7 +73,7 @@
 	<!--added this div for Temporarily -->
 {if $LISTVIEW_ENTRIES_COUNT eq '0'}
 	<div class="row">
-		<div class="emptyRecordsDiv">{vtranslate('LBL_NO', $MODULE)} {vtranslate($MODULE_NAME, $MODULE)} {vtranslate('LBL_FOUND', $MODULE)}.</div>
+		<div class="emptyRecordsDiv">{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA', $MODULE)}.</div>
 	</div>
 {/if}
 </div>

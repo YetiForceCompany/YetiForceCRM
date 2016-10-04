@@ -59,20 +59,7 @@
 		</div>
 	</div>
 	<div class="col-sm-6">
-		<div class="input-group input-group-sm">
-			<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
-			{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
-			{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
-			<select class="widgetFilter width90 form-control" title="{vtranslate('LBL_OWNER')}" name="owner" style="margin-bottom:0;" >
-				<optgroup label="{vtranslate('LBL_USERS')}">
-					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-						<option title="{$OWNER_NAME}" {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
-							{$OWNER_NAME}
-						</option>
-					{/foreach}
-				</optgroup>
-			</select>
-		</div>
+		{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 	</div>
 </div>	
 </div>

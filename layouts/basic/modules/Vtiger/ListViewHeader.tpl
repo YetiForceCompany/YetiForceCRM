@@ -68,7 +68,7 @@
 										{/foreach}
 									</optgroup>
 								{/foreach}
-								{if $FOLDERS neq ''}
+								{if isset($FOLDERS)}
 									<optgroup id="foldersBlock" label='{vtranslate('LBL_FOLDERS', $MODULE)}' >
 										{foreach item=FOLDER from=$FOLDERS}
 											<option data-foldername="{$FOLDER->getName()}" {if decode_html($FOLDER->getName()) eq $FOLDER_NAME} selected=""{/if} data-folderid="{$FOLDER->get('folderid')}" data-deletable="{!($FOLDER->hasDocuments())}" class="filterOptionId_folder{$FOLDER->get('folderid')} folderOption{if $FOLDER->getName() eq 'Default'} defaultFolder {/if}" id="filterOptionId_folder{$FOLDER->get('folderid')}" data-id="{$DEFAULT_CUSTOM_FILTER_ID}">{vtranslate($FOLDER->getName(),$MODULE)}</option>
@@ -106,7 +106,18 @@
 					<div class="col-xs-12 btn-toolbar">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
-								{if $CUSTOM_VIEW->isFeatured()}<h5 class="btn-group resetButton cursorPointer"><span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}">{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}</span>{if $CUSTOM_VIEW->get('description')}<a href="#" class="featuredInfoPopover" title="" data-placement="auto right" data-content="{Vtiger_Util_Helper::toSafeHTML($CUSTOM_VIEW->get('description'))}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}</h5>{/if}
+								{if $CUSTOM_VIEW->isFeatured()}
+									<h5 class="btn-group resetButton cursorPointer">
+										<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
+											{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+										</span>
+										{if $CUSTOM_VIEW->get('description')}
+											<a href="#" class="featuredInfoPopover" title="" data-placement="auto right" data-content="{Vtiger_Util_Helper::toSafeHTML($CUSTOM_VIEW->get('description'))}">
+												<i class="glyphicon glyphicon-info-sign"></i>
+											</a>
+										{/if}
+									</h5>
+								{/if}
 							{/foreach}
 						{/foreach}
 					</div>

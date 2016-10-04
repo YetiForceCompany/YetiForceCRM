@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-{assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+{assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 {assign var=EVENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('Events')}
 {assign var=EVENT_STATUS_FIELD_MODEL value=$EVENTS_MODULE_MODEL->getField('activitystatus')}

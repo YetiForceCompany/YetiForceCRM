@@ -91,13 +91,10 @@ jQuery.Class("Calendar_CalendarView_Js", {
 
 		//Default time format
 		var userDefaultTimeFormat = app.getMainParams('time_format');
-		var popoverTimeFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
-			popoverTimeFormat = 'HH:mm';
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
-			popoverTimeFormat = 'hh:mm A';
 		}
 
 		//Default first day of the week
@@ -155,8 +152,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					html: true,
 					placement: 'auto right',
 					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
-					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
-							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
+							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
 							(event.lok ? '<div><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
 							(event.pri ? '<div><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '') +
 							'<div><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' +
@@ -215,9 +212,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.createAddSwitch();
-		thisInstance.registerSlimScroll();
+		thisInstance.registerCalendarScroll();
 	},
-	registerSlimScroll: function () {
+	registerCalendarScroll: function () {
 		var calendarContainer = $('.bodyContents');
 		app.showScrollBar(calendarContainer, {
 			railVisible: true,
@@ -293,8 +290,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				module: 'Calendar',
 				action: 'Calendar',
 				mode: 'getEvents',
-				start: app.getDateInVtigerFormat(formatDate, new Date(start_date)),
-				end: app.getDateInVtigerFormat(formatDate, new Date(end_date)),
+				start: app.getDateInVtigerFormat(formatDate, Date.parse(start_date)),
+				end: app.getDateInVtigerFormat(formatDate, Date.parse(end_date)),
 				user: user,
 				time: app.getMainParams('showType'),
 				types: types,
@@ -334,33 +331,41 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					revertFunc();
 				});
 	},
-	selectDays: function (start, end) {
+	selectDays: function (startDate, endDate) {
 		var thisInstance = this;
-		if (end.hasTime() == false) {
-			end.add(-1, 'days');
+		var start_hour = $('#start_hour').val();
+		var end_hour = $('#end_hour').val();
+		if (endDate.hasTime() == false) {
+			endDate.add(-1, 'days');
 		}
-		start = start.format();
-		end = end.format();
+		startDate = startDate.format();
+		endDate = endDate.format();
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		if (view.name == "month") {
-			var start_hour = $('#start_hour').val();
-			var end_hour = $('#end_hour').val();
-
-			if (start_hour == '') {
-				start_hour = '00';
-			}
-			if (end_hour == '') {
-				end_hour = '00';
-			}
-
-			start = start + 'T' + start_hour + ':00';
-			end = end + 'T' + end_hour + ':00';
+		if (start_hour == '') {
+			start_hour = '00';
+		}
+		if (end_hour == '') {
+			end_hour = '00';
 		}
 		this.getCalendarCreateView().then(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
-
+			if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
+				if (startDate == endDate) {
+					var defaulDuration = 0;
+					if (data.find('[name="activitytype"]').val() == 'Call') {
+						defaulDuration = data.find('[name="defaultCallDuration"]').val();
+					} else {
+						defaulDuration = data.find('[name="defaultOtherEventDuration"]').val();
+					}
+					var startDateInstance = Date.parse(start_hour);
+					var endDateInstance = startDateInstance.addMinutes(defaulDuration);
+					end_hour = endDateInstance.toString('HH:mm');
+				}
+				startDate = startDate + 'T' + start_hour + ':00';
+				endDate = endDate + 'T' + end_hour + ':00';
+			}
 			var dateFormat = data.find('[name="date_start"]').data('dateFormat');
 			var timeFormat = data.find('[name="time_start"]').data('format');
 			if (timeFormat == 24) {
@@ -369,10 +374,10 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				defaultTimeFormat = 'hh:mm tt';
 			}
 
-			var startDateInstance = Date.parse(start);
+			var startDateInstance = Date.parse(startDate);
 			var startDateString = app.getDateInVtigerFormat(dateFormat, startDateInstance);
 			var startTimeString = startDateInstance.toString(defaultTimeFormat);
-			var endDateInstance = Date.parse(end);
+			var endDateInstance = Date.parse(endDate);
 			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
 			var endTimeString = endDateInstance.toString(defaultTimeFormat);
 
@@ -391,6 +396,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	addCalendarEvent: function (calendarDetails) {
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
 		var eventObject = {};
+		var calendar = this.getCalendarView();
 
 		var taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
 		if (state == true && taskstatus >= 0 || state != true && taskstatus == -1) {
@@ -398,9 +404,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.subject.display_value;
-		var startDate = Date.parse(calendarDetails.date_start.display_value + 'T' + calendarDetails.time_start.display_value);
+		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value);
 		eventObject.start = startDate.toString();
-		var endDate = Date.parse(calendarDetails.due_date.display_value + 'T' + calendarDetails.time_end.display_value);
+		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value);
 		var assignedUserId = calendarDetails.assigned_user_id.value;
 		eventObject.end = endDate.toString();
 		eventObject.url = 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId;

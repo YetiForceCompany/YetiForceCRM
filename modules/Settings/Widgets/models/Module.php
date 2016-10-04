@@ -19,7 +19,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$params = [];
 		if ($module) {
 			if (!is_numeric($module)) {
-				$module = Vtiger_Functions::getModuleId($module);
+				$module = vtlib\Functions::getModuleId($module);
 			}
 			$sql .= ' WHERE tabid = ? ';
 			$params[] = $module;
@@ -28,7 +28,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->pquery($sql, $params, true);
 		$widgets = array(1 => array(), 2 => array(), 3 => array());
 		while ($row = $db->getRow($result)) {
-			$row['data'] = Zend_Json::decode($row['data']);
+			$row['data'] = \includes\utils\Json::decode($row['data']);
 			$widgets[$row["wcol"]][$row["id"]] = $row;
 		}
 		return $widgets;
@@ -37,13 +37,15 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public function getModulesList()
 	{
 		$adb = PearDatabase::getInstance();
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier');
-		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ')';
-		$params = array(1, $restrictedModules);
+		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier'];
+		$sql = sprintf('SELECT * FROM vtiger_tab WHERE isentitytype = ? && name NOT IN (%s)', generateQuestionMarks($restrictedModules));
+		$params = [1, $restrictedModules];
 		$result = $adb->pquery($sql, $params);
-		$modules = array();
+		$modules = [];
 		while ($row = $adb->fetch_array($result)) {
-			$modules[$row['tabid']] = $row;
+			$moduleModel = Vtiger_Module_Model::getInstance($row['name']);
+			if ($moduleModel->isSummaryViewSupported())
+				$modules[$row['tabid']] = $row;
 		}
 		return $modules;
 	}
@@ -55,9 +57,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getType($module = false)
 	{
-		$moduleName = Vtiger_Functions::getModuleName($module);
+		$moduleName = vtlib\Functions::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
+		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$ffs = scandir($dir);
 		foreach ($ffs as $ff) {
 			$action = str_replace('.php', "", $ff);
@@ -66,7 +69,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				vimport('~~' . $dir . $ff);
 				$modelClassName = Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
 				$instance = new $modelClassName();
-				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules)) {
+				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules) || ($action == 'Comments' && !$moduleModel->isCommentEnabled())) {
 					unset($folderFiles[$action]);
 				}
 			}
@@ -83,7 +86,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_relatedlists.*,vtiger_tab.name FROM vtiger_relatedlists
-				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0';
+				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? && vtiger_relatedlists.related_tabid != 0';
 		$result = $adb->pquery($sql, array($tabid));
 		$relation = array();
 		while ($row = $adb->fetch_array($result)) {
@@ -99,7 +102,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = [];
 		foreach ($modules as $key => $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
-				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype in ('15','16');";
+				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? && uitype in ('15','16');";
 				$result = $adb->pquery($sql, [$value['related_tabid']]);
 				while ($row = $adb->getRow($result)) {
 					$filetrs[$value['related_tabid']][$row['fieldname']] = vtranslate($row['fieldlabel'], $value['name']);
@@ -117,7 +120,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$tabid = [];
 		foreach ($modules as $key => $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
-				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ? AND columnname NOT IN ('was_read');";
+				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? && uitype = ? && columnname NOT IN ('was_read');";
 				$result = $db->pquery($sql, [$value['related_tabid'], 56]);
 				while ($row = $db->getRow($result)) {
 					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = vtranslate($row['fieldlabel'], $value['name']);
@@ -133,10 +136,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 		$fieldlabel = $fieldsList = array();
 		$params = array($tabid);
-		$sql = "SELECT fieldid,columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND displaytype <> '2' AND vtiger_field.presence in (0,2)";
+		$sql = "SELECT fieldid,columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? && displaytype <> '2' && vtiger_field.presence in (0,2)";
 		if ($uitype) {
 			$uitype = implode("','", $uitype);
-			$sql .= " AND uitype in ('$uitype')";
+			$sql .= " && uitype in ('$uitype')";
 		}
 		$result = $adb->pquery($sql, $params, true);
 		$Num = $adb->num_rows($result);
@@ -147,7 +150,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		return array('labels' => $fieldlabel, 'table' => $fieldsList);
 	}
 
-	public function saveWidget($params)
+	public static function saveWidget($params)
 	{
 		$adb = PearDatabase::getInstance();
 		$tabid = $params['tabid'];
@@ -172,9 +175,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		unset($data['filter_selected']);
 		unset($data['wid']);
-		$nomargin = $data['nomargin'];
+		$nomargin = isset($data['nomargin']) ? $data['nomargin'] : 0;
 		unset($data['nomargin']);
-		$serializeData = Zend_Json::encode($data);
+		$serializeData = \includes\utils\Json::encode($data);
 		$sequence = self::getLastSequence($tabid) + 1;
 		if ($wid) {
 			$sql = "UPDATE vtiger_widgets SET label = ?, nomargin = ?, `data` = ? WHERE id = ?;";
@@ -185,7 +188,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		}
 	}
 
-	public function removeWidget($wid)
+	public static function removeWidget($wid)
 	{
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_widgets WHERE id = ?;', array($wid));
@@ -195,28 +198,28 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_widgets WHERE id = ?';
-		$result = $adb->pquery($sql, array($wid), true);
+		$result = $adb->pquery($sql, array($wid));
 		$resultrow = $adb->raw_query_result_rowdata($result);
-		$resultrow['data'] = Zend_Json::decode($resultrow['data']);
+		$resultrow['data'] = \includes\utils\Json::decode($resultrow['data']);
 		return $resultrow;
 	}
 
-	public function getLastSequence($tabid)
+	public static function getLastSequence($tabid)
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT MAX(sequence) as max FROM vtiger_widgets WHERE tabid = ?';
-		$result = $adb->pquery($sql, array($tabid), true);
+		$result = $adb->pquery($sql, array($tabid));
 		return $adb->query_result($result, 0, 'max');
 	}
 
-	public function updateSequence($params)
+	public static function updateSequence($params)
 	{
 		$adb = PearDatabase::getInstance();
 		$tabid = $params['tabid'];
 		$data = $params['data'];
 		foreach ($data as $key => $value) {
-			$sql = "UPDATE vtiger_widgets SET sequence = ?, wcol = ? WHERE tabid = ? AND id = ?;";
-			$adb->pquery($sql, array($value['index'], $value['column'], $tabid, $key), true);
+			$sql = 'UPDATE vtiger_widgets SET sequence = ?, wcol = ? WHERE tabid = ? && id = ?;';
+			$adb->pquery($sql, array($value['index'], $value['column'], $tabid, $key));
 		}
 	}
 
@@ -224,7 +227,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$field = array();
 		$adb = PearDatabase::getInstance();
-		$sql = "SELECT fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;";
+		$sql = "SELECT fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? && uitype = ?;";
 		$result = $adb->pquery($sql, array($tabid, '300'));
 		while ($row = $adb->fetch_array($result)) {
 			$field[$row['fieldname']] = vtranslate($row['fieldlabel'], $module);
@@ -234,9 +237,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getHeaderSwitch($index = [])
 	{
-		// type: 1-field, TODO 2-label
 		$data = [
-			getTabid('SSalesProcesses') => [ 0 =>
+			\includes\Modules::getModuleId('SSalesProcesses') => [ 0 =>
 				[
 					'type' => 1,
 					'label' => vtranslate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration

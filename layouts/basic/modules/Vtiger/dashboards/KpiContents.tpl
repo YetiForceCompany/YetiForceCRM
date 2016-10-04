@@ -12,7 +12,7 @@
 -->*}
 {strip}
 {if count($DATA) gt 0 }
-	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
+	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATA))}' />
 	<div class="widgetDescContainer" style="margin-left: 10px;">
 		<h4>Usługa: {$KPILIST[$DSERVICE]}</h4>
 		<h4>Typ: {$KPITYPES[$DTYPE]}</h4>

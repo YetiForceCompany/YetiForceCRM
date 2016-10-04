@@ -21,7 +21,7 @@ class Settings_Notifications_List_View extends Settings_Vtiger_Index_View
 		$viewer->view('List.tpl', $qualifiedModuleName);
 	}
 
-	function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		return vtranslate('LBL_NOTIFICATIONS');
 	}

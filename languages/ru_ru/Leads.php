@@ -43,7 +43,7 @@ $languageStrings = [
 	'LBL_LEAD_INFORMATION' => 'Основная информация',
 	'LBL_LEAD_UNTAPPED' => 'Контакт не установлен',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Необходимо заполнить Обязательные поля',
-	'LBL_LEAD_ALREADY_CONVERTED' => 'Lead is already converted',
+	'LBL_LEAD_ALREADY_CONVERTED' => 'Преобразованные Обращения',
 	'LBL_PRELIMINARY_ANALYSIS_OF' => 'Первоначальный анализ',
 	'LBL_RECORDS_LIST' => 'Список Обращений',
 	'LBL_REGISTRATION_INFO' => 'Юридические данные',
@@ -107,7 +107,5 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_SELECT_CONTACTS' => 'Выберите контакты для продолжения',
 	'JS_SELECT_ORGANIZATION' => 'Выберите Контрагента для продолжнеия',
-	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Необходимо выбрать Контакт или Контрагент',
 ];

@@ -1,14 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="editContainer leftRightPadding3p">
-		<h3>
-			{if $RECORDID eq ''}
-				{vtranslate('LBL_CREATING_PDF',$QUALIFIED_MODULE)}
-			{else}
-				{vtranslate('LBL_EDITING_PDF',$QUALIFIED_MODULE)} : {vtranslate($PDF_MODEL->get('primary_name'), $QUALIFIED_MODULE)}
-			{/if}
-		</h3>
-		<hr>
+	<div class="row widget_header">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{vtranslate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}
+		</div>
+	</div>
+	<div class="editContainer">
 		<div id="breadcrumb">
 			<ul class="crumbs marginLeftZero">
 				<li class="first step zIndex8" id="step1">

@@ -21,7 +21,7 @@ class UnsupportedMediaType extends DAV\Exception {
      *
      * @return int
      */
-    function getHTTPCode() {
+    public function getHTTPCode() {
 
         return 415;
 

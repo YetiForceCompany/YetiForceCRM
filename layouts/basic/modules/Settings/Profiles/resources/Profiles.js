@@ -108,7 +108,6 @@ var Settings_Profiles_Js = {
 			});
 		});	
 		
-		//fix for IE jQuery UI slider
 		jQuery('[data-range]').find('a').css('filter','');
 
 	},
@@ -293,7 +292,6 @@ var Settings_Profiles_Js = {
 					button.attr('disabled',false);
 					//If validation fails, form should submit again
 					form.removeData('submit');
-					// to avoid hiding of error message under the fixed nav bar
 					app.formAlignmentAfterValidation(form);
 				}
 				e.preventDefault();

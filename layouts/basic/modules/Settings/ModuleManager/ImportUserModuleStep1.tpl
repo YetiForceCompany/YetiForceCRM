@@ -14,15 +14,17 @@
 		<div class="widget_header row">
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-				{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
+				{if isset($SELECTED_PAGE)}
+					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{/if}
 			</div>
 		</div>
-		{assign var=MAXUPLOADSIZE value=Vtiger_Functions::getMaxUploadSize()}
+		{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
 		{if $MAXUPLOADSIZE < 5242880}
 			<div class="alert alert-block alert-danger fade in">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{vtranslate('LBL_TOO_SMALL_UPLOAD_LIMIT', $QUALIFIED_MODULE)}</h4>
-				<p>{vtranslate('LBL_TOO_SMALL_UPLOAD_LIMIT_DESC', $QUALIFIED_MODULE, Vtiger_Functions::showBytes($MAXUPLOADSIZE))}</p>
+				<p>{vtranslate('LBL_TOO_SMALL_UPLOAD_LIMIT_DESC', $QUALIFIED_MODULE, vtlib\Functions::showBytes($MAXUPLOADSIZE))}</p>
 			</div>	
 		{/if}
 		<div class="contents">
@@ -42,7 +44,7 @@
 										<td class="fieldValue">
 											<input type="file" name="moduleZip" id="moduleZip" size="80px" 
 												   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-												   data-validator={Zend_Json::encode([['name'=>'UploadModuleZip']])}
+												   data-validator={\includes\utils\Json::encode([['name'=>'UploadModuleZip']])}
 												   />
 										</td>
 									</tr>

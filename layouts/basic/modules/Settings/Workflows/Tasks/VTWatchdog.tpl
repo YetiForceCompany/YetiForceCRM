@@ -5,7 +5,7 @@
 		<div class="col-md-9">
 			<select class="chzn-select form-control" name="type" data-validation-engine="validate[required]">
 				{foreach from=$TASK_OBJECT->getAllTypes() key=KEY item=ITEM}
-					<option {if $TASK_OBJECT->type eq $KEY}selected{/if} value="{$KEY}">{$ITEM['name']}</option>
+					<option {if $TASK_OBJECT->type eq $KEY}selected{/if} value="{$KEY}">{vtranslate($ITEM['name'], $QUALIFIED_MODULE)}</option>
 				{/foreach}
 			</select>
 		</div>

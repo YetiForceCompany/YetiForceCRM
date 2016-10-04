@@ -12,34 +12,56 @@
 class OSSMail_index_View extends Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	protected $mainUrl = 'modules/OSSMail/roundcube/';
+
+	public function __construct()
 	{
-		$moduleName = $request->getModule();
-		$url = OSSMail_Record_Model::GetSite_URL() . 'modules/OSSMail/roundcube/';
+		parent::__construct();
+		$this->mainUrl = OSSMail_Record_Model::GetSite_URL() . $this->mainUrl;
+	}
+
+	public function initAutologin()
+	{
 		$config = Settings_Mail_Config_Model::getConfig('autologin');
 		if ($config['autologinActive'] == 'true') {
 			$account = OSSMail_Autologin_Model::getAutologinUsers();
 			if ($account) {
 				$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
-				require_once 'modules/OSSMail/RoundcubeLogin.class.php';
-				$rcl = new RoundcubeLogin($url, false);
-				try {
-					if ($rcl->isLoggedIn()) {
-						if ($rcl->getUsername() != $rcUser['username']) {
-							$rcl->logout();
-							$rcl->login($rcUser['username'], $rcUser['password']);
-						}
-					} else {
-						$rcl->login($rcUser['username'], $rcUser['password']);
-					}
-				} catch (RoundcubeLoginException $ex) {
-					$log = vglobal('log');
-					$log->error('OSSMail_index_View|RoundcubeLoginException: ' . $ex->getMessage());
+
+				$key = md5($rcUser['rcuser_id'] . microtime());
+				if (strpos($this->mainUrl, '?') !== false) {
+					$this->mainUrl .= '&';
+				} else {
+					$this->mainUrl .= '?';
 				}
+				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
+				$db = PearDatabase::getInstance();
+				$currentUserModel = Users_Record_Model::getCurrentUserModel();
+				$userId = $currentUserModel->getId();
+				$params = ['language' => Vtiger_Language_Handler::getLanguage()];
+				$db->delete('u_yf_mail_autologin', '`cuid` = ?;', [$userId]);
+				$db->insert('u_yf_mail_autologin', [
+					'key' => $key,
+					'ruid' => $rcUser['rcuser_id'],
+					'cuid' => $userId,
+					'params' => \includes\utils\Json::encode($params)
+				]);
 			}
 		}
+	}
+
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
+		$this->initAutologin();
+
+		parent::preProcess($request, $display);
+	}
+
+	public function process(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('URL', $url);
+		$viewer->assign('URL', $this->mainUrl);
 		$viewer->view('index.tpl', $moduleName);
 	}
 }

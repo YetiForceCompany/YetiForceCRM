@@ -41,6 +41,9 @@ $languageStrings = [
 	'PLL_RENEWED' => 'Odnowiono',
 	'PLL_NOT_RENEWED' => 'Nie odnowiono',
 	'PLL_NOT_APPLICABLE' => 'Nie dotyczy',
+	'PLL_RENEWED_VERIFICATION' => 'Odnowiono (weryfikacja)',
+	'PLL_NOT_RENEWED_VERIFICATION' => 'Nie odnowiono (weryfikacja)',
+	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Nie dotyczy (weryfikacja)',
 	//YetiForce
 	'description' => 'Opis',
 	'attentions' => 'Uwagi',

@@ -315,7 +315,7 @@ abstract class BaseRecognizer{
 	 *  handle mismatched symbol exceptions but there could be a mismatched
 	 *  token that the match() routine could not recover from.
 	 */
-	public function recover($input, $re) {
+	public function recover($input, $re = null) {
 		if ( $this->state->lastErrorIndex==$input->index() ) {
 			// uh oh, another error at same token index; must be a case
 			// where LT(1) is in the recovery token set so nothing is
@@ -587,7 +587,6 @@ abstract class BaseRecognizer{
 			// we don't know how to conjure up a token for sets yet
 			return $this->getMissingSymbol($input, $e, TokenConst::$INVALID_TOKEN_TYPE, $follow);
 		}
-		// TODO do single token deletion like above for Token mismatch
 		throw $e;
 	}
 
@@ -655,22 +654,6 @@ abstract class BaseRecognizer{
  		$this->state->following[++$this->state->_fsp] = $fset;
 	}
 
-	/** Return List<String> of the rules in your parser instance
-	 *  leading up to a call to this method.  You could override if
-	 *  you want more details such as the file/line info of where
-	 *  in the parser java code a rule is invoked.
-	 *
-	 *  This is very useful for error messages and for context-sensitive
-	 *  error recovery.
-	 */
-
-	/** A more general version of getRuleInvocationStack where you can
-	 *  pass in, for example, a RecognitionException to get it's rule
-	 *  stack trace.  This routine is shared with all recognizers, hence,
-	 *  static.
-	 *
-	 *  TODO: move to a utility class or something; weird having lexer call this
-	 */
 	public static function getRuleInvocationStack($e=null,
 											  $recognizerClassName=null)
 	{
@@ -796,9 +779,6 @@ abstract class BaseRecognizer{
 		}
 	}
 
-	/** return how many rule/input-index pairs there are in total.
-	 *  TODO: this includes synpreds. :(
-	 */
 	public function getRuleMemoizationCacheSize() {
 		$n = 0;
 		for ($i = 0; $this->state->ruleMemo!=null && $i < sizeof($this->state->ruleMemo); $i++) {

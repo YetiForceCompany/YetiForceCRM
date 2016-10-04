@@ -27,7 +27,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	public function get($key)
 	{
 		if (in_array($key, ['conditions', 'params']) && !is_array(parent::get($key))) {
-			return Zend_Json::decode(html_entity_decode(parent::get($key)));
+			return \includes\utils\Json::decode(html_entity_decode(parent::get($key)));
 		} else {
 			return parent::get($key);
 		}
@@ -68,14 +68,14 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
 		if (!isRecordExists($recordId)) {
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = Vtiger_Functions::getCRMRecordType($recordId);
+			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -84,7 +84,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 				unset($templates[$id]);
 			}
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $templates;
 	}
 
@@ -95,11 +95,11 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	 */
 	public static function getTemplatesByModule($moduleName)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$db = PearDatabase::getInstance();
-		$moduleId = Vtiger_Functions::getModuleId($moduleName);
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `tabid` = ? and `status` = ?;';
+		$moduleId = vtlib\Functions::getModuleId($moduleName);
+		$query = sprintf('SELECT * FROM `%s` WHERE `tabid` = ? and `status` = ?;', self::$baseTable);
 		$result = $db->pquery($query, [$moduleId, 'active']);
 		$templates = [];
 
@@ -109,14 +109,14 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			$mf->setData($row);
 			$templates[$mf->getId()] = $mf;
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $templates;
 	}
 
 	public function getActiveTemplatesForModule($moduleName, $view)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
 			$active = true;
@@ -124,44 +124,44 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 				unset($templates[$id]);
 			}
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $templates;
 	}
 
 	public static function getInstanceByModules($tabId, $relTabId)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `tabid` = ? AND `reltabid` = ? LIMIT 1;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `tabid` = ? && `reltabid` = ? LIMIT 1', self::$baseTable);
 		$result = $db->pquery($query, [$tabId, $relTabId]);
 		if ($result->rowCount() == 0) {
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 			return false;
 		}
 
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
 		$mf = new $handlerClass();
 		$mf->setData($db->getRow($result));
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $mf;
 	}
 
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
+
 		$mf = Vtiger_Cache::get('MappedFieldsModel', $recordId);
 		if ($mf) {
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 			return $mf;
 		}
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM `' . self::$baseTable . '` WHERE `' . self::$baseIndex . '` = ? LIMIT 1;';
+		$query = sprintf('SELECT * FROM `%s` WHERE `%s` = ? LIMIT 1;', self::$baseTable, self::$baseIndex);
 		$result = $db->pquery($query, [$recordId]);
 		if ($result->rowCount() == 0) {
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 			return false;
 		}
 
@@ -169,8 +169,8 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		$mf = new $handlerClass();
 		$mf->setData($db->getRow($result));
 		Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
-		
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $mf;
 	}
 
@@ -186,11 +186,11 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	 */
 	public function getMapping()
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
 			$db = PearDatabase::getInstance();
-			$query = 'SELECT * FROM ' . self::$mappingTable . ' WHERE ' . self::$mappingIndex . ' = ?;';
+			$query = sprintf('SELECT * FROM %s WHERE %s = ?;', self::$mappingTable, self::$mappingIndex);
 			$result = $db->pquery($query, [$this->getId()]);
 			$mapping = $db->getArray($result);
 			$finalMapping = [];
@@ -206,7 +206,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			}
 			$this->mapping = $finalMapping;
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $this->mapping;
 	}
 
@@ -229,12 +229,12 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function getName()
 	{
-		return Vtiger_Functions::getModuleName($this->get('tabid'));
+		return vtlib\Functions::getModuleName($this->get('tabid'));
 	}
 
 	public function getRelatedName()
 	{
-		return Vtiger_Functions::getModuleName($this->get('reltabid'));
+		return vtlib\Functions::getModuleName($this->get('reltabid'));
 	}
 
 	public function checkFiltersForRecord($recordId)
@@ -258,30 +258,40 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function checkUserPermissions()
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		$permissions = $this->get('permissions');
 		if (empty($permissions)) {
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 			return true;
 		}
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$permissions = explode(',', $permissions);
-
-		if (in_array('Users:' . $currentUser->getId(), $permissions)) { // check user id
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-			return true;
-		} else {
-			$userGroups = new GetUserGroups();
-			$userGroups->getAllUserGroups($currentUser->getId());
-			foreach ($userGroups->user_groups as $group) {
-				if (in_array('Groups:' . $group, $permissions)) {
-					$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-					return true;
-				}
+		$getTypes = [];
+		$return = false;
+		foreach ($permissions as $name) {
+			$valueType = explode(':', $name);
+			$getTypes[$valueType[0]][] = $valueType[1];
+		}
+		if (in_array('Users:' . $currentUser->getId(), $permissions)) {
+			$return = true;
+		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
+			$return = true;
+		} elseif (array_key_exists('Groups', $getTypes)) {
+			$accessibleGroups = array_keys(\includes\fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
+			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
+			if (array_intersect($groups, $accessibleGroups)) {
+				$return = true;
 			}
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-		return false;
+		if (array_key_exists('RoleAndSubordinates', $getTypes) && !$return) {
+			$roles = $currentUser->getParentRoles();
+			$roles[] = $currentUser->getRole();
+			if (array_intersect($getTypes['RoleAndSubordinates'], array_filter($roles))) {
+				$return = true;
+			}
+		}
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		return $return;
 	}
 }

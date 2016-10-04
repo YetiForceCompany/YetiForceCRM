@@ -59,7 +59,7 @@ $languageStrings = [
 	'PLL_LISTVIEW' => 'Lista',
 	'PLL_DETAILVIEW' => 'Rekord',
 	'LBL_DEFAULT_TPL' => 'Domyślnie zaznaczony',
-	'LBL_DOCUMENT_SETTINGS_DETAILS' => 'Document settings',
+	'LBL_DOCUMENT_SETTINGS_DETAILS' => 'Ustawienia dokumentu',
 	'LBL_MAIN_MODULE_FIELDS' => 'Pola z modułu głównego',
 	'LBL_RELATED_MODULES' => 'Powiązane moduły',
 	'LBL_RELATED_MODULES_FIELDS' => 'Pola z powiązanego modułu',
@@ -106,6 +106,8 @@ $languageStrings = [
 	'LBL_FOOTER_HEIGHT' => 'Margines stopki',
 	'LBL_HEADER_IN_MILIMETERS' => 'Margines nagłówka od górnej krawędzi strony w milimetrach',
 	'LBL_FOOTER_IN_MILIMETERS' => 'Margines stopki od górnej krawędzi strony w milimetrach',
+	'LBL_GENERATE_ONE_PDF' => 'Generuj jeden pdf dla wielu rekordów',
+	'LBL_GENERATE_ONE_PDF_INFO' => 'W przypadku gdy PDF zawiera funkcje specjalną  generującą jedną tabelę  dla wielu rekordów, zaznaczenie tego pola spowoduje wygenerowanie jednego pliku PDF.',
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',
@@ -165,8 +167,8 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'Szablon pdf został zapisany.',
-	'LBL_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
-	'LBL_NOTIFY_COPY_TITLE' => 'Tekst',
+	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
+	'JS_NOTIFY_COPY_TITLE' => 'Tekst',
 	'JS_PDF_TEMPLATE_EXPORTED' => 'Szablon PDF został pomyślnie wyeksportowany.',
 	'JS_RECALCULATING' => 'Przeliczanie uprawnień...'
 ];

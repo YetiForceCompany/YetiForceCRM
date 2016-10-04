@@ -6,17 +6,21 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 {
 
+	/**
+	 * Function to remove field
+	 */
 	public function delete()
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		parent::delete();
 
-		$fld_module = $this->getModuleName();
+		$fldModule = $this->getModuleName();
 		$id = $this->getId();
 		$uitype = $this->get('uitype');
 		$typeofdata = $this->get('typeofdata');
@@ -27,48 +31,46 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldtype = explode("~", $typeofdata);
 		$tabId = $this->getModuleId();
 
-		$focus = CRMEntity::getInstance($fld_module);
+		$focus = CRMEntity::getInstance($fldModule);
 
-		$deletecolumnname = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fld_module . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
-		$column_cvstdfilter = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fld_module . "_" . str_replace(" ", "_", $oldfieldlabel);
-		$select_columnname = $tablename . ":" . $columnname . ":" . $fld_module . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldname . ":" . $fieldtype[0];
-		$reportsummary_column = $tablename . ":" . $columnname . ":" . str_replace(" ", "_", $oldfieldlabel);
+		$deleteColumnName = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
+		$columnCvstdfilter = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
+		$selectColumnname = $tablename . ":" . $columnname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldname . ":" . $fieldtype[0];
+		$reportsummaryColumn = $tablename . ":" . $columnname . ":" . str_replace(" ", "_", $oldfieldlabel);
 		if ($tablename != 'vtiger_crmentity') {
-			$dbquery = 'alter table ' . $adb->quote($tablename, false) . ' drop column ' . $adb->quote($columnname, false);
-			$adb->pquery($dbquery, array());
+			$dbquery = 'alter table ' . $db->quote($tablename, false) . ' drop column ' . $db->quote($columnname, false);
+			$db->pquery($dbquery, []);
 		}
 		//we have to remove the entries in customview and report related tables which have this field ($colName)
-		$adb->pquery('delete from vtiger_cvcolumnlist where columnname = ? ', array($deletecolumnname));
-		$adb->pquery('delete from vtiger_cvstdfilter where columnname = ?', array($column_cvstdfilter));
-		$adb->pquery('delete from vtiger_cvadvfilter where columnname = ?', array($deletecolumnname));
-		$adb->pquery('delete from vtiger_selectcolumn where columnname = ?', array($select_columnname));
-		$adb->pquery('delete from vtiger_relcriteria where columnname = ?', array($select_columnname));
-		$adb->pquery('delete from vtiger_reportsortcol where columnname = ?', array($select_columnname));
-		$adb->pquery('delete from vtiger_reportdatefilter where datecolumnname = ?', array($column_cvstdfilter));
-		$adb->pquery('delete from vtiger_reportsummary where columnname like ?', array('%' . $reportsummary_column . '%'));
+		$db->delete('vtiger_cvcolumnlist', 'columnname = ?', [$deleteColumnName]);
+		$db->delete('vtiger_cvstdfilter', 'columnname = ?', [$columnCvstdfilter]);
+		$db->delete('vtiger_cvadvfilter', 'columnname = ?', [$deleteColumnName]);
+		$db->delete('vtiger_selectcolumn', 'columnname = ?', [$selectColumnname]);
+		$db->delete('vtiger_relcriteria', 'columnname = ?', [$selectColumnname]);
+		$db->delete('vtiger_reportsortcol', 'columnname = ?', [$selectColumnname]);
+		$db->delete('vtiger_reportdatefilter', 'datecolumnname = ?', [$columnCvstdfilter]);
+		$db->delete('vtiger_reportsummary', 'columnname like ?', ['%' . $reportsummaryColumn . '%']);
 
 		//Deleting from convert lead mapping vtiger_table- Jaguar
-		if ($fld_module == 'Leads') {
-			$deletequery = 'delete from vtiger_convertleadmapping where leadfid=?';
-			$adb->pquery($deletequery, array($id));
-		} elseif ($fld_module == 'Accounts' || $fld_module == 'Contacts') {
-			$map_del_id = array('Accounts' => 'accountfid', 'Contacts' => 'contactfid');
-			$map_del_q = 'update vtiger_convertleadmapping set ' . $map_del_id[$fld_module] . '=0 where ' . $map_del_id[$fld_module] . '=?';
-			$adb->pquery($map_del_q, array($id));
+		if ($fldModule == 'Leads') {
+			$db->delete('vtiger_convertleadmapping', 'leadfid = ?', [$id]);
+		} elseif ($fldModule == 'Accounts') {
+			$mapDelId = ['Accounts' => 'accountfid'];
+			$db->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], $mapDelId[$fldModule] . '=?', [$id]);
 		}
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
 		if ($this->getFieldDataType() == 'picklist' || $this->getFieldDataType() == 'multipicklist') {
-			$result = $adb->pquery('SELECT * FROM `vtiger_field` WHERE `columnname` = ? AND `uitype` IN (?,?,?);', [$columnname, 15, 16, 33]);
-			if (!$adb->num_rows($result)) {
-				$adb->query('drop table vtiger_' . $columnname);
+			$result = $db->pquery('SELECT * FROM `vtiger_field` WHERE `columnname` = ? && `uitype` IN (?,?,?);', [$columnname, 15, 16, 33]);
+			if (!$db->getRowCount($result)) {
+				$db->query('DROP TABLE vtiger_' . $columnname);
 				//To Delete Sequence Table 
-				if (Vtiger_Utils::CheckTable('vtiger_' . $columnname . '_seq')) {
-					$adb->query('drop table vtiger_' . $columnname . '_seq');
+				if (vtlib\Utils::CheckTable('vtiger_' . $columnname . '_seq')) {
+					$db->query('DROP TABLE vtiger_' . $columnname . '_seq');
 				}
-				$adb->pquery('delete from vtiger_picklist where name=? ', array($columnname));
+				$db->delete('vtiger_picklist', 'name = ?', [$columnname]);
 			}
-			$adb->pquery('delete from vtiger_picklist_dependency where `tabid` = ? AND (sourcefield=? or targetfield=?)', array($tabId, $columnname, $columnname));
+			$db->delete('vtiger_picklist_dependency', '`tabid` = ? AND (sourcefield=? OR targetfield=?)', [$tabId, $columnname, $columnname]);
 		}
 	}
 
@@ -89,11 +91,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 		if ($olderBlockId == $newBlockId) {
 			if ($newSequence > $olderSequence) {
-				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? AND sequence <= ? AND block = ?';
+				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? && sequence <= ? && block = ?';
 				$params = array($olderSequence, $newSequence, $olderBlockId);
 				$db->pquery($updateQuery, $params);
 			} else if ($newSequence < $olderSequence) {
-				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence < ? AND sequence >= ? AND block = ?';
+				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence < ? && sequence >= ? && block = ?';
 				$params = array($olderSequence, $newSequence, $olderBlockId);
 				$db->pquery($updateQuery, $params);
 			}
@@ -101,11 +103,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$params = array($newSequence, $this->getId());
 			$db->pquery($query, $params);
 		} else {
-			$updateOldBlockQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? AND block = ?';
+			$updateOldBlockQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? && block = ?';
 			$params = array($olderSequence, $olderBlockId);
 			$db->pquery($updateOldBlockQuery, $params);
 
-			$updateNewBlockQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence >= ? AND block = ?';
+			$updateNewBlockQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence >= ? && block = ?';
 			$params = array($newSequence, $newBlockId);
 			$db->pquery($updateNewBlockQuery, $params);
 
@@ -118,7 +120,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public static function makeFieldActive($fieldIdsList = array(), $blockId)
 	{
 		$db = PearDatabase::getInstance();
-		$maxSequenceQuery = "SELECT MAX(sequence) AS maxsequence FROM vtiger_field WHERE block = ? AND presence IN (0,2) ";
+		$maxSequenceQuery = "SELECT MAX(sequence) AS maxsequence FROM vtiger_field WHERE block = ? && presence IN (0,2) ";
 		$res = $db->pquery($maxSequenceQuery, array($blockId));
 		$maxSequence = $db->query_result($res, 0, 'maxsequence');
 
@@ -128,7 +130,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$query .= ' WHEN fieldid = ? THEN ' . $maxSequence;
 		}
 		$query .= ' ELSE sequence END';
-		$query .= ' WHERE fieldid IN (' . generateQuestionMarks($fieldIdsList) . ')';
+		$query .= sprintf(' WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdsList));
 
 		$db->pquery($query, array_merge($fieldIdsList, $fieldIdsList));
 	}
@@ -157,8 +159,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 * @return boolean
 	 */
 	public function isActiveOptionDisabled()
-	{	
-		if ($this->get('presence') == 0  || $this->get('uitype') == 306 || $this->isMandatoryOptionDisabled()) {
+	{
+		if ($this->get('presence') == 0 || $this->get('uitype') == 306 || $this->isMandatoryOptionDisabled()) {
 			return true;
 		}
 		return false;
@@ -248,7 +250,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	{
 		if ($fieldIdsList) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT fieldid, sequence, block, fieldlabel FROM vtiger_field WHERE fieldid IN (' . generateQuestionMarks($fieldIdsList) . ')', $fieldIdsList);
+			$query = sprintf('SELECT fieldid, sequence, block, fieldlabel FROM vtiger_field WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdsList));
+			$result = $db->pquery($query, $fieldIdsList);
 			$numOfRows = $db->num_rows($result);
 
 			for ($i = 0; $i < $numOfRows; $i++) {
@@ -275,7 +278,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$blockId = array($blockId);
 		}
 
-		$query = 'SELECT * FROM vtiger_field WHERE block IN(' . generateQuestionMarks($blockId) . ') AND vtiger_field.displaytype IN (1,2,4,9,10) ORDER BY sequence';
+		$query = sprintf('SELECT * FROM vtiger_field WHERE block IN(%s) && vtiger_field.displaytype IN (1,2,4,9,10) ORDER BY sequence', generateQuestionMarks($blockId));
 		$result = $db->pquery($query, $blockId);
 		$numOfRows = $db->num_rows($result);
 
@@ -309,7 +312,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		return $fieldInfo;
 	}
 
-	public static function getInstanceFromFieldId($fieldId, $moduleTabId)
+	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -317,8 +320,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$fieldId = array($fieldId);
 		}
 
-		$query = 'SELECT * FROM vtiger_field WHERE fieldid IN (' . generateQuestionMarks($fieldId) . ') AND tabid=?';
-		$result = $db->pquery($query, array($fieldId, $moduleTabId));
+		$query = sprintf('SELECT * FROM vtiger_field WHERE fieldid IN (%s) && tabid=?', generateQuestionMarks($fieldId));
+		$result = $db->pquery($query, [$fieldId, $moduleTabId]);
 		$fieldModelList = array();
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {

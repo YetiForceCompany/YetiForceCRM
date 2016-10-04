@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,29 +7,31 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- * VERSION YetiForceCRM: 1.1.0 RC
- ************************************************************************************/
+ * ********************************************************************************** */
 
 $languageStrings = [
 	'ModTracker' => 'Журнал изменений',
 	'SINGLE_ModTracker' => 'Журнал изменений',
-	// Action types 
-	'LBL_AT_UPDATE' => 'Modify',
-	'LBL_AT_DELETE' => 'Delete',
-	'LBL_AT_CREATE' => 'Create',
-	'LBL_AT_RESTORE' => 'Restore',
-	'LBL_AT_LINK' => 'Link',
-	'LBL_AT_UNLINK' => 'Unlink',
-	'LBL_AT_CONVERTTOACCOUNT' => 'Convert to Account',
-	'LBL_AT_DISPLAY' => 'View',
-	'LBL_AT_UPDATE_P' => 'Modified',
-	'LBL_AT_DELETE_P' => 'Deleted',
-	'LBL_AT_CREATE_P' => 'Created',
-	'LBL_AT_RESTORE_P' => 'Restored',
-	'LBL_AT_LINK_P' => 'Linked',
-	'LBL_AT_UNLINK_P' => 'Unlinked',
-	'LBL_AT_CONVERTTOACCOUNT_P' => 'Converted to Account',
-	'LBL_AT_DISPLAY_P' => 'Viewed'
+	// Action types
+	'LBL_AT_UPDATE' => 'Изменить',
+	'LBL_AT_DELETE' => 'Удалить',
+	'LBL_AT_CREATE' => 'Создать',
+	'LBL_AT_RESTORE' => 'Востановить',
+	'LBL_AT_LINK' => 'Связь',
+	'LBL_AT_UNLINK' => 'Разорвать',
+	'LBL_AT_CONVERTTOACCOUNT' => 'Преобразовать',
+	'LBL_AT_DISPLAY' => 'Посмотреть',
+	'LBL_AT_UPDATE_P' => 'Измененный',
+	'LBL_AT_DELETE_P' => 'Удаленный',
+	'LBL_AT_CREATE_P' => 'Созданный',
+	'LBL_AT_RESTORE_P' => 'Востановленный',
+	'LBL_AT_LINK_P' => 'Связанный',
+	'LBL_AT_UNLINK_P' => 'Разорванный',
+	'LBL_AT_CONVERTTOACCOUNT_P' => 'Преобразован в Контрагента',
+	'LBL_AT_DISPLAY_P' => 'Просмотренный',
+	'LBL_REVIEW_HISTORY' => 'Обзор истории',
+	'LBL_REVIEWED' => 'Непросмотренный',
+	'BTN_CHANGES_REVIEWED_ON' => 'Изменено на просмотренный',
 ];
 
 $jsLanguageStrings = [

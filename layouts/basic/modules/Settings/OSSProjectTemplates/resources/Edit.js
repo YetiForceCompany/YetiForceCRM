@@ -78,7 +78,6 @@ function OSSProjectTemplatesEdit() {
                     AppConnector.request(params).then(function(data) {
                         if (data.success === true) {
                             jQuery('[name="tpl_id"]').val(tpl_id);
-							console.log(data.result);
                             for (var val in data.result) {
                                 var isJson = thisInstance.isJsonArray(data.result[val]);                             
                                 if (!isJson) {
@@ -209,6 +208,9 @@ function OSSProjectTemplatesEdit() {
 			this.registerButtonEvents = function(){
 				$('.addButton').click(function(){
 					app.showModalWindow($('#add_project_modal'));
+				});
+				$('.addTaskButton').click(function(){
+					app.showModalWindow($('#step_2_modal'));
 				});
 				$('.addMilestoneButton').click(function(){
 					app.showModalWindow($('#step_1_modal'));

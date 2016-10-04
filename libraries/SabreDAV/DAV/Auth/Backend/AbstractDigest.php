@@ -47,7 +47,7 @@ abstract class AbstractDigest implements BackendInterface {
      * @param string $realm
      * @return void
      */
-    function setRealm($realm) {
+    public function setRealm($realm) {
 
         $this->realm = $realm;
 
@@ -92,7 +92,7 @@ abstract class AbstractDigest implements BackendInterface {
      * @param ResponseInterface $response
      * @return array
      */
-    function check(RequestInterface $request, ResponseInterface $response) {
+    public function check(RequestInterface $request, ResponseInterface $response) {
 
         $digest = new HTTP\Auth\Digest(
             $this->realm,
@@ -147,7 +147,7 @@ abstract class AbstractDigest implements BackendInterface {
      * @param ResponseInterface $response
      * @return void
      */
-    function challenge(RequestInterface $request, ResponseInterface $response) {
+    public function challenge(RequestInterface $request, ResponseInterface $response) {
 
         $auth = new HTTP\Auth\Digest(
             $this->realm,

@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
 
@@ -69,28 +69,23 @@ function GetHistoryBase($parentmodule, $query, $id)
  */
 function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 {
-	$log = vglobal('log');
-	$log->debug("Entering getPriceBookRelatedProducts(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
+
+	\App\Log::trace("Entering getPriceBookRelatedProducts(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
 
 	$adb = PearDatabase::getInstance();
-	global $app_strings;
-	global $mod_strings;
 	$current_user = vglobal('current_user');
-	$current_language = vglobal('current_language');
-	$current_module_strings = return_module_language($current_language, 'PriceBook');
 	$no_of_decimal_places = getCurrencyDecimalPlaces();
-	global $list_max_entries_per_page;
+	$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');
 	global $urlPrefix;
 
 	global $theme;
-	$pricebook_id = vtlib_purify($_REQUEST['record']);
+	$pricebook_id = AppRequest::get('record');
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
 
-	$computeCount = $_REQUEST['withCount'];
 	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true ||
-		((boolean) $computeCount) == true) {
-		$noofrows = $adb->query_result($adb->query(Vtiger_Functions::mkCountQuery($query)), 0, 'count');
+		((boolean) AppRequest::get('withCount')) === true) {
+		$noofrows = $adb->query_result($adb->query(vtlib\Functions::mkCountQuery($query)), 0, 'count');
 	} else {
 		$noofrows = null;
 	}
@@ -105,34 +100,34 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	}
 
 
-	if (isset($_REQUEST['relmodule']) && $_REQUEST['relmodule'] != '' && $_REQUEST['relmodule'] == $relatedmodule) {
-		$relmodule = vtlib_purify($_REQUEST['relmodule']);
+	if (AppRequest::has('relmodule') && AppRequest::get('relmodule') == $relatedmodule) {
+		$relmodule = AppRequest::get('relmodule');
 		if ($_SESSION['rlvs'][$module][$relmodule]) {
-			setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $list_max_entries_per_page, $module, $relmodule);
+			setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $listMaxEntriesPerPage, $module, $relmodule);
 		}
 	}
 	global $relationId;
 	$start = RelatedListViewSession::getRequestCurrentPage($relationId, $query);
-	$navigation_array = VT_getSimpleNavigationValues($start, $list_max_entries_per_page, $noofrows);
+	$navigation_array = VT_getSimpleNavigationValues($start, $listMaxEntriesPerPage, $noofrows);
 
-	$limit_start_rec = ($start - 1) * $list_max_entries_per_page;
+	$limit_start_rec = ($start - 1) * $listMaxEntriesPerPage;
 
 	if ($adb->isPostgres())
 		$list_result = $adb->pquery($query .
-			" OFFSET $limit_start_rec LIMIT $list_max_entries_per_page", []);
+			" OFFSET $limit_start_rec LIMIT $listMaxEntriesPerPage ", []);
 	else
 		$list_result = $adb->pquery($query .
-			" LIMIT $limit_start_rec, $list_max_entries_per_page", []);
+			" LIMIT $limit_start_rec, $listMaxEntriesPerPage ", []);
 
 	$header = [];
-	$header[] = $mod_strings['LBL_LIST_PRODUCT_NAME'];
+	$header[] = \includes\Language::translate('LBL_LIST_PRODUCT_NAME');
 	if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
-		$header[] = $mod_strings['LBL_PRODUCT_CODE'];
+		$header[] = \includes\Language::translate('LBL_PRODUCT_CODE');
 	if (getFieldVisibilityPermission('Products', $current_user->id, 'unit_price') == '0')
-		$header[] = $mod_strings['LBL_PRODUCT_UNIT_PRICE'];
-	$header[] = $mod_strings['LBL_PB_LIST_PRICE'];
+		$header[] = \includes\Language::translate('LBL_PRODUCT_UNIT_PRICE');
+	$header[] = \includes\Language::translate('LBL_PB_LIST_PRICE');
 	if (isPermitted("PriceBooks", "EditView", "") == 'yes' || isPermitted("PriceBooks", "Delete", "") == 'yes')
-		$header[] = $mod_strings['LBL_ACTION'];
+		$header[] = \includes\Language::translate('LBL_ACTION');
 
 	$currency_id = $focus->column_fields['currency_id'];
 	$numRows = $adb->num_rows($list_result);
@@ -147,7 +142,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 		$field_name = $entity_id . "_listprice";
 
 		$entries = [];
-		$entries[] = textlength_check($adb->query_result($list_result, $i, "productname"));
+		$entries[] = \vtlib\Functions::textLength($adb->query_result($list_result, $i, "productname"));
 		if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
 			$entries[] = $adb->query_result($list_result, $i, "productcode");
 		if (getFieldVisibilityPermission('Products', $current_user->id, 'unit_price') == '0')
@@ -156,14 +151,14 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 		$entries[] = CurrencyField::convertToUserFormat($listprice, null, true);
 		$action = "";
 		if (isPermitted("PriceBooks", "EditView", "") == 'yes' && isPermitted('Products', 'EditView', $entity_id) == 'yes') {
-			$action .= '<img style="cursor:pointer;" src="' . vtiger_imageurl('editfield.gif', $theme) . '" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . $app_strings["LBL_EDIT_BUTTON"] . '" title="' . $app_strings["LBL_EDIT_BUTTON"] . '"/>';
+			$action .= '<img style="cursor:pointer;" src="' . vtiger_imageurl('editfield.gif', $theme) . '" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '" title="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '"/>';
 		} else {
 			$action .= '<img src="' . vtiger_imageurl('blank.gif', $theme) . '" border="0" />';
 		}
 		if (isPermitted("PriceBooks", "Delete", "") == 'yes' && isPermitted('Products', 'Delete', $entity_id) == 'yes') {
 			if ($action != "")
 				$action .= '&nbsp;|&nbsp;';
-			$action .= '<img src="' . vtiger_imageurl('delete.gif', $theme) . '" onclick="if(confirm(\'' . $app_strings['ARE_YOU_SURE'] . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . $app_strings["LBL_DELETE"] . '" title="' . $app_strings["LBL_DELETE"] . '" style="cursor:pointer;" border="0">';
+			$action .= '<img src="' . vtiger_imageurl('delete.gif', $theme) . '" onclick="if(confirm(\'' . \includes\Language::translate('ARE_YOU_SURE') . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . \includes\Language::translate('LBL_DELETE') . '" title="' . \includes\Language::translate('LBL_DELETE') . '" style="cursor:pointer;" border="0">';
 		}
 		if ($action != "")
 			$entries[] = $action;
@@ -173,19 +168,19 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	$navigationOutput[] = getRelatedTableHeaderNavigation($navigation_array, '', $module, $relatedmodule, $focus->id);
 	$return_data = array('header' => $header, 'entries' => $entries_list, 'navigation' => $navigationOutput);
 
-	$log->debug("Exiting getPriceBookRelatedProducts method ...");
+	\App\Log::trace("Exiting getPriceBookRelatedProducts method ...");
 	return $return_data;
 }
 
 function CheckFieldPermission($fieldname, $module)
 {
-	global $current_user, $adb;
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
+	$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+	require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 	if ($fieldname == '' || $module == '') {
 		return "false";
 	}
 
-	if (getFieldVisibilityPermission($module, $current_user->id, $fieldname) == '0') {
+	if (getFieldVisibilityPermission($module, $currentUser->id, $fieldname) == '0') {
 		return "true";
 	}
 	return "false";
@@ -206,5 +201,3 @@ function CheckColumnPermission($tablename, $columnname, $module)
 
 	return $cache[$cachekey];
 }
-
-?>

@@ -7,24 +7,16 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Package.php');
+namespace vtlib;
 
 /**
  * Provides API to package vtiger CRM language files.
  * @package vtlib
  */
-class Vtiger_LanguageExport extends Vtiger_Package
+class LanguageExport extends Package
 {
 
 	const TABLENAME = 'vtiger_language';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
 
 	/**
 	 * Generate unique id for insertion
@@ -32,7 +24,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 */
 	static function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
 	}
 
@@ -40,10 +32,10 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 * Initialize Export
 	 * @access private
 	 */
-	function __initExport($languageCode)
+	public function __initExport($languageCode)
 	{
 		// Security check to ensure file is withing the web folder.
-		Vtiger_Utils::checkFileAccessForInclusion("languages/$languageCode/Vtiger.php");
+		Utils::checkFileAccessForInclusion("languages/$languageCode/Vtiger.php");
 
 		$this->_export_modulexml_file = fopen($this->__getManifestFilePath(), 'w');
 		$this->__write("<?xml version='1.0'?>\n");
@@ -51,12 +43,12 @@ class Vtiger_LanguageExport extends Vtiger_Package
 
 	/**
 	 * Export Module as a zip file.
-	 * @param Vtiger_Module Instance of module
+	 * @param Module Instance of module
 	 * @param Path Output directory path
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	function export($languageCode, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export($languageCode, $todir = '', $zipfilename = '', $directDownload = false)
 	{
 
 		$this->__initExport($languageCode);
@@ -71,7 +63,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 			$zipfilename = "$languageCode-" . date('YmdHis') . ".zip";
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
-		$zip = new Vtiger_Zip($zipfilename);
+		$zip = new Zip($zipfilename);
 
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), "manifest.xml");
@@ -96,24 +88,22 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 * Export Language Handler
 	 * @access private
 	 */
-	function export_Language($prefix)
+	public function export_Language($prefix)
 	{
-		$adb = PearDatabase::getInstance();
-
-		$sqlresult = $adb->pquery("SELECT * FROM vtiger_language WHERE prefix = ?", array($prefix));
-		$languageresultrow = $adb->fetch_array($sqlresult);
-
+		$db = \PearDatabase::getInstance();
+		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
+		$languageresultrow = $db->fetch_array($sqlresult);
 		$langname = decode_html($languageresultrow['name']);
 		$langlabel = decode_html($languageresultrow['label']);
-
 		$this->openNode('module');
-		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
+		$this->outputNode('language', 'type');
 		$this->outputNode($langname, 'name');
 		$this->outputNode($langlabel, 'label');
 		$this->outputNode($prefix, 'prefix');
-
 		$this->outputNode('language', 'type');
-
+		$this->outputNode(\AppConfig::main('default_charset'), 'encoding');
+		$this->outputNode('YetiForce - yetiforce.com', 'author');
+		$this->outputNode('YetiForce - yetiforce.com', 'license');
 		// Export dependency information
 		$this->export_Dependencies($moduleInstance);
 
@@ -124,13 +114,10 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	function export_Dependencies()
+	public function export_Dependencies($moduleInstance)
 	{
-		global $YetiForce_current_version, $adb;
-
-		$vtigerMinVersion = $YetiForce_current_version;
-		$vtigerMaxVersion = false;
-
+		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
+		$vtigerMaxVersion = current(explode('.', $vtigerMinVersion)) . '.*';
 		$this->openNode('dependencies');
 		$this->outputNode($vtigerMinVersion, 'vtiger_version');
 		if ($vtigerMaxVersion !== false)
@@ -144,14 +131,14 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 */
 	static function __initSchema()
 	{
-		$hastable = Vtiger_Utils::CheckTable(self::TABLENAME);
+		$hastable = Utils::CheckTable(self::TABLENAME);
 		if (!$hastable) {
-			Vtiger_Utils::CreateTable(
+			Utils::CreateTable(
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
 				name VARCHAR(50), prefix VARCHAR(10), label VARCHAR(30), lastupdated DATETIME, sequence INT, isdefault INT(1), active INT(1))', true
 			);
-			global $languages, $adb;
-			foreach ($languages as $langkey => $langlabel) {
+			$adb = \PearDatabase::getInstance();
+			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
 				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,prefix,label,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
 			}
@@ -167,14 +154,14 @@ class Vtiger_LanguageExport extends Vtiger_Package
 
 		$prefix = trim($prefix);
 		// We will not allow registering core language unless forced
-		if (strtolower($prefix) == 'en_us' && $overrideCore == false)
+		if (strtolower($prefix) == 'en_us' && $overrideCore === false)
 			return;
 
 		$useisdefault = ($isdefault) ? 1 : 0;
 		$useisactive = ($isactive) ? 1 : 0;
 
-		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('SELECT id FROM ' . self::TABLENAME . ' WHERE prefix=?', Array($prefix));
+		$adb = \PearDatabase::getInstance();
+		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->num_rows($checkres)) {
 			$id = $adb->query_result($checkres, 0, 'id');
@@ -213,7 +200,7 @@ class Vtiger_LanguageExport extends Vtiger_Package
 
 		self::__initSchema();
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'prefix=?', [$prefix]);
 		self::log("Deregistering Language $prefix ... DONE");
 	}
@@ -224,18 +211,19 @@ class Vtiger_LanguageExport extends Vtiger_Package
 	 */
 	static function getAll($includeInActive = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$hastable = Vtiger_Utils::CheckTable(self::TABLENAME);
+		$adb = \PearDatabase::getInstance();
+		$hastable = Utils::CheckTable(self::TABLENAME);
 
-		$languageinfo = Array();
+		$languageinfo = [];
 
 		if ($hastable) {
 			if ($includeInActive)
-				$result = $adb->pquery('SELECT * FROM ' . self::TABLENAME, array());
+				$result = $adb->pquery(sprintf('SELECT * FROM %s', self::TABLENAME), []);
 			else
-				$result = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE active=?', array(1));
+				$result = $adb->pquery(sprintf('SELECT * FROM %s WHERE active = ?', self::TABLENAME), [1]);
 
-			for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+			$countResult = $adb->num_rows($result);
+			for ($index = 0; $index < $countResult; ++$index) {
 				$resultrow = $adb->fetch_array($result);
 				$prefix = $resultrow['prefix'];
 				$label = $resultrow['label'];

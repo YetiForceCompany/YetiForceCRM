@@ -8,6 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+require_once 'vendor/yii/Yii.php';
 require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
@@ -20,7 +21,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	/**
 	 * Function to check if the User has logged in
 	 * @param Vtiger_Request $request
-	 * @throws AppException
+	 * @throws \Exception\AppException
 	 */
 	protected function checkLogin(Vtiger_Request $request)
 	{
@@ -32,7 +33,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				Vtiger_Session::set('return_params', $return_params);
 			}
 			header('Location: index.php');
-			throw new AppException('Login is required');
+			throw new \Exception\AppException('Login is required');
 		}
 	}
 
@@ -40,12 +41,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 * Function to get the instance of the logged in User
 	 * @return Users object
 	 */
-	function getLogin()
+	public function getLogin()
 	{
 		$user = parent::getLogin();
 		if (!$user) {
 			$userid = Vtiger_Session::get('AUTHUSERID', $_SESSION['authenticated_user_id']);
-			if ($userid) {
+			if ($userid && AppConfig::main('application_unique_key') == Vtiger_Session::get('app_unique_key')) {
 				$user = CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				$this->setLogin($user);
@@ -60,7 +61,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_HANDLER_NOT_FOUND'));
+			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -70,7 +71,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new NoPermittedException('LBL_NOT_ACCESSIBLE');
+		throw new \Exception\NoPermitted('LBL_NOT_ACCESSIBLE');
 	}
 
 	protected function triggerPreProcess($handler, $request)
@@ -90,7 +91,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$handler->postProcess($request);
 	}
 
-	function isInstalled()
+	public function isInstalled()
 	{
 		$dbconfig = AppConfig::main('dbconfig');
 		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
@@ -99,21 +100,18 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
-		$log = LoggerManager::getLogger('System');
-		vglobal('log', $log);
-		if (AppConfig::main('forceSSL') && !Vtiger_Functions::getBrowserInfo()->https) {
+		if (AppConfig::main('forceSSL') && !vtlib\Functions::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if ($this->isInstalled() === false) {
 			header('Location:install/Install.php');
-			exit;
 		}
-		$request_URL = (Vtiger_Functions::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$request_URL = (vtlib\Functions::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		if (AppConfig::main('forceRedirect') && stripos($request_URL, AppConfig::main('site_URL')) !== 0) {
 			header('Location: ' . AppConfig::main('site_URL'), true, 301);
-			exit;
+			throw new \Exception\AppException('Force Redirect');
 		}
 		Vtiger_Session::init();
 
@@ -123,7 +121,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			require_once('libraries/csrf-magic/csrf-magic.php');
 			require_once('config/csrf_config.php');
 		}
-		// TODO - Get rid of global variable $current_user
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
@@ -156,8 +153,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
 						if ($module == 'Calendar') {
-							// To load MyCalendar instead of list view for calendar
-							//TODO: see if it has to enhanced and get the default view from module model
 							$view = 'Calendar';
 						}
 					} else {
@@ -198,8 +193,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					$this->checkLogin($request);
 				}
 
-				//TODO : Need to review the design as there can potential security threat
-				$skipList = array('Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install');
+				$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install', 'ModTracker', 'CustomerPortal', 'WSAPP'];
 
 				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 					$this->triggerCheckPermission($handler, $request);
@@ -220,37 +214,19 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$response = $handler->process($request);
 				$this->triggerPostProcess($handler, $request);
 			} else {
-				throw new AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
-			}
-		} catch (AppException $e) {
-			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-
-			Vtiger_Functions::throwNewException($e->getMessage(), false);
-			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>' . $e->getTraceAsString() . '</pre>');
-			}
-		} catch (NoPermittedToRecordException $e) {
-			//No permissions for the record
-			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-
-			Vtiger_Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
-			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>' . $e->getTraceAsString() . '</pre>');
-			}
-		} catch (WebServiceException $e) {
-			//No permissions for the record
-			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-
-			Vtiger_Functions::throwNewException($e->getMessage(), false, 'NoPermissionsForRecord.tpl');
-			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>' . $e->getTraceAsString() . '</pre>');
+				throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
 		} catch (Exception $e) {
-			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			$tpl = 'OperationNotPermitted.tpl';
+			if ($e instanceof \Exception\NoPermittedToRecord || $e instanceof WebServiceException) {
+				$tpl = 'NoPermissionsForRecord.tpl';
+			}
 
-			Vtiger_Functions::throwNewException($e->getMessage(), false);
+			\vtlib\Functions::throwNewException($e->getMessage(), false, $tpl);
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				exit('<pre>' . $e->getTraceAsString() . '</pre>');
+				echo '<pre>' . $e->getTraceAsString() . '</pre>';
+				$response = false;
 			}
 		}
 
@@ -258,4 +234,22 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$response->emit();
 		}
 	}
+}
+
+if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
+
+	function exception_error_handler($errno, $errstr, $errfile, $errline)
+	{
+		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
+		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
+			$file = 'cache/logs/errors.log';
+			$content = print_r($msg, true);
+			$content .= PHP_EOL . \vtlib\Functions::getBacktrace();
+			file_put_contents($file, $content . PHP_EOL, FILE_APPEND);
+		}
+		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
+			\vtlib\Functions::throwNewException($msg, false);
+		}
+	}
+	set_error_handler('exception_error_handler', \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
 }

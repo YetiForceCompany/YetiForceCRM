@@ -26,7 +26,6 @@ class Reservations_Field_Model extends Vtiger_Field_Model
 			if ($fieldName === 'date_start') {
 				return DateTimeField::convertToUserFormat(date('Y-m-d'));
 			} elseif ($fieldName === 'due_date') {
-				//$currentUser = Users_Record_Model::getCurrentUserModel();
 				$minutes = 15;
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
@@ -38,7 +37,7 @@ class Reservations_Field_Model extends Vtiger_Field_Model
 	 * Function returns special validator for fields
 	 * @return <Array>
 	 */
-	function getValidator()
+	public function getValidator()
 	{
 		$validator = array();
 		$fieldName = $this->getName();

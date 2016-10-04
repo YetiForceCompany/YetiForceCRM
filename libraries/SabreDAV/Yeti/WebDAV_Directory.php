@@ -1,5 +1,5 @@
-<?php
-namespace Yeti;
+<?php namespace Yeti;
+
 use Sabre\DAV;
 
 /**
@@ -9,7 +9,9 @@ use Sabre\DAV;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuota, DAV\IMoveTarget {
+class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuota, DAV\IMoveTarget
+{
+
 	/**
 	 * Creates a new file in the directory
 	 *
@@ -34,44 +36,43 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @param resource|string $data Initial payload
 	 * @return null|string
 	 */
-	function createFile($name, $data = null) {
-		if($this->dirid == 0)
-			throw new DAV\Exception\Forbidden('Permission denied to create file: '.$name);
+	public function createFile($name, $data = null)
+	{
+		if ($this->dirid == 0)
+			throw new DAV\Exception\Forbidden('Permission denied to create file: ' . $name);
 		include_once 'include/main/WebUI.php';
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$adb = \PearDatabase::getInstance();
-		$log = \LoggerManager::getLogger('DavToCRM');
 		$user = new \Users();
-		$current_user = $user->retrieveCurrentUserInfoFromFile( $this->exData->crmUserId );
-		
-		$path = trim($this->path, 'files') .'/'.$name;
+		$current_user = $user->retrieveCurrentUserInfoFromFile($this->exData->crmUserId);
+
+		$path = trim($this->path, 'files') . '/' . $name;
 		$hash = sha1($path);
 		$pathParts = pathinfo($path);
 		$localPath = $this->localPath . $name;
-		
+
 		$stmt = $this->exData->pdo->prepare('SELECT crmid, smownerid, deleted FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.hash = ?;');
 		$stmt->execute([$hash]);
 		$rows = $stmt->fetch(\PDO::FETCH_ASSOC);
-		if($rows != false && ($rows['smownerid'] != $this->exData->crmUserId || $rows['deleted'] == 1)){
+		if ($rows != false && ($rows['smownerid'] != $this->exData->crmUserId || $rows['deleted'] == 1)) {
 			throw new DAV\Exception\Conflict('File with name ' . $file . ' could not be located');
 		}
 		file_put_contents($this->exData->localStorageDir . $localPath, $data);
-		
-		if($rows){
-			$record = \Vtiger_Record_Model::getInstanceById( $rows['crmid'], 'Files' );
+
+		if ($rows) {
+			$record = \Vtiger_Record_Model::getInstanceById($rows['crmid'], 'Files');
 			$record->set('mode', 'edit');
-		}else{
-			$record = \Vtiger_Record_Model::getCleanInstance( 'Files' );
-			$record->set( 'assigned_user_id', $this->exData->crmUserId );
+		} else {
+			$record = \Vtiger_Record_Model::getCleanInstance('Files');
+			$record->set('assigned_user_id', $this->exData->crmUserId);
 		}
-		$record->set( 'title', $pathParts['filename'] );
-		$record->set( 'name', $pathParts['filename'] );
-		$record->set( 'path', $localPath );
+		$record->set('title', $pathParts['filename']);
+		$record->set('name', $pathParts['filename']);
+		$record->set('path', $localPath);
 		$record->save();
 		$id = $record->getId();
-		
+
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files SET dirid=?,extension=?,size=?,hash=?,ctime=? WHERE filesid=?;');
-		$stmt->execute([$this->dirid, $pathParts['extension'], filesize ( $this->exData->localStorageDir . $localPath ), $hash, date('Y-m-d H:i:s'), $id]);
+		$stmt->execute([$this->dirid, $pathParts['extension'], filesize($this->exData->localStorageDir . $localPath), $hash, date('Y-m-d H:i:s'), $id]);
 	}
 
 	/**
@@ -80,33 +81,35 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @param string $name
 	 * @return void
 	 */
-	function createDirectory($name) {
-		if($this->dirid == 0)
-			throw new DAV\Exception\Forbidden('Permission denied to create directory: '.$name);
+	public function createDirectory($name)
+	{
+		if ($this->dirid == 0)
+			throw new DAV\Exception\Forbidden('Permission denied to create directory: ' . $name);
 		$path = trim($this->path, 'files') . '/' . $name . '/';
 		$dirHash = sha1($path);
-		$newPath = $this->localPath . $name. '/';
+		$newPath = $this->localPath . $name . '/';
 		$parent_dirid = $this->dirid;
 		mkdir($this->exData->localStorageDir . $newPath);
-		
+
 		$stmt = $this->exData->pdo->prepare('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime,userid) VALUES (?,?,?,?, NOW(),?);');
 		$stmt->execute([$name, $newPath, $parent_dirid, $dirHash, $this->exData->crmUserId]);
 	}
 
-	function getRootChild() {
+	public function getRootChild()
+	{
 		$path = '/';
 		$dirHash = sha1($path);
-		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? AND userid IN (?,?);');
-		$stmt->execute([$dirHash,0, $this->exData->crmUserId]);
+		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? && userid IN (?,?);');
+		$stmt->execute([$dirHash, 0, $this->exData->crmUserId]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
-		
+
 		$this->mtime = $row['mtime'];
 		$this->size = $row['size'];
 		$this->localPath = $row['path'];
 		$this->dirid = $row['id'];
 		$currentUser = $this->getCurrentUser();
-		
 	}
+
 	/**
 	 * Returns a specific child node, referenced by its name
 	 *
@@ -117,13 +120,14 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @throws DAV\Exception\NotFound
 	 * @return DAV\INode
 	 */
-	function getChild($file) {
+	public function getChild($file)
+	{
 		$path = trim($this->path, 'files') . '/' . $file . '/';
 		$hash = sha1($path);
-		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? AND userid IN (?,?);');
-		$stmt->execute([$hash,0, $this->exData->crmUserId]);
+		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ? && userid IN (?,?);');
+		$stmt->execute([$hash, 0, $this->exData->crmUserId]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
-		if ($row){
+		if ($row) {
 			$directory = new WebDAV_Directory($this->path . '/' . $file, $this->exData);
 			$directory->mtime = $row['mtime'];
 			$directory->size = $row['size'];
@@ -133,10 +137,10 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		}
 		$path = trim($this->path, 'files') . '/' . $file;
 		$hash = sha1($path);
-		$stmt = $this->exData->pdo->prepare('SELECT filesid, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.hash = ? AND vtiger_crmentity.deleted = ? AND vtiger_crmentity.smownerid = ?;');
+		$stmt = $this->exData->pdo->prepare('SELECT filesid, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.hash = ? && vtiger_crmentity.deleted = ? && vtiger_crmentity.smownerid = ?;');
 		$stmt->execute([$hash, 0, $this->exData->crmUserId]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
-		if ($row){
+		if ($row) {
 			$directory = new WebDAV_File($this->path . '/' . $file, $this->exData);
 			$directory->size = $row['size'];
 			$directory->localPath = $row['path'];
@@ -151,12 +155,13 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 *
 	 * @return DAV\INode[]
 	 */
-	function getChildren() {
+	public function getChildren()
+	{
 		$path = trim($this->path, 'files') . '/';
 		$dirHash = sha1($path);
 		$nodes = [];
-		
-		$stmt = $this->exData->pdo->prepare('SELECT * FROM vtiger_files_dir WHERE parent_dirid = ? AND userid IN (?,?);');
+
+		$stmt = $this->exData->pdo->prepare('SELECT * FROM vtiger_files_dir WHERE parent_dirid = ? && userid IN (?,?);');
 		$stmt->execute([$this->dirid, 0, $this->exData->crmUserId]);
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$path = $this->path . '/' . $row['name'];
@@ -166,7 +171,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 			$directory->localPath = $row['path'];
 			$nodes[] = $directory;
 		}
-		$stmt = $this->exData->pdo->prepare('SELECT vtiger_files.* FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.dirid = ? AND vtiger_crmentity.deleted = ? AND vtiger_crmentity.smownerid = ?;');
+		$stmt = $this->exData->pdo->prepare('SELECT vtiger_files.* FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.dirid = ? && vtiger_crmentity.deleted = ? && vtiger_crmentity.smownerid = ?;');
 		$stmt->execute([$this->dirid, 0, $this->exData->crmUserId]);
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$path = $this->path . '/' . $row['name'] . '.' . $row['extension'];
@@ -185,7 +190,8 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @param string $name
 	 * @return bool
 	 */
-	function childExists($name) {
+	public function childExists($name)
+	{
 		$path = $this->path . '/' . $name;
 		return file_exists($path);
 	}
@@ -195,7 +201,8 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 *
 	 * @return void
 	 */
-	function delete() {
+	public function delete()
+	{
 		foreach ($this->getChildren() as $child)
 			$child->delete();
 		//rmdir($this->path);
@@ -206,60 +213,63 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 *
 	 * @return array
 	 */
-	function getQuotaInfo() {
+	public function getQuotaInfo()
+	{
 		$path = $this->exData->localStorageDir . $this->localPath;
 		return [
 			disk_total_space($path) - disk_free_space($path),
 			disk_free_space($path)
 		];
 	}
-	
+
 	/**
 	 * Renames the node
 	 *
 	 * @param string $name The new name
 	 * @return void
 	 */
-	function setName($name) {
+	public function setName($name)
+	{
 		list($parentLocalPath, ) = URLUtil::splitPath($this->localPath);
 		list($parentPath, ) = URLUtil::splitPath($this->path);
 		list(, $newName) = URLUtil::splitPath($name);
-		$newPath = $parentLocalPath . '/' . $newName.'/';
-		$path = trim($parentPath, 'files') . '/' . $newName.'/';
+		$newPath = $parentLocalPath . '/' . $newName . '/';
+		$path = trim($parentPath, 'files') . '/' . $newName . '/';
 		$hash = sha1($path);
-		
+
 		$log = print_r([$this->exData->pdo, $name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid], true);
-		file_put_contents('cache/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
+		file_put_contents('cache/logs/xxebug.log', ' --- ' . date('Y-m-d H:i:s') . ' --- RequestInterface --- ' . PHP_EOL . $log, FILE_APPEND);
 
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files_dir SET name=?, path = ?, hash=?, mtime=? WHERE id=?;');
 		$stmt->execute([$name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid]);
-		rename($this->exData->localStorageDir .$this->localPath, $this->exData->localStorageDir .$newPath);
+		rename($this->exData->localStorageDir . $this->localPath, $this->exData->localStorageDir . $newPath);
 		$this->path = $newPath;
 	}
-	
-    /**
-     * Moves a node into this collection.
-     *
-     * It is up to the implementors to:
-     *   1. Create the new resource.
-     *   2. Remove the old resource.
-     *   3. Transfer any properties or other data.
-     *
-     * Generally you should make very sure that your collection can easily move
-     * the move.
-     *
-     * If you don't, just return false, which will trigger sabre/dav to handle
-     * the move itself. If you return true from this function, the assumption
-     * is that the move was successful.
-     *
-     * @param string $targetName New local file/collection name.
-     * @param string $sourcePath Full path to source node
-     * @param DAV\INode $sourceNode Source node itself
-     * @return bool
-     */
-    function moveInto($targetName, $sourcePath, DAV\INode $sourceNode) {
-		$log = print_r([$targetName, $sourcePath, $sourceNode,$this], true);
-		file_put_contents('cache/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
+
+	/**
+	 * Moves a node into this collection.
+	 *
+	 * It is up to the implementors to:
+	 *   1. Create the new resource.
+	 *   2. Remove the old resource.
+	 *   3. Transfer any properties or other data.
+	 *
+	 * Generally you should make very sure that your collection can easily move
+	 * the move.
+	 *
+	 * If you don't, just return false, which will trigger sabre/dav to handle
+	 * the move itself. If you return true from this function, the assumption
+	 * is that the move was successful.
+	 *
+	 * @param string $targetName New local file/collection name.
+	 * @param string $sourcePath Full path to source node
+	 * @param DAV\INode $sourceNode Source node itself
+	 * @return bool
+	 */
+	public function moveInto($targetName, $sourcePath, DAV\INode $sourceNode)
+	{
+		$log = print_r([$targetName, $sourcePath, $sourceNode, $this], true);
+		file_put_contents('cache/logs/xxebug.log', ' --- ' . date('Y-m-d H:i:s') . ' --- RequestInterface --- ' . PHP_EOL . $log, FILE_APPEND);
 
 		if (!$sourceNode instanceof WebDAV_File) {
 			return false;
@@ -279,5 +289,4 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$stmt->execute([date('Y-m-d H:i:s'), $this->exData->crmUserId, $sourceNode->filesid]);
 		return true;
 	}
-
 }

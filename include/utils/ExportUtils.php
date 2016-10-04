@@ -17,10 +17,10 @@
 function getPermittedBlocks($module, $disp_view)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	$log->debug("Entering into the function getPermittedBlocks($module, $disp_view)");
+	
+	\App\Log::trace("Entering into the function getPermittedBlocks($module, $disp_view)");
 
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	$block_detail = [];
 	$query = "select blockid,blocklabel,show_title from vtiger_blocks where tabid=? and $disp_view=0 and visible = 0 order by sequence";
 	$result = $adb->pquery($query, array($tabid));
@@ -35,7 +35,7 @@ function getPermittedBlocks($module, $disp_view)
 	}
 	$blockid_list .= ')';
 
-	$log->debug("Exit from the function getPermittedBlocks($module, $disp_view). Return value = $blockid_list");
+	\App\Log::trace("Exit from the function getPermittedBlocks($module, $disp_view). Return value = $blockid_list");
 	return $blockid_list;
 }
 
@@ -47,8 +47,8 @@ function getPermittedBlocks($module, $disp_view)
 function getPermittedFieldsQuery($module, $disp_view)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	$log->debug("Entering into the function getPermittedFieldsQuery($module, $disp_view)");
+	
+	\App\Log::trace("Entering into the function getPermittedFieldsQuery($module, $disp_view)");
 
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -56,15 +56,15 @@ function getPermittedFieldsQuery($module, $disp_view)
 	//To get the permitted blocks
 	$blockid_list = getPermittedBlocks($module, $disp_view);
 
-	$tabid = getTabid($module);
-	if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0 || $module == "Users") {
-		$sql = "SELECT vtiger_field.columnname, vtiger_field.fieldlabel, vtiger_field.tablename FROM vtiger_field WHERE vtiger_field.tabid=" . $tabid . " AND vtiger_field.block IN $blockid_list AND vtiger_field.displaytype IN (1,2,4,5) and vtiger_field.presence in (0,2) ORDER BY block,sequence";
+	$tabid = \includes\Modules::getModuleId($module);
+	if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0 || $module == "Users") {
+		$sql = sprintf("SELECT vtiger_field.columnname, vtiger_field.fieldlabel, vtiger_field.tablename FROM vtiger_field WHERE vtiger_field.tabid=%d && vtiger_field.block IN %s && vtiger_field.displaytype IN (1,2,4,5) and vtiger_field.presence in (0,2) ORDER BY block,sequence", $tabid, $blockid_list);
 	} else {
 		$profileList = getCurrentUserProfileList();
-		$sql = "SELECT vtiger_field.columnname, vtiger_field.fieldlabel, vtiger_field.tablename FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=" . $tabid . " AND vtiger_field.block IN " . $blockid_list . " AND vtiger_field.displaytype IN (1,2,4,5) AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0 AND vtiger_profile2field.profileid IN (" . implode(",", $profileList) . ") and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid ORDER BY block,sequence";
+		$sql = sprintf("SELECT vtiger_field.columnname, vtiger_field.fieldlabel, vtiger_field.tablename FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=%d && vtiger_field.block IN %s && vtiger_field.displaytype IN (1,2,4,5) && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0 && vtiger_profile2field.profileid IN (%s) and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid ORDER BY block,sequence", $tabid, $blockid_list, implode(",", $profileList));
 	}
 
-	$log->debug("Exit from the function getPermittedFieldsQuery($module, $disp_view). Return value = $sql");
+	\App\Log::trace("Exit from the function getPermittedFieldsQuery($module, $disp_view). Return value = $sql");
 	return $sql;
 }
 
@@ -75,8 +75,8 @@ function getPermittedFieldsQuery($module, $disp_view)
 function getFieldsListFromQuery($query)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	$log->debug("Entering into the function getFieldsListFromQuery($query)");
+	
+	\App\Log::trace("Entering into the function getFieldsListFromQuery($query)");
 
 	$result = $adb->query($query);
 	$num_rows = $adb->num_rows($result);
@@ -120,8 +120,6 @@ function getFieldsListFromQuery($query)
 	}
 	$fields = trim($fields, ",");
 
-	$log->debug("Exit from the function getFieldsListFromQuery($query). Return value = $fields");
+	\App\Log::trace("Exit from the function getFieldsListFromQuery($query). Return value = $fields");
 	return $fields;
 }
-
-?>

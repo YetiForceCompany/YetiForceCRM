@@ -7,37 +7,35 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('vtlib/Vtiger/LanguageImport.php');
+namespace vtlib;
 
 /**
  * Language Manager class for vtiger Modules.
  * @package vtlib
  */
-class Vtiger_Language extends Vtiger_LanguageImport
+class Language extends LanguageImport
 {
 
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
-	
+
 	/**
 	 * Function to remove language files related to a module
 	 * @param Vtiger_Module Instance of module
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 		$result = $db->query('SELECT prefix FROM vtiger_language');
 		while ($lang = $db->getSingleValue($result)) {
-			$langFilePath = "languages/$lang/" . $moduleInstance->name . ".php";
+			$langFilePath = "languages/$lang/" . $moduleInstance->name . '.php';
 			if (file_exists($langFilePath))
 				@unlink($langFilePath);
 		}
 	}
 }
-
-?>

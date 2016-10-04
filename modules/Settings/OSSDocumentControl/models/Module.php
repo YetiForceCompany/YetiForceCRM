@@ -28,16 +28,16 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
 
-		$presence = array(0, 2);
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter');
-		$module = array('Project', 'HelpDesk');
+		$presence = [0, 2];
+		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
+		$module = ['Project', 'HelpDesk'];
 
 		$query = 'SELECT name FROM vtiger_tab WHERE
-                    presence IN (' . generateQuestionMarks($presence) . ')
-                    AND isentitytype = ?
-                    AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ') AND name IN (' . generateQuestionMarks($module) . ')';
-
-		$result = $db->pquery($query, array($presence, 1, $restrictedModules, $module));
+                    presence IN (%s)
+                    && isentitytype = ?
+                    && name NOT IN (%s) && name IN (%s)';
+		$query = sprintf($query, generateQuestionMarks($presence), generateQuestionMarks($restrictedModules), generateQuestionMarks($module));
+		$result = $db->pquery($query, [$presence, 1, $restrictedModules, $module]);
 		$numOfRows = $db->num_rows($result);
 
 		$modulesList = array();
@@ -193,6 +193,7 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 			"boolean" => array("is enabled", "is disabled"),
 			"reference" => array("is", "contains", "does not contain", "starts with", "ends with", "is empty", "is not empty"),
 			"owner" => array("is", "contains", "does not contain", "starts with", "ends with", "is empty", "is not empty"),
+			"sharedOwner" => array('has changed', 'is', 'is not'),
 			"recurrence" => array("is", "is not"),
 			"comment" => array("is added"),
 		);

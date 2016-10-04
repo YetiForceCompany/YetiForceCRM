@@ -14,7 +14,7 @@ class VTQL_ParseryyToken implements ArrayAccess
 	public $string = '';
 	public $metadata = [];
 
-	function __construct($s, $m = [])
+	public function __construct($s, $m = [])
 	{
 		if ($s instanceof VTQL_ParseryyToken) {
 			$this->string = $s->string;
@@ -29,22 +29,22 @@ class VTQL_ParseryyToken implements ArrayAccess
 		}
 	}
 
-	function __toString()
+	public function __toString()
 	{
 		return $this->_string;
 	}
 
-	function offsetExists($offset)
+	public function offsetExists($offset)
 	{
 		return isset($this->metadata[$offset]);
 	}
 
-	function offsetGet($offset)
+	public function offsetGet($offset)
 	{
 		return $this->metadata[$offset];
 	}
 
-	function offsetSet($offset, $value)
+	public function offsetSet($offset, $value)
 	{
 		if ($offset === null) {
 			if (isset($value[0])) {
@@ -67,7 +67,7 @@ class VTQL_ParseryyToken implements ArrayAccess
 		}
 	}
 
-	function offsetUnset($offset)
+	public function offsetUnset($offset)
 	{
 		unset($this->metadata[$offset]);
 	}
@@ -88,7 +88,7 @@ class VTQL_ParseryyToken implements ArrayAccess
 class VTQL_ParseryyStackEntry
 {
 
-	public $stateno;	/* The state-number */
+	public $stateno; /* The state-number */
 	public $major;   /* The major token value.  This is the code
 	 * * number for the token at this stack level */
 	public $minor; /* The user-supplied minor token value.  This
@@ -159,7 +159,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	private $syntax_error;
 	private $user;
 
-	function __construct($user, $lex, $out)
+	public function __construct($user, $lex, $out)
 	{
 		if (!is_array($out)) {
 			$out = [];
@@ -173,12 +173,12 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		$this->user = $user;
 	}
 
-	function __toString()
+	public function __toString()
 	{
 		return $this->value . "";
 	}
 
-	function buildSelectStmt($sqlDump)
+	public function buildSelectStmt($sqlDump)
 	{
 		$meta = $sqlDump['meta'];
 		$fieldcol = $meta->getFieldColumnMapping();
@@ -272,18 +272,18 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 				throw new WebServiceException(WebServiceErrorCode::$QUERYSYNTAX, "columns data inappropriate");
 			}
 			$this->query = $this->query . ")";
-			$nextToken = ' AND ';
+			$nextToken = ' && ';
 		} else {
 			if (!empty($deletedQuery)) {
 				$nextToken = " WHERE ";
 			}
 		}
 		if (strcasecmp('calendar', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . " $nextToken activitytype='Task' AND ";
+			$this->query = $this->query . " $nextToken activitytype='Task' && ";
 		} elseif (strcasecmp('events', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . "$nextToken activitytype!='Emails' AND activitytype!='Task' AND ";
+			$this->query = $this->query . "$nextToken activitytype!='Emails' && activitytype!='Task' && ";
 		} else if (strcasecmp('emails', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . "$nextToken activitytype='Emails' AND ";
+			$this->query = $this->query . "$nextToken activitytype='Emails' && ";
 		} elseif (!empty($deletedQuery)) {
 			$this->query = $this->query . $nextToken;
 		}
@@ -330,7 +330,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		$this->query = $this->query . ';';
 	}
 
-	function getTables($sqlDump, $columns)
+	public function getTables($sqlDump, $columns)
 	{
 		$meta = $sqlDump['meta'];
 		$coltable = $meta->getColumnTableMapping();
@@ -342,7 +342,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		return ($tables);
 	}
 
-	function getReferenceValue($whereValue)
+	public function getReferenceValue($whereValue)
 	{
 		$whereValue = trim($whereValue, '\'"');
 		$whereValue = vtws_getIdComponents($whereValue);
@@ -350,7 +350,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		return $whereValue;
 	}
 
-	function getOwner($whereValue)
+	public function getOwner($whereValue)
 	{
 		$whereValue = trim($whereValue, '\'"');
 		$whereValue = vtws_getIdComponents($whereValue);
@@ -358,22 +358,22 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		return $whereValue;
 	}
 
-	function isSuccess()
+	public function isSuccess()
 	{
 		return $this->success;
 	}
 
-	function getErrorMsg()
+	public function getErrorMsg()
 	{
 		return $this->error_msg;
 	}
 
-	function getQuery()
+	public function getQuery()
 	{
 		return $this->query;
 	}
 
-	function getObjectMetaData()
+	public function getObjectMetaData()
 	{
 		return $this->out['meta'];
 	}
@@ -663,12 +663,12 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	/**
 	 * @var int
 	 */
-	public $yyidx;	 /* Index of top element in stack */
+	public $yyidx;  /* Index of top element in stack */
 
 	/**
 	 * @var int
 	 */
-	public $yyerrcnt;	 /* Shifts left before out of the error */
+	public $yyerrcnt;  /* Shifts left before out of the error */
 
 	/**
 	 * @var array
@@ -751,12 +751,13 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param int
 	 * @return string
 	 */
-	function tokenName($tokenType)
+	public function tokenName($tokenType)
 	{
 		if ($tokenType === 0) {
 			return 'End of Input';
 		}
-		if ($tokenType > 0 && $tokenType < count(self::$yyTokenName)) {
+		$countYyTokenName = count(self::$yyTokenName);
+		if ($tokenType > 0 && $tokenType < $countYyTokenName) {
 			return self::$yyTokenName[$tokenType];
 		} else {
 			return "Unknown";
@@ -796,7 +797,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param VTQL_ParseryyParser
 	 * @return int
 	 */
-	function yy_pop_parser_stack()
+	public function yy_pop_parser_stack()
 	{
 		if (!count($this->yystack)) {
 			return;
@@ -816,7 +817,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * Deallocate and destroy a parser.  Destructors are all called for
 	 * all stack elements before shutting the parser down.
 	 */
-	function __destruct()
+	public function __destruct()
 	{
 		while ($this->yyidx >= 0) {
 			$this->yy_pop_parser_stack();
@@ -832,7 +833,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param int
 	 * @return array
 	 */
-	function yy_get_expected_tokens($token)
+	public function yy_get_expected_tokens($token)
 	{
 		$state = $this->yystack[$this->yyidx]->stateno;
 		$expected = self::$yyExpectedTokens[$state];
@@ -905,7 +906,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param int
 	 * @return bool
 	 */
-	function yy_is_expected_token($token)
+	public function yy_is_expected_token($token)
 	{
 		if ($token === 0) {
 			return true; // 0 is not part of this
@@ -982,7 +983,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * return YY_NO_ACTION.
 	 * @param int The look-ahead token
 	 */
-	function yy_find_shift_action($iLookAhead)
+	public function yy_find_shift_action($iLookAhead)
 	{
 		$stateno = $this->yystack[$this->yyidx]->stateno;
 
@@ -1001,7 +1002,8 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		$i += $iLookAhead;
 		if ($i < 0 || $i >= self::YY_SZ_ACTTAB ||
 			self::$yy_lookahead[$i] != $iLookAhead) {
-			if (count(self::$yyFallback) && $iLookAhead < count(self::$yyFallback) && ($iFallback = self::$yyFallback[$iLookAhead]) != 0) {
+			$countYyFallback = count(self::$yyFallback);
+			if (count(self::$yyFallback) && $iLookAhead < $countYyFallback && ($iFallback = self::$yyFallback[$iLookAhead]) != 0) {
 				if (self::$yyTraceFILE) {
 					fwrite(self::$yyTraceFILE, self::$yyTracePrompt . "FALLBACK " .
 						self::$yyTokenName[$iLookAhead] . " => " .
@@ -1025,7 +1027,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param int Current state number
 	 * @param int The look-ahead token
 	 */
-	function yy_find_reduce_action($stateno, $iLookAhead)
+	public function yy_find_reduce_action($stateno, $iLookAhead)
 	{
 		/* $stateno = $this->yystack[$this->yyidx]->stateno; */
 
@@ -1054,7 +1056,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param int The major token to shift in
 	 * @param mixed the minor token to shift in
 	 */
-	function yy_shift($yyNewState, $yyMajor, $yypMinor)
+	public function yy_shift($yyNewState, $yyMajor, $yypMinor)
 	{
 		$this->yyidx++;
 		if ($this->yyidx >= self::YYSTACKDEPTH) {
@@ -1186,7 +1188,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 */
 #line 5 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r1()
+	public function yy_r1()
 	{
 		if ($this->yystack[$this->yyidx + -7]->minor) {
 			$this->out['select'] = $this->yystack[$this->yyidx + -7]->minor;
@@ -1204,28 +1206,28 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 #line 1176 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 19 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r2()
+	public function yy_r2()
 	{
 		$this->out['column_list'][] = $this->yystack[$this->yyidx + 0]->minor;
 	}
 #line 1181 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 22 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r3()
+	public function yy_r3()
 	{
 		$this->out['column_list'][] = $this->yystack[$this->yyidx + 0]->minor;
 	}
 #line 1186 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 25 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r4()
+	public function yy_r4()
 	{
 		$this->out['column_list'][] = 'count(*)';
 	}
 #line 1191 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 30 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r7()
+	public function yy_r7()
 	{
 		if (!in_array("*", $this->out["column_list"]) && !in_array("count(*)", array_map(strtolower, $this->out["column_list"]))) {
 			if (!in_array("id", $this->out["column_list"])) {
@@ -1246,14 +1248,14 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 #line 1210 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 50 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r11()
+	public function yy_r11()
 	{
 		$this->out['where_condition']['operators'][] = $this->yystack[$this->yyidx + 0]->minor;
 	}
 #line 1215 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 57 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r14()
+	public function yy_r14()
 	{
 		$this->out['columnDone'] = true;
 		$this->out['where_condition']['column_names'][] = $this->yystack[$this->yyidx + -2]->minor;
@@ -1280,7 +1282,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 #line 1240 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 82 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r17()
+	public function yy_r17()
 	{
 		$length = sizeof($this->out['where_condition']['column_values']);
 		$pos = $length - 1;
@@ -1303,91 +1305,91 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 #line 1261 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 103 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r20()
+	public function yy_r20()
 	{
 		$this->out['where_condition']['column_operators'][] = '=';
 	}
 #line 1266 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 106 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r21()
+	public function yy_r21()
 	{
 		$this->out['where_condition']['column_operators'][] = '<';
 	}
 #line 1271 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 109 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r22()
+	public function yy_r22()
 	{
 		$this->out['where_condition']['column_operators'][] = '>';
 	}
 #line 1276 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 112 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r23()
+	public function yy_r23()
 	{
 		$this->out['where_condition']['column_operators'][] = '<=';
 	}
 #line 1281 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 115 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r24()
+	public function yy_r24()
 	{
 		$this->out['where_condition']['column_operators'][] = '>=';
 	}
 #line 1286 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 118 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r25()
+	public function yy_r25()
 	{
 		$this->out['where_condition']['column_operators'][] = '!=';
 	}
 #line 1291 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 121 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r26()
+	public function yy_r26()
 	{
 		$this->out['where_condition']['column_operators'][] = 'IN';
 	}
 #line 1296 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 124 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r27()
+	public function yy_r27()
 	{
 		$this->out['where_condition']['column_operators'][] = 'LIKE';
 	}
 #line 1301 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 130 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r31()
+	public function yy_r31()
 	{
 		$this->out['orderby'][] = $this->yystack[$this->yyidx + 0]->minor;
 	}
 #line 1306 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 135 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r34()
+	public function yy_r34()
 	{
 		$this->out['sortOrder'] = 'ASC';
 	}
 #line 1311 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 138 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r35()
+	public function yy_r35()
 	{
 		$this->out['sortOrder'] = 'DESC';
 	}
 #line 1316 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 144 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r39()
+	public function yy_r39()
 	{
 		$this->out['limit'][] = $this->yystack[$this->yyidx + 0]->minor;
 	}
 #line 1321 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 147 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r40()
+	public function yy_r40()
 	{
 		$this->out['limit'][] = $this->yystack[$this->yyidx + -2]->minor;
 		$this->out['limit'][] = $this->yystack[$this->yyidx + 0]->minor;
@@ -1395,7 +1397,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 #line 1327 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 151 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
-	function yy_r41()
+	public function yy_r41()
 	{
 		$adb = PearDatabase::getInstance();
 		if (!$this->out['meta']) {
@@ -1480,7 +1482,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * file)
 	 * @param int Number of the rule by which to reduce
 	 */
-	function yy_reduce($yyruleno)
+	public function yy_reduce($yyruleno)
 	{
 		//int $yygoto;                     /* The next state */
 		//int $yyact;                      /* The next action */
@@ -1488,7 +1490,8 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		//VTQL_ParseryyStackEntry $yymsp;            /* The top of the parser's stack */
 		//int $yysize;                     /* Amount to pop the stack */
 		$yymsp = $this->yystack[$this->yyidx];
-		if (self::$yyTraceFILE && $yyruleno >= 0 && $yyruleno < count(self::$yyRuleName)) {
+		$countYyRuleName = count(self::$yyRuleName);
+		if (self::$yyTraceFILE && $yyruleno >= 0 && $yyruleno < $countYyRuleName) {
 			fprintf(self::$yyTraceFILE, "%sReduce (%d) [%s].\n", self::$yyTracePrompt, $yyruleno, self::$yyRuleName[$yyruleno]);
 		}
 
@@ -1532,7 +1535,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * 
 	 * Code from %parse_fail is inserted here
 	 */
-	function yy_parse_failed()
+	public function yy_parse_failed()
 	{
 		if (self::$yyTraceFILE) {
 			fprintf(self::$yyTraceFILE, "%sFail!\n", self::$yyTracePrompt);
@@ -1557,7 +1560,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param int The major type of the error token
 	 * @param mixed The minor type of the error token
 	 */
-	function yy_syntax_error($yymajor, $TOKEN)
+	public function yy_syntax_error($yymajor, $TOKEN)
 	{
 #line 466 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
 
@@ -1578,7 +1581,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * 
 	 * %parse_accept code is inserted here
 	 */
-	function yy_accept()
+	public function yy_accept()
 	{
 		if (self::$yyTraceFILE) {
 			fprintf(self::$yyTraceFILE, "%sAccept!\n", self::$yyTracePrompt);
@@ -1604,7 +1607,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param mixed the token value
 	 * @param mixed any extra arguments that should be passed to handlers
 	 */
-	function doParse($yymajor, $yytokenvalue)
+	public function doParse($yymajor, $yytokenvalue)
 	{
 //        $yyact;            /* The parser action. */
 //        $yyendofinput;     /* True if we are at the end of input */

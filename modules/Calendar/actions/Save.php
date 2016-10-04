@@ -20,7 +20,6 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$parentModuleName = $request->get('sourceModule');
 			$parentRecordId = $request->get('sourceRecord');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
-			//TODO : Url should load the related list instead of detail view of record
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
 			$moduleModel = $recordModel->getModule();
@@ -30,7 +29,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 				$loadUrl = $listViewUrl;
 			} else {
 				$userId = $recordModel->get('assigned_user_id');
-				$sharedType = $moduleModel->getSharedType($userId);
+				$sharedType = Calendar_Module_Model::getSharedType($userId);
 				if ($sharedType === 'selectedusers') {
 					$currentUserModel = Users_Record_Model::getCurrentUserModel();
 					$sharedUserIds = Calendar_Module_Model::getCaledarSharedUsers($userId);
@@ -94,7 +93,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
 			//Due to dependencies on the activity_reminder api in Activity.php(5.x)
-			$_REQUEST['mode'] = 'edit';
+			AppRequest::set('mode', 'edit');
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$modelData = $recordModel->getData();
@@ -103,7 +102,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if(!$fieldModel->isEditEnabled()){
+			if (!$fieldModel->isEditEnabled()) {
 				continue;
 			}
 			$fieldValue = $request->get($fieldName, null);
@@ -152,13 +151,15 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$recordModel->set('activitytype', 'Task');
 			$recordModel->set('visibility', 'Private');
 		}
-
+		if ($request->has('saveAndClose')) {
+			$recordModel->set('activitystatus', $request->get('saveAndClose'));
+		}
 		//Due to dependencies on the older code
 		$setReminder = $request->get('set_reminder');
 		if ($setReminder) {
-			$_REQUEST['set_reminder'] = 'Yes';
+			AppRequest::set('set_reminder', 'Yes');
 		} else {
-			$_REQUEST['set_reminder'] = 'No';
+			AppRequest::set('set_reminder', 'No');
 		}
 
 		$time = (strtotime($request->get('time_end'))) - (strtotime($request->get('time_start')));

@@ -9,6 +9,7 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
@@ -35,3 +36,4 @@
 <div class="dashboardWidgetContent">
 	{include file="dashboards/ListUpdatedRecordContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
+{/strip}

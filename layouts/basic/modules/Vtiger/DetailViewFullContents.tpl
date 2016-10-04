@@ -1,3 +1,4 @@
+{strip}
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -9,7 +10,6 @@
 *
 ********************************************************************************/
 -->*}
-{strip}
 	{include file='DetailViewBlockView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 	{if $MODULE_TYPE == '1'}
 		{include file='DetailViewInventoryView.tpl'|@vtemplate_path:$MODULE_NAME MODULE_NAME=$MODULE_NAME}

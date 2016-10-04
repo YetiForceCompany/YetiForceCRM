@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,18 +7,48 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Vtiger_DashBoard_View extends Vtiger_Index_View {
+class Vtiger_DashBoard_View extends Vtiger_Index_View
+{
 
-	function checkPermission(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-		if(!Users_Privileges_Model::isPermitted($moduleName, $actionName)) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function preProcess(Vtiger_Request $request, $display=true) {
+	public function preProcessAjax(\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$sourceModule = $request->get('sourceModule');
+
+		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
+		//check profile permissions for Dashboards
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		if ($permission) {
+			$dashBoardModel->verifyDashboard($moduleName);
+			$widgets = $dashBoardModel->getDashboards('Header');
+		} else {
+			$widgets = [];
+		}
+		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($sourceModule);
+		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
+		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
+		$viewer->assign('MODULE_PERMISSION', $permission);
+		$viewer->assign('WIDGETS', $widgets);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->view('dashboards/DashBoardPreProcessAjax.tpl', $moduleName);
+	}
+
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -28,38 +58,39 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View {
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-		if($permission) {
+		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
 			$widgets = $dashBoardModel->getDashboards('Header');
 		} else {
 			$widgets = [];
 		}
-		
+
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		if($display) {
+		if ($display) {
 			$this->preProcessDisplay($request);
 		}
 	}
 
-	function preProcessTplName(Vtiger_Request $request) {
+	public function preProcessTplName(Vtiger_Request $request)
+	{
 		return 'dashboards/DashBoardPreProcess.tpl';
 	}
 
-	function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
-		
+
 		//check profile permissions for Dashboards
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-		if($permission) {
+		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
+		if ($permission) {
 			$widgets = $dashBoardModel->getDashboards();
 		} else {
 			return;
@@ -69,7 +100,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View {
 		$viewer->view('dashboards/DashBoardContents.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request) {
+	public function postProcess(Vtiger_Request $request)
+	{
 		parent::postProcess($request);
 	}
 
@@ -78,7 +110,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request) {
+	public function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
@@ -115,7 +148,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_CssScript_Model instances
 	 */
-	public function getHeaderCss(Vtiger_Request $request) {
+	public function getHeaderCss(Vtiger_Request $request)
+	{
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
 		$headerCss = array(
@@ -125,7 +159,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View {
 			'~libraries/fullcalendar/fullcalendarCRM.css'
 		);
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
-		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances , $cssScripts);
+		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances, $cssScripts);
 		return $headerCssScriptInstances;
 	}
 }

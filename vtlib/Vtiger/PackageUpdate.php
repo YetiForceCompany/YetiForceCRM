@@ -7,32 +7,24 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/PackageImport.php');
+namespace vtlib;
 
 /**
  * Provides API to update module into vtiger CRM
  * @package vtlib
  */
-class Vtiger_PackageUpdate extends Vtiger_PackageImport
+class PackageUpdate extends PackageImport
 {
 
-	var $_migrationinfo = false;
-	var $listFields = Array();
-	var $listBlocks = Array();
-
-	/**
-	 * Constructor
-	 */
-	function Vtiger_PackageUpdate()
-	{
-		parent::__construct();
-	}
+	public $_migrationinfo = false;
+	public $listFields = [];
+	public $listBlocks = [];
 
 	/**
 	 * Initialize Update
 	 * @access private
 	 */
-	function initUpdate($moduleInstance, $zipfile, $overwrite)
+	public function initUpdate($moduleInstance, $zipfile, $overwrite)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 
@@ -42,15 +34,15 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 		}
 
 		if ($module != null) {
-			$unzip = new Vtiger_Unzip($zipfile, $overwrite);
+			$unzip = new Unzip($zipfile, $overwrite);
 
 			// Unzip selectively
-			$unzip->unzipAllEx(".", [
+			$unzip->unzipAllEx('.', [
 				'include' => ['templates', "modules/$module", 'cron', 'languages', 'layouts',
 					'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries'],
 				// DEFAULT: excludes all not in include
 				], [// Templates folder to be renamed while copying
-				'templates' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
+				'templates' => "layouts/" . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Settings folder
@@ -60,9 +52,9 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 				'settings/connectors' => "modules/Settings/$module/connectors",
 				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
-				'settings/templates' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
+				'settings/templates' => "layouts/" . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => "layouts/" . Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'images' => "layouts/" . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'settings' => 'modules/Settings',
 				'layouts' => 'layouts',
 				]
@@ -81,11 +73,11 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 
 	/**
 	 * Update Module from zip file
-	 * @param Vtiger_Module Instance of the module to update
+	 * @param Module Instance of the module to update
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function update($moduleInstance, $zipfile, $overwrite = true)
+	public function update($moduleInstance, $zipfile, $overwrite = true)
 	{
 
 		$module = $this->getModuleNameFromZip($zipfile);
@@ -96,10 +88,10 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 				$this->__parseManifestFile($unzip);
 			}
 
-			$buildModuleArray = array();
-			$installSequenceArray = array();
+			$buildModuleArray = [];
+			$installSequenceArray = [];
 			$moduleBundle = (boolean) $this->_modulexml->modulebundle;
-			if ($moduleBundle == true) {
+			if ($moduleBundle === true) {
 				$moduleList = (Array) $this->_modulexml->modulelist;
 				foreach ($moduleList as $moduleInfos) {
 					foreach ($moduleInfos as $moduleInfo) {
@@ -109,12 +101,12 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 					}
 				}
 				sort($installSequenceArray);
-				$unzip = new Vtiger_Unzip($zipfile);
+				$unzip = new Unzip($zipfile);
 				$unzip->unzipAllEx($this->getTemporaryFilePath());
 				foreach ($installSequenceArray as $sequence) {
 					foreach ($buildModuleArray as $moduleInfo) {
 						if ($moduleInfo['install_sequence'] == $sequence) {
-							$moduleInstance = Vtiger_Module::getInstance($moduleInfo['name']);
+							$moduleInstance = Module::getInstance($moduleInfo['name']);
 							$this->update($moduleInstance, $this->getTemporaryFilePath($moduleInfo['filepath']), $overwrite);
 						}
 					}
@@ -135,7 +127,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Update Module
 	 * @access private
 	 */
-	function update_Module($moduleInstance)
+	public function update_Module($moduleInstance)
 	{
 		$tabname = $this->_modulexml->name;
 		$tablabel = $this->_modulexml->label;
@@ -148,7 +140,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 				$isextension = true;
 		}
 
-		Vtiger_Module::fireEvent($moduleInstance->name, Vtiger_Module::EVENT_MODULE_PREUPDATE);
+		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_PREUPDATE);
 		$moduleInstance->label = $tablabel;
 		$moduleInstance->save();
 
@@ -164,17 +156,17 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 		$this->update_CronTasks($this->_modulexml);
 		$moduleInstance->__updateVersion($tabversion);
 
-		Vtiger_Module::fireEvent($moduleInstance->name, Vtiger_Module::EVENT_MODULE_POSTUPDATE);
+		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTUPDATE);
 	}
 
 	/**
 	 * Parse migration information from manifest
 	 * @access private
 	 */
-	function parse_Migration($modulenode)
+	public function parse_Migration($modulenode)
 	{
 		if (!$this->_migrations) {
-			$this->_migrations = Array();
+			$this->_migrations = [];
 			if (!empty($modulenode->migrations) &&
 				!empty($modulenode->migrations->migration)) {
 				foreach ($modulenode->migrations->migration as $migrationnode) {
@@ -194,9 +186,8 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Handle migration of the module
 	 * @access private
 	 */
-	function handle_Migration($modulenode, $moduleInstance)
+	public function handle_Migration($modulenode, $moduleInstance)
 	{
-		// TODO Handle module migration SQL
 		$this->parse_Migration($modulenode);
 		$cur_version = $moduleInstance->version;
 		foreach ($this->_migrations as $migversion => $migrationnode) {
@@ -208,12 +199,12 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 						$tablename = $tablenode->name;
 						$tablesql = "$tablenode->sql"; // Convert to string
 						// Skip SQL which are destructive
-						if (Vtiger_Utils::IsDestructiveSql($tablesql)) {
+						if (Utils::IsDestructiveSql($tablesql)) {
 							self::log("SQL: $tablesql ... SKIPPED");
 						} else {
 							// Supress any SQL query failures
 							self::log("SQL: $tablesql ... ", false);
-							Vtiger_Utils::ExecuteQuery($tablesql, true);
+							Utils::ExecuteQuery($tablesql, true);
 							self::log("DONE");
 						}
 					}
@@ -227,7 +218,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Update Tables of the module
 	 * @access private
 	 */
-	function update_Tables($modulenode)
+	public function update_Tables($modulenode)
 	{
 		$this->import_Tables($modulenode);
 	}
@@ -236,14 +227,14 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Update Blocks of the module
 	 * @access private
 	 */
-	function update_Blocks($modulenode, $moduleInstance)
+	public function update_Blocks($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->blocks) || empty($modulenode->blocks->block))
 			return;
 
 		foreach ($modulenode->blocks->block as $blocknode) {
 			$this->listBlocks[] = strval($blocknode->label);
-			$blockInstance = Vtiger_Block::getInstance((string) $blocknode->label, $moduleInstance);
+			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance);
 			if (!$blockInstance) {
 				$blockInstance = $this->import_Block($modulenode, $moduleInstance, $blocknode);
 			} else {
@@ -253,7 +244,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 			$this->update_Fields($blocknode, $blockInstance, $moduleInstance);
 		}
 		// Deleting removed blocks
-		$listBlockBeforeUpdate = Vtiger_Block::getAllForModule($moduleInstance);
+		$listBlockBeforeUpdate = Block::getAllForModule($moduleInstance);
 		foreach ($listBlockBeforeUpdate as $blockInstance) {
 			if (!(in_array($blockInstance->label, $this->listBlocks))) {
 				$blockInstance->delete();
@@ -265,7 +256,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Update Block of the module
 	 * @access private
 	 */
-	function update_Block($modulenode, $moduleInstance, $blocknode, $blockInstance)
+	public function update_Block($modulenode, $moduleInstance, $blocknode, $blockInstance)
 	{
 		$blockInstance->label = strval($blocknode->label);
 		if (isset($blocknode->sequence) && isset($blocknode->display_status)) {
@@ -289,14 +280,14 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Update Fields of the module
 	 * @access private
 	 */
-	function update_Fields($blocknode, $blockInstance, $moduleInstance)
+	public function update_Fields($blocknode, $blockInstance, $moduleInstance)
 	{
 		if (empty($blocknode->fields) || empty($blocknode->fields->field))
 			return;
 
 		foreach ($blocknode->fields->field as $fieldnode) {
 			$this->listFields[] = strval($fieldnode->fieldname);
-			$fieldInstance = Vtiger_Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
+			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
 			if (!$fieldInstance) {
 				$fieldInstance = $this->import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 			} else {
@@ -305,7 +296,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 			$this->__AddModuleFieldToCache($moduleInstance, $fieldInstance->name, $fieldInstance);
 		}
 		// Deleting removed fields
-		$listFieldBeforeUpdate = Vtiger_Field::getAllForModule($moduleInstance);
+		$listFieldBeforeUpdate = Field::getAllForModule($moduleInstance);
 		foreach ($listFieldBeforeUpdate as $fieldInstance) {
 			if (!(in_array($fieldInstance->name, $this->listFields))) {
 				$fieldInstance->delete();
@@ -317,7 +308,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Update Field of the module
 	 * @access private
 	 */
-	function update_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance)
+	public function update_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance)
 	{
 
 		// strval used because in $fieldnode there is a SimpleXMLElement object 
@@ -373,7 +364,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 
 		// Check picklist values associated with field if any.
 		if (!empty($fieldnode->picklistvalues) && !empty($fieldnode->picklistvalues->picklistvalue)) {
-			$picklistvalues = Array();
+			$picklistvalues = [];
 			foreach ($fieldnode->picklistvalues->picklistvalue as $picklistvaluenode) {
 				$picklistvalues[] = $picklistvaluenode;
 			}
@@ -382,8 +373,8 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 
 		// Check related modules associated with this field
 		if (!empty($fieldnode->relatedmodules) && !empty($fieldnode->relatedmodules->relatedmodule)) {
-			$relatedmodules = Array();
-			//TODO:Delete old related modules
+			$relatedmodules = [];
+
 			foreach ($fieldnode->relatedmodules->relatedmodule as $relatedmodulenode) {
 				$relatedmodules[] = $relatedmodulenode;
 			}
@@ -396,12 +387,12 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Import Custom views of the module
 	 * @access private
 	 */
-	function update_CustomViews($modulenode, $moduleInstance)
+	public function update_CustomViews($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->customviews) || empty($modulenode->customviews->customview))
 			return;
 		foreach ($modulenode->customviews->customview as $customviewnode) {
-			$filterInstance = Vtiger_Filter::getInstance($customviewnode->viewname, $moduleInstance);
+			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance);
 			if (!$filterInstance) {
 				$filterInstance = $this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
 			} else {
@@ -414,41 +405,41 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Update Custom View of the module
 	 * @access private
 	 */
-	function update_CustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance)
+	public function update_CustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance)
 	{
-		// TODO Handle filter property update
+
 		$filterInstance->delete();
-		$filterInstance = $this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
+		$this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
 	}
 
 	/**
 	 * Update Sharing Access of the module
 	 * @access private
 	 */
-	function update_SharingAccess($modulenode, $moduleInstance)
+	public function update_SharingAccess($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->sharingaccess))
 			return;
 
-		// TODO Handle sharing access property update
+
 	}
 
 	/**
 	 * Update Events of the module
 	 * @access private
 	 */
-	function update_Events($modulenode, $moduleInstance)
+	public function update_Events($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->events) || empty($modulenode->events->event))
 			return;
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 
 		// Deleting events before importing them
 		$adb->delete('vtiger_eventhandlers', 'handler_class IN (SELECT handler_class FROM vtiger_eventhandler_module WHERE module_name = ? )', [$moduleInstance->name]);
 		$adb->delete('vtiger_eventhandler_module', 'module_name = ?', [$moduleInstance->name]);
 
-		if (Vtiger_Event::hasSupport()) {
+		if (Event::hasSupport()) {
 			foreach ($modulenode->events->event as $eventnode) {
 				$this->update_Event($modulenode, $moduleInstance, $eventnode);
 			}
@@ -459,17 +450,17 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Update Event of the module
 	 * @access private
 	 */
-	function update_Event($modulenode, $moduleInstance, $eventnode)
+	public function update_Event($modulenode, $moduleInstance, $eventnode)
 	{
-		Vtiger_Event::register($moduleInstance, $eventnode->eventname, $eventnode->classname, $eventnode->filename);
-		// TODO Handle event property update
+		Event::register($moduleInstance, $eventnode->eventname, $eventnode->classname, $eventnode->filename);
+
 	}
 
 	/**
 	 * Update actions of the module
 	 * @access private
 	 */
-	function update_Actions($modulenode, $moduleInstance)
+	public function update_Actions($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->actions) || empty($modulenode->actions->action))
 			return;
@@ -482,16 +473,16 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Update action of the module
 	 * @access private
 	 */
-	function update_Action($modulenode, $moduleInstance, $actionnode)
+	public function update_Action($modulenode, $moduleInstance, $actionnode)
 	{
-		// TODO Handle action property update
+
 	}
 
 	/**
 	 * Update related lists of the module
 	 * @access private
 	 */
-	function update_RelatedLists($modulenode, $moduleInstance)
+	public function update_RelatedLists($modulenode, $moduleInstance)
 	{
 		$moduleInstance->unsetAllRelatedList();
 		if (!empty($modulenode->relatedlists) && !empty($modulenode->relatedlists->relatedlist)) {
@@ -510,13 +501,13 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 	 * Import related list of the module.
 	 * @access private
 	 */
-	function update_Relatedlist($modulenode, $moduleInstance, $relatedlistnode)
+	public function update_Relatedlist($modulenode, $moduleInstance, $relatedlistnode)
 	{
-		$relModuleInstance = Vtiger_Module::getInstance((string) $relatedlistnode->relatedmodule);
+		$relModuleInstance = Module::getInstance((string) $relatedlistnode->relatedmodule);
 		$label = $relatedlistnode->label;
 		$actions = false;
 		if (!empty($relatedlistnode->actions) && !empty($relatedlistnode->actions->action)) {
-			$actions = Array();
+			$actions = [];
 			foreach ($relatedlistnode->actions->action as $actionnode) {
 				$actions[] = "$actionnode";
 			}
@@ -528,13 +519,13 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 		return $relModuleInstance;
 	}
 
-	function update_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode)
+	public function update_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode)
 	{
-		$inRelModuleInstance = Vtiger_Module::getInstance((string) $inRelatedListNode->inrelatedmodule);
+		$inRelModuleInstance = Module::getInstance((string) $inRelatedListNode->inrelatedmodule);
 		$label = $inRelatedListNode->label;
 		$actions = false;
 		if (!empty($inRelatedListNode->actions) && !empty($inRelatedListNode->actions->action)) {
-			$actions = Array();
+			$actions = [];
 			foreach ($inRelatedListNode->actions->action as $actionnode) {
 				$actions[] = "$actionnode";
 			}
@@ -546,7 +537,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 		return $inRelModuleInstance;
 	}
 
-	function update_CustomLinks($modulenode, $moduleInstance)
+	public function update_CustomLinks($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink))
 			return;
@@ -554,28 +545,26 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport
 		$this->import_CustomLinks($modulenode, $moduleInstance);
 	}
 
-	function update_CronTasks($modulenode)
+	public function update_CronTasks($modulenode)
 	{
 		if (empty($modulenode->crons) || empty($modulenode->crons->cron))
 			return;
-		$cronTasks = Vtiger_Cron::listAllInstancesByModule($modulenode->name);
+		$cronTasks = Cron::listAllInstancesByModule($modulenode->name);
 		foreach ($modulenode->crons->cron as $importCronTask) {
 			foreach ($cronTasks as $cronTask) {
 				if ($cronTask->getName() == $importCronTask->name && $importCronTask->handler == $cronTask->getHandlerFile()) {
-					Vtiger_Cron::deregister($importCronTask->name);
+					Cron::deregister($importCronTask->name);
 				}
 			}
 			if (empty($importCronTask->status)) {
-				$cronTask->status = Vtiger_Cron::$STATUS_DISABLED;
+				$cronTask->status = Cron::$STATUS_DISABLED;
 			} else {
-				$cronTask->status = Vtiger_Cron::$STATUS_ENABLED;
+				$cronTask->status = Cron::$STATUS_ENABLED;
 			}
 			if ((empty($importCronTask->sequence))) {
-				$importCronTask->sequence = Vtiger_Cron::nextSequence();
+				$importCronTask->sequence = Cron::nextSequence();
 			}
-			Vtiger_Cron::register("$importCronTask->name", "$importCronTask->handler", "$importCronTask->frequency", "$modulenode->name", "$importCronTask->status", "$importCronTask->sequence", "$importCronTask->description");
+			Cron::register("$importCronTask->name", "$importCronTask->handler", "$importCronTask->frequency", "$modulenode->name", "$importCronTask->status", "$importCronTask->sequence", "$importCronTask->description");
 		}
 	}
 }
-
-?>

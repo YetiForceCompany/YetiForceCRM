@@ -52,7 +52,6 @@ class HTMLPurifier_AttrTypes
         $this->info['Class'] = new HTMLPurifier_AttrDef_HTML_Class();
 
         // number is really a positive integer (one or more digits)
-        // FIXME: ^^ not always, see start and value of list items
         $this->info['Number']   = new HTMLPurifier_AttrDef_Integer(false, false, true);
     }
 

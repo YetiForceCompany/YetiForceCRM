@@ -47,7 +47,8 @@ class EmailTemplate
 		if ($result != 0) {
 			$templateVariablePair = $matches[0];
 			$this->templateFields = [];
-			for ($i = 0; $i < count($templateVariablePair); $i++) {
+			$countTemplateVariablePair = count($templateVariablePair);
+			for ($i = 0; $i < $countTemplateVariablePair; $i++) {
 				$templateVariablePair[$i] = str_replace('$', '', $templateVariablePair[$i]);
 				list($module, $columnName) = explode('-', $templateVariablePair[$i]);
 				list($parentColumn, $childColumn) = explode(':', $columnName);
@@ -116,7 +117,7 @@ class EmailTemplate
 			}
 
 			if (count($tableList) > 0 && count($columnList) > 0) {
-				$sql = 'select ' . implode(', ', $columnList) . ' from ' . $tableList[0];
+				$sql = sprintf('SELECT %s FROM %s', implode(', ', $columnList), $tableList[0]);
 				$moduleTableIndexList = $meta->getEntityTableIndexList();
 				foreach ($tableList as $index => $tableName) {
 					if ($tableName != $tableList[0]) {
@@ -162,8 +163,8 @@ class EmailTemplate
 								$referencedObjectHandler = vtws_getModuleHandlerFromName(
 									$details[0], $this->user);
 							} else {
-								$type = getSalesEntityType(
-									$values[$fieldName]);
+								$type = \vtlib\Functions::getCRMRecordType(
+										$values[$fieldName]);
 								$referencedObjectHandler = vtws_getModuleHandlerFromName($type, $this->user);
 							}
 							$referencedObjectMeta = $referencedObjectHandler->getMeta();
@@ -186,11 +187,11 @@ class EmailTemplate
 							$values[$fieldName] = $referencedObjectMeta->getName(vtws_getId(
 									$referencedObjectMeta->getEntityId(), $values[$fieldName]));
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'picklist') === 0) {
-							$values[$fieldName] = getTranslatedString(
-								$values[$fieldName], $module);
+							$values[$fieldName] = \includes\Language::translate(
+									$values[$fieldName], $module);
 						} elseif (strcasecmp($fieldName, 'salutationtype') === 0 && $webserviceField->getUIType() == '55') {
-							$values[$fieldName] = getTranslatedString(
-								$values[$fieldName], $module);
+							$values[$fieldName] = \includes\Language::translate(
+									$values[$fieldName], $module);
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'datetime') === 0) {
 							$values[$fieldName] = $values[$fieldName] . ' ' . DateTimeField::getDBTimeZone();
 						}
@@ -238,7 +239,7 @@ class EmailTemplate
 	public function isModuleActive($module)
 	{
 		include_once 'include/utils/VtlibUtils.php';
-		if (vtlib_isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
+		if (\includes\Modules::isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
 			return true;
 		}
 		return false;
@@ -247,7 +248,7 @@ class EmailTemplate
 	public function isActive($field, $mod)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = getTabid($mod);
+		$tabid = \includes\Modules::getModuleId($mod);
 		$query = 'select * from vtiger_field where fieldname = ?  and tabid = ? and presence in (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));
 		$rows = $adb->num_rows($res);
@@ -257,5 +258,3 @@ class EmailTemplate
 			return false;
 	}
 }
-
-?>

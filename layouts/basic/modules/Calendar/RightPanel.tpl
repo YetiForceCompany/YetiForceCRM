@@ -10,7 +10,7 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-	{if $ALL_ACTIVEUSER_LIST}
+	{if !empty($ALL_ACTIVEUSER_LIST)}
 		<div>
 			<ul  class="nav" >
 				<li >
@@ -25,7 +25,7 @@
 			</ul>
 		</div>
 	{/if}
-	{if $ALL_ACTIVEGROUP_LIST}
+	{if !empty($ALL_ACTIVEGROUP_LIST)}
 		<div>
 			<ul  class="nav">
 				<li>
@@ -40,7 +40,7 @@
 			</ul>
 		</div>
 	{/if}
-	{if $ACTIVITY_TYPE}
+	{if !empty($ACTIVITY_TYPE)}
 		<div>
 			<ul  class="nav" >
 				<li class="">
@@ -53,7 +53,7 @@
 			</ul>
 		</div>
 	{/if}
-	{if $ACTIVITY_TYPE || $ALL_ACTIVEGROUP_LIST || $ALL_ACTIVEUSER_LIST}
+	{if !empty($ACTIVITY_TYPE) || !empty($ALL_ACTIVEGROUP_LIST) || !empty($ALL_ACTIVEUSER_LIST)}
 		<script type="text/javascript">
 			jQuery(document).ready(function () {
 				Calendar_CalendarView_Js.currentInstance.registerSelect2Event();

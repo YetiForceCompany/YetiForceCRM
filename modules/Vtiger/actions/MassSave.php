@@ -12,21 +12,17 @@
 class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Save')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		$allRecordSave = true;
 		foreach ($recordModels as $recordId => $recordModel) {
@@ -47,7 +43,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	function getRecordModelsFromRequest(Vtiger_Request $request)
+	public function getRecordModelsFromRequest(Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();
@@ -58,6 +54,9 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
+			if (!$recordModel->isEditable()) {
+				continue;
+			}
 			$recordModel->set('id', $recordId);
 			$recordModel->set('mode', 'edit');
 

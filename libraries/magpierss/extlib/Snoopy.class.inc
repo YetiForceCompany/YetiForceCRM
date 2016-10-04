@@ -33,8 +33,8 @@ Lincoln, NE 68510
 The latest version of Snoopy can be obtained from:
 http://snoopy.sourceforge.com
 
+Contributor(s): YetiForce.com 20160831
 *************************************************/
-require_once("include/database/PearDatabase.php");
 class Snoopy
 {
 	/**** Public variables ****/
@@ -110,20 +110,20 @@ class Snoopy
 	var $_frameurls		= 	array();			// frame src urls
 	var $_framedepth	=	0;					// increments on frame depth
 	
-	var $_isproxy		=	true;				// set if using a proxy server
+	var $_isproxy		=	false;				// set if using a proxy server
 	var $_fp_timeout	=	60;					// timeout for socket connection
-	function Snoopy()
+	function __construct()
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$query = "select * from vtiger_systems where server_type=?";
-		$result = $adb->pquery($query, array('proxy'));
-		$noofrows = $adb->num_rows($result);
-		if($noofrows != 0)
-		{
-			$this->proxy_host=$adb->query_result($result,0,"server");
-			$this->proxy_port=$adb->query_result($result,0,"server_port");
-			$this->user=$adb->query_result($result,0,"server_username");
-			$this->pass=$adb->query_result($result,0,"server_password");
+		$result = $db->pquery($query, ['proxy']);
+		if ($db->getRowCount($result) != 0) {
+			$row = $db->getRow($result);
+			$this->proxy_host = $row['server'];
+			$this->proxy_port = $row['server_port'];
+			$this->user = $row['server_username'];
+			$this->pass = $row['server_password'];
+			$this->_isproxy = true;
 		}
 	}
 

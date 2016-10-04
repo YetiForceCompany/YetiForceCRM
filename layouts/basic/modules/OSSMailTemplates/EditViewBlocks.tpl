@@ -111,13 +111,8 @@
 									</label>
 								</div>
 								{if $FIELD_MODEL->get('uitype') neq "83"}
-									<div class="fieldValue col-md-9 {$WIDTHTYPE}" >
-										<div class="row">
-												{if $FIELD_MODEL->get('uitype') eq "300"}
-													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
-												{/if}
-												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-										</div>
+									<div class="fieldValue {if $FIELD_MODEL->get('uitype') eq "300"}col-md-12 {else} col-md-9{/if}  {$WIDTHTYPE}" >
+										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 									</div>
 								{/if}
 								</div>
@@ -133,10 +128,10 @@
 									{assign var=COUNTER value=0}
 								{/if}
 								{assign var=COUNTER value=$COUNTER+1}
-								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow 234">
+								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow">
 									<div class="fieldLabel col-md-3 paddingLeft5px {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></div>
 									<div class="fieldValue col-md-9 {$WIDTHTYPE}">
-										<div class="row">
+										
 											<div class="col-md-8 paddingLRZero">
 												<select class="chzn-select form-control" name="oss_fields_list" title="{vtranslate('LBL_CHOOSE_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
 												</select>
@@ -149,7 +144,7 @@
 													<span class="glyphicon glyphicon-arrow-down"></span>
 												</button>
 											</div>	
-										</div>	
+										
 									</div>
 								</div>
 							{/if}
@@ -163,7 +158,7 @@
 								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow">
 									<div class="fieldLabel col-md-3 {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></div>
 									<div class="fieldValue col-md-9 {$WIDTHTYPE}">
-										<div class="row">
+										
 											<div class="col-md-8 paddingLRZero">
 												<select class="chzn-select" name="oss_related_fields_list" title="{vtranslate('LBL_SELECT_RELATED_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
 												</select>
@@ -176,7 +171,7 @@
 													<span class="glyphicon glyphicon-arrow-down"></span>
 												</button>
 											</div>
-										</div>	
+									
 									</div>
 								</div>
 								{assign var=COUNTER value=$COUNTER+1}
@@ -190,7 +185,7 @@
 								
 									<div class="fieldLabel col-md-3 {$WIDTHTYPE}" ><label class="muted pull-right marginRight10px">{vtranslate('SEPCIAL_FUNCTION', $MODULE)}</label></div>
 									<div class="fieldValue col-md-9 {$WIDTHTYPE}">
-										<div class="row">
+									
 											<div class="col-md-8 paddingLRZero">
 												<select class="chzn-select" name="oss_special_function_list" title="{vtranslate('SEPCIAL_FUNCTION', $MODULE)}" style="width: 190px;">
 												</select>
@@ -200,7 +195,7 @@
 													<span class="glyphicon glyphicon-arrow-down"></span>
 												</button>
 											</div>
-										</div>	
+										
 									</div>
 								</div>
 								{assign var=COUNTER value=$COUNTER+1}

@@ -46,7 +46,7 @@ function vtws_getUsersInTheSameGroup($id)
 		$usersInGroup = $groupUsers->group_users;
 		foreach ($usersInGroup as $user) {
 			if ($user != $id) {
-				$allUsers[$user] = getUserFullName($user);
+				$allUsers[$user] = \includes\fields\Owner::getUserLabel($user);
 			}
 		}
 	}
@@ -84,12 +84,12 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	$adb = PearDatabase::getInstance();
 	require('user_privileges/user_privileges_' . $user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $user->id . '.php');
-	$tabName = getTabname($moduleId);
-	if ($is_admin == false && $profileGlobalPermission[2] == 1 &&
-		($defaultOrgSharingPermission[$moduleId] == 3 or $defaultOrgSharingPermission[$moduleId] == 0)) {
+	$tabName = \includes\Modules::getModuleName($moduleId);
+	if ($is_admin === false && $profileGlobalPermission[2] == 1 &&
+		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
 		$result = get_current_user_access_groups($tabName);
 	} else {
-		$result = get_group_options();
+		$result = \vtlib\Functions::get_group_options();
 	}
 
 	$groups = [];
@@ -227,49 +227,9 @@ function vtws_getModuleInstance($webserviceObject)
 	return CRMEntity::getInstance($moduleName);
 }
 
-function vtws_isRecordOwnerUser($ownerId)
-{
-	$adb = PearDatabase::getInstance();
-
-	static $cache = [];
-	if (!array_key_exists($ownerId, $cache)) {
-		$result = $adb->pquery("select first_name from vtiger_users where id = ?", array($ownerId));
-		$rowCount = $adb->num_rows($result);
-		$ownedByUser = ($rowCount > 0);
-		$cache[$ownerId] = $ownedByUser;
-	} else {
-		$ownedByUser = $cache[$ownerId];
-	}
-
-	return $ownedByUser;
-}
-
-function vtws_isRecordOwnerGroup($ownerId)
-{
-	$adb = PearDatabase::getInstance();
-
-	static $cache = [];
-	if (!array_key_exists($ownerId, $cache)) {
-		$result = $adb->pquery("select groupname from vtiger_groups where groupid = ?", array($ownerId));
-		$rowCount = $adb->num_rows($result);
-		$ownedByGroup = ($rowCount > 0);
-		$cache[$ownerId] = $ownedByGroup;
-	} else {
-		$ownedByGroup = $cache[$ownerId];
-	}
-
-	return $ownedByGroup;
-}
-
 function vtws_getOwnerType($ownerId)
 {
-	if (vtws_isRecordOwnerGroup($ownerId) == true) {
-		return 'Groups';
-	}
-	if (vtws_isRecordOwnerUser($ownerId) == true) {
-		return 'Users';
-	}
-	throw new WebServiceException(WebServiceErrorCode::$INVALIDID, "Invalid owner of the record");
+	return \includes\fields\Owner::getType($ownerId);
 }
 
 function vtws_runQueryAsTransaction($query, $params, &$result)
@@ -328,7 +288,7 @@ function vtws_addDefaultModuleTypeEntity($moduleName)
 function vtws_addModuleTypeWebserviceEntity($moduleName, $filePath, $className)
 {
 	$adb = PearDatabase::getInstance();
-	$checkres = $adb->pquery('SELECT id FROM vtiger_ws_entity WHERE name=? AND handler_path=? AND handler_class=?', array($moduleName, $filePath, $className));
+	$checkres = $adb->pquery('SELECT id FROM vtiger_ws_entity WHERE name=? && handler_path=? && handler_class=?', array($moduleName, $filePath, $className));
 	if ($checkres && $adb->num_rows($checkres) == 0) {
 		$isModule = 1;
 		$entityId = $adb->getUniqueID("vtiger_ws_entity");
@@ -346,7 +306,7 @@ function vtws_addDefaultActorTypeEntity($actorName, $actorNameDetails, $withName
 {
 	$actorHandler = array('file' => 'include/Webservices/VtigerActorOperation.php',
 		'class' => 'VtigerActorOperation');
-	if ($withName == true) {
+	if ($withName === true) {
 		vtws_addActorTypeWebserviceEntityWithName($actorName, $actorHandler['file'], $actorHandler['class'], $actorNameDetails);
 	} else {
 		vtws_addActorTypeWebserviceEntityWithoutName($actorName, $actorHandler['file'], $actorHandler['class'], $actorNameDetails);
@@ -379,7 +339,7 @@ function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
 function vtws_getName($id, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
@@ -471,7 +431,7 @@ function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, 
 function vtws_getModuleHandlerFromName($name, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $name);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -485,7 +445,7 @@ function vtws_getModuleHandlerFromName($name, $user)
 function vtws_getModuleHandlerFromId($id, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -498,9 +458,8 @@ function vtws_getModuleHandlerFromId($id, $user)
 
 function vtws_CreateCompanyLogoFile($fieldname)
 {
-	$root_directory = vglobal('root_directory');
-	$uploaddir = $root_directory . "/storage/Logo/";
-	$allowedFileTypes = array("jpeg", "png", "jpg", "pjpeg", "x-png");
+	$uploaddir = ROOT_DIRECTORY . '/storage/Logo/';
+	$allowedFileTypes = array('jpeg', 'png', 'jpg', 'pjpeg', 'x-png');
 	$binFile = $_FILES[$fieldname]['name'];
 	$fileType = $_FILES[$fieldname]['type'];
 	$fileSize = $_FILES[$fieldname]['size'];
@@ -509,10 +468,11 @@ function vtws_CreateCompanyLogoFile($fieldname)
 	if ($fileTypeValue == '') {
 		$fileTypeValue = substr($binFile, strrpos($binFile, '.') + 1);
 	}
-	if ($fileSize != 0) {
+	$fileInstance = \includes\fields\File::loadFromRequest($_FILES[$fieldname]);
+	if ($fileInstance->validate()) {
 		if (in_array($fileTypeValue, $allowedFileTypes)) {
-			move_uploaded_file($_FILES[$fieldname]["tmp_name"], $uploaddir . $_FILES[$fieldname]["name"]);
-			copy($uploaddir . $_FILES[$fieldname]["name"], $uploaddir . 'application.ico');
+			$fileInstance->moveFile($uploaddir . $_FILES[$fieldname]['name']);
+			copy($uploaddir . $_FILES[$fieldname]['name'], $uploaddir . 'application.ico');
 			return $binFile;
 		}
 		throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN, "$fieldname wrong file type given for upload");
@@ -602,7 +562,7 @@ function vtws_getConvertLeadFieldMapping()
 function vtws_getRelatedNotesAttachments($id, $relatedId)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 
 	$sql = 'SELECT notesid FROM vtiger_senotesrel WHERE crmid=?';
 	$result = $adb->pquery($sql, [$id]);
@@ -769,7 +729,7 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 
 function vtws_transferComments($sourceRecordId, $destinationRecordId)
 {
-	if (vtlib_isModuleActive('ModComments')) {
+	if (\includes\Modules::isModuleActive('ModComments')) {
 		CRMEntity::getInstance('ModComments');
 		ModComments::transferRecords($sourceRecordId, $destinationRecordId);
 	}
@@ -804,10 +764,10 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 {
 	$db = PearDatabase::getInstance();
 	//Updating the smcreatorid,smownerid, modifiedby in vtiger_crmentity
-	$sql = "UPDATE vtiger_crmentity SET smcreatorid=? WHERE smcreatorid=? AND setype<>?";
+	$sql = "UPDATE vtiger_crmentity SET smcreatorid=? WHERE smcreatorid=? && setype<>?";
 	$db->pquery($sql, array($newOwnerId, $ownerId, 'ModComments'));
 
-	$sql = "UPDATE vtiger_crmentity SET smownerid=? WHERE smownerid=? AND setype<>?";
+	$sql = "UPDATE vtiger_crmentity SET smownerid=? WHERE smownerid=? && setype<>?";
 	$db->pquery($sql, array($newOwnerId, $ownerId, 'ModComments'));
 
 	$sql = "update vtiger_crmentity set modifiedby=? where modifiedby=?";
@@ -823,12 +783,12 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	$sql = "update vtiger_import_maps set assigned_user_id=? where assigned_user_id=?";
 	$db->pquery($sql, array($newOwnerId, $ownerId));
 
-	if (Vtiger_Utils::CheckTable('vtiger_customerportal_prefs')) {
-		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+	if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
+		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
 		$params = array($newOwnerId, 'defaultassignee', $ownerId);
 		$db->pquery($query, $params);
 
-		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
 		$params = array($newOwnerId, 'userid', $ownerId);
 		$db->pquery($query, $params);
 	}
@@ -929,8 +889,8 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 	$nameSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerName . '"';
 	$idSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerId . '"';
 	$fieldSearchValue = 's:16:"assigned_user_id"';
-	$query = "SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE '%" . $nameSearchValue . "%' OR task LIKE '%" . $idSearchValue .
-		"%' OR task LIKE '%" . $fieldSearchValue . "%'";
+	$query = sprintf("SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE '%s' 
+			OR task LIKE '%s' || task LIKE '%s'", "%$nameSearchValue%", "%$idSearchValue%", "%$fieldSearchValue%");
 	$result = $db->pquery($query, []);
 
 	$num_rows = $db->num_rows($result);
@@ -943,8 +903,8 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 		require_once("modules/com_vtiger_workflow/VTTaskManager.inc");
 		require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.inc';
 		$unserializeTask = unserialize($task);
-		if (array_key_exists("field_value_mapping", $unserializeTask)) {
-			$fieldMapping = Zend_Json::decode($unserializeTask->field_value_mapping);
+		if (array_key_exists('field_value_mapping', $unserializeTask)) {
+			$fieldMapping = \includes\utils\Json::decode($unserializeTask->field_value_mapping);
 			if (!empty($fieldMapping)) {
 				foreach ($fieldMapping as $key => $condition) {
 					if ($condition['fieldname'] == 'assigned_user_id') {
@@ -957,11 +917,11 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 					}
 					$fieldMapping[$key] = $condition;
 				}
-				$updatedTask = Zend_Json::encode($fieldMapping);
+				$updatedTask = \includes\utils\Json::encode($fieldMapping);
 				$unserializeTask->field_value_mapping = $updatedTask;
 				$serializeTask = serialize($unserializeTask);
 
-				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
 				$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 			}
 		} else {
@@ -972,7 +932,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 					$unserializeTask->assigned_user_id = $newOwnerId;
 				}
 				$serializeTask = serialize($unserializeTask);
-				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? AND task_id=?';
+				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
 				$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
 			}
 		}

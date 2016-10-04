@@ -30,7 +30,7 @@
 				{/if}
 				{if $MESSAGE['trace']}
 					<div>
-						<strong>{vtranslate('LBL_SQL_TRACE')}</strong>:
+						<strong>{vtranslate('LBL_BACKTRACE')}</strong>:
 						<pre>{vtranslate($MESSAGE['trace'])}</pre>
 					</div>
 				{/if}

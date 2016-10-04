@@ -18,12 +18,11 @@ class OperationManager
 
 	private $format;
 	private $formatsData = array(
-		"json" => array(
-			"includePath" => "include/Zend/Json.php",
-			"class" => "Zend_Json",
-			"encodeMethod" => "encode",
-			"decodeMethod" => "decode",
-			"postCreate" => "setBuiltIn"
+		'json' => array(
+			'class' => '\includes\utils\Json',
+			'encodeMethod' => 'encode',
+			'decodeMethod' => 'decode',
+			'postCreate' => 'setBuiltIn'
 		)
 	);
 	private $operationMeta = null;
@@ -39,7 +38,7 @@ class OperationManager
 	private $operationId;
 	private $operationParams;
 
-	function OperationManager($adb, $operationName, $format, $sessionManager)
+	public function __construct($adb, $operationName, $format, $sessionManager)
 	{
 
 		$this->format = strtolower($format);
@@ -47,12 +46,11 @@ class OperationManager
 		$this->formatObjects = [];
 
 		foreach ($this->formatsData as $frmt => $frmtData) {
-			require_once($frmtData["includePath"]);
-			$instance = new $frmtData["class"]();
-			$this->formatObjects[$frmt]["encode"] = array(&$instance, $frmtData["encodeMethod"]);
-			$this->formatObjects[$frmt]["decode"] = array(&$instance, $frmtData["decodeMethod"]);
-			if ($frmtData["postCreate"]) {
-				call_user_func($frmtData["postCreate"], $instance);
+			$instance = new $frmtData['class']();
+			$this->formatObjects[$frmt]['encode'] = array(&$instance, $frmtData['encodeMethod']);
+			$this->formatObjects[$frmt]['decode'] = array(&$instance, $frmtData['decodeMethod']);
+			if ($frmtData['postCreate']) {
+				call_user_func($frmtData['postCreate'], $instance);
 			}
 		}
 
@@ -63,7 +61,7 @@ class OperationManager
 		$this->fillOperationDetails($operationName);
 	}
 
-	function isPreLoginOperation()
+	public function isPreLoginOperation()
 	{
 		return $this->preLogin == 1;
 	}
@@ -113,17 +111,17 @@ class OperationManager
 				return $input;
 			case 'post': $input = &$_POST;
 				return $input;
-			default: $input = &$_REQUEST;
+			default: $input = vtlib_purify($_REQUEST);
 				return $input;
 		}
 	}
 
-	function sanitizeOperation($input)
+	public function sanitizeOperation($input)
 	{
 		return $this->sanitizeInputForType($input);
 	}
 
-	function sanitizeInputForType($input)
+	public function sanitizeInputForType($input)
 	{
 
 		$sanitizedInput = [];
@@ -136,7 +134,7 @@ class OperationManager
 		return $sanitizedInput;
 	}
 
-	function handleType($type, $value)
+	public function handleType($type, $value)
 	{
 		$result;
 		$value = stripslashes($value);
@@ -149,7 +147,7 @@ class OperationManager
 		return $result;
 	}
 
-	function runOperation($params, $user)
+	public function runOperation($params, $user)
 	{
 		global $API_VERSION;
 		try {
@@ -178,17 +176,15 @@ class OperationManager
 		}
 	}
 
-	function encode($param)
+	public function encode($param)
 	{
 		return call_user_func($this->formatObjects[$this->format]["encode"], $param);
 	}
 
-	function getOperationIncludes()
+	public function getOperationIncludes()
 	{
 		$includes = [];
 		array_push($includes, $this->handlerPath);
 		return $includes;
 	}
 }
-
-?>

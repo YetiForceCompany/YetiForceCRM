@@ -25,10 +25,10 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$result = array();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$value = $recordModel->get($fieldName);
-			if(!is_array($value)) {
+			if (!is_array($value)) {
 				$fieldValue = Vtiger_Util_Helper::toSafeHTML($value);
 			} else {
-				foreach ($value as $key => $item){
+				foreach ($value as $key => $item) {
 					$fieldValue[$key] = Vtiger_Util_Helper::toSafeHTML($item);
 				}
 			}
@@ -83,7 +83,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
 			} elseif (is_array($recordModel->get($fieldName)) && $fieldModel->getFieldDataType() == 'sharedOwner') {
 				$recordFieldValue = Vtiger_Util_Helper::toSafeHTML(implode(',', $recordModel->get($fieldName)));
-				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $recordFieldValue;
+				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel);
 			} else if ('time_start' != $fieldName && 'time_end' != $fieldName && 'duration_hours' != $fieldName) {
 				$result[$fieldName]['value'] = $fieldValue;
 				$result[$fieldName]['display_value'] = decode_html($fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel));
@@ -180,7 +180,9 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$recordModel->set('visibility', $visibility);
 			}
 		}
-
+		if ($request->has('saveAndClose')) {
+			$recordModel->set('activitystatus', $request->get('saveAndClose'));
+		}
 		if (empty($visibility)) {
 			$assignedUserId = $recordModel->get('assigned_user_id');
 			$sharedType = Calendar_Module_Model::getSharedType($assignedUserId);

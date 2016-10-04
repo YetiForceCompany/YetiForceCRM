@@ -12,20 +12,26 @@
 class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public function getModulesEntity($tabid = false)
+	public function getModulesEntity($tabid = false, $onlyActive = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$sql = 'SELECT * from vtiger_entityname';
-		$params = array();
-		if ($tabid) {
-			$sql .= ' WHERE tabid = ?';
-			$params[] = $tabid;
+		$db = PearDatabase::getInstance();
+		$params = [];
+		if ($onlyActive) {
+			$sql = 'SELECT vtiger_entityname.* FROM vtiger_entityname 
+				LEFT JOIN vtiger_tab ON vtiger_entityname.tabid = vtiger_tab.tabid 
+				WHERE vtiger_tab.presence = ?';
+			$params [] = '0';
+		} else {
+			$sql = 'SELECT * FROM vtiger_entityname';
+			if ($tabid) {
+				$sql .= ' WHERE tabid = ?';
+				$params[] = $tabid;
+			}
 		}
 		$sql .= ' ORDER BY sequence';
-		$result = $adb->pquery($sql, $params, true);
-		$moduleEntity = array();
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
+		$result = $db->pquery($sql, $params);
+		$moduleEntity = [];
+		while ($row = $db->getRow($result)) {
 			$moduleEntity[$row['tabid']] = $row;
 		}
 		return $moduleEntity;
@@ -64,13 +70,13 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 		if ($name == 'searchcolumn' || $name == 'fieldname') {
 			$value = implode(',', $params['value']);
-			$adb->pquery("UPDATE vtiger_entityname SET " . $name . " = ? WHERE tabid = ?", array($value, (int) $params['tabid']));
+			$adb->update('vtiger_entityname', [$name => $value], 'tabid = ?', [(int) $params['tabid']]);
 		} elseif ($name == 'turn_off') {
-			$adb->pquery("UPDATE vtiger_entityname SET turn_off = ? WHERE tabid = ?", array($params['value'], (int) $params['tabid']));
+			$adb->update('vtiger_entityname', ['turn_off' => $params['value']], 'tabid = ?', [(int) $params['tabid']]);
 		}
 	}
 
-	public static function UpdateLabels($params)
+	public static function updateLabels($params)
 	{
 		$adb = PearDatabase::getInstance();
 		$tabId = (int) $params['tabid'];
@@ -79,7 +85,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = $moduleEntity['modulename'];
 		$fieldName = $moduleEntity['fieldname'];
 		$searchColumns = $moduleEntity['searchcolumn'];
-		$moduleInfo = Vtiger_Functions::getModuleFieldInfos($moduleName);
+		$moduleInfo = vtlib\Functions::getModuleFieldInfos($moduleName);
 		$columnsEntityName = explode(',', $fieldName);
 		$searchColumns = explode(',', $searchColumns);
 		$allColumns = array_unique(array_merge($columnsEntityName, $searchColumns));
@@ -110,7 +116,9 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$sql = 'UPDATE vtiger_crmentity';
 		$sql .= self::getFromClauseByColumn($moduleName, $moduleInfoExtend, $allColumns);
 		$sql .= $sqlExt;
-		$sql .= " SET vtiger_crmentity.label = CONCAT_WS(' ' $entityColumnName), vtiger_crmentity.searchlabel = CONCAT_WS(' ' $searchColumnName)";
+		$sql .= ' INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid';
+		$sql .= ' INNER JOIN u_yf_crmentity_search_label ON u_yf_crmentity_search_label.crmid = vtiger_crmentity.crmid';
+		$sql .= " SET u_yf_crmentity_label.label = CONCAT_WS(' ' $entityColumnName), u_yf_crmentity_search_label.searchlabel = CONCAT_WS(' ' $searchColumnName)";
 		$sql .= " WHERE vtiger_crmentity.setype = '$moduleName'";
 		$adb->query($sql);
 	}
@@ -135,8 +143,8 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function updateSequenceNumber($modulesSequence)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_Search_Module_Model::updateSequenceNumber(" . $modulesSequence . ") method ...");
+		
+		\App\Log::trace("Entering Settings_Search_Module_Model::updateSequenceNumber(" . $modulesSequence . ") method ...");
 		$tabIdList = array();
 		$db = PearDatabase::getInstance();
 
@@ -151,8 +159,8 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 		$query .=' END ';
 
-		$query .= ' WHERE tabid IN (' . generateQuestionMarks($tabIdList) . ')';
-		$db->pquery($query, array($tabIdList));
-		$log->debug("Exiting Settings_Search_Module_Model::updateSequenceNumber() method ...");
+		$query .= sprintf(' WHERE tabid IN (%s)', generateQuestionMarks($tabIdList));
+		$db->pquery($query, [$tabIdList]);
+		\App\Log::trace("Exiting Settings_Search_Module_Model::updateSequenceNumber() method ...");
 	}
 }

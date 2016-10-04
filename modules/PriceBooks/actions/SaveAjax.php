@@ -8,12 +8,14 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class PriceBooks_SaveAjax_Action extends Vtiger_SaveAjax_Action {
+class PriceBooks_SaveAjax_Action extends Vtiger_SaveAjax_Action
+{
 
-	public function saveRecord($request) {
+	public function saveRecord($request)
+	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
-		if($request->get('relationOperation')) {
+		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
 			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');

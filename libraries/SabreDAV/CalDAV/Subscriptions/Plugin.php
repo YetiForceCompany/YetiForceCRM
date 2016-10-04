@@ -30,7 +30,7 @@ class Plugin extends ServerPlugin {
      * @param Server $server
      * @return void
      */
-    function initialize(Server $server) {
+    public function initialize(Server $server) {
 
         $server->resourceTypeMapping['Sabre\\CalDAV\\Subscriptions\\ISubscription'] =
             '{http://calendarserver.org/ns/}subscribed';
@@ -50,7 +50,7 @@ class Plugin extends ServerPlugin {
      *
      * @return array
      */
-    function getFeatures() {
+    public function getFeatures() {
 
         return ['calendarserver-subscribed'];
 
@@ -63,7 +63,7 @@ class Plugin extends ServerPlugin {
      * @param INode $node
      * @return void
      */
-    function propFind(PropFind $propFind, INode $node) {
+    public function propFind(PropFind $propFind, INode $node) {
 
         // There's a bunch of properties that must appear as a self-closing
         // xml-element. This event handler ensures that this will be the case.
@@ -91,7 +91,7 @@ class Plugin extends ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'subscriptions';
 
@@ -108,7 +108,7 @@ class Plugin extends ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

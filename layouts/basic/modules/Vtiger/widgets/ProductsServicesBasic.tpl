@@ -1,3 +1,4 @@
+{strip}
 <div class="summaryWidgetContainer productsServicesWidgetContainer">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 		<div class="widget_header row">
@@ -16,3 +17,4 @@
 		</div>
 	</div>
 </div>
+{/strip}

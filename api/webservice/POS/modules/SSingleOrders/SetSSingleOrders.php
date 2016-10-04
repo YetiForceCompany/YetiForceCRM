@@ -26,10 +26,9 @@ class API_SSingleOrders_SetSSingleOrders extends BaseAction
 		}
 	}
 
-	public function post()
+	public function post($orders)
 	{
 		vglobal('current_user', Users_Privileges_Model::getInstanceById($this->user['user_id']));
-		$orders = func_get_args();
 		$idsToReturn = [];
 		foreach ($orders as $offer) {
 			if ($this->hasPermissionToStorage($offer['storage'])) {
@@ -43,34 +42,37 @@ class API_SSingleOrders_SetSSingleOrders extends BaseAction
 				$recordModel->set('istoragesid', $offer['storage']);
 				$recordModel->set('seat', $offer['seat']);
 				$recordModel->set('sum_gross', $offer['brutto']);
+				$recordModel->set('category', 'T' . $offer['category']);
 				$recordModel->set('ssingleorders_source', 'PLL_POS');
 				$recordModel->set('description', $offer['description']);
 				$recordModel->set('accountid', $this->api->app['accounts_id']);
 				$recordModel->set('assigned_user_id', $this->user['user_id']);
 				$recordModel->set('mode', '');
 				$countInventoryData = 0;
-				$defaultCurrency = Vtiger_Functions::getDefaultCurrencyInfo()['id'];
+				$defaultCurrency = vtlib\Functions::getDefaultCurrencyInfo()['id'];
 				$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 				$fields = $inventory->getColumns();
+				$inventoryData = new Vtiger_Base_Model();
 				foreach ($offer['items'] as $rowInInventory) {
 					$countInventoryData++;
 					foreach ($fields as $columnName) {
 						if ($columnName == 'total' || $columnName == 'gross' || $columnName == 'net') {
-							$_REQUEST[$columnName . $countInventoryData] = $rowInInventory['qty'] * $rowInInventory['price'];
+							$inventoryData->set($columnName . $countInventoryData, $rowInInventory['qty'] * $rowInInventory['price']);
 						} else {
 							if (key_exists($columnName, $this->inventoryMapping)) {
-								$_REQUEST[$columnName . $countInventoryData] = $rowInInventory[$this->inventoryMapping[$columnName]];
+								$inventoryData->set($columnName . $countInventoryData, $rowInInventory[$this->inventoryMapping[$columnName]]);
 							}
 						}
 					}
-					$_REQUEST['seq' . $countInventoryData] = $countInventoryData;
-					$_REQUEST['currency' . $countInventoryData] = $defaultCurrency;
+					$inventoryData->set('seq' . $countInventoryData, $countInventoryData);
+					$inventoryData->set('currency' . $countInventoryData, $defaultCurrency);
 				}
-				$_REQUEST['inventoryItemsNo'] = $countInventoryData;
+				$inventoryData->set('inventoryItemsNo', $countInventoryData);
+				$recordModel->set('inventoryData', $inventoryData);
 				$recordModel->save();
 				$idsToReturn[$offer['id']] = $recordModel->getid();
 			} else {
-				throw new APIException('LBL_NO_PERMISSION_TO_STORAGE', 405);
+				throw new APIException('ERR_NO_PERMISSION_TO_STORAGE', 500);
 			}
 		}
 		return $idsToReturn;

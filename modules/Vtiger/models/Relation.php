@@ -131,8 +131,14 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$functionName = $this->get('name');
 		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
 		if ($relationListView_Model) {
-			$searchParams = $relationListView_Model->get('search_params');
-			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
+			$queryGenerator = $relationListView_Model->get('query_generator');
+			$joinTable = $queryGenerator->getFromClause(true);
+			if ($joinTable) {
+				$queryComponents = preg_split('/WHERE/i', $query);
+				$query = $queryComponents[0] . $joinTable . ' WHERE ' . $queryComponents[1];
+			}
+			$where = $queryGenerator->getWhereClause(true);
+			$query .= $where;
 		}
 		return $query;
 	}
@@ -161,7 +167,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				$crmid = $relatedRecordId;
 			}
 			$db = PearDatabase::getInstance();
-			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? AND ossmailviewid = ?', [$crmid, $mailId]) > 0) {
+			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? && ossmailviewid = ?', [$crmid, $mailId]) > 0) {
 				return true;
 			} else {
 				return false;
@@ -201,7 +207,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$sourceModule = $this->getParentModuleModel();
 		$db = PearDatabase::getInstance();
-		$db->delete('u_yf_crmentity_rel_tree', 'crmid = ? AND tree = ? AND module = ? AND relmodule = ?', [$crmid, $tree, $sourceModule->getId(), $this->getRelationModuleModel()->getId()]);
+		$db->delete('u_yf_crmentity_rel_tree', 'crmid = ? && tree = ? && module = ? && relmodule = ?', [$crmid, $tree, $sourceModule->getId(), $this->getRelationModuleModel()->getId()]);
 	}
 
 	public function isDirectRelation()
@@ -260,20 +266,23 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		if (key_exists($relKey, self::$_cached_instance)) {
 			return self::$_cached_instance[$relKey];
 		}
-		if ($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) {
+		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			if (method_exists($relationModel, 'setExceptionData')) {
+				$relationModel->setExceptionData();
+			}
 			self::$_cached_instance[$relKey] = $relationModel;
 			return $relationModel;
 		}
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists
-					INNER JOIN vtiger_tab on vtiger_tab.tabid = vtiger_relatedlists.related_tabid AND vtiger_tab.presence != 1
-					WHERE vtiger_relatedlists.tabid = ? AND related_tabid = ?';
+					INNER JOIN vtiger_tab on vtiger_tab.tabid = vtiger_relatedlists.related_tabid && vtiger_tab.presence != 1
+					WHERE vtiger_relatedlists.tabid = ? && related_tabid = ?';
 		$params = [$parentModuleModel->getId(), $relatedModuleModel->getId()];
 		if (!empty($label)) {
-			$query .= ' AND label = ?';
+			$query .= ' && label = ?';
 			$params[] = $label;
 		}
 
@@ -289,21 +298,21 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return false;
 	}
 
-	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true)
+	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
 		$db = PearDatabase::getInstance();
 
 		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename,vtiger_tab.tabid as moduleid FROM vtiger_relatedlists 
                     INNER JOIN vtiger_tab on vtiger_relatedlists.related_tabid = vtiger_tab.tabid
-                    WHERE vtiger_relatedlists.tabid = ? AND related_tabid != 0';
+                    WHERE vtiger_relatedlists.tabid = ? && related_tabid != 0';
 
 		if ($selected) {
-			$query .= ' AND vtiger_relatedlists.presence <> 1';
+			$query .= ' && vtiger_relatedlists.presence <> 1';
 		}
 		if ($onlyActive) {
-			$query .= ' AND vtiger_tab.presence <> 1 ';
+			$query .= ' && vtiger_tab.presence <> 1 ';
 		}
-		$query .= ' ORDER BY sequence'; // TODO: Need to handle entries that has related_tabid 0
+		$query .= ' ORDER BY sequence'; 
 
 		$result = $db->pquery($query, array($parentModuleModel->getId()));
 
@@ -311,9 +320,8 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		while ($row = $db->getRow($result)) {
-			//$relationModuleModel = Vtiger_Module_Model::getCleanInstance($moduleName);
 			// Skip relation where target module does not exits or is no permitted for view.
-			if (!$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
+			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();
@@ -431,11 +439,11 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$presence = $relatedInfo['presence'];
 			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $presence;
 		}
-		$query .= ' END WHERE tabid=? AND relation_id IN (' . generateQuestionMarks($relation_ids) . ')';
+		$query .= ' END WHERE tabid=? && relation_id IN (' . generateQuestionMarks($relation_ids) . ')';
 		$result = $db->pquery($query, array($sourceModuleTabId, $relation_ids));
 	}
 
-	public function updateRelationPresence($relationId, $status)
+	public static function updateRelationPresence($relationId, $status)
 	{
 		$adb = PearDatabase::getInstance();
 		$presence = 0;
@@ -466,7 +474,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 	}
 
-	public function updateModuleRelatedFields($relationId, $fields)
+	public static function updateModuleRelatedFields($relationId, $fields)
 	{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
@@ -501,11 +509,12 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$relationId = $this->getId();
-		$query = 'SELECT vtiger_field.columnname, vtiger_field.fieldname FROM vtiger_relatedlists_fields INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid WHERE vtiger_relatedlists_fields.relation_id = ? AND vtiger_field.presence IN (0,2);';
+		$query = 'SELECT vtiger_field.columnname, vtiger_field.fieldname FROM vtiger_relatedlists_fields INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid WHERE vtiger_relatedlists_fields.relation_id = ? && vtiger_field.presence IN (0,2);';
 		$result = $adb->pquery($query, [$relationId]);
 		if ($onlyFields) {
 			$fields = [];
-			for ($i = 0; $i < $adb->num_rows($result); $i++) {
+			$countResult = $adb->num_rows($result);
+			for ($i = 0; $i < $countResult; $i++) {
 				$columnname = $adb->query_result_raw($result, $i, 'columnname');
 				$fieldname = $adb->query_result_raw($result, $i, 'fieldname');
 				if ($association)
@@ -608,13 +617,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				'userid' => $currentUser->getId()
 			]);
 		} elseif ('delete' == $action) {
-			$where = 'crmid = ? AND module = ? AND relcrmid = ?  AND relmodule = ? AND userid = ?';
+			$where = 'crmid = ? && module = ? && relcrmid = ?  && relmodule = ? && userid = ?';
 			$result = $db->delete('u_yf_favorites', $where, [$data['crmid'], $moduleName, $data['relcrmid'], $this->getRelationModuleName(), $currentUser->getId()]);
 		}
 		return $result;
 	}
 
-	public function updateStateFavorites($relationId, $status)
+	public static function updateStateFavorites($relationId, $status)
 	{
 		$adb = PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_relatedlists SET `favorites` = ? WHERE `relation_id` = ?;';

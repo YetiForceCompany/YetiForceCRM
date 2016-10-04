@@ -69,12 +69,6 @@ class LockInfo {
      */
     public $depth = 0;
 
-    /**
-     * The uri this lock locks
-     *
-     * TODO: This value is not always set
-     * @var mixed
-     */
     public $uri;
 
 }

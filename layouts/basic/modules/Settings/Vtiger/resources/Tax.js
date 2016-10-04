@@ -55,7 +55,6 @@ jQuery.Class("Settings_Vtiger_Tax_Js",{},{
 				}, {'width':'500px'});
 			},
 			function(error) {
-				//TODO : Handle error
 				aDeferred.reject(error);
 			}
 		);
@@ -252,7 +251,6 @@ jQuery.Class("Settings_Vtiger_Tax_Js",{},{
 			},
 			function(error,err) {
 				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				//TODO : Handle error
 				aDeferred.reject(error);
 			}
 		);
@@ -295,7 +293,7 @@ jQuery.Class("Settings_Vtiger_Tax_Js",{},{
 					Settings_Vtiger_Index_Js.showMessage(params);
 				},
 				function(error){
-					//TODO: Handle Error
+
 				}
 			);
 		});

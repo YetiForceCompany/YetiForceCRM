@@ -73,7 +73,6 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 				aDeferred.resolve(data);
 			},
 			function(error) {
-				//TODO : Handle error
 				aDeferred.reject(error);
 			}
 		);
@@ -155,7 +154,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 				customRuleListContainer.find('td.customRuleContainer').html(data);
 			},
 			function(error){
-				//TODO: Handle Error
+
 			}
 		);
 	},
@@ -302,7 +301,6 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			var moduleName = trElement.data('moduleName');
 			var customRuleListContainer = jQuery('.'+thisInstance.getCustomRuleContainerClassName(moduleName),contentTable);
 			if(customRuleListContainer.length > 0) {
-				console.log(app.isHidden(customRuleListContainer))
 				if(app.isHidden(customRuleListContainer)) {
 					customRuleListContainer.show();
 					jQuery('.ruleListContainer', customRuleListContainer).slideDown('slow');
@@ -335,7 +333,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 						element.find('button.arrowUp').removeClass('hide').show();
 					},
 					function(error){
-						//TODO: Handle Error
+
 					}
 			);
 		});

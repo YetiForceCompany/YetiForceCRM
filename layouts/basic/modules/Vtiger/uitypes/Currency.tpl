@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
 	{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
@@ -21,7 +21,7 @@
 				<span class="input-group-addon">{$USER_MODEL->get('currency_symbol')}</span>
 			{/if}
 			<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" class="currencyField form-control {if $SYMBOL_PLACEMENT eq '1.0$'} textAlignRight {/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}"
-				   data-fieldinfo='{$FIELD_INFO}' value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} 
+				   data-fieldinfo='{$FIELD_INFO}' value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{\includes\utils\Json::encode($SPECIAL_VALIDATOR)}'{/if} 
 				   data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' data-number-of-decimal-places='{$USER_MODEL->get('no_of_currency_decimals')}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
 			{if $SYMBOL_PLACEMENT eq '1.0$'}
 				<span class="input-group-addon">{$USER_MODEL->get('currency_symbol')}</span>
@@ -34,7 +34,7 @@
 			{/if}
 			{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 			<input id="{$MODULE}-editview-fieldname-{$FIELD_NAME}" type="text" class="col-md-6 unitPrice currencyField form-control {if $SYMBOL_PLACEMENT eq '1.0$'} textAlignRight {/if}" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-				   data-fieldinfo='{$FIELD_INFO}'  value="{$DISPLAY_FIELD_VALUE}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
+				   data-fieldinfo='{$FIELD_INFO}'  value="{$DISPLAY_FIELD_VALUE}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{\includes\utils\Json::encode($SPECIAL_VALIDATOR)}'{/if}
 				   data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' data-number-of-decimal-places='{$USER_MODEL->get('no_of_currency_decimals')}'
 				   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
 			{if $SYMBOL_PLACEMENT eq '1.0$'}
@@ -54,7 +54,7 @@
 				<span class="col-md-1"><span class="input-group-addon row">{$USER_MODEL->get('currency_symbol')}</span></span>
 					{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 				<span class="col-md-7"><input type="text" class="row-fluid currencyField form-control" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-											  data-fieldinfo='{$FIELD_INFO}' value="{$DISPLAY_FIELD_VALUE}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} /></span>
+											  data-fieldinfo='{$FIELD_INFO}' value="{$DISPLAY_FIELD_VALUE}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" {if !empty($SPECIAL_VALIDATOR)}data-validator={\includes\utils\Json::encode($SPECIAL_VALIDATOR)}{/if} data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} /></span>
 			</div>
 		</div>
 	{/if}

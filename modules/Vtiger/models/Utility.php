@@ -27,7 +27,7 @@ class Vtiger_Utility_Model extends Vtiger_Action_Model
 				return false;
 		}
 		$tabId = $module->getId();
-		$sql = 'SELECT 1 FROM vtiger_profile2utility WHERE tabid = ? AND activityid = ? LIMIT 1';
+		$sql = 'SELECT 1 FROM vtiger_profile2utility WHERE tabid = ? && activityid = ? LIMIT 1';
 		$params = array($tabId, $this->getId());
 		$result = $db->pquery($sql, $params);
 		if ($result && $db->num_rows($result) > 0) {

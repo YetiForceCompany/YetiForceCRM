@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * Contributor(s): 
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PLL_HOLIDAY' => 'Congé',
 	'PLL_BREAK_TIME' => 'Coupure',
@@ -41,7 +41,6 @@ $languageStrings = [
 	'Free' => 'Gratuit',
 	'LBL_CALENDAR_VIEW' => 'Calendrier',
 	'LBL_TIMECONTROL_TYPE' => 'Type',
-
 	// Settings
 	'SETTINGS' => 'Paramètres',
 	'LBL_HELP_SETTINGS' => 'Aide',
@@ -56,47 +55,43 @@ $languageStrings = [
 	'1 hour' => '1 heure',
 	'MSG_EDIT_OK' => 'Changements de configuration faits avec succès.',
 	'MSG_EDIT_ERROR' => 'Echec de la sauvegarde des changements.',
-
 	//YetiForce
-	'Calculations'=>'Calcul',
-	'As part of the order'=>'En tant que partie intégrante du contrat de service',
-	'As part of the support'=>'En tant que support',
-	'Extra cost'=>'Coût additionnel',
-	'Free'=>'Gratuit',
-	'LBL_STATUS'=>'Statut',
-	'LBL_PRODUCT_INFORMATION'=>'Description',
-	'To approval'=>'Pour approbation',
-	'Accepted'=>'Accepté',
+	'Calculations' => 'Calcul',
+	'As part of the order' => 'En tant que partie intégrante du contrat de service',
+	'As part of the support' => 'En tant que support',
+	'Extra cost' => 'Coût additionnel',
+	'Free' => 'Gratuit',
+	'LBL_STATUS' => 'Statut',
+	'LBL_PRODUCT_INFORMATION' => 'Description',
+	'To approval' => 'Pour approbation',
+	'Accepted' => 'Accepté',
 	'Brutto' => 'TTC',
-		
 	/*  subject  */
-	'Telephone contact'=>'Contact téléphonique',
-	'Email contact'=>'Contact Email',
-	'Data verification'=>'Vérification des données',
-	'Information completing'=>'Information complémentaires',
-	'Company presentation'=>'Présentation société',
-	'Product/service presentation'=>'Produit/service présentation',
-	'Calculations preparation'=>'Préparation des calculs',
-	'Quote preparation'=>'Préparation du devis',
-	'Order/Service preparation'=>'Préparation de la commande/service',
-	'Project preparation'=>'Préparation du projet',
-	'Task realization'=>'Réalisation de la tâche',
-	'Event realization'=>'Réalisation du meeting',
-	'Support'=>'Support',
-	'Document Verification'=>'Vérification des documents',
-	'Visits at Organizations'=>'Visite dans l\'organisation',
-	'Trips to Organizations'=>'Voyage chez l\'organisation',
-	'Office work'=>'Travail de bureau',
-	'Administrative work'=>'Tâche adminsitrative',
-	'Accounting work'=>'Tâche comptable',
-	
+	'Telephone contact' => 'Contact téléphonique',
+	'Email contact' => 'Contact Email',
+	'Data verification' => 'Vérification des données',
+	'Information completing' => 'Information complémentaires',
+	'Company presentation' => 'Présentation société',
+	'Product/service presentation' => 'Produit/service présentation',
+	'Calculations preparation' => 'Préparation des calculs',
+	'Quote preparation' => 'Préparation du devis',
+	'Order/Service preparation' => 'Préparation de la commande/service',
+	'Project preparation' => 'Préparation du projet',
+	'Task realization' => 'Réalisation de la tâche',
+	'Event realization' => 'Réalisation du meeting',
+	'Support' => 'Support',
+	'Document Verification' => 'Vérification des documents',
+	'Visits at Organizations' => 'Visite dans l\'organisation',
+	'Trips to Organizations' => 'Voyage chez l\'organisation',
+	'Office work' => 'Travail de bureau',
+	'Administrative work' => 'Tâche adminsitrative',
+	'Accounting work' => 'Tâche comptable',
 	//widget
 	'LBL_Holidays' => 'Congés',
 	'LBL_YEAR' => 'An :',
 	'LBL_Used_Entitled' => 'Utilisé/Accordé:',
 	'LBL_DAYS' => 'jours',
 	'Brak danych' => 'Aucune données',
-
 	'LBL_DAYWORKSUM' => 'Heure de bureau',
 	'LBL_ALLDAYS_INFO' => 'Tous les jours',
 	'LBL_WEEKENDDAYS_INFO' => 'Jours de Weekend',

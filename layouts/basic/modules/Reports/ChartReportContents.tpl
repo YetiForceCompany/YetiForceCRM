@@ -11,13 +11,13 @@
 -->*}
 
 <input type='hidden' name='charttype' value="{$CHART_TYPE}" />
-<input type='hidden' name='data' value='{$DATA}' />
+<input type='hidden' name='data' class="widgetData" value="{Vtiger_Util_Helper::toSafeHTML($DATA)}" />
 <input type='hidden' name='clickthrough' value="{$CLICK_THROUGH}" />
 
 <br>
 <div style="margin:0px 20px;">
 	<div class='border1px' style="padding:30px 100px;">
-		<div id='chartcontent' style="min-height:400px;" ></div>
+		<div class='chartcontent' style="min-height:400px;" ></div>
 		<br>
 		{if $CLICK_THROUGH neq 'true'}
 			<div class='row alert alert-info'>

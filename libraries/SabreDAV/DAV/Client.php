@@ -111,7 +111,7 @@ class Client extends HTTP\Client {
      *
      * @param array $settings
      */
-    function __construct(array $settings) {
+    public function __construct(array $settings) {
 
         if (!isset($settings['baseUri'])) {
             throw new \InvalidArgumentException('A baseUri must be provided');
@@ -194,7 +194,7 @@ class Client extends HTTP\Client {
      * @param int $depth
      * @return array
      */
-    function propFind($url, array $properties, $depth = 0) {
+    public function propFind($url, array $properties, $depth = 0) {
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->formatOutput = true;
@@ -264,7 +264,7 @@ class Client extends HTTP\Client {
      * @param array $properties
      * @return bool
      */
-    function propPatch($url, array $properties) {
+    public function propPatch($url, array $properties) {
 
         $propPatch = new Xml\Request\PropPatch();
         $propPatch->properties = $properties;
@@ -318,7 +318,7 @@ class Client extends HTTP\Client {
      *
      * @return array
      */
-    function options() {
+    public function options() {
 
         $request = new HTTP\Request('OPTIONS', $this->getAbsoluteUrl(''));
         $response = $this->send($request);
@@ -365,7 +365,7 @@ class Client extends HTTP\Client {
      * @throws ClientException, in case a curl error occurred.
      * @return array
      */
-    function request($method, $url = '', $body = null, array $headers = []) {
+    public function request($method, $url = '', $body = null, array $headers = []) {
 
         $url = $this->getAbsoluteUrl($url);
 
@@ -385,7 +385,7 @@ class Client extends HTTP\Client {
      * @param string $url
      * @return string
      */
-    function getAbsoluteUrl($url) {
+    public function getAbsoluteUrl($url) {
 
         // If the url starts with http:// or https://, the url is already absolute.
         if (preg_match('/^http(s?):\/\//', $url)) {
@@ -429,7 +429,7 @@ class Client extends HTTP\Client {
      * @param string $body xml body
      * @return array
      */
-    function parseMultiStatus($body) {
+    public function parseMultiStatus($body) {
 
         $multistatus = $this->xml->expect('{DAV:}multistatus', $body);
 

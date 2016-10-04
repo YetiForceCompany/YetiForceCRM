@@ -3,4 +3,5 @@
 $languageStrings = [
 	'CustomView' => 'Filters - Configuration',
 	'LBL_FEATURED' => 'Add to favorites',
+	'LBL_COLOR_VIEW' => 'View color',
 ];

@@ -36,7 +36,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	{
 		return $this->get('label');
 	}
-	
+
 	/**
 	 * Function to get the menu type
 	 * @return <String> - Menu Label
@@ -86,7 +86,8 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 			return self::$casheMenu;
 		}
 		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT * FROM ' . self::$menusTable . ' ORDER BY sequence');
+		$query = sprintf('SELECT * FROM %s ORDER BY sequence', self::$menusTable);
+		$result = $db->query($query);
 
 		$menuModels = [];
 		while ($row = $db->getRow($result)) {
@@ -112,19 +113,27 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	 * @param <Number> $id - Menu Id
 	 * @return Settings_Vtiger_Menu_Model instance
 	 */
+	
 	public static function getInstanceById($id)
 	{
+		static $cache = false;
+		if(isset($cache[$id])){
+			return $cache[$id];
+		}
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM ' . self::$menusTable . ' WHERE ' . self::$menuId . ' = ?';
-		$params = array($id);
+		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$menusTable, self::$menuId);
+		$params = [$id];
 
 		$result = $db->pquery($sql, $params);
 
 		if ($db->num_rows($result) > 0) {
 			$rowData = $db->query_result_rowdata($result, 0);
-			return Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
+			$instance = Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
+			$cache[$id] = $instance;
+			return $instance;
 		}
+		$cache[$id] = false;
 		return false;
 	}
 
@@ -137,8 +146,8 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM ' . self::$menusTable . ' WHERE label = ?';
-		$params = array($name);
+		$sql = sprintf('SELECT * FROM %s WHERE label = ?', self::$menusTable);
+		$params = [$name];
 
 		$result = $db->pquery($sql, $params);
 

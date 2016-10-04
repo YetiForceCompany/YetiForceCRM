@@ -11,9 +11,9 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 	public static function recalculateTimeControl($id, $name)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid WHERE vtiger_crmentity.deleted = ? AND osstimecontrol_status = ? AND `$name` = ?;", [0, self::recalculateStatus, $id]);
+		$result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid WHERE vtiger_crmentity.deleted = ? && osstimecontrol_status = ? && `$name` = ?;", [0, self::recalculateStatus, $id]);
 		$sumTime = number_format($db->getSingleValue($result), 2);
-		$metaData = Vtiger_Functions::getCRMRecordMetadata($id);
+		$metaData = vtlib\Functions::getCRMRecordMetadata($id);
 		$focus = CRMEntity::getInstance($metaData['setype']);
 		$table = $focus->table_name;
 		$result = $db->pquery("SHOW COLUMNS FROM `$table` LIKE 'sum_time';");

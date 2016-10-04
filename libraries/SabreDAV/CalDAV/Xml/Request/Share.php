@@ -47,7 +47,7 @@ class Share implements XmlDeserializable {
      * @param array $set
      * @param array $remove
      */
-    function __construct(array $set, array $remove) {
+    public function __construct(array $set, array $remove) {
 
         $this->set = $set;
         $this->remove = $remove;

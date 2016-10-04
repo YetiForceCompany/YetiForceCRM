@@ -13,9 +13,9 @@ class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 
 	const tableName = 'vtiger_currency_info';
 
-	var $listFields = array('currency_name' => 'Currency Name', 'currency_code' => 'Currency Code', 'currency_symbol' => 'Symbol',
+	public $listFields = array('currency_name' => 'Currency Name', 'currency_code' => 'Currency Code', 'currency_symbol' => 'Symbol',
 		'conversion_rate' => 'Conversion Rate', 'currency_status' => 'Status');
-	var $name = 'Currency';
+	public $name = 'Currency';
 
 	public function isPagingSupported()
 	{
@@ -40,8 +40,6 @@ class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 	public static function delete($recordId)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'UPDATE ' . self::tableName . ' SET deleted=1 WHERE id=?';
-		$params = array($recordId);
-		$db->pquery($query, $params);
+		$db->update(self::tableName, ['deleted' => 1], 'id = ?', [$recordId]);
 	}
 }

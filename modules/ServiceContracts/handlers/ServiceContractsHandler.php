@@ -9,7 +9,7 @@
 class ServiceContractsHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -43,7 +43,7 @@ class ServiceContractsHandler extends VTEventHandler
 			$moduleName = $entityData->getModuleName();
 
 			// Update Used Units for the Service Contract, everytime the status of a ticket related to the Service Contract changes
-			if ($moduleName == 'HelpDesk' && $_REQUEST['return_module'] != 'ServiceContracts') {
+			if ($moduleName == 'HelpDesk' && AppRequest::get('return_module') != 'ServiceContracts') {
 				$ticketId = $entityData->getId();
 				$data = $entityData->getData();
 				if ($data['ticketstatus'] != $entityData->oldStatus) {
@@ -55,11 +55,11 @@ class ServiceContractsHandler extends VTEventHandler
 						}
 						$contract_tktresult = $adb->pquery("SELECT crmid FROM vtiger_crmentityrel
 																WHERE module = 'ServiceContracts'
-																AND relmodule = 'HelpDesk' AND relcrmid = ?
+																AND relmodule = 'HelpDesk' && relcrmid = ?
 															UNION
 																SELECT relcrmid FROM vtiger_crmentityrel
 																WHERE relmodule = 'ServiceContracts'
-																AND module = 'HelpDesk' AND crmid = ?", array($ticketId, $ticketId));
+																AND module = 'HelpDesk' && crmid = ?", array($ticketId, $ticketId));
 						while (($contract_id = $adb->getSingleValue($contract_tktresult)) !== false) {
 							$scFocus = CRMEntity::getInstance('ServiceContracts');
 							$scFocus->id = $contract_id;

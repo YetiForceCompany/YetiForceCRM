@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Conversion Rate' => 'Umrechnungskurs',
 	'Currency' => 'Währung',
@@ -17,20 +17,19 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Währung hinzufügen',
 	'LBL_CURRENCY_CODE' => 'Währungskürzel',
 	'LBL_CURRENCY_NAME' => 'Währungsname',
-	'LBL_CURRENCY_STATUS_DESC' => 'aktive Währung (Haken gesetzt)', 
+	'LBL_CURRENCY_STATUS_DESC' => 'aktive Währung (Haken gesetzt)',
 	'LBL_CURRENCY_SYMBOL' => 'Symbol',
 	'LBL_CURRENT_CURRENCY' => 'Aktuelle Währung',
 	'LBL_EDIT_CURRENCY' => 'Währung bearbeiten',
 	'LBL_ENTER_CONVERSION_RATE' => 'Umrechnungskurs eingeben',
 	'LBL_TRANSFER_CURRENCY' => 'Aktive Währung wechseln',
-	
 	//currency names
 	'Afghanistan, Afghanis' => 'Afghanistan, Afghanis',
 	'Albania, Leke' => 'Albania, Leke',
 	'Argentina, Pesos' => 'Argentina, Pesos',
 	'Aruba, Guilders' => 'Aruba, Guilders',
 	'Australia, Dollars' => 'Australia, Dollars',
-	'Azerbaijan, New Manats'=> 'Azerbaijan, New Manats',
+	'Azerbaijan, New Manats' => 'Azerbaijan, New Manats',
 	'Bahamas, Dollars' => 'Bahamas, Dollars',
 	'Bahrain, Dinar' => 'Bahrain, Dinar',
 	'Barbados, Dollars' => 'Barbados, Dollars',
@@ -64,7 +63,7 @@ $languageStrings = [
 	'Euro' => 'Euro',
 	'Falkland Islands, Pounds' => 'Falkland Islands, Pounds',
 	'Fiji, Dollars' => 'Fiji, Dollars',
-	'Ghana, Cedis' 	=> 'Ghana, Cedis',
+	'Ghana, Cedis' => 'Ghana, Cedis',
 	'Gibraltar, Pounds' => 'Gibraltar, Pounds',
 	'Great Britain Pounds' => 'Great Britain Pounds',
 	'Guatemala, Quetzales' => 'Guatemala, Quetzales',
@@ -81,7 +80,7 @@ $languageStrings = [
 	'Jamaica, Dollars' => 'Jamaica, Dollars',
 	'Japan, Yen' => 'Japan, Yen',
 	'Jersey, Pounds' => 'Jersey, Pounds',
-	'Jordan, Dinar'	=> 'Jordan, Dinar',
+	'Jordan, Dinar' => 'Jordan, Dinar',
 	'Kazakhstan, Tenge' => 'Kazakhstan, Tenge',
 	'Kenya, Shilling' => 'Kenya, Shilling',
 	'Korea (North), Won' => 'Korea (North), Won',
@@ -136,7 +135,7 @@ $languageStrings = [
 	'Switzerland Francs' => 'Switzerland Francs',
 	'Switzerland, Francs' => 'Switzerland, Francs',
 	'Syria, Pounds' => 'Syria, Pounds',
-	'Taiwan, New Dollars' 	=> 'Taiwan, New Dollars',
+	'Taiwan, New Dollars' => 'Taiwan, New Dollars',
 	'Thailand, Baht' => 'Thailand, Baht',
 	'Trinidad and Tobago, Dollars' => 'Trinidad and Tobago, Dollars',
 	'Tunisian, Dinar' => 'Tunisian, Dinar',
@@ -148,15 +147,15 @@ $languageStrings = [
 	'United Kingdom, Pounds' => 'United Kingdom, Pounds',
 	'United Republic of Tanzania, Shilling' => 'United Republic OF Tanzania, Shilling',
 	'Uruguay, Pesos' => 'Uruguay, Pesos',
-	'USA, Dollars' 	=> 'USA, Dollars',
+	'USA, Dollars' => 'USA, Dollars',
 	'Uzbekistan, Sums' => 'Uzbekistan, Sums',
 	'Venezuela, Bolivares Fuertes' => 'Venezuela, Bolivares Fuertes',
 	'Vietnam, Dong' => 'Vietnam, Dong',
 	'Yemen, Rials' => 'Yemen, Rials',
 	'Zambia, Kwacha' => 'Zambia, Kwacha',
 	'Zimbabwe Dollars' => 'Zimbabwe Dollars',
-	'Active' => 'Active',
-	'Inactive' => 'Inactive',
+	'Active' => 'Aktiv',
+	'Inactive' => 'Inaktiv',
 ];
 
 $jsLanguageStrings = [

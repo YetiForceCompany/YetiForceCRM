@@ -28,5 +28,12 @@ $languageStrings = [
 	'LBL_ARTICLE' => 'Artykuł',
 	'LBL_DESCRIPTION_BLOCK' => 'Opis',
 	'LBL_ATTENTION_BLOCK' => 'Uwagi',
-	'LBL_FULL_SCREEN' => 'Pełny ekran'
+	'LBL_FULL_SCREEN' => 'Pełny ekran',
+	'LBL_WIDTH_HEIGHT' => 'Szerokość x Wysokość',
+	'LBL_ALLOWED_WIDTH_HEIGHT' => 'Maksymalna szerokość x wysokość to',
+	'LBL_MAX_FILE_SIZE' => 'Maksymalny rozmiar pliku to',
+	'LBL_FILE_UPLOADED' => 'został przesłany',
+	'LBL_SIZE' => 'Rozmiar',
+	'ERR_NOT_ALLOWED' => 'Plik ma nieprawidłowe rozszerzenie',
+	'ERR_UNABLE_TO_UPLOAD' => 'Nie udało się przesłać pliku'
 ];

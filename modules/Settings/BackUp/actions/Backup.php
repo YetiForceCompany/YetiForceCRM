@@ -1,14 +1,14 @@
 <?php
+
 /**
  * @package YetiForce.actions
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
- 
 class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('perform');
@@ -44,8 +44,8 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 	public function saveftp(Vtiger_Request $request)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug('Settings_BackUp_SaveFTPConfig_Action: process started');
+		
+		\App\Log::trace('Settings_BackUp_SaveFTPConfig_Action: process started');
 		$ftpServerName = $request->get('ftpservername');
 		$ftpLogin = $request->get('ftplogin');
 		$ftpPassword = $request->get('ftppassword');
@@ -53,9 +53,9 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 		$ftpPath = $request->get('ftppath');
 		$ftpActive = $request->get('ftpactive');
 		if ('true' == $ftpActive)
-			$ftpActive = TRUE;
+			$ftpActive = true;
 		else
-			$ftpActive = FALSE;
+			$ftpActive = false;
 
 		if ('' != $ftpPort) {
 			$ftpConnect = @ftp_connect($ftpServerName, $ftpPort);
@@ -68,23 +68,23 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 			$result = array('success' => true, 'fptConnection' => false, 'message' => 'JS_HOST_NOT_CORRECT');
 		} else {
 			$loginResult = @ftp_login($ftpConnect, $ftpLogin, $ftpPassword);
-			if (FALSE == $loginResult) {
-				$log->debug('FTP connection has failed!');
+			if (false == $loginResult) {
+				\App\Log::trace('FTP connection has failed!');
 				$result = array('success' => true, 'fptConnection' => false, 'message' => 'JS_CONNECTION_FAIL');
 			} else {
-				$log->debug('FTP connection has success!');
+				\App\Log::trace('FTP connection has success!');
 				$result = array('success' => true, 'fptConnection' => true, 'message' => 'JS_SAVE_CHANGES');
-				Settings_BackUp_Module_Model::saveFTPSettings($ftpServerName, $ftpLogin, $ftpPassword, TRUE, $ftpPort, $ftpActive, $ftpPath);
+				Settings_BackUp_Module_Model::saveFTPSettings($ftpServerName, $ftpLogin, $ftpPassword, true, $ftpPort, $ftpActive, $ftpPath);
 			}
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
-	
+
 	public static function stopBackup()
 	{
-		$log = vglobal('log');
+		
 		Settings_BackUp_Module_Model::stopBackup();
 		$response = new Vtiger_Response();
 		$response->setResult([]);

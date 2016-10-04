@@ -21,7 +21,7 @@
 				{/if}
 				&nbsp;
 				<a class="btn btn-xs btn-default" href="index.php?module=Home&view=NotificationsList">
-					<span class="glyphicon glyphicon-th-list" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
+					<span class="glyphicon glyphicon-th-list" title="{vtranslate('LBL_GO_TO_RECORDS_LIST')}" alt="{vtranslate('LBL_GO_TO_RECORDS_LIST')}"></span>
 				</a>
 			</div>
 		</div>

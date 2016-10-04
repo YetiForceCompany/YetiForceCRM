@@ -16,7 +16,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 	protected $isEntity = true;
 	protected $partialDescribeFields = null;
 
-	public function VtigerModuleOperation($webserviceObject, $user, $adb, $log)
+	public function __construct($webserviceObject, $user, $adb, $log)
 	{
 		parent::__construct($webserviceObject, $user, $adb, $log);
 		$this->meta = $this->getMetaInstance();
@@ -224,7 +224,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 		return $result;
 	}
 
-	function getModuleFields()
+	public function getModuleFields()
 	{
 
 		$fields = [];
@@ -240,11 +240,11 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 		return $fields;
 	}
 
-	function getDescribeFieldArray($webserviceField)
+	public function getDescribeFieldArray($webserviceField)
 	{
 		$default_language = VTWS_PreserveGlobal::getGlobal('default_language');
 
-		$fieldLabel = getTranslatedString($webserviceField->getFieldLabelKey(), $this->meta->getTabName());
+		$fieldLabel = \includes\Language::translate($webserviceField->getFieldLabelKey(), $this->meta->getTabName());
 
 		$typeDetails = [];
 		if (!is_array($this->partialDescribeFields)) {
@@ -270,16 +270,14 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 		return $describeArray;
 	}
 
-	function getMeta()
+	public function getMeta()
 	{
 		return $this->meta;
 	}
 
-	function getField($fieldName)
+	public function getField($fieldName)
 	{
 		$moduleFields = $this->meta->getModuleFields();
 		return $this->getDescribeFieldArray($moduleFields[$fieldName]);
 	}
 }
-
-?>

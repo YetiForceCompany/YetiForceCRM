@@ -11,7 +11,7 @@
 Class Settings_Roles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('checkDuplicate');

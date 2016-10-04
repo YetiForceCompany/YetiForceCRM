@@ -9,7 +9,7 @@
 class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 {
 
-	protected $functionMap = ['general', 'companyDetail', 'recordChanges'];
+	protected $functionMap = ['general', 'companyDetail', 'recordChanges', 'employeeDetail'];
 
 	public static function getFunctionVariables()
 	{
@@ -28,6 +28,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			'Record Label' => '(general: RecordLabel)',
 			'LBL_HELPDESK_SUPPORT_NAME' => '(general: HelpdeskSupportName)',
 			'LBL_HELPDESK_SUPPORT_EMAILID' => '(general: HelpdeskSupportEmail)',
+			'Employee Name' => '(employeeDetail: last_name)',
 		];
 	}
 
@@ -68,8 +69,8 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		if ($this->has('recordModel')) {
 			$this->parseFieldsValue();
 			$this->parseFieldsLabel();
-			$this->parseFunctions();
 		}
+		$this->parseFunctions();
 		return $this->get('content');
 	}
 
@@ -149,14 +150,13 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			case 'CurrentDate':
 				if ($this->get('recordModel')->has('assigned_user_id')) {
 					$userId = $this->get('recordModel')->get('assigned_user_id');
-					$nameList = Vtiger_Functions::getCRMRecordLabels('Users', [$userId]);
-					$diffIds = array_diff([$userId], array_keys($nameList));
-					if ($diffIds) {
-						$recordMeta = Vtiger_Functions::getCRMRecordMetadata($this->get('record'));
+					$nameList = \includes\fields\Owner::getUserLabel($userId);
+					if (empty($nameList)) {
+						$recordMeta = vtlib\Functions::getCRMRecordMetadata($this->get('record'));
 						$userId = Vtiger_Util_Helper::getCreator($recordMeta['smcreatorid']);
 					}
 				}
-				$ownerObject = new Users();
+				$ownerObject = CRMEntity::getInstance('Users');
 				$ownerObject->retrieveCurrentUserInfoFromFile($userId);
 
 				$date = new DateTimeField(null);
@@ -178,7 +178,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			case 'ModuleName' : return $this->get('moduleName');
 			case 'RecordId' : return $this->get('record');
 			case 'HelpdeskSupportName' : return AppConfig::main('HELPDESK_SUPPORT_NAME');
-			case 'HelpdeskSupportEmail' : return AppConfig::main('HELPDESK_SUPPORT_EMAIL_ID');
+			case 'HelpdeskSupportEmail' : return AppConfig::main('HELPDESK_SUPPORT_EMAIL_REPLY');
 			case 'RecordLabel' : return $this->get('recordModel')->getName();
 		}
 		return $key;
@@ -193,6 +193,8 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		$vtEntityDelta = new VTEntityDelta();
 		$delta = $vtEntityDelta->getEntityDelta($this->get('moduleName'), $this->get('record'));
 		unset($delta['modifiedtime']);
+		unset($delta['record_id']);
+		unset($delta['record_module']);
 		if (empty($delta)) {
 			return '';
 		}
@@ -208,8 +210,6 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 				}
 				return $value;
 			case 'listOfAllValues':
-				unset($delta['record_id']);
-				unset($delta['record_module']);
 				foreach ($delta as $fieldName => $delta) {
 					$fieldModel = $this->get('recordModel')->getModule()->getField($fieldName);
 					if ($fieldModel) {
@@ -238,7 +238,8 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			case 'Multipicklist':
 				$value = explode(' |##| ', $value);
 				$trValue = [];
-				for ($i = 0; $i < count($value); $i++) {
+				$countValue = count($value);
+				for ($i = 0; $i < $countValue; $i++) {
 					$trValue[] = '(translate: [' . $value[$i] . '|||' . $fieldModel->getModuleName() . '])';
 				}
 				if (is_array($trValue)) {
@@ -278,7 +279,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 				$value = Vtiger_Cache::get('recordChangesTreeData' . $template, $value);
 				if (!$value) {
 					$adb = PearDatabase::getInstance();
-					$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $value]);
+					$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $value]);
 					$parentName = '';
 					$module = $fieldModel->getModuleName();
 					$name = false;
@@ -290,7 +291,7 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 							end($pieces);
 							$parent = prev($pieces);
 
-							$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
+							$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $parent]);
 							$parentName = $adb->getSingleValue($result2);
 
 							$parentName = '((translate: [' . $parentName . '|||' . $module . '])) ';
@@ -310,5 +311,35 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			return '(translate: [' . $value . '])';
 		}
 		return $value;
+	}
+
+	protected static $employee = [];
+
+	private function employeeDetail($fieldName)
+	{
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$userId = $currentUserModel->getId();
+		if (!isset(self::$employee[$userId])) {
+			$db = PearDatabase::getInstance();
+			$query = 'SELECT * FROM vtiger_ossemployees INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid INNER JOIN vtiger_ossemployeescf ON vtiger_ossemployeescf.ossemployeesid = vtiger_ossemployees.ossemployeesid WHERE vtiger_crmentity.deleted = ? && vtiger_crmentity.smownerid = ? LIMIT 1;';
+			$result = $db->pquery($query, [0, $userId]);
+			if ($db->getRowCount($result)) {
+				$columns = $db->getRow($result);
+				$fields = [];
+				$moduleModel = Vtiger_Module_Model::getInstance('OSSEmployees');
+				foreach ($moduleModel->getFields() as $fieldModel) {
+					if ($columns[$fieldModel->get('column')] != '') {
+						$fields[$fieldModel->getFieldName()] = $fieldModel->getDisplayValue($columns[$fieldModel->get('column')], $columns['ossemployeesid'], false, true);
+					}
+				}
+				self::$employee[$userId] = $fields;
+			} else {
+				return '';
+			}
+		}
+		if (isset(self::$employee[$userId][$fieldName])) {
+			return self::$employee[$userId][$fieldName];
+		}
+		return '';
 	}
 }

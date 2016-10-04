@@ -1,28 +1,27 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_TO_LC' => 'zu',
 	'LBL_EXPORT_TO_PDF' => 'Als PDF exportieren',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Adressinformation',
 	'LBL_VENDORS_ADD_TASK' => 'Aufgabe hinzufügen',
 	'LBL_VENDORS_ADD_EVENT' => 'Ereignis hinzufügen',
-	'300-Sales-Software'=>'300-Verkauf Software',
-	'301-Sales-Hardware'=>'301-Verkauf Hardware',
-	'302-Rental-Income'=>'302-Einnahmen Vermietung',
-	'303-Interest-Income'=>'303-Einnahmen Zinsen',
-	'304-Sales-Software-Support'=>'304-Verkauf Software Support',
-	'305-Sales Other'=>'305-Sales Verkauf Sonstiges',
-	'306-Internet Sales'=>'306-Verkauf Internet',
-	'307-Service-Hardware Labor'=>'307-Serviceleistungen',
-	'308-Sales-Books'=>'308-Verkauf Bücher',
-
+	'300-Sales-Software' => '300-Verkauf Software',
+	'301-Sales-Hardware' => '301-Verkauf Hardware',
+	'302-Rental-Income' => '302-Einnahmen Vermietung',
+	'303-Interest-Income' => '303-Einnahmen Zinsen',
+	'304-Sales-Software-Support' => '304-Verkauf Software Support',
+	'305-Sales Other' => '305-Sales Verkauf Sonstiges',
+	'306-Internet Sales' => '306-Verkauf Internet',
+	'307-Service-Hardware Labor' => '307-Serviceleistungen',
+	'308-Sales-Books' => '308-Verkauf Bücher',
 	'Email' => 'Primäre Email',
 	'GL Account' => 'Sachkonto',
 	'LBL_ADD_RECORD' => 'Lieferant hinzufügen',

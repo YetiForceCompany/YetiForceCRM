@@ -16,7 +16,7 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 		$this->exposeMethod('saveConfig');
 	}
 
-	function saveConfig(Vtiger_Request $request)
+	public function saveConfig(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('srcModule');
 		$shareOwners = $request->get('owners');
@@ -38,14 +38,12 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 		}
 	}
 
-	function saveType(Vtiger_Request $request)
+	public function saveType(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$insertParams = [
 			'name' => $request->get('name'),
 			'role' => $request->get('roleId'),
-			'width' => $request->get('width'),
-			'height' => $request->get('height'),
 		];
 		if (($id = $request->get('id')) == 0) {
 			$insertParams['id'] = $db->getUniqueID('a_yf_notification_type');

@@ -133,7 +133,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 
-		$conditions = Zend_Json::encode($wfCondition);
+		$conditions = \includes\utils\Json::encode($wfCondition);
 		$views = $this->get('views');
 		if ($this->getId()) {
 			$updateQuery = "UPDATE vtiger_blocks_hide SET `blockid` = ?,`conditions` = ?,`enabled` = ?,`view` = ? WHERE `id` = ?;";

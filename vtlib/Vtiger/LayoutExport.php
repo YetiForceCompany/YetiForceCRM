@@ -7,24 +7,16 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/Package.php');
+namespace vtlib;
 
 /**
  * Provides API to package vtiger CRM layout files.
  * @package vtlib
  */
-class Vtiger_LayoutExport extends Vtiger_Package
+class LayoutExport extends Package
 {
 
 	const TABLENAME = 'vtiger_layout';
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
 
 	/**
 	 * Generate unique id for insertion
@@ -32,7 +24,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	 */
 	static function __getUniqueId()
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
 	}
 
@@ -40,10 +32,10 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	 * Initialize Export
 	 * @access private
 	 */
-	function __initExport($layoutName)
+	public function __initExport($layoutName)
 	{
 		// Security check to ensure file is withing the web folder.
-		Vtiger_Utils::checkFileAccessForInclusion("layouts/$layoutName/skins/vtiger/style.less");
+		Utils::checkFileAccessForInclusion("layouts/$layoutName/skins/style.less");
 
 		$this->_export_modulexml_file = fopen($this->__getManifestFilePath(), 'w');
 		$this->__write("<?xml version='1.0'?>\n");
@@ -56,7 +48,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	function export($layoutName, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export($layoutName, $todir = '', $zipfilename = '', $directDownload = false)
 	{
 		$this->__initExport($layoutName);
 
@@ -70,7 +62,7 @@ class Vtiger_LayoutExport extends Vtiger_Package
 			$zipfilename = "$layoutName-" . date('YmdHis') . ".zip";
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
-		$zip = new Vtiger_Zip($zipfilename);
+		$zip = new Zip($zipfilename);
 
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
@@ -95,11 +87,11 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	 * Export Layout Handler
 	 * @access private
 	 */
-	function export_Layout($layoutName)
+	public function export_Layout($layoutName)
 	{
-		$adb = PearDatabase::getInstance();
-
-		$sqlresult = $adb->pquery('SELECT * FROM ' . self::TABLENAME . ' WHERE name = ?', [$layoutName]);
+		$adb = \PearDatabase::getInstance();
+		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
+		$sqlresult = $adb->pquery($query, [$layoutName]);
 		$layoutresultrow = $adb->fetch_array($sqlresult);
 
 		$layoutname = decode_html($layoutresultrow['name']);
@@ -120,9 +112,9 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	function export_Dependencies()
+	public function export_Dependencies()
 	{
-		$vtigerMinVersion = vglobal('YetiForce_current_version');
+		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = false;
 
 		$this->openNode('dependencies');
@@ -139,14 +131,15 @@ class Vtiger_LayoutExport extends Vtiger_Package
 	{
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
-		if (strtolower($name) == 'basic' && $overrideCore == false)
+		if (strtolower($name) == 'basic' && $overrideCore === false)
 			return;
 
 		$useisdefault = ($isdefault) ? 1 : 0;
 		$useisactive = ($isactive) ? 1 : 0;
 
-		$adb = PearDatabase::getInstance();
-		$checkres = $adb->pquery('SELECT id FROM ' . self::TABLENAME . ' WHERE name=?', [$name]);
+		$adb = \PearDatabase::getInstance();
+		$query = sprintf('SELECT id FROM %s WHERE name = ?', self::TABLENAME);
+		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');
 		if ($checkres->rowCount()) {
 			$adb->update(self::TABLENAME, [
@@ -175,9 +168,9 @@ class Vtiger_LayoutExport extends Vtiger_Package
 		if (strtolower($name) == 'basic')
 			return;
 
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		$adb->delete(self::TABLENAME, 'name = ?', [$name]);
-		Vtiger_Functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
+		Functions::recurseDelete('layouts' . DIRECTORY_SEPARATOR . $name);
 		self::log("Deregistering Layout $name ... DONE");
 	}
 }

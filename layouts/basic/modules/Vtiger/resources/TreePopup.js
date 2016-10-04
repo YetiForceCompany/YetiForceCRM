@@ -31,9 +31,19 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 	eventName : '',
 	popupPageContentsContainer : false,
 	jstreeInstance : false,
+	multiple : false,
+	container : false,
 
 	setEventName : function(eventName) {
 		this.eventName = eventName;
+	},
+	
+	setMultiple : function(multiple) {
+		this.multiple = multiple == 1 ? true : false;
+	},
+	
+	setContainer : function(container) {
+		this.container = container;
 	},
 	
 	getEventName : function() {
@@ -45,7 +55,6 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 			this.popupPageContentsContainer = jQuery('#treePopupContainer');
 		}
 		return this.popupPageContentsContainer;
-
 	},
 	
 	done : function(result, eventToTrigger, window) {
@@ -68,6 +77,11 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 			var treeValues = $('#treePopupValues').val();
 			var data = JSON.parse(treeValues);
 			thisInstance.jstreeInstance = $("#treePopupContents");
+			var plugins = [];
+			if (this.multiple) {
+				plugins.push('category');
+				plugins.push('checkbox');
+			}
 			thisInstance.jstreeInstance.jstree({ 
 				core: {
 					data: data,
@@ -75,7 +89,8 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 						name: 'proton',
 						responsive: true
 					}
-				}
+				},
+				plugins: plugins
 			})
 			thisInstance.jstreeInstance.on('select_node.jstree', function (event, data) {
 				thisInstance.registerSelect(data.node);
@@ -85,13 +100,36 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 	},
 	
 	registerSelect : function(obj){
+		if (!this.multiple) {
+			var thisInstance = this;
+			var recordData = {id: obj.id, name: obj.text}
+			thisInstance.done(recordData, thisInstance.getEventName());
+		}
+	},
+	
+	registerSaveRecords : function(){
 		var thisInstance = this;
-		var recordData = {id: obj.id, name: obj.text}
-		thisInstance.done(recordData, thisInstance.getEventName());
+		if (this.multiple) {
+			this.container.find('[name="saveButton"]').on('click', function (e) {
+				var inputData = [];
+				var inputDisplayData = [];
+				$.each(thisInstance.jstreeInstance.jstree("getCategory", true), function (index, value) {
+					inputData.push(value.id);
+					inputDisplayData.push(value.text);
+				});
+				inputData = inputData.join();
+				inputDisplayData = inputDisplayData.join(", ");
+				var recordData = {id: inputData, name: inputDisplayData};
+				thisInstance.done(recordData, thisInstance.getEventName());
+			});
+		}
 	},
 	
 	registerEvents: function(){
+		this.setMultiple($('#isMultiple').val());
+		this.setContainer($('#treePopupContainer'));
 		this.generateTree();
+		this.registerSaveRecords();
 	}
 });
 jQuery(document).ready(function() {

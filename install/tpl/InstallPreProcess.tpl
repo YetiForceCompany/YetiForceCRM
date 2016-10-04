@@ -10,18 +10,18 @@
 ********************************************************************************/
 -->*}
 {strip}
-{include file='Header.tpl'}
-<div class="container page-container">
-	<div class="row">
-		<div class="col-md-6">
-			<div class="logo">
-				<img src="../storage/Logo/logo_yetiforce.png" style="height: 70px;" />
+	{include file='Header.tpl'}
+	<div class="container page-container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="logo">
+					<img src="../storage/Logo/logo_yetiforce.png" style="height: 70px;" />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="head pull-right">
+					<h3>{vtranslate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<div class="head pull-right">
-				<h3>{vtranslate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
-			</div>
-		</div>
-	</div>
-{/strip}
+	{/strip}

@@ -12,7 +12,7 @@ function vtws_update($element, $user)
 {
 
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$idList = vtws_getIdComponents($element['id']);
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $idList[0]);
 	$handlerPath = $webserviceObject->getHandlerPath();
@@ -84,5 +84,3 @@ function vtws_update($element, $user)
 	VTWS_PreserveGlobal::flush();
 	return $entity;
 }
-
-?>

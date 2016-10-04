@@ -29,6 +29,6 @@ interface HtmlOutput {
      * @param HtmlOutputHelper $html
      * @return string
      */
-    function toHtml(HtmlOutputHelper $html);
+    public function toHtml(HtmlOutputHelper $html);
 
 }

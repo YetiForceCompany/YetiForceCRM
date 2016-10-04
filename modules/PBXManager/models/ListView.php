@@ -54,7 +54,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 	/**
 	 * Overrided to add HTML content for callstatus irrespective of the filters
 	 */
-	public function getListViewEntries($pagingModel)
+	public function getListViewEntries($pagingModel, $searchResult = false)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -97,7 +97,6 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$queryGenerator = $this->get('query_generator');
 				$queryGenerator->setConditionField($orderByFieldName);
-				//$queryGenerator->whereFields[] = $orderByFieldName;
 			}
 		}
 		$listQuery = $this->getQuery();
@@ -129,14 +128,14 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 						$columnList[] = $fieldModel->get('table') . $orderByFieldModel->getName() . '.' . $fieldModel->get('column');
 					}
 					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users') . ' ' . $sortOrder;
+						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users') . ' ' . $sortOrder;
 					} else {
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$listQuery .= ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
+				$listQuery .= sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else {
-				$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
+				$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			}
 		}
 
@@ -212,7 +211,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 			$rawData = $db->query_result_rowdata($listResult, $index++);
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
+			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
 		}
 
 		return $listViewRecordModels;

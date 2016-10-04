@@ -153,7 +153,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	 */
 	registerTimeStartChangeEvent: function (container) {
 		var thisInstance = this;
-		container.on('changeTime', 'input[name="time_start"]', function (e) {
+		container.find('input[name="time_start"]').on('change', function (e) {
 			thisInstance.setDefaultEndTime(container);
 		});
 
@@ -207,8 +207,24 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			}
 		});
 	},
+	setVisibilityBtnSaveAndClose: function(container){
+		var secondDate = container.find('input[name="due_date"]');
+		var secondDateFormat = secondDate.data('date-format');
+		var secondDateValue = secondDate.val();
+		var secondTime = container.find('input[name="time_end"]');
+		var secondTimeValue = secondTime.val();
+		var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
+		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue,secondDateFormat);
+		var timeBetweenDates =  secondDateInstance - new Date();
+		if(timeBetweenDates >= 0){
+			container.find('.saveAndComplete').addClass('hide');
+		} else {
+			container.find('.saveAndComplete').removeClass('hide');
+		}
+	},
 	registerEndDateTimeChangeLogger: function (container) {
-		container.find('[name="time_end"]').on('changeTime', function (e) {
+		var thisInstance = this;
+		container.find('[name="time_end"]').on('change', function (e) {
 			var timeElement = jQuery(e.currentTarget);
 			var result = Vtiger_Time_Validator_Js.invokeValidation(timeElement);
 			if (result != true) {
@@ -225,6 +241,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			if (result != true) {
 				return;
 			}
+			thisInstance.setVisibilityBtnSaveAndClose(container);
 			jQuery('[name="userChangedEndDateTime"]').val('1');
 			dueDateElement.data('userChangedTime', true);
 		});
@@ -243,25 +260,29 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				jQuery('#recurringType').append(jQuery('<option value="--None--">None</option>')).val('--None--');
 			}
 			if (thisInstance.isEvents()) {
-				var inviteeIdsList = jQuery('#selectedUsers').val();
-				if (inviteeIdsList != null) {
-					inviteeIdsList = jQuery('#selectedUsers').val().join(';')
-				}
-				jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(inviteeIdsList);
+				var rows = form.find(".inviteesContent .inviteRow");
+				var invitees = [];
+				rows.each(function (index, domElement) {
+					var row = jQuery(domElement);
+					if (row.data('crmid') != ''){
+						invitees.push([row.data('email'), row.data('crmid'), row.data('ivid')]);
+					}
+				});
+				jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
 			}
 		})
 	},
-	getFreeTime: function(container){
-		var timeStart = container.find('[name="time_start"]');
-		var timeEnd = container.find('[name="time_end"]');
-		var dateStart = container.find('[name="date_start"]');
+	getFreeTime: function (container) {
+		var timeStart = container.find('[name="time_start"], [data-element-name="time_start"]');
+		var timeEnd = container.find('[name="time_end"], [data-element-name="time_end"]');
+		var dateStart = container.find('[name="date_start"], [data-element-name="date_start"]');
 		var params = {
-			module  : 'Calendar',
-			action : 'GetFreeTime',
-			dateStart : dateStart.val()
+			module: 'Calendar',
+			action: 'GetFreeTime',
+			dateStart: dateStart.val()
 		};
 		container.progressIndicator({});
-		AppConnector.request(params).then(function(data){
+		AppConnector.request(params).then(function (data) {
 			container.progressIndicator({mode: 'hide'});
 			timeStart.val(data.result.time_start);
 			timeEnd.val(data.result.time_end);
@@ -269,29 +290,40 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			container.find('[name="due_date"]').val(data.result.date_start);
 		});
 	},
-	registerAutoFillHours: function(container){
+	registerAutoFillHours: function (container) {
 		var thisInstance = this;
 		var allDay = container.find('[name="allday"]');
 		var timeStart = container.find('[name="time_start"]');
 		var timeEnd = container.find('[name="time_end"]');
 		var dateEnd = container.find('[name="due_date"]');
-		container.find('.autofill').on('change', function(e){
+		container.find('.autofill').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
-			if(currentTarget.is(':checked')){
+			if (currentTarget.is(':checked')) {
+				container.find('.autofill').attr('checked', 'checked');
 				thisInstance.getFreeTime(container);
-				timeStart.attr('readonly','readonly');
-				timeEnd.attr('readonly','readonly');
-				allDay.attr('disabled','disabled');
+				timeStart.attr('readonly', 'readonly');
+				timeEnd.attr('readonly', 'readonly');
+				allDay.attr('disabled', 'disabled');
 				allDay.removeAttr('checked');
 				allDay.trigger('change');
-				dateEnd.attr('readonly','readonly');
-			}
-			else{
+				dateEnd.attr('readonly', 'readonly');
+			} else {
+				container.find('.autofill').removeAttr('checked');
 				allDay.removeAttr('disabled');
 				timeStart.removeAttr('readonly');
 				timeEnd.removeAttr('readonly');
 				dateEnd.removeAttr('readonly');
 			}
+		});
+	},
+	registerSaveAndCloseBtn: function(container){
+		this.setVisibilityBtnSaveAndClose(container);
+		container.find('.saveAndComplete').on('click', function(){
+			var invalidFields = container.data('jqv').InvalidFields;
+			if (invalidFields.length == 0) {
+				container.append('<input type=hidden name="saveAndClose" value="PLL_COMPLETED">');
+			}
+			container.find('[type="submit"]').trigger('click');
 		});
 	},
 	registerBasicEvents: function (container) {
@@ -302,8 +334,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.registerActivityTypeChangeEvent(container);
 		this.registerEndDateTimeChangeLogger(container);
 		this.registerAutoFillHours(container);
-		//Required to set the end time based on the default ActivityType selected
-		container.find('[name="activitytype"]').trigger('change');
+		this.registerSaveAndCloseBtn(container);
 	},
 	toggleTimesInputs: function (container) {
 		container.find(':checkbox').change(function () {
@@ -325,7 +356,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		if (allday.prop('checked')) {
 			container.find('.time').hide();
 		}
-		;
+
 	},
 	getDateInstance: function (container, type) {
 		var startDateElement = container.find('[name="date_start"]');
@@ -346,17 +377,109 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		}
 		return dateInstance;
 	},
+	registerInviteEvent: function (editViewForm) {
+		var thisInstance = this;
+		this.registerRow(editViewForm);
+		var inviteesContent = editViewForm.find('.inviteesContent');
+		var inviteesSearch = editViewForm.find('input.inviteesSearch');
+		$.widget("custom.ivAutocomplete", $.ui.autocomplete, {
+			_create: function () {
+				this._super();
+				this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
+			},
+			_renderMenu: function (ul, items) {
+				var that = this, currentCategory = "";
+				$.each(items, function (index, item) {
+					var li;
+					if (item.category != currentCategory) {
+						ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+						currentCategory = item.category;
+					}
+					that._renderItemData(ul, item);
+				});
+			},
+			_renderItemData: function (ul, item) {
+				return this._renderItem(ul, item).data("ui-autocomplete-item", item);
+			},
+			_renderItem: function (ul, item) {
+				return $("<li>")
+						.data("item.autocomplete", item)
+						.append($("<a></a>").html(item.label))
+						.appendTo(ul);
+			},
+		});
+		inviteesSearch.ivAutocomplete({
+			delay: '600',
+			minLength: '3',
+			source: function (request, response) {
+				AppConnector.request({
+					module: 'Calendar',
+					action: 'Invitees',
+					mode: 'find',
+					value: request.term
+				}).then(function (result) {
+					var reponseDataList = result.result;
+					if (reponseDataList.length <= 0) {
+						reponseDataList.push({
+							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
+							type: 'no results',
+							category: ''
+						});
+					}
+					response(reponseDataList);
+				})
+			},
+			select: function (event, ui) {
+				var selected = ui.item;
+
+				//To stop selection if no results is selected
+				if (typeof selected.type != 'undefined' && selected.type == "no results") {
+					return false;
+				}
+				var recordExist = true;
+				inviteesContent.find('.inviteRow').each(function (index) {
+					if ($(this).data('crmid') == selected.id) {
+						recordExist = false;
+					}
+				});
+				if (recordExist) {
+					var inviteRow = inviteesContent.find('.hide .inviteRow').clone(true, true);
+					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).then(function (email) {
+						inviteRow.data('crmid', selected.id);
+						inviteRow.data('email', email);
+						inviteRow.find('.inviteName').data('content', selected.fullLabel + email).text(selected.label);
+						inviteRow.find('.inviteIcon .glyphicon').removeClass('glyphicon glyphicon-envelope').addClass('userIcon-' + selected.module);
+						inviteesContent.append(inviteRow);
+					});
+				}
+			},
+			close: function (event, ui) {
+				inviteesSearch.val('');
+			}
+
+		});
+	},
+	registerRow: function (row) {
+		var thisInstance = this;
+		row.on("click", '.inviteRemove', function (e) {
+			$(e.target).closest('.inviteRow').remove();
+		});
+	},
 	registerEvents: function () {
 		var statusToProceed = this.proceedRegisterEvents();
 		if (!statusToProceed) {
 			return;
 		}
+		var editViewForm = this.getForm();
 		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
 		this.repeatMonthOptionsChangeHandling();
 		this.registerRecurringTypeChangeEvent();
 		this.registerRepeatMonthActions();
+		if (this.isEvents()) {
+			this.registerInviteEvent(editViewForm);
+		}
 		this._super();
 	}
 });

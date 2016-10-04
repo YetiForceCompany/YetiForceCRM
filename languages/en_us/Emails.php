@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'LBL_TO' => 'To',
 	'LBL_FROM' => 'From',
@@ -27,10 +27,10 @@ $languageStrings = [
 	'LBL_CC' => 'CC',
 	'LBL_COMPOSE_EMAIL' => 'Compose email',
 	'LBL_DESCRIPTION' => 'Description',
-	'LBL_MAIL_DATE'  => 'Mail date', 
+	'LBL_MAIL_DATE' => 'Mail date',
 	'LBL_DRAFTED_ON' => 'Drafted on',
-	'LBL_DRAFT'=>'Draft', 
-	'LBL_ATTACHED'=>'Attached', 
+	'LBL_DRAFT' => 'Draft',
+	'LBL_ATTACHED' => 'Attached',
 	'LBL_EMAIL_INFORMATION' => 'Email information',
 	'LBL_EXCEEDED' => 'Exceeded',
 	'LBL_FORWARD' => 'Forward',

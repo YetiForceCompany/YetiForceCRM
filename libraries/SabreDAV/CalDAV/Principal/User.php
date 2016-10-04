@@ -26,7 +26,7 @@ class User extends DAVACL\Principal implements DAV\ICollection {
      * @throws DAV\Exception\Forbidden
      * @return void
      */
-    function createFile($name, $data = null) {
+    public function createFile($name, $data = null) {
 
         throw new DAV\Exception\Forbidden('Permission denied to create file (filename ' . $name . ')');
 
@@ -39,7 +39,7 @@ class User extends DAVACL\Principal implements DAV\ICollection {
      * @throws DAV\Exception\Forbidden
      * @return void
      */
-    function createDirectory($name) {
+    public function createDirectory($name) {
 
         throw new DAV\Exception\Forbidden('Permission denied to create directory');
 
@@ -51,7 +51,7 @@ class User extends DAVACL\Principal implements DAV\ICollection {
      * @param string $name
      * @return DAV\INode
      */
-    function getChild($name) {
+    public function getChild($name) {
 
         $principal = $this->principalBackend->getPrincipalByPath($this->getPrincipalURL() . '/' . $name);
         if (!$principal) {
@@ -72,7 +72,7 @@ class User extends DAVACL\Principal implements DAV\ICollection {
      *
      * @return DAV\INode[]
      */
-    function getChildren() {
+    public function getChildren() {
 
         $r = [];
         if ($this->principalBackend->getPrincipalByPath($this->getPrincipalURL() . '/calendar-proxy-read')) {
@@ -92,7 +92,7 @@ class User extends DAVACL\Principal implements DAV\ICollection {
      * @param string $name
      * @return bool
      */
-    function childExists($name) {
+    public function childExists($name) {
 
         try {
             $this->getChild($name);
@@ -115,7 +115,7 @@ class User extends DAVACL\Principal implements DAV\ICollection {
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         $acl = parent::getACL();
         $acl[] = [

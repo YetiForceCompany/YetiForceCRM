@@ -11,7 +11,7 @@
 -->*}
 <div class="row">
 	<span class="col-md-4 btn-toolbar">
-		<a class="btn btn-default addButton" href="" data-toggle="modal" data-target="#step_2_modal">
+		<a class="btn btn-default addTaskButton">
 			<strong>{vtranslate('ADD_TASKS', $MODULE_NAME)}</strong>
 		</a>
 	</span>

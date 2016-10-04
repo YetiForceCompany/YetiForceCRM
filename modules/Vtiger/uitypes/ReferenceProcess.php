@@ -11,7 +11,7 @@ class Vtiger_ReferenceProcess_UIType extends Vtiger_ReferenceLink_UIType
 
 	public function getReferenceList()
 	{
-		$modules = Vtiger_Module_Model::getModulesByLevel(1);
+		$modules = Vtiger_ModulesHierarchy_Model::getModulesByLevel(1);
 		if (!empty($modules)) {
 			return array_keys($modules);
 		}

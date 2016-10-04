@@ -59,7 +59,7 @@ class Acl implements Element, HtmlOutput {
      * @param array $privileges
      * @param bool $prefixBaseUrl
      */
-    function __construct(array $privileges, $prefixBaseUrl = true) {
+    public function __construct(array $privileges, $prefixBaseUrl = true) {
 
         $this->privileges = $privileges;
         $this->prefixBaseUrl = $prefixBaseUrl;
@@ -71,7 +71,7 @@ class Acl implements Element, HtmlOutput {
      *
      * @return array
      */
-    function getPrivileges() {
+    public function getPrivileges() {
 
         return $this->privileges;
 
@@ -96,7 +96,7 @@ class Acl implements Element, HtmlOutput {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->privileges as $ace) {
 
@@ -120,7 +120,7 @@ class Acl implements Element, HtmlOutput {
      * @param HtmlOutputHelper $html
      * @return string
      */
-    function toHtml(HtmlOutputHelper $html) {
+    public function toHtml(HtmlOutputHelper $html) {
 
         ob_start();
         echo "<table>";

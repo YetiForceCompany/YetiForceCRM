@@ -1,28 +1,32 @@
 <?php
-/*+********************************************************************************
+/* +********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ******************************************************************************* */
+ * ****************************************************************************** */
 require_once 'modules/Webforms/model/WebformsFieldModel.php';
 
-class Webforms_Model {
+class Webforms_Model
+{
 
 	public $data;
 	protected $fields = array();
 
-	function __construct($values = array()) {
+	public function __construct($values = array())
+	{
 		$this->setData($values);
 	}
 
-	protected function addField(Webforms_Field_Model $field) {
+	protected function addField(Webforms_Field_Model $field)
+	{
 		$this->fields[] = $field;
 	}
 
-	function setData($data) {
+	public function setData($data)
+	{
 		$this->data = $data;
 		if (isset($data["fields"])) {
 			$this->setFields(vtlib_purify($data["fields"]), vtlib_purify($data["required"]), vtlib_purify($data["value"]));
@@ -38,43 +42,53 @@ class Webforms_Model {
 		}
 	}
 
-	function hasId() {
-		return!empty($this->data['id']);
+	public function hasId()
+	{
+		return !empty($this->data['id']);
 	}
 
-	function setId($id) {
+	public function setId($id)
+	{
 		$this->data["id"] = $id;
 	}
 
-	function setName($name) {
+	public function setName($name)
+	{
 		$this->data["name"] = $name;
 	}
 
-	function setTargetModule($module) {
+	public function setTargetModule($module)
+	{
 		$this->data["targetmodule"] = $module;
 	}
 
-	protected function setPublicId($publicid) {
+	protected function setPublicId($publicid)
+	{
 		$this->data["publicid"] = $publicid;
 	}
 
-	function setEnabled($enabled) {
+	public function setEnabled($enabled)
+	{
 		$this->data["enabled"] = $enabled;
 	}
 
-	function setDescription($description) {
+	public function setDescription($description)
+	{
 		$this->data["description"] = $description;
 	}
 
-	function setReturnUrl($returnurl) {
+	public function setReturnUrl($returnurl)
+	{
 		$this->data["returnurl"] = $returnurl;
 	}
 
-	function setOwnerId($ownerid) {
+	public function setOwnerId($ownerid)
+	{
 		$this->data["ownerid"];
 	}
 
-	function setFields(array $fieldNames, $required, $value) {
+	public function setFields(array $fieldNames, $required, $value)
+	{
 		require_once 'include/fields/DateTimeField.php';
 		foreach ($fieldNames as $ind => $fieldname) {
 			$fieldInfo = Webforms::getFieldInfo($this->getTargetModule(), $fieldname);
@@ -84,18 +98,17 @@ class Webforms_Model {
 			$field = Webforms::getFieldInfo('Leads', $fieldname);
 			if (($field['type']['name'] == 'date')) {
 				$defaultvalue = DateTimeField::convertToDBFormat($value[$fieldname]);
-			}else if (($field['type']['name'] == 'boolean')){
-				if(in_array($fieldname,$required)){
-					if(empty($value[$fieldname])){
-						$defaultvalue='off';
-					}else{
-						$defaultvalue='on';
+			} else if (($field['type']['name'] == 'boolean')) {
+				if (in_array($fieldname, $required)) {
+					if (empty($value[$fieldname])) {
+						$defaultvalue = 'off';
+					} else {
+						$defaultvalue = 'on';
 					}
-				}else{
-					$defaultvalue=$value[$fieldname];
+				} else {
+					$defaultvalue = $value[$fieldname];
 				}
-			}
-			else {
+			} else {
 				$defaultvalue = vtlib_purify($value[$fieldname]);
 			}
 			$fieldModel->setDefaultValue($defaultvalue);
@@ -108,66 +121,80 @@ class Webforms_Model {
 		}
 	}
 
-	function getId() {
+	public function getId()
+	{
 		return vtlib_purify($this->data["id"]);
 	}
 
-	function getName() {
+	public function getName()
+	{
 		return html_entity_decode(vtlib_purify($this->data["name"]));
 	}
 
-	function getTargetModule() {
+	public function getTargetModule()
+	{
 		return vtlib_purify($this->data["targetmodule"]);
 	}
 
-	function getPublicId() {
+	public function getPublicId()
+	{
 		return vtlib_purify($this->data["publicid"]);
 	}
 
-	function getEnabled() {
+	public function getEnabled()
+	{
 		return vtlib_purify($this->data["enabled"]);
 	}
-    
-	function getDescription() {
+
+	public function getDescription()
+	{
 		return vtlib_purify($this->data["description"]);
 	}
 
-	function getReturnUrl() {
+	public function getReturnUrl()
+	{
 		return vtlib_purify($this->data["returnurl"]);
 	}
 
-	function getOwnerId() {
+	public function getOwnerId()
+	{
 		return vtlib_purify($this->data["ownerid"]);
 	}
-    
-    function getRoundrobin() {
-        return vtlib_purify($this->data["roundrobin"]);
-    }
-    
-    function getRoundrobinOwnerId() {
-        $adb = PearDatabase::getInstance();
-        $roundrobin_userid = vtlib_purify($this->data["roundrobin_userid"]);
-        $roundrobin_logic = vtlib_purify($this->data["roundrobin_logic"]);
-        $useridList = json_decode($roundrobin_userid,true);
-        if($roundrobin_logic >= count($useridList))
-            $roundrobin_logic=0;
-        $roundrobinOwnerId = $useridList[$roundrobin_logic];
-        $nextRoundrobinLogic = ($roundrobin_logic+1)%count($useridList);
-        $adb->pquery("UPDATE vtiger_webforms SET roundrobin_logic = ? WHERE id = ?", array($nextRoundrobinLogic,$this->getId()));
-        return vtlib_purify($roundrobinOwnerId);
-    }
 
-	function getFields() {
+	public function getRoundrobin()
+	{
+		return vtlib_purify($this->data["roundrobin"]);
+	}
+
+	public function getRoundrobinOwnerId()
+	{
+		$adb = PearDatabase::getInstance();
+		$roundrobin_userid = vtlib_purify($this->data["roundrobin_userid"]);
+		$roundrobin_logic = vtlib_purify($this->data["roundrobin_logic"]);
+		$useridList = json_decode($roundrobin_userid, true);
+		if ($roundrobin_logic >= count($useridList))
+			$roundrobin_logic = 0;
+		$roundrobinOwnerId = $useridList[$roundrobin_logic];
+		$nextRoundrobinLogic = ($roundrobin_logic + 1) % count($useridList);
+		$adb->pquery("UPDATE vtiger_webforms SET roundrobin_logic = ? WHERE id = ?", array($nextRoundrobinLogic, $this->getId()));
+		return vtlib_purify($roundrobinOwnerId);
+	}
+
+	public function getFields()
+	{
 		return $this->fields;
 	}
 
-	function generatePublicId($name) {
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	public function generatePublicId($name)
+	{
+		$adb = PearDatabase::getInstance();
+		
 		$uid = md5(microtime(true) + $name);
 		return $uid;
 	}
 
-	function retrieveFields() {
+	public function retrieveFields()
+	{
 		$adb = PearDatabase::getInstance();
 		$fieldsResult = $adb->pquery("SELECT * FROM vtiger_webforms_field WHERE webformid=?", array($this->getId()));
 		while ($fieldRow = $adb->fetch_array($fieldsResult)) {
@@ -176,8 +203,10 @@ class Webforms_Model {
 		return $this;
 	}
 
-	function save() {
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	public function save()
+	{
+		$adb = PearDatabase::getInstance();
+		
 
 		$isNew = !$this->hasId();
 
@@ -211,20 +240,24 @@ class Webforms_Model {
 		return true;
 	}
 
-	function delete() {
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	public function delete()
+	{
+		$adb = PearDatabase::getInstance();
+		
 
 		$adb->pquery("DELETE from vtiger_webforms_field where webformid=?", array($this->getId()));
 		$adb->pquery("DELETE from vtiger_webforms where id=?", array($this->getId()));
 		return true;
 	}
 
-	static function retrieveWithPublicId($publicid) {
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	static function retrieveWithPublicId($publicid)
+	{
+		$adb = PearDatabase::getInstance();
+		
 
 		$model = false;
 		// Retrieve model and populate information
-		$result = $adb->pquery("SELECT * FROM vtiger_webforms WHERE publicid=? AND enabled=?", array($publicid, 1));
+		$result = $adb->pquery("SELECT * FROM vtiger_webforms WHERE publicid=? && enabled=?", array($publicid, 1));
 		if ($adb->num_rows($result)) {
 			$model = new Webforms_Model($adb->fetch_array($result));
 			$model->retrieveFields();
@@ -232,8 +265,10 @@ class Webforms_Model {
 		return $model;
 	}
 
-	static function retrieveWithId($data) {
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	static function retrieveWithId($data)
+	{
+		$adb = PearDatabase::getInstance();
+		
 
 		$id = $data;
 		$model = false;
@@ -246,8 +281,10 @@ class Webforms_Model {
 		return $model;
 	}
 
-	static function listAll() {
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	static function listAll()
+	{
+		$adb = PearDatabase::getInstance();
+		
 		$webforms = array();
 
 		$sql = "SELECT * FROM vtiger_webforms";
@@ -262,24 +299,28 @@ class Webforms_Model {
 		return $webforms;
 	}
 
-	static function isWebformField($webformid, $fieldname) {
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	static function isWebformField($webformid, $fieldname)
+	{
+		$adb = PearDatabase::getInstance();
+		
 
-		$checkSQL = "SELECT 1 from vtiger_webforms_field where webformid=? AND fieldname=?";
+		$checkSQL = "SELECT 1 from vtiger_webforms_field where webformid=? && fieldname=?";
 		$result = $adb->pquery($checkSQL, array($webformid, $fieldname));
 		return (($adb->num_rows($result)) ? true : false);
 	}
 
-	static function isCustomField($fieldname) {
+	static function isCustomField($fieldname)
+	{
 		if (substr($fieldname, 0, 3) === "cf_") {
 			return true;
 		}
 		return false;
 	}
 
-	static function isRequired($webformid, $fieldname) {
+	static function isRequired($webformid, $fieldname)
+	{
 		$adb = PearDatabase::getInstance();
-		$sql = "SELECT required FROM vtiger_webforms_field where webformid=? AND fieldname=?";
+		$sql = "SELECT required FROM vtiger_webforms_field where webformid=? && fieldname=?";
 		$result = $adb->pquery($sql, array($webformid, $fieldname));
 		$required = false;
 		if ($adb->num_rows($result)) {
@@ -288,10 +329,11 @@ class Webforms_Model {
 		return $required;
 	}
 
-	static function retrieveDefaultValue($webformid, $fieldname) {
+	static function retrieveDefaultValue($webformid, $fieldname)
+	{
 		require_once 'include/fields/DateTimeField.php';
-		global $adb,$current_user,$current_;
-		$dateformat=$current_user->date_format;
+		global $adb, $current_user, $current_;
+		$dateformat = $current_user->date_format;
 		$sql = "SELECT defaultvalue FROM vtiger_webforms_field WHERE webformid=? and fieldname=?";
 		$result = $adb->pquery($sql, array($webformid, $fieldname));
 		$defaultvalue = false;
@@ -306,7 +348,8 @@ class Webforms_Model {
 		return $defaultvalue;
 	}
 
-	static function existWebformWithName($name) {
+	static function existWebformWithName($name)
+	{
 		$adb = PearDatabase::getInstance();
 		$checkSQL = "SELECT 1 FROM vtiger_webforms WHERE name=?";
 		$check = $adb->pquery($checkSQL, array($name));
@@ -316,15 +359,16 @@ class Webforms_Model {
 		return false;
 	}
 
-	static function isActive($field, $mod) {
+	static function isActive($field, $mod)
+	{
 		$adb = PearDatabase::getInstance();
-		$tabid = getTabid($mod);
-		$query = 'SELECT 1 FROM vtiger_field WHERE fieldname = ?  AND tabid = ? AND presence IN (0,2)';
+		$tabid = \includes\Modules::getModuleId($mod);
+		$query = 'SELECT 1 FROM vtiger_field WHERE fieldname = ?  && tabid = ? && presence IN (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));
 		$rows = $adb->num_rows($res);
 		if ($rows > 0) {
 			return true;
-		}else
+		} else
 			return false;
 	}
 }

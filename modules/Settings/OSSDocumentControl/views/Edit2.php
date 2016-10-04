@@ -12,7 +12,7 @@
 Class Settings_OSSDocumentControl_Edit2_View extends Settings_OSSDocumentControl_Base_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
@@ -29,23 +29,23 @@ Class Settings_OSSDocumentControl_Edit2_View extends Settings_OSSDocumentControl
 		if ($idTpl) {
 			$docInfo = Settings_OSSDocumentControl_Module_Model::getDocInfo($idTpl);
 			$viewer->assign('BASE_INFO', $docInfo['basic_info']);
-			//var_dump($docInfo['required_conditions']);
-			for ($i = 0; $i < count($docInfo['required_conditions']); $i++) {
+
+			$countRequiredConditions = count($docInfo['required_conditions']);
+			for ($i = 0; $i < $countRequiredConditions; $i++) {
 				$fieldModel = Vtiger_Field_Model::getInstance($docInfo['required_conditions'][$i]['fieldname'], Vtiger_Module_Model::getInstance($baseModule));
 				$docInfo['required_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 
 			$viewer->assign('REQUIRED_CONDITIONS', $docInfo['required_conditions']);
 
-			for ($i = 0; $i < count($docInfo['optional_conditions']); $i++) {
+			$countOptionalConditions = count($docInfo['optional_conditions']);
+			for ($i = 0; $i < $countOptionalConditions; $i++) {
 
 				$fieldModel = Vtiger_Field_Model::getInstance($docInfo['optional_conditions'][$i]['fieldname'], Vtiger_Module_Model::getInstance($baseModule));
 				$docInfo['optional_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 			$viewer->assign('OPTIONAL_CONDITIONS', $docInfo['optional_conditions']);
 			$viewer->assign('TPL_ID', $idTpl);
-
-			//$fieldModel = Vtiger_Field_Model::getInstance($value->get('name'), $baseModuleModel);
 		}
 
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -53,7 +53,6 @@ Class Settings_OSSDocumentControl_Edit2_View extends Settings_OSSDocumentControl
 		$viewer->assign('BASE_MODULE', $baseModule);
 		$viewer->assign('QUALIFIED_MODULE', $moduleSettingsName);
 		$viewer->assign('FIELD_LIST', Settings_OSSDocumentControl_Module_Model::getListBaseModuleField($baseModule));
-		//$viewer->assign('FOLDER_LIST', Documents_Module_Model::getAllFolders());
 		$viewer->assign('CONDITION_BY_TYPE', Settings_OSSDocumentControl_Module_Model::getConditionByType());
 
 		echo $viewer->view('Edit2.tpl', $moduleSettingsName, true);

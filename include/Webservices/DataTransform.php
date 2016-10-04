@@ -14,7 +14,7 @@ class DataTransform
 	public static $recordString = "record_id";
 	public static $recordModuleString = 'record_module';
 
-	function sanitizeDataWithColumn($row, $meta)
+	public function sanitizeDataWithColumn($row, $meta)
 	{
 
 		$newRow = [];
@@ -31,7 +31,7 @@ class DataTransform
 		return $newRow;
 	}
 
-	function sanitizeDataWithCountColumn($row, $meta)
+	public function sanitizeDataWithCountColumn($row, $meta)
 	{
 		$newRow = [];
 		foreach ($row as $col => $val) {
@@ -57,7 +57,7 @@ class DataTransform
 		return $newRow;
 	}
 
-	function sanitizeForInsert($row, $meta)
+	public function sanitizeForInsert($row, $meta)
 	{
 		$adb = PearDatabase::getInstance();
 		$associatedToUser = false;
@@ -75,8 +75,8 @@ class DataTransform
 		// added to handle the setting reminder time
 		if (strtolower($meta->getEntityName()) == "events") {
 			if (isset($row['reminder_time']) && $row['reminder_time'] != null && $row['reminder_time'] != 0) {
-				$_REQUEST['set_reminder'] = "Yes";
-				$_REQUEST['mode'] = 'edit';
+				AppRequest::set('set_reminder', 'Yes');
+				AppRequest::set('mode', 'edit');
 
 				$reminder = $row['reminder_time'];
 				$seconds = (int) $reminder % 60;
@@ -89,11 +89,11 @@ class DataTransform
 					$minutes = 1;
 				}
 
-				$_REQUEST['remmin'] = $minutes;
-				$_REQUEST['remhrs'] = $hours;
-				$_REQUEST['remdays'] = $days;
+				AppRequest::set('remmin', $minutes);
+				AppRequest::set('remhrs', $hours);
+				AppRequest::set('remdays', $days);
 			} else {
-				$_REQUEST['set_reminder'] = "No";
+				AppRequest::set('set_reminder', 'No');
 			}
 		} elseif (strtolower($meta->getEntityName()) == "calendar") {
 			if (empty($row['sendnotification']) || strtolower($row['sendnotificaiton']) == 'no' || $row['sendnotificaiton'] == '0' || $row['sendnotificaiton'] == 'false' || strtolower($row['sendnotificaiton']) == 'n') {
@@ -117,9 +117,9 @@ class DataTransform
 		if (strtolower($meta->getEntityName()) == "emails") {
 			if (isset($row['parent_id'])) {
 				if ($associatedToUser === true) {
-					$_REQUEST['module'] = 'Emails';
+					AppRequest::set('module', 'Emails');
 					$row['parent_id'] = $row['parent_id'] . "@-1|";
-					$_REQUEST['parent_id'] = $row['parent_id'];
+					AppRequest::set('parent_id', $row['parent_id']);
 				} else {
 					$referenceHandler = vtws_getModuleHandlerFromId($parentTypeId, $meta->getUser());
 					$referenceMeta = $referenceHandler->getMeta();
@@ -149,7 +149,8 @@ class DataTransform
 		$allFields = $meta->getFieldColumnMapping();
 		$newRow = [];
 		foreach ($allFields as $field => $col) {
-			$newRow[$field] = $row[$field];
+			if (isset($row[$field]))
+				$newRow[$field] = $row[$field];
 		}
 		if (isset($row[$recordString])) {
 			$newRow[$recordString] = $row[$recordString];
@@ -182,9 +183,6 @@ class DataTransform
 		if (!isset($row['id'])) {
 			if ($row[$meta->getObectIndexColumn()]) {
 				$row['id'] = vtws_getId($meta->getEntityId(), $row[$meta->getObectIndexColumn()]);
-			} else {
-				//TODO Handle this.
-				//echo 'error id noy set' ;
 			}
 		} else if (isset($row[$meta->getObectIndexColumn()]) && strcmp($meta->getObectIndexColumn(), "id") !== 0) {
 			unset($row[$meta->getObectIndexColumn()]);
@@ -199,7 +197,7 @@ class DataTransform
 	public static function sanitizeReferences($row, $meta)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$references = $meta->getReferenceFieldDetails();
 		foreach ($references as $field => $typeList) {
 			if (strtolower($meta->getEntityName()) == "emails") {
@@ -251,7 +249,7 @@ class DataTransform
 		return $row;
 	}
 
-	function sanitizeDateFieldsForInsert($row, $meta)
+	public function sanitizeDateFieldsForInsert($row, $meta)
 	{
 		$current_user = vglobal('current_user');
 		$moduleFields = $meta->getModuleFields();
@@ -266,7 +264,7 @@ class DataTransform
 		return $row;
 	}
 
-	function sanitizeCurrencyFieldsForInsert($row, $meta)
+	public function sanitizeCurrencyFieldsForInsert($row, $meta)
 	{
 		$current_user = vglobal('current_user');
 		$moduleFields = $meta->getModuleFields();
@@ -282,5 +280,3 @@ class DataTransform
 		return $row;
 	}
 }
-
-?>

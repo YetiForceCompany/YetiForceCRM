@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	Vtiger_KpiBarchat_Widget_Js('Vtiger_Kpi_Widget_Js',{},{});
 </script>
-
+{strip}
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}
 		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
@@ -102,3 +102,4 @@
 <div class="dashboardWidgetContent">
 	{include file="dashboards/KpiContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
+{/strip}

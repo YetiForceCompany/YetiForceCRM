@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,18 +7,21 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
-class Faq_Edit_View extends Vtiger_Edit_View {
+ * *********************************************************************************** */
 
-	public function process(Vtiger_Request $request) {
-		$viewer = $this->getViewer ($request);
+class Faq_Edit_View extends Vtiger_Edit_View
+{
+
+	public function process(Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		if(!empty($record) && $request->get('isDuplicate') == true) {
+		if (!empty($record) && $request->get('isDuplicate') == 'true') {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
-		} else if(!empty($record)) {
+		} else if (!empty($record)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
@@ -38,20 +41,20 @@ class Faq_Edit_View extends Vtiger_Edit_View {
 		$fieldList = $moduleModel->getFields();
 		$requestFieldList = array_intersect_key($request->getAll(), $fieldList);
 
-		foreach($requestFieldList as $fieldName=>$fieldValue) {
+		foreach ($requestFieldList as $fieldName => $fieldValue) {
 			$fieldModel = $fieldList[$fieldName];
-			if($fieldModel->isEditable()) {
+			if ($fieldModel->isEditable()) {
 				$recordModel->set($fieldName, $fieldModel->getDBInsertValue($fieldValue));
 			}
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
-		
+
 		$viewMode = $request->get('view_mode');
-		if(!empty($viewMode)) {
+		if (!empty($viewMode)) {
 			$viewer->assign('VIEW_MODE', $viewMode);
 		}
-		
+
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$isRelationOperation = $request->get('relationOperation');
@@ -63,7 +66,7 @@ class Faq_Edit_View extends Vtiger_Edit_View {
 
 			$viewer->assign('SOURCE_MODULE', $sourceModule);
 			$viewer->assign('SOURCE_RECORD', $sourceRecord);
-			$sourceRelatedField = $moduleModel->getValuesFromSource($moduleName, $sourceModule, $sourceRecord);
+			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 			foreach ($recordStructure as &$block) {
 				foreach ($sourceRelatedField as $field => &$value) {
 					if (isset($block[$field])) {
@@ -75,8 +78,8 @@ class Faq_Edit_View extends Vtiger_Edit_View {
 				}
 			}
 		}
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Zend_Json::encode($picklistDependencyDatasource));
-		$viewer->assign('MAPPING_RELATED_FIELD',Zend_Json::encode($moduleModel->getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode(Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);

@@ -30,7 +30,7 @@ interface NotificationSupport extends BackendInterface {
      * @param string $principalUri
      * @return NotificationInterface[]
      */
-    function getNotificationsForPrincipal($principalUri);
+    public function getNotificationsForPrincipal($principalUri);
 
     /**
      * This deletes a specific notifcation.
@@ -41,6 +41,6 @@ interface NotificationSupport extends BackendInterface {
      * @param NotificationInterface $notification
      * @return void
      */
-    function deleteNotification($principalUri, NotificationInterface $notification);
+    public function deleteNotification($principalUri, NotificationInterface $notification);
 
 }

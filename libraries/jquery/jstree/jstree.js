@@ -23,7 +23,7 @@
  */
 /*!
  * if using jslint please allow for the jQuery global and use following options:
- * jslint: browser: true, ass: true, bitwise: true, continue: true, nomen: true, plusplus: true, regexp: true, unparam: true, todo: true, white: true
+ * jslint: browser: true, ass: true, bitwise: true, continue: true, nomen: true, plusplus: true, regexp: true, unparam: true,
  */
 
 	// prevent another load? maybe there is a better way?
@@ -2257,7 +2257,7 @@
 			if(!obj) { return false; }
 			if(obj.id === $.jstree.root) { return this.redraw(true); }
 			node = this.get_node(node, true);
-			if(!node || !node.length) { return false; } // TODO: quick toggle
+			if(!node || !node.length) { return false; } 
 
 			node.children('.jstree-children').remove();
 			node = node[0];
@@ -6214,7 +6214,6 @@
 		 */
 		large_drag_target : false
 	};
-	// TODO: now check works by checking for each node individually, how about max_children, unique, etc?
 	$.jstree.plugins.dnd = function (options, parent) {
 		this.bind = function () {
 			parent.bind.call(this);

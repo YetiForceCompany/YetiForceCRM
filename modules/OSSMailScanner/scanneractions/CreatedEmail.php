@@ -6,10 +6,10 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailScanner_CreatedEmail_ScannerAction extends OSSMailScanner_BaseScannerAction_Model
+class OSSMailScanner_CreatedEmail_ScannerAction
 {
 
-	public function process($mail)
+	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
 		$folder = $mail->getFolder();
@@ -27,7 +27,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction extends OSSMailScanner_BaseScann
 		if (!empty($exceptionsAll['crating_mails'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_mails']);
 			foreach ($exceptions as $exception) {
-				if (strpos($mailForExceptions, $exception) !== FALSE) {
+				if (strpos($mailForExceptions, $exception) !== false) {
 					return $id;
 				}
 			}
@@ -55,15 +55,23 @@ class OSSMailScanner_CreatedEmail_ScannerAction extends OSSMailScanner_BaseScann
 			$record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
 			$record->set('mbox', $mail->getFolder());
 			$record->set('type', $type);
+			$record->set('mid', $mail->get('id'));
 			$record->set('rc_user', $account['user_id']);
-			$record->set('from_id', implode(',', $fromIds));
-			$record->set('to_id', implode(',', $toIds));
+			$record->set('from_id', implode(',', array_unique($fromIds)));
+			$record->set('to_id', implode(',', array_unique($toIds)));
 			if (count($mail->get('attachments')) > 0) {
 				$record->set('attachments_exist', 1);
 			}
 			$record->set('mode', 'new');
 			$record->set('id', '');
+
+			$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
+			vglobal('VTIGER_BULK_SAVE_MODE', true);
+
 			$record->save();
+
+			vglobal('VTIGER_BULK_SAVE_MODE', $previousBulkSaveMode);
+
 			$id = $record->getId();
 
 			$mail->setMailCrmId($id);
@@ -76,8 +84,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction extends OSSMailScanner_BaseScann
 				], 'crmid = ?', [$id]
 			);
 			$db->update('vtiger_ossmailview', [
-				'date' => $mail->get('udate_formated'),
-				'id' => $mail->get('id')
+				'date' => $mail->get('udate_formated')
 				], 'ossmailviewid = ?', [$id]
 			);
 		}

@@ -18,8 +18,7 @@ Class ChartUtils
 	public static function getBarChart($xaxisData, $yaxisData, $title = '', $width = '', $height = '', $charttype = 'vertical', $cachedFileName = false, $target = false, $color = '')
 	{
 
-		global $log, $lang_crm, $default_charset;
-
+		$default_charset = AppConfig::main('default_charset');
 		require_once('include/utils/utils.php');
 		require_once('include/utils/GraphUtils.php');
 		include_once ('Image/Graph.php');
@@ -42,7 +41,8 @@ Class ChartUtils
 
 		$alts = [];
 		$temp = [];
-		for ($i = 0; $i < count($xaxisData); $i++) {
+		$count_xaxisData = count($xaxisData);
+		for ($i = 0; $i < $count_xaxisData; $i++) {
 			$name = html_entity_decode($xaxisData[$i], ENT_QUOTES, $default_charset);
 			$pos = substr_count($name, " ");
 			$alts[] = $name;
@@ -53,7 +53,8 @@ Class ChartUtils
 				$val = explode(" ", $name);
 				$n = count($val) - 1;
 				$x = "";
-				for ($j = 0; $j < count($val); $j++) {
+				$count_val = count($val);
+				for ($j = 0; $j < $count_val; $j++) {
 					if ($j != $n) {
 						$x .=" " . $val[$j];
 					} else {
@@ -98,8 +99,9 @@ Class ChartUtils
 		} else {
 			$fill = & Image_Graph::factory('gradient', array(IMAGE_GRAPH_GRAD_HORIZONTAL_MIRRORED, $color, 'white'));
 		}
-
-		for ($i = 0; $i < count($yaxisData); $i++) {
+		
+		$countYaxisData = count($yaxisData);
+		for ($i = 0; $i < $countYaxisData; $i++) {
 			$x = 1 + $i;
 			if ($yaxisData[$i] >= $max)
 				$max = $yaxisData[$i];
@@ -113,7 +115,7 @@ Class ChartUtils
 
 			// To have unique names even in case of duplicates let us add the id
 			$xaxisData_appearance = $uniquex[$xaxisData[$i]];
-			if ($xaxisData_appearance == null) {
+			if ($xaxisData_appearance === null) {
 				$uniquex[$xaxisData[$i]] = 1;
 			} else {
 				$xlabels[$x] = $xaxisData[$i] . ' [' . $xaxisData_appearance . ']';
@@ -126,7 +128,6 @@ Class ChartUtils
 		//You can change the width of the bars if you like
 		if (!empty($xaxisData))
 			$bplot->setBarWidth($barwidth / count($xaxisData), "%");
-		//$bplot->setPadding(array('top'=>10));
 		$bplot->setBackground(Image_Graph::factory('gradient', array(IMAGE_GRAPH_GRAD_HORIZONTAL, 'white', 'white')));
 		$xaxis = & $plotarea->getAxis(IMAGE_GRAPH_AXIS_X);
 		$yaxis = & $plotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
@@ -204,8 +205,7 @@ Class ChartUtils
 	public static function getPieChart($xaxisData, $yaxisData, $title = '', $width = '', $height = '', $charttype = 'vertical', $cachedFileName = false, $target = false, $color = '')
 	{
 
-		global $log, $lang_crm, $default_charset;
-
+		$default_charset = AppConfig::main('default_charset');
 		require_once('include/utils/utils.php');
 		require_once('include/utils/GraphUtils.php');
 		include_once ('Image/Graph.php');
@@ -226,7 +226,8 @@ Class ChartUtils
 
 		$alts = [];
 		$temp = [];
-		for ($i = 0; $i < count($xaxisData); $i++) {
+		$countXaxisData = count($xaxisData);
+		for ($i = 0; $i < $countXaxisData; $i++) {
 			$name = html_entity_decode($xaxisData[$i], ENT_QUOTES, $default_charset);
 			$pos = substr_count($name, " ");
 			$alts[] = $name;
@@ -237,7 +238,9 @@ Class ChartUtils
 				$val = explode(" ", $name);
 				$n = count($val) - 1;
 				$x = "";
-				for ($j = 0; $j < count($val); $j++) {
+				
+				$countVal = count($val);
+				for ($j = 0; $j < $countVal; $j++) {
 					if ($j != $n) {
 						$x .=" " . $val[$j];
 					} else {
@@ -274,14 +277,18 @@ Class ChartUtils
 		$fills = & Image_Graph::factory('Image_Graph_Fill_Array');
 		$sum = 0;
 		$pcvalues = [];
-		for ($i = 0; $i < count($yaxisData); $i++) {
+		
+		$countYaxisData = count($yaxisData);
+		for ($i = 0; $i < $countYaxisData; $i++) {
 			$sum += $yaxisData[$i];
 		}
-		for ($i = 0; $i < count($yaxisData); $i++) {
+		
+		$countYaxisData = count($yaxisData);
+		for ($i = 0; $i < $countYaxisData; $i++) {
 			// To have unique names even in case of duplicates let us add the id
 			$datalabel = $xaxisData[$i];
 			$xaxisData_appearance = $uniquex[$xaxisData[$i]];
-			if ($xaxisData_appearance == null) {
+			if ($xaxisData_appearance === null) {
 				$uniquex[$xaxisData[$i]] = 1;
 			} else {
 				$datalabel = $xaxisData[$i] . ' [' . $xaxisData_appearance . ']';
@@ -335,7 +342,10 @@ Class ChartUtils
 		require_once 'modules/Reports/CustomReportUtils.php';
 		require_once('include/Webservices/Utils.php');
 		require_once('include/Webservices/Query.php');
-		global $adb, $current_user, $theme, $default_charset;
+		global $theme;
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$adb = PearDatabase::getInstance();
+		$default_charset = AppConfig::main('default_charset');
 		$inventorymodules = array('Products', 'PriceBooks', 'Vendors', 'Services');
 		$rows = $adb->num_rows($queryResult);
 		$condition = "is";
@@ -356,7 +366,7 @@ Class ChartUtils
 
 		$restrictedModules = false;
 		foreach ($reportModules as $mod) {
-			if (isPermitted($mod, 'index') != "yes" || vtlib_isModuleActive($mod) == false) {
+			if (isPermitted($mod, 'index') != 'yes' || \includes\Modules::isModuleActive($mod) === false) {
 				if (!is_array($restrictedModules))
 					$restrictedModules = [];
 				$restrictedModules[] = $mod;
@@ -364,17 +374,17 @@ Class ChartUtils
 		}
 
 		if (is_array($restrictedModules) && count($restrictedModules) > 0) {
-			$ChartDataArray['error'] = "<h4>" . getTranslatedString('LBL_NO_ACCESS', 'Reports') . ' - ' . implode(',', $restrictedModules) . "</h4>";
+			$ChartDataArray['error'] = '<h4>' . \includes\Language::translate('LBL_NO_ACCESS', 'Reports') . ' - ' . implode(',', $restrictedModules) . "</h4>";
 			return $ChartDataArray;
 		}
 
 		if ($fieldDetails != '') {
-			list($tablename, $colname, $module_field, $fieldname, $single) = explode(":", $fieldDetails);
-			list($module, $field) = split("_", $module_field);
+			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldDetails);
+			list($module, $field) = explode('_', $module_field);
 			$dateField = false;
 			if ($single == 'D') {
 				$dateField = true;
-				$query = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=? ORDER BY sortid";
+				$query = 'SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=? ORDER BY sortid';
 				$result = $adb->pquery($query, array($reportid));
 				$criteria = $adb->query_result($result, 0, 'dategroupbycriteria');
 			}
@@ -392,7 +402,7 @@ Class ChartUtils
 		if ($rows > 0) {
 			$resultRow = $adb->query_result_rowdata($queryResult, 0);
 			if (!array_key_exists($groupbyField, $resultRow)) {
-				$ChartDataArray['error'] = "<h4>" . getTranslatedString('LBL_NO_PERMISSION_FIELD', 'Dashboard') . "</h4>";
+				$ChartDataArray['error'] = "<h4>" . \includes\Language::translate('LBL_NO_PERMISSION_FIELD', 'Dashboard') . "</h4>";
 				return $ChartDataArray;
 			}
 		}
@@ -443,7 +453,7 @@ Class ChartUtils
 							$link_val = "index.php?module=" . $module . "&query=true&action=index&" . $advanceSearchCondition;
 					}
 					else {
-						$cvid = getCvIdOfAll($module);
+						$cvid = \vtlib\Deprecated::getIdOfCustomViewByNameAll($module);
 						$esc_search_str = urlencode($decodedGroupFieldValue);
 						if ($single == 'DT') {
 							$esc_search_str = urlencode($groupFieldValue);
@@ -471,7 +481,7 @@ Class ChartUtils
 			}
 		}
 		if (count($groupByFields) == 0) {
-			$ChartDataArray['error'] = "<div class='componentName'>" . getTranslatedString('LBL_NO_DATA', 'Reports') . "</div";
+			$ChartDataArray['error'] = "<div class='componentName'>" . \includes\Language::translate('LBL_NO_DATA', 'Reports') . "</div";
 		}
 		$ChartDataArray['xaxisData'] = $groupByFields;
 		$ChartDataArray['yaxisData'] = $yaxisArray;
@@ -521,5 +531,3 @@ Class ChartUtils
 		}
 	}
 }
-
-?>

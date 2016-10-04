@@ -9,8 +9,13 @@
 class OSSMailScanner_BindProject_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model
 {
 
-	public function process($mail)
+	public $moduleName = 'Project';
+	public $tableName = 'vtiger_project';
+	public $tableColumn = 'project_no';
+
+	public function process(OSSMail_Mail_Model $mail)
 	{
-		return parent::process($mail, 'Project', 'vtiger_project', 'project_no');
+		$this->mail = $mail;
+		return parent::findAndBind();
 	}
 }

@@ -162,7 +162,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			$recordModel = new self();
 			$recordModel->setData($rowData)->setModule($moduleModel);
 
-			$parameters = Zend_Json::decode(decode_html($recordModel->get('parameters')));
+			$parameters = \includes\utils\Json::decode(decode_html($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$recordModel->set($fieldName, $fieldValue);
 			}

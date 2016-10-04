@@ -14,12 +14,12 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	public function updateProgressMilestone($id)
 	{
 		$adb = PearDatabase::getInstance();
-		//TODO need to handle security
+
 		if (!isRecordExists($id)) {
 			return;
 		}
 		$focus = CRMEntity::getInstance($this->getName());
-		$relatedListMileston = $focus->get_dependents_list($id, $this->getId(), getTabid('ProjectTask'));
+		$relatedListMileston = $focus->get_dependents_list($id, $this->getId(), \includes\Modules::getModuleId('ProjectTask'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
 		$estimatedWorkTime = 0;

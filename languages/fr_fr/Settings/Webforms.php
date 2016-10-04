@@ -1,12 +1,12 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Webforms' => 'Formulaires en ligne',
 	'SINGLE_Settings:Webforms' => 'Formulaire web',
@@ -17,13 +17,11 @@ $languageStrings = [
 	'Module' => 'Module',
 	'Return Url' => 'URL de retour',
 	'Post Url' => 'URL Post',
-    'Captcha Enabled' => 'Captcha activé',
+	'Captcha Enabled' => 'Captcha activé',
 	'SINGLE_Webforms' => 'Formulaire web',
-
 	//Actions
 	'LBL_SHOW_FORM' => 'Montrer formulaire',
 	'LBL_DUPLICATES_EXIST' => 'Ce nom de formulaire web existe déjà',
-
 	//Blocks
 	'LBL_WEBFORM_INFORMATION' => 'Information formulaire',
 	'LBL_FIELD_INFORMATION' => 'Information champ',
@@ -37,12 +35,12 @@ $languageStrings = [
 	'LBL_EMBED_THE_FOLLOWING_FORM_IN_YOUR_WEBSITE' => 'Intégrer le formulaire dans votre site',
 	'LBL_SELECT_VALUE' => 'Sélectionner valeur',
 	'LBL_LABEL' => 'Label',
-	'LBL_SAVE_FIELDS_ORDER' => 'Sauvergarder l\'ordre des champs', 
+	'LBL_SAVE_FIELDS_ORDER' => 'Sauvergarder l\'ordre des champs',
 	'LBL_HIDDEN' => 'Caché',
 	'LBL_ENABLE_TARGET_MODULES_FOR_WEBFORM' => 'Activer le module destination du formulaire web',
 	'LBL_ASSIGN_USERS' => 'Assignation utilisateur',
-    'LBL_ASSIGN_ROUND_ROBIN' => 'Assigner les utilisateurs en round-robin',
-    'LBL_ROUNDROBIN_USERS_LIST' => 'Liste des utilisateurs pour le Round-robin ',
+	'LBL_ASSIGN_ROUND_ROBIN' => 'Assigner les utilisateurs en round-robin',
+	'LBL_ROUNDROBIN_USERS_LIST' => 'Liste des utilisateurs pour le Round-robin ',
 ];
 $jsLanguageStrings = [
 	'JS_WEBFORM_DELETED_SUCCESSFULLY' => 'Formulaire web supprimé avec succès',

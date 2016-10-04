@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'csv' => 'CSV',
 	'xml' => 'XML',
@@ -54,7 +54,7 @@ $languageStrings = [
 	'LBL_NUMBER_OF_RECORDS_CREATED' => 'Records created',
 	'LBL_NUMBER_OF_RECORDS_UPDATED' => 'Records overwritten',
 	'LBL_NUMBER_OF_RECORDS_SKIPPED' => 'Records skipped',
-	'LBL_NUMBER_OF_RECORDS_MERGED' => 'Records merged', 
+	'LBL_NUMBER_OF_RECORDS_MERGED' => 'Records merged',
 	'LBL_TOTAL_RECORDS_FAILED' => 'Records failed importing',
 	'LBL_IMPORT_MORE' => 'Import more',
 	'LBL_VIEW_LAST_IMPORTED_RECORDS' => 'Last imported records',
@@ -86,6 +86,5 @@ $languageStrings = [
 	'skipped' => 'Skipped records',
 	'failed' => 'Failed records',
 	'LBL_SELECT_FILE' => 'Select file to import',
-	
 ];
 

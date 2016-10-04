@@ -23,16 +23,15 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			$time['end'] = date('Y-m-t');
 		}
 		// date parameters passed, convert them to YYYY-mm-dd
-		$time['start'] = Vtiger_Functions::currentUserDisplayDate($time['start']);
-		$time['end'] = Vtiger_Functions::currentUserDisplayDate($time['end']);
+		$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
+		$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
-		$param = Zend_Json::decode($widget->get('data'));
+		$param = \includes\utils\Json::decode($widget->get('data'));
 		$data = $this->getWidgetData($moduleName, $param, $time);
 
 		$viewer->assign('DTIME', $time);
-		$viewer->assign('USERID', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('PARAM', $param);
@@ -49,18 +48,14 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	public function getWidgetData($moduleName, $widgetParam, $time)
 	{
 		$rawData = $response = $ticks = [];
-
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($moduleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 
 		$param = [0, $time['start'], $time['end']];
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_crmentity.smownerid as o,sum(`sum_gross`) as s FROM u_yf_finvoice
 					INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid
-					WHERE vtiger_crmentity.deleted = ? AND u_yf_finvoice.saledate >= ? AND u_yf_finvoice.saledate <= ?';
-		if ($securityParameter != '')
-			$sql.= $securityParameter;
+					WHERE vtiger_crmentity.deleted = ? && u_yf_finvoice.saledate >= ? && u_yf_finvoice.saledate <= ?';
+		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName, $currentUser->getId());
 		$sql .= ' GROUP BY smownerid ORDER BY s DESC';
 
 		$result = $db->pquery($sql, $param);
@@ -75,7 +70,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			if ($currentUser->getId() == $row['o']) {
 				$color = '#4979aa';
 			}
-			$owner = Vtiger_Functions::getOwnerRecordLabel($row['o']);
+			$owner = vtlib\Functions::getOwnerRecordLabel($row['o']);
 			$rawData[] = [
 				'data' => [[$i, (int) $row['s']]],
 				'label' => $owner,

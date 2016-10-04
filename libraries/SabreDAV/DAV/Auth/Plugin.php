@@ -43,7 +43,7 @@ class Plugin extends ServerPlugin {
      *
      * @param Backend\BackendInterface $authBackend
      */
-    function __construct(Backend\BackendInterface $authBackend = null) {
+    public function __construct(Backend\BackendInterface $authBackend = null) {
 
         if (!is_null($authBackend)) {
             $this->addBackend($authBackend);
@@ -57,7 +57,7 @@ class Plugin extends ServerPlugin {
      * @param Backend\BackendInterface $authBackend
      * @return void
      */
-    function addBackend(Backend\BackendInterface $authBackend) {
+    public function addBackend(Backend\BackendInterface $authBackend) {
 
         $this->backends[] = $authBackend;
 
@@ -69,7 +69,7 @@ class Plugin extends ServerPlugin {
      * @param Server $server
      * @return void
      */
-    function initialize(Server $server) {
+    public function initialize(Server $server) {
 
         $server->on('beforeMethod', [$this, 'beforeMethod'], 10);
 
@@ -83,7 +83,7 @@ class Plugin extends ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'auth';
 
@@ -101,7 +101,7 @@ class Plugin extends ServerPlugin {
      *
      * @return string|null
      */
-    function getCurrentPrincipal() {
+    public function getCurrentPrincipal() {
 
         return $this->currentPrincipal;
 
@@ -116,7 +116,7 @@ class Plugin extends ServerPlugin {
      * @deprecated Will be removed in a future version!
      * @return string|null
      */
-    function getCurrentUser() {
+    public function getCurrentUser() {
 
         // We just do a 'basename' on the principal to give back a sane value
         // here.
@@ -135,7 +135,7 @@ class Plugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function beforeMethod(RequestInterface $request, ResponseInterface $response) {
+    public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
 
         if ($this->currentPrincipal) {
 
@@ -200,7 +200,7 @@ class Plugin extends ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

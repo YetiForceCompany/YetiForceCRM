@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=UITYPE_MODEL value=$FIELD_MODEL->getUITypeModel()}
 	{assign var=PICKLIST_VALUES value=$UITYPE_MODEL->getLimits()}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}

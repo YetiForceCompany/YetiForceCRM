@@ -4,23 +4,20 @@
 class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'QuickExportToExcel')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'QuickExportToExcel')) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('ExportToExcel');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -29,7 +26,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	function ExportToExcel(Vtiger_Request $request)
+	public function ExportToExcel(Vtiger_Request $request)
 	{
 		vimport('libraries.PHPExcel.PHPExcel');
 		$db = PearDatabase::getInstance();
@@ -55,7 +52,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$headers = $listviewController->getListViewHeaderFields();
 		//get the column headers, they go in row 0 of the spreadsheet
 		foreach ($headers as $column => $webserviceField) {
-			$fieldObj = Vtiger_Field::getInstance($webserviceField->getFieldId());
+			$fieldObj = vtlib\Field::getInstance($webserviceField->getFieldId());
 			$fields[] = $fieldObj;
 			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(vtranslate($fieldObj->label, $module)), PHPExcel_Cell_DataType::TYPE_STRING);
 			$col++;
@@ -109,9 +106,8 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 			$col++;
 		}
 
-		$rootDirectory = vglobal('root_directory');
 		$tmpDir = vglobal('tmp_dir');
-		$tempFileName = tempnam($rootDirectory . $tmpDir, 'xls');
+		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
 		$workbookWriter->save($tempFileName);
 

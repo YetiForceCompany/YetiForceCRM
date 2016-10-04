@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /**
@@ -18,7 +19,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 * Function returns special validator for fields
 	 * @return <Array>
 	 */
-	function getValidator()
+	public function getValidator()
 	{
 		$validator = array();
 		$fieldName = $this->getName();
@@ -57,7 +58,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Customize the display value for detail view.
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($recordInstance) {
 			if ($this->getName() == 'date_start') {
@@ -72,7 +73,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 				return $startDate . ' ' . $startTime . ' ' . $meridiem;
 			}
 		}
-		return parent::getDisplayValue($value, $record, $recordInstance);
+		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**
@@ -112,7 +113,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		$fieldModel = Vtiger_Field_Model::getInstance('recurringtype', Vtiger_Module_Model::getInstance('Events'));
 		if ($fieldModel->isRoleBased() && !$currentUser->isAdminUser()) {
 			$userModel = Users_Record_Model::getCurrentUserModel();
-			$picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
+			$picklistValues = \includes\fields\Picklist::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
 		} else {
 			$picklistValues = Vtiger_Util_Helper::getPickListValues('recurringtype');
 		}
@@ -160,8 +161,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		} else {
 			$modulePermission = Vtiger_Cache::get('modulePermission-' . $accessmode, $this->getModuleId());
 			if (!$modulePermission) {
-				$modulePermissionCalendar = self::preFetchModuleFieldPermission(Vtiger_Functions::getModuleId('Calendar'), $accessmode);
-				$modulePermissionEvents = self::preFetchModuleFieldPermission(Vtiger_Functions::getModuleId('Events'), $accessmode);
+				$modulePermissionCalendar = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Calendar'), $accessmode);
+				$modulePermissionEvents = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Events'), $accessmode);
 				$modulePermission = $modulePermissionCalendar + $modulePermissionEvents;
 				Vtiger_Cache::set('modulePermission-' . $accessmode, $this->getModuleId(), $modulePermission);
 			}
@@ -183,14 +184,11 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		parent::getFieldInfo();
 		//Change the default search operator
 		if ($this->get('name') == 'date_start') {
-			$request = new Vtiger_Request($_REQUEST, $_REQUEST);
-			if ($request->has('search_params')) {
-				$searchParams = $request->get('search_params');
-				if(!empty($searchParams)) {
-					foreach ($searchParams[0] as $value) {
-						if ($value[0] == 'date_start') {
-							$this->fieldInfo['searchOperator'] = $value[1];
-						}
+			$searchParams = AppRequest::get('search_params');
+			if (!empty($searchParams)) {
+				foreach ($searchParams[0] as $value) {
+					if ($value[0] == 'date_start') {
+						$this->fieldInfo['searchOperator'] = $value[1];
 					}
 				}
 			}

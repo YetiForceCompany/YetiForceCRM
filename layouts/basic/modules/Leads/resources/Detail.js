@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 Vtiger_Detail_Js("Leads_Detail_Js", {
@@ -112,7 +113,6 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 					instance.checkingModuleSelection(element);
 				});
 				instance.registerForReferenceField();
-				instance.registerForDisableCheckEvent();
 				instance.registerConvertLeadEvents();
 				instance.getConvertLeadForm().validationEngine(app.validationEngineOptions);
 				instance.registerConvertLeadSubmit();
@@ -146,20 +146,6 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		if (referenceField.length > 0) {
 			jQuery('#AccountsModule').attr('readonly', 'readonly');
 		}
-	},
-	registerForDisableCheckEvent: function () {
-		var instance = this;
-		var container = this.getConvertLeadContainer();
-		var referenceField = jQuery('.reference', container);
-		var conAccMandatory = jQuery('#conAccMandatory').val();
-
-		jQuery('#ContactsModule').on('click', function () {
-			if ((jQuery('#ContactsModule').is(':checked')) && conAccMandatory) {
-				jQuery('#AccountsModule').attr({'disabled': 'disabled', 'checked': 'checked'});
-			} else {
-				jQuery('#AccountsModule').removeAttr('disabled');
-			}
-		});
 	},
 	/*
 	 * function to register Convert Lead Events
@@ -233,7 +219,6 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		formElement.on('submit', function (e) {
 			var convertLeadModuleElements = thisInstance.getConvertLeadModules();
 			var moduleArray = [];
-			var contactModel = formElement.find('#ContactsModule');
 			var accountModel = formElement.find('#AccountsModule');
 
 			//If the validation fails in the hidden Block, we should show that Block with error.
@@ -253,22 +238,10 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			});
 			formElement.find('input[name="modules"]').val(JSON.stringify(moduleArray));
 
-			var contactElement = contactModel.length;
 			var organizationElement = accountModel.length;
-
-			if (contactElement != '0' && organizationElement != '0') {
-				if (jQuery.inArray('Accounts', moduleArray) == -1 && jQuery.inArray('Contacts', moduleArray) == -1) {
-					alert(app.vtranslate('JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD'));
-					e.preventDefault();
-				}
-			} else if (organizationElement != '0') {
+			if (organizationElement != '0') {
 				if (jQuery.inArray('Accounts', moduleArray) == -1) {
 					alert(app.vtranslate('JS_SELECT_ORGANIZATION'));
-					e.preventDefault();
-				}
-			} else if (contactElement != '0') {
-				if (jQuery.inArray('Contacts', moduleArray) == -1) {
-					alert(app.vtranslate('JS_SELECT_CONTACTS'));
 					e.preventDefault();
 				}
 			}

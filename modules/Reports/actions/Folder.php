@@ -12,7 +12,7 @@
 class Reports_Folder_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('save');
@@ -21,12 +21,9 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Reports_Module_Model::getInstance($moduleName);
-
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -43,7 +40,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 	 * Function that saves/updates the Folder
 	 * @param Vtiger_Request $request
 	 */
-	function save(Vtiger_Request $request)
+	public function save(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$folderModel = Reports_Folder_Model::getInstance();
@@ -57,7 +54,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 		$folderModel->set('description', $request->get('description'));
 
 		if ($folderModel->checkDuplicate()) {
-			throw new AppException(vtranslate('LBL_DUPLICATES_EXIST', $moduleName));
+			throw new \Exception\AppException(vtranslate('LBL_DUPLICATES_EXIST', $moduleName));
 		}
 
 		$folderModel->save();
@@ -72,7 +69,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 	 * Function that deletes the Folder
 	 * @param Vtiger_Request $request
 	 */
-	function delete(Vtiger_Request $request)
+	public function delete(Vtiger_Request $request)
 	{
 		$folderId = $request->get('folderid');
 		$moduleName = $request->getModule();

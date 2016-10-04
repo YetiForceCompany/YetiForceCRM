@@ -9,13 +9,13 @@
 class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
@@ -28,7 +28,7 @@ class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
 
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
-			throw new NoPermittedException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 		$rcmModel->save($request->get('comment'));
 

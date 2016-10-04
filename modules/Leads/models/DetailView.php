@@ -26,7 +26,6 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
 
-		//TODO: update the database so that these separate handlings are not required
 		$index = 0;
 		foreach ($linkModelList['DETAILVIEW'] as $link) {
 			if ($link->linklabel == 'View History' || $link->linklabel == 'Send SMS') {

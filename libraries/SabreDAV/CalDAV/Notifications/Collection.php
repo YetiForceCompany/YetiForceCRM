@@ -42,7 +42,7 @@ class Collection extends DAV\Collection implements ICollection, DAVACL\IACL {
      * @param CalDAV\Backend\NotificationSupport $caldavBackend
      * @param string $principalUri
      */
-    function __construct(CalDAV\Backend\NotificationSupport $caldavBackend, $principalUri) {
+    public function __construct(CalDAV\Backend\NotificationSupport $caldavBackend, $principalUri) {
 
         $this->caldavBackend = $caldavBackend;
         $this->principalUri = $principalUri;
@@ -54,7 +54,7 @@ class Collection extends DAV\Collection implements ICollection, DAVACL\IACL {
      *
      * @return array
      */
-    function getChildren() {
+    public function getChildren() {
 
         $children = [];
         $notifications = $this->caldavBackend->getNotificationsForPrincipal($this->principalUri);
@@ -77,7 +77,7 @@ class Collection extends DAV\Collection implements ICollection, DAVACL\IACL {
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         return 'notifications';
 
@@ -90,7 +90,7 @@ class Collection extends DAV\Collection implements ICollection, DAVACL\IACL {
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->principalUri;
 
@@ -103,7 +103,7 @@ class Collection extends DAV\Collection implements ICollection, DAVACL\IACL {
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
 
         return null;
 
@@ -121,7 +121,7 @@ class Collection extends DAV\Collection implements ICollection, DAVACL\IACL {
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         return [
             [
@@ -146,7 +146,7 @@ class Collection extends DAV\Collection implements ICollection, DAVACL\IACL {
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new DAV\Exception\NotImplemented('Updating ACLs is not implemented here');
 
@@ -164,7 +164,7 @@ class Collection extends DAV\Collection implements ICollection, DAVACL\IACL {
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         return null;
 

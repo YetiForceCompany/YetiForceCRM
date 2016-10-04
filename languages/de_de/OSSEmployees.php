@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_NAME' => 'Vorname',
 	'LBL_LASTNAME' => 'Nachname',
-	'LBL_PESEL' => 'Personennummer',
+	'LBL_PESEL' => 'Personalnummer',
 	'LBL_IDCARD' => 'Personalausweis',
 	'LBL_EDUCATION' => 'Ausbildung',
 	'LBL_BIRTHDATE' => 'Geburtsdatum',
@@ -42,4 +42,7 @@ $languageStrings = [
 	'Inactive' => 'Inaktiv',
 	'Average daily working time' => 'durchschnittliche Arbeitszeit',
 	'LBL_USER_EXISTS' => 'Benutzer für Mitarbeiter angelegt',
+	'FL_POSITION' => 'Position',
+	'FL_SECONDARY_PHONE' => 'Secondary phone',
+	'FL_RBH' => 'RBH'
 ];

@@ -41,7 +41,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel)
+	public function getListViewEntries($pagingModel, $searchResult = false)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $this->getModule()->get('name');
@@ -67,7 +67,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
 		}
 
@@ -91,14 +91,14 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 						$columnList[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
 					}
 					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users') . ' ' . $sortOrder;
+						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users') . ' ' . $sortOrder;
 					} else {
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$listQuery .= ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
+				$listQuery .= sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else {
-				$listQuery .= ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
+				$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			}
 		}
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
@@ -120,7 +120,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 			$rawData = $db->query_result_rowdata($listResult, $index++);
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
+			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
 		}
 		return $listViewRecordModels;
 	}
@@ -142,13 +142,14 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		if ($position) {
 			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
-			for ($i = 1; $i < count($split); $i++) {
-				$listQuery .= ' FROM ' . $split[$i];
+			$countSplit = count($split);
+			for ($i = 1; $i < $countSplit; $i++) {
+				$listQuery .= sprintf(' FROM %s', $split[$i]);
 			}
 		}
 
 		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' AND activitytype <> "Emails"';
+			$listQuery .= ' && activitytype <> "Emails"';
 		}
 
 		$listResult = $db->query($listQuery);

@@ -13,35 +13,34 @@ chdir(dirname(__FILE__) . '/../');
  */
 include_once 'include/Webservices/Relation.php';
 include_once 'include/main/WebUI.php';
-require_once 'vtlib/Vtiger/Cron.php';
 require_once 'modules/Emails/mail.php';
 
 Vtiger_Session::init();
 $authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
 $appUniqueKey = Vtiger_Session::get('app_unique_key');
-if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey == vglobal('application_unique_key'))) {
-	$log = LoggerManager::getLogger('CRON');
-	vglobal('log', $log);
-
+$user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey == AppConfig::main('application_unique_key'));
+if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $user) {
 	$cronTasks = false;
-	Vtiger_Cron::setCronAction(true);
-	if (isset($_REQUEST['service'])) {
+	vtlib\Cron::setCronAction(true);
+	if (AppRequest::has('service')) {
 		// Run specific service
-		$cronTasks = [Vtiger_Cron::getInstance($_REQUEST['service'])];
+		$cronTasks = [vtlib\Cron::getInstance(AppRequest::get('service'))];
 	} else {
 		// Run all service
-		$cronTasks = Vtiger_Cron::listAllActiveInstances();
+		$cronTasks = vtlib\Cron::listAllActiveInstances();
 	}
 
-	$cronStarts = date('Y-m-d H:i:s');
-
+	$cronStart = microtime(true);
 	//set global current user permissions
-	$current_user = vglobal('current_user');
 	$current_user = Users::getActiveAdminUser();
-
+	vglobal('current_user', $current_user);
+	if ($user) {
+		echo '<pre>';
+	}
 	echo sprintf('---------------  %s | Start CRON  ----------', date('Y-m-d H:i:s')) . PHP_EOL;
 	foreach ($cronTasks as $cronTask) {
 		try {
+			\App\Log::trace($cronTask->getName() . ' - Start');
 			// Timeout could happen if intermediate cron-tasks fails
 			// and affect the next task. Which need to be handled in this cycle.				
 			if ($cronTask->hadTimeout()) {
@@ -53,14 +52,14 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserI
 
 			// Not ready to run yet?
 			if ($cronTask->isRunning()) {
-				$log->fatal($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning');
+				\App\Log::error($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning');
 				echo sprintf('%s | %s - Task omitted, it has not been finished during the last scanning' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
 			}
 
 			// Not ready to run yet?
 			if (!$cronTask->isRunnable()) {
-				$log->info($cronTask->getName() . ' - Not ready to run as the time to run again is not completed');
+				\App\Log::trace($cronTask->getName() . ' - Not ready to run as the time to run again is not completed');
 				echo sprintf('%s | %s - Not ready to run as the time to run again is not completed' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
 			}
@@ -68,26 +67,31 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || (!empty($authenticatedUserI
 			// Mark the status - running		
 			$cronTask->markRunning();
 			echo sprintf('%s | %s - Start task' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+			$startTime = microtime(true);
 
-			checkFileAccess($cronTask->getHandlerFile());
+			vtlib\Deprecated::checkFileAccess($cronTask->getHandlerFile());
 			ob_start();
 			require_once $cronTask->getHandlerFile();
 			$taskResponse = ob_get_contents();
 			ob_end_clean();
+
+			$taskTime = round(microtime(true) - $startTime, 2);
 			if ($taskResponse != '') {
-				$log->warn($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse);
+				\App\Log::warning($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse);
 				echo 'Task response:' . PHP_EOL . $taskResponse . PHP_EOL;
 			}
 
 			// Mark the status - finished
 			$cronTask->markFinished();
-			echo sprintf('%s | %s - End task', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
-		} catch (AppException $e) {
-			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+			echo sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime) . PHP_EOL;
+			\App\Log::trace($cronTask->getName() . ' - End');
+		} catch (\Exception\AppException $e) {
+			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->getMessage() . PHP_EOL;
+			echo $e->getTraceAsString() . PHP_EOL;
 		}
 	}
-	echo sprintf('===============  %s | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
+	echo sprintf('===============  %s (' . round(microtime(true) - $cronStart, 2) . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 } else {
 	echo('Access denied!');
 }

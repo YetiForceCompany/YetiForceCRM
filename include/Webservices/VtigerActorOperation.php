@@ -122,7 +122,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 		foreach ($fields as $field) {
 			if (isset($element[$field['name']])) {
 				$newElement[$field['name']] = $element[$field['name']];
-			} else if ($field['name'] != 'id' && $selectedOnly == false) {
+			} else if ($field['name'] != 'id' && $selectedOnly === false) {
 				$newElement[$field['name']] = '';
 			}
 		}
@@ -164,9 +164,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 
 	public function __update($element, $id)
 	{
-		$columnStr = 'set ' . implode('=?,', array_keys($element)) . ' =? ';
-		$query = 'update ' . $this->entityTableName . ' ' . $columnStr . 'where ' .
-			$this->meta->getObectIndexColumn() . '=?';
+		$query = sprintf('UPDATE %s SET %s = ? WHERE %s = ?', $this->entityTableName, implode('=?,', array_keys($element)), $this->meta->getObectIndexColumn());
 		$params = array_values($element);
 		array_push($params, $id);
 		$result = null;
@@ -190,9 +188,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 
 	public function __revise($element, $id)
 	{
-		$columnStr = 'set ' . implode('=?,', array_keys($element)) . ' =? ';
-		$query = 'update ' . $this->entityTableName . ' ' . $columnStr . 'where ' .
-			$this->meta->getObectIndexColumn() . '=?';
+		$query = sprintf('UPDATE %s SET %s = ? WHERE %s = ?', $this->entityTableName, implode('=?,', array_keys($element)), $this->meta->getObectIndexColumn());
 		$params = array_values($element);
 		array_push($params, $id);
 		$result = null;
@@ -230,8 +226,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 	public function __delete($elemId)
 	{
 		$result = null;
-		$query = 'delete from ' . $this->entityTableName . ' where ' .
-			$this->meta->getObectIndexColumn() . '=?';
+		$query = sprintf('DELETE FROM %s WHERE %s = ?', $this->entityTableName, $this->meta->getObectIndexColumn());
 		$transactionSuccessful = vtws_runQueryAsTransaction($query, array($elemId), $result);
 		return $transactionSuccessful;
 	}
@@ -266,7 +261,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 			"idPrefix" => $this->meta->getEntityId(), 'isEntity' => $this->isEntity, 'labelFields' => $this->meta->getNameFields());
 	}
 
-	function getModuleFields()
+	public function getModuleFields()
 	{
 		$app_strings = VTWS_PreserveGlobal::getGlobal('app_strings');
 		if ($this->moduleFields === null) {
@@ -282,7 +277,7 @@ class VtigerActorOperation extends WebserviceEntityOperation
 		return $this->moduleFields;
 	}
 
-	function getDescribeFieldArray($webserviceField)
+	public function getDescribeFieldArray($webserviceField)
 	{
 		$app_strings = VTWS_PreserveGlobal::getGlobal('app_strings');
 		$fieldLabel = $webserviceField->getFieldLabelKey();
@@ -348,5 +343,3 @@ class VtigerActorOperation extends WebserviceEntityOperation
 		return $this->element;
 	}
 }
-
-?>

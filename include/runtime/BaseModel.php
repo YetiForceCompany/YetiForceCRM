@@ -20,7 +20,7 @@ class Vtiger_Base_Model
 	 * Constructor
 	 * @param Array $values
 	 */
-	function __construct($values = [])
+	public function __construct($values = [])
 	{
 		$this->valueMap = $values;
 	}
@@ -84,7 +84,7 @@ class Vtiger_Base_Model
 	 */
 	public function has($key)
 	{
-		return array_key_exists($key, $this->valueMap);
+		return isset($this->valueMap[$key]);
 	}
 
 	/**
@@ -94,5 +94,14 @@ class Vtiger_Base_Model
 	public function isEmpty($key)
 	{
 		return (!isset($this->valueMap[$key]) || empty($this->valueMap[$key]));
+	}
+
+	/**
+	 * Function to remove the value
+	 * @param type $key
+	 */
+	public function remove($key)
+	{
+		unset($this->valueMap[$key]);
 	}
 }

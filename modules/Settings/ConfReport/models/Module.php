@@ -37,12 +37,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Vtlib test directory' => 'cache/vtlib/',
 		'Vtlib test HTML directory' => 'cache/vtlib/HTML',
 		'Modules directory' => 'modules/',
+		'Libraries directory' => 'libraries/',
 		'Storage directory' => 'storage/',
 		'Product image directory' => 'storage/Products/',
 		'User image directory' => 'storage/Users/',
 		'Contact image directory' => 'storage/Contacts/',
 		'Logo directory' => 'storage/Logo/',
-		'MailView attachments directory' => 'storage/OSSMailView/',
+		'MailView attachments directory' => 'storage/OSSMailView/'
 	);
 	public static $library = array(
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
@@ -58,6 +59,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_SESSION_LIBRARY' => ['type' => 'e', 'name' => 'session', 'mandatory' => true],
 		'LBL_DOM_LIBRARY' => ['type' => 'e', 'name' => 'dom', 'mandatory' => true],
 		'LBL_ZIP_ARCHIVE' => ['type' => 'e', 'name' => 'zip', 'mandatory' => true],
+		'LBL_MBSTRING_LIBRARY' => ['type' => 'e', 'name' => 'mbstring', 'mandatory' => true],
+		'LBL_SOAP_LIBRARY' => ['type' => 'e', 'name' => 'soap', 'mandatory' => true],
 	);
 
 	public static function getConfigurationLibrary()
@@ -84,16 +87,19 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'max_input_time' => ['prefer' => '600'],
 			'default_socket_timeout' => ['prefer' => '600'],
 			'mysql.connect_timeout' => ['prefer' => '600'],
+			'innodb_lock_wait_timeout' => ['prefer' => '600'], // MySQL
+			'wait_timeout' => ['prefer' => '600'], // MySQL
+			'interactive_timeout' => ['prefer' => '600'], // MySQL
+			'sql_mode' => ['prefer' => ''], // MySQL
 			'memory_limit' => ['prefer' => '512 MB'],
 			'safe_mode' => ['prefer' => 'Off'],
 			'display_errors' => ['prefer' => 'Off'],
 			'log_errors' => ['prefer' => 'Off'],
 			'file_uploads' => ['prefer' => 'On'],
-			'register_globals' => ['prefer' => 'On'],
 			'short_open_tag' => ['prefer' => 'On'],
 			'post_max_size' => ['prefer' => '50 MB'],
 			'upload_max_filesize' => ['prefer' => '50 MB'],
-			'max_allowed_packet' => ['prefer' => '10 MB'],
+			'max_allowed_packet' => ['prefer' => '10 MB'], // MySQL
 			'max_input_vars' => ['prefer' => '5000'],
 			'magic_quotes_gpc' => ['prefer' => 'Off'],
 			'magic_quotes_runtime' => ['prefer' => 'Off'],
@@ -125,37 +131,41 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = self::getFlag(ini_get('file_uploads'));
 
-		if (ini_get('register_globals') == '1' || stripos(ini_get('register_globals'), 'On') !== false)
-			$directiveValues['register_globals']['status'] = true;
-		$directiveValues['register_globals']['current'] = self::getFlag(ini_get('register_globals'));
-
 		if ((ini_get('output_buffering') <= '4096' && ini_get('output_buffering') != '1') || stripos(ini_get('output_buffering'), 'Off') !== false)
 			$directiveValues['output_buffering']['status'] = true;
-		if(!in_array(ini_get('output_buffering'), ['On',1,0,'Off'])){
+		if (!in_array(ini_get('output_buffering'), ['On', 1, 0, 'Off'])) {
 			$directiveValues['output_buffering']['current'] = ini_get('output_buffering');
-		}  else {
+		} else {
 			$directiveValues['output_buffering']['current'] = self::getFlag(ini_get('output_buffering'));
 		}
-		
+
 		if (ini_get('max_execution_time') != 0 && ini_get('max_execution_time') < 600)
 			$directiveValues['max_execution_time']['status'] = true;
 		$directiveValues['max_execution_time']['current'] = ini_get('max_execution_time');
 
 		if (ini_get('max_input_time') != 0 && ini_get('max_input_time') < 600)
 			$directiveValues['max_input_time']['status'] = true;
-		$directiveValues['max_input_time']['current'] = ini_get('max_input_time');		
-		
-		if (Vtiger_Functions::parseBytes(ini_get('memory_limit')) < 33554432)
+		$directiveValues['max_input_time']['current'] = ini_get('max_input_time');
+
+		if (ini_get('default_socket_timeout') != 0 && ini_get('default_socket_timeout') < 600)
+			$directiveValues['default_socket_timeout']['status'] = true;
+		$directiveValues['default_socket_timeout']['current'] = ini_get('default_socket_timeout');
+
+		if (ini_get('mysql.connect_timeout') != 0 && ini_get('mysql.connect_timeout') < 600)
+			$directiveValues['mysql.connect_timeout']['status'] = true;
+		$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');
+
+		if (vtlib\Functions::parseBytes(ini_get('memory_limit')) < 33554432)
 			$directiveValues['memory_limit']['status'] = true;
-		$directiveValues['memory_limit']['current'] = Vtiger_Functions::showBytes(ini_get('memory_limit'));
+		$directiveValues['memory_limit']['current'] = vtlib\Functions::showBytes(ini_get('memory_limit'));
 
-		if (Vtiger_Functions::parseBytes(ini_get('post_max_size')) < 10485760)
+		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 10485760)
 			$directiveValues['post_max_size']['status'] = true;
-		$directiveValues['post_max_size']['current'] = Vtiger_Functions::showBytes(ini_get('post_max_size'));
+		$directiveValues['post_max_size']['current'] = vtlib\Functions::showBytes(ini_get('post_max_size'));
 
-		if (Vtiger_Functions::parseBytes(ini_get('upload_max_filesize')) < 10485760)
+		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 10485760)
 			$directiveValues['upload_max_filesize']['status'] = true;
-		$directiveValues['upload_max_filesize']['current'] = Vtiger_Functions::showBytes(ini_get('upload_max_filesize'));
+		$directiveValues['upload_max_filesize']['current'] = vtlib\Functions::showBytes(ini_get('upload_max_filesize'));
 
 		if (ini_get('magic_quotes_gpc') == '1' || stripos(ini_get('magic_quotes_gpc'), 'On') !== false)
 			$directiveValues['magic_quotes_gpc']['status'] = true;
@@ -191,11 +201,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues['magic_quotes_sybase']['current'] = self::getFlag(ini_get('magic_quotes_sybase'));
 
 		if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') !== false)
-			$directiveValues['log_errors']['status'] = 'On';
+			$directiveValues['log_errors']['status'] = true;
 		$directiveValues['log_errors']['current'] = self::getFlag(ini_get('log_errors'));
 
 		if (ini_get('short_open_tag') != '1' || stripos(ini_get('short_open_tag'), 'Off') !== false)
-			$directiveValues['short_open_tag']['status'] = 'Off';
+			$directiveValues['short_open_tag']['status'] = true;
 		$directiveValues['short_open_tag']['current'] = self::getFlag(ini_get('short_open_tag'));
 
 		if (ini_get('session.gc_maxlifetime') < 21600)
@@ -219,16 +229,19 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues['PHP']['current'] = PHP_VERSION;
 
 		if (extension_loaded('suhosin')) {
-			if (ini_get('suhosin.request.max_vars') < 5000)
+			if (ini_get('suhosin.request.max_vars') < 5000) {
 				$directiveValues['suhosin.request.max_vars']['status'] = true;
+			}
 			$directiveValues['suhosin.request.max_vars']['current'] = ini_get('suhosin.request.max_vars');
 
-			if (ini_get('suhosin.post.max_vars') < 5000)
+			if (ini_get('suhosin.post.max_vars') < 5000) {
 				$directiveValues['suhosin.post.max_vars']['status'] = true;
+			}
 			$directiveValues['suhosin.post.max_vars']['current'] = ini_get('suhosin.post.max_vars');
 
-			if (ini_get('suhosin.post.max_value_length') < 1500000)
+			if (ini_get('suhosin.post.max_value_length') < 1500000) {
 				$directiveValues['suhosin.post.max_value_length']['status'] = true;
+			}
 			$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
 		}
 
@@ -236,9 +249,34 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$db = PearDatabase::getInstance();
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
-			if ($maxAllowedPacket < 16777216)
+			if ($maxAllowedPacket < 16777216) {
 				$directiveValues['max_allowed_packet']['status'] = true;
-			$directiveValues['max_allowed_packet']['current'] = Vtiger_Functions::showBytes($maxAllowedPacket);
+			}
+			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($maxAllowedPacket);
+
+			$result = $db->query('SELECT @@innodb_lock_wait_timeout');
+			$innodbLockWaitTimeout = $db->getSingleValue($result);
+			if ($innodbLockWaitTimeout < 600) {
+				$directiveValues['innodb_lock_wait_timeout']['status'] = true;
+			}
+			$directiveValues['innodb_lock_wait_timeout']['current'] = $innodbLockWaitTimeout;
+
+			$result = $db->query('SELECT @@wait_timeout');
+			$waitTimeout = $db->getSingleValue($result);
+			if ($waitTimeout < 600) {
+				$directiveValues['wait_timeout']['status'] = true;
+			}
+			$directiveValues['wait_timeout']['current'] = $waitTimeout;
+
+			$result = $db->query('SELECT @@interactive_timeout');
+			$interactiveTimeout = $db->getSingleValue($result);
+			if ($interactiveTimeout < 600) {
+				$directiveValues['interactive_timeout']['status'] = true;
+			}
+			$directiveValues['interactive_timeout']['current'] = $interactiveTimeout;
+
+			$result = $db->query('SELECT @@sql_mode');
+			$directiveValues['sql_mode']['current'] = $db->getSingleValue($result);
 		}
 
 		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? self::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
@@ -247,6 +285,15 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
 
 		return $directiveValues;
+	}
+
+	public static function getSystemInfo()
+	{
+		return [
+			'LBL_PHPINI' => php_ini_loaded_file(),
+			'LBL_LOG_FILE' => ini_get('error_log'),
+			'LBL_CRM_DIR' => ROOT_DIRECTORY,
+		];
 	}
 
 	/**
@@ -279,7 +326,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return 'Off';
 	}
 
-	function error2string($value)
+	public function error2string($value)
 	{
 		$level_names = array(
 			E_ERROR => 'E_ERROR', E_WARNING => 'E_WARNING',

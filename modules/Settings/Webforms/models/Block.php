@@ -19,7 +19,7 @@ class Settings_Webforms_Block_Model extends Vtiger_Block_Model
 	{
 		if (empty($this->fields)) {
 			$tableName = 'vtiger_webforms';
-			$tabId = getTabid('Webforms');
+			$tabId = \includes\Modules::getModuleId('Webforms');
 			$blockName = $this->get('name');
 			switch ($blockName) {
 				case 'LBL_WEBFORM_INFORMATION' :

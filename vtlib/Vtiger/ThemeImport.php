@@ -7,19 +7,19 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-include_once('vtlib/Vtiger/ThemeExport.php');
+namespace vtlib;
 
 /**
  * Provides API to import language into vtiger CRM
  * @package vtlib
  */
-class Vtiger_ThemeImport extends Vtiger_ThemeExport
+class ThemeImport extends ThemeExport
 {
 
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_export_tmpdir;
@@ -29,7 +29,7 @@ class Vtiger_ThemeImport extends Vtiger_ThemeExport
 	 * Initialize Import
 	 * @access private
 	 */
-	function initImport($zipfile, $overwrite)
+	public function initImport($zipfile, $overwrite)
 	{
 		$this->__initSchema();
 		$name = $this->getModuleNameFromZip($zipfile);
@@ -41,7 +41,7 @@ class Vtiger_ThemeImport extends Vtiger_ThemeExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function import($zipfile, $overwrite = false)
+	public function import($zipfile, $overwrite = false)
 	{
 		$this->initImport($zipfile, $overwrite);
 
@@ -55,7 +55,7 @@ class Vtiger_ThemeImport extends Vtiger_ThemeExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function update($instance, $zipfile, $overwrite = true)
+	public function update($instance, $zipfile, $overwrite = true)
 	{
 		$this->import($zipfile, $overwrite);
 	}
@@ -64,14 +64,14 @@ class Vtiger_ThemeImport extends Vtiger_ThemeExport
 	 * Import Module
 	 * @access private
 	 */
-	function import_Theme($zipfile)
+	public function import_Theme($zipfile)
 	{
 		$name = $this->_modulexml->name;
 		$label = $this->_modulexml->label;
 		$parent = $this->_modulexml->parent;
 
 		self::log("Importing $label ... STARTED");
-		$unzip = new Vtiger_Unzip($zipfile);
+		$unzip = new Unzip($zipfile);
 		$filelist = $unzip->getList();
 		$vtiger6format = false;
 

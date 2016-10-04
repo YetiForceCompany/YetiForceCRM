@@ -24,7 +24,7 @@ class Vtiger_Value_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		$mapDetail = $this->getMapDetail(true);
 		if ($mapDetail) {
-			$value = $mapDetail->getDisplayValue($value,false,false,true);
+			$value = $mapDetail->getDisplayValue($value, false, false, true);
 		}
 		return $value;
 	}

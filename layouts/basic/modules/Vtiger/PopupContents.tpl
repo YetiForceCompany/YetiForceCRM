@@ -67,7 +67,7 @@
 					</tr>
 
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
-						<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData())}'
+						<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{\includes\utils\Json::encode($LISTVIEW_ENTRY->getRawData())}'
 							{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE_NAME}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
 							{if $MULTI_SELECT}
 								<td class="{$WIDTHTYPE}">
@@ -87,9 +87,7 @@
 												{CurrencyField::convertToUserFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), null, true, true)}
 												{else}
 													{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
-														{assign var=NoOfDecimalPlaces value=getCurrencyDecimalPlaces()}
-														{assign var=decimalNumber value=$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-														{number_format($decimalNumber,$NoOfDecimalPlaces)}
+														{\vtlib\Functions::formatDecimal($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
 													{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
 														{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 													{else}

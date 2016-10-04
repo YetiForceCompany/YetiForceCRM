@@ -21,7 +21,6 @@ class VTEmailTemplateTask extends VTTask
 
 	public function doTask($entity)
 	{
-		global $adb, $site_URL, $current_user, $HELPDESK_SUPPORT_NAME, $HELPDESK_SUPPORT_EMAIL_ID;
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
 		$ws_id = $entity->getId();

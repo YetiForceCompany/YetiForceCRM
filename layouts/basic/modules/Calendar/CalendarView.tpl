@@ -21,7 +21,7 @@
 <input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-<input type="hidden" id="hiddenDays" value="{Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
+<input type="hidden" id="hiddenDays" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 <input type="hidden" id="activityStateLabels" value="{Vtiger_Util_Helper::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
@@ -37,7 +37,9 @@
 </style>
 <div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
-		{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
+		<div class="pull-left paddingLeftMd">
+			{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
+		</div>
 		<div class="col-xs-9 col-sm-6">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
 		</div>

@@ -1,5 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 {
 
@@ -65,7 +66,7 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 
 		$viewer->assign('MODULE', $moduleName);
 
-		$viewer->assign('LISTVIEW_LINKS', $moduleModel->getListViewLinks());
+		$viewer->assign('LISTVIEW_LINKS', $moduleModel->getListViewLinks(false));
 		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels);
 
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -84,7 +85,7 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('DELETED_RECORDS_TOTAL_COUNT', $moduleModel->getDeletedRecordsTotalCount());
 
-		
+
 		if (!$this->listViewCount) {
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}

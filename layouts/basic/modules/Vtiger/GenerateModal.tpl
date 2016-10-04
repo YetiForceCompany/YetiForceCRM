@@ -8,7 +8,7 @@
 	</div>
 	<div class="modal-body text-center">
 		{if $VIEW eq 'List'}
-			<input type="hidden" name="all_records" id="all_records" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($ALL_RECORDS))}" />
+			<input type="hidden" name="all_records" id="all_records" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($ALL_RECORDS))}" />
 			<div class="form-group">
 				<div class="radio-inline">
 					<label>

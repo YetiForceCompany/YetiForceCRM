@@ -27,7 +27,7 @@ class VTUpdateWorkTime extends VTTask
 				$referenceIds[$parts[1]] = $name;
 			}
 		}
-		$delta = Zend_Json::decode($this->getContents($entity));
+		$delta = \includes\utils\Json::decode($this->getContents($entity));
 		if (is_array($delta)) {
 			foreach ($delta as $fieldName => $values) {
 				if (!empty($values) && !is_array($values)) {
@@ -42,7 +42,7 @@ class VTUpdateWorkTime extends VTTask
 		}
 
 		$referenceIds = array_diff_key($referenceIds, array_flip($globalIds));
-		$metasData = Vtiger_Functions::getCRMRecordMetadata(array_keys($referenceIds));
+		$metasData = vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
 		include('user_privileges/moduleHierarchy.php');
 		$modulesHierarchy = array_keys($modulesHierarchy);
 		foreach ($metasData as $referenceId => $metaData) {
@@ -59,7 +59,7 @@ class VTUpdateWorkTime extends VTTask
 	 * @param <Object> $entity
 	 * @return <String> contents
 	 */
-	public function getContents($entity)
+	public function getContents($entity, $entityCache = false)
 	{
 		if (!$this->contents && is_object($entity)) {
 			$moduleName = $entity->getModuleName();
@@ -71,7 +71,7 @@ class VTUpdateWorkTime extends VTTask
 				$delta = $entity->getData();
 			}
 			$delta = array_intersect_key($delta, array_flip(OSSTimeControl_Record_Model::$referenceFieldsToTime));
-			$this->contents = Zend_Json::encode($delta);
+			$this->contents = \includes\utils\Json::encode($delta);
 		}
 		return $this->contents;
 	}

@@ -9,7 +9,7 @@ use
  * Boolean property.
  *
  * This object represents BOOLEAN values. These are always the case-insenstive
- * string TRUE or FALSE.
+ * string TRUE or false.
  *
  * Automatic conversion to PHP's true and false are done.
  *
@@ -29,7 +29,7 @@ class Boolean extends Property {
      *
      * @return void
      */
-    function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val) {
 
         $val = strtoupper($val) === 'TRUE' ? true : false;
         $this->setValue($val);
@@ -41,9 +41,9 @@ class Boolean extends Property {
      *
      * @return string
      */
-    function getRawMimeDirValue() {
+    public function getRawMimeDirValue() {
 
-        return $this->value ? 'TRUE' : 'FALSE';
+        return $this->value ? 'TRUE' : 'false';
 
     }
 
@@ -55,7 +55,7 @@ class Boolean extends Property {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'BOOLEAN';
 
@@ -69,7 +69,7 @@ class Boolean extends Property {
      *
      * @return void
      */
-    function setXmlValue(array $value) {
+    public function setXmlValue(array $value) {
 
         $value = array_map(
             function($value) {

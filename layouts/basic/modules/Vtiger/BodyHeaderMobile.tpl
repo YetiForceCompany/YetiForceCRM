@@ -1,5 +1,5 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="actionMenu" aria-hidden="true">
 		<div class="row">
 			<div class="dropdown quickAction historyBtn">
@@ -15,14 +15,14 @@
 		</div>
 		{if $REMINDER_ACTIVE}
 			<div class="row">
-				<div class="remindersNotice quickAction">
+				<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
 						{vtranslate('LBL_REMINDER',$MODULE)}
 					</div>	
 					<div class="pull-right">
 						<a class="btn btn-default" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
 							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-							<span class="badge hide">0</span>
+							<span class="badge hide bgDanger">0</span>
 						</a>
 					</div>
 				</div>
@@ -42,31 +42,17 @@
 				</div>
 			</div>
 		{/if}
-		{if !empty($announcement)}
-			<div class="row">
-				<div class="quickAction">
-					<div class="pull-left">
-						{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}
-					</div>
-					<div class='pull-right'>
-						<a class="btn btn-default" href="#">
-							<img class='alignMiddle imgAnnouncement announcementBtn' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" />
-						</a>
-					</div>
-				</div>
-			</div>
-		{/if}
 		{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')}
 			<div class="row">
-				<div class="notificationsNotice quickAction">
-					<div class="btn-group">
-						<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
+				<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
+					<div class="pull-left">
+						{vtranslate('LBL_NOTIFICATIONS',$MODULE)}
+					</div>
+ 					<div class="pull-right">
+ 						<a class="btn btn-default isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
-						<button type="button" class="btn btn-sm btn-default sendNotification" title="{vtranslate('LBL_SEND_NOTIFICATION',$MODULE)}">
-							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-						</button>
 					</div>
 				</div>
 			</div>

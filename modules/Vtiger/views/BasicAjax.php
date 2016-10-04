@@ -12,29 +12,29 @@
 class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showAdvancedSearch');
 		$this->exposeMethod('showSearchResults');
 	}
 
-	function checkPermission()
+	public function checkPermission()
 	{
 		
 	}
 
-	function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -47,7 +47,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 * Function to display the UI for advance search on any of the module
 	 * @param Vtiger_Request $request
 	 */
-	function showAdvancedSearch(Vtiger_Request $request)
+	public function showAdvancedSearch(Vtiger_Request $request)
 	{
 		//Modules for which search is excluded
 		$excludedModuleForSearch = array('Vtiger', 'Reports');
@@ -107,7 +107,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 * Function to display the Search Results
 	 * @param Vtiger_Request $request
 	 */
-	function showSearchResults(Vtiger_Request $request)
+	public function showSearchResults(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -166,7 +166,6 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			}
 			$query = $queryGenerator->getQuery();
 			//Remove the ordering for now to improve the speed
-			//$query .= ' ORDER BY createdtime DESC';
 			$result = $db->query($query);
 			while ($row = $db->fetch_array($result)) {
 				$recordInstance = Vtiger_Record_Model::getInstanceById(current($row));
@@ -177,6 +176,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
 			$searchKey = $request->get('value');
+			$limit = $request->get('limit') != 'false' ? $request->get('limit') : false;
 			$searchModule = false;
 
 			if ($request->get('searchModule')) {
@@ -185,27 +185,35 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
-			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $request->get('limit'));
+			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit);
 		}
 
-		$recordsList = $matchingRecordsList = [];
-		if ($matchingRecords[$moduleName]) {
-			$matchingRecordsList[$moduleName] = $matchingRecords[$moduleName];
+		if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 1) {
+			$matchingRecordsList = [];
+			foreach (\includes\Modules::getAllEntityModuleInfo(true) as $module) {
+				if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
+					$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
+				}
+			}
+			$matchingRecords = $matchingRecordsList;
 		}
-		foreach ($matchingRecords as $module => $recordModelsList) {
-			$matchingRecordsList[$module] = $recordModelsList;
+		$curentModule = $request->get('curentModule');
+		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
+			$pushTop = $matchingRecords[$curentModule];
+			unset($matchingRecords[$curentModule]);
+			$matchingRecords = [$curentModule => $pushTop] + $matchingRecords;
 		}
-
 		if ($request->get('html') == 'true') {
 			$viewer->assign('MODULE', $moduleName);
-			$viewer->assign('MATCHING_RECORDS', $matchingRecordsList);
+			$viewer->assign('MATCHING_RECORDS', $matchingRecords);
 			$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
 			echo $viewer->view('UnifiedSearchResults.tpl', '', true);
-		}else{
-			foreach ($matchingRecordsList as $module => $modules) {
+		} else {
+			$recordsList = [];
+			foreach ($matchingRecords as $module => $modules) {
 				foreach ($modules as $recordID => $recordModel) {
 					$label = decode_html($recordModel->getName());
-					$label.= ' (' . Vtiger_Functions::getOwnerRecordLabel($recordModel->get('smownerid')) . ')';
+					$label.= ' (' . \includes\fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
 						$label.= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
 					}

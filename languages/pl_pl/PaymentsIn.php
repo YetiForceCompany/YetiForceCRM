@@ -18,8 +18,8 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj wpłatę',
 	'LBL_RECORDS_LIST' => 'Wpłaty',
 	'LBL_PARENTID' => 'Wpłata nadrzędna',
-	'Denied'=>'Odrzucona',
-	'Created'=>'Utworzona',
+	'Denied' => 'Odrzucona',
+	'Created' => 'Utworzona',
 	'Paid' => 'Zapłacona',
 	'LBL_PAYMENTSCURRENCY' => 'Waluta',
 	'Account' => 'Rachunek kontrahenta',
@@ -59,5 +59,4 @@ $languageStrings = [
 	'SGB' => 'Spółdzielcza Grupa Bankowa',
 	'Citi' => 'Citi Handlowy',
 	'idea' => 'Idea Bank S.A.',
-	
 ];

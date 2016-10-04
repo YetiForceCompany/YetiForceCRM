@@ -24,7 +24,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if ($sourceModule == 'Users' && $field == 'reports_to_id') {
 			$overRideQuery = $listQuery;
 			if (!empty($record)) {
-				$overRideQuery = $overRideQuery . " AND vtiger_users.id != " . $record;
+				$overRideQuery = $overRideQuery . " && vtiger_users.id != " . $record;
 			}
 			return $overRideQuery;
 		}
@@ -43,7 +43,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if (!empty($searchValue)) {
 			$db = PearDatabase::getInstance();
 
-			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? OR last_name LIKE ?) AND status = ?';
+			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? || last_name LIKE ?) && status = ?';
 			$params = array("%$searchValue%", "%$searchValue%", 'Active');
 
 			$result = $db->pquery($query, $params);
@@ -114,7 +114,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to update Base Currency of Product
-	 * @param- $_REQUEST array
+	 * @param- $currencyName array
 	 */
 	public function updateBaseCurrency($currencyName)
 	{
@@ -136,7 +136,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to update Config file
-	 * @param- $_REQUEST array
+	 * @param- $currencyName array
 	 */
 	public function updateConfigFile($currencyName)
 	{
@@ -159,10 +159,10 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 
-		$userIPAddress = Vtiger_Functions::getRemoteIP();
-		;
-		$loginTime = date("Y-m-d H:i:s");
-		$browser = (strlen($browser)) ? $browser : '-';
+		$userIPAddress = vtlib\Functions::getRemoteIP();
+		$userIPAddress = empty($userIPAddress) ? '-' : $userIPAddress;
+		$loginTime = date('Y-m-d H:i:s');
+		$browser = empty($browser) ? $browser : '-';
 		$query = "INSERT INTO vtiger_loginhistory (user_name, user_ip, logout_time, login_time, status, browser) VALUES (?,?,?,?,?,?)";
 		$params = array($username, $userIPAddress, '0000-00-00 00:00:00', $loginTime, $status, $browser);
 		$adb->pquery($query, $params);
@@ -180,7 +180,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$userIPAddress = $_SERVER['REMOTE_ADDR'];
 		$outtime = date("Y-m-d H:i:s");
 
-		$loginIdQuery = "SELECT MAX(login_id) AS login_id FROM vtiger_loginhistory WHERE user_name=? AND user_ip=?";
+		$loginIdQuery = "SELECT MAX(login_id) AS login_id FROM vtiger_loginhistory WHERE user_name=? && user_ip=?";
 		$result = $adb->pquery($loginIdQuery, array($userRecordModel->get('user_name'), $userIPAddress));
 		$loginid = $adb->query_result($result, 0, "login_id");
 
@@ -230,8 +230,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = "SELECT COUNT(*) as num FROM vtiger_users WHERE email1 = ? AND id != ?";
-		$result = $db->pquery($sql, array($email, $id), TRUE);
+		$sql = "SELECT COUNT(*) as num FROM vtiger_users WHERE email1 = ? && id != ?";
+		$result = $db->pquery($sql, array($email, $id), true);
 
 		return !!$db->query_result($result, 0, 'num');
 	}
@@ -239,12 +239,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * @return an array with the list of languages which are available in source
 	 */
-	public function getLanguagesList()
+	public static function getLanguagesList()
 	{
 		$adb = PearDatabase::getInstance();
 
 		$language_query = 'SELECT prefix, label FROM vtiger_language';
-		$result = $adb->pquery($language_query, array());
+		$result = $adb->query($language_query);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$lang_prefix = decode_html($adb->query_result($result, $i, 'prefix'));
@@ -257,7 +257,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public static function getAdminUsers()
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'on' AND deleted = 0";
+		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'on' && deleted = 0";
 		$result = $adb->query($query);
 		$numRows = $adb->num_rows($result);
 		for ($i = 0; $i < $numRows; $i++) {
@@ -267,22 +267,10 @@ class Users_Module_Model extends Vtiger_Module_Model
 		return $output;
 	}
 
-	public function deleteLangFiles()
-	{
-		$languagesList = Users_Module_Model::getLanguagesList();
-		foreach ($languagesList as $key => $value) {
-			$langPath = "languages/$key/Install.php";
-			if (file_exists($langPath)) {
-				unlink($langPath);
-			}
-		}
-		return true;
-	}
-	
 	public static function getNotAdminUsers()
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'off' AND deleted = 0 AND status='Active'";
+		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'off' && deleted = 0 && status='Active'";
 		$result = $adb->query($query);
 		$numRows = $adb->num_rows($result);
 		for ($i = 0; $i < $numRows; $i++) {
@@ -291,7 +279,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 		return $output;
 	}
-	
+
 	public static function getSwitchUsers()
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
@@ -307,5 +295,10 @@ class Users_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		return [];
+	}
+
+	public function getDefaultUrl()
+	{
+		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getListViewName() . '&parent=Settings';
 	}
 }

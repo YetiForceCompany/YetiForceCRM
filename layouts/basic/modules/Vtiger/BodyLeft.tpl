@@ -1,5 +1,5 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	{assign var="COMPANY_DETAILS" value=Vtiger_CompanyDetails_Model::getInstanceById()}
 	{assign var="COMPANY_LOGO" value=$COMPANY_DETAILS->getLogo()}
 	<div class="container-fluid userDetailsContainer">
@@ -34,7 +34,7 @@
 										{assign var="HREF" value=$LINK}
 									{/if}
 									<a class="dropdown-toggle {$obj->getClassName()}" title="{vtranslate($TITLE,$MODULE)}" {if !empty($CHILD_LINKS)}data-toggle="dropdown"{/if} href="{$HREF}"
-									   {if $obj->linkdata && is_array($obj->linkdata)}
+									   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 										   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 											   data-{$DATA_NAME}="{$DATA_VALUE}" 
 										   {/foreach}

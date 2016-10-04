@@ -5,6 +5,7 @@
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
 class Home_Notification_Model extends Vtiger_Base_Model
 {
@@ -18,6 +19,25 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		return new self();
 	}
 
+	/**
+	 * Function to get types of notification for library jstree
+	 * @return <Array>
+	 */
+	public function getTypesForTree()
+	{
+		$typesNotification = $this->getTypes();
+		$tree = [];
+		foreach ($typesNotification as $id => $type) {
+			$tree[] = [
+				'id' => $id,
+				'record_id' => $id,
+				'type' => 'folder',
+				'text' => vtranslate($type['name'], 'Home')
+			];
+		}
+		return $tree;
+	}
+
 	public function getTypes()
 	{
 		$instance = Vtiger_Cache::get('Home_Notification_Model', 'Types');
@@ -28,7 +48,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$role = str_replace('H', '', $currentUser->get('roleid'));
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM a_yf_notification_type WHERE role = ? OR role = ?', [0, $role]);
+		$result = $db->pquery('SELECT * FROM a_yf_notification_type WHERE role = ? || role = ?', [0, $role]);
 		$types = [];
 		while ($row = $db->getRow($result)) {
 			$types[$row['id']] = $row;
@@ -37,19 +57,28 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		return $types;
 	}
 
-	public function getEntries($limit = false)
+	public function getEntries($limit = false, $conditions = false, $userId = false, $groupBy = true)
 	{
 		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
-		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ?'; //ORDER BY id DESC
-		if ($limit) {
-			$sql .= ' LIMIT ' . $limit;
+		if (empty($userId)) {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			$userId = $currentUser->getId();
 		}
-		$result = $db->pquery($sql, [$currentUser->getId()]);
+		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ? ';
+		if ($conditions) {
+			$sql .= $conditions;
+		}
+		if ($limit) {
+			$sql .= sprintf(' LIMIT %s', $limit);
+		}
+		$result = $db->pquery($sql, [$userId]);
 		$entries = [];
 		while ($row = $db->getRow($result)) {
-			$entries[$row['type']][] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);
+			if ($groupBy) {
+				$entries[$row['type']][] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);
+			} else {
+				$entries[] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);
+			}
 		}
 		return $entries;
 	}
@@ -60,13 +89,15 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$result = $db->pquery('SELECT count(*) FROM l_yf_notification WHERE userid = ?', [$currentUser->getId()]);
-		return $db->getSingleValue($result);
+		$count = $db->getSingleValue($result);
+		$max = AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
+		return $count > $max ? $max : $count;
 	}
 
 	public function save($parseContent = true)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
 		$currentUser = vglobal('current_user');
 		$user = CRMEntity::getInstance('Users');
@@ -74,14 +105,14 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		vglobal('current_user', $user);
 
 		if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
-			$log->warn('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			\App\Log::warning('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($this->get('moduleName') != 'Users' && !Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
-			$log->error('User ' . Vtiger_Functions::getOwnerRecordLabel($this->get('userid')) .
+			\App\Log::error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) .
 				' does not have permission for this record ' . $this->get('record'));
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($parseContent) {
@@ -107,7 +138,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			'time' => $this->get('time')
 		]);
 
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 		return true;
 	}
 

@@ -12,7 +12,6 @@
 chdir(dirname(__FILE__) . '/../../../..');
 
 include_once 'include/http/Response.php';
-include_once 'vtlib/Vtiger/Module.php';
 include_once 'include/utils/VtlibUtils.php';
 include_once 'include/recaptcha/recaptchalib.php';
 include_once 'modules/Webforms/config.captcha.php';
@@ -26,29 +25,29 @@ class Webform_CheckCaptcha
 	/**
 	 * Function to intialize captch keys
 	 */
-	function __construct()
+	public function __construct()
 	{
 		global $captchaConfig;
 		$this->PUBLIC_KEY = $captchaConfig['VTIGER_RECAPTCHA_PUBLIC_KEY'];
 		$this->PRIVATE_KEY = $captchaConfig['VTIGER_RECAPTCHA_PRIVATE_KEY'];
 	}
 
-	function checkCaptchaNow($request)
+	public function checkCaptchaNow($request)
 	{
-
+		$request = AppRequest::init();
 		// to store the response from reCAPTCHA
 		$resp = null;
 
-		if ($request["recaptcha_response_field"]) {
-			$resp = recaptcha_check_answer($this->PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $request["recaptcha_challenge_field"], $request["recaptcha_response_field"]);
+		if ($request->get('recaptcha_response_field')) {
+			$resp = recaptcha_check_answer($this->PRIVATE_KEY, $_SERVER['REMOTE_ADDR'], $request->get('recaptcha_challenge_field'), $request->get('recaptcha_response_field'));
 
 			if ($resp->is_valid) {
-				$this->sendResponse(true, $request['callId']);
+				$this->sendResponse(true, $request->get('callId'));
 			} else {
-				$this->sendResponse(false, $request['callId']);
+				$this->sendResponse(false, $request->get('callId'));
 			}
 		} else {
-			$this->sendResponse(false, $request['callId']);
+			$this->sendResponse(false, $request->get('callId'));
 		}
 	}
 
@@ -61,8 +60,8 @@ class Webform_CheckCaptcha
 			$response->setResult(array('success' => false, 'callId' => $callId));
 
 		// Support JSONP
-		if (!empty($_REQUEST['callback'])) {
-			$callback = vtlib_purify($_REQUEST['callback']);
+		if (!AppRequest::isEmpty('callback')) {
+			$callback = AppRequest::get('callback');
 			$response->setEmitType('4');
 			$response->setEmitJSONP($callback);
 			$response->emit();
@@ -73,6 +72,4 @@ class Webform_CheckCaptcha
 }
 
 $webformCheckCaptcha = new Webform_CheckCaptcha;
-$webformCheckCaptcha->checkCaptchaNow(vtlib_purify($_REQUEST));
-
-?>
+$webformCheckCaptcha->checkCaptchaNow();

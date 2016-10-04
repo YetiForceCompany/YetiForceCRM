@@ -14,7 +14,7 @@ class API_Base_GetModulesList extends BaseAction
 	public function get()
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND presence = ?';
+		$query = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? && presence = ?';
 		$result = $db->pquery($query, [1, 0]);
 		$modules = [];
 		while ($row = $db->fetch_array($result)) {

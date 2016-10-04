@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_AUTOLOGIN' => 'Mail – Auto Login',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Configuration of auto login for the Mailbox module',
@@ -26,7 +26,6 @@ $languageStrings = [
 	'LBL_ADD_SIGNATURE' => 'Activate a global footer for all outgoing emails',
 	'LBL_SIGNATURE' => 'Global signature',
 	'LBL_SAVED_SIGNATURE' => 'Signature saved',
-	
 	'LBL_VIEW_AUTOLOGIN' => 'Auto Login',
 	'LBL_VIEW_CONFIG' => 'General configuration',
 ];

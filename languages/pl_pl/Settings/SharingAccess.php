@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Sharing Rules' => 'Współdzielone zasady dostępu',
 	'SharingAccess' => 'Współdzielone zasady dostępu',
@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_READ' => 'Odczyt',
 	'LBL_READ_WRITE' => 'Odczyt i zapis',
 	'LBL_RULE_NO' => 'Numer roli',
-	'LBL_SHARING_RULE' =>  'Współdzielone zasady dostępu',
+	'LBL_SHARING_RULE' => 'Współdzielone zasady dostępu',
 	'LBL_WITH_PERMISSIONS' => 'Z uprawnieniami',
 	'Read Only' => 'Tylko odczyt',
 	'Read Write' => 'Odczyt/Zapis',

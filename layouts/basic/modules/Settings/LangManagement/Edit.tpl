@@ -84,7 +84,7 @@
 							</td>
 						{/foreach}
 						<td>
-							<a href="#" class="pull-right marginRight10px delete_translation">
+							<a href="#" class="pull-right marginRight10px delete_translation" title="{vtranslate('LBL_DELETE')}">
 								<i class="glyphicon glyphicon-trash alignMiddle"></i>
 							</a>
 						</td>

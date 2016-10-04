@@ -31,7 +31,7 @@ class VAvailability extends VObject\Component {
      *
      * @return bool
      */
-    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
+    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         list($effectiveStart, $effectiveEnd) = $this->getEffectiveStartEnd();
         return (
@@ -53,7 +53,7 @@ class VAvailability extends VObject\Component {
      *
      * @return array
      */
-    function getEffectiveStartEnd() {
+    public function getEffectiveStartEnd() {
 
         $effectiveStart = null;
         $effectiveEnd = null;
@@ -87,7 +87,7 @@ class VAvailability extends VObject\Component {
      *
      * @var array
      */
-    function getValidationRules() {
+    public function getValidationRules() {
 
         return [
             'UID'     => 1,
@@ -138,7 +138,7 @@ class VAvailability extends VObject\Component {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $result = parent::validate($options);
 

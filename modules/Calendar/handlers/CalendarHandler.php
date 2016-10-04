@@ -10,7 +10,7 @@ class CalendarHandler extends VTEventHandler
 			$entityData = $entityData['entityData'];
 		}
 		$moduleName = $entityData->getModuleName();
-		if (!Vtiger_Cron::isCronAction() && in_array($handlerType, ['vtiger.entity.unlink.after', 'vtiger.entity.afterrestore', 'vtiger.entity.aftersave.final']) && in_array($moduleName, ['Calendar', 'Events', 'Activity'])) {
+		if (!vtlib\Cron::isCronAction() && in_array($handlerType, ['vtiger.entity.unlink.after', 'vtiger.entity.afterrestore', 'vtiger.entity.aftersave.final']) && in_array($moduleName, ['Calendar', 'Events', 'Activity'])) {
 			$recordId = $entityData->getId();
 			$delta = [];
 			if ($handlerType != 'vtiger.entity.afterrestore') {
@@ -18,7 +18,7 @@ class CalendarHandler extends VTEventHandler
 				$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
 			}
 			Calendar_Record_Model::setCrmActivity(self::getRefernceIds($entityData->getData(), $delta));
-		} elseif (!Vtiger_Cron::isCronAction() && $handlerType == 'vtiger.entity.beforesave' && in_array($moduleName, ['Calendar', 'Events', 'Activity'])) {
+		} elseif (!vtlib\Cron::isCronAction() && $handlerType == 'vtiger.entity.beforesave' && in_array($moduleName, ['Calendar', 'Events', 'Activity'])) {
 			$data = $entityData->getData();
 			$state = Calendar_Module_Model::getCalendarState($data);
 			if ($state) {

@@ -32,7 +32,7 @@ abstract class AbstractBackend implements BackendInterface {
      * @param string $principalPrefix
      * @return string
      */
-    function findByUri($uri, $principalPrefix) {
+    public function findByUri($uri, $principalPrefix) {
 
         // Note that the default implementation here is a bit slow and could
         // likely be optimized.

@@ -33,7 +33,7 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		$structuredValues = $recordStrucure->getStructure();
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
-		$blockInstance = Vtiger_Block::getInstance($blockId, $moduleModel);
+		$blockInstance = vtlib\Block::getInstance($blockId, $moduleModel);
 		$blockLabel = $blockInstance->label;
 		$blockModelList = $moduleModel->getBlocks();
 		$blockModel = $blockModelList[$blockLabel];
@@ -81,7 +81,7 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -96,9 +96,9 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	function transformToAdvancedFilterCondition($conditions)
+	public function transformToAdvancedFilterCondition($conditions)
 	{
-		$conditions = Zend_Json::decode($conditions);
+		$conditions = \includes\utils\Json::decode($conditions);
 		$transformedConditions = array();
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {

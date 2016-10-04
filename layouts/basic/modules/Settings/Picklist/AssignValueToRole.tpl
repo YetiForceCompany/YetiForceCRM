@@ -24,7 +24,7 @@
 				<input type="hidden" name="action" value="SaveAjax" />
 				<input type="hidden" name="mode" value="assignValueToRole" />
 				<input type="hidden" name="picklistName" value="{$SELECTED_PICKLIST_FIELDMODEL->get('name')}" />
-				<input type="hidden" name="pickListValues" value='{ZEND_JSON::encode($SELECTED_PICKLISTFIELD_ALL_VALUES)}' />
+				<input type="hidden" name="pickListValues" value='{\includes\utils\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES)}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
 						<div class="col-md-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>

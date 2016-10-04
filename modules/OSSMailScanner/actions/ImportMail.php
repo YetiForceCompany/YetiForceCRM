@@ -16,11 +16,11 @@ class OSSMailScanner_ImportMail_Action extends Vtiger_Action_Controller
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new NoPermittedForAdminException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');

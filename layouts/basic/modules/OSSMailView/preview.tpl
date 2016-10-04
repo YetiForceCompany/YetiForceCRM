@@ -11,7 +11,7 @@
 				<div class="SendEmailFormStep2 container-fluid" id="emailPreview" name="emailPreview">
 					<div class="">
 						<div class="blockHeader emailPreviewHeader">
-							<h3 class='col-md-4 pushDown'>{vtranslate('emailPreviewHeader',$MODULE)}</h3>
+							<h3 class='col-md-4 pushDown'>{vtranslate('emailPreviewHeader',$MODULENAME)}</h3>
 							<div class='pull-right'>
 								<div class="btn-toolbar" >
 									{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
@@ -21,7 +21,7 @@
 											{assign var=POPUP value=$CONFIG['popup']}
 											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
 												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
-												&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
+												&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLY','OSSMailView')}</strong>
 											</button>
 											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=replyAll" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
 												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
@@ -34,7 +34,7 @@
 										{else}
 											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'reply')}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
 												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
-												&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
+												&nbsp;&nbsp;<strong>{vtranslate('LBL_REPLY','OSSMailView')}</strong>
 											</a>
 											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'replyAll')}" title="{vtranslate('LBL_REPLYALLL', 'OSSMailView')}">
 												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
@@ -46,17 +46,17 @@
 											</a>
 										{/if}
 									{/if}
-									{if Users_Privileges_Model::isPermitted($MODULE, 'PrintMail')}
+									{if Users_Privileges_Model::isPermitted($MODULENAME, 'PrintMail')}
 										<span class="btn-group">
 											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-default" data-mode="previewPrint">
 												<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;
-												<strong>{vtranslate('LBL_PRINT',$MODULE)}</strong>
+												<strong>{vtranslate('LBL_PRINT',$MODULENAME)}</strong>
 											</button>
 										</span>
 									{/if}
 									{if $ISMODAL}
 										<span class="btn-group">
-											<button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+											<button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</span>
@@ -125,14 +125,14 @@
 									<span class="col-md-9">
 										<span id="emailPreview_attachment" class="">
 											{foreach item=ATTACHMENT from=$ATTACHMENTS}
-												<a &nbsp;
-													{if array_key_exists('docid',$ATTACHMENT)}
-														&nbsp; href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['docid']}
-														&fileid={$ATTACHMENT['id']}"
-													{else}
-														&nbsp; href="index.php?module=Emails&action=DownloadFile&attachment_id={$ATTACHMENT['id']}"
-													{/if}
-													>{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
+												<a class="btn btn-xs btn-primary" title="{$ATTACHMENT['name']}"
+												   {if array_key_exists('docid',$ATTACHMENT)}
+													   href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['docid']}
+													   &fileid={$ATTACHMENT['id']}"
+												   {else}
+													   href="index.php?module=Emails&action=DownloadFile&attachment_id={$ATTACHMENT['id']}"
+												   {/if}
+												   ><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
 											{/foreach}
 										</span>
 									</span>
@@ -155,7 +155,7 @@
 								</span>
 							</div>
 							<div class="textAlignCenter">
-								<span><strong> {vtranslate('LBL_OWNER','Emails')} : {getOwnerName($OWNER)}</strong></span>
+								<span><strong> {vtranslate('LBL_OWNER','Emails')} : {\includes\fields\Owner::getLabel($OWNER)}</strong></span>
 							</div>
 						</form>
 					</div>

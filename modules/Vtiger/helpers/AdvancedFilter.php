@@ -133,6 +133,28 @@ class Vtiger_AdvancedFilter_Helper
 		return $transformedConditions;
 	}
 
+	public static function transformToSave($conditions = false)
+	{
+		$wfCondition = [];
+		if (!empty($conditions)) {
+			foreach ($conditions as $index => $condition) {
+				$columns = $condition['columns'];
+				if ($index == '1' && empty($columns)) {
+					$wfCondition[] = array('fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
+						'joincondition' => '', 'groupid' => '0');
+				}
+				if (!empty($columns) && is_array($columns)) {
+					foreach ($columns as $column) {
+						$wfCondition[] = array('fieldname' => $column['columnname'], 'operation' => $column['comparator'],
+							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']);
+					}
+				}
+			}
+		}
+		return $wfCondition;
+	}
+
 	public static function getDateFilter($moduleName)
 	{
 		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();

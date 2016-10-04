@@ -21,7 +21,6 @@
  * ****************************************************************************** */
 
 require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php'); //new
 require_once('include/utils/CommonUtils.php'); //new
 require_once 'modules/PickList/DependentPickListUtils.php';
 
@@ -33,8 +32,8 @@ require_once 'modules/PickList/DependentPickListUtils.php';
  */
 function getAssociatedProducts($module, $focus, $seid = '')
 {
-	$log = vglobal('log');
-	$log->debug("Entering getAssociatedProducts(" . $module . "," . get_class($focus) . "," . $seid . "='') method ...");
+	
+	\App\Log::trace("Entering getAssociatedProducts(" . $module . "," . get_class($focus) . "," . $seid . "='') method ...");
 	$adb = PearDatabase::getInstance();
 	$output = '';
 	global $theme;
@@ -61,7 +60,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
  		                        INNER JOIN vtiger_crmentity
  		                                ON vtiger_crmentity.crmid=vtiger_products.productid
  		                        WHERE vtiger_crmentity.deleted=0
- 		                                AND productid=?";
+ 		                                && productid=?";
 		$params = array($seid);
 	} elseif ($module == 'Services') {
 		$query = "SELECT
@@ -77,7 +76,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
  		                        INNER JOIN vtiger_crmentity
  		                                ON vtiger_crmentity.crmid=vtiger_service.serviceid
  		                        WHERE vtiger_crmentity.deleted=0
- 		                                AND serviceid=?";
+ 		                                && serviceid=?";
 		$params = array($seid);
 	}
 
@@ -111,7 +110,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		if (!empty($entitytype)) {
 			$product_Detail[$i]['entityType' . $i] = $entitytype;
 		}
-		
+
 		if ($listprice == '')
 			$listprice = $unitprice;
 		if ($qty == '')
@@ -125,17 +124,18 @@ function getAssociatedProducts($module, $focus, $seid = '')
 			$product_Detail[$i]['delRow' . $i] = "Del";
 		}
 		if (empty($focus->mode) && $seid != '') {
-			$sub_prod_query = $adb->pquery("SELECT crmid as prod_id from vtiger_seproductsrel WHERE productid=? AND setype='Products'", array($seid));
+			$sub_prod_query = $adb->pquery("SELECT crmid as prod_id from vtiger_seproductsrel WHERE productid=? && setype='Products'", array($seid));
 		} else {
-			$sub_prod_query = $adb->pquery("SELECT productid as prod_id from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($focus->id, $i));
+			$sub_prod_query = $adb->pquery("SELECT productid as prod_id from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($focus->id, $i));
 		}
 		$subprodid_str = '';
 		$subprodname_str = '';
 		$subProductArray = [];
 		if ($adb->num_rows($sub_prod_query) > 0) {
-			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
+			$countSubProdQuery = $adb->num_rows($sub_prod_query);
+			for ($j = 0; $j < $countSubProdQuery; $j++) {
 				$sprod_id = $adb->query_result($sub_prod_query, $j, 'prod_id');
-				$sprod_name = $subProductArray[] = getProductName($sprod_id);
+				$sprod_name = $subProductArray[] = \vtlib\Functions::getCRMRecordLabel($sprod_id);
 				$str_sep = "";
 				if ($j > 0)
 					$str_sep = ":";
@@ -150,12 +150,10 @@ function getAssociatedProducts($module, $focus, $seid = '')
 
 		$product_Detail[$i]['subProductArray' . $i] = $subProductArray;
 		$product_Detail[$i]['hdnProductId' . $i] = $hdnProductId;
-		$product_Detail[$i]['productName' . $i] = from_html($productname);
+		$product_Detail[$i]['productName' . $i] = \vtlib\Functions::fromHTML($productname);
 		/* Added to fix the issue Product Pop-up name display */
-		if ($_REQUEST['action'] == 'CreateSOPDF' || $_REQUEST['action'] == 'CreatePDF' || $_REQUEST['action'] == 'SendPDFMail')
-			$product_Detail[$i]['productName' . $i] = htmlspecialchars($product_Detail[$i]['productName' . $i]);
 		$product_Detail[$i]['hdnProductcode' . $i] = $hdnProductcode;
-		$product_Detail[$i]['productDescription' . $i] = from_html($productdescription);
+		$product_Detail[$i]['productDescription' . $i] = \vtlib\Functions::fromHTML($productdescription);
 		if ($module == 'Products' || $module == 'Services') {
 			$product_Detail[$i]['comment' . $i] = $productdescription;
 		} else {
@@ -163,10 +161,10 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		}
 
 		if ($focus->object_name != 'Order') {
-			$product_Detail[$i]['qtyInStock' . $i] = decimalFormat($qtyinstock);
+			$product_Detail[$i]['qtyInStock' . $i] = \vtlib\Functions::formatDecimal($qtyinstock);
 		}
 		$listprice = number_format($listprice, $no_of_decimal_places, '.', '');
-		$product_Detail[$i]['qty' . $i] = decimalFormat($qty);
+		$product_Detail[$i]['qty' . $i] = \vtlib\Functions::formatDecimal($qty);
 		$product_Detail[$i]['listPrice' . $i] = $listprice;
 		$product_Detail[$i]['unitPrice' . $i] = number_format($unitprice, $no_of_decimal_places, '.', '');
 		$product_Detail[$i]['usageUnit' . $i] = $usageunit;
@@ -177,9 +175,9 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		$product_Detail[$i]['margin' . $i] = number_format($margin, $no_of_decimal_places, '.', '');
 		$product_Detail[$i]['marginp' . $i] = number_format($marginp, $no_of_decimal_places, '.', '');
 		$product_Detail[$i]['tax' . $i] = $tax;
-		$discount_percent = decimalFormat($adb->query_result($result, $i - 1, 'discount_percent'));
+		$discount_percent = \vtlib\Functions::formatDecimal($adb->query_result($result, $i - 1, 'discount_percent'));
 		$discount_amount = $adb->query_result($result, $i - 1, 'discount_amount');
-		$discount_amount = decimalFormat(number_format($discount_amount, $no_of_decimal_places, '.', ''));
+		$discount_amount = \vtlib\Functions::formatDecimal(number_format($discount_amount, $no_of_decimal_places, '.', ''));
 		$discountTotal = '0';
 		//Based on the discount percent or amount we will show the discount details
 		//To avoid NaN javascript error, here we assign 0 initially to' %of price' and 'Direct Price reduction'(for Each Product)
@@ -215,7 +213,8 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		//First we should get all available taxes and then retrieve the corresponding tax values
 		$allTaxes = getAllTaxes('available', '', 'edit', $focus->id);
 		$taxtype = getInventoryTaxType($module, $focus->id);
-		for ($tax_count = 0; $tax_count < count($tax_details); $tax_count++) {
+		$countTaxDetails = count($tax_details);
+		for ($tax_count = 0; $tax_count < $countTaxDetails; $tax_count++) {
 			$tax_name = $tax_details[$tax_count]['taxname'];
 			$tax_label = $tax_details[$tax_count]['taxlabel'];
 			$tax_value = '0';
@@ -306,8 +305,9 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	//To set the Final Tax values
 	//we will get all taxes. if individual then show the product related taxes only else show all taxes
 	//suppose user want to change individual to group or vice versa in edit time the we have to show all taxes. so that here we will store all the taxes and based on need we will show the corresponding taxes
-
-	for ($tax_count = 0; $tax_count < count($allTaxes); $tax_count++) {
+	
+	$countAllTaxes = count($allTaxes);
+	for ($tax_count = 0; $tax_count < $countAllTaxes; $tax_count++) {
 		$tax_name = $allTaxes[$tax_count]['taxname'];
 		$tax_label = $allTaxes[$tax_count]['taxlabel'];
 
@@ -316,7 +316,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		if ($taxtype == 'group')
 			$tax_percent = $adb->query_result($result, 0, $tax_name);
 		else
-			$tax_percent = $allTaxes[$tax_count]['percentage']; //$adb->query_result($result,0,$tax_name);
+			$tax_percent = $allTaxes[$tax_count]['percentage'];
 
 		if ($tax_percent == '' || $tax_percent == 'NULL')
 			$tax_percent = '0';
@@ -334,7 +334,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 	$grandTotal = number_format($grandTotal, $no_of_decimal_places, '.', '');
 	$product_Detail[1]['final_details']['grandTotal'] = $grandTotal;
 
-	$log->debug("Exiting getAssociatedProducts method ...");
+	\App\Log::trace("Exiting getAssociatedProducts method ...");
 	return $product_Detail;
 }
 
@@ -344,8 +344,8 @@ function getAssociatedProducts($module, $focus, $seid = '')
  */
 function split_validationdataArray($validationData)
 {
-	$log = vglobal('log');
-	$log->debug("Entering split_validationdataArray(" . $validationData . ") method ...");
+	
+	\App\Log::trace("Entering split_validationdataArray(" . $validationData . ") method ...");
 	$fieldName = '';
 	$fieldLabel = '';
 	$fldDataType = '';
@@ -372,8 +372,6 @@ function split_validationdataArray($validationData)
 	$data['fieldname'] = $fieldName;
 	$data['fieldlabel'] = $fieldLabel;
 	$data['datatype'] = $fldDataType;
-	$log->debug("Exiting split_validationdataArray method ...");
+	\App\Log::trace("Exiting split_validationdataArray method ...");
 	return $data;
 }
-
-?>

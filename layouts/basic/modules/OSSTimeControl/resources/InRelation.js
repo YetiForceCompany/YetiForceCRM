@@ -47,7 +47,6 @@ jQuery(document).ready(function ($) {
 						stack: true
 					}
 				};
-				console.log('plot');
 				$.plot(this.chart, [chartData], options);
 			},
 			registerSwitch: function () {

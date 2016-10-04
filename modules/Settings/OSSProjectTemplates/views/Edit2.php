@@ -12,7 +12,7 @@
 Class Settings_OSSProjectTemplates_Edit2_View extends Settings_OSSProjectTemplates_Base_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}

@@ -15,7 +15,7 @@ class VtigerCRMActorMeta extends EntityMeta
 	protected static $fieldTypeMapping = [];
 	protected static $referenceTypeMapping = [];
 
-	function VtigerCRMActorMeta($tableName, $webserviceObject, $adb, $user)
+	public function __construct($tableName, $webserviceObject, $adb, $user)
 	{
 		parent::__construct($webserviceObject, $user);
 		$this->baseTable = $tableName;
@@ -216,7 +216,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	public function hasPermission($operation, $webserviceId)
 	{
-		if (is_admin($this->user)) {
+		if (\vtlib\Functions::userIsAdministrator($this->user)) {
 			return true;
 		} else {
 			if (strcmp($operation, EntityMeta::$RETRIEVE) === 0) {
@@ -228,7 +228,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	public function hasAssignPrivilege($ownerWebserviceId)
 	{
-		if (is_admin($this->user)) {
+		if (\vtlib\Functions::userIsAdministrator($this->user)) {
 			return true;
 		} else {
 			$idComponents = vtws_getIdComponents($webserviceId);
@@ -242,7 +242,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	public function hasDeleteAccess()
 	{
-		if (is_admin($this->user)) {
+		if (\vtlib\Functions::userIsAdministrator($this->user)) {
 			return true;
 		} else {
 			return false;
@@ -261,7 +261,7 @@ class VtigerCRMActorMeta extends EntityMeta
 
 	public function hasWriteAccess()
 	{
-		if (is_admin($this->user)) {
+		if (\vtlib\Functions::userIsAdministrator($this->user)) {
 			return true;
 		} else {
 			return false;
@@ -278,7 +278,7 @@ class VtigerCRMActorMeta extends EntityMeta
 		return $this->webserviceObject->getEntityId();
 	}
 
-	function getObjectEntityName($webserviceId)
+	public function getObjectEntityName($webserviceId)
 	{
 
 		$idComponents = vtws_getIdComponents($webserviceId);
@@ -290,10 +290,10 @@ class VtigerCRMActorMeta extends EntityMeta
 		return null;
 	}
 
-	function exists($recordId)
+	public function exists($recordId)
 	{
 		$exists = false;
-		$sql = 'select 1 from ' . $this->baseTable . ' where ' . $this->getObectIndexColumn() . '=?';
+		$sql = sprintf('SELECT 1 FROM %s WHERE %s = ?', $this->baseTable, $this->getObectIndexColumn());
 		$result = $this->pearDB->pquery($sql, array($recordId));
 		if ($result != null && isset($result)) {
 			if ($this->pearDB->num_rows($result) > 0) {

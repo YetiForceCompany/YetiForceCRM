@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 include_once 'modules/Webforms/config.captcha.php';
 
@@ -15,13 +16,10 @@ Class Settings_Webforms_ShowForm_View extends Settings_Vtiger_IndexAjax_View
 	public function checkPermission(Vtiger_Request $request)
 	{
 		parent::checkPermission($request);
-
 		$recordId = $request->get('record');
-		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
-
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$recordId || !$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
-			throw new AppException('LBL_PERMISSION_DENIED');
+		if (!$recordId || !$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

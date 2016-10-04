@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 Vtiger_Popup_Js("KnowledgeBase_Popup_Js", {}, {
 	showPresentationContent : function(recordId) {
-		var url = 'index.php?module=KnowledgeBase&view=Popup&record=' + recordId;
+		var url = 'index.php?module=KnowledgeBase&view=FullScreen&record=' + recordId;
 		var screenWidth = screen.width;
 		var screenHeight = screen.height;
 		var popupWinRef =  window.open(url, '' ,'width=' + screenWidth + ',height=' + screenHeight);

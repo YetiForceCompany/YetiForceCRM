@@ -118,9 +118,7 @@ function PaymentsOut() {
 							return false;
 					}else {
 						var type = file.split('.');
-					//	console.log(type);
 						var id = type.length;
-					//	console.log(id);
 						if(type[id-1]!='txt'){
 							var msg = '{/literal}{vtranslate("LBL_ERROR_TYPE", 'PaymentsOut')}{literal}';
 								Vtiger_Helper_Js.showPnotify(msg);

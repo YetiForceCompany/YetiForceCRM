@@ -9,12 +9,16 @@
 class IGDN_Record_Model extends Vtiger_Record_Model
 {
 
-	/**
-	 * Function to get EditStatus view url for the record
-	 * @return <String> - Record Detail View Url
-	 */
-	public function getEditStatusUrl()
+	protected $privileges = ['editFieldByModal' => true];
+
+	public function getFieldToEditByModal()
 	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=EditStatus&record=' . $this->getId();
+		return [
+			'addClass' => 'btn-default',
+			'iconClass' => 'glyphicon-modal-window',
+			'listViewClass' => '',
+			'titleTag' => 'LBL_SET_RECORD_STATUS',
+			'name' => 'igdn_status',
+		];
 	}
 }

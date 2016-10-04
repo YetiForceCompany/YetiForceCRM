@@ -12,7 +12,7 @@
 class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$module = $request->getModule();
 		$records = $request->get('records');
@@ -20,13 +20,13 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 			foreach ($records as $record) {
 				$recordPermission = Users_Privileges_Model::isPermitted($module, 'EditView', $record);
 				if (!$recordPermission) {
-					throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+					throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 				}
 			}
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

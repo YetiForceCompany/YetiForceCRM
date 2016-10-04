@@ -9,49 +9,52 @@
  * *********************************************************************************** */
 vimport('~modules/Reports/Reports.php');
 
-class Vtiger_Report_Model extends Reports {
+class Vtiger_Report_Model extends Reports
+{
 
-	static function getInstance($reportId = "") {
+	static function getInstance($reportId = "")
+	{
 		$self = new self();
 		return $self->Reports($reportId);
 	}
 
-	function Reports($reportId = "") {
+	public function Reports($reportId = "")
+	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
 
 		$this->initListOfModules();
 
-		if($reportId != "") {
+		if ($reportId != "") {
 			// Lookup information in cache first
 			$cachedInfo = VTCacheUtils::lookupReport_Info($userId, $reportId);
 			$subOrdinateUsers = VTCacheUtils::lookupReport_SubordinateUsers($reportId);
 
-			if($cachedInfo === false) {
+			if ($cachedInfo === false) {
 				$ssql = "SELECT vtiger_reportmodules.*, vtiger_report.* FROM vtiger_report
 							INNER JOIN vtiger_reportmodules ON vtiger_report.reportid = vtiger_reportmodules.reportmodulesid
 							WHERE vtiger_report.reportid = ?";
 				$params = array($reportId);
 
 				require_once('include/utils/GetUserGroups.php');
-				require('user_privileges/user_privileges_'.$userId.'.php');
+				require('user_privileges/user_privileges_' . $userId . '.php');
 
 				$userGroups = new GetUserGroups();
 				$userGroups->getAllUserGroups($userId);
 				$userGroupsList = $userGroups->user_groups;
 
-				if(!empty($userGroupsList) && $currentUser->isAdminUser() == false) {
-					$userGroupsQuery = " (shareid IN (".generateQuestionMarks($userGroupsList).") AND setype='groups') OR";
+				if (!empty($userGroupsList) && $currentUser->isAdminUser() === false) {
+					$userGroupsQuery = " (shareid IN (" . generateQuestionMarks($userGroupsList) . ") && setype='groups') OR";
 					array_push($params, $userGroupsList);
 				}
 
 				$nonAdminQuery = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing
-									WHERE $userGroupsQuery (shareid=? AND setype='users'))";
-				if($currentUser->isAdminUser() == false) {
-					$ssql .= " AND (($nonAdminQuery)
+									WHERE $userGroupsQuery (shareid=? && setype='users'))";
+				if ($currentUser->isAdminUser() === false) {
+					$ssql .= " && (($nonAdminQuery)
 								OR vtiger_report.sharingtype = 'Public'
-								OR vtiger_report.owner = ? OR vtiger_report.owner IN
+								OR vtiger_report.owner = ? || vtiger_report.owner IN
 									(SELECT vtiger_user2role.userid FROM vtiger_user2role
 									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
 									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
@@ -62,15 +65,12 @@ class Vtiger_Report_Model extends Reports {
 
 				$result = $db->pquery($ssql, $params);
 
-				if($result && $db->num_rows($result)) {
+				if ($result && $db->num_rows($result)) {
 					$reportModulesRow = $db->fetch_array($result);
 
 					// Update information in cache now
 					VTCacheUtils::updateReport_Info(
-							$userId, $reportId, $reportModulesRow["primarymodule"],
-							$reportModulesRow["secondarymodules"], $reportModulesRow["reporttype"],
-							$reportModulesRow["reportname"], $reportModulesRow["description"],
-							$reportModulesRow["folderid"], $reportModulesRow["owner"]
+						$userId, $reportId, $reportModulesRow["primarymodule"], $reportModulesRow["secondarymodules"], $reportModulesRow["reporttype"], $reportModulesRow["reportname"], $reportModulesRow["description"], $reportModulesRow["folderid"], $reportModulesRow["owner"]
 					);
 				}
 
@@ -83,8 +83,8 @@ class Vtiger_Report_Model extends Reports {
 
 				$numOfSubRows = $db->num_rows($subResult);
 
-				for($i=0; $i<$numOfSubRows; $i++) {
-					$subOrdinateUsers[] = $db->query_result($subResult, $i,'userid');
+				for ($i = 0; $i < $numOfSubRows; $i++) {
+					$subOrdinateUsers[] = $db->query_result($subResult, $i, 'userid');
 				}
 
 				// Update subordinate user information for re-use
@@ -94,16 +94,16 @@ class Vtiger_Report_Model extends Reports {
 				$cachedInfo = VTCacheUtils::lookupReport_Info($userId, $reportId);
 			}
 
-			if($cachedInfo) {
+			if ($cachedInfo) {
 				$this->primodule = $cachedInfo["primarymodule"];
 				$this->secmodule = $cachedInfo["secondarymodules"];
 				$this->reporttype = $cachedInfo["reporttype"];
 				$this->reportname = decode_html($cachedInfo["reportname"]);
 				$this->reportdescription = decode_html($cachedInfo["description"]);
 				$this->folderid = $cachedInfo["folderid"];
-				if($currentUser->isAdminUser() == true || in_array($cachedInfo["owner"], $subOrdinateUsers) || $cachedInfo["owner"]==$userId) {
+				if ($currentUser->isAdminUser() === true || in_array($cachedInfo["owner"], $subOrdinateUsers) || $cachedInfo["owner"] == $userId) {
 					$this->is_editable = true;
-				}else{
+				} else {
 					$this->is_editable = false;
 				}
 			}
@@ -111,17 +111,19 @@ class Vtiger_Report_Model extends Reports {
 		return $this;
 	}
 
-	function isEditable() {
+	public function isEditable()
+	{
 		return $this->is_editable;
 	}
-    
-    function getModulesList() {
-        foreach($this->module_list as $key=>$value) {
-            if(isPermitted($key,'index') == "yes") {
-                $modules [$key] = vtranslate($key, $key);
-            }
-        }
-        asort($modules);
-        return $modules;
-    }
+
+	public function getModulesList()
+	{
+		foreach ($this->module_list as $key => $value) {
+			if (isPermitted($key, 'index') == "yes") {
+				$modules [$key] = vtranslate($key, $key);
+			}
+		}
+		asort($modules);
+		return $modules;
+	}
 }

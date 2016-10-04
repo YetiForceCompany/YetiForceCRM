@@ -12,7 +12,7 @@
 Class Settings_OSSDocumentControl_Edit_View extends Settings_OSSDocumentControl_Base_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}

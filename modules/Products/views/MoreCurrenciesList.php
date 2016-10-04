@@ -22,11 +22,12 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 		}
 		$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $record);
 		if (!$recordPermission || ($lockEdit && $request->get('isDuplicate') != 'true')) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$currencyName = $request->get('currency');
@@ -65,5 +66,4 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 
 		$viewer->view('MoreCurrenciesList.tpl', 'Products');
 	}
-
 }

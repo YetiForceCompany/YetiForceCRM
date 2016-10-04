@@ -16,7 +16,7 @@ require_once("include/events/include.inc");
 function vtws_deleteUser($id, $newOwnerId, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -61,5 +61,3 @@ function vtws_deleteUser($id, $newOwnerId, $user)
 	VTWS_PreserveGlobal::flush();
 	return array("status" => "successful");
 }
-
-?>

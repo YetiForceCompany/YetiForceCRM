@@ -12,8 +12,8 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
@@ -71,10 +71,10 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('Import.tpl', $qualifiedModule);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

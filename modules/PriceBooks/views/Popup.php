@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,13 +7,16 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
-class PriceBooks_Popup_View extends Vtiger_Popup_View {
+ * ********************************************************************************** */
 
+class PriceBooks_Popup_View extends Vtiger_Popup_View
+{
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
-	*/
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
+	 */
+
+	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	{
 		$moduleName = $this->getModule($request);
 		$cvId = $request->get('cvid');
 		$pageNumber = $request->get('page');
@@ -32,18 +35,18 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 
 		//Check whether the request is in multi select mode
 		$multiSelectMode = $request->get('multi_select');
-		if(empty($multiSelectMode)) {
+		if (empty($multiSelectMode)) {
 			$multiSelectMode = false;
 		}
-		
+
 		if (empty($getUrl) && !empty($sourceField) && $sourceField == 'productid' && !$multiSelectMode) {
 			$getUrl = 'getProductUnitPriceURL';
 		}
 
-		if(empty($cvId)) {
+		if (empty($cvId)) {
 			$cvId = '0';
 		}
-		if(empty ($pageNumber)) {
+		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
 
@@ -51,35 +54,36 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 		$pagingModel->set('page', $pageNumber);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName,$sourceModule);
+		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
-		if(empty($orderBy) && empty($sortOrder)) {
+		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
-		if(!empty($orderBy)) {
+		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
 		}
 		if (!empty($filterFields)) {
 			$listViewModel->set('filterFields', $filterFields);
 		}
-		if(!empty($sourceModule)) {
+		if (!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
 			$listViewModel->set('src_record', $sourceRecord);
 		}
-		if((!empty($searchKey)) && (!empty($searchValue))) {
+		if ((!empty($searchKey)) && (!empty($searchValue))) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
 
-		if(!empty($currencyId)) {
-			$listViewModel->set('currency_id', $currencyId);
+		if (empty($currencyId)) {
+			$defaultCurrency = vtlib\Functions::getDefaultCurrencyInfo();
+			$currencyId = $defaultCurrency['id'];
 		}
-
-		if(!$this->listViewHeaders){
+		$listViewModel->set('currency_id', $currencyId);
+		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
 		//Added to support List Price
@@ -89,24 +93,24 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 		$field->set('label', 'List Price');
 
 		$this->listViewHeaders['listprice'] = $field;
-		
-		if(!$this->listViewEntries){
+
+		if (!$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		
+
 		foreach ($this->listViewEntries as $recordId => $recordModel) {
 			$recordModel->set('listprice', $recordModel->getProductsListPrice($sourceRecord));
 		}
-		
+
 		$noOfEntries = count($this->listViewEntries);
 
-		if(empty($sortOrder)) {
+		if (empty($sortOrder)) {
 			$sortOrder = "ASC";
 		}
-		if($sortOrder == "ASC") {
+		if ($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
 			$sortImage = "downArrowSmall.png";
-		}else {
+		} else {
 			$nextSortOrder = "ASC";
 			$sortImage = "upArrowSmall.png";
 		}
@@ -115,15 +119,15 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('SOURCE_FIELD', $sourceField);
 		$viewer->assign('SOURCE_RECORD', $sourceRecord);
-		$viewer->assign('MODULE_NAME',$moduleName);
+		$viewer->assign('MODULE_NAME', $moduleName);
 
 		$viewer->assign('SEARCH_KEY', $searchKey);
 		$viewer->assign('SEARCH_VALUE', $searchValue);
 
-		$viewer->assign('ORDER_BY',$orderBy);
-		$viewer->assign('SORT_ORDER',$sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER',$nextSortOrder);
-		$viewer->assign('SORT_IMAGE',$sortImage);
+		$viewer->assign('ORDER_BY', $orderBy);
+		$viewer->assign('SORT_ORDER', $sortOrder);
+		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
+		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('GETURL', $getUrl);
 		$viewer->assign('CURRENCY_ID', $currencyId);
 
@@ -131,21 +135,21 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('PAGE_NUMBER',$pageNumber);
+		$viewer->assign('PAGE_NUMBER', $pageNumber);
 
-		$viewer->assign('LISTVIEW_ENTRIES_COUNT',$noOfEntries);
+		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-		
+
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			if(!$this->listViewCount){
+			if (!$this->listViewCount) {
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}
 			$totalCount = $this->listViewCount;
 			$pageLimit = $pagingModel->getPageLimit();
 			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
 
-			if($pageCount == 0){
+			if ($pageCount == 0) {
 				$pageCount = 1;
 			}
 			$viewer->assign('PAGE_COUNT', $pageCount);

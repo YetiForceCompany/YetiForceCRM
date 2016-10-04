@@ -9,7 +9,7 @@
 class DigestAuth extends AbstractAuth
 {
 
-	function authenticate()
+	public function authenticate()
 	{
 		$userpass = $this->getCredentials();
 		if (!$userpass) {
@@ -26,7 +26,7 @@ class DigestAuth extends AbstractAuth
 		return true;
 	}
 
-	function getCredentials()
+	public function getCredentials()
 	{
 		$auth = $this->api->request->getHeader('Authorization');
 
@@ -39,15 +39,15 @@ class DigestAuth extends AbstractAuth
 		return explode(':', base64_decode(substr($auth, 6)), 2);
 	}
 
-	function requireLogin()
+	public function requireLogin()
 	{
 		$this->api->response->addHeader('WWW-Authenticate', 'Basic realm="' . $this->realm . '"');
 		$this->api->response->setStatus(401);
 	}
 
-	function getDigestHash($realm, $username)
+	public function getDigestHash($realm, $username)
 	{
-		$stmt = $this->pdo->prepare('SELECT digesta1 FROM ' . $this->tableName . ' WHERE username = ?');
+		$stmt = $this->pdo->prepare(sprintf('SELECT digesta1 FROM %s WHERE username = ?', $this->tableName));
 		$stmt->execute([$username]);
 		return $stmt->fetchColumn() ? : null;
 	}

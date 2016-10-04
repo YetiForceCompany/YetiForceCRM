@@ -12,7 +12,7 @@ $languageStrings = [
 	// Basic Strings
 	'ServiceContracts' => 'Umowy wsparcia SLA',
 	'Service Contracts' => 'Umowy wsparcia SLA',
-	'SINGLE_ServiceContracts' => 'Umowa',
+	'SINGLE_ServiceContracts' => 'Umowa SLA',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	// Blocks

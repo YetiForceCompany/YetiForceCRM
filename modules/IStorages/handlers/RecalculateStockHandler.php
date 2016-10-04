@@ -9,11 +9,11 @@
 class RecalculateStockHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $data)
+	public function handleEvent($eventName, $data)
 	{
 		$moduleName = $data->getModuleName();
-		$correctionModules = ['IGRNC' => 'igrnid','IGDNC' => 'igdnid'];
-		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN', 'IPreOrder', 'ISTDN', 'ISTRN', 'IGRNC','IGDNC'])) {
+		$correctionModules = ['IGRNC' => 'igrnid', 'IGDNC' => 'igdnid'];
+		if (in_array($moduleName, ['IGRN', 'IIDN', 'IGDN', 'IGIN', 'IPreOrder', 'ISTDN', 'ISTRN', 'IGRNC', 'IGDNC'])) {
 			$status = strtolower($moduleName) . '_status';
 			// Checks if the module is a correction module
 			if (isset($correctionModules[$moduleName])) {
@@ -39,7 +39,7 @@ class RecalculateStockHandler extends VTEventHandler
 		}
 	}
 
-	function getInventoryDataAndSend($data, $action)
+	public function getInventoryDataAndSend($data, $action)
 	{
 		$moduleName = $data->getModuleName();
 		if ($data->focus->inventoryData) {

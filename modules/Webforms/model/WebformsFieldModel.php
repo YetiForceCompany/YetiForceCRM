@@ -1,36 +1,42 @@
 <?php
-/*+********************************************************************************
+/* +********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ******************************************************************************* */
+ * ****************************************************************************** */
 require_once 'modules/Webforms/model/WebformsModel.php';
 require_once 'modules/Webforms/Webforms.php';
 
-class Webforms_Field_Model {
+class Webforms_Field_Model
+{
 
 	protected $data;
 
-	function __construct($data=array()) {
+	public function __construct($data = array())
+	{
 		$this->data = $data;
 	}
 
-	function setId($id) {
+	public function setId($id)
+	{
 		$this->data["id"] = $id;
 	}
 
-	function setWebformId($webformid) {
+	public function setWebformId($webformid)
+	{
 		$this->data["webformid"] = $webformid;
 	}
 
-	function setFieldName($fieldname) {
+	public function setFieldName($fieldname)
+	{
 		$this->data["fieldname"] = $fieldname;
 	}
 
-	function setNeutralizedField($fieldname, $fieldlabel=false) {
+	public function setNeutralizedField($fieldname, $fieldlabel = false)
+	{
 		$fieldlabel = str_replace(" ", "_", $fieldlabel);
 		if (Webforms_Model::isCustomField($fieldname)) {
 			$this->data["neutralizedfield"] = 'label:' . $fieldlabel;
@@ -39,52 +45,63 @@ class Webforms_Field_Model {
 		}
 	}
 
-	function setEnabled($enabled) {
+	public function setEnabled($enabled)
+	{
 		$this->data["enabled"] = $enabled;
 	}
 
-	function setDefaultValue($defaultvalue) {
+	public function setDefaultValue($defaultvalue)
+	{
 		if (is_array($defaultvalue)) {
 			$defaultvalue = implode(" |##| ", $defaultvalue);
 		}
 		$this->data["defaultvalue"] = $defaultvalue;
 	}
 
-	function setRequired($required) {
+	public function setRequired($required)
+	{
 		$this->data["required"] = $required;
 	}
 
-	function getId() {
+	public function getId()
+	{
 		return $this->data["id"];
 	}
 
-	function getWebformId() {
+	public function getWebformId()
+	{
 		return $this->data["webformid"];
 	}
 
-	function getFieldName() {
+	public function getFieldName()
+	{
 		return $this->data["fieldname"];
 	}
 
-	function getNeutralizedField() {
+	public function getNeutralizedField()
+	{
 		$neutralizedfield = str_replace(" ", "_", $this->data['neutralizedfield']);
 		return $neutralizedfield;
 	}
 
-	function getEnabled() {
+	public function getEnabled()
+	{
 		return $this->data["enabled"];
 	}
 
-	function getDefaultValue() {
-		$data=$this->data["defaultvalue"];
+	public function getDefaultValue()
+	{
+		$data = $this->data["defaultvalue"];
 		return $data;
 	}
 
-	function getRequired() {
+	public function getRequired()
+	{
 		return $this->data["required"];
 	}
 
-	static function retrieveNeutralizedField($webformid, $fieldname) {
+	static function retrieveNeutralizedField($webformid, $fieldname)
+	{
 		$adb = PearDatabase::getInstance();
 		$sql = "SELECT neutralizedfield FROM vtiger_webforms_field WHERE webformid=? and fieldname=?";
 		$result = $adb->pquery($sql, array($webformid, $fieldname));
@@ -94,7 +111,6 @@ class Webforms_Field_Model {
 		}
 		return $neutralizedfield;
 	}
-
 }
 
 ?>

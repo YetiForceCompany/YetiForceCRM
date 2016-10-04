@@ -37,21 +37,6 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'showLabel' => 1,
 			];
 		}
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'WatchingModule')) {
-			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
-			$class = 'btn-default';
-			if ($watchdog->isWatchingModule()) {
-				$class = 'btn-info';
-			}
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linkhint' => 'BTN_WATCHING_MODULE',
-				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
-				'linkclass' => $class,
-				'linkicon' => 'glyphicon glyphicon-eye-open',
-				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
-			];
-		}
 		return $basicLinks;
 	}
 	/*
@@ -90,7 +75,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	 * Function to get query to get List of records in the current page
 	 * @return <String> query
 	 */
-	function getQuery()
+	public function getQuery()
 	{
 		$queryGenerator = $this->get('query_generator');
 		// Added to remove emails from the calendar list
@@ -185,7 +170,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
-			$listQuery .= ' AND vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
+			$listQuery .= ' && vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
 		}
 		unset($searchResult);
 
@@ -198,7 +183,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				}
 			}
 		}
-		
+
 		$listQuery .= $listOrder;
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
@@ -255,7 +240,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
+			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
 		}
 		return $listViewRecordModels;
 	}
@@ -280,7 +265,6 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$this->get('query_generator')->setConditionField($orderByFieldName);
-				//$queryGenerator->whereFields[] = $orderByFieldName;
 
 				$referenceModules = $orderByFieldModel->getReferenceList();
 				$referenceNameFieldOrderBy = [];
@@ -294,21 +278,24 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 						$columnList[] = $fieldModel->get('table') . $orderByFieldModel->getName() . '.' . $fieldModel->get('column');
 					}
 					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users', '') . ' ' . $sortOrder;
+						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users', '') . ' ' . $sortOrder;
 					} else {
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$query = ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
+				$query = ' ORDER BY %s';
+				$query = sprintf($query, implode(',', $referenceNameFieldOrderBy));
 			} else if ($orderBy === 'smownerid') {
 				$this->get('query_generator')->setConditionField($orderByFieldName);
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 				if ($fieldModel->getFieldDataType() == 'owner') {
-					$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+					$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 				}
-				$query = ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
+				$query = ' ORDER BY %s %s';
+				$query = sprintf($query, $orderBy, $sortOrder);
 			} else {
-				$query = ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
+				$query = ' ORDER BY %s %s';
+				$query = sprintf($query, $orderBy, $sortOrder);
 			}
 		}
 		return $query;

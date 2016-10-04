@@ -17,7 +17,6 @@ Vtiger_List_Js("RecycleBin_List_Js", {
                     AppConnector.request(deleteURL).then(
                             function(data) {
                                 if (data) {
-                                    //fix for EmptyRecycle bin 
                                     jQuery(".clearRecycleBin").attr('disabled','disabled'); 
                                     instance.recycleBinActionPostOperations(data);
                                 }
@@ -207,8 +206,6 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 }, { 
     
     
-        //Fix for empty Recycle bin
-        //Change Button State ("Enable or Dissable") 
        ListViewPostOperation: function() {
              if(parseInt(jQuery('#deletedRecordsTotalCount').val()) == 0){ 
                 jQuery(".clearRecycleBin").attr('disabled','disabled'); 

@@ -12,13 +12,11 @@ $languageStrings = [
 	'FL_STORAGE' => 'Storage',
 	'FL_STATUS' => 'Status',
 	'FL_IGDN' => 'Goods Dispatched Note',
-	
 	'PLL_DRAFT' => 'Draft',
 	'PLL_IN_REALIZATION' => 'In realization',
 	'PLL_OBJECTIONS' => 'Objections',
 	'PLL_FOR_APPROVAL' => 'For approval',
 	'PLL_CANCELLED' => 'Cancelled',
 	'PLL_ACCEPTED' => 'Accepted',
-	
 	'LBL_CHANGE_STATUS' => 'Change Status',
 ];

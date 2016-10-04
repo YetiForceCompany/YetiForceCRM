@@ -60,20 +60,11 @@ class ModComments_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Delete coments associated with module
-	 * @param Vtiger_Module Instnace of module to use
+	 * @param vtlib\Module Instnace of module to use
 	 */
 	static function deleteForModule($moduleInstance)
 	{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_modcomments', 'related_to IN(SELECT crmid FROM vtiger_crmentity WHERE setype=?)', [$moduleInstance->name]);
-	}
-
-	static function getDefaultViewComments()
-	{
-		if (AppConfig::module('ModComments','DEFAULT_VIEW') == 'Timeline') {
-			return 'Timeline';
-		} else {
-			return 'List';
-		}
 	}
 }

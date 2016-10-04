@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,22 +7,22 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_TO_LC' => 'do',
 	'LBL_EXPORT_TO_PDF' => 'Eksportuj do PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Informacje adresowe',
 	'LBL_VENDORS_ADD_TASK' => 'Dodaj zadanie',
 	'LBL_VENDORS_ADD_EVENT' => 'Dodaj termin',
-	'300-Sales-Software'=>'300-Sprzedaż-Oprogramowanie',
-	'301-Sales-Hardware'=>'301-Sprzedaż-Sprzęt',
-	'302-Rental-Income'=>'302-Dzierżawa-Przychód',
-	'303-Interest-Income'=>'303-Odsetki-Przychód',
-	'304-Sales-Software-Support'=>'304-Sprzedaż-Oprogramowanie-Wsparcie',
-	'305-Sales Other'=>'305-Sprzedaż inna',
-	'306-Internet Sales'=>'306-Sprzedaż internetowa',
-	'307-Service-Hardware Labor'=>'307-Serwis-Sprzęt praca',
-	'308-Sales-Books'=>'308-Sprzedaż-Ksiązki',
+	'300-Sales-Software' => '300-Sprzedaż-Oprogramowanie',
+	'301-Sales-Hardware' => '301-Sprzedaż-Sprzęt',
+	'302-Rental-Income' => '302-Dzierżawa-Przychód',
+	'303-Interest-Income' => '303-Odsetki-Przychód',
+	'304-Sales-Software-Support' => '304-Sprzedaż-Oprogramowanie-Wsparcie',
+	'305-Sales Other' => '305-Sprzedaż inna',
+	'306-Internet Sales' => '306-Sprzedaż internetowa',
+	'307-Service-Hardware Labor' => '307-Serwis-Sprzęt praca',
+	'308-Sales-Books' => '308-Sprzedaż-Ksiązki',
 	'Email' => 'Mail podstawowy',
 	'GL Account' => 'Konto GL ',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',

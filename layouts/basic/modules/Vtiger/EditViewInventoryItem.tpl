@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	{if !empty($ITEM_DATA['name'])}
-		{assign var="REFERENCE_MODULE" value=Vtiger_Functions::getCRMRecordType($ITEM_DATA['name'])}
+		{assign var="REFERENCE_MODULE" value=vtlib\Functions::getCRMRecordType($ITEM_DATA['name'])}
 	{elseif $MAIN_PARAMS}
 		{assign var="REFERENCE_MODULE" value=reset($MAIN_PARAMS['modules'])}
 	{/if}

@@ -10,7 +10,6 @@
 
 require_once ('include/events/VTEntityData.inc');
 require_once ('include/QueryGenerator/QueryGenerator.php');
-require_once ('include/Zend/Json.php');
 require_once ('include/utils/utils.php');
 require_once ('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once ('modules/com_vtiger_workflow/VTWorkflowManager.inc');

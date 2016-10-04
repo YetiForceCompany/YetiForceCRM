@@ -26,7 +26,7 @@ class VFreeBusy extends VObject\Component {
      *
      * @return bool
      */
-    function isFree(DateTimeInterface $start, DatetimeInterface $end) {
+    public function isFree(DateTimeInterface $start, DatetimeInterface $end) {
 
         foreach ($this->select('FREEBUSY') as $freebusy) {
 
@@ -79,7 +79,7 @@ class VFreeBusy extends VObject\Component {
      *
      * @var array
      */
-    function getValidationRules() {
+    public function getValidationRules() {
 
         return [
             'UID'     => 1,

@@ -31,7 +31,7 @@ $languageStrings = [
 	'time' => 'Time',
 	'url' => 'Url',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Account',
-
+	'sharedOwner' => ' ',
 ];
 
 $jsLanguageStrings = [
@@ -58,5 +58,5 @@ $jsLanguageStrings = [
 	'JS_url' => 'Url',
 	'JS_WITH' => 'with',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Saved field mapping',
-
+	'JS_sharedOwner' => ' ',
 ];

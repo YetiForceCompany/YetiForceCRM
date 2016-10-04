@@ -1,11 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	{if empty($ALL_ACTIVEUSER_LIST)}
-		{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers('Public')}
+		{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers('Public')}
 	{/if}
-	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('Public',$MODULE_NAME)}
+	{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance($MODULE_NAME)->getAccessibleGroups('Public')}
 	<div class="panelItem">
-		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="moduleAllocationData" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}" />
+		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="moduleAllocationData" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATA))}" />
 		<div class="panel panel-default" data-index="{$INDEX}" data-moduleid="{$MODULE_ID}" data-modulename="{$MODULE_NAME}">
 			<div class="panel-heading">
 				<div class="row">
@@ -39,7 +39,7 @@
 								<table class="table table-bordered table-condensed dataTable" data-mode="active">
 									<thead>
 										<tr>
-											<th><strong>{vtranslate('LBL_USER',$QUALIFIED_MODULE)}</strong></th>
+											<th><strong>{vtranslate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
 										</tr>
 									</thead>
 									<tbody class="dropContainer">
@@ -59,7 +59,7 @@
 								<table class="table table-bordered table-condensed dataTable" data-mode="base">
 									<thead>
 										<tr>
-											<th><strong>{vtranslate('LBL_USER',$QUALIFIED_MODULE)}</strong></th>
+											<th><strong>{vtranslate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong></th>
 										</tr>
 									</thead>
 									<tbody class="dropContainer">
@@ -70,7 +70,7 @@
 										{/foreach}
 										{foreach from=$ALL_ACTIVEGROUP_LIST key=ID item=USER_NAME}
 											<tr class="dragDrop{$INDEX}" data-id="{$ID}" data-type="groups">
-												<td>{$USER_NAME}</td>
+												<td>{vtranslate($USER_NAME,$QUALIFIED_MODULE)}</td>
 											</tr>
 										{/foreach}
 									</tbody>

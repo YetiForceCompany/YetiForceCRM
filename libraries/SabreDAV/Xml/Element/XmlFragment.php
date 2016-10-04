@@ -24,13 +24,13 @@ class XmlFragment implements Element {
 
     protected $xml;
 
-    function __construct($xml) {
+    public function __construct($xml) {
 
         $this->xml = $xml;
 
     }
 
-    function getXml() {
+    public function getXml() {
 
         return $this->xml;
 
@@ -55,7 +55,7 @@ class XmlFragment implements Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         $reader = new Reader();
 

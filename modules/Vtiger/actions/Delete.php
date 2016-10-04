@@ -11,14 +11,14 @@
 class Vtiger_Delete_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'Delete', $record)) {
-			throw new NoPermittedToRecordException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 	}
 

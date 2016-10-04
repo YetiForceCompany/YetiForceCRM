@@ -30,14 +30,14 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
 
-		$presence = array(0, 2);
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter');
-		$query = 'SELECT name FROM vtiger_tab WHERE
-                    presence IN (' . generateQuestionMarks($presence) . ')
-                    AND isentitytype = ?
-                    AND name NOT IN (' . generateQuestionMarks($restrictedModules) . ') ';
+		$presence = [0, 2];
+		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
+		$query = sprintf('SELECT name FROM vtiger_tab WHERE
+                    presence IN (%s)
+                    && isentitytype = ?
+                    && name NOT IN (%s) ', generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
 
-		$result = $db->pquery($query, array($presence, 1, $restrictedModules));
+		$result = $db->pquery($query, [$presence, 1, $restrictedModules]);
 		$numOfRows = $db->num_rows($result);
 
 		$modulesList = array('All' => 'All');
@@ -57,20 +57,22 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$sql = 'SELECT * FROM vtiger_dataaccess ';
 		if ($module) {
 			$sql .= 'WHERE module_name IN (?, ?)';
-			$result = $db->pquery($sql, ['All', $module]);
+			$params = ['All', $module];
 		} else {
 			$sql .= 'WHERE presence = ?;';
-			$result = $db->pquery($sql, [1]);
+			$params = [1];
 		}
 		$output = [];
-		while ($row = $db->getRow($result)) {
-			$output[] = [
-				'actions' => $row['actions'],
-				'module' => $row['module_name'],
-				'summary' => $row['summary'],
-				'data' => unserialize($row['data']),
-				'id' => $row['dataaccessid'],
-			];
+		if (empty($module) || array_key_exists($module, self::getSupportedModules())) {
+			$result = $db->pquery($sql, $params);
+			while ($row = $db->getRow($result)) {
+				$output[] = [
+					'module' => $row['module_name'],
+					'summary' => $row['summary'],
+					'data' => unserialize($row['data']),
+					'id' => $row['dataaccessid'],
+				];
+			}
 		}
 		return $output;
 	}
@@ -173,6 +175,8 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			'sharedOwner' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
 			'recurrence' => array('is', 'is not'),
 			'comment' => array('is added'),
+			'rangeTime' => ['is empty', 'is not empty'],
+			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 		);
 		if (NULL != $type) {
 			return $list[$type];
@@ -181,7 +185,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function addConditions($conditions, $relId, $mendatory = TRUE)
+	public function addConditions($conditions, $relId, $mendatory = true)
 	{
 		$db = PearDatabase::getInstance();
 		$conditionObj = json_decode($conditions);
@@ -189,31 +193,31 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			foreach ($conditionObj as $key => $obj) {
 				$insertConditionSql = "INSERT INTO vtiger_dataaccess_cnd VALUES(?, ?, ?, ?, ?, ?, ?)";
 				if (is_array($obj->val)) {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), TRUE);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), true);
 				} else {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), TRUE);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), true);
 				}
 			}
 		}
 	}
 
-	public function updateConditions($conditions, $relId, $mendatory = TRUE)
+	public function updateConditions($conditions, $relId, $mendatory = true)
 	{
 		$db = PearDatabase::getInstance();
 		if ($mendatory) {
-			$deleteOldConditionsSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ? AND required = 1";
+			$deleteOldConditionsSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ? && required = 1";
 		} else {
-			$deleteOldConditionsSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ? AND required = 0";
+			$deleteOldConditionsSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ? && required = 0";
 		}
-		$db->pquery($deleteOldConditionsSql, array($relId), TRUE);
+		$db->pquery($deleteOldConditionsSql, array($relId), true);
 		$conditionObj = json_decode($conditions);
 		if (count($conditionObj)) {
 			foreach ($conditionObj as $key => $obj) {
 				$insertConditionSql = "INSERT INTO vtiger_dataaccess_cnd VALUES(?, ?, ?, ?, ?, ?, ?)";
 				if (is_array($obj->val)) {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), TRUE);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), true);
 				} else {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), TRUE);
+					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), true);
 				}
 			}
 		}
@@ -318,7 +322,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	public static function executeAjaxHandlers($module, $param)
 	{
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
-		$record = $param['record'];
 		$conditions = new DataAccess_Conditions();
 		$DataAccessList = self::getDataAccessList($module);
 		$success = true;
@@ -326,10 +329,10 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 		foreach ($DataAccessList as $DataAccess) {
 			$condition_result = $conditions->checkConditions($DataAccess['id'], $param);
-			if ($condition_result['test'] == true) {
+			if ($condition_result['test'] === true) {
 				$action_result = self::executeAction($module, $param, $DataAccess['data']);
 				$output = array_merge($output, $action_result['data']);
-				if ($action_result['success'] == false) {
+				if ($action_result['success'] === false) {
 					$success = false;
 				}
 			}
@@ -341,6 +344,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$save_record = true;
 		$output = [];
+		$recordId = isset($param['record']) ? $param['record'] : false;
 		if ($data) {
 			foreach ($data as $row) {
 				$action = explode(self::$separator, $row['an']);
@@ -349,8 +353,8 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 					vimport("~~$file");
 					$class = "DataAccess_" . $action[1];
 					$actionObject = new $class();
-					$output[] = $resp = $actionObject->process($module, $param['record'], $param, $row);
-					if ($resp['save_record'] == false) {
+					$output[] = $resp = $actionObject->process($module, $recordId, $param, $row);
+					if ($resp['save_record'] === false) {
 						$save_record = false;
 					}
 				}
@@ -382,19 +386,28 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			return self::$colorListCache[$record];
 		}
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
-		$db = PearDatabase::getInstance();
-		$conditions = new DataAccess_Conditions();
-		$sql = "SELECT * FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
-		$result = $db->pquery($sql, [$moduleName]);
+
+		$colorList = Vtiger_Cache::get('DataAccess::colorList', $moduleName);
+		if ($colorList === false) {
+			$db = PearDatabase::getInstance();
+			$sql = "SELECT dataaccessid,data FROM vtiger_dataaccess WHERE module_name = ? && data LIKE '%colorList%'";
+			$result = $db->pquery($sql, [$moduleName]);
+			$colorList = [];
+			while ($row = $db->getRow($result)) {
+				$colorList[] = $row;
+			}
+			Vtiger_Cache::set('DataAccess::colorList', $moduleName, $colorList);
+		}
+
 		$return = [];
-		
 		$recordData = $recordModel->getRawData();
-		if(empty($recordData)){
+		if (empty($recordData)) {
 			$recordData = $recordModel->getData();
 		}
-		while ($row = $db->getRow($result)) {
+		$conditions = new DataAccess_Conditions();
+		foreach ($colorList as $row) {
 			$conditionResult = $conditions->checkConditions($row['dataaccessid'], $recordData, $recordModel);
-			if ($conditionResult['test'] == true) {
+			if ($conditionResult['test'] === true) {
 				$data = reset(unserialize($row['data']));
 				$return = [
 					'text' => $data['text'],

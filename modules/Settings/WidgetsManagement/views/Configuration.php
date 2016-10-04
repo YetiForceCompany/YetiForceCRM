@@ -14,8 +14,8 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_WidgetsManagement_Configuration_View::process() method ...");
+		
+		\App\Log::trace("Entering Settings_WidgetsManagement_Configuration_View::process() method ...");
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$sourceModule = $request->get('sourceModule');
 		$dashboardModules = Settings_WidgetsManagement_Module_Model::getSelectableDashboard();
@@ -59,6 +59,6 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('RESTRICT_FILTER', $restrictFilter);
 
 		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
-		$log->debug("Exiting Settings_WidgetsManagement_Configuration_View::process() method ...");
+		\App\Log::trace("Exiting Settings_WidgetsManagement_Configuration_View::process() method ...");
 	}
 }

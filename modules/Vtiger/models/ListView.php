@@ -35,7 +35,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 		$headerLinks = [];
 		$moduleModel = $this->getModule();
-		if ($moduleModel->isPermitted('WatchingModule')) {
+		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
 			$class = 'btn-default';
 			if ($watchdog->isWatchingModule()) {
@@ -44,10 +44,28 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'BTN_WATCHING_MODULE',
-				'linkurl' => 'javascript:Vtiger_List_Js.changeWatchingModule(this)',
+				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkclass' => $class,
 				'linkicon' => 'glyphicon glyphicon-eye-open',
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
+			];
+		}
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission('Dashboard', 'NotificationCreateMessage')) {
+			$headerLinks[] = [
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linkhint' => 'LBL_SEND_NOTIFICATION',
+				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
+				'linkicon' => 'glyphicon glyphicon-send'
+			];
+		}
+		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
+		if ($userPrivilegesModel->hasModulePermission($openStreetMapModuleModel->getId()) && $openStreetMapModuleModel->isAllowModules($moduleModel->getName())) {
+			$headerLinks[] = [
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linkhint' => 'LBL_SHOW_MAP',
+				'linkurl' => 'javascript:Vtiger_List_Js.showMap()',
+				'linkicon' => 'fa fa-globe'
 			];
 		}
 		foreach ($headerLinks as $headerLink) {
@@ -161,7 +179,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getListViewOrderBy()
 	{
 		$moduleModel = $this->getModule();
-
+		$query = '';
 		$orderBy = $this->getForSql('orderby');
 		$sortOrder = $this->getForSql('sortorder');
 		if (!empty($orderBy)) {
@@ -184,22 +202,22 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 						$columnList[] = $fieldModel->get('table') . $orderByFieldModel->getName() . '.' . $fieldModel->get('column');
 					}
 					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users', '') . ' ' . $sortOrder;
+						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users', '') . ' ' . $sortOrder;
 					} else {
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$query = ' ORDER BY ' . implode(',', $referenceNameFieldOrderBy);
+				$query = sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else if ($orderBy === 'smownerid') {
 				$this->get('query_generator')->setConditionField($orderByFieldName);
 
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 				if ($fieldModel->getFieldDataType() == 'owner') {
-					$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+					$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 				}
-				$query = ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
+				$query = sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			} else {
-				$query = ' ORDER BY ' . $orderBy . ' ' . $sortOrder;
+				$query = sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			}
 		}
 		return $query;
@@ -256,7 +274,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
-			$listQuery .= ' AND vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
+			$listQuery .= ' && vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
 		}
 		unset($searchResult);
 		$sourceModule = $this->get('src_module');
@@ -307,7 +325,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		foreach ($listViewEntries as $recordId => $record) {
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $listViewRecordModels[$recordId]);
+			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
 		}
 		return $listViewRecordModels;
 	}
@@ -358,20 +376,21 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if ($position) {
 			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
-			for ($i = 1; $i < count($split); $i++) {
-				$listQuery .= ' FROM ' . $split[$i];
+			$countSplit = count($split);
+			for ($i = 1; $i < $countSplit; $i++) {
+				$listQuery .= sprintf(' FROM %s', $split[$i]);
 			}
 		}
 
 		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' AND activitytype <> "Emails"';
+			$listQuery .= ' && activitytype <> "Emails"';
 		}
 
 		$listResult = $db->query($listQuery);
 		return $db->getSingleValue($listResult);
 	}
 
-	function getQuery()
+	public function getQuery()
 	{
 		return $this->get('query_generator')->getQuery();
 	}
@@ -471,7 +490,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			];
 		}
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -494,7 +513,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			];
 		}
-		if ($moduleModel->isPermitted('QuickExportToExcel')) {
+		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -525,7 +544,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		
+
 		if ($moduleModel->isPermitted('CreateView')) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
@@ -538,7 +557,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -547,7 +566,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 					'linktype' => 'LISTVIEWBASIC',
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => vtranslate('LBL_EXPORT_PDF')
+					'linkhint' => vtranslate('LBL_EXPORT_PDF')
 				];
 			}
 		}

@@ -14,18 +14,7 @@
 	{assign var="MODULE" value='Users'}
 	<div class="container">
 		<div id="login-area" class="login-area">
-			{if $ENABLED_MOBILE_MODULE}
-				<div class="visible-phone">
-					<div class="alert alert-info">
-						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						<h4>{vtranslate('LBL_MOBILE_VERSION_TITLE',$MODULE)}</h4>
-						{vtranslate('LBL_MOBILE_VERSION_DESC',$MODULE)}
-						<a class="btn btn-primary" href="modules/Mobile/">{vtranslate('LBL_MOBILE_VERSION_BUTTON',$MODULE)}</a>
-					</div>
-				</div>
-			{else}
-				<div class="login-space"></div>
-			{/if}
+			<div class="login-space"></div>
 			<div class="logo">
 				<img title="{$CompanyDetails['companyname']}" height='{$CompanyDetails['height_panellogo']}' class="logo" src="storage/Logo/{$CompanyDetails['panellogoname']}" alt="{$CompanyDetails['companyname']}">
 			</div>
@@ -41,7 +30,7 @@
 							<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback">
 								<label for="password" class="sr-only">{vtranslate('Password',$MODULE)}</label>
 								<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
-								<span class="userIcon-user-access-control form-control-feedback" aria-hidden="true"></span>
+								<span class="userIcon-OSSPasswords form-control-feedback" aria-hidden="true"></span>
 							</div>
 							{assign var=COUNTERFIELDS value=2}
 							{if $LANGUAGE_SELECTION}
@@ -79,7 +68,7 @@
 						</div>
 					</div>
 				{/if}
-				<div class="form-group">
+				<div class="form-group col-xs-12 noPadding">
 					{if $ERROR eq 1}
 						<div class="alert alert-warning">
 							<p>{vtranslate('Invalid username or password.',$MODULE)}</p>

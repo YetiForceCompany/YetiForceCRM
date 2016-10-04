@@ -7,6 +7,7 @@
  */
 class KnowledgeBase_Content_View extends Vtiger_IndexAjax_View
 {
+
 	public function process(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
@@ -20,7 +21,7 @@ class KnowledgeBase_Content_View extends Vtiger_IndexAjax_View
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
 			$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
 			$headers = $listViewModel->getListViewHeaders();
-			
+
 			$viewer = $this->getViewer($request);
 			$viewer->assign('VIEW', $request->get('view'));
 			$viewer->assign('ENTRIES', $listEntries);

@@ -22,7 +22,7 @@ class Vtiger_Util_Helper
 	 * 									array(1=> array('name'=> 'name2','type' => 'type2'),
 	 * 												...);
 	 */
-	public static function transformUploadedFiles(array $_files, $top = TRUE)
+	public static function transformUploadedFiles(array $_files, $top = true)
 	{
 		$files = [];
 		foreach ($_files as $name => $file) {
@@ -40,7 +40,7 @@ class Vtiger_Util_Helper
 						'error' => $file['error'][$key],
 						'size' => $file['size'][$key],
 					);
-					$files[$name] = self::transformUploadedFiles($files[$name], FALSE);
+					$files[$name] = self::transformUploadedFiles($files[$name], false);
 				}
 			} else {
 				$files[$name] = $file;
@@ -87,8 +87,16 @@ class Vtiger_Util_Helper
 			return $prefix . self::pluralize($days, "LBL_DAY") . $suffix;
 		if ($months < 12)
 			return $prefix . self::pluralize($months, "LBL_MONTH") . $suffix;
-		if ($months > 11)
-			return $prefix . self::pluralize(floor($days / 365), "LBL_YEAR") . $suffix;
+		if ($months > 11){
+			$month = $months % 12;
+			$monthAgo = '';
+			if ($month != 0) {
+				$monthAgo = self::pluralize($month, "LBL_MONTH");
+			}
+			$result = self::pluralize(floor($months / 12), "LBL_YEAR") . ' ' . $monthAgo;
+			return $prefix . $result . $suffix;
+		}
+			
 	}
 
 	/**
@@ -186,7 +194,6 @@ class Vtiger_Util_Helper
 			}
 			$formatedDate = $userDate . " ($tomorrowInfo)";
 		} else {
-			//$formatToConvert = str_replace( array('/','.'), array('-','-'), $format);
 			if ($currentUser->get('date_format') === 'mm-dd-yyyy') {
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 			}
@@ -210,23 +217,6 @@ class Vtiger_Util_Helper
 		return str_replace(' ', '_', $string);
 	}
 
-	public static function getRecordName($recordId, $checkDelete = false)
-	{
-		$adb = PearDatabase::getInstance();
-
-		$query = 'SELECT label from vtiger_crmentity where crmid=?';
-		if ($checkDelete) {
-			$query.= ' AND deleted=0';
-		}
-		$result = $adb->pquery($query, array($recordId));
-
-		$num_rows = $adb->num_rows($result);
-		if ($num_rows) {
-			return $adb->query_result($result, 0, 'label');
-		}
-		return false;
-	}
-
 	/**
 	 * Function to parse dateTime into Days
 	 * @param <DateTime> $dateTime
@@ -235,10 +225,21 @@ class Vtiger_Util_Helper
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime);
+		$dateTimeInUserFormat = explode(' ', Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
 
-		list($dateInUserFormat, $timeInUserFormat, $meridiem) = explode(' ', $dateTimeInUserFormat);
-		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
+		if (count($dateTimeInUserFormat) == 3) {
+			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
+		} else {
+			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
+			$meridiem = '';
+		}
+		$timeInUserFormat = explode(':', $timeInUserFormat);
+		if (count($timeInUserFormat) == 3) {
+			list($hours, $minutes, $seconds) = $timeInUserFormat;
+		} else {
+			list($hours, $minutes) = $timeInUserFormat;
+			$seconds = '';
+		}
 
 		$dateDay = vtranslate(DateTimeField::getDayFromDate($dateTime), 'Calendar');
 		$formatedDate = $dateInUserFormat;
@@ -290,7 +291,7 @@ class Vtiger_Util_Helper
 		$db = PearDatabase::getInstance();
 
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-		$query = 'SELECT ' . $primaryKey . ', ' . $fieldName . ' FROM vtiger_' . $fieldName . ' order by sortorderid';
+		$query = sprintf('SELECT %s, %s FROM vtiger_%s ORDER BY sortorderid', $primaryKey, $fieldName, $fieldName);
 		$values = [];
 		$result = $db->query($query);
 		while ($row = $db->fetch_array($result)) {
@@ -310,61 +311,6 @@ class Vtiger_Util_Helper
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE defaultid < 0', []);
 		if ($db->num_rows($result))
 			return $db->query_result_rowdata($result, 0);
-	}
-
-	/**
-	 * Function to get role based picklist values
-	 * @param <String> $fieldName
-	 * @param <Integer> $roleId
-	 * @return <Array> list of role based picklist values
-	 */
-	public static function getRoleBasedPicklistValues($fieldName, $roleId)
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT $fieldName
-                  FROM vtiger_$fieldName
-                      INNER JOIN vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid
-                  WHERE roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortorderid";
-		$result = $db->pquery($query, array($roleId));
-		$picklistValues = [];
-		if ($db->num_rows($result) > 0) {
-			while ($row = $db->fetch_array($result)) {
-				//Need to decode the picklist values twice which are saved from old ui
-				$picklistValues[] = decode_html(decode_html($row[$fieldName]));
-			}
-		}
-		return $picklistValues;
-	}
-
-	/**
-	 * Function to sanitize the uploaded file name
-	 * @param <String> $fileName
-	 * @param <Array> $badFileExtensions
-	 * @return <String> sanitized file name
-	 */
-	public static function sanitizeUploadFileName($fileName, $badFileExtensions)
-	{
-		$fileName = preg_replace('/\s+/', '_', $fileName); //replace space with _ in filename
-		$fileName = rtrim($fileName, '\\/<>?*:"<>|');
-
-		$fileNameParts = explode('.', $fileName);
-		$countOfFileNameParts = count($fileNameParts);
-		$badExtensionFound = false;
-
-		for ($i = 0; $i < $countOfFileNameParts; $i++) {
-			$partOfFileName = $fileNameParts[$i];
-			if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
-				$badExtensionFound = true;
-				$fileNameParts[$i] = $partOfFileName . 'file';
-			}
-		}
-
-		$newFileName = implode('.', $fileNameParts);
-		if ($badExtensionFound) {
-			$newFileName .= ".txt";
-		}
-		return $newFileName;
 	}
 
 	/**
@@ -494,26 +440,6 @@ class Vtiger_Util_Helper
 		}
 
 		return $time;
-	}
-	/*	 * *
-	 * Function to get the label of the record
-	 * @param <Integer> $recordId - id of the record
-	 * @param <Boolean> $ignoreDelete - false if you want to get label for deleted records
-	 */
-
-	public static function getLabel($recordId, $ignoreDelete = true)
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT label FROM vtiger_crmentity WHERE crmid=?';
-		if ($ignoreDelete) {
-			$query .= ' AND deleted=0';
-		}
-		$result = $db->pquery($query, [$recordId]);
-		$name = '';
-		if ($db->num_rows($result) > 0) {
-			$name = $db->getSingleValue($result);
-		}
-		return $name;
 	}
 
 	/**
@@ -648,13 +574,13 @@ class Vtiger_Util_Helper
 
 	public static function getAllSkins()
 	{
-		return array('twilight' => '#404952');
+		return array('twilight' => '#404952', 'blue' => '#00509e');
 	}
 
 	public static function isUserDeleted($userid)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? AND (status=? OR deleted=?)', array($userid, 'Inactive', 1));
+		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
 		$count = $db->num_rows($result);
 		if ($count > 0)
 			return true;
@@ -668,7 +594,7 @@ class Vtiger_Util_Helper
 	 * else returns empty string
 	 */
 
-	function getDefaultMandatoryValue($dataType)
+	public function getDefaultMandatoryValue($dataType)
 	{
 		$value;
 		switch ($dataType) {
@@ -704,40 +630,41 @@ class Vtiger_Util_Helper
 		return $value;
 	}
 
+	protected static $userPrivilegesCache = false;
+
 	public static function getUserPrivilegesFile($userId)
 	{
 		if (empty($userId))
 			return null;
 
-		$instance = Vtiger_Cache::get('UserPrivilegesFile', $userId);
-		if ($instance) {
-			return $instance;
+		if (isset(self::$userPrivilegesCache[$userId])) {
+			return self::$userPrivilegesCache[$userId];
 		}
 		if (!file_exists("user_privileges/user_privileges_$userId.php")) {
 			return null;
 		}
-		
 		require("user_privileges/user_privileges_$userId.php");
-		require("user_privileges/sharing_privileges_$userId.php");
+		$sharingPrivileges = self::getUserSharingFile($userId);
 
 		$valueMap = [];
 		$valueMap['id'] = $userId;
 		$valueMap['is_admin'] = (bool) $is_admin;
-		$valueMap['roleid'] = $current_user_roles;
-		$valueMap['parent_role_seq'] = $current_user_parent_role_seq;
-		$valueMap['profiles'] = $current_user_profiles;
-		$valueMap['profile_global_permission'] = $profileGlobalPermission;
-		$valueMap['profile_tabs_permission'] = $profileTabsPermission;
-		$valueMap['profile_action_permission'] = $profileActionPermission;
-		$valueMap['groups'] = $current_user_groups;
-		$valueMap['subordinate_roles'] = $subordinate_roles;
-		$valueMap['parent_roles'] = $parent_roles;
-		$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
-		$valueMap['defaultOrgSharingPermission'] = $defaultOrgSharingPermission;
-		$valueMap['related_module_share'] = $related_module_share;
 		$valueMap['user_info'] = $user_info;
-
-		Vtiger_Cache::set('UserPrivilegesFile', $userId, $valueMap);
+		if (!$is_admin) {
+			$valueMap['roleid'] = $current_user_roles;
+			$valueMap['parent_role_seq'] = $current_user_parent_role_seq;
+			$valueMap['profiles'] = $current_user_profiles;
+			$valueMap['profile_global_permission'] = $profileGlobalPermission;
+			$valueMap['profile_tabs_permission'] = $profileTabsPermission;
+			$valueMap['profile_action_permission'] = $profileActionPermission;
+			$valueMap['groups'] = $current_user_groups;
+			$valueMap['subordinate_roles'] = $subordinate_roles;
+			$valueMap['parent_roles'] = $parent_roles;
+			$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
+			$valueMap['defaultOrgSharingPermission'] = $sharingPrivileges['defOrgShare'];
+			$valueMap['related_module_share'] = $sharingPrivileges['relatedModuleShare'];
+		}
+		self::$userPrivilegesCache[$userId] = $valueMap;
 		return $valueMap;
 	}
 
@@ -745,6 +672,24 @@ class Vtiger_Util_Helper
 	{
 		$userPrivileges = self::getUserPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
-		return $field == false ? $userInfo : $userInfo[$field];
+		return $field === false ? $userInfo : $userInfo[$field];
+	}
+
+	protected static $userSharingCache = [];
+
+	public static function getUserSharingFile($userId)
+	{
+		if (empty($userId))
+			return null;
+
+		if (isset(self::$userSharingCache[$userId])) {
+			return self::$userSharingCache[$userId];
+		}
+		if (!file_exists("user_privileges/sharing_privileges_$userId.php")) {
+			return null;
+		}
+		$sharingPrivileges = require("user_privileges/sharing_privileges_$userId.php");
+		self::$userSharingCache[$userId] = $sharingPrivileges;
+		return $sharingPrivileges;
 	}
 }

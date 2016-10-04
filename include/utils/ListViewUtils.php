@@ -21,11 +21,9 @@
  * ****************************************************************************** */
 
 require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php'); //new
 require_once('include/utils/CommonUtils.php'); //new
 require_once('user_privileges/default_module_view.php'); //new
 require_once('include/utils/UserInfoUtil.php');
-require_once('include/Zend/Json.php');
 
 /** Function to get the list query for a module
  * @param $module -- module name:: Type string
@@ -34,15 +32,15 @@ require_once('include/Zend/Json.php');
  */
 function getListQuery($module, $where = '')
 {
-	$log = vglobal('log');
-	$log->debug("Entering getListQuery(" . $module . "," . $where . ") method ...");
+	
+	\App\Log::trace("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-	$tab_id = getTabid($module);
-	$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
-		'vtiger_users.last_name'), 'Users');
+	$tab_id = \includes\Modules::getModuleId($module);
+	$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
+			'vtiger_users.last_name'), 'Users');
 	switch ($module) {
 		Case "HelpDesk":
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -65,9 +63,9 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_crmentity.smownerid = vtiger_users.id
 			LEFT JOIN vtiger_products
-				ON vtiger_products.productid = vtiger_troubletickets.product_id";
-			$query .= ' ' . getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_products.productid = vtiger_troubletickets.product_id %s 
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 
 		Case "Accounts":
@@ -86,9 +84,9 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_account vtiger_account2
-				ON vtiger_account.parentid = vtiger_account2.accountid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_account.parentid = vtiger_account2.accountid %s 
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case "Leads":
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -107,11 +105,11 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_groups
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted = 0 " . $where;
+				ON vtiger_users.id = vtiger_crmentity.smownerid %s 
+			WHERE vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
-		Case "Products":
+		Case 'Products':
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.description, vtiger_products.*, vtiger_productcf.*
 			FROM vtiger_products
 			INNER JOIN vtiger_crmentity
@@ -123,14 +121,10 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_groups
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid";
-			if ((isset($_REQUEST["from_dashboard"]) && $_REQUEST["from_dashboard"] == true) && (isset($_REQUEST["type"]) && $_REQUEST["type"] == "dbrd"))
-				$query .= " INNER JOIN vtiger_inventoryproductrel on vtiger_inventoryproductrel.productid = vtiger_products.productid";
-
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= " WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_users.id = vtiger_crmentity.smownerid %s WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
-		Case "Documents":
+		Case 'Documents':
 			$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,vtiger_crmentity.crmid, vtiger_crmentity.modifiedtime,
 			vtiger_crmentity.smownerid,`vtiger_trees_templates_data`.*,vtiger_notes.*
 			FROM vtiger_notes
@@ -141,9 +135,9 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN `vtiger_trees_templates_data`
-				ON vtiger_notes.folderid = `vtiger_trees_templates_data`.tree";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_notes.folderid = `vtiger_trees_templates_data`.tree %s 
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case "Contacts":
 			//Query modified to sort by assigned to
@@ -170,15 +164,15 @@ function getListQuery($module, $where = '')
 				ON vtiger_contactdetails.reportsto = vtiger_contactdetails2.contactid
 			LEFT JOIN vtiger_customerdetails
 				ON vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
-			if ((isset($_REQUEST["from_dashboard"]) && $_REQUEST["from_dashboard"] == true) &&
-				(isset($_REQUEST["type"]) && $_REQUEST["type"] == "dbrd")) {
+			if (AppRequest::get('from_dashboard') === true && AppRequest::get('type') == 'dbrd') {
 				$query .= " INNER JOIN vtiger_campaign_records on vtiger_campaign_records.crmid = " .
 					"vtiger_contactdetails.contactid";
 			}
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+
+			$query .= " %s WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
-		Case "Calendar":
+		Case 'Calendar':
 
 			$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
 		vtiger_activity.*
@@ -199,17 +193,11 @@ function getListQuery($module, $where = '')
 			ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid";
 
 			//added to fix #5135
-			if (isset($_REQUEST['from_homepage']) && ($_REQUEST['from_homepage'] ==
-				"upcoming_activities" || $_REQUEST['from_homepage'] == "pending_activities")) {
-				$query.=" LEFT OUTER JOIN vtiger_recurringevents
-			             ON vtiger_recurringevents.activityid=vtiger_activity.activityid";
+			if (AppRequest::get('from_homepage') == 'upcoming_activities' || AppRequest::get('from_homepage') == 'pending_activities') {
+				$query.=' LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid';
 			}
 			//end
-			$instance = CRMEntity::getInstance($module);
-			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $current_user);
-			if ($securityParameter != '')
-				$query.= $securityParameter;
+			$query .= \App\PrivilegeQuery::getAccessConditions($module, $current_user->id);
 			$query.= ' ' . $where;
 			break;
 		Case "Emails":
@@ -245,9 +233,9 @@ function getListQuery($module, $where = '')
 			INNER JOIN vtiger_crmentity
 				ON vtiger_crmentity.crmid = vtiger_faq.id
 			LEFT JOIN vtiger_products
-				ON vtiger_faq.product_id = vtiger_products.productid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_faq.product_id = vtiger_products.productid %s
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 
 		Case "Vendors":
@@ -259,7 +247,8 @@ function getListQuery($module, $where = '')
 				ON vtiger_vendor.vendorid = vtiger_vendoraddress.vendorid
 			INNER JOIN vtiger_vendorcf
 				ON vtiger_vendor.vendorid = vtiger_vendorcf.vendorid
-			WHERE vtiger_crmentity.deleted = 0 " . $where;
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, $where);
 			break;
 		Case "PriceBooks":
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_pricebook.*, vtiger_currency_info.currency_name
@@ -270,7 +259,8 @@ function getListQuery($module, $where = '')
 				ON vtiger_pricebook.pricebookid = vtiger_pricebookcf.pricebookid
 			LEFT JOIN vtiger_currency_info
 				ON vtiger_pricebook.currency_id = vtiger_currency_info.id
-			WHERE vtiger_crmentity.deleted = 0 " . $where;
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, $where);
 			break;
 		Case "Campaigns":
 			//Query modified to sort by assigned to
@@ -287,9 +277,9 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_products
-				ON vtiger_products.productid = vtiger_campaign.product_id";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
+				ON vtiger_products.productid = vtiger_campaign.product_id %s 
+			WHERE vtiger_crmentity.deleted = 0 %s";
+			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
 		Case "Users":
 			$query = "SELECT id,user_name,first_name,last_name,email1,is_admin,status,
@@ -297,7 +287,23 @@ function getListQuery($module, $where = '')
 				 	FROM vtiger_users
 				 	INNER JOIN vtiger_user2role ON vtiger_users.id = vtiger_user2role.userid
 				 	INNER JOIN vtiger_role ON vtiger_user2role.roleid = vtiger_role.roleid
-					WHERE deleted=0 AND status <> 'Inactive'" . $where;
+					WHERE deleted=0 && status <> 'Inactive' %s";
+			$query = sprintf($query, $where);
+			break;
+		Case "Reservations":
+			$query = "SELECT vtiger_crmentity.*, vtiger_reservations.*, vtiger_reservationscf.* FROM vtiger_reservations 
+                INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_reservations.reservationsid 
+                INNER JOIN vtiger_reservationscf ON vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid 
+                LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid 
+                LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid 
+                LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_reservations.relatedida 
+                LEFT JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_reservations.relatedida 
+                LEFT JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_reservations.relatedida 
+                LEFT JOIN vtiger_project ON vtiger_project.projectid = vtiger_reservations.relatedidb 
+                LEFT JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.relatedidb 
+                WHERE vtiger_reservations.reservationsid > 0 
+                && vtiger_crmentity.deleted = 0 ";
+			$query = sprintf($query, $where);
 			break;
 		default:
 			// vtlib customization: Include the module file
@@ -309,7 +315,7 @@ function getListQuery($module, $where = '')
 	if ($module != 'Users') {
 		$query = listQueryNonAdminChange($query, $module);
 	}
-	$log->debug("Exiting getListQuery method ...");
+	\App\Log::trace("Exiting getListQuery method ...");
 	return $query;
 }
 /* * This function stores the variables in session sent in list view url string.
@@ -335,7 +341,7 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 		$start = 0;
 	}
 
-	if (isset($_REQUEST['start']) && $_REQUEST['start'] != '') {
+	if (AppRequest::has('start') && AppRequest::get('start') != '') {
 		$lv_array['start'] = ListViewSession::getRequestStartPage();
 		$start = ListViewSession::getRequestStartPage();
 	} elseif ($_SESSION['rlvs'][$module][$related]['start'] != '') {
@@ -345,11 +351,11 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 			$start = $_SESSION['rlvs'][$module][$related]['start'];
 		}
 	}
-	if (isset($_REQUEST['viewname']) && $_REQUEST['viewname'] != '')
-		$lv_array['viewname'] = vtlib_purify($_REQUEST['viewname']);
+	if (AppRequest::has('viewname') && AppRequest::get('viewname') != '')
+		$lv_array['viewname'] = AppRequest::get('viewname');
 
 	if ($related == '')
-		$_SESSION['lvs'][$_REQUEST['module']] = $lv_array;
+		$_SESSION['lvs'][AppRequest::get('module')] = $lv_array;
 	else
 		$_SESSION['rlvs'][$module][$related] = $lv_array;
 
@@ -370,11 +376,12 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 
 function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $related_module, $recordid)
 {
-	global $log, $app_strings, $adb;
-	$log->debug("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
+	
+	$adb = PearDatabase::getInstance();
+	\App\Log::trace("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
 	global $theme;
-	$relatedTabId = getTabid($related_module);
-	$tabid = getTabid($module);
+	$relatedTabId = \includes\Modules::getModuleId($related_module);
+	$tabid = \includes\Modules::getModuleId($module);
 
 	$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid=? AND
 		related_tabid=?', array($tabid, $relatedTabId));
@@ -395,8 +402,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 
 	$output = '<td align="right" style="padding="5px;">';
 	if (($navigation_array['prev']) != 0) {
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . $app_strings['LBL_FIRST'] . '" title="' . $app_strings['LBL_FIRST'] . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . $app_strings['LNK_LIST_PREVIOUS'] . '"title="' . $app_strings['LNK_LIST_PREVIOUS'] . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \includes\Language::translate('LBL_FIRST') . '" title="' . \includes\Language::translate('LBL_FIRST') . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \includes\Language::translate('LNK_LIST_PREVIOUS') . '"title="' . \includes\Language::translate('LNK_LIST_PREVIOUS') . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 	} else {
 		$output .= '<img src="' . vtiger_imageurl('start_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
 		$output .= '<img src="' . vtiger_imageurl('previous_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
@@ -407,15 +414,15 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		style='width: 3em;margin-right: 0.7em;' onchange=\"loadRelatedListBlock('{$urldata}&start='+this.value+'','{$target}','{$imagesuffix}');\"
 		onkeypress=\"$jsHandler\">";
 	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
-	$computeCount = $_REQUEST['withCount'];
-	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true || ((boolean) $computeCount) == true) {
-		$output .= $app_strings['LBL_LIST_OF'] . ' ' . $navigation_array['verylast'];
+	$computeCount = AppRequest::get('withCount');
+	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true || ((boolean) $computeCount) === true) {
+		$output .= \includes\Language::translate('LBL_LIST_OF') . ' ' . $navigation_array['verylast'];
 	} else {
-		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . $app_strings['LBL_HOME_COUNT'] . "'
+		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . \includes\Language::translate('LBL_HOME_COUNT') . "'
 			onclick=\"loadRelatedListBlock('{$urldata}&withCount=true&start={$navigation_array['current']}','{$target}','{$imagesuffix}');\"
 			align='absmiddle' name='" . $module . "_listViewCountRefreshIcon'/>
 			<img name='" . $module . "_listViewCountContainerBusy' src='" . vtiger_imageurl('vtbusy.gif', $theme) . "' style='display: none;'
-			align='absmiddle' alt='" . $app_strings['LBL_LOADING'] . "'>";
+			align='absmiddle' alt='" . \includes\Language::translate('LBL_LOADING') . "'>";
 	}
 	$output .= '</span>';
 
@@ -427,7 +434,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		$output .= '<img src="' . vtiger_imageurl('end_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
 	}
 	$output .= '</td>';
-	$log->debug("Exiting getTableHeaderNavigation method ...");
+	\App\Log::trace("Exiting getTableHeaderNavigation method ...");
 	if ($navigation_array['first'] == '')
 		return;
 	else
@@ -438,8 +445,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 function getEntityId($module, $entityName)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	$log->info("in getEntityId " . $entityName);
+	
+	\App\Log::trace("in getEntityId " . $entityName);
 
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
 	$result = $adb->pquery($query, array($module));
@@ -470,41 +477,22 @@ function getEntityId($module, $entityName)
 
 function decode_html($str)
 {
-	global $default_charset;
+	$defaultCharset = AppConfig::main('default_charset');
 	if (empty($default_charset))
-		$default_charset = 'UTF-8';
+		$defaultCharset = 'UTF-8';
 	// Direct Popup action or Ajax Popup action should be treated the same.
-	if ((isset($_REQUEST['action']) && $_REQUEST['action'] == 'Popup') || (isset($_REQUEST['action']) && $_REQUEST['file'] == 'Popup'))
+	if (AppRequest::get('action') == 'Popup' || (AppRequest::has('action') && AppRequest::get('file') == 'Popup'))
 		return html_entity_decode($str);
 	else
-		return html_entity_decode($str, ENT_QUOTES, $default_charset);
+		return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
 }
 
 function popup_decode_html($str)
 {
-	global $default_charset;
-	$slashes_str = popup_from_html($str);
-	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $default_charset);
-	return decode_html(br2nl($slashes_str));
-}
-
-//function added to check the text length in the listview.
-function textlength_check($field_val)
-{
-	global $listview_max_textlength, $default_charset;
-	if ($listview_max_textlength && $listview_max_textlength > 0) {
-		$temp_val = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $field_val);
-		if (function_exists('mb_strlen')) {
-			if (mb_strlen(html_entity_decode($temp_val)) > $listview_max_textlength) {
-				$temp_val = mb_substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", html_entity_decode($temp_val)), 0, $listview_max_textlength, $default_charset) . '...';
-			}
-		} elseif (strlen(html_entity_decode($field_val)) > $listview_max_textlength) {
-			$temp_val = substr(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", html_entity_decode($temp_val)), 0, $listview_max_textlength) . '...';
-		}
-	} else {
-		$temp_val = $field_val;
-	}
-	return $temp_val;
+	$defaultCharset = AppConfig::main('default_charset');
+	$slashes_str = \vtlib\Functions::fromHTML_Popup($str);
+	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $defaultCharset);
+	return decode_html(\vtlib\Functions::br2nl($slashes_str));
 }
 
 /**
@@ -518,7 +506,7 @@ function getFirstModule($module, $fieldname)
 {
 	$adb = PearDatabase::getInstance();
 	$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
-	$result = $adb->pquery($sql, array(getTabid($module), $fieldname));
+	$result = $adb->pquery($sql, array(\includes\Modules::getModuleId($module), $fieldname));
 
 	if ($adb->num_rows($result) > 0) {
 		$uitype = $adb->query_result($result, 0, "uitype");
@@ -563,14 +551,14 @@ function VT_getSimpleNavigationValues($start, $size, $total)
 
 function getRecordRangeMessage($listResult, $limitStartRecord, $totalRows = '')
 {
-	global $adb, $app_strings;
+	$adb = PearDatabase::getInstance();
 	$numRows = $adb->num_rows($listResult);
 	$recordListRangeMsg = '';
 	if ($numRows > 0) {
-		$recordListRangeMsg = $app_strings['LBL_SHOWING'] . ' ' . $app_strings['LBL_RECORDS'] .
+		$recordListRangeMsg = \includes\Language::translate('LBL_SHOWING') . ' ' . \includes\Language::translate('LBL_RECORDS') .
 			' ' . ($limitStartRecord + 1) . ' - ' . ($limitStartRecord + $numRows);
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true) {
-			$recordListRangeMsg .= ' ' . $app_strings['LBL_LIST_OF'] . " $totalRows";
+			$recordListRangeMsg .= ' ' . \includes\Language::translate('LBL_LIST_OF') . " $totalRows";
 		}
 	}
 	return $recordListRangeMsg;
@@ -604,7 +592,7 @@ function html_substr($str, $start, $length = NULL)
 	$chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE);
 	$html_length = count($chars);
 	// check if we can predict the return value and save some processing time
-	if (($html_length === 0) or ( $start >= $html_length) or ( isset($length) and ( $length <= -$html_length)))
+	if (($html_length === 0) || ( $start >= $html_length) || ( isset($length) && ( $length <= -$html_length)))
 		return "";
 
 	//calculate start position
@@ -640,12 +628,11 @@ function getUsersPasswordInfo()
 	$sql = "SELECT user_name, user_hash FROM vtiger_users WHERE deleted=?";
 	$result = $adb->pquery($sql, array(0));
 	$usersList = [];
-	for ($i = 0; $i < $adb->num_rows($result); $i++) {
+	$countResult = $adb->num_rows($result);
+	for ($i = 0; $i < $countResult; $i++) {
 		$userList['name'] = $adb->query_result($result, $i, "user_name");
 		$userList['hash'] = $adb->query_result($result, $i, "user_hash");
 		$usersList[] = $userList;
 	}
 	return $usersList;
 }
-
-?>

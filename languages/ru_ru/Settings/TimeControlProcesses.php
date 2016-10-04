@@ -9,18 +9,18 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'TimeControlProcesses' => 'Процесс Учета времени',
-	'LBL_TIMECONTROL_PROCESSES' => 'Workflow',
+	'TimeControlProcesses' => 'Учет времени',
+	'LBL_TIMECONTROL_PROCESSES' => 'Учет времени',
 	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' Настройка процесса учета рабочего вермени',
 	'LBL_ONEDAY_VALID' => 'Время работы ограничено до 24 часов',
 	'LBL_TIMEOVERLAP_VALID' => 'Укажите время повторения',
 	'LBL_GENERAL_SETTINGS' => 'Настройки',
-	'TimeControlProcesses' => 'Time control processes',
-	'LBL_TIME_CONTROL_WIDGET' => 'Time Control Widget',
-	'LBL_TCW_INFO' => 'The options to hide/display icons in the time control widget can be found here.',
-	'LBL_HOLIDAYS' => 'Holiday icons',
-	'LBL_WORKING_DAYS' => 'Working days icons',
-	'LBL_WORKING_TIME' => 'Working time icons',
+	'TimeControlProcesses' => 'Учет времени',
+	'LBL_TIME_CONTROL_WIDGET' => 'Учет времени',
+	'LBL_TCW_INFO' => 'Показать/Скрыть иконки в Виджете Учет времени',
+	'LBL_HOLIDAYS' => 'Иконка Выходной день',
+	'LBL_WORKING_DAYS' => 'Иконка Рабочий день',
+	'LBL_WORKING_TIME' => 'Иконка Рабочее время',
 ];
 
 $jsLanguageStrings = [

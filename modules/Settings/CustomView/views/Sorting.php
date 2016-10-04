@@ -9,7 +9,7 @@
 class Settings_CustomView_Sorting_View extends Settings_Vtiger_BasicModal_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($moduleName);

@@ -3,28 +3,23 @@
 $languageStrings = [
 	'SQuoteEnquiries' => 'Angebotsanalyse',
 	'SINGLE_SQuoteEnquiries' => 'Angebotsanalyse',
-	
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibung Details',
-	'LBL_STATISTICS' => 'Statistics',
-
+	'LBL_STATISTICS' => 'Statistik',
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
 	'LBL_NUMBER' => 'Nummer',
 	'LBL_STATUS' => 'Status',
-	'LBL_CLOSED_TIME' => 'Beendigungszeit',
-	'LBL_RESPONSE_TIME' => 'Respone time',
+	'LBL_CLOSED_TIME' => 'Geschlossen am',
+	'LBL_RESPONSE_TIME' => 'Reaktionszeit',
 	'SINGLE_SSalesProcesses' => 'Verkaufschance',
-
 	//PICKLIST VALUES
-	'PLL_DRAFT' => 'Draft',
-	'PLL_IN_REALIZATION' => 'In realization',
-	'PLL_FOR_VERIFICATION' => 'For verification',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_COMPLETED' => 'Completed',
-
-	'LBL_CHANGE_STATUS' => 'Change Status',
-
+	'PLL_DRAFT' => 'Entwurf',
+	'PLL_IN_REALIZATION' => 'In Umsetzung',
+	'PLL_FOR_VERIFICATION' => 'Zur Validierung',
+	'PLL_CANCELLED' => 'Abgebrochen',
+	'PLL_COMPLETED' => 'Vollständig',
+	'LBL_CHANGE_STATUS' => 'Änderungsstatus',
 ];

@@ -21,6 +21,19 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.AdditionalIcon-Linkedin:before {
+    content: "\e900";
+}
+.AdditionalIcon-Twitter:before {
+    content: "\e903";
+}
+.AdditionalIcon-Facebook:before {
+    content: "\e906";
+}
+.AdditionalIcon-Github:before {
+    content: "\e907";
+}
 .AdditionalIcon-NetworkInterfaceCards:before {
     content: "\e901";
 }

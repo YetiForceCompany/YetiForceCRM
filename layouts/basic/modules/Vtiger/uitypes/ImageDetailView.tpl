@@ -9,8 +9,10 @@
   *
  ********************************************************************************/
 -->*}
+{strip}
 {foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
 	{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
 		<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="150" height="80">
 	{/if}
 {/foreach}
+{/strip}

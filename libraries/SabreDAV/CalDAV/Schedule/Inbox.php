@@ -37,7 +37,7 @@ class Inbox extends DAV\Collection implements IInbox {
      * @param Backend\SchedulingSupport $caldavBackend
      * @param string $principalUri
      */
-    function __construct(Backend\SchedulingSupport $caldavBackend, $principalUri) {
+    public function __construct(Backend\SchedulingSupport $caldavBackend, $principalUri) {
 
         $this->caldavBackend = $caldavBackend;
         $this->principalUri = $principalUri;
@@ -51,7 +51,7 @@ class Inbox extends DAV\Collection implements IInbox {
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         return 'inbox';
 
@@ -62,12 +62,11 @@ class Inbox extends DAV\Collection implements IInbox {
      *
      * @return \Sabre\DAV\INode[]
      */
-    function getChildren() {
+    public function getChildren() {
 
         $objs = $this->caldavBackend->getSchedulingObjects($this->principalUri);
         $children = [];
         foreach ($objs as $obj) {
-            //$obj['acl'] = $this->getACL();
             $obj['principaluri'] = $this->principalUri;
             $children[] = new SchedulingObject($this->caldavBackend, $obj);
         }
@@ -99,7 +98,7 @@ class Inbox extends DAV\Collection implements IInbox {
      * @param resource|string $data Initial payload
      * @return null|string
      */
-    function createFile($name, $data = null) {
+    public function createFile($name, $data = null) {
 
         $this->caldavBackend->createSchedulingObject($this->principalUri, $name, $data);
 
@@ -112,7 +111,7 @@ class Inbox extends DAV\Collection implements IInbox {
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->principalUri;
 
@@ -125,7 +124,7 @@ class Inbox extends DAV\Collection implements IInbox {
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
 
         return null;
 
@@ -143,7 +142,7 @@ class Inbox extends DAV\Collection implements IInbox {
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         return [
             [
@@ -188,7 +187,7 @@ class Inbox extends DAV\Collection implements IInbox {
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new DAV\Exception\MethodNotAllowed('You\'re not allowed to update the ACL');
 
@@ -206,7 +205,7 @@ class Inbox extends DAV\Collection implements IInbox {
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         $ns = '{' . CalDAV\Plugin::NS_CALDAV . '}';
 
@@ -239,7 +238,7 @@ class Inbox extends DAV\Collection implements IInbox {
      * @param array $filters
      * @return array
      */
-    function calendarQuery(array $filters) {
+    public function calendarQuery(array $filters) {
 
         $result = [];
         $validator = new CalDAV\CalendarQueryValidator();

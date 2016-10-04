@@ -14,15 +14,13 @@
  * use the common one.
  */
 // Let us create cache to improve performance
-if (!isset($__cache_vtiger_imagepath)) {
-	$__cache_vtiger_imagepath = [];
-}
+
 
 function vtiger_imageurl($imagename, $themename)
 {
-	global $__cache_vtiger_imagepath;
-	if ($__cache_vtiger_imagepath[$imagename]) {
-		$imagepath = $__cache_vtiger_imagepath[$imagename];
+	static $cacheVtigerImagepath = [];
+	if ($cacheVtigerImagepath[$imagename]) {
+		$imagepath = $cacheVtigerImagepath[$imagename];
 	} else {
 		$imagepath = false;
 		// Check in theme specific folder
@@ -35,7 +33,7 @@ function vtiger_imageurl($imagename, $themename)
 			// Not found anywhere? Return whatever is sent
 			$imagepath = $imagename;
 		}
-		$__cache_vtiger_imagepath[$imagename] = $imagepath;
+		$cacheVtigerImagepath[$imagename] = $imagepath;
 	}
 	return $imagepath;
 }
@@ -46,24 +44,16 @@ function vtiger_imageurl($imagename, $themename)
  */
 function vtlib_getModuleNameForSharing()
 {
-	$adb = PearDatabase::getInstance();
 	$std_modules = array('Calendar', 'Leads', 'Accounts', 'Contacts',
 		'HelpDesk', 'Campaigns', 'Events');
 	$modulesList = getSharingModuleList($std_modules);
 	return $modulesList;
 }
 /**
- * Cache the module active information for performance
- */
-$__cache_module_activeinfo = [];
-
-/**
  * Fetch module active information at one shot, but return all the information fetched.
  */
 function vtlib_prefetchModuleActiveInfo($force = true)
 {
-	global $__cache_module_activeinfo;
-
 	// Look up if cache has information
 	$tabrows = VTCacheUtils::lookupAllTabsInfo();
 
@@ -75,7 +65,6 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 		if ($tabres) {
 			while ($tabresrow = $adb->fetch_array($tabres)) {
 				$tabrows[] = $tabresrow;
-				$__cache_module_activeinfo[$tabresrow['name']] = $tabresrow['presence'];
 			}
 			// Update cache for further re-use
 			VTCacheUtils::updateAllTabsInfo($tabrows);
@@ -83,34 +72,6 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 	}
 
 	return $tabrows;
-}
-
-/**
- * Check if module is set active (or enabled)
- */
-function vtlib_isModuleActive($module)
-{
-	global $adb, $__cache_module_activeinfo;
-
-	if (in_array($module, vtlib_moduleAlwaysActive())) {
-		return true;
-	}
-
-	if (!isset($__cache_module_activeinfo[$module])) {
-		include 'user_privileges/tabdata.php';
-		$tabId = $tab_info_array[$module];
-		$presence = $tab_seq_array[$tabId];
-		$__cache_module_activeinfo[$module] = $presence;
-	} else {
-		$presence = $__cache_module_activeinfo[$module];
-	}
-
-	$active = false;
-	//Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7991
-	if ($presence === 0 || $presence === '0')
-		$active = true;
-
-	return $active;
 }
 
 /**
@@ -128,46 +89,6 @@ function vtlib_RecreateUserPrivilegeFiles()
 }
 
 /**
- * Get list module names which are always active (cannot be disabled)
- */
-function vtlib_moduleAlwaysActive()
-{
-	$modules = Array(
-		'Administration', 'CustomView', 'Settings', 'Users', 'Migration',
-		'Utilities', 'uploads', 'Import', 'System', 'com_vtiger_workflow', 'PickList'
-	);
-	return $modules;
-}
-
-/**
- * Toggle the module (enable/disable)
- */
-function vtlib_toggleModuleAccess($module, $enable_disable)
-{
-	global $adb, $__cache_module_activeinfo;
-
-	include_once('vtlib/Vtiger/Module.php');
-
-	$event_type = false;
-
-	if ($enable_disable === true) {
-		$enable_disable = 0;
-		$event_type = Vtiger_Module::EVENT_MODULE_ENABLED;
-	} else if ($enable_disable === false) {
-		$enable_disable = 1;
-		$event_type = Vtiger_Module::EVENT_MODULE_DISABLED;
-	}
-
-	$adb->pquery("UPDATE vtiger_tab set presence = ? WHERE name = ?", array($enable_disable, $module));
-
-	$__cache_module_activeinfo[$module] = $enable_disable;
-
-	create_tab_data_file();
-	vtlib_RecreateUserPrivilegeFiles();
-	Vtiger_Module::fireEvent($module, $event_type);
-}
-
-/**
  * Get list of module with current status which can be controlled.
  */
 function vtlib_getToggleModuleInfo()
@@ -176,7 +97,7 @@ function vtlib_getToggleModuleInfo()
 
 	$modinfo = [];
 
-	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') AND presence IN (0,1) ORDER BY name");
+	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') && presence IN (0,1) ORDER BY name");
 	$num_rows = $adb->num_rows($sqlresult);
 	for ($idx = 0; $idx < $num_rows; ++$idx) {
 		$module = $adb->query_result($sqlresult, $idx, 'name');
@@ -204,7 +125,8 @@ function vtlib_getToggleLanguageInfo()
 	$langinfo = [];
 	$sqlresult = $adb->query("SELECT * FROM vtiger_language");
 	if ($sqlresult) {
-		for ($idx = 0; $idx < $adb->num_rows($sqlresult); ++$idx) {
+		$countResult = $adb->num_rows($sqlresult);
+		for ($idx = 0; $idx < $countResult; ++$idx) {
 			$row = $adb->fetch_array($sqlresult);
 			$langinfo[$row['prefix']] = Array('label' => $row['label'], 'active' => $row['active']);
 		}
@@ -284,7 +206,7 @@ function __vtlib_get_modulevar_value($module, $varname)
 				'vtiger_accountaddress' => Array('accountaddressid', 'vtiger_account', 'accountid'),
 				'vtiger_accountscf' => Array('accountid', 'vtiger_account', 'accountid'),
 			),
-			'popup_fields' => Array('accountname'), // TODO: Add this initialization to all the standard module
+			'popup_fields' => Array('accountname'),
 		),
 		'Contacts' =>
 		Array(
@@ -434,13 +356,12 @@ function vtlib_tosingular($text)
  */
 function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 {
-	$log = vglobal('log');
-	$log->debug('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
+	
+	\App\Log::trace('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
 	$adb = PearDatabase::getInstance();
 
-	$columnname = $adb->sql_escape_string($fieldColumnname);
+	$columnname = $adb->quote($fieldColumnname, false);
 	$tablename = 'vtiger_' . $fieldColumnname;
-
 	// Gather all the roles (except H1 which is organization role)
 	$roleres = $adb->query("SELECT roleid FROM vtiger_role WHERE roleid != 'H1'");
 	$roleresCount = $adb->num_rows($roleres);
@@ -461,10 +382,8 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 
 	$picklistval_roles = [];
 	if ($picklistresCount) {
-		for ($index = 0; $index < $picklistresCount; ++$index) {
-			$picklistval = $adb->query_result($picklistres, $index, 'pickvalue');
-			$pickvalroleid = $adb->query_result($picklistres, $index, 'roleid');
-			$picklistval_roles[$picklistval][] = $pickvalroleid;
+		while ($row = $adb->getRow($picklistres)) {
+			$picklistval_roles[$row['pickvalue']][] = $row['roleid'];
 		}
 	}
 	// Collect picklist value which is associated to all the roles.
@@ -476,7 +395,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 			$allrolevalues[] = $picklistval;
 	}
 
-	$log->debug('Exiting ' . __METHOD__ . ' method ...');
+	\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 	return $allrolevalues;
 }
 
@@ -509,8 +428,8 @@ function vtlib_isCustomModule($moduleName)
 {
 	$moduleFile = "modules/$moduleName/$moduleName.php";
 	if (file_exists($moduleFile)) {
-		if (function_exists('checkFileAccessForInclusion')) {
-			checkFileAccessForInclusion($moduleFile);
+		if (method_exists('\vtlib\Deprecated', 'checkFileAccessForInclusion')) {
+			\vtlib\Deprecated::checkFileAccessForInclusion($moduleFile);
 		}
 		include_once($moduleFile);
 		$focus = new $moduleName();
@@ -562,8 +481,6 @@ function vtlib_isDirWriteable($dirpath)
 	}
 	return false;
 }
-/** HTML Purifier global instance */
-$__htmlpurifier_instance = false;
 
 /**
  * Purify (Cleanup) malicious snippets of code from the input
@@ -574,42 +491,37 @@ $__htmlpurifier_instance = false;
  */
 function vtlib_purify($input, $ignore = false)
 {
-	global $__htmlpurifier_instance, $root_directory, $default_charset;
-
-	static $purified_cache = [];
+	static $htmlpurifieInstance = false;
 	$value = $input;
 
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
-		if (array_key_exists($md5OfInput, $purified_cache)) {
-			$value = $purified_cache[$md5OfInput];
+		$cache = Vtiger_Cache::get('vtlibPurify', $md5OfInput);
+		if ($cache !== false) {
+			$value = $cache;
 			//to escape cleaning up again
 			$ignore = true;
 		}
 	} else {
 		$md5OfInput = md5(json_encode($input));
 	}
-	$use_charset = $default_charset;
-	$use_root_directory = $root_directory;
-
+	$use_charset = AppConfig::main('default_charset');
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
-		if ($__htmlpurifier_instance == false) {
+		if ($htmlpurifieInstance === false) {
 			if (empty($use_charset))
 				$use_charset = 'UTF-8';
-			if (empty($use_root_directory))
-				$use_root_directory = dirname(__FILE__) . '/../..';
 
 			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 
 			$config = HTMLPurifier_Config::createDefault();
 			$config->set('Core.Encoding', $use_charset);
-			$config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
+			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
 
-			$__htmlpurifier_instance = new HTMLPurifier($config);
+			$htmlpurifieInstance = new HTMLPurifier($config);
 		}
-		if ($__htmlpurifier_instance) {
+		if ($htmlpurifieInstance) {
 			// Composite type
 			if (is_array($input)) {
 				$value = [];
@@ -617,66 +529,79 @@ function vtlib_purify($input, $ignore = false)
 					$value[$k] = vtlib_purify($v, $ignore);
 				}
 			} else { // Simple type
-				$value = $__htmlpurifier_instance->purify($input);
+				$value = $htmlpurifieInstance->purify($input);
+				$value = purifyHtmlEventAttributes($value);
 			}
 		}
-		$purified_cache[$md5OfInput] = $value;
+		$value = str_replace('&amp;', '&', $value);
+		Vtiger_Cache::set('vtlibPurify', $md5OfInput, $value);
 	}
+	return $value;
+}
 
-	$value = str_replace('&amp;', '&', $value);
+/**
+ * To purify malicious html event attributes
+ * @param <String> $value
+ * @return <String>
+ */
+function purifyHtmlEventAttributes($value)
+{
+	$htmlEventAttributes = "onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|" .
+		"onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|" .
+		"onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|" .
+		"ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|" .
+		"onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste";
+	if (preg_match("/\s(" . $htmlEventAttributes . ")\s*=/i", $value)) {
+		$value = str_replace("=", "&equals;", $value);
+	}
 	return $value;
 }
 
 function vtlib_purifyForHtml($input, $ignore = false)
 {
-	global $htmlPurifierForHtml, $root_directory, $default_charset;
-
-	static $purified_cache = [];
+	static $htmlPurifierForHtml = false;
 	$value = $input;
 
 	if (!is_array($input)) {
 		$md5OfInput = md5($input);
-		if (array_key_exists($md5OfInput, $purified_cache)) {
-			$value = $purified_cache[$md5OfInput];
+		$cache = Vtiger_Cache::get('vtlibPurifyForHtml', $md5OfInput);
+		if ($cache !== false) {
+			$value = $cache;
 			//to escape cleaning up again
 			$ignore = true;
 		}
 	} else {
 		$md5OfInput = md5(json_encode($input));
 	}
-	$use_charset = $default_charset;
-	$use_root_directory = $root_directory;
-
+	$use_charset = AppConfig::main('default_charset');
 
 	if (!$ignore) {
 		// Initialize the instance if it has not yet done
-		if ($htmlPurifierForHtml == false) {
+		if ($htmlPurifierForHtml === false) {
 			if (empty($use_charset))
 				$use_charset = 'UTF-8';
-			if (empty($use_root_directory))
-				$use_root_directory = dirname(__FILE__) . '/../..';
 
 			include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 
 			$allowed = array(
-				'img[src|alt|title|width|height|style|data-mce-src|data-mce-json]',
+				'img[src|alt|title|width|height|style|data-mce-src|data-mce-json|class]',
 				'figure', 'figcaption',
 				'video[src|type|width|height|poster|preload|controls|style|class]', 'source[src|type]',
-				'audio[src|type|preload|controls]',
-				'a[href|target]',
-				'iframe[width|height|src|frameborder|allowfullscreen]',
+				'audio[src|type|preload|controls|class]',
+				'a[href|target|class]',
+				'iframe[width|height|src|frameborder|allowfullscreen|class]',
 				'strong', 'b', 'i', 'u', 'em', 'br', 'font',
-				'h1[style]', 'h2[style]', 'h3[style]', 'h4[style]', 'h5[style]', 'h6[style]',
-				'p[style]', 'div[style]', 'center', 'address[style]',
-				'span[style]', 'pre[style]',
+				'h1[style|class]', 'h2[style|class]', 'h3[style|class]', 'h4[style|class]', 'h5[style|class]', 'h6[style|class]',
+				'p[style|class]', 'div[style|class]', 'center', 'address[style]',
+				'span[style|class]', 'pre[style]',
 				'ul', 'ol', 'li',
-				'table[width|height|border|style]', 'th[width|height|border|style]',
-				'tr[width|height|border|style]', 'td[width|height|border|style]',
-				'hr'
+				'table[width|height|border|style|class]', 'th[width|height|border|style|class]',
+				'tr[width|height|border|style|class]', 'td[width|height|border|style|class]',
+				'hr',
 			);
 			$config = HTMLPurifier_Config::createDefault();
 			$config->set('Core.Encoding', $use_charset);
-			$config->set('Cache.SerializerPath', "$use_root_directory/cache/vtlib");
+			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
 			$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 			$config->set('CSS.AllowTricky', true);
 			$config->set('CSS.Proprietary', true);
@@ -756,10 +681,9 @@ function vtlib_purifyForHtml($input, $ignore = false)
 				$value = $htmlPurifierForHtml->purify($input);
 			}
 		}
-		$purified_cache[$md5OfInput] = $value;
+		$value = str_replace('&amp;', '&', $value);
+		Vtiger_Cache::set('vtlibPurifyForHtml', $md5OfInput, $value);
 	}
-
-	$value = str_replace('&amp;', '&', $value);
 	return $value;
 }
 

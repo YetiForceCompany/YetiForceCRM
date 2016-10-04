@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Detail View Model for KnowledgeBase
  * @package YetiForce.Model
@@ -7,6 +8,7 @@
  */
 class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 {
+
 	public function getDetailViewLinks($linkParams)
 	{
 		$recordModel = $this->getRecord();

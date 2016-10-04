@@ -41,7 +41,7 @@
 			</thead>
 			<tr class="blockHeader">
 				<th class="blockHeader" colspan="5">
-					{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)} {vtranslate('LBL_FIELD_INFORMATION', $QUALIFIED_MODULE)} {$QUALIFIED_MODULE}
+					{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)} {vtranslate('LBL_FIELD_INFORMATION', $QUALIFIED_MODULE)}
 				</th>
 			</tr>
 			<tr>
@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						<div class="col-md-9">
-							<select id="fieldsList" multiple="multiple" name="fieldsList" data-placeholder="{vtranslate('LBL_SELECT_FIELDS_OF_TARGET_MODULE', $QUALIFIED_MODULE)}" class="row select2 form-control selectizeElement">
+							<select id="fieldsList" multiple="multiple" name="fieldsList" data-placeholder="{vtranslate('LBL_SELECT_FIELDS_OF_TARGET_MODULE', $QUALIFIED_MODULE)}" class="row form-control selectizeElement">
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$ALL_FIELD_MODELS_LIST name="EditViewBlockLevelLoop"}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 										{assign var="FIELD_INFO" value=json_encode($FIELD_MODEL->getFieldInfo())}

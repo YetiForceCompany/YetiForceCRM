@@ -30,7 +30,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         $this->server = $server;
         $this->server->on('method:GET', [$this, 'httpGet'], 90);
@@ -45,7 +45,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpGet(RequestInterface $request, ResponseInterface $response) {
+    public function httpGet(RequestInterface $request, ResponseInterface $response) {
 
         $queryParams = $request->getQueryParameters();
         if (!array_key_exists('mount', $queryParams)) return;
@@ -69,7 +69,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $uri absolute uri
      * @return void
      */
-    function davMount(ResponseInterface $response, $uri) {
+    public function davMount(ResponseInterface $response, $uri) {
 
         $response->setStatus(200);
         $response->setHeader('Content-Type', 'application/davmount+xml');

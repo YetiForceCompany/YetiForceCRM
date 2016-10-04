@@ -9,25 +9,22 @@
 class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('checkLimits');
 		$this->exposeMethod('getUnitPrice');
 		$this->exposeMethod('getDetails');
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -58,12 +55,17 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, 'Accounts');
 		$limitID = $recordModel->get($limitFieldName);
 		$balance = $recordModel->get($balanceFieldName);
-		$limit = reset(Vtiger_InventoryLimit_UIType::getValues($limitID))['value'];
+		if (!empty($limitID)) {
+			$limit = reset(Vtiger_InventoryLimit_UIType::getValues($limitID))['value'];
+		} else {
+			$limit = '-';
+		}
+
 
 		$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
 		if ($baseCurrency['id'] != $currency) {
-			$selectedCurrency = Vtiger_Functions::getCurrencySymbolandRate($currency);
+			$selectedCurrency = vtlib\Functions::getCurrencySymbolandRate($currency);
 			$price = floatval($price) * $selectedCurrency['rate'];
 			$symbol = $selectedCurrency['symbol'];
 		}
@@ -77,7 +79,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 			$viewer->assign('SYMBOL', $symbol);
 			$viewer->assign('LIMIT', $limit);
 			$viewer->assign('TOTALS', $totalPrice);
-			$viewer->assign('LIMIT_CONFIG', $limitConfig);
+			$viewer->assign('LOCK', $limitConfig);
 			$html = $viewer->view('InventoryLimitAlert.tpl', $moduleName, true);
 		}
 		$response = new Vtiger_Response();

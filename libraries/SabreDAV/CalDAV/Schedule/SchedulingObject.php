@@ -45,7 +45,7 @@ class SchedulingObject extends \Sabre\CalDAV\CalendarObject implements IScheduli
      * @param Backend\BackendInterface $caldavBackend
      * @param array $objectData
      */
-    function __construct(Backend\SchedulingSupport $caldavBackend, array $objectData) {
+    public function __construct(Backend\SchedulingSupport $caldavBackend, array $objectData) {
 
         $this->caldavBackend = $caldavBackend;
 
@@ -62,7 +62,7 @@ class SchedulingObject extends \Sabre\CalDAV\CalendarObject implements IScheduli
      *
      * @return string
      */
-    function get() {
+    public function get() {
 
         // Pre-populating the 'calendardata' is optional, if we don't have it
         // already we fetch it from the backend.
@@ -79,7 +79,7 @@ class SchedulingObject extends \Sabre\CalDAV\CalendarObject implements IScheduli
      * @param string|resource $calendarData
      * @return string
      */
-    function put($calendarData) {
+    public function put($calendarData) {
 
         throw new MethodNotAllowed('Updating scheduling objects is not supported');
 
@@ -90,7 +90,7 @@ class SchedulingObject extends \Sabre\CalDAV\CalendarObject implements IScheduli
      *
      * @return void
      */
-    function delete() {
+    public function delete() {
 
         $this->caldavBackend->deleteSchedulingObject($this->objectData['principaluri'], $this->objectData['uri']);
 
@@ -103,7 +103,7 @@ class SchedulingObject extends \Sabre\CalDAV\CalendarObject implements IScheduli
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->objectData['principaluri'];
 
@@ -122,7 +122,7 @@ class SchedulingObject extends \Sabre\CalDAV\CalendarObject implements IScheduli
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         // An alternative acl may be specified in the object data.
         //

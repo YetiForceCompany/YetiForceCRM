@@ -18,7 +18,7 @@
                 <optgroup label='{vtranslate($MODULE_NAME, $MODULE_NAME)}'>
                     {foreach from=$FIELD key=key item=item}
                         <option data-module="{$MODULE_NAME}" value="{$item['name']}" data-uitype="{$item['uitype']}" 
-                                data-info="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($item['info']))}">{vtranslate($item['label'], $BASE_MODULE)}</option>
+                                data-info="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($item['info']))}">{vtranslate($item['label'], $BASE_MODULE)}</option>
                     {/foreach}
                 </optgroup>
             {/foreach}

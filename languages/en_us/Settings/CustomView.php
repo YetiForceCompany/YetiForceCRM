@@ -31,5 +31,5 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'Saving changes' => 'Saving changes...',
-	'Update labels'	=> 'Update',
+	'Update labels' => 'Update',
 ];

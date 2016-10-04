@@ -109,12 +109,12 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 			if ($result->rowCount()) {
 				$row = $db->query_result_rowdata($result, 0);
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_USERS, $row['id']);
-				$name = $row['first_name'].' '.$row['last_name'];
+				$name = $row['first_name'] . ' ' . $row['last_name'];
 				$rule = new self();
 				return $rule->set('id', $qualifiedId)->set('name', $name);
 			}
 		}
-		
+
 		if ($type == self::RULE_MEMBER_TYPE_ROLES) {
 			$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
 			$params = array($memberId);
@@ -178,7 +178,7 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 			$rule = new self();
 			$rules[self::RULE_MEMBER_TYPE_USERS][$qualifiedId] = $rule->set('id', $qualifiedId)->set('name', $userModel->getDisplayName());
 		}
-		
+
 		return $rules;
 	}
 }

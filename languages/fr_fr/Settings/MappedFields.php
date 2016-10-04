@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
- 
+
 $languageStrings = [
 	'LBL_ADD_TEMPLATE' => 'Ajouter mapping',
 	'LBL_IMPORT_TEMPLATE' => 'Importer modèle',
@@ -10,8 +10,8 @@ $languageStrings = [
 	'LBL_MODULE' => 'Module',
 	'LBL_REL_MODULE' => 'Module lié',
 	'LBL_STATUS' => 'Statut',
-	'active' => 'Actit',
-	'inactive' => 'Inactit',
+	'active' => 'Actif',
+	'inactive' => 'Inactif',
 	'LBL_SELECT_MODULE' => 'Sélectionner module',
 	'LBL_SELECT_REL_MODULE' => 'Sélectionner module lié',
 	'LBL_MF_SETTINGS' => 'Modules',
@@ -39,11 +39,15 @@ $languageStrings = [
 	'LBL_NO_PERMISSION_TO_IMPORT' => 'Une erreur ou  un conflit est survenu. Echec de l\'import.',
 	'LBL_IMPORT_OK' => 'Modèle importé avec succès.',
 	'LBL_MODULE_NOT_EXIST' => 'Module dans le modèle que vous essayez d\'importer n\'existe pas.',
-
 	'multipicklist' => 'Liste déroulante (multi sélection)',
 	'percent' => 'Pourcentage',
 	'phone' => 'Téléphone',
 	'picklist' => 'Liste déroulante',
+	'owner' => 'Owner field',
+	'tree' => 'Category field',
+	'sharedOwner' => 'Users sharing field',
+	'documentsFileUpload' => 'File field',
+	'fileLocationType' => 'File type field',
 	'skype' => 'Skype ',
 	'string' => 'Chaine de caractères',
 	'textArea' => 'Zone de texte',
@@ -66,6 +70,7 @@ $languageStrings = [
 	'LBL_EXAMPLE_EXPRESSION' => 'Expression',
 	'LBL_ANNUAL_REVENUE' => 'Chiffre d\'affaire',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
+	'MappedFields' => 'Mapping',
 ];
 $jsLanguageStrings = [
 	'JS_IS_ALREADY_BEEN_MAPPED' => 'Ce champ est déjà mappé.',

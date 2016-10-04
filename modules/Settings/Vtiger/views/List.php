@@ -14,12 +14,12 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -91,7 +91,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 		$noOfEntries = count($this->listViewEntries);
-		if (!$this->listViewLinks) {
+		if (!isset($this->listViewLinks)) {
 			$this->listViewLinks = $listViewModel->getListViewLinks();
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
@@ -109,14 +109,14 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-		if (!$this->listViewCount) {
+		if (!isset($this->listViewCount)) {
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$totalCount = $this->listViewCount;
 		$pagingModel->set('totalCount', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-		
+
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
@@ -127,7 +127,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -137,6 +137,8 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			'modules.Settings.Vtiger.resources.List',
 			"modules.Settings.$moduleName.resources.List",
 			"modules.Settings.Vtiger.resources.$moduleName",
+			'modules.Vtiger.resources.ListSearch',
+			"modules.$moduleName.resources.ListSearch"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

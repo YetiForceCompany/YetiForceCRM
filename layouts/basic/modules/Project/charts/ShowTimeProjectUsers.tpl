@@ -45,7 +45,7 @@
 	<div style="width: 80%; margin: auto; text-align:center; margin-bottom:20px;">
 		{vtranslate('LBL_TOTAL_TIME')}<br/>
 		{vtranslate('LBL_USER')}<br/>
-		<input class="chartData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
+		<input class="chartData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATA))}' />
 		<div id="timeEmployees" style="height:400px;width:100%;"></div>
 	</div>
 {else}

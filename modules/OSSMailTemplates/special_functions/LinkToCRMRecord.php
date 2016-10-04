@@ -14,13 +14,13 @@ class LinkToCRMRecord
 
 	private $moduleList = array('all');
 
-	function process($data)
+	public function process($data)
 	{
 		$root = vglobal('site_URL');
 		return $root . "index.php?module=" . $data['module'] . "&view=Detail&record=" . $data['record'] . "";
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

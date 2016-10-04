@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,14 +7,15 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj role',
 	'LBL_ALL_USERS' => 'Wszyscy użytkownicy',
 	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Przypisz uprawnienia do istniejącej roli',
 	'LBL_ASSIGN_NEW_PRIVILEGES' => 'Przypisz uprawnienia bezpośrednio do roli',
 	'LBL_ASSIGN_ROLE' => 'Przypisane do roli',
-	'LBL_CAN_ASSIGN_RECORDS_TO' => 'Może przydzielać rekordy do',
+	'LBL_CAN_ASSIGN_OWNER_TO' => 'Może przydzielać rekordy do',
+	'LBL_CAN_ASSIGN_MULTIOWNER_TO' => 'Osoby współdzielące',
 	'LBL_CHOOSE_PROFILES' => 'Wybierz profile',
 	'LBL_CLICK_TO_EDIT_OR_DRAG_TO_MOVE' => 'Naciśnij w celu edycji lub chwyć w celu przemieszczenia',
 	'LBL_COPY_PRIVILEGES_FROM' => 'Kopiuj uprawnienia z',

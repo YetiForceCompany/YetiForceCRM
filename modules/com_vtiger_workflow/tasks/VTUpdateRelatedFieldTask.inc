@@ -22,10 +22,10 @@ class VTUpdateRelatedFieldTask extends VTTask
 	{
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
-		
+
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
-			$fieldValueMapping = Zend_Json::decode($this->field_value_mapping);
+			$fieldValueMapping = \includes\utils\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($fieldValueMapping)) {
 			$util->loggedInUser();
@@ -94,13 +94,14 @@ class VTUpdateRelatedFieldTask extends VTTask
 			$recordModel->save();
 		}
 	}
-	
+
 	/**
 	 * Function to get contents of this task
 	 * @param <Object> $entity
 	 * @return <Array> contents
 	 */
-	public function getContents($entity, $entityCache = false) {
+	public function getContents($entity, $entityCache = false)
+	{
 		$this->contents = true;
 		return $this->contents;
 	}

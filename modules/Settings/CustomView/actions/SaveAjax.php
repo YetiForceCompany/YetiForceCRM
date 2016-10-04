@@ -10,7 +10,7 @@
 class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('delete');
@@ -35,13 +35,14 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	{
 		$params = $request->get('param');
 		Settings_CustomView_Module_Model::updateField($params);
+		Settings_CustomView_Module_Model::updateOrderAndSort($params);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => vtranslate('Saving CustomView', $request->getModule(false))
 		]);
 		$response->emit();
 	}
-	
+
 	public function upadteSequences(Vtiger_Request $request)
 	{
 		$params = $request->get('param');

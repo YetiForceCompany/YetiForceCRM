@@ -14,13 +14,13 @@ class LinkToPortalRecord
 
 	private $moduleList = array('all');
 
-	function process($data)
+	public function process($data)
 	{
 		$root = vglobal('PORTAL_URL');
 		return $root . "/index.php?module=" . $data['module'] . "&action=index&fun=detail&id=" . $data['record'];
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

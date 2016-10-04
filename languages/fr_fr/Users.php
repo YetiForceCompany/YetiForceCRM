@@ -313,6 +313,7 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Retardé',
 	'PLL_CANCELLED' => 'Annulé',
 	'PLL_COMPLETED' => 'Complété',
+	'LBL_SELECT_LAYOUT' => 'Select layout', 
 	'LBL_SWITCH' => 'Echanger',
 	'LBL_SWITCH_USER' => 'Echanger utilisateur',
 	'LBL_SWITCH_TO_YOURSELF' => 'Echanger vers vous-même',
@@ -329,5 +330,6 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' échec. Un nouveau mot de passe doit être spécifié.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'Ancien mot de passe saisi incorrect. Resaisir le mot de passe.',
 	'JS_REENTER_PASSWORDS' => 'Merci de resaisir les mots de passe.  Le \"nouveau mot de passe\" et \"sa confirmation\" ne sont pas identiques.',
+	'JS_USER_MAIL_EXIST' => 'Un utilisateur avec cette adresse email existe déjà',
 ];
 

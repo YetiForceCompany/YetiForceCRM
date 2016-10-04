@@ -12,6 +12,6 @@ include_once 'include/Webservices/QueryRelated.php';
 
 function vtws_retrieve_related($id, $relatedType, $relatedLabel, $user)
 {
-	$query = 'SELECT * FROM ' . $relatedType;
+	$query = sprintf('SELECT * FROM %s', $relatedType);
 	return vtws_query_related($query, $id, $relatedLabel, $user);
 }

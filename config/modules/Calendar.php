@@ -27,5 +27,11 @@ $CONFIG = [
 	// Exclude certain days-of-the-week from being displayed.
 	// The value is an array of day-of-week indices to hide. Each index is zero-base (Sunday=0) and ranges from 0-6.
 	// By default, no days are hidden
-	'HIDDEN_DAYS_IN_CALENDAR_VIEW' => [0,6],
+	'HIDDEN_DAYS_IN_CALENDAR_VIEW' => [0, 6],
+	// Send mail notification to participants
+	'SEND_REMINDER_INVITATION' => true, // Boolean
+	// Auto refresh reminders
+	'AUTO_REFRESH_REMINDERS' => true, // Boolean
+	// Display days below the form in quick create
+	'SHOW_DAYS_QUICKCREATE' => true, // Boolean
 ];

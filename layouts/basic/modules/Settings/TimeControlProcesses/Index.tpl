@@ -9,9 +9,12 @@
 *************************************************************************************************************************************/*}
 
 <div class="processesContainer">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	<h5>{vtranslate('LBL_TIMECONTROL_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}</h5>
-	<hr>
+	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			<h5>{vtranslate('LBL_TIMECONTROL_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}</h5>
+		</div>
+	</div>
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 		<li class="active"><a href="#general" data-toggle="tab">{vtranslate('LBL_GENERAL_SETTINGS', $QUALIFIED_MODULE)}</a></li>
 		<li><a href="#timeControlWidget" data-toggle="tab">{vtranslate('LBL_TIME_CONTROL_WIDGET', $QUALIFIED_MODULE)}</a></li>

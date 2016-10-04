@@ -19,7 +19,7 @@ function vtws_history($element, $user)
 		throw new WebServiceException(WebServiceErrorCode::$MANDFIELDSMISSING, "Missing mandatory input values.");
 	}
 
-	if (!CRMEntity::getInstance('ModTracker') || !vtlib_isModuleActive('ModTracker')) {
+	if (!CRMEntity::getInstance('ModTracker') || !\includes\Modules::isModuleActive('ModTracker')) {
 		throw new WebServiceException("TRACKING_MODULE_NOT_ACTIVE", "Tracking module not active.");
 	}
 
@@ -59,7 +59,7 @@ function vtws_history($element, $user)
 		$params[] = $user->getId();
 	} else if ($mode == 'All') {
 		if ($acrossAllModule) {
-			// TODO collate only active (or enabled) modules for tracking.
+			
 		} else if ($moduleName) {
 			$sql .= ' WHERE vtiger_modtracker_basic.module = ?';
 			$params[] = $moduleName;
@@ -116,7 +116,7 @@ function vtws_history($element, $user)
 	// Minor optimizatin to avoid 2nd query run when there is nothing to expect.
 	if (!empty($orderedIds)) {
 		$sql = 'SELECT vtiger_modtracker_detail.* FROM vtiger_modtracker_detail';
-		$sql .= ' WHERE vtiger_modtracker_detail.id IN (' . generateQuestionMarks($orderedIds) . ')';
+		$sql .= sprintf(' WHERE vtiger_modtracker_detail.id IN (%s)', generateQuestionMarks($orderedIds));
 
 		// LIMIT here is not required as $ids extracted is with limit at record level earlier.
 		$params = $orderedIds;
@@ -155,7 +155,7 @@ function vtws_history_entityIdHelper($moduleName, $id)
 	if (!isset($wsEntityIdCache[$moduleName][$id])) {
 		// Determine moduleName based on $id
 		if (empty($moduleName)) {
-			$moduleName = getSalesEntityType($id);
+			$moduleName = \vtlib\Functions::getCRMRecordType($id);
 		}
 		if ($moduleName == 'Calendar') {
 			$moduleName = vtws_getCalendarEntityType($id);

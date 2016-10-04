@@ -12,7 +12,7 @@
 Class Settings_OSSProjectTemplates_Index_View extends Settings_OSSProjectTemplates_Base_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
@@ -22,7 +22,7 @@ Class Settings_OSSProjectTemplates_Index_View extends Settings_OSSProjectTemplat
 		$moduleSettingsName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$fieldHtml = $this->getFieldHtmp('Project');
-		$fieldEditHtml = $this->getFieldHtmp('Project', TRUE);
+		$fieldEditHtml = $this->getFieldHtmp('Project', true);
 
 		$settingsModuleModel = Settings_Vtiger_Module_Model::getInstance('Settings:OSSProjectTemplates');
 

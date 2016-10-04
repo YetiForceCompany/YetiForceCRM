@@ -53,7 +53,7 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 	 * @param <String> $module
 	 * @return <Settings_Leads_Field_Model> field model
 	 */
-	public static function getInstance($value, $module)
+	public static function getInstance($value, $module = false)
 	{
 		$fieldModel = parent::getInstance($value, $module);
 		$objectProperties = get_object_vars($fieldModel);

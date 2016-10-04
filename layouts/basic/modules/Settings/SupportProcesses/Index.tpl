@@ -8,9 +8,12 @@
 * All Rights Reserved.
 *************************************************************************************************************************************/*}
 
-<div class=" supportProcessesContainer" style="margin-top:10px;">
-	{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-	<hr>
+<div class=" supportProcessesContainer">
+	<div class="widget_header row">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		</div>
+	</div>
 	<ul id="tabs" class="nav nav-tabs " data-tabs="tabs">
 		<li class="active"><a href="#general_configuration" data-toggle="tab">{vtranslate('LBL_GENERAL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
 	</ul>
@@ -32,7 +35,6 @@
 					<tr data-id="{$ITEM['user_id']}">
 						<td><label>{vtranslate('LBL_TICKET_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-xs-6">
-							{assign var=TICKETSTATUSNOTMODIFY value=$TICKETSTATUSNOTMODIFY}
 							<select class="chzn-select configField form-control status" multiple name="status">
 								{foreach  item=ITEM from=$TICKETSTATUS}
 									<option value="{$ITEM['status']}" {if in_array($ITEM['status'], $TICKETSTATUSNOTMODIFY)} selected {/if}  >{$ITEM['statusTranslate']}</option>

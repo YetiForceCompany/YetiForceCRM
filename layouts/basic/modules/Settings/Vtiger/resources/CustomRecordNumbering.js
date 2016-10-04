@@ -177,9 +177,9 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 		clip.on('complete', function (client, args) {
 			// notification about copy to clipboard
 			var params = {
-				text: app.vtranslate('LBL_NOTIFY_COPY_TEXT'),
+				text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 				animation: 'show',
-				title: app.vtranslate('LBL_NOTIFY_COPY_TITLE'),
+				title: app.vtranslate('JS_NOTIFY_COPY_TITLE'),
 				type: 'success'
 			};
 			Vtiger_Helper_Js.showPnotify(params);

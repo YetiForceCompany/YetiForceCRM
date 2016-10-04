@@ -13,7 +13,6 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Liste Serviceverträge',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Servicevertragsdetails',
-	
 	//Field Labels
 	'Contract No' => 'Vertragsnummer',
 	'Start Date' => 'Startdatum',
@@ -21,10 +20,9 @@ $languageStrings = [
 	'Tracking Unit' => 'Tracking-Einheit',
 	'Total Units' => 'Gesamteinheiten',
 	'Used Units' => 'Verwendete Einheiten',
-	'Progress'=> 'Fortschritt',
+	'Progress' => 'Fortschritt',
 	'Planned Duration' => 'Geplante Dauer (in Tagen)',
 	'Actual Duration' => 'Aktuelle Dauer (in Tagen)',
-	
 	//YetiForce
 	'Support' => 'Support',
 	'Administrative' => 'Administrativ',
@@ -38,9 +36,7 @@ $languageStrings = [
 	'Low' => 'Niedrig',
 	'Normal' => 'Normal',
 	'High' => 'Hoch',
-	
 	'Hours' => 'Stunden',
 	'Days' => 'Tage',
 	'Incidents' => 'Vorfälle'
-
 ];

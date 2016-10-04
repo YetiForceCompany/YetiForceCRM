@@ -27,11 +27,14 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-
+		if (empty($value)) {
+			return null;
+		}
 		$value = explode(' |##| ', $value);
 		$trValue = [];
 
-		for ($i = 0; $i < count($value); $i++) {
+		$countValue = count($value);
+		for ($i = 0; $i < $countValue; $i++) {
 			$trValue[] = Vtiger_Language_Handler::getTranslatedString($value[$i], $this->get('field')->getModuleName());
 		}
 

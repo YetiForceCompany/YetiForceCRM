@@ -115,7 +115,6 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 			};
 			AppConnector.request(params).then(
 					function (data) {
-						//TODO: App Message should be shown
 						aDeferred.resolve(data);
 					},
 					function (textStatus, errorThrown) {

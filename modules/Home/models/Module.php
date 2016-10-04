@@ -29,16 +29,15 @@ class Home_Module_Model extends Vtiger_Module_Model
 	public function getComments($pagingModel)
 	{
 		$db = PearDatabase::getInstance();
-
-		$instance = CRMEntity::getInstance('ModComments');
-		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('ModComments');
+		$userAccessConditions = \App\PrivilegeQuery::getAccessConditions('ModComments');
 		$sql = 'SELECT *, vtiger_crmentity.createdtime AS createdtime, vtiger_crmentity.smownerid AS smownerid,
 			crmentity2.crmid AS parentId, crmentity2.setype AS parentModule 
 			FROM vtiger_modcomments
 			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
 			INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
-			WHERE vtiger_crmentity.deleted = 0 AND crmentity2.deleted = 0 ' . $UserAccessConditions . '
+			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 %s
 			ORDER BY vtiger_modcomments.modcommentsid DESC LIMIT ?, ?';
+		$sql = sprintf($sql, $userAccessConditions);
 		$result = $db->pquery($sql, array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
 
 		$comments = array();
@@ -62,7 +61,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	public function getActivityQuery($type)
 	{
 		if ($type == 'updates') {
-			$query = ' AND module != "ModComments" ';
+			$query = ' && module != "ModComments" ';
 			return $query;
 		}
 	}
@@ -75,7 +74,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	 * @param <String> $recordId - record id
 	 * @return <Array>
 	 */
-	function getCalendarActivities($mode, $pagingModel, $user, $recordId = false, $paramsMore = [])
+	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false, $paramsMore = [])
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
@@ -90,65 +89,52 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if (empty($sortOrder) || !in_array(strtolower($sortOrder), ['asc', 'desc'])) {
 			$sortOrder = 'ASC';
 		}
-
 		if (empty($orderBy)) {
 			$orderBy = "due_date $sortOrder, time_end $sortOrder";
 		} else {
 			$orderBy .= ' ' . $sortOrder;
 		}
-		
-		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
-		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
-		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
-		$instance = CRMEntity::getInstance('Calendar');
-		$userAccessConditions = $instance->getUserAccessConditionsQuerySR('Calendar');
 
 		$params = [];
 		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*
 			FROM vtiger_activity
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 			WHERE vtiger_crmentity.deleted=0 ';
-		$query .= $userAccessConditions;
+		$query .= \App\PrivilegeQuery::getAccessConditions('Calendar', $currentUser->getId());
 		if ($mode === 'upcoming') {
-			if(!is_array($paramsMore['status'])){
+			if (!is_array($paramsMore['status'])) {
 				$paramsMore['status'] = [$paramsMore['status']];
 			}
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($paramsMore['status']) ."))";
+			AND (vtiger_activity.status is NULL || vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . "))";
 			$params = array_merge($params, $paramsMore['status']);
 		} elseif ($mode === 'overdue') {
-			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-			AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?))";
-			//AND CONCAT(due_date,' ',time_end) < '$nowInDBFormat'";
-			array_push($params, $overdueActivityLabels);
+			AND (vtiger_activity.status is NULL || vtiger_activity.status IN (?))";
+			array_push($params, $paramsMore);
 		} elseif ($mode === 'assigned_upcoming') {
-			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($stateActivityLabels) .")) AND vtiger_crmentity.smcreatorid = ?";
-			$params = array_merge($params, $stateActivityLabels);
-			$params[] = $currentUser->getId();
+			$query .= "AND (vtiger_activity.status is NULL || vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ?";
+			$params = array_merge($params, $paramsMore);
 		} elseif ($mode === 'assigned_over') {
 			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (?)) AND vtiger_crmentity.smcreatorid = ?";
-			array_push($params, $overdueActivityLabels, $currentUser->getId());
+			$query .= "AND (vtiger_activity.status is NULL || vtiger_activity.status IN (?)) && vtiger_crmentity.smcreatorid = ?";
+			array_push($params, $paramsMore['status'], $paramsMore['user']);
 		} elseif ($mode === 'createdByMeButNotMine') {
-			$status = [$stateActivityLabels['overdue'], $stateActivityLabels['not_started'], $stateActivityLabels['in_realization']];
-			$query .= "AND (vtiger_activity.status is NULL OR vtiger_activity.status IN (". generateQuestionMarks($status) .")) AND vtiger_crmentity.smcreatorid = ? AND vtiger_crmentity.smownerid NOT IN (?) ";
-			$params = array_merge($params, $status);
-			array_push($params, $currentUser->getId(), $currentUser->getId());
+			$query .= "AND (vtiger_activity.status is NULL || vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ? && vtiger_crmentity.smownerid NOT IN (?) ";
+			array_push($params, $paramsMore['status'], $paramsMore['user'], $paramsMore['user']);
 		}
 
-		$accessibleUsers = $currentUser->getAccessibleUsers();
-		$accessibleGroups = $currentUser->getAccessibleGroups();
+		$accessibleUsers = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
+		$accessibleGroups = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
-			$query .= ' AND vtiger_crmentity.smownerid = ?';
+			$query .= ' && vtiger_crmentity.smownerid = ?';
 			$params[] = $user;
 		}
 
-		$query .= ' ORDER BY ' . $orderBy . ' LIMIT ?, ?';
+		$query .= sprintf(' ORDER BY %s LIMIT ?, ?', $orderBy);
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit() + 1;
-		
+
 		$result = $db->pquery($query, $params);
 
 		$activities = [];
@@ -210,7 +196,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	 * @param <String> $recordId - record id
 	 * @return <Array>
 	 */
-	function getAssignedProjectsTasks($mode, $pagingModel, $user, $recordId = false)
+	public function getAssignedProjectsTasks($mode, $pagingModel, $user, $recordId = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
@@ -222,27 +208,25 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
-		$instance = CRMEntity::getInstance('ProjectTask');
-		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('ProjectTask');
 
 		$params = array();
 		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_projecttask.*
 			FROM vtiger_projecttask
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid
-			WHERE vtiger_crmentity.deleted=0 AND vtiger_crmentity.smcreatorid = ?";
+			WHERE vtiger_crmentity.deleted=0 && vtiger_crmentity.smcreatorid = ?";
 		$params[] = $currentUser->getId();
-		$query .= $UserAccessConditions;
+		$query .= \App\PrivilegeQuery::getAccessConditions('ProjectTask', $currentUser->getId());
 		if ($mode === 'upcoming') {
-			$query .= " AND targetenddate >= ?";
+			$query .= " && targetenddate >= ?";
 		} elseif ($mode === 'overdue') {
-			$query .= " AND targetenddate < ?";
+			$query .= " && targetenddate < ?";
 		}
 		$params[] = $currentDate;
 
-		$accessibleUsers = $currentUser->getAccessibleUsers();
-		$accessibleGroups = $currentUser->getAccessibleGroups();
+		$accessibleUsers = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
+		$accessibleGroups = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
-			$query .= " AND vtiger_crmentity.smownerid = ?";
+			$query .= " && vtiger_crmentity.smownerid = ?";
 			$params[] = $user;
 		}
 
@@ -263,7 +247,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 				if (isRecordExists($row['projectid'])) {
 					$record = Vtiger_Record_Model::getInstanceById($row['projectid'], 'Project');
 					if (isRecordExists($record->get('linktoaccountscontacts'))) {
-						$model->set('account', '<a href="index.php?module=' . Vtiger_Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . Vtiger_Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
+						$model->set('account', '<a href="index.php?module=' . vtlib\Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
 					}
 				}
 			}
@@ -291,7 +275,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if (empty($type)) {
 			$type = 'all';
 		}
-		//TODO: need to handle security
 		$comments = array();
 		if ($type == 'all' || $type == 'comments') {
 			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -308,11 +291,12 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if ($type == 'updates' || $type == 'all') {
 			$db = PearDatabase::getInstance();
 			$queryforActivity = $this->getActivityQuery($type);
-			$result = $db->pquery('SELECT vtiger_modtracker_basic.*
+			$query = sprintf('SELECT vtiger_modtracker_basic.*
 					FROM vtiger_modtracker_basic
 					INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-					AND deleted = 0 ' . $queryforActivity . '
-					ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
+					AND deleted = 0 %s
+					ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', $queryforActivity);
+			$result = $db->pquery($query, [$pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
 
 			$activites = array();
 			for ($i = 0; $i < $db->num_rows($result); $i++) {

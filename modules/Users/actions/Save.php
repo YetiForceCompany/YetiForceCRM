@@ -17,9 +17,23 @@ class Users_Save_Action extends Vtiger_Save_Action
 		$record = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record) || ($recordModel->isAccountOwner() &&
-			$currentUserModel->get('id') != $recordModel->getId() && !$currentUserModel->isAdminUser())) {
-			throw new NoPermittedToRecordException('LBL_PERMISSION_DENIED');
+
+		// Check for operation access.
+		$allowed = Users_Privileges_Model::isPermitted($moduleName, 'Save', $record);
+
+		if ($allowed) {
+			// Deny access if not administrator or account-owner or self
+			if (!$currentUserModel->isAdminUser() && !$recordModel->isAccountOwner()) {
+				if (empty($record)) {
+					$allowed = false;
+				} else if ($currentUserModel->get('id') != $recordModel->getId()) {
+					$allowed = false;
+				}
+			}
+		}
+
+		if (!$allowed) {
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -108,7 +122,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 			$sharedType = $request->get('calendarsharedtype');
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-			$accessibleUsers = $currentUserModel->getAccessibleUsersForModule('Calendar');
+			$accessibleUsers = \includes\fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
 
 			if ($sharedType == 'private') {
 				$calendarModuleModel->deleteSharedUsers($currentUserModel->id);

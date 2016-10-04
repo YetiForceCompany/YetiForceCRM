@@ -35,7 +35,6 @@ Class Settings_Roles_Edit_View extends Settings_Roles_Index_View
 			$roleDirectlyRelated = true;
 		}
 
-
 		$viewer->assign('PROFILE_DIRECTLY_RELATED_TO_ROLE', $roleDirectlyRelated);
 		$viewer->assign('ALL_PROFILES', Settings_Profiles_Record_Model::getAll());
 		$viewer->assign('ROLE_USERS', $recordModel->getUsers());

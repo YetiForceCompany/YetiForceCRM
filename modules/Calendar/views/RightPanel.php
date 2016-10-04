@@ -12,7 +12,7 @@
 class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getUsersList');
@@ -20,7 +20,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getActivityType');
 	}
 
-	function getUsersList(Vtiger_Request $request)
+	public function getUsersList(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -30,10 +30,10 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		switch ($clendarallorecords) {
 			case 3:
 				if (AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
-					$usersAndGroup = $currentUser->getUsersAndGroupForModuleList($moduleName);
+					$usersAndGroup = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$users = $usersAndGroup['users'];
 				} else {
-					$users = $currentUser->getAccessibleUsers();
+					$users = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 				}
 				break;
 			case 1:
@@ -49,27 +49,27 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
 
-	function getGroupsList(Vtiger_Request $request)
+	public function getGroupsList(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
-		
+
 		switch ($clendarallorecords) {
 			case 1:
 				$groups = [];
 				break;
 			case 2:
-				$groups = $currentUser->getAccessibleGroups();
+				$groups = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 				break;
 			case 3:
 				if (AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
-					$usersAndGroup = $currentUser->getUsersAndGroupForModuleList($moduleName);
+					$usersAndGroup = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$groups = $usersAndGroup['group'];
 				} else {
-					$groups = $currentUser->getAccessibleGroups();
+					$groups = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 				}
 				break;
 		}
@@ -78,7 +78,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$viewer->view('RightPanel.tpl', $moduleName);
 	}
 
-	function getActivityType(Vtiger_Request $request)
+	public function getActivityType(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

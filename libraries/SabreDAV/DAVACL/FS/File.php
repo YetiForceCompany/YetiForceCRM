@@ -36,7 +36,7 @@ class File extends BaseFile implements IACL {
      * @param array $acl ACL rules.
      * @param string|null $owner principal owner string.
      */
-    function __construct($path, array $acl, $owner = null) {
+    public function __construct($path, array $acl, $owner = null) {
 
         parent::__construct($path);
         $this->acl = $acl;
@@ -51,7 +51,7 @@ class File extends BaseFile implements IACL {
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->owner;
 
@@ -64,7 +64,7 @@ class File extends BaseFile implements IACL {
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
 
         return null;
 
@@ -82,7 +82,7 @@ class File extends BaseFile implements IACL {
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         return $this->acl;
 
@@ -96,7 +96,7 @@ class File extends BaseFile implements IACL {
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new Forbidden('Setting ACL is not allowed here');
 
@@ -114,7 +114,7 @@ class File extends BaseFile implements IACL {
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         return null;
 

@@ -9,7 +9,7 @@
 class Settings_WebserviceApps_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$keyLength = 32;
 		$id = $request->get('id');

@@ -39,7 +39,6 @@ class VtigerLineItemOperation extends VtigerActorOperation
 	public function __construct($webserviceObject, $user, $adb, $log)
 	{
 		$this->user = $user;
-		$this->log = $log;
 		$this->webserviceObject = $webserviceObject;
 		$this->pearDB = $adb;
 		$this->entityTableName = $this->getActorTables();
@@ -53,7 +52,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 
 	protected function getNextId($elementType, $element)
 	{
-		$sql = 'SELECT MAX(' . $this->meta->getIdColumn() . ') as maxvalue_lineitem_id FROM ' . $this->entityTableName;
+		$sql = sprintf('SELECT MAX(%s) as maxvalue_lineitem_id FROM %s', $this->meta->getIdColumn(), $this->entityTableName);
 		$result = $this->pearDB->pquery($sql, []);
 		$numOfRows = $this->pearDB->num_rows($result);
 
@@ -223,7 +222,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 						}
 					}
 				}
-			} elseif ($found == false) {
+			} elseif ($found === false) {
 				array_merge($this->taxList, $productTaxList);
 			}
 		} else {
@@ -347,7 +346,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		return $createdElement;
 	}
 
-	function getProductPrice($productId)
+	public function getProductPrice($productId)
 	{
 		$db = PearDatabase::getInstance();
 		$sql = "select unit_price from vtiger_products where productid=?";
@@ -457,8 +456,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		$parentType = $parentTypeMeta->getEntityName();
 
 		$parentInstance = CRMEntity::getInstance($parentType);
-		$sql = 'update ' . $parentInstance->table_name . ' set subtotal=?, total=?, pre_tax_total=? where ' .
-			$parentInstance->tab_name_index[$parentInstance->table_name] . '=?';
+		$sql = sprintf('update %s set subtotal=?, total=?, pre_tax_total=? where %s = ?', $parentInstance->table_name, $parentInstance->tab_name_index[$parentInstance->table_name]);
 		$params = array($parent['hdnSubTotal'], $parent['hdnGrandTotal'], $parent['pre_tax_total'], $parentId);
 		$transactionSuccessful = vtws_runQueryAsTransaction($sql, $params, $result);
 		self::$parentCache[$parent['id']] = $parent;
@@ -541,7 +539,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		}
 	}
 
-	function setCache($parentId, $updatedList)
+	public function setCache($parentId, $updatedList)
 	{
 		self::$lineItemCache[$parentId] = $updatedList;
 	}
@@ -573,5 +571,3 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		return $describe;
 	}
 }
-
-?>

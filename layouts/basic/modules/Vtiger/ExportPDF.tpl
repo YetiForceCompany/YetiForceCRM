@@ -6,7 +6,7 @@
 		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h3>
 	</div>
 	<div class="modal-body">
-		<input type="hidden" name="all_records" id="all_records" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($ALL_RECORDS))}" />
+		<input type="hidden" name="all_records" id="all_records" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($ALL_RECORDS))}" />
 		<input type="hidden" name="selectedRecords" value="[]" />
 		<input type="hidden" name="validRecords" value="[]" />
 		<input type="hidden" name="template" value="[]" />

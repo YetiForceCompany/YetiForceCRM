@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{assign var=MAPPING_PANEL value=$TASK_OBJECT->mappingPanel}
-	<input type="hidden" id="taskFields" value="{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($TASK_OBJECT->getFieldNames()))}"/>
+	<input type="hidden" id="taskFields" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($TASK_OBJECT->getFieldNames()))}"/>
 	<input type="hidden" id="mappingPanel" value="{$MAPPING_PANEL}"/>
 
 	<div class="form-group text-center">

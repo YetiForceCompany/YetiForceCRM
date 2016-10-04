@@ -22,6 +22,9 @@
 				{foreach from=Settings_Vtiger_Icons_Model::getAdditionalIcon() key=NAME item=CLASS}
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
+				{foreach from=Settings_Vtiger_Icons_Model::getFontAwesomeIcon() key=NAME item=CLASS}
+					<option value="fa {$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
+				{/foreach}
 				{foreach from=Settings_Vtiger_Icons_Model::getImageIcon() key=NAME item=URL}
 					<option value="{$URL}" data-type="image" title="{$NAME}">{$NAME}</option>
 				{/foreach}

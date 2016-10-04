@@ -1,11 +1,11 @@
 <?php
+
 /**
  * ExportToXml Model Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-
 class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 {
 
@@ -58,7 +58,9 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 		$this->inventoryFields = $inventoryFieldModel->getFields();
 		$table = $inventoryFieldModel->getTableName('data');
-		$resultInventory = $db->pquery('SELECT * FROM ' . $table . ' WHERE id = ? ORDER BY seq', [$recordData[$this->focus->table_index]]);
+		$query = 'SELECT * FROM %s WHERE id = ? ORDER BY seq';
+		$query = sprintf($query, $table);
+		$resultInventory = $db->pquery($query, [$recordData[$this->focus->table_index]]);
 		if ($db->getRowCount($resultInventory)) {
 			while ($inventoryRow = $db->getRow($resultInventory)) {
 				$entries[] = $inventoryRow;
@@ -67,7 +69,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		return $entries;
 	}
 
-	function sanitizeInventoryValue($value, $columnName, $formated = false)
+	public function sanitizeInventoryValue($value, $columnName, $formated = false)
 	{
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 		$inventoryFields = $inventoryFieldModel->getFields();
@@ -76,8 +78,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = Vtiger_Functions::getCRMRecordType($value);
-					$displayValueArray = Vtiger_Functions::computeCRMRecordLabels($recordModule, $value);
+					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$displayValueArray = \includes\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
@@ -107,11 +109,11 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 					$valueData = $field->getCurrencyParam([], $value);
 					$valueNewData = [];
 					foreach ($valueData as $currencyId => &$data) {
-						$currencyName = Vtiger_Functions::getCurrencyName($currencyId, false);
+						$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
 						$data['value'] = $currencyName;
 						$valueNewData[$currencyName] = $data;
 					}
-					$value = Zend_Json::encode($valueNewData);
+					$value = \includes\utils\Json::encode($valueNewData);
 					break;
 				default:
 					break;
@@ -139,7 +141,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$zip = new ZipArchive();
 		$zip->open($zipName, ZipArchive::CREATE);
 
-		for ($i = 0; $i < count($this->xmlList); $i++) {
+		$countXmlList = count($this->xmlList);
+		for ($i = 0; $i < $countXmlList; $i++) {
 			$xmlFile = basename($this->xmlList[$i]);
 			$xmlFile = explode('_', $xmlFile);
 			array_shift($xmlFile);
@@ -162,7 +165,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	{
 		$xml = new XMLWriter();
 		$xml->openMemory();
-		$xml->setIndent(TRUE);
+		$xml->setIndent(true);
 		$xml->startDocument('1.0', 'UTF-8');
 
 		$xml->startElement('MODULE_FIELDS');
@@ -222,10 +225,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		}
 		return false;
 	}
-	
-	/*
-	 * TODO
-	 */
+
 	public function createXmlFromTemplate($entries, $entriesInventory)
 	{
 		

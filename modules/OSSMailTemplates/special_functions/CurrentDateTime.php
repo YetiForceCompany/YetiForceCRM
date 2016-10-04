@@ -14,12 +14,12 @@ class CurrentDateTime
 
 	private $moduleList = array('all');
 
-	function process($data)
+	public function process($data)
 	{
 		return date('Y-m-d H:i:s');
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

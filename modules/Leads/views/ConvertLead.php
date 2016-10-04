@@ -6,32 +6,33 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Leads_ConvertLead_View extends Vtiger_Index_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (!$moduleModel->isPermitted('ConvertLead')) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
-			throw new NoPermittedToRecordException('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		
+
 		$recordId = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
-			throw new NoPermittedException('LBL_PERMISSION_DENIED');
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$currentUserPriviligeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
@@ -51,10 +52,6 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		$assignedToFieldModel = $moduleModel->getField('assigned_user_id');
 		$assignedToFieldModel->set('fieldvalue', $recordModel->get('assigned_user_id'));
 		$viewer->assign('ASSIGN_TO', $assignedToFieldModel);
-
-		$contactsModuleModel = Vtiger_Module_Model::getInstance('Contacts');
-		$accountField = Vtiger_Field_Model::getInstance('parent_id', $contactsModuleModel);
-		$viewer->assign('CONTACT_ACCOUNT_FIELD_MODEL', $accountField);
 		$viewer->view('ConvertLead.tpl', $moduleName);
 	}
 }

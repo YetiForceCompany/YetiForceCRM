@@ -7,13 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-include('config/version.php');
+namespace vtlib;
 
 /**
  * Provides utility APIs to work with Vtiger Version detection
  * @package vtlib
  */
-class Vtiger_Version
+class Version
 {
 
 	/**
@@ -21,8 +21,7 @@ class Vtiger_Version
 	 */
 	static function current()
 	{
-		global $YetiForce_current_version;
-		return $YetiForce_current_version;
+		return \AppConfig::main('YetiForce_current_version');
 	}
 
 	/**
@@ -67,5 +66,3 @@ class Vtiger_Version
 		return $version;
 	}
 }
-
-?>

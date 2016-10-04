@@ -1,3 +1,5 @@
+RedirectMatch 403 (?i).*\.log$
+
 <IfModule mod_autoindex.c>
 	Options -Indexes
 </ifModule>
@@ -5,6 +7,7 @@
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
 	RewriteEngine On
+	RewriteRule ^favicon.ico layouts/basic/skins/images/favicon.ico [L,NC]
 	RewriteRule ^api/webservice/(.*)/(.*)/(.*)$ api/webservice.php?module=$1&action=$2&record=$3 [QSA,NC,L]
 	RewriteRule ^api/webservice/(.*)/(.*)$ api/webservice.php?module=$1&action=$2 [QSA,NC,L]
 	RewriteRule ^api/webservice/(.*)$ api/webservice.php?module=$1 [QSA,NC,L]
@@ -34,9 +37,13 @@
 	php_flag	suhosin.session.encrypt		Off
 
 	php_flag	session.auto_start			Off
-	php_value	session.gc_maxlifetime		21600
+	# 86400 = 3600*24
+	php_value	session.gc_maxlifetime		86400 
+	# 1440 = 60*24
+	php_value	session.cache_expire		1440
 	php_value	session.gc_divisor			500
 	php_value	session.gc_probability		1
+	php_value	session.save_path			cache/session
 	php_value	error_log					cache/logs/phpError.log
 </IfModule>
 <IfModule fcgid_module.c>

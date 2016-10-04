@@ -870,7 +870,6 @@ jQuery.extend({
 
 			// Convert html string into DOM nodes
 			if ( typeof elem === "string" ) {
-				// Fix "XHTML"-style tags in all browsers
 				elem = elem.replace(/(<(\w+)[^>]*?)\/>/g, function(all, front, tag){
 					return tag.match(/^(abbr|br|col|img|input|link|meta|param|hr|area|embed)$/i) ?
 						all :
@@ -973,7 +972,6 @@ jQuery.extend({
 			// Whether we are setting (or getting)
 			set = value !== undefined;
 
-		// Try to normalize/fix the name
 		name = notxml && jQuery.props[ name ] || name;
 
 		// Only do all the following if this is a node (faster for style)
@@ -983,8 +981,6 @@ jQuery.extend({
 			// These attributes require special treatment
 			var special = /href|src|style/.test( name );
 
-			// Safari mis-reports the default selected property of a hidden option
-			// Accessing the parent's selectedIndex property fixes it
 			if ( name == "selected" && elem.parentNode )
 				elem.parentNode.selectedIndex;
 
@@ -1809,7 +1805,6 @@ var Expr = Sizzle.selectors = {
 				match[3] = test[3] - 0;
 			}
 
-			// TODO: Move to normal caching system
 			match[0] = done++;
 
 			return match;
@@ -2813,7 +2808,6 @@ jQuery.Event = function( src ){
 	// So we won't rely on the native value
 	this.timeStamp = now();
 	
-	// Mark it as fixed
 	this[expando] = true;
 };
 

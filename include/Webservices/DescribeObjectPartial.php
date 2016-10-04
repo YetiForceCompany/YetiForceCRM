@@ -15,7 +15,7 @@ function vtws_describe_partial($elementType, $user)
 {
 
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $elementType);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -34,5 +34,3 @@ function vtws_describe_partial($elementType, $user)
 	VTWS_PreserveGlobal::flush();
 	return $entity;
 }
-
-?>

@@ -10,6 +10,7 @@
 
 class Services_Record_Model extends Products_Record_Model
 {
+
 	/**
 	 * Function to get acive status of record
 	 */

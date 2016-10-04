@@ -1,3 +1,4 @@
+{strip}
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -9,6 +10,5 @@
 *
 ********************************************************************************/
 -->*}
-{strip}
 	{include file="DetailViewFullContents.tpl"|vtemplate_path:$MODULE}
 {/strip}

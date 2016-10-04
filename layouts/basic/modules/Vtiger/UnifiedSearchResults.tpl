@@ -46,7 +46,7 @@
 				{foreach key=module item=searchRecords from=$MATCHING_RECORDS name=matchingRecords}
 					{assign var="modulesCount" value=count($searchRecords)}
 					<form method="POST" action="index.php?module={$module}&view=List" name="form_{$module}"  enctype="multipart/form-data">
-						<input type="hidden" id="recordList" name="searchResult" value="{Zend_Json::encode(array_keys($searchRecords))}" />
+						<input type="hidden" id="recordList" name="searchResult" value="{\includes\utils\Json::encode(array_keys($searchRecords))}" />
 						<div class="clearfix">
 							<span onclick="form_{$module}.submit()"><i class="glyphicon glyphicon-list" style="margin-top: 2px;"></i> <strong>{vtranslate($module)}&nbsp;({$modulesCount})</strong></span>
 							<!-- &nbsp;&nbsp;<i title="" class="glyphicon glyphicon-th-list alignMiddle"></i> -->
@@ -62,14 +62,14 @@
 								<li id="{$ID}">
 									<a target="_blank" id="{$ID}_link" class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} 
 											onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
-										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({Vtiger_Functions::getOwnerRecordLabel($recordObject->get('smownerid'))}){/if}</span>
+										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({vtlib\Functions::getOwnerRecordLabel($recordObject->get('smownerid'))}){/if}</span>
 										<span id="{$ID}_time" class="pull-right" title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($recordObject->get('createdtime'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($recordObject->get('createdtime'))}</span>
 									</a>
 								</li>
 							{else}
 								<li id="{$ID}">
 									<a class="cursorDefault">
-										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({Vtiger_Functions::getOwnerRecordLabel($recordObject->get('smownerid'))}){/if}</span>&nbsp;
+										<span>{$recordObject->getName()} {if $recordObject->get('smownerid')}({vtlib\Functions::getOwnerRecordLabel($recordObject->get('smownerid'))}){/if}</span>&nbsp;
 										<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 										<span id="{$ID}_time" class="pull-right" title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($recordObject->get('createdtime'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($recordObject->get('createdtime'))}</span>
 									</a>

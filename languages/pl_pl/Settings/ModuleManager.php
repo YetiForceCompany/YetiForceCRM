@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Błąd podczas wgrywania plików',
 	'ModuleManager' => 'Zarządzanie Modułami',
 	'LBL_ACCEPT_AND_INSTALL' => 'Akceptuj i instaluj',
 	'LBL_DECLINE' => 'Odrzuć',
-	'LBL_EXISTS'=>'Istnieje',
+	'LBL_EXISTS' => 'Istnieje',
 	'LBL_FAILED' => 'Niepowodzenie',
 	'LBL_FINISH' => 'Zakończ',
 	'LBL_IMPORTED_MODULE' => 'Moduł %s został zaimportowany poprawnie.',
@@ -57,7 +57,6 @@ $languageStrings = [
 	'LBL_IMPORT' => 'Importuj',
 	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Za mały limit wysyłania plików',
 	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Wykryto że limit wysyłania plików jest za mały (%s), przez to nie będzie możliwe wysyłanie większych plików na serwer.  Zalecamy sprawdzenie konfiguracji systemu. <a href="index.php?parent=Settings&module=ConfReport&view=Index">Sprawdź konfigurację serwera</a>',
-	
 	'LBL_CREATE_MODULE' => 'Utwórz moduł',
 	'LBL_CREATING_MODULE' => 'Tworzenie nowego modułu',
 	'LBL_ENTER_MODULE_NAME' => 'Nazwa modułu',

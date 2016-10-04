@@ -17,10 +17,10 @@ $languageStrings = [
 	'LBL_VALUES' => 'Werte',
 	'LBL_GROUPS_INFO' => 'Gruppen ohne Zuständigkeit',
 	'LBL_LEAD_STATUS' => 'Status welche die Leadbearbeitung beenden',
-	'LBL_LEAD_CONVERT_STATUS' => 'Statuses that allow for converting Lead to Account',
+	'LBL_LEAD_CONVERT_STATUS' => 'Status welche die Konvertierung vom Lead zur Organisation erlaubt',
 	'LBL_CURRENTUSER_STATUS' => 'Ändere die Zuständigkeit zu dem bearbeitenden Benutzer',
-	'LBL_CONVERT_LEAD_MERGE' => 'Link the record meeting specified requirements while converting from Lead to Account',
-	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing - new account will not be created, instead to existing record data will be transferred from Lead',
+	'LBL_CONVERT_LEAD_MERGE' => 'Verknüpfe die Lead Daten beim konvertieren mit der Organisation',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Diese Option erlaubt dem System automatisch konvertierte Datensätze mit bestehenden zu verknüpfen - eine neue Organisation wird nicht erzeugt, aber bestehende Datensätze des Leads werden übertragen',
 	'LBL_CONDITION' => 'Bedingung hinzufügen',
 	'MarketingProcesses' => 'Marketingprozesse',
 ];

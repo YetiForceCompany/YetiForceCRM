@@ -11,7 +11,7 @@
 abstract class Vtiger_Header_View extends Vtiger_View_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
@@ -31,8 +31,11 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 */
 	protected function checkFileUriInRelocatedMouldesFolder($fileuri)
 	{
-		list ($filename, $query) = explode('?', $fileuri);
-
+		if (strpos($fileuri, '?') !== false) {
+			list ($filename, $query) = explode('?', $fileuri);
+		} else {
+			$filename = $fileuri;
+		}
 		// prefix the base lookup folder (relocated file).
 		if (strpos($filename, 'modules') === 0) {
 			$filename = $filename;
@@ -50,14 +53,14 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
 		if ($userModel->isAdminUser()) {
-			if($request->get('parent') != 'Settings') {
+			if ($request->get('parent') != 'Settings') {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
 					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 					'glyphicon' => 'glyphicon glyphicon-cog',
 				];
-			}else{
+			} else {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
@@ -66,7 +69,6 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				];
 			}
 		}
-		//TODO To remove in the future
 		if (AppConfig::security('SHOW_MY_PREFERENCES')) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
@@ -75,14 +77,6 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'glyphicon' => 'glyphicon glyphicon-tasks',
 			];
 		}
-		
-		$headerLinks[] = [
-			'linktype' => 'HEADERLINK',
-			'linklabel' => 'LBL_SIGN_OUT',
-			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'glyphicon' => 'glyphicon glyphicon-off',
-		];
-		
 		if (Users_Module_Model::getSwitchUsers()) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
@@ -94,6 +88,13 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'linkclass' => 'showModal',
 			];
 		}
+		$headerLinks[] = [
+			'linktype' => 'HEADERLINK',
+			'linklabel' => 'LBL_SIGN_OUT',
+			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
+			'glyphicon' => 'glyphicon glyphicon-off',
+			'linkclass' => 'signOutButtonBlue'
+		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
 			$headerLinkInstance = Vtiger_Link_Model::getInstanceFromValues($headerLink);
@@ -104,7 +105,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			}
 			$headerLinkInstances[] = $headerLinkInstance;
 		}
-		$headerLinks = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, ['HEADERLINK']);
+		$headerLinks = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERLINK']);
 		foreach ($headerLinks as $headerType => $headerLinks) {
 			foreach ($headerLinks as $headerLink) {
 				$headerLinkInstances[] = Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
@@ -118,10 +119,10 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$headerScripts = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, array('HEADERSCRIPT'));
+		$headerScripts = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
 		foreach ($headerScripts as $headerType => $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
@@ -137,10 +138,14 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_CssScript_Model instances
 	 */
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$headerCss = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, ['HEADERCSS']);
+		$baseStyleCssPath = Vtiger_Theme::getBaseStylePath();
+		$baseStyleCssPath = $this->checkAndConvertCssStyles(['~' . $baseStyleCssPath]);
+		$headerCssInstances = array_merge($headerCssInstances, $baseStyleCssPath);
+
+		$headerCss = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
 		$selectedThemeCssPath = Vtiger_Theme::getThemeStyle();
 		$cssScriptModel = new Vtiger_CssScript_Model();
 		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
@@ -153,20 +158,5 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			}
 		}
 		return $headerCssInstances;
-	}
-
-	/**
-	 * Function to get the Announcement
-	 * @return Vtiger_Base_Model - Announcement
-	 */
-	function getAnnouncement()
-	{
-		//$announcement = Vtiger_Cache::get('announcement', 'value');
-		$model = new Vtiger_Base_Model();
-		//if(!$announcement) {
-		$announcement = get_announcements();
-		//Vtiger_Cache::set('announcement', 'value', $announcement);
-		//}
-		return $model->set('announcement', $announcement);
 	}
 }

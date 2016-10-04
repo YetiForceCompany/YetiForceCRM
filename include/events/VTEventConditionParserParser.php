@@ -50,7 +50,7 @@ class VTEventConditionParserParser extends AntlrParser
 
 	public function __construct($input, $state = null)
 	{
-		if ($state == null) {
+		if ($state === null) {
 			$state = new RecognizerSharedState();
 		}
 		parent::__construct($input, $state);
@@ -335,4 +335,4 @@ VTEventConditionParserParser::$FOLLOW_value_in_listelement141 = new Set(array(15
 VTEventConditionParserParser::$FOLLOW_16_in_listelement147 = new Set(array(1));
 VTEventConditionParserParser::$FOLLOW_STRING_in_value162 = new Set(array(1));
 
-?>
+
