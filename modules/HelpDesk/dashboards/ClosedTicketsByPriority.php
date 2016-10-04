@@ -1,14 +1,20 @@
 <?php
 
 /**
- * Save issue to github
- * @package YetiForce.Github
+ * Widget showing ticket which have closed. We can filter by users or date 
+ * @package YetiForce.Dashboard
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 {
-
+	/**
+	 * Return search params (use to in bulding address URL to listview)
+	 * @param type $priority
+	 * @param type $time
+	 * @param type $owner
+	 * @return type
+	 */
 	public function getSearchParams($priority, $time, $owner)
 	{
 
@@ -25,8 +31,9 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Function returns Tickets grouped by Status
-	 * @param type $data
+	 * Function returns Tickets grouped by priority
+	 * @param <Array> $time
+	 * @param int $owner
 	 * @return <Array>
 	 */
 	public function getTicketsByPriority($time, $owner)
