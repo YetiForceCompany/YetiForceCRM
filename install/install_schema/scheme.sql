@@ -6,6 +6,19 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*Table structure for table `a_yf_adv_permission` */
+
+CREATE TABLE `a_yf_adv_permission` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `tabid` int(19) DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL,
+  `action` tinyint(1) unsigned NOT NULL,
+  `conditions` text,
+  PRIMARY KEY (`id`),
+  KEY `tabid` (`tabid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_discounts_config` */
 
 CREATE TABLE `a_yf_discounts_config` (
