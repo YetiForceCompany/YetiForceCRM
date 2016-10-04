@@ -34,7 +34,7 @@ class CurrentUserPrivilegeSet implements Element, HtmlOutput {
      *
      * @param array $privileges
      */
-    function __construct(array $privileges) {
+    public function __construct(array $privileges) {
 
         $this->privileges = $privileges;
 
@@ -59,7 +59,7 @@ class CurrentUserPrivilegeSet implements Element, HtmlOutput {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->privileges as $privName) {
 
@@ -79,7 +79,7 @@ class CurrentUserPrivilegeSet implements Element, HtmlOutput {
      * @param string $privilegeName
      * @return bool
      */
-    function has($privilegeName) {
+    public function has($privilegeName) {
 
         return in_array($privilegeName, $this->privileges);
 
@@ -90,7 +90,7 @@ class CurrentUserPrivilegeSet implements Element, HtmlOutput {
      *
      * @return array
      */
-    function getValue() {
+    public function getValue() {
 
         return $this->privileges;
 
@@ -146,7 +146,7 @@ class CurrentUserPrivilegeSet implements Element, HtmlOutput {
      * @param HtmlOutputHelper $html
      * @return string
      */
-    function toHtml(HtmlOutputHelper $html) {
+    public function toHtml(HtmlOutputHelper $html) {
 
         return implode(
             ', ',

@@ -15,12 +15,12 @@ class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Mo
 	const RECORD_STRUCTURE_MODE_FILTER = 'Filter';
 	const RECORD_STRUCTURE_MODE_EDITTASK = 'EditTask';
 
-	function setWorkFlowModel($workFlowModel)
+	public function setWorkFlowModel($workFlowModel)
 	{
 		$this->workFlowModel = $workFlowModel;
 	}
 
-	function getWorkFlowModel()
+	public function getWorkFlowModel()
 	{
 		return $this->workFlowModel;
 	}

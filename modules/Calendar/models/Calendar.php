@@ -12,8 +12,8 @@
 class Calendar_Calendar_Model extends Vtiger_Base_Model
 {
 
-	var $moduleName = 'Calendar';
-	var $relationAcounts = [
+	public $moduleName = 'Calendar';
+	public $relationAcounts = [
 		'Contacts' => ['vtiger_contactdetails', 'contactid', 'parentid'],
 		'Project' => ['vtiger_project', 'projectid', 'linktoaccountscontacts'],
 		'HelpDesk' => ['vtiger_troubletickets', 'ticketid', 'parent_id'],
@@ -27,7 +27,6 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 	public function getQuery()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = 'SELECT vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf ON vtiger_activitycf.activityid = vtiger_activity.activityid
@@ -36,10 +35,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		LEFT JOIN vtiger_crmentity procrm ON procrm.crmid = vtiger_activity.process
 		LEFT JOIN vtiger_crmentity subprocrm ON subprocrm.crmid = vtiger_activity.subprocess
 		WHERE vtiger_activity.deleted = 0 ';
-		$instance = CRMEntity::getInstance($this->getModuleName());
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getModuleName(), $currentUser);
-		if (!empty($securityParameter))
-			$query.= $securityParameter;
+		$query .= \App\PrivilegeQuery::getAccessConditions($this->getModuleName());
 
 		$params = [];
 		if ($this->get('start') && $this->get('end')) {
@@ -49,7 +45,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query.= " AND ( (concat(date_start, ' ', time_start)  >= ? AND concat(date_start, ' ', time_start) <= ?) OR (concat(due_date, ' ', time_end)  >= ? AND concat(due_date, ' ', time_end) <= ?) OR (date_start < ? AND due_date > ?) ) ";
+			$query .= " && ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) || (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) || (date_start < ? && due_date > ?) ) ";
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
@@ -57,26 +53,35 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$params[] = $dbStartDate;
 			$params[] = $dbEndDate;
 		}
-		if ($this->get('types')) {
-			$query .= ' AND vtiger_activity.activitytype ' . \PearDatabase::whereEquals($this->get('types'));
+		$db = \PearDatabase::getInstance();
+		$types = $this->get('types');
+		if (!empty($types)) {
+			$query .= ' && vtiger_activity.activitytype IN (' . $db->generateQuestionMarks($this->get('types')) . ')';
+			$params[] = $types;
 		}
 		if ($this->get('time') == 'current') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= ' AND vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
+			$query .= ' && vtiger_activity.status IN (' . $db->generateQuestionMarks($stateActivityLabels) . ')';
+			$params[] = $stateActivityLabels;
 		}
 		if ($this->get('time') == 'history') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
-			$query .= ' AND vtiger_activity.status ' . \PearDatabase::whereEquals($stateActivityLabels);
+			$query .= ' && vtiger_activity.status IN (' . $db->generateQuestionMarks($stateActivityLabels) . ')';
+			$params[] = $stateActivityLabels;
 		}
-		if ($this->get('activitystatus')) {
-			$query .= ' AND vtiger_activity.status ' . \PearDatabase::whereEquals($this->get('activitystatus'));
+		$activityStatus = $this->get('activitystatus');
+		if (!empty($activityStatus)) {
+			$query .= ' && vtiger_activity.status IN (' . $db->generateQuestionMarks($activityStatus) . ')';
+			$params[] = $activityStatus;
 		}
-		if ($this->get('restrict') && is_array($this->get('restrict'))) {
-			$query .= ' AND vtiger_activity.activityid ' . \PearDatabase::whereEquals($this->get('restrict'));
+		$restrict = $this->get('restrict');
+		if (!empty($restrict)) {
+			$query .= ' && vtiger_activity.activityid IN (' . $db->generateQuestionMarks($restrict) . ')';
+			$params[] = $restrict;
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
-				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
+				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar') . ')';
 				$filterInstance = new $filterClassName();
 				$condition = $filterInstance->getCondition($filter['value']);
 				if (!empty($condition)) {
@@ -84,10 +89,12 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		if ($this->get('user')) {
-			$query .= ' AND vtiger_activity.smownerid ' . \PearDatabase::whereEquals($this->get('user'));
+		$users = $this->get('user');
+		if (!empty($users)) {
+			$query .= ' && vtiger_activity.smownerid IN (' . $db->generateQuestionMarks($users) . ')';
+			$params[] = $users;
 		}
-		$query.= ' ORDER BY date_start,time_start ASC';
+		$query .= ' ORDER BY date_start,time_start ASC';
 		return ['query' => $query, 'params' => $params];
 	}
 
@@ -140,11 +147,11 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['linkm'] = $record['linkmod'];
 			//Process
 			$item['process'] = $record['process'];
-			$item['procl'] = $labels[$record['process']];
+			$item['procl'] = vtlib\Functions::textLength($labels[$record['process']]);
 			$item['procm'] = $record['processmod'];
 			//Subprocess
 			$item['subprocess'] = $record['subprocess'];
-			$item['subprocl'] = $labels[$record['subprocess']];
+			$item['subprocl'] = vtlib\Functions::textLength($labels[$record['subprocess']]);
 			$item['subprocm'] = $record['subprocessmod'];
 
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {

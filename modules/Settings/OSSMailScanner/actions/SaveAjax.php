@@ -9,7 +9,7 @@
 class Settings_OSSMailScanner_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('updateFolders');
@@ -22,7 +22,7 @@ class Settings_OSSMailScanner_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 
 		$mailScannerRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$mailScannerRecordModel->setFolderList($user, $folders);
-		
+
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,

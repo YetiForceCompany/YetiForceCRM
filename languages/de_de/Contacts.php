@@ -57,6 +57,8 @@ $languageStrings = [
 	//Activity Types
 	'End of support for contact' => 'Wartungsende für den Kontakt',
 	'Birthdays of contacts' => 'Geburtstage der Kontakte',
+	'LBL_SWITCH_ON_DECISION_MAKER' => 'Entscheider',
+	'LBL_SWITCH_OFF_DECISION_MAKER' => 'Alle', 
 ];
 $jsLanguageStrings = [
 ];

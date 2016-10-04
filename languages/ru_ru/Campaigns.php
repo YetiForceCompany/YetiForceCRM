@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-* Contributor(s): iRsystem by YetiForce.com
+ * Contributor(s): iRsystem by YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
 	'Campaign Name' => 'Наименование',
@@ -17,7 +17,6 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Список Кампаний',
 	//FIELDS
 	'Budget Cost' => 'Бюджет',
-	'Campaign Status' => 'Статус',
 	'Campaign Type' => 'Тип',
 	//BLOCKS
 	'LBL_CAMPAIGN_INFORMATION' => 'Основная информация',
@@ -65,5 +64,5 @@ $languageStrings = [
 	'LBL_LOAD_RECORDS_INFO' => 'Кнопка используется для загрузки всех записей, удовлетворяющие условиям, указанным в фильтре.',
 ];
 $jsLanguageStrings = [
-		'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Вы уверены, что хотите добавить все записи из фильтра?',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Вы уверены, что хотите добавить все записи из фильтра?',
 ];

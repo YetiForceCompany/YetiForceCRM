@@ -137,7 +137,7 @@ class Invite implements NotificationInterface {
      *
      * @param array $values All the options
      */
-    function __construct(array $values) {
+    public function __construct(array $values) {
 
         $required = [
             'id',
@@ -183,7 +183,7 @@ class Invite implements NotificationInterface {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         $writer->writeElement('{' . CalDAV\Plugin::NS_CALENDARSERVER . '}invite-notification');
 
@@ -196,7 +196,7 @@ class Invite implements NotificationInterface {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerializeFull(Writer $writer) {
+    public function xmlSerializeFull(Writer $writer) {
 
         $cs = '{' . CalDAV\Plugin::NS_CALENDARSERVER . '}';
 
@@ -285,7 +285,7 @@ class Invite implements NotificationInterface {
      *
      * @return string
      */
-    function getId() {
+    public function getId() {
 
         return $this->id;
 
@@ -298,7 +298,7 @@ class Invite implements NotificationInterface {
      *
      * @return string
      */
-    function getETag() {
+    public function getETag() {
 
         return $this->etag;
 

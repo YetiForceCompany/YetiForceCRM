@@ -17,7 +17,7 @@ function vtws_create($elementType, $element, $user)
 	}
 
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 
 	// Cache the instance for re-use
 	if (!isset($vtws_create_cache[$elementType]['webserviceobject'])) {

@@ -18,26 +18,26 @@ class ModuleBasic
 {
 
 	/** ID of this instance */
-	var $id = false;
-	var $name = false;
-	var $label = false;
-	var $version = 0;
-	var $minversion = false;
-	var $maxversion = false;
-	var $presence = 0;
-	var $ownedby = 0; // 0 - Sharing Access Enabled, 1 - Sharing Access Disabled
-	var $tabsequence = false;
-	var $parent = false;
-	var $customized = 0;
-	var $isentitytype = true; // Real module or an extension?
-	var $entityidcolumn = false;
-	var $entityidfield = false;
-	var $basetable = false;
-	var $basetableid = false;
-	var $customtable = false;
-	var $grouptable = false;
-	var $type = 0;
-	var $tableName;
+	public $id = false;
+	public $name = false;
+	public $label = false;
+	public $version = 0;
+	public $minversion = false;
+	public $maxversion = false;
+	public $presence = 0;
+	public $ownedby = 0; // 0 - Sharing Access Enabled, 1 - Sharing Access Disabled
+	public $tabsequence = false;
+	public $parent = false;
+	public $customized = 0;
+	public $isentitytype = true; // Real module or an extension?
+	public $entityidcolumn = false;
+	public $entityidfield = false;
+	public $basetable = false;
+	public $basetableid = false;
+	public $customtable = false;
+	public $grouptable = false;
+	public $type = 0;
+	public $tableName;
 
 	const EVENT_MODULE_ENABLED = 'module.enabled';
 	const EVENT_MODULE_DISABLED = 'module.disabled';
@@ -50,7 +50,7 @@ class ModuleBasic
 	 * Initialize this instance
 	 * @access private
 	 */
-	function initialize($valuemap)
+	public function initialize($valuemap)
 	{
 		$this->id = $valuemap['tabid'];
 		$this->name = $valuemap['name'];
@@ -76,7 +76,7 @@ class ModuleBasic
 	 * Initialize more information of this instance
 	 * @access private
 	 */
-	function initialize2()
+	public function initialize2()
 	{
 		$entitydata = \includes\Modules::getEntityInfo($this->name);
 		if ($entitydata) {
@@ -89,7 +89,7 @@ class ModuleBasic
 	 * Get unique id for this instance
 	 * @access private
 	 */
-	function __getUniqueId()
+	public function __getUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 		$result = $adb->query("SELECT MAX(tabid) AS max_seq FROM vtiger_tab");
@@ -101,7 +101,7 @@ class ModuleBasic
 	 * Get next sequence to use for this instance
 	 * @access private
 	 */
-	function __getNextSequence()
+	public function __getNextSequence()
 	{
 		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT MAX(tabsequence) AS max_tabseq FROM vtiger_tab", []);
@@ -113,7 +113,7 @@ class ModuleBasic
 	 * Initialize vtiger schema changes.
 	 * @access private
 	 */
-	function __handleVtigerCoreSchemaChanges()
+	public function __handleVtigerCoreSchemaChanges()
 	{
 		// Add version column to the table first
 		Utils::AddColumn('vtiger_tab', 'version', ' VARCHAR(10)');
@@ -124,7 +124,7 @@ class ModuleBasic
 	 * Create this module instance
 	 * @access private
 	 */
-	function __create()
+	public function __create()
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -161,17 +161,17 @@ class ModuleBasic
 				'vtiger_tab_info', '(tabid INT, prefname VARCHAR(256), prefvalue VARCHAR(256), FOREIGN KEY fk_1_vtiger_tab_info(tabid) REFERENCES vtiger_tab(tabid) ON DELETE CASCADE ON UPDATE CASCADE)', true);
 		}
 		if ($this->minversion) {
-			$tabResult = $adb->pquery("SELECT 1 FROM vtiger_tab_info WHERE tabid=? AND prefname='vtiger_min_version'", array($this->id));
+			$tabResult = $adb->pquery("SELECT 1 FROM vtiger_tab_info WHERE tabid=? && prefname='vtiger_min_version'", array($this->id));
 			if ($adb->num_rows($tabResult) > 0) {
-				$adb->pquery("UPDATE vtiger_tab_info SET prefvalue=? WHERE tabid=? AND prefname='vtiger_min_version'", array($this->minversion, $this->id));
+				$adb->pquery("UPDATE vtiger_tab_info SET prefvalue=? WHERE tabid=? && prefname='vtiger_min_version'", array($this->minversion, $this->id));
 			} else {
 				$adb->pquery('INSERT INTO vtiger_tab_info(tabid, prefname, prefvalue) VALUES (?,?,?)', array($this->id, 'vtiger_min_version', $this->minversion));
 			}
 		}
 		if ($this->maxversion) {
-			$tabResult = $adb->pquery("SELECT 1 FROM vtiger_tab_info WHERE tabid=? AND prefname='vtiger_max_version'", array($this->id));
+			$tabResult = $adb->pquery("SELECT 1 FROM vtiger_tab_info WHERE tabid=? && prefname='vtiger_max_version'", array($this->id));
 			if ($adb->num_rows($tabResult) > 0) {
-				$adb->pquery("UPDATE vtiger_tab_info SET prefvalue=? WHERE tabid=? AND prefname='vtiger_max_version'", array($this->maxversion, $this->id));
+				$adb->pquery("UPDATE vtiger_tab_info SET prefvalue=? WHERE tabid=? && prefname='vtiger_max_version'", array($this->maxversion, $this->id));
 			} else {
 				$adb->pquery('INSERT INTO vtiger_tab_info(tabid, prefname, prefvalue) VALUES (?,?,?)', array($this->id, 'vtiger_max_version', $this->maxversion));
 			}
@@ -197,7 +197,7 @@ class ModuleBasic
 	 * Update this instance
 	 * @access private
 	 */
-	function __update()
+	public function __update()
 	{
 		self::log("Updating Module $this->name ... DONE");
 	}
@@ -206,7 +206,7 @@ class ModuleBasic
 	 * Delete this instance
 	 * @access private
 	 */
-	function __delete()
+	public function __delete()
 	{
 		Module::fireEvent($this->name, Module::EVENT_MODULE_PREUNINSTALL);
 
@@ -223,7 +223,7 @@ class ModuleBasic
 	 * Update module version information
 	 * @access private
 	 */
-	function __updateVersion($newversion)
+	public function __updateVersion($newversion)
 	{
 		$this->__handleVtigerCoreSchemaChanges();
 		$adb = \PearDatabase::getInstance();
@@ -235,7 +235,7 @@ class ModuleBasic
 	/**
 	 * Save this instance
 	 */
-	function save()
+	public function save()
 	{
 		if ($this->id)
 			$this->__update();
@@ -247,7 +247,7 @@ class ModuleBasic
 	/**
 	 * Delete this instance
 	 */
-	function delete()
+	public function delete()
 	{
 		$moduleInstance = \Vtiger_Module_Model::getInstance($this->name);
 		require_once "modules/$this->name/$this->name.php";
@@ -293,7 +293,7 @@ class ModuleBasic
 	 * customtable name is basetable + 'cf'<br>
 	 * grouptable name is basetable + 'grouprel'<br>
 	 */
-	function initTables($basetable = false, $basetableid = false)
+	public function initTables($basetable = false, $basetableid = false)
 	{
 		$this->basetable = $basetable;
 		$this->basetableid = $basetableid;
@@ -322,7 +322,7 @@ class ModuleBasic
 	 * Set entity identifier field for this module
 	 * @param Field Instance of field to use
 	 */
-	function setEntityIdentifier($fieldInstance)
+	public function setEntityIdentifier($fieldInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -333,12 +333,12 @@ class ModuleBasic
 				$this->entityidcolumn = $this->basetableid;
 		}
 		if ($this->entityidfield && $this->entityidcolumn) {
-			$result = $adb->pquery('SELECT tabid FROM vtiger_entityname WHERE tablename=? AND tabid=?', array($fieldInstance->table, $this->id));
+			$result = $adb->pquery('SELECT tabid FROM vtiger_entityname WHERE tablename=? && tabid=?', array($fieldInstance->table, $this->id));
 			if ($adb->num_rows($result) == 0) {
 				$adb->pquery('INSERT INTO vtiger_entityname(tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn) VALUES(?,?,?,?,?,?,?)', Array($this->id, $this->name, $fieldInstance->table, $fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $fieldInstance->name));
 				self::log('Setting entity identifier ... DONE');
 			} else {
-				$adb->pquery('UPDATE vtiger_entityname SET fieldname=?,entityidfield=?,entityidcolumn=? WHERE tablename=? AND tabid=?', array($fieldInstance->name, $this->entityidfield, $this->name, $fieldInstance->table, $this->id));
+				$adb->pquery('UPDATE vtiger_entityname SET fieldname=?,entityidfield=?,entityidcolumn=? WHERE tablename=? && tabid=?', array($fieldInstance->name, $this->entityidfield, $this->name, $fieldInstance->table, $this->id));
 				self::log('Updating entity identifier ... DONE');
 			}
 		}
@@ -347,7 +347,7 @@ class ModuleBasic
 	/**
 	 * Unset entity identifier information
 	 */
-	function unsetEntityIdentifier()
+	public function unsetEntityIdentifier()
 	{
 		$adb = \PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_entityname WHERE tabid=?', Array($this->id));
@@ -358,7 +358,7 @@ class ModuleBasic
 	 * Configure default sharing access for the module
 	 * @param String Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 */
-	function setDefaultSharing($permission_text = 'Public_ReadWriteDelete')
+	public function setDefaultSharing($permission_text = 'Public_ReadWriteDelete')
 	{
 		Access::setDefaultSharing($this, $permission_text);
 	}
@@ -366,7 +366,7 @@ class ModuleBasic
 	/**
 	 * Allow module sharing control
 	 */
-	function allowSharing()
+	public function allowSharing()
 	{
 		Access::allowSharing($this, true);
 	}
@@ -374,7 +374,7 @@ class ModuleBasic
 	/**
 	 * Disallow module sharing control
 	 */
-	function disallowSharing()
+	public function disallowSharing()
 	{
 		Access::allowSharing($this, false);
 	}
@@ -383,7 +383,7 @@ class ModuleBasic
 	 * Enable tools for this module
 	 * @param mixed String or Array with value ['Import', 'Export', 'Merge']
 	 */
-	function enableTools($tools)
+	public function enableTools($tools)
 	{
 		if (is_string($tools)) {
 			$tools = [$tools];
@@ -398,7 +398,7 @@ class ModuleBasic
 	 * Disable tools for this module
 	 * @param mixed String or Array with value ['Import', 'Export', 'Merge']
 	 */
-	function disableTools($tools)
+	public function disableTools($tools)
 	{
 		if (is_string($tools)) {
 			$tools = Array(0 => $tools);
@@ -412,7 +412,7 @@ class ModuleBasic
 	 * Add block to this module
 	 * @param vtlib\Block Instance of block to add
 	 */
-	function addBlock($blockInstance)
+	public function addBlock($blockInstance)
 	{
 		$blockInstance->save($this);
 		return $this;
@@ -422,7 +422,7 @@ class ModuleBasic
 	 * Add filter to this module
 	 * @param vtlib\Filter Instance of filter to add
 	 */
-	function addFilter($filterInstance)
+	public function addFilter($filterInstance)
 	{
 		$filterInstance->save($this);
 		return $this;
@@ -432,7 +432,7 @@ class ModuleBasic
 	 * Get all the fields of the module or block
 	 * @param vtlib\Block Instance of block to use to get fields, false to get all the block fields
 	 */
-	function getFields($blockInstance = false)
+	public function getFields($blockInstance = false)
 	{
 		$fields = false;
 		if ($blockInstance)
@@ -459,9 +459,9 @@ class ModuleBasic
 	 */
 	static function syncfile()
 	{
-		self::log("Updating tabdata file ... ", false);
-		create_tab_data_file();
-		self::log("DONE");
+		self::log('Updating tabdata file ... ', false);
+		Deprecated::createModuleMetaFile();
+		self::log('DONE');
 	}
 
 	/**
@@ -471,9 +471,9 @@ class ModuleBasic
 	{
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
-		$result = $db->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? OR related_tabid=?', [$this->id, $this->id]);
+		$result = $db->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? || related_tabid=?', [$this->id, $this->id]);
 		$ids = $db->getArrayColumn($result, 'relation_id');
-		$db->delete('vtiger_relatedlists', 'tabid=? OR related_tabid=?', [$this->id, $this->id]);
+		$db->delete('vtiger_relatedlists', 'tabid=? || related_tabid=?', [$this->id, $this->id]);
 		if ($ids) {
 			$db->delete('vtiger_relatedlists_fields', 'relation_id IN (' . generateQuestionMarks($ids) . ')', [$ids]);
 			$db->delete('a_yf_relatedlists_inv_fields', 'relation_id IN (' . generateQuestionMarks($ids) . ')', [$ids]);
@@ -498,7 +498,7 @@ class ModuleBasic
 	public function deleteCRMEntityRel()
 	{
 		$db = \PearDatabase::getInstance();
-		$db->delete('vtiger_crmentityrel', '`module` = ? OR `relmodule` = ?', [$this->name, $this->name]);
+		$db->delete('vtiger_crmentityrel', '`module` = ? || `relmodule` = ?', [$this->name, $this->name]);
 	}
 
 	/**
@@ -542,8 +542,10 @@ class ModuleBasic
 			$db->query('DROP TABLE IF EXISTS ' . $this->tableName . '_invfield');
 			$db->query('DROP TABLE IF EXISTS ' . $this->tableName . '_invmap');
 		}
-		$db->query('DROP TABLE IF EXISTS ' . $this->tableName . 'cf');
-		$db->query('DROP TABLE IF EXISTS ' . $this->tableName);
+		if (!empty($this->tableName)) {
+			$db->query('DROP TABLE IF EXISTS ' . $this->tableName . 'cf');
+			$db->query('DROP TABLE IF EXISTS ' . $this->tableName);
+		}
 		$db->query('SET foreign_key_checks = 1');
 		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
 	}

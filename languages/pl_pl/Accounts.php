@@ -92,7 +92,6 @@ $languageStrings = [
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Europejska spółka wzajemna',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Stowarzyszenie europejskie',
 	'PLL_UFCIITS' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
-	'Campaign status' => 'Status kampanii',
 	'LBL_DEACTIVATED_BY' => 'Kontrahent został dezaktywowany przez ',
 	'SINGLE_Vendors' => 'Dostawca',
 ];

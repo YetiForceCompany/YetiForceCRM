@@ -22,7 +22,7 @@ class Unzip extends \dUnzip2
 	 * Check existence of path in the given array
 	 * @access private
 	 */
-	function __checkPathInArray($path, $pathArray)
+	public function __checkPathInArray($path, $pathArray)
 	{
 		foreach ($pathArray as $checkPath) {
 			if (strpos($path, $checkPath) === 0)
@@ -35,7 +35,7 @@ class Unzip extends \dUnzip2
 	 * Check if the file path is directory
 	 * @param String Zip file path
 	 */
-	function isdir($filepath)
+	public function isdir($filepath)
 	{
 		if (substr($filepath, -1, 1) == "/")
 			return true;
@@ -47,7 +47,7 @@ class Unzip extends \dUnzip2
 	 * Allows you to rename while unzipping and handle exclusions.
 	 * @access private
 	 */
-	Function unzipAllEx($targetDir = false, $includeExclude = false, $renamePaths = false, $ignoreFiles = false, $baseDir = "", $applyChmod = 0755)
+	public function unzipAllEx($targetDir = false, $includeExclude = false, $renamePaths = false, $ignoreFiles = false, $baseDir = "", $applyChmod = 0755)
 	{
 
 		// We want to always maintain the structure
@@ -134,7 +134,7 @@ class Unzip extends \dUnzip2
 	 * @param type $fileName
 	 * @return boolean
 	 */
-	function checkFileExistsInRootFolder($fileName)
+	public function checkFileExistsInRootFolder($fileName)
 	{
 		$fileList = $this->getList();
 		foreach ($fileList as $file => $details) {

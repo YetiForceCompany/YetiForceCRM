@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Smarty Method UnloadFilter
+ * Smarty Method MustCompile
  *
  * Smarty_Internal_Template::mustCompile() method
  *
@@ -40,8 +40,10 @@ class Smarty_Internal_Method_MustCompile
         }
         if ($_template->mustCompile === null) {
             $_template->mustCompile = (!$_template->source->handler->uncompiled &&
-                ($_template->smarty->force_compile || $_template->source->handler->recompiled || !$_template->compiled->exists ||
-                    ($_template->smarty->compile_check && $_template->compiled->getTimeStamp() < $_template->source->getTimeStamp())));
+                                       ($_template->smarty->force_compile || $_template->source->handler->recompiled ||
+                                        !$_template->compiled->exists || ($_template->smarty->compile_check &&
+                                                                          $_template->compiled->getTimeStamp() <
+                                                                          $_template->source->getTimeStamp())));
         }
 
         return $_template->mustCompile;

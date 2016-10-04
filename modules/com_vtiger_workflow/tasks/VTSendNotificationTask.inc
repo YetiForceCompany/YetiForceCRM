@@ -42,8 +42,8 @@ class VTSendNotificationTask extends VTTask
 			$moduleModel = Vtiger_Module_Model::getInstance($module);
 			$moduleModel->setEventFieldsForExport();
 			$moduleModel->setTodoFieldsForExport();
-			$ExportData = new Calendar_ExportData_Action();
-			$iCal = $ExportData->output('', $result, $moduleModel, $fieldNameUrl, true);
+			$exportData = new Calendar_Export_Model();
+			$iCal = $exportData->output('', $result, $moduleModel, $fieldNameUrl, true);
 			file_put_contents($fieldNameUrl, $iCal);
 			$attachment[] = array(
 				'string' => $iCal,

@@ -63,7 +63,7 @@ class Vtiger_Loader
 		}
 
 		// Check file inclusion before including it
-		checkFileAccessForInclusion($file);
+		\vtlib\Deprecated::checkFileAccessForInclusion($file);
 
 		$status = -1;
 		if ($supressWarning) {
@@ -91,7 +91,6 @@ class Vtiger_Loader
 		$path = realpath(self::resolveNameToPath($qualifiedName));
 		self::$includePathCache[$qualifiedName] = $path;
 
-		// TODO Check if resolvedPath is already part of include path.
 		set_include_path($path . PATH_SEPARATOR . get_include_path());
 		return true;
 	}
@@ -165,9 +164,9 @@ class Vtiger_Loader
 			return $fallBackComponentClassName;
 		}
 
-		$log = vglobal('log');
-		$log->error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
 		
+		\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
+
 		throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 	}
 

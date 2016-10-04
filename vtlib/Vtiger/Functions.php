@@ -10,9 +10,6 @@
  * ********************************************************************************** */
 namespace vtlib;
 
-/**
- * TODO need to organize into classes based on functional grouping.
- */
 class Functions
 {
 
@@ -137,7 +134,7 @@ class Functions
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
 		if ($show_symbol) {
-			return sprintf("%s : %s", Deprecated::getTranslatedCurrencyString($currencyInfo['currency_name']), $currencyInfo['currency_symbol']);
+			return sprintf("%s : %s", \includes\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
 		}
 		return $currencyInfo['currency_name'];
 	}
@@ -222,8 +219,7 @@ class Functions
 	public static function getModuleData($mixed)
 	{
 		if (empty($mixed)) {
-			$log = \LoggerManager::getInstance();
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
+			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
 			return false;
 		}
 		$id = $name = NULL;
@@ -279,6 +275,11 @@ class Functions
 		return $moduleInfo ? $moduleInfo['ownedby'] : NULL;
 	}
 
+	/**
+	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
+	 * @param string $mixed - the module name
+	 * @return string $fieldsname - the entity field name for the module
+	 */
 	public static function getEntityModuleSQLColumnString($mixed)
 	{
 		$data = [];
@@ -316,7 +317,7 @@ class Functions
 		}
 		if ($missing) {
 			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid, createdtime 
-				FROM vtiger_crmentity WHERE %s ", implode(' OR ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
+				FROM vtiger_crmentity WHERE %s ", implode(' || ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->getRow($result)) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
@@ -377,7 +378,7 @@ class Functions
 
 		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]))) {
 			$result = ($module == 'Calendar') ?
-				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? OR tabid=?', array(9, 16)) :
+				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? || tabid=?', array(9, 16)) :
 				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=?', array(self::getModuleId($module)));
 
 			self::$moduleFieldInfoByNameCache[$module] = [];
@@ -557,6 +558,13 @@ class Functions
 		return $description;
 	}
 
+	/** 	Function used to retrieve a single field value from database
+	 * 	@param string $tablename - tablename from which we will retrieve the field value
+	 * 	@param string $fieldname - fieldname to which we want to get the value from database
+	 * 	@param string $idname	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
+	 * 	@param int    $id	 - entity id
+	 * 	return string $fieldval  - field value of the needed fieldname from database will be returned
+	 */
 	public static function getSingleFieldValue($tablename, $fieldname, $idname, $id)
 	{
 		$adb = \PearDatabase::getInstance();
@@ -564,6 +572,10 @@ class Functions
 		return $fieldval;
 	}
 
+	/**
+	 *  Function to get recurring info depending on the recurring type
+	 *  return  $recurObj       - Object of class RecurringType
+	 */
 	public static function getRecurringObjValue()
 	{
 		$recurring_data = [];
@@ -653,18 +665,19 @@ class Functions
 	public static function getTicketComments($ticketid)
 	{
 		$adb = \PearDatabase::getInstance();
-		$moduleName = getSalesEntityType($ticketid);
+		$moduleName = self::getCRMRecordType($ticketid);
 		$commentlist = '';
 		$sql = "SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?";
 		$result = $adb->pquery($sql, array($ticketid));
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$comment = $adb->query_result($result, $i, 'commentcontent');
 			if ($comment != '') {
 				$commentlist .= '<br><br>' . $comment;
 			}
 		}
 		if ($commentlist != '')
-			$commentlist = '<br><br>' . getTranslatedString("The comments are", $moduleName) . ' : ' . $commentlist;
+			$commentlist = '<br><br>' . \includes\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
 	}
 
@@ -682,6 +695,11 @@ class Functions
 		return $pass;
 	}
 
+	/** gives the option  to display  the tagclouds or not for the current user
+	 * * @param $id -- user id:: Type integer
+	 * * @returns true or false in $tag_cloud_view
+	 * * Added to provide User based Tagcloud
+	 * */
 	public static function getTagCloudView($id = "")
 	{
 		$adb = \PearDatabase::getInstance();
@@ -700,6 +718,27 @@ class Functions
 		return $tag_cloud_view;
 	}
 
+	/**     function used to change the Type of Data for advanced filters in custom view and Reports
+	 * *     @param string $table_name - tablename value from field table
+	 * *     @param string $column_nametable_name - columnname value from field table
+	 * *     @param string $type_of_data - current type of data of the field. It is to return the same TypeofData
+	 * *            if the  field is not matched with the $new_field_details array.
+	 * *     return string $type_of_data - If the string matched with the $new_field_details array then the Changed
+	 * *	       typeofdata will return, else the same typeofdata will return.
+	 * *
+	 * *     EXAMPLE: If you have a field entry like this:
+	 * *
+	 * * 		fieldlabel         | typeofdata | tablename            | columnname       |
+	 * *	        -------------------+------------+----------------------+------------------+
+	 * *		Potential Name     | I~O        | vtiger_quotes        | potentialid      |
+	 * *
+	 * *     Then put an entry in $new_field_details  like this:
+	 * *
+	 * *				"vtiger_quotes:potentialid"=>"V",
+	 * *
+	 * *	Now in customview and report's advance filter this field's criteria will be show like string.
+	 * *
+	 * */
 	public static function transformFieldTypeOfData($table_name, $column_name, $type_of_data)
 	{
 		$field = $table_name . ':' . $column_name;
@@ -757,18 +796,6 @@ class Functions
 			$type_of_data = $new_field_details[$field];
 		}
 		return $type_of_data;
-	}
-
-	public static function getPickListValuesFromTableForRole($tablename, $roleid)
-	{
-		$adb = \PearDatabase::getInstance();
-		$query = "select $tablename from vtiger_$tablename inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$tablename.picklist_valueid where roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortid";
-		$result = $adb->pquery($query, array($roleid));
-		$fldVal = [];
-		while ($row = $adb->fetch_array($result)) {
-			$fldVal [] = $row[$tablename];
-		}
-		return $fldVal;
 	}
 
 	public static function getActivityType($id)
@@ -939,7 +966,7 @@ class Functions
 		$crmUrl = \AppConfig::main('site_URL');
 
 		$doc = new \DOMDocument('1.0', 'UTF-8');
-		$previousValue = libxml_use_internal_errors(TRUE);
+		$previousValue = libxml_use_internal_errors(true);
 		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);
 		libxml_clear_errors();
 		libxml_use_internal_errors($previousValue);
@@ -954,7 +981,7 @@ class Functions
 					$imgDom->loadHTML($htmlNode);
 					$xpath = new \DOMXPath($imgDom);
 					$src = $xpath->evaluate("string(//img/@src)");
-					if ($src == '' || 0 !== strpos('index.php', $src) || FALSE === strpos($crmUrl, $src)) {
+					if ($src == '' || 0 !== strpos('index.php', $src) || false === strpos($crmUrl, $src)) {
 						$nodes->item($i)->parentNode->removeChild($nodes->item($i));
 					}
 				} else {
@@ -973,7 +1000,7 @@ class Functions
 
 	public static function getHtmlOrPlainText($content)
 	{
-		if (substr($content, 0, 1) == '<') {
+		if ($content != strip_tags($content)) {
 			$content = decode_html($content);
 		} else {
 			$content = nl2br($content);
@@ -1104,7 +1131,7 @@ class Functions
 			$remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
 		}
 
-		if (!empty($remote_ip) && $onlyIP == false) {
+		if (!empty($remote_ip) && $onlyIP === false) {
 			$address .= '(' . implode(',', $remote_ip) . ')';
 		}
 		return $address;

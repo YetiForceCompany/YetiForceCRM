@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Users_PreferenceDetail_View extends Vtiger_Detail_View
@@ -19,7 +20,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
-		if ($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record) {
+		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
 			return true;
 		} else {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
@@ -50,9 +51,8 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		if ($this->checkPermission($request)) {
 			$viewer = $this->getViewer($request);
 			if ($activeReminder = \includes\Modules::isModuleActive('Calendar')) {
-				$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-				$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
+				$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 			}
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$selectedModule = $request->getModule();

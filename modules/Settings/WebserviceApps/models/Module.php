@@ -33,7 +33,7 @@ class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 		$params[] = 1;
 		if (!empty($type)) {
 			$params[] = $type;
-			$query.= ' AND type = ?';
+			$query.= ' && type = ?';
 		}
 		$result = $db->pquery($query, $params);
 		$listServers = [];

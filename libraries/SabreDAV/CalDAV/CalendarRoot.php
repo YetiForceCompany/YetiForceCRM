@@ -40,7 +40,7 @@ class CalendarRoot extends \Sabre\DAVACL\AbstractPrincipalCollection {
      * @param Backend\BackendInterface $caldavBackend
      * @param string $principalPrefix
      */
-    function __construct(PrincipalBackend\BackendInterface $principalBackend, Backend\BackendInterface $caldavBackend, $principalPrefix = 'principals') {
+    public function __construct(PrincipalBackend\BackendInterface $principalBackend, Backend\BackendInterface $caldavBackend, $principalPrefix = 'principals') {
 
         parent::__construct($principalBackend, $principalPrefix);
         $this->caldavBackend = $caldavBackend;
@@ -55,7 +55,7 @@ class CalendarRoot extends \Sabre\DAVACL\AbstractPrincipalCollection {
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         return Plugin::CALENDAR_ROOT;
 
@@ -71,7 +71,7 @@ class CalendarRoot extends \Sabre\DAVACL\AbstractPrincipalCollection {
      * @param array $principal
      * @return \Sabre\DAV\INode
      */
-    function getChildForPrincipal(array $principal) {
+    public function getChildForPrincipal(array $principal) {
 
         return new CalendarHome($this->caldavBackend, $principal);
 

@@ -16,7 +16,7 @@ interface ResponseInterface extends MessageInterface {
      *
      * @return int
      */
-    function getStatus();
+    public function getStatus();
 
     /**
      * Returns the human-readable status string.
@@ -25,7 +25,7 @@ interface ResponseInterface extends MessageInterface {
      *
      * @return string
      */
-    function getStatusText();
+    public function getStatusText();
 
     /**
      * Sets the HTTP status code.
@@ -40,6 +40,6 @@ interface ResponseInterface extends MessageInterface {
      * @throws \InvalidArgumentExeption
      * @return void
      */
-    function setStatus($status);
+    public function setStatus($status);
 
 }

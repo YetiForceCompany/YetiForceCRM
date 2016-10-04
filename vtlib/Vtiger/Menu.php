@@ -17,17 +17,17 @@ class Menu
 {
 
 	/** ID of this menu instance */
-	var $id = false;
-	var $label = false;
-	var $sequence = false;
-	var $visible = 0;
+	public $id = false;
+	public $label = false;
+	public $sequence = false;
+	public $visible = 0;
 
 	/**
 	 * Initialize this instance
 	 * @param Array Map 
 	 * @access private
 	 */
-	function initialize($valuemap)
+	public function initialize($valuemap)
 	{
 		$this->id = $valuemap[parenttabid];
 		$this->label = $valuemap[parenttab_label];

@@ -1,21 +1,18 @@
 <?php
+
 /**
  *
  * @package YetiForce.views
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 Class OSSMailView_widget_View extends Vtiger_Edit_View
 {
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -29,7 +26,7 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 		}
 	}
 
-	public function preProcess (Vtiger_Request $request, $display=true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		
 	}
@@ -45,7 +42,7 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 		$mailFilter = $request->get('mailFilter');
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$config = OSSMail_Module_Model::getComposeParameters();
-		if($request->has('limit')){
+		if ($request->has('limit')) {
 			$config['widget_limit'] = $request->get('limit');
 		}
 		$viewer = $this->getViewer($request);

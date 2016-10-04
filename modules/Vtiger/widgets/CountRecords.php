@@ -9,12 +9,12 @@
 class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 {
 
-	var $allowedModules = ['Campaigns'];
+	public $allowedModules = ['Campaigns'];
 
 	public function getUrl()
 	{
 		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showCountRecords';
-		if(isset($this->Data['relatedModules'])){
+		if (isset($this->Data['relatedModules'])) {
 			foreach ($this->Data['relatedModules'] as $module) {
 				$url .= '&relatedModules[]=' . $module;
 			}
@@ -35,11 +35,12 @@ class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 	{
 		return 'CountRecordsConfig';
 	}
+
 	static public function getCountRecords($modules, $recordId)
 	{
 		$countRecords = [];
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		foreach ($modules as  $relatedModuleName) {
+		foreach ($modules as $relatedModuleName) {
 			$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 			if (!\includes\Modules::isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
 				continue;

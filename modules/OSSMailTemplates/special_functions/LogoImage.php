@@ -14,12 +14,12 @@ class LogoImage
 
 	private $moduleList = array('all');
 
-	function process($data)
+	public function process($data)
 	{
 		return '<img  src="cid:logo" alt="logo" style="max-height: 170px;max-width: 230px;"/>';
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

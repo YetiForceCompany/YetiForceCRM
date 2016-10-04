@@ -25,7 +25,7 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 
 	$module = new VTWorkflowApplication('edittask');
 
-	$mod = return_module_language($current_language, $module->name);
+	$mod = \vtlib\Deprecated::getModuleTranslationStrings($current_language, $module->name);
 
 	if (!$util->checkAdminAccess()) {
 		$errorUrl = $module->errorPageUrl($mod['LBL_ERROR_NOT_ADMIN']);
@@ -47,7 +47,7 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 		$task = $tm->createTask($taskClass, $workflowId);
 	}
 
-	if ($task == null) {
+	if ($task === null) {
 		$errorUrl = $module->errorPageUrl($mod['LBL_ERROR_NO_TASK']);
 		$util->redirectTo($errorUrl, $mod['LBL_ERROR_NO_TASK']);
 		return;
@@ -55,7 +55,7 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 
 	$wm = new VTWorkflowManager($adb);
 	$workflow = $wm->retrieve($workflowId);
-	if ($workflow == null) {
+	if ($workflow === null) {
 		$errorUrl = $module->errorPageUrl($mod['LBL_ERROR_NO_WORKFLOW']);
 		$util->redirectTo($errorUrl, $mod['LBL_ERROR_NO_WORKFLOW']);
 		return;
@@ -114,9 +114,9 @@ function vtTaskEdit($adb, $current_language, $app_strings)
 	$smarty->assign("USER_TIME", $task->formatTimeForTimePicker($time));
 	$smarty->assign("USER_DATE", $date->getDisplayDate());
 	$smarty->assign("MOD", array_merge(
-			return_module_language($current_language, 'Settings'), return_module_language($current_language, 'Calendar'), return_module_language($current_language, $module->name)));
+	\vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Settings'), \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar'), \vtlib\Deprecated::getModuleTranslationStrings($current_language, $module->name)));
 	$smarty->assign("APP", $app_strings);
-	$smarty->assign("dateFormat", parse_calendardate($app_strings['NTC_DATE_FORMAT']));
+	$smarty->assign("dateFormat", \vtlib\Functions::currentUserJSDateFormat($app_strings['NTC_DATE_FORMAT']));
 	$smarty->assign("IMAGE_PATH", $image_path);
 	$smarty->assign("THEME", $theme);
 	$smarty->assign("MODULE_NAME", $module->label);

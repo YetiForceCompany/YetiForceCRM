@@ -17,10 +17,8 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      * @param resource $data
      * @return void
      */
-    function put($data) {
+    public function put($data) {
 		
-		//$path = $this->exData->localStorageDir . $this->localPath;
-        //file_put_contents($path,$data);
     }
 
     /**
@@ -28,7 +26,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      *
      * @return string
      */
-    function get() {
+    public function get() {
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files SET downloadcount=downloadcount+1 WHERE filesid=?;');
 		$stmt->execute([$this->filesid]);
 	
@@ -41,7 +39,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      *
      * @return void
      */
-    function delete() {
+    public function delete() {
 		$path = $this->exData->localStorageDir . $this->localPath;
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_crmentity SET deleted = ? WHERE crmid = ?;');
 		$stmt->execute([1,$this->filesid]);
@@ -53,7 +51,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      *
      * @return int
      */
-    function getSize() {
+    public function getSize() {
 		if (isset($this->size)) {
 			return $this->size;
 		}
@@ -71,7 +69,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      *
      * @return mixed
      */
-    function getETag() {
+    public function getETag() {
         return null;
     }
 
@@ -82,7 +80,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      *
      * @return mixed
      */
-    function getContentType() {
+    public function getContentType() {
         return null;
     }
 
@@ -92,7 +90,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
 	 * @param string $name The new name
 	 * @return void
 	 */
-	function setName($name) {
+	public function setName($name) {
 		list($parentLocalPath, ) = URLUtil::splitPath($this->localPath);
 		list($parentPath, ) = URLUtil::splitPath($this->path);
 		list(, $newName) = URLUtil::splitPath($name);

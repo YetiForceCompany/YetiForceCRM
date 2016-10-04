@@ -159,7 +159,7 @@ class VtigerInventoryOperation extends VtigerModuleOperation
 	public function describe($elementType)
 	{
 		$describe = parent::describe($elementType);
-		$tandc = getTermsAndConditions();
+		$tandc = \vtlib\Functions::getInventoryTermsAndCondition();
 		foreach ($describe['fields'] as $key => $list) {
 			if ($list["name"] == 'terms_conditions') {
 				$describe['fields'][$key]['default'] = $tandc;

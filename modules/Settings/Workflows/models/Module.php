@@ -14,9 +14,9 @@ require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager
 class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $baseTable = 'com_vtiger_workflows';
-	var $baseIndex = 'workflow_id';
-	var $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS');
+	public $baseTable = 'com_vtiger_workflows';
+	public $baseIndex = 'workflow_id';
+	public $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS');
 	public static $allFields = [
 		'module_name',
 		'summary',
@@ -32,7 +32,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		'schtime',
 		'nexttrigger_time'
 	];
-	var $name = 'Workflows';
+	public $name = 'Workflows';
 	static $metaVariables = [
 		'Current Date' => '(general : (__VtigerMeta__) date) ($_DATE_FORMAT_)',
 		'Current Time' => '(general : (__VtigerMeta__) time)',
@@ -166,13 +166,13 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$db->update($this->getBaseTable() . '_seq', ['id' => $workflowId]);
 
 		$messages = ['id' => $workflowId];
-		if($data['workflow_methods']){
-			foreach($data['workflow_methods'] as $method) {
+		if ($data['workflow_methods']) {
+			foreach ($data['workflow_methods'] as $method) {
 				$this->importTaskMethod($method, $messages);
 			}
 		}
-		
-		if($data['workflow_tasks']){
+
+		if ($data['workflow_tasks']) {
 			foreach ($data['workflow_tasks'] as $task) {
 				$db->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']]);
 				$taskId = $db->getLastInsertID();
@@ -195,15 +195,16 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param int $methodName name of method
 	 * @return array task method data
 	 */
-	public static function exportTaskMethod($methodName) {
+	public static function exportTaskMethod($methodName)
+	{
 		$db = PearDatabase::getInstance();
-		
+
 		$query = 'SELECT workflowtasks_entitymethod_id, module_name, method_name, function_path, function_name FROM com_vtiger_workflowtasks_entitymethod WHERE method_name = ?;';
 		$result = $db->pquery($query, [$methodName]);
 		$method = $db->getRow($result);
 
 		$method['script_content'] = base64_encode(file_get_contents($method['function_path']));
-		
+
 		return $method;
 	}
 
@@ -212,7 +213,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param array $method array containing method data
 	 * @param array $messages array containing returned error messages
 	 */
-	public function importTaskMethod(array &$method, array &$messages) {
+	public function importTaskMethod(array &$method, array &$messages)
+	{
 		$db = PearDatabase::getInstance();
 
 		if (!file_exists($method['function_path'])) {
@@ -227,7 +229,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 
-		$query = 'SELECT COUNT(1) AS num FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? AND method_name = ? AND function_path = ? AND function_name = ?;';
+		$query = 'SELECT COUNT(1) AS num FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? && method_name = ? && function_path = ? && function_name = ?;';
 		$params = [$method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']];
 		$result = $db->pquery($query, $params);
 		$num = $db->getSingleValue($result);

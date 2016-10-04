@@ -16,7 +16,7 @@ interface INode {
      *
      * @return void
      */
-    function delete();
+    public function delete();
 
     /**
      * Returns the name of the node.
@@ -25,7 +25,7 @@ interface INode {
      *
      * @return string
      */
-    function getName();
+    public function getName();
 
     /**
      * Renames the node
@@ -33,13 +33,13 @@ interface INode {
      * @param string $name The new name
      * @return void
      */
-    function setName($name);
+    public function setName($name);
 
     /**
      * Returns the last modification time, as a unix timestamp
      *
      * @return int
      */
-    function getLastModified();
+    public function getLastModified();
 
 }

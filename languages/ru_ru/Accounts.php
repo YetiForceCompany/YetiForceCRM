@@ -91,7 +91,6 @@ $languageStrings = [
 	'LBL_INVENTORY_BALANCE' => 'Баланс',
 	'LBL_DISCOUNT' => 'Скидка',
 	'LBL_CREDIT_LIMIT' => 'Кредитный лимит',
-	'Campaign status' => 'Статус Компании',
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Акаунт выключен ',
 	'SINGLE_Vendors' => 'Поставщик',

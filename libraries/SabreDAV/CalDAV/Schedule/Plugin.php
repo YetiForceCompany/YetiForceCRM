@@ -71,7 +71,7 @@ class Plugin extends ServerPlugin {
      *
      * @return array
      */
-    function getFeatures() {
+    public function getFeatures() {
 
         return ['calendar-auto-schedule', 'calendar-availability'];
 
@@ -85,7 +85,7 @@ class Plugin extends ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'caldav-schedule';
 
@@ -97,7 +97,7 @@ class Plugin extends ServerPlugin {
      * @param Server $server
      * @return void
      */
-    function initialize(Server $server) {
+    public function initialize(Server $server) {
 
         $this->server = $server;
         $server->on('method:POST',          [$this, 'httpPost']);
@@ -139,7 +139,7 @@ class Plugin extends ServerPlugin {
      * @param string $uri
      * @return array
      */
-    function getHTTPMethods($uri) {
+    public function getHTTPMethods($uri) {
 
         try {
             $node = $this->server->tree->getNodeForPath($uri);
@@ -162,7 +162,7 @@ class Plugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpPost(RequestInterface $request, ResponseInterface $response) {
+    public function httpPost(RequestInterface $request, ResponseInterface $response) {
 
         // Checking if this is a text/calendar content type
         $contentType = $request->getHeader('Content-Type');
@@ -199,7 +199,7 @@ class Plugin extends ServerPlugin {
      * @param INode $node
      * @return void
      */
-    function propFind(PropFind $propFind, INode $node) {
+    public function propFind(PropFind $propFind, INode $node) {
 
         if ($node instanceof DAVACL\IPrincipal) {
 
@@ -305,7 +305,7 @@ class Plugin extends ServerPlugin {
      * @param PropPatch $propPatch
      * @return void
      */
-    function propPatch($path, PropPatch $propPatch) {
+    public function propPatch($path, PropPatch $propPatch) {
 
         // Mapping the old property to the new property.
         $propPatch->handle('{http://calendarserver.org/ns/}calendar-availability', function($value) use ($path) {
@@ -333,7 +333,7 @@ class Plugin extends ServerPlugin {
      * @param mixed $isNew Whether this was a new item or we're updating one
      * @return void
      */
-    function calendarObjectChange(RequestInterface $request, ResponseInterface $response, VCalendar $vCal, $calendarPath, &$modified, $isNew) {
+    public function calendarObjectChange(RequestInterface $request, ResponseInterface $response, VCalendar $vCal, $calendarPath, &$modified, $isNew) {
 
         if (!$this->scheduleReply($this->server->httpRequest)) {
             return;
@@ -367,7 +367,7 @@ class Plugin extends ServerPlugin {
      * @param ITip\Message $itipMessage
      * @return void
      */
-    function deliver(ITip\Message $iTipMessage) {
+    public function deliver(ITip\Message $iTipMessage) {
 
         $this->server->emit('schedule', [$iTipMessage]);
         if (!$iTipMessage->scheduleStatus) {
@@ -391,10 +391,8 @@ class Plugin extends ServerPlugin {
      * @param string $path
      * @return void
      */
-    function beforeUnbind($path) {
+    public function beforeUnbind($path) {
 
-        // FIXME: We shouldn't trigger this functionality when we're issuing a
-        // MOVE. This is a hack.
         if ($this->server->httpRequest->getMethod() === 'MOVE') return;
 
         $node = $this->server->tree->getNodeForPath($path);
@@ -429,7 +427,7 @@ class Plugin extends ServerPlugin {
      * @param ITip\Message $iTipMessage
      * @return void
      */
-    function scheduleLocalDelivery(ITip\Message $iTipMessage) {
+    public function scheduleLocalDelivery(ITip\Message $iTipMessage) {
 
         $aclPlugin = $this->server->getPlugin('acl');
 
@@ -660,7 +658,7 @@ class Plugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return void
      */
-    function outboxRequest(IOutbox $outboxNode, RequestInterface $request, ResponseInterface $response) {
+    public function outboxRequest(IOutbox $outboxNode, RequestInterface $request, ResponseInterface $response) {
 
         $outboxPath = $request->getPath();
 
@@ -982,7 +980,7 @@ class Plugin extends ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

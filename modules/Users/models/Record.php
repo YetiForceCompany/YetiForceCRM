@@ -162,7 +162,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public static function getCurrentUserModel()
 	{
-		//TODO : Remove the global dependency
 		$currentUser = vglobal('current_user');
 		if (!empty($currentUser)) {
 
@@ -234,7 +233,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Subordinate users
 	 * @return <Array>
 	 */
-	function getSubordinateUsers()
+	public function getSubordinateUsers()
 	{
 		$privilegesModel = $this->get('privileges');
 
@@ -259,7 +258,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Users Parent Role
 	 * @return <String>
 	 */
-	function getParentRoleSequence()
+	public function getParentRoleSequence()
 	{
 		$privilegesModel = $this->get('privileges');
 
@@ -275,7 +274,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Users Current Role
 	 * @return <String>
 	 */
-	function getRole()
+	public function getRole()
 	{
 		$privilegesModel = $this->get('privileges');
 
@@ -287,7 +286,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $privilegesModel->get('roleid');
 	}
 
-	function getRoleDetail()
+	public function getRoleDetail()
 	{
 		$roleDetail = $this->get('roleDetail');
 		if (!empty($roleDetail)) {
@@ -307,7 +306,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the Users Current Role
 	 * @return <String>
 	 */
-	function getProfiles()
+	public function getProfiles()
 	{
 		$userProfiles = $this->get('profiles');
 		if (empty($userProfiles)) {
@@ -324,7 +323,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $profiles;
 	}
 
-	function getGroups()
+	public function getGroups()
 	{
 		if (empty($this->get('groups'))) {
 			if ($this->isAdminUser()) {
@@ -340,7 +339,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $this->get('groups');
 	}
 
-	function getParentRoles()
+	public function getParentRoles()
 	{
 		if (empty($this->get('parentRoles'))) {
 			if ($this->isAdminUser()) {
@@ -505,7 +504,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * Function returns the users activity reminder in seconds
 	 * @return string
 	 */
-	function getCurrentUserActivityReminderInSeconds()
+	public function getCurrentUserActivityReminderInSeconds()
 	{
 		$activityReminder = $this->reminder_interval;
 		$activityReminderInSeconds = '';
@@ -602,7 +601,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT id FROM vtiger_users WHERE status=? AND is_admin=?';
+		$sql = 'SELECT id FROM vtiger_users WHERE status=? && is_admin=?';
 		$result = $db->pquery($sql, array('ACTIVE', 'on'));
 
 		$noOfUsers = $db->num_rows($result);
@@ -648,7 +647,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'UPDATE vtiger_crmentity SET smcreatorid=?,smownerid=? WHERE smcreatorid=? AND setype=?';
+		$sql = 'UPDATE vtiger_crmentity SET smcreatorid=?,smownerid=? WHERE smcreatorid=? && setype=?';
 		$db->pquery($sql, array($newOwnerId, $newOwnerId, $userId, 'ModComments'));
 
 		//update history details in vtiger_modtracker_basic 
@@ -671,7 +670,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getDisplayName()
 	{
-		return getFullNameFromArray($this->getModuleName(), $this->getData());
+		return \vtlib\Deprecated::getFullNameFromArray($this->getModuleName(), $this->getData());
 	}
 
 	public function getSwitchUsersUrl()

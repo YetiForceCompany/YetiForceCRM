@@ -102,7 +102,7 @@ class Response extends Message implements ResponseInterface {
      * @param resource $body
      * @return void
      */
-    function __construct($status = null, array $headers = null, $body = null) {
+    public function __construct($status = null, array $headers = null, $body = null) {
 
         if (!is_null($status)) $this->setStatus($status);
         if (!is_null($headers)) $this->setHeaders($headers);
@@ -116,7 +116,7 @@ class Response extends Message implements ResponseInterface {
      *
      * @return int
      */
-    function getStatus() {
+    public function getStatus() {
 
         return $this->status;
 
@@ -129,7 +129,7 @@ class Response extends Message implements ResponseInterface {
      *
      * @return string
      */
-    function getStatusText() {
+    public function getStatusText() {
 
         return $this->statusText;
 
@@ -148,7 +148,7 @@ class Response extends Message implements ResponseInterface {
      * @throws \InvalidArgumentExeption
      * @return void
      */
-    function setStatus($status) {
+    public function setStatus($status) {
 
         if (ctype_digit($status) || is_int($status)) {
 
@@ -177,7 +177,7 @@ class Response extends Message implements ResponseInterface {
      *
      * @return string
      */
-    function __toString() {
+    public function __toString() {
 
         $str = 'HTTP/' . $this->httpVersion . ' ' . $this->getStatus() . ' ' . $this->getStatusText() . "\r\n";
         foreach ($this->getHeaders() as $key => $value) {

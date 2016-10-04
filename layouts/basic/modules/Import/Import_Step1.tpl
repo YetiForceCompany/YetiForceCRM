@@ -13,7 +13,7 @@
 <table width="100%" cellspacing="0" cellpadding="2">
 	<tr>
 		<td><strong>{'LBL_IMPORT_STEP_1'|@vtranslate:$MODULE}:</strong></td>
-		<td class="big">{'LBL_IMPORT_STEP_1_DESCRIPTION'|@vtranslate:$MODULE}</td>
+		<td>{'LBL_IMPORT_STEP_1_DESCRIPTION'|@vtranslate:$MODULE}</td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>

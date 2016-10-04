@@ -88,7 +88,6 @@ jQuery.Class("Vtiger_Header_Js", {
 		var quickCreateSaveUrl = form.serializeFormData();
 		AppConnector.request(quickCreateSaveUrl).then(
 				function (data) {
-					//TODO: App Message should be shown
 					aDeferred.resolve(data);
 				},
 				function (textStatus, errorThrown) {
@@ -458,7 +457,6 @@ jQuery.Class("Vtiger_Header_Js", {
 					targetInstance.quickCreateSave(form).then(
 							function (data) {
 								app.hideModalWindow();
-								//fix for Refresh list view after Quick create 
 								var parentModule = app.getModuleName();
 								var viewname = app.getViewName();
 								if ((module == parentModule) && (viewname == "List")) {
@@ -934,7 +932,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 
 		thisInstance.basicSearch();
-		jQuery('.quickCreateModules,#compactquickCreate,#topMenus').on("click", ".quickCreateModule", function (e, params) {
+		jQuery('.quickCreateModules').on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = jQuery(e.currentTarget).data('name');
 			thisInstance.quickCreateModule(moduleName);
 		});

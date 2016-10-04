@@ -95,6 +95,7 @@ $languageStrings = [
 	'Record Id' => 'Datensatz Id',
 	'ticketpriorities' => 'Priorität',
 	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'Das Ticket ist nicht mit einer Organisation verknüpft. Bitte verküpfen Sie dies Ticket mit einer Organisation.',
+	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'The Account has no active SLA',
 	//notifications translation 
 	'LBL_NOTICE_WELCOME' => 'Willkommen',
 	'LBL_NOTICE_CREATED' => 'wurde erstellt (von',

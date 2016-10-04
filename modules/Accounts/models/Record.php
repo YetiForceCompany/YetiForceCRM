@@ -16,7 +16,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 	 * Function returns the details of Accounts Hierarchy
 	 * @return <Array>
 	 */
-	function getAccountHierarchy()
+	public function getAccountHierarchy()
 	{
 		$focus = CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getAccountHierarchy($this->getId());
@@ -24,7 +24,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 		foreach ($hierarchy['entries'] as $accountId => $accountInfo) {
 			$link = $accountInfo[0]['data'];
 			preg_match('/<a href="+/', $link, $matches);
-			if ($matches != null) {
+			if (!empty($matches)) {
 				preg_match('/[.\s]+/', $link, $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $link, $name);
 
@@ -40,7 +40,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 	 * Function returns the url for create event
 	 * @return <String>
 	 */
-	function getCreateEventUrl()
+	public function getCreateEventUrl()
 	{
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
@@ -50,7 +50,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 	 * Function returns the url for create todo
 	 * @retun <String>
 	 */
-	function getCreateTaskUrl()
+	public function getCreateTaskUrl()
 	{
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();

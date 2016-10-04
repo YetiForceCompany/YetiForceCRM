@@ -14,7 +14,7 @@ class ChangesList
 
 	private $moduleList = array('all');
 
-	function process($data)
+	public function process($data)
 	{
 		$adb = PearDatabase::getInstance();
 		$html = '';
@@ -25,11 +25,11 @@ class ChangesList
 			if (count($delta) == 0) {
 				return '';
 			}
-			$tabid = getTabid($data['module']);
+			$tabid = \includes\Modules::getModuleId($data['module']);
 			$html = '<ul>';
 			foreach ($delta as $fieldName => $values) {
-				if ($fieldName != 'modifiedtime' && in_array($fieldName, array('record_id', 'record_module')) == false && strstr($fieldName, 'label') === false) {
-					$result = $adb->pquery("SELECT uitype,fieldlabel FROM vtiger_field WHERE fieldname = ? AND tabid = ?", array($fieldName, $tabid), true);
+				if ($fieldName != 'modifiedtime' && in_array($fieldName, array('record_id', 'record_module')) === false && strstr($fieldName, 'label') === false) {
+					$result = $adb->pquery("SELECT uitype,fieldlabel FROM vtiger_field WHERE fieldname = ? && tabid = ?", array($fieldName, $tabid), true);
 					$fieldlabel = $adb->query_result_raw($result, 0, 'fieldlabel');
 					$uitype = $adb->query_result_raw($result, 0, 'uitype');
 
@@ -61,7 +61,7 @@ class ChangesList
 		}
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

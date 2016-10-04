@@ -13,7 +13,21 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 	{
 		$return = false;
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
+		CRMEntity::trackLinkedInfo($crmid);
+		$em = new VTEventsManager($db);
+		$em->initTriggerCache();
+
+		$destinationModuleName = \includes\Record::getType($crmid);
+		$destinationModuleModel = Vtiger_Module_Model::getInstance($destinationModuleName);
+		$data = [];
+		$data['CRMEntity'] = $destinationModuleModel->focus;
+		$data['entityData'] = VTEntityData::fromEntityId($db, $mailId);
+		$data['sourceModule'] = $destinationModuleName;
+		$data['sourceRecordId'] = $crmid;
+		$data['destinationModule'] = 'OSSMailView';
+		$data['destinationRecordId'] = $mailId;
+		$em->triggerEvent('vtiger.entity.link.before', $data);
+		$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
 		$result = $db->pquery($query, [$mailId, $crmid]);
 		if ($db->getRowCount($result) == 0) {
 			if (!$date) {
@@ -27,7 +41,7 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 			]);
 
 			if ($parentId = Users_Privileges_Model::getParentRecord($crmid)) {
-				$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
+				$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
 				$result = $db->pquery($query, [$mailId, $parentId]);
 				if ($db->getRowCount($result) == 0) {
 					$db->insert('vtiger_ossmailview_relation', [
@@ -36,7 +50,7 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 						'date' => $date
 					]);
 					if ($parentId = Users_Privileges_Model::getParentRecord($parentId)) {
-						$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?';
+						$query = 'SELECT * FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? && crmid = ?';
 						$result = $db->pquery($query, [$mailId, $parentId]);
 						if ($db->getRowCount($result) == 0) {
 							$db->insert('vtiger_ossmailview_relation', [
@@ -50,6 +64,7 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 			}
 			$return = true;
 		}
+		$em->triggerEvent('vtiger.entity.link.after', $data);
 		return $return;
 	}
 }

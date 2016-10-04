@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="dashboardHeading col-xs-3 col-sm-6">
+	<div class="dashboardHeading col-xs-3 col-sm-8 col-md-6">
 		<input type="hidden" name="selectedModuleName" value="{$MODULE_NAME}">
 		<div class="marginLeftZero">
 			<div class="pull-right">
@@ -23,11 +23,11 @@
 								</li>
 								{assign var="WIDGET" value=""}
 								{foreach from=$WIDGETS item=WIDGET}
-									<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
-										   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}" data-width="{$WIDGET->getWidth()}" data-height=	"{$WIDGET->getHeight()}" data-id="{$WIDGET->get('widgetid')}">
+									<li><a class="pull-left" onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
+										   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}" data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}" data-id="{$WIDGET->get('widgetid')}">
 											{vtranslate($WIDGET->getTitle(), $MODULE_NAME)} </a>
 										{if $WIDGET->get('deleteFromList')}
-											<button data-widget-id="{$WIDGET->get('id')}" class="removeWidgetFromList btn btn-xs btn-danger">
+											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-xs btn-danger pull-right">
 												<span class='glyphicon glyphicon-trash'></span>
 											</button>
 										{/if}
@@ -56,14 +56,14 @@
 					</div>
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
 						<div class="btn-group hidden-xs">
-							<a class="btn btn-default addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
+							<a class="btn btn-default addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{vtranslate('LBL_ADD_FILTER')}</strong>
 							</a>
 						</div>
 					{/if}
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
 						<div class="btn-group hidden-xs">
-							<a class="btn btn-default addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="3">
+							<a class="btn btn-default addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{vtranslate('LBL_ADD_CHART_FILTER')}</strong>
 							</a>
 						</div>

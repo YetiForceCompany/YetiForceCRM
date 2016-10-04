@@ -12,7 +12,7 @@
 class Documents_Detail_View extends Vtiger_Detail_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showDocumentRelations');
@@ -24,7 +24,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$fileType = $recordModel->get('filetype');
 		$fileIcon = \includes\utils\Icon::getIconByFileType($fileType);
-	
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('NO_SUMMARY', true);
 		$viewer->assign('EXTENSION_ICON', $fileIcon);
@@ -45,12 +45,12 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	function showModuleBasicView($request)
+	public function showModuleBasicView($request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	function showDocumentRelations(Vtiger_Request $request)
+	public function showDocumentRelations(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

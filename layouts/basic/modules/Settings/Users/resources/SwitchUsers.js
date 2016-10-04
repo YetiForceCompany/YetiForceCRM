@@ -46,10 +46,12 @@ jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 		content.find('.saveItems').click(function (e) {
 			var data = [];
 			content.find('.switchUsersTable tbody tr').each(function (index) {
-				data.push({
-					user: $(this).find('.sufrom').val(),
-					access: $(this).find('.suto').val(),
-				});
+				if($(this).find('.suto :selected').length > 0){
+					data.push({
+						user: $(this).find('.sufrom').val(),
+						access: $(this).find('.suto').val(),
+					});
+				}
 			});
 			app.saveAjax('saveSwitchUsers', data).then(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});

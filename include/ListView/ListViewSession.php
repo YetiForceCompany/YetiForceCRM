@@ -8,37 +8,35 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-
-require_once('include/logging.php');
 require_once('modules/CustomView/CustomView.php');
 
 class ListViewSession
 {
 
-	var $module = null;
-	var $viewname = null;
-	var $start = null;
-	var $sorder = null;
-	var $sortby = null;
-	var $page_view = null;
+	public $module = null;
+	public $viewname = null;
+	public $start = null;
+	public $sorder = null;
+	public $sortby = null;
+	public $page_view = null;
 
 	/*	 * initializes ListViewSession
 	 * Portions created by vtigerCRM are Copyright (C) vtigerCRM.
 	 * All Rights Reserved.
 	 */
 
-	function ListViewSession()
+	public function ListViewSession()
 	{
-		$log = vglobal('log');
+		
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering ListViewSession() method ...");
+		\App\Log::trace("Entering ListViewSession() method ...");
 
 		$this->module = $currentModule;
 		$this->sortby = 'ASC';
 		$this->start = 1;
 	}
 
-	function getCurrentPage($currentModule, $viewId)
+	public function getCurrentPage($currentModule, $viewId)
 	{
 		if (!empty($_SESSION['lvs'][$currentModule][$viewId]['start'])) {
 			return $_SESSION['lvs'][$currentModule][$viewId]['start'];
@@ -46,7 +44,7 @@ class ListViewSession
 		return 1;
 	}
 
-	function getRequestStartPage()
+	public function getRequestStartPage()
 	{
 		$start = AppRequest::get('start');
 		if (!is_numeric($start)) {
@@ -62,10 +60,10 @@ class ListViewSession
 	public static function getListViewNavigation($currentRecordId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+
 		$currentModule = vglobal('currentModule');
 		$current_user = vglobal('current_user');
-		$list_max_entries_per_page = vglobal('list_max_entries_per_page');
+		$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');
 
 		$reUseData = false;
 		$displayBufferRecordCount = 10;
@@ -100,7 +98,8 @@ class ListViewSession
 						}
 					}
 				}
-				if ($searchKey > $displayBufferRecordCount - 1 && $searchKey < count($recordList) - $displayBufferRecordCount) {
+				$countRecordList = count($recordList);
+				if ($searchKey > $displayBufferRecordCount - 1 && $searchKey < $countRecordList - $displayBufferRecordCount) {
 					$reUseData = true;
 				}
 			}
@@ -115,7 +114,7 @@ class ListViewSession
 			} else {
 				$start = ListViewSession::getCurrentPage($currentModule, $viewId);
 			}
-			$startRecord = (($start - 1) * $list_max_entries_per_page) - $bufferRecordCount;
+			$startRecord = (($start - 1) * $listMaxEntriesPerPage) - $bufferRecordCount;
 			if ($startRecord < 0) {
 				$startRecord = 0;
 			}
@@ -128,7 +127,7 @@ class ListViewSession
 				$list_query = explode('ORDER BY', $list_query);
 				$default_orderby = $list_query[1];
 				$list_query = $list_query[0];
-				$list_query .= " AND vtiger_notes.folderid='$folderId'";
+				$list_query .= " && vtiger_notes.folderid='$folderId'";
 				$order_by = $instance->getOrderByForFolder($folderId);
 				$sorder = $instance->getSortOrderForFolder($folderId);
 				$tablename = getTableNameForField($currentModule, $order_by);
@@ -141,9 +140,9 @@ class ListViewSession
 				}
 			}
 			if ($start != 1) {
-				$recordCount = ($list_max_entries_per_page * $start + $bufferRecordCount);
+				$recordCount = ($listMaxEntriesPerPage * $start + $bufferRecordCount);
 			} else {
-				$recordCount = ($list_max_entries_per_page + $bufferRecordCount);
+				$recordCount = ($listMaxEntriesPerPage + $bufferRecordCount);
 			}
 			if ($adb->isPostgres()) {
 				$list_query .= " OFFSET $startRecord LIMIT $recordCount";
@@ -160,7 +159,7 @@ class ListViewSession
 			$pageCount = 0;
 			$current = $start;
 			if ($start == 1) {
-				$firstPageRecordCount = $list_max_entries_per_page;
+				$firstPageRecordCount = $listMaxEntriesPerPage;
 			} else {
 				$firstPageRecordCount = $bufferRecordCount;
 				$current -=1;
@@ -173,7 +172,7 @@ class ListViewSession
 					if (!is_array($recordNavigationInfo[$current])) {
 						$recordNavigationInfo[$current] = [];
 					}
-					if ($index == $firstPageRecordCount || $index == ($firstPageRecordCount + $pageCount * $list_max_entries_per_page)) {
+					if ($index == $firstPageRecordCount || $index == ($firstPageRecordCount + $pageCount * $listMaxEntriesPerPage)) {
 						$current++;
 						$pageCount++;
 					}
@@ -185,9 +184,9 @@ class ListViewSession
 		return $recordNavigationInfo;
 	}
 
-	function getRequestCurrentPage($currentModule, $query, $viewid, $queryMode = false)
+	public function getRequestCurrentPage($currentModule, $query, $viewid, $queryMode = false)
 	{
-		global $list_max_entries_per_page, $adb;
+		$adb = PearDatabase::getInstance();
 		$start = 1;
 		if (AppRequest::has('query') && AppRequest::get('query') == 'true' && AppRequest::get('start') != 'last') {
 			return ListViewSession::getRequestStartPage();
@@ -198,7 +197,7 @@ class ListViewSession
 				$count_result = $adb->query(vtlib\Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");
 				if ($noofrows > 0) {
-					$start = ceil($noofrows / $list_max_entries_per_page);
+					$start = ceil($noofrows / AppConfig::main('list_max_entries_per_page'));
 				}
 			}
 			if (!is_numeric($start)) {

@@ -19,7 +19,7 @@ class VtigerProductTaxesOperation extends VtigerActorOperation
 	public function create($elementType, $element)
 	{
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_producttaxrel WHERE productid =? AND taxid=?';
+		$sql = 'SELECT * FROM vtiger_producttaxrel WHERE productid =? && taxid=?';
 		list($typeId, $productId) = vtws_getIdComponents($element['productid']);
 		list($typeId, $taxId) = vtws_getIdComponents($element['taxid']);
 		$params = array($productId, $taxId);

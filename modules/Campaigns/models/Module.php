@@ -41,7 +41,7 @@ class Campaigns_Module_Model extends Vtiger_Module_Model
 			$pos = stripos($listQuery, 'where');
 
 			if ($pos) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
+				$overRideQuery = $listQuery . ' && ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}

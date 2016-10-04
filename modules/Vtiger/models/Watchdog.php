@@ -25,7 +25,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		$instance = new $modelClassName();
 		$instance->set('record', $record);
 		$instance->set('module', $moduleName);
-		if (AppConfig::module('ModTracker', 'WATCHDOG') == false) {
+		if (AppConfig::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->set('isWatchingModule', false);
 			$instance->set('isWatchingRecord', false);
 		}
@@ -45,7 +45,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleName);
-		if (AppConfig::module('ModTracker', 'WATCHDOG') == false) {
+		if (AppConfig::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->set('isWatchingModule', false);
 			$instance->set('isWatchingRecord', false);
 		}
@@ -79,7 +79,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($userId === false) {
 			$userId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
 		}
-		$sql = 'SELECT state FROM u_yf_watchdog_record WHERE userid = ? AND record = ?';
+		$sql = 'SELECT state FROM u_yf_watchdog_record WHERE userid = ? && record = ?';
 		$result = $db->pquery($sql, [$userId, $this->get('record')]);
 		$count = $db->getRowCount($result);
 		$this->set('isRecord', $count);
@@ -131,7 +131,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($isWatchingRecord && $state == 1) {
 			return true;
 		}
-		if ($ownerId == false) {
+		if ($ownerId === false) {
 			$ownerId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
 		}
 		$db = PearDatabase::getInstance();
@@ -143,7 +143,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			$db->insert('u_yf_watchdog_record', $row);
 		} else {
 
-			$db->update('u_yf_watchdog_record', $row, 'userid = ? AND record = ?', [$ownerId, $this->get('record')]);
+			$db->update('u_yf_watchdog_record', $row, 'userid = ? && record = ?', [$ownerId, $this->get('record')]);
 		}
 	}
 
@@ -164,7 +164,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 				'module' => $moduleId
 			]);
 		} else {
-			$db->delete('u_yf_watchdog_module', 'userid = ? AND module = ?', [$ownerId, $moduleId]);
+			$db->delete('u_yf_watchdog_module', 'userid = ? && module = ?', [$ownerId, $moduleId]);
 		}
 	}
 

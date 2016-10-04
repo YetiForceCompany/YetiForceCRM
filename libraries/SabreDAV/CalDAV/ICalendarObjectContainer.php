@@ -34,6 +34,6 @@ interface ICalendarObjectContainer extends \Sabre\DAV\ICollection {
      * @param array $filters
      * @return array
      */
-    function calendarQuery(array $filters);
+    public function calendarQuery(array $filters);
 
 }

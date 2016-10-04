@@ -15,7 +15,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 	public function getUrl()
 	{
 		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $this->Data['relatedmodule'] . '&page=1&limit=' . $this->Data['limit'] . '&col=' . $this->Data['columns'];
-		if(isset($this->Data['no_result_text'])){
+		if (isset($this->Data['no_result_text'])) {
 			$url .= '&r=' . $this->Data['no_result_text'];
 		}
 		return $url;
@@ -31,7 +31,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			$this->Config['tpl'] = 'Basic.tpl';
 			if ($this->Data['action'] == 1) {
 				$createPermission = $model->isPermitted('CreateView');
-				$this->Config['action'] = ($createPermission == true) ? 1 : 0;
+				$this->Config['action'] = ($createPermission === true) ? 1 : 0;
 				$this->Config['actionURL'] = $model->getQuickCreateUrl();
 			}
 			if (isset($this->Data['showAll'])) {

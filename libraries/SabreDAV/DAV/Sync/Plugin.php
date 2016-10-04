@@ -37,7 +37,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'sync';
 
@@ -51,7 +51,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         $this->server = $server;
         $server->xml->elementMap['{DAV:}sync-collection'] = 'Sabre\\DAV\\Xml\\Request\\SyncCollectionReport';
@@ -83,7 +83,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $uri
      * @return array
      */
-    function getSupportedReportSet($uri) {
+    public function getSupportedReportSet($uri) {
 
         $node = $this->server->tree->getNodeForPath($uri);
         if ($node instanceof ISyncCollection && $node->getSyncToken()) {
@@ -104,7 +104,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param SyncCollectionReport $report
      * @return void
      */
-    function syncCollection($uri, SyncCollectionReport $report) {
+    public function syncCollection($uri, SyncCollectionReport $report) {
 
         // Getting the data
         $node = $this->server->tree->getNodeForPath($uri);
@@ -205,7 +205,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\INode $node
      * @return void
      */
-    function propFind(DAV\PropFind $propFind, DAV\INode $node) {
+    public function propFind(DAV\PropFind $propFind, DAV\INode $node) {
 
         $propFind->handle('{DAV:}sync-token', function() use ($node) {
             if (!$node instanceof ISyncCollection || !$token = $node->getSyncToken()) {
@@ -226,7 +226,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param array $conditions
      * @return void
      */
-    function validateTokens(RequestInterface $request, &$conditions) {
+    public function validateTokens(RequestInterface $request, &$conditions) {
 
         foreach ($conditions as $kk => $condition) {
 
@@ -264,7 +264,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

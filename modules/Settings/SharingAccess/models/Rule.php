@@ -423,7 +423,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM vtiger_datashare_module_rel WHERE tabid = ? AND shareid = ?';
+		$sql = 'SELECT * FROM vtiger_datashare_module_rel WHERE tabid = ? && shareid = ?';
 		$params = array($moduleModel->getId(), $ruleId);
 		$result = $db->pquery($sql, $params);
 

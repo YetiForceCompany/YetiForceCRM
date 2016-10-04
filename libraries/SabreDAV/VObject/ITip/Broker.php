@@ -109,7 +109,7 @@ class Broker {
      *
      * @return VCalendar|null
      */
-    function processMessage(Message $itipMessage, VCalendar $existingObject = null) {
+    public function processMessage(Message $itipMessage, VCalendar $existingObject = null) {
 
         // We only support events at the moment.
         if ($itipMessage->component !== 'VEVENT') {
@@ -166,7 +166,7 @@ class Broker {
      *
      * @return array
      */
-    function parseEvent($calendar = null, $userHref, $oldCalendar = null) {
+    public function parseEvent($calendar = null, $userHref, $oldCalendar = null) {
 
         if ($oldCalendar) {
             if (is_string($oldCalendar)) {

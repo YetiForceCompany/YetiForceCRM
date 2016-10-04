@@ -19,7 +19,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -36,7 +36,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('RELATED_RECORD', $relatedRecord);
 		$viewer->assign('RELATED_MODULE', $relatedModuleName);
 		$viewer->assign('COMMENT', $rcmModel->getComment());
-		
+
 		$this->preProcess($request);
 		$viewer->view('RelatedCommentModal.tpl', $moduleName);
 		$this->postProcess($request);

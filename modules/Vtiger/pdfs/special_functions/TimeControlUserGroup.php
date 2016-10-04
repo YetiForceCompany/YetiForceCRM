@@ -50,7 +50,7 @@ class Pdf_TimeControlUserGroup extends Vtiger_SpecialFunction_Pdf
 		$users = [];
 		$db = PearDatabase::getInstance();
 		$ids = $pdf->getRecordIds();
-		if(!is_array($ids)){
+		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
 		foreach ($ids as $recordId) {
@@ -65,7 +65,7 @@ class Pdf_TimeControlUserGroup extends Vtiger_SpecialFunction_Pdf
 		return $users;
 	}
 
-	function getRoleName($userId)
+	public function getRoleName($userId)
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT rolename FROM vtiger_role INNER JOIN vtiger_user2role ON vtiger_user2role.roleid = vtiger_role.roleid WHERE vtiger_user2role.userid = ?', [$userId]);

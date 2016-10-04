@@ -9,76 +9,75 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class Partners extends Vtiger_CRMEntity
 {
 
-	var $table_name = 'u_yf_partners';
-	var $table_index = 'partnersid';
+	public $table_name = 'u_yf_partners';
+	public $table_index = 'partnersid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('u_yf_partnerscf', 'partnersid');
+	public $customFieldTable = Array('u_yf_partnerscf', 'partnersid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_partners', 'u_yf_partnerscf', 'u_yf_partners_address', 'vtiger_entity_stats');
+	public $tab_name = Array('vtiger_crmentity', 'u_yf_partners', 'u_yf_partnerscf', 'u_yf_partners_address', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_partners' => 'partnersid',
 		'u_yf_partnerscf' => 'partnersid',
 		'u_yf_partners_address' => 'partneraddressid',
-		'vtiger_entity_stats' => 'crmid',
-		'u_yf_openstreetmap' => 'crmid');
+		'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => Array('partners', 'subject'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'subject';
+	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => Array('partners', 'subject'),
 		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('subject');
+	public $popup_fields = Array('subject');
 	// For Alphabetical search
-	var $def_basicsearch_col = 'subject';
+	public $def_basicsearch_col = 'subject';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'subject';
+	public $def_detailview_recname = 'subject';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('subject', 'assigned_user_id');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $mandatory_fields = Array('subject', 'assigned_user_id');
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 
 	/**
 	 * Invoked when special actions are performed on the module.
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
@@ -109,15 +108,15 @@ class Partners extends Vtiger_CRMEntity
 					$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 				}
 			}
-			// TODO Handle actions after this module is installed.
+
 		} else if ($eventType == 'module.disabled') {
-			// TODO Handle actions before this module is being uninstalled.
+
 		} else if ($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
-			// TODO Handle actions after this module is updated.
+
 		}
 	}
 
@@ -125,13 +124,13 @@ class Partners extends Vtiger_CRMEntity
 	 * @param $id -- campaign id :: Type Integer
 	 * @returns list of campaigns in array format
 	 */
-	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_campaigns(" . $id . ") method ...");
+		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -153,12 +152,12 @@ class Partners extends Vtiger_CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
 			}
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name ,
 				vtiger_campaign.campaignid, vtiger_campaign.campaignname, vtiger_campaign.campaigntype, vtiger_campaign.campaignstatus,
 				vtiger_campaign.expectedrevenue, vtiger_campaign.closingdate, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -172,11 +171,11 @@ class Partners extends Vtiger_CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_campaigns method ...");
+		\App\Log::trace("Exiting get_campaigns method ...");
 		return $return_value;
 	}
 
@@ -186,11 +185,11 @@ class Partners extends Vtiger_CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = ['Campaigns' => 'vtiger_campaign_records'];
 
@@ -214,7 +213,7 @@ class Partners extends Vtiger_CRMEntity
 				}
 			}
 		}
-		$log->debug("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the relation tables for related modules
@@ -222,7 +221,7 @@ class Partners extends Vtiger_CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'u_yf_partners' => 'partnersid'],
@@ -234,19 +233,19 @@ class Partners extends Vtiger_CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$log = LoggerManager::getInstance();
+		
 		if (empty($returnModule) || empty($returnId))
 			return;
 		if ($returnModule == 'Campaigns') {
-			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $returnId]);
+			$this->db->delete('vtiger_campaign_records', 'crmid=? && campaignid=?', [$id, $returnId]);
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 
-	function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 

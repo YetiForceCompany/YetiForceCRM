@@ -219,7 +219,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 					$qualifiedOrderBy . '.crmid ';
 				$query = sprintf('%s WHERE %s ORDER BY %s.label %s', $selectAndFromClause, $whereCondition, $qualifiedOrderBy, $sortOrder);
 			} elseif ($orderByFieldModuleModel && $orderByFieldModuleModel->isOwnerField()) {
-				$query .= sprintf(' ORDER BY COALESCE(%s,vtiger_groups.groupname) %s', getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sortOrder);
+				$query .= sprintf(' ORDER BY COALESCE(%s,vtiger_groups.groupname) %s', \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sortOrder);
 			} else {
 				// Qualify the the column name with table to remove ambugity
 				$qualifiedOrderBy = $orderBy;
@@ -322,14 +322,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 							if ($downloadType == 'I') {
 								$val = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
 									' href="index.php?module=Documents&action=DownloadFile&record=' . $recordId . '&fileid=' . $fileId . '"' .
-									' title="' . getTranslatedString('LBL_DOWNLOAD_FILE', $relationModuleName) .
-									'" >' . textlength_check($val) .
+									' title="' . \includes\Language::translate('LBL_DOWNLOAD_FILE', $relationModuleName) .
+									'" >' . \vtlib\Functions::textLength($val) .
 									'</a>';
 							} elseif ($downloadType == 'E') {
 								$val = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
 									' href="' . $fileName . '" target="_blank"' .
-									' title="' . getTranslatedString('LBL_DOWNLOAD_FILE', $relationModuleName) .
-									'" >' . textlength_check($val) .
+									' title="' . \includes\Language::translate('LBL_DOWNLOAD_FILE', $relationModuleName) .
+									'" >' . \vtlib\Functions::textLength($val) .
 									'</a>';
 							} else {
 								$val = ' --';
@@ -367,7 +367,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			}
 			if ($relationModel->showCreatorDetail()) {
 				if (!empty($row['rel_created_user']) && $row['rel_created_user'] != 0) {
-					$newRow['relCreatedUser'] = getOwnerName($row['rel_created_user']);
+					$newRow['relCreatedUser'] = \includes\fields\Owner::getLabel($row['rel_created_user']);
 				}
 				if (!empty($row['rel_created_time']) && $row['rel_created_time'] != '0000-00-00 00:00:00') {
 					$newRow['relCreatedTime'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
@@ -484,7 +484,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$query = $whereSplitQueryComponents[0] . $joinQuery;
 		foreach ($whereSplitQueryComponents as $key => $val) {
 			if ($key == 0) {
-				$query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId AND ";
+				$query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId && ";
 			} else {
 				$query .= $val . ' WHERE ';
 			}
@@ -568,7 +568,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$template = $treeViewModel->getTemplate();
 		$result = $db->pquery('SELECT count(1) FROM vtiger_trees_templates_data tr '
 			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
-			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
+			. 'WHERE tr.templateid = ? && rel.crmid = ? && rel.relmodule = ?', [$template, $recordId, $relModuleId]);
 		return $db->getSingleValue($result);
 	}
 
@@ -604,13 +604,13 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$condition .= " $fieldName = '$fieldValue' ";
 			}
 			if ($appendAndCondition && ($i++ != $count)) {
-				$condition .= " AND ";
+				$condition .= " && ";
 			}
 		}
 
 		if (stripos($relationQuery, 'WHERE')) {
 			$split = preg_split('/WHERE/i', $relationQuery, 2);
-			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' AND ' . $condition;
+			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' && ' . $condition;
 		} else {
 			$updatedQuery = "$relationQuery WHERE $condition";
 		}
@@ -677,12 +677,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relModuleName = $this->getRelatedModuleModel()->getName();
 		$treeViewModel = $this->getTreeViewModel();
 		$relationModel = $this->getRelationModel();
-		$fields = $treeViewModel->getTreeField();
 		$template = $treeViewModel->getTemplate();
 
 		$result = $db->pquery('SELECT tr.*,rel.crmid,rel.rel_created_time,rel.rel_created_user,rel.rel_comment FROM vtiger_trees_templates_data tr '
 			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
-			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
+			. 'WHERE tr.templateid = ? && rel.crmid = ? && rel.relmodule = ?', [$template, $recordId, $relModuleId]);
 		$trees = [];
 		while ($row = $db->getRow($result)) {
 			$treeID = $row['tree'];
@@ -691,7 +690,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parent = prev($pieces);
 			$parentName = '';
 			if ($row['depth'] > 0) {
-				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
+				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $parent]);
 				$parentName = $db->getSingleValue($result2);
 				$parentName = '(' . vtranslate($parentName, $relModuleName) . ') ';
 			}
@@ -702,7 +701,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			];
 
 			if ($relationModel->showCreatorDetail()) {
-				$tree['relCreatedUser'] = getOwnerName($row['rel_created_user']);
+				$tree['relCreatedUser'] = \includes\fields\Owner::getLabel($row['rel_created_user']);
 				$tree['relCreatedTime'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
 			}
 			if ($relationModel->showComment()) {

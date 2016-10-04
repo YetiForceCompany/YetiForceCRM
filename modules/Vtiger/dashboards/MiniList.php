@@ -54,7 +54,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		}
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		return $this->checkAndConvertJsScripts(array('modules.Emails.resources.MassEdit'));
 	}

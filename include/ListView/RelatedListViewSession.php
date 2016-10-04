@@ -6,10 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-
-require_once('include/logging.php');
 require_once('include/ListView/ListViewSession.php');
 
 /* * initializes Related ListViewSession
@@ -20,17 +18,17 @@ require_once('include/ListView/ListViewSession.php');
 class RelatedListViewSession
 {
 
-	var $module = null;
-	var $start = null;
-	var $sorder = null;
-	var $sortby = null;
-	var $page_view = null;
+	public $module = null;
+	public $start = null;
+	public $sorder = null;
+	public $sortby = null;
+	public $page_view = null;
 
-	function __construct()
+	public function __construct()
 	{
-		$log = vglobal('log');
+		
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering RelatedListViewSession() method ...");
+		\App\Log::trace("Entering RelatedListViewSession() method ...");
 
 		$this->module = $currentModule;
 		$this->start = 1;
@@ -99,15 +97,15 @@ class RelatedListViewSession
 
 	public static function getRequestCurrentPage($relationId, $query)
 	{
-		global $list_max_entries_per_page, $adb;
-
+		$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');
+		$adb = PearDatabase::getInstance();
 		$start = AppRequest::get('start');
 		if (!empty($start)) {
 			if ($start == 'last') {
 				$count_result = $adb->query(vtlib\Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");
 				if ($noofrows > 0) {
-					$start = ceil($noofrows / $list_max_entries_per_page);
+					$start = ceil($noofrows / $listMaxEntriesPerPage);
 				}
 			}
 			if (!is_numeric($start)) {

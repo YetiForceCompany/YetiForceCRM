@@ -43,7 +43,7 @@ class ICalendar implements SplitterInterface {
      * @param resource $input
      * @param int $options Parser options, see the OPTIONS constants.
      */
-    function __construct($input, $options = 0) {
+    public function __construct($input, $options = 0) {
 
         $data = VObject\Reader::read($input, $options);
 
@@ -86,7 +86,7 @@ class ICalendar implements SplitterInterface {
      *
      * @return Sabre\VObject\Component|null
      */
-    function getNext() {
+    public function getNext() {
 
         if ($object = array_shift($this->objects)) {
 

@@ -29,7 +29,7 @@ class VTEventTrigger
 			if (!is_array($names))
 				$names = array($name);
 
-			$evtinfos = self::getActiveEventInfos($adb, $names);
+			$evtinfos = self::getActiveEventInfos($names);
 
 			foreach ($evtinfos as $k => $v) {
 				if (!self::isCached($k) || $force) {
@@ -38,7 +38,7 @@ class VTEventTrigger
 			}
 		} else {
 			if (!self::isCached() || $force) {
-				self::$cache = self::getActiveEventInfos($adb, $name);
+				self::$cache = self::getActiveEventInfos($name);
 				self::$cacheLookupType = self::CACHE_LOOKUP_TYPE_ALL;
 			}
 		}
@@ -77,56 +77,52 @@ class VTEventTrigger
 		return false;
 	}
 
-	static function getActiveEventInfos($adb, $name = false)
+	static function getActiveEventInfos($name = false)
 	{
 		$params = [];
-		$query = "SELECT * FROM vtiger_eventhandlers WHERE is_active=true";
+		$query = 'SELECT * FROM vtiger_eventhandlers WHERE is_active=1';
 		if ($name !== false) {
 			if (is_array($name)) {
-				$query .= " AND event_name IN (" . generateQuestionMarks($name) . ")";
+				$query .= ' AND event_name IN (' . generateQuestionMarks($name) . ')';
 			} else {
-				$query .= " AND event_name = ?";
+				$query .= ' AND event_name = ?';
 			}
 			$params[] = $name;
 		}
 		if (CRMEntity::isBulkSaveMode()) {
-			$query .= " AND handler_class IN (" . generateQuestionMarks(self::$mandatoryEventClass) . ")";
+			$query .= ' AND handler_class IN (' . generateQuestionMarks(self::$mandatoryEventClass) . ')';
 			array_push($params, self::$mandatoryEventClass);
 		}
 
-		$evtinfosbyname = [];
-
-		$result = $adb->pquery($query, $params);
-		$it = new SqlResultIterator($adb, $result);
-		foreach ($it as $row) {
-			$evtinfosbyname[$row->event_name][] = array(
-				'condition' => $row->cond,
-				'handler_class' => $row->handler_class,
-				'handler_path' => $row->handler_path,
-				'dependent_on' => $row->dependent_on,
-			);
+		$rows = [];
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery($query, $params);
+		while ($row = $db->getRow($result)) {
+			$rows[$row['event_name']][] = [
+				'condition' => $row['cond'],
+				'handler_class' => $row['handler_class'],
+				'handler_path' => $row['handler_path'],
+				'dependent_on' => $row['dependent_on']
+			];
 		}
 
 		if ($name)
-			return $evtinfosbyname[$name];
+			return $rows[$name];
 		else
-			return $evtinfosbyname;
+			return $rows;
 	}
 
 	/** END * */
-	function __construct($adb, $name)
+	function __construct($name)
 	{
 		$this->name = $name;
-		$this->adb = $adb;
 	}
 
 	function trigger($data)
 	{
-		$adb = $this->adb;
-
 		$eventInfos = self::lookupCache($this->name);
 		if ($eventInfos === false) {
-			$eventInfos = self::getActiveEventInfos($this->adb, $this->name);
+			$eventInfos = self::getActiveEventInfos($this->name);
 		}
 
 		$completedEvents = [];
@@ -170,17 +166,17 @@ class VTEventTrigger
 							$uncompletedEvents[] = $eventInfo['handler_class'];
 						}
 					}
-					throw new Exception("Deadlock occured for events: " . implode(' , ', $uncompletedEvents));
+					throw new Exception('Deadlock occured for events: ' . implode(' , ', $uncompletedEvents));
 				}
 			}
 		}
 	}
 
-	public static function getInstance($adb, $triggerName)
+	public static function getInstance($triggerName)
 	{
 		if (stripos($triggerName, 'batch')) {
-			return new VTBatchEventTrigger($adb, $triggerName);
+			return new VTBatchEventTrigger($triggerName);
 		}
-		return new self($adb, $triggerName);
+		return new self($triggerName);
 	}
 }

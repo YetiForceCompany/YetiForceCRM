@@ -41,7 +41,7 @@
 	class CommonToken implements Token {
 
 		
-		function __construct(){
+		public function __construct(){
 			
 		}
 		

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package YetiForce.views
  * @license licenses/License.html
@@ -7,7 +8,8 @@
 class Settings_Inventory_Discounts_View extends Settings_Inventory_CreditLimits_View
 {
 
-	public function getView(){
+	public function getView()
+	{
 		return 'Discounts';
 	}
 }

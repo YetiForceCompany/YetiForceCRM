@@ -1,25 +1,29 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ * *********************************************************************************** */
 
-class Emails_Module_Model extends Vtiger_Module_Model{
+class Emails_Module_Model extends Vtiger_Module_Model
+{
 
 	/**
 	 * Function to check whether the module is an entity type module or not
 	 * @return <Boolean> true/false
 	 */
-	public function isQuickCreateSupported() {
+	public function isQuickCreateSupported()
+	{
 		//emails module is not enabled for quick create
 		return false;
 	}
 
-	public function isWorkflowSupported() {
+	public function isWorkflowSupported()
+	{
 		return false;
 	}
 
@@ -27,17 +31,19 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 	 * Function to check whether the module is summary view supported
 	 * @return <Boolean> - true/false
 	 */
-	public function isSummaryViewSupported() {
+	public function isSummaryViewSupported()
+	{
 		return false;
 	}
-	
+
 	/**
 	 * Function to get emails related modules
 	 * @return <Array> - list of modules 
-	 */	
-	public function getEmailRelatedModules() {
+	 */
+	public function getEmailRelatedModules()
+	{
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		
+
 		$relatedModules = vtws_listtypes(array('email'), Users_Record_Model::getCurrentUserModel());
 		$relatedModules = $relatedModules['types'];
 
@@ -47,8 +53,7 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 			}
 		}
 		foreach ($relatedModules as $moduleName) {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			if($userPrivModel->isAdminUser() || $userPrivModel->hasGlobalReadPermission() || $userPrivModel->hasModulePermission($moduleModel->getId())) {
+			if ($userPrivModel->isAdminUser() || $userPrivModel->hasGlobalReadPermission() || $userPrivModel->hasModulePermission($moduleName)) {
 				$emailRelatedModules[] = $moduleName;
 			}
 		}
@@ -61,7 +66,8 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 	 * @param <String> $searchValue
 	 * @return <Array> Result of searched emails
 	 */
-	public function searchEmails($searchValue) {
+	public function searchEmails($searchValue)
+	{
 		$emailsResult = array();
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -93,28 +99,26 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 				$listFields = $searchFields;
 				$listFields[] = 'id';
 				$queryGenerator->setFields($listFields);
-                                
-                                //Opensource fix for showing up deleted records on email search
-                                $queryGenerator->startGroup(""); 
+
+				//Opensource fix for showing up deleted records on email search
+				$queryGenerator->startGroup("");
 				foreach ($searchFields as $key => $emailField) {
 					$queryGenerator->addCondition($emailField, trim($searchValue), 'c', 'OR');
 				}
 
-                                $queryGenerator->endGroup(); 
+				$queryGenerator->endGroup();
 				$result = $db->pquery($queryGenerator->getQuery(), array());
 				$numOfRows = $db->num_rows($result);
 
-				for($i=0; $i<$numOfRows; $i++) {
+				for ($i = 0; $i < $numOfRows; $i++) {
 					$row = $db->query_result_rowdata($result, $i);
 					foreach ($emailFields as $emailField) {
 						$emailFieldValue = $row[$emailField];
 						if ($emailFieldValue) {
-							$recordLabel = getEntityFieldNameDisplay($moduleName, $nameFields, $row);
+							$recordLabel = \vtlib\Deprecated::getCurrentUserEntityFieldNameDisplay($moduleName, $nameFields, $row);
 							if (strpos($emailFieldValue, $searchValue) !== false || strpos($recordLabel, $searchValue) !== false) {
-								$emailsResult[vtranslate($moduleName, $moduleName)][$row[$moduleInstance->table_index]][]
-											= array('value'	=> $emailFieldValue,
-													'label'	=> $recordLabel . ' <b>('.$emailFieldValue.')</b>');
-
+								$emailsResult[vtranslate($moduleName, $moduleName)][$row[$moduleInstance->table_index]][] = array('value' => $emailFieldValue,
+									'label' => $recordLabel . ' <b>(' . $emailFieldValue . ')</b>');
 							}
 						}
 					}
@@ -124,4 +128,5 @@ class Emails_Module_Model extends Vtiger_Module_Model{
 		return $emailsResult;
 	}
 }
+
 ?>

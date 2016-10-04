@@ -6,10 +6,10 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-  * Contributor(s): iRsystem by YetiForce.com
+ * Contributor(s): iRsystem by YetiForce.com
  * ********************************************************************************** */
 
- /* NOTE: Should be inline with Calendar language translation but few variations */
+/* NOTE: Should be inline with Calendar language translation but few variations */
 
 $languageStrings = [
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Заполнение даты начала на основе первой доступной даты',
@@ -110,4 +110,5 @@ $languageStrings = [
 	'LBL_REMAIND_HOURS' => 'Напомнить после выбранного количества часов',
 	'LBL_REMAIND_MINS' => 'Напомнить после выбранного количества минут',
 	'LBL_SELECT_INVITE' => 'Пригласить',
+	'LBL_SAVE_AND_CLOSE' => 'Save and close',
 ];

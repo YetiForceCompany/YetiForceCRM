@@ -122,7 +122,7 @@ abstract class AntlrLexer extends BaseRecognizer{
 		return $token;
 	}
 	
-	function matchString($s){
+	public function matchString($s){
 		$i = 0;
 		while ( $i<strlen($s)) {
 			if ( $this->input->LA(1)!=charAt($s, $i) ) {
@@ -204,17 +204,6 @@ abstract class AntlrLexer extends BaseRecognizer{
 	}
 	
 	public function reportError($e) {
-		/** TODO: not thought about recovery in lexer yet.
-		 *
-		// if we've already reported an error and have not matched a token
-		// yet successfully, don't report any errors.
-		if ( errorRecovery ) {
-			//System.err.print("[SPURIOUS] ");
-			return;
-		}
-		errorRecovery = true;
-		 */
-
 		$this->displayRecognitionError($this->getTokenNames(), $e);
 	}
 	

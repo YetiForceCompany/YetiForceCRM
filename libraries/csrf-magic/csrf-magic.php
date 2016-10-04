@@ -34,7 +34,7 @@ $GLOBALS['csrf']['expires'] = 7200;
 
 /**
  * Callback function to execute when there's the CSRF check fails and
- * $fatal == true (see csrf_check). This will usually output an error message
+ * $fatal === true (see csrf_check). This will usually output an error message
  * about the failure.
  */
 $GLOBALS['csrf']['callback'] = 'vtResponseForIllegalAccess'; //'csrf_callback'
@@ -248,7 +248,6 @@ function csrf_get_tokens() {
     // the cookies "stick"
     $secret = csrf_get_secret();
     if (!$has_cookies && $secret) {
-        // :TODO: Harden this against proxy-spoofing attacks
         $ip = ';ip:' . csrf_hash($_SERVER['IP_ADDRESS']);
     } else {
         $ip = '';

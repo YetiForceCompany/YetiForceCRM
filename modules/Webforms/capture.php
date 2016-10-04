@@ -14,13 +14,12 @@ include_once 'include/utils/VtlibUtils.php';
 include_once 'include/Webservices/Create.php';
 include_once 'modules/Webforms/model/WebformsModel.php';
 include_once 'modules/Webforms/model/WebformsFieldModel.php';
-include_once 'include/QueryGenerator/QueryGenerator.php';
 include_once 'include/main/WebUI.php';
 
 class Webform_Capture
 {
 
-	function captureNow(Vtiger_Request $request)
+	public function captureNow(Vtiger_Request $request)
 	{
 		$currentLanguage = Vtiger_Language_Handler::getLanguage();
 		$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage);

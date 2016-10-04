@@ -161,7 +161,6 @@ $.fn.dataTableExt.oApi.fnColReorder = function ( oSettings, iFrom, iTo )
 		oSettings.aaSorting[i][0] = aiInvertMapping[ oSettings.aaSorting[i][0] ];
 	}
 
-	/* Fixed sorting */
 	if ( oSettings.aaSortingFixed !== null )
 	{
 		for ( i=0, iLen=oSettings.aaSortingFixed.length ; i<iLen ; i++ )

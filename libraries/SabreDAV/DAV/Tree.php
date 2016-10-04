@@ -38,7 +38,7 @@ class Tree {
      *
      * @param ICollection $rootNode
      */
-    function __construct(ICollection $rootNode) {
+    public function __construct(ICollection $rootNode) {
 
         $this->rootNode = $rootNode;
 
@@ -50,7 +50,7 @@ class Tree {
      * @param string $path
      * @return INode
      */
-    function getNodeForPath($path) {
+    public function getNodeForPath($path) {
 
         $path = trim($path, '/');
         if (isset($this->cache[$path])) return $this->cache[$path];
@@ -91,7 +91,7 @@ class Tree {
      * @param string $path
      * @return bool
      */
-    function nodeExists($path) {
+    public function nodeExists($path) {
 
         try {
 
@@ -119,7 +119,7 @@ class Tree {
      * @param string $destinationPath The full destination path
      * @return void
      */
-    function copy($sourcePath, $destinationPath) {
+    public function copy($sourcePath, $destinationPath) {
 
         $sourceNode = $this->getNodeForPath($sourcePath);
 
@@ -140,7 +140,7 @@ class Tree {
      * @param string $destinationPath The full destination path, so not just the destination parent node
      * @return int
      */
-    function move($sourcePath, $destinationPath) {
+    public function move($sourcePath, $destinationPath) {
 
         list($sourceDir) = URLUtil::splitPath($sourcePath);
         list($destinationDir, $destinationName) = URLUtil::splitPath($destinationPath);
@@ -173,7 +173,7 @@ class Tree {
      * @param string $path
      * @return void
      */
-    function delete($path) {
+    public function delete($path) {
 
         $node = $this->getNodeForPath($path);
         $node->delete();
@@ -189,7 +189,7 @@ class Tree {
      * @param string $path
      * @return array
      */
-    function getChildren($path) {
+    public function getChildren($path) {
 
         $node = $this->getNodeForPath($path);
         $children = $node->getChildren();
@@ -223,7 +223,7 @@ class Tree {
      * @param string $path
      * @return void
      */
-    function markDirty($path) {
+    public function markDirty($path) {
 
         // We don't care enough about sub-paths
         // flushing the entire cache
@@ -250,7 +250,7 @@ class Tree {
      * @param array $paths List of nodes that must be fetched.
      * @return array
      */
-    function getMultipleNodes($paths) {
+    public function getMultipleNodes($paths) {
 
         // Finding common parents
         $parents = [];

@@ -11,16 +11,11 @@
 require_once('include/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
 global $calpath;
-global $app_strings, $mod_strings;
 global $app_list_strings;
 global $modules;
 global $blocks;
-global $report_modules;
 global $related_modules;
 global $old_related_modules;
-
-//$report_modules = Array('Faq','Rss','Portal','Recyclebin','Emails','Reports','Dashboard','Home','Activities'
-//	       );
 
 $old_related_modules = Array('Accounts' => Array('Contacts', 'Products'),
 	'Contacts' => Array('Accounts'),
@@ -41,38 +36,38 @@ class Reports extends CRMEntity
 	 * and also the required functions for the same
 	 * Contributor(s): ______________________________________..
 	 */
-	var $srptfldridjs;
-	var $column_fields = [];
-	var $sort_fields = [];
-	var $sort_values = [];
-	var $id;
-	var $mode;
-	var $mcount;
-	var $startdate;
-	var $enddate;
-	var $ascdescorder;
-	var $stdselectedfilter;
-	var $stdselectedcolumn;
-	var $primodule;
-	var $secmodule;
-	var $columnssummary;
-	var $is_editable;
-	var $reporttype;
-	var $reportname;
-	var $reportdescription;
-	var $folderid;
-	var $module_blocks;
-	var $pri_module_columnslist;
-	var $sec_module_columnslist;
-	var $advft_criteria;
-	var $adv_rel_fields = [];
-	var $module_list = [];
+	public $srptfldridjs;
+	public $column_fields = [];
+	public $sort_fields = [];
+	public $sort_values = [];
+	public $id;
+	public $mode;
+	public $mcount;
+	public $startdate;
+	public $enddate;
+	public $ascdescorder;
+	public $stdselectedfilter;
+	public $stdselectedcolumn;
+	public $primodule;
+	public $secmodule;
+	public $columnssummary;
+	public $is_editable;
+	public $reporttype;
+	public $reportname;
+	public $reportdescription;
+	public $folderid;
+	public $module_blocks;
+	public $pri_module_columnslist;
+	public $sec_module_columnslist;
+	public $advft_criteria;
+	public $adv_rel_fields = [];
+	public $module_list = [];
 
 	/** Function to set primodule,secmodule,reporttype,reportname,reportdescription,folderid for given vtiger_reportid
 	 *  This function accepts the vtiger_reportid as argument
 	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
 	 */
-	function __construct($reportid = "")
+	public function __construct($reportid = "")
 	{
 		global $adb, $current_user, $theme, $mod_strings;
 		$this->initListOfModules();
@@ -91,13 +86,13 @@ class Reports extends CRMEntity
 				$userGroups = new GetUserGroups();
 				$userGroups->getAllUserGroups($current_user->id);
 				$user_groups = $userGroups->user_groups;
-				if (!empty($user_groups) && $is_admin == false) {
-					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
+				if (!empty($user_groups) && $is_admin === false) {
+					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") && setype='groups') OR";
 					array_push($params, $user_groups);
 				}
 
-				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
-				if ($is_admin == false) {
+				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? && setype='users'))";
+				if ($is_admin === false) {
 					$ssql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 					array_push($params, $current_user->id);
 					array_push($params, $current_user->id);
@@ -132,40 +127,24 @@ class Reports extends CRMEntity
 				$this->reportname = decode_html($cachedInfo["reportname"]);
 				$this->reportdescription = decode_html($cachedInfo["description"]);
 				$this->folderid = $cachedInfo["folderid"];
-				if ($is_admin == true || in_array($cachedInfo["owner"], $subordinate_users) || $cachedInfo["owner"] == $current_user->id)
+				if ($is_admin === true || in_array($cachedInfo["owner"], $subordinate_users) || $cachedInfo["owner"] == $current_user->id)
 					$this->is_editable = 'true';
 				else
 					$this->is_editable = 'false';
 			} else {
-
-				echo "<table border='0' cellpadding='5' cellspacing='0' width='100%' height='450px'><tr><td align='center'>";
-				echo "<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); width: 80%; position: relative; z-index: 10000000;'>
-
-				<table border='0' cellpadding='5' cellspacing='0' width='98%'>
-				<tbody><tr>
-				<td rowspan='2' width='11%'><img src='" . vtiger_imageurl('denied.gif', $theme) . "' ></td>
-				<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>You are not allowed to View this Report </span></td>
-				</tr>
-				<tr>
-				<td class='small' align='right' nowrap='nowrap'>
-				<a href='javascript:window.history.back();'>$app_strings[LBL_GO_BACK]</a><br>								   		     </td>
-				</tr>
-				</tbody></table>
-				</div>";
-				echo "</td></tr></table>";
-				exit;
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
 
 	// Update the module list for listing columns for report creation.
-	function updateModuleList($module)
+	public function updateModuleList($module)
 	{
 		$adb = PearDatabase::getInstance();
 		if (!isset($module))
 			return;
 		require_once('include/utils/utils.php');
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = [9, 16];
 		}
@@ -185,10 +164,11 @@ class Reports extends CRMEntity
 	}
 
 	// Initializes the module list for listing columns for report creation.
-	function initListOfModules()
+	public function initListOfModules()
 	{
-		global $adb, $current_user, $old_related_modules;
+		global $old_related_modules;
 
+		$adb = PearDatabase::getInstance();
 		$restricted_modules = array('Events');
 		$restricted_blocks = array('LBL_COMMENTS', 'LBL_COMMENT_INFORMATION');
 
@@ -235,19 +215,19 @@ class Reports extends CRMEntity
 
 						if (in_array($blocklabel, $restricted_blocks) ||
 							in_array($blockid, $this->module_list[$module]) ||
-							isset($this->module_list[$module][getTranslatedString($blocklabel, $module)])
+							isset($this->module_list[$module][\includes\Language::translate($blocklabel, $module)])
 						) {
 							continue;
 						}
 
 						if (!empty($blocklabel)) {
 							if ($module == 'Calendar' && $blocklabel == 'LBL_CUSTOM_INFORMATION')
-								$this->module_list[$module][$blockid] = getTranslatedString($blocklabel, $module);
+								$this->module_list[$module][$blockid] = \includes\Language::translate($blocklabel, $module);
 							else
-								$this->module_list[$module][$blockid] = getTranslatedString($blocklabel, $module);
+								$this->module_list[$module][$blockid] = \includes\Language::translate($blocklabel, $module);
 							$prev_block_label = $blocklabel;
 						} else {
-							$this->module_list[$module][$blockid] = getTranslatedString($prev_block_label, $module);
+							$this->module_list[$module][$blockid] = \includes\Language::translate($prev_block_label, $module);
 						}
 					}
 				}
@@ -255,7 +235,7 @@ class Reports extends CRMEntity
 					INNER JOIN vtiger_relatedlists on vtiger_tab.tabid=vtiger_relatedlists.related_tabid
 					WHERE vtiger_tab.isentitytype=1
 					AND vtiger_tab.name NOT IN(%s)
-					AND vtiger_tab.presence = 0 AND vtiger_relatedlists.label!='Activity History'
+					AND vtiger_tab.presence = 0 && vtiger_relatedlists.label!='Activity History'
 					UNION
 					SELECT relmodule, vtiger_tab.tabid FROM vtiger_fieldmodulerel
 					INNER JOIN vtiger_tab on vtiger_tab.name = vtiger_fieldmodulerel.module
@@ -308,10 +288,12 @@ class Reports extends CRMEntity
 	 *  This generate the Reports view page and returns a string
 	 *  contains HTML
 	 */
-	function sgetRptFldr($mode = '')
+	public function sgetRptFldr($mode = '')
 	{
 
-		global $adb, $log, $mod_strings;
+		global $mod_strings;
+		$adb = PearDatabase::getInstance();
+
 		$returndata = [];
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, array());
@@ -346,7 +328,7 @@ class Reports extends CRMEntity
 			} while ($reportfldrow = $adb->fetch_array($result));
 		}
 
-		$log->info("Reports :: ListView->Successfully returned vtiger_report folder HTML");
+		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report folder HTML");
 		return $returndata;
 	}
 
@@ -355,10 +337,10 @@ class Reports extends CRMEntity
 	 *  This Generates the Reports under each Reports module
 	 *  This Returns a HTML sring
 	 */
-	function sgetAllRpt($fldrId, $paramsList)
+	public function sgetAllRpt($fldrId, $paramsList)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+
 		$returndata = [];
 		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
 		$sql.=" inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid";
@@ -386,7 +368,7 @@ class Reports extends CRMEntity
 				$report_details ['reportname'] = $report["reportname"];
 				$report_details ['sharingtype'] = $report["sharingtype"];
 				$report_details['folderid'] = $report["folderid"];
-				if ($is_admin == true)
+				if ($is_admin === true)
 					$report_details ['editable'] = 'true';
 				else
 					$report_details['editable'] = 'false';
@@ -395,7 +377,7 @@ class Reports extends CRMEntity
 					$returndata[] = $report_details;
 			}while ($report = $adb->fetch_array($result));
 		}
-		$log->info("Reports :: ListView->Successfully returned vtiger_report details HTML");
+		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report details HTML");
 		return $returndata;
 	}
 
@@ -404,12 +386,12 @@ class Reports extends CRMEntity
 	 *  This Generates the Reports under each Reports module
 	 *  This Returns a HTML sring
 	 */
-	function sgetRptsforFldr($rpt_fldr_id, $paramsList = false)
+	public function sgetRptsforFldr($rpt_fldr_id, $paramsList = false)
 	{
 		$srptdetails = "";
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-		$log = vglobal('log');
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+
 		$mod_strings = vglobal('mod_strings');
 		$returndata = [];
 
@@ -426,21 +408,21 @@ class Reports extends CRMEntity
 			$params[] = $rpt_fldr_id;
 		}
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
 		require_once('include/utils/GetUserGroups.php');
 		$userGroups = new GetUserGroups();
-		$userGroups->getAllUserGroups($current_user->id);
+		$userGroups->getAllUserGroups($currentUser->getId());
 		$user_groups = $userGroups->user_groups;
-		if (!empty($user_groups) && $is_admin == false) {
-			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
+		if (!empty($user_groups) && $is_admin === false) {
+			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") && setype='groups') OR";
 			array_push($params, $user_groups);
 		}
 
-		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
-		if ($is_admin == false) {
+		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? && setype='users'))";
+		if ($is_admin === false) {
 			$sql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
-			array_push($params, $current_user->id);
-			array_push($params, $current_user->id);
+			array_push($params, $currentUser->getId());
+			array_push($params, $currentUser->getId());
 		}
 		if ($paramsList) {
 			$startIndex = $paramsList['startIndex'];
@@ -473,7 +455,7 @@ class Reports extends CRMEntity
 				$report_details['reportname'] = $report["reportname"];
 				$report_details['reporttype'] = $report["reporttype"];
 				$report_details['sharingtype'] = $report["sharingtype"];
-				if ($is_admin == true || in_array($report["owner"], $subordinate_users) || $report["owner"] == $current_user->id)
+				if ($is_admin === true || in_array($report["owner"], $subordinate_users) || $report["owner"] == $currentUser->getId())
 					$report_details['editable'] = 'true';
 				else
 					$report_details['editable'] = 'false';
@@ -487,7 +469,7 @@ class Reports extends CRMEntity
 			$returndata = $returndata[$rpt_fldr_id];
 		}
 
-		$log->info("Reports :: ListView->Successfully returned vtiger_report details HTML");
+		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report details HTML");
 		return $returndata;
 	}
 
@@ -497,7 +479,7 @@ class Reports extends CRMEntity
 	 *  It returns the array of ids
 	 *  Array('1RptFldr','2RptFldr',........,'9RptFldr','10RptFldr')
 	 */
-	function sgetJsRptFldr()
+	public function sgetJsRptFldr()
 	{
 		$srptfldr_js = "var ReportListArray=new Array(" . $this->srptfldridjs . ")
 			setExpandCollapse()";
@@ -509,9 +491,8 @@ class Reports extends CRMEntity
 	 *  It accepts the Primary module as the argument and set the vtiger_fields of the module
 	 *  to the varialbe pri_module_columnslist and returns true if sucess
 	 */
-	function getPriModuleColumnsList($module)
+	public function getPriModuleColumnsList($module)
 	{
-		//$this->updateModuleList($module);
 		$allColumnsListByBlocks = & $this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
 		foreach ($this->module_list[$module] as $key => $value) {
 			$temp = $allColumnsListByBlocks[$key];
@@ -542,12 +523,12 @@ class Reports extends CRMEntity
 	 *  It accepts the module as the argument and set the vtiger_fields of the module
 	 *  to the varialbe sec_module_columnslist and returns true if sucess
 	 */
-	function getSecModuleColumnsList($module)
+	public function getSecModuleColumnsList($module)
 	{
 		if ($module != "") {
 			$secmodule = explode(":", $module);
-			for ($i = 0; $i < count($secmodule); $i++) {
-				//$this->updateModuleList($secmodule[$i]);
+			$countSecModule = count($secmodule);
+			for ($i = 0; $i < $countSecModule; $i++) {
 				if ($this->module_list[$secmodule[$i]]) {
 					$this->sec_module_columnslist[$secmodule[$i]] = $this->getModuleFieldList(
 						$secmodule[$i]);
@@ -608,17 +589,17 @@ class Reports extends CRMEntity
 	 *  returns the array column lists
 	 *  Array module_columnlist[ vtiger_fieldtablename:fieldcolname:module_fieldlabel1:fieldname:fieldtypeofdata]=fieldlabel
 	 */
-	function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
+	public function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
 
 		if (is_string($block))
 			$block = explode(",", $block);
 		$skipTalbes = array('vtiger_emaildetails', 'vtiger_attachments');
 
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = array('9', '16');
 		}
@@ -626,8 +607,8 @@ class Reports extends CRMEntity
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		//Security Check
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql = sprintf("select * from vtiger_field where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_field.presence in (0,2) AND tablename NOT IN (%s) ", generateQuestionMarks($tabid), generateQuestionMarks($block), generateQuestionMarks($skipTalbes));
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+			$sql = sprintf("select * from vtiger_field where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_field.presence in (0,2) && tablename NOT IN (%s) ", generateQuestionMarks($tabid), generateQuestionMarks($block), generateQuestionMarks($skipTalbes));
 
 			//fix for Ticket #4016
 			if ($module == "Calendar")
@@ -666,7 +647,7 @@ class Reports extends CRMEntity
 			$blockid = $adb->query_result($result, $i, "block");
 
 			//Here we Changing the displaytype of the field. So that its criteria will be displayed correctly in Reports Advance Filter.
-			$fieldtypeofdata = ChangeTypeOfData_Filter($fieldtablename, $fieldcolname, $fieldtypeofdata);
+			$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $fieldtypeofdata);
 
 			if ($uitype == 68 || $uitype == 59) {
 				$fieldtypeofdata = 'V';
@@ -684,14 +665,14 @@ class Reports extends CRMEntity
 			}
 
 			$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
-			if ($module == 'Emails' and $fieldlabel == 'Date & Time Sent') {
+			if ($module == 'Emails' && $fieldlabel == 'Date & Time Sent') {
 				$fieldlabel = 'Date Sent';
 				$fieldtypeofdata = 'D';
 			}
 			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
 			$optionvalue = $fieldtablename . ":" . $fieldcolname . ":" . $module . "__" . $fieldlabel1 . ":" . $fieldname . ":" . $fieldtypeofdata;
 
-			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . getTranslatedString($module, $module) . " " . getTranslatedString($fieldlabel, $module);
+			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . \includes\Language::translate($module, $module) . " " . \includes\Language::translate($fieldlabel, $module);
 			if (!is_array($this->adv_rel_fields[$fieldtypeofdata]) ||
 				!in_array($adv_rel_field_tod_value, $this->adv_rel_fields[$fieldtypeofdata])) {
 				$this->adv_rel_fields[$fieldtypeofdata][] = $adv_rel_field_tod_value;
@@ -700,7 +681,7 @@ class Reports extends CRMEntity
 			if ($module == 'HelpDesk' && $fieldname == 'filename')
 				continue;
 
-			if (is_string($block) || $group_res_by_block == false) {
+			if (is_string($block) || $group_res_by_block === false) {
 				$module_columnlist[$optionvalue] = $fieldlabel;
 			} else {
 				$module_columnlist[$blockid][$optionvalue] = $fieldlabel;
@@ -714,7 +695,7 @@ class Reports extends CRMEntity
 	 *  and set the values to the corresponding variables
 	 *  It accepts the repordid as argument
 	 */
-	function getSelectedStandardCriteria($reportid)
+	public function getSelectedStandardCriteria($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		$sSQL = "select vtiger_reportdatefilter.* from vtiger_reportdatefilter inner join vtiger_report on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid where vtiger_report.reportid=?";
@@ -740,7 +721,7 @@ class Reports extends CRMEntity
 	 *  This function get the combo values for the standard filter for the given vtiger_report
 	 *  and return a HTML string
 	 */
-	function getSelectedStdFilterCriteria($selecteddatefilter = "")
+	public function getSelectedStdFilterCriteria($selecteddatefilter = "")
 	{
 		global $mod_strings;
 
@@ -755,8 +736,9 @@ class Reports extends CRMEntity
 			"Next Month", "Last 7 Days", "Last 30 Days", "Last 60 Days", "Last 90 Days", "Last 120 Days",
 			"Next 7 Days", "Next 30 Days", "Next 60 Days", "Next 90 Days", "Next 120 Days"
 		);
-
-		for ($i = 0; $i < count($datefiltervalue); $i++) {
+		
+		$countDateFilterValue = count($datefiltervalue);
+		for ($i = 0; $i < $countDateFilterValue; $i++) {
 			if ($selecteddatefilter == $datefiltervalue[$i]) {
 				$sshtml .= "<option selected value='" . $datefiltervalue[$i] . "'>" . $mod_strings[$datefilterdisplay[$i]] . "</option>";
 			} else {
@@ -772,21 +754,21 @@ class Reports extends CRMEntity
 	 *  which is selected for vtiger_reports as an array
 	 *  Array stdcriteria_list[fieldtablename:fieldcolname:module_fieldlabel1]=fieldlabel
 	 */
-	function getStdCriteriaByModule($module)
+	public function getStdCriteriaByModule($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		foreach ($this->module_list[$module] as $key => $blockid) {
 			$blockids[] = $blockid;
 		}
 		$blockids = implode(",", $blockids);
 
 		$params = array($tabid, $blockids);
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			//uitype 6 and 23 added for start_date,EndDate,Expected Close Date
 			$sql = sprintf('select * from vtiger_field where vtiger_field.tabid=? and (vtiger_field.uitype =5 or vtiger_field.uitype = 6 or vtiger_field.uitype = 23 or vtiger_field.displaytype=2) and vtiger_field.block in () and vtiger_field.presence in (0,2) order by vtiger_field.sequence', generateQuestionMarks($block));
 		} else {
@@ -814,11 +796,11 @@ class Reports extends CRMEntity
 			$stdcriteria_list[$optionvalue] = $fieldlabel;
 		}
 
-		$log->info("Reports :: StdfilterColumns->Successfully returned Stdfilter for" . $module);
+		\App\Log::trace("Reports :: StdfilterColumns->Successfully returned Stdfilter for" . $module);
 		return $stdcriteria_list;
 	}
 
-	function getEscapedColumns($selectedfields)
+	public function getEscapedColumns($selectedfields)
 	{
 		$fieldname = $selectedfields[3];
 		if ($fieldname == "parent_id") {
@@ -836,7 +818,7 @@ class Reports extends CRMEntity
 		return $querycolumn;
 	}
 
-	function getaccesfield($module)
+	public function getaccesfield($module)
 	{
 		$current_user = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
@@ -876,11 +858,11 @@ class Reports extends CRMEntity
 	 *  returns the array array_list which has the column responsible for the grouping
 	 *  Array array_list[0]=columnname
 	 */
-	function getSelctedSortingColumns($reportid)
+	public function getSelctedSortingColumns($reportid)
 	{
 
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+
 
 		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
 		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
@@ -896,7 +878,7 @@ class Reports extends CRMEntity
 			$array_list[] = $fieldcolname;
 		}
 
-		$log->info("Reports :: Successfully returned getSelctedSortingColumns");
+		\App\Log::trace("Reports :: Successfully returned getSelctedSortingColumns");
 		return $array_list;
 	}
 
@@ -905,10 +887,10 @@ class Reports extends CRMEntity
 	 *  for the given vtiger_reportid and it forms a combo lists and returns
 	 *  HTML of the combo values
 	 */
-	function getSelectedColumnsList($reportid)
+	public function getSelectedColumnsList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+
 		$current_user = vglobal('current_user');
 
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
@@ -933,11 +915,11 @@ class Reports extends CRMEntity
 					break;
 				}
 			}
-			if ($selmod_field_disabled == false) {
-				list($tablename, $colname, $module_field, $fieldname, $single) = split(':', $fieldcolname);
+			if ($selmod_field_disabled === false) {
+				list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 				require('user_privileges/user_privileges_' . $current_user->id . '.php');
 				list($module, $field) = explode('__', $module_field);
-				if (sizeof($permitted_fields) == 0 && $is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
+				if (sizeof($permitted_fields) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 					$permitted_fields = $this->getaccesfield($module);
 				}
 				$querycolumns = $this->getEscapedColumns($selectedfields);
@@ -946,8 +928,8 @@ class Reports extends CRMEntity
 				$mod = ($mod_arr[0] == '') ? $module : $mod_arr[0];
 				$fieldlabel = trim(str_replace('__', ' ', $fieldlabel));
 				//modified code to support i18n issue
-				$mod_lbl = getTranslatedString($mod, $module); //module
-				$fld_lbl = getTranslatedString($fieldlabel, $module); //fieldlabel
+				$mod_lbl = \includes\Language::translate($mod, $module); //module
+				$fld_lbl = \includes\Language::translate($fieldlabel, $module); //fieldlabel
 				$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 				if (in_array($mod, $inventoryModules) && $fieldname == 'serviceid') {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
@@ -959,15 +941,15 @@ class Reports extends CRMEntity
 			}
 			//end
 		}
-		$log->info("ReportRun :: Successfully returned getQueryColumnsList" . $reportid);
+		\App\Log::trace("ReportRun :: Successfully returned getQueryColumnsList" . $reportid);
 		return $shtml;
 	}
 
-	function getAdvancedFilterList($reportid)
+	public function getAdvancedFilterList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
 
 		$advft_criteria = array();
@@ -985,7 +967,7 @@ class Reports extends CRMEntity
 						inner join vtiger_relcriteria on vtiger_relcriteria.queryid = vtiger_report.queryid
 						left join vtiger_relcriteria_grouping on vtiger_relcriteria.queryid = vtiger_relcriteria_grouping.queryid
 								and vtiger_relcriteria.groupid = vtiger_relcriteria_grouping.groupid';
-			$ssql.= " where vtiger_report.reportid = ? AND vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
+			$ssql.= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
 
 			$result = $adb->pquery($ssql, array($reportid, $groupId));
 			$noOfColumns = $adb->num_rows($result);
@@ -1021,7 +1003,8 @@ class Reports extends CRMEntity
 				$temp_val = explode(",", $relcriteriarow["value"]);
 				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 					$val = [];
-					for ($x = 0; $x < count($temp_val); $x++) {
+					$countTempVal = count($temp_val);
+					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($col[4] == 'D') {
 							$date = new DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayDate();
@@ -1050,7 +1033,7 @@ class Reports extends CRMEntity
 		if (!empty($advft_criteria[$i - 1]['condition']))
 			$advft_criteria[$i - 1]['condition'] = '';
 		$this->advft_criteria = $advft_criteria;
-		$log->info("Reports :: Successfully returned getAdvancedFilterList");
+		\App\Log::trace("Reports :: Successfully returned getAdvancedFilterList");
 		return true;
 	}
 	//<<<<<<<<advanced filter>>>>>>>>>>>>>>
@@ -1060,10 +1043,10 @@ class Reports extends CRMEntity
 	 *  a combo values of the folders and return
 	 *  HTML of the combo values
 	 */
-	function sgetRptFldrSaveReport()
+	public function sgetRptFldrSaveReport()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+
 
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, array());
@@ -1073,7 +1056,7 @@ class Reports extends CRMEntity
 			$shtml .= "<option value='" . $reportfldrow['folderid'] . "'>" . $reportfldrow['foldername'] . "</option>";
 		} while ($reportfldrow = $adb->fetch_array($result));
 
-		$log->info("Reports :: Successfully returned sgetRptFldrSaveReport");
+		\App\Log::trace("Reports :: Successfully returned sgetRptFldrSaveReport");
 		return $shtml;
 	}
 
@@ -1082,13 +1065,13 @@ class Reports extends CRMEntity
 	 *  and generated the html for that vtiger_fields
 	 *  It returns the HTML of the vtiger_fields along with the check boxes
 	 */
-	function sgetColumntoTotal($primarymodule, $secondarymodule)
+	public function sgetColumntoTotal($primarymodule, $secondarymodule)
 	{
 		$options = [];
 		$options [] = $this->sgetColumnstoTotalHTML($primarymodule, 0);
 		if (!empty($secondarymodule)) {
-			//$secondarymodule = explode(":",$secondarymodule);
-			for ($i = 0; $i < count($secondarymodule); $i++) {
+			$countSecondaryModule = count($secondarymodule);
+			for ($i = 0; $i < $countSecondaryModule; $i++) {
 				$options [] = $this->sgetColumnstoTotalHTML($secondarymodule[$i], ($i + 1));
 			}
 		}
@@ -1100,10 +1083,10 @@ class Reports extends CRMEntity
 	 *  and generated the html for that vtiger_fields
 	 *  It returns the HTML of the vtiger_fields along with the check boxes
 	 */
-	function sgetColumntoTotalSelected($primarymodule, $secondarymodule, $reportid)
+	public function sgetColumntoTotalSelected($primarymodule, $secondarymodule, $reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+
 		$options = [];
 		if ($reportid != "") {
 			$ssql = "select vtiger_reportsummary.* from vtiger_reportsummary inner join vtiger_report on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid where vtiger_report.reportid=?";
@@ -1119,12 +1102,13 @@ class Reports extends CRMEntity
 		$options [] = $this->sgetColumnstoTotalHTML($primarymodule, 0);
 		if ($secondarymodule != "") {
 			$secondarymodule = explode(":", $secondarymodule);
-			for ($i = 0; $i < count($secondarymodule); $i++) {
+			$countSecondaryModule = count($secondarymodule);
+			for ($i = 0; $i < $countSecondaryModule; $i++) {
 				$options [] = $this->sgetColumnstoTotalHTML($secondarymodule[$i], ($i + 1));
 			}
 		}
 
-		$log->info("Reports :: Successfully returned sgetColumntoTotalSelected");
+		\App\Log::trace("Reports :: Successfully returned sgetColumntoTotalSelected");
 		return $options;
 	}
 
@@ -1133,17 +1117,20 @@ class Reports extends CRMEntity
 	 *  vtiger_fields along with four checkboxes
 	 *  It returns the HTML of the vtiger_fields along with the check boxes
 	 */
-	function sgetColumnstoTotalHTML($module)
+	public function sgetColumnstoTotalHTML($module)
 	{
 		//retreive the vtiger_tabid
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$current_user = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		$tabid = getTabid($module);
+
+
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
+
+
+		$tabid = \includes\Modules::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
 		$sparams = array($tabid);
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
 			$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2) ";
 		} else {
 			$profileList = getCurrentUserProfileList();
@@ -1193,7 +1180,8 @@ class Reports extends CRMEntity
 					$selectedcolumn = "";
 					$selectedcolumn1 = "";
 
-					for ($i = 0; $i < count($this->columnssummary); $i++) {
+					$countColumnsSummary = count($this->columnssummary);
+					for ($i = 0; $i < $countColumnsSummary; $i++) {
 						$selectedcolumnarray = explode(":", $this->columnssummary[$i]);
 						$selectedcolumn = $selectedcolumnarray[1] . ":" . $selectedcolumnarray[2] . ":" .
 							str_replace($escapedchars, "", $selectedcolumnarray[3]);
@@ -1205,11 +1193,11 @@ class Reports extends CRMEntity
 						}
 					}
 					if (!AppRequest::isEmpty('record')) {
-						$options['label'][] = getTranslatedString($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . getTranslatedString($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+						$options['label'][] = \includes\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . \includes\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					}
 
 					$columntototalrow['fieldlabel'] = str_replace(" ", "__", $columntototalrow['fieldlabel']);
-					$options [] = getTranslatedString($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . getTranslatedString($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+					$options [] = \includes\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \includes\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					if ($selectedcolumn1[2] == "cb:" . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . "__SUM:2") {
 						$options [] = '<input checked name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__SUM:2" type="checkbox" value="">';
 					} else {
@@ -1233,7 +1221,7 @@ class Reports extends CRMEntity
 						$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__MAX:5" type="checkbox" value="">';
 					}
 				} else {
-					$options [] = getTranslatedString($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . getTranslatedString($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+					$options [] = \includes\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \includes\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__SUM:2" type="checkbox" value="">';
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__AVG:3" type="checkbox" value="" >';
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__MIN:4"type="checkbox" value="" >';
@@ -1243,7 +1231,7 @@ class Reports extends CRMEntity
 			}
 		} while ($columntototalrow = $adb->fetch_array($result));
 
-		$log->info("Reports :: Successfully returned sgetColumnstoTotalHTML");
+		\App\Log::trace("Reports :: Successfully returned sgetColumnstoTotalHTML");
 		return $options_list;
 	}
 }
@@ -1255,14 +1243,11 @@ class Reports extends CRMEntity
 function getReportsModuleList($focus)
 {
 	$adb = PearDatabase::getInstance();
-	global $app_list_strings;
-	//global $report_modules;
-	global $mod_strings;
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
 		if (isPermitted($key, 'index') == "yes") {
 			$count_flag = 1;
-			$modules [$key] = getTranslatedString($key, $key);
+			$modules [$key] = \includes\Language::translate($key, $key);
 		}
 	}
 	asort($modules);
@@ -1275,9 +1260,6 @@ function getReportsModuleList($focus)
  */
 function getReportRelatedModules($module, $focus)
 {
-	global $app_list_strings;
-	global $related_modules;
-	global $mod_strings;
 	$optionhtml = [];
 	if (\includes\Modules::isModuleActive($module)) {
 		if (!empty($focus->related_modules[$module])) {
@@ -1297,7 +1279,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 {
 
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+
 
 	$idelrelcriteriasql = "delete from vtiger_relcriteria where queryid=?";
 	$idelrelcriteriasqlresult = $adb->pquery($idelrelcriteriasql, array($reportid));
@@ -1342,7 +1324,8 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		$temp_val = explode(",", $adv_filter_value);
 		if (($column_info[4] == 'D' || ($column_info[4] == 'T' && $column_info[1] != 'time_start' && $column_info[1] != 'time_end') || ($column_info[4] == 'DT')) && ($column_info[4] != '' && $adv_filter_value != '' )) {
 			$val = [];
-			for ($x = 0; $x < count($temp_val); $x++) {
+			$countTempVal = count($temp_val);
+			for ($x = 0; $x < $countTempVal; $x++) {
 				if (trim($temp_val[$x]) != '') {
 					$date = new DateTimeField(trim($temp_val[$x]));
 					if ($column_info[4] == 'D') {

@@ -59,9 +59,6 @@ class DFA {
 	 *  to the underlying CFL).  Return an alternative number 1..n.  Throw
 	 *  an exception upon error.
 	 */
-	//TODO: This is a hackish way of doing a try finally, replace this by bunching up the returns.
-	//Possibly rewrite  predict. There is one more place i might need to fix, where i thought 
-	//try{}catch(ex){[work]; throw ex}; [work]; would be the same as a try finally;
 	
 	public function predict($input){
 		if ( $this->debug ) {
@@ -120,11 +117,6 @@ class DFA {
 							if ( $this->debug ) echo("EOT transition");
 							$s = $this->eot[$s];
 							$input->consume();
-							// TODO: I had this as return accept[eot[s]]
-							// which assumed here that the EOT edge always
-							// went to an accept...faster to do this, but
-							// what about predicated edges coming from EOT
-							// target?
 							continue;
 						}
 						$this->noViableAlt($s,$input);
@@ -161,7 +153,7 @@ class DFA {
 
 	}
 
-	function noViableAlt($s, $input){
+	public function noViableAlt($s, $input){
 		if ($this->recognizer->state->backtracking>0) {
 			$this->recognizer->state->failed=true;
 			return;
@@ -178,7 +170,7 @@ class DFA {
 	/** A hook for debugging interface */
 	protected function error($nvae) { ; }
 
-	function specialStateTransition($s, $input)
+	public function specialStateTransition($s, $input)
 	{
 		return -1;
 	}
@@ -207,7 +199,7 @@ class DFA {
 		return $data;
 	}
 	
-	function __call($fn, $params){
+	public function __call($fn, $params){
 		return call_user_func_array(array($this->recognizer, $fn), $params);
 	}
 }

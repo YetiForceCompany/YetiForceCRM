@@ -6,28 +6,26 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Delete')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
@@ -45,7 +43,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		foreach ($recordIds as $recordId) {
 			if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-				if($recordModel->isDeletable()){
+				if ($recordModel->isDeletable()) {
 					$recordModel->delete();
 				}
 			} else {

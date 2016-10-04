@@ -20,7 +20,7 @@ class OSSMailScanner_ImportMail_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');

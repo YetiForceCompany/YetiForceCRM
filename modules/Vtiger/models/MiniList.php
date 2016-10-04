@@ -29,7 +29,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if (is_string($this->extraData)) {
 			$this->extraData = \includes\utils\Json::decode(decode_html($this->extraData));
 		}
-		if ($this->extraData == NULL) {
+		if ($this->extraData === null) {
 			throw new Exception("Invalid data");
 		}
 	}
@@ -77,16 +77,18 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	public function getTitle($prefix = '')
 	{
 		$this->initListViewController();
-
-		$db = PearDatabase::getInstance();
-
-		$suffix = '';
-		$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
-		if ($db->num_rows($customviewrs)) {
-			$customview = $db->fetch_array($customviewrs);
-			$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
+		$title = $this->widgetModel->get('title');
+		if (empty($title)) {
+			$db = PearDatabase::getInstance();
+			$suffix = '';
+			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
+			if ($db->num_rows($customviewrs)) {
+				$customview = $db->fetch_array($customviewrs);
+				$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
+			}
+			return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
-		return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
+		return $title;
 	}
 
 	public function getHeaders()
@@ -133,11 +135,15 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		}
 		if (!$this->listviewRecords) {
 			$db = PearDatabase::getInstance();
-
 			$query = $this->queryGenerator->getQuery() . $ownerSql;
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
-			if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
+			$filterId = $this->widgetModel->get('filterid');
+			$filterModel = CustomView_Record_Model::getInstanceById($filterId);
+			if(!empty($filterModel->get('sort'))){
+				$sort = $filterModel->get('sort');
+				$query .= sprintf(' ORDER BY %s ', str_replace(',', ' ', $sort));
+			} else if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
 				$query .= sprintf(' ORDER BY %s %s', $targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
 			}
 			$query .= sprintf(' LIMIT 0,%d', $this->getRecordLimit());

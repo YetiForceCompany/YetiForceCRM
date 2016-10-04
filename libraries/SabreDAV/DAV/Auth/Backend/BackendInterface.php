@@ -42,7 +42,7 @@ interface BackendInterface {
      * @param ResponseInterface $response
      * @return array
      */
-    function check(RequestInterface $request, ResponseInterface $response);
+    public function check(RequestInterface $request, ResponseInterface $response);
 
     /**
      * This method is called when a user could not be authenticated, and
@@ -65,6 +65,6 @@ interface BackendInterface {
      * @param ResponseInterface $response
      * @return void
      */
-    function challenge(RequestInterface $request, ResponseInterface $response);
+    public function challenge(RequestInterface $request, ResponseInterface $response);
 
 }

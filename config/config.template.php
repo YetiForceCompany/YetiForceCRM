@@ -52,8 +52,6 @@ $dbconfig['db_name'] = '_DBC_NAME_';
 $dbconfig['db_type'] = '_DBC_TYPE_';
 $dbconfig['db_status'] = '_DB_STAT_';
 
-// TODO: test if port is empty
-// TODO: set db_hostname dependending on db_type
 $dbconfig['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
 
 $host_name = $dbconfig['db_hostname'];
@@ -72,9 +70,6 @@ $import_dir = 'cache/import/';
 
 // upload_dir default 
 $upload_dir = 'cache/upload/';
-
-// disable send files using KCFinder
-$upload_disabled = false;
 
 // maximum file size for uploaded files in bytes also used when uploading import files
 // upload_maxsize default value = 3000000
@@ -182,16 +177,16 @@ $davHistoryDir = 'storage/FilesHistory';
 $systemMode = 'prod';
 
 // Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.
-$forceSSL = FALSE;
+$forceSSL = false;
 
 // Maximum number of records in a mass edition
 $listMaxEntriesMassEdit = 500;
 
 // Enable closing of mondal window by clicking on the background
-$backgroundClosingModal = TRUE;
+$backgroundClosingModal = true;
 
 // Enable CSRF-protection
-$csrfProtection = TRUE;
+$csrfProtection = true;
 
 // Enable encrypt backup, Support from PHP 5.6.x
 $encryptBackup = false;

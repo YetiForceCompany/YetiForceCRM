@@ -50,7 +50,7 @@ class HTTP_Session_Container
      * @var array
      * @access private
      */
-    var $options = array();
+    public $options = array();
 
     /**
      * Constrtuctor method
@@ -60,7 +60,7 @@ class HTTP_Session_Container
      * @access public
      * @return object
      */
-    function HTTP_Session_Container($options = null)
+    public function HTTP_Session_Container($options = null)
     {
         $this->_setDefaults();
         if (is_array($options)) {
@@ -74,7 +74,7 @@ class HTTP_Session_Container
      * @access private
      * @return void
      */
-    function _setDefaults()
+    public function _setDefaults()
     {
     }
 
@@ -86,7 +86,7 @@ class HTTP_Session_Container
      * @access private
      * @return void
      */
-    function _parseOptions($options)
+    public function _parseOptions($options)
     {
         foreach ($options as $option => $value) {
             if (in_array($option, array_keys($this->options))) {
@@ -104,7 +104,7 @@ class HTTP_Session_Container
      * @access public
      * @return bool
      */
-    function open($save_path, $session_name)
+    public function open($save_path, $session_name)
     {
         return true;
     }
@@ -118,7 +118,7 @@ class HTTP_Session_Container
      * @access public
      * @return bool
      */
-    function close()
+    public function close()
     {
         return true;
     }
@@ -136,7 +136,7 @@ class HTTP_Session_Container
      * @access public
      * @return string
      */
-    function read($id)
+    public function read($id)
     {
         return '';
     }
@@ -154,7 +154,7 @@ class HTTP_Session_Container
      * @access public
      * @return bool
      */
-    function write($id, $data)
+    public function write($id, $data)
     {
         return true;
     }
@@ -170,7 +170,7 @@ class HTTP_Session_Container
      * @access public
      * @return bool
      */
-    function destroy($id)
+    public function destroy($id)
     {
         return true;
     }
@@ -186,7 +186,7 @@ class HTTP_Session_Container
      * @access public
      * @return bool
      */
-    function replicate($targetTable, $id = null)
+    public function replicate($targetTable, $id = null)
     {
         return true;
     }
@@ -204,7 +204,7 @@ class HTTP_Session_Container
      * @access public
      * @return bool
      */
-    function gc($maxlifetime)
+    public function gc($maxlifetime)
     {
         return true;
     }
@@ -215,7 +215,7 @@ class HTTP_Session_Container
      * @access public
      * @return void
      */
-    function set()
+    public function set()
     {
         $GLOBALS['HTTP_Session_Container'] =& $this;
         session_module_name('user');
@@ -233,7 +233,7 @@ class HTTP_Session_Container
      * @access private
      * @return void
      */
-    function __destruct()
+    public function __destruct()
     {
         $GLOBALS['HTTP_Session_Container'] =& $this;
         session_write_close();

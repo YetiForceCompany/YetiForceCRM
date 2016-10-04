@@ -23,7 +23,7 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 		$GLOBALS['csrf']['frame-breaker'] = false;
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');

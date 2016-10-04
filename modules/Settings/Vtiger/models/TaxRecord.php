@@ -100,7 +100,7 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 				'taxlabel' => $this->getName(),
 				'percentage' => $this->get('percentage'),
 				'deleted' => $deleted
-			], 'taxid = ?', [$taxId]);
+				], 'taxid = ?', [$taxId]);
 		} else {
 			$taxId = $this->addTax();
 		}
@@ -131,7 +131,6 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 		vimport('~include/utils/utils.php');
 
 		if ($this->isProductTax()) {
-			// TODO Review: if field addition is required in shipping-tax case too.
 
 			$inventoryModules = getInventoryModules();
 			foreach ($inventoryModules as $moduleName) {
@@ -208,7 +207,7 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model
 		$params = [$label];
 
 		if (!empty($excludedIds)) {
-			$query .= " AND taxid NOT IN (" . generateQuestionMarks($excludedIds) . ")";
+			$query .= " && taxid NOT IN (" . generateQuestionMarks($excludedIds) . ")";
 			$params = array_merge($params, $excludedIds);
 		}
 		$result = $db->pquery($query, $params);

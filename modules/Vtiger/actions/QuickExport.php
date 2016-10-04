@@ -4,23 +4,20 @@
 class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'QuickExportToExcel')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'QuickExportToExcel')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('ExportToExcel');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -29,7 +26,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	function ExportToExcel(Vtiger_Request $request)
+	public function ExportToExcel(Vtiger_Request $request)
 	{
 		vimport('libraries.PHPExcel.PHPExcel');
 		$db = PearDatabase::getInstance();

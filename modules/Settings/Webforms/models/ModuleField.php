@@ -74,16 +74,16 @@ class Settings_Webforms_ModuleField_Model extends Vtiger_Field_Model
 		return $fieldInfo;
 	}
 
-	public function getPicklistValues()
+	public function getPicklistValues($skipCheckingRole = false)
 	{
 		$fieldDataType = $this->getFieldDataType();
 
 		if ($fieldDataType != 'picklist') {
-			return parent::getPicklistValues();
+			return parent::getPicklistValues($skipCheckingRole);
 		}
 		$pickListValues = array();
 		$pickListValues[""] = vtranslate("LBL_SELECT_OPTION", 'Settings:Webforms');
-		return ($pickListValues + parent::getPicklistValues());
+		return ($pickListValues + parent::getPicklistValues($skipCheckingRole));
 	}
 
 	/**

@@ -24,7 +24,7 @@ class Settings_Vtiger_CompanyDetailsEdit_View extends Settings_Vtiger_Index_View
 		$viewer->view('CompanyDetailsEdit.tpl', $qualifiedModuleName); //For Open Source
 	}
 
-	function getPageTitle(Vtiger_Request $request)
+	public function getPageTitle(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		return vtranslate('LBL_CONFIG_EDITOR', $qualifiedModuleName);

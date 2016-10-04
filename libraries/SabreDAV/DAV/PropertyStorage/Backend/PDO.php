@@ -54,7 +54,7 @@ class PDO implements BackendInterface {
      *
      * @param \PDO $pdo
      */
-    function __construct(\PDO $pdo) {
+    public function __construct(\PDO $pdo) {
 
         $this->pdo = $pdo;
 
@@ -77,13 +77,13 @@ class PDO implements BackendInterface {
      * @param PropFind $propFind
      * @return void
      */
-    function propFind($path, PropFind $propFind) {
+    public function propFind($path, PropFind $propFind) {
 
         if (!$propFind->isAllProps() && count($propFind->get404Properties()) === 0) {
             return;
         }
 
-        $query = 'SELECT name, value, valuetype FROM ' . $this->tableName . ' WHERE path = ?';
+        $query = sprintf('SELECT name, value, valuetype FROM %s WHERE path = ?', $this->tableName);
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([$path]);
 
@@ -117,12 +117,12 @@ class PDO implements BackendInterface {
      * @param PropPatch $propPatch
      * @return void
      */
-    function propPatch($path, PropPatch $propPatch) {
+    public function propPatch($path, PropPatch $propPatch) {
 
         $propPatch->handleRemaining(function($properties) use ($path) {
 
             $updateStmt = $this->pdo->prepare("REPLACE INTO " . $this->tableName . " (path, name, valuetype, value) VALUES (?, ?, ?, ?)");
-            $deleteStmt = $this->pdo->prepare("DELETE FROM " . $this->tableName . " WHERE path = ? AND name = ?");
+            $deleteStmt = $this->pdo->prepare(sprintf("DELETE FROM %s WHERE path = ? && name = ?", $this->tableName));
 
             foreach ($properties as $name => $value) {
 
@@ -160,9 +160,9 @@ class PDO implements BackendInterface {
      * @param string $path
      * @return void
      */
-    function delete($path) {
+    public function delete($path) {
 
-        $stmt = $this->pdo->prepare("DELETE FROM " . $this->tableName . "  WHERE path = ? OR path LIKE ? ESCAPE '='");
+        $stmt = $this->pdo->prepare(sprintf("DELETE FROM %s  WHERE path = ? || path LIKE ? ESCAPE '='", $this->tableName));
         $childPath = strtr(
             $path,
             [
@@ -187,16 +187,16 @@ class PDO implements BackendInterface {
      * @param string $destination
      * @return void
      */
-    function move($source, $destination) {
+    public function move($source, $destination) {
 
         // I don't know a way to write this all in a single sql query that's
         // also compatible across db engines, so we're letting PHP do all the
         // updates. Much slower, but it should still be pretty fast in most
         // cases.
-        $select = $this->pdo->prepare('SELECT id, path FROM ' . $this->tableName . '  WHERE path = ? OR path LIKE ?');
+        $select = $this->pdo->prepare(sprintf('SELECT id, path FROM %s WHERE path = ? || path LIKE ?', $this->tableName));
         $select->execute([$source, $source . '/%']);
 
-        $update = $this->pdo->prepare('UPDATE ' . $this->tableName . ' SET path = ? WHERE id = ?');
+        $update = $this->pdo->prepare(sprintf('UPDATE %s SET path = ? WHERE id = ?', $this->tableName));
         while ($row = $select->fetch(\PDO::FETCH_ASSOC)) {
 
             // Sanity check. SQL may select too many records, such as records

@@ -930,6 +930,8 @@ $languageStrings = [
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'List of last updated record',
 	'LBL_NAME' => 'Record name',
+	'LBL_WIDGET_NAME' => 'Widget name',
+	'LBL_CHART_COLOR_DESCRIPTION' => 'Multi-color chart',
 	'LBL_MODULE_NAME' => 'Module name',
 	'LBL_NO_MOD_RECORDS' => 'No modified records',
 	'PLL_HOLIDAY_TIME' => 'Holiday',
@@ -1241,7 +1243,12 @@ $languageStrings = [
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Get total amount of records',
 	'Potentials' => 'Opportunities',
 	'LBL_PICKLIST_FIELD' => 'Select from field',
-	'LBL_MAP' => 'Map'
+	'LBL_MAP' => 'Map',
+	'LBL_SHOW_MAP' => 'Show on the map',
+	'FL_CAMPAIGN_STATUS' => 'Campaign status',
+	'LBL_SECTOR' => 'Sectors',
+	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Closed ticket by priority',
+	'LBL_CLOSED_TICKETS_BY_USER' => 'Closed ticket by user'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
@@ -1559,4 +1566,5 @@ $jsLanguageStrings = [
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Mass edition unsuccessful',
 	'JS_GET_PAGINATION_INFO' => 'Loading the amount of records in progress. Completion time depends on the total number of records.',
 	'JS_WIDGET_DELETED' => 'Widget deleted',
+	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domain restricted. Please enter a different one.',
 ];

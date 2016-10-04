@@ -33,7 +33,7 @@ class PDO extends AbstractDigest {
      *
      * @param PDO $pdo
      */
-    function __construct(\PDO $pdo) {
+    public function __construct(\PDO $pdo) {
 
         $this->pdo = $pdo;
 
@@ -46,9 +46,9 @@ class PDO extends AbstractDigest {
      * @param string $username
      * @return string|null
      */
-    function getDigestHash($realm, $username) {
+    public function getDigestHash($realm, $username) {
 
-        $stmt = $this->pdo->prepare('SELECT digesta1 FROM ' . $this->tableName . ' WHERE username = ?');
+        $stmt = $this->pdo->prepare(sprintf('SELECT digesta1 FROM %s WHERE username = ?', $this->tableName));
         $stmt->execute([$username]);
         return $stmt->fetchColumn() ?: null;
 

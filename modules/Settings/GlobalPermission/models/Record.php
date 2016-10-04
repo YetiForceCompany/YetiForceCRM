@@ -45,10 +45,10 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 	public static function save($profileID, $globalactionid, $checked)
 	{
 		if ($globalactionid == 1) {
-			\includes\Privileges::setAllUpdater();
+			\App\Privilege::setAllUpdater();
 		}
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_profile2globalpermissions WHERE profileid=? AND globalactionid=?', array($profileID, $globalactionid));
+		$db->pquery('DELETE FROM vtiger_profile2globalpermissions WHERE profileid=? && globalactionid=?', array($profileID, $globalactionid));
 		$sql = 'INSERT INTO vtiger_profile2globalpermissions(profileid, globalactionid, globalactionpermission) VALUES (?,?,?)';
 		$db->pquery($sql, array($profileID, $globalactionid, $checked));
 		self::recalculate();

@@ -18,7 +18,7 @@ class Encryption
 	protected $vector = false;
 	protected $options = true;
 
-	function __construct()
+	public function __construct()
 	{
 		$db = \PearDatabase::getInstance();
 		$result = $db->query('SELECT * FROM a_yf_encryption');
@@ -29,7 +29,7 @@ class Encryption
 		}
 	}
 
-	function encrypt($decrypted)
+	public function encrypt($decrypted)
 	{
 		if (!$this->isActive()) {
 			return $decrypted;
@@ -38,7 +38,7 @@ class Encryption
 		return base64_encode($encrypted);
 	}
 
-	function decrypt($encrypted)
+	public function decrypt($encrypted)
 	{
 		if (!$this->isActive()) {
 			return $encrypted;
@@ -47,12 +47,12 @@ class Encryption
 		return $decrypted;
 	}
 
-	function getMethods()
+	public function getMethods()
 	{
 		return openssl_get_cipher_methods();
 	}
 
-	function isActive()
+	public function isActive()
 	{
 		if (!function_exists('openssl_encrypt')) {
 			return false;

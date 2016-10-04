@@ -20,7 +20,7 @@ class OutlookSyncServer extends SyncServer
 	private $update = "update";
 	private $delete = "delete";
 
-	function getDestinationHandleDetails()
+	public function getDestinationHandleDetails()
 	{
 		return array('handlerclass' => 'OutlookVtigerCRMHandler',
 			'handlerpath' => 'modules/WSAPP/Handlers/OutlookVtigerCRMHandler.php');
@@ -29,9 +29,9 @@ class OutlookSyncServer extends SyncServer
 	 * Function overrided to deal duplication handling 
 	 */
 
-	function put($key, $element, $user)
+	public function put($key, $element, $user)
 	{
-		$log = vglobal('log');
+		
 		$db = PearDatabase::getInstance();
 		$appid = parent::appid_with_key($key);
 		if (empty($appid)) {
@@ -85,7 +85,7 @@ class OutlookSyncServer extends SyncServer
 			}
 			// End
 			else {
-				$lookupResult = $db->pquery("SELECT serverid,clientmodifiedtime FROM vtiger_wsapp_recordmapping WHERE appid=? AND clientid=?", array($appid, $clientRecordId));
+				$lookupResult = $db->pquery("SELECT serverid,clientmodifiedtime FROM vtiger_wsapp_recordmapping WHERE appid=? && clientid=?", array($appid, $clientRecordId));
 				if ($db->num_rows($lookupResult))
 					$lookupRecordId = $db->query_result($lookupResult, 0, 'serverid');
 				if (empty($lookupRecordId) && $record['mode'] != "delete") {
@@ -118,7 +118,7 @@ class OutlookSyncServer extends SyncServer
 		$response['updated'] = array();
 		$response['deleted'] = array();
 
-		$log->fatal($result['updated']);
+		\App\Log::error($result['updated']);
 
 		$nextSyncDeleteRecords = $this->destHandler->getAssignToChangedRecords();
 		foreach ($result['created'] as $clientRecordId => $record) {

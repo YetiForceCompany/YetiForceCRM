@@ -12,7 +12,7 @@
 class Settings_QuickCreateEditor_SaveSequenceNumber_Action extends Settings_Vtiger_Index_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('move');
 	}

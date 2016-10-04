@@ -16,7 +16,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 	 * @param Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$cssFileNames = array(
 			//Place your widget specific css files here
@@ -25,7 +25,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		return $headerCssScriptInstances;
 	}
 
-	function getSearchParams($stage, $assignedto, $dates)
+	public function getSearchParams($stage, $assignedto, $dates)
 	{
 		$listSearchParams = array();
 		$conditions = array();
@@ -69,7 +69,8 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getProjectWidget($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
-		for ($i = 0; $i < count($data); $i++) {
+		$countData = count($data);
+		for ($i = 0; $i < $countData; $i++) {
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dates);
 		}
 

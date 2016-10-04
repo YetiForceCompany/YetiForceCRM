@@ -11,7 +11,7 @@
 class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('deleteUserCalendar');
 		$this->exposeMethod('addUserCalendar');
@@ -43,16 +43,16 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	function deleteUserCalendar(Vtiger_Request $request)
+	public function deleteUserCalendar(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$sharedUserId = $request->get('userid');
 
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT 1 FROM vtiger_shareduserinfo WHERE userid=? AND shareduserid=?', array($userId, $sharedUserId));
+		$result = $db->pquery('SELECT 1 FROM vtiger_shareduserinfo WHERE userid=? && shareduserid=?', array($userId, $sharedUserId));
 		if ($db->num_rows($result) > 0) {
-			$db->pquery('UPDATE vtiger_shareduserinfo SET visible=? WHERE userid=? AND shareduserid=?', array('0', $userId, $sharedUserId));
+			$db->pquery('UPDATE vtiger_shareduserinfo SET visible=? WHERE userid=? && shareduserid=?', array('0', $userId, $sharedUserId));
 		} else {
 			$db->pquery('INSERT INTO vtiger_shareduserinfo (userid, shareduserid, visible) VALUES(?, ?, ?)', array($userId, $sharedUserId, '0'));
 		}
@@ -68,7 +68,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	function addUserCalendar(Vtiger_Request $request)
+	public function addUserCalendar(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -77,10 +77,10 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 
 		$db = PearDatabase::getInstance();
 
-		$queryResult = $db->pquery('SELECT 1 FROM vtiger_shareduserinfo WHERE userid=? AND shareduserid=?', array($userId, $sharedUserId));
+		$queryResult = $db->pquery('SELECT 1 FROM vtiger_shareduserinfo WHERE userid=? && shareduserid=?', array($userId, $sharedUserId));
 
 		if ($db->num_rows($queryResult) > 0) {
-			$db->pquery('UPDATE vtiger_shareduserinfo SET color=?, visible=? WHERE userid=? AND shareduserid=?', array($color, '1', $userId, $sharedUserId));
+			$db->pquery('UPDATE vtiger_shareduserinfo SET color=?, visible=? WHERE userid=? && shareduserid=?', array($color, '1', $userId, $sharedUserId));
 		} else {
 			$db->pquery('INSERT INTO vtiger_shareduserinfo (userid, shareduserid, color, visible) VALUES(?, ?, ?, ?)', array($userId, $sharedUserId, $color, '1'));
 		}
@@ -95,7 +95,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	function deleteCalendarView(Vtiger_Request $request)
+	public function deleteCalendarView(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -106,7 +106,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$db = PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_calendar_user_activitytypes 
 			INNER JOIN vtiger_calendar_default_activitytypes ON vtiger_calendar_default_activitytypes.id = vtiger_calendar_user_activitytypes.defaultid
-			SET vtiger_calendar_user_activitytypes.visible=? WHERE vtiger_calendar_user_activitytypes.userid=? AND vtiger_calendar_default_activitytypes.module=? AND vtiger_calendar_default_activitytypes.fieldname=?', array('0', $userId, $viewmodule, $viewfieldname));
+			SET vtiger_calendar_user_activitytypes.visible=? WHERE vtiger_calendar_user_activitytypes.userid=? && vtiger_calendar_default_activitytypes.module=? && vtiger_calendar_default_activitytypes.fieldname=?', array('0', $userId, $viewmodule, $viewfieldname));
 
 		$result = array('viewmodule' => $viewmodule, 'viewfieldname' => $viewfieldname, 'viewfieldlabel' => $request->get('viewfieldlabel'));
 		$response = new Vtiger_Response();
@@ -119,7 +119,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	 * @param Vtiger_Request $request
 	 * @return Vtiger_Response $response
 	 */
-	function addCalendarView(Vtiger_Request $request)
+	public function addCalendarView(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -132,7 +132,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$db->pquery('UPDATE vtiger_calendar_user_activitytypes 
 					INNER JOIN vtiger_calendar_default_activitytypes ON vtiger_calendar_default_activitytypes.id = vtiger_calendar_user_activitytypes.defaultid
 					SET vtiger_calendar_user_activitytypes.color=?, vtiger_calendar_user_activitytypes.visible=? 
-					WHERE vtiger_calendar_user_activitytypes.userid=? AND vtiger_calendar_default_activitytypes.module=? AND vtiger_calendar_default_activitytypes.fieldname=?', array($viewcolor, '1', $userId, $viewmodule, $viewfieldname));
+					WHERE vtiger_calendar_user_activitytypes.userid=? && vtiger_calendar_default_activitytypes.module=? && vtiger_calendar_default_activitytypes.fieldname=?', array($viewcolor, '1', $userId, $viewmodule, $viewfieldname));
 
 		$response = new Vtiger_Response();
 		$response->setResult(array('success' => true));

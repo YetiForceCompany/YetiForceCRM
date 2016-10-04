@@ -11,7 +11,7 @@
 abstract class Vtiger_Header_View extends Vtiger_View_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
@@ -69,7 +69,6 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				];
 			}
 		}
-		//TODO To remove in the future
 		if (AppConfig::security('SHOW_MY_PREFERENCES')) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
@@ -120,7 +119,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$headerScripts = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
@@ -139,7 +138,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_CssScript_Model instances
 	 */
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$baseStyleCssPath = Vtiger_Theme::getBaseStylePath();

@@ -12,13 +12,13 @@
 class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('execute');
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');

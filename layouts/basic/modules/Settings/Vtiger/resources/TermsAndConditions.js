@@ -86,7 +86,7 @@ jQuery.Class("Settings_Vtiger_TermsAndConditions_Js",{},{
 					Settings_Vtiger_Index_Js.showMessage(params);
 				},
 				function(error){
-					//TODO: Handle Error
+
 				}
 			);
 		})

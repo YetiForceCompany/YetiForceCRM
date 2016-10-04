@@ -15,7 +15,7 @@ class Install_Utils_Model
 	 * Function that provides default configuration based on installer setup
 	 * @return <Array>
 	 */
-	function getDefaultPreInstallParameters()
+	public function getDefaultPreInstallParameters()
 	{
 		return [
 			'db_hostname' => 'localhost',
@@ -120,17 +120,17 @@ class Install_Utils_Model
 		$error_msg_info = '';
 
 		if (!$db_type_status || !$db_server_status) {
-			$error_msg = getTranslatedString('ERR_DATABASE_CONNECTION_FAILED', 'Install') . '. ' . getTranslatedString('ERR_INVALID_MYSQL_PARAMETERS', 'Install');
-			$error_msg_info = getTranslatedString('MSG_LIST_REASONS', 'Install') . ':<br>
-					-  ' . getTranslatedString('MSG_DB_PARAMETERS_INVALID', 'Install') . '
-					-  ' . getTranslatedString('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
+			$error_msg = \includes\Language::translate('ERR_DATABASE_CONNECTION_FAILED', 'Install') . '. ' . \includes\Language::translate('ERR_INVALID_MYSQL_PARAMETERS', 'Install');
+			$error_msg_info = \includes\Language::translate('MSG_LIST_REASONS', 'Install') . ':<br>
+					-  ' . \includes\Language::translate('MSG_DB_PARAMETERS_INVALID', 'Install') . '
+					-  ' . \includes\Language::translate('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
 		} elseif (self::isMySQL($db_type) && $mysql_server_version < 4.1) {
-			$error_msg = $mysql_server_version . ' -> ' . getTranslatedString('ERR_INVALID_MYSQL_VERSION', 'Install');
+			$error_msg = $mysql_server_version . ' -> ' . \includes\Language::translate('ERR_INVALID_MYSQL_VERSION', 'Install');
 		} elseif ($db_creation_failed) {
-			$error_msg = getTranslatedString('ERR_UNABLE_CREATE_DATABASE', 'Install') . ' ' . $db_name;
-			$error_msg_info = getTranslatedString('MSG_DB_ROOT_USER_NOT_AUTHORIZED', 'Install');
+			$error_msg = \includes\Language::translate('ERR_UNABLE_CREATE_DATABASE', 'Install') . ' ' . $db_name;
+			$error_msg_info = \includes\Language::translate('MSG_DB_ROOT_USER_NOT_AUTHORIZED', 'Install');
 		} elseif (!$db_exist_status) {
-			$error_msg = $db_name . ' -> ' . getTranslatedString('ERR_DB_NOT_FOUND', 'Install');
+			$error_msg = $db_name . ' -> ' . \includes\Language::translate('ERR_DB_NOT_FOUND', 'Install');
 		} else {
 			$dbCheckResult['flag'] = true;
 			return $dbCheckResult;
@@ -149,7 +149,7 @@ class Install_Utils_Model
 		foreach ($ffs as $ff) {
 			if ($ff != '.' && $ff != '..') {
 				if (file_exists($dir . $ff . '/Install.php')) {
-					$langs[$ff] = Vtiger_Language_Handler::getTranslatedString('LANGNAME', 'Install', $ff);
+					$langs[$ff] = \includes\Language::translateArgs('LANGNAME', 'Install', $ff);
 				}
 			}
 		}

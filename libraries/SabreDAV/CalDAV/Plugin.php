@@ -66,7 +66,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $uri
      * @return array
      */
-    function getHTTPMethods($uri) {
+    public function getHTTPMethods($uri) {
 
         // The MKCALENDAR is only available on unmapped uri's, whose
         // parents extend IExtendedCollection
@@ -95,7 +95,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $principalUrl
      * @return string
      */
-    function getCalendarHomeForPrincipal($principalUrl) {
+    public function getCalendarHomeForPrincipal($principalUrl) {
 
         // The default behavior for most sabre/dav servers is that there is a
         // principals root node, which contains users directly under it.
@@ -117,7 +117,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getFeatures() {
+    public function getFeatures() {
 
         return ['calendar-access', 'calendar-proxy'];
 
@@ -131,7 +131,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'caldav';
 
@@ -147,7 +147,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $uri
      * @return array
      */
-    function getSupportedReportSet($uri) {
+    public function getSupportedReportSet($uri) {
 
         $node = $this->server->tree->getNodeForPath($uri);
 
@@ -175,7 +175,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         $this->server = $server;
 
@@ -235,7 +235,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param mixed $report
      * @return bool
      */
-    function report($reportName, $report) {
+    public function report($reportName, $report) {
 
         switch ($reportName) {
             case '{' . self::NS_CALDAV . '}calendar-multiget' :
@@ -264,7 +264,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpMkCalendar(RequestInterface $request, ResponseInterface $response) {
+    public function httpMkCalendar(RequestInterface $request, ResponseInterface $response) {
 
         $body = $request->getBodyAsString();
         $path = $request->getPath();
@@ -317,7 +317,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\INode $node
      * @return void
      */
-    function propFind(DAV\PropFind $propFind, DAV\INode $node) {
+    public function propFind(DAV\PropFind $propFind, DAV\INode $node) {
 
         $ns = '{' . self::NS_CALDAV . '}';
 
@@ -429,7 +429,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param CalendarMultiGetReport $report
      * @return void
      */
-    function calendarMultiGetReport($report) {
+    public function calendarMultiGetReport($report) {
 
         $needsJson = $report->contentType === 'application/calendar+json';
 
@@ -500,7 +500,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param Xml\Request\CalendarQueryReport $report
      * @return void
      */
-    function calendarQueryReport($report) {
+    public function calendarQueryReport($report) {
 
         $path = $this->server->getRequestUri();
 
@@ -746,7 +746,7 @@ class Plugin extends DAV\ServerPlugin {
      *                       changed &$data.
      * @return void
      */
-    function beforeWriteContent($path, DAV\IFile $node, &$data, &$modified) {
+    public function beforeWriteContent($path, DAV\IFile $node, &$data, &$modified) {
 
         if (!$node instanceof ICalendarObject)
             return;
@@ -784,7 +784,7 @@ class Plugin extends DAV\ServerPlugin {
      *                       changed &$data.
      * @return void
      */
-    function beforeCreateFile($path, &$data, DAV\ICollection $parentNode, &$modified) {
+    public function beforeCreateFile($path, &$data, DAV\ICollection $parentNode, &$modified) {
 
         if (!$parentNode instanceof ICalendar)
             return;
@@ -943,7 +943,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $output
      * @return bool
      */
-    function htmlActionsPanel(DAV\INode $node, &$output) {
+    public function htmlActionsPanel(DAV\INode $node, &$output) {
 
         if (!$node instanceof CalendarHome)
             return;
@@ -971,7 +971,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return void
      */
-    function httpAfterGet(RequestInterface $request, ResponseInterface $response) {
+    public function httpAfterGet(RequestInterface $request, ResponseInterface $response) {
 
         if (strpos($response->getHeader('Content-Type'), 'text/calendar') === false) {
             return;
@@ -1012,7 +1012,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

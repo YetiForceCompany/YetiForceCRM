@@ -11,7 +11,7 @@
 class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('checkCyclicDependency');

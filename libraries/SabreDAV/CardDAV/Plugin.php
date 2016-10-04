@@ -60,7 +60,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         /* Events */
         $server->on('propFind',            [$this, 'propFindEarly']);
@@ -99,7 +99,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getFeatures() {
+    public function getFeatures() {
 
         return ['addressbook'];
 
@@ -115,7 +115,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $uri
      * @return array
      */
-    function getSupportedReportSet($uri) {
+    public function getSupportedReportSet($uri) {
 
         $node = $this->server->tree->getNodeForPath($uri);
         if ($node instanceof IAddressBook || $node instanceof ICard) {
@@ -136,7 +136,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\INode $node
      * @return void
      */
-    function propFindEarly(DAV\PropFind $propFind, DAV\INode $node) {
+    public function propFindEarly(DAV\PropFind $propFind, DAV\INode $node) {
 
         $ns = '{' . self::NS_CARDDAV . '}';
 
@@ -191,7 +191,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param mixed $path
      * @return bool
      */
-    function report($reportName, $dom, $path) {
+    public function report($reportName, $dom, $path) {
 
         switch ($reportName) {
             case '{' . self::NS_CARDDAV . '}addressbook-multiget' :
@@ -233,7 +233,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param Xml\Request\AddressBookMultiGetReport $report
      * @return void
      */
-    function addressbookMultiGetReport($report) {
+    public function addressbookMultiGetReport($report) {
 
         $contentType = $report->contentType;
         $version = $report->version;
@@ -286,7 +286,7 @@ class Plugin extends DAV\ServerPlugin {
      *                       changed &$data.
      * @return void
      */
-    function beforeWriteContent($path, DAV\IFile $node, &$data, &$modified) {
+    public function beforeWriteContent($path, DAV\IFile $node, &$data, &$modified) {
 
         if (!$node instanceof ICard)
             return;
@@ -308,7 +308,7 @@ class Plugin extends DAV\ServerPlugin {
      *                       changed &$data.
      * @return void
      */
-    function beforeCreateFile($path, &$data, DAV\ICollection $parentNode, &$modified) {
+    public function beforeCreateFile($path, &$data, DAV\ICollection $parentNode, &$modified) {
 
         if (!$parentNode instanceof IAddressBook)
             return;
@@ -475,7 +475,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $test anyof or allof (which means OR or AND)
      * @return bool
      */
-    function validateFilters($vcardData, array $filters, $test) {
+    public function validateFilters($vcardData, array $filters, $test) {
 
 
         if (!$filters) return true;
@@ -674,7 +674,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param DAV\INode $node
      * @return void
      */
-    function propFindLate(DAV\PropFind $propFind, DAV\INode $node) {
+    public function propFindLate(DAV\PropFind $propFind, DAV\INode $node) {
 
         // If the request was made using the SOGO connector, we must rewrite
         // the content-type property. By default SabreDAV will send back
@@ -700,7 +700,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param string $output
      * @return bool
      */
-    function htmlActionsPanel(DAV\INode $node, &$output) {
+    public function htmlActionsPanel(DAV\INode $node, &$output) {
 
         if (!$node instanceof AddressBookHome)
             return;
@@ -728,7 +728,7 @@ class Plugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return void
      */
-    function httpAfterGet(RequestInterface $request, ResponseInterface $response) {
+    public function httpAfterGet(RequestInterface $request, ResponseInterface $response) {
 
         if (strpos($response->getHeader('Content-Type'), 'text/vcard') === false) {
             return;
@@ -841,7 +841,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'carddav';
 
@@ -858,7 +858,7 @@ class Plugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

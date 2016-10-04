@@ -79,7 +79,8 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		if ($position) {
 			$split = preg_split('/ FROM /i', $relationQuery);
 			$mainQuery = '';
-			for ($i = 1; $i < count($split); $i++) {
+			$countSplit = count($split);
+			for ($i = 1; $i < $countSplit; $i++) {
 				$mainQuery = $mainQuery . ' FROM ' . $split[$i];
 			}
 		}
@@ -115,16 +116,15 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		if (empty($id) || empty($fieldName))
 			$response = false;
 		else {
-			$instance = CRMEntity::getInstance($this->getName());
-			$securityParameter = $instance->getUserAccessConditionsQuerySR($this->getName(), false);
-			$userSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+			$securityParameter = \App\PrivilegeQuery::getAccessConditions($this->getName());
+			$userSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 
 			$sql = sprintf('SELECT count(*) AS count, %s as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time FROM vtiger_osstimecontrol
 							INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
-							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid AND vtiger_users.status="ACTIVE"
+							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid && vtiger_users.status="ACTIVE"
 							AND vtiger_crmentity.deleted = 0'
-				. ' WHERE vtiger_osstimecontrol.%s = ? AND vtiger_osstimecontrol.osstimecontrol_status = ? %s GROUP BY smownerid'
-				,$userSqlFullName, $fieldName, $securityParameter);
+				. ' WHERE vtiger_osstimecontrol.%s = ? && vtiger_osstimecontrol.osstimecontrol_status = ? %s GROUP BY smownerid'
+				, $userSqlFullName, $fieldName, $securityParameter);
 			$result = $db->pquery($sql, [$id, OSSTimeControl_Record_Model::recalculateStatus]);
 
 			$data = [];

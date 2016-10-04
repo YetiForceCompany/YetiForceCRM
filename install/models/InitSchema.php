@@ -15,7 +15,7 @@ class Install_InitSchema_Model
 	protected $migration_schema = 'install/migrate_schema/';
 	protected $db = false;
 
-	function __construct($db = '')
+	public function __construct($db = '')
 	{
 		$this->db = $db;
 	}
@@ -114,7 +114,7 @@ class Install_InitSchema_Model
 		// Remove PostgreSQL comment lines.
 		$query = preg_replace("/\n\--[^\n]*/", '', "\n" . $query);
 		// Find function
-		$funct = explode('CREATE OR REPLACE FUNCTION', $query);
+		$funct = explode('CREATE || REPLACE FUNCTION', $query);
 		// Save sql before function and parse it
 		$query = $funct[0];
 
@@ -140,8 +140,9 @@ class Install_InitSchema_Model
 			$queries[] = $query;
 		}
 		// Add function part as is
-		for ($f = 1; $f < count($funct); $f++) {
-			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
+		$countFunct = count($funct);
+		for ($f = 1; $f < $countFunct; $f++) {
+			$queries[] = 'CREATE || REPLACE FUNCTION ' . $funct[$f];
 		}
 		return $queries;
 	}
@@ -261,21 +262,21 @@ class Install_InitSchema_Model
 
 	public function deleteDirFile($src)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$rootDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if ($rootDirectory && strpos($src, $rootDirectory) === FALSE) {
+		if ($rootDirectory && strpos($src, $rootDirectory) === false) {
 			$src = $rootDirectory . $src;
 		}
 		if (!file_exists($src) || !$rootDirectory)
 			return;
 		@chmod($src, 0777);
-		$log->debug("Exiting VT620_to_YT::testest(" . $src . ") method ...");
+		\App\Log::trace("Exiting VT620_to_YT::testest(" . $src . ") method ...");
 		if (is_dir($src)) {
 			$dir = new DirectoryIterator($src);
 			foreach ($dir as $fileinfo) {
 				if (!$fileinfo->isDot()) {
 					if ($fileinfo->isDir()) {
-						$log->debug("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
+						\App\Log::trace("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
 						$this->deleteDirFile($fileinfo->getPathname());
 						rmdir($fileinfo->getPathname());
 					} else {

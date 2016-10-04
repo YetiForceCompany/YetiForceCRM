@@ -1,22 +1,16 @@
 {
-    "projectname" : "Manual",
-    "description" : "Manual",
-    "projecturl" : "Manual",
-    
-    "linktoaccountscontacts" : "AutoRel",
-    
-    "startdate" : "Date",
-    "targetenddate" : "Date",
-    "actualenddate" : "Date",
-    
-    "projectstatus" : "Select",
-    "projecttype" : "Select",
-    "projectpriority" : "Select",
-    "progress" : "Select",
-    
-    "targetbudget" : "BaseOnOtherModule",
-    
-    "assigned_user_id" : "Owner",
-    
-    "oss_project_visibility" : "Visibility"
+	"projectname": "Manual",
+	"description": "Manual",
+	"projecturl": "Manual",
+	"linktoaccountscontacts": "AutoRel",
+	"startdate": "Date",
+	"targetenddate": "Date",
+	"actualenddate": "Date",
+	"projectstatus": "Select",
+	"projecttype": "Select",
+	"projectpriority": "Select",
+	"progress": "Select",
+	"targetbudget": "BaseOnOtherModule",
+	"assigned_user_id": "Owner",
+	"oss_project_visibility": "Visibility"
 }

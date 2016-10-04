@@ -20,7 +20,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	private $hasDeleteAccess;
 	private $assignUsers;
 
-	function VtigerCRMObjectMeta($webserviceObject, $user)
+	public function VtigerCRMObjectMeta($webserviceObject, $user)
 	{
 
 		parent::__construct($webserviceObject, $user);
@@ -56,8 +56,8 @@ class VtigerCRMObjectMeta extends EntityMeta
 	 */
 	public function getTabId()
 	{
-		if ($this->tabId == null) {
-			$this->tabId = getTabid($this->objectName);
+		if ($this->tabId === null) {
+			$this->tabId = \includes\Modules::getModuleId($this->objectName);
 		}
 		return $this->tabId;
 	}
@@ -69,7 +69,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	 */
 	public function getEffectiveTabId()
 	{
-		return getTabid($this->getTabName());
+		return \includes\Modules::getModuleId($this->getTabName());
 	}
 
 	public function getTabName()
@@ -84,7 +84,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	{
 		$adb = PearDatabase::getInstance();
 		$active = \includes\Modules::isModuleActive($this->getTabName());
-		if ($active == false) {
+		if ($active === false) {
 			$this->hasAccess = false;
 			$this->hasReadAccess = false;
 			$this->hasWriteAccess = false;
@@ -92,20 +92,16 @@ class VtigerCRMObjectMeta extends EntityMeta
 			return;
 		}
 		$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($this->user->id);
-		if ($userPrivileges['is_admin'] == true || $userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
+		if ($userPrivileges['is_admin'] === true || $userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
 			$this->hasAccess = true;
 			$this->hasReadAccess = true;
 			$this->hasWriteAccess = true;
 			$this->hasDeleteAccess = true;
 		} else {
-			//TODO get oer sort out the preference among profile2tab and profile2globalpermissions.
-			//TODO check whether create/edit seperate controls required for web sevices?
 			$profileList = getCurrentUserProfileList();
 
 			$sql = sprintf('SELECT globalactionpermission,globalactionid FROM vtiger_profile2globalpermissions WHERE profileid IN (%s)', generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList));
-			//globalactionid=1 is view all action.
-			//globalactionid=2 is edit all action.
 			while ($row = $adb->getRow($result)) {
 				$permission = $row['globalactionpermission'];
 				$globalactionid = $row['globalactionid'];
@@ -131,10 +127,6 @@ class VtigerCRMObjectMeta extends EntityMeta
 				$this->hasAccess = true;
 			}
 
-			//operation=2 is delete operation.
-			//operation=0 or 1 is create/edit operation. precise 0 create and 1 edit.
-			//operation=3 index or popup. //ignored for websevices.
-			//operation=4 is view operation.
 			$sql = sprintf("select * from vtiger_profile2standardpermissions where profileid in (%s) and tabid=?", generateQuestionMarks($profileList));
 			$result = $adb->pquery($sql, array($profileList, $this->getTabId()));
 			while ($row = $adb->getRow($result)) {
@@ -162,7 +154,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		}
 	}
 
-	function hasAccess()
+	public function hasAccess()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -170,7 +162,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->hasAccess;
 	}
 
-	function hasWriteAccess()
+	public function hasWriteAccess()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -178,7 +170,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->hasWriteAccess;
 	}
 
-	function hasReadAccess()
+	public function hasReadAccess()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -186,7 +178,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->hasReadAccess;
 	}
 
-	function hasDeleteAccess()
+	public function hasDeleteAccess()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -194,7 +186,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->hasDeleteAccess;
 	}
 
-	function hasPermission($operation, $webserviceId)
+	public function hasPermission($operation, $webserviceId)
 	{
 
 		$idComponents = vtws_getIdComponents($webserviceId);
@@ -207,19 +199,19 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return false;
 	}
 
-	function hasAssignPrivilege($webserviceId)
+	public function hasAssignPrivilege($webserviceId)
 	{
 		$adb = PearDatabase::getInstance();
 
 		// administrator's have assign privilege
-		if (is_admin($this->user))
+		if (\vtlib\Functions::userIsAdministrator($this->user))
 			return true;
 
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$userId = $idComponents[1];
 		$ownerTypeId = $idComponents[0];
 
-		if ($userId == null || $userId == '' || $ownerTypeId == null || $ownerTypeId == '') {
+		if ($userId === null || $userId == '' || $ownerTypeId === null || $ownerTypeId == '') {
 			return false;
 		}
 		$webserviceObject = VtigerWebserviceObject::fromId($adb, $ownerTypeId);
@@ -247,7 +239,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		}
 	}
 
-	function getUserAccessibleColumns()
+	public function getUserAccessibleColumns()
 	{
 
 		if (!$this->meta) {
@@ -264,7 +256,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getModuleFields();
 	}
 
-	function getColumnTableMapping()
+	public function getColumnTableMapping()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -272,7 +264,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getColumnTableMapping();
 	}
 
-	function getFieldColumnMapping()
+	public function getFieldColumnMapping()
 	{
 
 		if (!$this->meta) {
@@ -290,7 +282,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $this->fieldColumnMapping;
 	}
 
-	function getMandatoryFields()
+	public function getMandatoryFields()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -298,7 +290,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getMandatoryFields();
 	}
 
-	function getReferenceFieldDetails()
+	public function getReferenceFieldDetails()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -306,7 +298,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getReferenceFieldDetails();
 	}
 
-	function getOwnerFields()
+	public function getOwnerFields()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -314,17 +306,17 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getOwnerFields();
 	}
 
-	function getEntityName()
+	public function getEntityName()
 	{
 		return $this->objectName;
 	}
 
-	function getEntityId()
+	public function getEntityId()
 	{
 		return $this->objectId;
 	}
 
-	function getEmailFields()
+	public function getEmailFields()
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -332,7 +324,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return parent::getEmailFields();
 	}
 
-	function getFieldIdFromFieldName($fieldName)
+	public function getFieldIdFromFieldName($fieldName)
 	{
 		if (!$this->meta) {
 			$this->retrieveMeta();
@@ -345,7 +337,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return null;
 	}
 
-	function retrieveMeta()
+	public function retrieveMeta()
 	{
 
 		require_once('modules/CustomView/CustomView.php');
@@ -387,7 +379,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$tabid = $this->getTabId();
 		require('user_privileges/user_privileges_' . $this->user->id . '.php');
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql = sprintf("select *, '0' as readonly from vtiger_field where tabid = ? and block in (%s)", generateQuestionMarks($block));
 			$params = array($tabid, $block);
 		} else {
@@ -400,7 +392,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 						ON vtiger_profile2field.fieldid = vtiger_field.fieldid
 						INNER JOIN vtiger_def_org_field
 						ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
-						WHERE vtiger_field.tabid =? AND vtiger_profile2field.visible = 0 
+						WHERE vtiger_field.tabid =? && vtiger_profile2field.visible = 0 
 						AND vtiger_profile2field.profileid IN (%s)
 						AND vtiger_def_org_field.visible = 0 and vtiger_field.block in (%s) and vtiger_field.presence in (0,2) group by columnname", generateQuestionMarks($profileList), generateQuestionMarks($block));
 				$params = array($tabid, $profileList, $block);
@@ -435,7 +427,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		}
 	}
 
-	function getObjectEntityName($webserviceId)
+	public function getObjectEntityName($webserviceId)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -467,7 +459,9 @@ class VtigerCRMObjectMeta extends EntityMeta
 		return $seType;
 	}
 
-	function exists($recordId)
+	protected static $userExistsCache = [];
+
+	public function exists($recordId)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -475,13 +469,20 @@ class VtigerCRMObjectMeta extends EntityMeta
 		// 
 		// NOTE: We are not caching the record existence 
 		// to ensure only latest state from DB is sent.
-		static $user_exists_cache = [];
+
 
 		$exists = false;
 		$sql = '';
 		$params = [$recordId];
 		if ($this->objectName == 'Users') {
-			if (array_key_exists($recordId, $user_exists_cache)) {
+			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+				$users = \App\PrivilegeFile::getUser('id');
+				if (isset($users[$recordId]) && $users[$recordId]['deleted'] == '0') {
+					self::$userExistsCache[$recordId] = true;
+					return true;
+				}
+			}
+			if (isset(self::$userExistsCache[$recordId])) {
 				$exists = true;
 			} else {
 				$sql = "select 1 from vtiger_users where id = ? and deleted = 0 and status = ?";
@@ -501,18 +502,15 @@ class VtigerCRMObjectMeta extends EntityMeta
 			}
 			// Cache the value for further lookup.
 			if ($this->objectName == 'Users') {
-				$user_exists_cache[$recordId] = $exists;
+				self::$userExistsCache[$recordId] = $exists;
 			}
 		}
-
 		return $exists;
 	}
 
 	public function getNameFields()
 	{
-		$adb = PearDatabase::getInstance();
-
-		$data = \includes\Modules::getEntityInfo(getTabModuleName($this->getEffectiveTabId()));
+		$data = \includes\Modules::getEntityInfo(\includes\Modules::getModuleName($this->getEffectiveTabId()));
 		$fieldNames = '';
 		if ($data) {
 			$fieldNames = $data['fieldname'];

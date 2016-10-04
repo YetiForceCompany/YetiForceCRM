@@ -79,7 +79,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
 		}
 		if (!empty($orderBy)) {
@@ -90,12 +90,9 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 			$listQuery .= " LIMIT $startIndex, $pageLimit";
 		}
 
-		$listResult = $db->pquery($listQuery, array());
-		$noOfRecords = $db->num_rows($listResult);
-
-		$listViewRecordModels = array();
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$row = $db->query_result_rowdata($listResult, $i);
+		$listResult = $db->query($listQuery);
+		$listViewRecordModels = [];
+		while ($row = $db->getRow($listResult)) {
 			$record = new $recordModelClass();
 			$record->setData($row);
 
@@ -103,13 +100,12 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 				$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 				$record->setModule($moduleModel);
 			}
-
 			$listViewRecordModels[$record->getId()] = $record;
 		}
 		if ($module->isPagingSupported()) {
 			$pagingModel->calculatePageRange($listViewRecordModels);
 
-			$nextPageResult = $db->pquery($nextListQuery, array());
+			$nextPageResult = $db->query($nextListQuery);
 			$nextPageNumRows = $db->num_rows($nextPageResult);
 
 			if ($nextPageNumRows <= 0) {
@@ -121,7 +117,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 
 	public function getListViewLinks()
 	{
-		$links = array();
+		$links = [];
 		$basicLinks = $this->getBasicLinks();
 
 		foreach ($basicLinks as $basicLink) {
@@ -136,7 +132,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 
 	public function getBasicLinks()
 	{
-		$basicLinks = array();
+		$basicLinks = [];
 		$moduleModel = $this->getModule();
 		if ($moduleModel->hasCreatePermissions())
 			$basicLinks[] = array(
@@ -162,7 +158,8 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 		if ($position) {
 			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
-			for ($i = 1; $i < count($split); $i++) {
+			$countSplit = count($split);
+			for ($i = 1; $i < $countSplit; $i++) {
 				$listQuery .= sprintf(' FROM %s', $split[$i]);
 			}
 		}

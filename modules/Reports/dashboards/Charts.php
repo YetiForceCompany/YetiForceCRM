@@ -8,6 +8,7 @@
  */
 class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
 {
+
 	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -20,7 +21,7 @@ class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
 		$typeChart = '';
 		$reportId = json_decode($widget->get('data'), true);
 		$reportId = $reportId['reportId'];
-		if(!empty($reportId)){
+		if (!empty($reportId)) {
 			$reportModel = Reports_Record_Model::getInstanceById($reportId);
 			$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
 			$typeChart = $reportChartModel->getChartType();
@@ -40,7 +41,8 @@ class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
 			$viewer->view('dashboards/Charts.tpl', $moduleName);
 		}
 	}
-	function getScripts($chartType)
+
+	public function getScripts($chartType)
 	{
 		$jsFileNames = array(
 			'modules.Reports.resources.TypeCharts',

@@ -41,6 +41,9 @@ $languageStrings = [
 	'PLL_RENEWED' => 'Обновлено',
 	'PLL_NOT_RENEWED' => 'Не обновлено',
 	'PLL_NOT_APPLICABLE' => 'Не согласовано',
+	'PLL_RENEWED_VERIFICATION' => 'Renewed (verification)',
+	'PLL_NOT_RENEWED_VERIFICATION' => 'Not renewed (verification)',
+	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Not applicable (verification)',
 	//YetiForce
 	'description' => 'Описание',
 	'attentions' => 'Комментарии',

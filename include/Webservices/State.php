@@ -11,11 +11,11 @@
 class State
 {
 
-	var $success;
-	var $result;
-	var $error;
+	public $success;
+	public $result;
+	public $error;
 
-	function State()
+	public function State()
 	{
 		$this->success = false;
 		$this->result = [];

@@ -8,6 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+require_once 'vendor/yii/Yii.php';
 require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
@@ -40,7 +41,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 * Function to get the instance of the logged in User
 	 * @return Users object
 	 */
-	function getLogin()
+	public function getLogin()
 	{
 		$user = parent::getLogin();
 		if (!$user) {
@@ -90,7 +91,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$handler->postProcess($request);
 	}
 
-	function isInstalled()
+	public function isInstalled()
 	{
 		$dbconfig = AppConfig::main('dbconfig');
 		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
@@ -99,21 +100,18 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
-		$log = LoggerManager::getLogger('System');
-		vglobal('log', $log);
 		if (AppConfig::main('forceSSL') && !vtlib\Functions::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if ($this->isInstalled() === false) {
 			header('Location:install/Install.php');
-			exit;
 		}
 		$request_URL = (vtlib\Functions::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		if (AppConfig::main('forceRedirect') && stripos($request_URL, AppConfig::main('site_URL')) !== 0) {
 			header('Location: ' . AppConfig::main('site_URL'), true, 301);
-			exit;
+			throw new \Exception\AppException('Force Redirect');
 		}
 		Vtiger_Session::init();
 
@@ -123,7 +121,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			require_once('libraries/csrf-magic/csrf-magic.php');
 			require_once('config/csrf_config.php');
 		}
-		// TODO - Get rid of global variable $current_user
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
@@ -156,8 +153,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
 						if ($module == 'Calendar') {
-							// To load MyCalendar instead of list view for calendar
-							//TODO: see if it has to enhanced and get the default view from module model
 							$view = 'Calendar';
 						}
 					} else {
@@ -198,7 +193,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					$this->checkLogin($request);
 				}
 
-				//TODO : Need to review the design as there can potential security threat
 				$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install', 'ModTracker', 'CustomerPortal', 'WSAPP'];
 
 				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
@@ -223,7 +217,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
 			}
 		} catch (Exception $e) {
-			$log->error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 			$tpl = 'OperationNotPermitted.tpl';
 			if ($e instanceof \Exception\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';

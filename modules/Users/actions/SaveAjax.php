@@ -13,7 +13,7 @@ vimport('~include/Webservices/Custom/ChangePassword.php');
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('userExists');

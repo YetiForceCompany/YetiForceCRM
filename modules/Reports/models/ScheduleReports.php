@@ -11,7 +11,7 @@
 class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 {
 
-	var $scheduledFormat = 'CSV';
+	public $scheduledFormat = 'CSV';
 	static $SCHEDULED_DAILY = 1;
 	static $SCHEDULED_WEEKLY = 2;
 	static $SCHEDULED_MONTHLY_BY_DATE = 3;
@@ -61,7 +61,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		$scheduleid = $this->get('scheduleid');
 		$schtime = $this->get('schtime');
 		$scheduleFileType = $this->get('scheduleFileType');
-		if (!preg_match('/^[0-2]\d(:[0-5]\d){1,2}$/', $schtime) or substr($schtime, 0, 2) > 23) {  // invalid time format
+		if (!preg_match('/^[0-2]\d(:[0-5]\d){1,2}$/', $schtime) || substr($schtime, 0, 2) > 23) {  // invalid time format
 			$schtime = '00:00';
 		}
 		$schtime .=':00';
@@ -99,7 +99,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		if ($scheduleid != self::$SCHEDULED_ON_SPECIFIC_DATE) {
 			$nextTriggerTime = $this->getNextTriggerTime();
 		}
-		if ($isReportScheduled == '0' || $isReportScheduled == '' || $isReportScheduled == false) {
+		if ($isReportScheduled == '0' || $isReportScheduled == '' || $isReportScheduled === false) {
 			$deleteScheduledReportSql = "DELETE FROM vtiger_schedulereports WHERE reportid=?";
 			$adb->pquery($deleteScheduledReportSql, array($reportid));
 		} else {
@@ -253,7 +253,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 	 * @global <String> $default_timezone
 	 * @return type
 	 */
-	function getNextTriggerTime()
+	public function getNextTriggerTime()
 	{
 		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.inc';
 		$default_timezone = vglobal('default_timezine');
@@ -343,7 +343,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		return $status;
 	}
 
-	function getEmailContent($reportRecordModel)
+	public function getEmailContent($reportRecordModel)
 	{
 		$site_URL = vglobal('site_URL');
 		$currentModule = vglobal('currentModule');

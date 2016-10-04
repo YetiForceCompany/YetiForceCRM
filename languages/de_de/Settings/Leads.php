@@ -3,7 +3,7 @@
 
 $languageStrings = [
 	'Leads' => 'Leads',
-	'LBL_OPPURTUNITIES' => 'Opportunities',
+	'LBL_OPPURTUNITIES' => 'Chancen',
 	'checkBox' => 'Kontrollkästchen',
 	'currency' => 'Währung',
 	'date' => 'Datum',

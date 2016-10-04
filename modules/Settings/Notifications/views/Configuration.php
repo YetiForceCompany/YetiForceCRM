@@ -45,7 +45,7 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 		return $headerScriptInstances;
 	}
 
-	function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(Vtiger_Request $request)
 	{
 		return vtranslate('LBL_NOTIFICATIONS');
 	}

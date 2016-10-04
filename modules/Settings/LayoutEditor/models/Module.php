@@ -253,9 +253,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
 				$uitype = 71;
-				if(1 == $fieldLength)
+				if (1 == $fieldLength)
 					$dbfldlength = $fieldLength + $decimal + 2;
-				else 
+				else
 					$dbfldlength = $fieldLength + $decimal + 1;
 				$decimal = $decimal + 3;
 				$type = "NUMERIC(" . $dbfldlength . "," . $decimal . ")";
@@ -372,7 +372,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			//Check for fiel exists in both calendar and events module
 			$tabId = ['9', '16'];
 		}
-		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) AND fieldlabel = ?', $db->generateQuestionMarks($tabId));
+		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) && fieldlabel = ?', $db->generateQuestionMarks($tabId));
 		$result = $db->pquery($query, [$tabId, $fieldLabel]);
 		return ($db->getRowCount($result) > 0 ) ? true : false;
 	}
@@ -384,17 +384,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
 		}
-		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) AND (fieldname = ? OR columnname = ?)', $db->generateQuestionMarks($tabId));
+		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) && (fieldname = ? || columnname = ?)', $db->generateQuestionMarks($tabId));
 		$result = $db->pquery($query, [$tabId, $fieldName, $fieldName]);
 		return ($db->getRowCount($result) > 0 ) ? true : false;
 	}
 
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
 	{
-		$exceptions = [];
+		$exceptions = ['id', 'inventoryItemsNo', 'seq'];
 		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
 		foreach ($instance->getAllFields() as $field) {
 			$exceptions[] = $field->getColumnName();
+			if (preg_match('/^' . $field->getColumnName() . '[0-9]/', $fieldName) != 0) {
+				return true;
+			}
 			foreach ($field->getCustomColumn() as $columnName => $dbType) {
 				$exceptions[] = $columnName;
 			}
@@ -435,7 +438,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$presence = [0, 2];
 		$restrictedModules = ['SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter'];
 
-		$query = sprintf('SELECT `name` FROM vtiger_tab WHERE presence IN (%s) AND isentitytype = ? AND `name` NOT IN (%s)', $db->generateQuestionMarks($presence), $db->generateQuestionMarks($restrictedModules));
+		$query = sprintf('SELECT `name` FROM vtiger_tab WHERE presence IN (%s) && isentitytype = ? && `name` NOT IN (%s)', $db->generateQuestionMarks($presence), $db->generateQuestionMarks($restrictedModules));
 		$result = $db->pquery($query, [$presence, 1, $restrictedModules]);
 
 		$modulesList = [];

@@ -110,8 +110,7 @@ class VTEventsManager
 	 */
 	function getTrigger($triggerName)
 	{
-		$adb = $this->adb;
-		return VTEventTrigger::getInstance($adb, $triggerName);
+		return VTEventTrigger::getInstance($triggerName);
 	}
 
 	/**

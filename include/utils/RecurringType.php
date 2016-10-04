@@ -10,28 +10,27 @@
  * ****************************************************************************** */
 require_once('include/utils/utils.php');
 require_once('modules/Calendar/Date.php');
-global $app_strings;
 
 class RecurringType
 {
 
-	var $recur_type;
-	var $startdate;
-	var $enddate;
-	var $recur_freq;
-	var $dayofweek_to_rpt = [];
-	var $repeat_monthby;
-	var $rptmonth_datevalue;
-	var $rptmonth_daytype;
-	var $recurringdates = [];
-	var $reminder;
-	var $recurringenddate;
+	public $recur_type;
+	public $startdate;
+	public $enddate;
+	public $recur_freq;
+	public $dayofweek_to_rpt = [];
+	public $repeat_monthby;
+	public $rptmonth_datevalue;
+	public $rptmonth_daytype;
+	public $recurringdates = [];
+	public $reminder;
+	public $recurringenddate;
 
 	/**
 	 * Constructor for class RecurringType
 	 * @param array  $repeat_arr     - array contains recurring info
 	 */
-	function RecurringType($repeat_arr)
+	public function RecurringType($repeat_arr)
 	{
 
 		$st_date = explode("-", $repeat_arr["startdate"]);
@@ -119,7 +118,9 @@ class RecurringType
 				$userStartDateTime = DateTimeField::convertToUserTimeZone($startDate . ' ' . $startTime);
 				$dayOfWeek = $requestArray['dayofweek_to_repeat'];
 				$dbDaysOfWeek = [];
-				for ($i = 0; $i < count($dayOfWeek); ++$i) {
+				
+				$countDayOfWeek = count($dayOfWeek);
+				for ($i = 0; $i < $countDayOfWeek; ++$i) {
 					$selectedDayOfWeek = $dayOfWeek[$i];
 					$currentDayOfWeek = $userStartDateTime->format('w');
 					$newDate = $userStartDateTime->format('d') + ($selectedDayOfWeek - $currentDayOfWeek);
@@ -202,22 +203,22 @@ class RecurringType
 		return new RecurringType($repeatInfo);
 	}
 
-	function getRecurringType()
+	public function getRecurringType()
 	{
 		return $this->recur_type;
 	}
 
-	function getRecurringFrequency()
+	public function getRecurringFrequency()
 	{
 		return $this->recur_freq;
 	}
 
-	function getRecurringEndDate()
+	public function getRecurringEndDate()
 	{
 		return $this->recurringenddate;
 	}
 
-	function getDBRecurringInfoString()
+	public function getDBRecurringInfoString()
 	{
 		$recurringType = $this->getRecurringType();
 		$recurringInfo = '';
@@ -241,7 +242,7 @@ class RecurringType
 		return $recurringInfo;
 	}
 
-	function getUserRecurringInfo()
+	public function getUserRecurringInfo()
 	{
 		$recurringType = $this->getRecurringType();
 		$recurringInfo = [];
@@ -287,7 +288,7 @@ class RecurringType
 		return $recurringInfo;
 	}
 
-	function getDisplayRecurringInfo()
+	public function getDisplayRecurringInfo()
 	{
 		$currentModule = vglobal('currentModule');
 
@@ -295,7 +296,7 @@ class RecurringType
 
 		$recurringInfo = $this->getUserRecurringInfo();
 
-		$displayRecurringData['recurringcheck'] = getTranslatedString('LBL_YES', $currentModule);
+		$displayRecurringData['recurringcheck'] = \includes\Language::translate('LBL_YES', $currentModule);
 		$displayRecurringData['repeat_frequency'] = $this->getRecurringFrequency();
 		$displayRecurringData['recurringtype'] = $this->getRecurringType();
 
@@ -303,25 +304,25 @@ class RecurringType
 			$noOfDays = count($recurringInfo['dayofweek_to_repeat']);
 			$translatedRepeatDays = [];
 			for ($i = 0; $i < $noOfDays; ++$i) {
-				$translatedRepeatDays[] = getTranslatedString('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][$i], $currentModule);
+				$translatedRepeatDays[] = \includes\Language::translate('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][$i], $currentModule);
 			}
-			$displayRecurringData['repeat_str'] = getTranslatedString('On', $currentModule) . ' ' . implode(',', $translatedRepeatDays);
+			$displayRecurringData['repeat_str'] = \includes\Language::translate('On', $currentModule) . ' ' . implode(',', $translatedRepeatDays);
 		} elseif ($this->getRecurringType() == 'Monthly') {
 
 			$translatedRepeatDays = [];
 			$displayRecurringData['repeatMonth'] = $recurringInfo['repeatmonth_type'];
 			if ($recurringInfo['repeatmonth_type'] == 'date') {
 				$displayRecurringData['repeatMonth_date'] = $recurringInfo['repeatmonth_date'];
-				$displayRecurringData['repeat_str'] = getTranslatedString('on', $currentModule)
+				$displayRecurringData['repeat_str'] = \includes\Language::translate('on', $currentModule)
 					. ' ' . $recurringInfo['repeatmonth_date']
-					. ' ' . getTranslatedString('day of the month', $currentModule);
+					. ' ' . \includes\Language::translate('day of the month', $currentModule);
 			} else {
 				$displayRecurringData['repeatMonth_daytype'] = $recurringInfo['repeatmonth_daytype'];
 				$displayRecurringData['repeatMonth_day'] = $recurringInfo['dayofweek_to_repeat'][0];
-				$translatedRepeatDay = getTranslatedString('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][0], $currentModule);
+				$translatedRepeatDay = \includes\Language::translate('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][0], $currentModule);
 
-				$displayRecurringData['repeat_str'] = getTranslatedString('On', $currentModule)
-					. ' ' . getTranslatedString($recurringInfo['repeatmonth_daytype'], $currentModule)
+				$displayRecurringData['repeat_str'] = \includes\Language::translate('On', $currentModule)
+					. ' ' . \includes\Language::translate($recurringInfo['repeatmonth_daytype'], $currentModule)
 					. ' ' . $translatedRepeatDay;
 			}
 		}
@@ -334,7 +335,7 @@ class RecurringType
 	 *  return  array   $recurringDates     -  Recurring Dates in format
 	 * 	Recurring date will be returned in DB Time Zone, as well as DB format
 	 */
-	function _getRecurringDates()
+	public function _getRecurringDates()
 	{
 		$startdateObj = $this->startdate;
 		$startdate = $startdateObj->get_DB_formatted_date();
@@ -372,8 +373,9 @@ class RecurringType
 				if (count($this->dayofweek_to_rpt) == 0) {
 					$this->dayofweek_to_rpt[] = $this->startdate->dayofweek;
 				}
-
-				for ($i = 0; $i < count($this->dayofweek_to_rpt); $i++) {
+				
+				$countDayofweekToRpt = count($this->dayofweek_to_rpt);
+				for ($i = 0; $i < $countDayofweekToRpt; $i++) {
 					$repeat = $this->dayofweek_to_rpt[$i];
 					if ($repeat == 0) {
 						$repeat = $repeat + 1;
@@ -482,8 +484,8 @@ class RecurringType
 				else
 					$index = $year + 1;
 				if ($index > 2037 || $index < 1970) {
-					print("<font color='red'>" . $app_strings['LBL_CAL_LIMIT_MSG'] . "</font>");
-					exit;
+					print("<font color='red'>" . \includes\Language::translate('LBL_CAL_LIMIT_MSG') . "</font>");
+					throw new \Exception\AppException('LBL_CAL_LIMIT_MSG');
 				}
 				$date_arr = Array(
 					'day' => $date,
@@ -496,7 +498,7 @@ class RecurringType
 					$recurringDates[] = $tempdate;
 				}
 			} else {
-				die("Recurring Type " . $this->recur_type . " is not defined");
+				throw new \Exception\AppException("Recurring Type " . $this->recur_type . " is not defined");
 			}
 		}
 		return $recurringDates;
@@ -507,7 +509,7 @@ class RecurringType
 	 *  @param $dateObj     -- date object  :: Type vt_DateTime Object
 	 *  return $dateObj -- the date object on which the event repeats :: Type vt_DateTime Object
 	 */
-	function getFistdayofmonth($dayofweek, & $dateObj)
+	public function getFistdayofmonth($dayofweek, & $dateObj)
 	{
 		if ($dayofweek < $dateObj->dayofweek) {
 			$index = (7 - $dateObj->dayofweek) + $dayofweek;
@@ -530,7 +532,7 @@ class RecurringType
 	 *  @param $dateObj     -- date object  :: Type vt_DateTime Object
 	 *  return $dateObj -- the date object on which the event repeats :: Type vt_DateTime Object
 	 */
-	function getLastdayofmonth($dayofweek, & $dateObj)
+	public function getLastdayofmonth($dayofweek, & $dateObj)
 	{
 		if ($dayofweek == $dateObj->dayofweek) {
 			return $dateObj;

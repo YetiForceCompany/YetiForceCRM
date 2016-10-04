@@ -21,19 +21,12 @@ if (!in_array('mobile', $enabledServices)) {
 	$apiLog = new \Exception\NoPermittedToApi();
 	$apiLog->stop(['status' => 0, 'message' => 'Mobile - Service is not active']);
 }
-
-$adb = PearDatabase::getInstance();
-$log = &LoggerManager::getLogger('mobileApps');
-vglobal('log', $log);
-
-$adb = PearDatabase::getInstance();
-$log->info('Start mobile service');
+\App\Log::trace('Start mobile service');
 
 spl_autoload_register('spl_autoload');
 $r = new Restler();
 $r->addAPIClass('Test');
 $r->addAPIClass('HistoryCall');
 $r->addAPIClass('PushCall');
-//$r->addAPIClass('PushMessage');
 $r->handle();
-$log->info('End mobile service');
+\App\Log::trace('End mobile service');

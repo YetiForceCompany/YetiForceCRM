@@ -34,7 +34,7 @@ abstract class ServerPlugin {
      *
      * @return array
      */
-    function getFeatures() {
+    public function getFeatures() {
 
         return [];
 
@@ -50,7 +50,7 @@ abstract class ServerPlugin {
      * @param string $path
      * @return array
      */
-    function getHTTPMethods($path) {
+    public function getHTTPMethods($path) {
 
         return [];
 
@@ -64,7 +64,7 @@ abstract class ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return get_class($this);
 
@@ -80,7 +80,7 @@ abstract class ServerPlugin {
      * @param string $uri
      * @return array
      */
-    function getSupportedReportSet($uri) {
+    public function getSupportedReportSet($uri) {
 
         return [];
 
@@ -97,7 +97,7 @@ abstract class ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

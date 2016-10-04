@@ -20,7 +20,7 @@ class MethodNotAllowed extends DAV\Exception {
      *
      * @return int
      */
-    function getHTTPCode() {
+    public function getHTTPCode() {
 
         return 405;
 
@@ -34,7 +34,7 @@ class MethodNotAllowed extends DAV\Exception {
      * @param \Sabre\DAV\Server $server
      * @return array
      */
-    function getHTTPHeaders(\Sabre\DAV\Server $server) {
+    public function getHTTPHeaders(\Sabre\DAV\Server $server) {
 
         $methods = $server->getAllowedMethods($server->getRequestUri());
 

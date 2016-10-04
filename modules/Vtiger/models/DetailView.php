@@ -119,8 +119,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			];
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$homeModel = Vtiger_Module_Model::getInstance('Dashboard');
-		if ($userPrivilegesModel->hasModulePermission($homeModel->getId()) && $userPrivilegesModel->hasModuleActionPermission($homeModel->getId(), 'NotificationCreateMessage')) {
+		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission('Dashboard', 'NotificationCreateMessage')) {
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
@@ -178,7 +177,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
@@ -269,7 +268,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$relationModels = $parentModuleModel->getRelations();
 
 		foreach ($relationModels as $relation) {
-			//TODO : Way to get limited information than getting all the information
 			$link = array(
 				'linktype' => 'DETAILVIEWRELATED',
 				'linklabel' => $relation->get('label'),
@@ -374,7 +372,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		//$recordModel->trackView();
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
 	}
 

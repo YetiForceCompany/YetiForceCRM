@@ -12,7 +12,7 @@ abstract class AbstractAuth
 	protected $currentServer;
 	protected $api;
 
-	function setApi($api)
+	public function setApi($api)
 	{
 		$this->api = $api;
 	}

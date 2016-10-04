@@ -14,7 +14,6 @@
  * ****************************************************************************** */
 /* * *******************************************************************************
  * $Header$
- * Description:  TODO: To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
@@ -50,17 +49,10 @@ function getKeyMetrics($maxval, $calCnt)
 {
 	require_once("include/Tracker.php");
 	require_once('modules/CustomView/CustomView.php');
-	require_once('include/logging.php');
 	require_once('include/ListView/ListView.php');
 
 	global $app_strings;
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
-	$metricviewnames = "'Hot Leads'";
-	$current_language = vglobal('current_language');
-	$current_module_strings = return_module_language($current_language, "CustomView");
-	$log = LoggerManager::getLogger('metrics');
-
 	$metriclists = getMetricList();
 
 	// Determine if the KeyMetrics widget should appear or not?
@@ -68,7 +60,7 @@ function getKeyMetrics($maxval, $calCnt)
 		return count($metriclists);
 	}
 
-	$log->info("Metrics :: Successfully got MetricList to be displayed");
+	\App\Log::trace("Metrics :: Successfully got MetricList to be displayed");
 	if (isset($metriclists)) {
 		$current_user = vglobal('current_user');
 		foreach ($metriclists as $key => $metriclist) {
@@ -94,7 +86,7 @@ function getKeyMetrics($maxval, $calCnt)
 				}
 			}
 		}
-		$log->info("Metrics :: Successfully build the Metrics");
+		\App\Log::trace("Metrics :: Successfully build the Metrics");
 	}
 	$title = [];
 	$title[] = 'keyMetrics.gif';
@@ -111,7 +103,7 @@ function getKeyMetrics($maxval, $calCnt)
 			$value = [];
 			$CVname = (strlen($metriclist['name']) > 20) ? (substr($metriclist['name'], 0, 20) . '...') : $metriclist['name'];
 			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . $CVname . '</a> <font style="color:#6E6E6E;">(' . $metriclist['user'] . ')</font>';
-			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . getTranslatedString($metriclist['module']) . '</a>';
+			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . \includes\Language::translate($metriclist['module']) . '</a>';
 			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . $metriclist['count'] . '</a>';
 			$entries[$metriclist['id']] = $value;
 		}
@@ -142,7 +134,7 @@ function getMetricList($filters = [])
 		array_push($sparams, $privilegesModel->getId());
 	}
 	if ($filters) {
-		$ssql .= ' AND vtiger_customview.cvid IN (' . $db->generateQuestionMarks($filters) . ')';
+		$ssql .= ' && vtiger_customview.cvid IN (' . $db->generateQuestionMarks($filters) . ')';
 		$sparams[] = $filters;
 	}
 	$ssql .= ' order by vtiger_customview.entitytype';

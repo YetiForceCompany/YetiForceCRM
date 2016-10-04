@@ -23,7 +23,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 
-		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $recordId) && $recordModel->get('status') == 'Active') {
+		if (($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $recordId) && $recordModel->get('status') == 'Active') {
 			$recordModel = $this->getRecord();
 
 			$detailViewLinks = array(

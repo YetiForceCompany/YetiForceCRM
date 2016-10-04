@@ -9,7 +9,7 @@
 class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('updateConfig');
@@ -28,7 +28,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		));
 		$response->emit();
 	}
-	
+
 	public function saveSwitchUsers(Vtiger_Request $request)
 	{
 		$param = $request->get('param');
@@ -40,13 +40,13 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		));
 		$response->emit();
 	}
-	
+
 	public function saveLocks(Vtiger_Request $request)
 	{
 		$param = $request->get('param');
 		$moduleModel = Settings_Users_Module_Model::getInstance();
 		$moduleModel->saveLocks($param);
-		
+
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))

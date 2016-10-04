@@ -1,5 +1,5 @@
 <?php
-/*************************************************************************************
+/* * ***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Ondemand Commercial
@@ -7,24 +7,24 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Reports_ChartDetail_View extends Vtiger_Index_View {
+class Reports_ChartDetail_View extends Vtiger_Index_View
+{
 
-	public function checkPermission(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-		$moduleModel = Reports_Module_Model::getInstance($moduleName);
-
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId()) && !$reportModel->isEditable()) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
-	
-	public function preProcess(Vtiger_Request $request, $display = true) {
+
+	public function preProcess(Vtiger_Request $request, $display = true)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -38,17 +38,16 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 
 		$primaryModule = $reportModel->getPrimaryModule();
 		$secondaryModules = $reportModel->getSecondaryModules();
-		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
-		$permission = $userPrivilegesModel->hasModulePermission($primaryModuleModel->getId());
+		$permission = $userPrivilegesModel->hasModulePermission($primaryModule);
 
-		if(!$permission) {
+		if (!$permission) {
 			$viewer->assign('MODULE', $primaryModule);
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', $primaryModule);
-			exit;
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		// Advanced filter conditions
@@ -63,20 +62,20 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 		$viewer->assign('SECONDARY_MODULE_RECORD_STRUCTURES', $secondaryModuleRecordStructures);
 
 		$secondaryModuleIsCalendar = strpos($secondaryModules, 'Calendar');
-		if(($primaryModule == 'Calendar') || ($secondaryModuleIsCalendar !== FALSE)){
+		if (($primaryModule == 'Calendar') || ($secondaryModuleIsCalendar !== false)) {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
-		} else{
+		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', Vtiger_Field_Model::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
-        $dateFilters = Vtiger_Field_Model::getDateFilterTypes();
-        foreach($dateFilters as $comparatorKey => $comparatorInfo) {
-            $comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
-            $comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
-            $comparatorInfo['label'] = vtranslate($comparatorInfo['label'],$moduleName);
-            $dateFilters[$comparatorKey] = $comparatorInfo;
-        }
+		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
+		foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
+			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
+			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
+			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $moduleName);
+			$dateFilters[$comparatorKey] = $comparatorInfo;
+		}
 
 		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
 
@@ -84,7 +83,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 		$viewer->assign('SECONDARY_MODULE_FIELDS', $reportModel->getSecondaryModuleFieldsForAdvancedReporting());
 		$viewer->assign('CALCULATION_FIELDS', $reportModel->getModuleCalculationFieldsForReport());
 
-        $viewer->assign('DATE_FILTERS', $dateFilters);
+		$viewer->assign('DATE_FILTERS', $dateFilters);
 		$viewer->assign('REPORT_MODEL', $reportModel);
 		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('MODULE', $moduleName);
@@ -93,16 +92,18 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 		$viewer->view('ChartReportHeader.tpl', $moduleName);
 	}
 
-	function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$mode = $request->getMode();
-		if(!empty($mode)) {
+		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
 		echo $this->getReport($request);
 	}
 
-	function getReport(Vtiger_Request $request) {
+	public function getReport(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -111,7 +112,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 		$reportModel = Reports_Record_Model::getInstanceById($record);
 		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
 		$secondaryModules = $reportModel->getSecondaryModules();
-		if(empty($secondaryModules)) {
+		if (empty($secondaryModules)) {
 			$viewer->assign('CLICK_THROUGH', true);
 		}
 
@@ -119,8 +120,8 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 		$viewer->assign('PRIMARY_MODULE_FIELDS', $reportModel->getPrimaryModuleFields());
 		$viewer->assign('SECONDARY_MODULE_FIELDS', $reportModel->getSecondaryModuleFields());
 		$viewer->assign('CALCULATION_FIELDS', $reportModel->getModuleCalculationFieldsForReport());
-        
-        $data = $reportChartModel->getData();
+
+		$data = $reportChartModel->getData();
 		$viewer->assign('CHART_TYPE', $reportChartModel->getChartType());
 		$viewer->assign('DATA', json_encode($data, JSON_HEX_APOS));
 		$viewer->assign('REPORT_MODEL', $reportModel);
@@ -128,7 +129,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('REPORT_MODEL', $reportModel);
-		$viewer->assign('SECONDARY_MODULES',$secondaryModules);
+		$viewer->assign('SECONDARY_MODULES', $secondaryModules);
 		$viewer->assign('MODULE', $moduleName);
 
 		$viewer->view('ChartReportContents.tpl', $moduleName);
@@ -139,7 +140,8 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
+	public function getFooterScripts(Vtiger_Request $request)
+	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
@@ -154,7 +156,6 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 			"modules.$moduleName.resources.ChartEdit3",
 			"modules.$moduleName.resources.ChartDetailView",
 			"modules.$moduleName.resources.TypeCharts",
-
 			'~libraries/jquery/jqplot/jquery.jqplot.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
@@ -175,15 +176,15 @@ class Reports_ChartDetail_View extends Vtiger_Index_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_CssScript_Model instances
 	 */
-	public function getHeaderCss(Vtiger_Request $request) {
+	public function getHeaderCss(Vtiger_Request $request)
+	{
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
 		$headerCss = array(
 			'~libraries/jquery/jqplot/jquery.jqplot.min.css',
 		);
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
-		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances , $cssScripts);
+		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances, $cssScripts);
 		return $headerCssScriptInstances;
 	}
-
 }

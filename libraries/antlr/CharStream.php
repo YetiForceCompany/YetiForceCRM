@@ -50,15 +50,15 @@ interface CharStream extends IntStream {
 	public function LT($i);
 
 	/** ANTLR tracks the line information automatically */
-	function getLine();
+	public function getLine();
 
 	/** Because this stream can rewind, we need to be able to reset the line */
-	function setLine($line);
+	public function setLine($line);
 
-	function setCharPositionInLine($pos);
+	public function setCharPositionInLine($pos);
 
 	/** The index of the character relative to the beginning of the line 0..n-1 */
-	function getCharPositionInLine();
+	public function getCharPositionInLine();
 }
 
 

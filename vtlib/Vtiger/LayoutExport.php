@@ -32,7 +32,7 @@ class LayoutExport extends Package
 	 * Initialize Export
 	 * @access private
 	 */
-	function __initExport($layoutName)
+	public function __initExport($layoutName)
 	{
 		// Security check to ensure file is withing the web folder.
 		Utils::checkFileAccessForInclusion("layouts/$layoutName/skins/style.less");
@@ -48,7 +48,7 @@ class LayoutExport extends Package
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	function export($layoutName, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export($layoutName, $todir = '', $zipfilename = '', $directDownload = false)
 	{
 		$this->__initExport($layoutName);
 
@@ -87,7 +87,7 @@ class LayoutExport extends Package
 	 * Export Layout Handler
 	 * @access private
 	 */
-	function export_Layout($layoutName)
+	public function export_Layout($layoutName)
 	{
 		$adb = \PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
@@ -112,7 +112,7 @@ class LayoutExport extends Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	function export_Dependencies()
+	public function export_Dependencies()
 	{
 		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = false;
@@ -131,7 +131,7 @@ class LayoutExport extends Package
 	{
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
-		if (strtolower($name) == 'basic' && $overrideCore == false)
+		if (strtolower($name) == 'basic' && $overrideCore === false)
 			return;
 
 		$useisdefault = ($isdefault) ? 1 : 0;

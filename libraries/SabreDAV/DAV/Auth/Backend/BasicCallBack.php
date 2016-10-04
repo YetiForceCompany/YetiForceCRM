@@ -32,7 +32,7 @@ class BasicCallBack extends AbstractBasic {
      * @param callable $callBack
      * @return void
      */
-    function __construct(callable $callBack) {
+    public function __construct(callable $callBack) {
 
         $this->callBack = $callBack;
 

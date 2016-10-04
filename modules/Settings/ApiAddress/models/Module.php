@@ -14,77 +14,48 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getConfig($type = NULL)
 	{
-		$log = vglobal('log');
-
-		$db = PearDatabase::getInstance();
-		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . "(" . $type . ") method ...");
-
-		$sql = "SELECT * FROM `vtiger_apiaddress` ";
-		$params = array();
-
+		$rawData = [];
+		$query = (new \App\db\Query())->from('vtiger_apiaddress');
 		if ($type) {
-			$params[] = $type;
-			"WHERE `type` = ?;";
+			$query->where(['type' => $type]);
 		}
-
-		$result = $db->pquery($sql, $params, true);
-
-		$rawData = array();
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$element = $db->query_result_rowdata($result, $i);
-
-			$rawData[$element['type']][$element['name']] = $element['val'];
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$rawData[$row['type']][$row['name']] = $row['val'];
 		}
-
-		$log->debug("Exiting " . __CLASS__ . "::" . __METHOD__ . "(" . $type . ") method ...");
-
 		return $rawData;
 	}
 
 	public function setConfig(array $elements)
 	{
-
-		$log = vglobal('log');
-
-		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . " method ...");
-
-		$db = PearDatabase::getInstance();
-
-
+		\App\Log::trace('Entering set api address config');
 		$apiName = $elements['api_name'];
 		unset($elements['api_name']);
-
+		$result = 0;
 		if (count($elements)) {
+			$db = \App\DB::getInstance();
 			foreach ($elements as $key => $value) {
-				$sqlVar = array();
-
-				$sqlVar[] = $value;
-				$sqlVar[] = $apiName;
-				$sqlVar[] = $key;
-
-				$sql = "UPDATE `vtiger_apiaddress` SET `val` = ? WHERE `type` = ? AND `name` = ?";
-
-				$result = $db->pquery($sql, $sqlVar, true);
+				$result = $db->createCommand()
+					->update('vtiger_apiaddress', [
+						'val' => $value
+						], ['type' => $apiName, 'name' => $key])
+					->execute();
 			}
 		}
-
-		$log->debug("Exiting " . __CLASS__ . "::" . __METHOD__ . " method ...");
-
+		\App\Log::trace('Exiting set api address config');
 		return $result;
 	}
-
 	/*
 	 * Function that checks if keys for chosen adress api are entered, hence if this api is active
 	 * @return <Boolean> - true if active, false otherwise
 	 */
+
 	public static function isActive()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT COUNT(1) AS num FROM `vtiger_apiaddress` WHERE `name` = "nominatim" AND `val` > "0";';
-		$result = $db->query($query);
-
-		return (bool) $db->getSingleValue($result);
+		return (new \App\db\Query())
+				->from('vtiger_apiaddress')
+				->where(['name' => 'nominatim'])
+				->andWhere(['>', 'val', 0])
+				->count(1);
 	}
 }

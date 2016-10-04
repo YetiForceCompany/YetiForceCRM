@@ -30,7 +30,7 @@ class Module extends ModuleBasic
 	 * Get related list sequence to use
 	 * @access private
 	 */
-	function __getNextRelatedListSequence()
+	public function __getNextRelatedListSequence()
 	{
 		$adb = \PearDatabase::getInstance();
 		$max_sequence = 0;
@@ -49,7 +49,7 @@ class Module extends ModuleBasic
 	 *
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
-	function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'get_related_list')
+	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'get_related_list')
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -58,7 +58,7 @@ class Module extends ModuleBasic
 		if (empty($label))
 			$label = $moduleInstance->name;
 
-		$result = $adb->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? AND related_tabid = ? AND name = ? AND label = ?;', [$this->id, $moduleInstance->id, $functionName, $label]);
+		$result = $adb->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? && related_tabid = ? && name = ? && label = ?;', [$this->id, $moduleInstance->id, $functionName, $label]);
 		if ($result->rowCount() > 0) {
 			self::log("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists");
 			return;
@@ -104,7 +104,7 @@ class Module extends ModuleBasic
 	 * @param String Label to display in related list (default is target module name)
 	 * @param String Callback function name of this module to use as handler
 	 */
-	function unsetRelatedList($moduleInstance, $label = '', $function_name = 'get_related_list')
+	public function unsetRelatedList($moduleInstance, $label = '', $function_name = 'get_related_list')
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -114,7 +114,7 @@ class Module extends ModuleBasic
 		if (empty($label))
 			$label = $moduleInstance->name;
 
-		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE tabid=? AND related_tabid=? AND name=? AND label=?", Array($this->id, $moduleInstance->id, $function_name, $label));
+		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE tabid=? && related_tabid=? && name=? && label=?", Array($this->id, $moduleInstance->id, $function_name, $label));
 
 		self::log("Unsetting relation with $moduleInstance->name ... DONE");
 	}
@@ -130,7 +130,7 @@ class Module extends ModuleBasic
 	 * NOTE: $url can have variables like $MODULE (module for which link is associated),
 	 * $RECORD (record on which link is dispalyed)
 	 */
-	function addLink($type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null)
+	public function addLink($type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null)
 	{
 		Link::addLink($this->id, $type, $label, $url, $iconpath, $sequence, $handlerInfo);
 	}
@@ -141,7 +141,7 @@ class Module extends ModuleBasic
 	 * @param String Display label to lookup
 	 * @param String URL value to lookup
 	 */
-	function deleteLink($type, $label, $url = false)
+	public function deleteLink($type, $label, $url = false)
 	{
 		Link::deleteLink($this->id, $type, $label, $url);
 	}
@@ -149,7 +149,7 @@ class Module extends ModuleBasic
 	/**
 	 * Get all the custom links related to this module.
 	 */
-	function getLinks()
+	public function getLinks()
 	{
 		return Link::getAll($this->id);
 	}
@@ -157,7 +157,7 @@ class Module extends ModuleBasic
 	/**
 	 * Get all the custom links related to this module for exporting.
 	 */
-	function getLinksForExport()
+	public function getLinksForExport()
 	{
 		return Link::getAllForExport($this->id);
 	}
@@ -165,7 +165,7 @@ class Module extends ModuleBasic
 	/**
 	 * Initialize webservice setup for this module instance.
 	 */
-	function initWebservice()
+	public function initWebservice()
 	{
 		Webservice::initialize($this);
 	}
@@ -173,12 +173,12 @@ class Module extends ModuleBasic
 	/**
 	 * De-Initialize webservice setup for this module instance.
 	 */
-	function deinitWebservice()
+	public function deinitWebservice()
 	{
 		Webservice::uninitialize($this);
 	}
 
-	function createFiles(Field $entityField)
+	public function createFiles(Field $entityField)
 	{
 		$targetpath = 'modules/' . $this->name;
 
@@ -224,7 +224,7 @@ class Module extends ModuleBasic
 	 * Get instance by id or name
 	 * @param mixed id or name of the module
 	 */
-	static function getInstance($value)
+	public static function getInstance($value)
 	{
 		$instance = false;
 		$data = Functions::getModuleData($value);
@@ -239,7 +239,7 @@ class Module extends ModuleBasic
 	 * Get instance of the module class.
 	 * @param String Module name
 	 */
-	static function getClassInstance($modulename)
+	public static function getClassInstance($modulename)
 	{
 		if ($modulename == 'Calendar')
 			$modulename = 'Activity';
@@ -247,7 +247,7 @@ class Module extends ModuleBasic
 		$instance = false;
 		$filepath = "modules/$modulename/$modulename.php";
 		if (Utils::checkFileAccessForInclusion($filepath, false)) {
-			checkFileAccessForInclusion($filepath);
+			Deprecated::checkFileAccessForInclusion($filepath);
 			include_once($filepath);
 			if (class_exists($modulename)) {
 				$instance = new $modulename();
@@ -259,15 +259,47 @@ class Module extends ModuleBasic
 	/**
 	 * Fire the event for the module (if vtlib_handler is defined)
 	 */
-	static function fireEvent($modulename, $event_type)
+	public static function fireEvent($modulename, $eventType)
 	{
+		$return = false;
 		$instance = self::getClassInstance((string) $modulename);
 		if ($instance) {
 			if (method_exists($instance, 'vtlib_handler')) {
-				self::log("Invoking vtlib_handler for $event_type ...START");
-				$instance->vtlib_handler((string) $modulename, (string) $event_type);
-				self::log("Invoking vtlib_handler for $event_type ...DONE");
+				self::log("Invoking vtlib_handler for $eventType ...START");
+				$fire = $instance->vtlib_handler((string) $modulename, (string) $eventType);
+				if ($fire === null || $fire === true) {
+					$return = true;
+				}
+				self::log("Invoking vtlib_handler for $eventType ...DONE");
 			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Toggle the module (enable/disable)
+	 */
+	public static function toggleModuleAccess($moduleName, $enableDisable)
+	{
+		$eventType = false;
+		if ($enableDisable === true) {
+			$enableDisable = 0;
+			$eventType = Module::EVENT_MODULE_ENABLED;
+		} else if ($enableDisable === false) {
+			$enableDisable = 1;
+			$eventType = Module::EVENT_MODULE_DISABLED;
+		}
+		$fire = self::fireEvent($moduleName, $eventType);
+		if ($fire) {
+			$db = \PearDatabase::getInstance();
+			$db->update('vtiger_tab', [
+				'presence' => $enableDisable
+				], 'name = ?', [$moduleName]
+			);
+			Deprecated::createModuleMetaFile();
+			vtlib_RecreateUserPrivilegeFiles();
+			$menuRecordModel = new \Settings_Menu_Record_Model();
+			$menuRecordModel->refreshMenuFiles();
 		}
 	}
 }

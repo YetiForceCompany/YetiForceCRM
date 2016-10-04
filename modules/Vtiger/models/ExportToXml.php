@@ -69,7 +69,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		return $entries;
 	}
 
-	function sanitizeInventoryValue($value, $columnName, $formated = false)
+	public function sanitizeInventoryValue($value, $columnName, $formated = false)
 	{
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 		$inventoryFields = $inventoryFieldModel->getFields();
@@ -141,7 +141,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$zip = new ZipArchive();
 		$zip->open($zipName, ZipArchive::CREATE);
 
-		for ($i = 0; $i < count($this->xmlList); $i++) {
+		$countXmlList = count($this->xmlList);
+		for ($i = 0; $i < $countXmlList; $i++) {
 			$xmlFile = basename($this->xmlList[$i]);
 			$xmlFile = explode('_', $xmlFile);
 			array_shift($xmlFile);
@@ -164,7 +165,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	{
 		$xml = new XMLWriter();
 		$xml->openMemory();
-		$xml->setIndent(TRUE);
+		$xml->setIndent(true);
 		$xml->startDocument('1.0', 'UTF-8');
 
 		$xml->startElement('MODULE_FIELDS');
@@ -224,9 +225,6 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		}
 		return false;
 	}
-	/*
-	 * TODO
-	 */
 
 	public function createXmlFromTemplate($entries, $entriesInventory)
 	{

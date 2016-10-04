@@ -174,15 +174,15 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$add = array_diff($modules, $oldModules);
 
 			foreach ($removed as $moduleName => &$tabId) {
-				$db->delete('vtiger_group2modules', 'groupid = ? AND tabid = ?', [$groupId, $tabId]);
-				\includes\Privileges::setUpdater($moduleName);
+				$db->delete('vtiger_group2modules', 'groupid = ? && tabid = ?', [$groupId, $tabId]);
+				\App\Privilege::setUpdater($moduleName);
 			}
 			foreach ($add as &$tabId) {
 				$db->insert('vtiger_group2modules', [
 					'tabid' => $tabId,
 					'groupid' => $groupId
 				]);
-				\includes\Privileges::setUpdater(vtlib\Functions::getModuleName($tabId));
+				\App\Privilege::setUpdater(vtlib\Functions::getModuleName($tabId));
 			}
 		}
 		$this->recalculate($oldUsersList);
@@ -257,27 +257,31 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		foreach ($members['RoleAndSubordinates'] as $memberModel) {
-			$roleModel = new Settings_Roles_Record_Model();
-			$roleModel->set('roleid', $memberModel->get('roleId'));
-
+			$roleModel = Settings_Roles_Record_Model::getInstanceById($memberModel->get('roleId'));
 			$roleUsers = $roleModel->getUsers();
 			foreach ($roleUsers as $userId => $userRecordModel) {
 				$userIdsList[$userId] = $userId;
 			}
-		}
+			$childernRoles = $roleModel->getAllChildren();
+			foreach ($childernRoles as $role) {
+				$childRoleModel = new Settings_Roles_Record_Model();
+				$childRoleModel->set('roleid', $role->getId());
 
-		if (array_key_exists(1, $userIdsList)) {
-			unset($userIdsList[1]);
-		}
-
-		foreach ($userIdsList as $userId) {
-			$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
-			if ($nonAdmin && $userRecordModel->isAdminUser()) {
-				continue;
+				$roleUsers = $childRoleModel->getUsers();
+				foreach ($roleUsers as $userId => $userRecordModel) {
+					$userIdsList[$userId] = $userId;
+				}
 			}
-			$usersList[$userId] = $userRecordModel;
 		}
-		return $usersList;
+		if ($nonAdmin) {
+			foreach ($userIdsList as $key => $userId) {
+				$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
+				if ($userRecordModel->isAdminUser()) {
+					unset($userIdsList[$key]);
+				}
+			}
+		}
+		return $userIdsList;
 	}
 
 	protected function transferOwnership($transferToGroup)
@@ -291,11 +295,11 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$db->pquery($query, $params);
 
 		if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
-			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
 			$params = array($transferGroupId, 'defaultassignee', $groupId);
 			$db->pquery($query, $params);
 
-			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? AND prefvalue = ?';
+			$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
 			$params = array($transferGroupId, 'userid', $groupId);
 			$db->pquery($query, $params);
 		}
@@ -337,7 +341,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$db->pquery('DELETE FROM vtiger_group2role WHERE groupid=?', array($groupId));
 		$db->pquery('DELETE FROM vtiger_group2rs WHERE groupid=?', array($groupId));
 		$db->pquery('DELETE FROM vtiger_users2group WHERE groupid=?', array($groupId));
-		$db->pquery("DELETE FROM vtiger_reportsharing WHERE shareid=? AND setype='groups'", array($groupId));
+		$db->pquery("DELETE FROM vtiger_reportsharing WHERE shareid=? && setype='groups'", array($groupId));
 		$db->pquery('DELETE FROM vtiger_group2modules WHERE groupid=?', array($groupId));
 		$db->pquery('DELETE FROM vtiger_groups WHERE groupid=?', array($groupId));
 	}
@@ -423,7 +427,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$params = array($name);
 
 		if (!empty($excludedRecordId)) {
-			$sql.= ' AND groupid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
+			$sql.= ' && groupid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
 			$params = array_merge($params, $excludedRecordId);
 		}
 

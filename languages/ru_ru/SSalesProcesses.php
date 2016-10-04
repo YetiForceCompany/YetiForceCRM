@@ -21,6 +21,7 @@ $languageStrings = [
 	'FL_SOURCE' => 'Источник',
 	'FL_TYPE' => 'Тип',
 	'FL_STATUS' => 'Статус',
+	'FL_CAMPAIGN' => 'Кампания',
 	//Picklist
 	'PLL_WEBSITE' => 'Сайт',
 	'PLL_PHONE' => 'Телефон',

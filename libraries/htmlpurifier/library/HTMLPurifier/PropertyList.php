@@ -75,7 +75,7 @@ class HTMLPurifier_PropertyList
      */
     public function reset($name = null)
     {
-        if ($name == null) {
+        if ($name === null) {
             $this->data = array();
         } else {
             unset($this->data[$name]);

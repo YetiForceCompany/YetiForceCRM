@@ -1,6 +1,7 @@
 <?php
 
-class Vtiger_Basic_Filter {
+class Vtiger_Basic_Filter
+{
 
 	public $viewname = 'Basic';
 	protected $columnList = [];
@@ -8,25 +9,29 @@ class Vtiger_Basic_Filter {
 	protected $cvadvFilterOr = [];
 	protected $cvstdFilter = [];
 
-	public function getViewName() {
+	public function getViewName()
+	{
 		return $this->viewname;
 	}
 
-	public function getColumnList() {
+	public function getColumnList()
+	{
 		return $this->columnList;
 	}
-	
-	public function getStdCriteria() {
+
+	public function getStdCriteria()
+	{
 		return $this->cvstdFilter;
 	}
 
-	public function getAdvftCriteria($cv) {
+	public function getAdvftCriteria($cv)
+	{
 		$columnindex = 0;
 		$advft_criteria = [];
 		$i = 1;
 		$j = 0;
-		
-		if($this->cvadvFilterAnd){
+
+		if ($this->cvadvFilterAnd) {
 			foreach ($this->cvadvFilterAnd as $cvadv) {
 				$cvadv['columnindex'] = $columnindex;
 				$criteria = $cv->getAdvftCriteria($cvadv);
@@ -37,8 +42,8 @@ class Vtiger_Basic_Filter {
 			}
 			$i++;
 		}
-		
-		if($this->cvadvFilterOr){
+
+		if ($this->cvadvFilterOr) {
 			foreach ($this->cvadvFilterOr as $cvadv) {
 				$cvadv['columnindex'] = $columnindex;
 				$criteria = $cv->getAdvftCriteria($cvadv);
@@ -51,5 +56,4 @@ class Vtiger_Basic_Filter {
 		}
 		return [$i, $j, $advft_criteria];
 	}
-
 }

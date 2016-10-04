@@ -150,7 +150,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		if (is_numeric($module)) {
 			$module = vtlib\Functions::getModuleName($module);
 		}
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$row = $adb->raw_query_result_rowdata($result, $i);
 			$treeID = (int) str_replace('T', '', $row['tree']);
 			$cut = strlen('::' . $row['tree']);
@@ -214,7 +215,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	public function replaceValue($tree, $moduleId, $templateId)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = 'SELECT `tablename`,`columnname` FROM `vtiger_field` WHERE `tabid` = ? AND `fieldparams` = ? AND presence in (0,2)';
+		$query = 'SELECT `tablename`,`columnname` FROM `vtiger_field` WHERE `tabid` = ? && `fieldparams` = ? && presence in (0,2)';
 		$result = $adb->pquery($query, array($moduleId, $templateId));
 		$num_row = $adb->num_rows($result);
 
@@ -227,7 +228,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				foreach ($row['old'] as $new) {
 					$params[] = 'T' . $new;
 				}
-				$adb->update($tableName, [$columnName => 'T' . current($row['new'])], $columnName . ' IN ( ' . generateQuestionMarks($row['old']) .')', $params);
+				$adb->update($tableName, [$columnName => 'T' . current($row['new'])], $columnName . ' IN ( ' . generateQuestionMarks($row['old']) . ')', $params);
 			}
 		}
 	}
@@ -247,12 +248,13 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	public function getChildren($fieldValue, $fieldName, $moduleModel)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = 'SELECT `fieldparams` FROM `vtiger_field` WHERE `tabid` = ? AND `columnname` = ? AND presence in (0,2)';
+		$query = 'SELECT `fieldparams` FROM `vtiger_field` WHERE `tabid` = ? && `columnname` = ? && presence in (0,2)';
 		$result = $adb->pquery($query, array($moduleModel->getId(), $fieldName));
 		$templateId = $adb->query_result_raw($result, 0, 'fieldparams');
 		$values = explode(',', $fieldValue);
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', array($templateId));
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$tree = $adb->query_result_raw($result, $i, 'tree');
 			$parent = '';
 			if ($adb->query_result_raw($result, $i, 'depth') > 0) {

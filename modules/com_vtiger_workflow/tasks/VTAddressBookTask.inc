@@ -16,9 +16,6 @@ class VTAddressBookTask extends VTTask
 {
 
 	public $executeImmediately = false;
-	public $tables = [ 'Contacts' => 'vtiger_contactsbookmails', 'OSSEmployees' => 'vtiger_ossemployeesbookmails',
-		'Accounts' => 'vtiger_accountbookmails', 'Leads' => 'vtiger_leadbookmails',
-		'Vendors' => 'vtiger_vendorbookmails'];
 
 	public function getFieldNames()
 	{
@@ -28,41 +25,36 @@ class VTAddressBookTask extends VTTask
 	public function doTask($entity)
 	{
 		$db = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$userID = $currentUserModel->getId();
 
 		$ws_id = $entity->getId();
-		$module = $entity->getModuleName();
+		$moduleName = $entity->getModuleName();
 		$parts = explode('x', $ws_id);
 		$entityId = $parts[1];
 
-		$org_current_user = $current_user;
-		$userInstance = new Users();
 		$users = $name = '';
-		$table = $this->tables[$module];
-		$metainfo = \includes\Modules::getEntityInfo($module);
+		$table = OSSMail_AddressBoock_Model::TABLE;
+		$metainfo = \includes\Modules::getEntityInfo($moduleName);
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $entity->get($entityName);
 		}
 
-		$resultUsers = $db->query('SELECT id FROM vtiger_users;');
-		while ($user = $db->getSingleValue($resultUsers)) {
-			$current_user = $userInstance->retrieveCurrentUserInfoFromFile($user);
-			if (Users_Privileges_Model::isPermitted($module, 'DetailView', $entityId)) {
-				$users .= ',' . $user;
+		$usersIds = \includes\fields\Owner::getUsersIds();
+		foreach ($usersIds as &$userId) {
+			if (\App\Privilege::isPermitted($moduleName, 'DetailView', $entityId, $userId)) {
+				$users .= ',' . $userId;
 			}
 		}
-
 		$db->delete($table, 'id = ?', [$entityId]);
-		$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;', [vtlib\Functions::getModuleId($module), 13]);
-		while ($fieldname = $db->getSingleValue($result)) {
-			if ($entity->get($fieldname) != '') {
-				$db->insert($table, ['id' => $entityId, 'email' => $entity->get($fieldname), 'name' => trim($name), 'users' => trim($users, ',')]);
+
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$fields = $moduleModel->getFieldsByType('email');
+		foreach ($fields as $field) {
+			$fieldname = $field->getName();
+			if (!empty($entity->get($fieldname))) {
+				$db->insert($table, ['id' => $entityId, 'email' => $entity->get($fieldname), 'name' => trim($name), 'users' => $users]);
 			}
 		}
-		OSSMail_Module_Model::createBookMailsFiles($this->tables);
-		$current_user = $org_current_user;
+		OSSMail_AddressBoock_Model::createABFile();
 	}
 
 	/**

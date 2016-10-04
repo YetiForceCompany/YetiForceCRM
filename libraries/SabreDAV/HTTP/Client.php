@@ -69,7 +69,7 @@ class Client extends EventEmitter {
      *
      * @return void
      */
-    function __construct() {
+    public function __construct() {
 
         $this->curlSettings = [
             CURLOPT_RETURNTRANSFER => true,
@@ -86,7 +86,7 @@ class Client extends EventEmitter {
      * @param RequestInterface $request
      * @return ResponseInterface
      */
-    function send(RequestInterface $request) {
+    public function send(RequestInterface $request) {
 
         $this->emit('beforeRequest', [$request]);
 
@@ -178,7 +178,7 @@ class Client extends EventEmitter {
      * @param callable $error
      * @return void
      */
-    function sendAsync(RequestInterface $request, callable $success = null, callable $error = null) {
+    public function sendAsync(RequestInterface $request, callable $success = null, callable $error = null) {
 
         $this->emit('beforeRequest', [$request]);
         $this->sendAsyncInternal($request, $success, $error);
@@ -196,7 +196,7 @@ class Client extends EventEmitter {
      *
      * @return bool
      */
-    function poll() {
+    public function poll() {
 
         // nothing to do?
         if (!$this->curlMultiMap) {
@@ -291,7 +291,7 @@ class Client extends EventEmitter {
      *
      * @return void
      */
-    function wait() {
+    public function wait() {
 
         do {
             curl_multi_select($this->curlMultiHandle);
@@ -313,7 +313,7 @@ class Client extends EventEmitter {
      * @param bool $throwExceptions
      * @return void
      */
-    function setThrowExceptions($throwExceptions) {
+    public function setThrowExceptions($throwExceptions) {
 
         $this->throwExceptions = $throwExceptions;
 
@@ -328,7 +328,7 @@ class Client extends EventEmitter {
      * @param mixed $value
      * @return void
      */
-    function addCurlSetting($name, $value) {
+    public function addCurlSetting($name, $value) {
 
         $this->curlSettings[$name] = $value;
 
@@ -439,11 +439,9 @@ class Client extends EventEmitter {
         }
         $settings[CURLOPT_HTTPHEADER] = $nHeaders;
         $settings[CURLOPT_URL] = $request->getUrl();
-        // FIXME: CURLOPT_PROTOCOLS is currently unsupported by HHVM
         if (defined('CURLOPT_PROTOCOLS')) {
             $settings[CURLOPT_PROTOCOLS] = CURLPROTO_HTTP | CURLPROTO_HTTPS;
         }
-        // FIXME: CURLOPT_REDIR_PROTOCOLS is currently unsupported by HHVM
         if (defined('CURLOPT_REDIR_PROTOCOLS')) {
             $settings[CURLOPT_REDIR_PROTOCOLS] = CURLPROTO_HTTP | CURLPROTO_HTTPS;
         }

@@ -11,7 +11,7 @@
 class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('source_module');
 		$recordId = $request->get('record');

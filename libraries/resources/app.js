@@ -514,7 +514,6 @@ var app = {
 			var modalContainer = container.find('.modal:first');
 			modalContainer.modal(params);
 			jQuery('body').append(container);
-			// TODO Make it better with jQuery.on
 			app.changeSelectElementView(modalContainer);
 			//register all select2 Elements
 			app.showSelect2ElementView(modalContainer.find('select.select2'));

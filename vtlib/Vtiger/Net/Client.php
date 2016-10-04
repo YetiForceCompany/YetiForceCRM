@@ -16,9 +16,9 @@ include 'vtlib/thirdparty/network/Request.php';
 class Vtiger_Net_Client
 {
 
-	var $client;
-	var $url;
-	var $response;
+	public $client;
+	public $url;
+	public $response;
 
 	/**
 	 * Constructor
@@ -26,7 +26,7 @@ class Vtiger_Net_Client
 	 * Example: 
 	 * $client = new Vtiger_New_Client('http://www.vtiger.com');
 	 */
-	function __construct($url)
+	public function __construct($url)
 	{
 		$this->setURL($url);
 	}
@@ -35,7 +35,7 @@ class Vtiger_Net_Client
 	 * Set another url for this instance
 	 * @param String URL to use go forward
 	 */
-	function setURL($url)
+	public function setURL($url)
 	{
 		$this->url = $url;
 		$this->client = new HTTP_Request();
@@ -43,7 +43,7 @@ class Vtiger_Net_Client
 		$this->setDefaultHeaders();
 	}
 
-	function setDefaultHeaders()
+	public function setDefaultHeaders()
 	{
 		$headers = [];
 		if (isset($_SERVER)) {
@@ -63,7 +63,7 @@ class Vtiger_Net_Client
 	 * Set custom HTTP Headers
 	 * @param Map HTTP Header and Value Pairs
 	 */
-	function setHeaders($values)
+	public function setHeaders($values)
 	{
 		foreach ($values as $key => $value) {
 			$this->client->addHeader($key, $value);
@@ -75,7 +75,7 @@ class Vtiger_Net_Client
 	 * @param Map key-value pair or false
 	 * @param Integer timeout value
 	 */
-	function doGet($params = false, $timeout = null)
+	public function doGet($params = false, $timeout = null)
 	{
 		if ($timeout)
 			$this->client->_timeout = $timeout;
@@ -101,7 +101,7 @@ class Vtiger_Net_Client
 	 * @param Map key-value pair or false
 	 * @param Integer timeout value
 	 */
-	function doPost($params = false, $timeout = null)
+	public function doPost($params = false, $timeout = null)
 	{
 		if ($timeout)
 			$this->client->_timeout = $timeout;
@@ -130,7 +130,7 @@ class Vtiger_Net_Client
 	/**
 	 * Did last request resulted in error?
 	 */
-	function wasError()
+	public function wasError()
 	{
 		return PEAR::isError($this->response);
 	}
@@ -138,7 +138,7 @@ class Vtiger_Net_Client
 	/**
 	 * Disconnect this instance
 	 */
-	function disconnect()
+	public function disconnect()
 	{
 		$this->client->disconnect();
 	}

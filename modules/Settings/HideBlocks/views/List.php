@@ -12,7 +12,7 @@
 class Settings_HideBlocks_List_View extends Settings_Vtiger_List_View
 {
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		parent::preProcess($request, false);

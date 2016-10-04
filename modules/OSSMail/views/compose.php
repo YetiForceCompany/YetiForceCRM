@@ -17,7 +17,12 @@ class OSSMail_compose_View extends OSSMail_index_View
 	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$this->mainUrl .= '&_task=mail&_action=compose&_extwin=1';
+		if (strpos($this->mainUrl, '?') !== false) {
+			$this->mainUrl .= '&';
+		} else {
+			$this->mainUrl .= '?';
+		}
+		$this->mainUrl .= '_task=mail&_action=compose&_extwin=1';
 		$params = OSSMail_Module_Model::getComposeParam($request);
 		$key = md5(count($params) . microtime());
 

@@ -12,9 +12,9 @@
 class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 {
 
-	var $actionsDir = false;
+	public $actionsDir = false;
 
-	function __construct()
+	public function __construct()
 	{
 		$this->actionsDir = ROOT_DIRECTORY . '/modules/OSSMailScanner/scanneractions';
 	}
@@ -30,7 +30,7 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
 		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name = 'OSSMailScanner' AND description = 'OSSMailScanner'");
+		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name = 'OSSMailScanner' && description = 'OSSMailScanner'");
 
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',

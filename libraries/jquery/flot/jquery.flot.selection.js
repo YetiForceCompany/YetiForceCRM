@@ -86,11 +86,6 @@ The plugin allso adds the following methods to the plot object:
                 active: false
             };
 
-        // FIXME: The drag handling implemented here should be
-        // abstracted out, there's some similar code from a library in
-        // the navigation plugin, this should be massaged a bit to fit
-        // the Flot cases here better and reused. Doing this would
-        // make this plugin much slimmer.
         var savedhandlers = {};
 
         var mouseUpHandler = null;

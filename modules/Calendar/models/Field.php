@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /**
@@ -18,7 +19,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 * Function returns special validator for fields
 	 * @return <Array>
 	 */
-	function getValidator()
+	public function getValidator()
 	{
 		$validator = array();
 		$fieldName = $this->getName();
@@ -112,7 +113,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		$fieldModel = Vtiger_Field_Model::getInstance('recurringtype', Vtiger_Module_Model::getInstance('Events'));
 		if ($fieldModel->isRoleBased() && !$currentUser->isAdminUser()) {
 			$userModel = Users_Record_Model::getCurrentUserModel();
-			$picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
+			$picklistValues = \includes\fields\Picklist::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
 		} else {
 			$picklistValues = Vtiger_Util_Helper::getPickListValues('recurringtype');
 		}

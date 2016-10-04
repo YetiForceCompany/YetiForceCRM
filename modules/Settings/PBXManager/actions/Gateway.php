@@ -11,7 +11,7 @@
 class Settings_PBXManager_Gateway_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('getSecretKey');
 	}

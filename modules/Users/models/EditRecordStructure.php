@@ -33,13 +33,13 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 			if ($fieldModelList) {
 				$values[$blockLabel] = array();
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->get('uitype') == 115 && $currentUserModel->isAdminUser() == true) {
+					if ($fieldModel->get('uitype') == 115 && $currentUserModel->isAdminUser() === true) {
 						$fieldModel->set('editable', true);
 					}
 					if (empty($recordId) && ($fieldModel->get('uitype') == 99 || $fieldModel->get('uitype') == 106)) {
 						$fieldModel->set('editable', true);
 					}
-					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() == true) {
+					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() === true) {
 						$fieldModel->set('editable', true);
 						$fieldValue = false;
 						$defaultValue = $fieldModel->getDefaultFieldValue();

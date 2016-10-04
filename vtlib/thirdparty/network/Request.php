@@ -128,85 +128,85 @@ class HTTP_Request
 	 * Instance of Net_URL
 	 * @var Net_URL
 	 */
-	var $_url;
+	public $_url;
 
 	/**
 	 * Type of request
 	 * @var string
 	 */
-	var $_method;
+	public $_method;
 
 	/**
 	 * HTTP Version
 	 * @var string
 	 */
-	var $_http;
+	public $_http;
 
 	/**
 	 * Request headers
 	 * @var array
 	 */
-	var $_requestHeaders;
+	public $_requestHeaders;
 
 	/**
 	 * Basic Auth Username
 	 * @var string
 	 */
-	var $_user;
+	public $_user;
 
 	/**
 	 * Basic Auth Password
 	 * @var string
 	 */
-	var $_pass;
+	public $_pass;
 
 	/**
 	 * Socket object
 	 * @var Net_Socket
 	 */
-	var $_sock;
+	public $_sock;
 
 	/**
 	 * Proxy server
 	 * @var string
 	 */
-	var $_proxy_host;
+	public $_proxy_host;
 
 	/**
 	 * Proxy port
 	 * @var integer
 	 */
-	var $_proxy_port;
+	public $_proxy_port;
 
 	/**
 	 * Proxy username
 	 * @var string
 	 */
-	var $_proxy_user;
+	public $_proxy_user;
 
 	/**
 	 * Proxy password
 	 * @var string
 	 */
-	var $_proxy_pass;
+	public $_proxy_pass;
 
 	/**
 	 * Post data
 	 * @var array
 	 */
-	var $_postData;
+	public $_postData;
 
 	/**
 	 * Request body
 	 * @var string
 	 */
-	var $_body;
+	public $_body;
 
 	/**
 	 * A list of methods that MUST NOT have a request body, per RFC 2616
 	 * @var array
 	 */
-	var $_bodyDisallowed = array('TRACE');
+	public $_bodyDisallowed = array('TRACE');
 
 	/**
 	 * Methods having defined semantics for request body
@@ -216,73 +216,73 @@ class HTTP_Request
 	 *
 	 * @var array
 	 */
-	var $_bodyRequired = array('POST', 'PUT');
+	public $_bodyRequired = array('POST', 'PUT');
 
 	/**
 	 * Files to post
 	 * @var array
 	 */
-	var $_postFiles = array();
+	public $_postFiles = array();
 
 	/**
 	 * Connection timeout.
 	 * @var float
 	 */
-	var $_timeout;
+	public $_timeout;
 
 	/**
 	 * HTTP_Response object
 	 * @var HTTP_Response
 	 */
-	var $_response;
+	public $_response;
 
 	/**
 	 * Whether to allow redirects
 	 * @var boolean
 	 */
-	var $_allowRedirects;
+	public $_allowRedirects;
 
 	/**
 	 * Maximum redirects allowed
 	 * @var integer
 	 */
-	var $_maxRedirects;
+	public $_maxRedirects;
 
 	/**
 	 * Current number of redirects
 	 * @var integer
 	 */
-	var $_redirects;
+	public $_redirects;
 
 	/**
 	 * Whether to append brackets [] to array variables
 	 * @var bool
 	 */
-	var $_useBrackets = true;
+	public $_useBrackets = true;
 
 	/**
 	 * Attached listeners
 	 * @var array
 	 */
-	var $_listeners = array();
+	public $_listeners = array();
 
 	/**
 	 * Whether to save response body in response object property
 	 * @var bool
 	 */
-	var $_saveBody = true;
+	public $_saveBody = true;
 
 	/**
 	 * Timeout for reading from socket (array(seconds, microseconds))
 	 * @var array
 	 */
-	var $_readTimeout = null;
+	public $_readTimeout = null;
 
 	/**
 	 * Options to pass to Net_Socket::connect. See stream_context_create
 	 * @var array
 	 */
-	var $_socketOptions = null;
+	public $_socketOptions = null;
 
 	/*	 * #@- */
 
@@ -311,7 +311,7 @@ class HTTP_Request
 	 * </ul>
 	 * @access public
 	 */
-	function HTTP_Request($url = '', $params = array())
+	public function HTTP_Request($url = '', $params = array())
 	{
 		$this->_method = HTTP_REQUEST_METHOD_GET;
 		$this->_http = HTTP_REQUEST_HTTP_VER_1_1;
@@ -370,13 +370,13 @@ class HTTP_Request
 	 * @access private
 	 * @return string
 	 */
-	function _generateHostHeader()
+	public function _generateHostHeader()
 	{
-		if ($this->_url->port != 80 AND strcasecmp($this->_url->protocol, 'http') == 0) {
+		if ($this->_url->port != 80 && strcasecmp($this->_url->protocol, 'http') == 0) {
 			$host = $this->_url->host . ':' . $this->_url->port;
-		} elseif ($this->_url->port != 443 AND strcasecmp($this->_url->protocol, 'https') == 0) {
+		} elseif ($this->_url->port != 443 && strcasecmp($this->_url->protocol, 'https') == 0) {
 			$host = $this->_url->host . ':' . $this->_url->port;
-		} elseif ($this->_url->port == 443 AND strcasecmp($this->_url->protocol, 'https') == 0 AND strpos($this->_url->url, ':443') !== false) {
+		} elseif ($this->_url->port == 443 && strcasecmp($this->_url->protocol, 'https') == 0 && strpos($this->_url->url, ':443') !== false) {
 			$host = $this->_url->host . ':' . $this->_url->port;
 		} else {
 			$host = $this->_url->host;
@@ -395,7 +395,7 @@ class HTTP_Request
 	 * @access public
 	 * @deprecated deprecated since 1.2, call the constructor if this is necessary
 	 */
-	function reset($url, $params = array())
+	public function reset($url, $params = array())
 	{
 		$this->HTTP_Request($url, $params);
 	}
@@ -406,9 +406,9 @@ class HTTP_Request
 	 * @param  string The url to be requested
 	 * @access public
 	 */
-	function setURL($url)
+	public function setURL($url)
 	{
-		$this->_url = &new Net_URL($url, $this->_useBrackets);
+		$this->_url = new Net_URL($url, $this->_useBrackets);
 
 		if (!empty($this->_url->user) || !empty($this->_url->pass)) {
 			$this->setBasicAuth($this->_url->user, $this->_url->pass);
@@ -430,7 +430,7 @@ class HTTP_Request
 	 * @return   string  Current request URL
 	 * @access   public
 	 */
-	function getUrl()
+	public function getUrl()
 	{
 		return empty($this->_url) ? '' : $this->_url->getUrl();
 	}
@@ -444,7 +444,7 @@ class HTTP_Request
 	 * @param string     Proxy password
 	 * @access public
 	 */
-	function setProxy($host, $port = 8080, $user = null, $pass = null)
+	public function setProxy($host, $port = 8080, $user = null, $pass = null)
 	{
 		$this->_proxy_host = $host;
 		$this->_proxy_port = $port;
@@ -462,7 +462,7 @@ class HTTP_Request
 	 * @param string     Username
 	 * @param string     Password
 	 */
-	function setBasicAuth($user, $pass)
+	public function setBasicAuth($user, $pass)
 	{
 		$this->_user = $user;
 		$this->_pass = $pass;
@@ -476,7 +476,7 @@ class HTTP_Request
 	 * @param string     Method to use. Use the defined constants for this
 	 * @access public
 	 */
-	function setMethod($method)
+	public function setMethod($method)
 	{
 		$this->_method = $method;
 	}
@@ -487,7 +487,7 @@ class HTTP_Request
 	 * @param string     Version to use. Use the defined constants for this
 	 * @access public
 	 */
-	function setHttpVer($http)
+	public function setHttpVer($http)
 	{
 		$this->_http = $http;
 	}
@@ -499,7 +499,7 @@ class HTTP_Request
 	 * @param string     Header value
 	 * @access public
 	 */
-	function addHeader($name, $value)
+	public function addHeader($name, $value)
 	{
 		$this->_requestHeaders[strtolower($name)] = $value;
 	}
@@ -510,7 +510,7 @@ class HTTP_Request
 	 * @param string     Header name to remove
 	 * @access public
 	 */
-	function removeHeader($name)
+	public function removeHeader($name)
 	{
 		if (isset($this->_requestHeaders[strtolower($name)])) {
 			unset($this->_requestHeaders[strtolower($name)]);
@@ -525,7 +525,7 @@ class HTTP_Request
 	 * @param bool       Whether the value is already urlencoded or not, default = not
 	 * @access public
 	 */
-	function addQueryString($name, $value, $preencoded = false)
+	public function addQueryString($name, $value, $preencoded = false)
 	{
 		$this->_url->addQueryString($name, $value, $preencoded);
 	}
@@ -537,7 +537,7 @@ class HTTP_Request
 	 * @param bool       Whether data is already urlencoded or not, default = already encoded
 	 * @access public
 	 */
-	function addRawQueryString($querystring, $preencoded = true)
+	public function addRawQueryString($querystring, $preencoded = true)
 	{
 		$this->_url->addRawQueryString($querystring, $preencoded);
 	}
@@ -550,7 +550,7 @@ class HTTP_Request
 	 * @param bool       Whether data is already urlencoded or not, default = not
 	 * @access public
 	 */
-	function addPostData($name, $value, $preencoded = false)
+	public function addPostData($name, $value, $preencoded = false)
 	{
 		if ($preencoded) {
 			$this->_postData[$name] = $value;
@@ -567,7 +567,7 @@ class HTTP_Request
 	 * @access   private
 	 * @return   mixed   Processed value
 	 */
-	function _arrayMapRecursive($callback, $value)
+	public function _arrayMapRecursive($callback, $value)
 	{
 		if (!is_array($value)) {
 			return call_user_func($callback, $value);
@@ -596,7 +596,7 @@ class HTTP_Request
 	 * @return bool      true on success
 	 * @throws PEAR_Error
 	 */
-	function addFile($inputName, $fileName, $contentType = 'application/octet-stream')
+	public function addFile($inputName, $fileName, $contentType = 'application/octet-stream')
 	{
 		if (!is_array($fileName) && !is_readable($fileName)) {
 			return PEAR::raiseError("File '{$fileName}' is not readable", HTTP_REQUEST_ERROR_FILE);
@@ -623,7 +623,7 @@ class HTTP_Request
 	 * @access public
 	 * @deprecated       deprecated since 1.3.0, method setBody() should be used instead
 	 */
-	function addRawPostData($postdata, $preencoded = true)
+	public function addRawPostData($postdata, $preencoded = true)
 	{
 		$this->_body = $preencoded ? $postdata : urlencode($postdata);
 	}
@@ -634,7 +634,7 @@ class HTTP_Request
 	 * @param    string  Request body
 	 * @access   public
 	 */
-	function setBody($body)
+	public function setBody($body)
 	{
 		$this->_body = $body;
 	}
@@ -647,7 +647,7 @@ class HTTP_Request
 	 * @access public
 	 * @deprecated deprecated since 1.2
 	 */
-	function clearPostData()
+	public function clearPostData()
 	{
 		$this->_postData = null;
 	}
@@ -659,7 +659,7 @@ class HTTP_Request
 	 * @param string $value cookie value
 	 * @access public
 	 */
-	function addCookie($name, $value)
+	public function addCookie($name, $value)
 	{
 		$cookies = isset($this->_requestHeaders['cookie']) ? $this->_requestHeaders['cookie'] . '; ' : '';
 		$this->addHeader('Cookie', $cookies . $name . '=' . $value);
@@ -673,7 +673,7 @@ class HTTP_Request
 	 * @access public
 	 * @deprecated deprecated since 1.2
 	 */
-	function clearCookies()
+	public function clearCookies()
 	{
 		$this->removeHeader('Cookie');
 	}
@@ -686,7 +686,7 @@ class HTTP_Request
 	 *                set this to false if downloading a LARGE file and using a Listener
 	 * @return mixed  PEAR error on error, true otherwise
 	 */
-	function sendRequest($saveBody = true)
+	public function sendRequest($saveBody = true)
 	{
 		if (!is_a($this->_url, 'Net_URL')) {
 			return PEAR::raiseError('No URL given', HTTP_REQUEST_ERROR_URL);
@@ -729,10 +729,10 @@ class HTTP_Request
 			$err = null;
 		} else {
 			$this->_notify('connect');
-			$this->_sock = & new Net_Socket();
+			$this->_sock = new Net_Socket();
 			$err = $this->_sock->connect($host, $port, null, $this->_timeout, $this->_socketOptions);
 		}
-		PEAR::isError($err) or $err = $this->_sock->write($this->_buildRequest());
+		PEAR::isError($err) || $err = $this->_sock->write($this->_buildRequest());
 
 		if (!PEAR::isError($err)) {
 			if (!empty($this->_readTimeout)) {
@@ -742,7 +742,7 @@ class HTTP_Request
 			$this->_notify('sentRequest');
 
 			// Read the response
-			$this->_response = &new HTTP_Response($this->_sock, $this->_listeners);
+			$this->_response = new HTTP_Response($this->_sock, $this->_listeners);
 			$err = $this->_response->process(
 				$this->_saveBody && $saveBody, HTTP_REQUEST_METHOD_HEAD != $this->_method
 			);
@@ -774,24 +774,24 @@ class HTTP_Request
 
 		// Check for redirection
 		if ($this->_allowRedirects
-			AND $this->_redirects <= $this->_maxRedirects
-			AND $this->getResponseCode() > 300
-			AND $this->getResponseCode() < 399
-			AND ! empty($this->_response->_headers['location'])) {
+			&& $this->_redirects <= $this->_maxRedirects
+			&& $this->getResponseCode() > 300
+			&& $this->getResponseCode() < 399
+			&& ! empty($this->_response->_headers['location'])) {
 
 
 			$redirect = $this->_response->_headers['location'];
 
 			// Absolute URL
 			if (preg_match('/^https?:\/\//i', $redirect)) {
-				$this->_url = &new Net_URL($redirect);
+				$this->_url = new Net_URL($redirect);
 				$this->addHeader('Host', $this->_generateHostHeader());
 				// Absolute path
 			} elseif ($redirect{0} == '/') {
 				$this->_url->path = $redirect;
 
 				// Relative path
-			} elseif (substr($redirect, 0, 3) == '../' OR substr($redirect, 0, 2) == './') {
+			} elseif (substr($redirect, 0, 3) == '../' || substr($redirect, 0, 2) == './') {
 				if (substr($this->_url->path, -1) == '/') {
 					$redirect = $this->_url->path . $redirect;
 				} else {
@@ -814,7 +814,7 @@ class HTTP_Request
 			return $this->sendRequest($saveBody);
 
 			// Too many redirects
-		} elseif ($this->_allowRedirects AND $this->_redirects > $this->_maxRedirects) {
+		} elseif ($this->_allowRedirects && $this->_redirects > $this->_maxRedirects) {
 			return PEAR::raiseError('Too many redirects', HTTP_REQUEST_ERROR_REDIRECTS);
 		}
 
@@ -826,7 +826,7 @@ class HTTP_Request
 	 *
 	 * @access public
 	 */
-	function disconnect()
+	public function disconnect()
 	{
 		if (!empty($this->_sock) && !empty($this->_sock->fp)) {
 			$this->_notify('disconnect');
@@ -840,7 +840,7 @@ class HTTP_Request
 	 * @access public
 	 * @return mixed     Response code, false if not set
 	 */
-	function getResponseCode()
+	public function getResponseCode()
 	{
 		return isset($this->_response->_code) ? $this->_response->_code : false;
 	}
@@ -851,7 +851,7 @@ class HTTP_Request
 	 * @access public
 	 * @return mixed     Response reason phrase, false if not set
 	 */
-	function getResponseReason()
+	public function getResponseReason()
 	{
 		return isset($this->_response->_reason) ? $this->_response->_reason : false;
 	}
@@ -864,7 +864,7 @@ class HTTP_Request
 	 * @return mixed     either the value of $headername (false if header is not present)
 	 *                   or an array of all headers
 	 */
-	function getResponseHeader($headername = null)
+	public function getResponseHeader($headername = null)
 	{
 		if (!isset($headername)) {
 			return isset($this->_response->_headers) ? $this->_response->_headers : array();
@@ -880,7 +880,7 @@ class HTTP_Request
 	 * @access public
 	 * @return mixed     response body, false if not set
 	 */
-	function getResponseBody()
+	public function getResponseBody()
 	{
 		return isset($this->_response->_body) ? $this->_response->_body : false;
 	}
@@ -891,7 +891,7 @@ class HTTP_Request
 	 * @access public
 	 * @return mixed     array of response cookies, false if none are present
 	 */
-	function getResponseCookies()
+	public function getResponseCookies()
 	{
 		return isset($this->_response->_cookies) ? $this->_response->_cookies : false;
 	}
@@ -902,7 +902,7 @@ class HTTP_Request
 	 * @access private
 	 * @return string The request string
 	 */
-	function _buildRequest()
+	public function _buildRequest()
 	{
 		$separator = ini_get('arg_separator.output');
 		ini_set('arg_separator.output', '&');
@@ -910,7 +910,7 @@ class HTTP_Request
 		ini_set('arg_separator.output', $separator);
 
 		$host = isset($this->_proxy_host) ? $this->_url->protocol . '://' . $this->_url->host : '';
-		$port = (isset($this->_proxy_host) AND $this->_url->port != 80) ? ':' . $this->_url->port : '';
+		$port = (isset($this->_proxy_host) && $this->_url->port != 80) ? ':' . $this->_url->port : '';
 		$path = $this->_url->path . $querystring;
 		$url = $host . $port . $path;
 
@@ -1024,7 +1024,7 @@ class HTTP_Request
 	 * @return   array   array with the following items: array('item name', 'item value');
 	 * @access   private
 	 */
-	function _flattenArray($name, $values)
+	public function _flattenArray($name, $values)
 	{
 		if (!is_array($values)) {
 			return array(array($name, $values));
@@ -1063,7 +1063,7 @@ class HTTP_Request
 	 * @return   boolean                 whether the listener was successfully attached
 	 * @access   public
 	 */
-	function attach(&$listener)
+	public function attach(&$listener)
 	{
 		if (!is_a($listener, 'HTTP_Request_Listener')) {
 			return false;
@@ -1079,7 +1079,7 @@ class HTTP_Request
 	 * @return   boolean                 whether the listener was successfully detached
 	 * @access   public
 	 */
-	function detach(&$listener)
+	public function detach(&$listener)
 	{
 		if (!is_a($listener, 'HTTP_Request_Listener') ||
 			!isset($this->_listeners[$listener->getId()])) {
@@ -1097,7 +1097,7 @@ class HTTP_Request
 	 * @access   private
 	 * @see      HTTP_Request::attach()
 	 */
-	function _notify($event, $data = null)
+	public function _notify($event, $data = null)
 	{
 		foreach (array_keys($this->_listeners) as $id) {
 			$this->_listeners[$id]->update($this, $event, $data);
@@ -1121,61 +1121,61 @@ class HTTP_Response
 	 * Socket object
 	 * @var Net_Socket
 	 */
-	var $_sock;
+	public $_sock;
 
 	/**
 	 * Protocol
 	 * @var string
 	 */
-	var $_protocol;
+	public $_protocol;
 
 	/**
 	 * Return code
 	 * @var string
 	 */
-	var $_code;
+	public $_code;
 
 	/**
 	 * Response reason phrase
 	 * @var string
 	 */
-	var $_reason;
+	public $_reason;
 
 	/**
 	 * Response headers
 	 * @var array
 	 */
-	var $_headers;
+	public $_headers;
 
 	/**
 	 * Cookies set in response
 	 * @var array
 	 */
-	var $_cookies;
+	public $_cookies;
 
 	/**
 	 * Response body
 	 * @var string
 	 */
-	var $_body = '';
+	public $_body = '';
 
 	/**
 	 * Used by _readChunked(): remaining length of the current chunk
 	 * @var string
 	 */
-	var $_chunkLength = 0;
+	public $_chunkLength = 0;
 
 	/**
 	 * Attached listeners
 	 * @var array
 	 */
-	var $_listeners = array();
+	public $_listeners = array();
 
 	/**
 	 * Bytes left to read from message-body
 	 * @var null|int
 	 */
-	var $_toRead;
+	public $_toRead;
 
 	/**
 	 * Constructor
@@ -1183,7 +1183,7 @@ class HTTP_Response
 	 * @param  Net_Socket    socket to read the response from
 	 * @param  array         listeners attached to request
 	 */
-	function HTTP_Response(&$sock, &$listeners)
+	public function HTTP_Response(&$sock, &$listeners)
 	{
 		$this->_sock = & $sock;
 		$this->_listeners = & $listeners;
@@ -1204,7 +1204,7 @@ class HTTP_Response
 	 * @throws PEAR_Error
 	 * @return mixed     true on success, PEAR_Error in case of malformed response
 	 */
-	function process($saveBody = true, $canHaveBody = true)
+	public function process($saveBody = true, $canHaveBody = true)
 	{
 		do {
 			$line = $this->_sock->readLine();
@@ -1285,7 +1285,7 @@ class HTTP_Response
 	 * @access private
 	 * @param  string    HTTP header
 	 */
-	function _processHeader($header)
+	public function _processHeader($header)
 	{
 		if (false === strpos($header, ':')) {
 			return;
@@ -1311,7 +1311,7 @@ class HTTP_Response
 	 * @access private
 	 * @param  string    value of Set-Cookie header
 	 */
-	function _parseCookie($headervalue)
+	public function _parseCookie($headervalue)
 	{
 		$cookie = array(
 			'expires' => null,
@@ -1333,7 +1333,8 @@ class HTTP_Response
 			$cookie['name'] = trim(substr($elements[0], 0, $pos));
 			$cookie['value'] = trim(substr($elements[0], $pos + 1));
 
-			for ($i = 1; $i < count($elements); $i++) {
+			$countElements = count($elements);
+			for ($i = 1; $i < $countElements; $i++) {
 				if (false === strpos($elements[$i], '=')) {
 					$elName = trim($elements[$i]);
 					$elValue = null;
@@ -1361,7 +1362,7 @@ class HTTP_Response
 	 * @access private
 	 * @return string
 	 */
-	function _readChunked()
+	public function _readChunked()
 	{
 		// at start of the next chunk?
 		if (0 == $this->_chunkLength) {
@@ -1393,7 +1394,7 @@ class HTTP_Response
 	 * @access   private
 	 * @see HTTP_Request::_notify()
 	 */
-	function _notify($event, $data = null)
+	public function _notify($event, $data = null)
 	{
 		foreach (array_keys($this->_listeners) as $id) {
 			$this->_listeners[$id]->update($this, $event, $data);
@@ -1411,7 +1412,7 @@ class HTTP_Response
 	 * @param    string  gzip-encoded data
 	 * @return   string  decoded data
 	 */
-	function _decodeGzip($data)
+	public function _decodeGzip($data)
 	{
 		if (HTTP_REQUEST_MBSTRING) {
 			$oldEncoding = mb_internal_encoding();

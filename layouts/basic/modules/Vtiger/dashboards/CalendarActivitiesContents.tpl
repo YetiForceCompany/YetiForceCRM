@@ -40,15 +40,23 @@ font-size: 75%;
 				</p>
 				{assign var=LINK value=$ACTIVITY->get('link')}
 				{assign var=PROCESS value=$ACTIVITY->get('process')}
+				{assign var=SUBPROCESS value=$ACTIVITY->get('subprocess')}
 				{assign var=CONTRACTOR value=$ACTIVITY->get('contractor')}
-				{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGHT:'...'}				
-				{if $CONTRACTOR}
-				    <br/><small class="small-a">{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGHT}</a></small></strong>			
-				{else if $LINK}
-				    <br/><small class="small-a">{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
-				{else if $PROCESS}
-					<br/><small class="small-a">{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('process')}</strong></small>
-				{/if}
+				<div class="activityContainer">
+					{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGHT:'...'}				
+					{if $CONTRACTOR}
+						<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGHT}</a></small></strong>			
+					{/if}
+					{if $LINK}
+						<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
+					{/if}
+					{if $PROCESS}
+						<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('process')}</strong></small>
+					{/if}
+					{if $SUBPROCESS}
+						<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('subprocess')}</strong></small>
+					{/if}
+				</div>
 			</div>
 			{if $ACTIVITY->get('location') neq '' }
 				<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->get('location'))}" class="pull-right" title="{vtranslate('Location', 'Calendar')}: {$ACTIVITY->get('location')}">

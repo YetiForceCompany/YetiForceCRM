@@ -21,9 +21,9 @@ class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
-		if($request->get('number'))
+		if ($request->get('number'))
 			$number = $request->get('number');
-		else 
+		else
 			$number = 'all';
 		$linkId = $request->get('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());

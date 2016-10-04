@@ -33,8 +33,6 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		}
 		$this->set('activitytype', 'Emails');
 
-		//$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		//$this->set('assigned_user_id', $currentUserModel->getId());
 		$this->getModule()->saveRecord($this);
 		$documentIds = $this->get('documentids');
 		if (!empty($documentIds)) {
@@ -169,7 +167,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	 * Returns the From Email address that will be used for the sent mails
 	 * @return <String> - from email address
 	 */
-	function getFromEmailAddress()
+	public function getFromEmailAddress()
 	{
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -199,7 +197,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	 * Function returns the attachment details for a email
 	 * @return <Array> List of attachments
 	 */
-	function getAttachmentDetails()
+	public function getAttachmentDetails()
 	{
 		$db = PearDatabase::getInstance();
 
@@ -248,7 +246,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$documentRes = $db->pquery("SELECT * FROM vtiger_senotesrel
-						INNER JOIN vtiger_crmentity ON vtiger_senotesrel.notesid = vtiger_crmentity.crmid AND vtiger_senotesrel.crmid = ?
+						INNER JOIN vtiger_crmentity ON vtiger_senotesrel.notesid = vtiger_crmentity.crmid && vtiger_senotesrel.crmid = ?
 						INNER JOIN vtiger_notes ON vtiger_notes.notesid = vtiger_senotesrel.notesid
 						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.crmid = vtiger_notes.notesid
 						INNER JOIN vtiger_attachments ON vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid
@@ -334,14 +332,13 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		foreach ($emailAttachmentDetails as $index => $attachInfo) {
 			$attachmentIdList[] = $attachInfo['fileid'];
 		}
-		
+
 		$where = sprintf('crmid IN (%s)', generateQuestionMarks($attachmentIdList));
 		$db->update('vtiger_crmentity', ['deleted' => 0], $where, $attachmentIdList);
 		$where = sprintf('attachmentsid IN (%s)', generateQuestionMarks($attachmentIdList));
 		$db->delete('vtiger_attachments', $where, $attachmentIdList);
 		$where = sprintf('crmid=? and attachmentsid IN(%s)', generateQuestionMarks($attachmentIdList));
 		$db->delete('vtiger_seattachmentsrel', $where, array_merge([$this->getId()], $attachmentIdList));
-	
 	}
 
 	/**
@@ -392,7 +389,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT access_count FROM vtiger_email_track WHERE crmid = ? AND mailid = ?", array($parentId, $this->getId()));
+		$result = $db->pquery("SELECT access_count FROM vtiger_email_track WHERE crmid = ? && mailid = ?", array($parentId, $this->getId()));
 		return $db->query_result($result, 0, 'access_count');
 	}
 
@@ -439,7 +436,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
-	function getEntityType($id)
+	public function getEntityType($id)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();

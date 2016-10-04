@@ -13,28 +13,28 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class OutsourcedProducts extends Vtiger_CRMEntity
 {
 
-	var $table_name = 'vtiger_outsourcedproducts';
-	var $table_index = 'outsourcedproductsid';
-	var $column_fields = Array();
+	public $table_name = 'vtiger_outsourcedproducts';
+	public $table_index = 'outsourcedproductsid';
+	public $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
-	var $related_tables = Array('vtiger_outsourcedproductscf' => Array('outsourcedproductsid', 'vtiger_outsourcedproducts', 'outsourcedproductsid'));
+	public $IsCustomModule = true;
+	public $related_tables = Array('vtiger_outsourcedproductscf' => Array('outsourcedproductsid', 'vtiger_outsourcedproducts', 'outsourcedproductsid'));
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_outsourcedproductscf', 'outsourcedproductsid');
+	public $customFieldTable = Array('vtiger_outsourcedproductscf', 'outsourcedproductsid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_outsourcedproducts', 'vtiger_outsourcedproductscf');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_outsourcedproducts', 'vtiger_outsourcedproductscf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_outsourcedproducts' => 'outsourcedproductsid',
 		'vtiger_outsourcedproductscf' => 'outsourcedproductsid');
@@ -42,7 +42,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Product Name' => Array('outsourcedproducts' => 'productname'),
@@ -52,7 +52,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		'Date Sold' => Array('outsourcedproducts' => 'datesold'),
 		'Status' => Array('outsourcedproducts' => 'oproductstatus'),
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Product Name' => 'productname',
 		'Category' => 'pscategory',
@@ -62,9 +62,9 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		'Status' => 'oproductstatus',
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'productname';
+	public $list_link_field = 'productname';
 	// For Popup listview and UI type support
-	var $search_fields = array(
+	public $search_fields = array(
 		'Product Name' => Array('outsourcedproducts' => 'productname'),
 		'Category' => Array('outsourcedproducts' => 'pscategory'),
 		'Sub Category' => Array('outsourcedproducts' => 'pssubcategory'),
@@ -72,7 +72,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		'Date Sold' => Array('outsourcedproducts' => 'datesold'),
 		'Status' => Array('outsourcedproducts' => 'oproductstatus'),
 	);
-	var $search_fields_name = array(
+	public $search_fields_name = array(
 		'Product Name' => 'productname',
 		'Category' => 'pscategory',
 		'Sub Category' => 'pssubcategory',
@@ -81,28 +81,28 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		'Status' => 'oproductstatus',
 	);
 	// For Popup window record selection
-	var $popup_fields = array('productname');
+	public $popup_fields = array('productname');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	public $sortby_fields = Array();
 	// For Alphabetical search
-	var $def_basicsearch_col = 'productname';
+	public $def_basicsearch_col = 'productname';
 	// Required Information for enabling Import feature
-	var $required_fields = array('productname' => 1);
+	public $required_fields = array('productname' => 1);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = array('createdtime', 'modifiedtime', 'productname');
+	public $mandatory_fields = array('createdtime', 'modifiedtime', 'productname');
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
-	var $unit_price;
+	public $special_functions = Array('set_import_assigned_user');
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
+	public $unit_price;
 
 	/**
 	 * Invoked when special actions are performed on the module.
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
@@ -118,15 +118,15 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			\includes\fields\RecordNumber::setNumber($moduleName,'UP', 1);
+			\includes\fields\RecordNumber::setNumber($moduleName, 'UP', 1);
 		} else if ($eventType == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
+
 		} else if ($eventType == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
+
 		} else if ($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
 			
 		}
@@ -138,11 +138,11 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
 
@@ -167,6 +167,6 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		$log->debug("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 }

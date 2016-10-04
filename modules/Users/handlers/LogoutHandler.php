@@ -9,7 +9,7 @@
 class LogoutHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		if ($eventName == 'user.logout.before') {
 			

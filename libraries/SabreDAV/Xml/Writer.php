@@ -95,7 +95,7 @@ class Writer extends XMLWriter {
      * @param mixed $value
      * @return void
      */
-    function write($value) {
+    public function write($value) {
 
         Serializer\standardSerializer($this, $value);
 
@@ -118,7 +118,7 @@ class Writer extends XMLWriter {
      * @param string $name
      * @return bool
      */
-    function startElement($name) {
+    public function startElement($name) {
 
         if ($name[0] === '{') {
 
@@ -186,7 +186,7 @@ class Writer extends XMLWriter {
      * @param string $content
      * @return bool
      */
-    function writeElement($name, $content = null) {
+    public function writeElement($name, $content = null) {
 
         $this->startElement($name);
         if (!is_null($content)) {
@@ -208,7 +208,7 @@ class Writer extends XMLWriter {
      * @param array $attributes
      * @return void
      */
-    function writeAttributes(array $attributes) {
+    public function writeAttributes(array $attributes) {
 
         foreach ($attributes as $name => $value) {
             $this->writeAttribute($name, $value);
@@ -227,7 +227,7 @@ class Writer extends XMLWriter {
      * @param string $value
      * @return bool
      */
-    function writeAttribute($name, $value) {
+    public function writeAttribute($name, $value) {
 
         if ($name[0] === '{') {
 

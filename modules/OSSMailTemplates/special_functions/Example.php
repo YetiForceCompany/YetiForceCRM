@@ -14,12 +14,12 @@ class Example
 
 	private $moduleList = array('all');
 
-	function process($data)
+	public function process($data)
 	{
 		return 'example';
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

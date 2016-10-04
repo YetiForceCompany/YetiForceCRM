@@ -14,10 +14,10 @@ require_once 'include/events/VTEntityDelta.php';
 class ModTrackerHandler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $data)
+	public function handleEvent($eventName, $data)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 
 		if (!is_object($data)) {
 			$extendedData = $data;
@@ -67,7 +67,7 @@ class ModTrackerHandler extends VTEventHandler
 										'status' => $status,
 										'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 									]);
-									if($status != ModTracker::$CREATED){
+									if ($status != ModTracker::$CREATED) {
 										ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $this->id);
 									}
 									$inserted = true;
@@ -76,7 +76,7 @@ class ModTrackerHandler extends VTEventHandler
 							}
 						}
 					}
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $recordId));
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $recordId));
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
@@ -97,7 +97,7 @@ class ModTrackerHandler extends VTEventHandler
 						'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 					]);
 					ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $id);
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $recordId));
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $recordId));
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}
@@ -120,7 +120,7 @@ class ModTrackerHandler extends VTEventHandler
 						'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 					]);
 					ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $id);
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($currentUser->getRealId(), $recordId));
+					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $recordId));
 					if ($adb->num_rows($isMyRecord) > 0) {
 						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
 					}

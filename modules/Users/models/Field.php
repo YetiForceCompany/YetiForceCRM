@@ -21,7 +21,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function isReadOnly()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (($currentUserModel->isAdminUser() == false && $this->get('uitype') == 98) || $this->get('uitype') == 156 || $this->get('uitype') == 115) {
+		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || $this->get('uitype') == 156 || $this->get('uitype') == 115) {
 			return true;
 		}
 	}
@@ -76,7 +76,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 * Function to get all the available picklist values for the current field
 	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
-	public function getPicklistValues()
+	public function getPicklistValues($skipCheckingRole = false)
 	{
 		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getAllLanguages();
@@ -94,7 +94,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 			}
 			return $fieldPickListValues;
 		}
-		return parent::getPicklistValues();
+		return parent::getPicklistValues($skipCheckingRole);
 	}
 
 	/**

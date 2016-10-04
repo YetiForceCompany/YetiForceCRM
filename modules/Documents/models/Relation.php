@@ -9,7 +9,7 @@
 class Documents_Relation_Model extends Vtiger_Relation_Model
 {
 
-	function setExceptionData()
+	public function setExceptionData()
 	{
 		$data = [
 			'tabid' => $this->getParentModuleModel()->getId(),
@@ -37,7 +37,7 @@ class Documents_Relation_Model extends Vtiger_Relation_Model
 				$crmid = $relatedRecordId;
 			}
 			$db = PearDatabase::getInstance();
-			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? AND ossmailviewid = ?', [$crmid, $mailId]) > 0) {
+			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? && ossmailviewid = ?', [$crmid, $mailId]) > 0) {
 				return true;
 			} else {
 				return false;

@@ -11,7 +11,7 @@
 class Products_SubProducts_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -23,7 +23,7 @@ class Products_SubProducts_Action extends Vtiger_Action_Controller
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$productId = $request->get('record');
 		$values = [];

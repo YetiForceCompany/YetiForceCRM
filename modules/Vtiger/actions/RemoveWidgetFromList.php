@@ -1,21 +1,18 @@
 <?php
+
 /**
  * RemoveWidgetFromList Class
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Adrian Koń  <a.kon@yetiforce.com>
  */
-
 class Vtiger_RemoveWidgetFromList_Action extends Vtiger_IndexAjax_View
 {
-	
+
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -37,5 +34,4 @@ class Vtiger_RemoveWidgetFromList_Action extends Vtiger_IndexAjax_View
 		$response->setResult(true);
 		$response->emit();
 	}
-
 }

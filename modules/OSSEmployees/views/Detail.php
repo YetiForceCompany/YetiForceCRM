@@ -12,7 +12,7 @@
 class OSSEmployees_Detail_View extends Vtiger_Detail_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showRelatedRecords');
@@ -23,7 +23,7 @@ class OSSEmployees_Detail_View extends Vtiger_Detail_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 

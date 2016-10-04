@@ -11,11 +11,11 @@
 class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $baseTable = 'vtiger_cron_task';
-	var $baseIndex = 'id';
-	var $listFields = array('sequence' => 'Sequence', 'name' => 'Cron Job', 'frequency' => 'Frequency(H:M)', 'status' => 'Status', 'laststart' => 'Last Start', 'lastend' => 'Last End');
-	var $nameFields = array('');
-	var $name = 'CronTasks';
+	public $baseTable = 'vtiger_cron_task';
+	public $baseIndex = 'id';
+	public $listFields = array('sequence' => 'Sequence', 'name' => 'Cron Job', 'frequency' => 'Frequency(H:M)', 'status' => 'Status', 'laststart' => 'Last Start', 'lastend' => 'Last End');
+	public $nameFields = array('');
+	public $name = 'CronTasks';
 
 	/**
 	 * Function to get editable fields from this module

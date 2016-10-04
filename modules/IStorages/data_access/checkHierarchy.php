@@ -9,22 +9,22 @@
 class DataAccess_checkHierarchy
 {
 
-	var $config = false;
+	public $config = false;
 
-	public function process($moduleName, $id, $recordData, $config) 
+	public function process($moduleName, $id, $recordData, $config)
 	{
 		$parentId = $recordData['parentid'];
 		$focus = CRMEntity::getInstance($moduleName);
 		$storages = [];
-		
+
 		if ($id > 0) {
 			$children = $focus->getChildIStorages($id, $storages, 0);
 		} else {
 			$children = [];
 		}
-		
+
 		$saveRecord = $this->checkChildren($parentId, $children);
-		
+
 		if ($saveRecord === true) {
 			return ['save_record' => true];
 		} else {
@@ -39,14 +39,14 @@ class DataAccess_checkHierarchy
 			];
 		}
 	}
-	
+
 	/**
 	 * Checks if chosen parent is record child
 	 * @param type $parentId
 	 * @param type $childArray
 	 * @return true if parent can be set
 	 */
-	public function checkChildren($parentId, $childArray) 
+	public function checkChildren($parentId, $childArray)
 	{
 		foreach ($childArray as $key => $value) {
 			if (is_int($key) && is_array($value)) {
@@ -55,12 +55,12 @@ class DataAccess_checkHierarchy
 				} else if (!$this->checkChildren($parentId, $value)) {
 					return false;
 				}
-			} 
+			}
 		}
 		return true;
 	}
 
-	public function getConfig($id, $module, $baseModule) 
+	public function getConfig($id, $module, $baseModule)
 	{
 		return false;
 	}

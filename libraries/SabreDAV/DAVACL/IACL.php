@@ -22,7 +22,7 @@ interface IACL extends DAV\INode {
      *
      * @return string|null
      */
-    function getOwner();
+    public function getOwner();
 
     /**
      * Returns a group principal
@@ -31,7 +31,7 @@ interface IACL extends DAV\INode {
      *
      * @return string|null
      */
-    function getGroup();
+    public function getGroup();
 
     /**
      * Returns a list of ACE's for this node.
@@ -45,7 +45,7 @@ interface IACL extends DAV\INode {
      *
      * @return array
      */
-    function getACL();
+    public function getACL();
 
     /**
      * Updates the ACL
@@ -55,7 +55,7 @@ interface IACL extends DAV\INode {
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl);
+    public function setACL(array $acl);
 
     /**
      * Returns the list of supported privileges for this node.
@@ -69,7 +69,7 @@ interface IACL extends DAV\INode {
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet();
+    public function getSupportedPrivilegeSet();
 
 
 }

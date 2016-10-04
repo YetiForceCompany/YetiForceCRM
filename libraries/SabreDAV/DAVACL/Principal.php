@@ -42,7 +42,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      * @param IPrincipalBackend $principalBackend
      * @param array $principalProperties
      */
-    function __construct(PrincipalBackend\BackendInterface $principalBackend, array $principalProperties = []) {
+    public function __construct(PrincipalBackend\BackendInterface $principalBackend, array $principalProperties = []) {
 
         if (!isset($principalProperties['uri'])) {
             throw new DAV\Exception('The principal properties must at least contain the \'uri\' key');
@@ -57,7 +57,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return string
      */
-    function getPrincipalUrl() {
+    public function getPrincipalUrl() {
 
         return $this->principalProperties['uri'];
 
@@ -70,7 +70,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return array
      */
-    function getAlternateUriSet() {
+    public function getAlternateUriSet() {
 
         $uris = [];
         if (isset($this->principalProperties['{DAV:}alternate-URI-set'])) {
@@ -95,7 +95,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return array
      */
-    function getGroupMemberSet() {
+    public function getGroupMemberSet() {
 
         return $this->principalBackend->getGroupMemberSet($this->principalProperties['uri']);
 
@@ -109,7 +109,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return array
      */
-    function getGroupMembership() {
+    public function getGroupMembership() {
 
         return $this->principalBackend->getGroupMemberShip($this->principalProperties['uri']);
 
@@ -126,7 +126,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      * @param array $groupMembers
      * @return void
      */
-    function setGroupMemberSet(array $groupMembers) {
+    public function setGroupMemberSet(array $groupMembers) {
 
         $this->principalBackend->setGroupMemberSet($this->principalProperties['uri'], $groupMembers);
 
@@ -137,7 +137,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         $uri = $this->principalProperties['uri'];
         list(, $name) = URLUtil::splitPath($uri);
@@ -150,7 +150,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return string
      */
-    function getDisplayName() {
+    public function getDisplayName() {
 
         if (isset($this->principalProperties['{DAV:}displayname'])) {
             return $this->principalProperties['{DAV:}displayname'];
@@ -166,7 +166,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      * @param array $requestedProperties
      * @return array
      */
-    function getProperties($requestedProperties) {
+    public function getProperties($requestedProperties) {
 
         $newProperties = [];
         foreach ($requestedProperties as $propName) {
@@ -193,7 +193,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      * @param DAV\PropPatch $propPatch
      * @return void
      */
-    function propPatch(DAV\PropPatch $propPatch) {
+    public function propPatch(DAV\PropPatch $propPatch) {
 
         return $this->principalBackend->updatePrincipal(
             $this->principalProperties['uri'],
@@ -209,7 +209,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->principalProperties['uri'];
 
@@ -223,7 +223,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
 
         return null;
 
@@ -241,7 +241,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         return [
             [
@@ -261,7 +261,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new DAV\Exception\MethodNotAllowed('Updating ACLs is not allowed here');
 
@@ -279,7 +279,7 @@ class Principal extends DAV\Node implements IPrincipal, DAV\IProperties, IACL {
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         return null;
 

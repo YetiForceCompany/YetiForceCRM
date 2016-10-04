@@ -60,7 +60,6 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			$parentModuleName = $request->get('sourceModule');
 			$parentRecordId = $request->get('sourceRecord');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
-			//TODO : Url should load the related list instead of detail view of record
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
@@ -123,7 +122,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if(!$fieldModel->isEditEnabled()){
+			if (!$fieldModel->isEditEnabled()) {
 				continue;
 			}
 			if ($request->has($fieldName) && $fieldModel->get('uitype') == 300) {

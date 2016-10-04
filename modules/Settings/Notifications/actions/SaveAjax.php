@@ -16,7 +16,7 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 		$this->exposeMethod('saveConfig');
 	}
 
-	function saveConfig(Vtiger_Request $request)
+	public function saveConfig(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('srcModule');
 		$shareOwners = $request->get('owners');
@@ -38,7 +38,7 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 		}
 	}
 
-	function saveType(Vtiger_Request $request)
+	public function saveType(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$insertParams = [

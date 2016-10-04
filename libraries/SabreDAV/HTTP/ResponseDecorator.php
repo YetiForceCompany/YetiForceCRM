@@ -21,7 +21,7 @@ class ResponseDecorator implements ResponseInterface {
      *
      * @param ResponseInterface $inner
      */
-    function __construct(ResponseInterface $inner) {
+    public function __construct(ResponseInterface $inner) {
 
         $this->inner = $inner;
 
@@ -32,7 +32,7 @@ class ResponseDecorator implements ResponseInterface {
      *
      * @return int
      */
-    function getStatus() {
+    public function getStatus() {
 
         return $this->inner->getStatus();
 
@@ -46,7 +46,7 @@ class ResponseDecorator implements ResponseInterface {
      *
      * @return string
      */
-    function getStatusText() {
+    public function getStatusText() {
 
         return $this->inner->getStatusText();
 
@@ -63,7 +63,7 @@ class ResponseDecorator implements ResponseInterface {
      * @param string|int $status
      * @return void
      */
-    function setStatus($status) {
+    public function setStatus($status) {
 
         $this->inner->setStatus($status);
 
@@ -76,7 +76,7 @@ class ResponseDecorator implements ResponseInterface {
      *
      * @return string
      */
-    function __toString() {
+    public function __toString() {
 
         return $this->inner->__toString();
 

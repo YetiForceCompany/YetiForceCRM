@@ -33,7 +33,7 @@ class GetLastModified implements Element {
      *
      * @param int|DateTime $time
      */
-    function __construct($time) {
+    public function __construct($time) {
 
         if ($time instanceof DateTime) {
             $this->time = clone $time;
@@ -51,7 +51,7 @@ class GetLastModified implements Element {
      *
      * @return DateTime
      */
-    function getTime() {
+    public function getTime() {
 
         return $this->time;
 
@@ -72,7 +72,7 @@ class GetLastModified implements Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         $writer->write(
             HTTP\Util::toHTTPDate($this->time)

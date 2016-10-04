@@ -19,7 +19,7 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 
 		if (file_exists($path)) {
 			$json = file_get_contents($path);
-			$fieldTab = json_decode($json, TRUE);
+			$fieldTab = json_decode($json, true);
 			return $fieldTab;
 		} else {
 			return false;
@@ -30,7 +30,7 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = "SELECT * FROM vtiger_oss_project_templates WHERE module = ? AND parent = ?";
+		$sql = "SELECT * FROM vtiger_oss_project_templates WHERE module = ? && parent = ?";
 		$result = $db->pquery($sql, array($moduleName, $parentId), true);
 
 		$output = array();
@@ -55,7 +55,8 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 				} else {
 					$state = array();
 
-					for ($i = 0; $i < count($profile); $i++) {
+					$countProfile = count($profile);
+					for ($i = 0; $i < $countProfile; $i++) {
 						if (in_array($profile[$i], $userProfileList)) {
 							$state[] = true;
 						} else {
@@ -71,7 +72,7 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 		}
 
 		$menuModelsList = Vtiger_Module_Model::getAll([1]);
-		if (array_key_exists(getTabid('Project'), $menuModelsList)) {
+		if (array_key_exists(\includes\Modules::getModuleId('Project'), $menuModelsList)) {
 			unset($output);
 		}
 

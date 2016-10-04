@@ -30,8 +30,7 @@ class Settings_Notifications_Module_Model extends Settings_Vtiger_Module_Model
 		$query = sprintf('SELECT name FROM vtiger_tab WHERE
 						presence IN (%s)
 						AND isentitytype = ?
-						AND name NOT IN (%s)',
-			generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
+						AND name NOT IN (%s)', generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
 		$result = $db->pquery($query, array($presence, 1, $restrictedModules));
 		$numOfRows = $db->num_rows($result);
 		$modulesList = array();

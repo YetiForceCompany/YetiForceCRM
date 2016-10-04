@@ -1,26 +1,27 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ * *********************************************************************************** */
 
-class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller {
+class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller
+{
 
-	function checkPermission(Vtiger_Request $request) {
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if(!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$moduleModel = $request->getModule();
 		$priceBookModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);

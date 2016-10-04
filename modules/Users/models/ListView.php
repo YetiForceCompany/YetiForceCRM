@@ -51,7 +51,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$massActionLinks = [];
-		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && is_admin($privilegesModel)) {
+		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && vtlib\Functions::userIsAdministrator($privilegesModel)) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_PWD_EDIT',
@@ -62,7 +62,8 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-		for ($i = 0; $i < count($links['LISTVIEWMASSACTION']); $i++) {
+		$countLinks = count($links['LISTVIEWMASSACTION']);
+		for ($i = 0; $i < $countLinks; $i++) {
 			if ($links['LISTVIEWMASSACTION'][$i]->linklabel == 'LBL_MASS_DELETE') {
 				unset($links['LISTVIEWMASSACTION'][$i]);
 			}

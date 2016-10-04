@@ -22,7 +22,7 @@ class Vtiger_Util_Helper
 	 * 									array(1=> array('name'=> 'name2','type' => 'type2'),
 	 * 												...);
 	 */
-	public static function transformUploadedFiles(array $_files, $top = TRUE)
+	public static function transformUploadedFiles(array $_files, $top = true)
 	{
 		$files = [];
 		foreach ($_files as $name => $file) {
@@ -40,7 +40,7 @@ class Vtiger_Util_Helper
 						'error' => $file['error'][$key],
 						'size' => $file['size'][$key],
 					);
-					$files[$name] = self::transformUploadedFiles($files[$name], FALSE);
+					$files[$name] = self::transformUploadedFiles($files[$name], false);
 				}
 			} else {
 				$files[$name] = $file;
@@ -87,8 +87,16 @@ class Vtiger_Util_Helper
 			return $prefix . self::pluralize($days, "LBL_DAY") . $suffix;
 		if ($months < 12)
 			return $prefix . self::pluralize($months, "LBL_MONTH") . $suffix;
-		if ($months > 11)
-			return $prefix . self::pluralize(floor($days / 365), "LBL_YEAR") . $suffix;
+		if ($months > 11){
+			$month = $months % 12;
+			$monthAgo = '';
+			if ($month != 0) {
+				$monthAgo = self::pluralize($month, "LBL_MONTH");
+			}
+			$result = self::pluralize(floor($months / 12), "LBL_YEAR") . ' ' . $monthAgo;
+			return $prefix . $result . $suffix;
+		}
+			
 	}
 
 	/**
@@ -186,7 +194,6 @@ class Vtiger_Util_Helper
 			}
 			$formatedDate = $userDate . " ($tomorrowInfo)";
 		} else {
-			//$formatToConvert = str_replace( array('/','.'), array('-','-'), $format);
 			if ($currentUser->get('date_format') === 'mm-dd-yyyy') {
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 			}
@@ -304,31 +311,6 @@ class Vtiger_Util_Helper
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE defaultid < 0', []);
 		if ($db->num_rows($result))
 			return $db->query_result_rowdata($result, 0);
-	}
-
-	/**
-	 * Function to get role based picklist values
-	 * @param <String> $fieldName
-	 * @param <Integer> $roleId
-	 * @return <Array> list of role based picklist values
-	 */
-	public static function getRoleBasedPicklistValues($fieldName, $roleId)
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT $fieldName
-                  FROM vtiger_$fieldName
-                      INNER JOIN vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid
-                  WHERE roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortorderid";
-		$result = $db->pquery($query, array($roleId));
-		$picklistValues = [];
-		if ($db->num_rows($result) > 0) {
-			while ($row = $db->fetch_array($result)) {
-				//Need to decode the picklist values twice which are saved from old ui
-				$picklistValues[] = decode_html(decode_html($row[$fieldName]));
-			}
-		}
-		return $picklistValues;
 	}
 
 	/**
@@ -598,7 +580,7 @@ class Vtiger_Util_Helper
 	public static function isUserDeleted($userid)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? AND (status=? OR deleted=?)', array($userid, 'Inactive', 1));
+		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
 		$count = $db->num_rows($result);
 		if ($count > 0)
 			return true;
@@ -612,7 +594,7 @@ class Vtiger_Util_Helper
 	 * else returns empty string
 	 */
 
-	function getDefaultMandatoryValue($dataType)
+	public function getDefaultMandatoryValue($dataType)
 	{
 		$value;
 		switch ($dataType) {
@@ -690,7 +672,7 @@ class Vtiger_Util_Helper
 	{
 		$userPrivileges = self::getUserPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
-		return $field == false ? $userInfo : $userInfo[$field];
+		return $field === false ? $userInfo : $userInfo[$field];
 	}
 
 	protected static $userSharingCache = [];

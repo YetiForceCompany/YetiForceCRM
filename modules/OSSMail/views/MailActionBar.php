@@ -34,7 +34,6 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		$mailViewModel = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 		$record = $mailViewModel->checkMailExist($uid, $folder, $rcId);
 		if (!$record && !empty($account['actions'])) {
-			$account['actions'] = explode(',', $account['actions']);
 			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 			$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder);
 			$return = OSSMailScanner_Record_Model::executeActions($account, $mailModel->getMail($mbox, $uid), $folder, $params);

@@ -14,7 +14,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	protected $debug = false;
 
-	function loginRequired()
+	public function loginRequired()
 	{
 		return false;
 	}
@@ -67,7 +67,6 @@ class Install_Index_view extends Vtiger_View_Controller
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
-			exit;
 		}
 
 		$request = $this->setLanguage($request);
@@ -86,7 +85,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function process(Vtiger_Request $request)
 	{
-		global $default_charset;
+		$default_charset = AppConfig::main('default_charset');
 		if (empty($default_charset))
 			$default_charset = 'UTF-8';
 		$mode = $request->getMode();
@@ -100,8 +99,11 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		$viewer = new Vtiger_Viewer();
 		$viewer->setTemplateDir('install/tpl/');
-		$moduleName = $request->getModule();
+		$mode = $request->getMode();
 		echo $viewer->fetch('InstallPostProcess.tpl');
+		if ($mode == 'Step7') {
+			$this->cleanInstallationFiles();
+		}
 	}
 
 	public function Step1(Vtiger_Request $request)
@@ -231,7 +233,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$isInstalled = $webuiInstance->isInstalled();
 		if (!$isInstalled) {
 			if ($_SESSION['config_file_info']['authentication_key'] != $request->get('auth_key')) {
-				die(vtranslate('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION', $moduleName));
+				throw new \Exception\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
 
 			// Create configuration file
@@ -242,6 +244,27 @@ class Install_Index_view extends Vtiger_View_Controller
 
 			$db = new PearDatabase($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
 			$db->setDBCache();
+
+			$dbPort = 3306;
+			if (isset($configParams['db_hostname'])) {
+				if (strpos($configParams['db_hostname'], ':')) {
+					list($dbHostname, $dbPort) = explode(':', $configParams['db_hostname']);
+				} else {
+					$dbHostname = $configParams['db_hostname'];
+				}
+			}
+
+			\App\DB::setConfig([
+				'dsn' => 'mysql:host=' . $dbHostname . ';dbname=' . $configParams['db_name'] . ';port=' . $dbPort,
+				'host' => $dbHostname,
+				'port' => $dbPort,
+				'username' => $configParams['db_username'],
+				'password' => $configParams['db_password'],
+				'dbName' => $configParams['db_name'],
+				'type' => 'mysql',
+				'tablePrefix' => 'yf_',
+				'charset' => 'utf8'
+			]);
 
 			// Initialize and set up tables
 			$initSchema = new Install_InitSchema_Model($db);
@@ -340,7 +363,7 @@ class Install_Index_view extends Vtiger_View_Controller
 					$salt = '$1$' . str_pad($salt, 9, '0');
 				}
 				$encrypted_password = crypt($password, $salt);
-				$query = "SELECT 1 from vtiger_users where user_name=? AND user_password=? AND status = ?";
+				$query = "SELECT 1 from vtiger_users where user_name=? && user_password=? && status = ?";
 				$result = $adb->requirePsSingleResult($query, array($username, $encrypted_password, 'Active'), true);
 				if ($adb->num_rows($result) > 0) {
 					$loginStatus = true;
@@ -381,5 +404,23 @@ class Install_Index_view extends Vtiger_View_Controller
 	public function validateRequest(Vtiger_Request $request)
 	{
 		return $request->validateWriteAccess(true);
+	}
+
+	public function cleanInstallationFiles()
+	{
+		$languagesList = Users_Module_Model::getLanguagesList();
+		foreach ($languagesList as $key => $value) {
+			$langPath = "languages/$key/Install.php";
+			if (file_exists($langPath)) {
+				unlink($langPath);
+			}
+		}
+		\vtlib\Functions::recurseDelete('install');
+		\vtlib\Functions::recurseDelete('tests');
+		\vtlib\Functions::recurseDelete('config/config.template.php');
+		\vtlib\Functions::recurseDelete('.github');
+		\vtlib\Functions::recurseDelete('.gitattributes');
+		\vtlib\Functions::recurseDelete('.gitignore');
+		\vtlib\Functions::recurseDelete('.travis.yml');
 	}
 }

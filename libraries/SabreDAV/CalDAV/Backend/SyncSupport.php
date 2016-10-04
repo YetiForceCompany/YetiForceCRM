@@ -76,6 +76,6 @@ interface SyncSupport extends BackendInterface {
      * @param int $limit
      * @return array
      */
-    function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null);
+    public function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null);
 
 }

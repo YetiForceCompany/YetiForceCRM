@@ -50,7 +50,7 @@ class Parameter extends Node {
      * @param string $name
      * @param string $value
      */
-    function __construct(Document $root, $name, $value = null) {
+    public function __construct(Document $root, $name, $value = null) {
 
         $this->name = strtoupper($name);
         $this->root = $root;
@@ -180,7 +180,7 @@ class Parameter extends Node {
      *
      * @return void
      */
-    function setValue($value) {
+    public function setValue($value) {
 
         $this->value = $value;
 
@@ -194,7 +194,7 @@ class Parameter extends Node {
      *
      * @return string|null
      */
-    function getValue() {
+    public function getValue() {
 
         if (is_array($this->value)) {
             return implode(',', $this->value);
@@ -211,7 +211,7 @@ class Parameter extends Node {
      *
      * @return void
      */
-    function setParts(array $value) {
+    public function setParts(array $value) {
 
         $this->value = $value;
 
@@ -224,7 +224,7 @@ class Parameter extends Node {
      *
      * @return array
      */
-    function getParts() {
+    public function getParts() {
 
         if (is_array($this->value)) {
             return $this->value;
@@ -246,7 +246,7 @@ class Parameter extends Node {
      *
      * @return void
      */
-    function addValue($part) {
+    public function addValue($part) {
 
         if (is_null($this->value)) {
             $this->value = $part;
@@ -267,7 +267,7 @@ class Parameter extends Node {
      *
      * @return bool
      */
-    function has($value) {
+    public function has($value) {
 
         return in_array(
             strtolower($value),
@@ -281,7 +281,7 @@ class Parameter extends Node {
      *
      * @return string
      */
-    function serialize() {
+    public function serialize() {
 
         $value = $this->getParts();
 
@@ -344,7 +344,7 @@ class Parameter extends Node {
      *
      * @return array
      */
-    function jsonSerialize() {
+    public function jsonSerialize() {
 
         return $this->value;
 
@@ -358,7 +358,7 @@ class Parameter extends Node {
      *
      * @return void
      */
-    function xmlSerialize(Xml\Writer $writer) {
+    public function xmlSerialize(Xml\Writer $writer) {
 
         foreach (explode(',', $this->value) as $value) {
             $writer->writeElement('text', $value);
@@ -371,7 +371,7 @@ class Parameter extends Node {
      *
      * @return string
      */
-    function __toString() {
+    public function __toString() {
 
         return (string)$this->getValue();
 
@@ -382,7 +382,7 @@ class Parameter extends Node {
      *
      * @return ElementList
      */
-    function getIterator() {
+    public function getIterator() {
 
         if (!is_null($this->iterator))
             return $this->iterator;

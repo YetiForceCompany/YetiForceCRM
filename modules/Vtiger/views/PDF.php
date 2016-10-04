@@ -18,7 +18,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();

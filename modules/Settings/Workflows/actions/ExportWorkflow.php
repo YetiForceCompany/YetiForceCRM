@@ -75,7 +75,7 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 		}
 
 		$xmlMethods = $xml->createElement('workflow_methods');
-		foreach($workflowMethods as $method) {
+		foreach ($workflowMethods as $method) {
 			$xmlMethod = $xml->createElement('workflow_method');
 			$xmlMethod->appendChild($xml->createElement('module_name', html_entity_decode($method['module_name'], ENT_COMPAT, 'UTF-8')));
 			$xmlMethod->appendChild($xml->createElement('method_name', html_entity_decode($method['method_name'], ENT_COMPAT, 'UTF-8')));

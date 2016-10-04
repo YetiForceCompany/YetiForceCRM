@@ -363,6 +363,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 					app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 					app.registerModal(contentContainer);
 					app.registerMoreContent(contentContainer.find('button.moreBtn'));
+					var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
+					relatedController.registerUnreviewedCountEvent(widgetContainer);
 					aDeferred.resolve(params);
 				},
 				function (e) {
@@ -375,7 +377,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 	/**
 	 * Function to load only Comments Widget.
 	 */
-	//TODO improve this API.
 	loadCommentsWidget: function () {
 
 	},
@@ -593,7 +594,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		if (commentContentValue == "") {
 			errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY')
 			commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
-			aDeferred.reject();
+			aDeferred.reject(errorMsg);
 			return aDeferred.promise();
 		}
 		if (commentMode == "edit") {
@@ -1101,7 +1102,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		jQuery(fieldElement).each(function (index, element) {
 			var fieldName = jQuery(element).val();
 			var elementTarget = jQuery(element);
-			var elementName = jQuery.inArray(elementTarget.data('type'), ['multipicklist', 'taxes', 'sharedOwner']) != -1 ? fieldName + '[]' : fieldName;
+			var elementName = jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner']) != -1 ? fieldName + '[]' : fieldName;
 			var fieldElement = jQuery('[name="' + elementName + '"]', editElement);
 			if (fieldElement.attr('disabled') == 'disabled') {
 				return;
@@ -1180,7 +1181,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					detailViewValue.removeClass('hide');
 					actionElement.removeClass('hide');
 					readRecord.prop('disabled', false);
-					jQuery(document).off('click', '*', saveHandler);
+					editElement.off('clickoutside');
 				} else {
 					var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
 					fieldElement.trigger(preFieldSaveEvent, {'fieldValue': fieldValue, 'recordId': thisInstance.getRecordId()});
@@ -1192,7 +1193,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						return;
 					}
 					preventDefault = false;
-					jQuery(document).off('click', '*', saveHandler);
+					editElement.off('clickoutside');
 					if (!saveTriggred && !preventDefault) {
 						saveTriggred = true;
 						if (Vtiger_Detail_Js.SaveResultInstance == false) {
@@ -1205,7 +1206,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 							editElement.addClass('hide');
 							detailViewValue.removeClass('hide');
 							actionElement.removeClass('hide');
-							jQuery(document).off('click', '*', saveHandler);
+							editElement.off('clickoutside');
 							readRecord.prop('disabled', false);
 							fieldElement.val(previousValue);
 							return;
@@ -1237,6 +1238,15 @@ jQuery.Class("Vtiger_Detail_Js", {
 							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
 						}
 						detailViewValue.html(displayValue);
+						if (postSaveRecordDetails['isEditable'] == false) {
+							var progressIndicatorElement = jQuery.progressIndicator({
+								'position': 'html',
+								'blockInfo': {
+									'enabled': true
+								}
+							});
+							window.location.reload();
+						}
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
 						elementTarget.data('prevValue', ajaxEditNewValue);
 						fieldElement.data('selectedValue', ajaxEditNewValue);
@@ -1263,19 +1273,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 						thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
 					},
 							function (error) {
-								//TODO : Handle error
 								editElement.addClass('hide');
 								detailViewValue.removeClass('hide');
 								actionElement.removeClass('hide');
-								jQuery(document).off('click', '*', saveHandler);
+								editElement.off('clickoutside');
 								readRecord.prop('disabled', false);
 								currentTdElement.progressIndicator({'mode': 'hide'});
 							}
 					)
 				}
 			}
-
-			jQuery('body :not(.popover *)').click(saveHandler);
+			editElement.on('clickoutside', saveHandler);
 		})
 	},
 	triggerDisplayTypeEvent: function () {
@@ -1448,6 +1456,22 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		})
 	},
+	registerEmailEvent: function () {
+		var thisInstance = this;
+		this.getContentHolder().find('.resetRelationsEmail').on('click', function (e) {
+			var currentElement = jQuery(e.currentTarget);
+			Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION')}).then(function (data) {
+				AppConnector.request({
+					module: 'OSSMailView',
+					action: 'Relation',
+					moduleName: app.getModuleName(),
+					record: app.getRecordId()
+				}).then(function (d) {
+					Vtiger_Helper_Js.showMessage({text: d.result});
+				})
+			});
+		})
+	},
 	getFiltersDataAndLoad: function (e, params) {
 		var data = this.getFiltersData(e, params);
 		this.loadWidget(data['container'], data['params']);
@@ -1547,6 +1571,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerChangeFilterForWidget();
 		this.registerChangeSwitchForWidget();
 		this.registerFilterForAddingModuleRelatedRecordFromSummaryWidget();
+		this.registerEmailEvent();
 		if (Vtiger_Detail_Js.SaveResultInstance == false) {
 			Vtiger_Detail_Js.SaveResultInstance = new SaveResult();
 		}
@@ -1738,6 +1763,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * summary view widget
 	 */
 	postSummaryWidgetAddRecord: function (data, currentElement) {
+		var thisInstance = this;
 		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
 		var widgetHeaderContainer = summaryWidgetContainer.find('.widget_header');
 		var widgetDataContainer = summaryWidgetContainer.find('.widget_contents');
@@ -1765,6 +1791,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 								widgetDataContainer.progressIndicator({'mode': 'hide'});
 								widgetDataContainer.html(data);
 								app.changeSelectElementView(documentsWidget);
+								var relatedController = new Vtiger_RelatedList_Js(recordId, module, thisInstance.getSelectedTab(), referenceModuleName);
+								relatedController.registerUnreviewedCountEvent(widgetDataContainer);
 							}
 					);
 				}
@@ -2061,7 +2089,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 							app.notifyPostAjaxReady();
 						},
 						function () {
-							//TODO : handle error
 							element.progressIndicator({'mode': 'hide'});
 						}
 				);
@@ -2475,35 +2502,37 @@ jQuery.Class("Vtiger_Detail_Js", {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
 							});
-				},
-						function (error, err) {
-						}
-				);
+				}, function (error, err) {
+					app.errorLog(error, err);
+				});
 			}
 		});
 		detailContentsHolder.on('click', '.detailViewSaveComment', function (e) {
 			var element = jQuery(e.currentTarget);
 			if (!element.is(":disabled")) {
-				var dataObj = thisInstance.saveComment(e);
-				dataObj.then(function () {
+				thisInstance.saveComment(e).then(function () {
 					thisInstance.registerRelatedModulesRecordCount();
 					var commentsContainer = detailContentsHolder.find("[data-type='Comments']");
 					thisInstance.loadWidget(commentsContainer).then(function () {
 						element.removeAttr('disabled');
 					});
+				}, function (error, err) {
+					element.removeAttr('disabled');
+					app.errorLog(error, err);
 				});
 			}
 		});
 		detailContentsHolder.on('click', '.saveComment', function (e) {
 			var element = jQuery(e.currentTarget);
 			if (!element.is(":disabled")) {
-				var currentTarget = jQuery(e.currentTarget);
-				var dataObj = thisInstance.saveComment(e);
-				dataObj.then(function (data) {
+				thisInstance.saveComment(e).then(function (data) {
 					var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 					thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-					thisInstance.addComment(currentTarget, data);
+					thisInstance.addComment(element, data);
 					element.removeAttr('disabled');
+				}, function (error, err) {
+					element.removeAttr('disabled');
+					app.errorLog(error, err);
 				});
 			}
 		});
@@ -2632,27 +2661,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerMapsEvents: function (container) {
 		var coordinates = container.find('#coordinates').val();
 		if (container.find('#coordinates').length) {
-			coordinates = JSON.parse(coordinates);
-			var startCoordinate = [0,0];
-			var startZoom = 2;
-			if(coordinates.length){
-				startCoordinate = coordinates[0];
-				startZoom = 6;
-			}
-			var postionTop = $('#mapid').position();
-			var positionBottom = $('.footerContainer ').position();
-			$('#mapid').css({
-				height: positionBottom.top - postionTop.top - 281
-			});
-			var mymap = L.map('mapid').setView(startCoordinate, startZoom);
-			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-				maxZoom: 19,
-				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-
-			}).addTo(mymap);
-			coordinates.forEach(function (e) {
-				L.marker([e[0], e[1]]).addTo(mymap).bindPopup(e[2]);
-			});
+			var mapView = new OpenStreetMap_Map_Js();
+			mapView.registerDetailView(container);
 		}
 	},
 	registerBasicEvents: function () {

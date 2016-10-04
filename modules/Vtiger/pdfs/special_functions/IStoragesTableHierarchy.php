@@ -17,9 +17,9 @@ class Pdf_IStoragesTableHierarchy extends Vtiger_SpecialFunction_Pdf
 		$hierarchy = $entity->getHierarchy($id, false, false);
 		$rowNum = 1;
 		$thDataArray = [
-			['label' => vtranslate('LBL_ROW_NUM',$module), 'width' => '10%', 'align' => 'center'],
-			['label' => vtranslate('SINGLE_IStorages',$module), 'width' => '50%', 'align' => 'left'],
-			['label' => vtranslate('LBL_STORAGE_OWNER',$module), 'width' => '40%', 'align' => 'center'],
+			['label' => vtranslate('LBL_ROW_NUM', $module), 'width' => '10%', 'align' => 'center'],
+			['label' => vtranslate('SINGLE_IStorages', $module), 'width' => '50%', 'align' => 'left'],
+			['label' => vtranslate('LBL_STORAGE_OWNER', $module), 'width' => '40%', 'align' => 'center'],
 		];
 		$html = '<style>';
 		$html.= '.storagesTable{width:100%;font-size:10px;border:1px solid #ddd;border-collapse:collapse}';

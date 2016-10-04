@@ -16,22 +16,20 @@
 class HelpDesk extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_troubletickets";
-	var $table_index = 'ticketid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
+	public $table_name = "vtiger_troubletickets";
+	public $table_index = 'ticketid';
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_ticketcf', 'ticketid');
-	var $column_fields = Array();
+	public $customFieldTable = Array('vtiger_ticketcf', 'ticketid');
+	public $column_fields = Array();
 	//Pavani: Assign value to entity_table
-	var $entity_table = "vtiger_crmentity";
-	var $sortby_fields = Array('title', 'status', 'priority', 'crmid', 'firstname', 'smownerid');
-	var $list_fields = Array(
+	public $entity_table = "vtiger_crmentity";
+	public $sortby_fields = Array('title', 'status', 'priority', 'crmid', 'firstname', 'smownerid');
+	public $list_fields = Array(
 		//Module Sequence Numbering
 		//'Ticket ID'=>Array('crmentity'=>'crmid'),
 		'Ticket No' => Array('troubletickets' => 'ticket_no'),
@@ -44,7 +42,7 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'FL_TOTAL_TIME_H' => Array('troubletickets', 'sum_time')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'Ticket No' => 'ticket_no',
 		'Subject' => 'ticket_title',
 		'Related To' => 'parent_id',
@@ -54,8 +52,8 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
 	);
-	var $list_link_field = 'ticket_title';
-	var $range_fields = Array(
+	public $list_link_field = 'ticket_title';
+	public $range_fields = Array(
 		'ticketid',
 		'title',
 		'firstname',
@@ -72,27 +70,27 @@ class HelpDesk extends CRMEntity
 		'modifiedtime',
 		'createdtime'
 	);
-	var $search_fields = Array(
+	public $search_fields = Array(
 		//'Ticket ID' => Array('vtiger_crmentity'=>'crmid'),
 		'Ticket No' => Array('vtiger_troubletickets' => 'ticket_no'),
 		'Title' => Array('vtiger_troubletickets' => 'title')
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		'Ticket No' => 'ticket_no',
 		'Title' => 'ticket_title',
 	);
 	//Specify Required fields
-	var $required_fields = array();
+	public $required_fields = array();
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
+	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 	// For Alphabetical search
-	var $def_basicsearch_col = 'ticket_title';
+	public $def_basicsearch_col = 'ticket_title';
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		//Inserting into vtiger_attachments
 		$this->insertIntoAttachment($this->id, $module);
@@ -109,7 +107,7 @@ class HelpDesk extends CRMEntity
 		}
 	}
 
-	function save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName = false)
+	public function save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName = false)
 	{
 		if ($with_module == 'ServiceContracts') {
 			parent::save_related_module($module, $crmid, $with_module, $with_crmid);
@@ -126,10 +124,10 @@ class HelpDesk extends CRMEntity
 	 *      @param int $id  - entity id to which the vtiger_files to be uploaded
 	 *      @param string $module  - the current module name
 	 */
-	function insertIntoAttachment($id, $module)
+	public function insertIntoAttachment($id, $module)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
+
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
 
@@ -140,7 +138,7 @@ class HelpDesk extends CRMEntity
 			}
 		}
 
-		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/**     Function to get the Ticket History information as in array format
@@ -151,11 +149,11 @@ class HelpDesk extends CRMEntity
 	  entries=>array('0'=>'info1','1'=>'info2',etc.,)
 	  )
 	 */
-	function get_ticket_history($ticketid)
+	public function get_ticket_history($ticketid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering into get_ticket_history($ticketid) method ...");
+
+		\App\Log::trace("Entering into get_ticket_history($ticketid) method ...");
 
 		$query = 'select title,update_log from vtiger_troubletickets where ticketid=?';
 		$result = $adb->pquery($query, array($ticketid));
@@ -166,20 +164,20 @@ class HelpDesk extends CRMEntity
 
 		$return_value = ['header' => $header, 'entries' => $splitval];
 
-		$log->debug("Exiting from get_ticket_history($ticketid) method ...");
+		\App\Log::trace("Exiting from get_ticket_history($ticketid) method ...");
 		return $return_value;
 	}
 
-	/** 	Function to get the HelpDesk field labels in caps letters without space
+	/** 	public function to get the HelpDesk field labels in caps letters without space
 	 * 	@return array $mergeflds - array(	key => val	)    where   key=0,1,2..n & val = ASSIGNEDTO,RELATEDTO, .,etc
 	 * */
-	function getColumnNames_Hd()
+	public function getColumnNames_Hd()
 	{
-		$log = LoggerManager::getInstance();
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering getColumnNames_Hd() method ...");
+		\App\Log::trace("Entering getColumnNames_Hd() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select fieldlabel from vtiger_field where tabid=13 and block <> 30 and vtiger_field.uitype <> '61' and vtiger_field.presence in (0,2)";
 			$params1 = array();
 		} else {
@@ -199,7 +197,7 @@ class HelpDesk extends CRMEntity
 			$custom_fields[$i] = strtoupper($custom_fields[$i]);
 		}
 		$mergeflds = $custom_fields;
-		$log->debug("Exiting getColumnNames_Hd method ...");
+		\App\Log::trace("Exiting getColumnNames_Hd method ...");
 		return $mergeflds;
 	}
 
@@ -207,15 +205,15 @@ class HelpDesk extends CRMEntity
 	 *      @param  int    $id   - Ticket id
 	 *      @return string $customername - The contact name
 	 * */
-	function getCustomerName($id)
+	public function getCustomerName($id)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering getCustomerName(" . $id . ") method ...");
+
+		\App\Log::trace("Entering getCustomerName(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$sql = "select * from vtiger_portalinfo inner join vtiger_troubletickets on vtiger_troubletickets.contact_id = vtiger_portalinfo.id where vtiger_troubletickets.ticketid=?";
 		$result = $adb->pquery($sql, array($id));
 		$customername = $adb->query_result($result, 0, 'user_name');
-		$log->debug("Exiting getCustomerName method ...");
+		\App\Log::trace("Exiting getCustomerName method ...");
 		return $customername;
 	}
 
@@ -224,11 +222,11 @@ class HelpDesk extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Tickets Query.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
-		$log = LoggerManager::getInstance();
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -236,8 +234,8 @@ class HelpDesk extends CRMEntity
 		$sql = getPermittedFieldsQuery("HelpDesk", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
                        FROM " . $this->entity_table . "
 				INNER JOIN vtiger_troubletickets
@@ -259,21 +257,21 @@ class HelpDesk extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')
-			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
+			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		$log->debug("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
 	/** Function to get the update ticket history for the specified ticketid
 	 * @param $id -- $ticketid:: Type Integer
 	 */
-	function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
+	public function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 
 		if ($mode != 'edit') {//this will be updated when we create new ticket
 			$updatelog = "Ticket created. Assigned to ";
@@ -283,10 +281,10 @@ class HelpDesk extends CRMEntity
 			} elseif ($focus->column_fields['assigned_user_id'] != '') {
 				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
 			} else {
-				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($current_user->id);
+				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($currentUser->getId());
 			}
 
-			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $current_user->user_name;
+			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $currentUser->getName();
 			$updatelog .= " -- " . $fldvalue . "--//--";
 		} else {
 			$ticketid = $focus->id;
@@ -305,11 +303,11 @@ class HelpDesk extends CRMEntity
 
 			//Assigned to change log
 			if ($focus->column_fields['assigned_user_id'] != $old_owner_id) {
-				$owner_name = getOwnerName($focus->column_fields['assigned_user_id']);
+				$ownerName = \includes\fields\Owner::getLabel($focus->column_fields['assigned_user_id']);
 				if ($assigntype == 'T')
-					$updatelog .= ' Transferred to group ' . $owner_name . '\.';
+					$updatelog .= ' Transferred to group ' . $ownerName . '\.';
 				else
-					$updatelog .= ' Transferred to user ' . decode_html($owner_name) . '\.'; // Need to decode UTF characters which are migrated from versions < 5.0.4.
+					$updatelog .= ' Transferred to user ' . decode_html($ownerName) . '\.'; // Need to decode UTF characters which are migrated from versions < 5.0.4.
 			}
 			//Status change log
 			if ($old_status != $focus->column_fields['ticketstatus'] && $focus->column_fields['ticketstatus'] != '') {
@@ -328,7 +326,7 @@ class HelpDesk extends CRMEntity
 				$updatelog .= ' Category Changed to ' . $focus->column_fields['ticketcategories'] . '\.';
 			}
 
-			$updatelog .= ' -- ' . date("l dS F Y h:i:s A") . ' by ' . $current_user->user_name . '--//--';
+			$updatelog .= ' -- ' . date("l dS F Y h:i:s A") . ' by ' . $currentUser->getName() . '--//--';
 		}
 		return $updatelog;
 	}
@@ -339,11 +337,11 @@ class HelpDesk extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Attachments" => "vtiger_seattachmentsrel", "Documents" => "vtiger_senotesrel");
 
@@ -368,7 +366,7 @@ class HelpDesk extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		$log->debug("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report
@@ -377,7 +375,7 @@ class HelpDesk extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
 
@@ -389,7 +387,6 @@ class HelpDesk extends CRMEntity
 		if (!$queryplanner->requireTable('vtiger_troubletickets', $matrix)) {
 			return '';
 		}
-		// TODO Support query planner
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_troubletickets", "ticketid", $queryplanner);
 
 		if ($queryplanner->requireTable("vtiger_crmentityHelpDesk", $matrix)) {
@@ -430,7 +427,7 @@ class HelpDesk extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_troubletickets' => 'ticketid'),
@@ -443,9 +440,9 @@ class HelpDesk extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		$log = LoggerManager::getInstance();
+
 		if (empty($return_module) || empty($return_id))
 			return;
 
@@ -471,7 +468,7 @@ class HelpDesk extends CRMEntity
 
 	public static function getTicketEmailContents($entityData, $toOwner = false)
 	{
-		global $HELPDESK_SUPPORT_NAME;
+		$HELPDESK_SUPPORT_NAME = AppConfig::main('HELPDESK_SUPPORT_NAME');
 		$adb = PearDatabase::getInstance();
 		$moduleName = $entityData->getModuleName();
 		$wsId = $entityData->getId();
@@ -486,10 +483,10 @@ class HelpDesk extends CRMEntity
 		$isNew = $entityData->isNew();
 
 		if (!$isNew) {
-			$reply = getTranslatedString("replied", $moduleName);
-			$temp = getTranslatedString("Re", $moduleName);
+			$reply = \includes\Language::translate("replied", $moduleName);
+			$temp = \includes\Language::translate("Re", $moduleName);
 		} else {
-			$reply = getTranslatedString("created", $moduleName);
+			$reply = \includes\Language::translate("created", $moduleName);
 			$temp = " ";
 		}
 
@@ -502,20 +499,20 @@ class HelpDesk extends CRMEntity
 		// Regardless of the entry we need just the ID
 		$parentId = array_pop($parentIdParts);
 
-		$desc = getTranslatedString('Ticket ID', $moduleName) . ' : ' . $entityId . '<br>'
-			. getTranslatedString('Ticket Title', $moduleName) . ' : ' . $temp . ' '
+		$desc = \includes\Language::translate('Ticket ID', $moduleName) . ' : ' . $entityId . '<br>'
+			. \includes\Language::translate('Ticket Title', $moduleName) . ' : ' . $temp . ' '
 			. $entityData->get('ticket_title');
-		$name = (!$toOwner) ? getParentName($parentId) : '';
-		$desc .= "<br><br>" . getTranslatedString('Hi', $moduleName) . " " . $name . ",<br><br>"
-			. getTranslatedString('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . getTranslatedString('LBL_DETAIL', $moduleName) . "<br>";
-		$desc .= "<br>" . getTranslatedString('Ticket No', $moduleName) . " : " . $entityData->get('ticket_no');
-		$desc .= "<br>" . getTranslatedString('Status', $moduleName) . " : " . $entityData->get('ticketstatus');
-		$desc .= "<br>" . getTranslatedString('Category', $moduleName) . " : " . $entityData->get('ticketcategories');
-		$desc .= "<br>" . getTranslatedString('Severity', $moduleName) . " : " . $entityData->get('ticketseverities');
-		$desc .= "<br>" . getTranslatedString('Priority', $moduleName) . " : " . $entityData->get('ticketpriorities');
-		$desc .= "<br><br>" . getTranslatedString('Description', $moduleName) . " : <br>" . $entityData->get('description');
-		$desc .= "<br><br>" . getTranslatedString('Solution', $moduleName) . " : <br>" . $entityData->get('solution');
-		$desc .= getTicketComments($entityId);
+		$name = (!$toOwner) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
+		$desc .= "<br><br>" . \includes\Language::translate('Hi', $moduleName) . " " . $name . ",<br><br>"
+			. \includes\Language::translate('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . \includes\Language::translate('LBL_DETAIL', $moduleName) . "<br>";
+		$desc .= "<br>" . \includes\Language::translate('Ticket No', $moduleName) . " : " . $entityData->get('ticket_no');
+		$desc .= "<br>" . \includes\Language::translate('Status', $moduleName) . " : " . $entityData->get('ticketstatus');
+		$desc .= "<br>" . \includes\Language::translate('Category', $moduleName) . " : " . $entityData->get('ticketcategories');
+		$desc .= "<br>" . \includes\Language::translate('Severity', $moduleName) . " : " . $entityData->get('ticketseverities');
+		$desc .= "<br>" . \includes\Language::translate('Priority', $moduleName) . " : " . $entityData->get('ticketpriorities');
+		$desc .= "<br><br>" . \includes\Language::translate('Description', $moduleName) . " : <br>" . $entityData->get('description');
+		$desc .= "<br><br>" . \includes\Language::translate('Solution', $moduleName) . " : <br>" . $entityData->get('solution');
+		$desc .= \vtlib\Functions::getTicketComments($entityId);
 
 		$sql = "SELECT * FROM vtiger_ticketcf WHERE ticketid = ?";
 		$result = $adb->pquery($sql, array($entityId));
@@ -528,15 +525,15 @@ class HelpDesk extends CRMEntity
 				$desc .= '<br>' . $cfLabel . ' : ' . $cfData;
 			}
 		}
-		$desc .= '<br><br>' . getTranslatedString("LBL_REGARDS", $moduleName) . ',<br>' . $HELPDESK_SUPPORT_NAME;
+		$desc .= '<br><br>' . \includes\Language::translate("LBL_REGARDS", $moduleName) . ',<br>' . $HELPDESK_SUPPORT_NAME;
 		return $desc;
 	}
 
 	public static function getPortalTicketEmailContents($entityData)
 	{
 		require_once 'config/config.php';
-		global $PORTAL_URL, $HELPDESK_SUPPORT_NAME;
-
+		$PORTAL_URL = AppConfig::main('PORTAL_URL');
+		$HELPDESK_SUPPORT_NAME = AppConfig::main('HELPDESK_SUPPORT_NAME');
 		$moduleName = $entityData->getModuleName();
 		$wsId = $entityData->getId();
 
@@ -555,19 +552,19 @@ class HelpDesk extends CRMEntity
 		$parentId = array_pop($parentIdParts);
 
 		$portalUrl = "<a href='" . $PORTAL_URL . "/index.php?module=HelpDesk&action=index&ticketid=" . $entityId . "&fun=detail'>"
-			. getTranslatedString('LBL_TICKET_DETAILS', $moduleName) . "</a>";
-		$contents = getTranslatedString('Dear', $moduleName) . ' ';
-		$contents .= ($parentId) ? getParentName($parentId) : '';
+			. \includes\Language::translate('LBL_TICKET_DETAILS', $moduleName) . "</a>";
+		$contents = \includes\Language::translate('Dear', $moduleName) . ' ';
+		$contents .= ($parentId) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
 		$contents .= ",<br>";
-		$contents .= getTranslatedString('reply', $moduleName) . ' <b>' . $entityData->get('ticket_title')
-			. '</b> ' . getTranslatedString('customer_portal', $moduleName);
-		$contents .= getTranslatedString("link", $moduleName) . '<br>';
+		$contents .= \includes\Language::translate('reply', $moduleName) . ' <b>' . $entityData->get('ticket_title')
+			. '</b> ' . \includes\Language::translate('customer_portal', $moduleName);
+		$contents .= \includes\Language::translate("link", $moduleName) . '<br>';
 		$contents .= $portalUrl;
-		$contents .= '<br><br>' . getTranslatedString("Thanks", $moduleName) . '<br>' . $HELPDESK_SUPPORT_NAME;
+		$contents .= '<br><br>' . \includes\Language::translate("Thanks", $moduleName) . '<br>' . $HELPDESK_SUPPORT_NAME;
 		return $contents;
 	}
 
-	function clearSingletonSaveFields()
+	public function clearSingletonSaveFields()
 	{
 		$this->column_fields['comments'] = '';
 	}

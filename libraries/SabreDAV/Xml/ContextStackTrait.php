@@ -93,7 +93,7 @@ trait ContextStackTrait {
      *
      * @return null
      */
-    function pushContext() {
+    public function pushContext() {
 
         $this->contextStack[] = [
             $this->elementMap,
@@ -109,7 +109,7 @@ trait ContextStackTrait {
      *
      * @return null
      */
-    function popContext() {
+    public function popContext() {
 
         list(
             $this->elementMap,

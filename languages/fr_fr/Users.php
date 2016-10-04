@@ -313,6 +313,7 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Retardé',
 	'PLL_CANCELLED' => 'Annulé',
 	'PLL_COMPLETED' => 'Complété',
+	'LBL_SELECT_LAYOUT' => 'Select layout', 
 	'LBL_SWITCH' => 'Echanger',
 	'LBL_SWITCH_USER' => 'Echanger utilisateur',
 	'LBL_SWITCH_TO_YOURSELF' => 'Echanger vers vous-même',

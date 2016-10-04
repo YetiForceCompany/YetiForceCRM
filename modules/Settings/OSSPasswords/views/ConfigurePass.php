@@ -12,7 +12,7 @@
 class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -25,7 +25,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
@@ -40,7 +40,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 	public function process(Vtiger_Request $request)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 
@@ -132,7 +132,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					// commit transaction
 					$adb->completeTransaction();
 				} else {
-					$log->error('New encryption password incorrect!');
+					\App\Log::error('New encryption password incorrect!');
 					$error = 'New encryption password is incorrect!';
 				}
 			}
@@ -172,7 +172,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 						$save_ini = $recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
 						$success = 'Your key has been changed correctly.';
 					} else {
-						$log->error('Changing password encryption keys was unsuccessfull!');
+						\App\Log::error('Changing password encryption keys was unsuccessfull!');
 						$error = 'Changing encryption key!';
 					}
 
@@ -214,7 +214,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				}
 			}
 		} else if (!empty($uninstall_passwords) && !empty($status)) {
-			$log->debug('Uninstallation started...');
+			\App\Log::trace('Uninstallation started...');
 			$moduleName = $request->getModule();
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			if ($moduleModel) {
@@ -237,7 +237,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('SAVE', 'Save');
 		$viewer->assign('CANCEL', 'Cancel');
-		if (is_admin($current_user))
+		if (\vtlib\Functions::userIsAdministrator($current_user))
 			$viewer->assign('ISADMIN', 1);
 		else
 			$viewer->assign('ISADMIN', 0);

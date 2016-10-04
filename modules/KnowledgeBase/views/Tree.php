@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package YetiForce.Views
  * @license licenses/License.html
@@ -18,6 +19,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->view('TreeHeader.tpl', $moduleName);
 	}
+
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);

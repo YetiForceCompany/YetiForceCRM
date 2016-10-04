@@ -8,7 +8,7 @@
  */
 class Services_TreeRecords_View extends Products_TreeRecords_View
 {
-	
+
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -25,5 +25,4 @@ class Services_TreeRecords_View extends Products_TreeRecords_View
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
-
 }

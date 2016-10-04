@@ -21,7 +21,7 @@ class BadRequest extends DAV\Exception {
      *
      * @return int
      */
-    function getHTTPCode() {
+    public function getHTTPCode() {
 
         return 400;
 

@@ -51,6 +51,6 @@ $languageStrings = [
 	'LBL_SPACE_USED' => 'Belegt',
 	'LBL_VALUE' => 'Wert',
 	'LBL_PHPINI' => 'PHP Konfiguration',
- 	'LBL_LOG_FILE' => 'Protokollierung',
- 	'LBL_CRM_DIR' => 'CRM Lokales Verzeichnis',
+	'LBL_LOG_FILE' => 'Protokollierung',
+	'LBL_CRM_DIR' => 'CRM Lokales Verzeichnis',
 ];

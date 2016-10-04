@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 namespace vtlib;
 
@@ -25,7 +26,7 @@ class Deprecated
 		if ($rowdata != '' && count($rowdata) > 0) {
 			$name = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $rowdata);
 		}
-		$name = textlength_check($name);
+		$name = Functions::textLength($name);
 		return $name;
 	}
 
@@ -37,6 +38,13 @@ class Deprecated
 		return $displayName;
 	}
 
+	/**
+	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
+	 * @param1 $module - name of the module
+	 * @param2 $fieldsName - fieldname with respect to module (ex : 'Accounts' - 'accountname', 'Contacts' - 'lastname','firstname')
+	 * @param3 $fieldValues - array of fieldname and its value
+	 * @return string $fieldConcatName - the entity field name for the module
+	 */
 	public static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
 	{
 		$current_user = vglobal('current_user');
@@ -118,25 +126,23 @@ class Deprecated
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
 				if (!$handle = fopen($filename, 'w+')) {
-					echo "Cannot open file ($filename)";
-					exit;
+					throw new \Exception\NoPermitted("Cannot open file ($filename)");
 				}
 				require_once('modules/Users/CreateUserPrivilegeFile.php');
-				$newbuf = '';
-				$newbuf .="<?php\n\n";
-				$newbuf .="\n";
-				$newbuf .= "//This file contains the commonly used variables \n";
-				$newbuf .= "\n";
-				$newbuf .= "\$tab_info_array=" . constructArray($result_array) . ";\n";
-				$newbuf .= "\n";
-				$newbuf .= "\$tab_seq_array=" . constructArray($seq_array) . ";\n";
-				$newbuf .= "\n";
-				$newbuf .= "\$tab_ownedby_array=" . constructArray($ownedby_array) . ";\n";
-				$newbuf .= "\n";
-				$newbuf .= "\$action_id_array=" . constructSingleStringKeyAndValueArray($actionid_array) . ";\n";
-				$newbuf .= "\n";
-				$newbuf .= "\$action_name_array=" . constructSingleStringValueArray($actionname_array) . ";\n";
-				$newbuf .= "?>";
+				$newbuf = "<?php\n";
+				$newbuf .= "\$tab_info_array=" . \vtlib\Functions::varExportMin($result_array) . ";\n";
+				$newbuf .= "\$tab_seq_array=" . \vtlib\Functions::varExportMin($seq_array) . ";\n";
+				$newbuf .= "\$tab_ownedby_array=" . \vtlib\Functions::varExportMin($ownedby_array) . ";\n";
+				$newbuf .= "\$action_id_array=" . \vtlib\Functions::varExportMin($actionid_array) . ";\n";
+				$newbuf .= "\$action_name_array=" . \vtlib\Functions::varExportMin($actionname_array) . ";\n";
+				$tabdata = [
+					'tabId' => $result_array,
+					'tabPresence' => $seq_array,
+					'tabOwnedby' => $ownedby_array,
+					'actionId' => $actionid_array,
+					'actionName' => $actionname_array,
+				];
+				$newbuf .= 'return ' . \vtlib\Functions::varExportMin($tabdata) . ";\n";
 				fputs($handle, $newbuf);
 				fclose($handle);
 			} else {
@@ -171,15 +177,10 @@ class Deprecated
 		return $cachedModuleStrings[$module];
 	}
 
-	public static function getTranslatedCurrencyString($str)
-	{
-		global $app_currency_strings;
-		if (isset($app_currency_strings) && isset($app_currency_strings[$str])) {
-			return $app_currency_strings[$str];
-		}
-		return $str;
-	}
-
+	/**
+	 * This function is used to get cvid of default "all" view for any module.
+	 * @return a cvid of a module
+	 */
 	public static function getIdOfCustomViewByNameAll($module)
 	{
 		$adb = \PearDatabase::getInstance();
@@ -193,6 +194,10 @@ class Deprecated
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
 
+	/** Stores the option in database to display  the tagclouds or not for the current user
+	 * * @param $id -- user id:: Type integer
+	 * * Added to provide User based Tagcloud
+	 * */
 	public static function SaveTagCloudView($id = '')
 	{
 		$adb = \PearDatabase::getInstance();
@@ -210,46 +215,18 @@ class Deprecated
 		}
 	}
 
-	public static function clearSmartyCompiledFiles($path = null)
-	{
-		if ($path == null) {
-			$path = ROOT_DIRECTORY . '/cache/templates_c/';
-		}
-		if (file_exists($path) && is_dir($path)) {
-			$mydir = @opendir($path);
-			while (false !== ($file = readdir($mydir))) {
-				if ($file != '.' && $file != '..' && $file != '.svn') {
-					//chmod($path.$file, 0777);
-					if (is_dir($path . $file)) {
-						chdir('.');
-						clear_smarty_cache($path . $file . '/');
-						//rmdir($path.$file) or DIE("couldn't delete $path$file<br />"); // No need to delete the directories.
-					} else {
-						// Delete only files ending with .tpl.php
-						if (strripos($file, '.tpl.php') == (strlen($file) - strlen('.tpl.php'))) {
-							unlink($path . $file) or DIE("couldn't delete $path$file<br />");
-						}
-					}
-				}
-			}
-			@closedir($mydir);
-		}
-	}
-
 	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
 	{
-		if ($path == null) {
+		if ($path === null) {
 			$path = ROOT_DIRECTORY . '/cache/templates_c/';
 		}
 		$mydir = @opendir($path);
 		$compiled_file = null;
-		while (false !== ($file = readdir($mydir)) && $compiled_file == null) {
+		while (false !== ($file = readdir($mydir)) && $compiled_file === null) {
 			if ($file != '.' && $file != '..' && $file != '.svn') {
-				//chmod($path.$file, 0777);
 				if (is_dir($path . $file)) {
 					chdir('.');
-					$compiled_file = get_smarty_compiled_file($template_file, $path . $file . '/');
-					//rmdir($path.$file) or DIE("couldn't delete $path$file<br />"); // No need to delete the directories.
+					$compiled_file = self::getSmartyCompiledTemplateFile($template_file, $path . $file . '/');
 				} else {
 					// Check if the file name matches the required template fiel name
 					if (strripos($file, $template_file . '.php') == (strlen($file) - strlen($template_file . '.php'))) {
@@ -262,13 +239,7 @@ class Deprecated
 		return $compiled_file;
 	}
 
-	public static function postApplicationMigrationTasks()
-	{
-		self::clearSmartyCompiledFiles();
-		self::createModuleMetaFile();
-		self::createModuleMetaFile();
-	}
-
+	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
 	public static function checkFileAccessForInclusion($filepath)
 	{
 		$unsafeDirectories = array('storage', 'cache', 'test');
@@ -286,8 +257,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
-			$log = \LoggerManager::getInstance();
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -310,8 +280,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
-			$log = \LoggerManager::getInstance();
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -320,8 +289,8 @@ class Deprecated
 	public static function checkFileAccess($filepath)
 	{
 		if (!self::isFileAccessible($filepath)) {
-			$log = vglobal('log');
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+
+			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -350,6 +319,11 @@ class Deprecated
 		return true;
 	}
 
+	/**
+	 * This function is used to get the blockid of the settings block for a given label.
+	 * @param $label - settings label
+	 * @return string type value
+	 */
 	public static function getSettingsBlockId($label)
 	{
 		$adb = \PearDatabase::getInstance();
@@ -377,27 +351,6 @@ class Deprecated
 		}
 		$sqlString = "CONCAT(" . $formattedNameListString . ")";
 		return $sqlString;
-	}
-
-	public static function getModuleFieldTypeOfDataInfos($tables, $tabid = '')
-	{
-		$result = [];
-		if (!empty($tabid)) {
-			$module = Functions::getModuleName($tabid);
-			$fieldInfos = Functions::getModuleFieldInfos($tabid);
-			foreach ($fieldInfos as $name => $field) {
-				if (($field['displaytype'] == '1' || $field['displaytype'] == '3') &&
-					($field['presence'] == '0' || $field['presence'] == '2')) {
-
-					$label = Functions::getTranslatedString($field['fieldlabel'], $module);
-					$result[$name] = array($label => $field['typeofdata']);
-				}
-			}
-		} else {
-			throw new \Exception('Field lookup by table no longer supported');
-		}
-
-		return $result;
 	}
 
 	public static function return_app_list_strings_language($language, $module = 'Vtiger')

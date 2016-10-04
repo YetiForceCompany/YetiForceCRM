@@ -48,7 +48,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$role = str_replace('H', '', $currentUser->get('roleid'));
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM a_yf_notification_type WHERE role = ? OR role = ?', [0, $role]);
+		$result = $db->pquery('SELECT * FROM a_yf_notification_type WHERE role = ? || role = ?', [0, $role]);
 		$types = [];
 		while ($row = $db->getRow($result)) {
 			$types[$row['id']] = $row;
@@ -96,8 +96,8 @@ class Home_Notification_Model extends Vtiger_Base_Model
 
 	public function save($parseContent = true)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '| ');
 
 		$currentUser = vglobal('current_user');
 		$user = CRMEntity::getInstance('Users');
@@ -105,14 +105,14 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		vglobal('current_user', $user);
 
 		if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
-			$log->warn('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			\App\Log::warning('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($this->get('moduleName') != 'Users' && !Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
-			$log->error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) .
+			\App\Log::error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) .
 				' does not have permission for this record ' . $this->get('record'));
-			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($parseContent) {
@@ -138,7 +138,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			'time' => $this->get('time')
 		]);
 
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 		return true;
 	}
 

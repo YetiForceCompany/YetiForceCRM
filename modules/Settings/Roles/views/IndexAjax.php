@@ -16,7 +16,7 @@ class Settings_Roles_IndexAjax_View extends Settings_Roles_Index_View
 		return;
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return;
 	}

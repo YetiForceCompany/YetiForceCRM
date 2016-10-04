@@ -67,7 +67,6 @@ as "categories" on the axis object, e.g. plot.getAxes().xaxis.categories.
         var format = datapoints.format;
 
         if (!format) {
-            // FIXME: auto-detection should really not be defined here
             var s = series;
             format = [];
             format.push({ x: true, number: true, required: true });

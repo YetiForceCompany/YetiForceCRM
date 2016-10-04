@@ -931,8 +931,10 @@ $languageStrings = [
 	'LBL_SELECT_USER_TO_CALL' => 'Wybierz do kogo chcesz zadzwonić',
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Lista ostatnio zaktualizowanych rekordów',
+	'LBL_WIDGET_NAME' => 'Nazwa widżetu',
 	'LBL_NAME' => 'Nazwa rekordu',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
+	'LBL_CHART_COLOR_DESCRIPTION' => 'Wykres wielokolorowy',
 	'LBL_NO_MOD_RECORDS' => 'Brak zmodyfikowanych rekordów',
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'PLL_WORKING_TIME' => 'Czas pracy',
@@ -1253,7 +1255,12 @@ $languageStrings = [
 	'LBL_WIDGET_FILTER_TOTAL_COUNT_INFO' => 'Pobierz całkowitą ilość rekordów',
 	'Potentials' => 'Szanse sprzedaży',
 	'LBL_PICKLIST_FIELD' => 'Lista wyboru z pola',
-	'LBL_MAP' => 'Mapa'
+	'LBL_MAP' => 'Mapa',
+	'LBL_SHOW_MAP' => 'Pokaż na mapie',
+	'FL_CAMPAIGN_STATUS' => 'Status kampani',
+	'LBL_SECTOR' => 'Sektory',
+	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Zamknięte zgłoszenie według priorytetu',
+	'LBL_CLOSED_TICKETS_BY_USER' => 'Zamknięte zgłoszenia według użytkowników'
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1528,4 +1535,6 @@ $jsLanguageStrings = [
 	'JS_MASS_EDIT_NOT_SUCCESSFUL' => 'Masowa edycja nie powiodła się',
 	'JS_GET_PAGINATION_INFO' => 'Trwa ładowanie ilości rekordów. Czas ukończenia zależy od ilości rekordów.',
 	'JS_WIDGET_DELETED' => 'Usunięto widget',
+	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domena jest zastrzeżona, należy wprowadzić inną.',
+	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Czy jesteś pewien, że chcesz ponownie zresetować powiązane maile?',
 ];

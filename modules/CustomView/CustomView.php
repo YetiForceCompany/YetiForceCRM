@@ -32,15 +32,15 @@ $adv_filter_options = array(
 class CustomView extends CRMEntity
 {
 
-	var $module_list = [];
-	var $customviewmodule;
-	var $list_fields;
-	var $list_fields_name;
-	var $setdefaultviewid;
-	var $escapemodule;
-	var $mandatoryvalues;
-	var $showvalues;
-	var $data_type;
+	public $module_list = [];
+	public $customviewmodule;
+	public $list_fields;
+	public $list_fields_name;
+	public $setdefaultviewid;
+	public $escapemodule;
+	public $mandatoryvalues;
+	public $showvalues;
+	public $data_type;
 	// Information as defined for this instance in the database table.
 	protected $_status = false;
 	protected $_userid = false;
@@ -52,7 +52,7 @@ class CustomView extends CRMEntity
 	 * @param $module -- The module Name:: Type String(optional)
 	 * @returns  nothing
 	 */
-	function __construct($module = '')
+	public function __construct($module = '')
 	{
 		global $current_user;
 		$this->customviewmodule = $module;
@@ -84,10 +84,10 @@ class CustomView extends CRMEntity
 	 * @param $module -- The module Name:: Type String
 	 * @returns  customViewId :: Type Integer
 	 */
-	function getViewId($module)
+	public function getViewId($module)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
+
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
 		$nowAction = AppRequest::get('view');
 		if (AppRequest::isEmpty('viewname')) {
 			if (isset($_SESSION['lvs'][$module]['viewname']) && $_SESSION['lvs'][$module]['viewname'] != '') {
@@ -114,21 +114,21 @@ class CustomView extends CRMEntity
 				$viewid = 0;
 		}
 		ListViewSession::setCurrentView($module, $viewid);
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $viewid;
 	}
 
-	function getMandatoryFilter($module)
+	public function getMandatoryFilter($module)
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT cvid FROM vtiger_customview WHERE presence = ? and entitytype = ?;', [0, $module]);
 		return $db->getSingleValue($result);
 	}
 
-	function getDefaultCvId($module)
+	public function getDefaultCvId($module)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$tabId = vtlib\Functions::getModuleId($module);
@@ -166,14 +166,14 @@ class CustomView extends CRMEntity
 		}
 		$query = 'select cvid from vtiger_customview where setdefault = ? and entitytype = ?';
 		$result = $db->pquery($query, [1, $module]);
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $db->getSingleValue($result);
 	}
 
-	function getViewIdByName($viewname, $module)
+	public function getViewIdByName($viewname, $module)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		$db = PearDatabase::getInstance();
 		if (!empty($viewname)) {
 			$query = "select cvid from vtiger_customview where viewname = ? and entitytype = ?";
@@ -183,7 +183,7 @@ class CustomView extends CRMEntity
 		} else {
 			return 0;
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
 
 	// return type array
@@ -194,11 +194,11 @@ class CustomView extends CRMEntity
 	 *                         'setdefault'=>defaultchk,
 	 *                         'setmetrics'=>setmetricschk)
 	 */
-	function getCustomViewByCvid($cvid)
+	public function getCustomViewByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$tabid = getTabid($this->customviewmodule);
+		$tabid = \includes\Modules::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
@@ -206,7 +206,7 @@ class CustomView extends CRMEntity
 		$ssql .= " where vtiger_customview.cvid=?";
 		$sparams = array($cvid);
 
-		if ($is_admin == false) {
+		if ($is_admin === false) {
 			$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 			array_push($sparams, $current_user->id);
 		}
@@ -234,12 +234,11 @@ class CustomView extends CRMEntity
 	 * $viewid will make the corresponding selected
 	 * @returns  $customviewCombo :: Type String
 	 */
-	function getCustomViewCombo($viewid = '', $markselected = true)
+	public function getCustomViewCombo($viewid = '', $markselected = true)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		global $app_strings;
-		$tabid = getTabid($this->customviewmodule);
+		$tabid = \includes\Modules::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
@@ -249,7 +248,7 @@ class CustomView extends CRMEntity
 		$shtml_others = '';
 
 		$selected = 'selected';
-		if ($markselected == false)
+		if ($markselected === false)
 			$selected = '';
 
 		$ssql = "select vtiger_customview.*, vtiger_users.first_name,vtiger_users.last_name from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype
@@ -257,7 +256,7 @@ class CustomView extends CRMEntity
 		$ssql .= " where vtiger_tab.tabid=?";
 		$sparams = array($tabid);
 
-		if ($is_admin == false) {
+		if ($is_admin === false) {
 			$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 			array_push($sparams, $current_user->id);
 		}
@@ -265,7 +264,7 @@ class CustomView extends CRMEntity
 		$result = $adb->pquery($ssql, $sparams);
 		while ($cvrow = $adb->fetch_array($result)) {
 			if ($cvrow['viewname'] == 'All') {
-				$cvrow['viewname'] = $app_strings['COMBO_ALL'];
+				$cvrow['viewname'] = \includes\Language::translate('COMBO_ALL');
 			}
 
 			$option = '';
@@ -273,7 +272,7 @@ class CustomView extends CRMEntity
 			if ($cvrow['status'] == CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
 				$disp_viewname = $viewname;
 			} else {
-				$userName = getFullNameFromArray('Users', $cvrow);
+				$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $cvrow);
 				$disp_viewname = $viewname . " [" . $userName . "] ";
 			}
 
@@ -294,21 +293,21 @@ class CustomView extends CRMEntity
 					$shtml_user .= $option;
 				} elseif ($cvrow['status'] == CV_STATUS_PUBLIC) {
 					if ($shtml_public == '')
-						$shtml_public = "<option disabled>--- " . $app_strings['LBL_PUBLIC'] . " ---</option>";
+						$shtml_public = "<option disabled>--- " . \includes\Language::translate('LBL_PUBLIC') . " ---</option>";
 					$shtml_public .= $option;
 				} elseif ($cvrow['status'] == CV_STATUS_PENDING) {
 					if ($shtml_pending == '')
-						$shtml_pending = "<option disabled>--- " . $app_strings['LBL_PENDING'] . " ---</option>";
+						$shtml_pending = "<option disabled>--- " . \includes\Language::translate('LBL_PENDING') . " ---</option>";
 					$shtml_pending .= $option;
 				} else {
 					if ($shtml_others == '')
-						$shtml_others = "<option disabled>--- " . $app_strings['LBL_OTHERS'] . " ---</option>";
+						$shtml_others = "<option disabled>--- " . \includes\Language::translate('LBL_OTHERS') . " ---</option>";
 					$shtml_others .= $option;
 				}
 			}
 		}
 		$shtml = $shtml_user;
-		if ($is_admin == true)
+		if ($is_admin === true)
 			$shtml .= $shtml_pending;
 		$shtml = $shtml . $shtml_public . $shtml_others;
 		return $shtml;
@@ -323,11 +322,11 @@ class CustomView extends CRMEntity
 	  |
 	  $fieldlabeln =>'$fieldtablenamen:$fieldcolnamen:$fieldnamen:$module_$fieldlabel1n:$fieldtypeofdatan')
 	 */
-	function getColumnsListbyBlock($module, $block)
+	public function getColumnsListbyBlock($module, $block)
 	{
-		global $adb, $mod_strings, $app_strings;
+		$adb = PearDatabase::getInstance();
 		$block_ids = explode(",", $block);
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if (empty($this->meta) && $module != 'Calendar') {
@@ -337,7 +336,7 @@ class CustomView extends CRMEntity
 			$tabid = "9,16";
 		$display_type = " vtiger_field.displaytype in (1,2,3)";
 
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$tab_ids = explode(",", $tabid);
 			$sql = 'select * from vtiger_field ';
 			$sql.= ' where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and vtiger_field.presence in (0,2) and';
@@ -396,7 +395,7 @@ class CustomView extends CRMEntity
 			} else {
 				//Here we Changing the displaytype of the field. So that its criteria will be
 				//displayed Correctly in Custom view Advance Filter.
-				$fieldtypeofdata = ChangeTypeOfData_Filter($fieldtablename, $fieldcolname, $fieldtypeofdata);
+				$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $fieldtypeofdata);
 			}
 			if ($fieldlabel == "Start Date & Time") {
 				$fieldlabel = "Start Date";
@@ -405,7 +404,7 @@ class CustomView extends CRMEntity
 			$optionvalue = $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . ":" . $module . "_" .
 				$fieldlabel1 . ":" . $fieldtypeofdata;
 			//added to escape attachments fields in customview as we have multiple attachments
-			$fieldlabel = getTranslatedString($fieldlabel); //added to support i18n issue
+			$fieldlabel = \includes\Language::translate($fieldlabel); //added to support i18n issue
 			if ($module != 'HelpDesk' || $fieldname != 'filename')
 				$module_columnlist[$optionvalue] = $fieldlabel;
 			if ($fieldtype[1] == "M") {
@@ -435,7 +434,7 @@ class CustomView extends CRMEntity
 
 
 	 */
-	function getModuleColumnsList($module)
+	public function getModuleColumnsList($module)
 	{
 
 		$module_info = $this->getCustomViewModuleInfo($module);
@@ -457,11 +456,11 @@ class CustomView extends CRMEntity
 	 * 					|
 	 * 			 $columnindexn => $columnnamen)
 	 */
-	function getColumnsListByCvid($cvid)
+	public function getColumnsListByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 
 		$sSQL = 'select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist';
 		$sSQL .= ' inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid';
@@ -469,8 +468,8 @@ class CustomView extends CRMEntity
 		$result = $adb->pquery($sSQL, [$cvid]);
 
 		if ($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
-			$log->debug("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
-			die(vtlib\Functions::throwNewException(vtranslate('LBL_NO_FOUND_VIEW')));
+			\App\Log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
+			throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
@@ -480,15 +479,15 @@ class CustomView extends CRMEntity
 					$columnlist = $handler->getColumnList();
 				}
 			} else {
-				$log->debug("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
-				die(vtlib\Functions::throwNewException(vtranslate('LBL_NO_FOUND_VIEW')));
+				\App\Log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
+				throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 			}
 		} else {
 			while ($columnrow = $adb->fetch_array($result)) {
 				$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
 			}
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $columnlist;
 	}
 
@@ -500,10 +499,10 @@ class CustomView extends CRMEntity
 	 * 					|
 	 * 			 $tablenamen:$columnnamen:$fieldnamen:$module_$fieldlabeln => $fieldlabeln)
 	 */
-	function getStdCriteriaByModule($module)
+	public function getStdCriteriaByModule($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -513,7 +512,7 @@ class CustomView extends CRMEntity
 			$blockids[] = $blockid;
 		}
 
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql = 'select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid ';
 			$sql.= ' where vtiger_field.tabid=? and vtiger_field.block in (%s)
                         and vtiger_field.uitype in (5,6,23,70)';
@@ -553,7 +552,7 @@ class CustomView extends CRMEntity
 	 *  Function which will give condition list for date fields
 	 * @return array of std filter conditions
 	 */
-	function getStdFilterConditions()
+	public function getStdFilterConditions()
 	{
 		return Array("custom", "prevfy", "thisfy", "nextfy", "prevfq",
 			"thisfq", "nextfq", "yesterday", "today", "tomorrow",
@@ -563,67 +562,12 @@ class CustomView extends CRMEntity
 		);
 	}
 
-	/** to get the standard filter criteria
-	 * @param $selcriteria :: Type String (optional)
-	 * @returns  $filter Array in the following format
-	 * $filter = Array( 0 => array('value'=>$filterkey,'text'=>$mod_strings[$filterkey],'selected'=>$selected)
-	 * 		     1 => array('value'=>$filterkey1,'text'=>$mod_strings[$filterkey1],'selected'=>$selected)
-	 * 		                             		|
-	 * 		     n => array('value'=>$filterkeyn,'text'=>$mod_strings[$filterkeyn],'selected'=>$selected)
-	 */
-	function getStdFilterCriteria($selcriteria = "")
-	{
-		global $mod_strings;
-		$filter = [];
-
-		$stdfilter = Array("custom" => "" . $mod_strings['Custom'] . "",
-			"prevfy" => "" . $mod_strings['Previous FY'] . "",
-			"thisfy" => "" . $mod_strings['Current FY'] . "",
-			"nextfy" => "" . $mod_strings['Next FY'] . "",
-			"prevfq" => "" . $mod_strings['Previous FQ'] . "",
-			"thisfq" => "" . $mod_strings['Current FQ'] . "",
-			"nextfq" => "" . $mod_strings['Next FQ'] . "",
-			"yesterday" => "" . $mod_strings['Yesterday'] . "",
-			"today" => "" . $mod_strings['Today'] . "",
-			"tomorrow" => "" . $mod_strings['Tomorrow'] . "",
-			"lastweek" => "" . $mod_strings['Last Week'] . "",
-			"thisweek" => "" . $mod_strings['Current Week'] . "",
-			"nextweek" => "" . $mod_strings['Next Week'] . "",
-			"lastmonth" => "" . $mod_strings['Last Month'] . "",
-			"thismonth" => "" . $mod_strings['Current Month'] . "",
-			"nextmonth" => "" . $mod_strings['Next Month'] . "",
-			"last7days" => "" . $mod_strings['Last 7 Days'] . "",
-			"last30days" => "" . $mod_strings['Last 30 Days'] . "",
-			"last60days" => "" . $mod_strings['Last 60 Days'] . "",
-			"last90days" => "" . $mod_strings['Last 90 Days'] . "",
-			"last120days" => "" . $mod_strings['Last 120 Days'] . "",
-			"next30days" => "" . $mod_strings['Next 30 Days'] . "",
-			"next60days" => "" . $mod_strings['Next 60 Days'] . "",
-			"next90days" => "" . $mod_strings['Next 90 Days'] . "",
-			"next120days" => "" . $mod_strings['Next 120 Days'] . "",
-		);
-
-		foreach ($stdfilter as $FilterKey => $FilterValue) {
-			if ($FilterKey == $selcriteria) {
-				$shtml['value'] = $FilterKey;
-				$shtml['text'] = $FilterValue;
-				$shtml['selected'] = "selected";
-			} else {
-				$shtml['value'] = $FilterKey;
-				$shtml['text'] = $FilterValue;
-				$shtml['selected'] = "";
-			}
-			$filter[] = $shtml;
-		}
-		return $filter;
-	}
-
 	/** to get the standard filter for the given customview Id
 	 * @param $cvid :: Type Integer
 	 * @returns  $stdfilterlist Array in the following format
 	 * $stdfilterlist = Array( 'columnname' =>  $tablename:$columnname:$fieldname:$module_$fieldlabel,'stdfilter'=>$stdfilter,'startdate'=>$startdate,'enddate'=>$enddate)
 	 */
-	function getStdFilterByCvid($cvid)
+	public function getStdFilterByCvid($cvid)
 	{
 		$stdFilter = Vtiger_Cache::get('getStdFilterByCvid', $cvid);
 		if ($stdFilter !== false) {
@@ -650,7 +594,7 @@ class CustomView extends CRMEntity
 		return $stdFilter;
 	}
 
-	function resolveDateFilterValue($dateFilterRow)
+	public function resolveDateFilterValue($dateFilterRow)
 	{
 		$stdfilterlist = [];
 		$stdfilterlist['columnname'] = $dateFilterRow['columnname'];
@@ -679,7 +623,7 @@ class CustomView extends CRMEntity
 	 * @param $cvid :: Type Integer
 	 * @returns  $advfilterlist Array
 	 */
-	function getAdvFilterByCvid($cvid)
+	public function getAdvFilterByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 		$default_charset = vglobal('default_charset');
@@ -698,7 +642,7 @@ class CustomView extends CRMEntity
 						inner join vtiger_cvadvfilter on vtiger_cvadvfilter.cvid = vtiger_customview.cvid
 						left join vtiger_cvadvfilter_grouping on vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid
 								and vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid';
-			$ssql.= " where vtiger_customview.cvid = ? AND vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
+			$ssql.= " where vtiger_customview.cvid = ? && vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
 
 			$result = $adb->pquery($ssql, array($cvid, $groupId));
 			$noOfColumns = $adb->num_rows($result);
@@ -739,7 +683,7 @@ class CustomView extends CRMEntity
 		return $advft_criteria;
 	}
 
-	function getAdvftCriteria($relcriteriarow)
+	public function getAdvftCriteria($relcriteriarow)
 	{
 		$columnIndex = $relcriteriarow['columnindex'];
 		$criteria = [];
@@ -750,7 +694,8 @@ class CustomView extends CRMEntity
 		$temp_val = explode(",", $relcriteriarow["value"]);
 		if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 			$val = [];
-			for ($x = 0; $x < count($temp_val); $x++) {
+			$countTempVal = count($temp_val);
+			for ($x = 0; $x < $countTempVal; $x++) {
 				if ($col[4] == 'D') {
 					/** while inserting in db for due_date it was taking date and time values also as it is
 					 * date time field. We only need to take date from that value
@@ -796,7 +741,7 @@ class CustomView extends CRMEntity
 	 * @param String $columnname
 	 * @param String $tablename
 	 */
-	function isFieldPresent_ByColumnTable($columnname, $tablename)
+	public function isFieldPresent_ByColumnTable($columnname, $tablename)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -827,7 +772,7 @@ class CustomView extends CRMEntity
 	 *                     $tablename.$columnname,$tablename1.$columnname1, ------ $tablenamen.$columnnamen
 	 *
 	 */
-	function getCvColumnListSQL($cvid)
+	public function getCvColumnListSQL($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 		$columnslist = $this->getColumnsListByCvid($cvid);
@@ -846,8 +791,8 @@ class CustomView extends CRMEntity
 					}
 					//Added for assigned to sorting
 					if ($list[1] == "smownerid") {
-						$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+						$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
+								'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 						$sqllist_column = "case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name";
 					}
 					if ($list[0] == "vtiger_contactdetails" && $list[1] == "lastname")
@@ -880,7 +825,7 @@ class CustomView extends CRMEntity
 	 * This function will return the standard filter criteria for the given customfield
 	 *
 	 */
-	function getCVStdFilterSQL($cvid)
+	public function getCVStdFilterSQL($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -964,7 +909,7 @@ class CustomView extends CRMEntity
 	 */
 	// Needs to be modified according to the new advanced filter (support for grouping).
 	// Not modified as of now, as this function is not used for now (Instead Query Generator is used for better performance).
-	function getCVAdvFilterSQL($cvid)
+	public function getCVAdvFilterSQL($cvid)
 	{
 		$current_user = vglobal('current_user');
 
@@ -992,7 +937,8 @@ class CustomView extends CRMEntity
 
 					if (isset($valuearray) && count($valuearray) > 1 && $comparator != 'bw') {
 						$advorsql = "";
-						for ($n = 0; $n < count($valuearray); $n++) {
+						$countValueArray = count($valuearray);
+						for ($n = 0; $n < $countValueArray; $n++) {
 							$advorsql[] = $this->getRealValues($columns[0], $columns[1], $comparator, trim($valuearray[$n]), $datatype);
 						}
 						//If negative logic filter ('not equal to', 'does not contain') is used, 'and' condition should be applied instead of 'or'
@@ -1005,7 +951,7 @@ class CustomView extends CRMEntity
 					elseif ($comparator == 'bw' && count($valuearray) == 2) {
 						$advfiltersql = "(" . $columns[0] . "." . $columns[1] . " between '" . getValidDBInsertDateTimeValue(trim($valuearray[0]), $datatype) . "' and '" . getValidDBInsertDateTimeValue(trim($valuearray[1]), $datatype) . "')";
 					} elseif ($comparator == 'y') {
-						$advfiltersql = sprintf("(%s.%s IS NULL OR %s.%s = '')", $columns[0], $columns[1], $columns[0], $columns[1]);
+						$advfiltersql = sprintf("(%s.%s IS NULL || %s.%s = '')", $columns[0], $columns[1], $columns[0], $columns[1]);
 					} else {
 						//Added for getting vtiger_activity Status -Jaguar
 						if ($this->customviewmodule == "Calendar" && ($columns[1] == "status")) {
@@ -1051,7 +997,7 @@ class CustomView extends CRMEntity
 	 * @returns  $value as a string in the following format
 	 * 	  $tablename.$fieldname comparator
 	 */
-	function getRealValues($tablename, $fieldname, $comparator, $value, $datatype)
+	public function getRealValues($tablename, $fieldname, $comparator, $value, $datatype)
 	{
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want) we can add here. So that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
 		$adb = PearDatabase::getInstance();
@@ -1064,7 +1010,7 @@ class CustomView extends CRMEntity
 
 		$contactid = "vtiger_contactdetails.lastname";
 		if ($currentModule != "Contacts" && $currentModule != "Leads" && $currentModule != 'Campaigns') {
-			$contactid = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
+			$contactid = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
 		}
 		$change_table_field = Array(
 			"product_id" => "vtiger_products.productname",
@@ -1076,7 +1022,7 @@ class CustomView extends CRMEntity
 			"vendor_id" => "vtiger_vendor.vendorname",
 			"vtiger_account.parentid" => "vtiger_account2.accountname",
 			"campaignid" => "vtiger_campaign.campaignname",
-			"vtiger_contactdetails.reportsto" => getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails2.lastname', 'firstname' => 'vtiger_contactdetails2.firstname'), 'Contacts'),
+			"vtiger_contactdetails.reportsto" => \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails2.lastname', 'firstname' => 'vtiger_contactdetails2.firstname'), 'Contacts'),
 			"vtiger_pricebook.currency_id" => "vtiger_currency_info.currency_name",
 		);
 
@@ -1086,10 +1032,10 @@ class CustomView extends CRMEntity
 			} elseif ($fieldname == "modifiedby") {
 				$tableNameSuffix = '2';
 			}
-			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users' . $tableNameSuffix . '.first_name', 'last_name' => 'vtiger_users' . $tableNameSuffix . '.last_name'), 'Users');
+			$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
+					'vtiger_users' . $tableNameSuffix . '.first_name', 'last_name' => 'vtiger_users' . $tableNameSuffix . '.last_name'), 'Users');
 			$temp_value = '( trim(' . $userNameSql . ')' . $this->getAdvComparator($comparator, $value, $datatype);
-			$temp_value.= " OR  vtiger_groups$tableNameSuffix.groupname" . $this->getAdvComparator($comparator, $value, $datatype) . ')';
+			$temp_value.= " ||  vtiger_groups$tableNameSuffix.groupname" . $this->getAdvComparator($comparator, $value, $datatype) . ')';
 			$value = $temp_value; // Hot fix: removed unbalanced closing bracket ")";
 		} elseif ($fieldname == "inventorymanager") {
 			$value = $tablename . "." . $fieldname . $this->getAdvComparator($comparator, getUserId_Ol($value), $datatype);
@@ -1130,7 +1076,7 @@ class CustomView extends CRMEntity
 			if ($this->customviewmodule == "Calendar" && ($fieldname == "status" || $fieldname == "activitystatus")) {
 				$value = " vtiger_activity.status " . $this->getAdvComparator($comparator, $value, $datatype);
 			} elseif ($comparator == 'e' && (trim($value) == "NULL" || trim($value) == '')) {
-				$value = '(' . $tablename . "." . $fieldname . ' IS NULL OR ' . $tablename . "." . $fieldname . ' = \'\')';
+				$value = '(' . $tablename . "." . $fieldname . ' IS NULL || ' . $tablename . "." . $fieldname . ' = \'\')';
 			} else {
 				$value = $tablename . "." . $fieldname . $this->getAdvComparator($comparator, $value, $datatype);
 			}
@@ -1145,17 +1091,18 @@ class CustomView extends CRMEntity
 	 * @param $datatype :: type string,
 	 * @returns  $value :: string
 	 */
-	function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname)
+	public function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname)
 	{
-		$log = vglobal('log');
-		$log->info("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
+
+		\App\Log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
 		$adb = PearDatabase::getInstance();
 
 		$adv_chk_value = $value;
 		$value = '(';
 		$sql = sprintf('select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t.%s = c.crmid', $adb->sql_escape_string($tablename), $adb->sql_escape_string($fieldname));
 		$res = $adb->query($sql);
-		for ($s = 0; $s < $adb->num_rows($res); $s++) {
+		$rows = $adb->num_rows($res);
+		for ($s = 0; $s < $rows; $s++) {
 			$modulename = $adb->query_result($res, $s, "setype");
 			if ($modulename == 'Vendors') {
 				continue;
@@ -1170,7 +1117,7 @@ class CustomView extends CRMEntity
 				$value .= 'vtiger_account.accountname';
 			}
 			if ($modulename == 'Leads') {
-				$concatSql = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_leaddetails.lastname', 'firstname' => 'vtiger_leaddetails.firstname'), 'Leads');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_leaddetails.lastname', 'firstname' => 'vtiger_leaddetails.firstname'), 'Leads');
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
 					$value .= " $concatSql IS NULL or ";
 				}
@@ -1183,7 +1130,7 @@ class CustomView extends CRMEntity
 				$value .= ' vtiger_products.productname';
 			}
 			if ($modulename == 'Contacts') {
-				$concatSql = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
 					$value .= " $concatSql IS NULL or ";
 				}
@@ -1205,7 +1152,7 @@ class CustomView extends CRMEntity
 			$value .= $this->getAdvComparator($comparator, $adv_chk_value, $datatype);
 		}
 		$value .= ")";
-		$log->info("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
+		\App\Log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
 		return $value;
 	}
 
@@ -1214,7 +1161,7 @@ class CustomView extends CRMEntity
 	 * @param $value :: type string
 	 * @returns  $rtvalue in the format $comparator $value
 	 */
-	function getAdvComparator($comparator, $value, $datatype = '')
+	public function getAdvComparator($comparator, $value, $datatype = '')
 	{
 
 		global $adb, $default_charset;
@@ -1300,7 +1247,7 @@ class CustomView extends CRMEntity
 	 * @returns  $datevalue array in the following format
 	 *             $datevalue = Array(0=>$startdate,1=>$enddate)
 	 */
-	function getDateforStdFilterBytype($type)
+	public function getDateforStdFilterBytype($type)
 	{
 		return DateTimeRange::getDateRangeByType($type);
 	}
@@ -1312,7 +1259,7 @@ class CustomView extends CRMEntity
 	 * @returns  $query
 	 */
 	//CHANGE : TO IMPROVE PERFORMANCE
-	function getModifiedCvListQuery($viewid, $listquery, $module)
+	public function getModifiedCvListQuery($viewid, $listquery, $module)
 	{
 		if ($viewid != "" && $listquery != "") {
 
@@ -1354,7 +1301,7 @@ class CustomView extends CRMEntity
 	 * @param $module (Module Name):: type string
 	 * @returns  $query
 	 */
-	function getMetricsCvListQuery($viewid, $listquery, $module)
+	public function getMetricsCvListQuery($viewid, $listquery, $module)
 	{
 		if ($viewid != "" && $listquery != "") {
 			$listviewquery = substr($listquery, strpos($listquery, 'FROM'), strlen($listquery));
@@ -1382,7 +1329,7 @@ class CustomView extends CRMEntity
 	  'content'=>$content,
 	  'cvid'=>$custom view id)
 	 */
-	function getCustomActionDetails($cvid)
+	public function getCustomActionDetails($cvid)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -1402,11 +1349,11 @@ class CustomView extends CRMEntity
 	 * and return the array
 	 */
 
-	function getCustomViewModuleInfo($module)
+	public function getCustomViewModuleInfo($module)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_language = vglobal('current_language');
-		$current_mod_strings = return_specified_module_language($current_language, $module);
+		$current_mod_strings = \vtlib\Deprecated::return_app_list_strings_language($current_language, $module);
 		$blockInfo = [];
 		$modulesList = explode(',', $module);
 		if ($module == 'Calendar') {
@@ -1416,13 +1363,13 @@ class CustomView extends CRMEntity
 
 		// Tabid mapped to the list of block labels to be skipped for that tab.
 		$skipBlocksList = array(
-			getTabid('HelpDesk') => array('LBL_COMMENTS'),
-			getTabid('Faq') => array('LBL_COMMENT_INFORMATION')
+			\includes\Modules::getModuleId('HelpDesk') => array('LBL_COMMENTS'),
+			\includes\Modules::getModuleId('Faq') => array('LBL_COMMENT_INFORMATION')
 		);
 
 		$sql = sprintf('SELECT DISTINCT block,vtiger_field.tabid,`name`,blocklabel FROM	vtiger_field 
 					INNER JOIN vtiger_blocks ON vtiger_blocks.blockid = vtiger_field.block INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid 
-				  WHERE vtiger_tab.name IN (%s) AND vtiger_field.presence IN (0, 2)', generateQuestionMarks($modulesList));
+				  WHERE vtiger_tab.name IN (%s) && vtiger_field.presence IN (0, 2)', generateQuestionMarks($modulesList));
 		$result = $adb->pquery($sql, [$modulesList]);
 		if ($module == "Calendar','Events")
 			$module = 'Calendar';
@@ -1457,7 +1404,7 @@ class CustomView extends CRMEntity
 	 * @param Integer $viewid
 	 * @return Array
 	 */
-	function getStatusAndUserid($viewid)
+	public function getStatusAndUserid($viewid)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -1475,12 +1422,12 @@ class CustomView extends CRMEntity
 	}
 
 	//Function to check if the current user is able to see the customView
-	function isPermittedCustomView($record_id, $action, $module)
+	public function isPermittedCustomView($record_id, $action, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering isPermittedCustomView($record_id,$action,$module) method....");
+		\App\Log::trace("Entering isPermittedCustomView($record_id,$action,$module) method....");
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		$permission = "yes";
@@ -1493,23 +1440,23 @@ class CustomView extends CRMEntity
 				$userid = $status_userid_info['userid'];
 
 				if ($status == CV_STATUS_DEFAULT) {
-					$log->debug('Entering when status=0');
+					\App\Log::trace('Entering when status=0');
 					$permission = 'yes';
 				} elseif ($is_admin) {
 					$permission = 'yes';
 				} elseif ($action != 'ChangeStatus') {
 					if ($userid == $current_user->id) {
-						$log->debug("Entering when $userid=$current_user->id");
+						\App\Log::trace("Entering when $userid=$current_user->id");
 						$permission = 'yes';
 					} elseif ($status == CV_STATUS_PUBLIC) {
-						$log->debug('Entering when status=3');
+						\App\Log::trace('Entering when status=3');
 						$permission = 'yes';
 					} elseif ($status == CV_STATUS_PRIVATE || $status == CV_STATUS_PENDING) {
-						$log->debug('Entering when status=1 or 2');
+						\App\Log::trace('Entering when status=1 or 2');
 						if ($userid == $current_user->id)
 							$permission = "yes";
 						else {
-							$log->debug("Entering when status=1 or status=2 & action = ListView or $module.Ajax or index");
+							\App\Log::trace("Entering when status=1 or status=2 & action = ListView or $module.Ajax or index");
 							$sql = sprintf('SELECT 
 										vtiger_users.id 
 									  FROM
@@ -1544,27 +1491,27 @@ class CustomView extends CRMEntity
 						$permission = 'yes';
 				}
 				else {
-					$log->debug('Entering else condition............');
+					\App\Log::trace('Entering else condition............');
 					$permission = 'no';
 				}
 			} else {
-				$log->debug('Enters when count =0');
+				\App\Log::trace('Enters when count =0');
 				$permission = 'no';
 			}
 		}
-		$log->debug("Permission @@@@@@@@@@@@@@@@@@@@@@@@@@@ : $permission");
-		$log->debug("Exiting isPermittedCustomView($record_id,$action,$module) method....");
+		\App\Log::trace("Permission @@@@@@@@@@@@@@@@@@@@@@@@@@@ : $permission");
+		\App\Log::trace("Exiting isPermittedCustomView($record_id,$action,$module) method....");
 		return $permission;
 	}
 
-	function isPermittedChangeStatus($status)
+	public function isPermittedChangeStatus($status)
 	{
-		global $current_user, $log;
-		$current_language = vglobal('current_language');
-		$custom_strings = return_module_language($current_language, "CustomView");
+		$currentLanguage = vglobal('current_language');
+		$currentUser = vglobal('current_user');
+		$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($currentLanguage, "CustomView");
 
-		$log->debug("Entering isPermittedChangeStatus($status) method..............");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		\App\Log::trace("Entering isPermittedChangeStatus($status) method..............");
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 		$status_details = [];
 		if ($is_admin) {
 			if ($status == CV_STATUS_PENDING) {
@@ -1576,7 +1523,7 @@ class CustomView extends CRMEntity
 			}
 			$status_details = Array('Status' => $status, 'ChangedStatus' => $changed_status, 'Label' => $status_label);
 		}
-		$log->debug("Exiting isPermittedChangeStatus($status) method..............");
+		\App\Log::trace("Exiting isPermittedChangeStatus($status) method..............");
 		return $status_details;
 	}
 }

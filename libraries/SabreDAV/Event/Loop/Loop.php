@@ -24,7 +24,7 @@ class Loop {
      * @param float $timeout timeout in seconds
      * @return void
      */
-    function setTimeout(callable $cb, $timeout) {
+    public function setTimeout(callable $cb, $timeout) {
 
         $triggerTime = microtime(true) + ($timeout);
 
@@ -68,7 +68,7 @@ class Loop {
      * @param float $timeout
      * @return array
      */
-    function setInterval(callable $cb, $timeout) {
+    public function setInterval(callable $cb, $timeout) {
 
         $keepGoing = true;
         $f = null;
@@ -97,7 +97,7 @@ class Loop {
      * @param array $intervalId
      * @return void
      */
-    function clearInterval($intervalId) {
+    public function clearInterval($intervalId) {
 
         $intervalId[1] = false;
 
@@ -109,7 +109,7 @@ class Loop {
      * @param callable $cb
      * @return void
      */
-    function nextTick(callable $cb) {
+    public function nextTick(callable $cb) {
 
         $this->nextTick[] = $cb;
 
@@ -129,7 +129,7 @@ class Loop {
      * @param callable $cb
      * @return void
      */
-    function addReadStream($stream, callable $cb) {
+    public function addReadStream($stream, callable $cb) {
 
         $this->readStreams[(int)$stream] = $stream;
         $this->readCallbacks[(int)$stream] = $cb;
@@ -149,7 +149,7 @@ class Loop {
      * @param callable $cb
      * @return void
      */
-    function addWriteStream($stream, callable $cb) {
+    public function addWriteStream($stream, callable $cb) {
 
         $this->writeStreams[(int)$stream] = $stream;
         $this->writeCallbacks[(int)$stream] = $cb;
@@ -162,7 +162,7 @@ class Loop {
      * @param resource $stream
      * @return void
      */
-    function removeReadStream($stream) {
+    public function removeReadStream($stream) {
 
         unset(
             $this->readStreams[(int)$stream],
@@ -177,7 +177,7 @@ class Loop {
      * @param resource $stream
      * @return void
      */
-    function removeWriteStream($stream) {
+    public function removeWriteStream($stream) {
 
         unset(
             $this->writeStreams[(int)$stream],
@@ -195,7 +195,7 @@ class Loop {
      *
      * @return void
      */
-    function run() {
+    public function run() {
 
         $this->running = true;
 
@@ -223,7 +223,7 @@ class Loop {
      * @param bool $block
      * @return bool
      */
-    function tick($block = false) {
+    public function tick($block = false) {
 
         $this->runNextTicks();
         $nextTimeout = $this->runTimers();
@@ -254,7 +254,7 @@ class Loop {
      *
      * @return void
      */
-    function stop() {
+    public function stop() {
 
         $this->running = false;
 

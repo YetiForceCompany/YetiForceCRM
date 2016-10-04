@@ -75,8 +75,6 @@ Test.prototype = {
 			name: this.testName
 		} );
 
-		// allow utility functions to access the current test environment
-		// TODO why??
 		QUnit.current_testEnvironment = this.testEnvironment;
 
 		try {
@@ -848,9 +846,7 @@ function sourceFromStacktrace() {
 			// Firefox, Chrome
 			return e.stack.split("\n")[4];
 		} else if (e.sourceURL) {
-			// Safari, PhantomJS
-			// TODO sourceURL points at the 'throw new Error' line above, useless
-			//return e.sourceURL + ":" + e.line;
+
 		}
 	}
 }

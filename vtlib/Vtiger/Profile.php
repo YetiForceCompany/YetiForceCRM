@@ -17,9 +17,9 @@ namespace vtlib;
 class Profile
 {
 
-	var $id;
-	var $name;
-	var $desc;
+	public $id;
+	public $name;
+	public $desc;
 
 	public function save()
 	{
@@ -51,7 +51,7 @@ class Profile
 		$sql = "INSERT INTO vtiger_profile2standardpermissions (profileid, tabid, Operation, permissions) 
 						SELECT ?, tabid, actionid, 0 
 				FROM vtiger_actionmapping, vtiger_tab 
-						WHERE actionname IN ('Save', 'EditView', 'Delete', 'index', 'DetailView') AND isentitytype = 1";
+						WHERE actionname IN ('Save', 'EditView', 'Delete', 'index', 'DetailView') && isentitytype = 1";
 		$binds = array($this->id);
 		$adb->pquery($sql, $binds);
 		self::log("Initializing profile permissions ... DONE");
@@ -113,7 +113,8 @@ class Profile
 		$adb = \PearDatabase::getInstance();
 		$profileids = [];
 		$result = $adb->pquery('SELECT profileid FROM vtiger_profile', []);
-		for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+		$countResult = $adb->num_rows($result);
+		for ($index = 0; $index < $countResult; ++$index) {
 			$profileids[] = $adb->query_result($result, $index, 'profileid');
 		}
 		return $profileids;
@@ -135,7 +136,8 @@ class Profile
 		 * NOTE: Other actionname (actionid >= 5) is considered as utility (tools) for a profile.
 		 * Gather all the actionid for associating to profile.
 		 */
-		for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+		$countResult = $adb->num_rows($result);
+		for ($index = 0; $index < $countResult; ++$index) {
 			$actionids[] = $adb->query_result($result, $index, 'actionid');
 		}
 

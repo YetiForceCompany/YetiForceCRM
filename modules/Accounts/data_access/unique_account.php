@@ -14,7 +14,7 @@
 Class DataAccess_unique_account
 {
 
-	var $config = false;
+	public $config = false;
 
 	public function process($moduleName, $ID, $recordForm, $config)
 	{
@@ -64,12 +64,12 @@ Class DataAccess_unique_account
 		}
 		if ($ID != 0 && $ID != '') {
 			$params[] = $ID;
-			$where .= ' AND accountid <> ?';
+			$where .= ' && accountid <> ?';
 		}
 
 		if ($hierarchyAll && $vatId) {
 			$hierarchyParams = array_merge($params, array_keys($hierarchyAll));
-			$hierarchyQuery = 'SELECT accountid,accountname FROM vtiger_account WHERE %s AND accountid IN (%s)';
+			$hierarchyQuery = 'SELECT accountid,accountname FROM vtiger_account WHERE %s && accountid IN (%s)';
 			$hierarchyQuery = sprintf($hierarchyQuery, $where, $db->generateQuestionMarks($hierarchyAll));
 			$result = $db->pquery($hierarchyQuery, $hierarchyParams);
 			if ($db->getRowCount($result)) {
@@ -159,7 +159,7 @@ Class DataAccess_unique_account
 				$dash = explode($dashes[0], $value[0]['data']);
 				$value[0] = $dash[1];
 			} else {
-				$value[0] = $value[0]['dtata'];
+				$value[0] = $value[0]['data'];
 			}
 			$hierarchyAll[$hId] = strip_tags($value[0]);
 		}

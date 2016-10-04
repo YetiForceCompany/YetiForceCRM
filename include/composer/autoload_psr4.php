@@ -7,5 +7,8 @@ $baseDir = dirname($vendorDir);
 return [
 	'vtlib\\' => [$baseDir . '/vtlib/Vtiger'],
 	'includes\\' => [$baseDir . '/include'],
-	'Exception\\' => [$baseDir . '/include/exceptions']
+	'App\\' => [$baseDir . '/vendor/yetiforce'],
+	'Exception\\' => [$baseDir . '/include/exceptions'],
+	'DebugBar\\' => [$baseDir . '/vendor/php-debugbar/src/DebugBar'],
+	'Symfony\\Component\\VarDumper\\' => [$baseDir . '/vendor/symfony/var-dumper'],
 ];

@@ -123,7 +123,7 @@ class Message {
      *
      * @return mixed bool|string
      */
-    function getScheduleStatus() {
+    public function getScheduleStatus() {
 
         if (!$this->scheduleStatus) {
 

@@ -89,7 +89,7 @@ class FreeBusyGenerator {
      * @param mixed $objects
      * @param DateTimeZone $timeZone
      */
-    function __construct(DateTimeInterface $start = null, DateTimeInterface $end = null, $objects = null, DateTimeZone $timeZone = null) {
+    public function __construct(DateTimeInterface $start = null, DateTimeInterface $end = null, $objects = null, DateTimeZone $timeZone = null) {
 
         $this->setTimeRange($start, $end);
 
@@ -114,7 +114,7 @@ class FreeBusyGenerator {
      * @param Document $vcalendar
      * @return void
      */
-    function setBaseObject(Document $vcalendar) {
+    public function setBaseObject(Document $vcalendar) {
 
         $this->baseObject = $vcalendar;
 
@@ -126,7 +126,7 @@ class FreeBusyGenerator {
      * @param Document $vcalendar
      * @return void
      */
-    function setVAvailability(Document $vcalendar) {
+    public function setVAvailability(Document $vcalendar) {
 
         $this->vavailability = $vcalendar;
 
@@ -143,7 +143,7 @@ class FreeBusyGenerator {
      *
      * @return void
      */
-    function setObjects($objects) {
+    public function setObjects($objects) {
 
         if (!is_array($objects)) {
             $objects = [$objects];
@@ -174,7 +174,7 @@ class FreeBusyGenerator {
      *
      * @return void
      */
-    function setTimeRange(DateTimeInterface $start = null, DateTimeInterface $end = null) {
+    public function setTimeRange(DateTimeInterface $start = null, DateTimeInterface $end = null) {
 
         if (!$start) {
             $start = new DateTimeImmutable(Settings::$minDate);
@@ -194,7 +194,7 @@ class FreeBusyGenerator {
      *
      * @return void
      */
-    function setTimeZone(DateTimeZone $timeZone) {
+    public function setTimeZone(DateTimeZone $timeZone) {
 
         $this->timeZone = $timeZone;
 
@@ -206,7 +206,7 @@ class FreeBusyGenerator {
      *
      * @return Component
      */
-    function getResult() {
+    public function getResult() {
 
         $fbData = new FreeBusyData(
             $this->start->getTimeStamp(),

@@ -9,12 +9,12 @@
 class Announcements_BasicAjax_Action extends Vtiger_BasicAjax_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('mark');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 

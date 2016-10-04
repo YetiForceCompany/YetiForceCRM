@@ -25,7 +25,7 @@ class Oss_Tool
 	public static function addCreatedtimeAndModifiedtimeField($moduleName, $blockLabel)
 	{
 		if (self::checkArg(func_get_args(), 2)) {
-			vglobal('Vtiger_Utils_Log', TRUE);
+			vglobal('Vtiger_Utils_Log', true);
 
 			self::addUitype70Field($moduleName, $blockLabel, 'createdtime', 'Created Time');
 			self::addUitype70Field($moduleName, $blockLabel, 'modifiedtime', 'Modified Time');
@@ -44,10 +44,10 @@ class Oss_Tool
 	public static function addUitype70Field($moduleName, $blockLabel, $fieldName, $fieldLabel)
 	{
 		if (self::checkArg(func_get_args(), 4)) {
-			vglobal('Vtiger_Utils_Log', TRUE);
+			vglobal('Vtiger_Utils_Log', true);
 
 			$tabid = vtlib\Functions::getModuleId($moduleName);
-			$blockId = getBlockId($tabid, $blockLabel);
+			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
@@ -76,10 +76,10 @@ class Oss_Tool
 	public static function addUitype56Field($moduleName, $blockLabel, $fieldName = NULL, $fieldLabel = NULL)
 	{
 		if (self::checkArg(func_get_args(), 2)) {
-			vglobal('Vtiger_Utils_Log', TRUE);
+			vglobal('Vtiger_Utils_Log', true);
 
 			$tabid = vtlib\Functions::getModuleId($moduleName);
-			$blockId = getBlockId($tabid, $blockLabel);
+			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
@@ -129,10 +129,9 @@ class Oss_Tool
 	public static function addUitype15Field($moduleName, $blockLabel, $pickValue, $fieldName = NULL, $defaultvalue = NULL, $mandatory = false, $fieldLabel = NULL)
 	{
 		if (self::checkArg(func_get_args(), 3)) {
-			//vglobal('Vtiger_Utils_Log', TRUE);
 
 			$tabid = vtlib\Functions::getModuleId($moduleName);
-			$blockId = getBlockId($tabid, $blockLabel);
+			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
@@ -197,10 +196,10 @@ class Oss_Tool
 	public static function addUitype10Field($moduleName, $blockLabel, $relModuleList, $fieldName, $mandatory = false, $fieldLabel = NULL)
 	{
 		if (self::checkArg(func_get_args(), 4)) {
-			vglobal('Vtiger_Utils_Log', TRUE);
+			vglobal('Vtiger_Utils_Log', true);
 
 			$tabid = vtlib\Functions::getModuleId($moduleName);
-			$blockId = getBlockId($tabid, $blockLabel);
+			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
@@ -245,7 +244,7 @@ class Oss_Tool
 	public static function addFunctionToWorkflow($moduleName, $methodName, $functionPath)
 	{
 		if (self::checkArg(func_get_args(), 3)) {
-			vglobal('Vtiger_Utils_Log', TRUE);
+			vglobal('Vtiger_Utils_Log', true);
 
 			$db = PearDatabase::getInstance();
 			$vtemm = new VTEntityMethodManager($db);
@@ -264,7 +263,7 @@ class Oss_Tool
 	public static function addRelatedModule($baseModule, $relatedModule, $relatedFunction, $action)
 	{
 		if (self::checkArg(func_get_args(), 4)) {
-			vglobal('Vtiger_Utils_Log', TRUE);
+			vglobal('Vtiger_Utils_Log', true);
 
 			$relModuleObj = vtlib\Module::getInstance($relatedModule);
 			$baseModuleObj = vtlib\Module::getInstance($baseModule);
@@ -338,7 +337,7 @@ class Oss_Tool
 	 */
 	private static function addLink($type, $moduleName, $widgetName, $link)
 	{
-		vglobal('Vtiger_Utils_Log', TRUE);
+		vglobal('Vtiger_Utils_Log', true);
 		$tabId = vtlib\Functions::getModuleId($moduleName);
 		if ($tabId) {
 			vtlib\Link::addLink($tabId, $type, $widgetName, $link);
@@ -357,16 +356,16 @@ class Oss_Tool
 	 */
 	private static function checkArg($parameterList, $numMandatoryArg)
 	{
-		vglobal('Vtiger_Utils_Log', TRUE);
+		vglobal('Vtiger_Utils_Log', true);
 		for ($i = 0; $i < $numMandatoryArg; $i++) {
 			if (empty($parameterList[$i])) {
 				$i++;
 				vtlib\Utils::Log($i . ' function parameter is empty');
-				return FALSE;
+				return false;
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**

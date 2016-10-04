@@ -16,14 +16,14 @@ class Users_ChangePassword_View extends Vtiger_BasicModal_View
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
-		if ($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record) {
+		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
 			return true;
 		} else {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

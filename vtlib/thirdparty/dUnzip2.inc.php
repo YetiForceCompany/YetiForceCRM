@@ -56,7 +56,7 @@
 if (!function_exists('file_put_contents')) {
 
 	// If not PHP5, creates a compatible function
-	Function file_put_contents($file, $data)
+	function file_put_contents($file, $data)
 	{
 		if ($tmp = fopen($file, "w")) {
 			fwrite($tmp, $data);
@@ -71,32 +71,32 @@ if (!function_exists('file_put_contents')) {
 class dUnzip2
 {
 
-	Function getVersion()
+	public function getVersion()
 	{
 		return "2.6";
 	}
 
 	// Public
-	var $fileName;
-	var $compressedList; // You will problably use only this one!
-	var $centralDirList; // Central dir list... It's a kind of 'extra attributes' for a set of files
-	var $endOfCentral;   // End of central dir, contains ZIP Comments
-	var $debug;
+	public $fileName;
+	public $compressedList; // You will problably use only this one!
+	public $centralDirList; // Central dir list... It's a kind of 'extra attributes' for a set of files
+	public $endOfCentral;   // End of central dir, contains ZIP Comments
+	public $debug;
 	// Private
-	var $fh;
-	var $zipSignature = "\x50\x4b\x03\x04"; // local file header signature
-	var $dirSignature = "\x50\x4b\x01\x02"; // central dir header signature
-	var $dirSignatureE = "\x50\x4b\x05\x06"; // end of central dir signature
+	public $fh;
+	public $zipSignature = "\x50\x4b\x03\x04"; // local file header signature
+	public $dirSignature = "\x50\x4b\x01\x02"; // central dir header signature
+	public $dirSignatureE = "\x50\x4b\x05\x06"; // end of central dir signature
 
 	// Public
 
-	Function dUnzip2($fileName)
+	public function dUnzip2($fileName)
 	{
 		$this->fileName = $fileName;
 		$this->compressedList = $this->centralDirList = $this->endOfCentral = Array();
 	}
 
-	Function getList($stopOnFile = false)
+	public function getList($stopOnFile = false)
 	{
 		if (sizeof($this->compressedList)) {
 			$this->debugMsg(1, "Returning already loaded file list.");
@@ -184,7 +184,7 @@ class dUnzip2
 		return $this->compressedList;
 	}
 
-	Function getExtraInfo($compressedFileName)
+	public function getExtraInfo($compressedFileName)
 	{
 		return
 			isset($this->centralDirList[$compressedFileName]) ?
@@ -192,14 +192,14 @@ class dUnzip2
 			false;
 	}
 
-	Function getZipInfo($detail = false)
+	public function getZipInfo($detail = false)
 	{
 		return $detail ?
 			$this->endOfCentral[$detail] :
 			$this->endOfCentral;
 	}
 
-	Function unzip($compressedFileName, $targetFileName = false, $applyChmod = 0644)
+	public function unzip($compressedFileName, $targetFileName = false, $applyChmod = 0644)
 	{
 		if (!sizeof($this->compressedList)) {
 			$this->debugMsg(1, "Trying to unzip before loading file list... Loading it!");
@@ -232,7 +232,7 @@ class dUnzip2
 		return $ret;
 	}
 
-	Function unzipAll($targetDir = false, $baseDir = "", $maintainStructure = true, $applyChmod = 0755)
+	public function unzipAll($targetDir = false, $baseDir = "", $maintainStructure = true, $applyChmod = 0755)
 	{
 		if ($targetDir === false)
 			$targetDir = dirname(__FILE__) . "/";
@@ -268,19 +268,19 @@ class dUnzip2
 			}
 	}
 
-	Function close()
+	public function close()
 	{  // Free the file resource
 		if ($this->fh)
 			fclose($this->fh);
 	}
 
-	Function __destroy()
+	public function __destroy()
 	{
 		$this->close();
 	}
 
 	// Private (you should NOT call these methods):
-	Function uncompress($content, $mode, $uncompressedSize, $targetFileName = false)
+	public function uncompress($content, $mode, $uncompressedSize, $targetFileName = false)
 	{
 		switch ($mode) {
 			case 0:
@@ -328,7 +328,7 @@ class dUnzip2
 		}
 	}
 
-	Function debugMsg($level, $string)
+	public function debugMsg($level, $string)
 	{
 		if ($this->debug)
 			if ($level == 1)
@@ -337,7 +337,7 @@ class dUnzip2
 			echo "<b style='color: #F00'>dUnzip2:</b> $string<br>";
 	}
 
-	Function _loadFileListByEOF(&$fh, $stopOnFile = false)
+	public function _loadFileListByEOF(&$fh, $stopOnFile = false)
 	{
 		// Check if there's a valid Central Dir signature.
 		// Let's consider a file comment smaller than 1024 characters...
@@ -449,7 +449,7 @@ class dUnzip2
 		return false;
 	}
 
-	Function _loadFileListBySignatures(&$fh, $stopOnFile = false)
+	public function _loadFileListBySignatures(&$fh, $stopOnFile = false)
 	{
 		fseek($fh, 0);
 
@@ -475,7 +475,7 @@ class dUnzip2
 		return $return;
 	}
 
-	Function _getFileHeaderInformation(&$fh, $startOffset = false)
+	public function _getFileHeaderInformation(&$fh, $startOffset = false)
 	{
 		if ($startOffset !== false)
 			fseek($fh, $startOffset);

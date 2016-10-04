@@ -22,7 +22,7 @@ class Settings_POS_Module_Model extends Settings_Vtiger_Module_Model
 			$userModel = Users_Record_Model::getInstanceById($row['userid'], 'Users');
 			$row['userModel'] = $userModel;
 			$actionForUser = explode(',', $row['action']);
-			foreach($actionForUser as &$singleAction){
+			foreach ($actionForUser as &$singleAction) {
 				$singleAction = $actions[$singleAction];
 			}
 			$row['action'] = $actionForUser;

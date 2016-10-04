@@ -19,13 +19,13 @@ class LanguageImport extends LanguageExport
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_export_tmpdir;
 	}
 
-	function getPrefix()
+	public function getPrefix()
 	{
 		return (string) $this->_modulexml->prefix;
 	}
@@ -34,7 +34,7 @@ class LanguageImport extends LanguageExport
 	 * Initialize Import
 	 * @access private
 	 */
-	function initImport($zipfile, $overwrite = true)
+	public function initImport($zipfile, $overwrite = true)
 	{
 		$this->__initSchema();
 
@@ -47,7 +47,7 @@ class LanguageImport extends LanguageExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function import($zipfile, $overwrite = false)
+	public function import($zipfile, $overwrite = false)
 	{
 		$this->initImport($zipfile, $overwrite);
 
@@ -61,7 +61,7 @@ class LanguageImport extends LanguageExport
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
 	 */
-	function update($instance, $zipfile, $overwrite = true)
+	public function update($instance, $zipfile, $overwrite = true)
 	{
 		$this->import($zipfile, $overwrite);
 	}
@@ -70,7 +70,7 @@ class LanguageImport extends LanguageExport
 	 * Import Module
 	 * @access private
 	 */
-	function import_Language($zipfile)
+	public function import_Language($zipfile)
 	{
 		$name = $this->_modulexml->name;
 		$prefix = $this->_modulexml->prefix;

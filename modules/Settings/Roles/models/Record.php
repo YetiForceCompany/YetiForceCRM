@@ -70,7 +70,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$parentRoleString = $this->getParentRoleString();
 			$parentComponents = explode('::', $parentRoleString);
 			$noOfRoles = count($parentComponents);
-			// $currentRole = $parentComponents[$noOfRoles-1];
 			if ($noOfRoles > 1) {
 				$this->parent = self::getInstanceById($parentComponents[$noOfRoles - 2]);
 			} else {
@@ -91,7 +90,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$parentRoleString = $this->getParentRoleString();
 			$currentRoleDepth = $this->getDepth();
 
-			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? AND depth = ?';
+			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? && depth = ?';
 			$params = array($parentRoleString . '::%', $currentRoleDepth + 1);
 			$result = $db->pquery($sql, $params);
 			$roles = [];
@@ -118,7 +117,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				else
 					$parentRoleString = $parentRoleString . '::' . $role;
 			}
-			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? AND depth = ?';
+			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? && depth = ?';
 			$params = array($parentRoleString . '::%', $currentRoleDepth);
 			$result = $db->pquery($sql, $params);
 			$roles = [];
@@ -180,7 +179,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDirectlyRelatedProfileId()
 	{
-		//TODO : see if you need cache the result
 		$roleId = $this->getId();
 		if (empty($roleId)) {
 			return false;
@@ -355,7 +353,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				$oldRole['editrelatedrecord'] != $this->get('editrelatedrecord') ||
 				$oldRole['permissionsrelatedfield'] != $permissionsRelatedField ||
 				$oldRole['searchunpriv'] != $searchunpriv) {
-				\includes\Privileges::setAllUpdater();
+				\App\Privilege::setAllUpdater();
 			}
 		}
 		if (empty($profileIds)) {
@@ -426,7 +424,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				createUserSharingPrivilegesfile($userid);
 			}
 		}
-		\includes\Privileges::setAllUpdater();
+		\App\Privilege::setAllUpdater();
 	}
 
 	/**
@@ -541,7 +539,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$sql = 'SELECT * FROM vtiger_role WHERE rolename=?';
 		$params = array($name);
 		if (!empty($excludedRecordId)) {
-			$sql.= ' AND roleid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
+			$sql.= ' && roleid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
 			$params = array_merge($params, $excludedRecordId);
 		}
 		$result = $db->pquery($sql, $params);

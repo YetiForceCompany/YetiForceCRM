@@ -34,8 +34,8 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 
 		$query = 'SELECT name FROM vtiger_tab WHERE
                     presence IN (%s)
-                    AND isentitytype = ?
-                    AND name NOT IN (%s) AND name IN (%s)';
+                    && isentitytype = ?
+                    && name NOT IN (%s) && name IN (%s)';
 		$query = sprintf($query, generateQuestionMarks($presence), generateQuestionMarks($restrictedModules), generateQuestionMarks($module));
 		$result = $db->pquery($query, [$presence, 1, $restrictedModules, $module]);
 		$numOfRows = $db->num_rows($result);
@@ -193,6 +193,7 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 			"boolean" => array("is enabled", "is disabled"),
 			"reference" => array("is", "contains", "does not contain", "starts with", "ends with", "is empty", "is not empty"),
 			"owner" => array("is", "contains", "does not contain", "starts with", "ends with", "is empty", "is not empty"),
+			"sharedOwner" => array('has changed', 'is', 'is not'),
 			"recurrence" => array("is", "is not"),
 			"comment" => array("is added"),
 		);

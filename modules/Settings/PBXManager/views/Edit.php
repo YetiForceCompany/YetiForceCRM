@@ -12,7 +12,7 @@
 Class Settings_PBXManager_Edit_View extends Settings_Vtiger_Index_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('showPopup');
 	}

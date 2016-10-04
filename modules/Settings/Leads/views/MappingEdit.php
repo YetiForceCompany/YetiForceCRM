@@ -17,7 +17,7 @@ class Settings_Leads_MappingEdit_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
-		$viewer->assign('MODULE_MODEL', Settings_Leads_Mapping_Model::getInstance(TRUE));
+		$viewer->assign('MODULE_MODEL', Settings_Leads_Mapping_Model::getInstance(true));
 		$viewer->assign('LEADS_MODULE_MODEL', Settings_Leads_Module_Model::getInstance('Leads'));
 		$viewer->assign('ACCOUNTS_MODULE_MODEL', Settings_Leads_Module_Model::getInstance('Accounts'));
 
@@ -30,7 +30,7 @@ class Settings_Leads_MappingEdit_View extends Settings_Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

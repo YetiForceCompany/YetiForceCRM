@@ -69,7 +69,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
 		}
 
@@ -86,14 +86,14 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			foreach ($explodedListQuery as $key => $value) {
 				$newListQuery .= 'INNER JOIN' . $value;
 				if ($key == 0 && $moduleName == 'Products') {
-					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_products.productid OR vtiger_crmentityrel.crmid = vtiger_products.productid) ';
+					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_products.productid || vtiger_crmentityrel.crmid = vtiger_products.productid) ';
 				} elseif ($key == 0 && $moduleName == 'Services') {
-					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_service.serviceid OR vtiger_crmentityrel.crmid = vtiger_service.serviceid) ';
+					$newListQuery .= ' INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_service.serviceid || vtiger_crmentityrel.crmid = vtiger_service.serviceid) ';
 				}
 			}
 			$newListQuery = trim($newListQuery, 'INNER JOIN');
 			if (in_array($moduleName, ['Products', 'Services'])) {
-				$newListQuery .= " AND ( (vtiger_crmentityrel.crmid = '$salesProcessId' AND module = 'SSalesProcesses') OR (vtiger_crmentityrel.relcrmid = '$salesProcessId' AND relmodule = 'SSalesProcesses')) ";
+				$newListQuery .= " && ( (vtiger_crmentityrel.crmid = '$salesProcessId' && module = 'SSalesProcesses') || (vtiger_crmentityrel.relcrmid = '$salesProcessId' && relmodule = 'SSalesProcesses')) ";
 			}
 			$listQuery = $newListQuery;
 		}
@@ -105,7 +105,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		$sourceField = $this->get('src_field');
 		if (!empty($sourceModule)) {
 			if (method_exists($moduleModel, 'getQueryByModuleField')) {
-				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $sourceField, $this->get('src_record'), $listQuery,$skipSelected);
+				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $sourceField, $this->get('src_record'), $listQuery, $skipSelected);
 				if (!empty($overrideQuery)) {
 					$listQuery = $overrideQuery;
 				}
@@ -129,12 +129,12 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 						$columnList[] = $fieldModel->get('table') . $orderByFieldModel->getName() . '.' . $fieldModel->get('column');
 					}
 					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users') . ' ' . $sortOrder;
+						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users') . ' ' . $sortOrder;
 					} else {
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$listQuery .= sprintf(' ORDER BY %s',implode(',', $referenceNameFieldOrderBy));
+				$listQuery .= sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else {
 				$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			}
@@ -178,10 +178,10 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	public function addSubProductsQuery($listQuery)
 	{
 		$splitQuery = preg_split('/WHERE/i', $listQuery, 2);
-		$query = " LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype='Products'";
+		$query = " LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid && vtiger_seproductsrel.setype='Products'";
 		$splitQuery[0] .= $query;
 		$productId = $this->get('productId');
-		$query1 = " AND vtiger_seproductsrel.productid = $productId";
+		$query1 = " && vtiger_seproductsrel.productid = $productId";
 		$splitQuery[1] .= $query1;
 		$listQuery = $splitQuery[0] . ' WHERE ' . $splitQuery[1];
 		return $listQuery;
@@ -194,7 +194,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery("SELECT vtiger_seproductsrel.crmid from vtiger_seproductsrel INNER JOIN
                 vtiger_crmentity ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid 
-					AND vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.setype=? 
+					AND vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.setype=? 
 				WHERE vtiger_seproductsrel.productid=?", array($this->getModule()->get('name'), $subProductId));
 			if ($db->num_rows($result) > 0) {
 				$flag = true;
@@ -251,13 +251,14 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		if ($position) {
 			$split = preg_split('/ from /i', $listQuery, 2);
 			$listQuery = 'SELECT count(*) AS count ';
-			for ($i = 1; $i < count($split); $i++) {
+			$countSplit = count($split);
+			for ($i = 1; $i < $countSplit; $i++) {
 				$listQuery .= sprintf(' FROM %s', $split[$i]);
 			}
 		}
 
 		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' AND activitytype <> "Emails"';
+			$listQuery .= ' && activitytype <> "Emails"';
 		}
 
 		$listResult = $db->query($listQuery);

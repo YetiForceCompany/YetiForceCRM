@@ -8,25 +8,27 @@
  */
 class NumberInWords
 {
-    /**
-     * @var array
-     */
-    protected static $words = [];
-	
-	public static function initialize() {
+
+	/**
+	 * @var array
+	 */
+	protected static $words = [];
+
+	public static function initialize()
+	{
 		$minus = vtranslate('LBL_MINUS');
 		$zero = vtranslate('LBL_ZERO');
 		$one = vtranslate('LBL_ONE');
 		$two = vtranslate('LBL_TWO');
 		$three = vtranslate('LBL_THREE');
-		$four = vtranslate('LBL_FOUR'); 
+		$four = vtranslate('LBL_FOUR');
 		$five = vtranslate('LBL_FIVE');
 		$six = vtranslate('LBL_SIX');
-		$seven = vtranslate('LBL_SEVEN'); 
+		$seven = vtranslate('LBL_SEVEN');
 		$eight = vtranslate('LBL_EIGHT');
 		$nine = vtranslate('LBL_NINE');
 		$ten = vtranslate('LBL_TEN');
-		$eleven = vtranslate('LBL_ELEVEN'); 
+		$eleven = vtranslate('LBL_ELEVEN');
 		$twelve = vtranslate('LBL_TWELVE');
 		$thirteen = vtranslate('LBL_THIRTEEN');
 		$fourteen = vtranslate('LBL_FOURTEEN');
@@ -38,7 +40,7 @@ class NumberInWords
 		$twenty = vtranslate('LBL_TWENTY');
 		$thirty = vtranslate('LBL_THIRTY');
 		$forty = vtranslate('LBL_FORTY');
-		$fifty = vtranslate('LBL_FIFTY'); 
+		$fifty = vtranslate('LBL_FIFTY');
 		$sixty = vtranslate('LBL_SIXTY');
 		$seventy = vtranslate('LBL_SEVENTY');
 		$eighty = vtranslate('LBL_EIGHTY');
@@ -94,7 +96,7 @@ class NumberInWords
 		$novemdecillion = vtranslate('LBL_NOVEMDECILLION');
 		$novemdecillions = vtranslate('LBL_NOVEMDECILLIONS');
 		$novemdecillionss = vtranslate('LBL_NOVEMDECILLIONSS');
-		
+
 		$words = [
 			$minus,
 			[$zero, $one, $two, $three, $four, $five, $six, $seven, $eight, $nine],
@@ -116,153 +118,153 @@ class NumberInWords
 			[$septendecillion, $septendecillions, $septendecillionss],
 			[$novemdecillion, $novemdecillions, $novemdecillionss]
 		];
-		
+
 		self::$words = $words;
 	}
- 
-    /**
-     * Podaje słowną wartość liczby całkowitej (równierz podaną w postaci stringa)
-     *
-     * @param integer $int
-     * @return string
-     */
-    public static function integerNumberToWords($int)
-    {
+
+	/**
+	 * Podaje słowną wartość liczby całkowitej (równierz podaną w postaci stringa)
+	 *
+	 * @param integer $int
+	 * @return string
+	 */
+	public static function integerNumberToWords($int)
+	{
 		static::initialize();
-        $int = strval($int);
-        $in = preg_replace('/[^-\d]+/', '', $int);
- 
-        $return = '';
- 
-        if ($in{0} == '-') {
-            $in = substr($in, 1);
-            $return = self::$words[0] . ' ';
-        }
- 
-        $txt = str_split(strrev($in), 3);
- 
-        if ($in == 0) {
-            $return = self::$words[1][0] . ' ';
-        }
- 
-        for ($i = count($txt) - 1; $i >= 0; $i--) {
-            $number = (int) strrev($txt[$i]);
- 
-            if ($number > 0) {
-                if ($i == 0) {
-                    $return .= self::number($number) . ' ';
-                } else {
-                    $return .= ($number > 1 ? self::number($number) . ' ' : '')
-                            . self::inflection(self::$words[4 + $i], $number) . ' ';
-                }
-            }
-        }
- 
-        return self::clear($return);
-    }
- 
-    /**
-     * Podaje słowną wartość kwoty wraz z wartościami po kropce.
-     * Nie przyjmuje wartości przedzielonych przecinkami (jako wartości nie numerycznych).
-     *
-     * @param integer|string $amount
-     * @param string $currencyName
-     * @param string $centName
-     * @return string
-     * @throws \Exception
-     */
-    public static function amountToWords($amount, $currencyName = 'zł', $centName = 'gr')
-    {
+		$int = strval($int);
+		$in = preg_replace('/[^-\d]+/', '', $int);
+
+		$return = '';
+
+		if ($in{0} == '-') {
+			$in = substr($in, 1);
+			$return = self::$words[0] . ' ';
+		}
+
+		$txt = str_split(strrev($in), 3);
+
+		if ($in == 0) {
+			$return = self::$words[1][0] . ' ';
+		}
+
+		for ($i = count($txt) - 1; $i >= 0; $i--) {
+			$number = (int) strrev($txt[$i]);
+
+			if ($number > 0) {
+				if ($i == 0) {
+					$return .= self::number($number) . ' ';
+				} else {
+					$return .= ($number > 1 ? self::number($number) . ' ' : '')
+						. self::inflection(self::$words[4 + $i], $number) . ' ';
+				}
+			}
+		}
+
+		return self::clear($return);
+	}
+
+	/**
+	 * Podaje słowną wartość kwoty wraz z wartościami po kropce.
+	 * Nie przyjmuje wartości przedzielonych przecinkami (jako wartości nie numerycznych).
+	 *
+	 * @param integer|string $amount
+	 * @param string $currencyName
+	 * @param string $centName
+	 * @return string
+	 * @throws \Exception
+	 */
+	public static function amountToWords($amount, $currencyName = 'zł', $centName = 'gr')
+	{
 		self::initialize();
-		
-        if (!is_numeric($amount)) {
-            throw new \Exception('Nieprawidłowa kwota');
-        }
- 
-        $amountString = number_format($amount, 2, '.', '');
-        list($bigAmount, $smallAmount) = explode('.', $amountString);
- 
-        $bigAmount = static::integerNumberToWords($bigAmount) . ' ' . $currencyName . ' ';
-        $smallAmount = static::integerNumberToWords($smallAmount) . ' ' . $centName;
- 
-        return self::clear($bigAmount . $smallAmount);
-    }
- 
-    /**
-     * Czyści podwójne spacje i trimuje
-     *
-     * @param $string
-     * @return mixed
-     */
-    protected static function clear($string)
-    {
-        return preg_replace('!\s+!', ' ', trim($string));
-    }
- 
-    /**
-     * $inflections = Array('jeden','dwa','pięć')
-     *
-     * @param string[] $inflections
-     * @param $int
-     * @return mixed
-     */
-    protected static function inflection(array $inflections, $int)
-    {
-        $txt = $inflections[2];
- 
-        if ($int == 1) {
-            $txt = $inflections[0];
-        }
- 
-        $units = intval(substr($int, -1));
- 
-        $rest = $int % 100;
- 
-        if (($units > 1 && $units < 5) &! ($rest > 10 && $rest < 20)) {
-            $txt = $inflections[1];
-        }
- 
-        return $txt;
-    }
- 
-    /**
-     * Odmiana dla liczb < 1000
-     *
-     * @param integer $int
-     * @return string
-     */
-    protected static function number($int)
-    {
-        $return = '';
- 
-        $j = abs(intval($int));
- 
-        if ($j == 0) {
-            return self::$words[1][0];
-        }
- 
-        $units = $j % 10;
-        $dozens = intval(($j % 100 - $units) / 10);
-        $hundreds = intval(($j - $dozens * 10 - $units) / 100);
- 
-        if ($hundreds > 0) {
-            $return .= self::$words[4][$hundreds - 1] . ' ';
-        }
- 
-        if ($dozens > 0) {
-            if ($dozens == 1) {
-                $return .= self::$words[2][$units] . ' ';
-            } else {
-                $return .= self::$words[3][$dozens - 1] . ' ';
-            }
-        }
- 
-        if ($units > 0 && $dozens != 1) {
-            $return .= self::$words[1][$units] . ' ';
-        }
- 
-        return $return;
-    }
+
+		if (!is_numeric($amount)) {
+			throw new \Exception('Nieprawidłowa kwota');
+		}
+
+		$amountString = number_format($amount, 2, '.', '');
+		list($bigAmount, $smallAmount) = explode('.', $amountString);
+
+		$bigAmount = static::integerNumberToWords($bigAmount) . ' ' . $currencyName . ' ';
+		$smallAmount = static::integerNumberToWords($smallAmount) . ' ' . $centName;
+
+		return self::clear($bigAmount . $smallAmount);
+	}
+
+	/**
+	 * Czyści podwójne spacje i trimuje
+	 *
+	 * @param $string
+	 * @return mixed
+	 */
+	protected static function clear($string)
+	{
+		return preg_replace('!\s+!', ' ', trim($string));
+	}
+
+	/**
+	 * $inflections = Array('jeden','dwa','pięć')
+	 *
+	 * @param string[] $inflections
+	 * @param $int
+	 * @return mixed
+	 */
+	protected static function inflection(array $inflections, $int)
+	{
+		$txt = $inflections[2];
+
+		if ($int == 1) {
+			$txt = $inflections[0];
+		}
+
+		$units = intval(substr($int, -1));
+
+		$rest = $int % 100;
+
+		if (($units > 1 && $units < 5) & !($rest > 10 && $rest < 20)) {
+			$txt = $inflections[1];
+		}
+
+		return $txt;
+	}
+
+	/**
+	 * Odmiana dla liczb < 1000
+	 *
+	 * @param integer $int
+	 * @return string
+	 */
+	protected static function number($int)
+	{
+		$return = '';
+
+		$j = abs(intval($int));
+
+		if ($j == 0) {
+			return self::$words[1][0];
+		}
+
+		$units = $j % 10;
+		$dozens = intval(($j % 100 - $units) / 10);
+		$hundreds = intval(($j - $dozens * 10 - $units) / 100);
+
+		if ($hundreds > 0) {
+			$return .= self::$words[4][$hundreds - 1] . ' ';
+		}
+
+		if ($dozens > 0) {
+			if ($dozens == 1) {
+				$return .= self::$words[2][$units] . ' ';
+			} else {
+				$return .= self::$words[3][$dozens - 1] . ' ';
+			}
+		}
+
+		if ($units > 0 && $dozens != 1) {
+			$return .= self::$words[1][$units] . ' ';
+		}
+
+		return $return;
+	}
 }
 
 class Pdf_GrossAmountInWords extends Vtiger_SpecialFunction_Pdf
@@ -282,7 +284,7 @@ class Pdf_GrossAmountInWords extends Vtiger_SpecialFunction_Pdf
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
 		$fields = $inventoryField->getFields(true);
 		$inventoryRows = $record->getInventoryData();
-		
+
 		$gross = 0;
 		foreach ($inventoryRows as $inventoryRow) {
 			if ($inventoryRow['gross']) {

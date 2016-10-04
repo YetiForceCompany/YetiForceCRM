@@ -153,7 +153,7 @@ class Import_Utils_Helper
 	{
 
 		$errorMessage = vtranslate('ERR_MODULE_IMPORT_LOCKED', 'Import');
-		$errorDetails = array(vtranslate('LBL_MODULE_NAME', 'Import') => getTabModuleName($lockInfo['tabid']),
+		$errorDetails = array(vtranslate('LBL_MODULE_NAME', 'Import') => \includes\Modules::getModuleName($lockInfo['tabid']),
 			vtranslate('LBL_USER_NAME', 'Import') => \includes\fields\Owner::getUserLabel($lockInfo['userid']),
 			vtranslate('LBL_LOCKED_TIME', 'Import') => $lockInfo['locked_since']);
 
@@ -266,7 +266,7 @@ class Import_Utils_Helper
 		}
 		$fileReader = Import_Utils_Helper::getFileReader($request, $current_user);
 
-		if ($fileReader == null) {
+		if ($fileReader === null) {
 			$request->set('error_message', vtranslate('LBL_INVALID_FILE', 'Import'));
 			return false;
 		}

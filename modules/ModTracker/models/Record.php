@@ -56,7 +56,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$listQuery = 'SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? ORDER BY changedon DESC, id DESC LIMIT 1;';
+		$listQuery = 'SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? && status <> ? ORDER BY changedon DESC, id DESC LIMIT 1;';
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		if ($result->rowCount()) {
 			$row = $db->getRow($result);
@@ -76,9 +76,9 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$userId = $currentUser->getRealId();
 		}
 		if ($exception) {
-			$where = ' AND `id` <> ' . $exception;
+			$where = ' && `id` <> ' . $exception;
 		}
-		$listQuery = sprintf('SELECT last_reviewed_users,id FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? AND last_reviewed_users LIKE "%s" %s ORDER BY changedon DESC, id DESC LIMIT 1;', "%#$userId#%", $where);
+		$listQuery = sprintf('SELECT last_reviewed_users,id FROM vtiger_modtracker_basic WHERE crmid = ? && status <> ? && last_reviewed_users LIKE "%s" %s ORDER BY changedon DESC, id DESC LIMIT 1;', "%#$userId#%", $where);
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		if ($result->rowCount()) {
 			$row = $db->getRow($result);
@@ -99,7 +99,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$userId = $currentUser->getId();
 		}
 
-		$listQuery = 'SELECT `last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid = ? AND status <> ? ORDER BY changedon DESC, id DESC LIMIT 1;';
+		$listQuery = 'SELECT `last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid = ? && status <> ? ORDER BY changedon DESC, id DESC LIMIT 1;';
 		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
 		$lastReviewedUsers = $db->getSingleValue($result);
 		if (!empty($lastReviewedUsers)) {
@@ -115,25 +115,39 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getId();
 		}
-		$unreviewed = [];
+
 		if (!is_array($recordsId)) {
 			$recordsId = [$recordsId];
 		}
-		$listQuery = sprintf('SELECT `crmid`,`last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid IN (%s) AND status <> ?', $db->generateQuestionMarks($recordsId));
+		$select = 'SELECT `crmid`,`last_reviewed_users` AS u';
+		$from = ' FROM vtiger_modtracker_basic';
+		$where = sprintf(' WHERE crmid IN (%s) AND status <> ?', $db->generateQuestionMarks($recordsId));
 		if ($sort) {
-			$listQuery .=' ORDER BY crmid, id DESC';
+			$select .= ',vtiger_ossmailview.type';
+			$from .= ' LEFT JOIN vtiger_modtracker_relations ON vtiger_modtracker_relations.id = vtiger_modtracker_basic.id';
+			$from .= ' LEFT JOIN vtiger_ossmailview ON vtiger_ossmailview.ossmailviewid = vtiger_modtracker_relations.targetid';
+			$where .=' ORDER BY vtiger_modtracker_basic.crmid, vtiger_modtracker_basic.id DESC';
 		}
-		$result = $db->pquery($listQuery, [$recordsId, self::DISPLAYED]);
-		$changes = $db->getColumnByGroup($result);
-		foreach ($changes as $crmId => $reviewedUsers) {
-			$count = 0;
-			foreach ($reviewedUsers as $users) {
-				if (strpos($users, "#$userId#") !== false) {
+		$result = $db->pquery($select . $from . $where, [$recordsId, self::DISPLAYED]);
+		$changes = [];
+		while ($row = $db->getRow($result)) {
+			$changes[$row['crmid']][] = $row;
+		}
+		$unreviewed = [];
+		foreach ($changes as $crmId => $rows) {
+			$all = $mails = 0;
+			foreach ($rows as $row) {
+				if (strpos($row['u'], "#$userId#") !== false) {
 					break;
 				}
-				++$count;
-				$unreviewed[$crmId] = $count;
+				if ($row['type'] == 1) {
+					++$mails;
+				} else {
+					++$all;
+				}
 			}
+			$unreviewed[$crmId]['a'] = $all;
+			$unreviewed[$crmId]['m'] = $mails;
 		}
 		return $unreviewed;
 	}
@@ -180,17 +194,17 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');
 	}
 
-	function setParent($id, $moduleName)
+	public function setParent($id, $moduleName)
 	{
 		$this->parent = Vtiger_Record_Model::getInstanceById($id, $moduleName);
 	}
 
-	function getParent()
+	public function getParent()
 	{
 		return $this->parent;
 	}
 
-	function checkStatus($callerStatus)
+	public function checkStatus($callerStatus)
 	{
 		$status = $this->get('status');
 		if ($status == $callerStatus) {
@@ -199,47 +213,47 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
-	function isConvertToAccount()
+	public function isConvertToAccount()
 	{
 		return $this->checkStatus(self::CONVERTTOACCOUNT);
 	}
 
-	function isCreate()
+	public function isCreate()
 	{
 		return $this->checkStatus(self::CREATE);
 	}
 
-	function isUpdate()
+	public function isUpdate()
 	{
 		return $this->checkStatus(self::UPDATE);
 	}
 
-	function isDelete()
+	public function isDelete()
 	{
 		return $this->checkStatus(self::DELETE);
 	}
 
-	function isRestore()
+	public function isRestore()
 	{
 		return $this->checkStatus(self::RESTORE);
 	}
 
-	function isRelationLink()
+	public function isRelationLink()
 	{
 		return $this->checkStatus(self::LINK);
 	}
 
-	function isRelationUnLink()
+	public function isRelationUnLink()
 	{
 		return $this->checkStatus(self::UNLINK);
 	}
 
-	function isDisplayed()
+	public function isDisplayed()
 	{
 		return $this->checkStatus(self::DISPLAYED);
 	}
 
-	function isReviewed($userId = false)
+	public function isReviewed($userId = false)
 	{
 		if ($userId === false) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -252,25 +266,25 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return strpos($reviewed, "#$userId#") !== false;
 	}
 
-	function getModifiedBy()
+	public function getModifiedBy()
 	{
 		$changeUserId = $this->get('whodid');
 		return Users_Record_Model::getInstanceById($changeUserId, 'Users');
 	}
 
-	function getDisplayActivityTime()
+	public function getDisplayActivityTime()
 	{
 		$time = $this->getActivityTime();
 		$time = new DateTimeField($time);
 		return $time->getFullcalenderDateTimevalue();
 	}
 
-	function getActivityTime()
+	public function getActivityTime()
 	{
 		return $this->get('changedon');
 	}
 
-	function getFieldInstances()
+	public function getFieldInstances()
 	{
 		$id = $this->get('id');
 		$db = PearDatabase::getInstance();
@@ -296,7 +310,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $fieldInstances;
 	}
 
-	function getRelationInstance()
+	public function getRelationInstance()
 	{
 		$id = $this->get('id');
 		$db = PearDatabase::getInstance();
@@ -324,10 +338,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$where = '';
 		switch ($type) {
 			case 'changes':
-				$where = ' AND status <> ' . self::DISPLAYED;
+				$where = ' && status <> ' . self::DISPLAYED;
 				break;
 			case 'review':
-				$where = ' AND status = ' . self::DISPLAYED;
+				$where = ' && status = ' . self::DISPLAYED;
 				break;
 			default:
 				break;

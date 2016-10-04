@@ -108,7 +108,7 @@ class VTSimpleTemplate
 									$webserviceId = $data[$fieldname];
 									$idComponents = vtws_getIdComponents($webserviceId);
 									if ($fieldname == 'currency_id' && $referenceModule == 'Users') {
-										$result = decode_html(getCurrencyName($idComponents[1]));
+										$result = decode_html(vtlib\Functions::getCurrencyName($idComponents[1]));
 									} else {
 										$result = decode_html(\includes\Record::getLabel($idComponents[1]));
 									}
@@ -179,7 +179,7 @@ class VTSimpleTemplate
 				if ($ownerId) {
 					$ownerFocus = CRMEntity::getInstance('Users');
 					$ownerFocus->retrieve_entity_info($ownerId, 'Users');
-					return getTranslatedString($ownerFocus->column_fields['time_zone'], 'Users');
+					return \includes\Language::translate($ownerFocus->column_fields['time_zone'], 'Users');
 				}
 				return '';
 			case 'crmdetailviewurl' : $wsId = $this->parent->getId();
@@ -229,7 +229,7 @@ class VTSimpleTemplate
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$log = vglobal('log');
+		
 
 		//getting owner info
 		$referenceId = $this->parent->get('assigned_user_id');
@@ -319,7 +319,7 @@ class VTSimpleTemplate
 			case 'reference' : if ($fieldName == 'currency_id') {
 					$currencyId = explode('x', $fieldValue);
 					$currencyId = $currencyId[1];
-					$fieldValue = decode_html(getCurrencyName($currencyId));
+					$fieldValue = decode_html(vtlib\Functions::getCurrencyName($currencyId));
 				} else {
 					if ($fieldValue != 0 && $fieldValue != null) {
 						$id = explode('x', $fieldValue);
@@ -332,7 +332,7 @@ class VTSimpleTemplate
 				}
 				break;
 			case 'double' : if ($moduleName === 'HelpDesk' && in_array($fieldName, array('days', 'hours'))) {
-					$fieldValue = decimalFormat($fieldValue);
+					$fieldValue = \vtlib\Functions::formatDecimal($fieldValue);
 				} else {
 					$fieldValue;
 				}
@@ -360,7 +360,7 @@ class VTSimpleTemplate
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$log = vglobal('log');
+		
 
 		$sql = 'SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ? ORDER BY modcommentsid DESC';
 

@@ -36,7 +36,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	{
 		return $this->get('label');
 	}
-	
+
 	/**
 	 * Function to get the menu type
 	 * @return <String> - Menu Label
@@ -113,19 +113,27 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	 * @param <Number> $id - Menu Id
 	 * @return Settings_Vtiger_Menu_Model instance
 	 */
+	
 	public static function getInstanceById($id)
 	{
+		static $cache = false;
+		if(isset($cache[$id])){
+			return $cache[$id];
+		}
 		$db = PearDatabase::getInstance();
 
 		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$menusTable, self::$menuId);
-		$params = array($id);
+		$params = [$id];
 
 		$result = $db->pquery($sql, $params);
 
 		if ($db->num_rows($result) > 0) {
 			$rowData = $db->query_result_rowdata($result, 0);
-			return Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
+			$instance = Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
+			$cache[$id] = $instance;
+			return $instance;
 		}
+		$cache[$id] = false;
 		return false;
 	}
 

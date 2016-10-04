@@ -91,7 +91,7 @@ class HTMLPurifier_URIScheme_data extends HTMLPurifier_URIScheme
             $info = getimagesize($file);
             restore_error_handler();
             unlink($file);
-            if ($info == false) {
+            if ($info === false) {
                 return false;
             }
             $image_code = $info[2];

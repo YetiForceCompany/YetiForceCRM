@@ -13,7 +13,6 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 	EXTERNAL_FILE_LOCATION_TYPE : 'E',
 
 	getMaxiumFileUploadingSize : function(container) {
-		//TODO : get it from the server
 		return container.find('.maxUploadSize').data('value');
 	},
 

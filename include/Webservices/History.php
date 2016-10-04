@@ -59,7 +59,7 @@ function vtws_history($element, $user)
 		$params[] = $user->getId();
 	} else if ($mode == 'All') {
 		if ($acrossAllModule) {
-			// TODO collate only active (or enabled) modules for tracking.
+			
 		} else if ($moduleName) {
 			$sql .= ' WHERE vtiger_modtracker_basic.module = ?';
 			$params[] = $moduleName;
@@ -155,7 +155,7 @@ function vtws_history_entityIdHelper($moduleName, $id)
 	if (!isset($wsEntityIdCache[$moduleName][$id])) {
 		// Determine moduleName based on $id
 		if (empty($moduleName)) {
-			$moduleName = getSalesEntityType($id);
+			$moduleName = \vtlib\Functions::getCRMRecordType($id);
 		}
 		if ($moduleName == 'Calendar') {
 			$moduleName = vtws_getCalendarEntityType($id);

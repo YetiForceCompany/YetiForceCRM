@@ -278,7 +278,8 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 		return false;
 	}
 
-	public function getFieldDataType(){
+	public function getFieldDataType()
+	{
 		return $this->fieldDataType;
 	}
 }

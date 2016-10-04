@@ -22,18 +22,18 @@ require_once 'include/events/include.inc';
 class Import_Data_Action extends Vtiger_Action_Controller
 {
 
-	var $id;
-	var $user;
-	var $module;
-	var $type;
-	var $fieldMapping;
-	var $mergeType;
-	var $mergeFields;
-	var $defaultValues;
-	var $importedRecordInfo = [];
+	public $id;
+	public $user;
+	public $module;
+	public $type;
+	public $fieldMapping;
+	public $mergeType;
+	public $mergeFields;
+	public $defaultValues;
+	public $importedRecordInfo = [];
 	protected $allPicklistValues = [];
 	protected $inventoryFieldMapData = [];
-	var $batchImport = true;
+	public $batchImport = true;
 	public $entitydata = [];
 	static $IMPORT_RECORD_NONE = 0;
 	static $IMPORT_RECORD_CREATED = 1;
@@ -339,7 +339,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 						$inventoryFieldData = $this->transformInventoryForImport($inventoryFieldData);
 						$fieldData['inventoryData'] = $inventoryFieldData;
 					}
-					if ($fieldData == null) {
+					if ($fieldData === null) {
 						$entityInfo = null;
 					} else {
 						if ($this->type) {
@@ -355,7 +355,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					}
 				}
 			}
-			if ($entityInfo == null) {
+			if ($entityInfo === null) {
 				$entityInfo = array('id' => null, 'status' => self::$IMPORT_RECORD_FAILED);
 			} else if ($createRecord) {
 				$entityInfo['status'] = self::$IMPORT_RECORD_CREATED;
@@ -572,7 +572,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					}
 				}
 
-				if ($entityId == false) {
+				if ($entityId === false) {
 					$referenceModuleName = AppRequest::get($fieldName . '_defaultvalue');
 				}
 			}
@@ -684,7 +684,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue, $defaultFieldValues);
 			} else {
 				if ($fieldInstance->getFieldDataType() == 'datetime' && !empty($fieldValue)) {
-					if ($fieldValue == null || $fieldValue == '0000-00-00 00:00:00') {
+					if ($fieldValue === null || $fieldValue == '0000-00-00 00:00:00') {
 						$fieldValue = '';
 					}
 					$valuesList = explode(' ', $fieldValue);
@@ -697,7 +697,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$fieldData[$fieldName] = $fieldValue;
 				}
 				if ($fieldInstance->getFieldDataType() == 'date' && !empty($fieldValue)) {
-					if ($fieldValue == null || $fieldValue == '0000-00-00') {
+					if ($fieldValue === null || $fieldValue == '0000-00-00') {
 						$fieldValue = '';
 					}
 					$fieldValue = getValidDBInsertDateValue($fieldValue);
@@ -842,12 +842,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$importResult . '<br/><br/>' .
 				'We recommend you to login to the CRM and check few records to confirm that the import has been successful.';
 
-			$userName = getFullNameFromArray('Users', $importDataController->user->column_fields);
+			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
 			$userEmail = $importDataController->user->email1;
 			$vtigerMailer->to = array(array($userEmail, $userName));
 			$vtigerMailer->Subject = $emailSubject;
 			$vtigerMailer->Body = $emailData;
-			//$vtigerMailer->Send();
 
 			$importDataController->finishImport();
 		}

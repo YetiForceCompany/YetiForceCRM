@@ -35,7 +35,7 @@ class FloatValue extends Property {
      *
      * @return void
      */
-    function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val) {
 
         $val = explode($this->delimiter, $val);
         foreach ($val as &$item) {
@@ -50,7 +50,7 @@ class FloatValue extends Property {
      *
      * @return string
      */
-    function getRawMimeDirValue() {
+    public function getRawMimeDirValue() {
 
         return implode(
             $this->delimiter,
@@ -67,7 +67,7 @@ class FloatValue extends Property {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'FLOAT';
 
@@ -80,7 +80,7 @@ class FloatValue extends Property {
      *
      * @return array
      */
-    function getJsonValue() {
+    public function getJsonValue() {
 
         $val = array_map('floatval', $this->getParts());
 
@@ -104,7 +104,7 @@ class FloatValue extends Property {
      *
      * @return void
      */
-    function setXmlValue(array $value) {
+    public function setXmlValue(array $value) {
 
         $value = array_map('floatval', $value);
         parent::setXmlValue($value);

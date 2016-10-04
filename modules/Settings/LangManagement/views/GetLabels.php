@@ -14,7 +14,7 @@ class Settings_LangManagement_GetLabels_View extends Settings_Vtiger_BasicModal_
 		return 'modal-lg';
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$langBase = $request->get('langBase');

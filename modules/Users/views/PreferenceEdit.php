@@ -26,14 +26,14 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
-		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
+		if (($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record)) {
 			return true;
 		} else {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(Vtiger_Request $request)
 	{
 		return 'UserEditViewPreProcess.tpl';
 	}
@@ -44,9 +44,8 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
 			if ($activeReminder = \includes\Modules::isModuleActive('Calendar')) {
-				$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-				$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
+				$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 			}
 			$selectedModule = $request->getModule();
 			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();

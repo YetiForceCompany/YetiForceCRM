@@ -26,7 +26,7 @@ class Settings_Calendar_UserColors_View extends Settings_Vtiger_Index_View
 		$viewer->view('UserColors.tpl', $qualifiedModuleName);
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

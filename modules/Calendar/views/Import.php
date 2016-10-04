@@ -18,7 +18,7 @@ vimport('~modules/Calendar/iCalLastImport.php');
 class Calendar_Import_View extends Vtiger_Import_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('import');

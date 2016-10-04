@@ -21,8 +21,8 @@ class ServiceContracts_Module_Model extends Vtiger_Module_Model
 	{
 		if ($listviewModel->get('src_module') == 'HelpDesk' && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');
-			if(!empty($filterFields['parent_id'])) {
-				return $listQuery . ' AND sc_related_to = ' . $filterFields['parent_id'];
+			if (!empty($filterFields['parent_id'])) {
+				return $listQuery . ' && sc_related_to = ' . $filterFields['parent_id'];
 			}
 		}
 	}

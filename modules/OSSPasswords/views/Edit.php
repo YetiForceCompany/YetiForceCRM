@@ -17,7 +17,7 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
@@ -57,7 +57,7 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 		$GenerateButton = 'Generate Password';
 		$ConfigureButton = 'LBL_ConfigurePass';
 		$viewer->assign('GENERATEPASS', $GenerateButton);
-		
+
 		$viewer->assign('passLengthMin', $min);
 		$viewer->assign('passLengthMax', $max);
 		$viewer->assign('allowChars', $allowChars);

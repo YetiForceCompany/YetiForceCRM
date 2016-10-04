@@ -56,10 +56,11 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'watermark_size',
 		'watermark_angle',
 		'template_members',
-		'watermark_image'
+		'watermark_image',
+		'one_pdf'
 	];
 	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_creator', 'meta_keywords'];
-	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default'];
+	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf'];
 	public static $step3Fields = ['module_name', 'header_content'];
 	public static $step4Fields = ['module_name', 'body_content'];
 	public static $step5Fields = ['footer_content'];
@@ -178,13 +179,13 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getMainModuleFields($moduleName)
 	{
 		$db = PearDatabase::getInstance();
-		if(is_array($moduleName)) {
+		if (is_array($moduleName)) {
 			$moduleName = $moduleName['moduleName'];
 		} elseif (strpos($moduleName, '+') !== false) {
 			$moduleName = explode('+', $moduleName)[1];
 		}
-		$tabId = getTabid($moduleName);
-		$query = 'SELECT `fieldid`, `fieldlabel`, `fieldname`, `uitype`, `block` FROM `vtiger_field` WHERE `tabid` = ? AND `presence` != ? AND `typeofdata` != ? AND `block` NOT IN (?) ORDER BY block,sequence;';
+		$tabId = \includes\Modules::getModuleId($moduleName);
+		$query = 'SELECT `fieldid`, `fieldlabel`, `fieldname`, `uitype`, `block` FROM `vtiger_field` WHERE `tabid` = ? && `presence` != ? && `typeofdata` != ? && `block` NOT IN (?) ORDER BY block,sequence;';
 		$result = $db->pquery($query, [$tabId, 1, 'P~M', 0]);
 		$output = [];
 		$currentBlockId = '';

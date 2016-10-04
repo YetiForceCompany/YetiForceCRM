@@ -1,7 +1,6 @@
 <?php
 chdir(dirname(__FILE__) . '/../');
 
-
 // Adjust error_reporting favourable to deployment.
 include_once 'include/RequirementsValidation.php';
 require_once('include/main/WebUI.php');
@@ -13,8 +12,6 @@ require_once('install/models/Utils.php');
 require_once('install/models/ConfigFileUtils.php');
 require_once('install/models/InitSchema.php');
 
-$log = LoggerManager::getLogger('INSTALL');
-vglobal('log', $log);
 Vtiger_Session::init();
 
 $request = AppRequest::init();

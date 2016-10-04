@@ -9,7 +9,7 @@
 class Settings_WidgetsManagement_CreateChart_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$linkId = $request->get('linkId');
@@ -32,7 +32,7 @@ class Settings_WidgetsManagement_CreateChart_Action extends Settings_Vtiger_Inde
 		$db->insert('vtiger_module_dashboard', $paramsToInsert);
 		$id = $db->getLastInsertID();
 		$result = [];
-		$result['success'] = TRUE;
+		$result['success'] = true;
 		$result['widgetId'] = $id;
 		$response = new Vtiger_Response();
 		$response->setResult($result);

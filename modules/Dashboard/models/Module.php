@@ -8,6 +8,7 @@
  */
 class Dashboard_Module_Model extends Vtiger_Module_Model
 {
+
 	public function isUtilityActionEnabled()
 	{
 		return true;

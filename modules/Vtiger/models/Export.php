@@ -48,7 +48,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	 * Function exports the data based on the mode
 	 * @param Vtiger_Request $request
 	 */
-	function exportData(Vtiger_Request $request)
+	public function exportData(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
@@ -115,7 +115,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	 * @param Vtiger_Request $request
 	 * @return <String> export query
 	 */
-	function getExportQuery(Vtiger_Request $request)
+	public function getExportQuery(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$mode = $request->getMode();
@@ -168,10 +168,10 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				if (!empty($idList)) {
 					if (!empty($baseTable) && !empty($baseTableColumnId)) {
 						$idList = implode(',', $idList);
-						$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' IN (' . $idList . ')';
+						$query .= ' && ' . $baseTable . '.' . $baseTableColumnId . ' IN (' . $idList . ')';
 					}
 				} else {
-					$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' NOT IN (' . implode(',', $request->get('excluded_ids')) . ')';
+					$query .= ' && ' . $baseTable . '.' . $baseTableColumnId . ' NOT IN (' . implode(',', $request->get('excluded_ids')) . ')';
 				}
 				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				return $query;
@@ -188,7 +188,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	 * @param Vtiger_Request $request
 	 * @return <String>
 	 */
-	function getExportContentType(Vtiger_Request $request)
+	public function getExportContentType(Vtiger_Request $request)
 	{
 		$type = $request->get('export_type');
 		if (empty($type)) {
@@ -202,7 +202,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	 * @param <Array> $headers - output file header
 	 * @param <Array> $entries - outfput file data
 	 */
-	function output($request, $headers, $entries)
+	public function output($request, $headers, $entries)
 	{
 		$moduleName = $request->get('source_module');
 		$fileName = str_replace(' ', '_', decode_html(vtranslate($moduleName, $moduleName))) . '.csv';
@@ -228,7 +228,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	 * Requires modification after adding a new field type
 	 * @param array $arr - the array of values
 	 */
-	function sanitizeValues($arr)
+	public function sanitizeValues($arr)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -238,7 +238,6 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			foreach ($this->fieldArray as $fieldName => $fieldObj) {
 				//In database we have same column name in two tables. - inventory modules only
 				if ($fieldObj->get('table') == 'vtiger_inventoryproductrel' && ($fieldName == 'discount_amount' || $fieldName == 'discount_percent')) {
-					//TODO To be removed together with the old inventory module
 					$fieldName = 'item_' . $fieldName;
 					$this->fieldArray[$fieldName] = $fieldObj;
 				} else {
@@ -318,7 +317,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		return $arr;
 	}
 
-	function sanitizeInventoryValues($inventoryRow, $inventoryFields)
+	public function sanitizeInventoryValues($inventoryRow, $inventoryFields)
 	{
 		$inventoryEntries = [];
 		foreach ($inventoryFields as $field) {
@@ -350,12 +349,12 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		return $inventoryEntries;
 	}
 
-	function getModuleName()
+	public function getModuleName()
 	{
 		return $this->moduleName;
 	}
 
-	function setRecordList($listId)
+	public function setRecordList($listId)
 	{
 		return $this->recordsListFromRequest = $listId;
 	}

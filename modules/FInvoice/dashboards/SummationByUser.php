@@ -48,18 +48,14 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	public function getWidgetData($moduleName, $widgetParam, $time)
 	{
 		$rawData = $response = $ticks = [];
-
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($moduleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 
 		$param = [0, $time['start'], $time['end']];
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_crmentity.smownerid as o,sum(`sum_gross`) as s FROM u_yf_finvoice
 					INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid
-					WHERE vtiger_crmentity.deleted = ? AND u_yf_finvoice.saledate >= ? AND u_yf_finvoice.saledate <= ?';
-		if ($securityParameter != '')
-			$sql.= $securityParameter;
+					WHERE vtiger_crmentity.deleted = ? && u_yf_finvoice.saledate >= ? && u_yf_finvoice.saledate <= ?';
+		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName, $currentUser->getId());
 		$sql .= ' GROUP BY smownerid ORDER BY s DESC';
 
 		$result = $db->pquery($sql, $param);

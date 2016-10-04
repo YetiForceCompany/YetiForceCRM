@@ -9,7 +9,7 @@
 class Vtiger_MultiReferenceUpdater_Handler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $entityData)
+	public function handleEvent($eventName, $entityData)
 	{
 		if (in_array($eventName, ['vtiger.entity.link.after', 'vtiger.entity.unlink.after'])) {
 			$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($entityData['sourceModule'], $entityData['destinationModule']);

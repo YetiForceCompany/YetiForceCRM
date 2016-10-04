@@ -15,7 +15,7 @@
 class Vtiger_Field_Model extends vtlib\Field
 {
 
-	var $webserviceField = false;
+	public $webserviceField = false;
 
 	const REFERENCE_TYPE = 'reference';
 
@@ -130,7 +130,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getWebserviceFieldObject()
 	{
-		if ($this->webserviceField == false) {
+		if ($this->webserviceField === false) {
 			$db = PearDatabase::getInstance();
 
 			$row = [];
@@ -291,18 +291,19 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get all the available picklist values for the current field
+	 * @param <Boolean> $skipCheckingRole
 	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
-	public function getPicklistValues()
+	public function getPicklistValues($skipCheckingRole = false)
 	{
 		$fieldDataType = $this->getFieldDataType();
 		if ($this->getName() == 'hdnTaxType')
 			return null;
 
 		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist') {
-			if ($this->isRoleBased()) {
+			if ($this->isRoleBased() && !$skipCheckingRole) {
 				$userModel = Users_Record_Model::getCurrentUserModel();
-				$picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
+				$picklistValues = \includes\fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
 			} else {
 				$picklistValues = Vtiger_Util_Helper::getPickListValues($this->getName());
 			}
@@ -337,7 +338,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$modules = [];
 		$params = [];
 		if ($onlyActive) {
-			$where .= ' WHERE presence = ? AND isentitytype = ?';
+			$where .= ' WHERE presence = ? && isentitytype = ?';
 			array_push($params, 0);
 			array_push($params, 1);
 		}
@@ -493,7 +494,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		if (!$this->isEditEnabled() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
-			$this->isReadOnly() == true || $this->get('uitype') == 4) {
+			$this->isReadOnly() === true || $this->get('uitype') == 4) {
 			return false;
 		}
 		return true;
@@ -566,7 +567,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->getFieldDataType() == 'reference') {
 			$fieldType = 'V';
 		} else {
-			$fieldType = ChangeTypeOfData_Filter($tableName, $columnName, $fieldType);
+			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
 		}
 
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
@@ -593,7 +594,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->getFieldDataType() == 'reference') {
 			$fieldType = 'V';
 		} else {
-			$fieldType = ChangeTypeOfData_Filter($tableName, $columnName, $fieldType);
+			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
 		}
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
 		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;
@@ -614,7 +615,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * fields its reference_field_name : (reference_module_name) field - salesorder_id: (SalesOrder) subject
 	 * @return <String>
 	 */
-	function getWorkFlowFilterColumnName()
+	public function getWorkFlowFilterColumnName()
 	{
 		return $this->get('workflow_columnname');
 	}
@@ -640,92 +641,109 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
 
-		if (in_array($fieldDataType, ['picklist', 'multipicklist', 'multiowner', 'multiReferenceValue', 'posList'])) {
-			$pickListValues = $this->getPicklistValues();
-			if (!empty($pickListValues)) {
-				$this->fieldInfo['picklistvalues'] = $pickListValues;
-			} else {
-				$this->fieldInfo['picklistvalues'] = [];
-			}
-		}
-
-		if ($fieldDataType == 'taxes') {
-			$taxs = $this->getUITypeModel()->getTaxes();
-			if (!empty($taxs)) {
-				$this->fieldInfo['picklistvalues'] = $taxs;
-			} else {
-				$this->fieldInfo['picklistvalues'] = [];
-			}
-		}
-
-		if ($fieldDataType == 'inventoryLimit') {
-			$limits = $this->getUITypeModel()->getLimits();
-			if (!empty($limits)) {
-				$this->fieldInfo['picklistvalues'] = $limits;
-			} else {
-				$this->fieldInfo['picklistvalues'] = [];
-			}
-		}
-
-		if ($fieldDataType == 'date' || $fieldDataType == 'datetime') {
-			$this->fieldInfo['date-format'] = $currentUser->get('date_format');
-		}
-
-		if ($fieldDataType == 'time') {
-			$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
-		}
-
-		if ($fieldDataType == 'currency') {
-			$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
-			$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
-			$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
-		}
-		if ($fieldDataType == 'owner' || $fieldDataType == 'sharedOwner') {
-			if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || AppRequest::get('module') == 'CustomView') {
-				if ($fieldDataType == 'owner') {
-					$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
-					$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
-					$pickListValues = [];
-					$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
-					$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+		switch ($fieldDataType) {
+			case 'picklist' :
+			case 'multipicklist':
+			case 'multiowner':
+			case 'multiReferenceValue':
+			case 'posList':
+				$pickListValues = $this->getPicklistValues();
+				if (!empty($pickListValues)) {
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
-					if (AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+				} else {
+					$this->fieldInfo['picklistvalues'] = [];
+				}
+				break;
+			case 'taxes':
+				$taxs = $this->getUITypeModel()->getTaxes();
+				if (!empty($taxs)) {
+					$this->fieldInfo['picklistvalues'] = $taxs;
+				} else {
+					$this->fieldInfo['picklistvalues'] = [];
+				}
+				break;
+			case 'inventoryLimit':
+				$limits = $this->getUITypeModel()->getLimits();
+				if (!empty($limits)) {
+					$this->fieldInfo['picklistvalues'] = $limits;
+				} else {
+					$this->fieldInfo['picklistvalues'] = [];
+				}
+				break;
+			case 'date':
+			case 'datetime':
+				$this->fieldInfo['date-format'] = $currentUser->get('date_format');
+				break;
+			case 'time':
+				$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
+				break;
+			case 'currency':
+				$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
+				$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
+				$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
+				break;
+			case 'owner':
+			case 'sharedOwner':
+				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || AppRequest::get('module') == 'CustomView') {
+					if ($fieldDataType == 'owner') {
+						$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
+						$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
+						$pickListValues = [];
+						$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
+						$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+						$this->fieldInfo['picklistvalues'] = $pickListValues;
+						if (AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+							$this->fieldInfo['searchOperator'] = 'e';
+						}
+					}
+					if ($fieldDataType == 'sharedOwner') {
+						$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
+						$pickListValues = [];
+						$this->fieldInfo['picklistvalues'] = $userList;
+					}
+				} else {
+					if ($fieldDataType == 'owner') {
 						$this->fieldInfo['searchOperator'] = 'e';
 					}
 				}
-				if ($fieldDataType == 'sharedOwner') {
-					$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
-					$pickListValues = [];
-					$this->fieldInfo['picklistvalues'] = $userList;
+				break;
+			case 'modules':
+				foreach ($this->getModulesListValues() as $moduleId => $module) {
+					$modulesList[$module['name']] = $module['label'];
 				}
-			} else {
-				if ($fieldDataType == 'owner') {
-					$this->fieldInfo['searchOperator'] = 'e';
+				$this->fieldInfo['picklistvalues'] = $modulesList;
+				break;
+			case 'tree':
+				$tree = $this->getUITypeModel()->getAllValue();
+				$pickListValues = [];
+				foreach ($tree as $key => $labels) {
+					$pickListValues[$key] = $labels[0];
 				}
-			}
+				$this->fieldInfo['picklistvalues'] = $pickListValues;
+				break;
+			case 'email':
+				if (AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
+					$validate = false;
+					if (empty(AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
+						$validate = true;
+					}
+					if (in_array($this->getModuleName(), AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
+						$validate = false;
+					}
+					if ($validate) {
+						$this->fieldInfo['restrictedDomains'] = AppConfig::security('RESTRICTED_DOMAINS_VALUES');
+					}
+				}
+				break;
 		}
-		if ($fieldDataType == 'modules') {
-			foreach ($this->getModulesListValues() as $moduleId => $module) {
-				$modulesList[$module['name']] = $module['label'];
-			}
-			$this->fieldInfo['picklistvalues'] = $modulesList;
-		}
+
 		if (in_array($fieldDataType, Vtiger_Field_Model::$REFERENCE_TYPES) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$this->fieldInfo['searchOperator'] = 'e';
 		}
-		if ($fieldDataType == 'tree') {
-			$tree = $this->getUITypeModel()->getAllValue();
-			$pickListValues = [];
-			foreach ($tree as $key => $labels) {
-				$pickListValues[$key] = $labels[0];
-			}
-			$this->fieldInfo['picklistvalues'] = $pickListValues;
-		}
-
 		return $this->fieldInfo;
 	}
 
-	function setFieldInfo($fieldInfo)
+	public function setFieldInfo($fieldInfo)
 	{
 		$this->fieldInfo = $fieldInfo;
 	}
@@ -888,7 +906,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Added function that returns the folders in a Document
 	 * @return <Array>
 	 */
-	function getDocumentFolders()
+	public function getDocumentFolders()
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT `tree`,`name` FROM
@@ -911,7 +929,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Function checks if the current Field is Read/Write
 	 * @return <Boolean>
 	 */
-	function getProfileReadWritePermission()
+	public function getProfileReadWritePermission()
 	{
 		return $this->getPermissions('readwrite');
 	}
@@ -920,8 +938,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Function returns Client Side Validators name
 	 * @return <Array> [name=>Name of the Validator, params=>Extra Parameters]
 	 */
-	/*	 * TODO: field validator need to be handled in specific module getValidator api  * */
-	function getValidator()
+	public function getValidator()
 	{
 		$validator = [];
 		$fieldName = $this->getName();
@@ -1029,7 +1046,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getCurrencyList()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE currency_status = ? AND deleted=0', array('Active'));
+		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE currency_status = ? && deleted=0', array('Active'));
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$currencyId = $db->query_result($result, $i, 'id');
 			$currencyName = $db->query_result($result, $i, 'currency_name');
@@ -1106,17 +1123,17 @@ class Vtiger_Field_Model extends vtlib\Field
 
 		if (count($profilelist) > 0) {
 			if ($accessmode == 'readonly') {
-				$query = 'SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid';
+				$query = 'SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid';
 			} else {
-				$query = 'SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid';
+				$query = 'SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_profile2field.readonly=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid';
 			}
 			$query = sprintf($query, generateQuestionMarks($profilelist));
 			$params = array($tabid, $profilelist);
 		} else {
 			if ($accessmode == 'readonly') {
-				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0  && vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
 			} else {
-				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_profile2field.readonly=0 && vtiger_def_org_field.visible=0  && vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
 			}
 			$params = array($tabid);
 		}

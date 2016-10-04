@@ -49,7 +49,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');
@@ -82,7 +82,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
-		
+
 		$scripts = [
 			'~libraries/jquery/jstree/jstree.js',
 			'~libraries/jquery/jstree/jstree.category.js',

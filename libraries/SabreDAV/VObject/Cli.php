@@ -96,7 +96,7 @@ class Cli {
      *
      * @return int
      */
-    function main(array $argv) {
+    public function main(array $argv) {
 
         // @codeCoverageIgnoreStart
         // We cannot easily test this, so we'll skip it. Pretty basic anyway.
@@ -691,8 +691,9 @@ HELP
 
         $positional = [];
         $options = [];
-
-        for ($ii = 0; $ii < count($argv); $ii++) {
+		
+		$countArgv = count($argv);
+        for ($ii = 0; $ii < $countArgv; $ii++) {
 
             // Skipping the first argument.
             if ($ii === 0) continue;

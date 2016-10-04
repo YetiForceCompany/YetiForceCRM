@@ -12,12 +12,12 @@
 class Import_FileReader_Reader
 {
 
-	var $temp_status = 'success';
-	var $numberOfRecordsRead = 0;
-	var $errorMessage = '';
-	var $user;
-	var $request;
-	var $moduleModel;
+	public $temp_status = 'success';
+	public $numberOfRecordsRead = 0;
+	public $errorMessage = '';
+	public $user;
+	public $request;
+	public $moduleModel;
 
 	public function __construct($request, $user)
 	{
@@ -43,7 +43,7 @@ class Import_FileReader_Reader
 
 	public function hasHeader()
 	{
-		if ($this->request->get('has_header') == 'on' || $this->request->get('has_header') == 1 || $this->request->get('has_header') == true) {
+		if ($this->request->get('has_header') == 'on' || $this->request->get('has_header') == 1 || $this->request->get('has_header') === true) {
 			return true;
 		}
 		return false;

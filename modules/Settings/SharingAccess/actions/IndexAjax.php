@@ -12,7 +12,7 @@
 Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking();
 		parent::__construct();
@@ -36,7 +36,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
-		\includes\Privileges::setUpdater($forModule);
+		\App\Privilege::setUpdater($forModule);
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
 		if (empty($ruleId)) {
 			$ruleModel = new Settings_SharingAccess_Rule_Model();
@@ -45,7 +45,6 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 			$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 		}
 
-		//TODO adddetail to source and target
 		$prevValues['permission'] = $ruleModel->getPermission();
 		$newValues['permission'] = $request->get('permission');
 
@@ -72,7 +71,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
-		\includes\Privileges::setUpdater(vtlib\Functions::getModuleName($forModule));
+		\App\Privilege::setUpdater(vtlib\Functions::getModuleName($forModule));
 		$moduleModel = Settings_SharingAccess_Module_Model::getInstance($forModule);
 		$ruleModel = Settings_SharingAccess_Rule_Model::getInstance($moduleModel, $ruleId);
 

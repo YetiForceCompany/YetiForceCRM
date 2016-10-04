@@ -9,7 +9,7 @@
 class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getPanel');
@@ -26,7 +26,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('IndexPreProcess.tpl', $qualifiedModuleName);
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -66,7 +66,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('AddPanel.tpl', $qualifiedModuleName);
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

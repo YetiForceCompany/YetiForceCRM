@@ -4,8 +4,9 @@
 		<table class="table noStyle listViewEntriesTable">
 			<thead>
 				<tr class="">
+					<th class="noWrap listViewSearchTd">&nbsp;</th>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-						<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap>
+						<th nowrap>
 							{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
 						</th>
 					{/foreach}
@@ -26,6 +27,9 @@
 					{if !empty($COLOR_LIST[$RELATED_RECORD->getId()])}
 						style="background: {$COLOR_LIST[$RELATED_RECORD->getId()]['background']}; color: {$COLOR_LIST[$RELATED_RECORD->getId()]['text']}"
 					{/if}>
+					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+						{include file=vtemplate_path('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
+					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
@@ -42,67 +46,6 @@
 							{else}
 								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
 							{/if}
-							{if $HEADER_FIELD@last}
-							</td><td nowrap class="{$WIDTHTYPE}">
-								<div class="pull-right actions">
-									{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
-										<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed">
-											<span class="badge bgDanger"></span>&nbsp;
-										</a>&nbsp;
-									{/if}
-									<span class="actionImages">
-										{if $RELATED_MODULE->isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
-											{assign var=WATCHING_STATE value=(!$RELATED_RECORD->isWatchingRecord())|intval}
-											<a href="#" onclick="Vtiger_Index_Js.changeWatching(this)" title="{vtranslate('BTN_WATCHING_RECORD', $MODULE)}" data-record="{$RELATED_RECORD->getId()}" data-value="{$WATCHING_STATE}" class="noLinkBtn{if !$WATCHING_STATE} info-color{/if}" data-on="info-color" data-off="" data-icon-on="glyphicon-eye-open" data-icon-off="glyphicon-eye-close" data-module="{$RELATED_MODULE_NAME}">
-												<span class="glyphicon {if $WATCHING_STATE}glyphicon-eye-close{else}glyphicon-eye-open{/if} alignMiddle"></span>
-											</a>&nbsp;
-										{/if}
-										{if $RELATED_MODULE_NAME eq 'Calendar'}
-											{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
-											{if $IS_EDITABLE && in_array($RELATED_RECORD->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
-												<a class="showModal" data-url="{$RELATED_RECORD->getActivityStateModalUrl()}">
-													<span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span>
-												</a>&nbsp;
-											{/if}
-											{if $RELATED_RECORD->isViewable()}
-												<a href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-													<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span>
-												</a>&nbsp;
-											{/if}
-										{else}
-											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-												<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span>
-											</a>&nbsp;
-										{/if}
-										{if $IS_EDITABLE}
-											{if $RELATED_MODULE_NAME eq 'PriceBooks'}
-												<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
-												   class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
-													<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
-												</a>
-											{elseif $RELATED_RECORD->isEditable()}
-												<a href='{$RELATED_RECORD->getEditViewUrl()}'>
-													<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
-												</a>
-											{/if}
-										{/if}
-										{if $IS_DELETABLE}
-											{if $RELATED_MODULE_NAME eq 'Calendar'}
-												{if $RELATED_RECORD->isDeletable()}
-													<a class="relationDelete">
-														<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
-													</a>
-												{/if}
-											{elseif $RELATED_RECORD->isViewable()}
-												<a class="relationDelete">
-													<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
-												</a>
-											{/if}
-										{/if}
-									</span>
-								</div>
-							</td>
-						{/if}
 						</td>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}

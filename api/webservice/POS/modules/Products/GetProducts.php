@@ -27,7 +27,7 @@ class API_Products_GetProducts extends BaseAction
 			return $categoryCache[$categoryId];
 		}
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$this->getTemplate(), $categoryId]);
+		$result = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$this->getTemplate(), $categoryId]);
 		$categoryName = $db->getSingleValue($result);
 		$categoryCache[$categoryId] = $categoryName;
 		return $categoryName;

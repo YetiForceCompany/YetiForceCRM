@@ -13,22 +13,23 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 	/*
 	 * Returns bank name
 	 */
+
 	public function getName()
 	{
 		return 'CBR';
 	}
-	
 	/*
 	 * Returns url sources from where exchange rates are taken from
 	 */
+
 	public function getSource()
 	{
 		return ['http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL'];
 	}
-	
 	/*
 	 * Returns list of currencies supported by this bank
 	 */
+
 	public function getSupportedCurrencies()
 	{
 		$supportedCurrencies = [];
@@ -39,8 +40,8 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 		$curs = $client->GetCursOnDate(array("On_date" => date('Y-m-d')));
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 
-		foreach($ratesXml->ValuteData[0] as $currency) {
-			$currencyCode = (string)$currency->VchCode;
+		foreach ($ratesXml->ValuteData[0] as $currency) {
+			$currencyCode = (string) $currency->VchCode;
 			$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
 			if ($currencyName) {
 				$supportedCurrencies[$currencyName] = $currencyCode;
@@ -49,21 +50,21 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 
 		return $supportedCurrencies;
 	}
-	
 	/*
 	 * Returns banks main currency 
 	 */
+
 	public function getMainCurrencyCode()
 	{
 		return 'RUB';
 	}
-	
 	/*
 	 * Fetch exchange rates
 	 * @param <Array> $currencies - list of systems active currencies
 	 * @param <Date> $date - date for which exchange is fetched
 	 * @param <Boolean> $cron - if true then it is fired by server and crms currency conversion rates are updated 
 	 */
+
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
 		$db = PearDatabase::getInstance();
@@ -83,31 +84,32 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 		$client = new \SoapClient($source[0]);
 		$curs = $client->GetCursOnDate(array('On_date' => $dateCur));
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
-		
+
 		$datePublicationOfFile = $dateCur;
 
 		$exchangeRate = 1.0;
 		// if currency is diffrent than RUB we need to calculate rate for converting other currencies to this one from RUB
 		if ($mainCurrency != $this->getMainCurrencyCode()) {
-			foreach($ratesXml->ValuteData[0] as $currencyRate) {
-				if ($currencyRate->VchCode == $mainCurrency) { echo $currencyRate->VchCode.' == '.$mainCurrency.' = '.$currencyRate->Vcurs;
+			foreach ($ratesXml->ValuteData[0] as $currencyRate) {
+				if ($currencyRate->VchCode == $mainCurrency) {
+					echo $currencyRate->VchCode . ' == ' . $mainCurrency . ' = ' . $currencyRate->Vcurs;
 					$exchangeRate = $currencyRate->Vcurs;
 				}
 			}
 		}
 
-		foreach($ratesXml->ValuteData[0] as $currencyRate) {
-			$currency = (string)$currencyRate->VchCode;
+		foreach ($ratesXml->ValuteData[0] as $currencyRate) {
+			$currency = (string) $currencyRate->VchCode;
 			foreach ($otherCurrencyCode as $key => $currId) {
 				if ($key == $currency && $currency != $mainCurrency) {
-					$curs = (string)$currencyRate->Vcurs;
-					$nom = (string)$currencyRate->Vnom;
+					$curs = (string) $currencyRate->Vcurs;
+					$nom = (string) $currencyRate->Vnom;
 					$exchange = $curs / $nom;
 
 					$exchangeVtiger = $exchangeRate / $exchange;
 					$exchange = $exchange / $exchangeRate;
 
-					if ($cron == true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+					if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 						$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 					}
 
@@ -133,7 +135,7 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 			}
 
 			if ($mainCurrencyId) {
-				if ($cron == true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $exchangeRate);
 				}
 

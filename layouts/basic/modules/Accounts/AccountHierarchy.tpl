@@ -28,7 +28,7 @@
 							</thead>
 							<tbody>
 								{foreach key=RECORD_ID item=ENTRIES from=$ACCOUNT_HIERARCHY['entries'] name=hierarchyEntries}
-									<tr {if $smarty.foreach.hierarchyEntries.first} class="bgAzure" {/if}>
+									<tr {if $smarty.foreach.hierarchyEntries.first} class="bgAzure" {/if} data-id="{$RECORD_ID}">
 										{foreach item=LISTFIELDS from=$ENTRIES}
 											<td>
 												{if $LISTFIELDS['fieldname'] == 'active' && Users_Privileges_Model::isPermitted($MODULE, 'EditView', $RECORD_ID)}

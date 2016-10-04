@@ -11,9 +11,6 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 
 	private function getAccounts($moduleName, $user, $time, $pagingModel)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($moduleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$time['start'] .= ' 00:00:00';
@@ -21,16 +18,17 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$sql = 'SELECT vtiger_crmentity.crmid ,vtiger_account.accountname, vtiger_crmentity.smownerid,	vtiger_crmentity.createdtime 
 			FROM vtiger_account
 			INNER JOIN vtiger_crmentity ON vtiger_account.accountid = vtiger_crmentity.crmid
-			WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.createdtime >= ? AND vtiger_crmentity.createdtime <= ? AND vtiger_crmentity.deleted = ?';
+			WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.createdtime >= ? && vtiger_crmentity.createdtime <= ? && vtiger_crmentity.deleted = ?';
 		$params = [$moduleName, $time['start'], $time['end'], 0];
 		if (is_array($user)) {
-			$sql .= ' AND vtiger_crmentity.smownerid IN (' . generateQuestionMarks($user) . ') ';
+			$sql .= ' && vtiger_crmentity.smownerid IN (' . generateQuestionMarks($user) . ') ';
 			$params = array_merge($params, $user);
 		} else {
-			$sql .= ' AND vtiger_crmentity.smownerid = ? ';
+			$sql .= ' && vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
-		$sql .= $securityParameter . ' ORDER BY  vtiger_crmentity.createdtime DESC LIMIT ?, ?';
+		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
+		$sql .= ' ORDER BY  vtiger_crmentity.createdtime DESC LIMIT ?, ?';
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit();
 		$db = PearDatabase::getInstance();

@@ -106,6 +106,8 @@ $languageStrings = [
 	'LBL_FOOTER_HEIGHT' => 'Footer margin',
 	'LBL_HEADER_IN_MILIMETERS' => 'Header margin from the top of the page in millimeters',
 	'LBL_FOOTER_IN_MILIMETERS' => 'Footer margin from the bottom of the page in millimeters',
+	'LBL_GENERATE_ONE_PDF' => 'Generate one PDF for many records',
+	'LBL_GENERATE_ONE_PDF_INFO' => 'In case when PDF includes a special function that generates one table for many records, checking this box will result in generating one PDF file.',
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',

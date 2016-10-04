@@ -7,28 +7,28 @@
 class dZip
 {
 
-	var $filename;
-	var $overwrite;
-	var $zipSignature = "\x50\x4b\x03\x04"; // local file header signature
-	var $dirSignature = "\x50\x4b\x01\x02"; // central dir header signature
-	var $dirSignatureE = "\x50\x4b\x05\x06"; // end of central dir signature
-	var $files_count = 0;
-	var $fh;
+	public $filename;
+	public $overwrite;
+	public $zipSignature = "\x50\x4b\x03\x04"; // local file header signature
+	public $dirSignature = "\x50\x4b\x01\x02"; // central dir header signature
+	public $dirSignatureE = "\x50\x4b\x05\x06"; // end of central dir signature
+	public $files_count = 0;
+	public $fh;
 
-	Function dZip($filename, $overwrite = true)
+	public function dZip($filename, $overwrite = true)
 	{
 		$this->filename = $filename;
 		$this->overwrite = $overwrite;
 	}
 
-	Function addDir($dirname, $fileComments = '')
+	public function addDir($dirname, $fileComments = '')
 	{
 		if (substr($dirname, -1) != '/')
 			$dirname .= '/';
 		$this->addFile(false, $dirname, $fileComments);
 	}
 
-	Function addFile($filename, $cfilename, $fileComments = '', $data = false)
+	public function addFile($filename, $cfilename, $fileComments = '', $data = false)
 	{
 		if (!($fh = &$this->fh))
 			$fh = fopen($this->filename, $this->overwrite ? 'wb' : 'a+b');
@@ -101,12 +101,12 @@ class dZip
 		$this->files_count++;
 	}
 
-	Function setExtra($filename, $property, $value)
+	public function setExtra($filename, $property, $value)
 	{
 		$this->centraldirs[$filename][$property] = $value;
 	}
 
-	Function save($zipComments = '')
+	public function save($zipComments = '')
 	{
 		if (!($fh = &$this->fh))
 			$fh = fopen($this->filename, $this->overwrite ? 'w' : 'a+');
@@ -151,7 +151,7 @@ class dZip
 	}
 
 	// Private
-	Function appendCentralDir($filename, $properties)
+	public function appendCentralDir($filename, $properties)
 	{
 		$this->centraldirs[$filename] = $properties;
 	}

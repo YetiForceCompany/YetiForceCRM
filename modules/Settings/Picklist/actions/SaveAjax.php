@@ -11,7 +11,7 @@
 class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('add');
 		$this->exposeMethod('rename');
@@ -39,7 +39,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$defaultFieldName = 'defaulteventstatus';
 		$queryToGetId = sprintf('SELECT id FROM vtiger_users WHERE %s IN (', $defaultFieldName);
 		if (is_array($oldValue)) {
-			for ($i = 0; $i < count($oldValue); $i++) {
+			$countOldValue = count($oldValue);
+			for ($i = 0; $i < $countOldValue; $i++) {
 				$queryToGetId .= '"' . $oldValue[$i] . '"';
 				if ($i < (count($oldValue) - 1)) {
 					$queryToGetId .= ',';

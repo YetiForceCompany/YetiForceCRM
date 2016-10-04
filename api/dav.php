@@ -57,7 +57,7 @@ $server->debugExceptions = AppConfig::debug('DAV_DEBUG_EXCEPTIONS');
 
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend));
-
+$server->addPlugin(new Sabre\DAVACL\Plugin());
 if ($enableBrowser) {
 	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
 }
@@ -68,10 +68,8 @@ if ($enableCalDAV) {//CalDAV integration
 	$server->addPlugin(new Sabre\CalDAV\Plugin());
 	$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
 	$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
-	//$server->addPlugin(new Yeti\CalDAV_Schedule());
 }
 if ($enableWebDAV) {//WebDAV integration
-	$server->addPlugin(new Sabre\DAVACL\Plugin());
 	$server->addPlugin(new Sabre\DAV\Sync\Plugin());
 }
 

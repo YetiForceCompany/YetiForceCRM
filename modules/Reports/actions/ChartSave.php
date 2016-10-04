@@ -1,22 +1,24 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Reports_ChartSave_Action extends Reports_Save_Action {
+class Reports_ChartSave_Action extends Reports_Save_Action
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 
 		$record = $request->get('record');
 		$reportModel = new Reports_Record_Model();
 		$reportModel->setModule('Reports');
-		if(!empty($record) && !$request->get('isDuplicate')) {
+		if (!empty($record) && !$request->get('isDuplicate')) {
 			$reportModel->setId($record);
 		}
 
@@ -35,13 +37,14 @@ class Reports_ChartSave_Action extends Reports_Save_Action {
 
 
 		$dataFields = $request->get('datafields', 'count(*)');
-		if(is_string($dataFields)) $dataFields = array($dataFields);
+		if (is_string($dataFields))
+			$dataFields = array($dataFields);
 
 		$reportModel->set('reporttypedata', \includes\utils\Json::encode(array(
-																'type'=>$request->get('charttype', 'pieChart'),
-																'groupbyfield'=>$request->get('groupbyfield'),
-																'datafields'=>$dataFields)
-															));
+				'type' => $request->get('charttype', 'pieChart'),
+				'groupbyfield' => $request->get('groupbyfield'),
+				'datafields' => $dataFields)
+		));
 		$reportModel->save();
 
 		$loadUrl = $reportModel->getDetailViewUrl();

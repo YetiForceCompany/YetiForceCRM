@@ -1,11 +1,11 @@
 <?php
+
 /**
  *
  * @package YetiForce.models
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-
 class Assets_Field_Model extends Vtiger_Field_Model
 {
 
@@ -15,11 +15,11 @@ class Assets_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditable()
 	{
-	
+
 		$notEditableFields = $this->getEditabeFields();
-		if (!$this->isEditEnabled() || 
+		if (!$this->isEditEnabled() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
-			$this->isReadOnly() == true || $this->get('uitype') == 4 || in_array($this->get('column'), $notEditableFields)) {
+			$this->isReadOnly() === true || $this->get('uitype') == 4 || in_array($this->get('column'), $notEditableFields)) {
 			return false;
 		}
 		return true;
@@ -33,8 +33,8 @@ class Assets_Field_Model extends Vtiger_Field_Model
 	{
 		return ['sum_time'];
 	}
-	
-	function isAjaxEditable()
+
+	public function isAjaxEditable()
 	{
 		$edit = parent::isAjaxEditable();
 		if ($edit && $this->getName() === 'assetstatus') {
