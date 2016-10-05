@@ -124,7 +124,6 @@ class Privilege
 				\App\Log::trace('Exiting isPermitted method ...');
 				return true;
 			}
-
 			//If modules is Products,Vendors,Faq,PriceBook then no sharing
 			if ($record != '') {
 				if (\vtlib\Functions::getModuleOwner($moduleName) == 1) {
@@ -133,7 +132,21 @@ class Privilege
 					return true;
 				}
 			}
-
+			// Check advanced permissions
+			if (\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION')) {
+				$prvAdv = PrivilegeAdv::checkPermissions($record, $moduleName);
+				if ($prvAdv !== false) {
+					if ($prvAdv === 0) {
+						self::$isPermittedLevel = 'SEC_ADVANCED_PERMISSION_NO';
+						\App\Log::trace('Exiting isPermitted method ... - no');
+						return false;
+					} else {
+						self::$isPermittedLevel = 'SEC_ADVANCED_PERMISSION_YES';
+						\App\Log::trace('Exiting isPermitted method ... - no');
+						return true;
+					}
+				}
+			}
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
 			if (!isset($recordMetaData) || $recordMetaData['deleted'] == 1) {
 				self::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';

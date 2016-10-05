@@ -70,7 +70,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$row = $query->createCommand($db)->queryOne();
 		$instance = false;
 		if ($row !== false) {
-			$row['conditions'] = json_decode($row['conditions'], true);
+			$row['conditions'] = \includes\utils\Json::decode($row['conditions']);
 			$instance = new self();
 			$instance->setData($row);
 		}
@@ -100,8 +100,12 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 					$params[$key] = $value;
 				}
 			}
+			if (isset($params['conditions'])) {
+				$params['conditions'] = \includes\utils\Json::encode($params['conditions']);
+			}
 			$db->createCommand()->update('a_#__adv_permission', $params, ['id' => $recordId])->execute();
 		}
+		\App\PrivilegeAdv::reloadCache();
 	}
 
 	/**
@@ -139,6 +143,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$db->createCommand()
 			->delete('a_#__adv_permission', ['id' => $this->getId()])
 			->execute();
+		\App\PrivilegeAdv::reloadCache();
 	}
 
 	/**

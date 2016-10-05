@@ -52,7 +52,7 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 	{
 		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->get('record'));
 		$conditions = Vtiger_AdvancedFilter_Helper::transformToSave($request->get('conditions'));
-		$recordModel->set('conditions', json_encode($conditions));
+		$recordModel->set('conditions', $conditions);
 		$recordModel->save();
 
 		header("Location: {$recordModel->getDetailViewUrl()}");
