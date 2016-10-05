@@ -196,6 +196,6 @@ class PrivilegeUpdater
 		foreach ($modules as &$module) {
 			self::setUpdater($module['name']);
 		}
-		App\PrivilegeAdvanced::reloadCache();
+		PrivilegeAdvanced::reloadCache();
 	}
 }
