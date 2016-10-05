@@ -265,6 +265,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		$queryGenerator = $listViewModel->get('query_generator');
+		$queryGenerator->setFields(['id']);
 
 		$searchKey = $this->get('search_key');
 		$searchValue = $this->get('search_value');
