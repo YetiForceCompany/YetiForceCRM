@@ -17,6 +17,6 @@ $languageStrings = [
 	'FL_LOCK_RECORD' => 'Zablokuj dostęp',
 	// Others
 	'LBL_SAVE_AND_CONDITIONS' => 'Dalej',
-];
-$jsLanguageStrings = [
+	'ERR_INACTIVE_ALERT_TITLE' => 'Uprawnienia zawansowane są wyłączone',
+	'ERR_INACTIVE_ALERT_DESC' => 'Aby włączyć należy zmienić parametr PERMITTED_BY_ADVANCED_PERMISSION w pliku config/security.php',
 ];

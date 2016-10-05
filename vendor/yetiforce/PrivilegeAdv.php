@@ -16,6 +16,9 @@ class PrivilegeAdv
 	protected static $cacheFile = 'user_privileges/advancedPermission.php';
 	protected static $cache = false;
 
+	/**
+	 * Update advanced permissions cache.
+	 */
 	public static function reloadCache()
 	{
 		$db = \App\DB::getInstance('admin');
@@ -29,6 +32,11 @@ class PrivilegeAdv
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
 	}
 
+	/**
+	 * Load advanced permission rules for specific module
+	 * @param string $moduleName
+	 * @return array
+	 */
 	public static function get($moduleName)
 	{
 		if (static::$cache === false) {
@@ -38,7 +46,12 @@ class PrivilegeAdv
 		return isset(static::$cache[$tabid]) ? static::$cache[$tabid] : false;
 	}
 
-	// Check advanced permissions
+	/**
+	 * Check advanced permissions
+	 * @param int $record
+	 * @param string $moduleName
+	 * @return boolean|int
+	 */
 	public static function checkPermissions($record, $moduleName)
 	{
 		$privileges = static::get($moduleName);
