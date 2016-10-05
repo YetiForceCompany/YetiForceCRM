@@ -134,7 +134,7 @@ class Privilege
 			}
 			// Check advanced permissions
 			if (\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION')) {
-				$prvAdv = PrivilegeAdvanced::checkPermissions($record, $moduleName);
+				$prvAdv = PrivilegeAdvanced::checkPermissions($record, $moduleName, $userId);
 				if ($prvAdv !== false) {
 					if ($prvAdv === 0) {
 						self::$isPermittedLevel = 'SEC_ADVANCED_PERMISSION_NO';

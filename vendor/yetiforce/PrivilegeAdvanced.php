@@ -22,12 +22,25 @@ class PrivilegeAdvanced
 	public static function reloadCache()
 	{
 		$db = \App\DB::getInstance('admin');
-		$query = (new \App\db\Query())->from('a_#__adv_permission')->where(['status' => 0]);
+		$query = (new \App\db\Query())->from('a_#__adv_permission')->where(['status' => 0])->orderBy(['priority' => SORT_DESC]);
 		$dataReader = $query->createCommand($db)->query();
 		$cache = [];
 		while ($row = $dataReader->read()) {
-			$cache[(int) $row['tabid']][] = ['action' => (int) $row['action'], 'conditions' => $row['conditions']];
+			$members = \includes\utils\Json::decode($row['members']);
+			$users = [];
+			if (!empty($members)) {
+				foreach ($members as &$member) {
+					$users = array_merge($users, PrivilegeUtil::getUserByMember($member));
+				}
+				$users = array_unique($users);
+			}
+			$cache[(int) $row['tabid']][] = [
+				'action' => (int) $row['action'],
+				'conditions' => $row['conditions'],
+				'members' => array_flip($users)
+			];
 		}
+
 		$content = '<?php return ' . \vtlib\Functions::varExportMin($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
 	}
@@ -52,22 +65,24 @@ class PrivilegeAdvanced
 	 * @param string $moduleName
 	 * @return boolean|int
 	 */
-	public static function checkPermissions($record, $moduleName)
+	public static function checkPermissions($record, $moduleName, $userId)
 	{
 		$privileges = static::get($moduleName);
 		if ($privileges === false) {
 			return false;
 		}
-		$currentUser = \Users_Record_Model::getCurrentUserModel();
-		$permission = false;
+		$currentUser = \Users_Privileges_Model::getInstanceById($userId);
 		foreach ($privileges as &$privilege) {
+			if (!isset($privilege['members'][$userId])) {
+				continue;
+			}
 			$entityCache = new \VTEntityCache($currentUser);
 			$wsId = vtws_getWebserviceEntityId($moduleName, $record);
 			$test = (new \VTJsonCondition())->evaluate($privilege['conditions'], $entityCache, $wsId);
 			if ($test) {
-				$permission = $privilege['action'] === 0 ? 1 : 0;
+				return $privilege['action'] === 0 ? 1 : 0;
 			}
 		}
-		return $permission;
+		return false;
 	}
 }

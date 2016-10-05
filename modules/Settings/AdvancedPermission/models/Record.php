@@ -71,6 +71,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$instance = false;
 		if ($row !== false) {
 			$row['conditions'] = \includes\utils\Json::decode($row['conditions']);
+			$row['members'] = \includes\utils\Json::decode($row['members']);
 			$instance = new self();
 			$instance->setData($row);
 		}
@@ -85,24 +86,22 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$db = \App\DB::getInstance('admin');
 		$recordId = $this->getId();
 
+		$params = [];
+		foreach ($this->getData() as $key => $value) {
+			if ($this->has($key)) {
+				$params[$key] = $value;
+			}
+		}
+		if (isset($params['conditions'])) {
+			$params['conditions'] = \includes\utils\Json::encode($params['conditions']);
+		}
+		if (isset($params['members'])) {
+			$params['members'] = \includes\utils\Json::encode($params['members']);
+		}
 		if ($recordId === false) {
-			$params = [
-				'name' => $this->get('name'),
-				'tabid' => $this->get('tabid'),
-			];
 			$db->createCommand()->insert('a_#__adv_permission', $params)->execute();
-			$id = $db->getLastInsertID();
-			$this->set('id', $id);
+			$this->set('id', $db->getLastInsertID());
 		} else {
-			$params = [];
-			foreach ($this->getData() as $key => $value) {
-				if ($this->has($key)) {
-					$params[$key] = $value;
-				}
-			}
-			if (isset($params['conditions'])) {
-				$params['conditions'] = \includes\utils\Json::encode($params['conditions']);
-			}
 			$db->createCommand()->update('a_#__adv_permission', $params, ['id' => $recordId])->execute();
 		}
 		\App\PrivilegeAdvanced::reloadCache();
@@ -128,6 +127,37 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			case 'action':
 				if (isset(Settings_AdvancedPermission_Module_Model::$action[$value])) {
 					$value = Settings_AdvancedPermission_Module_Model::$action[$value];
+				}
+				break;
+			case 'priority':
+				if (isset(Settings_AdvancedPermission_Module_Model::$priority[$value])) {
+					$value = Settings_AdvancedPermission_Module_Model::$priority[$value];
+				}
+				break;
+			case 'members':
+				if (!empty($value)) {
+					$values = [];
+					foreach ($value as $member) {
+						list($type, $id) = explode(':', $member);
+						switch ($type) {
+							case 'Users' :
+								$name = \includes\fields\Owner::getUserLabel($id);
+								break;
+							case 'Groups' :
+								$name = \includes\Language::translate(\includes\fields\Owner::getGroupName($id));
+								break;
+							case 'Roles' :
+								$roleInfo = \App\PrivilegeUtil::getRoleInformation($id);
+								$name = \includes\Language::translate($roleInfo['rolename']);
+								break;
+							case 'RoleAndSubordinates' :
+								$roleInfo = \App\PrivilegeUtil::getRoleInformation($id);
+								$name = \includes\Language::translate($roleInfo['rolename']);
+								break;
+						}
+						$values[] = \includes\Language::translate($type) . ': ' . $name;
+					}
+					$value = implode(', ', $values);
 				}
 				break;
 		}
@@ -172,5 +202,26 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
 		return $links;
+	}
+
+	/**
+	 * Function to retrieve a list of users
+	 * @return array
+	 */
+	public function getUserByMember()
+	{
+		$members = $this->get('members');
+		$users = [];
+		if (!empty($members)) {
+			foreach ($members as &$member) {
+				$users = array_merge($users, \App\PrivilegeUtil::getUserByMember($member));
+			}
+			$users = array_unique($users);
+		}
+		$users = array_flip($users);
+		foreach ($users as $id => &$user) {
+			$user = \includes\fields\Owner::getUserLabel($id);
+		}
+		return $users;
 	}
 }

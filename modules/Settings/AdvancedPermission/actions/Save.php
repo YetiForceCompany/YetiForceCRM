@@ -39,6 +39,8 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 		$recordModel->set('tabid', $request->get('tabid'));
 		$recordModel->set('action', $request->get('actions'));
 		$recordModel->set('status', $request->get('status'));
+		$recordModel->set('members', $request->get('members'));
+		$recordModel->set('priority', $request->get('priority'));
 		$recordModel->save();
 
 		header("Location: {$recordModel->getEditViewUrl(2)}");

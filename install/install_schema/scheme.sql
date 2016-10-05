@@ -14,10 +14,12 @@ CREATE TABLE `a_yf_adv_permission` (
   `tabid` int(19) DEFAULT NULL,
   `status` tinyint(1) unsigned NOT NULL,
   `action` tinyint(1) unsigned NOT NULL,
-  `conditions` text,
+  `conditions` text NOT NULL,
+  `members` text NOT NULL,
+  `priority` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_discounts_config` */
 
