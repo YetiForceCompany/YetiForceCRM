@@ -92,7 +92,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isDefault()
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
 			$db = PearDatabase::getInstance();
@@ -167,7 +167,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function isFeatured($editView = false)
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isFeatured === false) {
 			if (empty($editView)) {
@@ -203,7 +203,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$params = [$userId, $roleId];
 		if ($currentUser->isAdminUser()) {
 			$userGroups = $currentUser->getUserGroups($currentUser->getId());
-			$parentRoles = getRoleInformation($currentUser->getRole());
+			$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
 			$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : [];
 		} else {
 			$parentRoles = $currentUser->getParentRoleSequence();
@@ -923,7 +923,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getAll($moduleName = '')
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($moduleName) method ...");
 		$cacheName = 'getAll:' . $moduleName;
 		$customViews = Vtiger_Cache::get('CustomViews', $cacheName);

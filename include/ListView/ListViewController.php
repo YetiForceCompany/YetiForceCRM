@@ -367,7 +367,7 @@ class ListViewController
 						$value = '--';
 					}
 				} elseif ($field->getUIType() == 98) {
-					$value = '<a href="index.php?module=Roles&parent=Settings&view=Edit&record=' . $value . '">' . vtlib\Functions::textLength(getRoleName($value), $fieldModel->get('maxlengthtext')) . '</a>';
+					$value = '<a href="index.php?module=Roles&parent=Settings&view=Edit&record=' . $value . '">' . vtlib\Functions::textLength(\App\PrivilegeUtil::getRoleName($value), $fieldModel->get('maxlengthtext')) . '</a>';
 				} elseif ($field->getFieldDataType() == 'multipicklist') {
 					$valueArray = ($value != "") ? explode(' |##| ', $value) : [];
 					foreach ($valueArray as $key => $valueSingle) {

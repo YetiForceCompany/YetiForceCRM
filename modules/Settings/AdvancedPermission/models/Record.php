@@ -147,11 +147,11 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 								$name = \includes\Language::translate(\includes\fields\Owner::getGroupName($id));
 								break;
 							case 'Roles' :
-								$roleInfo = \App\PrivilegeUtil::getRoleInformation($id);
+								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
 								$name = \includes\Language::translate($roleInfo['rolename']);
 								break;
 							case 'RoleAndSubordinates' :
-								$roleInfo = \App\PrivilegeUtil::getRoleInformation($id);
+								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
 								$name = \includes\Language::translate($roleInfo['rolename']);
 								break;
 						}

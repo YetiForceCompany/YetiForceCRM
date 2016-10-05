@@ -111,13 +111,13 @@ class PrivilegeUtil
 	protected static $defaultSharingActionCache = false;
 
 	/**
-	 * Function to get default sharing actions
+	 * This Function returns the Default Organisation Sharing Action Array for all modules
 	 * @return array
 	 */
 	public static function &getAllDefaultSharingAction()
 	{
 		if (self::$defaultSharingActionCache === false) {
-			\App\Log::trace('Entering getAllDefaultSharingAction() method ...');
+			\App\Log::trace('getAllDefaultSharingAction');
 			$adb = \PearDatabase::getInstance();
 			$copy = [];
 			//retreiving the standard permissions
@@ -126,7 +126,6 @@ class PrivilegeUtil
 				$copy[$row['tabid']] = $row['permission'];
 			}
 			self::$defaultSharingActionCache = $copy;
-			\App\Log::trace('Exiting getAllDefaultSharingAction method ...');
 		}
 		return self::$defaultSharingActionCache;
 	}
@@ -265,7 +264,7 @@ class PrivilegeUtil
 			return static::$usersBySubordinateCache[$roleId];
 		}
 		$adb = \PearDatabase::getInstance();
-		$roleInfo = static::getRoleInformation($roleId);
+		$roleInfo = static::getRoleDetail($roleId);
 		$parentRole = $roleInfo['parentrole'];
 		$query = "SELECT vtiger_user2role.userid FROM vtiger_user2role INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ?";
 		$result = $adb->pquery($query, [$parentRole . '%']);
@@ -283,7 +282,7 @@ class PrivilegeUtil
 	 * @param $roleid -- RoleId :: Type varchar
 	 * @returns $roleInfoArray-- RoleInfoArray in the following format:
 	 */
-	public static function &getRoleInformation($roleId)
+	public static function &getRoleDetail($roleId)
 	{
 		if (isset(static::$roleInfoCache[$roleId])) {
 			return static::$roleInfoCache[$roleId];
@@ -291,11 +290,19 @@ class PrivilegeUtil
 		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery('select * from vtiger_role where roleid=?', [$roleId]);
 		$row = $adb->getRow($result);
-		$parentRoleArr = explode('::', $row['parentrole']);
-		array_pop($parentRoleArr);
-		$immediateParent = array_pop($parentRoleArr);
-		$row['immediateParent'] = $immediateParent;
+		if ($row) {
+			$parentRoleArr = explode('::', $row['parentrole']);
+			array_pop($parentRoleArr);
+			$immediateParent = array_pop($parentRoleArr);
+			$row['immediateParent'] = $immediateParent;
+		}
 		static::$roleInfoCache[$roleId] = $row;
 		return $row;
+	}
+
+	public static function getRoleName($roleId)
+	{
+		$row = static::getRoleDetail($roleId);
+		return $row['rolename'];
 	}
 }

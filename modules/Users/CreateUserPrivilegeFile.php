@@ -47,7 +47,7 @@ function createUserPrivilegesfile($userid)
 			$tabsPermissionArr = getCombinedUserTabsPermissions($userid);
 			$actionPermissionArr = getCombinedUserActionPermissions($userid);
 			$user_role = fetchUserRole($userid);
-			$user_role_info = getRoleInformation($user_role);
+			$user_role_info = \App\PrivilegeUtil::getRoleDetail($user_role);
 			$user_role_parent = $user_role_info['parentrole'];
 			$userGroupFocus = new GetUserGroups();
 			$userGroupFocus->getAllUserGroups($userid);
