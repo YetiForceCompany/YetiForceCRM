@@ -10,7 +10,7 @@ vimport('~/include/Webservices/Retrieve.php');
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class PrivilegeAdv
+class PrivilegeAdvanced
 {
 
 	protected static $cacheFile = 'user_privileges/advancedPermission.php';

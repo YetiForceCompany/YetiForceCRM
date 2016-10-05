@@ -105,7 +105,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			}
 			$db->createCommand()->update('a_#__adv_permission', $params, ['id' => $recordId])->execute();
 		}
-		\App\PrivilegeAdv::reloadCache();
+		\App\PrivilegeAdvanced::reloadCache();
 	}
 
 	/**
@@ -143,7 +143,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$db->createCommand()
 			->delete('a_#__adv_permission', ['id' => $this->getId()])
 			->execute();
-		\App\PrivilegeAdv::reloadCache();
+		\App\PrivilegeAdvanced::reloadCache();
 	}
 
 	/**
