@@ -54,7 +54,7 @@ function createUserPrivilegesfile($userid)
 			$subRoles = getRoleSubordinates($user_role);
 			$subRoleAndUsers = getSubordinateRoleAndUsers($user_role);
 			$def_org_share = getDefaultSharingAction();
-			$parentRoles = getParentRole($user_role);
+			$parentRoles = \App\PrivilegeUtil::getParentRole($user_role);
 
 			$newbuf .= "\$current_user_roles='" . $user_role . "';\n";
 			$newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";

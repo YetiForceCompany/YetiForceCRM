@@ -293,6 +293,7 @@ class PrivilegeUtil
 		if ($row) {
 			$parentRoleArr = explode('::', $row['parentrole']);
 			array_pop($parentRoleArr);
+			$row['parentRoles'] = $parentRoleArr;
 			$immediateParent = array_pop($parentRoleArr);
 			$row['immediateParent'] = $immediateParent;
 		}
@@ -302,7 +303,18 @@ class PrivilegeUtil
 
 	public static function getRoleName($roleId)
 	{
-		$row = static::getRoleDetail($roleId);
-		return $row['rolename'];
+		$roleInfo = static::getRoleDetail($roleId);
+		return $roleInfo['rolename'];
+	}
+
+	/**
+	 * To retreive the parent vtiger_role of the specified vtiger_role
+	 * @param $roleid -- The Role Id:: Type varchar
+	 * @return  parent vtiger_role array in the following format:
+	 */
+	public static function getParentRole($roleId)
+	{
+		$roleInfo = static::getRoleDetail($roleId);
+		return $roleInfo['parentRoles'];
 	}
 }

@@ -108,7 +108,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		if (!isset($this->children)) {
-			$parentRoles = getParentRole($this->getId());
+			$parentRoles = \App\PrivilegeUtil::getParentRole($this->getId());
 			$currentRoleDepth = $this->getDepth();
 			$parentRoleString = '';
 			foreach ($parentRoles as $key => $role) {

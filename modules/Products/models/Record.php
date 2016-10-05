@@ -83,51 +83,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function get details of taxes for this record
-	 * Function calls from Edit/Create view of Inventory Records
-	 * @param <Object> $focus
-	 * @return <Array> List of individual taxes
-	 */
-	public function getDetailsForInventoryModule($focus)
-	{
-		$productId = $this->getId();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$productDetails = getAssociatedProducts($this->getModuleName(), $focus, $productId);
-
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$convertedPriceDetails = $this->getModule()->getPricesForProducts($currentUserModel->get('currency_id'), array($productId));
-		$productDetails[1]['listPrice1'] = number_format($convertedPriceDetails[$productId], $currentUserModel->get('no_of_currency_decimals'), '.', '');
-
-		$totalAfterDiscount = $productDetails[1]['totalAfterDiscount1'];
-		$productTaxes = $productDetails[1]['taxes'];
-		if (!empty($productDetails)) {
-			$taxCount = count($productTaxes);
-			$taxTotal = '0';
-
-			for ($i = 0; $i < $taxCount; $i++) {
-				$taxValue = $productTaxes[$i]['percentage'];
-
-				$taxAmount = $totalAfterDiscount * $taxValue / 100;
-				$taxTotal = $taxTotal + $taxAmount;
-
-				$productDetails[1]['taxes'][$i]['amount'] = $taxAmount;
-				$productDetails[1]['taxTotal1'] = $taxTotal;
-			}
-			$netPrice = $totalAfterDiscount + $taxTotal;
-			$productDetails[1]['netPrice1'] = $netPrice;
-			$productDetails[1]['final_details']['hdnSubTotal'] = $netPrice;
-			$productDetails[1]['final_details']['grandTotal'] = $netPrice;
-		}
-
-		for ($i = 1; $i <= count($productDetails); $i++) {
-			$productId = $productDetails[$i]['hdnProductId' . $i];
-			$productPrices = $this->getModule()->getPricesForProducts($currentUser->get('currency_id'), array($productId), $this->getModuleName());
-			$productDetails[$i]['listPrice' . $i] = number_format($productPrices[$productId], $currentUser->get('no_of_currency_decimals'), '.', '');
-		}
-		return $productDetails;
-	}
-
-	/**
 	 * Function to get Tax Class Details for this record(Product)
 	 * @return <Array> List of Taxes
 	 */
@@ -397,7 +352,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
 		if ($productid != '') {
 			$product_currency_id = $this->getProductBaseCurrency($productid, $itemtype);

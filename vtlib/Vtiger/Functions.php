@@ -452,16 +452,6 @@ class Functions
 		return $string;
 	}
 
-	public static function fromHTML_FCK($string)
-	{
-		if (is_string($string)) {
-			if (preg_match('/(script).*(\/script)/i', $string)) {
-				$string = str_replace('script', '', $string);
-			}
-		}
-		return $string;
-	}
-
 	public static function fromHTML_Popup($string, $encode = true)
 	{
 		$popup_toHtml = array(

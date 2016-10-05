@@ -153,17 +153,6 @@ class Deprecated
 		}
 	}
 
-	public static function getTemplateDetails($templateid)
-	{
-		$adb = \PearDatabase::getInstance();
-		$returndata = [];
-		$result = $adb->pquery("select body, subject from vtiger_emailtemplates where templateid=?", array($templateid));
-		$returndata[] = $templateid;
-		$returndata[] = $adb->query_result($result, 0, 'body');
-		$returndata[] = $adb->query_result($result, 0, 'subject');
-		return $returndata;
-	}
-
 	public static function getModuleTranslationStrings($language, $module)
 	{
 		static $cachedModuleStrings = [];

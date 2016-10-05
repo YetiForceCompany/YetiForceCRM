@@ -15,21 +15,6 @@ require_once 'include/events/include.inc';
 require_once 'include/runtime/Globals.php';
 require_once 'include/runtime/Cache.php';
 
-/** To retreive the mail server info resultset for the specified user
- * @param $user -- The user object:: Type Object
- * @returns  the mail server info resultset
- */
-function getMailServerInfo($user)
-{
-
-	\App\Log::trace("Entering getMailServerInfo(" . $user->user_name . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$sql = "select * from vtiger_mail_accounts where status=1 and user_id=?";
-	$result = $adb->pquery($sql, array($user->id));
-	\App\Log::trace("Exiting getMailServerInfo method ...");
-	return $result;
-}
-
 /** To get the Role of the specified user
  * @param $userid -- The user Id:: Type integer
  * @returns  vtiger_roleid :: Type String
@@ -1314,28 +1299,6 @@ function getCombinedUserActionPermissions($userId)
 	}
 	\App\Log::trace("Exiting getCombinedUserActionPermissions method ...");
 	return $actionPerrArr;
-}
-
-/** To retreive the parent vtiger_role of the specified vtiger_role
- * @param $roleid -- The Role Id:: Type varchar
- * @returns  parent vtiger_role array in the following format:
- *     $parentRoleArray=(roleid1,roleid2,.......,roleidn);
- */
-function getParentRole($roleId)
-{
-
-	\App\Log::trace("Entering getParentRole(" . $roleId . ") method ...");
-	$roleInfo = \App\PrivilegeUtil::getRoleDetail($roleId);
-	$parentRole = $roleInfo['parentrole'];
-	$tempParentRoleArr = explode('::', $parentRole);
-	$parentRoleArr = [];
-	foreach ($tempParentRoleArr as $role_id) {
-		if ($role_id != $roleId) {
-			$parentRoleArr[] = $role_id;
-		}
-	}
-	\App\Log::trace("Exiting getParentRole method ...");
-	return $parentRoleArr;
 }
 
 /** To retreive the subordinate vtiger_roles of the specified parent vtiger_role
