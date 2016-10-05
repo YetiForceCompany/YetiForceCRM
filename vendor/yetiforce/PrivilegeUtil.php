@@ -82,7 +82,11 @@ class PrivilegeUtil
 
 	protected static $datashareRelatedCache = false;
 
-	public static function getDatashareRelatedModules()
+	/**
+	 * Function to get data share related modules
+	 * @return array
+	 */
+	public static function &getDatashareRelatedModules()
 	{
 		if (self::$datashareRelatedCache === false) {
 			$relModSharArr = [];
@@ -106,7 +110,11 @@ class PrivilegeUtil
 
 	protected static $defaultSharingActionCache = false;
 
-	public static function getAllDefaultSharingAction()
+	/**
+	 * Function to get default sharing actions
+	 * @return array
+	 */
+	public static function &getAllDefaultSharingAction()
 	{
 		if (self::$defaultSharingActionCache === false) {
 			\App\Log::trace('Entering getAllDefaultSharingAction() method ...');
@@ -123,27 +131,171 @@ class PrivilegeUtil
 		return self::$defaultSharingActionCache;
 	}
 
-	protected static $roleUserCache = [];
+	protected static $usersByRoleCache = [];
 
-	/** Function to get the vtiger_role related user ids
-	 * @param $roleid -- RoleId :: Type varchar
-	 * @returns $roleUserIds-- Role Related User Array in the following format:
-	 *       $roleUserIds=Array($userId1,$userId2,........,$userIdn);
+	/**
+	 * Function to get the vtiger_role related user ids
+	 * @param int $roleId RoleId :: Type varchar
+	 * @return array $users -- Role Related User Array in the following format:
 	 */
-	public static function getRoleUserIds($roleId)
+	public static function &getUsersByRole($roleId)
 	{
-		if (!isset(self::$roleUserCache[$roleId])) {
-			\App\Log::trace("Entering getRoleUserIds($roleId) method ...");
-			$adb = \PearDatabase::getInstance();
-			$query = 'select vtiger_user2role.userid,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?';
-			$result = $adb->pquery($query, array($roleId));
-			$roleRelatedUsers = [];
-			while (($userid = $adb->getSingleValue($result)) !== false) {
-				$roleRelatedUsers[] = $userid;
-			}
-			self::$roleUserCache[$roleId] = $roleRelatedUsers;
-			\App\Log::trace('Exiting getRoleUserIds method ...');
+		if (isset(static::$usersByRoleCache[$roleId])) {
+			return static::$usersByRoleCache[$roleId];
 		}
-		return self::$roleUserCache[$roleId];
+		$adb = \PearDatabase::getInstance();
+		$result = $adb->pquery('SELECT userid FROM vtiger_user2role WHERE roleid=?', array($roleId));
+		$users = [];
+		while (($userId = $adb->getSingleValue($result)) !== false) {
+			$users[] = $userId;
+		}
+		static::$usersByRoleCache[$roleId] = $users;
+		return $users;
+	}
+
+	const MEMBER_TYPE_USERS = 'Users';
+	const MEMBER_TYPE_GROUPS = 'Groups';
+	const MEMBER_TYPE_ROLES = 'Roles';
+	const MEMBER_TYPE_ROLE_AND_SUBORDINATES = 'RoleAndSubordinates';
+
+	protected static $membersCache = false;
+
+	/**
+	 * Function to get all members
+	 * @return array
+	 */
+	public static function &getMembers()
+	{
+		if (self::$membersCache === false) {
+			$members = [];
+			$owner = new \includes\fields\Owner();
+			foreach ($owner->initUsers() as $id => $user) {
+				$members[self::MEMBER_TYPE_USERS][self::MEMBER_TYPE_USERS . ':' . $id] = ['name' => $user['fullName'], 'id' => $id, 'type' => self::MEMBER_TYPE_USERS];
+			}
+			foreach ($owner->getGroups(false) as $id => $groupName) {
+				$members[self::MEMBER_TYPE_GROUPS][self::MEMBER_TYPE_GROUPS . ':' . $id] = ['name' => $groupName, 'id' => $id, 'type' => self::MEMBER_TYPE_GROUPS];
+			}
+			foreach (\Settings_Roles_Record_Model::getAll() as $id => $roleModel) {
+				$members[self::MEMBER_TYPE_ROLES][self::MEMBER_TYPE_ROLES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => self::MEMBER_TYPE_ROLES];
+				$members[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES][self::MEMBER_TYPE_ROLE_AND_SUBORDINATES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => self::MEMBER_TYPE_ROLE_AND_SUBORDINATES];
+			}
+			self::$membersCache = $members;
+		}
+		return self::$membersCache;
+	}
+
+	protected static $usersByMemberCache = [];
+
+	public static function &getUserByMember($member)
+	{
+		if (isset(static::$usersByMemberCache[$member])) {
+			return static::$usersByMemberCache[$member];
+		}
+		list($type, $id) = explode(':', $member);
+		$users = [];
+		switch ($type) {
+			case 'Users' :
+				$users[] = (int) $id;
+				break;
+			case 'Groups' :
+				$users = array_merge($users, static::getUsersByGroup($id));
+				break;
+			case 'Roles' :
+				$users = array_merge($users, static::getUsersByRole($id));
+				break;
+			case 'RoleAndSubordinates' :
+				$users = array_merge($users, static::getUsersByRoleAndSubordinate($id));
+				break;
+		}
+		$users = array_unique($users);
+		static::$usersByMemberCache[$member] = $users;
+		return $users;
+	}
+
+	protected static $usersByGroupCache = [];
+
+	public static function &getUsersByGroup($groupId, $i = 0)
+	{
+		if (isset(static::$usersByGroupCache[$roleId])) {
+			return static::$usersByGroupCache[$roleId];
+		}
+		$users = [];
+		$adb = \PearDatabase::getInstance();
+		//Retreiving from the user2grouptable
+		$result = $adb->pquery('select userid from vtiger_users2group where groupid=?', [$groupId]);
+		while ($userId = $adb->getSingleValue($result)) {
+			$users[] = $userId;
+		}
+		//Retreiving from the vtiger_group2role
+		$result = $adb->pquery('select roleid from vtiger_group2role where groupid=?', [$groupId]);
+		while ($roleId = $adb->getSingleValue($result)) {
+			$roleUsers = static::getUsersByRole($roleId);
+			$users = array_merge($users, $roleUsers);
+		}
+		//Retreiving from the vtiger_group2rs
+		$result = $adb->pquery('select roleandsubid from vtiger_group2rs where groupid=?', [$groupId]);
+		while ($roleId = $adb->getSingleValue($result)) {
+			$roleUsers = static::getUsersByRoleAndSubordinate($roleId);
+			$users = array_merge($users, $roleUsers);
+		}
+		if ($i < 5) {
+			//Retreving from group2group
+			$result = $adb->pquery('select containsgroupid from vtiger_group2grouprel where groupid=?', [$groupId]);
+			while ($containsGroupId = $adb->getSingleValue($result)) {
+				$roleUsers = static::getUsersByGroup($containsGroupId, $i++);
+				$users = array_merge($users, $roleUsers);
+			}
+		} else {
+			\App\log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
+		}
+		$users = array_unique($users);
+		static::$usersByGroupCache[$groupId] = $users;
+		return $users;
+	}
+
+	protected static $usersBySubordinateCache = [];
+
+	/** Function to get the vtiger_role and subordinate vtiger_users
+	 * @param $roleid -- RoleId :: Type varchar
+	 * @returns $roleSubUsers-- Role and Subordinates Related Users Array in the following format:
+	 */
+	public static function &getUsersByRoleAndSubordinate($roleId)
+	{
+		if (isset(static::$usersBySubordinateCache[$roleId])) {
+			return static::$usersBySubordinateCache[$roleId];
+		}
+		$adb = \PearDatabase::getInstance();
+		$roleInfo = static::getRoleInformation($roleId);
+		$parentRole = $roleInfo['parentrole'];
+		$query = "SELECT vtiger_user2role.userid FROM vtiger_user2role INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ?";
+		$result = $adb->pquery($query, [$parentRole . '%']);
+		$users = [];
+		while ($userId = $adb->getSingleValue($result)) {
+			$users[] = $userId;
+		}
+		static::$usersBySubordinateCache[$roleId] = $users;
+		return $users;
+	}
+
+	protected static $roleInfoCache = [];
+
+	/** Function to get the vtiger_role information of the specified vtiger_role
+	 * @param $roleid -- RoleId :: Type varchar
+	 * @returns $roleInfoArray-- RoleInfoArray in the following format:
+	 */
+	public static function &getRoleInformation($roleId)
+	{
+		if (isset(static::$roleInfoCache[$roleId])) {
+			return static::$roleInfoCache[$roleId];
+		}
+		$adb = \PearDatabase::getInstance();
+		$result = $adb->pquery('select * from vtiger_role where roleid=?', [$roleId]);
+		$row = $adb->getRow($result);
+		$parentRoleArr = explode('::', $row['parentrole']);
+		array_pop($parentRoleArr);
+		$immediateParent = array_pop($parentRoleArr);
+		$row['immediateParent'] = $immediateParent;
+		static::$roleInfoCache[$roleId] = $row;
+		return $row;
 	}
 }
