@@ -12,7 +12,7 @@ $languageStrings = [
 	'LBL_ROLE' => 'Rola',
 	// Picklist
 	'FL_ACTIVE' => 'Aktywna',
-	'FL_INACTIVE' => 'Nie aktywna',
+	'FL_INACTIVE' => 'Nieaktywna',
 	'FL_UNLOCK_RECORD' => 'Nadaj dostęp',
 	'FL_LOCK_RECORD' => 'Zablokuj dostęp',
 	// Others
