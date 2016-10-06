@@ -1534,4 +1534,6 @@ $jsLanguageStrings = [
 	'JS_GET_PAGINATION_INFO' => 'Gesamtanzahl Datensätze wird ermittelt. Fertigstellung hängt von der Anzahl der Datensatze ab.',
 	'JS_WIDGET_DELETED' => 'Widget gelöscht',
 	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domain beschränkt. Bitte geben Sie eine andere.',
+	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Are you sure you want to reset related mails once again?',
+	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Are you sure you want to review changes in the selected records?',
 ];
