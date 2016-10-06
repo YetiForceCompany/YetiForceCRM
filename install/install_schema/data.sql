@@ -675,6 +675,8 @@ insert  into `u_yf_openstreetmap_address_updater`(`crmid`) values (0);
 
 /*Data for the table `u_yf_recurring_info` */
 
+/*Data for the table `u_yf_reviewed_queue` */
+
 /*Data for the table `u_yf_scalculations` */
 
 /*Data for the table `u_yf_scalculations_inventory` */
@@ -1573,6 +1575,7 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (23,'PrivilegesUpdater','cron/PrivilegesUpdater.php',900,NULL,NULL,1,'Vtiger',21,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (24,'UpdaterCoordinates','modules/OpenStreetMap/cron/UpdaterCoordinates.php',60,NULL,NULL,1,'OpenStreetMap',22,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (25,'UpdaterRecordsCoordinates','modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php',300,NULL,NULL,1,'OpenStreetMap',23,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (26,'LBL_MARK_RECORDS_AS_REVIEWED','modules/ModTracker/cron/ReviewChanges.php',900,NULL,NULL,1,'ModTracker',25,'');
 
 /*Data for the table `vtiger_currencies` */
 

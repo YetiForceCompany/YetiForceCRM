@@ -2257,6 +2257,19 @@ CREATE TABLE `u_yf_recurring_info` (
   PRIMARY KEY (`srecurringordersid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_reviewed_queue` */
+
+CREATE TABLE `u_yf_reviewed_queue` (
+  `id` int(19) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `tabid` int(11) DEFAULT NULL,
+  `data` text,
+  `time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userid` (`userid`),
+  CONSTRAINT `fk_1_u_yf_reviewed_queue` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_scalculations` */
 
 CREATE TABLE `u_yf_scalculations` (
@@ -3912,7 +3925,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 

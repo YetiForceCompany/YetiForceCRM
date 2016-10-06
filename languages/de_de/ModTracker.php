@@ -32,4 +32,6 @@ $languageStrings = [
 	'LBL_REVIEW_HISTORY' => 'Historie anzeigen',
 	'LBL_REVIEWED' => 'Betrachtet',
 	'BTN_CHANGES_REVIEWED_ON' => 'Änderungen am betrachtet',
+	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Due to exceeding the limit of updated data the action was added to cron tasks queue.',
+	'LBL_ESTIMATED_TIME' => 'Estimated time',
 ];
