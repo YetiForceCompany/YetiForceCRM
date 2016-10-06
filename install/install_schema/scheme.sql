@@ -510,20 +510,6 @@ CREATE TABLE `dav_users` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-/*Table structure for table `l_yf_notification` */
-
-CREATE TABLE `l_yf_notification` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `userid` int(11) unsigned NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `message` text,
-  `reletedid` int(11) DEFAULT NULL,
-  `reletedmodule` varchar(30) DEFAULT NULL,
-  `time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `l_yf_notification_archive` */
 
 CREATE TABLE `l_yf_notification_archive` (
@@ -2165,6 +2151,20 @@ CREATE TABLE `u_yf_mail_compose_data` (
   `data` text NOT NULL,
   UNIQUE KEY `userid` (`userid`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_notification` */
+
+CREATE TABLE `u_yf_notification` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `number` varchar(50) DEFAULT NULL,
+  `relatedid` int(19) DEFAULT NULL,
+  `relatedmodule` varchar(50) DEFAULT NULL,
+  `notification_status` varchar(255) DEFAULT NULL,
+  `notification_type` varchar(255) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `relatedid` (`relatedid`)
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap` */
 
@@ -4486,7 +4486,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
@@ -4888,7 +4888,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2387 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2397 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6039,7 +6039,7 @@ CREATE TABLE `vtiger_modentity_num` (
   KEY `prefix` (`prefix`,`postfix`,`cur_id`),
   KEY `tabid` (`tabid`),
   KEY `tabid_2` (`tabid`,`cur_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
 
@@ -6199,6 +6199,27 @@ CREATE TABLE `vtiger_notescf` (
   PRIMARY KEY (`notesid`),
   CONSTRAINT `vtiger_notescf_ibfk_1` FOREIGN KEY (`notesid`) REFERENCES `vtiger_notes` (`notesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_notification_status` */
+
+CREATE TABLE `vtiger_notification_status` (
+  `notification_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `notification_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`notification_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_notification_type` */
+
+CREATE TABLE `vtiger_notification_type` (
+  `notification_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `notification_type` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`notification_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_opportunitystage` */
 
@@ -6903,7 +6924,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -9128,7 +9149,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 
