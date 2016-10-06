@@ -43,13 +43,13 @@ class Cron_Notification
 	private function existNotifications($userId, $startDate, $endDate)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT 1 FROM u_yf_notification WHERE `userid` = ?';
-		$params = [$userId];
+		$query = 'SELECT 1 FROM vtiger_crmentity WHERE `smownerid` = ? AND setype = ?';
+		$params = [$userId, 'Notification'];
 		if (empty($startDate)) {
-			$query .= ' AND `time` <= ?';
+			$query .= ' AND `createdtime` <= ?';
 			$params[] = $endDate;
 		} else {
-			$query .= ' AND `time` BETWEEN ? AND ?';
+			$query .= ' AND `createdtime` BETWEEN ? AND ?';
 			array_push($params, $startDate, $endDate);
 		}
 		$query .= ' LIMIT 1';
@@ -68,12 +68,12 @@ class Cron_Notification
 	public function markAsRead()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT userid, id FROM u_yf_notification ORDER BY userid, `time` DESC');
+		$result = $db->query('SELECT smownerid, crmid FROM vtiger_crmentity WHERE setype = \'Notification\' deleted = 0 ORDER BY smownerid, `createdtime` DESC');
 		$notifications = $db->getColumnByGroup($result);
 		foreach ($notifications as $userId => $noticesByUser) {
 			$noticesByUser = array_slice($noticesByUser, AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
-				$notice = Notification_Record_Model::getInstanceById($noticeId);
+				$notice = Vtiger_Record_Model::getInstanceById($noticeId);
 				$notice->setMarked();
 			}
 		}
