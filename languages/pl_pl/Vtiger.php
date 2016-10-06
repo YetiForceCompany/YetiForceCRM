@@ -1262,6 +1262,7 @@ $languageStrings = [
 	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Zamknięte zgłoszenie według priorytetu',
 	'LBL_CLOSED_TICKETS_BY_USER' => 'Zamknięte zgłoszenia według użytkowników',
 	'LBL_REVIEW_CHANGES' => 'Zapoznanie się ze zmianami',
+	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Kontrahenci według branży',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

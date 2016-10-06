@@ -1271,6 +1271,7 @@ $languageStrings = [
 	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Closed ticket by priority',
 	'LBL_CLOSED_TICKETS_BY_USER' => 'Closed ticket by user',
 	'LBL_REVIEW_CHANGES' => 'Review changes in records',
+	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Accounts by industry',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',
