@@ -23,27 +23,26 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		return $count > $max ? $max : $count;
 	}
 
-	public function getEntries($limit = false)
+	public function getEntries($limit = false, $conditions = false, $userId = false, $groupBy = false)
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($this->getName());
 		$queryGenerator->setFields(['description', 'smwonerid', 'id', 'title', 'relatedid', 'relatedmodule', 'createdtime', 'type']);
+		if (empty($userId)) {
+			$userId = $currentUser->getId();
+		}
 		$queryGenerator->setCustomCondition([
 			'glue' => 'AND',
 			'tablename' => 'vtiger_crmentity',
 			'column' => 'vtiger_crmentity.smownerid',
 			'operator' => '=',
-			'value' => $currentUser->getId(),
+			'value' => $userId,
 		]);
-		$queryGenerator->setCustomCondition([
-			'glue' => 'AND',
-			'tablename' => 'u_yf_notification',
-			'column' => 'notification_status',
-			'operator' => '=',
-			'value' => '\'PLL_UNREAD\'',
-		]);
-
 		$query = $queryGenerator->getQuery();
+		if (!empty($conditions)) {
+			$query .= $conditions;
+		}
+		$query .= ' AND u_yf_notification.notification_status = \'PLL_UNREAD\' ';
 		if (!empty($limit)) {
 			$query .= sprintf(' LIMIT %d', $limit);
 		}
@@ -53,8 +52,19 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		while ($row = $db->getRow($result)) {
 			$recordModel = Vtiger_Record_Model::getCleanInstance('Notification');
 			$recordModel->setData($row);
-			$entries[$row['id']] = $recordModel;
+			if ($groupBy) {
+				$entries[$row['type']][$row['id']] = $recordModel;
+			} else {
+				$entries[$row['id']] = $recordModel;
+			}
 		}
 		return $entries;
+	}
+
+	public function getTypes()
+	{
+		$fieldModel = Vtiger_Field_Model::getInstance('notification_type', Vtiger_Module_Model::getInstance('Notification'));
+		return $fieldModel->getPicklistValues();
+		
 	}
 }
