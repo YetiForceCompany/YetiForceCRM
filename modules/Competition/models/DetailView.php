@@ -7,8 +7,8 @@ class Competition_DetailView_Model extends Vtiger_DetailView_Model
 	{
 		$recordModel = $this->getRecord();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
-		if ($openStreetMapModuleModel->isActive()) {
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($userPrivilegesModel->hasModulePermission('OpenStreetMap')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_MAP',

@@ -104,8 +104,8 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'badgeClass' => 'bgDanger'
 			];
 		}
-		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
-		if ($openStreetMapModuleModel->isActive()) {
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($userPrivilegesModel->hasModulePermission('OpenStreetMap')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_MAP',
