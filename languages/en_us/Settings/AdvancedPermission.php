@@ -17,6 +17,6 @@ $languageStrings = [
 	'FL_LOCK_RECORD' => 'Withdraw access',
 	// Others
 	'LBL_SAVE_AND_CONDITIONS' => 'Next',
-];
-$jsLanguageStrings = [
+	'ERR_INACTIVE_ALERT_TITLE' => 'Advanced permissions are disabled',
+	'ERR_INACTIVE_ALERT_DESC' => 'Change the  PERMITTED_BY_ADVANCED_PERMISSION  parameter in config/security.php file to enable.',
 ];
