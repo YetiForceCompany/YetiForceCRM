@@ -25,7 +25,14 @@ $languageStrings = [
 	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Wyślij wiadomość',
 	'PLL_UNREAD' => 'Nieprzeczytane',
 	'PLL_READ' => 'Przeczytane',
+	'PLL_USERS' => 'Od użytkowników',
+	'PLL_SYSTEM' => 'System',
 	'FL_RELATED_RECORD' => 'Powiązany rekord',
 	'FL_STATUS' => 'Status',
-	'FL_USER' => 'Użytkownik'
+	'FL_USER' => 'Użytkownik',
+	'FL_TYPE' => 'Rodzaj',
+	'LBL_MARK_AS_READ' => 'Oznacz jako przeczytane',
+];
+$jsLanguageStrings = [
+	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',
 ];

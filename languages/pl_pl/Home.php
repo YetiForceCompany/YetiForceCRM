@@ -35,6 +35,3 @@ $languageStrings = [
 	'LBL_TYPE_NOTIFICATIONS' => 'Typy powiadomień',
 	'LBL_TIME' => 'Czas',
 ];
-$jsLanguageStrings = [
-	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',
-];

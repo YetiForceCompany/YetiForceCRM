@@ -7,7 +7,7 @@
 		<span class="glyphicon glyphicon-wrench toolsAction"></span>
 		<span class="actionImages hide">
 			<a  href="javascript:Notification_List_Js.setAsMarked({$LISTVIEW_ENTRY->getId()})" >
-				<span title="{vtranslate('LBL_MARK_READ', $MODULE)}" class="glyphicon glyphicon-ok"></span>
+				<span title="{vtranslate('LBL_MARK_AS_READ', $MODULE)}" class="glyphicon glyphicon-ok"></span>
 			</a>
 		</span>
 	</div>
