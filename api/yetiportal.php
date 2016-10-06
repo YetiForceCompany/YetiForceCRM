@@ -836,12 +836,9 @@ function close_current_ticket($input_array)
 function authenticate_user($username, $password, $version, $portalLang, $login = 'true')
 {
 	$adb = vglobal('adb');
-
 	$currentLanguage = vglobal('current_language');
-
 	$adb->println("Inside customer portal function authenticate_user($username, $password, $login).");
-	include('config/version.php');
-	if (version_compare($version, $YetiForce_current_version, '>=') == 0) {
+	if (version_compare($version, \App\Version::get(), '>=') == 0) {
 		$list[0] = "NOT COMPATIBLE";
 		return $list;
 	}

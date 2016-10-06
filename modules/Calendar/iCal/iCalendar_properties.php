@@ -260,7 +260,7 @@ class iCalendar_property_prodid extends iCalendar_property
 
 	public function construct()
 	{
-		$this->val_default = '-//YetiForce CRM//YetiForce CRM ' . AppConfig::main('YetiForce_current_version') . '//EN';
+		$this->val_default = '-//YetiForce CRM//YetiForce CRM ' . \App\Version::get() . '//EN';
 
 		$this->valid_parameters = array(
 			RFC2445_XNAME => RFC2445_OPTIONAL
@@ -710,7 +710,6 @@ class iCalendar_property_dtstart extends iCalendar_property
 			RFC2445_XNAME => RFC2445_OPTIONAL
 		);
 	}
-
 
 	public function is_valid_value($value)
 	{
@@ -1423,4 +1422,5 @@ class iCalendar_property_tzid extends iCalendar_property
 		);
 	}
 }
+
 ?>
