@@ -66,7 +66,7 @@
 		};
 
 		this.select_node = function (obj, supress_event, prevent_open, e) {
-			if (this.get_node(obj).original.type == 'category') {
+			if (e.target.className.indexOf("noAction") < 0 && this.get_node(obj).original.type == 'category') {
 				obj = this.get_node(obj);
 				if (obj.category.checked) {
 					this.uncheckNode(obj, e);
