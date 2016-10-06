@@ -140,9 +140,9 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 				if (strpos($row['u'], "#$userId#") !== false) {
 					break;
 				}
-				if ($row['type'] == 1) {
+				if ($row['type'] === 1) {
 					++$mails;
-				} else {
+				} elseif ($row['type'] !== 0) {
 					++$all;
 				}
 			}
