@@ -78,6 +78,12 @@ class Settings_ModuleManager_Library_Model
 		$path = static::$tempDir . DIRECTORY_SEPARATOR . $name . '.zip';
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path)) {
+			stream_context_set_default([
+				'ssl' => [
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+				],
+			]);
 			$headers = get_headers($url, 1);
 			if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
 				App\Log::trace('Started downloading library: ' . $name);
