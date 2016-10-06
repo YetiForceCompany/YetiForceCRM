@@ -185,6 +185,11 @@ class PrivilegeUtil
 
 	protected static $usersByMemberCache = [];
 
+	/**
+	 * Get list of users based on members, eg. Users:2, Roles:H2
+	 * @param string $member
+	 * @return array
+	 */
 	public static function &getUserByMember($member)
 	{
 		if (isset(static::$usersByMemberCache[$member])) {
@@ -213,6 +218,12 @@ class PrivilegeUtil
 
 	protected static $usersByGroupCache = [];
 
+	/**
+	 * Get list of users based on group id
+	 * @param int $groupId
+	 * @param int $i
+	 * @return array
+	 */
 	public static function &getUsersByGroup($groupId, $i = 0)
 	{
 		if (isset(static::$usersByGroupCache[$roleId])) {
@@ -254,7 +265,8 @@ class PrivilegeUtil
 
 	protected static $usersBySubordinateCache = [];
 
-	/** Function to get the vtiger_role and subordinate vtiger_users
+	/**
+	 * Function to get the vtiger_role and subordinate vtiger_users
 	 * @param $roleid -- RoleId :: Type varchar
 	 * @returns $roleSubUsers-- Role and Subordinates Related Users Array in the following format:
 	 */
@@ -278,7 +290,8 @@ class PrivilegeUtil
 
 	protected static $roleInfoCache = [];
 
-	/** Function to get the vtiger_role information of the specified vtiger_role
+	/**
+	 * Function to get the vtiger_role information of the specified vtiger_role
 	 * @param $roleid -- RoleId :: Type varchar
 	 * @returns $roleInfoArray-- RoleInfoArray in the following format:
 	 */
@@ -301,6 +314,11 @@ class PrivilegeUtil
 		return $row;
 	}
 
+	/**
+	 * Function to get the role name
+	 * @param int $roleId
+	 * @return string
+	 */
 	public static function getRoleName($roleId)
 	{
 		$roleInfo = static::getRoleDetail($roleId);
