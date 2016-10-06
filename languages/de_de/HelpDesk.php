@@ -14,7 +14,7 @@ $languageStrings = [
 	'PLL_TO_CLOSE' => 'Zum Schließen',
 	'LBL_SETUP_WEBFORMS' => 'Web Forms einrichten',
 	'LBL_STATUS_CLOSED' => 'Geschlossen',
-	'Big Problem' => 'grosses Problem',
+	'Big Problem' => 'großes Problem',
 	'Closed' => 'Geschlossen',
 	'created' => 'erstellt',
 	'Critical' => 'kritisch',
@@ -95,7 +95,7 @@ $languageStrings = [
 	'Record Id' => 'Datensatz Id',
 	'ticketpriorities' => 'Priorität',
 	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'Das Ticket ist nicht mit einer Organisation verknüpft. Bitte verküpfen Sie dies Ticket mit einer Organisation.',
-	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'The Account has no active SLA',
+	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'Die Organisation hat keinen aktiven Servicevertrag',
 	//notifications translation 
 	'LBL_NOTICE_WELCOME' => 'Willkommen',
 	'LBL_NOTICE_CREATED' => 'wurde erstellt (von',
