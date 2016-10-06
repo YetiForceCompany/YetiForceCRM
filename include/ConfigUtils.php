@@ -164,7 +164,6 @@ if (ROOT_DIRECTORY == 'ROOT_DIRECTORY') {
 
 require_once 'config/api.php';
 require_once 'config/config.php';
-require_once 'config/version.php';
 require_once('include/autoload.php');
 
 AppConfig::load('api', $API_CONFIG);
