@@ -64,7 +64,7 @@ class JavascriptRenderer
 		$this->debugBar = $debugBar;
 
 		if ($baseUrl === null) {
-			$baseUrl = '/vendor/php-debugbar/src/DebugBar/Resources';
+			$baseUrl = 'vendor/php-debugbar/src/DebugBar/Resources';
 		}
 		$this->baseUrl = $baseUrl;
 
