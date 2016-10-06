@@ -1565,4 +1565,6 @@ $jsLanguageStrings = [
 	'JS_GET_PAGINATION_INFO' => 'Loading the amount of records in progress. Completion time depends on the total number of records.',
 	'JS_WIDGET_DELETED' => 'Widget deleted',
 	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domain restricted. Please enter a different one.',
+	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Are you sure you want to reset related mails once again?',
+	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Are you sure you want to review changes in the selected records?',
 ];
