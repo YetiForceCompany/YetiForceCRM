@@ -27,7 +27,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($this->getName());
-		$queryGenerator->setFields(['description', 'smwonerid', 'id', 'title', 'relatedid', 'relatedmodule', 'createdtime', 'type']);
+		$queryGenerator->setFields(['description', 'smwonerid', 'id', 'title', 'relatedid', 'relatedmodule', 'createdtime', 'notification_type']);
 		if (empty($userId)) {
 			$userId = $currentUser->getId();
 		}

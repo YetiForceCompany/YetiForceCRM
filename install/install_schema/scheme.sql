@@ -510,22 +510,6 @@ CREATE TABLE `dav_users` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-/*Table structure for table `l_yf_notification_archive` */
-
-CREATE TABLE `l_yf_notification_archive` (
-  `id` int(11) unsigned NOT NULL,
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `userid` int(11) unsigned NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `message` text,
-  `reletedid` int(11) DEFAULT NULL,
-  `reletedmodule` varchar(30) DEFAULT NULL,
-  `time` datetime DEFAULT NULL,
-  `mark_user` int(11) DEFAULT '0',
-  `mark_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `l_yf_settings_tracker_basic` */
 
 CREATE TABLE `l_yf_settings_tracker_basic` (

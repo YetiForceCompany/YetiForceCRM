@@ -29,6 +29,7 @@ Vtiger_List_Js("Notification_List_Js", {
 			} else {
 				badge.text('');
 			}
+			Vtiger_List_Js.getInstance().getListViewRecords();
 		});
 	}
 }, {});

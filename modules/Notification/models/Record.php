@@ -57,7 +57,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getTypeName()
 	{
-		return $this->get('type');
+		return $this->get('notification_type');
 	}
 
 	/**
