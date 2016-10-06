@@ -119,7 +119,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			];
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission('Dashboard', 'NotificationCreateMessage')) {
+		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'NotificationCreateMessage')) {
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',

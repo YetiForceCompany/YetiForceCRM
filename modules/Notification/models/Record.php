@@ -85,6 +85,17 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	{
 		$relatedModule = $this->get('relatedmodule');
 		$reletedId = $this->get('relatedid');
+		if (!Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
+			\App\Log::warning('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) . ' has no active notifications');
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			return false;
+		}
+		if ($relatedModule != 'Users' && !Users_Privileges_Model::isPermitted($relatedModule, 'DetailView', $reletedId)) {
+			\App\Log::error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) .
+				' does not have permission for this record ' . $reletedId);
+			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
+			return false;
+		}
 		if ($relatedModule != 'Users' && \includes\Record::isExists($reletedId)) {
 			$message = $this->get('description');
 			$textParser = Vtiger_TextParser_Helper::getInstanceById($reletedId, $relatedModule);

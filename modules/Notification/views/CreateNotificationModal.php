@@ -17,13 +17,8 @@ class Notification_CreateNotificationModal_View extends Vtiger_BasicModal_View
 	public function checkPermission(Vtiger_Request $request)
 	{
 		parent::checkPermission($request);
-
-		$mode = $request->getMode();
-		if (!in_array($mode, ['createMessage', 'createMail'])) {
-			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		}
-		if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage') && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail')) {
-			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMessage') && !Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMail')) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

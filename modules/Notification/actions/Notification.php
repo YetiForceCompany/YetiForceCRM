@@ -17,16 +17,16 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 			$notice = Notification_NoticeEntries_Model::getInstanceById($id);
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
-				//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 		$mode = $request->getMode();
-		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage')) {
-			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
-			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif (in_array($mode, ['setMark', 'getNumberOfNotifications', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
-			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMessage')) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		} elseif (in_array($mode, ['setMark', 'getNumberOfNotifications', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

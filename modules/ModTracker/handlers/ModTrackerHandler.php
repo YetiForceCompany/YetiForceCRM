@@ -188,7 +188,6 @@ class ModTrackerHandler extends VTEventHandler
 						$notification->set('title', $watchdogTitle);
 						$notification->set('description', $watchdogMessage);
 						$notification->set('notification_type', $watchdog->notificationDefaultType);
-						$notification->set('userid', $userId);
 						$notification->set('notification_status', 'PLL_UNREAD');
 						$notification->save();
 					}

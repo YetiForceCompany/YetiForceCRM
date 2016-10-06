@@ -104,7 +104,7 @@ class Notification_Notification_Model extends Vtiger_Record_Model
 		$user->retrieveCurrentUserInfoFromFile($this->get('userid'));
 		vglobal('current_user', $user);
 
-		if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
+		if (!Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
 			\App\Log::warning('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('userid')) . ' has no active notifications');
 			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;

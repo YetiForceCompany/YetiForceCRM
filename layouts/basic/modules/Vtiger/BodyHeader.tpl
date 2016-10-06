@@ -30,7 +30,7 @@
 						</div>
 					</div>
 				{/if}
-				{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')}
+				{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
 					<div class="pull-right rightHeaderBtn">
 						<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 							<div class="btn-group">

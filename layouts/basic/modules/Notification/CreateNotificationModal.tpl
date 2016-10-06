@@ -39,7 +39,7 @@
 					<strong>{vtranslate('LBL_SEND_NOTIFICATION_MESSAGE', $MODULE)}</strong>
 				</button>
 			{/if}
-			{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
+			{if Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
 				{if $USER_MODEL->internal_mailer == 0}
 					<a class="btn btn-success externalMail" href="mailto:">
 						<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;

@@ -2155,7 +2155,7 @@ CREATE TABLE `u_yf_mail_compose_data` (
 /*Table structure for table `u_yf_notification` */
 
 CREATE TABLE `u_yf_notification` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `number` varchar(50) DEFAULT NULL,
   `relatedid` int(19) DEFAULT NULL,
@@ -2164,7 +2164,7 @@ CREATE TABLE `u_yf_notification` (
   `notification_type` varchar(255) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `relatedid` (`relatedid`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap` */
 

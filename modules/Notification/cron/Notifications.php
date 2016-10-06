@@ -24,7 +24,7 @@ class Cron_Notification
 		$timestampEndDate = empty($row['last_execution']) ? $currentTime : strtotime($row['last_execution'] . ' +' . $row['frequency'] . 'min');
 		if ($currentTime >= $timestampEndDate) {
 			$endDate = $this->getEndDate($currentTime, $timestampEndDate, $row['frequency']);
-			if ($this->existNotifications($row['userid'], $row['last_execution'], $endDate) && Users_Privileges_Model::isPermittedByUserId($row['userid'], 'Dashboard', 'ReceivingMailNotifications')) {
+			if ($this->existNotifications($row['userid'], $row['last_execution'], $endDate) && Users_Privileges_Model::isPermittedByUserId($row['userid'], 'Notification', 'ReceivingMailNotifications')) {
 				$data = [
 					'sysname' => 'SendNotificationsViaMail',
 					'to_email' => getUserEmail($row['userid']),
@@ -68,7 +68,7 @@ class Cron_Notification
 	public function markAsRead()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT smownerid, crmid FROM vtiger_crmentity WHERE setype = \'Notification\' deleted = 0 ORDER BY smownerid, `createdtime` DESC');
+		$result = $db->query('SELECT smownerid, crmid FROM vtiger_crmentity WHERE setype = \'Notification\' AND deleted = 0 ORDER BY smownerid, `createdtime` DESC');
 		$notifications = $db->getColumnByGroup($result);
 		foreach ($notifications as $userId => $noticesByUser) {
 			$noticesByUser = array_slice($noticesByUser, AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
