@@ -250,7 +250,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var thisInstance = this;
 		$('.dashboardHeading').on('click', '.addChartFilter', function (e) {
 			var element = $(e.currentTarget);
-
+			var fieldTypeToGroup = ['currency', 'double', 'percentage', 'integer'];
 			app.showModalWindow(null, "index.php?module=Home&view=ChartFilter&step=step1", function (wizardContainer) {
 				var form = jQuery('form', wizardContainer);
 				form.on("keypress", function(event) {
@@ -322,13 +322,11 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					if (!fieldsSelect2.val()) {
 						footer.hide();
 					} else {
-						if (chartType.val() == 'Funnel') {
-							var fieldType = fieldsSelect2.find(':selected').data('fieldType');
-							if (fieldType == 'currency') {
-								sectorContainer.removeClass('hide');
-							} else {
-								sectorContainer.addClass('hide');
-							}
+						var fieldType = fieldsSelect2.find(':selected').data('fieldType');
+						if (chartType.val() == 'Funnel' && fieldTypeToGroup.indexOf(fieldType) != -1) {
+							sectorContainer.removeClass('hide');
+						} else {
+							sectorContainer.addClass('hide');
 						}
 						footer.show();
 					}
