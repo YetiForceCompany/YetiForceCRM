@@ -7,24 +7,26 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
-class Home_Notification_Action extends Vtiger_Action_Controller
+class Notification_Notification_Action extends Vtiger_Action_Controller
 {
 
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$id = $request->get('id');
-		$notice = Home_NoticeEntries_Model::getInstanceById($id);
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($userPrivilegesModel->getId() != $notice->getUserId()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!empty($id)) {
+			$notice = Notification_NoticeEntries_Model::getInstanceById($id);
+			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
+				//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			}
 		}
 		$mode = $request->getMode();
 		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif (in_array($mode, ['setMark', 'getNumberOfNotifications', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -55,8 +57,8 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 			$ids = [$ids];
 		}
 		foreach ($ids as $id) {
-			$notice = Home_NoticeEntries_Model::getInstanceById($id);
-			$notice->setMarked();
+			$recordModel = Vtiger_Record_Model::getInstanceById($id);
+			$recordModel->setMarked();
 		}
 
 		$response = new Vtiger_Response();
@@ -66,9 +68,8 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 
 	public function getNumberOfNotifications(Vtiger_Request $request)
 	{
-		$notice = Home_Notification_Model::getInstance();
 		$response = new Vtiger_Response();
-		$response->setResult($notice->getNumberOfEntries());
+		$response->setResult(Notification_Module_Model::getNumberOfEntries());
 		$response->emit();
 	}
 
@@ -97,6 +98,7 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 	public function createMessage(Vtiger_Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		
 		$message = $request->get('message');
 		$title = $request->get('title');
 		$users = $request->get('users');
@@ -105,14 +107,15 @@ class Home_Notification_Action extends Vtiger_Action_Controller
 		}
 		if (count($users)) {
 			foreach ($users as $user) {
-				$notification = Home_Notification_Model::getInstance();
-				$notification->set('moduleName', 'Users');
-				$notification->set('record', $userPrivilegesModel->getId());
-				$notification->set('title', $title);
-				$notification->set('message', $message);
-				$notification->set('type', 0);
-				$notification->set('userid', $user);
-				$notification->save();
+				$notificationRecordModel = Vtiger_Record_Model::getCleanInstance('Notification');
+				$notificationRecordModel->set('relatedmodule', 'Users');
+				$notificationRecordModel->set('assigned_user_id', $user);
+				$notificationRecordModel->set('relatedid', $userPrivilegesModel->getId());
+				$notificationRecordModel->set('title', $title);
+				$notificationRecordModel->set('description', $message);
+				$notificationRecordModel->set('notification_type', 'PLL_USERS');
+				$notificationRecordModel->set('notification_status', 'PLL_UNREAD');
+				$notificationRecordModel->save();
 			}
 		}
 		$response = new Vtiger_Response();

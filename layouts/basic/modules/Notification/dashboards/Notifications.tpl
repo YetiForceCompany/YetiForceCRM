@@ -15,12 +15,12 @@
 		<div class="row" >
 			<div class="col-md-12 textAlignRight">
 				{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage')}
-					<a class="btn btn-default btn-xs showModal" data-url="index.php?module=Home&view=CreateNotificationModal">
+					<a class="btn btn-default btn-xs showModal" data-url="index.php?module=Notification&view=CreateNotificationModal">
 						<span class="glyphicon glyphicon-plus" title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
 				&nbsp;
-				<a class="btn btn-xs btn-default" href="index.php?module=Home&view=NotificationsList">
+				<a class="btn btn-xs btn-default" href="index.php?module=Notification&view=List">
 					<span class="glyphicon glyphicon-th-list" title="{vtranslate('LBL_GO_TO_RECORDS_LIST')}" alt="{vtranslate('LBL_GO_TO_RECORDS_LIST')}"></span>
 				</a>
 			</div>

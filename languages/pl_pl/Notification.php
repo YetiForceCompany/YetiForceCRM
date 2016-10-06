@@ -1,0 +1,31 @@
+<?php
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+$languageStrings = [
+	'Notification' => 'Notification',
+	'SINGLE_Notification' => 'Notification',
+	'Notification ID' => 'Notification ID',
+	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
+	'FL_TITLE' => 'Tytuł',
+	'LBL_NOTIFICATION_INFORMATION' => 'Informacje podstawowe',
+	'FL_RELATED_MODULE' => 'Moduł powiazany',
+	'FL_MESSAGE' => 'Treść powiadomienia',
+	'LBL_SCHEDULE' => 'Harmonogram',
+	'LBL_RECEIVING_MAIL_NOTIFICATIONS' => 'Otrzymywanie powiadomień mailowych',
+	'PLL_5_MIN' => '5 minut',
+	'PLL_15_MIN' => '15 minut',
+	'PLL_30_MIN' => '30 minut',
+	'PLL_60_MIN' => '60 minut',
+	'PLL_3_H' => '3 godziny',
+	'PLL_12_H' => '12 godzin',
+	'PLL_24_H' => '24 godziny',
+	'LBL_WATCHING_MODULES' => 'Obserwowane moduły',
+	'LBL_TITLE' => 'Tytuł',
+	'LBL_MESSAGE' => 'Wiadomość',
+	'LBL_CREATING_NOTIFICATION' => 'Wysyłanie powiadomienia',
+	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Wyślij wiadomość',
+	'PLL_UNREAD' => 'Nieprzeczytane',
+	'PLL_READ' => 'Przeczytane',
+	'FL_RELATED_RECORD' => 'Powiązany rekord',
+	'FL_STATUS' => 'Status',
+	'FL_USER' => 'Użytkownik'
+];

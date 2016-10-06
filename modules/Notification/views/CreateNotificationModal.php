@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Home_CreateNotificationModal_View extends Vtiger_BasicModal_View
+class Notification_CreateNotificationModal_View extends Vtiger_BasicModal_View
 {
 
 	public function getSize(Vtiger_Request $request)
@@ -20,10 +20,10 @@ class Home_CreateNotificationModal_View extends Vtiger_BasicModal_View
 
 		$mode = $request->getMode();
 		if (!in_array($mode, ['createMessage', 'createMail'])) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		if (!Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage') && !Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMail')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			//throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

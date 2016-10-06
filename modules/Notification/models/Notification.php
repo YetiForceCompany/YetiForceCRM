@@ -5,14 +5,14 @@
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Home_Notification_Model extends Vtiger_Base_Model
+class Notification_Notification_Model extends Vtiger_Record_Model
 {
 
 	/**
 	 * Function to get the instance
-	 * @return <Home_Notification_Model>
+	 * @return <Notification_Notification_Model>
 	 */
 	public static function getInstance()
 	{
@@ -40,7 +40,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 
 	public function getTypes()
 	{
-		$instance = Vtiger_Cache::get('Home_Notification_Model', 'Types');
+		$instance = Vtiger_Cache::get('Notification_Notification_Model', 'Types');
 		if ($instance) {
 			return $instance;
 		}
@@ -64,7 +64,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getId();
 		}
-		$sql = 'SELECT * FROM l_yf_notification WHERE userid = ? ';
+		$sql = 'SELECT * FROM u_yf_notification WHERE userid = ? ';
 		if ($conditions) {
 			$sql .= $conditions;
 		}
@@ -75,9 +75,9 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$entries = [];
 		while ($row = $db->getRow($result)) {
 			if ($groupBy) {
-				$entries[$row['type']][] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);
+				$entries[$row['type']][] = Notification_NoticeEntries_Model::getInstanceByRow($row, $this);
 			} else {
-				$entries[] = Home_NoticeEntries_Model::getInstanceByRow($row, $this);
+				$entries[] = Notification_NoticeEntries_Model::getInstanceByRow($row, $this);
 			}
 		}
 		return $entries;
@@ -88,7 +88,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$result = $db->pquery('SELECT count(*) FROM l_yf_notification WHERE userid = ?', [$currentUser->getId()]);
+		$result = $db->pquery('SELECT count(*) FROM u_yf_notification WHERE userid = ?', [$currentUser->getId()]);
 		$count = $db->getSingleValue($result);
 		$max = AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
 		return $count > $max ? $max : $count;
@@ -128,7 +128,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 			$this->set('time', date('Y-m-d H:i:s'));
 		}
 		$db = PearDatabase::getInstance();
-		$db->insert('l_yf_notification', [
+		$db->insert('u_yf_notification', [
 			'userid' => $this->get('userid'),
 			'type' => $this->get('type'),
 			'title' => $this->get('title'),

@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-jQuery.Class("Home_NotificationsList_Js", {
+jQuery.Class("Notification_NotificationsList_Js", {
 	setAsMarked: function (id) {
 		var thisInstance = this;
 		var params = {

@@ -277,7 +277,20 @@ class ListViewController
 						$value = ' --';
 					}
 					$value = vtlib\Functions::textLength($value);
-				} elseif ($field->getFieldDataType() == 'picklist') {
+				} elseif (($module == 'Notification' && $fieldName == 'title') || ($module == 'Notification' && $fieldName == 'description')){
+					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+					$relatedModule = $recordModel->get('relatedmodule');
+					$reletedId = $recordModel->get('relatedid');
+					if ($relatedModule != 'Users' && \includes\Record::isExists($reletedId)) {
+						$textParser = Vtiger_TextParser_Helper::getInstanceByModel(Vtiger_Record_Model::getInstanceById($reletedId, $relatedModule));
+					} else {
+						$textParser = Vtiger_TextParser_Helper::getCleanInstance();
+					}
+					$textParser->setContent($value);
+					$value = $textParser->parseTranslations();
+					$value = $value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
+				} 
+				elseif ($field->getFieldDataType() == 'picklist') {
 					$value = \includes\Language::translate($value, $module);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getFieldDataType() == 'date' || $field->getFieldDataType() == 'datetime') {

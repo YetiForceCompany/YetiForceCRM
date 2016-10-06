@@ -15,8 +15,8 @@
 						</div>
 					{/if}
 					<div class="pull-right">
-						<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($ROW->get('time'))}">
-							{Vtiger_Util_Helper::formatDateDiffInStrings($ROW->get('time'))}
+						<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($ROW->get('createdtime'))}">
+							{Vtiger_Util_Helper::formatDateDiffInStrings($ROW->get('createdtime'))}
 						</small>
 					</div>
 					<strong>{$ROW->getTitle()}</strong>
@@ -25,7 +25,7 @@
 					{/if}
 				</div>
 				<div class="panel-body">
-					{assign var=COTENT value=$ROW->getMassage()}
+					{assign var=COTENT value=$ROW->getMessage()}
 					{if $COTENT}
 						{$COTENT}
 						<hr/>

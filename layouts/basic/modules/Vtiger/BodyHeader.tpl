@@ -34,7 +34,7 @@
 					<div class="pull-right rightHeaderBtn">
 						<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 							<div class="btn-group">
-								<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
+								<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Notification&view=List">
 									<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 									<span class="badge hide">0</span>
 								</a>

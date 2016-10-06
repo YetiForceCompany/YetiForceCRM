@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Home_NoticeEntries_Model extends Vtiger_Base_Model
+class Notification_NoticeEntries_Model extends Vtiger_Base_Model
 {
 
 	public function getId()
@@ -21,9 +21,9 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance
-	 * @return <Home_Notification_Model>
+	 * @return <Notification_Notification_Model>
 	 */
-	public static function getInstanceByRow($row, Home_Notification_Model $notificationModel)
+	public static function getInstanceByRow($row, Notification_Notification_Model $notificationModel)
 	{
 		$instance = new self();
 		if (isset($row['reletedid']) && $row['reletedmodule'] != 'Users' && isRecordExists($row['reletedid'])) {
@@ -42,24 +42,24 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance by id
-	 * @return <Home_Notification_Model>
+	 * @return <Notification_Notification_Model>
 	 */
 	public static function getInstanceById($id)
 	{
-		$instance = Vtiger_Cache::get('Home_NotifiEntries_Model', $id);
+		$instance = Vtiger_Cache::get('Notification_NotifiEntries_Model', $id);
 		if ($instance) {
 			return $instance;
 		}
 
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM l_yf_notification WHERE id = ?';
+		$sql = 'SELECT * FROM u_yf_notification WHERE id = ?';
 		$result = $db->pquery($sql, [$id]);
 		if ($db->getRowCount($result) == 0) {
 			throw new \Exception\NoPermitted('LBL_NOT_FOUND_NOTICE');
 		}
 		$instance = new self();
 		$instance->setData($db->getRow($result));
-		Vtiger_Cache::set('Home_NotifiEntries_Model', $id, $instance);
+		Vtiger_Cache::set('Notification_NotifiEntries_Model', $id, $instance);
 		return $instance;
 	}
 
@@ -71,8 +71,8 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 		$this->set('mark_user', $userModel->getRealId());
 		$this->set('mark_time', date('Y-m-d H:i:s'));
 		$notice = $this->getData();
-		$db->insert('l_yf_notification_archive', $notice);
-		$db->delete('l_yf_notification', 'id = ?', [$this->getId()]);
+		$db->insert('u_yf_notification_archive', $notice);
+		$db->delete('u_yf_notification', 'id = ?', [$this->getId()]);
 	}
 
 	public function getIcon()
@@ -80,7 +80,7 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 		$icon = false;
 		switch ($this->get('type')) {
 			case 0:
-				$userModel = Users_Privileges_Model::getInstanceById($this->get('reletedid'));
+				$userModel = Users_Privileges_Model::getInstanceById($this->get('relatedid'));
 				$icon = [
 					'type' => 'image',
 					'title' => $userModel->getName(),
@@ -91,8 +91,8 @@ class Home_NoticeEntries_Model extends Vtiger_Base_Model
 			default:
 				$icon = [
 					'type' => 'icon',
-					'title' => vtranslate($this->get('reletedmodule'), $this->get('reletedmodule')),
-					'class' => 'userIcon-' . $this->get('reletedmodule'),
+					'title' => vtranslate($this->get('relatedmodule'), $this->get('relatedmodule')),
+					'class' => 'userIcon-' . $this->get('relatedmodule'),
 				];
 				break;
 		}

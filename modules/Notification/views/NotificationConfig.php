@@ -7,11 +7,16 @@
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
-class Home_NotificationConfig_View extends Vtiger_BasicModal_View
+class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 {
-
+	public function getSize(Vtiger_Request $request)
+	{
+		return 'modal-full';
+	}
+	
 	public function process(Vtiger_Request $request)
 	{
+		parent::preProcess($request);
 		$moduleName = $request->getModule();
 		$moduleList = vtlib\Functions::getAllModules(true, true);
 		foreach ($moduleList as $tabId => &$module) {
@@ -32,5 +37,6 @@ class Home_NotificationConfig_View extends Vtiger_BasicModal_View
 		$viewer->assign('FREQUENCY', $frequency);
 		$viewer->assign('CRON_INFO', vtlib\Cron::getInstance('LBL_SEND_NOTIFICATIONS'));
 		$viewer->view('NotificationConfig.tpl', $moduleName);
+		parent::postProcess($request);
 	}
 }

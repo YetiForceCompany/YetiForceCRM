@@ -43,13 +43,13 @@ class Cron_Notification
 	private function existNotifications($userId, $startDate, $endDate)
 	{
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT 1 FROM l_yf_notification WHERE `userid` = ?';
+		$query = 'SELECT 1 FROM u_yf_notification WHERE `userid` = ?';
 		$params = [$userId];
 		if (empty($startDate)) {
-			$query .= ' && `time` <= ?';
+			$query .= ' AND `time` <= ?';
 			$params[] = $endDate;
 		} else {
-			$query .= ' && `time` BETWEEN ? AND ?';
+			$query .= ' AND `time` BETWEEN ? AND ?';
 			array_push($params, $startDate, $endDate);
 		}
 		$query .= ' LIMIT 1';
@@ -68,12 +68,12 @@ class Cron_Notification
 	public function markAsRead()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT userid, id FROM l_yf_notification ORDER BY userid, `time` DESC');
+		$result = $db->query('SELECT userid, id FROM u_yf_notification ORDER BY userid, `time` DESC');
 		$notifications = $db->getColumnByGroup($result);
 		foreach ($notifications as $userId => $noticesByUser) {
 			$noticesByUser = array_slice($noticesByUser, AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
-				$notice = Home_NoticeEntries_Model::getInstanceById($noticeId);
+				$notice = Notification_Record_Model::getInstanceById($noticeId);
 				$notice->setMarked();
 			}
 		}

@@ -285,7 +285,7 @@ var Vtiger_Index_Js = {
 			async: false,
 			dataType: 'json',
 			data: {
-				module: 'Home',
+				module: 'Notification',
 				action: 'Notification',
 				mode: 'getNumberOfNotifications'
 			}
@@ -308,7 +308,7 @@ var Vtiger_Index_Js = {
 	markNotifications: function (id) {
 		var thisInstance = this;
 		var params = {
-			module: 'Home',
+			module: 'Notification',
 			action: 'Notification',
 			mode: 'setMark',
 			ids: id
@@ -347,7 +347,7 @@ var Vtiger_Index_Js = {
 			return false;
 		}
 		var params = {
-			module: 'Home',
+			module: 'Notification',
 			action: 'Notification',
 			mode: 'setMark',
 			ids: ids
@@ -633,7 +633,7 @@ var Vtiger_Index_Js = {
 	},
 	sendNotification: function () {
 		var modalWindowParams = {
-			url: 'index.php?module=Home&view=CreateNotificationModal',
+			url: 'index.php?module=Notification&view=CreateNotificationModal',
 			id: 'CreateNotificationModal',
 			cb: function (container) {
 				var form, text, link, htmlLink;

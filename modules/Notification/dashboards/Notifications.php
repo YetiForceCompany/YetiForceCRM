@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_Notifications_Dashboard extends Vtiger_IndexAjax_View
+class Notification_Notifications_Dashboard extends Vtiger_IndexAjax_View
 {
 
 	public function process(Vtiger_Request $request)
@@ -18,12 +18,10 @@ class Vtiger_Notifications_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$widget = Vtiger_Widget_Model::getInstance($request->get('linkid'), $currentUser->getId());
 		$limit = (int) $widget->get('limit');
-
 		if (empty($limit)) {
 			$limit = 10;
 		}
-
-		$notificationModel = Home_Notification_Model::getInstance();
+		$notificationModel = Notification_Module_Model::getInstance($moduleName);
 		$notifications = $notificationModel->getEntries($limit);
 
 		$viewer->assign('NOTIFICATIONS', $notifications);

@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Home_NotificationsList_View extends Vtiger_Index_View
+class Notification_NotificationsList_View extends Vtiger_Index_View
 {
 
 	public function preProcessTplName(Vtiger_Request $request)
@@ -17,7 +17,7 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$notification = Home_Notification_Model::getInstance();
+		$notification = Notification_Notification_Model::getInstance();
 		$types = [];
 		if ($request->has('types')) {
 			$types = $request->get('types');
@@ -37,7 +37,7 @@ class Home_NotificationsList_View extends Vtiger_Index_View
 		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$notification = Home_Notification_Model::getInstance();
+		$notification = Notification_Notification_Model::getInstance();
 		$viewer->assign('LEFT_PANEL_HIDE', $userModel->get('leftpanelhide'));
 		$viewer->assign('NOTIFICATION_TYPES', \includes\utils\Json::encode($notification->getTypesForTree()));
 		$viewer->view('NotificationsListPostProcess.tpl', $moduleName);
