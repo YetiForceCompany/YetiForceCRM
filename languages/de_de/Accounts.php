@@ -89,6 +89,8 @@ $languageStrings = [
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Organisation deaktiviert von ',
 	'SINGLE_Vendors' => 'Lieferant',
+	'LBL_NUMBER_OF_ACTIVE_CONTRACTS' => 'Number of active SLA',
+	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Products and services',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Organisationsname ist bereits vorhanden. Möchten Sie einen doppelten Datensatz erstellen?',
