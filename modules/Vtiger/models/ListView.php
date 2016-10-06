@@ -51,7 +51,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission('Dashboard', 'NotificationCreateMessage')) {
+		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'NotificationCreateMessage')) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',
@@ -112,6 +112,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleModel = $this->getModule();
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 
@@ -150,6 +151,14 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => ''
 			);
+		}
+		if ($moduleModel->isTrackingEnabled() && AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_REVIEW_CHANGES',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerReviewChanges("index.php?module=ModTracker&sourceModule=' . $moduleModel->getName() . '&action=ChangesReviewedOn&mode=reviewChanges")',
+				'linkicon' => ''
+			];
 		}
 
 		foreach ($massActionLinks as $massActionLink) {

@@ -142,7 +142,7 @@ class CustomView extends CRMEntity
 		}
 		if ($currentUser->isAdminUser()) {
 			$userGroups = $currentUser->getUserGroups($currentUser->getId());
-			$parentRoles = getRoleInformation($currentUser->getRole());
+			$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
 			$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : [];
 		} else {
 			$parentRoles = $currentUser->getParentRoleSequence();

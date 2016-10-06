@@ -275,7 +275,7 @@ class Install_Index_view extends Vtiger_View_Controller
 			$viewer->setTemplateDir('install/tpl/');
 			$viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
-			$viewer->assign('CURRENT_VERSION', $_SESSION['yetiforce_version']);
+			$viewer->assign('CURRENT_VERSION', \App\Version::get());
 			$viewer->assign('INDUSTRY', $request->get('industry'));
 			echo $viewer->fetch('Step7.tpl');
 		} else {

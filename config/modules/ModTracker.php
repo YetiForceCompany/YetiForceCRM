@@ -12,4 +12,8 @@ $CONFIG = [
 	'UNREVIEWED_COUNT' => true,
 	// Maximum length of text, only applies to text fields
 	'TEASER_TEXT_LENGTH' => 400,
+	// Max number to update records
+	'REVIEW_CHANGES_LIMIT' => 50,
+	// Max number to update records by cron
+	'REVIEWED_SCHEDULE_LIMIT' => 1000,
 ];

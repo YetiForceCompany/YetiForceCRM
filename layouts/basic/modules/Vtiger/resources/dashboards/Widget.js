@@ -1538,7 +1538,7 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 			colorData.push(row.color);
 			urlData.push(row.url);
 		}
-		
+
 		return {'chartData': chartData, color: colorData, url: urlData};
 	},
 	loadChart: function () {
@@ -1571,3 +1571,24 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 	}
 });
 Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
+	registerSectionClick: function () {
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
+			if (item) {
+				$(this).css('cursor', 'pointer');
+			} else {
+				$(this).css('cursor', 'auto');
+			}
+		});
+		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
+			if (item) {
+				$(chartData['links']).each(function () {
+					if (item.seriesIndex == this[0])
+						window.location.href = this[1];
+				});
+			}
+		});
+	}
+});

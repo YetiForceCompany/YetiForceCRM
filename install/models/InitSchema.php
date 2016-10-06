@@ -31,7 +31,7 @@ class Install_InitSchema_Model
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
 		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
 		$this->db->pquery('UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?', [$currencyName, $currencyCode, $currencySymbol]);
-		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [AppConfig::main('YetiForce_current_version'), AppConfig::main('YetiForce_current_version')]);
+		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [\App\Version::get(), \App\Version::get()]);
 
 		// recalculate all sharing rules for users
 		vimport('~include/utils/UserInfoUtil.php');
@@ -262,7 +262,7 @@ class Install_InitSchema_Model
 
 	public function deleteDirFile($src)
 	{
-		
+
 		$rootDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if ($rootDirectory && strpos($src, $rootDirectory) === false) {
 			$src = $rootDirectory . $src;

@@ -11,12 +11,11 @@ class OpenStreetMap
 
 	public function vtlib_handler($moduleName, $eventType)
 	{
+		$db = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$db = PearDatabase::getInstance();
 			$db->update('vtiger_tab', ['customized' => 0], 'name = ?', [$moduleName]);
 			$eventsManager = new \VTEventsManager($db);
-			$eventsManager->registerHandler('vtiger.entity.aftersave.final', 'modules/OpenStreetMap/handlers/OpenStreetMapHandler.php', 'OpenStreetMapHandler', "moduleName in ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition', 'Contacts']"
-			);
+			$eventsManager->registerHandler('vtiger.entity.aftersave.final', 'modules/OpenStreetMap/handlers/OpenStreetMapHandler.php', 'OpenStreetMapHandler', "moduleName in ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition', 'Contacts']");
 			\vtlib\Cron::register('UpdaterCoordinates', 'modules/OpenStreetMap/cron/UpdaterCoordinates.php', 60, 'OpenStreetMap', 1);
 		} else if ($eventType == 'module.disabled') {
 			$db->update('vtiger_eventhandlers', ['is_active' => 0], 'handler_class = ?', ['OpenStreetMapHandler']);

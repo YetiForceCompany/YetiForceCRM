@@ -15,6 +15,5 @@ Settings_Vtiger_Edit_Js("Settings_AdvancedPermission_Edit_Js", {}, {
 	registerEvents: function () {
 		this.registerAdvanceFilter();
 		this.registerSubmitEvent();
-		console.log('registerEvents');
 	}
 });

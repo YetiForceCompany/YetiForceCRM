@@ -28,7 +28,7 @@ class TracedStatement
 		$this->sql = $sql;
 		$this->parameters = $this->checkParameters($params);
 		$this->preparedId = $preparedId;
-		$this->backtrace = \vtlib\Functions::getBacktrace();
+		$this->backtrace = \App\Debuger::getBacktrace();
 	}
 
 	/**

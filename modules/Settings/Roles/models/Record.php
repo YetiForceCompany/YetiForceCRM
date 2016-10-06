@@ -108,7 +108,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		if (!isset($this->children)) {
-			$parentRoles = getParentRole($this->getId());
+			$parentRoles = \App\PrivilegeUtil::getParentRole($this->getId());
 			$currentRoleDepth = $this->getDepth();
 			$parentRoleString = '';
 			foreach ($parentRoles as $key => $role) {
@@ -497,12 +497,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($instance !== false) {
 			return $instance;
 		}
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
-		$result = $db->pquery($sql, [$roleId]);
-		if ($db->getRowCount($result) > 0) {
-			$row = $db->getRow($result);
+		$row = App\PrivilegeUtil::getRoleDetail($roleId);
+		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
 			Vtiger_Cache::set('Settings_Roles_Record_Model', $roleId, $instance);

@@ -452,16 +452,6 @@ class Functions
 		return $string;
 	}
 
-	public static function fromHTML_FCK($string)
-	{
-		if (is_string($string)) {
-			if (preg_match('/(script).*(\/script)/i', $string)) {
-				$string = str_replace('script', '', $string);
-			}
-		}
-		return $string;
-	}
-
 	public static function fromHTML_Popup($string, $encode = true)
 	{
 		$popup_toHtml = array(
@@ -1217,43 +1207,6 @@ class Functions
 		foreach (explode(' ', $name) as $word)
 			$initial .= strtoupper($word[0]);
 		return $initial;
-	}
-
-	public static function getBacktrace($ignore = 1)
-	{
-		$trace = '';
-		foreach (debug_backtrace() as $k => $v) {
-			if ($k < $ignore) {
-				continue;
-			}
-			$args = '';
-			if (isset($v['args'])) {
-				foreach ($v['args'] as &$arg) {
-					if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
-						$args .= "'$arg'";
-					} elseif (is_array($arg)) {
-						$args .= '[';
-						foreach ($arg as &$a) {
-							$val = $a;
-							if (is_array($a) || is_object($a) || is_resource($a)) {
-								$val = gettype($a);
-								if (is_object($a)) {
-									$val .= '(' . get_class($a) . ')';
-								}
-							}
-							$args .= $val . ',';
-						}
-						$args = rtrim($args, ',') . ']';
-					}
-					$args .= ',';
-				}
-				$args = rtrim($args, ',');
-			}
-			$file = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $v['file']);
-			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '(' . $args . ') in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
-		}
-
-		return $trace;
 	}
 
 	public function getDiskSpace($dir = '')

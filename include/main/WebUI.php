@@ -14,6 +14,7 @@ require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
+\App\Debuger::initLogger();
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
@@ -244,7 +245,7 @@ if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = 'cache/logs/errors.log';
 			$content = print_r($msg, true);
-			$content .= PHP_EOL . \vtlib\Functions::getBacktrace();
+			$content .= PHP_EOL . \App\Debuger::getBacktrace();
 			file_put_contents($file, $content . PHP_EOL, FILE_APPEND);
 		}
 		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {

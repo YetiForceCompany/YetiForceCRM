@@ -1246,7 +1246,9 @@ $languageStrings = [
 	'FL_CAMPAIGN_STATUS' => 'Statut Campagne',
 	'LBL_SECTOR' => 'Sectors',
 	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Closed ticket by priority',
-	'LBL_CLOSED_TICKETS_BY_USER' => 'Closed ticket by user'
+	'LBL_CLOSED_TICKETS_BY_USER' => 'Closed ticket by user',
+	'LBL_REVIEW_CHANGES' => 'Review changes in records',
+	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Accounts by industry',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',
@@ -1564,4 +1566,6 @@ $jsLanguageStrings = [
 	'JS_GET_PAGINATION_INFO' => 'Loading the amount of records in progress. Completion time depends on the total number of records.',
 	'JS_WIDGET_DELETED' => 'Widget deleted',
 	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domain restricted. Please enter a different one.',
+	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Are you sure you want to reset related mails once again?',
+	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Are you sure you want to review changes in the selected records?',
 ];

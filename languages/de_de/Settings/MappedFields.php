@@ -68,7 +68,7 @@ $languageStrings = [
 	'LBL_USE_FUNCTION' => 'Funktion verwenden',
 	'LBL_VTIGER' => 'YetiForce',
 	'LBL_EXAMPLE_EXPRESSION' => 'Ausdruck',
-	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
+	'LBL_ANNUAL_REVENUE' => 'Jahresumsatz',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
 	'MappedFields' => 'Mapping',
 ];

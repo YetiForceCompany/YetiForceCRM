@@ -29,7 +29,7 @@ class GetUserGroups
 	public function getAllUserGroups($userid)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		\App\Log::trace("Entering getAllUserGroups(" . $userid . ") method...");
 		//Retreiving from the user2grouptable
 		$query = "select * from vtiger_users2group where userid=?";
@@ -56,7 +56,7 @@ class GetUserGroups
 		}
 
 		//Retreiving from the user2rs
-		$parentRoles = getParentRole($userRole);
+		$parentRoles = \App\PrivilegeUtil::getParentRole($userRole);
 		$parentRolelist = [];
 		foreach ($parentRoles as $par_rol_id) {
 			array_push($parentRolelist, $par_rol_id);

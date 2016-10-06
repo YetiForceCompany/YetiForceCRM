@@ -247,24 +247,23 @@ class PackageExport
 		$moduleid = $moduleInstance->id;
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_tab_info WHERE tabid = ?", array($moduleid));
-		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
-		$vtigerMaxVersion = false;
+		$minVersion = \App\Version::get();
+		$maxVersion = false;
 		$noOfPreferences = $adb->num_rows($sqlresult);
 		for ($i = 0; $i < $noOfPreferences; ++$i) {
 			$prefName = $adb->query_result($sqlresult, $i, 'prefname');
 			$prefValue = $adb->query_result($sqlresult, $i, 'prefvalue');
 			if ($prefName == 'vtiger_min_version') {
-				$vtigerMinVersion = $prefValue;
+				$minVersion = $prefValue;
 			}
 			if ($prefName == 'vtiger_max_version') {
-				$vtigerMaxVersion = $prefValue;
+				$maxVersion = $prefValue;
 			}
 		}
-
 		$this->openNode('dependencies');
-		$this->outputNode($vtigerMinVersion, 'vtiger_version');
-		if ($vtigerMaxVersion !== false)
-			$this->outputNode($vtigerMaxVersion, 'vtiger_max_version');
+		$this->outputNode($minVersion, 'vtiger_version');
+		if ($maxVersion !== false)
+			$this->outputNode($maxVersion, 'vtiger_max_version');
 		$this->closeNode('dependencies');
 	}
 

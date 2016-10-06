@@ -270,12 +270,12 @@ class VTScheduledReport extends Reports
 				$optionValue = 'groups::' . $value;
 				break;
 			case 'roles' : if (empty($name))
-					$name = getRoleName($value);
+					$name = \App\PrivilegeUtil::getRoleName($value);
 				$optionName = 'Roles::' . addslashes(decode_html($name));
 				$optionValue = 'roles::' . $value;
 				break;
 			case 'rs' : if (empty($name))
-					$name = getRoleName($value);
+					$name = \App\PrivilegeUtil::getRoleName($value);
 				$optionName = 'RoleAndSubordinates::' . addslashes(decode_html($name));
 				$optionValue = 'rs::' . $value;
 				break;

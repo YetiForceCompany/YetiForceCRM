@@ -49,7 +49,7 @@ class Owner
 			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
 				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
-				$accessibleGroups = $this->getGroups(false, 'Active', '', $private);
+				$accessibleGroups = $this->getGroups(false, $private);
 			}
 			\Vtiger_Cache::set('getAccessibleGroups', $cacheKey, $accessibleGroups);
 		}
@@ -183,7 +183,7 @@ class Owner
 		} else {
 			$groups = $usersGroups ? $usersGroups['groups'] : [];
 			if (!empty($groups)) {
-				$groupsAll = $this->getGroups(false, 'Active', '', $private);
+				$groupsAll = $this->getGroups(false, $private);
 				foreach ($groupsAll as $ID => $name) {
 					if (in_array($ID, $groups)) {
 						$result[$ID] = $name;
@@ -194,7 +194,7 @@ class Owner
 		return $result;
 	}
 
-	public function initUsers($status = 'Active', $assignedUser = '', $private = '')
+	public function &initUsers($status = 'Active', $assignedUser = '', $private = '')
 	{
 		$cacheKeyMod = $private == 'private' ? $this->moduleName : '';
 		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
@@ -289,16 +289,16 @@ class Owner
 		return $users;
 	}
 
-	public function getGroups($addBlank = true, $status = 'Active', $assignedUser = '', $private = '')
+	public function getGroups($addBlank = true, $private = '')
 	{
-		\App\Log::trace("Entering getGroups($addBlank,$status,$assignedUser,$private) method ...");
-
+		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
+		$moduleName = '';
 		if (\AppRequest::get('parent') != 'Settings' && $this->moduleName) {
 			$moduleName = $this->moduleName;
 			$tabid = \includes\Modules::getModuleId($moduleName);
 		}
 
-		$cacheKey = $addBlank . $status . $assignedUser . $private . $moduleName;
+		$cacheKey = $addBlank . $private . $moduleName;
 		$tempResult = \Vtiger_Cache::get('getGroups', $cacheKey);
 		if ($tempResult !== false) {
 			return $tempResult;
@@ -310,7 +310,7 @@ class Owner
 		$query = 'SELECT groupid, groupname FROM vtiger_groups';
 		$tempResult = $params = [];
 
-		if ($moduleName && $moduleName != 'CustomView') {
+		if (!empty($moduleName) && $moduleName != 'CustomView') {
 			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
 			$params[] = $tabid;
 		}

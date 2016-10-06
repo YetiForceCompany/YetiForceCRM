@@ -10,11 +10,11 @@
 class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 {
 
-	public $notificationDefaultType = 1;
+	public $notificationDefaultType = 'PLL_USERS';
 
 	/**
 	 * Function to get the instance by id
-	 * @return <Home_Notification_Model>
+	 * @return <Vtiger_Watchdog_Model>
 	 */
 	public static function getInstanceById($record, $moduleName)
 	{
@@ -35,7 +35,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance by module
-	 * @return <Home_Notification_Model>
+	 * @return <Vtiger_Watchdog_Model>
 	 */
 	public static function getInstance($moduleName)
 	{

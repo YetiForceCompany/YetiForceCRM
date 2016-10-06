@@ -22,12 +22,14 @@
 				<span class="btn-toolbar pull-right margin0px">
 					<span class="btn-group">
 						<button class="btn btn-success createModule" type="button">
+							<span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>&nbsp;&nbsp;
 							<strong>{vtranslate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
 					{if vglobal('systemMode') != 'demo'}
 						<span class="btn-group">
 							<button class="btn btn-primary" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
+								<span class="glyphicon glyphicon-import" aria-hidden="true"></span>&nbsp;&nbsp;
 								<strong>{vtranslate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
 							</button>
 						</span>
@@ -35,8 +37,71 @@
 				</span>
 			</div>
 		</div>
-		<hr>
 		<div class="contents">
+			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable footable-loaded footable">
+				<thead>
+					<tr class="blockHeader">
+						<th>
+							<span>{vtranslate('LBL_LIBRARY_NAME', $QUALIFIED_MODULE)}</span>
+						</th>
+						<th>
+							<span>{vtranslate('LBL_LIBRARY_DIR', $QUALIFIED_MODULE)}</span>
+						</th>
+						<th>
+							<span>{vtranslate('LBL_LIBRARY_URL', $QUALIFIED_MODULE)}</span>
+						</th>
+						<th>
+							<span>{vtranslate('LBL_LIBRARY_STATUS', $QUALIFIED_MODULE)}</span>
+						</th>
+						<th>
+							<span>{vtranslate('LBL_LIBRARY_ACTION', $QUALIFIED_MODULE)}</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach key=NAME item=LIBRARY from=Settings_ModuleManager_Library_Model::getAll()}
+						<tr>
+							<td><strong>{$NAME}</strong></td>
+							<td>{$LIBRARY['dir']}</td>
+							<td><a href="{$LIBRARY['url']}">{$LIBRARY['url']}</a></td>
+							<td>
+								{if $LIBRARY['status'] == 1}
+									<span class="label label-success bigLabel">
+										{vtranslate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+									</span>
+								{elseif $LIBRARY['status'] == 2}
+									<span class="label label-warning bigLabel">
+										{vtranslate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+									</span>
+								{else}
+									<span class="label label-danger bigLabel">
+										{vtranslate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+									</span>
+								{/if}
+							</td>
+							<td class="text-center">
+								<span class="btn-group">
+									{if $LIBRARY['status'] === 0}
+										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
+											<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp;&nbsp;
+											<strong>{vtranslate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
+										</a>
+									{else}
+										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
+											<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>&nbsp;&nbsp;
+											<strong>{vtranslate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
+										</a>
+									{/if}
+								</span>
+							</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+			<br/>
 			{assign var=COUNTER value=0}
 			<table class="table table-bordered">
 				<tr>

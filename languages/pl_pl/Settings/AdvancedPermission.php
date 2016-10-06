@@ -10,13 +10,15 @@ $languageStrings = [
 	'LBL_ACTION' => 'Akcja',
 	'LBL_STATUS' => 'Status',
 	'LBL_ROLE' => 'Rola',
+	'LBL_MEMBERS' => 'Członkowie',
+	'LBL_PRIORITY' => 'Priorytet',
 	// Picklist
 	'FL_ACTIVE' => 'Aktywna',
-	'FL_INACTIVE' => 'Nie aktywna',
+	'FL_INACTIVE' => 'Nieaktywna',
 	'FL_UNLOCK_RECORD' => 'Nadaj dostęp',
 	'FL_LOCK_RECORD' => 'Zablokuj dostęp',
 	// Others
 	'LBL_SAVE_AND_CONDITIONS' => 'Dalej',
-];
-$jsLanguageStrings = [
+	'ERR_INACTIVE_ALERT_TITLE' => 'Uprawnienia zawansowane są wyłączone',
+	'ERR_INACTIVE_ALERT_DESC' => 'Aby włączyć należy zmienić parametr PERMITTED_BY_ADVANCED_PERMISSION w pliku config/security.php',
 ];

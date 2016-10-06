@@ -42,10 +42,36 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-2 text-right">
+						{vtranslate('LBL_PRIORITY', $QUALIFIED_MODULE)}  
+					</div>
+					<div class="col-md-10">
+						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('priority'))}</strong>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-2 text-right">
 						{vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}  
 					</div>
 					<div class="col-md-10">
 						<strong>{vtranslate($RECORD_MODEL->getDisplayValue('tabid'), $RECORD_MODEL->getDisplayValue('tabid'))}</strong>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-2 text-right">
+						{vtranslate('LBL_MEMBERS', $QUALIFIED_MODULE)}  
+					</div>
+					<div class="col-md-10">
+						<strong>{$RECORD_MODEL->getDisplayValue('members')}</strong>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-2 text-right">
+						{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}  
+					</div>
+					<div class="col-md-10">
+						{foreach from=$RECORD_MODEL->getUserByMember() item=NAME}
+							<div><strong>{$NAME}</strong></div>
+						{/foreach}
 					</div>
 				</div>
 			</form>
