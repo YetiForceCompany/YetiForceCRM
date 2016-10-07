@@ -101,14 +101,14 @@ class Settings_ModuleManager_Library_Model
 			App\Log::warning('Library does not exist: ' . $name);
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		$mode = AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : 'master';
+
 		$lib = static::$dirs[$name];
 		if (file_exists($lib['dir'] . 'version.php')) {
 			App\Log::info('Library has already been downloaded: ' . $name);
 			return false;
 		}
-		$url = $lib['url'] . "/archive/$mode.zip";
 		$path = static::$tempDir . DIRECTORY_SEPARATOR . $name . '.zip';
+		$mode = AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path)) {
 			stream_context_set_default([
@@ -117,6 +117,7 @@ class Settings_ModuleManager_Library_Model
 					'verify_peer_name' => false,
 				],
 			]);
+			$url = $lib['url'] . "/archive/$mode.zip";
 			$headers = get_headers($url, 1);
 			if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
 				App\Log::trace('Started downloading library: ' . $name);
