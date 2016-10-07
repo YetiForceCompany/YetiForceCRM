@@ -22,7 +22,14 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		$max = AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
 		return $count > $max ? $max : $count;
 	}
-
+	/**
+	 * Function shoud return array with objects <Notification_Record_Model>
+	 * @param int $limit
+	 * @param string $conditions
+	 * @param int $userId
+	 * @param boolean $groupBy
+	 * @return array
+	 */
 	public function getEntries($limit = false, $conditions = false, $userId = false, $groupBy = false)
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
@@ -60,7 +67,10 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		}
 		return $entries;
 	}
-
+	/**
+	 * Function to get types of notification
+	 * @return array
+	 */
 	public function getTypes()
 	{
 		$fieldModel = Vtiger_Field_Model::getInstance('notification_type', Vtiger_Module_Model::getInstance('Notification'));

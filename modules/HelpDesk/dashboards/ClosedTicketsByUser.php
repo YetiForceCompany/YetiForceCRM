@@ -59,7 +59,7 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 			$paramsQuery [] = $time['start'];
 			$paramsQuery [] = $time['end'];
 		}
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
+		$sql .= \App\PrivilegeQuery::getAccessConditions($moduleName);
 		$sql .= ' GROUP BY vtiger_crmentity.smownerid';
 		$result = $db->pquery($sql, $paramsQuery);
 
