@@ -1616,7 +1616,7 @@ function getSelectedRecords($input, $module, $idstring, $excludedRecords)
 	$adb = PearDatabase::getInstance();
 	$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 	if ($idstring == 'relatedListSelectAll') {
-		$recordid = vtlib_purify($input['recordid']);
+		$recordid = App\Purifier::purify($input['recordid']);
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_crmentity.crmid as id FROM vtiger_crmentity
 		INNER JOIN vtiger_campaign_records ON vtiger_campaign_records.crmid = vtiger_crmentity.crmid
@@ -1673,7 +1673,7 @@ function getSelectAllQuery($input, $module)
 {
 	$adb = PearDatabase::getInstance();
 
-	$viewid = vtlib_purify($input['viewname']);
+	$viewid = App\Purifier::purify($input['viewname']);
 
 	if ($module == "Calendar") {
 		$listquery = getListQuery($module);
@@ -1699,7 +1699,7 @@ function getSelectAllQuery($input, $module)
 		$query = $queryGenerator->getQuery();
 
 		if ($module == 'Documents') {
-			$folderid = vtlib_purify($input['folderidstring']);
+			$folderid = App\Purifier::purify($input['folderidstring']);
 			$folderid = str_replace(';', ',', $folderid);
 			$query .= " && vtiger_notes.folderid in (" . $folderid . ")";
 		}
@@ -1737,8 +1737,8 @@ function getExportRecordIds($moduleName, $viewid, $input)
 {
 	global $list_max_entries_per_page;
 	$adb = PearDatabase::getInstance();
-	$idstring = vtlib_purify($input['idstring']);
-	$export_data = vtlib_purify($input['export_data']);
+	$idstring = App\Purifier::purify($input['idstring']);
+	$export_data = App\Purifier::purify($input['export_data']);
 
 	if (in_array($moduleName, getInventoryModules()) && $export_data == 'currentpage') {
 		$queryGenerator = new QueryGenerator($moduleName, vglobal('current_user'));

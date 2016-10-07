@@ -980,12 +980,13 @@ class Functions
 			}
 		}
 		$savedHTML = $doc->saveHTML();
+		$savedHTML = preg_replace('/<!DOCTYPE[^>]+\>/', '', $savedHTML);
 		$savedHTML = preg_replace('/<html[^>]+\>/', '', $savedHTML);
 		$savedHTML = preg_replace('/<body[^>]+\>/', '', $savedHTML);
 		$savedHTML = preg_replace('#<head(.*?)>(.*?)</head>#is', '', $savedHTML);
 		$savedHTML = preg_replace('/<!--(.*)-->/Uis', '', $savedHTML);
 		$savedHTML = str_replace(['</html>', '</body>', '<?xml encoding="utf-8" ?>'], ['', '', ''], $savedHTML);
-		return $savedHTML;
+		return trim($savedHTML);
 	}
 
 	public static function getHtmlOrPlainText($content)

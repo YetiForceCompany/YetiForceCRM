@@ -626,7 +626,7 @@ class ReportRun extends CRMEntity
 				foreach ($fieldSqlColumns as $columnSql) {
 					$queryColumn .= " WHEN $columnSql NOT LIKE '' THEN $columnSql";
 				}
-				$moduleFieldLabel = vtlib_purify(decode_html($moduleFieldLabel));
+				$moduleFieldLabel = App\Purifier::purify(decode_html($moduleFieldLabel));
 				$queryColumn .= " ELSE '' END) ELSE '' END) AS '$moduleFieldLabel'";
 				$this->queryPlanner->addTable($tableName);
 			}

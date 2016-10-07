@@ -143,7 +143,7 @@ class Emails extends CRMEntity
 		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
+				$files['original_name'] = App\Purifier::purify($_REQUEST[$fileindex . '_hidden']);
 				$file_saved = $this->uploadAndSaveFile($id, $module, $files);
 			}
 		}

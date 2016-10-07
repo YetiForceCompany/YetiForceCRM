@@ -139,7 +139,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function validateStringForSql($string, $skipEmpty = true)
 	{
-		if (vtlib_purifyForSql($string, $skipEmpty)) {
+		if (\App\Purifier::purifySql($string, $skipEmpty)) {
 			return $string;
 		}
 		return false;

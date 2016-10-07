@@ -1436,7 +1436,7 @@ class QueryGenerator
 			$this->endGroup();
 		} else {
 			if (isset($input['search_field']) && $input['search_field'] != "") {
-				$fieldName = vtlib_purify($input['search_field']);
+				$fieldName = App\Purifier::purify($input['search_field']);
 			} else {
 				return;
 			}
