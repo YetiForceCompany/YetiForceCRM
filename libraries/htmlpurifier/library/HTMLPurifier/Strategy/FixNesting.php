@@ -80,6 +80,26 @@ class HTMLPurifier_Strategy_FixNesting extends HTMLPurifier_Strategy
         $context->register('CurrentNode', $node);
         $context->register('CurrentToken', $token);
 
+        //####################################################################//
+        // Loop
+
+        // We need to implement a post-order traversal iteratively, to
+        // avoid running into stack space limits.  This is pretty tricky
+        // to reason about, so we just manually stack-ify the recursive
+        // variant:
+        //
+        //  function f($node) {
+        //      foreach ($node->children as $child) {
+        //          f($child);
+        //      }
+        //      validate($node);
+        //  }
+        //
+        // Thus, we will represent a stack frame as array($node,
+        // $is_inline, stack of children)
+        // e.g. array_reverse($node->children) - already processed
+        // children.
+
         $parent_def = $definition->info_parent_def;
         $stack = array(
             array($top_node,

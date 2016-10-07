@@ -19,7 +19,7 @@ class HTMLPurifier_URISchemeRegistry
         static $instance = null;
         if ($prototype !== null) {
             $instance = $prototype;
-        } elseif ($instance === null || $prototype === true) {
+        } elseif ($instance === null || $prototype == true) {
             $instance = new HTMLPurifier_URISchemeRegistry();
         }
         return $instance;

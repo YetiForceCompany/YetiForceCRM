@@ -271,6 +271,11 @@ class HTMLPurifier_HTMLModuleManager
         if ($config->get('HTML.TargetBlank')) {
             $modules[] = 'TargetBlank';
         }
+        // NB: HTML.TargetNoreferrer must be AFTER HTML.TargetBlank
+        // so that its post-attr-transform gets run afterwards.
+        if ($config->get('HTML.TargetNoreferrer')) {
+            $modules[] = 'TargetNoreferrer';
+        }
 
         // merge in custom modules
         $modules = array_merge($modules, $this->userModules);
@@ -411,7 +416,17 @@ class HTMLPurifier_HTMLModuleManager
                 // this will usually result in a full replacement.
                 $def->mergeIn($new_def);
             } else {
-				continue;
+                // :TODO:
+                // non-standalone definitions that don't have a standalone
+                // to merge into could be deferred to the end
+                // HOWEVER, it is perfectly valid for a non-standalone
+                // definition to lack a standalone definition, even
+                // after all processing: this allows us to safely
+                // specify extra attributes for elements that may not be
+                // enabled all in one place.  In particular, this might
+                // be the case for trusted elements.  WARNING: care must
+                // be taken that the /extra/ definitions are all safe.
+                continue;
             }
 
             // attribute value expansions
