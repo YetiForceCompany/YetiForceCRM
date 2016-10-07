@@ -31,17 +31,12 @@ class Version
 			self::$versions = require 'config/version.php';
 		}
 	}
-	/**
-	 * 
-	 * @param String Version against which comparision to be done
-	 * @param String Condition like ( '=', '!=', '<', '<=', '>', '>=')
-	 */
 
 	/**
 	 * Check app versions with given version
-	 * @param string $version
+	 * @param string $version - String Version against which comparision to be done
 	 * @param string $type
-	 * @param string $condition
+	 * @param string $condition - String Condition like ( '=', '!=', '<', '<=', '>', '>=')
 	 * @return bool|int
 	 */
 	public static function check($version, $type = 'appVersion', $condition = '>=')
