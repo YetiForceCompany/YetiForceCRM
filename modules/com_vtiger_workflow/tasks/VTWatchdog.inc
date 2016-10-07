@@ -44,7 +44,7 @@ class VTWatchdog extends VTTask
 			$notification->set('assigned_user_id', $userId);
 			$notification->set('relatedmodule', $moduleName);
 			$notification->set('title', $this->title);
-			$notification->set('desciption', $this->message);
+			$notification->set('description', $this->message);
 			$notification->set('notification_type', $this->type);
 			$notification->set('notification_status', 'PLL_UNREAD');
 			$notification->save();
