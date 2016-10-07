@@ -1592,3 +1592,34 @@ YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
 		});
 	}
 });
+Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
+	generateData: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		return dataInfo;
+	},
+	loadChart: function () {
+		var dataInfo = this.generateData();
+		if (dataInfo.length > 0) {
+			this.getPlotContainer(false).jqplot([dataInfo], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.FunnelRenderer,
+					rendererOptions: {
+						sectionMargin: 0,
+						widthRatio: 0.3,
+						showDataLabels: true,
+						dataLabelThreshold: 0,
+						dataLabels: 'label',
+						highlightMouseDown: true
+					}
+				},
+				legend: {
+					show: false,
+					location: 'e',
+				}
+			});
+			this.registerSectionClick();
+		}
+	}
+});

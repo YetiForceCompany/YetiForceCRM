@@ -1263,6 +1263,7 @@ $languageStrings = [
 	'LBL_CLOSED_TICKETS_BY_USER' => 'Zamknięte zgłoszenia według użytkowników',
 	'LBL_REVIEW_CHANGES' => 'Zapoznanie się ze zmianami',
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Kontrahenci według branży',
+	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Szacowana wartość szans sprzedaży',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

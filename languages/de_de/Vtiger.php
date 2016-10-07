@@ -1264,6 +1264,7 @@ $languageStrings = [
 	'LBL_REVIEW_CHANGES' => 'Änderungen in Datensätzen anschauen',
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Organisationen nach Industrie',
 	'LBL_RELATION_COMMENT' => 'Anmerkung',
+	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Estimated Opportunity value',
 	];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
