@@ -8,7 +8,7 @@
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Permissions::<public>
+ * @covers Library::<public>
  */
 class Library extends TestCase
 {
