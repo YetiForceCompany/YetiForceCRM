@@ -709,64 +709,64 @@ class ReportRun extends CRMEntity
 		if ($is_field === true) {
 			$value = $this->getFilterComparedField($temp);
 		}
-		if ($comparator == "e") {
-			if (trim($value) == "NULL") {
-				$rtvalue = " is NULL";
-			} elseif (trim($value) != "") {
+		if ($comparator == 'e') {
+			if (trim($value) == 'NULL') {
+				$rtvalue = ' is NULL';
+			} elseif (trim($value) != '') {
 				$rtvalue = " = " . $adb->quote($value);
-			} elseif (trim($value) == "" && $datatype == "V") {
-				$rtvalue = " = " . $adb->quote($value);
+			} elseif (trim($value) == '' && $datatype == 'V') {
+				$rtvalue = ' = ' . $adb->quote($value);
 			} else {
-				$rtvalue = " is NULL";
+				$rtvalue = ' is NULL';
 			}
 		}
-		if ($comparator == "n") {
-			if (trim($value) == "NULL") {
-				$rtvalue = " is NOT NULL";
-			} elseif (trim($value) != "") {
+		if ($comparator == 'n') {
+			if (trim($value) == 'NULL') {
+				$rtvalue = ' is NOT NULL';
+			} elseif (trim($value) != '') {
 				if ($columnName)
-					$rtvalue = " <> " . $adb->quote($value) . " || " . $columnName . " IS NULL ";
+					$rtvalue = ' <> ' . $adb->quote($value) . ' || ' . $columnName . " IS NULL ";
 				else
-					$rtvalue = " <> " . $adb->quote($value);
-			}elseif (trim($value) == "" && $datatype == "V") {
-				$rtvalue = " <> " . $adb->quote($value);
+					$rtvalue = ' <> ' . $adb->quote($value);
+			}elseif (trim($value) == '' && $datatype == 'V') {
+				$rtvalue = ' <> ' . $adb->quote($value);
 			} else {
-				$rtvalue = " is NOT NULL";
+				$rtvalue = ' is NOT NULL';
 			}
 		}
-		if ($comparator == "s") {
+		if ($comparator == 's') {
 			$rtvalue = " like " . formatForSqlLike($value, 2, $is_field);
 		}
-		if ($comparator == "ew") {
-			$rtvalue = " like " . formatForSqlLike($value, 1, $is_field);
+		if ($comparator == 'ew') {
+			$rtvalue = ' like ' . formatForSqlLike($value, 1, $is_field);
 		}
-		if ($comparator == "c") {
-			$rtvalue = " like " . formatForSqlLike($value, 0, $is_field);
+		if ($comparator == 'c') {
+			$rtvalue = ' like ' . formatForSqlLike($value, 0, $is_field);
 		}
-		if ($comparator == "k") {
-			$rtvalue = " not like " . formatForSqlLike($value, 0, $is_field);
+		if ($comparator == 'k') {
+			$rtvalue = ' not like ' . formatForSqlLike($value, 0, $is_field);
 		}
-		if ($comparator == "l") {
-			$rtvalue = " < " . $adb->quote($value);
+		if ($comparator == 'l') {
+			$rtvalue = ' < ' . $adb->quote($value);
 		}
-		if ($comparator == "g") {
-			$rtvalue = " > " . $adb->quote($value);
+		if ($comparator == 'g') {
+			$rtvalue = ' > ' . $adb->quote($value);
 		}
-		if ($comparator == "m") {
-			$rtvalue = " <= " . $adb->quote($value);
+		if ($comparator == 'm') {
+			$rtvalue = ' <= ' . $adb->quote($value);
 		}
-		if ($comparator == "h") {
-			$rtvalue = " >= " . $adb->quote($value);
+		if ($comparator == 'h') {
+			$rtvalue = ' >= ' . $adb->quote($value);
 		}
-		if ($comparator == "b") {
-			$rtvalue = " < " . $adb->quote($value);
+		if ($comparator == 'b') {
+			$rtvalue = ' < ' . $adb->quote($value);
 		}
-		if ($comparator == "a") {
-			$rtvalue = " > " . $adb->quote($value);
+		if ($comparator == 'a') {
+			$rtvalue = ' > ' . $adb->quote($value);
 		}
-		if ($comparator == "om") {
+		if ($comparator == 'om') {
 			$currentUser = Users_Privileges_Model::getCurrentUserModel();
-			$rtvalue = " = " . $adb->quote($currentUser->getId());
+			$rtvalue = ' = ' . $adb->quote($currentUser->getId());
 		}
 		if ($is_field === true) {
 			$rtvalue = str_replace("'", "", $rtvalue);
@@ -1093,7 +1093,7 @@ class ReportRun extends CRMEntity
 								if (($selectedfields[0] == "vtiger_users" . $this->primarymodule || $selectedfields[0] == "vtiger_users" . $this->secondarymodule) && $selectedfields[1] == 'user_name') {
 									$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
 									if (is_numeric($valuearray[$n])) {
-										$advcolsql[] = $selectedfields[0] . '.id ' . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . " OR vtiger_groups$module_from_tablename.groupid " . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
+										$advcolsql[] = '(' .$selectedfields[0] . '.id ' . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . " OR vtiger_groups$module_from_tablename.groupid " . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . ')';
 									} else {
 										$advcolsql[] = " (trim($concatSql)" . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . " or vtiger_groups$module_from_tablename.groupname " . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . ")";
 									}
@@ -1137,7 +1137,7 @@ class ReportRun extends CRMEntity
 							if ($selectedfields[0] == "vtiger_users" . $this->primarymodule) {
 								$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
 								if (is_numeric($value) || empty($value)) {
-									$fieldvalue = $selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupname" . $this->getAdvComparator($comparator, trim($value), $datatype);
+									$fieldvalue = '(' .$selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupid" . $this->getAdvComparator($comparator, trim($value), $datatype) . ')';
 								} else {
 									$fieldvalue = " trim(case when (" . $selectedfields[0] . ".last_name NOT LIKE '') then " . $concatSql . " else vtiger_groups" . $module_from_tablename . ".groupname end) " . $this->getAdvComparator($comparator, trim($value), $datatype);
 								}
@@ -1150,7 +1150,7 @@ class ReportRun extends CRMEntity
 									$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
 									$moduleInstance = CRMEntity::getInstance($module_from_tablename);
 									if (is_numeric($value)) {
-										$fieldvalue = $selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupname" . $this->getAdvComparator($comparator, trim($value), $datatype);
+										$fieldvalue = '(' . $selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupid" . $this->getAdvComparator($comparator, trim($value), $datatype) .')';
 									} else {
 										$fieldvalue = " trim(case when (" . $selectedfields[0] . ".last_name NOT LIKE '') then " . $concatSql . " else vtiger_groups" . $module_from_tablename . ".groupname end) " . $this->getAdvComparator($comparator, trim($value), $datatype);
 									}
