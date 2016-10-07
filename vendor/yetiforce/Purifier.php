@@ -128,9 +128,8 @@ class Purifier
 				$config->set('HTML.SafeEmbed', true);
 				$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www.youtube(?:-nocookie)?.com/embed/|player.vimeo.com/video/)%');
 				$config->set('HTML.Allowed', implode(',', $allowed));
-				$config->set('HTML.DefinitionID', 'html5-definitions'); // unqiue id
 				$config->set('HTML.DefinitionRev', 1);
-				if ($def = $config->getHTMLDefinition()) {
+				if ($def = $config->getHTMLDefinition(true)) {
 					// http://developers.whatwg.org/sections.html
 					$def->addElement('section', 'Block', 'Flow', 'Common');
 					$def->addElement('nav', 'Block', 'Flow', 'Common');
