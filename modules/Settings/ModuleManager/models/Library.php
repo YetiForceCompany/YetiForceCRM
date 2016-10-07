@@ -9,15 +9,34 @@
 class Settings_ModuleManager_Library_Model
 {
 
+	/**
+	 * List of all installation libraries
+	 * @var array 
+	 */
 	public static $dirs = [
 		'mPDF' => ['dir' => 'libraries/mPDF/', 'url' => 'https://github.com/YetiForceCompany/lib_mPDF', 'name' => 'lib_mPDF'],
 		'roundcube' => ['dir' => 'modules/OSSMail/roundcube/', 'url' => 'https://github.com/YetiForceCompany/lib_roundcube', 'name' => 'lib_roundcube'],
 		'PHPExcel' => ['dir' => 'libraries/PHPExcel/', 'url' => 'https://github.com/YetiForceCompany/lib_PHPExcel', 'name' => 'lib_PHPExcel'],
 		'AJAXChat' => ['dir' => 'libraries/AJAXChat/', 'url' => 'https://github.com/YetiForceCompany/lib_AJAXChat', 'name' => 'lib_AJAXChat']
 	];
+
+	/**
+	 * Path to save temporary files
+	 * @var string 
+	 */
 	public static $tempDir = 'cache' . DIRECTORY_SEPARATOR . 'upload';
+
+	/**
+	 * Temporary table that contains checked library ststuses
+	 * @var array 
+	 */
 	public static $cache = [];
 
+	/**
+	 * Function to check library status
+	 * @param string $name
+	 * @return boolean
+	 */
 	public static function checkLibrary($name)
 	{
 		if (isset(static::$cache[$name])) {
@@ -37,6 +56,10 @@ class Settings_ModuleManager_Library_Model
 		return $status;
 	}
 
+	/**
+	 * Get a list of all libraries and their statuses
+	 * @return array
+	 */
 	public static function &getAll()
 	{
 		foreach (static::$dirs as $name => &$lib) {
@@ -55,6 +78,10 @@ class Settings_ModuleManager_Library_Model
 		return static::$dirs;
 	}
 
+	/**
+	 * Download all missing libraries
+	 * @throws \Exception\NoPermitted
+	 */
 	public static function downloadAll()
 	{
 		foreach (static::$dirs as $name => &$lib) {
@@ -62,6 +89,12 @@ class Settings_ModuleManager_Library_Model
 		}
 	}
 
+	/**
+	 * Function to download library
+	 * @param string $name
+	 * @return boolean
+	 * @throws \Exception\NoPermitted
+	 */
 	public static function download($name)
 	{
 		if (!isset(static::$dirs[$name])) {
@@ -105,6 +138,11 @@ class Settings_ModuleManager_Library_Model
 		}
 	}
 
+	/**
+	 * Function to update library
+	 * @param string $name
+	 * @throws \Exception\NoPermitted
+	 */
 	public static function update($name)
 	{
 		$lib = static::$dirs[$name];
