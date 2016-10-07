@@ -13,11 +13,14 @@ use PHPUnit\Framework\TestCase;
 class Library extends TestCase
 {
 
-	public function testVersion()
+	public function testLibraryVersion()
 	{
 		$libs = \Settings_ModuleManager_Library_Model::getAll();
 		foreach ($libs as $name => &$lib) {
 			$appVersion = \App\Version::get($lib['name']);
+			if (file_exists($lib['dir'] . 'version.php')) {
+				throw new \Exception('File does not exist: ' . $lib['dir'] . 'version.php');
+			}
 			$libVersions = require $lib['dir'] . 'version.php';
 			$libVersion = $libVersions['version'];
 			if ($appVersion !== $libVersion) {
