@@ -277,7 +277,7 @@ class ListViewController
 						$value = ' --';
 					}
 					$value = vtlib\Functions::textLength($value);
-				} elseif (($module == 'Notification' && $fieldName == 'title') || ($module == 'Notification' && $fieldName == 'description')){
+				} elseif ($module == 'Notification' && ($fieldName == 'title' || $fieldName == 'description')){
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 					$relatedModule = $recordModel->get('relatedmodule');
 					$reletedId = $recordModel->get('relatedid');
