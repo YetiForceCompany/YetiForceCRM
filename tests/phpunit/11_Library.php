@@ -21,7 +21,7 @@ class Library extends TestCase
 			$libVersions = require $lib['dir'] . 'version.php';
 			$libVersion = $libVersions['version'];
 			if ($appVersion !== $libVersion) {
-				trigger_error('Wrong library version: ' . $name, E_USER_ERROR);
+				throw new \Exception('Wrong library version: ' . $name);
 			}
 		}
 	}
