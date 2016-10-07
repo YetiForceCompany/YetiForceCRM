@@ -1,22 +1,22 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'LBL_ADVANCED_PERMISSION' => 'Advanced permissions',
-	'AdvancedPermission' => 'Advanced permissions',
-	'LBL_ADVANCED_PERMISSION_DESCRIPTION' => 'Custom permission configuration, grant or withdraw permissions to records.',
+	'LBL_ADVANCED_PERMISSION' => 'Fortgeschrittene Berechtigungen',
+	'AdvancedPermission' => 'Fortgeschrittene Berechtigungen',
+	'LBL_ADVANCED_PERMISSION_DESCRIPTION' => 'Benutzerdefinerte Konfiguration. Erlaubt oder verweigert den Zugriff auf Datensätze.',
 	// Fields
-	'LBL_NAME' => 'Rule name',
-	'LBL_MODULE' => 'Module',
-	'LBL_ACTION' => 'Action',
+	'LBL_NAME' => 'Regel',
+	'LBL_MODULE' => 'Modul',
+	'LBL_ACTION' => 'Aktion',
 	'LBL_STATUS' => 'Status',
-	'LBL_ROLE' => 'Role',
+	'LBL_ROLE' => 'Rolle',
 	// Picklist
-	'FL_ACTIVE' => 'Active',
-	'FL_INACTIVE' => 'Inactive',
-	'FL_UNLOCK_RECORD' => 'Grant access',
-	'FL_LOCK_RECORD' => 'Withdraw access',
+	'FL_ACTIVE' => 'Aktiv',
+	'FL_INACTIVE' => 'Inaktiv',
+	'FL_UNLOCK_RECORD' => 'Zugriff erlauben',
+	'FL_LOCK_RECORD' => 'Zugriff verweigern',
 	// Others
-	'LBL_SAVE_AND_CONDITIONS' => 'Next',
-	'ERR_INACTIVE_ALERT_TITLE' => 'Advanced permissions are disabled',
-	'ERR_INACTIVE_ALERT_DESC' => 'Change the  PERMITTED_BY_ADVANCED_PERMISSION  parameter in config/security.php file to enable.',
+	'LBL_SAVE_AND_CONDITIONS' => 'Nächster',
+	'ERR_INACTIVE_ALERT_TITLE' => 'Fortgeschrittene Berechtigungen sind deaktiviert',
+	'ERR_INACTIVE_ALERT_DESC' => 'Den Parameter  PERMITTED_BY_ADVANCED_PERMISSION in config/security.php ändern, um zu aktivieren.',
 ];

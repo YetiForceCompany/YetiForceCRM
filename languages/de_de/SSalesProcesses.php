@@ -7,7 +7,7 @@ $languageStrings = [
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibung Details',
-	'LBL_ATTENTION' => 'Achtung',
+	'LBL_ATTENTION' => 'Wichtig',
 	'LBL_FINANCES' => 'Finanzen',
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',

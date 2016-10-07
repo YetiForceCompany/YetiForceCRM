@@ -58,7 +58,7 @@ $languageStrings = [
 	'Average profit sales order' => 'Durchschnittlicher Gewinn (%)',
 	'Approval for email' => 'Berechtigung für E-Mails',
 	'Approval for phone calls' => 'Berechtigung für Anrufe',
-	'LBL_CONVERTED_FROM_LEAD' => 'Aus Leads konvertiert',
+	'LBL_CONVERTED_FROM_LEAD' => 'Aus Lead konvertiert',
 	'LBL_LEGAL_FORM' => 'Rechtsform',
 	'LBL_INVENTORY_BALANCE' => 'Balance',
 	'LBL_DISCOUNT' => 'Rabatt',
@@ -69,9 +69,9 @@ $languageStrings = [
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Natürliche Person',
 	'PLL_BUSINESS_ACTIVITY' => 'Geschäftsfeld',
-	'PLL_GENERAL_PARTNERSHIP' => 'Offene Handelsgesellschaft(OHG)',
+	'PLL_GENERAL_PARTNERSHIP' => 'Offene Handelsgesellschaft (OHG)',
 	'PLL_PROFESSIONAL_PARTNERSHIP' => 'Sozietät',
-	'PLL_LIMITED_PARTNERSHIP' => 'Kommanditgesellschaft(KG)',
+	'PLL_LIMITED_PARTNERSHIP' => 'Kommanditgesellschaft (KG)',
 	'PLL_JOINT_STOCK_PARTNERSHIP' => 'Kommanditgesellschaft auf Aktien',
 	'PLL_LIMITED_LIABILITY_COMPANY' => 'Gesellschaft mit beschränkter Haftung (GmbH)',
 	'PLL_STOCK_OFFERING_COMPANY' => 'Aktiengesellschaft (AG)',
@@ -89,11 +89,11 @@ $languageStrings = [
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Organisation deaktiviert von ',
 	'SINGLE_Vendors' => 'Lieferant',
-	'LBL_NUMBER_OF_ACTIVE_CONTRACTS' => 'Number of active SLA',
-	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Products and services',
+	'LBL_NUMBER_OF_ACTIVE_CONTRACTS' => 'Anzahl aktiver Serviceverträge',
+	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Produkte und Dienstleistungen',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Organisationsname ist bereits vorhanden. Möchten Sie einen doppelten Datensatz erstellen?',
-	'LBL_DELETE_CONFIRMATION' => 'Beim löschen dieser Organisation, werden die damit verbundenen Verkaufschancen und Angebote mit entfernt. Sind Sie sicher, dass Sie diese Organisation löschen möchten?',
-	'LBL_MASS_DELETE_CONFIRMATION' => 'Beim löschen dieser Organisationen werden, die damit verbundenen Verkaufschancen und Angebote mit entfernt. Sind Sie sicher, dass Sie diese Organisationen löschen möchten?',
+	'LBL_DELETE_CONFIRMATION' => 'Beim Löschen dieser Organisation, werden die damit verbundenen Verkaufschancen und Angebote mit entfernt. Sind Sie sicher, dass Sie diese Organisation löschen möchten?',
+	'LBL_MASS_DELETE_CONFIRMATION' => 'Beim Löschen dieser Organisationen werden, die damit verbundenen Verkaufschancen und Angebote mit entfernt. Sind Sie sicher, dass Sie diese Organisationen löschen möchten?',
 ];
