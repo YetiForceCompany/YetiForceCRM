@@ -877,8 +877,8 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 			instance = new chartClass();
 			instance.setContainer(container);
 			instance.loadChart();
+			instance.postInitializeCalls();
 		}
-
 	}
 });
 Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js', {}, {
