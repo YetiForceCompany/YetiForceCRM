@@ -539,10 +539,10 @@ function get_tickets_list($input_array)
 {
 
 	//To avoid SQL injection we are type casting as well as bound the id variable.
-	$id = (int) vtlib_purify($input_array['id']);
+	$id = (int) App\Purifier::purify($input_array['id']);
 
 	$only_mine = $input_array['onlymine'];
-	$where = vtlib_purifyForSql($input_array['where']); //addslashes is already added with where condition fields in portal itself
+	$where = \App\Purifier::purifySql($input_array['where']); //addslashes is already added with where condition fields in portal itself
 	$match = $input_array['match'];
 	$sessionid = $input_array['sessionid'];
 
@@ -706,8 +706,8 @@ function create_ticket($input_array)
 
 	$ticket = CRMEntity::getInstance('HelpDesk');
 
-	$ticket->column_fields[ticket_title] = vtlib_purify($title);
-	$ticket->column_fields[description] = vtlib_purify($description);
+	$ticket->column_fields[ticket_title] = App\Purifier::purify($title);
+	$ticket->column_fields[description] = App\Purifier::purify($description);
 	$ticket->column_fields[ticketpriorities] = $priority;
 	$ticket->column_fields[ticketseverities] = $severity;
 	$ticket->column_fields[ticketcategories] = $category;
@@ -776,7 +776,7 @@ function update_ticket_comment($input_array)
 
 	if (trim($comments) != '') {
 		$modComments = CRMEntity::getInstance('ModComments');
-		$modComments->column_fields['commentcontent'] = vtlib_purify($comments);
+		$modComments->column_fields['commentcontent'] = App\Purifier::purify($comments);
 		$modComments->column_fields['assigned_user_id'] = $current_user->id;
 		$modComments->column_fields['customer'] = $ownerid;
 		$modComments->column_fields['related_to'] = $ticketid;
@@ -1049,10 +1049,10 @@ function get_picklists($input_array)
 	$adb->println($input_array);
 
 	//To avoid SQL injection we are type casting as well as bound the id variable
-	$id = (int) vtlib_purify($input_array['id']);
+	$id = (int) App\Purifier::purify($input_array['id']);
 	$sessionid = $input_array['sessionid'];
 	//To avoid SQL injection.
-	$picklist_name = vtlib_purifyForSql($input_array['picklist_name']);
+	$picklist_name = \App\Purifier::purifySql($input_array['picklist_name']);
 	if (empty($picklist_name))
 		return null;
 
@@ -1435,7 +1435,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 	}
 
 	//To avoid SQL injection we are type casting as well as bound the id variable.
-	$id = (int) vtlib_purify($id);
+	$id = (int) App\Purifier::purify($id);
 	$user = new Users();
 	$userid = getPortalUserid();
 	$current_user = $user->retrieveCurrentUserInfoFromFile($userid);
@@ -2458,7 +2458,7 @@ function get_project_components($id, $module, $customerid, $sessionid)
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_projectmilestone.projectmilestoneid && vtiger_crmentity.deleted = 0";
 	}
 
-	$res = $adb->pquery($query, array(vtlib_purify($id)));
+	$res = $adb->pquery($query, array(App\Purifier::purify($id)));
 	$noofdata = $adb->num_rows($res);
 
 	for ($j = 0; $j < $noofdata; ++$j) {
@@ -2592,7 +2592,7 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 	$userid = getPortalUserid();
 	$current_user = $user->retrieveCurrentUserInfoFromFile($userid);
 	//To avoid SQL injection we are type casting as well as bound the id variable
-	$id = (int) vtlib_purify($id);
+	$id = (int) App\Purifier::purify($id);
 	$entity_ids_list = [];
 	$show_all = show_all($modulename);
 

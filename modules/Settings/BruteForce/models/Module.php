@@ -40,35 +40,12 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		return $output;
 	}
 
-	static public function browserDetect()
-	{
-
-		$browser = $_SERVER['HTTP_USER_AGENT'];
-
-		if (strpos($browser, 'MSIE') !== false)
-			return 'Internet explorer';
-		elseif (strpos($browser, 'Trident') !== false) //For Supporting IE 11
-			return 'Internet explorer';
-		elseif (strpos($browser, 'Firefox') !== false)
-			return 'Mozilla Firefox';
-		elseif (strpos($browser, 'Chrome') !== false)
-			return 'Google Chrome';
-		elseif (strpos($browser, 'Opera Mini') !== false)
-			return "Opera Mini";
-		elseif (strpos($browser, 'Opera') !== false)
-			return "Opera";
-		elseif (strpos($browser, 'Safari') !== false)
-			return "Safari";
-		else
-			return 'unknow';
-	}
-
 	static public function checkBlocked()
 	{
 		$config = self::getBruteForceSettings();
 		$blockDate = new DateTime();
 		$blockDate->modify("-{$config['timelock']} minutes");
-		$ip = vtlib\Functions::getRemoteIP();
+		$ip = \App\RequestUtil::getRemoteIP();
 
 		$count = (new \App\db\Query())
 			->from('vtiger_loginhistory')
@@ -89,7 +66,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			->select('id, user_name')
 			->from('vtiger_users')
 			->where(['is_admin' => 'on'])
-			->andWhere(['deleted'=> 0]);
+			->andWhere(['deleted' => 0]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$output[$row['id']] = $row['user_name'];
@@ -138,13 +115,13 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			$id = $row['id'];
 			$output[$id] = $id;
 		}
-	
+
 		return $output;
 	}
 
 	public static function sendNotificationEmail()
 	{
-		
+
 		\App\Log::trace('Start ' . __CLASS__ . '::' . __METHOD__);
 		$usersId = self::getUsersForNotifications();
 		if (count($usersId) == 0) {

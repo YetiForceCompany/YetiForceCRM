@@ -66,8 +66,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			}
 		} else {
 			//Track the login History
-			$browser = Settings_BruteForce_Module_Model::browserDetect();
-			$moduleModel->saveLoginHistory($username, 'Failed login', $browser);
+			$moduleModel->saveLoginHistory($username, 'Failed login', \App\RequestUtil::getBrowserInfo()->name);
 			header('Location: index.php?module=Users&parent=Settings&view=Login&error=1');
 		}
 	}
