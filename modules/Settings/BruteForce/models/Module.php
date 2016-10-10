@@ -85,16 +85,15 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getAdminUsers()
 	{
-		$adb = PearDatabase::getInstance();
-		$query = "SELECT id, user_name FROM `vtiger_users` WHERE is_admin = 'on' && deleted = 0";
-		$result = $adb->query($query);
-		$numRows = $adb->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$userId = $adb->query_result_raw($result, $i, 'id');
-			$userName = $adb->query_result_raw($result, $i, 'user_name');
-			$output[$userId] = $userName;
+		$query = (new \App\db\Query())
+			->select('id, user_name')
+			->from('vtiger_users')
+			->where(['is_admin' => 'on'])
+			->andWhere(['deleted'=> 0]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$output[$row['id']] = $row['user_name'];
 		}
-
 		return $output;
 	}
 
@@ -116,13 +115,14 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function updateUsersForNotifications($selectedUsers)
 	{
-		$adb = PearDatabase::getInstance();
-		$deleteQuery = "DELETE FROM `vtiger_bruteforce_users`";
-		$adb->query($deleteQuery);
+		\App\DB::getInstance()
+			->createCommand()
+			->delete('vtiger_bruteforce_users')
+			->execute();
 		if (!empty($selectedUsers)) {
-			$insertQuery = "INSERT INTO `vtiger_bruteforce_users` (id) VALUES(?)";
 			foreach ($selectedUsers as $userId) {
-				$adb->pquery($insertQuery, array($userId));
+				\App\DB::getInstance()->createCommand()
+					->insert('vtiger_bruteforce_users', ['id' => $userId])->execute();
 			}
 		}
 
@@ -131,15 +131,14 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getUsersForNotifications()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_bruteforce_users", true);
-		$numRows = $adb->num_rows($result);
+		$query = (new \App\db\Query())->from('vtiger_bruteforce_users');
 		$output = [];
-		for ($i = 0; $i < $numRows; $i++) {
-			$id = $adb->query_result($result, $i, 'id');
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$id = $row['id'];
 			$output[$id] = $id;
 		}
-
+	
 		return $output;
 	}
 
