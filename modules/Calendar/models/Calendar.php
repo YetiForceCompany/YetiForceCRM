@@ -27,17 +27,23 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 	public function getQuery()
 	{
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$query = 'SELECT vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf ON vtiger_activitycf.activityid = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity relcrm ON relcrm.crmid = vtiger_activity.link
 		LEFT JOIN vtiger_crmentity procrm ON procrm.crmid = vtiger_activity.process
-		LEFT JOIN vtiger_crmentity subprocrm ON subprocrm.crmid = vtiger_activity.subprocess
-		WHERE vtiger_activity.deleted = 0 ';
-		$query .= \App\PrivilegeQuery::getAccessConditions($this->getModuleName());
-
+		LEFT JOIN vtiger_crmentity subprocrm ON subprocrm.crmid = vtiger_activity.subprocess';
 		$params = [];
+		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
+		$calendarAlloRecords = $roleInstance->get('clendarallorecords');
+		if ($calendarAlloRecords === 1) {
+			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid AND u_yf_crmentity_showners.userid = ?';
+			$params []= $currentUser->getId();
+		}
+		$query .= ' WHERE vtiger_activity.deleted = 0 ';
+		$query .= \App\PrivilegeQuery::getAccessConditions($this->getModuleName());
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
@@ -89,10 +95,12 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		$users = $this->get('user');
-		if (!empty($users)) {
-			$query .= ' && vtiger_activity.smownerid IN (' . $db->generateQuestionMarks($users) . ')';
-			$params[] = $users;
+		if ($calendarAlloRecords !== 1) {
+			$users = $this->get('user');
+			if (!empty($users)) {
+				$query .= ' AND vtiger_activity.smownerid IN (' . $db->generateQuestionMarks($users) . ')';
+				$params[] = $users;
+			}
 		}
 		$query .= ' ORDER BY date_start,time_start ASC';
 		return ['query' => $query, 'params' => $params];
