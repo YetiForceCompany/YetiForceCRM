@@ -13,6 +13,13 @@ use Yii;
 class Debuger
 {
 
+	static public function init()
+	{
+		if (AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
+			static::initConsole();
+		}
+	}
+
 	protected static $debugBar;
 
 	static public function initConsole()
@@ -26,22 +33,22 @@ class Debuger
 			$debugbar->addCollector(new debug\DebugBarLogs());
 		}
 		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
-		return self::$debugBar = $debugbar;
+		return static::$debugBar = $debugbar;
 	}
 
 	static public function getDebugBar()
 	{
-		return self::$debugBar;
+		return static::$debugBar;
 	}
 
 	public static function addLogs($message, $level, $traces)
 	{
-		if (isset(self::$debugBar['logs'])) {
-			self::$debugBar['logs']->addMessage($message, $level, $traces);
+		if (isset(static::$debugBar['logs'])) {
+			static::$debugBar['logs']->addMessage($message, $level, $traces);
 		}
 	}
 
-	static public function initLogger()
+	public static function initLogger()
 	{
 		$targets = [];
 		if (\AppConfig::debug('LOG_TO_FILE')) {
@@ -59,6 +66,20 @@ class Debuger
 			'traceLevel' => \AppConfig::debug('LOG_TRACE_LEVEL'),
 			'targets' => $targets
 		]);
+	}
+
+	public static function checkIP()
+	{
+		$ips = \AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
+		if ($ips === false || empty($ips)) {
+			return false;
+		}
+		if (is_array($ips) && in_array(RequestUtil::getRemoteIP(true), $ips)) {
+			return true;
+		} elseif (is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) {
+			return true;
+		}
+		return false;
 	}
 
 	public static function getBacktrace($minLevel = 1, $maxLevel = 0, $sep = '#')

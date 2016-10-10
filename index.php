@@ -18,9 +18,7 @@ require 'include/RequirementsValidation.php';
 require 'include/Webservices/Relation.php';
 require 'include/main/WebUI.php';
 
-if (AppConfig::debug('DISPLAY_DEBUG_CONSOLE')) {
-	\App\Debuger::initConsole();
-}
+\App\Debuger::init();
 
 $webUI = new Vtiger_WebUI();
 $webUI->process(AppRequest::init());

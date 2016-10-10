@@ -16,6 +16,8 @@ $DEBUG_CONFIG = [
 	'LOG_TRACE_LEVEL' => 0,
 	// Display Main Debug Console
 	'DISPLAY_DEBUG_CONSOLE' => false,
+	// 
+	'DEBUG_CONSOLE_ALLOWED_IPS' => false,
 	// Stop the running process of the system if there is and error in sql query
 	'SQL_DIE_ON_ERROR' => false,
 	// Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true
