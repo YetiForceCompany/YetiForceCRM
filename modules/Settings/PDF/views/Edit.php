@@ -157,7 +157,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

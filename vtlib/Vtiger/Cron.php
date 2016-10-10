@@ -38,7 +38,7 @@ class Cron
 	 * set the value to the data
 	 * @param type $value,$key
 	 */
-	protected function set($key, $value)
+	public function set($key, $value)
 	{
 		$this->data[$key] = $value;
 		return $this;
@@ -47,7 +47,7 @@ class Cron
 	/**
 	 * Get id reference of this instance.
 	 */
-	function getId()
+	public function getId()
 	{
 		return $this->data['id'];
 	}
@@ -55,7 +55,7 @@ class Cron
 	/**
 	 * Get name of this task instance.
 	 */
-	function getName()
+	public function getName()
 	{
 		return decode_html($this->data['name']);
 	}
@@ -63,7 +63,7 @@ class Cron
 	/**
 	 * Get the frequency set.
 	 */
-	function getFrequency()
+	public function getFrequency()
 	{
 		return intval($this->data['frequency']);
 	}
@@ -71,7 +71,7 @@ class Cron
 	/**
 	 * Get the status
 	 */
-	function getStatus()
+	public function getStatus()
 	{
 		return intval($this->data['status']);
 	}
@@ -79,7 +79,7 @@ class Cron
 	/**
 	 * Get the timestamp lastrun started.
 	 */
-	function getLastStart()
+	public function getLastStart()
 	{
 		return intval($this->data['laststart']);
 	}
@@ -87,7 +87,7 @@ class Cron
 	/**
 	 * Get the timestamp lastrun ended.
 	 */
-	function getLastEnd()
+	public function getLastEnd()
 	{
 		return intval($this->data['lastend']);
 	}
@@ -95,7 +95,7 @@ class Cron
 	/**
 	 * Get the user datetimefeild
 	 */
-	function getLastEndDateTime()
+	public function getLastEndDateTime()
 	{
 		if ($this->data['lastend'] != NULL) {
 			$lastEndDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['lastend']));
@@ -109,7 +109,7 @@ class Cron
 	 *
 	 * get the last start datetime field
 	 */
-	function getLastStartDateTime()
+	public function getLastStartDateTime()
 	{
 		if ($this->data['laststart'] != NULL) {
 			$lastStartDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['laststart']));
@@ -122,7 +122,7 @@ class Cron
 	/**
 	 * Get Time taken to complete task
 	 */
-	function getTimeDiff()
+	public function getTimeDiff()
 	{
 		$lastStart = $this->getLastStart();
 		$lastEnd = $this->getLastEnd();
@@ -133,7 +133,7 @@ class Cron
 	/**
 	 * Get the configured handler file.
 	 */
-	function getHandlerFile()
+	public function getHandlerFile()
 	{
 		return $this->data['handler_file'];
 	}
@@ -141,7 +141,7 @@ class Cron
 	/**
 	 * Get the Module name
 	 */
-	function getModule()
+	public function getModule()
 	{
 
 		return $this->data['module'];
@@ -150,7 +150,7 @@ class Cron
 	/**
 	 * get the Sequence
 	 */
-	function getSequence()
+	public function getSequence()
 	{
 		return $this->data['sequence'];
 	}
@@ -158,15 +158,17 @@ class Cron
 	/**
 	 * get the description of cron
 	 */
-	function getDescription()
+	public function getDescription()
 	{
 		return $this->data['description'];
 	}
-
+	public function getLockStatus(){
+		return isset($this->data['lockStatus']) ? $this->data['lockStatus'] : false;
+	}
 	/**
 	 * Check if task is right state for running.
 	 */
-	function isRunnable()
+	public function isRunnable()
 	{
 		// Take care of last time (end - on success, start - if timedout)
 		// Take care to start the cron im
@@ -178,7 +180,7 @@ class Cron
 	/**
 	 * Helper function to check the status value.
 	 */
-	function statusEqual($value)
+	public function statusEqual($value)
 	{
 		$status = intval($this->data['status']);
 		return $status == $value;
@@ -187,7 +189,7 @@ class Cron
 	/**
 	 * Is task in running status?
 	 */
-	function isRunning()
+	public function isRunning()
 	{
 		return $this->statusEqual(self::$STATUS_RUNNING);
 	}
@@ -195,7 +197,7 @@ class Cron
 	/**
 	 * Is task enabled?
 	 */
-	function isEnabled()
+	public function isEnabled()
 	{
 		return $this->statusEqual(self::$STATUS_ENABLED);
 	}
@@ -203,7 +205,7 @@ class Cron
 	/**
 	 * Is task disabled?
 	 */
-	function isDisabled()
+	public function isDisabled()
 	{
 		return $this->statusEqual(self::$STATUS_DISABLED);
 	}
@@ -211,7 +213,7 @@ class Cron
 	/**
 	 * Update status
 	 */
-	function updateStatus($status)
+	public function updateStatus($status)
 	{
 		switch (intval($status)) {
 			case self::$STATUS_DISABLED:
@@ -227,7 +229,7 @@ class Cron
 	 * update frequency
 	 */
 
-	function updateFrequency($frequency)
+	public function updateFrequency($frequency)
 	{
 		self::querySilent('UPDATE vtiger_cron_task SET frequency=? WHERE id=?', array($frequency, $this->getId()));
 	}
@@ -235,7 +237,7 @@ class Cron
 	/**
 	 * Mark this instance as running.
 	 */
-	function markRunning()
+	public function markRunning()
 	{
 		$time = time();
 		self::querySilent('UPDATE vtiger_cron_task SET status=?, laststart=? WHERE id=?', array(self::$STATUS_RUNNING, $time, $this->getId()));
@@ -245,17 +247,26 @@ class Cron
 	/**
 	 * Mark this instance as finished.
 	 */
-	function markFinished()
+	public function markFinished()
 	{
+		$lock = $this->getLockStatus();
 		$time = time();
-		self::querySilent('UPDATE vtiger_cron_task SET status=?, lastend=? WHERE id=?', array(self::$STATUS_ENABLED, $time, $this->getId()));
+		$query = 'UPDATE vtiger_cron_task SET lastend = ?';
+		$params = [$time];
+		if(!$lock){
+			$query .= ' ,status = ?';
+			$params []= self::$STATUS_ENABLED;
+		}
+		$query .= ' WHERE id = ?';
+		$params []= $this->getId();
+		self::querySilent($query, $params);
 		return $this->set('lastend', $time);
 	}
 
 	/**
 	 * Detect if the task was started by never finished.
 	 */
-	function hadTimeout()
+	public function hadTimeout()
 	{
 		if (!$this->isRunning()) {
 			return false;
@@ -419,7 +430,7 @@ class Cron
 		return $instances;
 	}
 
-	function unlockTask()
+	public function unlockTask()
 	{
 		$this->updateStatus(self::$STATUS_ENABLED);
 	}

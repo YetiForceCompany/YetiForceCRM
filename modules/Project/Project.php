@@ -96,7 +96,7 @@ class Project extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectname', 'assigned_user_id');
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -105,7 +105,7 @@ class Project extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -113,7 +113,7 @@ class Project extends CRMEntity
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
 	 */
-	function getListQuery($module, $usewhere = '')
+	public function getListQuery($module, $usewhere = '')
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -145,7 +145,7 @@ class Project extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -171,18 +171,18 @@ class Project extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$sec_query .= " AND (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
+			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
 					(
 						SELECT vtiger_user2role.userid FROM vtiger_user2role
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
@@ -192,14 +192,14 @@ class Project extends CRMEntity
 					OR vtiger_crmentity.smownerid IN
 					(
 						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-						WHERE userid=" . $current_user->id . " AND tabid=" . $tabid . "
+						WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
 					)
 					OR
 						(";
 
 			// Build the query based on the group association of current user.
 			if (sizeof($current_user_groups) > 0) {
-				$sec_query .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") OR ";
+				$sec_query .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") || ";
 			}
 			$sec_query .= " vtiger_groups.groupid IN
 						(
@@ -216,7 +216,7 @@ class Project extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -240,7 +240,7 @@ class Project extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($thismodule));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -258,7 +258,7 @@ class Project extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
-			$query .= " WHERE ($where) AND $where_auto";
+			$query .= " WHERE ($where) && $where_auto";
 		else
 			$query .= " WHERE $where_auto";
 
@@ -268,7 +268,7 @@ class Project extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	function transform_export_value($key, $value)
+	public function transform_export_value($key, $value)
 	{
 		return parent::transform_export_value($key, $value);
 	}
@@ -276,7 +276,7 @@ class Project extends CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
@@ -326,7 +326,7 @@ class Project extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
 			$adb = PearDatabase::getInstance();
@@ -339,7 +339,7 @@ class Project extends CRMEntity
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 
 			// Add module to Customer portal
-			if (getTabid('CustomerPortal') && $projectTabid) {
+			if (\includes\Modules::getModuleId('CustomerPortal') && $projectTabid) {
 				$checkAlreadyExists = $adb->pquery('SELECT 1 FROM vtiger_customerportal_tabs WHERE tabid=?', array($projectTabid));
 				if ($checkAlreadyExists && $adb->num_rows($checkAlreadyExists) < 1) {
 					$maxSequenceQuery = $adb->query("SELECT max(sequence) as maxsequence FROM vtiger_customerportal_tabs");
@@ -378,15 +378,15 @@ class Project extends CRMEntity
 					ModComments::addWidgetTo(array('Project'));
 			}
 
-			\includes\fields\RecordNumber::setNumber($modulename,'PROJ', 1);
+			\includes\fields\RecordNumber::setNumber($modulename, 'PROJ', 1);
 		} else if ($event_type == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
+
 		} else if ($event_type == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
+
 		} else if ($event_type == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($event_type == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($event_type == 'module.postupdate') {
 			$adb = PearDatabase::getInstance();
 
@@ -410,7 +410,7 @@ class Project extends CRMEntity
 					ModComments::addWidgetTo(array('Project'));
 			}
 
-			\includes\fields\RecordNumber::setNumber($modulename,'PROJ', 1);
+			\includes\fields\RecordNumber::setNumber($modulename, 'PROJ', 1);
 		}
 	}
 
@@ -434,7 +434,7 @@ class Project extends CRMEntity
 	 *
 	 * @see data/CRMEntity#delete_related_module($module, $crmid, $with_module, $with_crmid)
 	 */
-	function delete_related_module($module, $crmid, $with_module, $with_crmid)
+	public function delete_related_module($module, $crmid, $with_module, $with_crmid)
 	{
 		if (!in_array($with_module, array('ProjectMilestone', 'ProjectTask'))) {
 			parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
@@ -468,16 +468,18 @@ class Project extends CRMEntity
 	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 
 
-	function get_gantt_chart($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_gantt_chart($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		require_once("BURAK_Gantt.class.php");
 
 		$headers = array();
-		$headers[0] = getTranslatedString('LBL_PROGRESS_CHART');
+		$headers[0] = \includes\Language::translate('LBL_PROGRESS_CHART');
 
 		$entries = array();
 
-		global $adb, $tmp_dir, $default_charset;
+		global $tmp_dir;
+		$default_charset = AppConfig::main('default_charset');
+		$adb = PearDatabase::getInstance();
 		$record = $id;
 		$g = new BURAK_Gantt();
 		// set grid type
@@ -488,7 +490,7 @@ class Project extends CRMEntity
 
 		$related_projecttasks = $adb->pquery("SELECT pt.* FROM vtiger_projecttask AS pt
 												INNER JOIN vtiger_crmentity AS crment ON pt.projecttaskid=crment.crmid
-												WHERE projectid=? AND crment.deleted=0 AND pt.startdate IS NOT NULL AND pt.enddate IS NOT NULL", array($record)) or die("Please install the ProjectMilestone and ProjectTasks modules first.");
+												WHERE projectid=? && crment.deleted=0 && pt.startdate IS NOT NULL && pt.enddate IS NOT NULL", array($record));
 
 		while ($rec_related_projecttasks = $adb->fetchByAssoc($related_projecttasks)) {
 
@@ -505,7 +507,7 @@ class Project extends CRMEntity
 
 		$related_projectmilestones = $adb->pquery("SELECT pm.* FROM vtiger_projectmilestone AS pm
 													INNER JOIN vtiger_crmentity AS crment on pm.projectmilestoneid=crment.crmid
-													WHERE projectid=? and crment.deleted=0", array($record)) or die("Please install the ProjectMilestone and ProjectTasks modules first.");
+													WHERE projectid=? and crment.deleted=0", array($record));
 
 		while ($rec_related_projectmilestones = $adb->fetchByAssoc($related_projectmilestones)) {
 			$rec_related_projectmilestones['projectmilestonename'] = iconv($default_charset, "ISO-8859-2//TRANSLIT", $rec_related_projectmilestones['projectmilestonename']);
@@ -546,10 +548,10 @@ class Project extends CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		global $log, $currentModule;
-
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		if ($return_module == 'Accounts') {
 			$focus = CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);
@@ -563,11 +565,11 @@ class Project extends CRMEntity
 		if ($relatedName == 'get_many_to_many') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
-			$where = '(relcrmid= ? AND module IN (?) AND crmid IN (?)) OR (crmid= ? AND relmodule IN (?) AND relcrmid IN (?))';
+			$where = '(relcrmid= ? && module IN (?) && crmid IN (?)) || (crmid= ? && relmodule IN (?) && relcrmid IN (?))';
 			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
 			$this->db->delete('vtiger_crmentityrel', $where, $params);
 
-			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule IN (%s))', $return_modules);
+			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule IN (%s))', $return_modules);
 			$fieldRes = $this->db->pquery($sql, [$currentModule]);
 			$numOfFields = $this->db->num_rows($fieldRes);
 
@@ -578,7 +580,7 @@ class Project extends CRMEntity
 				$relatedModule = vtlib\Functions::getModuleName($tabId);
 				$focusObj = CRMEntity::getInstance($relatedModule);
 
-				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) AND $focusObj->table_index=?";
+				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) && $focusObj->table_index=?";
 				$updateParams = array(null, $id);
 				$this->db->pquery($updateQuery, $updateParams);
 			}
@@ -591,7 +593,7 @@ class Project extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');

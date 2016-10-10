@@ -75,7 +75,6 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 				} else {
 					//If validation fails, form should submit again
 					form.removeData('submit');
-					// to avoid hiding of error message under the fixed nav bar
 					app.formAlignmentAfterValidation(form);
 				}
 				e.preventDefault();

@@ -8,6 +8,7 @@ include_once 'modules/Vtiger/CRMEntity.php';
 
 class KnowledgeBase extends Vtiger_CRMEntity
 {
+
 	protected $lockFields = ['knowledgebase_status' => ['PLL_ACCEPTED', 'PLL_ARCHIVES', 'PLL_CANCELLED']];
 	var $table_name = 'u_yf_knowledgebase';
 	var $table_index = 'knowledgebaseid';
@@ -75,19 +76,19 @@ class KnowledgeBase extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-// TODO Handle actions after this module is installed.
+
 		} else if ($eventType == 'module.disabled') {
-// TODO Handle actions before this module is being uninstalled.
+
 		} else if ($eventType == 'module.preuninstall') {
-// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($eventType == 'module.preupdate') {
-// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
-// TODO Handle actions after this module is updated.
+
 		}
 	}
 }

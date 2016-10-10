@@ -105,7 +105,6 @@ $languageStrings = [
 	'LBL_RELATION' => 'Beziehung',
 	'LBL_LEGAL_FORM' => 'Rechtsform',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Mindestens 2 Organisationen benötigen die Voraussetzungen zum verknüpfen => (Administration > Prozesse > Marketing Prozesse > Konvertierung )  %s',
-	'Campaign status' => 'Kampagnenstatus',
 ];
 $jsLanguageStrings = [
 	'JS_SELECT_ORGANIZATION' => 'Wählen Sie Organisationen zum fortführen',

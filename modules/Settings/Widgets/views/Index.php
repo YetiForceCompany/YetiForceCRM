@@ -51,7 +51,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		return $headerCssInstances;
 	}
 
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

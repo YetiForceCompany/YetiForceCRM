@@ -35,7 +35,7 @@ class VtigerCompanyDetails extends VtigerActorOperation
 		}
 	}
 
-	function handleFileUpload($element)
+	public function handleFileUpload($element)
 	{
 		$fileFieldList = $this->meta->getFieldListByType('file');
 		foreach ($fileFieldList as $field) {

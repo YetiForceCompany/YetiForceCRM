@@ -14,7 +14,7 @@ class API_Users_Login extends BaseAction
 	public function post($userName, $password, $params)
 	{
 		$dbPortal = PearDatabase::getInstance('portal');
-		$result = $dbPortal->pquery('SELECT * FROM w_yf_portal_users WHERE user_name = ? AND status = ?', [$userName, 1]);
+		$result = $dbPortal->pquery('SELECT * FROM w_yf_portal_users WHERE user_name = ? && status = ?', [$userName, 1]);
 		if ($dbPortal->getRowCount($result) != 1) {
 			throw new APIException('LBL_INVALID_DATA_ACCESS', 401);
 		}

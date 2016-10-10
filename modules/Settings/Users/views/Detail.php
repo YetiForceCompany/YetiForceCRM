@@ -23,7 +23,7 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		}
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
@@ -93,7 +93,7 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	 * @param Vtiger_Record_Model record model
 	 * @return <boolean> true/false
 	 */
-	function isAjaxEnabled($recordModel)
+	public function isAjaxEnabled($recordModel)
 	{
 		if ($recordModel->get('status') != 'Active') {
 			return false;

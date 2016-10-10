@@ -11,7 +11,7 @@
 class Settings_Vtiger_ListAjax_View extends Settings_Vtiger_List_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
@@ -21,12 +21,12 @@ class Settings_Vtiger_ListAjax_View extends Settings_Vtiger_List_View
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

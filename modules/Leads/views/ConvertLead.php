@@ -12,7 +12,7 @@
 class Leads_ConvertLead_View extends Vtiger_Index_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -32,7 +32,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		}
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$currentUserPriviligeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 

@@ -12,7 +12,7 @@
 class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('changeStatusRelation');
 		$this->exposeMethod('updateSequenceRelatedModule');

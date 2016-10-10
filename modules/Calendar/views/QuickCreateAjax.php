@@ -40,16 +40,18 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 			$fieldValues = [];
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 			foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
-				
+
 				if (isset($recordStructure[$fieldName])) {
 					$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
 					if (empty($fieldvalue)) {
 						$recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
 					}
 				} else {
-					$fieldModel = $fieldList[$fieldName];
-					$fieldModel->set('fieldvalue', $fieldValue);
-					$fieldValues[$fieldName] = $fieldModel;
+					if (isset($fieldList[$fieldName])) {
+						$fieldModel = $fieldList[$fieldName];
+						$fieldModel->set('fieldvalue', $fieldValue);
+						$fieldValues[$fieldName] = $fieldModel;
+					}
 				}
 			}
 

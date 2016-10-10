@@ -9,11 +9,6 @@
  *
  * ******************************************************************************* */
 
-/**
- * Description of RelatedModuleMeta
- * TODO to add and extend a way to track many-many and many-one relationships.
- * @author MAK
- */
 class RelatedModuleMeta
 {
 

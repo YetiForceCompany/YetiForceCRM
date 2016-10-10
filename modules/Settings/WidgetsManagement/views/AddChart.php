@@ -1,16 +1,19 @@
 <?php
+
 /**
  * Form to add widget
  * @package YetiForce.view
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Settings_WidgetsManagement_AddChart_View extends Settings_Vtiger_BasicModal_View {
+class Settings_WidgetsManagement_AddChart_View extends Settings_Vtiger_BasicModal_View
+{
+
 	public function getReports()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT reportid, reportname FROM vtiger_report WHERE reporttype = ? AND owner = ?';
+		$query = 'SELECT reportid, reportname FROM vtiger_report WHERE reporttype = ? && owner = ?';
 		$params = ['chart', $currentUser->getId()];
 		$result = $db->pquery($query, $params);
 		$recordsReport = [];
@@ -19,7 +22,9 @@ class Settings_WidgetsManagement_AddChart_View extends Settings_Vtiger_BasicModa
 		}
 		return $recordsReport;
 	}
-	function process (Vtiger_Request $request) {
+
+	public function process(Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule(false);
 		$viewer->assign('MODULE', $moduleName);

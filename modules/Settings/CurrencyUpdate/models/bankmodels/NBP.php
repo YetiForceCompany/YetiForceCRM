@@ -4,7 +4,7 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
- 
+
 /**
  * Class for connection to Narodowy Bank Polski currency exchange rates
  */
@@ -13,22 +13,23 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 	/*
 	 * Returns bank name
 	 */
+
 	public function getName()
 	{
 		return 'NBP';
 	}
-	
 	/*
 	 * Returns url sources from where exchange rates are taken from
 	 */
+
 	public function getSource()
 	{
 		return ['http://nbp.pl/kursy/xml/LastA.xml'];
 	}
-	
 	/*
 	 * Returns list of currencies supported by this bank
 	 */
+
 	public function getSupportedCurrencies()
 	{
 		$supportedCurrencies = [];
@@ -75,7 +76,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
 				continue;
 			}
-			$currencyCode = (string)$xmlObj->pozycja[$i]->kod_waluty;
+			$currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
 
 			if ($currencyCode == 'XDR') {
 				continue;
@@ -87,21 +88,21 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 
 		return $supportedCurrencies;
 	}
-	
 	/*
 	 * Returns banks main currency 
 	 */
+
 	public function getMainCurrencyCode()
 	{
 		return 'PLN';
 	}
-	
 	/*
 	 * Fetch exchange rates
 	 * @param <Array> $currencies - list of systems active currencies
 	 * @param <Date> $date - date for which exchange is fetched
 	 * @param <Boolean> $cron - if true then it is fired by server and crms currency conversion rates are updated 
 	 */
+
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
 		$db = PearDatabase::getInstance();
@@ -157,7 +158,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 		$xmlObj = $xml->children();
 
 		$num = count($xmlObj->pozycja);
-		$datePublicationOfFile = (string)$xmlObj->data_publikacji;
+		$datePublicationOfFile = (string) $xmlObj->data_publikacji;
 
 		$exchangeRate = 1.0;
 		// if currency is diffrent than PLN we need to calculate rate for converting other currencies to this one from PLN
@@ -173,7 +174,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
 				continue;
 			}
-			$currency = (string)$xmlObj->pozycja[$i]->kod_waluty;
+			$currency = (string) $xmlObj->pozycja[$i]->kod_waluty;
 			foreach ($otherCurrencyCode as $key => $currId) {
 				if ($key == $currency && $currency != $mainCurrency) {
 					$exchange = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);

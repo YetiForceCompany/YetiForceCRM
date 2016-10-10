@@ -29,7 +29,7 @@ class Settings_Vtiger_TaxIndex_View extends Settings_Vtiger_Index_View
 		$viewer->view('TaxIndex.tpl', $qualifiedModuleName);
 	}
 
-	function getPageTitle(Vtiger_Request $request)
+	public function getPageTitle(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		return vtranslate('LBL_TAX_CALCULATIONS', $qualifiedModuleName);
@@ -40,7 +40,7 @@ class Settings_Vtiger_TaxIndex_View extends Settings_Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

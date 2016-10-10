@@ -17,13 +17,13 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 		$this->exposeMethod('showCountRecords');
 	}
 
-	function showCountRecords($request)
+	public function showCountRecords($request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$relatedModules = $request->get('relatedModules');
 		$relatedModulesNames = [];
-		foreach ($relatedModules as $tabId){
+		foreach ($relatedModules as $tabId) {
 			$relatedModulesNames[$tabId] = vtlib\Functions::getModuleName($tabId);
 		}
 		$countRecords = Vtiger_CountRecords_Widget::getCountRecords($relatedModulesNames, $recordId);

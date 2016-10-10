@@ -53,7 +53,7 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 		if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
 			if (!\includes\Modules::isModuleActive($tabModuleName))
 				continue;
-			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => getTranslatedString($tabModuleName, $tabModuleName));
+			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \includes\Language::translate($tabModuleName, $tabModuleName));
 		} else {
 			$dataTypeInfo = explode('~', $typeOfData);
 			if ($dataTypeInfo[1] == 'M') { // If the current reference field is mandatory
@@ -80,7 +80,7 @@ function vtJsonOwnersList($adb)
 	$activeUsersList = $owner->getUsers();
 	$allGroupsList = $owner->getGroups();
 	foreach ($activeUsersList as $userId => $userName) {
-		$ownersList[] = array('label' => $userName, 'value' => getUserName($userId));
+		$ownersList[] = array('label' => $userName, 'value' => \includes\fields\Owner::getLabel($userId));
 	}
 	foreach ($allGroupsList as $groupId => $groupName) {
 		$ownersList[] = array('label' => $groupName, 'value' => $groupName);

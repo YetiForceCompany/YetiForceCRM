@@ -144,12 +144,13 @@ $languageStrings = [
 	'PLL_COMPLETED' => 'Completed',
 	'LBL_RECURRENCE_INFORMATION' => 'Detalhes Recorrência',
 	'LBL_RELATED_TO' => 'Relacionado à',
-	'LBL_NO_AVAILABLE_ACTIONS' => 'No available actions',
-	'LBL_CALENDAR_FILTERS' => 'Filters',
-	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill the start date based on the first available date',
-	'LBL_CACHE_SELECTED_FILTERS' => 'Standard view in calendar changed. Click "Clear view" to clear it.',
-	'LBL_CACHE_CLEAR' => 'Clear view',
-	'LBL_PROCESS' => 'Process',
+	'LBL_NO_AVAILABLE_ACTIONS' => '~Sem ações disponíveis',
+	'LBL_CALENDAR_FILTERS' => 'Filtros',
+	'LBL_AUTO_FILL_DESCRIPTION' => 'Preencha a data de início baseada na primeira data disponível',
+	'LBL_CACHE_SELECTED_FILTERS' => 'A visualização padrão do calendário mudou. Clique em "Limpar Visualização" para limpá-la.',
+	'LBL_CACHE_CLEAR' => 'Limpar Visualização',
+	'LBL_PROCESS' => 'Processar',
+	'LBL_SAVE_AND_CLOSE' => 'Salvar e fechar',
 ];
 
 $jsLanguageStrings = [
@@ -195,7 +196,7 @@ $jsLanguageStrings = [
 	'Mobile Call' => 'Ligar para Celular',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Alterar status para: processando ou histórico',
 	'JS_ASSIGNED_TO' => 'Responsável',
-	'JS_SWITCHING_DAYS' => 'Switch days ',
-	'JS_ALL' => 'All',
+	'JS_SWITCHING_DAYS' => 'Trocar dias ',
+	'JS_ALL' => 'Todos',
 	'JS_WORK_DAYS' => 'Work days',
 ];

@@ -17,7 +17,7 @@ class ApiAddress
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
@@ -31,13 +31,13 @@ class ApiAddress
 			$sql = "INSERT INTO `vtiger_apiaddress` ( `nominatim`, `key`, `source`, `min_lenght` ) VALUES ( ?, ?, ?, ?);";
 			$adb->pquery($sql, array(0, 0, 'https://api.opencagedata.com/geocode/v1/', 3), true);
 		} else if ($eventType == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
+
 		} else if ($eventType == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
+
 		} else if ($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.            
+           
 		} else if ($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
 			
 		}

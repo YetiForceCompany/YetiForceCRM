@@ -358,11 +358,9 @@ function getActionid($action)
 		$log->debug('Exiting getActionid method ... - ' . $actionid);
 		return $actionid;
 	}
-	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
-		include('user_privileges/tabdata.php');
-		if (isset($action_id_array[$action])) {
-			$actionid = $action_id_array[$action];
-		}
+	$actionIds = \includes\Modules::getTabData('actionId');
+	if (isset($actionIds[$action])) {
+		$actionid = $actionIds[$action];
 	}
 	if (empty($actionid)) {
 		$db = PearDatabase::getInstance();
@@ -585,7 +583,7 @@ function getTableNameForField($module, $fieldname)
 	$log = LoggerManager::getInstance();
 	$log->debug("Entering getTableNameForField(" . $module . "," . $fieldname . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	//Asha
 	if ($module == 'Calendar') {
 		$tabid = array('9', '16');
@@ -678,7 +676,7 @@ function getHelpDeskRelatedAccounts($record_id)
  */
 function utf8RawUrlDecode($source)
 {
-	global $default_charset;
+	$default_charset = AppConfig::main('default_charset');
 	$decodedStr = "";
 	$pos = 0;
 	$len = strlen($source);
@@ -838,7 +836,7 @@ function getAccessPickListValues($module)
 	$current_user = vglobal('current_user');
 	$log->debug("Entering into function getAccessPickListValues($module)");
 
-	$id = getTabid($module);
+	$id = \includes\Modules::getModuleId($module);
 	$query = "select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid = ? and uitype in ('15','33','55') and vtiger_field.presence in (0,2)";
 	$result = $adb->pquery($query, array($id));
 
@@ -1144,7 +1142,7 @@ function getRelationTables($module, $secmodule)
 	$primary_obj = CRMEntity::getInstance($module);
 	$secondary_obj = CRMEntity::getInstance($secmodule);
 
-	$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? AND vtiger_fieldmodulerel.relmodule=?) OR (vtiger_fieldmodulerel.module=? AND vtiger_fieldmodulerel.relmodule=?)", array($module, $secmodule, $secmodule, $module));
+	$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", array($module, $secmodule, $secmodule, $module));
 	if ($adb->num_rows($ui10_query) > 0) {
 		$ui10_tablename = $adb->query_result($ui10_query, 0, 'tablename');
 		$ui10_columnname = $adb->query_result($ui10_query, 0, 'columnname');
@@ -1244,7 +1242,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 		$data['destinationRecordId'] = $destinationRecordId;
 		$em->triggerEvent('vtiger.entity.link.before', $data);
 		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
-		$focus->trackLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
+		CRMEntity::trackLinkedInfo($sourceRecordId);
 		/*
 		  $wfs = new VTWorkflowManager($adb);
 		  $workflows = $wfs->getWorkflowsForModule($sourceModule, VTWorkflowManager::$ON_RELATED);
@@ -1277,7 +1275,8 @@ $_installOrUpdateVtlibModule = [];
 
 function installVtlibModule($packagename, $packagepath, $customized = false)
 {
-	global $log, $Vtiger_Utils_Log, $_installOrUpdateVtlibModule;
+	global $Vtiger_Utils_Log, $_installOrUpdateVtlibModule;
+	$log = LoggerManager::getInstance();
 	if (!file_exists($packagepath))
 		return;
 
@@ -1327,7 +1326,8 @@ function installVtlibModule($packagename, $packagepath, $customized = false)
 
 function updateVtlibModule($module, $packagepath)
 {
-	global $log, $_installOrUpdateVtlibModule;
+	global $_installOrUpdateVtlibModule;
+	$log = LoggerManager::getInstance();
 	if (!file_exists($packagepath))
 		return;
 
@@ -1388,7 +1388,7 @@ function com_vtGetModules($adb)
 	$modules = [];
 	foreach ($it as $row) {
 		if (isPermitted($row->name, 'index') == "yes") {
-			$modules[$row->name] = getTranslatedString($row->name);
+			$modules[$row->name] = \includes\Language::translate($row->name);
 		}
 	}
 	return $modules;
@@ -1554,17 +1554,17 @@ function dateDiffAsString($d1, $d2)
 	$seconds = $dateDiff['seconds'];
 
 	if ($years > 0) {
-		$diffString = "$years " . getTranslatedString('LBL_YEARS', $currentModule);
+		$diffString = "$years " . \includes\Language::translate('LBL_YEARS', $currentModule);
 	} elseif ($months > 0) {
-		$diffString = "$months " . getTranslatedString('LBL_MONTHS', $currentModule);
+		$diffString = "$months " . \includes\Language::translate('LBL_MONTHS', $currentModule);
 	} elseif ($days > 0) {
-		$diffString = "$days " . getTranslatedString('LBL_DAYS', $currentModule);
+		$diffString = "$days " . \includes\Language::translate('LBL_DAYS', $currentModule);
 	} elseif ($hours > 0) {
-		$diffString = "$hours " . getTranslatedString('LBL_HOURS', $currentModule);
+		$diffString = "$hours " . \includes\Language::translate('LBL_HOURS', $currentModule);
 	} elseif ($minutes > 0) {
-		$diffString = "$minutes " . getTranslatedString('LBL_MINUTES', $currentModule);
+		$diffString = "$minutes " . \includes\Language::translate('LBL_MINUTES', $currentModule);
 	} else {
-		$diffString = "$seconds " . getTranslatedString('LBL_SECONDS', $currentModule);
+		$diffString = "$seconds " . \includes\Language::translate('LBL_SECONDS', $currentModule);
 	}
 	return $diffString;
 }
@@ -1671,7 +1671,7 @@ function isLeadConverted($leadId)
 {
 	$adb = PearDatabase::getInstance();
 
-	$query = 'SELECT converted FROM vtiger_leaddetails WHERE converted = 1 AND leadid=?';
+	$query = 'SELECT converted FROM vtiger_leaddetails WHERE converted = 1 && leadid=?';
 	$params = array($leadId);
 
 	$result = $adb->pquery($query, $params);
@@ -1684,13 +1684,14 @@ function isLeadConverted($leadId)
 
 function getSelectedRecords($input, $module, $idstring, $excludedRecords)
 {
-	global $current_user, $adb;
+	$adb = PearDatabase::getInstance();
+	$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 	if ($idstring == 'relatedListSelectAll') {
 		$recordid = vtlib_purify($input['recordid']);
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT vtiger_crmentity.crmid as id FROM vtiger_crmentity
 		INNER JOIN vtiger_campaign_records ON vtiger_campaign_records.crmid = vtiger_crmentity.crmid
-		WHERE vtiger_crmentity.crmid = ? AND vtiger_crmentity.deleted=0';
+		WHERE vtiger_crmentity.crmid = ? && vtiger_crmentity.deleted=0';
 		$result = $adb->pquery($sql, array($recordid));
 		$storearray = [];
 		while (($id = $adb->getSingleValue($result)) !== false) {
@@ -1739,7 +1740,7 @@ function getSelectedRecords($input, $module, $idstring, $excludedRecords)
 
 function getSelectAllQuery($input, $module)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$viewid = vtlib_purify($input['viewname']);
 
@@ -1751,7 +1752,7 @@ function getSelectAllQuery($input, $module)
 		if ($input['query'] == 'true') {
 			list($where, $ustring) = explode("#@@#", getWhereCondition($module, $input));
 			if (isset($where) && $where != '') {
-				$query .= " AND " . $where;
+				$query .= " && " . $where;
 			}
 		}
 	} else {
@@ -1769,7 +1770,7 @@ function getSelectAllQuery($input, $module)
 		if ($module == 'Documents') {
 			$folderid = vtlib_purify($input['folderidstring']);
 			$folderid = str_replace(';', ',', $folderid);
-			$query .= " AND vtiger_notes.folderid in (" . $folderid . ")";
+			$query .= " && vtiger_notes.folderid in (" . $folderid . ")";
 		}
 	}
 
@@ -1803,8 +1804,8 @@ function dateDiff($d1, $d2)
 
 function getExportRecordIds($moduleName, $viewid, $input)
 {
-	global $adb, $list_max_entries_per_page;
-
+	global $list_max_entries_per_page;
+	$adb = PearDatabase::getInstance();
 	$idstring = vtlib_purify($input['idstring']);
 	$export_data = vtlib_purify($input['export_data']);
 

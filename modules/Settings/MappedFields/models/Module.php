@@ -263,7 +263,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public function importsAllowed()
 	{
 		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT 1 FROM `%s` WHERE `tabid` = ? AND `reltabid` = ? ;', $this->baseTable);
+		$query = sprintf('SELECT 1 FROM `%s` WHERE `tabid` = ? && `reltabid` = ? ;', $this->baseTable);
 		$result = $db->pquery($query, [$this->get('tabid'), $this->get('reltabid')]);
 		return $result->rowCount();
 	}
@@ -312,7 +312,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function transforms Advance filter to workflow conditions
 	 */
-	function transformAdvanceFilterToWorkFlowFilter()
+	public function transformAdvanceFilterToWorkFlowFilter()
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');

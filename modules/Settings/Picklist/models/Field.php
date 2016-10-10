@@ -112,7 +112,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$db = PearDatabase::getInstance();
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
 
-		$query = "SELECT $primaryKey ,$fieldName FROM vtiger_$fieldName WHERE presence=1 AND $fieldName <> '--None--'";
+		$query = "SELECT $primaryKey ,$fieldName FROM vtiger_$fieldName WHERE presence=1 && $fieldName <> '--None--'";
 		$values = array();
 		$result = $db->pquery($query, array());
 		$num_rows = $db->num_rows($result);

@@ -145,7 +145,6 @@ class HTMLPurifier
      */
     public function purify($html, $config = null)
     {
-        // :TODO: make the config merge in, instead of replace
         $config = $config ? HTMLPurifier_Config::create($config) : $this->config;
 
         // implementation is partially environment dependant, partially

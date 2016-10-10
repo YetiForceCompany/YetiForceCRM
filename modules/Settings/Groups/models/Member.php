@@ -97,7 +97,7 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 				$row = $db->query_result_rowdata($result, $i);
 				$userId = $row['id'];
 				$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_USERS, $userId);
-				$name = getFullNameFromArray('Users', $row);
+				$name = \vtlib\Deprecated::getFullNameFromArray('Users', $row);
 				$member = new self();
 				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('userId', $userId);
 			}

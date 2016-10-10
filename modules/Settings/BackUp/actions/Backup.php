@@ -1,14 +1,14 @@
 <?php
+
 /**
  * @package YetiForce.actions
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
- 
 class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('perform');
@@ -81,7 +81,7 @@ class Settings_BackUp_Backup_Action extends Settings_Vtiger_Basic_Action
 		$response->setResult($result);
 		$response->emit();
 	}
-	
+
 	public static function stopBackup()
 	{
 		$log = vglobal('log');

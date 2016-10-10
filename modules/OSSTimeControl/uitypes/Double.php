@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 
  * @package YetiForce.uitypes
@@ -19,7 +20,7 @@ class OSSTimeControl_Double_UIType extends Vtiger_Double_UIType
 			$return = vtlib\Functions::decimalTimeFormat($value);
 			return $return['short'];
 		} else {
-			return decimalFormat($value);
+			return \vtlib\Functions::formatDecimal($value);
 		}
 	}
 }

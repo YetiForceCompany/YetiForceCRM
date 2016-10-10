@@ -59,11 +59,11 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT Year(`saledate`) as y,  Month(`saledate`) as m,sum(`sum_gross`) as s FROM u_yf_finvoice
 					INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid
-					WHERE vtiger_crmentity.deleted = ? AND saledate > ?';
+					WHERE vtiger_crmentity.deleted = ? && saledate > ?';
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
 		if ($owner != 'all') {
-			$sql .= ' AND vtiger_crmentity.smownerid = ?';
+			$sql .= ' && vtiger_crmentity.smownerid = ?';
 			$param[] = $owner;
 		}
 		$sql .= ' GROUP BY YEAR(`saledate`), MONTH(`saledate`)';

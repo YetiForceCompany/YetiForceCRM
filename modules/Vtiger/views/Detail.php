@@ -15,7 +15,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	protected $record = false;
 	public $defaultMode = false;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showDetailViewByMode');
@@ -33,9 +33,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showRelatedTree');
 		$this->exposeMethod('showRecentRelation');
+		$this->exposeMethod('showOpenStreetMap');
 	}
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -53,7 +54,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return vtranslate('LBL_VIEW_DETAIL', $moduleName);
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -182,12 +183,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 	}
 
-	function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(Vtiger_Request $request)
 	{
 		return 'DetailViewPreProcess.tpl';
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -225,6 +226,20 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
+	public function getHeaderCss(Vtiger_Request $request)
+	{
+		$parentCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = [
+			'~libraries/leaflet/leaflet.css',
+			'~libraries/leaflet/plugins/markercluster/MarkerCluster.Default.css',
+			'~libraries/leaflet/plugins/markercluster/MarkerCluster.css',
+			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.css',
+		];
+		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$cssInstances = array_merge($parentCssInstances, $modalInstances);
+		return $cssInstances;
+	}
+
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -237,14 +252,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.Widgets',
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch",
+			'~libraries/leaflet/leaflet.js',
+			'~libraries/leaflet/plugins/markercluster/leaflet.markercluster.js',
+			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.js',
+			"modules.OpenStreetMap.resources.Map",
 		);
-
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
 
-	function showDetailViewByMode($request)
+	public function showDetailViewByMode($request)
 	{
 		$requestMode = $request->get('requestMode');
 		if ($requestMode == 'full') {
@@ -284,7 +302,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
 	}
 
-	function showModuleSummaryView($request)
+	public function showModuleSummaryView($request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -361,7 +379,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function returns recent changes made on the record
 	 * @param Vtiger_Request $request
 	 */
-	function showRecentActivities(Vtiger_Request $request)
+	public function showRecentActivities(Vtiger_Request $request)
 	{
 		$type = 'changes';
 		$parentRecordId = $request->get('record');
@@ -422,7 +440,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showRecentComments(Vtiger_Request $request)
+	public function showRecentComments(Vtiger_Request $request)
 	{
 		$parentId = $request->get('record');
 		$pageNumber = $request->get('page');
@@ -459,7 +477,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showRelatedList(Vtiger_Request $request)
+	public function showRelatedList(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
@@ -488,7 +506,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showChildComments(Vtiger_Request $request)
+	public function showChildComments(Vtiger_Request $request)
 	{
 		$parentCommentId = $request->get('commentid');
 		$parentCommentModel = ModComments_Record_Model::getInstanceById($parentCommentId);
@@ -509,7 +527,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showThreadComments(Vtiger_Request $request)
+	public function showThreadComments(Vtiger_Request $request)
 	{
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
@@ -530,7 +548,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showAllComments(Vtiger_Request $request)
+	public function showAllComments(Vtiger_Request $request)
 	{
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
@@ -573,7 +591,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Record_Model record model
 	 * @return <boolean> true/false
 	 */
-	function isAjaxEnabled($recordModel)
+	public function isAjaxEnabled($recordModel)
 	{
 		return $recordModel->isEditable();
 	}
@@ -586,10 +604,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function getActivities(Vtiger_Request $request)
 	{
 		$moduleName = 'Calendar';
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+		if ($currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			$moduleName = $request->getModule();
 			$recordId = $request->get('record');
 			$pageNumber = $request->get('page');
@@ -639,7 +655,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showRelatedRecords(Vtiger_Request $request)
+	public function showRelatedRecords(Vtiger_Request $request)
 	{
 		$parentId = $request->get('record');
 		$pageNumber = $request->get('page');
@@ -747,7 +763,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, 'true');
 	}
 
-	function showRelatedTree(Vtiger_Request $request)
+	public function showRelatedTree(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$parentId = $request->get('record');
@@ -772,7 +788,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('RelatedTreeContent.tpl', $moduleName, 'true');
 	}
 
-	function showRelatedProductsServices(Vtiger_Request $request)
+	public function showRelatedProductsServices(Vtiger_Request $request)
 	{
 
 		$recordId = $request->get('record');
@@ -789,7 +805,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORDID', $recordId);
 		$viewer->assign('RECORD', $recordModel);
-		//$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));
 
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
@@ -831,5 +846,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('POPUP', $config['popup']);
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
+	}
+
+	public function showOpenStreetMap($request)
+	{
+		$moduleName = $request->getModule();
+		$recordId = $request->get('record');
+		$coordinates = OpenStreetMap_Module_Model::readCoordinates($recordId);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('COORRDINATES', $coordinates);
+		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
 	}
 }

@@ -295,7 +295,6 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 							thisInstance.registerBasicEvents();
 						},
 						function () {
-							//TODO : handle error
 							element.progressIndicator({'mode': 'hide'});
 						}
 				);

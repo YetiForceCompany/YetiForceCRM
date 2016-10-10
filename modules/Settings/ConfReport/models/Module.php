@@ -37,6 +37,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Vtlib test directory' => 'cache/vtlib/',
 		'Vtlib test HTML directory' => 'cache/vtlib/HTML',
 		'Modules directory' => 'modules/',
+		'Libraries directory' => 'libraries/',
 		'Storage directory' => 'storage/',
 		'Product image directory' => 'storage/Products/',
 		'User image directory' => 'storage/Users/',
@@ -58,6 +59,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_SESSION_LIBRARY' => ['type' => 'e', 'name' => 'session', 'mandatory' => true],
 		'LBL_DOM_LIBRARY' => ['type' => 'e', 'name' => 'dom', 'mandatory' => true],
 		'LBL_ZIP_ARCHIVE' => ['type' => 'e', 'name' => 'zip', 'mandatory' => true],
+		'LBL_MBSTRING_LIBRARY' => ['type' => 'e', 'name' => 'mbstring', 'mandatory' => true],
+		'LBL_SOAP_LIBRARY' => ['type' => 'e', 'name' => 'soap', 'mandatory' => true],
 	);
 
 	public static function getConfigurationLibrary()
@@ -323,7 +326,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return 'Off';
 	}
 
-	function error2string($value)
+	public function error2string($value)
 	{
 		$level_names = array(
 			E_ERROR => 'E_ERROR', E_WARNING => 'E_WARNING',

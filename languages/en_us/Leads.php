@@ -106,7 +106,6 @@ $languageStrings = [
 	'LBL_RELATION' => 'Relation',
 	'LBL_LEGAL_FORM' => 'Legal form',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'At least two Accounts meet the requirements for linking, go to : (Administration > Processes > Marketing processes > Conversion) %s',
-	'Campaign status' => 'Campaign status',
 ];
 
 $jsLanguageStrings = [

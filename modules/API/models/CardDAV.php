@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Api CardDAV Model Class
+ * @package YetiForce.Model
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class API_CardDAV_Model
 {
 
@@ -30,7 +27,7 @@ class API_CardDAV_Model
 		'OSSEmployees' => ['business_phone' => 'WORK', 'private_phone' => 'CELL'],
 	];
 
-	function __construct()
+	public function __construct()
 	{
 		$dbconfig = vglobal('dbconfig');
 		$this->pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
@@ -344,12 +341,12 @@ class API_CardDAV_Model
 				. 'FROM vtiger_contactdetails '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid '
 				. 'INNER JOIN vtiger_contactaddress ON vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid '
-				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_contactdetails.contactid > 0 AND vtiger_contactdetails.dav_status = 1;';
+				. 'WHERE vtiger_crmentity.deleted=0 && vtiger_contactdetails.contactid > 0 && vtiger_contactdetails.dav_status = 1;';
 		} elseif ($moduleName == 'OSSEmployees') {
 			$query = 'SELECT crmid, name, last_name, business_phone, private_phone, business_mail, private_mail, vtiger_crmentity.modifiedtime '
 				. 'FROM vtiger_ossemployees '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid '
-				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_ossemployees.ossemployeesid > 0 AND vtiger_ossemployees.dav_status = 1;';
+				. 'WHERE vtiger_crmentity.deleted=0 && vtiger_ossemployees.ossemployeesid > 0 && vtiger_ossemployees.dav_status = 1;';
 		}
 		$result = $db->query($query);
 		return $result;
@@ -358,7 +355,7 @@ class API_CardDAV_Model
 	public function getCardDetail($crmid)
 	{
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM dav_cards WHERE addressbookid = ? AND crmid = ?;';
+		$sql = 'SELECT * FROM dav_cards WHERE addressbookid = ? && crmid = ?;';
 		$result = $db->pquery($sql, [$this->addressBookId, $crmid]);
 		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
 	}
@@ -425,7 +422,7 @@ class API_CardDAV_Model
 	protected function addChange($objectUri, $operation)
 	{
 		/*
-		  $stmt = $this->pdo->prepare('DELETE FROM dav_addressbookchanges WHERE uri = ? AND addressbookid = ?;');
+		  $stmt = $this->pdo->prepare('DELETE FROM dav_addressbookchanges WHERE uri = ? && addressbookid = ?;');
 		  $stmt->execute([
 		  $objectUri,
 		  $this->addressBookId

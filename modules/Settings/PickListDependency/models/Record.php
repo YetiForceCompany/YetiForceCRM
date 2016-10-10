@@ -55,7 +55,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 	public function getAllPickListFields()
 	{
 		$db = PearDatabase::getInstance();
-		$tabId = getTabid($this->get('sourceModule'));
+		$tabId = \includes\Modules::getModuleId($this->get('sourceModule'));
 
 		$query = "select vtiger_field.fieldlabel,vtiger_field.fieldname FROM vtiger_field" .
 			" where displaytype=1 and vtiger_field.tabid=? and vtiger_field.uitype in ('15','16') " .
@@ -137,10 +137,10 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 	{
 		$db = PearDatabase::getInstance();
 
-		$tabId = getTabid($this->get('sourceModule'));
+		$tabId = \includes\Modules::getModuleId($this->get('sourceModule'));
 		$fieldNames = array($this->get('sourcefield'), $this->get('targetfield'));
 
-		$query = sprintf('SELECT fieldlabel,fieldname FROM vtiger_field WHERE fieldname IN (%s) AND tabid = ?', generateQuestionMarks($fieldNames));
+		$query = sprintf('SELECT fieldlabel,fieldname FROM vtiger_field WHERE fieldname IN (%s) && tabid = ?', generateQuestionMarks($fieldNames));
 		$params = array($fieldNames, $tabId);
 		$result = $db->pquery($query, $params);
 		$num_rows = $db->num_rows($result);

@@ -11,13 +11,13 @@
 class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('GetPickListFields');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, $mode)) {
@@ -37,7 +37,7 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 	 * Function returns the picklist field for a module
 	 * @param Vtiger_Request $request
 	 */
-	function GetPickListFields(Vtiger_Request $request)
+	public function GetPickListFields(Vtiger_Request $request)
 	{
 		$module = $request->get('sourceModule');
 
@@ -48,7 +48,7 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 		$response->emit();
 	}
 
-	function CheckCyclicDependency()
+	public function CheckCyclicDependency()
 	{
 		
 	}

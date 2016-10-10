@@ -106,6 +106,8 @@ $languageStrings = [
 	'LBL_FOOTER_HEIGHT' => 'Marge pied de page',
 	'LBL_HEADER_IN_MILIMETERS' => 'Marge en-tête en millimètres depuis le haut de la page',
 	'LBL_FOOTER_IN_MILIMETERS' => 'Marge pied de page en millimètres depuis le bas de la page',
+	'LBL_GENERATE_ONE_PDF' => 'Generate one PDF for many records',
+	'LBL_GENERATE_ONE_PDF_INFO' => 'In case when PDF includes a special function that generates one table for many records, checking this box will result in generating one PDF file.',
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',

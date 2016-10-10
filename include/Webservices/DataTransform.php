@@ -14,7 +14,7 @@ class DataTransform
 	public static $recordString = "record_id";
 	public static $recordModuleString = 'record_module';
 
-	function sanitizeDataWithColumn($row, $meta)
+	public function sanitizeDataWithColumn($row, $meta)
 	{
 
 		$newRow = [];
@@ -31,7 +31,7 @@ class DataTransform
 		return $newRow;
 	}
 
-	function sanitizeDataWithCountColumn($row, $meta)
+	public function sanitizeDataWithCountColumn($row, $meta)
 	{
 		$newRow = [];
 		foreach ($row as $col => $val) {
@@ -57,7 +57,7 @@ class DataTransform
 		return $newRow;
 	}
 
-	function sanitizeForInsert($row, $meta)
+	public function sanitizeForInsert($row, $meta)
 	{
 		$adb = PearDatabase::getInstance();
 		$associatedToUser = false;
@@ -183,9 +183,6 @@ class DataTransform
 		if (!isset($row['id'])) {
 			if ($row[$meta->getObectIndexColumn()]) {
 				$row['id'] = vtws_getId($meta->getEntityId(), $row[$meta->getObectIndexColumn()]);
-			} else {
-				//TODO Handle this.
-				//echo 'error id noy set' ;
 			}
 		} else if (isset($row[$meta->getObectIndexColumn()]) && strcmp($meta->getObectIndexColumn(), "id") !== 0) {
 			unset($row[$meta->getObectIndexColumn()]);
@@ -252,7 +249,7 @@ class DataTransform
 		return $row;
 	}
 
-	function sanitizeDateFieldsForInsert($row, $meta)
+	public function sanitizeDateFieldsForInsert($row, $meta)
 	{
 		$current_user = vglobal('current_user');
 		$moduleFields = $meta->getModuleFields();
@@ -267,7 +264,7 @@ class DataTransform
 		return $row;
 	}
 
-	function sanitizeCurrencyFieldsForInsert($row, $meta)
+	public function sanitizeCurrencyFieldsForInsert($row, $meta)
 	{
 		$current_user = vglobal('current_user');
 		$moduleFields = $meta->getModuleFields();

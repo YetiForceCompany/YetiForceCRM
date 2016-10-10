@@ -26,7 +26,7 @@
 			{/if}
 			)
 		</div>
-	{/if}	
+	{/if}
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
 			{if $USER_MODEL->is_admin == 'on'}
@@ -70,6 +70,9 @@
 	{* javascript files *}
 	{include file='JSResources.tpl'|@vtemplate_path}
 </div>
+{if AppConfig::debug('DISPLAY_DEBUG_CONSOLE')}
+	{\includes\Debuger::getDebugBar()->getJavascriptRenderer()->render()}
+{/if}
 </body>
 </html>
 {/strip}

@@ -282,7 +282,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
 		fieldContainer.addClass('opacity editFieldsWidget').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
-		fieldContainer.find('.fieldLabel').html(result['label']);
+		if(result['title']){
+			fieldContainer.find('.fieldLabel').html(result['title']);
+		} else {
+			fieldContainer.find('.fieldLabel').html(result['label']);
+		}
 		if (!result['status'])
 			fieldContainer.find('input[name="limit"]').closest('div.limit').remove();
 		if (typeof result['default_owner'] != 'undefined')
@@ -579,7 +583,15 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			filteridSelectDOM.closest('tr').hide();
 			fieldsSelectDOM.closest('tr').hide();
 			footer.hide();
-
+			chartType.on('change', function(e) {
+				var currentTarget= $(e.currentTarget);
+				var value = currentTarget.val();
+				if (value == 'Barchat' || value == 'Horizontal') {
+					form.find('.isColorContainer').removeClass('hide');
+				} else {
+					form.find('.isColorContainer').addClass('hide');
+				}
+			});
 			moduleNameSelect2.change(function () {
 				if (!moduleNameSelect2.val())
 					return;
@@ -626,16 +638,22 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var selectedFilterId = filteridSelect2.val();
 				var selectedFilterLabel = filteridSelect2.find(':selected').text();
 				var fieldLabel = fieldsSelect2.find(':selected').text();
+				var isColorValue = 0;
+				var isColor = form.find('.isColor');
+				if(!isColor.hasClass('hide') && isColor.is(':checked')){
+					isColorValue = 1;
+				}
 				var data = {
 					module: selectedModule,
 					groupField: fieldsSelect2.val(),
 					chartType: chartType.val(),
+					color: isColorValue
 				};
-				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, fieldLabel, data);
+				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, fieldLabel, data, form);
 			});
 		});
 
-		function finializeAddChart(moduleNameLabel, filterid, filterLabel, fieldLabel, data) {
+		function finializeAddChart(moduleNameLabel, filterid, filterLabel, fieldLabel, data, form) {
 
 			var paramsForm = {};
 			paramsForm['data'] = JSON.stringify(data);
@@ -645,6 +663,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel + ' - ' + fieldLabel;
 			paramsForm['name'] = 'ChartFilter';
 			paramsForm['filterid'] = filterid;
+			paramsForm['title'] = form.find('[name="widgetTitle"]').val(),
 			paramsForm['isdefault'] = 0;
 			paramsForm['cache'] = 0;
 			paramsForm['height'] = 4;
@@ -808,12 +827,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				fieldsSelect2.select2('data').map(function (obj) {
 					selectedFields.push(obj.id);
 				});
-				// TODO mandatory field validation
-				finializeAdd(selectedModule, selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFields);
+				finializeAdd(selectedModule, selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFields, form);
 			});
 		});
 
-		function finializeAdd(moduleName, moduleNameLabel, filterid, filterLabel, fields) {
+		function finializeAdd(moduleName, moduleNameLabel, filterid, filterLabel, fields, form) {
 			var data = {
 				module: moduleName
 			}
@@ -825,14 +843,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
 			paramsForm['blockid'] = element.data('block-id');
-			;
+			paramsForm['title'] = form.find('[name="widgetTitle"]').val(),
 			paramsForm['linkid'] = element.data('linkid');
 			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel;
 			paramsForm['name'] = 'Mini List';
 			paramsForm['filterid'] = filterid;
 			paramsForm['isdefault'] = 0;
 			paramsForm['cache'] = 0;
-			paramsForm['height'] = 3;
+			paramsForm['height'] = 4;
 			paramsForm['width'] = 4;
 			paramsForm['owners_all'] = ["mine", "all", "users", "groups"];
 			paramsForm['default_owner'] = 'mine';

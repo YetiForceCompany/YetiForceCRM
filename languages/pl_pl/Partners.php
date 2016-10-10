@@ -12,4 +12,5 @@ $languageStrings = [
 	'LBL_NUMBER' => 'Numer',
 	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
 	'LBL_VAT_ID' => 'NIP',
+	'FL_CATEGORY' => 'Kategoria',
 ];

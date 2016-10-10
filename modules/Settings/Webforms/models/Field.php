@@ -73,7 +73,7 @@ class Settings_Webforms_Field_Model extends Vtiger_Field_Model
 	 * Function to get Picklist values
 	 * @return <Array> Picklist values
 	 */
-	public function getPicklistValues()
+	public function getPicklistValues($skipCheckingRole = false)
 	{
 		if ($this->getName() === 'targetmodule') {
 			return Settings_Webforms_Module_Model::getsupportedModulesList();

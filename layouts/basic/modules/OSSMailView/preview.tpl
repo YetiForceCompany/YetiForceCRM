@@ -155,7 +155,7 @@
 								</span>
 							</div>
 							<div class="textAlignCenter">
-								<span><strong> {vtranslate('LBL_OWNER','Emails')} : {getOwnerName($OWNER)}</strong></span>
+								<span><strong> {vtranslate('LBL_OWNER','Emails')} : {\includes\fields\Owner::getLabel($OWNER)}</strong></span>
 							</div>
 						</form>
 					</div>

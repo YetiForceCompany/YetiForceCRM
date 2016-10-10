@@ -16,11 +16,12 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var element = jQuery(element);
 		var linkId = element.data('linkid');
 		var name = element.data('name');
+		var widgetId = element.data('id');
 		jQuery(element).parent().remove();
 		if (jQuery('ul.widgetsList li').size() < 1) {
 			jQuery('ul.widgetsList').prev('button').css('visibility', 'hidden');
 		}
-		var widgetContainer = jQuery('<li class="new dashboardWidget" id="' + linkId + '" data-name="' + name + '" data-mode="open"></li>');
+		var widgetContainer = jQuery('<li class="new dashboardWidget" id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open"></li>');
 		widgetContainer.data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
@@ -127,7 +128,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		}
 	},
 	gridsterStop: function () {
-		// TODO: we need to allow the header of the widget to be draggable
 		var gridster = Vtiger_DashBoard_Js.gridster;
 
 	},
@@ -168,7 +168,11 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 											Vtiger_DashBoard_Js.gridster.remove_widget(element.closest('li'));
 											jQuery('.widgetsList').prev('button').css('visibility', 'visible');
 											var data = '<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" href="javascript:void(0);"';
-											data += 'data-width=' + width + ' data-height=' + height + ' data-linkid=' + response.result.linkid + ' data-name=' + response.result.name + '>' + response.result.title + '</a></li>';
+											data += 'data-width=' + width + ' data-height=' + height + ' data-linkid=' + response.result.linkid + ' data-name=' + response.result.name + '>' + response.result.title + '</a>';
+											if(response.result.deleteFromList){
+												data += "<button data-widget-id='"+ response.result.id +"' class='removeWidgetFromList btn btn-xs btn-danger pull-right'><span class='glyphicon glyphicon-trash'></span></button>" ;
+											}
+											data += '</li>';
 											var divider = jQuery('.widgetsList .divider');
 											if (divider.length) {
 												jQuery(data).insertBefore(divider);
@@ -271,7 +275,15 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				filteridSelectDOM.closest('tr').hide();
 				fieldsSelectDOM.closest('tr').hide();
 				footer.hide();
-
+				chartType.on('change', function(e) {
+					var currentTarget= $(e.currentTarget);
+					var value = currentTarget.val();
+					if (value == 'Barchat' || value == 'Horizontal') {
+						form.find('.isColorContainer').removeClass('hide');
+					} else {
+						form.find('.isColorContainer').addClass('hide');
+					}
+				});
 				moduleNameSelect2.change(function () {
 					if (!moduleNameSelect2.val())
 						return;
@@ -318,10 +330,16 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					var selectedFilterId = filteridSelect2.val();
 					var selectedFilterLabel = filteridSelect2.find(':selected').text();
 					var selectedFieldLabel = fieldsSelect2.find(':selected').text();
+					var isColorValue = 0;
+					var isColor = form.find('.isColor');
+					if(!isColor.hasClass('hide') && isColor.is(':checked')){
+						isColorValue = 1;
+					}
 					var data = {
 						module: selectedModule,
 						groupField: fieldsSelect2.val(),
 						chartType: chartType.val(),
+						color: isColorValue
 					};
 					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel,selectedFieldLabel, form);
 				});
@@ -337,6 +355,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			linkid: element.data('linkid'),
 			label: moduleNameLabel + ' - ' + filterLabel + ' - ' + groupFieldName,
 			name: 'ChartFilter',
+			title: form.find('[name="widgetTitle"]').val(),
 			filterid: filterid,
 			isdefault: 0,
 			height: 4,
@@ -356,7 +375,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						params['text'] = result['text'];
 						params['type'] = 'success';
 						var linkElement = element.clone();
-						linkElement.data('name', 'ChartFilter')
+						linkElement.data('name', 'ChartFilter');
+						linkElement.data('id', result['wid']);
 						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0')
 						Vtiger_Helper_Js.showMessage(params);
 					} else {
@@ -469,10 +489,11 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			blockid: element.data('block-id'),
 			linkid: element.data('linkid'),
 			label: moduleNameLabel + ' - ' + filterLabel,
+			title: form.find('[name="widgetTitle"]').val(),
 			name: 'Mini List',
 			filterid: filterid,
 			isdefault: 0,
-			height: 3,
+			height: 4,
 			width: 4,
 			owners_all: ["mine", "all", "users", "groups"],
 			default_owner: 'mine',
@@ -489,7 +510,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						params['text'] = result['text'];
 						params['type'] = 'success';
 						var linkElement = element.clone();
-						linkElement.data('name', 'MiniList')
+						linkElement.data('name', 'MiniList');
+						linkElement.data('id', result['wid']);
 						Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0')
 						Vtiger_Helper_Js.showMessage(params);
 					} else {
@@ -545,12 +567,35 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var params = {
 				module: currentTarget.data('module'),
 				view: app.getViewName(),
+				sourceModule: app.getModuleName()
 			};
 			AppConnector.request(params).then(function (data) {
 				$('.dashboardViewContainer').html(data);
 				thisInstance.noCache = true;
 				thisInstance.registerEvents();
 			});
+		});
+	},
+	removeWidgetFromList: function(){
+		$('.dashboardHeading').on('click', '.removeWidgetFromList', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var id = currentTarget.data('widget-id');
+			var params = {
+				module: 'Vtiger',
+				action: "RemoveWidgetFromList",
+				id: id
+			}
+			AppConnector.request(params).then(function (data) {
+				var params = {
+					text: app.vtranslate('JS_WIDGET_DELETED'),
+					type: 'success',
+					animation: 'show'
+				};
+				Vtiger_Helper_Js.showMessage(params);
+				var parent = currentTarget.closest('li');
+				$(parent).remove();
+
+			})
 		});
 	},
 	registerEvents: function () {
@@ -565,5 +610,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		this.registerMiniListWidget();
 		this.registerChartFilterWidget();
 		this.registerTabModules();
-	},
+		this.removeWidgetFromList();
+	}
 });

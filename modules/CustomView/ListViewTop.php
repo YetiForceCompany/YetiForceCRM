@@ -14,7 +14,6 @@
  * ****************************************************************************** */
 /* * *******************************************************************************
  * $Header$
- * Description:  TODO: To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
@@ -111,7 +110,7 @@ function getKeyMetrics($maxval, $calCnt)
 			$value = [];
 			$CVname = (strlen($metriclist['name']) > 20) ? (substr($metriclist['name'], 0, 20) . '...') : $metriclist['name'];
 			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . $CVname . '</a> <font style="color:#6E6E6E;">(' . $metriclist['user'] . ')</font>';
-			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . getTranslatedString($metriclist['module']) . '</a>';
+			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . \includes\Language::translate($metriclist['module']) . '</a>';
 			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . $metriclist['count'] . '</a>';
 			$entries[$metriclist['id']] = $value;
 		}
@@ -142,7 +141,7 @@ function getMetricList($filters = [])
 		array_push($sparams, $privilegesModel->getId());
 	}
 	if ($filters) {
-		$ssql .= ' AND vtiger_customview.cvid IN (' . $db->generateQuestionMarks($filters) . ')';
+		$ssql .= ' && vtiger_customview.cvid IN (' . $db->generateQuestionMarks($filters) . ')';
 		$sparams[] = $filters;
 	}
 	$ssql .= ' order by vtiger_customview.entitytype';

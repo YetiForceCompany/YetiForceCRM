@@ -140,7 +140,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$sql = 'SELECT * FROM vtiger_links
 				INNER JOIN `vtiger_tab`
 					ON vtiger_links.`tabid` = vtiger_tab.`tabid`
-				WHERE linktype = ? AND vtiger_tab.`presence` = 0';
+				WHERE linktype = ? && vtiger_tab.`presence` = 0';
 
 		$params = ['DASHBOARDWIDGET'];
 
@@ -152,7 +152,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$row = $db->query_result_rowdata($result, $i);
 			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
 			if ($row['linklabel'] == 'Tag Cloud') {
-				$isTagCloudExists = getTagCloudView($currentUser->getId());
+				$isTagCloudExists = \vtlib\Functions::getTagCloudView($currentUser->getId());
 				if ($isTagCloudExists == 'false') {
 					continue;
 				}
@@ -170,7 +170,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * @param String $moduleName
 	 * @return Array(success:true/false)
 	 * */
-	function saveDetails($data, $moduleName)
+	public function saveDetails($data, $moduleName)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::saveDetails($moduleName) method ...");
@@ -210,7 +210,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::addBlock(" . $data . ", " . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = getTabid($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		$query = 'INSERT INTO vtiger_module_dashboard_blocks (`authorized`, `tabid`) VALUES (?, ?);';
 		$params = array($data['authorized'], $tabId);
 		$adb->pquery($query, $params);
@@ -294,12 +294,12 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getBlocksFromModule(" . $moduleName . ", " . $authorized . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = getTabid($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		$data = [];
 		$query = 'SELECT * FROM `vtiger_module_dashboard_blocks` WHERE `tabid` = ?';
 		$params = [$tabId];
 		if ($authorized) {
-			$query .= ' AND `authorized` = ? ;';
+			$query .= ' && `authorized` = ? ;';
 			$params[] = $authorized;
 		}
 		$result = $adb->pquery($query, $params);
@@ -315,8 +315,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
 		$db = PearDatabase::getInstance();
-		$tabId = getTabid($moduleName);
-		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? AND linklabel IN (?, ?, ?, ?, ?)';
+		$tabId = \includes\Modules::getModuleId($moduleName);
+		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? && linklabel IN (?, ?, ?, ?, ?)';
 		$result = $db->pquery($query, array_merge([$tabId], self::getWidgetSpecial()));
 		$widgets = [];
 		while ($row = $db->fetch_array($result)) {
@@ -336,10 +336,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getDashboardForModule(" . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = getTabid($moduleName);
+		$tabId = \includes\Modules::getModuleId($moduleName);
 		$data = array();
-
-		//$data = self::getBlocksId();
 
 		$query = 'SELECT 
 				  mdw.blockid,
@@ -359,7 +357,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				  INNER JOIN `vtiger_links` 
 					ON `mdw`.`linkid` = `vtiger_links`.`linkid` 
 				  INNER JOIN `vtiger_module_dashboard_blocks` AS mdb 
-					ON (`mdw`.`blockid` = `mdb`.`id` AND `vtiger_links`.`tabid` = `mdb`.`tabid`)
+					ON (`mdw`.`blockid` = `mdb`.`id` && `vtiger_links`.`tabid` = `mdb`.`tabid`)
 				WHERE `vtiger_links`.`tabid` = ?';
 		$params = array($tabId);
 		$result = $adb->pquery($query, $params);

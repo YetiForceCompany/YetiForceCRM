@@ -43,7 +43,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		if ($action == 'add') {
-			$result = $db->pquery('SELECT vtiger_customview.`viewname` FROM `vtiger_user_module_preferences` LEFT JOIN `vtiger_customview` ON vtiger_user_module_preferences.`default_cvid` = vtiger_customview.`cvid` WHERE vtiger_user_module_preferences.tabid = ? AND vtiger_user_module_preferences.userid = ?;', [$tabid, $user]);
+			$result = $db->pquery('SELECT vtiger_customview.`viewname` FROM `vtiger_user_module_preferences` LEFT JOIN `vtiger_customview` ON vtiger_user_module_preferences.`default_cvid` = vtiger_customview.`cvid` WHERE vtiger_user_module_preferences.tabid = ? && vtiger_user_module_preferences.userid = ?;', [$tabid, $user]);
 			if ($result->rowCount()) {
 				return $db->getSingleValue($result);
 			}
@@ -53,7 +53,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				'default_cvid' => $cvId
 			]);
 		} elseif ($action == 'remove') {
-			$db->delete('vtiger_user_module_preferences', 'userid = ? AND tabid = ? AND default_cvid = ?', [$user, $tabid, $cvId]);
+			$db->delete('vtiger_user_module_preferences', 'userid = ? && tabid = ? && default_cvid = ?', [$user, $tabid, $cvId]);
 		}
 		return false;
 	}
@@ -67,7 +67,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				'cvid' => $cvId
 			]);
 		} elseif ($action == 'remove') {
-			$db->delete('a_yf_featured_filter', 'user = ? AND cvid = ?', [$user, $cvId]);
+			$db->delete('a_yf_featured_filter', 'user = ? && cvid = ?', [$user, $cvId]);
 		}
 		return false;
 	}
@@ -148,12 +148,13 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		return $modulesList;
 	}
-	
-	public static function updateOrderAndSort($params){
+
+	public static function updateOrderAndSort($params)
+	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($params['cvid']);
 		$moduleName = $customViewModel->get('entitytype');
 		$curretView = ListViewSession::getCurrentView($moduleName);
-		if($curretView == $params['cvid']){
+		if ($curretView == $params['cvid']) {
 			$sortOrder = explode(',', $params['value']);
 			ListViewSession::setSorder($moduleName, $sortOrder[1]);
 			ListViewSession::setSortby($moduleName, $sortOrder[0]);

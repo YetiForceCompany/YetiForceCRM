@@ -31,7 +31,7 @@ class Vtiger_Inventory_Model
 	/**
 	 * Initialize this instance
 	 */
-	function initialize($name)
+	public function initialize($name)
 	{
 		$this->name = $name;
 	}
@@ -189,7 +189,7 @@ class Vtiger_Inventory_Model
 			], 'name = ?', [$moduleName]
 		);
 		$i = 0;
-		if($result && $type) {
+		if ($result && $type) {
 			while (isset($tableEnds[$i]) && $ends = $tableEnds[$i]) {
 				switch ($ends) {
 					case '_inventory':

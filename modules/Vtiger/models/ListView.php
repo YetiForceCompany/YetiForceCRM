@@ -51,13 +51,21 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$homeModel = Vtiger_Module_Model::getInstance('Dashboard');
-		if ($userPrivilegesModel->hasModulePermission($homeModel->getId()) && $userPrivilegesModel->hasModuleActionPermission($homeModel->getId(), 'NotificationCreateMessage')) {
+		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission('Dashboard', 'NotificationCreateMessage')) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
 				'linkicon' => 'glyphicon glyphicon-send'
+			];
+		}
+		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
+		if ($userPrivilegesModel->hasModulePermission($openStreetMapModuleModel->getId()) && $openStreetMapModuleModel->isAllowModules($moduleModel->getName())) {
+			$headerLinks[] = [
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linkhint' => 'LBL_SHOW_MAP',
+				'linkurl' => 'javascript:Vtiger_List_Js.showMap()',
+				'linkicon' => 'fa fa-globe'
 			];
 		}
 		foreach ($headerLinks as $headerLink) {
@@ -194,7 +202,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 						$columnList[] = $fieldModel->get('table') . $orderByFieldModel->getName() . '.' . $fieldModel->get('column');
 					}
 					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users', '') . ' ' . $sortOrder;
+						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users', '') . ' ' . $sortOrder;
 					} else {
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
@@ -205,7 +213,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 				if ($fieldModel->getFieldDataType() == 'owner') {
-					$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+					$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 				}
 				$query = sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			} else {
@@ -266,7 +274,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
-			$listQuery .= ' AND vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
+			$listQuery .= ' && vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
 		}
 		unset($searchResult);
 		$sourceModule = $this->get('src_module');
@@ -374,14 +382,14 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 
 		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' AND activitytype <> "Emails"';
+			$listQuery .= ' && activitytype <> "Emails"';
 		}
 
 		$listResult = $db->query($listQuery);
 		return $db->getSingleValue($listResult);
 	}
 
-	function getQuery()
+	public function getQuery()
 	{
 		return $this->get('query_generator')->getQuery();
 	}
@@ -481,7 +489,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			];
 		}
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -504,7 +512,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			];
 		}
-		if ($moduleModel->isPermitted('QuickExportToExcel')) {
+		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -548,7 +556,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			];
 		}
 
-		if ($moduleModel->isPermitted('ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');

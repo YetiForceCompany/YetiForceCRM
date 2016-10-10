@@ -19,8 +19,6 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      */
     function put($data) {
 		
-		//$path = $this->exData->localStorageDir . $this->localPath;
-        //file_put_contents($path,$data);
     }
 
     /**
@@ -92,7 +90,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
 	 * @param string $name The new name
 	 * @return void
 	 */
-	function setName($name) {
+	public function setName($name) {
 		list($parentLocalPath, ) = URLUtil::splitPath($this->localPath);
 		list($parentPath, ) = URLUtil::splitPath($this->path);
 		list(, $newName) = URLUtil::splitPath($name);

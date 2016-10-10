@@ -359,7 +359,6 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	triggerMassAction: function (massActionUrl, callBackFunction, beforeShowCb, css) {
 
-		//TODO : Make the paramters as an object
 		if (typeof beforeShowCb == 'undefined') {
 			beforeShowCb = function () {
 				return true;
@@ -582,6 +581,19 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 		app.showModalWindow(null, url, function () {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'})
+		});
+	},
+	showMap: function () {
+		var selectedParams = Vtiger_List_Js.getSelectedRecordsParams();
+		if (selectedParams === false) {
+			return false;
+		}
+		var url = 'index.php?module=OpenStreetMap&view=MapModal&srcModule=' + app.getModuleName();
+		app.showModalWindow(null, url, function (container) {
+			var mapView = new OpenStreetMap_Map_Js();
+			mapView.setSelectedParams(selectedParams);
+			mapView.registerModalView(container);
+			
 		});
 	}
 }, {
@@ -1319,7 +1331,6 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		}
 	},
-	//Fix for empty Recycle bin 
 	ListViewPostOperation: function () {
 		return true;
 	},

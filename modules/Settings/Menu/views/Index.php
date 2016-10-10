@@ -19,7 +19,7 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 		if (empty($roleId))
 			$roleId = 0;
 		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
-		$rolesContainMenu =  $settingsModel->getRolesContainMenu();
+		$rolesContainMenu = $settingsModel->getRolesContainMenu();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $settingsModel);
 		$viewer->assign('ROLES_CONTAIN_MENU', $rolesContainMenu);
@@ -35,7 +35,7 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -49,7 +49,7 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

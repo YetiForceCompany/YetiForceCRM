@@ -20,7 +20,7 @@ class ModComments extends ModCommentsCore
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		parent::vtlib_handler($modulename, $event_type);
 		if ($event_type == 'module.postinstall') {
@@ -119,14 +119,8 @@ class ModComments extends ModCommentsCore
 	/**
 	 * Wrap this instance as a model
 	 */
-	function getAsCommentModel()
+	public function getAsCommentModel()
 	{
 		return new ModComments_CommentsModel($this->column_fields);
-	}
-
-	function getListButtons($app_strings, $mod_strings = false)
-	{
-		$list_buttons = Array();
-		return $list_buttons;
 	}
 }

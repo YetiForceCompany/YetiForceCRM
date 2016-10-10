@@ -17,10 +17,10 @@ class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fields = $moduleModel->getFields();
 		$ids = $pdf->getRecordIds();
-		if(!is_array($ids)){
+		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
-		
+
 		$html = '<br><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .

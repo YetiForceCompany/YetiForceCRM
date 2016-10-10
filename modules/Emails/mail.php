@@ -35,7 +35,6 @@ function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $content
 	$log->debug('To id => ' . $to_email . ' Subject => ' . $subject . 'Contents => ' . $contents);
 
 	//Get the email id of assigned_to user -- pass the value and name, name must be "user_name" or "id"(field names of vtiger_users vtiger_table)
-	//$to_email = getUserEmailId('id',$assigned_user_id);
 	//if module is HelpDesk then from_email will come based on support email id
 	if (empty($fromEmail)) {
 		//if from email is not defined, then use the useremailid as the from address
@@ -61,9 +60,6 @@ function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $content
 	if (!empty($supportName)) {
 		$fromName = $supportName;
 	}
-
-	//if($module != "Calendar")
-	//$contents = addSignature($contents,$fromName); //TODO improved during the reconstruction Signature
 
 	$mail = new PHPMailer();
 
@@ -115,7 +111,7 @@ function getUserEmailId($name, $val)
 	if ($val != '') {
 		$adb = PearDatabase::getInstance();
 		//done to resolve the PHP5 specific behaviour
-		$sql = sprintf("SELECT email1 from vtiger_users WHERE status='Active' AND %s = ?", $adb->sql_escape_string($name));
+		$sql = sprintf("SELECT email1 from vtiger_users WHERE status='Active' && %s = ?", $adb->sql_escape_string($name));
 		$res = $adb->pquery($sql, array($val));
 		$email = $adb->query_result($res, 0, 'email1');
 		$log->debug('Email id is selected  => ' . $email);
@@ -181,11 +177,9 @@ function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, 
 	$mail->Subject = $subject;
 	//Added back as we have changed php mailer library, older library was using html_entity_decode before sending mail
 	$mail->Body = decode_html($contents);
-	//$mail->Body = html_entity_decode(nl2br($contents));	//if we get html tags in mail then we will use this line
 	$mail->AltBody = strip_tags(preg_replace(array("/<p>/i", "/<br>/i", "/<br \/>/i"), array("\n", "\n", "\n"), $contents));
 
 	$mail->IsSMTP();  //set mailer to use SMTP
-	//$mail->Host = "smtp1.example.com;smtp2.example.com";  // specify main and backup server
 
 	setMailServerProperties($mail);
 
@@ -197,7 +191,7 @@ function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, 
 		$rs = $adb->pquery("select first_name,last_name from vtiger_users where user_name=?", array($fromName));
 		$num_rows = $adb->num_rows($rs);
 		if ($num_rows > 0) {
-			$fullName = getFullNameFromQResult($rs, 0, 'Users');
+			$fullName = \vtlib\Deprecated::getFullNameFromQResult($rs, 0, 'Users');
 			VTCacheUtils::setUserFullName($fromName, $fullName);
 		}
 	} else {
@@ -219,7 +213,6 @@ function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, 
 	}
 
 	//commented so that it does not add from_email in reply to
-	//$mail->AddReplyTo($fromEmail);
 	$mail->WordWrap = 50;
 
 	//If we want to add the currently selected file only then we will use the following function
@@ -333,7 +326,7 @@ function addAllAttachments($mail, $record)
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
 			INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid  = vtiger_attachments.attachmentsid
 			INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.notesid = vtiger_seattachmentsrel.crmid 
-			WHERE vtiger_crmentity.deleted=0 AND vtiger_senotesrel.crmid=?';
+			WHERE vtiger_crmentity.deleted=0 && vtiger_senotesrel.crmid=?';
 	$res = $adb->pquery($sql, array($record));
 
 	while ($row = $db->getRow($result)) {
@@ -417,7 +410,6 @@ function getParentMailId($parentmodule, $parentid)
 	}
 	if ($parentid != '') {
 		$adb = PearDatabase::getInstance();
-		//$query = 'select * from '.$tablename.' where '.$idname.' = '.$parentid;
 		$query = sprintf('select * from %s where %s = ?', $tablename, $idname);
 		$res = $adb->pquery($query, [$parentid]);
 		$mailid = $adb->query_result($res, 0, $first_email);
@@ -493,7 +485,6 @@ function getMailErrorString($mail_status_str)
  */
 function parseEmailErrorString($mail_error_str)
 {
-	//TODO -- we can modify this function for better email error handling in future
 	$log = LoggerManager::getInstance();
 	$log->debug('Inside the parseEmailErrorString function.\n encoded mail error string ==> ' . $mail_error_str);
 
@@ -551,7 +542,7 @@ function getDefaultAssigneeEmailIds($groupId)
 
 		if (count($userGroups->group_users) == 0)
 			return [];
-		
+
 		$query = sprintf('SELECT 
 					email1 
 				FROM

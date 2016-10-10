@@ -7,6 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-class HelpDesk_ListView_Model extends Vtiger_ListView_Model {
 
+class HelpDesk_ListView_Model extends Vtiger_ListView_Model
+{
+	
 }

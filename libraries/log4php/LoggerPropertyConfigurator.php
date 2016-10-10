@@ -13,11 +13,11 @@ class LoggerPropertyConfigurator {
 	
 	static $singleton = false;
 	
-	function __construct() {
+	public function __construct() {
 		LoggerPropertyConfigurator::$singleton = $this;
 	}
 	
-	function configure($configfile) {
+	public function configure($configfile) {
 		$configinfo = parse_ini_file($configfile);
 		
 		$types = array();
@@ -46,7 +46,7 @@ class LoggerPropertyConfigurator {
 		$this->appenders = $appenders;		
 	}
 
-	function getConfigInfo($type) {
+	public function getConfigInfo($type) {
 		if(isset($this->types[$type])) {
 			$typeinfo = $this->types[$type];
 			return array (

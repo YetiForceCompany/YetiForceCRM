@@ -36,7 +36,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		return $linkModelList;
 	}
 
-	function getDetailViewRelatedLinks()
+	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
@@ -104,11 +104,18 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'badgeClass' => 'bgDanger'
 			];
 		}
-
+		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
+		if ($openStreetMapModuleModel->isActive()) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_MAP',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showOpenStreetMap',
+				'linkicon' => '',
+			];
+		}
 		$relationModels = $parentModuleModel->getRelations();
 
 		foreach ($relationModels as $relation) {
-			//TODO : Way to get limited information than getting all the information
 			$link = array(
 				'linktype' => 'DETAILVIEWRELATED',
 				'linklabel' => $relation->get('label'),

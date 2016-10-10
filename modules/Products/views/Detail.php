@@ -61,7 +61,7 @@ class Products_Detail_View extends Vtiger_Detail_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showRelatedList(Vtiger_Request $request)
+	public function showRelatedList(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');

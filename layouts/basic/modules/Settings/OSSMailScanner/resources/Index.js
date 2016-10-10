@@ -95,11 +95,22 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			$('#confirm').attr('disabled', !this.checked);
 		});
 
-		jQuery('#conftab_change_ticket_status').on('click', function () {
-			var ajaxParams = {};
-			ajaxParams.data = {module: 'OSSMailScanner', action: "SaveRcConfig", ct: "emailsearch", type: "change_ticket_status", vale: $("#conftab_change_ticket_status").prop('checked')},
-			ajaxParams.async = true;
-			AppConnector.request(ajaxParams).then(
+		jQuery('.conftabChangeTicketStatus').on('click', function () {
+			if ($(this).data('active') == '1') {
+				return false;
+			}
+			$('.conftabChangeTicketStatus').data('active', 0);
+			$(this).data('active', 1);
+			AppConnector.request({
+				async: true,
+				data: {
+					module: 'OSSMailScanner',
+					action: "SaveRcConfig",
+					ct: "emailsearch",
+					type: "changeTicketStatus",
+					vale: $(this).val()
+				}
+			}).then(
 					function (data) {
 						if (data.success) {
 							var params = {

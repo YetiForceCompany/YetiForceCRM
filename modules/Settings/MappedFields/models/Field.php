@@ -43,7 +43,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		} elseif (!$this->fieldDataType) {
 			$this->fieldDataType = parent::getFieldDataType();
 		}
-		if($this->fieldDataType == 'salutation'){
+		if ($this->fieldDataType == 'salutation') {
 			$this->fieldDataType = 'string';
 		}
 		return $this->fieldDataType;
@@ -150,7 +150,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		switch ($type) {
 			case 'SELF':
 				$fieldModel = parent::getInstance($value, $module);
-				if(!$fieldModel){
+				if (!$fieldModel) {
 					$fields = Settings_MappedFields_Module_Model::getSpecialFields();
 					$fieldModel = $fields[$value];
 				}
@@ -163,8 +163,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 				$fieldModel = parent::getInstance($value, $module);
 				break;
 		}
-		
-		if($fieldModel){
+
+		if ($fieldModel) {
 			$objectProperties = get_object_vars($fieldModel);
 			$fieldModel = new self();
 			foreach ($objectProperties as $properName => $propertyValue) {

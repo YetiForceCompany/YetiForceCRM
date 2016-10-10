@@ -64,7 +64,6 @@ $languageStrings = [
 	'LBL_DISCOUNT' => 'Rabatt',
 	'LBL_CREDIT_LIMIT' => 'Kreditlimit',
 	'LBL_PARENT_IS_CHILD' => 'Die ausgewählte Organisation kann nicht ein zweites Mal dieser Organisation zugeordnet werden',
-	'Campaign status' => 'Kampagnenstatus',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'letztes Rechnungsdatum',
 	//PICKLIST VALUES

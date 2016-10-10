@@ -69,7 +69,7 @@ class Leads extends CRMEntity
 
 	/** Function to handle module specific operations when saving a entity
 	 */
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -79,7 +79,7 @@ class Leads extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Leads Query.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -91,8 +91,8 @@ class Leads extends CRMEntity
 		$sql = getPermittedFieldsQuery("Leads", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
 	      			FROM " . $this->entity_table . "
 				INNER JOIN vtiger_leaddetails
@@ -110,10 +110,10 @@ class Leads extends CRMEntity
 				";
 
 		$query .= $this->getNonAdminAccessControlQuery('Leads', $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0 AND vtiger_leaddetails.converted =0";
+		$where_auto = " vtiger_crmentity.deleted=0 && vtiger_leaddetails.converted =0";
 
 		if ($where != '')
-			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
+			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
@@ -125,7 +125,7 @@ class Leads extends CRMEntity
 	 * @param $id -- campaign id :: Type Integer
 	 * @returns list of campaigns in array format
 	 */
-	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -153,12 +153,12 @@ class Leads extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
 			}
 		}
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name ,
 				vtiger_campaign.campaignid, vtiger_campaign.campaignname, vtiger_campaign.campaigntype, vtiger_campaign.campaignstatus,
 				vtiger_campaign.expectedrevenue, vtiger_campaign.closingdate, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -185,7 +185,7 @@ class Leads extends CRMEntity
 	 * @param  integer   $id      - leadid
 	 * returns related Products record in array format
 	 */
-	function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -211,12 +211,12 @@ class Leads extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
+				$button .= "<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "'>&nbsp;";
+					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
 			}
 		}
 
@@ -233,7 +233,7 @@ class Leads extends CRMEntity
 					ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups
 					ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			   WHERE vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.leadid = $id";
+			   WHERE vtiger_crmentity.deleted = 0 && vtiger_leaddetails.leadid = $id";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -249,7 +249,7 @@ class Leads extends CRMEntity
 	 * Used By vtigerCRM Word Plugin
 	 * Returns the Merge Fields for Word Plugin
 	 */
-	function getColumnNames_Lead()
+	public function getColumnNames_Lead()
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -285,7 +285,7 @@ class Leads extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -326,13 +326,12 @@ class Leads extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_leaddetails', array('vtiger_crmentityLeads', 'vtiger_leadaddress', 'vtiger_leadsubdetails', 'vtiger_leadscf', 'vtiger_email_trackLeads'));
 		$matrix->setDependency('vtiger_crmentityLeads', array('vtiger_groupsLeads', 'vtiger_usersLeads', 'vtiger_lastModifiedByLeads'));
 
-		// TODO Support query planner
 		if (!$queryPlanner->requireTable("vtiger_leaddetails", $matrix)) {
 			return '';
 		}
@@ -372,7 +371,7 @@ class Leads extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			'Products' => array('vtiger_seproductsrel' => array('crmid', 'productid'), 'vtiger_leaddetails' => 'leadid'),
@@ -380,48 +379,30 @@ class Leads extends CRMEntity
 			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_leaddetails' => 'leadid'),
 			'Services' => array('vtiger_crmentityrel' => array('crmid', 'relcrmid'), 'vtiger_leaddetails' => 'leadid'),
 		);
-		if($secmodule === false){
+		if ($secmodule === false) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		$log = LoggerManager::getInstance();
 		if (empty($return_module) || empty($return_id))
 			return;
 
 		if ($return_module == 'Campaigns') {
-			$this->db->delete('vtiger_campaign_records', 'crmid=? AND campaignid=?', [$id, $return_id]);
+			$this->db->delete('vtiger_campaign_records', 'crmid=? && campaignid=?', [$id, $return_id]);
 		} elseif ($return_module == 'Products') {
-			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? AND productid=?';
+			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? && productid=?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
 	}
 
-	function getListButtons($app_strings, $mod_strings = false)
-	{
-		$list_buttons = Array();
-
-		if (isPermitted('Leads', 'Delete', '') == 'yes') {
-			$list_buttons['del'] = $app_strings[LBL_MASS_DELETE];
-		}
-		if (isPermitted('Leads', 'EditView', '') == 'yes') {
-			$list_buttons['mass_edit'] = $app_strings[LBL_MASS_EDIT];
-			$list_buttons['c_owner'] = $app_strings[LBL_CHANGE_OWNER];
-		}
-		if (isPermitted('Emails', 'CreateView', '') == 'yes')
-			$list_buttons['s_mail'] = $app_strings[LBL_SEND_MAIL_BUTTON];
-
-		// end of mailer export
-		return $list_buttons;
-	}
-
-	function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -449,7 +430,7 @@ class Leads extends CRMEntity
 		}
 	}
 
-	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')
+	public function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')
 	{
 		if (is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
@@ -483,12 +464,12 @@ class Leads extends CRMEntity
 		$fromClause .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
 
-		$whereClause = " WHERE vtiger_crmentity.deleted = 0 AND vtiger_leaddetails.converted=0 ";
+		$whereClause = " WHERE vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted=0 ";
 		$whereClause .= $this->getListViewSecurityParameter($module);
 
 		if ($ignoreEmpty) {
 			foreach ($tableColumns as $tableColumn) {
-				$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				$whereClause .= " && ($tableColumn IS NOT NULL && $tableColumn != '') ";
 			}
 		}
 
@@ -509,7 +490,7 @@ class Leads extends CRMEntity
 			$tableInfo = explode('.', $tableColumn);
 			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
 			if (count($tableColumns) != $i++)
-				$duplicateCheckClause .= " AND ";
+				$duplicateCheckClause .= " && ";
 		}
 
 		$query = $selectClause . $fromClause .

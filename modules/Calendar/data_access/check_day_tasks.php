@@ -34,10 +34,10 @@ class DataAccess_check_day_tasks
 		}
 		$sql = 'SELECT count(*) as count FROM vtiger_activity 
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid 
-			WHERE vtiger_crmentity.deleted = ? AND vtiger_activity.date_start = ? AND vtiger_activity.smownerid = ?';
+			WHERE vtiger_crmentity.deleted = ? && vtiger_activity.date_start = ? && vtiger_activity.smownerid = ?';
 		$params = [0, $recordData['date_start'], $userRecordModel->getId()];
 		if (!empty($status)) {
-			$sql .= ' AND vtiger_activity.status IN (' . generateQuestionMarks($status) . ')';
+			$sql .= ' && vtiger_activity.status IN (' . generateQuestionMarks($status) . ')';
 			$params[] = $status;
 		}
 		$result = $db->pquery($sql, $params);

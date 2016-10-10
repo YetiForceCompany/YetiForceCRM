@@ -32,7 +32,7 @@ class ThemeExport extends Package
 	 * Initialize Export
 	 * @access private
 	 */
-	function __initExport($layoutName, $themeName)
+	public function __initExport($layoutName, $themeName)
 	{
 		// Security check to ensure file is withing the web folder.
 		Utils::checkFileAccessForInclusion("layouts/$layoutName/skins/$themeName/style.less");
@@ -48,7 +48,7 @@ class ThemeExport extends Package
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	function export($layoutName, $themeName, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export($layoutName, $themeName, $todir = '', $zipfilename = '', $directDownload = false)
 	{
 		$this->__initExport($layoutName, $themeName);
 
@@ -87,7 +87,7 @@ class ThemeExport extends Package
 	 * Export Language Handler
 	 * @access private
 	 */
-	function export_Theme($layoutName, $themeName)
+	public function export_Theme($layoutName, $themeName)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -132,7 +132,7 @@ class ThemeExport extends Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	function export_Dependencies()
+	public function export_Dependencies()
 	{
 		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = false;

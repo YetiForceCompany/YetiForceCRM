@@ -26,27 +26,27 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 		return $self;
 	}
 
-	function getId()
+	public function getId()
 	{
 		return $this->get('reportid');
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->set('reportid', $id);
 	}
 
-	function getParent()
+	public function getParent()
 	{
 		return $this->parent;
 	}
 
-	function setParent($parent)
+	public function setParent($parent)
 	{
 		$this->parent = $parent;
 	}
 
-	function getChartType()
+	public function getChartType()
 	{
 		$type = $this->get('type');
 		if (empty($type))
@@ -54,17 +54,17 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 		return $type;
 	}
 
-	function getGroupByField()
+	public function getGroupByField()
 	{
 		return $this->get('groupbyfield');
 	}
 
-	function getDataFields()
+	public function getDataFields()
 	{
 		return $this->get('datafields');
 	}
 
-	function getData()
+	public function getData()
 	{
 		$type = ucfirst($this->getChartType());
 		$chartModel = new $type($this);
@@ -75,7 +75,7 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 abstract class Base_Chart extends Vtiger_Base_Model
 {
 
-	function __construct($parent)
+	public function __construct($parent)
 	{
 		$this->setParent($parent);
 		$this->setReportRunObject();
@@ -84,45 +84,45 @@ abstract class Base_Chart extends Vtiger_Base_Model
 		$this->setGroupByColumns($this->getParent()->getGroupByField());
 	}
 
-	function setParent($parent)
+	public function setParent($parent)
 	{
 		$this->parent = $parent;
 	}
 
-	function getParent()
+	public function getParent()
 	{
 		return $this->parent;
 	}
 
-	function getReportModel()
+	public function getReportModel()
 	{
 		$parent = $this->getParent();
 		return $parent->getParent();
 	}
 
-	function isRecordCount()
+	public function isRecordCount()
 	{
 		return $this->isRecordCount;
 	}
 
-	function setRecordCount()
+	public function setRecordCount()
 	{
 		$this->isRecordCount = true;
 	}
 
-	function setReportRunObject()
+	public function setReportRunObject()
 	{
 		$chartModel = $this->getParent();
 		$reportModel = $chartModel->getParent();
 		$this->reportRun = ReportRun::getInstance($reportModel->getId());
 	}
 
-	function getReportRunObject()
+	public function getReportRunObject()
 	{
 		return $this->reportRun;
 	}
 
-	function getFieldModelByReportColumnName($column)
+	public function getFieldModelByReportColumnName($column)
 	{
 		$fieldInfo = explode(':', $column);
 		$moduleFieldLabelInfo = explode('__', $fieldInfo[2]);
@@ -136,12 +136,12 @@ abstract class Base_Chart extends Vtiger_Base_Model
 		return false;
 	}
 
-	function getQueryColumnsByFieldModel()
+	public function getQueryColumnsByFieldModel()
 	{
 		return $this->fieldModels;
 	}
 
-	function setQueryColumns($columns)
+	public function setQueryColumns($columns)
 	{
 		if ($columns && is_string($columns))
 			$columns = array($columns);
@@ -191,7 +191,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 			$this->fieldModels = $fieldModels;
 	}
 
-	function setGroupByColumns($columns)
+	public function setGroupByColumns($columns)
 	{
 		if ($columns && is_string($columns))
 			$columns = array($columns);
@@ -230,7 +230,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 			$this->groupByFieldModels = $fieldModels;
 	}
 
-	function getGroupbyColumnsByFieldModel()
+	public function getGroupbyColumnsByFieldModel()
 	{
 		return $this->groupByFieldModels;
 	}
@@ -240,7 +240,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * @param <Array> $selectedfields - field info report format
 	 * @return <String>
 	 */
-	function getReportColumnSQL($selectedfields)
+	public function getReportColumnSQL($selectedfields)
 	{
 		$reportRunObject = $this->getReportRunObject();
 		$appendCurrencySymbolToValue = $reportRunObject->append_currency_symbol_to_value;
@@ -264,7 +264,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * @param <Array> $fieldInfo - field info report format
 	 * @return <string>
 	 */
-	function getReportTotalColumnSQL($fieldInfo)
+	public function getReportTotalColumnSQL($fieldInfo)
 	{
 		$primaryModule = $this->getPrimaryModule();
 		$columnTotalSQL = $this->getReportRunObject()->getColumnsTotalSQL($fieldInfo, $primaryModule) . ' AS ' . $fieldInfo[2];
@@ -276,7 +276,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * @param type $aggregateFunction
 	 * @return string
 	 */
-	function getAggregateFunctionLabel($aggregateFunction)
+	public function getAggregateFunctionLabel($aggregateFunction)
 	{
 		switch ($aggregateFunction) {
 			case 'SUM' : return 'LBL_TOTAL_SUM_OF';
@@ -291,7 +291,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * Report label format MODULE_FIELD_LABEL eg:Leads_Lead_Source
 	 * @param <String> $column
 	 */
-	function getTranslatedLabelFromReportLabel($column)
+	public function getTranslatedLabelFromReportLabel($column)
 	{
 		$columnLabelInfo = explode('__', $column);
 		$columnLabelInfo = array_diff($columnLabelInfo, array('SUM', 'MIN', 'MAX', 'AVG')); // added to remove aggregate functions from the graph labels
@@ -302,7 +302,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * Function returns primary module of the report
 	 * @return <String>
 	 */
-	function getPrimaryModule()
+	public function getPrimaryModule()
 	{
 		$chartModel = $this->getParent();
 		$reportModel = $chartModel->getParent();
@@ -314,7 +314,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * Function returns list view url of the Primary module
 	 * @return <String>
 	 */
-	function getBaseModuleListViewURL()
+	public function getBaseModuleListViewURL()
 	{
 		$primaryModule = $this->getPrimaryModule();
 		$primaryModuleModel = Vtiger_Module_Model::getInstance($primaryModule);
@@ -325,7 +325,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 
 	abstract function generateData();
 
-	function getQuery()
+	public function getQuery()
 	{
 		$chartModel = $this->getParent();
 		$reportModel = $chartModel->getParent();
@@ -380,7 +380,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * @param <Decimal> $value - value
 	 * @return <String>
 	 */
-	function generateLink($field, $value)
+	public function generateLink($field, $value)
 	{
 		$reportRunObject = $this->getReportRunObject();
 
@@ -449,7 +449,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	 * Function generates graph label
 	 * @return <String>
 	 */
-	function getGraphLabel()
+	public function getGraphLabel()
 	{
 		return $this->getReportModel()->getName();
 	}
@@ -458,7 +458,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 class PieChart extends Base_Chart
 {
 
-	function generateData()
+	public function generateData()
 	{
 		$db = PearDatabase::getInstance();
 		$values = [];
@@ -488,14 +488,14 @@ class PieChart extends Base_Chart
 		}
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$currencyRateAndSymbol = getCurrencySymbolandCRate($currentUserModel->currency_id);
+		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$value = (float) $row[$sector];
 			if (!$this->isRecordCount()) {
 				if ($sectorField) {
-					if ($sectorField->get('uitype') != '7'){
+					if ($sectorField->get('uitype') != '7') {
 						if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
 							$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 						} else {
@@ -543,7 +543,7 @@ class PieChart extends Base_Chart
 class VerticalbarChart extends Base_Chart
 {
 
-	function generateData()
+	public function generateData()
 	{
 		$db = PearDatabase::getInstance();
 		$chartSQL = $this->getQuery();
@@ -562,7 +562,7 @@ class VerticalbarChart extends Base_Chart
 		$groupByColumnsByFieldModel = $this->getGroupbyColumnsByFieldModel();
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$currencyRateAndSymbol = getCurrencySymbolandCRate($currentUserModel->currency_id);
+		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 		$links = array();
 
 		for ($i = 0; $i < $rows; $i++) {
@@ -618,7 +618,7 @@ class VerticalbarChart extends Base_Chart
 		return $data;
 	}
 
-	function getDataLabels()
+	public function getDataLabels()
 	{
 		$dataLabels = array();
 		if ($this->isRecordCount()) {

@@ -24,7 +24,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		$sourceModule = $request->get('sourceModule');
 		$modueInstance = Vtiger_Module_Model::getInstance($sourceModule);
 		$beforeBlockId = false;
-		
+
 		if (!empty($blockId)) {
 			$blockInstance = Settings_LayoutEditor_Block_Model::getInstance($blockId);
 			$blockInstance->set('display_status', $request->get('display_status'));

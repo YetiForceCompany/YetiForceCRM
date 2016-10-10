@@ -10,7 +10,7 @@
 class Settings_PDF_GetMainFields_Action extends Settings_Vtiger_Index_Action
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$forModule = $request->get('for_module');
 		$output = Settings_PDF_Module_Model::getMainModuleFields($forModule);

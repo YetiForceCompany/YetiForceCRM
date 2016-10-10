@@ -315,7 +315,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getCleanInstance($moduleName)
 	{
-		//TODO: Handle permissions
 		$focus = CRMEntity::getInstance($moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
@@ -330,14 +329,13 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
-		//TODO: Handle permissions
 		if (is_object($module) && is_a($module, 'Vtiger_Module_Model')) {
 			$moduleName = $module->get('name');
 		} elseif (is_string($module)) {
 			$module = Vtiger_Module_Model::getInstance($module);
 			$moduleName = $module->get('name');
 		} elseif (empty($module)) {
-			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
+			$moduleName = \includes\Record::getType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
 		}
 		$cacheName = $recordId . ':' . $moduleName;
@@ -352,6 +350,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($module)->setEntity($focus);
+		$instance->set('mode', 'edit');
 		Vtiger_Cache::set('Vtiger_Record_Model', $cacheName, $instance);
 		return $instance;
 	}
@@ -597,7 +596,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * Function to set record module field values
 	 * @param parent record model
 	 */
-	function setRecordFieldValues($parentRecordModel)
+	public function setRecordFieldValues($parentRecordModel)
 	{
 		$newInvData = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -626,7 +625,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$sourceInv = $parentRecordModel->getInventoryData();
 			}
 			foreach ($mfInstance->getMapping() as $mapp) {
-				// TODO Validation that specifies whether a value is included in the list of values for a given module field should be added
 				if ($mapp['type'] == 'SELF' && is_object($mapp['target'])) {
 					$referenceList = $mapp['target']->getReferenceList();
 					if (in_array($parentRecordModel->getModuleName(), $referenceList)) {
@@ -663,7 +661,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 	}
 
-	function getListFieldsToGenerate($parentModuleName, $moduleName)
+	public function getListFieldsToGenerate($parentModuleName, $moduleName)
 	{
 		$module = CRMEntity::getInstance($parentModuleName);
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
@@ -793,5 +791,18 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function setInventoryData($data)
 	{
 		$this->inventoryData = $data;
+	}
+
+	public function clearPrivilegesCache($name = false)
+	{
+		$privilegesName = ['isEditable', 'isCreateable', 'isViewable'];
+		foreach ($privilegesName as $name) {
+			if (!empty($name) && isset($this->privileges[$name])) {
+				unset($this->privileges[$name]);
+			}
+		}
+		Users_Privileges_Model::clearLockEditCache($this->getModuleName() . $this->getId());
+		$wsId = vtws_getWebserviceEntityId($this->getModuleName(), $this->getId());
+		VTEntityCache::setCachedEntity($wsId, false);
 	}
 }

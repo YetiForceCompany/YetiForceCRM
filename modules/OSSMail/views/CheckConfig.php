@@ -12,7 +12,7 @@
 class OSSMail_CheckConfig_View extends Vtiger_Index_View
 {
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 	}

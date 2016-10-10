@@ -17,12 +17,12 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 		}
 	}
 
-	function getSize()
+	public function getSize()
 	{
 		return 'modal-lg';
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

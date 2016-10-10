@@ -8,14 +8,16 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Rss_Module_Model extends Vtiger_Module_Model {
+class Rss_Module_Model extends Vtiger_Module_Model
+{
 
 	/**
 	 * Function to get the Quick Links for the module
 	 * @param <Array> $linkParams
 	 * @return <Array> List of Vtiger_Link_Model instances
 	 */
-	public function getSideBarLinks($linkParams) {
+	public function getSideBarLinks($linkParams)
+	{
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
@@ -27,40 +29,41 @@ class Rss_Module_Model extends Vtiger_Module_Model {
 				'linkicon' => '',
 			)
 		);
-		foreach($quickLinks as $quickLink) {
+		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
-        $quickWidgets = array(
+		$quickWidgets = array(
 			array(
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_RSS_FEED_SOURCES',
-				'linkurl' => 'module='.$this->get('name').'&view=ViewTypes&mode=getRssWidget',
+				'linkurl' => 'module=' . $this->get('name') . '&view=ViewTypes&mode=getRssWidget',
 				'linkicon' => ''
 			),
 		);
-		foreach($quickWidgets as $quickWidget) {
+		foreach ($quickWidgets as $quickWidget) {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
 		}
-        
+
 		return $links;
 	}
-    
-    /**
-     * Function to get rss sources list
-     */
-    public function getRssSources() { 
-        $db = PearDatabase::getInstance();
-        
-        $sql = 'Select *from vtiger_rss';
-        $result = $db->pquery($sql, array());
-        $noOfRows = $db->num_rows($result);
+
+	/**
+	 * Function to get rss sources list
+	 */
+	public function getRssSources()
+	{
+		$db = PearDatabase::getInstance();
+
+		$sql = 'Select *from vtiger_rss';
+		$result = $db->pquery($sql, array());
+		$noOfRows = $db->num_rows($result);
 
 		$records = array();
-		for($i=0; $i<$noOfRows; ++$i) {
+		for ($i = 0; $i < $noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			$row['id'] = $row['rssid'];
 			$records[$row['id']] = $this->getRecordFromArray($row);
 		}
-        return $records;
-    }
+		return $records;
+	}
 }

@@ -45,7 +45,6 @@ function createUserPrivilegesfile($userid)
 
 			$globalPermissionArr = getCombinedUserGlobalPermissions($userid);
 			$tabsPermissionArr = getCombinedUserTabsPermissions($userid);
-			//$tabsPermissionArr=getCombinedUserTabsPermissions($userid);
 			$actionPermissionArr = getCombinedUserActionPermissions($userid);
 			$user_role = fetchUserRole($userid);
 			$user_role_info = getRoleInformation($user_role);
@@ -80,7 +79,7 @@ function createUserPrivilegesfile($userid)
  */
 function createUserSharingPrivilegesfile($userid)
 {
-	checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
+	\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
 	require('user_privileges/user_privileges_' . $userid . '.php');
 	$handle = @fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php', "w+");
 
@@ -126,8 +125,6 @@ function createUserSharingPrivilegesfile($userid)
 			$newbuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($acc_tkt_share_write_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($acc_tkt_share_write_per['GROUP']) . ");\n";
 			$sharingPrivileges['permission']['Accounts_HelpDesk'] = ['read' => $acc_tkt_share_read_per, 'write' => $acc_tkt_share_write_per];
 
-			// Writing Sharing Rules For Custom Modules.
-			// TODO: We are ignoring rules that has already been calculated above, it is good to add GENERIC logic here.
 			$custom_modules = getSharingModuleList(['Accounts', 'Contacts']);
 			foreach ($custom_modules as &$module_name) {
 				$mod_share_perm_array = getUserModuleSharingObjects($module_name, $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
@@ -168,7 +165,7 @@ function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_
 {
 	$adb = PearDatabase::getInstance();
 
-	$mod_tabid = getTabid($module);
+	$mod_tabid = \includes\Modules::getModuleId($module);
 
 	$mod_share_permission;
 	$mod_share_read_permission = [];
@@ -306,7 +303,7 @@ function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_
 
 		//Get roles from Role2Us
 		if (!empty($userid)) {
-			$query = 'select vtiger_datashare_role2us.* from vtiger_datashare_role2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_role2us.shareid where vtiger_datashare_module_rel.tabid=? AND vtiger_datashare_role2us.to_userid = ?';
+			$query = 'select vtiger_datashare_role2us.* from vtiger_datashare_role2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_role2us.shareid where vtiger_datashare_module_rel.tabid=? && vtiger_datashare_role2us.to_userid = ?';
 			$qparams = array($mod_tabid, $userid);
 
 			$result = $adb->pquery($query, $qparams);
@@ -481,7 +478,7 @@ function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_
 		}
 
 		//Get roles from Rs2Us
-		$query = 'select vtiger_datashare_rs2us.* from vtiger_datashare_rs2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_rs2us.shareid where vtiger_datashare_module_rel.tabid=? AND to_userid=?';
+		$query = 'select vtiger_datashare_rs2us.* from vtiger_datashare_rs2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_rs2us.shareid where vtiger_datashare_module_rel.tabid=? && to_userid=?';
 		$qparams = array($mod_tabid, $userid);
 
 		$result = $adb->pquery($query, $qparams);
@@ -789,7 +786,7 @@ function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_
 		}
 
 		//Get roles from Us2Us
-		$query = 'select vtiger_datashare_us2us.* from vtiger_datashare_us2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_us2us.shareid where vtiger_datashare_module_rel.tabid=? AND to_userid=?';
+		$query = 'select vtiger_datashare_us2us.* from vtiger_datashare_us2us inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_us2us.shareid where vtiger_datashare_module_rel.tabid=? && to_userid=?';
 		$qparams = array($mod_tabid, $userid);
 
 		$result = $adb->pquery($query, $qparams);
@@ -961,8 +958,8 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 	$mod_share_read_permission['GROUP'] = [];
 	$mod_share_write_permission['GROUP'] = [];
 
-	$par_mod_id = getTabid($par_mod);
-	$share_mod_id = getTabid($share_mod);
+	$par_mod_id = \includes\Modules::getModuleId($par_mod);
+	$share_mod_id = \includes\Modules::getModuleId($share_mod);
 
 	if ($def_org_share[$share_mod_id] == 3 || $def_org_share[$share_mod_id] == 0) {
 		$role_read_per = [];
@@ -1315,7 +1312,7 @@ function constructTwoDimensionalCharIntSingleValueArray($var)
 function populateSharingtmptables($userid)
 {
 	$adb = PearDatabase::getInstance();
-	checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
+	\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 	require('user_privileges/sharing_privileges_' . $userid . '.php');
 	//Deleting from the existing vtiger_tables
 	$table_arr = Array('vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per');
@@ -1364,10 +1361,10 @@ function populateSharingtmptables($userid)
 function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_name_arr = false)
 {
 	$adb = PearDatabase::getInstance();
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 
 	if (!$var_name_arr) {
-		checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
+		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 		require('user_privileges/sharing_privileges_' . $userid . '.php');
 	}
 
@@ -1442,11 +1439,11 @@ function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_na
 function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule, $pertype, $var_name_arr = false)
 {
 	$adb = PearDatabase::getInstance();
-	$tabid = getTabid($module);
-	$reltabid = getTabid($relmodule);
+	$tabid = \includes\Modules::getModuleId($module);
+	$reltabid = \includes\Modules::getModuleId($relmodule);
 
 	if (!$var_name_arr) {
-		checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
+		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 		require('user_privileges/sharing_privileges_' . $userid . '.php');
 	}
 

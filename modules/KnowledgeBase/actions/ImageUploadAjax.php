@@ -9,12 +9,11 @@
 class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -154,7 +153,7 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 	 * @param int $rename checks if file should be rename or overwrite 
 	 * @return string filename with extension
 	 */
-	function setFileName($dirPath, $fileName, $extension, $i, $rename)
+	public function setFileName($dirPath, $fileName, $extension, $i, $rename)
 	{
 		if ($rename == 1 && file_exists($dirPath . $fileName . $extension)) {
 			$ending = '_' . $i;

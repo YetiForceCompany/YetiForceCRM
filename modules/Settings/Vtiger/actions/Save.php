@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The basic class to save
  * @package YetiForce.Action
@@ -8,7 +9,7 @@
 class Settings_Vtiger_Save_Action extends Settings_Vtiger_Basic_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		Settings_Vtiger_Tracker_Model::setRecordId(AppRequest::get('record'));
 		Settings_Vtiger_Tracker_Model::addBasic('save');

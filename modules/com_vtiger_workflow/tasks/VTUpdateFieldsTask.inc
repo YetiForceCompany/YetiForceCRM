@@ -104,7 +104,7 @@ class VTUpdateFieldsTask extends VTTask
 								if ((count($referenceList) == 1) && $referenceList[0] == 'Users') {
 									$fieldValue = \includes\fields\Owner::getLabel($fieldValue);
 								} elseif ((count($referenceList) == 1) && $referenceList[0] == 'Currency') {
-									$fieldValue = getCurrencyName($fieldValue);
+									$fieldValue = vtlib\Functions::getCurrencyName($fieldValue);
 								} elseif ($rightOperandFieldInstance->getFieldName() == 'roleid') {
 									$fieldValue = getRoleName($fieldValue);
 								} else {

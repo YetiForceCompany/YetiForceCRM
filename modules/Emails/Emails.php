@@ -14,11 +14,12 @@
  * ****************************************************************************** */
 /* * *******************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Emails/Emails.php,v 1.41 2005/04/28 08:11:21 rank Exp $
- * Description:  TODO: To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
- * ****************************************************************************** */
+ * ******************************************************************************
+ * Contributor(s): YetiForce.com
+ */
 
 // Email is used to store customer information.
 class Emails extends CRMEntity
@@ -64,7 +65,7 @@ class Emails extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		$adb = PearDatabase::getInstance();
 		//Inserting into seactivityrel
@@ -103,8 +104,7 @@ class Emails extends CRMEntity
 			}
 		} else {
 			if (isset($this->column_fields['parent_id']) && $this->column_fields['parent_id'] != '') {
-				$adb->pquery("DELETE FROM vtiger_seactivityrel WHERE crmid = ? AND activityid = ? ", array($this->column_fields['parent_id'], $this->id));
-				//$this->insertIntoEntityTable('vtiger_seactivityrel', $module);
+				$adb->pquery("DELETE FROM vtiger_seactivityrel WHERE crmid = ? && activityid = ? ", array($this->column_fields['parent_id'], $this->id));
 				$sql = 'insert into vtiger_seactivityrel values(?,?)';
 				$params = array($this->column_fields['parent_id'], $this->id);
 				$adb->pquery($sql, $params);
@@ -127,7 +127,7 @@ class Emails extends CRMEntity
 		$this->insertIntoAttachment($this->id, $module);
 	}
 
-	function insertIntoAttachment($id, $module)
+	public function insertIntoAttachment($id, $module)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
@@ -162,7 +162,7 @@ class Emails extends CRMEntity
 		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
-	function saveForwardAttachments($id, $module, $file_details)
+	public function saveForwardAttachments($id, $module, $file_details)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering into saveForwardAttachments($id,$module,$file_details) method.");
@@ -189,7 +189,7 @@ class Emails extends CRMEntity
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if (!isset($ownerid) || $ownerid == '')
 			$ownerid = $current_user->id;
-		$upload_file_path = decideFilePath();
+		$upload_file_path = \vtlib\Functions::initStorageFileDirectory();
 		file_put_contents($upload_file_path . $current_id . "_" . $filename, $file);
 
 		$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?,?,?,?,?,?,?)";
@@ -217,7 +217,7 @@ class Emails extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
+	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -241,12 +241,12 @@ class Emails extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('BULKMAIL', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_BULK_MAILS') . "' class='crmbutton small create'" .
+				$button .= "<input title='" . \includes\Language::translate('LBL_BULK_MAILS') . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"sendmail\";this.form.module.value=\"$this_module\"' type='submit' name='button'" .
-					" value='" . getTranslatedString('LBL_BULK_MAILS') . "'>";
+					" value='" . \includes\Language::translate('LBL_BULK_MAILS') . "'>";
 			}
 		}
 
@@ -289,7 +289,7 @@ class Emails extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): Mike Crowe
 	 */
-	function getSortOrder()
+	public function getSortOrder()
 	{
 		$log = vglobal('log');
 		$log->debug("Entering getSortOrder() method ...");
@@ -307,7 +307,7 @@ class Emails extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): Mike Crowe
 	 */
-	function getOrderBy()
+	public function getOrderBy()
 	{
 		$log = vglobal('log');
 		$log->debug("Entering getOrderBy() method ...");
@@ -332,21 +332,20 @@ class Emails extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function get_users($id)
+	public function get_users($id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering get_users(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
-		global $mod_strings;
 		global $app_strings;
 
 		$id = $_REQUEST['record'];
 
-		$button = '<input title="' . getTranslatedString('LBL_BULK_MAILS') . '" accessykey="F" class="crmbutton small create"
+		$button = '<input title="' . \includes\Language::translate('LBL_BULK_MAILS') . '" accessykey="F" class="crmbutton small create"
 				onclick="this.form.action.value=\"sendmail\";this.form.return_action.value=\"DetailView\";this.form.module.value=\"Emails\";this.form.return_module.value=\"Emails\";"
-				name="button" value="' . getTranslatedString('LBL_BULK_MAILS') . '" type="submit">&nbsp;
-				<input title="' . getTranslatedString('LBL_BULK_MAILS') . '" accesskey="" tabindex="2" class="crmbutton small edit"
-				value="' . getTranslatedString('LBL_SELECT_USER_BUTTON_LABEL') . '" name="Button" language="javascript"
+				name="button" value="' . \includes\Language::translate('LBL_BULK_MAILS') . '" type="submit">&nbsp;
+				<input title="' . \includes\Language::translate('LBL_BULK_MAILS') . '" accesskey="" tabindex="2" class="crmbutton small edit"
+				value="' . \includes\Language::translate('LBL_SELECT_USER_BUTTON_LABEL') . '" name="Button" language="javascript"
 				onclick=\"return window.open("index.php?module=Users&return_module=Emails&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=true&return_id=' . $id . '&recordid=' . $id . '","test","width=640,height=520,resizable=0,scrollbars=0");\"
 				type="button">';
 
@@ -367,10 +366,10 @@ class Emails extends CRMEntity
 
 			$entries = Array();
 
-			if (is_admin($current_user)) {
-				$entries[] = getFullNameFromArray('Users', $row);
+			if (vtlib\Functions::userIsAdministrator($current_user)) {
+				$entries[] = \vtlib\Deprecated::getFullNameFromArray('Users', $row);
 			} else {
-				$entries[] = getFullNameFromArray('Users', $row);
+				$entries[] = \vtlib\Deprecated::getFullNameFromArray('Users', $row);
 			}
 
 			$entries[] = $row['user_name'];
@@ -404,7 +403,7 @@ class Emails extends CRMEntity
 	/**
 	 * Returns a list of the Emails to be exported
 	 */
-	function create_export_query(&$order_by, &$where)
+	public function create_export_query(&$order_by, &$where)
 	{
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
@@ -439,7 +438,7 @@ class Emails extends CRMEntity
 			LEFT JOIN vtiger_attachments
 				ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid";
 		$query .= getNonAdminAccessControlQuery('Emails', $current_user);
-		$query .= "WHERE vtiger_activity.activitytype='Emails' AND vtiger_crmentity.deleted=0 ";
+		$query .= "WHERE vtiger_activity.activitytype='Emails' && vtiger_crmentity.deleted=0 ";
 
 		$log->debug("Exiting create_export_query method ...");
 		return $query;
@@ -448,7 +447,7 @@ class Emails extends CRMEntity
 	/**
 	 * Used to releate email and contacts -- Outlook Plugin
 	 */
-	function set_emails_contact_invitee_relationship($email_id, $contact_id)
+	public function set_emails_contact_invitee_relationship($email_id, $contact_id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering set_emails_contact_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
@@ -460,7 +459,7 @@ class Emails extends CRMEntity
 	/**
 	 * Used to releate email and salesentity -- Outlook Plugin
 	 */
-	function set_emails_se_invitee_relationship($email_id, $contact_id)
+	public function set_emails_se_invitee_relationship($email_id, $contact_id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering set_emails_se_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
@@ -472,7 +471,7 @@ class Emails extends CRMEntity
 	/**
 	 * Used to releate email and Users -- Outlook Plugin
 	 */
-	function set_emails_user_invitee_relationship($email_id, $user_id)
+	public function set_emails_user_invitee_relationship($email_id, $user_id)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering set_emails_user_invitee_relationship(" . $email_id . "," . $user_id . ") method ...");
@@ -482,14 +481,14 @@ class Emails extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$log = vglobal('log');
 
-		$sql = 'DELETE FROM vtiger_seactivityrel WHERE activityid=? AND crmid = ?';
+		$sql = 'DELETE FROM vtiger_seactivityrel WHERE activityid=? && crmid = ?';
 		$this->db->pquery($sql, array($id, $returnId));
 
-		$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+		$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
 		$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
 		$this->db->pquery($sql, $params);
 
@@ -501,7 +500,7 @@ class Emails extends CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = getTabid($module);
+		$tabId = \includes\Modules::getModuleId($module);
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
@@ -540,7 +539,7 @@ class Emails extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = array(
 			"Leads" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
@@ -560,7 +559,7 @@ class Emails extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
 	{
 		$focus = CRMEntity::getInstance($module);
 		$matrix = $queryPlanner->newDependencyMatrix();
@@ -598,7 +597,7 @@ class Emails extends CRMEntity
 	 * @param - $mailid
 	 */
 
-	function setEmailAccessCountValue($mailid)
+	public function setEmailAccessCountValue($mailid)
 	{
 		$adb = PearDatabase::getInstance();
 		$successIds = array();
@@ -635,7 +634,7 @@ function pdfAttach($obj, $module, $file_name, $id)
 
 	$current_id = $adb->getUniqueID("vtiger_crmentity");
 
-	$upload_file_path = decideFilePath();
+	$upload_file_path = \vtlib\Functions::initStorageFileDirectory();
 
 	//Copy the file from temporary directory into storage directory for upload
 	$source_file_path = "storage/" . $file_name;
@@ -654,7 +653,7 @@ function pdfAttach($obj, $module, $file_name, $id)
 		$adb->pquery($query3, array($id, $current_id));
 
 		// Delete the file that was copied
-		checkFileAccessForDeletion($source_file_path);
+		\vtlib\Deprecated::checkFileAccessForDeletion($source_file_path);
 		unlink($source_file_path);
 
 		return true;

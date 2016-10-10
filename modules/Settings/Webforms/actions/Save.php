@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_Webforms_Save_Action extends Settings_Vtiger_Index_Action
@@ -14,11 +15,8 @@ class Settings_Webforms_Save_Action extends Settings_Vtiger_Index_Action
 	public function checkPermission(Vtiger_Request $request)
 	{
 		parent::checkPermission($request);
-
-		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		if (!$currentUserPrivilegesModel->hasModulePermission($moduleModel->getId())) {
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 	}

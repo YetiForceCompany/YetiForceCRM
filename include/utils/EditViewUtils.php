@@ -60,7 +60,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
  		                        INNER JOIN vtiger_crmentity
  		                                ON vtiger_crmentity.crmid=vtiger_products.productid
  		                        WHERE vtiger_crmentity.deleted=0
- 		                                AND productid=?";
+ 		                                && productid=?";
 		$params = array($seid);
 	} elseif ($module == 'Services') {
 		$query = "SELECT
@@ -76,7 +76,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
  		                        INNER JOIN vtiger_crmentity
  		                                ON vtiger_crmentity.crmid=vtiger_service.serviceid
  		                        WHERE vtiger_crmentity.deleted=0
- 		                                AND serviceid=?";
+ 		                                && serviceid=?";
 		$params = array($seid);
 	}
 
@@ -124,9 +124,9 @@ function getAssociatedProducts($module, $focus, $seid = '')
 			$product_Detail[$i]['delRow' . $i] = "Del";
 		}
 		if (empty($focus->mode) && $seid != '') {
-			$sub_prod_query = $adb->pquery("SELECT crmid as prod_id from vtiger_seproductsrel WHERE productid=? AND setype='Products'", array($seid));
+			$sub_prod_query = $adb->pquery("SELECT crmid as prod_id from vtiger_seproductsrel WHERE productid=? && setype='Products'", array($seid));
 		} else {
-			$sub_prod_query = $adb->pquery("SELECT productid as prod_id from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($focus->id, $i));
+			$sub_prod_query = $adb->pquery("SELECT productid as prod_id from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($focus->id, $i));
 		}
 		$subprodid_str = '';
 		$subprodname_str = '';
@@ -134,7 +134,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		if ($adb->num_rows($sub_prod_query) > 0) {
 			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 				$sprod_id = $adb->query_result($sub_prod_query, $j, 'prod_id');
-				$sprod_name = $subProductArray[] = getProductName($sprod_id);
+				$sprod_name = $subProductArray[] = \vtlib\Functions::getCRMRecordLabel($sprod_id);
 				$str_sep = "";
 				if ($j > 0)
 					$str_sep = ":";
@@ -149,10 +149,10 @@ function getAssociatedProducts($module, $focus, $seid = '')
 
 		$product_Detail[$i]['subProductArray' . $i] = $subProductArray;
 		$product_Detail[$i]['hdnProductId' . $i] = $hdnProductId;
-		$product_Detail[$i]['productName' . $i] = from_html($productname);
+		$product_Detail[$i]['productName' . $i] = \vtlib\Functions::fromHTML($productname);
 		/* Added to fix the issue Product Pop-up name display */
 		$product_Detail[$i]['hdnProductcode' . $i] = $hdnProductcode;
-		$product_Detail[$i]['productDescription' . $i] = from_html($productdescription);
+		$product_Detail[$i]['productDescription' . $i] = \vtlib\Functions::fromHTML($productdescription);
 		if ($module == 'Products' || $module == 'Services') {
 			$product_Detail[$i]['comment' . $i] = $productdescription;
 		} else {
@@ -160,10 +160,10 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		}
 
 		if ($focus->object_name != 'Order') {
-			$product_Detail[$i]['qtyInStock' . $i] = decimalFormat($qtyinstock);
+			$product_Detail[$i]['qtyInStock' . $i] = \vtlib\Functions::formatDecimal($qtyinstock);
 		}
 		$listprice = number_format($listprice, $no_of_decimal_places, '.', '');
-		$product_Detail[$i]['qty' . $i] = decimalFormat($qty);
+		$product_Detail[$i]['qty' . $i] = \vtlib\Functions::formatDecimal($qty);
 		$product_Detail[$i]['listPrice' . $i] = $listprice;
 		$product_Detail[$i]['unitPrice' . $i] = number_format($unitprice, $no_of_decimal_places, '.', '');
 		$product_Detail[$i]['usageUnit' . $i] = $usageunit;
@@ -174,9 +174,9 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		$product_Detail[$i]['margin' . $i] = number_format($margin, $no_of_decimal_places, '.', '');
 		$product_Detail[$i]['marginp' . $i] = number_format($marginp, $no_of_decimal_places, '.', '');
 		$product_Detail[$i]['tax' . $i] = $tax;
-		$discount_percent = decimalFormat($adb->query_result($result, $i - 1, 'discount_percent'));
+		$discount_percent = \vtlib\Functions::formatDecimal($adb->query_result($result, $i - 1, 'discount_percent'));
 		$discount_amount = $adb->query_result($result, $i - 1, 'discount_amount');
-		$discount_amount = decimalFormat(number_format($discount_amount, $no_of_decimal_places, '.', ''));
+		$discount_amount = \vtlib\Functions::formatDecimal(number_format($discount_amount, $no_of_decimal_places, '.', ''));
 		$discountTotal = '0';
 		//Based on the discount percent or amount we will show the discount details
 		//To avoid NaN javascript error, here we assign 0 initially to' %of price' and 'Direct Price reduction'(for Each Product)
@@ -313,7 +313,7 @@ function getAssociatedProducts($module, $focus, $seid = '')
 		if ($taxtype == 'group')
 			$tax_percent = $adb->query_result($result, 0, $tax_name);
 		else
-			$tax_percent = $allTaxes[$tax_count]['percentage']; //$adb->query_result($result,0,$tax_name);
+			$tax_percent = $allTaxes[$tax_count]['percentage'];
 
 		if ($tax_percent == '' || $tax_percent == 'NULL')
 			$tax_percent = '0';

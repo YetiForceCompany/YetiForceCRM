@@ -74,7 +74,7 @@ class PBXManager extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
 			$this->addLinksForPBXManager();
@@ -102,15 +102,15 @@ class PBXManager extends CRMEntity
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
 		} else if ($event_type == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($event_type == 'module.postupdate') {
-			// TODO Handle actions before this module is updated.
+
 		}
 	}
 
 	/** Function to handle module specific operations when saving a entity
 	 */
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}

@@ -11,7 +11,7 @@ class Notifications
 
 	private $moduleList = ['all'];
 
-	function process($data)
+	public function process($data)
 	{
 		$siteURL = vglobal('site_URL');
 		$html = '';
@@ -47,7 +47,7 @@ class Notifications
 		return $html;
 	}
 
-	function getNotificationsConditions($data, $modules)
+	public function getNotificationsConditions($data, $modules)
 	{
 		$db = PearDatabase::getInstance();
 		$conditions = '';
@@ -55,17 +55,17 @@ class Notifications
 			if (!is_array($modules)) {
 				$modules = [$modules];
 			}
-			$conditions .= ' AND reletedmodule IN ("' . implode('","', $modules) . '")';
+			$conditions .= ' && reletedmodule IN ("' . implode('","', $modules) . '")';
 		}
 		if (!empty($data['endDate']) && !empty($data['startDate'])) {
-			$conditions .= ' AND `time` BETWEEN ' . $db->sql_escape_string($data['startDate']) . ' AND ' . $db->sql_escape_string($data['endDate']);
+			$conditions .= ' && `time` BETWEEN ' . $db->sql_escape_string($data['startDate']) . ' AND ' . $db->sql_escape_string($data['endDate']);
 		} elseif (!empty($data['endDate'])) {
-			$conditions .= ' AND `time` <= ' . $db->sql_escape_string($data['endDate']);
+			$conditions .= ' && `time` <= ' . $db->sql_escape_string($data['endDate']);
 		}
 		return $conditions;
 	}
 
-	function getListAllowedModule()
+	public function getListAllowedModule()
 	{
 		return $this->moduleList;
 	}

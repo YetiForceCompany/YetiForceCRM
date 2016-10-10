@@ -8,6 +8,7 @@
  */
 class Settings_Vtiger_Tracker_Model
 {
+
 	static private $recordId = '';
 	static private $lockTrack = false;
 	static private $id = false;
@@ -75,8 +76,10 @@ class Settings_Vtiger_Tracker_Model
 	{
 		self::$lockTrack = $lock;
 	}
-	static function setRecordId($record){
-		if(empty(self::$recordId)){
+
+	static function setRecordId($record)
+	{
+		if (empty(self::$recordId)) {
 			self::$recordId = $record;
 		}
 	}

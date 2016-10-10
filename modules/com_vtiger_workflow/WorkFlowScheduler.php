@@ -126,7 +126,7 @@ class WorkFlowScheduler
 		$scheduledWorkflows = null;
 	}
 
-	function addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions)
+	public function addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions)
 	{
 		$conditionMapping = array(
 			'equal to' => 'e',
@@ -223,7 +223,7 @@ class WorkFlowScheduler
 	 * Special Date functions
 	 * @return <Array>
 	 */
-	function _specialDateTimeOperator()
+	public function _specialDateTimeOperator()
 	{
 		return array('less than days ago', 'more than days ago', 'in less than', 'in more than', 'days ago', 'days later',
 			'less than hours before', 'less than hours later', 'more than hours later', 'more than hours before', 'is today');
@@ -234,7 +234,7 @@ class WorkFlowScheduler
 	 * @param <Array> $condition
 	 * @return <String>
 	 */
-	function _parseValueForDate($condition)
+	public function _parseValueForDate($condition)
 	{
 		$value = $condition['value'];
 		$operation = $condition['operation'];

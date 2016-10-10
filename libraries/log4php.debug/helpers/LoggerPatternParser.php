@@ -291,13 +291,11 @@ class LoggerPatternParser {
             case 'c':
                 $pc = new LoggerCategoryPatternConverter($this->formattingInfo, $this->extractPrecisionOption());
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() CATEGORY converter.");
-                // $this->formattingInfo->dump();
                 $this->currentLiteral = '';
                 break;
             case 'C':
                 $pc = new LoggerClassNamePatternConverter($this->formattingInfo, $this->extractPrecisionOption());
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() CLASSNAME converter.");
-                //$this->formattingInfo->dump();
                 $this->currentLiteral = '';
                 break;
             case 'd':

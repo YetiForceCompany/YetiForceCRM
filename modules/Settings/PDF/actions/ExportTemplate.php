@@ -37,13 +37,12 @@ class Settings_PDF_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 			} elseif ($field === 'watermark_image') {
 				if (file_exists($pdfModel->get($field))) {
 					$watermarkPath = $pdfModel->get($field);
-					//$watermarkName = basename($watermarkPath);
 					$im = file_get_contents($watermarkPath);
 					$imData = base64_encode($im);
 
 					$xmlColumn = $xml->createElement('imageblob', $imData);
 					$xmlField->appendChild($xmlColumn);
-					$value = $watermarkPath; //$watermarkName;
+					$value = $watermarkPath;
 				} else {
 					$value = '';
 				}

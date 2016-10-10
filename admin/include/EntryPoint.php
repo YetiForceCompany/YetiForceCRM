@@ -32,7 +32,7 @@ abstract class Admin_EntryPoint
 	/**
 	 * Get login data.
 	 */
-	function getLogin()
+	public function getLogin()
 	{
 		return $this->login;
 	}
@@ -40,7 +40,7 @@ abstract class Admin_EntryPoint
 	/**
 	 * Set login data.
 	 */
-	function setLogin($login)
+	public function setLogin($login)
 	{
 		if ($this->login)
 			throw new \Exception\AppException('Login is already set.');
@@ -50,7 +50,7 @@ abstract class Admin_EntryPoint
 	/**
 	 * Check if login data is present.
 	 */
-	function hasLogin()
+	public function hasLogin()
 	{
 		return $this->getLogin() ? true : false;
 	}

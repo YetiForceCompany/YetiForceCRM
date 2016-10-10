@@ -35,7 +35,7 @@ class DateTimeField
 	 * @param $user -- value :: Type Users
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
-	function getDBInsertDateValue($user = null)
+	public function getDBInsertDateValue($user = null)
 	{
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
@@ -87,7 +87,8 @@ class DateTimeField
 	 */
 	public static function convertToDBFormat($date, $user = null)
 	{
-		global $current_user, $log;
+		$log = LoggerManager::getInstance();
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date));
 		if (empty($user)) {
 			$user = $current_user;
@@ -266,7 +267,9 @@ class DateTimeField
 	 */
 	public static function convertToUserTimeZone($value, $user = null)
 	{
-		global $log, $current_user, $default_timezone;
+		global $default_timezone;
+		$log = LoggerManager::getInstance();
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value) method ...");
 		if (empty($user)) {
 			$user = $current_user;
@@ -285,7 +288,9 @@ class DateTimeField
 	 */
 	public static function convertToDBTimeZone($value, $user = null, $formatDate = true)
 	{
-		global $log, $current_user, $default_timezone;
+		global $default_timezone;
+		$log = LoggerManager::getInstance();
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value)");
 		if (empty($user)) {
 			$user = $current_user;
@@ -312,10 +317,7 @@ class DateTimeField
 	{
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($time, $sourceTimeZoneName, $targetTimeZoneName)");
-		// TODO Caching is causing problem in getting the right date time format in Calendar module.
-		// Need to figure out the root cause for the problem. Till then, disabling caching.
-		//if(empty(self::$cache[$time][$targetTimeZoneName])) {
-		// create datetime object for given time in source timezone
+
 		$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
 		if ($time == '24:00')
 			$time = '00:00';
@@ -343,7 +345,7 @@ class DateTimeField
 	 * @param $user -- value :: Type Users
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
-	function getDBInsertTimeValue($user = null)
+	public function getDBInsertTimeValue($user = null)
 	{
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
@@ -358,7 +360,7 @@ class DateTimeField
 	 * @global Users $current_user
 	 * @return string
 	 */
-	function getDisplayDate($user = null)
+	public function getDisplayDate($user = null)
 	{
 		$date_value = explode(' ', $this->datetime);
 		if (isset($date_value[1]) && $date_value[1] != '') {
@@ -370,7 +372,7 @@ class DateTimeField
 		return $display_date;
 	}
 
-	function getDisplayTime($user = null)
+	public function getDisplayTime($user = null)
 	{
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
@@ -386,9 +388,9 @@ class DateTimeField
 		return $time;
 	}
 
-	function getFullcalenderTime($user = null)
+	public function getFullcalenderTime($user = null)
 	{
-		global $log;
+		$log = LoggerManager::getInstance();
 		$log->debug("Entering getDisplayTime(" . $this->datetime . ") method ...");
 		$date = self::convertToUserTimeZone($this->datetime, $user);
 		$time = $date->format("H:i:s");

@@ -15,7 +15,7 @@ class Vtiger_Tag_Model extends Vtiger_Base_Model
 	private $_freetag = false;
 	static $TAG_FETCH_LIMIT = 100;
 
-	function __construct()
+	public function __construct()
 	{
 		$this->_freetag = new freetag();
 	}
@@ -34,7 +34,7 @@ class Vtiger_Tag_Model extends Vtiger_Base_Model
 	public function delete()
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_freetagged_objects WHERE tag_id = ? AND object_id = ?', array($this->get('tag_id'), $this->get('record')));
+		$db->pquery('DELETE FROM vtiger_freetagged_objects WHERE tag_id = ? && object_id = ?', array($this->get('tag_id'), $this->get('record')));
 	}
 
 	/**
@@ -72,5 +72,3 @@ class Vtiger_Tag_Model extends Vtiger_Base_Model
 		return $recordModels;
 	}
 }
-
-

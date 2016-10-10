@@ -43,7 +43,7 @@ class Admin_WebUI extends Admin_EntryPoint
 	 * Function to get the instance of the logged in User
 	 * @return Users object
 	 */
-	function getLogin()
+	public function getLogin()
 	{
 		$user = parent::getLogin();
 		if (!$user) {
@@ -92,7 +92,7 @@ class Admin_WebUI extends Admin_EntryPoint
 		$handler->postProcess($request);
 	}
 
-	function isInstalled()
+	public function isInstalled()
 	{
 		global $dbconfig;
 		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
@@ -101,7 +101,7 @@ class Admin_WebUI extends Admin_EntryPoint
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		vglobal('log', LoggerManager::getLogger('System'));
 		Vtiger_Session::init();
@@ -118,7 +118,7 @@ class Admin_WebUI extends Admin_EntryPoint
 				require_once('libraries/csrf-magic/csrf-magic.php');
 			require_once('config/csrf_config.php');
 		}
-		// TODO - Get rid of global variable $current_user
+		
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
@@ -156,8 +156,6 @@ class Admin_WebUI extends Admin_EntryPoint
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
 						if ($module == 'Calendar') {
-							// To load MyCalendar instead of list view for calendar
-							//TODO: see if it has to enhanced and get the default view from module model
 							$view = 'Calendar';
 						}
 					} else {
@@ -198,7 +196,6 @@ class Admin_WebUI extends Admin_EntryPoint
 					$this->checkLogin($request);
 				}
 
-				//TODO : Need to review the design as there can potential security threat
 				$skipList = array('Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'PriceBooks', 'Migration', 'Install');
 
 				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {

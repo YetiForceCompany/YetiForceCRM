@@ -1,4 +1,5 @@
 <?php
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 /*
   Return Description
   ------------------------
@@ -18,7 +19,7 @@ Class DataAccess_show_quick_create
 	{
 		$db = PearDatabase::getInstance();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!isset($id) || $id == 0 || $id == '' || !$userPrivModel->hasModuleActionPermission(getTabid($config['modules']), 'CreateView')) {
+		if (!isset($id) || $id == 0 || $id == '' || !$userPrivModel->hasModuleActionPermission($config['modules'], 'CreateView')) {
 			return ['save_record' => true];
 		}
 		$title = '';

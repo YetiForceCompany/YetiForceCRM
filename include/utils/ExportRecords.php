@@ -10,26 +10,26 @@
  * ****************************************************************************** */
 require_once('include/database/PearDatabase.php');
 require_once('include/utils/utils.php');
-global $app_strings, $mod_strings, $list_max_entries_per_page, $currentModule, $theme;
+global $mod_strings, $list_max_entries_per_page, $currentModule, $theme;
 
 $smarty = new vtigerCRM_Smarty();
 
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
-require_once('modules/Vtiger/layout_utils.php');
+
 
 $smarty->assign("SESSION_WHERE", $_SESSION['export_where']);
-$smarty->assign('APP', $app_strings);
 $smarty->assign('MOD', $mod_strings);
 $smarty->assign("THEME", $theme_path);
 $smarty->assign("IMAGE_PATH", $image_path);
 $smarty->assign("MODULE", $currentModule);
-$smarty->assign("MODULELABEL", getTranslatedString($currentModule));
+$smarty->assign("MODULELABEL", \includes\Language::translate($currentModule));
 $smarty->assign("IDSTRING", AppRequest::get('idstring'));
 $smarty->assign("EXCLUDED_RECORDS", AppRequest::get('excludedRecords'));
 $smarty->assign("PERPAGE", $list_max_entries_per_page);
-$current_user = vglobal('current_user');
-if (!is_admin($current_user) && (isPermitted($currentModule, 'Export') != 'yes')) {
+
+$current_user = Users_Privileges_Model::getCurrentUserModel();
+if (!$current_user->isAdminUser() && (!\includes\Privileges::isPermitted($currentModule, 'Export'))) {
 	$smarty->display(vtlib_getModuleTemplate('Vtiger', 'OperationNotPermitted.tpl'));
 } else {
 	$smarty->display('ExportRecords.tpl');

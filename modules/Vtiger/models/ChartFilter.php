@@ -13,10 +13,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $extraData;
 	private $targetModuleModel;
 
-	function getSearchParams($column, $value)
+	public function getSearchParams($column, $value)
 	{
 		return '&search_params=' . json_encode([[[$column, 'e', $value]]]);
 	}
+
 	static function getInstance($linkId = 0, $userId = 0)
 	{
 		return new self();
@@ -35,12 +36,19 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function getDataBarchat()
 	{
 		$groupData = $this->getDataFromFilter();
+		uasort($groupData, function($first, $second) {
+			if ($first['count'] == $second['count']) {
+				return 0;
+			}
+			return ($first['count'] < $second['count']) ? 1 : -1;
+		});
 		$data = [];
 		foreach ($groupData as $fieldName => $value) {
 			$data [] = [$value['count'], $fieldName, $value['link']];
 		}
 		return $data;
 	}
+
 	public function getDataFunnel()
 	{
 		$groupData = $this->getDataFromFilter();
@@ -48,9 +56,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		foreach ($groupData as $fieldName => $value) {
 			$data [] = [$fieldName, $value['count'], $value['link']];
 		}
-		
+
 		return $data;
 	}
+
 	public function getDataPie()
 	{
 		$groupData = $this->getDataFromFilter();
@@ -68,6 +77,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$groupField = $this->extraData['groupField'];
 		$groupFieldModel = Vtiger_Field_Model::getInstance($groupField, $this->getTargetModuleModel());
 		$groupField = $groupFieldModel->get('column');
+		$fieldName = $groupFieldModel->get('name');
 		$queryGenerator = new QueryGenerator($this->getTargetModule(), $currentUserModel);
 		$queryGenerator->initForCustomViewById($filterId);
 		$fields = $queryGenerator->getFields();
@@ -77,17 +87,17 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$result = $db->query($queryGenerator->getQuery());
 		$groupData = [];
 		while ($row = $db->getRow($result)) {
-			if(!empty($row[$groupField])){
+			if (!empty($row[$groupField])) {
 				$displayValue = $groupFieldModel->getDisplayValue($row[$groupField]);
 				if (!isset($groupData[$displayValue]['count'])) {
 					$groupData[$displayValue]['count'] = 1;
 				} else {
 					$groupData[$displayValue]['count'] ++;
 				}
-				if(!isset($groupData[$displayValue]['link'])){
+				if (!isset($groupData[$displayValue]['link'])) {
 					$moduleModel = $this->getTargetModuleModel();
-					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . '&viewname=All' . $this->getSearchParams($groupField, $row[$groupField]);
-				}		
+					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . $this->getSearchParams($fieldName, $row[$groupField]);
+				}
 			}
 		}
 		return $groupData;
@@ -122,6 +132,15 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $this->extraData['chartType'];
 	}
 
+	/**
+	 * Function to check if chart should be colored
+	 * @return boolean
+	 */
+	public function isColor()
+	{
+		return $this->extraData['color'];
+	}
+
 	public function getTargetModule()
 	{
 		return $this->extraData['module'];
@@ -137,21 +156,27 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 	public function getTitle($prefix = '')
 	{
-		$db = PearDatabase::getInstance();
-		$suffix = '';
-		$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
-		if ($db->num_rows($customviewrs)) {
-			$customview = $db->fetch_array($customviewrs);
-			$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
-			$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-			$suffix .= ' - ' . vtranslate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
+		$title = $this->widgetModel->get('title');
+		if (empty($title)) {
+			$db = PearDatabase::getInstance();
+			$suffix = '';
+			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
+			if ($db->num_rows($customviewrs)) {
+				$customview = $db->fetch_array($customviewrs);
+				$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
+				$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+				$suffix .= ' - ' . vtranslate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
+			}
+			return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
-		return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
+		return $title;
 	}
-	public function getGetTotalCountURL(){
+
+	public function getGetTotalCountURL()
+	{
 		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 	}
-	
+
 	public function getListViewURL()
 	{
 		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');

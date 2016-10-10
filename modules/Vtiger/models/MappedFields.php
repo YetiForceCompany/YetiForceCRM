@@ -133,7 +133,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
 		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM `%s` WHERE `tabid` = ? AND `reltabid` = ? LIMIT 1', self::$baseTable);
+		$query = sprintf('SELECT * FROM `%s` WHERE `tabid` = ? && `reltabid` = ? LIMIT 1', self::$baseTable);
 		$result = $db->pquery($query, [$tabId, $relTabId]);
 		if ($result->rowCount() == 0) {
 			$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');

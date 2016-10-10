@@ -30,7 +30,7 @@ class Vtiger_StringTemplate
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		
 	}
@@ -38,7 +38,7 @@ class Vtiger_StringTemplate
 	/**
 	 * Assign replacement value for the variable.
 	 */
-	function assign($key, $value)
+	public function assign($key, $value)
 	{
 		$this->tplvars[$key] = $value;
 	}
@@ -46,7 +46,7 @@ class Vtiger_StringTemplate
 	/**
 	 * Get replacement value for the variable.
 	 */
-	function get($key)
+	public function get($key)
 	{
 		$value = false;
 		if (isset($this->tplvars[$key])) {
@@ -59,7 +59,7 @@ class Vtiger_StringTemplate
 	 * Clear all the assigned variable values.
 	 * (except the once in the given list)
 	 */
-	function clear($exceptvars = false)
+	public function clear($exceptvars = false)
 	{
 		$restorevars = [];
 		if ($exceptvars) {
@@ -80,7 +80,7 @@ class Vtiger_StringTemplate
 	 * @param $avoidLookup should be true if only verbatim file copy needs to be done
 	 * @returns merged contents
 	 */
-	function merge($instring, $avoidLookup = false)
+	public function merge($instring, $avoidLookup = false)
 	{
 		if (empty($instring))
 			return $instring;
@@ -113,7 +113,7 @@ class Vtiger_StringTemplate
 	 * Clean up the input to be used as a regex
 	 * @access private
 	 */
-	function __formatAsRegex($value)
+	public function __formatAsRegex($value)
 	{
 		// If / is not already escaped as \/ do it now
 		$value = preg_replace('/\//', '\\/', $value);

@@ -181,7 +181,8 @@
     </div>
     <div class='editViewContainer tab-pane marginTop20' id="tab_email_search">
 		<h3>{vtranslate('Search email configuration', 'OSSMailScanner')}</h3>
-        <div class="alert alert-info">{vtranslate('Alert_info_tab_email_search', 'OSSMailScanner')}</div>
+		<hr/>
+        <div class="alert alert-info"><h4>{vtranslate('Alert_info_tab_email_search', 'OSSMailScanner')}</h4></div>
         <form class="form-horizontal">
 			<select multiple id="email_search" name="email_search" class="select2 form-control">
 				{foreach item=item key=key from=$EMAILSEARCH}
@@ -196,16 +197,31 @@
 				{/foreach}
 			</select>
         </form>
-		<h3>{vtranslate('Change ticket status', 'OSSMailScanner')}</h3>
-        <div class="alert alert-info">{vtranslate('Alert_info_conftab_change_ticket_status', 'OSSMailScanner')}</div>	
-        <form class="form-horizontal">
-            <div class="form-group col-sm-12">
-                <div class="controls">
-                    <input class="pull-left" style="margin-right: 10px;" type="checkbox" name="conftab_change_ticket_status" id="conftab_change_ticket_status" {if $WIDGET_CFG['emailsearch']['change_ticket_status'] eq 'true'} checked {/if}>
-					<label class="">{vtranslate('Change_ticket_status', 'OSSMailScanner')}</label>
-                </div>
-            </div>
-        </form>
+		<h3>{vtranslate('LBL_TICKET_REOPEN', 'OSSMailScanner')}</h3>
+		<hr/>
+        <div class="alert alert-info"><h4>{vtranslate('LBL_CONFTAB_CHANGE_TICKET_STATUS', 'OSSMailScanner')}</h4>	</div>
+		<form class="form-horizontal">
+			<div class="form-group col-sm-12">
+				<div class="radio">
+					<label>
+						<input type="radio" name="conftabChangeTicketStatus" class="conftabChangeTicketStatus" value="noAction"  {if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'noAction'}checked data-active="1"{/if}>
+						<strong>{vtranslate('LBL_NO_ACTION', 'OSSMailScanner')}</strong>
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="conftabChangeTicketStatus" class="conftabChangeTicketStatus" value="openTicket" {if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'openTicket'}checked data-active="1"{/if}>
+						<strong>{vtranslate('LBL_OPEN_TICKET', 'OSSMailScanner')}</strong>
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="conftabChangeTicketStatus" class="conftabChangeTicketStatus" value="createTicket" {if $WIDGET_CFG['emailsearch']['changeTicketStatus'] eq 'createTicket'}checked data-active="1"{/if}>
+						<strong>{vtranslate('LBL_CREATE_TICKET', 'OSSMailScanner')}</strong>
+					</label>
+				</div>
+			</div>
+		</form>
     </div>
     <div class='editViewContainer tab-pane marginTop20' id="tab_record_numbering">
         <div class="alert alert-info">{vtranslate('Alert_info_tab_record_numbering', 'OSSMailScanner')} &nbsp; <a class="btn btn-info" href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{vtranslate('ConfigCustomRecordNumbering','OSSMailScanner')}</a></div>	

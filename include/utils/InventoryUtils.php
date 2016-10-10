@@ -28,7 +28,7 @@ function updateStk($product_id, $qty, $mode, $ext_prod_arr, $module)
 	$log->debug("Inside updateStk function, module=" . $module);
 	$log->debug("Product Id = $product_id & Qty = $qty");
 
-	$prod_name = getProductName($product_id);
+	$prod_name = \vtlib\Functions::getCRMRecordLabel($product_id);
 	$qtyinstk = getPrdQtyInStck($product_id);
 	$log->debug("Prd Qty in Stock " . $qtyinstk);
 
@@ -134,7 +134,7 @@ function getProductTaxPercentage($type, $productid, $default = '')
 
 	$log->debug("Exiting from getProductTaxPercentage($productid,$type) function. return value=$taxpercentage");
 	if ($current_user->truncate_trailing_zeros == true)
-		return decimalFormat($taxpercentage);
+		return \vtlib\Functions::formatDecimal($taxpercentage);
 	else
 		return $taxpercentage;
 }
@@ -256,7 +256,10 @@ function getTaxDetailsForProduct($productid, $available = 'all')
  */
 function deleteInventoryProductDetails($focus)
 {
-	global $log, $adb, $updateInventoryProductRel_update_product_array;
+	global $updateInventoryProductRel_update_product_array;
+	$adb = PearDatabase::getInstance();
+	$log = LoggerManager::getInstance();
+
 	$log->debug("Entering into function deleteInventoryProductDetails(" . $focus->id . ").");
 
 	$product_info = $adb->pquery("SELECT productid, quantity, sequence_no, incrementondel from vtiger_inventoryproductrel WHERE id=?", array($focus->id));
@@ -269,7 +272,7 @@ function deleteInventoryProductDetails($focus)
 
 		if ($incrementondel) {
 			$focus->update_product_array[$focus->id][$sequence_no][$productid] = $qty;
-			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($focus->id, $sequence_no));
+			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($focus->id, $sequence_no));
 			if ($adb->num_rows($sub_prod_query) > 0) {
 				for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 					$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
@@ -286,7 +289,10 @@ function deleteInventoryProductDetails($focus)
 
 function updateInventoryProductRel($entity)
 {
-	global $log, $adb, $updateInventoryProductRel_update_product_array, $updateInventoryProductRel_deduct_stock;
+	global $updateInventoryProductRel_update_product_array, $updateInventoryProductRel_deduct_stock;
+	$adb = PearDatabase::getInstance();
+	$log = LoggerManager::getInstance();
+
 	$entity_id = vtws_getIdComponents($entity->getId());
 	$entity_id = $entity_id[1];
 	$update_product_array = $updateInventoryProductRel_update_product_array;
@@ -338,7 +344,7 @@ function updateInventoryProductRel($entity)
 			$qtyinstk = getPrdQtyInStck($productid);
 			$upd_qty = $qtyinstk - $qty;
 			updateProductQty($productid, $upd_qty);
-			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($entity_id, $sequence_no));
+			$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($entity_id, $sequence_no));
 			if ($adb->num_rows($sub_prod_query) > 0) {
 				for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 					$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
@@ -352,7 +358,6 @@ function updateInventoryProductRel($entity)
 	$log->debug("Exit from function updateInventoryProductRel(" . $entity_id . ")");
 }
 
-// TODO Remove when there are no modules with the old products block.
 /** 	function used to get the tax type for the entity (PO or Invoice)
  * 	@param string $module - module name
  * 	@param int $id - id of the PO or Invoice
@@ -513,7 +518,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 		if ($available == 'available') { // Create View
 			$current_user = vglobal('current_user');
 
-			$user_currency_id = fetchCurrency($current_user->id);
+			$user_currency_id = \vtlib\Functions::userCurrencyId($current_user->id);
 
 			$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
@@ -531,7 +536,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 				// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 				// Both together will be the actual conversion rate for the given currency.
 				$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-				$user_cursym_convrate = getCurrencySymbolandCRate($user_currency_id);
+				$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($user_currency_id);
 				$product_base_conv_rate = 1 / $user_cursym_convrate['rate'];
 				$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 
@@ -598,7 +603,7 @@ function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = '
 		$params = array($productid);
 	} else {
 		$sql = "select conversion_rate from vtiger_currency_info where id=?";
-		$params = array(fetchCurrency($current_user->id));
+		$params = array(\vtlib\Functions::userCurrencyId($current_user->id));
 	}
 
 	$result = $adb->pquery($sql, $params);
@@ -689,7 +694,7 @@ function deductProductsFromStock($recordId)
 		$qtyinstk = getPrdQtyInStck($productid);
 		$upd_qty = $qtyinstk - $qty;
 		updateProductQty($productid, $upd_qty);
-		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($recordId, $sequence_no));
+		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($recordId, $sequence_no));
 		if ($adb->num_rows($sub_prod_query) > 0) {
 			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 				$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
@@ -715,7 +720,7 @@ function addProductsToStock($recordId)
 		$qtyinstk = getPrdQtyInStck($productid);
 		$upd_qty = $qtyinstk + $qty;
 		updateProductQty($productid, $upd_qty);
-		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?", array($recordId, $sequence_no));
+		$sub_prod_query = $adb->pquery("SELECT productid from vtiger_inventorysubproductrel WHERE id=? && sequence_no=?", array($recordId, $sequence_no));
 		if ($adb->num_rows($sub_prod_query) > 0) {
 			for ($j = 0; $j < $adb->num_rows($sub_prod_query); $j++) {
 				$sub_prod_id = $adb->query_result($sub_prod_query, $j, "productid");
@@ -771,7 +776,7 @@ function createRecords($obj)
 		$sql = 'SELECT * FROM %s WHERE temp_status = %s';
 		$sql = sprintf($sql, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
 		if (!empty($subject))
-			$sql .= ' AND subject = "' . str_replace("\"", "\\\"", $subject) . '"';
+			$sql .= ' && subject = "' . str_replace("\"", "\\\"", $subject) . '"';
 		$subjectResult = $adb->query($sql);
 		$count = $adb->num_rows($subjectResult);
 		$subjectRowIDs = [];
@@ -967,13 +972,13 @@ function undoLastImport($obj, $user)
 
 	$dbTableName = Import_Utils_Helper::getDbTableName($owner);
 
-	if (!is_admin($user) && $user->id != $owner->id) {
+	if (!vtlib\Functions::userIsAdministrator($user) && $user->id != $owner->id) {
 		$viewer = new Vtiger_Viewer();
 		$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
 		exit;
 	}
 	$result = $adb->query("SELECT recordid FROM $dbTableName WHERE temp_status = " . Import_Data_Controller::$IMPORT_RECORD_CREATED
-		. " AND recordid IS NOT NULL;");
+		. " && recordid IS NOT NULL;");
 	$noOfRecords = $adb->num_rows($result);
 	$noOfRecordsDeleted = 0;
 	for ($i = 0; $i < $noOfRecords; ++$i) {
@@ -1008,7 +1013,7 @@ function getCurrencyId($fieldValue)
 {
 	$adb = PearDatabase::getInstance();
 
-	$sql = 'SELECT id FROM vtiger_currency_info WHERE currency_name = ? AND deleted = 0';
+	$sql = 'SELECT id FROM vtiger_currency_info WHERE currency_name = ? && deleted = 0';
 	$result = $adb->pquery($sql, array($fieldValue));
 	$currencyId = 1;
 	if ($adb->num_rows($result) > 0) {

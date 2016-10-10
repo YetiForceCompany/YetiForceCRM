@@ -1,21 +1,24 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-class Reports_DetailView_Model extends Vtiger_DetailView_Model {
+class Reports_DetailView_Model extends Vtiger_DetailView_Model
+{
+
 	/**
 	 * Function to get the instance
 	 * @param <String> $moduleName - module name
 	 * @param <String> $recordId - record id
 	 * @return <Vtiger_DetailView_Model>
 	 */
-	public static function getInstance($moduleName,$recordId) {
+	public static function getInstance($moduleName, $recordId)
+	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
@@ -31,7 +34,8 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model {
 	 * @return <array> - array of link models in the format as below
 	 *                   array('linktype'=>list of link models);
 	 */
-	public function getDetailViewLinks($linkParams='') {
+	public function getDetailViewLinks($linkParams = '')
+	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$moduleModel = $this->getModule();
@@ -39,63 +43,62 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model {
 		$moduleName = $moduleModel->getName();
 
 		$detailViewLinks = array();
-        $printPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Print');
-        if($printPermission) {
-            $detailViewLinks[] = array(
-                'linklabel' => vtranslate('LBL_REPORT_PRINT', $moduleName),
-                'linkurl' => $recordModel->getReportPrintURL(),
-                'linkicon' => 'print.png'
-            );
-        }
-        
-        $exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
-        if($exportPermission) {
-            $detailViewLinks[] = array(
-                'linklabel' => vtranslate('LBL_REPORT_CSV', $moduleName),
-                'linkurl' => $recordModel->getReportCSVURL(),
-                'linkicon' => 'csv.png'
-            );
+		$printPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Print');
+		if ($printPermission) {
+			$detailViewLinks[] = array(
+				'linklabel' => vtranslate('LBL_REPORT_PRINT', $moduleName),
+				'linkurl' => $recordModel->getReportPrintURL(),
+				'linkicon' => 'fa fa-print'
+			);
+		}
 
+		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
+		if ($exportPermission) {
+			$detailViewLinks[] = array(
+				'linklabel' => vtranslate('LBL_REPORT_CSV', $moduleName),
+				'linkurl' => $recordModel->getReportCSVURL(),
+				'linkicon' => 'fa fa-file-text-o'
+			);
 
-            $detailViewLinks[] = array(
-                'linklabel' => vtranslate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
-                'linkurl' => $recordModel->getReportExcelURL(),
-                'linkicon' => 'xlsx.png'
-            );
-        }
+			if (!Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
+				$detailViewLinks[] = array(
+					'linklabel' => vtranslate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
+					'linkurl' => $recordModel->getReportExcelURL(),
+					'linkicon' => 'fa fa-file-excel-o'
+				);
+			}
+		}
 
 		$linkModelList = array();
-		foreach($detailViewLinks as $detailViewLinkEntry) {
+		foreach ($detailViewLinks as $detailViewLinkEntry) {
 			$linkModelList[] = Vtiger_Link_Model::getInstanceFromValues($detailViewLinkEntry);
 		}
 
 		return $linkModelList;
 	}
 
-
-
 	/**
 	 * Function to get the detail view widgets
 	 * @return <Array> - List of widgets , where each widget is an Vtiger_Link_Model
 	 */
-	public function getWidgets() {
+	public function getWidgets()
+	{
 		$moduleModel = $this->getModule();
 		$widgets = array();
 
-		if($moduleModel->isTrackingEnabled()) {
+		if ($moduleModel->isTrackingEnabled()) {
 			$widgets[] = array(
 				'linktype' => 'DETAILVIEWWIDGET',
 				'linklabel' => 'LBL_RECENT_ACTIVITIES',
-				'linkurl' => 'module='.$this->getModuleName().'&view=Detail&record='.$this->getRecord()->getId().
-					'&mode=showRecentActivities&page=1&limit=5',
+				'linkurl' => 'module=' . $this->getModuleName() . '&view=Detail&record=' . $this->getRecord()->getId() .
+				'&mode=showRecentActivities&page=1&limit=5',
 			);
 		}
 
 		$widgetLinks = array();
-		foreach ($widgets as $widgetDetails){
+		foreach ($widgets as $widgetDetails) {
 			$widgetLinks[] = Vtiger_Link_Model::getInstanceFromValues($widgetDetails);
 		}
 		return $widgetLinks;
 	}
-
 }

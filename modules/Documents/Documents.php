@@ -62,7 +62,7 @@ class Documents extends CRMEntity
 	var $default_order_by = '';
 	var $default_sort_order = 'DESC';
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		$log = LoggerManager::getInstance();
 		$adb = PearDatabase::getInstance();
@@ -84,7 +84,7 @@ class Documents extends CRMEntity
 						$fileInstance = \includes\fields\File::loadFromRequest($files);
 						if ($fileInstance->validate()) {
 							$filename = $_FILES[$filename_fieldname]['name'];
-							$filename = from_html(preg_replace('/\s+/', '_', $filename));
+							$filename = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $filename));
 							$filetype = $_FILES[$filename_fieldname]['type'];
 							$filesize = $_FILES[$filename_fieldname]['size'];
 							$filelocationtype = 'I';
@@ -147,7 +147,7 @@ class Documents extends CRMEntity
 	 *      @param int $id  - entity id to which the vtiger_files to be uploaded
 	 *      @param string $module  - the current module name
 	 */
-	function insertIntoAttachment($id, $module)
+	public function insertIntoAttachment($id, $module)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -168,7 +168,7 @@ class Documents extends CRMEntity
 	/**    Function used to get the sort order for Documents listview
 	 *      @return string  $sorder - first check the $_REQUEST['sorder'] if request value is empty then check in the $_SESSION['NOTES_SORT_ORDER'] if this session value is empty then default sort order will be returned.
 	 */
-	function getSortOrder()
+	public function getSortOrder()
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering getSortOrder() method ...');
@@ -183,7 +183,7 @@ class Documents extends CRMEntity
 	/**     Function used to get the order by value for Documents listview
 	 *       @return string  $order_by  - first check the $_REQUEST['order_by'] if request value is empty then check in the $_SESSION['NOTES_ORDER_BY'] if this session value is empty then default order by will be returned.
 	 */
-	function getOrderBy()
+	public function getOrderBy()
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug('Entering getOrderBy() method ...');
@@ -205,7 +205,7 @@ class Documents extends CRMEntity
 	 * Function used to get the sort order for Documents listview
 	 * @return String $sorder - sort order for a given folder.
 	 */
-	function getSortOrderForFolder($folderId)
+	public function getSortOrderForFolder($folderId)
 	{
 		if (AppRequest::has('sorder') && AppRequest::get('folderid') == $folderId) {
 			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
@@ -222,7 +222,7 @@ class Documents extends CRMEntity
 	 * Function used to get the order by value for Documents listview
 	 * @return String order by column for a given folder.
 	 */
-	function getOrderByForFolder($folderId)
+	public function getOrderByForFolder($folderId)
 	{
 		$use_default_order_by = '';
 		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
@@ -243,7 +243,7 @@ class Documents extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Documents Query.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$log = LoggerManager::getInstance();
 		$current_user = vglobal('current_user');
@@ -254,8 +254,8 @@ class Documents extends CRMEntity
 		$sql = getPermittedFieldsQuery("Documents", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name' =>
-			'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT $fields_list, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name" .
 			" FROM vtiger_notes
 				inner join vtiger_crmentity
@@ -267,7 +267,7 @@ class Documents extends CRMEntity
 		$query .= getNonAdminAccessControlQuery('Documents', $current_user);
 		$where_auto = " vtiger_crmentity.deleted=0";
 		if ($where != "")
-			$query .= "  WHERE ($where) AND " . $where_auto;
+			$query .= "  WHERE ($where) && " . $where_auto;
 		else
 			$query .= '  WHERE %s';
 
@@ -276,7 +276,7 @@ class Documents extends CRMEntity
 		return $query;
 	}
 
-	function insertintonotesrel($relid, $id)
+	public function insertintonotesrel($relid, $id)
 	{
 		$adb = PearDatabase::getInstance();
 		$dbQuery = "insert into vtiger_senotesrel values ( ?, ? )";
@@ -292,7 +292,7 @@ class Documents extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for primary module
 	 */
 
-	function generateReportsQuery($module, $queryplanner)
+	public function generateReportsQuery($module, $queryplanner)
 	{
 		$moduletable = $this->table_name;
 		$moduleindex = $this->tab_name_index[$moduletable];
@@ -322,7 +322,7 @@ class Documents extends CRMEntity
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
 	{
 
 		$matrix = $queryplanner->newDependencyMatrix();
@@ -333,7 +333,6 @@ class Documents extends CRMEntity
 		if (!$queryplanner->requireTable('vtiger_notes', $matrix)) {
 			return '';
 		}
-		// TODO Support query planner
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_notes", "notesid", $queryplanner);
 		$query .= " left join vtiger_notescf on vtiger_notes.notesid = vtiger_notescf.notesid";
 		if ($queryplanner->requireTable("vtiger_crmentityDocuments", $matrix)) {
@@ -362,7 +361,7 @@ class Documents extends CRMEntity
 	 * returns the array with table names and fieldnames storing relations between module and this module
 	 */
 
-	function setRelationTables($secmodule = false)
+	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [];
 		if ($secmodule === false) {
@@ -372,7 +371,7 @@ class Documents extends CRMEntity
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id
-	function unlinkDependencies($module, $id)
+	public function unlinkDependencies($module, $id)
 	{
 		$log = LoggerManager::getInstance();
 		/* //Backup Documents Related Records
@@ -393,20 +392,20 @@ class Documents extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$log = LoggerManager::getInstance();
 		if (empty($returnModule) || empty($returnId))
 			return;
 
 		if ($returnModule == 'Accounts') {
-			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? AND (crmid = ? OR crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
+			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && (crmid = ? || crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
 			$this->db->pquery($sql, array($id, $returnId, $returnId));
 		} else {
-			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? AND crmid = ?';
+			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && crmid = ?';
 			$this->db->pquery($sql, array($id, $returnId));
 
-			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
 			$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
 			$this->db->pquery($sql, $params);
 		}
@@ -414,12 +413,12 @@ class Documents extends CRMEntity
 
 // Function to get fieldname for uitype 27 assuming that documents have only one file type field
 
-	function getFileTypeFieldName()
+	public function getFileTypeFieldName()
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
-		$tabid = getTabid('Documents');
+		$tabid = \includes\Modules::getModuleId('Documents');
 		$filetype_uitype = 27;
 		$res = $adb->pquery($query, array($tabid, $filetype_uitype));
 		$fieldname = null;
@@ -432,14 +431,14 @@ class Documents extends CRMEntity
 		return $fieldname;
 	}
 
-//	Function to get fieldname for uitype 28 assuming that doc has only one file upload type
+//	public function to get fieldname for uitype 28 assuming that doc has only one file upload type
 
-	function getFile_FieldName()
+	public function getFile_FieldName()
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
-		$tabid = getTabid('Documents');
+		$tabid = \includes\Modules::getModuleId('Documents');
 		$filename_uitype = 28;
 		$res = $adb->pquery($query, array($tabid, $filename_uitype));
 		$fieldname = null;
@@ -455,7 +454,7 @@ class Documents extends CRMEntity
 	/**
 	 * Check the existence of folder by folderid
 	 */
-	function isFolderPresent($folderid)
+	public function isFolderPresent($folderid)
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?", array($folderid));
@@ -467,7 +466,7 @@ class Documents extends CRMEntity
 	/**
 	 * Get Folder Default
 	 */
-	function getFolderDefault()
+	public function getFolderDefault()
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT `tree`,`name` FROM
@@ -483,7 +482,7 @@ class Documents extends CRMEntity
 	/**
 	 * Customizing the restore procedure.
 	 */
-	function restore($modulename, $id)
+	public function restore($modulename, $id)
 	{
 		parent::restore($modulename, $id);
 
@@ -498,7 +497,7 @@ class Documents extends CRMEntity
 		}
 	}
 
-	function getRelatedRecord($id, $curTabId, $relTabId, $actions = false)
+	public function getRelatedRecord($id, $curTabId, $relTabId, $actions = false)
 	{
 		global $currentModule, $singlepane_view;
 		$thisModule = $currentModule;
@@ -542,8 +541,8 @@ class Documents extends CRMEntity
 			}
 		}
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
-		$userNameSql = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
-			'last_name' => 'vtiger_users.last_name'], 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
+				'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query .= $tables;
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
 		$query .= ' FROM %s';
@@ -551,7 +550,7 @@ class Documents extends CRMEntity
 		$query .= ' INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid';
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.notesid = $id";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 && vtiger_senotesrel.notesid = $id";
 
 		$query = sprintf($query, $other->table_name);
 		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);

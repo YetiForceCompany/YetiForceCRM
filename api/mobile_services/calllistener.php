@@ -33,7 +33,7 @@ class CallListener{
 		$log->debug("Exiting " . __CLASS__ . "::" . __METHOD__ . " | return(".print_r( $resultData,true));
 		return $resultData;
     }
-	function addCallActions($data){
+	public function addCallActions($data){
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . "| user id: ".$this->userID);
 		$data = json_decode($data);
@@ -42,11 +42,11 @@ class CallListener{
 		$log->debug("Exiting " . __CLASS__ . "::" . __METHOD__ . " | return(".print_r( $resultData,true));
 		return array('status' => 1);
 	}
-	function checkPermissions($authorization){
+	public function checkPermissions($authorization){
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . "| ".print_r( $authorization,true));
 		$return = false;	
-		$result = $adb->pquery("SELECT yetiforce_mobile_keys.user FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE service = ? AND `key` = ? AND vtiger_users.user_name = ?",array($this->mobileKeysName, $authorization->phoneKey, $authorization->userName));
+		$result = $adb->pquery("SELECT yetiforce_mobile_keys.user FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE service = ? && `key` = ? && vtiger_users.user_name = ?",array($this->mobileKeysName, $authorization->phoneKey, $authorization->userName));
 		if($adb->num_rows($result) > 0 ){
 			$this->userID = $adb->query_result_raw($result, 0, 'user');
 			$return = true;	
@@ -54,14 +54,14 @@ class CallListener{
 		$log->debug("Exiting " . __CLASS__ . "::" . __METHOD__ . " | return(".$return);
 		return $return;
 	}
-	function getDirection($type){
+	public function getDirection($type){
 		$types = array(
 			'incoming' => 0,
 			'outgoing' => 1,
 		);
 		return $types[$type];
 	}
-	function getStatus($type){
+	public function getStatus($type){
 		$types = array(
 			'ringing' => 0,
 			'call' => 1,

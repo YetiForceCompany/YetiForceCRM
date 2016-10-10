@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 include_once 'include/Webservices/Query.php';
@@ -13,8 +14,9 @@ include_once 'include/Webservices/RelatedTypes.php';
 
 function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = null)
 {
-	global $log, $adb;
 
+	$adb = PearDatabase::getInstance();
+	$log = LoggerManager::getInstance();
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -64,7 +66,7 @@ function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = n
 		} else {
 			$queryParts = explode('WHERE', $query);
 			$query = $queryParts[0] . " WHERE " . $relatedIdClause;
-			$query .= " AND " . $queryParts[1];
+			$query .= " && " . $queryParts[1];
 		}
 		if (!empty($filterClause)) {
 			$query .= " " . $filterClause;

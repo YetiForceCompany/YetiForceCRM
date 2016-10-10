@@ -46,7 +46,7 @@ class Logger {
 		'DEBUG' => false,
 	);
 	
-	function __construct($name, $configinfo = false) {
+	public function __construct($name, $configinfo = false) {
 		$this->name = $name;
 		$this->configinfo = $configinfo;
 		
@@ -57,7 +57,7 @@ class Logger {
 		
 	}
 	
-	function emit($level, $message) {
+	public function emit($level, $message) {
 		if(!$this->appender) {
 			$filename = 'cache/logs/system.log';			
 			if($this->configinfo && isset($this->configinfo['appender']['File'])) {
@@ -70,45 +70,45 @@ class Logger {
 		$this->appender->emit("$level [$mypid] $this->name - ", $message);
 	}
 	
-	function info($message) {
+	public function info($message) {
 		if($this->isLevelEnabled('INFO')) {
 			$this->emit('INFO', $message);
 		}
 	}
 	
-	function debug($message) {
+	public function debug($message) {
 		if($this->isDebugEnabled()) {
 			$this->emit('DEBUG', $message);
 		}
 	}
 	
-	function warn($message) {
+	public function warn($message) {
 		if($this->isLevelEnabled('WARN')) {
 			$this->emit('WARN', $message);
 		}
 	}
 	
-	function fatal($message) {
+	public function fatal($message) {
 		if($this->isLevelEnabled('FATAL')) {
 			$this->emit('FATAL', $message);
 		}		
 	}
 	
-	function error($message) {
+	public function error($message) {
 		if($this->isLevelEnabled('ERROR')) {
 			$this->emit('ERROR', $message);
 			$this->emit('ERROR', PHP_EOL.vtlib\Functions::getBacktrace(1));
 		}
 	}
 	
-	function isLevelEnabled($level) {
+	public function isLevelEnabled($level) {
 		if($this->enableLogLevel[$level] && $this->configinfo) {
 			return (strtoupper($this->configinfo['level']) == $level);
 		}
 		return false;
 	}
 	
-	function isDebugEnabled() {
+	public function isDebugEnabled() {
 		return $this->isLevelEnabled('DEBUG');
 	}
 }
@@ -121,12 +121,12 @@ class LoggerAppenderFile {
 	private $filename;
 	private $chmod;
 	
-	function __construct($filename, $chmod = 0222) {
+	public function __construct($filename, $chmod = 0222) {
 		$this->filename = $filename;
 		$this->chmod    = $chmod;
 	}
 	
-	function emit($prefix, $message) {
+	public function emit($prefix, $message) {
 		/*
 		if($this->chmod != 0777 && file_exists($this->filename)) {
 			if(is_readable($this->filename)) {

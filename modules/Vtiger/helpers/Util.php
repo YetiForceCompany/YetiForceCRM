@@ -186,7 +186,6 @@ class Vtiger_Util_Helper
 			}
 			$formatedDate = $userDate . " ($tomorrowInfo)";
 		} else {
-			//$formatToConvert = str_replace( array('/','.'), array('-','-'), $format);
 			if ($currentUser->get('date_format') === 'mm-dd-yyyy') {
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 			}
@@ -304,31 +303,6 @@ class Vtiger_Util_Helper
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE defaultid < 0', []);
 		if ($db->num_rows($result))
 			return $db->query_result_rowdata($result, 0);
-	}
-
-	/**
-	 * Function to get role based picklist values
-	 * @param <String> $fieldName
-	 * @param <Integer> $roleId
-	 * @return <Array> list of role based picklist values
-	 */
-	public static function getRoleBasedPicklistValues($fieldName, $roleId)
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT $fieldName
-                  FROM vtiger_$fieldName
-                      INNER JOIN vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid
-                  WHERE roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortorderid";
-		$result = $db->pquery($query, array($roleId));
-		$picklistValues = [];
-		if ($db->num_rows($result) > 0) {
-			while ($row = $db->fetch_array($result)) {
-				//Need to decode the picklist values twice which are saved from old ui
-				$picklistValues[] = decode_html(decode_html($row[$fieldName]));
-			}
-		}
-		return $picklistValues;
 	}
 
 	/**
@@ -598,7 +572,7 @@ class Vtiger_Util_Helper
 	public static function isUserDeleted($userid)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? AND (status=? OR deleted=?)', array($userid, 'Inactive', 1));
+		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
 		$count = $db->num_rows($result);
 		if ($count > 0)
 			return true;
@@ -612,7 +586,7 @@ class Vtiger_Util_Helper
 	 * else returns empty string
 	 */
 
-	function getDefaultMandatoryValue($dataType)
+	public function getDefaultMandatoryValue($dataType)
 	{
 		$value;
 		switch ($dataType) {

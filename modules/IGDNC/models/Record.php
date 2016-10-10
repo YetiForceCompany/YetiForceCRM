@@ -9,7 +9,6 @@
 class IGDNC_Record_Model extends Vtiger_Record_Model
 {
 
-
 	protected $privileges = ['editFieldByModal' => true];
 
 	public function getFieldToEditByModal()

@@ -12,7 +12,7 @@
 class Calendar_Detail_View extends Vtiger_Detail_View
 {
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -104,7 +104,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 	 * @param Vtiger_Request $request
 	 * @return <type>
 	 */
-	function showModuleDetailView(Vtiger_Request $request)
+	public function showModuleDetailView(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

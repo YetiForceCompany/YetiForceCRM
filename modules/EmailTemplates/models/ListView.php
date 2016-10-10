@@ -151,7 +151,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 		return $links;
 	}
 
-	function getQuery()
+	public function getQuery()
 	{
 		$listQuery = 'SELECT templateid, templatename, foldername, subject FROM vtiger_emailtemplates';
 		return $listQuery;

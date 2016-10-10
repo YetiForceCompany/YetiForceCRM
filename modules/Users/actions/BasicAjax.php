@@ -11,7 +11,7 @@
 class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {

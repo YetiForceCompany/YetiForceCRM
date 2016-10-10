@@ -18,7 +18,7 @@ class Products_SummaryWidget_Model
 		return $instance;
 	}
 
-	function getProductsServices(Vtiger_Request $request)
+	public function getProductsServices(Vtiger_Request $request)
 	{
 		$fromModule = $request->get('fromModule');
 		$record = $request->get('record');
@@ -45,17 +45,17 @@ class Products_SummaryWidget_Model
 				. 'INNER JOIN vtiger_seproductsrel ON vtiger_products.productid = vtiger_seproductsrel.productid '
 				. 'LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id '
 				. 'LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid = vtiger_groups.groupid '
-				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_products.productid > 0 AND vtiger_seproductsrel.setype = ? AND vtiger_seproductsrel.crmid = ?';
+				. 'WHERE vtiger_crmentity.deleted=0 && vtiger_products.productid > 0 && vtiger_seproductsrel.setype = ? && vtiger_seproductsrel.crmid = ?';
 			$params[] = $fromModule;
 			$params[] = $record;
 		} elseif ($mod == 'Services') {
 			$sql = 'SELECT vtiger_service.serviceid AS id, vtiger_service.pscategory AS category, vtiger_service.servicename AS name, vtiger_crmentity.smownerid '
 				. 'FROM vtiger_service '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid '
-				. 'INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)'
+				. 'INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid || vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)'
 				. 'LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id '
 				. 'LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid = vtiger_groups.groupid '
-				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_service.serviceid > 0 AND (vtiger_crmentityrel.crmid IN (?) OR vtiger_crmentityrel.relcrmid IN (?))';
+				. 'WHERE vtiger_crmentity.deleted=0 && vtiger_service.serviceid > 0 && (vtiger_crmentityrel.crmid IN (?) || vtiger_crmentityrel.relcrmid IN (?))';
 			$params[] = $record;
 			$params[] = $record;
 		}

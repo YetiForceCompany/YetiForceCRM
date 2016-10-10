@@ -25,7 +25,7 @@
 									{/if}</a>
 								{else}
 									{if $HEADER->getFieldDataType() eq 'double'}
-										{decimalFormat($ENTRY->get($HEADERNAME))}
+										{\vtlib\Functions::formatDecimal($ENTRY->get($HEADERNAME))}
 									{else if $HEADER->getFieldDataType() eq 'sharedOwner' || $HEADER->getFieldDataType() eq 'boolean' || $HEADER->getFieldDataType() eq 'tree'}
 										{$ENTRY->getDisplayValue($HEADERNAME)}
 									{else}

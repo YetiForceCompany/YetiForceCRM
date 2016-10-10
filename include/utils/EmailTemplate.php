@@ -162,8 +162,8 @@ class EmailTemplate
 								$referencedObjectHandler = vtws_getModuleHandlerFromName(
 									$details[0], $this->user);
 							} else {
-								$type = getSalesEntityType(
-									$values[$fieldName]);
+								$type = \vtlib\Functions::getCRMRecordType(
+										$values[$fieldName]);
 								$referencedObjectHandler = vtws_getModuleHandlerFromName($type, $this->user);
 							}
 							$referencedObjectMeta = $referencedObjectHandler->getMeta();
@@ -186,11 +186,11 @@ class EmailTemplate
 							$values[$fieldName] = $referencedObjectMeta->getName(vtws_getId(
 									$referencedObjectMeta->getEntityId(), $values[$fieldName]));
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'picklist') === 0) {
-							$values[$fieldName] = getTranslatedString(
-								$values[$fieldName], $module);
+							$values[$fieldName] = \includes\Language::translate(
+									$values[$fieldName], $module);
 						} elseif (strcasecmp($fieldName, 'salutationtype') === 0 && $webserviceField->getUIType() == '55') {
-							$values[$fieldName] = getTranslatedString(
-								$values[$fieldName], $module);
+							$values[$fieldName] = \includes\Language::translate(
+									$values[$fieldName], $module);
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'datetime') === 0) {
 							$values[$fieldName] = $values[$fieldName] . ' ' . DateTimeField::getDBTimeZone();
 						}
@@ -247,7 +247,7 @@ class EmailTemplate
 	public function isActive($field, $mod)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = getTabid($mod);
+		$tabid = \includes\Modules::getModuleId($mod);
 		$query = 'select * from vtiger_field where fieldname = ?  and tabid = ? and presence in (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));
 		$rows = $adb->num_rows($res);

@@ -12,4 +12,5 @@ $languageStrings = [
 	'LBL_NUMBER' => 'Nombre',
 	'LBL_CLOSED_TIME' => 'Heure de fermeture',
 	'LBL_VAT_ID' => 'ID TVA',
+	'FL_CATEGORY' => 'Category',
 ];

@@ -51,7 +51,6 @@ class HTMLPurifier_Node_Element extends HTMLPurifier_Node
         } else {
             $start = new HTMLPurifier_Token_Start($this->name, $this->attr, $this->line, $this->col, $this->armor);
             $end = new HTMLPurifier_Token_End($this->name, array(), $this->endLine, $this->endCol, $this->endArmor);
-            //$end->start = $start;
             return array($start, $end);
         }
     }

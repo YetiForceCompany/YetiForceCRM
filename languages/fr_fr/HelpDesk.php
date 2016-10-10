@@ -94,6 +94,7 @@ $languageStrings = [
 	'Record Id' => 'ID enregistrement',
 	'ticketpriorities' => 'priorité',
 	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'The ticket is not related to any Account. Please create a relation.',
+	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'The Account has no active SLA',
 	//notifications translation 
 	'LBL_NOTICE_WELCOME' => 'Bienvenue sur le portail',
 	'LBL_NOTICE_CREATED' => 'a été créé (par',

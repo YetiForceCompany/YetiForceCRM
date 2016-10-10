@@ -1,17 +1,18 @@
 <?php
+
 /**
  * @package YetiForce.Views
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
- 
 class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Index_View
 {
 
-	public function getView(){
+	public function getView()
+	{
 		return 'DiscountConfiguration';
 	}
-	
+
 	public function process(Vtiger_Request $request)
 	{
 		$log = vglobal('log');
@@ -31,7 +32,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
-	function getPageLabels(Vtiger_Request $request)
+	public function getPageLabels(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$view = $this->getView();
@@ -41,7 +42,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 		$translations['description'] = 'LBL_' . strtoupper($view) . '_DESCRIPTION';
 		return $translations;
 	}
-	
+
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

@@ -39,7 +39,8 @@ $languageStrings = [
 	'LBL_TITLE_WIDGET' => 'Widgetname',
 	'LBL_ADDRESS_RSS' => 'RSS Addresse',
 	'LBL_ADD_CHANNEL' => 'Channel hinzufügen',
-	'LBL_ADD_RSS' => 'RSS hinzufügen',
+	'LBL_ADD_RSS' => 'RSS',
+	'LBL_ADD_CHART_FILTER' => 'Chart from filter',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Block wurde erfolgreich hinzugefügt',

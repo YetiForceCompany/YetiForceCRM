@@ -278,7 +278,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if (!isset($this->profile_tab_field_permissions[$tabId])) {
 			$profile2TabFieldPermissions = [];
 			if ($this->getId()) {
-				$sql = 'SELECT * FROM vtiger_profile2field WHERE profileid=? AND tabid=?';
+				$sql = 'SELECT * FROM vtiger_profile2field WHERE profileid=? && tabid=?';
 				$params = array($this->getId(), $tabId);
 				$result = $db->pquery($sql, $params);
 				$noOfRows = $db->num_rows($result);
@@ -412,10 +412,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleId = $db->query_result($checkResult, $i, 'roleid');
 			$profileCount = $db->query_result($checkResult, $i, 'profilecount');
 			if ($profileCount > 1) {
-				$sql = 'DELETE FROM vtiger_role2profile WHERE roleid=? AND profileid=?';
+				$sql = 'DELETE FROM vtiger_role2profile WHERE roleid=? && profileid=?';
 				$params = array($roleId, $profileId);
 			} else {
-				$sql = 'UPDATE vtiger_role2profile SET profileid=? WHERE roleid=? AND profileid=?';
+				$sql = 'UPDATE vtiger_role2profile SET profileid=? WHERE roleid=? && profileid=?';
 				$params = array($transferProfileId, $roleId, $profileId);
 			}
 			$db->pquery($sql, $params);
@@ -513,11 +513,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$profileId = $this->getId();
 		$tabId = $moduleModel->getId();
-		$profileTabPermissions = $this->getProfileTabPermissions();
-		$profileTabPermissions = isset($profileTabPermissions[$tabId]) ? $profileTabPermissions[$tabId] : false;
+		$profileUtilityPermissions = $this->getProfileUtilityPermissions();
+		$profileTabPermissionsBase = $this->getProfileTabPermissions();
+		$profileTabPermissions = isset($profileTabPermissionsBase[$tabId]) ? $profileTabPermissionsBase[$tabId] : false;
 		$profileActionPermissions = $this->getProfileActionPermissions();
 		$profileActionPermissions = isset($profileActionPermissions[$tabId]) ? $profileActionPermissions[$tabId] : false;
-		$db->pquery('DELETE FROM vtiger_profile2tab WHERE profileid=? AND tabid=?', array($profileId, $tabId));
+		$db->pquery('DELETE FROM vtiger_profile2tab WHERE profileid=? && tabid=?', array($profileId, $tabId));
 
 		$actionPermissions = [];
 		$actionEnabled = false;
@@ -528,19 +529,23 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				//Dividing on actions
 				$utilityIdsList = [];
 				foreach ($actionPermissions as $actionId => $permission) {
-					if (isset(Vtiger_Action_Model::$standardActions[$actionId])) {
+					if (isset($actionsIdsList[$actionId])) {
 						$actionsIdsList[$actionId] = $permission;
 					} else {
 						$utilityIdsList[$actionId] = $permission;
 					}
 				}
-
 				//Update process
-				if ($profileActionPermissions || $moduleModel->isUtilityActionEnabled()) {
+				if ($profileActionPermissions || isset($profileTabPermissionsBase[$tabId]) || isset($profileUtilityPermissions[$tabId])) {
 					//Standard permissions
-					if ($actionsIdsList) {
+					if (!$moduleModel->isEntityModule() || $this->isRestrictedModule($moduleModel->getName())) {
+						$actionEnabled = true;
+					} elseif ($actionsIdsList) {
 						$actionsUpdateQuery = 'UPDATE vtiger_profile2standardpermissions SET permissions = CASE ';
 						foreach ($actionsIdsList as $actionId => $permission) {
+							if (in_array($permission, Vtiger_Action_Model::$nonConfigurableActions)) {
+								$permission = 'on';
+							}
 							$permissionValue = $this->tranformInputPermissionValue($permission);
 							if (isset(Vtiger_Action_Model::$standardActions[$actionId])) {
 								if ($permission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
@@ -549,7 +554,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 								$actionsUpdateQuery .= " WHEN operation = $actionId THEN $permissionValue ";
 							}
 						}
-						$actionsUpdateQuery .= 'ELSE permissions END WHERE profileid = ? AND tabid = ?';
+						$actionsUpdateQuery .= 'ELSE permissions END WHERE profileid = ? && tabid = ?';
 						$db->pquery($actionsUpdateQuery, [$profileId, $tabId]);
 					}
 
@@ -566,7 +571,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 							$permissionValue = $this->tranformInputPermissionValue($permission);
 							$utilityUpdateQuery .= " WHEN activityid = $actionId THEN $permissionValue ";
 						}
-						$utilityUpdateQuery .= 'ELSE ? END WHERE profileid = ? AND tabid = ?';
+						$utilityUpdateQuery .= 'ELSE ? END WHERE profileid = ? && tabid = ?';
 						$db->pquery($utilityUpdateQuery, [1, $profileId, $tabId]);
 					}
 				} else {
@@ -588,8 +593,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						}
 						$i++;
 					}
-					if ($actionsIdsList) {
-						$db->pquery($actionsInsertQuery, []);
+					if ($actionsIdsList && ($moduleModel->isEntityModule() && !$this->isRestrictedModule($moduleModel->getName()))) {
+						$db->query($actionsInsertQuery);
 					}
 
 					//Utility permissions
@@ -633,7 +638,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if (isset($permissions['fields'])) {
 			if (is_array($permissions['fields'])) {
 				foreach ($permissions['fields'] as $fieldId => $stateValue) {
-					$db->pquery('DELETE FROM vtiger_profile2field WHERE profileid=? AND tabid=? AND fieldid=?', array($profileId, $tabId, $fieldId));
+					$db->pquery('DELETE FROM vtiger_profile2field WHERE profileid=? && tabid=? && fieldid=?', array($profileId, $tabId, $fieldId));
 					if ($stateValue == Settings_Profiles_Record_Model::PROFILE_FIELD_INACTIVE) {
 						$visible = Settings_Profiles_Module_Model::FIELD_INACTIVE;
 						$readOnly = Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
@@ -771,10 +776,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$query = 'SELECT * FROM vtiger_profile WHERE profilename=?';
 		$params = array($profileName);
 		if ($checkOnlyDirectlyRelated) {
-			$query .=' AND directly_related_to_role=1';
+			$query .=' && directly_related_to_role=1';
 		}
 		if (!empty($excludedRecordId)) {
-			$query .= ' AND profileid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
+			$query .= ' && profileid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
 			$params = array_merge($params, $excludedRecordId);
 		}
 
@@ -853,7 +858,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					WHERE vtiger_users.deleted = ?';
 
 		if ($profileId) {
-			$query .= ' AND vtiger_role2profile.profileid = ?';
+			$query .= ' && vtiger_role2profile.profileid = ?';
 			$params[] = $profileId;
 		}
 		$result = $db->pquery($query, $params);
@@ -872,7 +877,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$db = PearDatabase::getInstance();
 			$userRecordModel = Users_Record_Model::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
-			$tabId = getTabid($module);
+			$tabId = \includes\Modules::getModuleId($module);
 			$userModuleModel = Users_Module_Model::getInstance($module);
 			$moduleFields = $userModuleModel->getFields();
 

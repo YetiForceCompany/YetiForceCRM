@@ -22,7 +22,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('changePassword');

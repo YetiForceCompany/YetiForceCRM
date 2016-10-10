@@ -39,7 +39,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			// if the password is hidden, get the proper one
 			if (strcmp($properPassword, '**********') == 0) {
 				$log->debug('Hidden password...');
-				if ($config) {	// when encryption is on
+				if ($config) { // when encryption is on
 					$log->debug('Get encrypted password.');
 					$sql = sprintf("SELECT AES_DECRYPT(`password`, '%s') AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;", $config['key']);
 					$result = $db->pquery($sql, [$recordId], true);

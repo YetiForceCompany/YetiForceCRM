@@ -43,7 +43,7 @@ class PackageImport extends PackageExport
 	 * Parse the manifest file
 	 * @access private
 	 */
-	function __parseManifestFile($unzip)
+	public function __parseManifestFile($unzip)
 	{
 		$manifestfile = $this->__getManifestFilePath();
 		$unzip->unzip('manifest.xml', $manifestfile);
@@ -54,7 +54,7 @@ class PackageImport extends PackageExport
 	/**
 	 * Get type of package (as specified in manifest)
 	 */
-	function type()
+	public function type()
 	{
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
 			return $this->_modulexml->type;
@@ -65,7 +65,7 @@ class PackageImport extends PackageExport
 	/**
 	 * Get type of package (as specified in manifest)
 	 */
-	function getTypeName()
+	public function getTypeName()
 	{
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
 			$packageType = strtolower($this->_modulexml->type);
@@ -88,7 +88,7 @@ class PackageImport extends PackageExport
 	 * XPath evaluation on the root module node.
 	 * @param String Path expression
 	 */
-	function xpath($path)
+	public function xpath($path)
 	{
 		return $this->_modulexml->xpath($path);
 	}
@@ -97,7 +97,7 @@ class PackageImport extends PackageExport
 	 * Get the value of matching path (instead of complete xpath result)
 	 * @param String Path expression for which value is required
 	 */
-	function xpath_value($path)
+	public function xpath_value($path)
 	{
 		$xpathres = $this->xpath($path);
 		foreach ($xpathres as $pathkey => $pathvalue) {
@@ -110,7 +110,7 @@ class PackageImport extends PackageExport
 	/**
 	 * Are we trying to import language package?
 	 */
-	function isLanguageType($zipfile = null)
+	public function isLanguageType($zipfile = null)
 	{
 		if (!empty($zipfile)) {
 			if (!$this->checkZip($zipfile)) {
@@ -135,7 +135,7 @@ class PackageImport extends PackageExport
 	/**
 	 * Are we trying to import extension package?
 	 */
-	function isExtensionType($zipfile = null)
+	public function isExtensionType($zipfile = null)
 	{
 		if (!empty($zipfile)) {
 			if (!$this->checkZip($zipfile)) {
@@ -152,7 +152,7 @@ class PackageImport extends PackageExport
 		return false;
 	}
 
-	function isUpdateType($zipfile = null)
+	public function isUpdateType($zipfile = null)
 	{
 		if (!empty($zipfile)) {
 			if (!$this->checkZip($zipfile)) {
@@ -172,7 +172,7 @@ class PackageImport extends PackageExport
 	/**
 	 * Are we trying to import language package?
 	 */
-	function isLayoutType($zipfile = null)
+	public function isLayoutType($zipfile = null)
 	{
 		if (!empty($zipfile)) {
 			if (!$this->checkZip($zipfile)) {
@@ -194,7 +194,7 @@ class PackageImport extends PackageExport
 	 * @param String $zipfile - path to the zip file.
 	 * @return Boolean - true if given zipfile is a module bundle and false otherwise.
 	 */
-	function isModuleBundle($zipfile = null)
+	public function isModuleBundle($zipfile = null)
 	{
 		// If data is not yet available
 		if (!empty($zipfile)) {
@@ -209,7 +209,7 @@ class PackageImport extends PackageExport
 	/**
 	 * @return Array module list available in the module bundle.
 	 */
-	function getAvailableModuleInfoFromModuleBundle()
+	public function getAvailableModuleInfoFromModuleBundle()
 	{
 		$list = (Array) $this->_modulexml->modulelist;
 		return (Array) $list['dependent_module'];
@@ -219,12 +219,12 @@ class PackageImport extends PackageExport
 	 * Get the license of this package
 	 * NOTE: checkzip should have been called earlier.
 	 */
-	function getLicense()
+	public function getLicense()
 	{
 		return $this->_licensetext;
 	}
 
-	function getParameters()
+	public function getParameters()
 	{
 		$parameters = [];
 		if (empty($this->_modulexml->parameters))
@@ -235,7 +235,7 @@ class PackageImport extends PackageExport
 		return $parameters;
 	}
 
-	function initParameters(\Vtiger_Request $request)
+	public function initParameters(\Vtiger_Request $request)
 	{
 		$data = [];
 		foreach ($request->getAll() as $name => $value) {
@@ -251,7 +251,7 @@ class PackageImport extends PackageExport
 	 * Check if zipfile is a valid package
 	 * @access private
 	 */
-	function checkZip($zipfile)
+	public function checkZip($zipfile)
 	{
 		$unzip = new Unzip($zipfile);
 		$filelist = $unzip->getList();
@@ -374,7 +374,7 @@ class PackageImport extends PackageExport
 	 * Get module name packaged in the zip file
 	 * @access private
 	 */
-	function getModuleNameFromZip($zipfile)
+	public function getModuleNameFromZip($zipfile)
 	{
 		if (!$this->checkZip($zipfile))
 			return null;
@@ -385,7 +385,7 @@ class PackageImport extends PackageExport
 	 * returns the name of the module.
 	 * @return String - name of the module as given in manifest file.
 	 */
-	function getModuleName()
+	public function getModuleName()
 	{
 		return (string) $this->_modulexml->name;
 	}
@@ -394,7 +394,7 @@ class PackageImport extends PackageExport
 	 * Cache the field instance for re-use
 	 * @access private
 	 */
-	function __AddModuleFieldToCache($moduleInstance, $fieldname, $fieldInstance)
+	public function __AddModuleFieldToCache($moduleInstance, $fieldname, $fieldInstance)
 	{
 		$this->_modulefields_cache["$moduleInstance->name"]["$fieldname"] = $fieldInstance;
 	}
@@ -403,7 +403,7 @@ class PackageImport extends PackageExport
 	 * Get field instance from cache
 	 * @access private
 	 */
-	function __GetModuleFieldFromCache($moduleInstance, $fieldname)
+	public function __GetModuleFieldFromCache($moduleInstance, $fieldname)
 	{
 		return $this->_modulefields_cache["$moduleInstance->name"]["$fieldname"];
 	}
@@ -412,7 +412,7 @@ class PackageImport extends PackageExport
 	 * Initialize Import
 	 * @access private
 	 */
-	function initImport($zipfile, $overwrite = true)
+	public function initImport($zipfile, $overwrite = true)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module != null) {
@@ -459,7 +459,7 @@ class PackageImport extends PackageExport
 		return $module;
 	}
 
-	function getTemporaryFilePath($filepath = false)
+	public function getTemporaryFilePath($filepath = false)
 	{
 		return 'cache/' . $filepath;
 	}
@@ -468,7 +468,7 @@ class PackageImport extends PackageExport
 	 * Get dependent version
 	 * @access private
 	 */
-	function getDependentVtigerVersion()
+	public function getDependentVtigerVersion()
 	{
 		return $this->_modulexml->dependencies->vtiger_version;
 	}
@@ -477,7 +477,7 @@ class PackageImport extends PackageExport
 	 * Get dependent Maximum version
 	 * @access private
 	 */
-	function getDependentMaxVtigerVersion()
+	public function getDependentMaxVtigerVersion()
 	{
 		return $this->_modulexml->dependencies->vtiger_max_version;
 	}
@@ -486,7 +486,7 @@ class PackageImport extends PackageExport
 	 * Get package version
 	 * @access private
 	 */
-	function getVersion()
+	public function getVersion()
 	{
 		return $this->_modulexml->version;
 	}
@@ -495,7 +495,7 @@ class PackageImport extends PackageExport
 	 * Get package author name
 	 * @access private
 	 */
-	function getAuthorName()
+	public function getAuthorName()
 	{
 		return $this->_modulexml->authorname;
 	}
@@ -504,7 +504,7 @@ class PackageImport extends PackageExport
 	 * Get package author phone number
 	 * @access private
 	 */
-	function getAuthorPhone()
+	public function getAuthorPhone()
 	{
 		return $this->_modulexml->authorphone;
 	}
@@ -513,7 +513,7 @@ class PackageImport extends PackageExport
 	 * Get package author phone email
 	 * @access private
 	 */
-	function getAuthorEmail()
+	public function getAuthorEmail()
 	{
 		return $this->_modulexml->authoremail;
 	}
@@ -522,12 +522,12 @@ class PackageImport extends PackageExport
 	 * Get package author phone email
 	 * @access private
 	 */
-	function getDescription()
+	public function getDescription()
 	{
 		return $this->_modulexml->description;
 	}
 
-	function getUpdateInfo()
+	public function getUpdateInfo()
 	{
 		return [
 			'from' => $this->_modulexml->from_version,
@@ -542,7 +542,7 @@ class PackageImport extends PackageExport
 	 *
 	 * @todo overwrite feature is not functionally currently.
 	 */
-	function import($zipfile, $overwrite = false)
+	public function import($zipfile, $overwrite = false)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module != null) {
@@ -585,7 +585,7 @@ class PackageImport extends PackageExport
 	 * Import Module
 	 * @access private
 	 */
-	function import_Module()
+	public function import_Module()
 	{
 		$tabname = $this->_modulexml->name;
 		$tabLabel = $this->_modulexml->label;
@@ -640,7 +640,7 @@ class PackageImport extends PackageExport
 	 * Import Tables of the module
 	 * @access private
 	 */
-	function import_Tables($modulenode)
+	public function import_Tables($modulenode)
 	{
 		if (empty($modulenode->tables) || empty($modulenode->tables->table))
 			return;
@@ -675,7 +675,7 @@ class PackageImport extends PackageExport
 	 * Import Blocks of the module
 	 * @access private
 	 */
-	function import_Blocks($modulenode, $moduleInstance)
+	public function import_Blocks($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->blocks) || empty($modulenode->blocks->block))
 			return;
@@ -689,7 +689,7 @@ class PackageImport extends PackageExport
 	 * Import Block of the module
 	 * @access private
 	 */
-	function import_Block($modulenode, $moduleInstance, $blocknode)
+	public function import_Block($modulenode, $moduleInstance, $blocknode)
 	{
 		$blocklabel = $blocknode->label;
 
@@ -718,7 +718,7 @@ class PackageImport extends PackageExport
 	 * Import Fields of the module
 	 * @access private
 	 */
-	function import_Fields($blocknode, $blockInstance, $moduleInstance)
+	public function import_Fields($blocknode, $blockInstance, $moduleInstance)
 	{
 		if (empty($blocknode->fields) || empty($blocknode->fields->field))
 			return;
@@ -732,7 +732,7 @@ class PackageImport extends PackageExport
 	 * Import Field of the module
 	 * @access private
 	 */
-	function import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode)
+	public function import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode)
 	{
 		$fieldInstance = new Field();
 		$fieldInstance->name = (string) $fieldnode->fieldname;
@@ -808,7 +808,7 @@ class PackageImport extends PackageExport
 	 * Import Custom views of the module
 	 * @access private
 	 */
-	function import_CustomViews($modulenode, $moduleInstance)
+	public function import_CustomViews($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->customviews) || empty($modulenode->customviews->customview))
 			return;
@@ -821,7 +821,7 @@ class PackageImport extends PackageExport
 	 * Import Custom View of the module
 	 * @access private
 	 */
-	function import_CustomView($modulenode, $moduleInstance, $customviewnode)
+	public function import_CustomView($modulenode, $moduleInstance, $customviewnode)
 	{
 		$filterInstance = new Filter();
 		$filterInstance->name = $customviewnode->viewname;
@@ -852,7 +852,7 @@ class PackageImport extends PackageExport
 	 * Import Sharing Access of the module
 	 * @access private
 	 */
-	function import_SharingAccess($modulenode, $moduleInstance)
+	public function import_SharingAccess($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->sharingaccess))
 			return;
@@ -868,7 +868,7 @@ class PackageImport extends PackageExport
 	 * Import Events of the module
 	 * @access private
 	 */
-	function import_Events($modulenode, $moduleInstance)
+	public function import_Events($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->events) || empty($modulenode->events->event))
 			return;
@@ -884,7 +884,7 @@ class PackageImport extends PackageExport
 	 * Import Event of the module
 	 * @access private
 	 */
-	function import_Event($modulenode, $moduleInstance, $eventnode)
+	public function import_Event($modulenode, $moduleInstance, $eventnode)
 	{
 		$event_condition = '';
 		$event_dependent = '[]';
@@ -900,7 +900,7 @@ class PackageImport extends PackageExport
 	 * Import actions of the module
 	 * @access private
 	 */
-	function import_Actions($modulenode, $moduleInstance)
+	public function import_Actions($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->actions) || empty($modulenode->actions->action))
 			return;
@@ -913,7 +913,7 @@ class PackageImport extends PackageExport
 	 * Import action of the module
 	 * @access private
 	 */
-	function import_Action($modulenode, $moduleInstance, $actionnode)
+	public function import_Action($modulenode, $moduleInstance, $actionnode)
 	{
 		$actionstatus = $actionnode->status;
 		if ($actionstatus == 'enabled')
@@ -926,7 +926,7 @@ class PackageImport extends PackageExport
 	 * Import related lists of the module
 	 * @access private
 	 */
-	function import_RelatedLists($modulenode, $moduleInstance)
+	public function import_RelatedLists($modulenode, $moduleInstance)
 	{
 		if (!empty($modulenode->relatedlists) && !empty($modulenode->relatedlists->relatedlist)) {
 			foreach ($modulenode->relatedlists->relatedlist as $relatedlistnode) {
@@ -944,7 +944,7 @@ class PackageImport extends PackageExport
 	 * Import related list of the module.
 	 * @access private
 	 */
-	function import_Relatedlist($modulenode, $moduleInstance, $relatedlistnode)
+	public function import_Relatedlist($modulenode, $moduleInstance, $relatedlistnode)
 	{
 		$relModuleInstance = Module::getInstance($relatedlistnode->relatedmodule);
 		$label = $relatedlistnode->label;
@@ -961,7 +961,7 @@ class PackageImport extends PackageExport
 		return $relModuleInstance;
 	}
 
-	function import_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode)
+	public function import_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode)
 	{
 		$inRelModuleInstance = Module::getInstance($inRelatedListNode->inrelatedmodule);
 		$label = $inRelatedListNode->label;
@@ -982,7 +982,7 @@ class PackageImport extends PackageExport
 	 * Import custom links of the module.
 	 * @access private
 	 */
-	function import_CustomLinks($modulenode, $moduleInstance)
+	public function import_CustomLinks($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink))
 			return;
@@ -1005,7 +1005,7 @@ class PackageImport extends PackageExport
 	 * Import cron jobs of the module.
 	 * @access private
 	 */
-	function import_CronTasks($modulenode)
+	public function import_CronTasks($modulenode)
 	{
 		if (empty($modulenode->crons) || empty($modulenode->crons->cron))
 			return;
@@ -1022,7 +1022,7 @@ class PackageImport extends PackageExport
 		}
 	}
 
-	function import_update($modulenode)
+	public function import_update($modulenode)
 	{
 		$dirName = 'cache/updates';
 		$result = false;
@@ -1067,7 +1067,7 @@ class PackageImport extends PackageExport
 	 * Import inventory fields of the module
 	 * @access private
 	 */
-	function importInventory()
+	public function importInventory()
 	{
 		if (empty($this->_modulexml->inventory) || empty($this->_modulexml->inventory->fields->field))
 			return false;
@@ -1081,7 +1081,7 @@ class PackageImport extends PackageExport
 		}
 	}
 
-	function importInventoryField($inventoryFieldInstance, $fieldNode)
+	public function importInventoryField($inventoryFieldInstance, $fieldNode)
 	{
 		$instance = \Vtiger_InventoryField_Model::getFieldInstance($inventoryFieldInstance->get('module'), $fieldNode->invtype);
 		$table = $inventoryFieldInstance->getTableName();

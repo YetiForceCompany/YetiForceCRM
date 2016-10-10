@@ -90,7 +90,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		$registerLink = false;
 		$displayLabel = 'Time Control';
@@ -98,8 +98,8 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$log = vglobal('log');
 		if ($event_type == 'module.postinstall') {
 
-			$tabid = getTabid($modulename);
-			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid AND `columnname` IN ('name','osstimecontrol_no','osstimecontrol_status','smownerid','date_start','time_start','time_end','due_date','sum_time','platnosc');", true);
+			$tabid = \includes\Modules::getModuleId($modulename);
+			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('name','osstimecontrol_no','osstimecontrol_status','smownerid','date_start','time_start','time_end','due_date','sum_time','platnosc');", true);
 			\includes\fields\RecordNumber::setNumber($modulename, 'TC', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -108,19 +108,19 @@ class OSSTimeControl extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('OSSTimeControl'));
 			}
 		} else if ($event_type == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
+
 		} else if ($event_type == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
+
 		} else if ($event_type == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($event_type == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($event_type == 'module.postupdate') {
 			
 		}
 	}
 
-	function retrieve_entity_info($record, $module)
+	public function retrieve_entity_info($record, $module)
 	{
 		parent::retrieve_entity_info($record, $module);
 		$start = DateTimeField::convertToUserTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
@@ -129,7 +129,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$this->column_fields['due_date'] = $end->format('Y-m-d');
 	}
 
-	function saveentity($module_name, $fileid = '')
+	public function saveentity($module_name, $fileid = '')
 	{
 		$date_start = $this->column_fields['date_start'];
 		$due_date = $this->column_fields['due_date'];
@@ -143,23 +143,23 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	// TODO This function was placed here because uitype fields (67, 68, 69) exist in this module. Once the way of getting modules for these fields is improved, you should correct the parent::unlinkRelationship() function, and remove this one.
-	function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		global $log, $currentModule;
+		global $currentModule;
+		$log = LoggerManager::getInstance();
 		$results = [];
 
-		$where = '(crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
+		$where = '(crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
 		$params = [$id, $returnModule, $returnId, $id, $returnModule, $returnId];
 		$this->db->delete('vtiger_crmentityrel', $where, $params);
 
 		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
-			SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$currentModule, $returnModule]);
+			SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$currentModule, $returnModule]);
 		$numOfFields = $this->db->num_rows($fieldRes);
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [vtlib\Functions::getModuleId($currentModule)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [vtlib\Functions::getModuleId($currentModule)]);
 			while ($row = $this->db->getRow($fieldRes)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
 				$fieldModel = new $className();
@@ -180,19 +180,19 @@ class OSSTimeControl extends Vtiger_CRMEntity
 			$focusObj = CRMEntity::getInstance($relatedModule);
 
 			$columns = [$columnName => null];
-			$where = "$columnName = ? AND $focusObj->table_index = ?";
+			$where = "$columnName = ? && $focusObj->table_index = ?";
 			$params = [$returnId, $id];
 			$this->db->update($result['tablename'], $columns, $where, $params);
 		}
 	}
 
-	function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
+	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
-		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? AND relmodule=?)', [$module, $withModule]);
+		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$module, $withModule]);
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) AND `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
@@ -211,7 +211,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 			$focusObj = CRMEntity::getInstance($row['name']);
 			$columnName = $row['columnname'];
 			$columns = [$columnName => null];
-			$where = "$columnName = ? AND $focusObj->table_index = ?";
+			$where = "$columnName = ? && $focusObj->table_index = ?";
 			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
 		}
 	}

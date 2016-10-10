@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailScanner_BindServiceContracts_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model
+class OSSMailScanner_BindServiceContracts_ScannerAction
 {
 
 	public function process(OSSMail_Mail_Model $mail)
@@ -23,7 +23,7 @@ class OSSMailScanner_BindServiceContracts_ScannerAction extends OSSMailScanner_P
 
 			$query = 'SELECT servicecontractsid FROM vtiger_servicecontracts '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_servicecontracts.servicecontractsid '
-				. 'WHERE vtiger_crmentity.deleted = 0 AND sc_related_to IN (' . implode(',', $accounts) . ') AND contract_status = ?';
+				. 'WHERE vtiger_crmentity.deleted = 0 && sc_related_to IN (' . implode(',', $accounts) . ') && contract_status = ?';
 
 			$result = $db->pquery($query, ['In Progress']);
 			if ($db->getRowCount($result)) {

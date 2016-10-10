@@ -105,7 +105,6 @@ class PearDatabase
 
 		// Set options
 		$options = array(
-			PDO::ATTR_PERSISTENT => true,
 			PDO::ATTR_EMULATE_PREPARES => false,
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		);
@@ -116,6 +115,11 @@ class PearDatabase
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
+			if (AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && $debugBar = \includes\Debuger::getDebugBar()) {
+				$pdo = new DebugBar\DataCollector\PDO\TraceablePDO($this->database);
+				$debugBar->addCollector(new DebugBar\DataCollector\PDO\PDOCollector($pdo));
+				$this->database = $pdo;
+			}
 		} catch (\Exception\AppException $e) {
 			// Catch any errors
 			$this->log('Database connect : ' . $e->getMessage(), 'error');
@@ -282,7 +286,6 @@ class PearDatabase
 		return $result->rowCount();
 	}
 
-	//TODO DEPRECATED recommended to use getRowCount
 	public function num_rows(&$result)
 	{
 		return $result->rowCount();
@@ -293,7 +296,6 @@ class PearDatabase
 		return $result->columnCount();
 	}
 
-	//TODO DEPRECATED recommended to use getRow
 	public function fetch_array(&$result)
 	{
 		return $result->fetch(PDO::FETCH_ASSOC);
@@ -493,13 +495,11 @@ class PearDatabase
 		return $this->stmt->rowCount();
 	}
 
-	//TODO DEPRECATED
 	public function query_result(&$result, $row, $col = 0)
 	{
 		return to_html($this->query_result_raw($result, $row, $col));
 	}
 
-	//TODO DEPRECATED
 	public function query_result_raw(&$result, $row, $col = 0)
 	{
 		if (!is_object($result)) {
@@ -514,7 +514,6 @@ class PearDatabase
 	}
 
 	// Function to get particular row from the query result
-	//TODO DEPRECATED
 	public function query_result_rowdata(&$result, $row = 0)
 	{
 		return $this->raw_query_result_rowdata($result, $row);
@@ -532,7 +531,6 @@ class PearDatabase
 	 * @param $row The row number to fetch. It's default value is 0
 	 *
 	 */
-	//TODO DEPRECATED
 	public function raw_query_result_rowdata(&$result, $row = 0)
 	{
 		if (!is_object($result)) {
@@ -551,7 +549,6 @@ class PearDatabase
 	 * $input = array(10, 20, array(30, 40), array('key1' => '50', 'key2'=>array(60), 70));
 	 * returns array(10, 20, 30, 40, 50, 60, 70);
 	 */
-	//TODO DEPRECATED
 	public function flatten_array($input, $output = null)
 	{
 		if ($input == null)

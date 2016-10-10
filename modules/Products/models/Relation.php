@@ -99,7 +99,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	{
 		$db = PearDatabase::getInstance();
 		if (!empty($sourceRecordId) && !empty($relatedRecordId)) {
-			$db->pquery('DELETE FROM vtiger_seproductsrel WHERE crmid = ? AND productid = ?', array($relatedRecordId, $sourceRecordId));
+			$db->pquery('DELETE FROM vtiger_seproductsrel WHERE crmid = ? && productid = ?', array($relatedRecordId, $sourceRecordId));
 			return true;
 		}
 	}

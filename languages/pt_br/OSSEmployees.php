@@ -50,4 +50,7 @@ $languageStrings = [
 	'Inactive' => 'Inativo',
 	'Average daily working time' => 'Tempo médio diário de trabalho',
 	'LBL_USER_EXISTS' => 'Colaborador já existe',
+	'FL_POSITION' => 'Position',
+	'FL_SECONDARY_PHONE' => 'Secondary phone',
+	'FL_RBH' => 'RBH'
 ];

@@ -11,22 +11,22 @@
 class ModTracker_Relation_Model extends Vtiger_Record_Model
 {
 
-	function getValue()
+	public function getValue()
 	{
 		return $this->getLinkedRecord()->getName();
 	}
 
-	function setParent($parent)
+	public function setParent($parent)
 	{
 		$this->parent = $parent;
 	}
 
-	function getParent()
+	public function getParent()
 	{
 		return $this->parent;
 	}
 
-	function getLinkedRecord()
+	public function getLinkedRecord()
 	{
 		$db = PearDatabase::getInstance();
 

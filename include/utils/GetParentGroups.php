@@ -21,7 +21,7 @@ class GetParentGroups
 	 * @params $groupId --> Group Id :: Type Integer
 	 * @returns updates the parent group in the varibale $parent_groups of the class
 	 */
-	function getAllParentGroups($groupid)
+	public function getAllParentGroups($groupid)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');

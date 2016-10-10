@@ -43,11 +43,11 @@ font-size: 75%;
 				{assign var=CONTRACTOR value=$ACTIVITY->get('contractor')}
 				{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGHT:'...'}				
 				{if $CONTRACTOR}
-				    <br/><small class="small-a">{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGHT}</a></small></strong>			
+					<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGHT}</a></small></strong>			
 				{else if $LINK}
-				    <br/><small class="small-a">{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
+					<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
 				{else if $PROCESS}
-					<br/><small class="small-a">{vtranslate('LBL_FOR')} <strong>{$ACTIVITY->getDisplayValue('process')}</strong></small>
+					<br/><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('process')}</strong></small>
 				{/if}
 			</div>
 			{if $ACTIVITY->get('location') neq '' }

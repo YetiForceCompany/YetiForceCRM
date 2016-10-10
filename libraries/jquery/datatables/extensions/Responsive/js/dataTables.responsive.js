@@ -132,11 +132,6 @@ Responsive.prototype = {
 				a.width > b.width ? -1 : 0;
 		} );
 
-		// Determine which columns are already hidden, and should therefore
-		// remain hidden. todo - should this be done? See thread 22677
-		//
-		// this.s.alwaysHidden = dt.columns(':hidden').indexes();
-
 		this._classLogic();
 		this._resizeAuto();
 

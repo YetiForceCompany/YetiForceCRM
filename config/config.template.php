@@ -52,8 +52,6 @@ $dbconfig['db_name'] = '_DBC_NAME_';
 $dbconfig['db_type'] = '_DBC_TYPE_';
 $dbconfig['db_status'] = '_DB_STAT_';
 
-// TODO: test if port is empty
-// TODO: set db_hostname dependending on db_type
 $dbconfig['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
 
 $host_name = $dbconfig['db_hostname'];
@@ -72,9 +70,6 @@ $import_dir = 'cache/import/';
 
 // upload_dir default 
 $upload_dir = 'cache/upload/';
-
-// disable send files using KCFinder
-$upload_disabled = false;
 
 // maximum file size for uploaded files in bytes also used when uploading import files
 // upload_maxsize default value = 3000000

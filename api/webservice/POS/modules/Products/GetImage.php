@@ -17,7 +17,7 @@ class API_Products_GetImage extends BaseAction
 		$result = $db->pquery('SELECT * FROM vtiger_attachments AS va 
 			INNER JOIN vtiger_seattachmentsrel AS vs ON vs.attachmentsid = va.attachmentsid 
 			INNER JOIN vtiger_products AS vp ON vp.productid = vs.crmid
-			WHERE vs.attachmentsid = ? AND pos LIKE ?', [$id, '%' . $this->api->app['id'] . '%']);
+			WHERE vs.attachmentsid = ? && pos LIKE ?', [$id, '%' . $this->api->app['id'] . '%']);
 		return $db->getRow($result);
 	}
 

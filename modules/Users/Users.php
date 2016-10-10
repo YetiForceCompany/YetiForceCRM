@@ -20,7 +20,6 @@
  * ****************************************** */
 /* * *******************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Users/Users.php,v 1.10 2005/04/19 14:40:48 ray Exp $
- * Description: TODO:  To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
@@ -108,7 +107,7 @@ class Users extends CRMEntity
 	  instantiates the Logger class and PearDatabase Class
 	 *
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->log = LoggerManager::getInstance(get_class($this));
 		$this->db = PearDatabase::getInstance();
@@ -124,7 +123,7 @@ class Users extends CRMEntity
 	 * Function to get sort order
 	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
 	 */
-	function getSortOrder()
+	public function getSortOrder()
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering getSortOrder() method ...");
@@ -140,7 +139,7 @@ class Users extends CRMEntity
 	 * Function to get order by
 	 * return string  $order_by    - fieldname(eg: 'subject')
 	 */
-	function getOrderBy()
+	public function getOrderBy()
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering getOrderBy() method ...");
@@ -164,7 +163,7 @@ class Users extends CRMEntity
 	 * @param $value -- value:: Type varchar
 	 *
 	 */
-	function setPreference($name, $value)
+	public function setPreference($name, $value)
 	{
 		if (!isset($this->user_preferences)) {
 			if (isset($_SESSION["USER_PREFERENCES"]))
@@ -183,7 +182,7 @@ class Users extends CRMEntity
 	/** Function to save the user preferences to db
 	 *
 	 */
-	function savePreferecesToDB()
+	public function savePreferecesToDB()
 	{
 		$data = base64_encode(serialize($this->user_preferences));
 		$query = "UPDATE $this->table_name SET user_preferences=? where id=?";
@@ -195,7 +194,7 @@ class Users extends CRMEntity
 	/** Function to load the user preferences from db
 	 *
 	 */
-	function loadPreferencesFromDB($value)
+	public function loadPreferencesFromDB($value)
 	{
 
 		if (isset($value) && !empty($value)) {
@@ -221,7 +220,7 @@ class Users extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function encrypt_password($user_password, $crypt_type = '')
+	public function encrypt_password($user_password, $crypt_type = '')
 	{
 		// encrypt the password.
 		$salt = substr($this->column_fields["user_name"], 0, 2);
@@ -252,11 +251,11 @@ class Users extends CRMEntity
 	 * @param $password -- password::Type varchar
 	 * @returns true if authenticated or false if not authenticated
 	 */
-	function authenticate_user($password)
+	public function authenticate_user($password)
 	{
 		$usr_name = $this->column_fields["user_name"];
 
-		$query = "SELECT * from $this->table_name where user_name=? AND user_hash=?";
+		$query = "SELECT * from $this->table_name where user_name=? && user_hash=?";
 		$params = array($usr_name, $password);
 		$result = $this->db->requirePsSingleResult($query, $params, false);
 
@@ -271,7 +270,7 @@ class Users extends CRMEntity
 	/** Function for validation check
 	 *
 	 */
-	function validation_check($validate, $md5, $alt = '')
+	public function validation_check($validate, $md5, $alt = '')
 	{
 		$validate = base64_decode($validate);
 		if (file_exists($validate) && $handle = fopen($validate, 'rb', true)) {
@@ -288,7 +287,7 @@ class Users extends CRMEntity
 	/** Function for authorization check
 	 *
 	 */
-	function authorization_check($validate, $authkey, $i)
+	public function authorization_check($validate, $authkey, $i)
 	{
 		$validate = base64_decode($validate);
 		$authkey = base64_decode($authkey);
@@ -307,15 +306,14 @@ class Users extends CRMEntity
 	 * @param string $user_password - The password of the user to authenticate
 	 * @return true if the user is authenticated, false otherwise
 	 */
-	function doLogin($userPassword)
+	public function doLogin($userPassword)
 	{
 		$userName = $this->column_fields["user_name"];
 		$userid = $this->retrieve_user_id($userName);
 		$this->log->debug("Start of authentication for user: $userName");
 		$result = $this->db->pquery('SELECT * FROM yetiforce_auth');
 		$auth = [];
-		for ($i = 0; $i < $this->db->num_rows($result); $i++) {
-			$row = $this->db->raw_query_result_rowdata($result, $i);
+		while ($row = $this->db->getRow($result)) {
 			$auth[$row['type']][$row['param']] = $row['value'];
 		}
 		if ($auth['ldap']['active'] == 'true') {
@@ -346,16 +344,14 @@ class Users extends CRMEntity
 
 		//Default authentication
 		$this->log->debug('Using integrated/SQL authentication');
-		$query = "SELECT crypt_type, user_name FROM $this->table_name WHERE user_name=?";
-		$result = $this->db->pquery($query, [$userName]);
+		$result = $this->db->pquery("SELECT crypt_type FROM $this->table_name WHERE id=?", [$userid]);
 		if ($result->rowCount() != 1) {
 			$this->log->error("User not found: $userName");
 			return FALSE;
 		}
-		$cryptType = $this->db->query_result($result, 0, 'crypt_type');
-		$this->column_fields["user_name"] = $this->db->query_result($result, 0, 'user_name');
+		$cryptType = $this->db->getSingleValue($result);
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
-		$query = "SELECT 1 from $this->table_name where user_name=? AND user_password=? AND status = ?";
+		$query = "SELECT 1 from $this->table_name where user_name=? && user_password=? && status = ?";
 		$result = $this->db->pquery($query, [$userName, $encryptedPassword, 'Active']);
 		if ($result->rowCount() == 1) {
 			$this->log->debug("Authentication OK. User: $userName");
@@ -372,7 +368,7 @@ class Users extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function load_user($user_password)
+	public function load_user($user_password)
 	{
 		$usr_name = $this->column_fields["user_name"];
 		if (isset($_SESSION['loginattempts'])) {
@@ -425,7 +421,7 @@ class Users extends CRMEntity
 	 * Get crypt type to use for password for the user.
 	 * Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
 	 */
-	function get_user_crypt_type()
+	public function get_user_crypt_type()
 	{
 
 		$crypt_res = null;
@@ -466,7 +462,7 @@ class Users extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function change_password($userPassword, $newPassword, $dieOnError = true)
+	public function change_password($userPassword, $newPassword, $dieOnError = true)
 	{
 		$db = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -480,7 +476,7 @@ class Users extends CRMEntity
 			return false;
 		}
 
-		if (!is_admin($current_user)) {
+		if (!\vtlib\Functions::userIsAdministrator($current_user)) {
 			if (!$this->verifyPassword($userPassword)) {
 				$log->warn('Incorrect old password for ' . $usr_name);
 				$this->error_string = vtranslate('ERR_PASSWORD_INCORRECT_OLD');
@@ -516,7 +512,7 @@ class Users extends CRMEntity
 		return true;
 	}
 
-	function verifyPassword($password)
+	public function verifyPassword($password)
 	{
 		$query = "SELECT user_name,user_password,crypt_type FROM {$this->table_name} WHERE id=?";
 		$result = $this->db->pquery($query, array($this->id));
@@ -530,7 +526,7 @@ class Users extends CRMEntity
 		return true;
 	}
 
-	function is_authenticated()
+	public function is_authenticated()
 	{
 		return $this->authenticated;
 	}
@@ -539,8 +535,14 @@ class Users extends CRMEntity
 	 * @param $user_name -- user name:: Type varchar
 	 * @returns user id
 	 */
-	function retrieve_user_id($userName)
+	public function retrieve_user_id($userName)
 	{
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			$users = \includes\PrivilegeFile::getUser('userName');
+			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
+				return $users[$userName]['id'];
+			}
+		}
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
 		$row = $adb->getRow($result);
@@ -553,7 +555,7 @@ class Users extends CRMEntity
 	/** Function to return the column name array
 	 *
 	 */
-	function getColumnNames_User()
+	public function getColumnNames_User()
 	{
 
 		$mergeflds = array("FIRSTNAME", "LASTNAME", "USERNAME", "SECONDARYEMAIL", "TITLE", "OFFICEPHONE", "DEPARTMENT",
@@ -563,21 +565,21 @@ class Users extends CRMEntity
 		return $mergeflds;
 	}
 
-	function fill_in_additional_list_fields()
+	public function fill_in_additional_list_fields()
 	{
 		$this->fill_in_additional_detail_fields();
 	}
 
-	function fill_in_additional_detail_fields()
+	public function fill_in_additional_detail_fields()
 	{
-		$query = "SELECT u1.first_name, u1.last_name from vtiger_users u1, vtiger_users u2 where u1.id = u2.reports_to_id AND u2.id = ? and u1.deleted=0";
+		$query = "SELECT u1.first_name, u1.last_name from vtiger_users u1, vtiger_users u2 where u1.id = u2.reports_to_id && u2.id = ? and u1.deleted=0";
 		$result = $this->db->pquery($query, array($this->id), true, "Error filling in additional detail vtiger_fields");
 
 		$row = $this->db->fetchByAssoc($result);
 		$this->log->debug("additional detail query results: $row");
 
 		if ($row != null) {
-			$this->reports_to_name = stripslashes(getFullNameFromArray('Users', $row));
+			$this->reports_to_name = stripslashes(\vtlib\Deprecated::getFullNameFromArray('Users', $row));
 		} else {
 			$this->reports_to_name = '';
 		}
@@ -588,7 +590,7 @@ class Users extends CRMEntity
 	 * @returns user info in $this->column_fields array:: Type array
 	 *
 	 */
-	function retrieveCurrentUserInfoFromFile($userid)
+	public function retrieveCurrentUserInfoFromFile($userid)
 	{
 		$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
@@ -606,7 +608,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 *
 	 */
-	function saveentity($module, $fileid = '')
+	public function saveentity($module, $fileid = '')
 	{
 		$db = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
@@ -673,18 +675,21 @@ class Users extends CRMEntity
 				$this->column_fields['roleid'] = key($roles);
 			}
 		}
-
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
-		createUserPrivilegesfile($this->id);
-		unset($_SESSION['next_reminder_interval']);
-		unset($_SESSION['next_reminder_time']);
 		if ($insertion_mode != 'edit') {
 			$this->createAccessKey();
 		}
 		$db->completeTransaction();
+		require_once('modules/Users/CreateUserPrivilegeFile.php');
+		createUserPrivilegesfile($this->id);
+		unset($_SESSION['next_reminder_interval']);
+		unset($_SESSION['next_reminder_time']);
+
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			\includes\PrivilegeFile::createUsersFile();
+		}
 	}
 
-	function createAccessKey()
+	public function createAccessKey()
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -699,7 +704,7 @@ class Users extends CRMEntity
 	 * @param $table_name -- table name:: Type varchar
 	 * @param $module -- module:: Type varchar
 	 */
-	function insertIntoEntityTable($table_name, $module, $fileid = '')
+	public function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
 		$log = LoggerManager::getInstance();
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
@@ -725,7 +730,7 @@ class Users extends CRMEntity
 		if ($insertion_mode == 'edit') {
 			$update = '';
 			$update_params = [];
-			$tabid = getTabid($module);
+			$tabid = \includes\Modules::getModuleId($module);
 			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,5) and vtiger_field.presence in (0,2)";
 			$params = array($tabid, $table_name);
 		} else {
@@ -735,7 +740,7 @@ class Users extends CRMEntity
 				$this->id = $currentuser_id;
 			}
 			$qparams = array($this->id);
-			$tabid = getTabid($module);
+			$tabid = \includes\Modules::getModuleId($module);
 			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,4,5) and vtiger_field.presence in (0,2)";
 			$params = array($tabid, $table_name);
 
@@ -761,7 +766,7 @@ class Users extends CRMEntity
 						$fldvalue = 0;
 					}
 				} elseif ($uitype == 15) {
-					if ($this->column_fields[$fieldname] == $app_strings['LBL_NOT_ACCESSIBLE']) {
+					if ($this->column_fields[$fieldname] == \includes\Language::translate('LBL_NOT_ACCESSIBLE')) {
 						//If the value in the request is Not Accessible for a picklist, the existing value will be replaced instead of Not Accessible value.
 						$sql = "select $columname from  $table_name where " . $this->tab_name_index[$table_name] . "=?";
 						$res = $adb->pquery($sql, array($this->id));
@@ -794,7 +799,7 @@ class Users extends CRMEntity
 					$fldvalue = $this->column_fields[$fieldname];
 					$fldvalue = stripslashes($fldvalue);
 				}
-				$fldvalue = from_html($fldvalue, ($insertion_mode == 'edit') ? true : false);
+				$fldvalue = \vtlib\Functions::fromHTML($fldvalue, ($insertion_mode == 'edit') ? true : false);
 			} else {
 				$fldvalue = '';
 			}
@@ -828,7 +833,6 @@ class Users extends CRMEntity
 			}
 			if ($fldvalue == '') {
 				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
-				//$fldvalue =null;
 			}
 			if ($insertion_mode == 'edit') {
 				if ($i == 0) {
@@ -872,7 +876,7 @@ class Users extends CRMEntity
 	 * @param $id -- entity id:: Type integer
 	 * @param $module -- module:: Type varchar
 	 */
-	function insertIntoAttachment($id, $module)
+	public function insertIntoAttachment($id, $module)
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
@@ -891,7 +895,7 @@ class Users extends CRMEntity
 	 * @param $record -- record id:: Type integer
 	 * @param $module -- module:: Type varchar
 	 */
-	function retrieve_entity_info($record, $module)
+	public function retrieve_entity_info($record, $module)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -908,7 +912,7 @@ class Users extends CRMEntity
 			$query = sprintf($query, $table_name, $index);
 			$result[$table_name] = $adb->pquery($query, [$record]);
 		}
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
 		$result1 = $adb->pquery($sql1, array($tabid));
 		while ($row = $adb->getRow($result1)) {
@@ -942,8 +946,6 @@ class Users extends CRMEntity
 		if ($this->column_fields['no_of_currency_decimals'] == '')
 			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = getCurrencyDecimalPlaces();
 
-		// TODO - This needs to be cleaned up once default values for fields are picked up in a cleaner way.
-		// This is just a quick fix to ensure things doesn't start breaking when the user currency configuration is missing
 		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
 			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
@@ -961,7 +963,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 * @param $file_details -- file details array:: Type array
 	 */
-	function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
+	public function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
 		$log = LoggerManager::getInstance();
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
@@ -990,7 +992,7 @@ class Users extends CRMEntity
 		$current_id = $this->db->getUniqueID("vtiger_crmentity");
 
 		//get the file path inwhich folder we want to upload the file
-		$upload_file_path = decideFilePath($module);
+		$upload_file_path = \vtlib\Functions::initStorageFileDirectory($module);
 		//upload the file in server
 		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
 
@@ -1020,7 +1022,7 @@ class Users extends CRMEntity
 	 * @param $module -- module name:: Type varchar
 	 *
 	 */
-	function save($module_name, $fileid = '')
+	public function save($module_name, $fileid = '')
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -1041,7 +1043,7 @@ class Users extends CRMEntity
 		}
 
 		if ($this->mode != 'edit') {
-			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
+			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? || email1 = ?';
 			$result = $adb->pquery($sql, array($this->column_fields['user_name'], $this->column_fields['email1']));
 			if ($adb->num_rows($result) > 0) {
 				vtlib\Functions::throwNewException('LBL_USER_EXISTS');
@@ -1078,9 +1080,8 @@ class Users extends CRMEntity
 		$query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?", array($this->id));
 		$prev_reminder_interval = $adb->query_result($query_prev_interval, 0, 'reminder_interval');
 
-		//$focus->imagename = $image_upload_array['imagename'];
 		$this->saveHomeStuffOrder($this->id);
-		SaveTagCloudView($this->id);
+		\vtlib\Deprecated::SaveTagCloudView($this->id);
 
 		// Added for Reminder Popup support
 		$this->resetReminderInterval($prev_reminder_interval);
@@ -1101,7 +1102,7 @@ class Users extends CRMEntity
 	 * @param $id -- user id:: Type integer
 	 * @returns the customized home page order in $return_array
 	 */
-	function getHomeStuffOrder($id)
+	public function getHomeStuffOrder($id)
 	{
 		$adb = PearDatabase::getInstance();
 		if (!is_array($this->homeorder_array)) {
@@ -1135,7 +1136,7 @@ class Users extends CRMEntity
 		return $return_array;
 	}
 
-	function getDefaultHomeModuleVisibility($home_string, $inVal)
+	public function getDefaultHomeModuleVisibility($home_string, $inVal)
 	{
 		$homeModComptVisibility = 1;
 		if ($inVal == 'postinstall') {
@@ -1148,7 +1149,7 @@ class Users extends CRMEntity
 		return $homeModComptVisibility;
 	}
 
-	function insertUserdetails($inVal)
+	public function insertUserdetails($inVal)
 	{
 		$adb = PearDatabase::getInstance();
 		$uid = $this->id;
@@ -1235,7 +1236,7 @@ class Users extends CRMEntity
 	/** function to save the order in which the modules have to be displayed in the home page for the specified user id
 	 * @param $id -- user id:: Type integer
 	 */
-	function saveHomeStuffOrder($id)
+	public function saveHomeStuffOrder($id)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = LoggerManager::getInstance();
@@ -1269,7 +1270,7 @@ class Users extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	function track_view($user_id, $current_module, $id = '')
+	public function track_view($user_id, $current_module, $id = '')
 	{
 		$this->log->debug("About to call vtiger_tracker (user_id, module_name, item_id)($user_id, $current_module, $this->id)");
 
@@ -1283,7 +1284,7 @@ class Users extends CRMEntity
 	 * @param $input_value -- Input value for the column taken from the User
 	 * @return Column value of the field.
 	 */
-	function get_column_value($columName, $fldvalue, $fieldname, $uitype, $datatype = '')
+	public function get_column_value($columName, $fldvalue, $fieldname, $uitype, $datatype = '')
 	{
 		if (is_uitype($uitype, "_date_") && $fldvalue == '') {
 			return null;
@@ -1298,7 +1299,7 @@ class Users extends CRMEntity
 	 * Function to reset the Reminder Interval setup and update the time for next reminder interval
 	 * @param $prev_reminder_interval -- Last Reminder Interval on which the reminder popup's were triggered.
 	 */
-	function resetReminderInterval($prev_reminder_interval)
+	public function resetReminderInterval($prev_reminder_interval)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($prev_reminder_interval != $this->column_fields['reminder_interval']) {
@@ -1310,27 +1311,27 @@ class Users extends CRMEntity
 		}
 	}
 
-	function initSortByField($module)
+	public function initSortByField($module)
 	{
 		// Right now, we do not have any fields to be handled for Sorting in Users module. This is just a place holder as it is called from Popup.php
 	}
 
-	function filterInactiveFields($module)
+	public function filterInactiveFields($module)
 	{
-		// TODO Nothing do right now
+
 	}
 
-	function deleteImage()
+	public function deleteImage()
 	{
 		$sql1 = 'SELECT attachmentsid FROM vtiger_salesmanattachmentsrel WHERE smid = ?';
 		$res1 = $this->db->pquery($sql1, array($this->id));
 		if ($this->db->num_rows($res1) > 0) {
 			$attachmentId = $this->db->query_result($res1, 0, 'attachmentsid');
 
-			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? AND setype='Users Attachments'";
+			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? && setype='Users Attachments'";
 			$this->db->pquery($sql2, array($attachmentId));
 
-			$sql3 = 'DELETE FROM vtiger_salesmanattachmentsrel WHERE smid=? AND attachmentsid=?';
+			$sql3 = 'DELETE FROM vtiger_salesmanattachmentsrel WHERE smid=? && attachmentsid=?';
 			$this->db->pquery($sql3, array($this->id, $attachmentId));
 
 			$sql2 = "UPDATE vtiger_users SET imagename='' WHERE id=?";
@@ -1342,12 +1343,12 @@ class Users extends CRMEntity
 	}
 
 	/** Function to delete an entity with given Id */
-	function trash($module, $id)
+	public function trash($module, $id)
 	{
 		$this->mark_deleted($id);
 	}
 
-	function transformOwnerShipAndDelete($userId, $transformToUserId)
+	public function transformOwnerShipAndDelete($userId, $transformToUserId)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -1374,7 +1375,7 @@ class Users extends CRMEntity
 	 * This function should be overridden in each module.  It marks an item as deleted.
 	 * @param <type> $id
 	 */
-	function mark_deleted($id)
+	public function mark_deleted($id)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -1390,17 +1391,25 @@ class Users extends CRMEntity
 	 */
 	public static function getActiveAdminId()
 	{
-		$adb = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance();
 		$cache = Vtiger_Cache::getInstance();
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();
 		} else {
-			$sql = "SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' limit 1";
-			$result = $adb->pquery($sql, []);
-			$adminId = 1;
-			$it = new SqlResultIterator($adb, $result);
-			foreach ($it as $row) {
-				$adminId = $row->id;
+			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+				$users = \includes\PrivilegeFile::getUser('id');
+				foreach ($users as $id => $user) {
+					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
+						$adminId = $id;
+						continue;
+					}
+				}
+			} else {
+				$result = $db->query("SELECT id FROM vtiger_users WHERE is_admin = 'on' && status = 'Active' limit 1");
+				$adminId = 1;
+				while (($id = $db->getSingleValue($result)) !== false) {
+					$adminId = $id;
+				}
 			}
 			$cache->setAdminUserId($adminId);
 			return $adminId;
@@ -1414,7 +1423,7 @@ class Users extends CRMEntity
 	public static function getActiveAdminUser()
 	{
 		$adminId = self::getActiveAdminId();
-		$user = new Users();
+		$user = CRMEntity::getInstance('Users');
 		$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;
 	}

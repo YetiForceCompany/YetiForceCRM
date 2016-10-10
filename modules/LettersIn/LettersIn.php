@@ -89,7 +89,7 @@ class LettersIn extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'title', 'assigned_user_id');
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		
 	}
@@ -98,7 +98,7 @@ class LettersIn extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -106,7 +106,7 @@ class LettersIn extends CRMEntity
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
 	 */
-	function getListQuery($module, $where = '')
+	public function getListQuery($module, $where = '')
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -138,7 +138,7 @@ class LettersIn extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -164,35 +164,35 @@ class LettersIn extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$sec_query .= " AND (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
+			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
                     (
                         SELECT vtiger_user2role.userid FROM vtiger_user2role
                         INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
                         INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid
                         WHERE vtiger_role.parentrole LIKE '" . $current_user_parent_role_seq . "::%'
                     )
-                    OR vtiger_crmentity.smownerid IN
+                    || vtiger_crmentity.smownerid IN
                     (
                         SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-                        WHERE userid=" . $current_user->id . " AND tabid=" . $tabid . "
+                        WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
                     )
                     OR
                         (";
 
 			// Build the query based on the group association of current user.
 			if (sizeof($current_user_groups) > 0) {
-				$sec_query .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") OR ";
+				$sec_query .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") || ";
 			}
 			$sec_query .= " vtiger_groups.groupid IN
                         (
@@ -209,7 +209,7 @@ class LettersIn extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -233,7 +233,7 @@ class LettersIn extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($thismodule));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -251,7 +251,7 @@ class LettersIn extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
-			$query .= " WHERE ($where) AND $where_auto";
+			$query .= " WHERE ($where) && $where_auto";
 		else
 			$query .= " WHERE $where_auto";
 
@@ -261,7 +261,7 @@ class LettersIn extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	function transform_export_value($key, $value)
+	public function transform_export_value($key, $value)
 	{
 		return parent::transform_export_value($key, $value);
 	}
@@ -269,7 +269,7 @@ class LettersIn extends CRMEntity
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = sprintf('SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s', $this->table_name, $this->table_index, $table_cols);
 
@@ -319,7 +319,7 @@ class LettersIn extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $event_type)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
@@ -350,20 +350,20 @@ class LettersIn extends CRMEntity
 				}
 			}
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? AND columnname=?', array('vtiger_lettersin', 'title'));
-			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? AND columnname=?', array('vtiger_lettersin', 'smownerid'));
-			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? AND columnname=?', array('vtiger_lettersin', 'lin_type_ship'));
-			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? AND columnname=?', array('vtiger_lettersin', 'lin_type_doc'));
-			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? AND columnname=?', array('vtiger_lettersin', 'date_adoption'));
-			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? AND columnname=?', array('vtiger_lettersin', 'relatedid'));
+			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'title'));
+			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'smownerid'));
+			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'lin_type_ship'));
+			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'lin_type_doc'));
+			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'date_adoption'));
+			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'relatedid'));
 		} else if ($event_type == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
+
 		} else if ($event_type == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
+
 		} else if ($event_type == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($event_type == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($event_type == 'module.postupdate') {
 			
 		}

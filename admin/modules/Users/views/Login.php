@@ -2,17 +2,17 @@
 
 class Admin_Users_Login_View extends Vtiger_View_Controller {
 
-	function loginRequired() {
+	public function loginRequired() {
 		return false;
 	}
 	
-	function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request) {
 		return true;
 	}
 	
 	public function postProcess(Vtiger_Request $request) {	}
 	
-	function process (Vtiger_Request $request) {
+	public function process (Vtiger_Request $request) {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);

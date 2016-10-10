@@ -47,7 +47,7 @@ class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE `yetiforce_proc_tc` SET `value` = ? WHERE `type` = ? AND `param` = ?;', $param);
+		$db->pquery('UPDATE `yetiforce_proc_tc` SET `value` = ? WHERE `type` = ? && `param` = ?;', $param);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
 	}

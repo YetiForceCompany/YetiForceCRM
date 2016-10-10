@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package YetiForce.Action
  * @license licenses/License.html
@@ -7,7 +8,7 @@
 class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('checkDuplicateName');
@@ -91,7 +92,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->setResult($result);
 		$response->emit();
 	}
-	
+
 	public function saveConfig(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -100,7 +101,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$type = $params['view'];
 
 		$recordModel = Settings_Inventory_Module_Model::getCleanInstance();
-		$status = $recordModel->setConfig($type,$params['param']);
+		$status = $recordModel->setConfig($type, $params['param']);
 
 		if (!$status) {
 			$result = array('success' => false);

@@ -91,8 +91,6 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		$widgetName = $this->get('name');
 		if (empty($widgetName)) {
-			//since the html entitites will be encoded
-			//TODO : See if you need to push decode_html to base model
 			$linkUrl = decode_html($this->getUrl());
 			preg_match('/name=[a-zA-Z]+/', $linkUrl, $matches);
 			$matches = explode('=', $matches[0]);
@@ -119,7 +117,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets
 			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid
-			WHERE linktype = ? AND vtiger_links.linkid = ? AND userid = ?', array('DASHBOARDWIDGET', $linkId, $userId));
+			WHERE linktype = ? && vtiger_links.linkid = ? && userid = ?', array('DASHBOARDWIDGET', $linkId, $userId));
 
 		$self = new self();
 		if ($db->num_rows($result)) {
@@ -138,10 +136,10 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		$sql = 'UPDATE vtiger_module_dashboard_widgets SET position=? WHERE userid=?';
 		$params = array($position, $userId);
 		if ($linkId) {
-			$sql .= ' AND linkid = ?';
+			$sql .= ' && linkid = ?';
 			$params[] = $linkId;
 		} else if ($widgetId) {
-			$sql .= ' AND id = ?';
+			$sql .= ' && id = ?';
 			$params[] = $widgetId;
 		}
 		$db->pquery($sql, $params);
@@ -152,17 +150,21 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets
 			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid
-			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND userid = ?', array('DASHBOARDWIDGET', $widgetId, $userId));
+			WHERE linktype = ? && vtiger_module_dashboard_widgets.id = ? && userid = ?', array('DASHBOARDWIDGET', $widgetId, $userId));
 
 		$self = new self();
 		if ($db->num_rows($result)) {
 			$row = $db->query_result_rowdata($result, 0);
 			if ($row['linklabel'] == 'Mini List') {
+				if (!$row['isdeafult'])
+					$row['deleteFromList'] = true;
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
 			} else if ($row['linklabel'] == 'ChartFilter') {
+				if (!$row['isdeafult'])
+					$row['deleteFromList'] = true;
 				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
@@ -194,7 +196,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		if ($action == 'delete')
-			$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE id = ? AND blockid = ?', array($this->get('id'), $this->get('blockid')));
+			$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE id = ? && blockid = ?', array($this->get('id'), $this->get('blockid')));
 		else if ($action == 'hide') {
 			$query = 'UPDATE vtiger_module_dashboard_widgets SET `active` = ? WHERE id = ?';
 			$params = array(0, $this->get('id'));
@@ -233,12 +235,12 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	 * @param vtlib\Link $widgetLink
 	 * @param Current Smarty Context $context
 	 */
-	function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
+	public function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
 	{
 		if (preg_match("/^block:\/\/(.*)/", $widgetLink->get('linkurl'), $matches)) {
 			list($widgetControllerClass, $widgetControllerClassFile) = explode(':', $matches[1]);
 			if (!class_exists($widgetControllerClass)) {
-				checkFileAccessForInclusion($widgetControllerClassFile);
+				\vtlib\Deprecated::checkFileAccessForInclusion($widgetControllerClassFile);
 				include_once $widgetControllerClassFile;
 			}
 			if (class_exists($widgetControllerClass)) {
@@ -249,5 +251,16 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 				}
 			}
 		}
+	}
+
+	public static function removeWidgetFromList($id)
+	{
+		$db = PearDatabase::getInstance();
+		$query = "SELECT templateid FROM vtiger_module_dashboard_widgets WHERE id = ?";
+		$result = $db->pquery($query, [$id]);
+		$templateId = $db->getSingleValue($result);
+		if ($templateId)
+			$db->delete('vtiger_module_dashboard', 'id = ?', [$templateId]);
+		$db->delete('vtiger_module_dashboard_widgets', 'id = ?', [$id]);
 	}
 }

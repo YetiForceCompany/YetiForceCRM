@@ -6,30 +6,28 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Vtiger_BaseValidator_Js("Vtiger_NumberValidator_Js",{},{
+Vtiger_BaseValidator_Js("Vtiger_NumberValidator_Js", {}, {
 	error: "",
-	validate: function(){
+	validate: function () {
 		var field = this.fieldInfo;
-		if(jQuery(field).attr('id') == "probability"){
+		if (jQuery(field).attr('id') == "probability") {
 			if (isNaN(field.val())) {
 				// this allows the use of i18 for the error msgs
 				this.getOnlyNumbersError;
-			}else if(field.val() > 100){
+			} else if (field.val() > 100) {
 				this.getProbabilityNumberError;
 			}
 		}
 		if (isNaN(field.val())) {
-			 // this allows the use of i18 for the error msgs
+			// this allows the use of i18 for the error msgs
 			this.getOnlyNumbersError;
 		}
 	},
-
-	getOnlyNumbersError: function(){
+	getOnlyNumbersError: function () {
 		this.error = "please enter only numbers";
 		return this.error;
 	},
-
-	getProbabilityNumberError: function(){
+	getProbabilityNumberError: function () {
 		this.error = "please enter only numbers less than 100 as field value is in percentage";
 		return this.error;
 	}

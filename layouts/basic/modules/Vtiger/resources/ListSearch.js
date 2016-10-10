@@ -19,10 +19,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			container = jQuery('.bodyContents');
 		}
 		this.setContainer(container);
-		if (noEvents != true) {
+		if (noEvents != true && this.getContainer().find('[data-trigger="listSearch"]').length) {
 			this.initialize();
 		}
-
 	},
 	setContainer: function (container) {
 		this.container = container;

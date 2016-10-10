@@ -14,9 +14,9 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	public static function getNonVisibleModulesList()
 	{
-		return array('ModTracker', 'Portal', 'Users', 'Mobile', 'Integration', 'WSAPP',
+		return ['ModTracker', 'Portal', 'Users', 'Integration', 'WSAPP',
 			'ConfigEditor', 'FieldFormulas', 'VtigerBackup', 'CronTasks', 'Import', 'Tooltip',
-			'CustomerPortal', 'Home');
+			'CustomerPortal', 'Home'];
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public function disableModule($moduleName)
 	{
 		//Handling events after disable module
-		vtlib_toggleModuleAccess($moduleName, false);
+		\vtlib\Module::toggleModuleAccess($moduleName, false);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public function enableModule($moduleName)
 	{
 		//Handling events after enable module
-		vtlib_toggleModuleAccess($moduleName, true);
+		\vtlib\Module::toggleModuleAccess($moduleName, true);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		if ($onlyActive) {
 			$presence = [0];
 			$nonVisibleModules = self::getNonVisibleModulesList();
-			$query .= sprintf(' WHERE presence IN (%s) AND name NOT IN (%s)', generateQuestionMarks($presence), generateQuestionMarks($nonVisibleModules));
+			$query .= sprintf(' WHERE presence IN (%s) && name NOT IN (%s)', generateQuestionMarks($presence), generateQuestionMarks($nonVisibleModules));
 			array_push($params, $presence, $nonVisibleModules);
 		}
 		$result = $db->pquery($query, $params);
@@ -93,7 +93,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static function getModulesSupportingSequenceNumbering()
 	{
 		$db = PearDatabase::getInstance();
-		$sql = "SELECT tabid, name FROM vtiger_tab WHERE isentitytype = 1 AND presence = 0 AND tabid IN
+		$sql = "SELECT tabid, name FROM vtiger_tab WHERE isentitytype = 1 && presence = 0 && tabid IN
 			(SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = '4')";
 		$result = $db->pquery($sql, array());
 

@@ -14,25 +14,25 @@
  * and quick links of header part
  * footer is also loaded
  * function that connect to db connector to get data
- * ****************************************************************************** */
+ * ******************************************************************************
+ * Contributor(s): YetiForce.com */
 
 abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 
 		if ($activeReminder = \includes\Modules::isModuleActive('Calendar')) {
-			$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$activeReminder = $userPrivilegesModel->hasModulePermission($calendarModuleModel->getId());
+			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
 		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
@@ -77,10 +77,9 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	  return parent::preProcessTplName($request);
 	  } */
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		//$viewer->assign('GUIDERSJSON', Vtiger_Guider_Model::toJsonList($this->getGuiderModels($request)));
 		parent::postProcess($request);
 	}
 
@@ -89,7 +88,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -130,7 +129,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return $headerScriptInstances;
 	}
 
-	function getGuiderModels(Vtiger_Request $request)
+	public function getGuiderModels(Vtiger_Request $request)
 	{
 		return [];
 	}

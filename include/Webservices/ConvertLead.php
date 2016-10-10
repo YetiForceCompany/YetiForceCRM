@@ -174,12 +174,10 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 		do {
 			$entityField = vtws_getFieldfromFieldId($row[$column], $entityFields);
 			if ($entityField == null) {
-				//user doesn't have access so continue.TODO update even if user doesn't have access
 				continue;
 			}
 			$leadField = vtws_getFieldfromFieldId($row['leadfid'], $leadFields);
 			if ($leadField == null) {
-				//user doesn't have access so continue.TODO update even if user doesn't have access
 				continue;
 			}
 			$leadFieldName = $leadField->getFieldName();

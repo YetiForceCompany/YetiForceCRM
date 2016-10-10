@@ -100,7 +100,6 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		*/
 	registerSendEmailEvent : function(){
 		this.getMassEmailForm().on('submit',function(e){
-			//TODO close the window once the mail has sent
 			var formElement = jQuery(e.currentTarget);
 			var invalidFields = formElement.data('jqv').InvalidFields;
 			var progressElement = formElement.find('[name="progressIndicator"]');
@@ -172,7 +171,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	},
 
 	removeAttachmentsFileSize : function(){
-		//TODO  update the attachment file size when you delete any attachment from the list
+
 	},
 
 	fileAfterSelectHandler : function(element, value, master_element){
@@ -285,7 +284,6 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 					var response = thisInstance.writeDocumentIds(selectedDocumentId)
 					if(response){
 						var attachmentElement = thisInstance.getDocumentAttachmentElement(selectedFileName,id,selectedFileSize);
-						//TODO handle the validation if the size exceeds 5mb before appending.
 						jQuery(attachmentElement).appendTo(jQuery('#attachments'));
 						jQuery('.MultiFile-applied,.MultiFile').addClass('removeNoFileChosen');
 						thisInstance.setDocumentsFileSize(selectedFileSize);

@@ -12,4 +12,5 @@ $languageStrings = [
 	'LBL_SUBJECT' => 'Тема',
 	'LBL_NUMBER' => 'Номер',
 	'LBL_VAT_ID' => 'ИНН',
+	'FL_CATEGORY' => 'Category',
 ];

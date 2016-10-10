@@ -149,7 +149,12 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
 
         // Making fields a comma-delimited list
         $fields = implode(', ', $fields);
-        $stmt = $this->pdo->prepare("SELECT " . $fields . " FROM " . $this->calendarTableName . " WHERE principaluri = ? ORDER BY calendarorder ASC");
+				$stmt = $this->pdo->prepare(
+<<<SQL
+		SELECT $fields FROM {$this->calendarTableName}
+		WHERE principaluri = ? ORDER BY calendarorder ASC
+SQL
+		);
         $stmt->execute([$principalUri]);
 
         $calendars = [];
@@ -281,8 +286,8 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
             foreach ($newValues as $fieldName => $value) {
                 $valuesSql[] = $fieldName . ' = ?';
             }
-
-            $stmt = $this->pdo->prepare("UPDATE " . $this->calendarTableName . " SET " . implode(', ', $valuesSql) . " WHERE id = ?");
+			$query = sprintf('UPDATE %s SET %s WHERE id = ?', $this->calendarTableName, implode(', ', $valuesSql));
+            $stmt = $this->pdo->prepare($query);
             $newValues['id'] = $calendarId;
             $stmt->execute(array_values($newValues));
 
@@ -302,13 +307,16 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      */
     function deleteCalendar($calendarId) {
 
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ?');
+		$query = sprintf('DELETE FROM %s WHERE calendarid = ?', $this->calendarObjectTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$calendarId]);
 
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->calendarTableName . ' WHERE id = ?');
+		$query = sprintf('DELETE FROM %s WHERE id = ?', $this->calendarTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$calendarId]);
 
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->calendarChangesTableName . ' WHERE calendarid = ?');
+        $query = sprintf('DELETE FROM %s WHERE calendarid = ?', $this->calendarChangesTableName);
+		$stmt = $this->pdo->prepare($query);
         $stmt->execute([$calendarId]);
 
     }
@@ -345,8 +353,9 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      * @return array
      */
     function getCalendarObjects($calendarId) {
-
-        $stmt = $this->pdo->prepare('SELECT id, uri, lastmodified, etag, calendarid, size, componenttype FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ?');
+		
+		$query = sprintf('SELECT id, uri, lastmodified, etag, calendarid, size, componenttype FROM %s WHERE calendarid = ?', $this->calendarObjectTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$calendarId]);
 
         $result = [];
@@ -383,8 +392,9 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      * @return array|null
      */
     function getCalendarObject($calendarId, $objectUri) {
-
-        $stmt = $this->pdo->prepare('SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ? AND uri = ?');
+		
+		$query = sprintf('SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM %s WHERE calendarid = ? && uri = ?', $this->calendarObjectTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$calendarId, $objectUri]);
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -417,7 +427,7 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      */
     function getMultipleCalendarObjects($calendarId, array $uris) {
 
-        $query = 'SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ? AND uri IN (';
+        $query =sprintf('SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM %s WHERE calendarid = ? && uri IN (', $this->calendarObjectTableName);
         // Inserting a whole bunch of question marks
         $query .= implode(',', array_fill(0, count($uris), '?'));
         $query .= ')';
@@ -507,8 +517,8 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
     function updateCalendarObject($calendarId, $objectUri, $calendarData) {
 
         $extraData = $this->getDenormalizedData($calendarData);
-
-        $stmt = $this->pdo->prepare('UPDATE ' . $this->calendarObjectTableName . ' SET calendardata = ?, lastmodified = ?, etag = ?, size = ?, componenttype = ?, firstoccurence = ?, lastoccurence = ?, uid = ? WHERE calendarid = ? AND uri = ?');
+		$query = sprintf('UPDATE %s SET calendardata = ?, lastmodified = ?, etag = ?, size = ?, componenttype = ?, firstoccurence = ?, lastoccurence = ?, uid = ? WHERE calendarid = ? && uri = ?', $this->calendarObjectTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$calendarData, time(), $extraData['etag'], $extraData['size'], $extraData['componentType'], $extraData['firstOccurence'], $extraData['lastOccurence'], $extraData['uid'], $calendarId, $objectUri]);
 
         $this->addChange($calendarId, $objectUri, 2);
@@ -610,7 +620,8 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      */
     function deleteCalendarObject($calendarId, $objectUri) {
 
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->calendarObjectTableName . ' WHERE calendarid = ? AND uri = ?');
+		$query = sprintf('DELETE FROM %s WHERE calendarid = ? && uri = ?', $this->calendarObjectTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$calendarId, $objectUri]);
 
         $this->addChange($calendarId, $objectUri, 3);
@@ -702,9 +713,9 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
         }
 
         if ($requirePostFilter) {
-            $query = "SELECT uri, calendardata FROM " . $this->calendarObjectTableName . " WHERE calendarid = :calendarid";
+            $query = sprintf("SELECT uri, calendardata FROM %s WHERE calendarid = :calendarid", $this->calendarObjectTableName);
         } else {
-            $query = "SELECT uri FROM " . $this->calendarObjectTableName . " WHERE calendarid = :calendarid";
+            $query = sprintf("SELECT uri FROM %s WHERE calendarid = :calendarid", $this->calendarObjectTableName);
         }
 
         $values = [
@@ -712,16 +723,16 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
         ];
 
         if ($componentType) {
-            $query .= " AND componenttype = :componenttype";
+            $query .= " && componenttype = :componenttype";
             $values['componenttype'] = $componentType;
         }
 
         if ($timeRange && $timeRange['start']) {
-            $query .= " AND lastoccurence > :startdate";
+            $query .= " && lastoccurence > :startdate";
             $values['startdate'] = $timeRange['start']->getTimeStamp();
         }
         if ($timeRange && $timeRange['end']) {
-            $query .= " AND firstoccurence < :enddate";
+            $query .= " && firstoccurence < :enddate";
             $values['enddate'] = $timeRange['end']->getTimeStamp();
         }
 
@@ -846,7 +857,8 @@ SQL;
     function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null) {
 
         // Current synctoken
-        $stmt = $this->pdo->prepare('SELECT synctoken FROM ' . $this->calendarTableName . ' WHERE id = ?');
+		$query = sprintf('SELECT synctoken FROM %s WHERE id = ?', $this->calendarTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([ $calendarId ]);
         $currentToken = $stmt->fetchColumn(0);
 
@@ -861,7 +873,7 @@ SQL;
 
         if ($syncToken) {
 
-            $query = "SELECT uri, operation FROM " . $this->calendarChangesTableName . " WHERE synctoken >= ? AND synctoken < ? AND calendarid = ? ORDER BY synctoken";
+            $query = sprintf('SELECT uri, operation FROM %s WHERE synctoken >= ? && synctoken < ? && calendarid = ? ORDER BY synctoken', $this->calendarChangesTableName);
             if ($limit > 0) $query .= " LIMIT " . (int)$limit;
 
             // Fetching all changes
@@ -895,7 +907,7 @@ SQL;
             }
         } else {
             // No synctoken supplied, this is the initial sync.
-            $query = "SELECT uri FROM " . $this->calendarObjectTableName . " WHERE calendarid = ?";
+            $query = sprintf('SELECT uri FROM %s WHERE calendarid = ?', $this->calendarObjectTableName);
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([$calendarId]);
 
@@ -922,7 +934,8 @@ SQL;
             $operation,
             $calendarId
         ]);
-        $stmt = $this->pdo->prepare('UPDATE ' . $this->calendarTableName . ' SET synctoken = synctoken + 1 WHERE id = ?');
+		$query = sprintf('UPDATE %s SET synctoken = synctoken + 1 WHERE id = ?', $this->calendarTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([
             $calendarId
         ]);
@@ -971,7 +984,8 @@ SQL;
 
         // Making fields a comma-delimited list
         $fields = implode(', ', $fields);
-        $stmt = $this->pdo->prepare("SELECT " . $fields . " FROM " . $this->calendarSubscriptionsTableName . " WHERE principaluri = ? ORDER BY calendarorder ASC");
+		$query = sprintf('SELECT %s FROM %s WHERE principaluri = ? ORDER BY calendarorder ASC', $fields, $this->calendarSubscriptionsTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$principalUri]);
 
         $subscriptions = [];
@@ -1088,8 +1102,8 @@ SQL;
             foreach ($newValues as $fieldName => $value) {
                 $valuesSql[] = $fieldName . ' = ?';
             }
-
-            $stmt = $this->pdo->prepare("UPDATE " . $this->calendarSubscriptionsTableName . " SET " . implode(', ', $valuesSql) . ", lastmodified = ? WHERE id = ?");
+			$query = sprintf('UPDATE %s SET  %s , lastmodified = ? WHERE id = ?', $this->calendarSubscriptionsTableName, implode(', ', $valuesSql));
+            $stmt = $this->pdo->prepare($query);
             $newValues['lastmodified'] = time();
             $newValues['id'] = $subscriptionId;
             $stmt->execute(array_values($newValues));
@@ -1107,8 +1121,8 @@ SQL;
      * @return void
      */
     function deleteSubscription($subscriptionId) {
-
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->calendarSubscriptionsTableName . ' WHERE id = ?');
+		$query = sprintf('DELETE FROM %s WHERE id = ?', $this->calendarSubscriptionsTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$subscriptionId]);
 
     }
@@ -1130,8 +1144,9 @@ SQL;
      * @return array
      */
     function getSchedulingObject($principalUri, $objectUri) {
-
-        $stmt = $this->pdo->prepare('SELECT uri, calendardata, lastmodified, etag, size FROM ' . $this->schedulingObjectTableName . ' WHERE principaluri = ? AND uri = ?');
+		
+		$query = sprintf('SELECT uri, calendardata, lastmodified, etag, size FROM %s WHERE principaluri = ? && uri = ?', $this->schedulingObjectTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$principalUri, $objectUri]);
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -1160,7 +1175,8 @@ SQL;
      */
     function getSchedulingObjects($principalUri) {
 
-        $stmt = $this->pdo->prepare('SELECT id, calendardata, uri, lastmodified, etag, size FROM ' . $this->schedulingObjectTableName . ' WHERE principaluri = ?');
+		$query = sprintf('SELECT id, calendardata, uri, lastmodified, etag, size FROM %s WHERE principaluri = ?', $this->schedulingObjectTableName);
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$principalUri]);
 
         $result = [];
@@ -1187,7 +1203,8 @@ SQL;
      */
     function deleteSchedulingObject($principalUri, $objectUri) {
 
-        $stmt = $this->pdo->prepare('DELETE FROM ' . $this->schedulingObjectTableName . ' WHERE principaluri = ? AND uri = ?');
+		$query = sprintf('DELETE FROM %s WHERE principaluri = ? && uri = ?', $this->schedulingObjectTableName);	
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([$principalUri, $objectUri]);
 
     }

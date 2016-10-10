@@ -9,7 +9,7 @@
 class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$sourceModule = $request->get('sourceModule');
@@ -28,7 +28,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getUnreviewed');

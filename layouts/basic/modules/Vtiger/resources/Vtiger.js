@@ -92,21 +92,15 @@ var Vtiger_Index_Js = {
 				window.open(url, '_blank', popupParams + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
 				return;
 			}
-			var actionParams = {
-				type: "POST",
-				url: url,
-				dataType: "html",
-				data: postData
-			};
-			AppConnector.request(actionParams).then(function (appData) {
-				var win = window.open('about:blank', '_blank', popupParams + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no');
-				with (win.document)
-				{
-					open();
-					write(appData);
-					close();
-				}
+			var form = $("<form/>", {action: 'index.php'});
+			var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+				form.append($("<input>", {name: key, value: value}));
 			});
+			for (var i in postData) {
+				form.append($("<input>", {name: i, value: JSON.stringify(postData[i])}));
+			}
+			$('body').append(form);
+			form.submit();
 		} else {
 			window.location.href = url;
 		}
@@ -484,7 +478,7 @@ var Vtiger_Index_Js = {
 		var lastPopovers = [];
 		// Fetching reference fields often is not a good idea on a given page.
 		// The caching is done based on the URL so we can reuse.
-		var CACHE_ENABLED = true; // TODO - add cache timeout support.
+		var CACHE_ENABLED = true;
 
 		function prepareAndShowTooltipView() {
 			hideAllTooltipViews();

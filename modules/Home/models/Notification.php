@@ -48,7 +48,7 @@ class Home_Notification_Model extends Vtiger_Base_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$role = str_replace('H', '', $currentUser->get('roleid'));
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM a_yf_notification_type WHERE role = ? OR role = ?', [0, $role]);
+		$result = $db->pquery('SELECT * FROM a_yf_notification_type WHERE role = ? || role = ?', [0, $role]);
 		$types = [];
 		while ($row = $db->getRow($result)) {
 			$types[$row['id']] = $row;

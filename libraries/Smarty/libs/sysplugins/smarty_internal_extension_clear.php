@@ -77,13 +77,13 @@ class Smarty_Internal_Extension_Clear
                     $_parts_count = count($_parts);
                     // check name
                     if (isset($resource_name)) {
-                        if ($_parts[$_parts_count - 1] != $_resourcename_parts) {
+                        if ($_parts[ $_parts_count - 1 ] != $_resourcename_parts) {
                             continue;
                         }
                     }
                     // check compile id
-                    if (isset($_compile_id) && (!isset($_parts[$_parts_count - 2 - $_compile_id_offset]) ||
-                            $_parts[$_parts_count - 2 - $_compile_id_offset] != $_compile_id)
+                    if (isset($_compile_id) && (!isset($_parts[ $_parts_count - 2 - $_compile_id_offset ]) ||
+                                                $_parts[ $_parts_count - 2 - $_compile_id_offset ] != $_compile_id)
                     ) {
                         continue;
                     }
@@ -96,7 +96,7 @@ class Smarty_Internal_Extension_Clear
                             continue;
                         }
                         for ($i = 0; $i < $_cache_id_parts_count; $i ++) {
-                            if ($_parts[$i] != $_cache_id_parts[$i]) {
+                            if ($_parts[ $i ] != $_cache_id_parts[ $i ]) {
                                 continue 2;
                             }
                         }
@@ -105,7 +105,7 @@ class Smarty_Internal_Extension_Clear
                     if (isset($exp_time)) {
                         if ($exp_time < 0) {
                             preg_match('#\'cache_lifetime\' =>\s*(\d*)#', file_get_contents($_file), $match);
-                            if ($_time < (@filemtime($_file) + $match[1])) {
+                            if ($_time < (@filemtime($_file) + $match[ 1 ])) {
                                 continue;
                             }
                         } else {
@@ -115,8 +115,8 @@ class Smarty_Internal_Extension_Clear
                         }
                     }
                     $_count += @unlink((string) $_file) ? 1 : 0;
-                    if (function_exists('opcache_invalidate')) {
-                        opcache_invalidate((string) $_file);
+                    if (function_exists('opcache_invalidate') && strlen(ini_get("opcache.restrict_api")) < 1) {
+                        opcache_invalidate((string) $_file, true);
                     }
                 }
             }

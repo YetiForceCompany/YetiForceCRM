@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Save keys
  * @package YetiForce.Github
@@ -17,11 +18,10 @@ class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 		$clientModel->setToken($token);
 		$clientModel->setClientId($clientId);
 		$clientModel->setUsername($username);
-		if($clientModel->checkToken()){
+		if ($clientModel->checkToken()) {
 			$success = $clientModel->saveKeys();
 			$success = $success ? true : false;
-		}
-		else{
+		} else {
 			$success = false;
 		}
 		$responce = new Vtiger_Response();

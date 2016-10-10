@@ -100,31 +100,6 @@ function vtlib_RecreateUserPrivilegeFiles()
 }
 
 /**
- * Toggle the module (enable/disable)
- */
-function vtlib_toggleModuleAccess($module, $enable_disable)
-{
-	global $adb, $__cache_module_activeinfo;
-	$event_type = false;
-
-	if ($enable_disable === true) {
-		$enable_disable = 0;
-		$event_type = vtlib\Module::EVENT_MODULE_ENABLED;
-	} else if ($enable_disable === false) {
-		$enable_disable = 1;
-		$event_type = vtlib\Module::EVENT_MODULE_DISABLED;
-	}
-
-	$adb->pquery("UPDATE vtiger_tab set presence = ? WHERE name = ?", array($enable_disable, $module));
-
-	$__cache_module_activeinfo[$module] = $enable_disable;
-
-	create_tab_data_file();
-	vtlib_RecreateUserPrivilegeFiles();
-	vtlib\Module::fireEvent($module, $event_type);
-}
-
-/**
  * Get list of module with current status which can be controlled.
  */
 function vtlib_getToggleModuleInfo()
@@ -133,7 +108,7 @@ function vtlib_getToggleModuleInfo()
 
 	$modinfo = [];
 
-	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') AND presence IN (0,1) ORDER BY name");
+	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') && presence IN (0,1) ORDER BY name");
 	$num_rows = $adb->num_rows($sqlresult);
 	for ($idx = 0; $idx < $num_rows; ++$idx) {
 		$module = $adb->query_result($sqlresult, $idx, 'name');
@@ -241,7 +216,7 @@ function __vtlib_get_modulevar_value($module, $varname)
 				'vtiger_accountaddress' => Array('accountaddressid', 'vtiger_account', 'accountid'),
 				'vtiger_accountscf' => Array('accountid', 'vtiger_account', 'accountid'),
 			),
-			'popup_fields' => Array('accountname'), // TODO: Add this initialization to all the standard module
+			'popup_fields' => Array('accountname'),
 		),
 		'Contacts' =>
 		Array(
@@ -463,8 +438,8 @@ function vtlib_isCustomModule($moduleName)
 {
 	$moduleFile = "modules/$moduleName/$moduleName.php";
 	if (file_exists($moduleFile)) {
-		if (function_exists('checkFileAccessForInclusion')) {
-			checkFileAccessForInclusion($moduleFile);
+		if (method_exists('\vtlib\Deprecated', 'checkFileAccessForInclusion')) {
+			\vtlib\Deprecated::checkFileAccessForInclusion($moduleFile);
 		}
 		include_once($moduleFile);
 		$focus = new $moduleName();

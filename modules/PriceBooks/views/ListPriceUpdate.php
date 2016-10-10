@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -7,21 +6,23 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View {
+class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
+{
 
-	function checkPermission(Vtiger_Request $request) {
+	public function checkPermission(Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
+		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
 		}
 	}
 
-	function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
 		$priceBookId = $request->get('record');
@@ -37,5 +38,4 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View {
 		$viewer->view('ListPriceUpdate.tpl', $moduleName);
 		parent::postProcess($request);
 	}
-
 }

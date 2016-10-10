@@ -85,7 +85,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
@@ -96,13 +96,13 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');
 			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', array('ADD'), 'get_dependents_list');
 		} else if ($eventType == 'module.disabled') {
-			// TODO Handle actions before this module is being uninstalled.
+
 		} else if ($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
-			// TODO Handle actions after this module is updated.
+
 		}
 	}
 }

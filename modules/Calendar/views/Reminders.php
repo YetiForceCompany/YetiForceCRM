@@ -12,11 +12,10 @@
 class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if ('true' == $request->get('type_remainder')) {
 			$recordModels = Calendar_Module_Model::getCalendarReminder(true);
 		} else {
@@ -28,7 +27,7 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $record->getId(), $record);
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail');
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);

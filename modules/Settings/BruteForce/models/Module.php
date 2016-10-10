@@ -44,9 +44,9 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			. "(UNIX_TIMESTAMP(vlh.login_time) - UNIX_TIMESTAMP(ADDDATE(?, INTERVAL -$blockTime MINUTE))) > 0 "
 			. "GROUP BY user_ip "
 			. "HAVING COUNT>=?";
-	
+
 		$result = $db->pquery($query, [$now, $attempsNumber]);
-		
+
 		while ($row = $db->fetch_array($result)) {
 			$output[] = $row;
 		}
@@ -86,12 +86,12 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$bruteforceSettings = $db->query_result_rowdata($result, 0);
 		$attempsNumber = $bruteforceSettings['attempsnumber'];
 		$blockTime = $bruteforceSettings['timelock'];
-	
+
 		$blockDate = new DateTime();
-		$blockDate->modify("-$blockTime minutes");	
-		
+		$blockDate->modify("-$blockTime minutes");
+
 		$query = "SELECT count(login_id) as cn FROM `vtiger_loginhistory` vlh 
-			WHERE STATUS = 'Failed login' AND user_ip = ? AND unblock = 0 
+			WHERE STATUS = 'Failed login' && user_ip = ? && unblock = 0 
 			AND vlh.login_time > ?";
 		$result = $db->pquery($query, array($ip, $blockDate->format('Y-m-d H:i:s')));
 		if ($db->getSingleValue($result) >= $attempsNumber) {
@@ -103,7 +103,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getAdminUsers()
 	{
 		$adb = PearDatabase::getInstance();
-		$query = "SELECT id, user_name FROM `vtiger_users` WHERE is_admin = 'on' AND deleted = 0";
+		$query = "SELECT id, user_name FROM `vtiger_users` WHERE is_admin = 'on' && deleted = 0";
 		$result = $adb->query($query);
 		$numRows = $adb->num_rows($result);
 		for ($i = 0; $i < $numRows; $i++) {

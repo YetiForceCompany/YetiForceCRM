@@ -23,7 +23,7 @@ class Partners_Module_Model extends Vtiger_Module_Model
 			$condition = " u_yf_partners.partnersid NOT IN (SELECT crmid FROM vtiger_campaign_records WHERE campaignid = '$record')";
 			$position = stripos($listQuery, 'where');
 			if ($position) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
+				$overRideQuery = $listQuery . ' && ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}

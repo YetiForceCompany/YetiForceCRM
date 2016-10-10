@@ -25,11 +25,11 @@ class DataAccess_Conditions
 		$responeListOptional = array();
 		$responeListRequiredStatus = true;
 		$responeListOptionalStatus = false;
-		if ($recordModel){
+		if ($recordModel) {
 			$fieldNames = array_keys($form);
 			foreach ($condition as $lisConditions) {
 				foreach ($lisConditions as $cndKey => $singleCnd) {
-					if(!in_array($singleCnd['fieldname'], $fieldNames)){
+					if (!in_array($singleCnd['fieldname'], $fieldNames)) {
 						$form = Vtiger_Record_Model::getInstanceById($recordModel->getId())->getData();
 						break;
 					}
@@ -93,7 +93,7 @@ class DataAccess_Conditions
 	private function getListConditionsById($ID)
 	{
 		$db = PearDatabase::getInstance();
-		
+
 		$sql = sprintf('SELECT %s.dataaccessid, fieldname, comparator, field_type, val, required 
 			 FROM  %s
 			 LEFT JOIN %s ON %s.dataaccessid = %s.dataaccessid

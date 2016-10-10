@@ -40,7 +40,7 @@ class Vtiger_Viewer extends SmartyBC
 	 * Constructor - Sets the templateDir and compileDir for the Smarty files
 	 * @param <String> - $media Layout/Media name
 	 */
-	function __construct($media = '')
+	public function __construct($media = '')
 	{
 		parent::__construct();
 		$this->debugging = AppConfig::debug('DISPLAY_DEBUG_VIEWER');
@@ -73,9 +73,6 @@ class Vtiger_Viewer extends SmartyBC
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS
 		// We need to use {$variable nofilter} to overcome double escaping
-		// TODO: Until we review the use disabled.
-		//$this->registerFilter('variable', array($this, 'safeHtmlFilter'));
-		// FOR DEBUGGING: We need to have this only once.
 		static $debugViewerURI = false;
 		if (self::$debugViewer && $debugViewerURI === false) {
 			$debugViewerURI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -89,7 +86,7 @@ class Vtiger_Viewer extends SmartyBC
 		}
 	}
 
-	function safeHtmlFilter($content, $smarty)
+	public function safeHtmlFilter($content, $smarty)
 	{
 		//return htmlspecialchars($content,ENT_QUOTES,UTF-8);
 		// NOTE: to_html is being used as data-extraction depends on this

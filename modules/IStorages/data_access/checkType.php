@@ -17,7 +17,7 @@ class DataAccess_checkType
 			$db = PearDatabase::getInstance();
 			$query = 'SELECT u_yf_istorages.istorageid FROM u_yf_istorages 
 				INNER JOIN vtiger_crmentity ON u_yf_istorages.istorageid = vtiger_crmentity.crmid 
-				WHERE parentid = ? AND vtiger_crmentity.deleted = ?';
+				WHERE parentid = ? && vtiger_crmentity.deleted = ?';
 			$result = $db->pquery($query, [0, 0]);
 			if ($db->getRowCount($result) > 0) {
 				$row = $db->getSingleValue($result);

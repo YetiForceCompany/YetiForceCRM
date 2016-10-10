@@ -14,13 +14,13 @@ class OSSMail_index_View extends Vtiger_Index_View
 
 	protected $mainUrl = 'modules/OSSMail/roundcube/';
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->mainUrl = OSSMail_Record_Model::GetSite_URL() . $this->mainUrl;
 	}
 
-	function initAutologin()
+	public function initAutologin()
 	{
 		$config = Settings_Mail_Config_Model::getConfig('autologin');
 		if ($config['autologinActive'] == 'true') {
@@ -36,10 +36,15 @@ class OSSMail_index_View extends Vtiger_Index_View
 				}
 				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
 				$db = PearDatabase::getInstance();
-				$db->delete('u_yf_mail_autologin', '`userid` = ?;', [$rcUser['rcuser_id']]);
+				$currentUserModel = Users_Record_Model::getCurrentUserModel();
+				$userId = $currentUserModel->getId();
+				$params = ['language' => Vtiger_Language_Handler::getLanguage()];
+				$db->delete('u_yf_mail_autologin', '`cuid` = ?;', [$userId]);
 				$db->insert('u_yf_mail_autologin', [
 					'key' => $key,
-					'userid' => $rcUser['rcuser_id']
+					'ruid' => $rcUser['rcuser_id'],
+					'cuid' => $userId,
+					'params' => \includes\utils\Json::encode($params)
 				]);
 			}
 		}

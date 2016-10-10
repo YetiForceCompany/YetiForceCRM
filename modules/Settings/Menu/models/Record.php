@@ -108,7 +108,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$params[] = $item;
 			}
-			$result = $db->pquery('SELECT MAX(sequence) AS max FROM yetiforce_menu WHERE role = ? AND parentid = ?;', [$role, 0]);
+			$result = $db->pquery('SELECT MAX(sequence) AS max FROM yetiforce_menu WHERE role = ? && parentid = ?;', [$role, 0]);
 			$max = (int) $db->query_result_raw($result, 0, 'max');
 			$sqlCol .= 'sequence,';
 			$params[] = $max + 1;
@@ -152,7 +152,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$settingsModel = Settings_Menu_Module_Model::getInstance();
 		$result = $db->pquery('SELECT yetiforce_menu.*, vtiger_tab.name '
 			. 'FROM yetiforce_menu LEFT JOIN vtiger_tab ON vtiger_tab.tabid = yetiforce_menu.module '
-			. 'WHERE role = ? AND parentid = ? '
+			. 'WHERE role = ? && parentid = ? '
 			. 'ORDER BY yetiforce_menu.sequence, yetiforce_menu.parentid;', [$roleId, $parent]);
 		$menu = [];
 		for ($i = 0; $i < $db->num_rows($result); ++$i) {

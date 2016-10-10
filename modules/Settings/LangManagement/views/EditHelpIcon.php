@@ -31,11 +31,9 @@ class Settings_LangManagement_EditHelpIcon_View extends Settings_Vtiger_Index_Vi
 		$ShowDifferences = $request->get('sd');
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
 		if ($lang != '' && $mod != '') {
-			//$data = $moduleModel->loadLangTranslation($lang,'HelpInfo',$ShowDifferences);
 			$data = $moduleModel->loadAllFieldsFromModule($lang, $mod, $ShowDifferences);
 		}
 		$Langs = $moduleModel->getLang();
-		//$Mods = $moduleModel->getModFromLang($lang);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('REQUEST', $request);
@@ -43,7 +41,6 @@ class Settings_LangManagement_EditHelpIcon_View extends Settings_Vtiger_Index_Vi
 		$viewer->assign('DATA', $data);
 		$viewer->assign('LANGS', $Langs);
 		$viewer->assign('SD', $ShowDifferences);
-		//$viewer->assign('MODS', $Mods );
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('EditHelpIcon.tpl', $qualifiedModuleName);

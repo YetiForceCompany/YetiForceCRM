@@ -59,15 +59,42 @@ class Modules
 
 	protected static $isModuleActiveCache = [];
 
-	static public function isModuleActive($module)
+	static public function isModuleActive($moduleName)
 	{
+		if (isset(self::$isModuleActiveCache[$moduleName])) {
+			return self::$isModuleActiveCache[$moduleName];
+		}
 		$moduleAlwaysActive = ['Administration', 'CustomView', 'Settings', 'Users', 'Migration',
 			'Utilities', 'uploads', 'Import', 'System', 'com_vtiger_workflow', 'PickList'
 		];
-		if (in_array($module, $moduleAlwaysActive)) {
+		if (in_array($moduleName, $moduleAlwaysActive)) {
+			self::$isModuleActiveCache[$moduleName] = true;
 			return true;
 		}
-		$data = \vtlib\Functions::getModuleData($module);
-		return $data['presence'] == 0 ? true : false;
+		$tabPresence = self::getTabData('tabPresence');
+		$isActive = $tabPresence[self::getModuleId($moduleName)] == 0 ? true : false;
+		self::$isModuleActiveCache[$moduleName] = $isActive;
+		return $isActive;
+	}
+
+	protected static $tabdataCache = false;
+
+	static public function getTabData($type)
+	{
+		if (self::$tabdataCache === false) {
+			self::$tabdataCache = require 'user_privileges/tabdata.php';
+		}
+		return isset(self::$tabdataCache[$type]) ? self::$tabdataCache[$type] : false;
+	}
+
+	public static function getModuleId($name)
+	{
+		$tabId = self::getTabData('tabId');
+		return isset($tabId[$name]) ? $tabId[$name] : false;
+	}
+
+	public static function getModuleName($tabId)
+	{
+		return \vtlib\Functions::getModuleName($tabId);
 	}
 }

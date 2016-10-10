@@ -1,15 +1,15 @@
 {strip}
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce.com
-********************************************************************************/
--->*}
+	{*<!--
+	/*********************************************************************************
+	** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+	* ("License"); You may not use this file except in compliance with the License
+	* The Original Code is:  vtiger CRM Open Source
+	* The Initial Developer of the Original Code is vtiger.
+	* Portions created by vtiger are Copyright (C) vtiger.
+	* All Rights Reserved.
+	* Contributor(s): YetiForce.com
+	********************************************************************************/
+	-->*}
 
 	<!DOCTYPE html>
 	<html lang="{$HTMLLANG}">
@@ -36,6 +36,9 @@
 			{assign var="HEAD_LOCKS" value=$USER_MODEL->getHeadLocks()}
 			{if $HEAD_LOCKS}
 				<script type="text/javascript">{$HEAD_LOCKS}</script>
+			{/if}
+			{if AppConfig::debug('DISPLAY_DEBUG_CONSOLE')}
+				{\includes\Debuger::getDebugBar()->getJavascriptRenderer()->renderHead()}
 			{/if}
 		</head>
 		<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>

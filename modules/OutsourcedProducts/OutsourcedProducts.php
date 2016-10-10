@@ -102,7 +102,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
@@ -118,15 +118,15 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			\includes\fields\RecordNumber::setNumber($moduleName,'UP', 1);
+			\includes\fields\RecordNumber::setNumber($moduleName, 'UP', 1);
 		} else if ($eventType == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
+
 		} else if ($eventType == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
+
 		} else if ($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
 			
 		}
@@ -138,7 +138,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');

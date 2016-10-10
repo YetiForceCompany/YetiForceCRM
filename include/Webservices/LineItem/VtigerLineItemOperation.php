@@ -347,7 +347,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		return $createdElement;
 	}
 
-	function getProductPrice($productId)
+	public function getProductPrice($productId)
 	{
 		$db = PearDatabase::getInstance();
 		$sql = "select unit_price from vtiger_products where productid=?";
@@ -540,7 +540,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 		}
 	}
 
-	function setCache($parentId, $updatedList)
+	public function setCache($parentId, $updatedList)
 	{
 		self::$lineItemCache[$parentId] = $updatedList;
 	}

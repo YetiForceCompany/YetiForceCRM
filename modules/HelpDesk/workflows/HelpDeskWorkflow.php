@@ -17,7 +17,7 @@ function getContactsMailsFromTicket($id)
 
 	$db = PearDatabase::getInstance();
 	$mails = [];
-	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? AND `relmodule` = ? AND `crmid` = ?;';
+	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? && `relmodule` = ? && `crmid` = ?;';
 	$result = $db->pquery($sql, ['HelpDesk', 'Contacts', $id]);
 	$num = $db->num_rows($result);
 
@@ -110,7 +110,7 @@ function HeldDeskNewCommentAccount($entityData)
 			$sql = 'SELECT vtiger_account.email1 FROM vtiger_account
 INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid
 INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.parent_id = vtiger_account.accountid
-WHERE vtiger_crmentity.deleted = 0 AND vtiger_troubletickets.ticketid = ? AND vtiger_account.emailoptout = 1';
+WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtiger_account.emailoptout = 1';
 			$result = $db->pquery($sql, [$relatedToId[1]]);
 			if ($result->rowCount() > 0) {
 				$mail = $db->getSingleValue($result);
@@ -181,7 +181,7 @@ function HeldDeskNewCommentOwner($entityData)
 	$relatedToId = explode('x', $relatedToWSId);
 	$mails = [];
 
-	$sql = 'SELECT smownerid FROM vtiger_crmentity WHERE deleted = 0 AND crmid = ? ';
+	$sql = 'SELECT smownerid FROM vtiger_crmentity WHERE deleted = 0 && crmid = ? ';
 	$result = $db->pquery($sql, [$relatedToId[1]]);
 	if ($result->rowCount() > 0) {
 		$smownerid = $db->getSingleValue($result);

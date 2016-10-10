@@ -12,7 +12,7 @@
 class Settings_OSSDocumentControl_Base_View extends Settings_Vtiger_Index_View
 {
 
-	function getFieldHtmp($moduleName, $editView = FALSE)
+	public function getFieldHtmp($moduleName, $editView = FALSE)
 	{
 		$output = array();
 

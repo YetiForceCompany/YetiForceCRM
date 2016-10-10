@@ -23,7 +23,7 @@ class Mailer extends \PHPMailer
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->initialize();
 	}
@@ -32,7 +32,7 @@ class Mailer extends \PHPMailer
 	 * Get the unique id for insertion
 	 * @access private
 	 */
-	function __getUniqueId()
+	public function __getUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_mailer_queue');
@@ -42,7 +42,7 @@ class Mailer extends \PHPMailer
 	 * Initialize this instance
 	 * @access private
 	 */
-	function initialize()
+	public function initialize()
 	{
 		$this->IsSMTP();
 
@@ -77,7 +77,7 @@ class Mailer extends \PHPMailer
 	 * Reinitialize this instance for use
 	 * @access private
 	 */
-	function reinitialize()
+	public function reinitialize()
 	{
 		$this->ClearAllRecipients();
 		$this->ClearReplyTos();
@@ -90,10 +90,10 @@ class Mailer extends \PHPMailer
 	 * Initialize this instance using mail template
 	 * @access private
 	 */
-	function initFromTemplate($emailtemplate)
+	public function initFromTemplate($emailtemplate)
 	{
 		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * from vtiger_emailtemplates WHERE templatename=? AND foldername=?", Array($emailtemplate, 'Public'));
+		$result = $adb->pquery("SELECT * from vtiger_emailtemplates WHERE templatename=? && foldername=?", Array($emailtemplate, 'Public'));
 		if ($adb->num_rows($result)) {
 			$this->IsHTML(true);
 			$usesubject = $adb->query_result($result, 0, 'subject');
@@ -109,7 +109,7 @@ class Mailer extends \PHPMailer
 	/**
 	 * Adding signature to mail
 	 */
-	function addSignature($userId)
+	public function addSignature($userId)
 	{
 		$adb = \PearDatabase::getInstance();
 		$sign = nl2br($adb->query_result($adb->pquery("select signature from vtiger_users where id=?", array($userId)), 0, "signature"));
@@ -119,7 +119,7 @@ class Mailer extends \PHPMailer
 	/**
 	 * Configure sender information
 	 */
-	function ConfigSenderInfo($fromemail, $fromname = '', $replyto = '')
+	public function ConfigSenderInfo($fromemail, $fromname = '', $replyto = '')
 	{
 		if (empty($fromname))
 			$fromname = $fromemail;
@@ -133,7 +133,7 @@ class Mailer extends \PHPMailer
 	/**
 	 * Overriding default send
 	 */
-	function Send($sync = false, $linktoid = false)
+	public function Send($sync = false, $linktoid = false)
 	{
 		if (!$this->_serverConfigured)
 			return;
@@ -151,7 +151,7 @@ class Mailer extends \PHPMailer
 	 * @param String Recipient name
 	 * @param String vtiger CRM Email template name to use
 	 */
-	function SendTo($toemail, $toname = '', $emailtemplate = false, $linktoid = false, $sync = false)
+	public function SendTo($toemail, $toname = '', $emailtemplate = false, $linktoid = false, $sync = false)
 	{
 		if (empty($toname))
 			$toname = $toemail;
@@ -165,7 +165,7 @@ class Mailer extends \PHPMailer
 	// Check if this instance is initialized.
 	var $_queueinitialized = false;
 
-	function __initializeQueue()
+	public function __initializeQueue()
 	{
 		if (!$this->_queueinitialized) {
 			if (!Utils::CheckTable('vtiger_mailer_queue')) {
@@ -188,7 +188,7 @@ class Mailer extends \PHPMailer
 	/**
 	 * Add this mail to queue
 	 */
-	function __AddToQueue($linktoid)
+	public function __AddToQueue($linktoid)
 	{
 		if ($this->__initializeQueue()) {
 			$adb = \PearDatabase::getInstance();
@@ -305,12 +305,12 @@ class Mailer extends \PHPMailer
 abstract class Vtiger_Mailer_Listener
 {
 
-	function mailsent($queueid)
+	public function mailsent($queueid)
 	{
 		
 	}
 
-	function mailerror($queueid)
+	public function mailerror($queueid)
 	{
 		
 	}

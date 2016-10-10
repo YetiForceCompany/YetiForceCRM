@@ -24,8 +24,8 @@ class Privileges
 		$log = \LoggerManager::getInstance();
 		$log->debug("Entering isPermitted($moduleName,$actionName,$record,$userId) method ...");
 		if (!$userId) {
-			$current_user = vglobal('current_user');
-			$userId = $current_user->id;
+			$currentUser = vglobal('current_user');
+			$userId = $currentUser->id;
 		}
 		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($userId);
 		$permission = false;
@@ -47,7 +47,7 @@ class Privileges
 			return $permission;
 		}
 		//Retreiving the Tabid and Action Id
-		$tabid = \vtlib\Functions::getModuleId($moduleName);
+		$tabid = Modules::getModuleId($moduleName);
 		$actionid = getActionid($actionName);
 		$checkModule = $moduleName;
 
@@ -128,7 +128,7 @@ class Privileges
 
 			//If modules is Products,Vendors,Faq,PriceBook then no sharing
 			if ($record != '') {
-				if (getTabOwnedBy($moduleName) == 1) {
+				if (\vtlib\Functions::getModuleOwner($moduleName) == 1) {
 					self::$isPermittedLevel = 'SEC_MODULE_IS_OWNEDBY';
 					$log->debug('Exiting isPermitted method ...');
 					return true;
@@ -200,7 +200,7 @@ class Privileges
 									break;
 								case 2:
 									if (\AppConfig::security('PERMITTED_BY_SHARING')) {
-										$relatedPermission = self::isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord, $userId);
+										$relatedPermission = self::isPermittedBySharing($recordMetaData['setype'], \includes\Modules::getModuleId($recordMetaData['setype']), $actionid, $parentRecord, $userId);
 									}
 									break;
 							}

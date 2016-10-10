@@ -34,8 +34,8 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
 		$query = sprintf('SELECT name FROM vtiger_tab WHERE
                     presence IN (%s)
-                    AND isentitytype = ?
-                    AND name NOT IN (%s) ', generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
+                    && isentitytype = ?
+                    && name NOT IN (%s) ', generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
 
 		$result = $db->pquery($query, [$presence, 1, $restrictedModules]);
 		$numOfRows = $db->num_rows($result);
@@ -205,9 +205,9 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		if ($mendatory) {
-			$deleteOldConditionsSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ? AND required = 1";
+			$deleteOldConditionsSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ? && required = 1";
 		} else {
-			$deleteOldConditionsSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ? AND required = 0";
+			$deleteOldConditionsSql = "DELETE FROM vtiger_dataaccess_cnd WHERE dataaccessid = ? && required = 0";
 		}
 		$db->pquery($deleteOldConditionsSql, array($relId), TRUE);
 		$conditionObj = json_decode($conditions);
@@ -390,7 +390,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$colorList = Vtiger_Cache::get('DataAccess::colorList', $moduleName);
 		if ($colorList === false) {
 			$db = PearDatabase::getInstance();
-			$sql = "SELECT dataaccessid,data FROM vtiger_dataaccess WHERE module_name = ? AND data LIKE '%colorList%'";
+			$sql = "SELECT dataaccessid,data FROM vtiger_dataaccess WHERE module_name = ? && data LIKE '%colorList%'";
 			$result = $db->pquery($sql, [$moduleName]);
 			$colorList = [];
 			while ($row = $db->getRow($result)) {

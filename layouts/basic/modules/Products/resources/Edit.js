@@ -423,7 +423,6 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 				} else {
 					//If validation fails, form should submit again
 					editViewForm.removeData('submit');
-					// to avoid hiding of error message under the fixed nav bar
 					app.formAlignmentAfterValidation(editViewForm);
 				}
 			}

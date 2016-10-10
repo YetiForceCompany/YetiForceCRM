@@ -91,7 +91,7 @@ class Assets extends CRMEntity
 	var $default_sort_order = 'ASC';
 	var $unit_price;
 
-	function save_module($module)
+	public function save_module($module)
 	{
 		//module specific save
 	}
@@ -100,7 +100,7 @@ class Assets extends CRMEntity
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord)
+	public function getQueryByModuleField($module, $fieldname, $srcrecord)
 	{
 		// $srcrecord could be empty
 	}
@@ -108,7 +108,7 @@ class Assets extends CRMEntity
 	/**
 	 * Get list view query.
 	 */
-	function getListQuery($module, $where = '')
+	public function getListQuery($module, $where = '')
 	{
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
@@ -131,7 +131,7 @@ class Assets extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -154,18 +154,18 @@ class Assets extends CRMEntity
 	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	function getListViewSecurityParameter($module)
+	public function getListViewSecurityParameter($module)
 	{
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = getTabid($module);
+		$tabid = \includes\Modules::getModuleId($module);
 
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-			$sec_query .= " AND (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
+			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
 					(
 						SELECT vtiger_user2role.userid FROM vtiger_user2role
 						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
@@ -175,14 +175,14 @@ class Assets extends CRMEntity
 					OR vtiger_crmentity.smownerid IN
 					(
 						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-						WHERE userid=" . $current_user->id . " AND tabid=" . $tabid . "
+						WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
 					)
 					OR
 						(";
 
 			// Build the query based on the group association of current user.
 			if (sizeof($current_user_groups) > 0) {
-				$sec_query .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") OR ";
+				$sec_query .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") || ";
 			}
 			$sec_query .= " vtiger_groups.groupid IN
 						(
@@ -199,7 +199,7 @@ class Assets extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	function create_export_query($where)
+	public function create_export_query($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -224,7 +224,7 @@ class Assets extends CRMEntity
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
-			$query .= sprintf(' where (%s) AND %s', $where, $where_auto);
+			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
@@ -232,7 +232,7 @@ class Assets extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		// Security Check for Field Access
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[getTabid('Assets')] == 3) {
+		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\includes\Modules::getModuleId('Assets')] == 3) {
 			//Added security check to get the permitted records only
 			$query = $query . " " . getListViewSecurityParameter($thismodule);
 		}
@@ -242,17 +242,17 @@ class Assets extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	function transform_export_value($key, $value)
+	public function transform_export_value($key, $value)
 	{
 		if ($key == 'owner')
-			return getOwnerName($value);
+			return \includes\fields\Owner::getLabel($value);
 		return parent::transform_export_value($key, $value);
 	}
 
 	/**
 	 * Function which will give the basic query to find duplicates
 	 */
-	function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
 	{
 		$select_clause = "SELECT %s.%s AS recordid, vtiger_users_last_import.deleted, %s ";
 		$select_clause = sprintf($select_clause, $this->table_name, $this->table_index, $table_cols);
@@ -333,7 +333,7 @@ class Assets extends CRMEntity
 	 */
 	// function generateReportsSecQuery($module,$secmodule){ }
 	// Function to unlink all the dependent entities of the given Entity by Id
-	function unlinkDependencies($module, $id)
+	public function unlinkDependencies($module, $id)
 	{
 		$log = vglobal('log');
 		parent::unlinkDependencies($module, $id);
@@ -344,7 +344,7 @@ class Assets extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	function vtlib_handler($moduleName, $eventType)
+	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
@@ -372,28 +372,28 @@ class Assets extends CRMEntity
 			$productInstance = vtlib\Module::getInstance('Products');
 			$productInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
 
-			\includes\fields\RecordNumber::setNumber($moduleName,'ASSET', 1);
+			\includes\fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		} else if ($eventType == 'module.disabled') {
-			// TODO Handle actions when this module is disabled.
+
 		} else if ($eventType == 'module.enabled') {
-			// TODO Handle actions when this module is enabled.
+
 		} else if ($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+
 		} else if ($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+
 		} else if ($eventType == 'module.postupdate') {
 			$this->addModuleToCustomerPortal();
-			\includes\fields\RecordNumber::setNumber($moduleName,'ASSET', 1);
+			\includes\fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		}
 	}
 
-	function addModuleToCustomerPortal()
+	public function addModuleToCustomerPortal()
 	{
 		$adb = PearDatabase::getInstance();
 
 		$assetsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Assets'));
 		$assetsTabId = $adb->query_result($assetsResult, 0, 'tabid');
-		if (getTabid('CustomerPortal') && $assetsTabId) {
+		if (\includes\Modules::getModuleId('CustomerPortal') && $assetsTabId) {
 			$checkAlreadyExists = $adb->pquery('SELECT 1 FROM vtiger_customerportal_tabs WHERE tabid=?', array($assetsTabId));
 			if ($checkAlreadyExists && $adb->num_rows($checkAlreadyExists) < 1) {
 				$maxSequenceQuery = $adb->query("SELECT max(sequence) as maxsequence FROM vtiger_customerportal_tabs");
@@ -414,7 +414,7 @@ class Assets extends CRMEntity
 	 * @param Array List of Entity Id's from which related records need to be transfered
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
-	function transferRelatedRecords($module, $transferEntityIds, $entityId)
+	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');

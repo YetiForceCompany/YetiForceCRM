@@ -14,7 +14,7 @@ class Accounts_ServiceContracts_HeaderField
 		$recordId = $viewModel->getRecord()->getId();
 
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT MAX(due_date) AS date,count(*) AS total FROM vtiger_servicecontracts INNER JOIN vtiger_crmentity ON vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid WHERE deleted = ? AND sc_related_to = ? AND contract_status = ?';
+		$sql = 'SELECT MAX(due_date) AS date,count(*) AS total FROM vtiger_servicecontracts INNER JOIN vtiger_crmentity ON vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid WHERE deleted = ? && sc_related_to = ? && contract_status = ?';
 
 		$result = $db->pquery($sql, [0, $recordId, 'In Progress']);
 		$row = $db->getRow($result);

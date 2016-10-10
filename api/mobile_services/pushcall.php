@@ -14,7 +14,7 @@ class PushCall{
 	public $debug = false;
 	public $permittedActions = array('getPushCallDetails');
 	
-	function post($type = '', $authorization = ''){
+	public function post($type = '', $authorization = ''){
 		$authorization = json_decode($authorization);
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->info('Start PushCall metod');
@@ -34,7 +34,7 @@ class PushCall{
 		return $resultData;
 	}
 	
-	function getPushCallDetails(){
+	public function getPushCallDetails(){
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->info('Start PushCall::getPushCallDetails | user id: '.$this->userID);
 		$resultData = array('status' => 2);
@@ -48,11 +48,11 @@ class PushCall{
 		return $resultData;
 	}
 	
-	function checkPermissions($authorization){
+	public function checkPermissions($authorization){
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->info('Start PushCall::checkPermissions | '.print_r( $authorization,true));
 		$return = false;	
-		$result = $adb->pquery("SELECT yetiforce_mobile_keys.user FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE service = ? AND `key` = ? AND vtiger_users.user_name = ?",array('pushcall', $authorization->phoneKey, $authorization->userName),true);
+		$result = $adb->pquery("SELECT yetiforce_mobile_keys.user FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE service = ? && `key` = ? && vtiger_users.user_name = ?",array('pushcall', $authorization->phoneKey, $authorization->userName),true);
 		if($adb->num_rows($result) > 0 ){
 			$this->userID = $adb->query_result_raw($result, 0, 'user');
 			$return = true;	

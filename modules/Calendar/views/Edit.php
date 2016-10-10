@@ -12,14 +12,14 @@
 Class Calendar_Edit_View extends Vtiger_Edit_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('Events');
 		$this->exposeMethod('Calendar');
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -36,7 +36,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$this->Calendar($request, 'Calendar');
 	}
 
-	function Events($request, $moduleName)
+	public function Events($request, $moduleName)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
@@ -155,7 +155,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 
-	function Calendar($request, $moduleName)
+	public function Calendar($request, $moduleName)
 	{
 		parent::process($request);
 	}

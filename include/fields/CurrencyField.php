@@ -91,7 +91,8 @@ class CurrencyField
 	 */
 	public function initialize($user = null)
 	{
-		global $current_user, $default_charset;
+		$default_charset = AppConfig::main('default_charset');
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (empty($user)) {
 			$user = $current_user;
 		}
@@ -107,7 +108,7 @@ class CurrencyField
 		} else {
 			$this->currencyId = self::getDBCurrencyId();
 		}
-		$currencyRateAndSymbol = getCurrencySymbolandCRate($this->currencyId);
+		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($this->currencyId);
 		$this->currencySymbol = $currencyRateAndSymbol['symbol'];
 		$this->conversionRate = $currencyRateAndSymbol['rate'];
 		$this->currencySymbolPlacement = $user->currency_symbol_placement;
@@ -382,7 +383,7 @@ class CurrencyField
 		if ($skipConversion == false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}
-		//$value = round($value, $this->maxNumberOfDecimals);
+		$value = preg_replace('/\s+/u', '', $value);
 
 		return $value;
 	}
@@ -438,7 +439,7 @@ class CurrencyField
 		return $amount * $conversionRate;
 	}
 
-	function currencyDecimalFormat($value, $user = null)
+	public function currencyDecimalFormat($value, $user = null)
 	{
 		$current_user = vglobal('current_user');
 		if (!$user) {

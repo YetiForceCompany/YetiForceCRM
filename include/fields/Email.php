@@ -9,13 +9,13 @@
 class Email
 {
 
-	public static function findCrmidByPrefix($value, $moduleName)
+	public static function findRecordNumber($value, $moduleName)
 	{
 		$moduleData = \includes\fields\RecordNumber::getNumber($moduleName);
-		$redex = '/\[' . $moduleData['prefix'] . '([0-9]*)\]/';
+		$redex = '/\[' . $moduleData['prefix'] . '([0-9]*)' . $moduleData['postfix'] . '\]/';
 		preg_match($redex, $value, $match);
 		if (!empty($match)) {
-			return $match[1];
+			return $moduleData['prefix'] . $match[1] . $moduleData['postfix'];
 		} else {
 			return false;
 		}
@@ -27,7 +27,7 @@ class Email
 		$rows = $ids = $params = $fields = [];
 		$query = '';
 		$countWhere = 0;
-		$result = $db->query('SELECT vtiger_field.columnname,vtiger_field.tablename,vtiger_field.fieldlabel,vtiger_field.tabid,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = 0 AND vtiger_field.presence <> 1 AND (uitype = 13 OR uitype = 104)');
+		$result = $db->query('SELECT vtiger_field.columnname,vtiger_field.tablename,vtiger_field.fieldlabel,vtiger_field.tabid,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = 0 && vtiger_field.presence <> 1 && (uitype = 13 || uitype = 104)');
 		while ($row = $db->getRow($result)) {
 			$fields[$row['name']][$row['tablename']][$row['columnname']] = $row;
 		}
@@ -57,9 +57,9 @@ class Email
 			$whereQuery .= ' (';
 			$or = '';
 			foreach ($where as $columnName) {
-				$or .= sprintf(' OR %s = ?', $columnName);
+				$or .= sprintf(' || %s = ?', $columnName);
 			}
-			$query .= $whereQuery . ltrim($or, ' OR ') . '))';
+			$query .= $whereQuery . ltrim($or, ' || ') . '))';
 		}
 		for ($index = 0; $index < $countWhere; $index++) {
 			$params[] = $value;

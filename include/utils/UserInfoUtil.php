@@ -263,7 +263,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	}
 
 	//Retreiving the Tabid and Action Id
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	$actionid = getActionid($actionname);
 	$checkModule = $module;
 
@@ -345,7 +345,7 @@ function isPermitted($module, $actionname, $record_id = '')
 
 		//If modules is Products,Vendors,Faq,PriceBook then no sharing
 		if ($record_id != '') {
-			if (getTabOwnedBy($module) == 1) {
+			if (\vtlib\Functions::getModuleOwner($module) == 1) {
 				vglobal('isPermittedLog', 'SEC_MODULE_IS_OWNEDBY');
 				$log->debug('Exiting isPermitted method ...');
 				return 'yes';
@@ -422,7 +422,7 @@ function isPermitted($module, $actionname, $record_id = '')
 								break;
 							case 2:
 								if (\AppConfig::security('PERMITTED_BY_SHARING')) {
-									$permission = isPermittedBySharing($recordMetaData['setype'], getTabid($recordMetaData['setype']), $actionid, $parentRecord);
+									$permission = isPermittedBySharing($recordMetaData['setype'], \includes\Modules::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
 									$relatedPermission = $permission == 'yes' ? true : false;
 								}
 								break;
@@ -653,7 +653,7 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 		}
 	} elseif ($ownertype == 'Groups') {
 		$write_grp_per = $write_per_arr['GROUP'];
-		if (array_key_exists($ownerid, $write_grp_per)) {
+		if (isset($write_grp_per[$ownerid])) {
 			$sharePer = 'yes';
 			$log->debug("Exiting isReadWritePermittedBySharing method ...");
 			return $sharePer;
@@ -915,7 +915,7 @@ function getRoleUsers($roleId)
 	$num_rows = $adb->num_rows($result);
 	$roleRelatedUsers = [];
 	for ($i = 0; $i < $num_rows; $i++) {
-		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = getFullNameFromQResult($result, $i, 'Users');
+		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
 	}
 
 	Vtiger_Cache::set('getRoleUsers', $roleId, $roleRelatedUsers);
@@ -1046,7 +1046,7 @@ function deleteRoleRelatedSharingRules($roleId)
 		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
 		$params = array($roleId);
 		if (sizeof($colNameArr) > 1) {
-			$query .= sprintf(" OR %s = ?", $colNameArr[1]);
+			$query .= sprintf(" || %s = ?", $colNameArr[1]);
 			array_push($params, $roleId);
 		}
 
@@ -1149,7 +1149,7 @@ function getAllUserName()
 	$user_details = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$userid = $adb->query_result($result, $i, 'id');
-		$username = getFullNameFromQResult($result, $i, 'Users');
+		$username = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
 		$user_details[$userid] = $username;
 	}
 	$log->debug("Exiting getAllUserName method ...");
@@ -1346,7 +1346,7 @@ function getCombinedUserTabsPermissions($userId)
 		}
 	}
 
-	$homeTabid = getTabid('Home');
+	$homeTabid = \includes\Modules::getModuleId('Home');
 	if (!array_key_exists($homeTabid, $userTabPerrArr)) {
 		$userTabPerrArr[$homeTabid] = 0;
 	}
@@ -1512,7 +1512,7 @@ function getWriteSharingGroupsList($module)
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	$grp_array = [];
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
 	$result = $adb->pquery($query, array($current_user->id, $tabid));
 	$num_rows = $adb->num_rows($result);
@@ -1551,7 +1551,7 @@ function getListViewSecurityParameter($module)
 	$log->debug("Entering getListViewSecurityParameter(" . $module . ") method ...");
 	$adb = PearDatabase::getInstance();
 
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 	$current_user = vglobal('current_user');
 	if ($current_user) {
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -1647,7 +1647,7 @@ function get_current_user_access_groups($module)
 	$query = "select groupname,groupid from vtiger_groups";
 	$params = [];
 	if (count($current_user_group_list) > 0 && count($sharing_write_group_list) > 0) {
-		$query .= sprintf(" WHERE (groupid in (%s) OR groupid IN (%s))", generateQuestionMarks($current_user_group_list), generateQuestionMarks($sharing_write_group_list));
+		$query .= sprintf(" WHERE (groupid in (%s) || groupid IN (%s))", generateQuestionMarks($current_user_group_list), generateQuestionMarks($sharing_write_group_list));
 		array_push($params, $current_user_group_list, $sharing_write_group_list);
 		$result = $adb->pquery($query, $params);
 	} elseif (count($current_user_group_list) > 0) {
@@ -1714,20 +1714,20 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
 		$profilelist = getCurrentUserProfileList();
 
 		//get tabid
-		$tabid = getTabid($fld_module);
+		$tabid = \includes\Modules::getModuleId($fld_module);
 
 		if (count($profilelist) > 0) {
 			if ($accessmode == 'readonly') {
-				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profilelist));
+				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profilelist));
 			} else {
-				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profilelist));
+				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_profile2field.readonly=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profilelist));
 			}
 			$params = array($tabid, $profilelist, $fieldname);
 		} else {
 			if ($accessmode == 'readonly') {
-				$query = "SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = "SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0  && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
 			} else {
-				$query = "SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
+				$query = "SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_profile2field.readonly=0 && vtiger_def_org_field.visible=0  && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
 			}
 			$params = array($tabid, $fieldname);
 		}
@@ -1758,7 +1758,7 @@ function getColumnVisibilityPermission($userid, $columnname, $module, $accessmod
 	$adb = PearDatabase::getInstance();
 	$log = LoggerManager::getInstance();
 	$log->debug("in function getcolumnvisibilitypermission $columnname -$userid");
-	$tabid = getTabid($module);
+	$tabid = \includes\Modules::getModuleId($module);
 
 	// Look at cache if information is available.
 	$cacheFieldInfo = VTCacheUtils::lookupFieldInfoByColumn($tabid, $columnname);
@@ -1829,7 +1829,7 @@ function getPermittedModuleIdList()
 			}
 		}
 	}
-	$homeTabid = getTabid('Home');
+	$homeTabid = \includes\Modules::getModuleId('Home');
 	if (!in_array($homeTabid, $permittedModules)) {
 		$permittedModules[] = $homeTabid;
 	}
@@ -1870,8 +1870,8 @@ function getSharingModuleList($eliminateModules = false)
 	if (empty($eliminateModules))
 		$eliminateModules = [];
 
-	$query = 'SELECT name FROM vtiger_tab WHERE presence=0 AND ownedby = 0 AND isentitytype = 1';
-	$query .= " AND name NOT IN('" . implode("','", $eliminateModules) . "')";
+	$query = 'SELECT name FROM vtiger_tab WHERE presence=0 && ownedby = 0 && isentitytype = 1';
+	$query .= " && name NOT IN('" . implode("','", $eliminateModules) . "')";
 
 	$result = $adb->query($query);
 	while ($resrow = $adb->fetch_array($result)) {
@@ -1886,7 +1886,7 @@ function getSharingModuleList($eliminateModules = false)
  */
 function isFieldActive($modulename, $fieldname)
 {
-	$fieldid = getFieldid(getTabid($modulename), $fieldname, true);
+	$fieldid = \vtlib\Functions::getModuleFieldId(\includes\Modules::getModuleId($modulename), $fieldname, true);
 	return ($fieldid !== false);
 }
 

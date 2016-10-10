@@ -114,7 +114,6 @@ jQuery.Class('Settings_Customer_Portal_Js', {}, {
 			},
 			function(error) {
 				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				//TODO : Handle error
 				aDeferred.reject(error);
 			}
 		);
@@ -158,7 +157,6 @@ jQuery.Class('Settings_Customer_Portal_Js', {}, {
 					}
 				},
 				function(error){
-					//TODO: Handle Error
 				}
 			);
 		});

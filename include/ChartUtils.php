@@ -18,8 +18,9 @@ Class ChartUtils
 	public static function getBarChart($xaxisData, $yaxisData, $title = '', $width = '', $height = '', $charttype = 'vertical', $cachedFileName = false, $target = false, $color = '')
 	{
 
-		global $log, $lang_crm, $default_charset;
-
+		global $lang_crm;
+		$log = LoggerManager::getInstance();
+		$default_charset = AppConfig::main('default_charset');
 		require_once('include/utils/utils.php');
 		require_once('include/utils/GraphUtils.php');
 		include_once ('Image/Graph.php');
@@ -126,7 +127,6 @@ Class ChartUtils
 		//You can change the width of the bars if you like
 		if (!empty($xaxisData))
 			$bplot->setBarWidth($barwidth / count($xaxisData), "%");
-		//$bplot->setPadding(array('top'=>10));
 		$bplot->setBackground(Image_Graph::factory('gradient', array(IMAGE_GRAPH_GRAD_HORIZONTAL, 'white', 'white')));
 		$xaxis = & $plotarea->getAxis(IMAGE_GRAPH_AXIS_X);
 		$yaxis = & $plotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
@@ -204,8 +204,9 @@ Class ChartUtils
 	public static function getPieChart($xaxisData, $yaxisData, $title = '', $width = '', $height = '', $charttype = 'vertical', $cachedFileName = false, $target = false, $color = '')
 	{
 
-		global $log, $lang_crm, $default_charset;
-
+		global $lang_crm;
+		$log = LoggerManager::getInstance();
+		$default_charset = AppConfig::main('default_charset');
 		require_once('include/utils/utils.php');
 		require_once('include/utils/GraphUtils.php');
 		include_once ('Image/Graph.php');
@@ -335,7 +336,10 @@ Class ChartUtils
 		require_once 'modules/Reports/CustomReportUtils.php';
 		require_once('include/Webservices/Utils.php');
 		require_once('include/Webservices/Query.php');
-		global $adb, $current_user, $theme, $default_charset;
+		global $theme;
+		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$adb = PearDatabase::getInstance();
+		$default_charset = AppConfig::main('default_charset');
 		$inventorymodules = array('Products', 'PriceBooks', 'Vendors', 'Services');
 		$rows = $adb->num_rows($queryResult);
 		$condition = "is";
@@ -364,7 +368,7 @@ Class ChartUtils
 		}
 
 		if (is_array($restrictedModules) && count($restrictedModules) > 0) {
-			$ChartDataArray['error'] = '<h4>' . getTranslatedString('LBL_NO_ACCESS', 'Reports') . ' - ' . implode(',', $restrictedModules) . "</h4>";
+			$ChartDataArray['error'] = '<h4>' . \includes\Language::translate('LBL_NO_ACCESS', 'Reports') . ' - ' . implode(',', $restrictedModules) . "</h4>";
 			return $ChartDataArray;
 		}
 
@@ -392,7 +396,7 @@ Class ChartUtils
 		if ($rows > 0) {
 			$resultRow = $adb->query_result_rowdata($queryResult, 0);
 			if (!array_key_exists($groupbyField, $resultRow)) {
-				$ChartDataArray['error'] = "<h4>" . getTranslatedString('LBL_NO_PERMISSION_FIELD', 'Dashboard') . "</h4>";
+				$ChartDataArray['error'] = "<h4>" . \includes\Language::translate('LBL_NO_PERMISSION_FIELD', 'Dashboard') . "</h4>";
 				return $ChartDataArray;
 			}
 		}
@@ -443,7 +447,7 @@ Class ChartUtils
 							$link_val = "index.php?module=" . $module . "&query=true&action=index&" . $advanceSearchCondition;
 					}
 					else {
-						$cvid = getCvIdOfAll($module);
+						$cvid = \vtlib\Deprecated::getIdOfCustomViewByNameAll($module);
 						$esc_search_str = urlencode($decodedGroupFieldValue);
 						if ($single == 'DT') {
 							$esc_search_str = urlencode($groupFieldValue);
@@ -471,7 +475,7 @@ Class ChartUtils
 			}
 		}
 		if (count($groupByFields) == 0) {
-			$ChartDataArray['error'] = "<div class='componentName'>" . getTranslatedString('LBL_NO_DATA', 'Reports') . "</div";
+			$ChartDataArray['error'] = "<div class='componentName'>" . \includes\Language::translate('LBL_NO_DATA', 'Reports') . "</div";
 		}
 		$ChartDataArray['xaxisData'] = $groupByFields;
 		$ChartDataArray['yaxisData'] = $yaxisArray;

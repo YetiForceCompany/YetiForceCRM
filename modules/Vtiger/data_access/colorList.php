@@ -1,11 +1,17 @@
 <?php
 
-Class DataAccess_colorList{
-    var $config = true;
-    public function process( $ModuleName,$ID,$record_form,$config ) {
+Class DataAccess_colorList
+{
+
+	var $config = true;
+
+	public function process($ModuleName, $ID, $record_form, $config)
+	{
 		return true;
-    }
-    public function getConfig( $id,$module,$baseModule ) {
+	}
+
+	public function getConfig($id, $module, $baseModule)
+	{
 		return true;
-    }
+	}
 }

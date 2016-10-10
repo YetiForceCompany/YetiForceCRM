@@ -13,7 +13,7 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 		echo '<div class="generateMappingModal modal fade"><div class="modal-dialog"><div class="modal-content">';
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$log = vglobal('log');
 		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');

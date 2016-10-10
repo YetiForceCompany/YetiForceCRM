@@ -207,7 +207,6 @@ class LoggerCategory {
      */
     function forcedLog($fqcn, $caller, $level, $message)
     {
-        // $fqcn = is_object($caller) ? get_class($caller) : (string)$caller;
         $this->callAppenders(new LoggerLoggingEvent($fqcn, $this, $level, $message));
     } 
 

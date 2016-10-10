@@ -92,6 +92,7 @@ $languageStrings = [
 	'ActivityCancel' => 'Cancel records',
 	'ActivityComplete' => 'Close records',
 	'ActivityPostponed' => 'Postpone records',
+	'Emails' => 'Send emails [SMTP]'
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',

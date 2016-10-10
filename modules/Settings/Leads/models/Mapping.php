@@ -183,7 +183,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		}
 
 		if ($deleteMappingsList) {
-			self::deleteMapping($deleteMappingsList, ' AND editable = 1');
+			self::deleteMapping($deleteMappingsList, ' && editable = 1');
 		}
 
 		if ($createMappingsList) {

@@ -222,7 +222,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function loadAllFieldsFromModule($lang, $mod, $ShowDifferences = 0)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? AND `presence` IN (0,2)", array(getTabid($mod)));
+		$result = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? && `presence` IN (0,2)", array(\includes\Modules::getModuleId($mod)));
 		$variablesFromFile = $this->loadLangTranslation($lang, 'HelpInfo', $ShowDifferences);
 		$output = array();
 		if (self::parse_data(',', $lang)) {
@@ -365,7 +365,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		rmdir($dir);
 	}
 
-	function CopyDir($src, $dst)
+	public function CopyDir($src, $dst)
 	{
 		$dir = opendir($src);
 		@mkdir($dst);
@@ -381,7 +381,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		closedir($dir);
 	}
 
-	function setAsDefault($lang)
+	public function setAsDefault($lang)
 	{
 		$log = vglobal('log');
 		$log->debug("Entering Settings_LangManagement_Module_Model::setAsDefault(" . $lang . ") method ...");
@@ -413,7 +413,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return array('success' => $status, 'prefixOld' => $prefixOld);
 	}
 
-	function getStatsData($langBase, $langs, $byModule = false)
+	public function getStatsData($langBase, $langs, $byModule = false)
 	{
 		$filesName = $this->getModFromLang($langBase);
 		if (strpos($langs, $langBase) === false) {
@@ -430,7 +430,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return $data;
 	}
 
-	function getStats($data, $langBase, $byModule)
+	public function getStats($data, $langBase, $byModule)
 	{
 		$differences = [];
 		$i = 0;

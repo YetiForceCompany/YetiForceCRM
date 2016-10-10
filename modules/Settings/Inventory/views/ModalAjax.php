@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package YetiForce.views
  * @license licenses/License.html

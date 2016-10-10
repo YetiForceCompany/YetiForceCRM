@@ -393,8 +393,6 @@ class Plugin extends ServerPlugin {
      */
     function beforeUnbind($path) {
 
-        // FIXME: We shouldn't trigger this functionality when we're issuing a
-        // MOVE. This is a hack.
         if ($this->server->httpRequest->getMethod() === 'MOVE') return;
 
         $node = $this->server->tree->getNodeForPath($path);

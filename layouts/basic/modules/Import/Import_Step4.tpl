@@ -16,7 +16,7 @@
 			<strong>{'LBL_IMPORT_STEP_4'|@vtranslate:$MODULE}:</strong>
 		</td>
 		<td>
-			<span class="big">{'LBL_IMPORT_STEP_4_DESCRIPTION'|@vtranslate:$MODULE}</span>
+			<span>{'LBL_IMPORT_STEP_4_DESCRIPTION'|@vtranslate:$MODULE}</span>
 		</td>
 		<td>
             <div id="savedMapsContainer" class="textAlignRight pull-right">

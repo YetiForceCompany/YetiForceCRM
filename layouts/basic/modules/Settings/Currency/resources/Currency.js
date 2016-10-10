@@ -130,7 +130,6 @@ jQuery.Class('Settings_Currency_Js', {
 			},
 			function(error) {
 				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				//TODO : Handle error
 				aDeferred.reject(error);
 			}
 		);
@@ -196,7 +195,6 @@ jQuery.Class('Settings_Currency_Js', {
 			},
 			function(error) {
 				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				//TODO : Handle error
 			}
 		);
 	},

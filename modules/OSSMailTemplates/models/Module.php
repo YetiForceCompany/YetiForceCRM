@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package YetiForce.models
@@ -6,15 +7,14 @@
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 {
 
-	function getListFiledOfModule($moduleName, $relID = false)
+	public function getListFiledOfModule($moduleName, $relID = false)
 	{
 		$db = PearDatabase::getInstance();
-		$tabid = getTabid($moduleName);
-		$sql = "select `fieldid`, `fieldlabel`, `uitype`, `block` from vtiger_field where tabid = ? AND presence <> ? AND typeofdata <> ? AND `block` NOT IN (?)";
+		$tabid = \includes\Modules::getModuleId($moduleName);
+		$sql = "select `fieldid`, `fieldlabel`, `uitype`, `block` from vtiger_field where tabid = ? && presence <> ? && typeofdata <> ? && `block` NOT IN (?)";
 		$result = $db->pquery($sql, array($tabid, 1, 'P~M', 0));
 		$output = array();
 		$block = ['blockId' => '', 'blockLabel' => ''];
@@ -37,16 +37,16 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		return $output;
 	}
 
-	function getListFiledOfRelatedModule($moduleName)
+	public function getListFiledOfRelatedModule($moduleName)
 	{
 		$db = PearDatabase::getInstance();
-		$tabid = getTabid($moduleName);
+		$tabid = \includes\Modules::getModuleId($moduleName);
 		$sourceModule = $moduleName;
 		$params = $referenceUitype = [10, 59, 53, 51, 66, 67, 68];
 		$params[] = $tabid;
 		$sql = sprintf('SELECT vtiger_field.fieldid, fieldlabel, uitype, vtiger_fieldmodulerel.relmodule FROM vtiger_field 
 				LEFT JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid 
-				WHERE uitype IN (%s) AND tabid = ? ', $db->generateQuestionMarks($referenceUitype));
+				WHERE uitype IN (%s) && tabid = ? ', $db->generateQuestionMarks($referenceUitype));
 
 		$resultModuleList = $db->pquery($sql, $params);
 		$moduleList = [];
@@ -81,7 +81,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		return $moduleList;
 	}
 
-	function getListSpecialFunction($path, $module)
+	public function getListSpecialFunction($path, $module)
 	{
 		$specialFunctionList = array();
 		$numFile = 0;
@@ -108,10 +108,10 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		return $specialFunctionList;
 	}
 
-	function getTemplates()
+	public function getTemplates()
 	{
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_ossmailtemplates AS mail INNER JOIN vtiger_crmentity AS crm ON crm.crmid = mail.ossmailtemplatesid WHERE `deleted` = 0 AND ossmailtemplates_type = ?';
+		$sql = 'SELECT * FROM vtiger_ossmailtemplates AS mail INNER JOIN vtiger_crmentity AS crm ON crm.crmid = mail.ossmailtemplatesid WHERE `deleted` = 0 && ossmailtemplates_type = ?';
 		$result = $db->pquery($sql, ['PLL_MAIL']);
 		$output = [];
 		for ($i = 0; $i < $db->num_rows($result); $i++) {

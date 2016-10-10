@@ -28,7 +28,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-		$usersSqlFullName = getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 
 		$sql = sprintf('SELECT count(*) AS count, case when (%s not like "") then
 			%s else vtiger_groups.groupname end as name, 
@@ -44,7 +44,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		}
 		if (!empty($ticketStatus)) {
 			$ticketStatusSearch = implode("','", $ticketStatus);
-			$sql .= " AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
+			$sql .= " && vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
 
@@ -63,7 +63,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		return $chartData;
 	}
 
-	function getSearchParams($value)
+	public function getSearchParams($value)
 	{
 		$openTicketsStatus = Settings_SupportProcesses_Module_Model::getOpenTicketStatus();
 		if ($openTicketsStatus)
@@ -80,7 +80,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

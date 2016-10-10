@@ -61,13 +61,12 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$queryGenerator = $this->get('query_generator');
 				$queryGenerator->setConditionField($orderByFieldName);
-				//$queryGenerator->whereFields[] = $orderByFieldName;
 			}
 		}
 
 		$listQuery = $this->getQuery();
 		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
-			$listQuery .= ' AND vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
+			$listQuery .= ' && vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
 		}
 		unset($searchResult);
 
@@ -140,7 +139,6 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
 				//IF it is reference add it in the where fields so that from clause will be having join of the table
 				$this->get('query_generator')->setConditionField($orderByFieldName);
-				//$queryGenerator->whereFields[] = $orderByFieldName;
 
 				$referenceModules = $orderByFieldModel->getReferenceList();
 				$referenceNameFieldOrderBy = [];
@@ -154,20 +152,20 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 						$columnList[] = $fieldModel->get('table') . $orderByFieldModel->getName() . '.' . $fieldModel->get('column');
 					}
 					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users', '') . ' ' . $sortOrder;
+						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users', '') . ' ' . $sortOrder;
 					} else {
 						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
 					}
 				}
-				$query = sprintf(' ORDER BY %s' , implode(',', $referenceNameFieldOrderBy));
+				$query = sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
 			} else if ($orderByFieldModel && $orderByFieldModel->getFieldDataType() == Vtiger_Field_Model::CURRENCY_LIST) {
 				$this->get('query_generator')->setConditionField($orderByFieldName);
-				$query = sprintf(' ORDER BY %s %s', $orderByFieldModel->getUITypeModel()->getCurrenyListReferenceFieldName() , $sortOrder);
+				$query = sprintf(' ORDER BY %s %s', $orderByFieldModel->getUITypeModel()->getCurrenyListReferenceFieldName(), $sortOrder);
 			} else if ($orderBy === 'smownerid') {
 				$this->get('query_generator')->setConditionField($orderByFieldName);
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 				if ($fieldModel->getFieldDataType() == 'owner') {
-					$orderBy = 'COALESCE(' . getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+					$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 				}
 				$query = sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			} else {
@@ -259,7 +257,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' AND activitytype <> "Emails"';
+			$listQuery .= ' && activitytype <> "Emails"';
 		}
 		$listResult = $db->query($listQuery);
 		return $db->getSingleValue($listResult);

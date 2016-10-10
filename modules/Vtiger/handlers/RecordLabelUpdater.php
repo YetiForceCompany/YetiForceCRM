@@ -12,7 +12,7 @@ require_once 'include/events/VTEventHandler.inc';
 class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler
 {
 
-	function handleEvent($eventName, $data)
+	public function handleEvent($eventName, $data)
 	{
 		if ($eventName == 'vtiger.entity.aftersave') {
 			$module = $data->getModuleName();

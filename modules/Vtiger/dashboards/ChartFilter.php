@@ -32,6 +32,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('BASE_MODULE', $chartFilterWidgetModel->getTargetModule());
 		$viewer->assign('DATA_CHART', $data);
 		$viewer->assign('CHART_TYPE', $chartFilterWidgetModel->getType());
+		$viewer->assign('COLOR', $chartFilterWidgetModel->isColor());
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/ChartFilterContents.tpl', $moduleName);

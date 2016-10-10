@@ -211,8 +211,8 @@ class Owner
 				$log->debug('Sharing is Private. Only the current user should be listed');
 				$query = "SELECT id,%s,is_admin,cal_color,status FROM vtiger_users WHERE id=? UNION SELECT vtiger_user2role.userid AS id,%s,is_admin,cal_color,status FROM vtiger_user2role 
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? UNION
-							SELECT shareduserid AS id,%s,is_admin,cal_color,status FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? AND vtiger_tmp_write_user_sharing_per.tabid=?";
-				$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), getTabid($this->moduleName));
+							SELECT shareduserid AS id,%s,is_admin,cal_color,status FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? && vtiger_tmp_write_user_sharing_per.tabid=?";
+				$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), \includes\Modules::getModuleId($this->moduleName));
 			} else {
 				$log->debug('Sharing is Public. All vtiger_users should be listed');
 				$query = 'SELECT id,%s,is_admin,cal_color,status FROM vtiger_users';
@@ -222,22 +222,22 @@ class Owner
 			$query = str_replace('%s', implode(',', $entityData['fieldnameArr']), $query);
 			if (!empty($assignedUser)) {
 				if (is_array($assignedUser)) {
-					$where .= sprintf(' AND id IN (%s)', generateQuestionMarks($assignedUser));
+					$where .= sprintf(' && id IN (%s)', generateQuestionMarks($assignedUser));
 					foreach ($assignedUser as $id) {
 						array_push($params, $id);
 					}
 				} else {
-					$where .= ' AND id=?';
+					$where .= ' && id=?';
 					array_push($params, $assignedUser);
 				}
 			}
 			if (!empty($this->searchValue)) {
 				$entityName = $db->concat($entityData['fieldnameArr']);
-				$where .= " AND $entityName LIKE ?";
+				$where .= " && $entityName LIKE ?";
 				array_push($params, "%$this->searchValue%");
 			}
 			if (!empty($where)) {
-				$query .= ' WHERE ' . ltrim($where, ' AND');
+				$query .= sprintf(' WHERE %s ', ltrim($where, ' &&'));
 			}
 			$result = $db->pquery($query, $params);
 			$tempResult = [];
@@ -298,7 +298,7 @@ class Owner
 
 		if (\AppRequest::get('parent') != 'Settings' && $this->moduleName) {
 			$moduleName = $this->moduleName;
-			$tabid = getTabid($moduleName);
+			$tabid = \includes\Modules::getModuleId($moduleName);
 		}
 
 		$cacheKey = $addBlank . $status . $assignedUser . $private . $moduleName;
@@ -327,7 +327,7 @@ class Owner
 			array_push($params, $this->currentUser->getId());
 
 			if (count($userPrivileges['groups']) != 0) {
-				$query .= ' OR vtiger_groups.groupid in (' . generateQuestionMarks($userPrivileges['groups']) . ')';
+				$query .= ' || vtiger_groups.groupid in (' . generateQuestionMarks($userPrivileges['groups']) . ')';
 				array_push($params, $userPrivileges['groups']);
 			}
 			$log->debug('Sharing is Private. Only the current user should be listed');
@@ -457,8 +457,13 @@ class Owner
 	public static function getUsersIds($status = 'Active')
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
-			$instance = new self();
-			$rows = $instance->initUsers($status);
+			$rows = [];
+			if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+				$rows = \includes\PrivilegeFile::getUser('id');
+			} else {
+				$instance = new self();
+				$rows = $instance->initUsers($status);
+			}
 			self::$usersIdsCache[$status] = array_keys($rows);
 		}
 		return self::$usersIdsCache[$status];
@@ -521,11 +526,16 @@ class Owner
 		if (isset(self::$userLabelCache[$id])) {
 			return self::$userLabelCache[$id];
 		}
-		$instance = new self();
-		if ($single) {
-			$users = $instance->initUsers('Active', $id);
+
+		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+			$users = \includes\PrivilegeFile::getUser('id');
 		} else {
-			$users = $instance->initUsers();
+			$instance = new self();
+			if ($single) {
+				$users = $instance->initUsers('Active', $id);
+			} else {
+				$users = $instance->initUsers();
+			}
 		}
 		foreach ($users as $uid => &$user) {
 			self::$userLabelCache[$uid] = $user['fullName'];
@@ -541,8 +551,12 @@ class Owner
 		if (isset(self::$typeCache[$id])) {
 			return self::$typeCache[$id];
 		}
-		$instance = new self();
-		$users = $instance->initUsers();
+		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+			$users = \includes\PrivilegeFile::getUser('id');
+		} else {
+			$instance = new self();
+			$users = $instance->initUsers();
+		}
 		$result = isset($users[$id]) ? 'Users' : 'Groups';
 		self::$typeCache[$id] = $result;
 		return $result;

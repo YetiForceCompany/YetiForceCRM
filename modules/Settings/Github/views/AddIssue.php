@@ -8,6 +8,7 @@
  */
 class Settings_Github_AddIssue_View extends Vtiger_BasicModal_View
 {
+
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -15,6 +16,7 @@ class Settings_Github_AddIssue_View extends Vtiger_BasicModal_View
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
+
 	public function process(Vtiger_Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
@@ -23,14 +25,14 @@ class Settings_Github_AddIssue_View extends Vtiger_BasicModal_View
 		$configuration = Settings_ConfReport_Module_Model::getConfigurationValue();
 		$libraries = Settings_ConfReport_Module_Model::getConfigurationLibrary();
 		$errorLibraries = [];
-		foreach($libraries as $key => $value){
-			if($value['status'] == 'LBL_NO'){
+		foreach ($libraries as $key => $value) {
+			if ($value['status'] == 'LBL_NO') {
 				$errorLibraries[$key] = $value;
 			}
 		}
 		$errorConfig = [];
-		foreach($configuration as $key => $value){
-			if($value['status']){
+		foreach ($configuration as $key => $value) {
+			if ($value['status']) {
 				$errorConfig[$key] = $value;
 			}
 		}

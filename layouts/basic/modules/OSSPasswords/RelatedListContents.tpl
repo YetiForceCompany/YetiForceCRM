@@ -35,7 +35,7 @@
 			</thead>
 			{if $RELATED_MODULE->isQuickSearchEnabled()}
 				<tr>
-					<td>
+					<td class="listViewSearchTd">
 						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
 					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
@@ -57,37 +57,30 @@
 					</td>
 				</tr>
 			{/if}
+			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' 
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
+					{/if}
+					{if !empty($COLOR_LIST[$RELATED_RECORD->getId()])}
+						style="background: {$COLOR_LIST[$RELATED_RECORD->getId()]['background']}; color: {$COLOR_LIST[$RELATED_RECORD->getId()]['text']}"
 					{/if}>
 					{assign var=COUNT value=0}
-					<td class="{$WIDTHTYPE} text-center text-center font-larger">
-						{if $IS_FAVORITES}
-							{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
-							<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
-								<span title="{vtranslate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
-								<span title="{vtranslate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
-							</a>
-						{/if}
-						{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
-							<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed">
-								<span class="badge bgDanger"></span>&nbsp;
-							</a>&nbsp;
-						{/if}
+					{* create id for possword *}
+					{if array_key_exists('password',$RELATED_HEADERS)} 
+						{assign var=PASS_ID value=$RELATED_RECORD->get('id')}
+					{/if}
+					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+						{include file=vtemplate_path('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
 					</td>
-					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+					{foreach item=HEADER_FIELD from=$RELATED_HEADERS name=listHeaderForeach}
 						{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 							{break}
 						{/if}
 						{assign var=COUNT value=$COUNT+1}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
-						{* create id for possword *}
-						{if $RELATED_HEADERNAME eq 'password'} 
-							{assign var=PASS_ID value=$RELATED_RECORD->get('id')}
-						{/if}
-						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap {if $RELATED_HEADERNAME eq 'password'} id="{$PASS_ID}"{/if}>
+						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap {if $RELATED_HEADERNAME eq 'password'} id="{$PASS_ID}"{/if} {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 							{if $RELATED_HEADERNAME eq 'password'}
 								{str_repeat('*', 10)}
 							{elseif $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
@@ -108,8 +101,6 @@
 								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
 							{/if}
 							{if $HEADER_FIELD@last}
-							</td><td nowrap class="{$WIDTHTYPE}">
-								{include file=vtemplate_path('RelatedListActions.tpl',$RELATED_MODULE_NAME)}
 							</td>
 						{/if}
 						</td>

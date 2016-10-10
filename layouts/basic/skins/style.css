@@ -1017,8 +1017,7 @@ td.fieldValue input,
 td.fieldValue .input-group {
 	margin-bottom: 0;
 }
-.actionImage,
-.actionImages {
+.actionImage {
 	opacity: 0;
 	/*for IE*/
 
@@ -1060,7 +1059,7 @@ td.fieldValue .input-group {
 }
 .listViewEntriesTable .listViewEntries .unreviewed .badge,
 .listViewEntriesTable .listViewEntries .actions{
-	margin: -5px 0 0 5px;
+	margin: -4px 0 0 5px;
 }
 .listViewEntriesTable td.listViewEntryValue,
 .listViewEntries td {
@@ -2564,6 +2563,9 @@ i {
 .marginLeft10{
 	margin-left:10px;
 }
+.marginLeft20{
+	margin-left: 20px;
+}
 .marginbottomZero {
 	margin-bottom: 0 !important;
 }
@@ -2660,7 +2662,7 @@ table.summary-table .summaryViewEdit{
 	color: red;
 }
 .highlightBackgroundColor {
-	background: #eeeff2;
+	background: #eeeff2 !important;
 }
 .contentsBackground {
 	background: #ffffff;
@@ -3139,6 +3141,9 @@ span[name=existingImages] img{
 .marginRight10{
 	margin-right: 10px;
 }
+.marginRight20{
+	margin-right: 20px;
+}
 .marginRightMinus20{
 	margin-right:-20px;
 }
@@ -3263,7 +3268,7 @@ span[name=existingImages] img{
 	min-width: 90px;
 }
 .listViewEntriesTable .searchField{
-	min-width: 100px;
+	min-width: 50px;
 }
 .paginationDiv .pageInfo {
 	border: 1px solid #ddd;
@@ -4944,7 +4949,7 @@ html,body,.baseContainer
 	padding: 0 !important;
 }
 .hideSiteBar{
-	right: calc(-25% - -15px);
+	right: -25%;
 }
 .hideSiteBar .siteBarContent{
 	overflow: hidden;
@@ -5351,6 +5356,10 @@ select.form-control {
 	margin-top: 0;
 	padding: 7px 7px 0px 7px;
 }
+.notificationContainer .noticeRow hr + a{
+	font-weight: bold;
+	color: #337ab7 !important;
+}
 .notificationContainer .noticeIcon{
 	font-size: 20px;
 }
@@ -5643,4 +5652,70 @@ select.form-control {
 }
 .detailViewIcon.fa{
 	display: inline;
+}
+.addWidgetDropDown.dropdown-menu > li{
+	display: inline-block;
+	padding: 0 2px;
+	width: 100%;
+	white-space: nowrap;
+}
+.addWidgetDropDown.dropdown-menu > li > a{
+	display: inline;
+}
+.headerLinksMails .select2-selection__rendered:hover {
+	background: #f5f5f5 !important;
+}
+.leegendIcon{
+	margin: 0 5px 0 15px;
+	height: 15px;
+	width: 15px;
+	float: left;
+}
+.modal-fullscreen{
+	width: 98%;
+}
+.marginRight15{
+	margin-right: 15px;
+}
+.leftRecordActions .actions:hover .toolsAction{
+	display: none;
+}
+.leftRecordActions .actions:hover{
+	white-space: nowrap;
+	position: absolute;
+}
+.leftRecordActions > div,
+.leftRecordActions .actions:hover .actionImages{
+	display: inline-block !important;
+}
+.leftRecordActions .actions:hover + div .unreviewed{
+	margin-left: 20px;
+}
+.leftRecordActions .actions{
+	background: inherit;
+	padding: 4px 2px 0 0;
+}
+.listViewEntries{
+	background: #fff;
+}
+.leftRecordActions{
+	background: inherit;
+}
+.leftRecordActions .actions .actionImages a{
+	color: inherit;
+}
+.listViewSearchTd{
+	width: 1%;
+}
+.openStreetMapModalBody .descriptionContainer{
+	max-height: 150px;
+	overflow: auto;
+}
+.openStreetMapModalHeader .searchValue {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.openStreetMapModalHeader .radius{
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }

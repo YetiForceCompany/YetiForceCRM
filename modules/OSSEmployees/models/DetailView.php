@@ -17,7 +17,7 @@ class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 
 		$recordModel = $this->getRecord();
 		$linkModelLists = parent::getDetailViewLinks($linkParams);
-		
+
 		$linkURL = 'index.php?module=OSSEmployees&view=EmployeeHierarchy&record=' . $recordModel->getId();
 		$linkModel = [
 			'linktype' => 'LISTVIEWMASSACTION',

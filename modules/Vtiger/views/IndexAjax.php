@@ -11,23 +11,23 @@
 class Vtiger_IndexAjax_View extends Vtiger_Index_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showActiveRecords');
 	}
 
-	function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	function postProcess(Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -39,7 +39,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 	 * Function to show the recently modified or active records for the given module
 	 */
 
-	function showActiveRecords(Vtiger_Request $request)
+	public function showActiveRecords(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -53,7 +53,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 		echo $viewer->view('RecordNamesList.tpl', $moduleName, true);
 	}
 
-	function getRecordsListFromRequest(Vtiger_Request $request)
+	public function getRecordsListFromRequest(Vtiger_Request $request)
 	{
 		$cvId = $request->get('cvid');
 		$selectedIds = $request->get('selected_ids');
@@ -68,7 +68,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 			$sourceModule = $request->get('sourceModule');
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
-		
+
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
 			$searchKey = $request->get('search_key');

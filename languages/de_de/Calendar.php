@@ -139,6 +139,7 @@ $languageStrings = [
 	'LBL_CACHE_SELECTED_FILTERS' => 'Standardsicht des Kalenders geändert. Klicke "View leeren" um zu löschen.',
 	'LBL_CACHE_CLEAR' => 'View leeren',
 	'LBL_PROCESS' => 'Process',
+	'LBL_SAVE_AND_CLOSE' => 'Save and close',
 ];
 $jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',

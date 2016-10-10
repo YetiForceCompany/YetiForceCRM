@@ -64,12 +64,12 @@ Class DataAccess_unique_account
 		}
 		if ($ID != 0 && $ID != '') {
 			$params[] = $ID;
-			$where .= ' AND accountid <> ?';
+			$where .= ' && accountid <> ?';
 		}
 
 		if ($hierarchyAll && $vatId) {
 			$hierarchyParams = array_merge($params, array_keys($hierarchyAll));
-			$hierarchyQuery = 'SELECT accountid,accountname FROM vtiger_account WHERE %s AND accountid IN (%s)';
+			$hierarchyQuery = 'SELECT accountid,accountname FROM vtiger_account WHERE %s && accountid IN (%s)';
 			$hierarchyQuery = sprintf($hierarchyQuery, $where, $db->generateQuestionMarks($hierarchyAll));
 			$result = $db->pquery($hierarchyQuery, $hierarchyParams);
 			if ($db->getRowCount($result)) {

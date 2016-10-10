@@ -1,8 +1,0 @@
-CHANGES TO CORE PRODUCT
-=======================
-
-Support for ORDER BY ... DESC was missing in 5.1.0, you will need to apply the patch available at:
-* http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6635 - Should be available in 5.2.0
-
-Support for overriding GetRelatedList global API
-* http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6768 - Should be available in 5.2.0

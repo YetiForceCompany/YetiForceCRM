@@ -11,7 +11,7 @@
 class Settings_LayoutEditor_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$this->exposeMethod('getFieldUI');
 	}
@@ -33,7 +33,7 @@ class Settings_LayoutEditor_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vie
 	{
 		$fieldsList = $request->get('fieldIdList');
 		$module = $request->get('sourceModule');
-		$fieldModelList = Settings_LayoutEditor_Field_Model::getInstanceFromFieldId($fieldsList, getTabId($module));
+		$fieldModelList = Settings_LayoutEditor_Field_Model::getInstanceFromFieldId($fieldsList, \includes\Modules::getModuleId($module));
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('SELECTED_MODULE_NAME', $module);

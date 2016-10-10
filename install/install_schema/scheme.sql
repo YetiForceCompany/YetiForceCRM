@@ -131,6 +131,7 @@ CREATE TABLE `a_yf_pdf` (
   `watermark_angle` smallint(3) unsigned NOT NULL,
   `watermark_image` varchar(255) NOT NULL,
   `template_members` text NOT NULL,
+  `one_pdf` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`pdfid`),
   KEY `module_name` (`module_name`,`status`),
   KEY `module_name_2` (`module_name`)
@@ -847,6 +848,14 @@ CREATE TABLE `roundcube_users_autologin` (
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_mail_relation_updater` */
+
+CREATE TABLE `s_yf_mail_relation_updater` (
+  `tabid` smallint(11) unsigned NOT NULL,
+  `crmid` int(19) unsigned NOT NULL,
+  KEY `tabid` (`tabid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_multireference` */
 
 CREATE TABLE `s_yf_multireference` (
@@ -1005,7 +1014,7 @@ CREATE TABLE `u_yf_crmentity_search_label` (
 
 CREATE TABLE `u_yf_crmentity_showners` (
   `crmid` int(19) DEFAULT NULL,
-  `userid` int(19) DEFAULT NULL,
+  `userid` smallint(11) unsigned NOT NULL,
   UNIQUE KEY `mix` (`crmid`,`userid`),
   KEY `crmid` (`crmid`),
   KEY `userid` (`userid`),
@@ -2109,12 +2118,28 @@ CREATE TABLE `u_yf_knowledgebasecf` (
   CONSTRAINT `fk_1_vtiger_knowledgebasecf` FOREIGN KEY (`knowledgebaseid`) REFERENCES `u_yf_knowledgebase` (`knowledgebaseid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_mail_address_boock` */
+
+CREATE TABLE `u_yf_mail_address_boock` (
+  `id` int(19) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `users` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `email` (`email`,`name`),
+  CONSTRAINT `u_yf_mail_address_boock_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_mail_autologin` */
 
 CREATE TABLE `u_yf_mail_autologin` (
-  `userid` smallint(11) unsigned NOT NULL,
+  `ruid` smallint(11) unsigned NOT NULL,
   `key` varchar(50) NOT NULL,
-  KEY `userid` (`userid`)
+  `cuid` smallint(11) unsigned NOT NULL,
+  `params` text NOT NULL,
+  KEY `ruid` (`ruid`),
+  KEY `cuid` (`cuid`),
+  KEY `key` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_mail_compose_data` */
@@ -2124,6 +2149,41 @@ CREATE TABLE `u_yf_mail_compose_data` (
   `key` varchar(32) NOT NULL,
   `data` text NOT NULL,
   UNIQUE KEY `userid` (`userid`,`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_openstreetmap` */
+
+CREATE TABLE `u_yf_openstreetmap` (
+  `crmid` int(19) unsigned NOT NULL,
+  `type` char(1) NOT NULL,
+  `lat` decimal(10,7) DEFAULT NULL,
+  `lon` decimal(10,7) DEFAULT NULL,
+  KEY `u_yf_openstreetmap_lat_lon` (`lat`,`lon`),
+  KEY `crmid_type` (`crmid`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_openstreetmap_address_updater` */
+
+CREATE TABLE `u_yf_openstreetmap_address_updater` (
+  `crmid` int(19) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_openstreetmap_cache` */
+
+CREATE TABLE `u_yf_openstreetmap_cache` (
+  `user_id` int(19) unsigned NOT NULL,
+  `module_name` varchar(50) NOT NULL,
+  `crmids` int(19) unsigned NOT NULL,
+  KEY `u_yf_openstreetmap_cache_user_id_module_name_idx` (`user_id`,`module_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_openstreetmap_record_updater` */
+
+CREATE TABLE `u_yf_openstreetmap_record_updater` (
+  `crmid` int(19) NOT NULL,
+  `type` char(1) NOT NULL,
+  `address` text NOT NULL,
+  KEY `crmid` (`crmid`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_partners` */
@@ -2136,6 +2196,7 @@ CREATE TABLE `u_yf_partners` (
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `email` varchar(50) DEFAULT '',
   `active` tinyint(1) DEFAULT '0',
+  `category` varchar(255) DEFAULT '',
   PRIMARY KEY (`partnersid`),
   CONSTRAINT `fk_1_u_yf_partners` FOREIGN KEY (`partnersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2901,18 +2962,6 @@ CREATE TABLE `vtiger_accountaddress` (
   CONSTRAINT `vtiger_accountaddress_ibfk_1` FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_accountbookmails` */
-
-CREATE TABLE `vtiger_accountbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `id` (`id`),
-  CONSTRAINT `vtiger_accountbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_accountscf` */
 
 CREATE TABLE `vtiger_accountscf` (
@@ -3160,7 +3209,7 @@ CREATE TABLE `vtiger_assets_renew` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`assets_renewid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assetscf` */
 
@@ -3680,18 +3729,6 @@ CREATE TABLE `vtiger_contactdetails` (
   CONSTRAINT `fk_1_vtiger_contactdetails` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_contactsbookmails` */
-
-CREATE TABLE `vtiger_contactsbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `contactid` (`id`),
-  CONSTRAINT `vtiger_contactsbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_contactscf` */
 
 CREATE TABLE `vtiger_contactscf` (
@@ -3857,7 +3894,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
@@ -4599,16 +4636,16 @@ CREATE TABLE `vtiger_entity_stats` (
 
 CREATE TABLE `vtiger_entityname` (
   `tabid` int(19) NOT NULL DEFAULT '0',
-  `modulename` varchar(50) NOT NULL,
-  `tablename` varchar(100) NOT NULL,
-  `fieldname` varchar(150) NOT NULL,
-  `entityidfield` varchar(150) NOT NULL,
-  `entityidcolumn` varchar(150) NOT NULL,
+  `modulename` varchar(25) NOT NULL,
+  `tablename` varchar(50) NOT NULL,
+  `fieldname` varchar(100) NOT NULL,
+  `entityidfield` varchar(30) NOT NULL,
+  `entityidcolumn` varchar(30) NOT NULL,
   `searchcolumn` varchar(150) NOT NULL,
-  `turn_off` int(1) NOT NULL DEFAULT '1',
-  `sequence` int(19) NOT NULL,
+  `turn_off` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `sequence` smallint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`tabid`),
-  KEY `entityname_tabid_idx` (`tabid`),
+  KEY `turn_off` (`turn_off`),
   CONSTRAINT `fk_1_vtiger_entityname` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4630,16 +4667,16 @@ CREATE TABLE `vtiger_eventhandler_module_seq` (
 /*Table structure for table `vtiger_eventhandlers` */
 
 CREATE TABLE `vtiger_eventhandlers` (
-  `eventhandler_id` int(11) NOT NULL AUTO_INCREMENT,
+  `eventhandler_id` smallint(11) unsigned NOT NULL AUTO_INCREMENT,
   `event_name` varchar(100) NOT NULL,
   `handler_path` varchar(400) NOT NULL,
   `handler_class` varchar(100) NOT NULL,
   `cond` text,
-  `is_active` int(1) NOT NULL,
+  `is_active` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandlers_seq` */
 
@@ -4818,8 +4855,9 @@ CREATE TABLE `vtiger_field` (
   KEY `quickcreate` (`quickcreate`),
   KEY `presence` (`presence`),
   KEY `tabid_2` (`tabid`,`fieldname`),
+  KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2359 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2385 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5504,18 +5542,6 @@ CREATE TABLE `vtiger_leadaddress` (
   CONSTRAINT `fk_1_vtiger_leadaddress` FOREIGN KEY (`leadaddressid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_leadbookmails` */
-
-CREATE TABLE `vtiger_leadbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `id` (`id`),
-  CONSTRAINT `vtiger_leadbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_leaddetails` */
 
 CREATE TABLE `vtiger_leaddetails` (
@@ -5941,17 +5967,6 @@ CREATE TABLE `vtiger_manufacturer_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_mobile_alerts` */
-
-CREATE TABLE `vtiger_mobile_alerts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `handler_path` varchar(500) DEFAULT NULL,
-  `handler_class` varchar(50) DEFAULT NULL,
-  `sequence` int(11) DEFAULT NULL,
-  `deleted` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_modcomments` */
 
 CREATE TABLE `vtiger_modcomments` (
@@ -6317,20 +6332,11 @@ CREATE TABLE `vtiger_ossemployees` (
   `ship_country` varchar(200) DEFAULT NULL,
   `dav_status` tinyint(1) DEFAULT '1',
   `sum_time` decimal(10,2) DEFAULT '0.00',
+  `secondary_phone` varchar(25) DEFAULT NULL,
+  `position` varchar(255) DEFAULT NULL,
+  `rbh` decimal(25,8) DEFAULT NULL,
   PRIMARY KEY (`ossemployeesid`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossemployeesbookmails` */
-
-CREATE TABLE `vtiger_ossemployeesbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `id` (`id`),
-  CONSTRAINT `vtiger_ossemployeesbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossemployeescf` */
@@ -6602,7 +6608,7 @@ CREATE TABLE `vtiger_osssoldservices_renew` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`osssoldservices_renewid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osssoldservicescf` */
 
@@ -7112,7 +7118,8 @@ CREATE TABLE `vtiger_profile2utility` (
   `activityid` int(11) NOT NULL,
   `permission` int(1) DEFAULT NULL,
   PRIMARY KEY (`profileid`,`tabid`,`activityid`),
-  KEY `profile2utility_profileid_tabid_activityid_idx` (`profileid`,`tabid`,`activityid`),
+  KEY `profile2utility_tabid_activityid_idx` (`tabid`,`activityid`),
+  KEY `profile2utility_profileid` (`profileid`),
   CONSTRAINT `vtiger_profile2utility_ibfk_1` FOREIGN KEY (`profileid`) REFERENCES `vtiger_profile` (`profileid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -8685,7 +8692,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `access` int(1) DEFAULT '1',
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 
@@ -8953,18 +8960,6 @@ CREATE TABLE `vtiger_vendoraddress` (
   `localnumberc` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`vendorid`),
   CONSTRAINT `vtiger_vendoraddress_ibfk_1` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_vendorbookmails` */
-
-CREATE TABLE `vtiger_vendorbookmails` (
-  `id` int(19) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `users` text NOT NULL,
-  KEY `email` (`email`,`name`),
-  KEY `id` (`id`),
-  CONSTRAINT `vtiger_vendorbookmails_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_vendorcf` */

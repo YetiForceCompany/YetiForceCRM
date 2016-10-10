@@ -9,7 +9,7 @@
 class Settings_Notifications_Delete_Action extends Settings_Vtiger_Index_Action
 {
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$id = $request->get('id');

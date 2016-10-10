@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Model of module
  * @package YetiForce.Model

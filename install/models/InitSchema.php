@@ -15,7 +15,7 @@ class Install_InitSchema_Model
 	protected $migration_schema = 'install/migrate_schema/';
 	protected $db = false;
 
-	function __construct($db = '')
+	public function __construct($db = '')
 	{
 		$this->db = $db;
 	}
@@ -114,7 +114,7 @@ class Install_InitSchema_Model
 		// Remove PostgreSQL comment lines.
 		$query = preg_replace("/\n\--[^\n]*/", '', "\n" . $query);
 		// Find function
-		$funct = explode('CREATE OR REPLACE FUNCTION', $query);
+		$funct = explode('CREATE || REPLACE FUNCTION', $query);
 		// Save sql before function and parse it
 		$query = $funct[0];
 
@@ -141,7 +141,7 @@ class Install_InitSchema_Model
 		}
 		// Add function part as is
 		for ($f = 1; $f < count($funct); $f++) {
-			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
+			$queries[] = 'CREATE || REPLACE FUNCTION ' . $funct[$f];
 		}
 		return $queries;
 	}

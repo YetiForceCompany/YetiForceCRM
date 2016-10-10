@@ -452,9 +452,7 @@ class HTMLPurifier_CSSDefinition extends HTMLPurifier_Definition
                 }
                 unset($allowed_properties[$name]);
             }
-            // emit errors
             foreach ($allowed_properties as $name => $d) {
-                // :TODO: Is this htmlspecialchars() call really necessary?
                 $name = htmlspecialchars($name);
                 trigger_error("Style attribute '$name' is not supported $support", E_USER_WARNING);
             }

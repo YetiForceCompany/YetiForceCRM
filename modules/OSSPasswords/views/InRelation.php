@@ -5,7 +5,7 @@
 class OSSPasswords_InRelation_View extends Vtiger_RelatedList_View
 {
 
-	function getScripts(Vtiger_Request $request)
+	public function getScripts(Vtiger_Request $request)
 	{
 		$jsFileNames = [
 			'libraries.jquery.ZeroClipboard.ZeroClipboard',
@@ -15,7 +15,7 @@ class OSSPasswords_InRelation_View extends Vtiger_RelatedList_View
 		return $jsScriptInstances;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

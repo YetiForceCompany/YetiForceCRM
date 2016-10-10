@@ -9,7 +9,7 @@
 class BasicAuth extends AbstractAuth
 {
 
-	function authenticate($realm)
+	public function authenticate($realm)
 	{
 		if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			$this->requireLogin($realm);
@@ -23,15 +23,15 @@ class BasicAuth extends AbstractAuth
 		return true;
 	}
 
-	function requireLogin($realm)
+	public function requireLogin($realm)
 	{
 		$this->api->response->addHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"');
 	}
 
-	function validatePass($username, $password)
+	public function validatePass($username, $password)
 	{
 		$db = $this->api->db;
-		$result = $db->pquery('SELECT * FROM w_yf_servers WHERE name = ? AND status = ?', [$username, 1]);
+		$result = $db->pquery('SELECT * FROM w_yf_servers WHERE name = ? && status = ?', [$username, 1]);
 		if ($db->getRowCount($result)) {
 			$row = $db->getRow($result);
 			$status = $password == $row['pass'];

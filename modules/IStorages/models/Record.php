@@ -8,23 +8,24 @@
  */
 class IStorages_Record_Model extends Vtiger_Record_Model
 {
-	
+
 	/**
 	 * Function returns the details of IStorages Hierarchy
 	 * @return <Array>
 	 */
-	function getHierarchy() {
+	public function getHierarchy()
+	{
 		$focus = CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getHierarchy($this->getId());
-		foreach($hierarchy['entries'] as $storageId => $storageInfo) {
+		foreach ($hierarchy['entries'] as $storageId => $storageInfo) {
 			preg_match('/<a href="+/', $storageInfo[0], $matches);
-			if($matches != null) {
+			if ($matches != null) {
 				preg_match('/[.\s]+/', $storageInfo[0], $dashes);
-				preg_match("/<a(.*)>(.*)<\/a>/i",$storageInfo[0], $name);
+				preg_match("/<a(.*)>(.*)<\/a>/i", $storageInfo[0], $name);
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('IStorages');
 				$recordModel->setId($storageId);
-				$hierarchy['entries'][$storageId][0] = $dashes[0]."<a href=".$recordModel->getDetailViewUrl().">".$name[2]."</a>";
+				$hierarchy['entries'][$storageId][0] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
 			}
 		}
 		return $hierarchy;

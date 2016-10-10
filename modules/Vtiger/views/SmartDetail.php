@@ -3,7 +3,7 @@
 class Vtiger_SmartDetail_View extends Vtiger_IndexAjax_View
 {
 
-	function checkPermission(Vtiger_Request $request)
+	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -15,7 +15,7 @@ class Vtiger_SmartDetail_View extends Vtiger_IndexAjax_View
 		return true;
 	}
 
-	function process(Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

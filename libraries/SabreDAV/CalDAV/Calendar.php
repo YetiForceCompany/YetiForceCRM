@@ -9,8 +9,6 @@ use Sabre\DAV\PropPatch;
 /**
  * This object represents a CalDAV calendar.
  *
- * A calendar can contain multiple TODO and or Events. These are represented
- * as \Sabre\CalDAV\CalendarObject objects.
  *
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)

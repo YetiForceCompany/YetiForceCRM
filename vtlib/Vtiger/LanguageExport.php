@@ -32,7 +32,7 @@ class LanguageExport extends Package
 	 * Initialize Export
 	 * @access private
 	 */
-	function __initExport($languageCode)
+	public function __initExport($languageCode)
 	{
 		// Security check to ensure file is withing the web folder.
 		Utils::checkFileAccessForInclusion("languages/$languageCode/Vtiger.php");
@@ -48,7 +48,7 @@ class LanguageExport extends Package
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	function export($languageCode, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export($languageCode, $todir = '', $zipfilename = '', $directDownload = false)
 	{
 
 		$this->__initExport($languageCode);
@@ -88,7 +88,7 @@ class LanguageExport extends Package
 	 * Export Language Handler
 	 * @access private
 	 */
-	function export_Language($prefix)
+	public function export_Language($prefix)
 	{
 		$db = \PearDatabase::getInstance();
 		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
@@ -114,7 +114,7 @@ class LanguageExport extends Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	function export_Dependencies($moduleInstance)
+	public function export_Dependencies($moduleInstance)
 	{
 		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
 		$vtigerMaxVersion = current(explode('.', $vtigerMinVersion)) . '.*';
