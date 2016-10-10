@@ -2205,8 +2205,8 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (10
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (103,2,'u_yf_igdnc:storageid:storageid:IGDNC_FL_STORAGE:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (103,3,'vtiger_crmentity:smownerid:assigned_user_id:IGDNC_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (103,4,'vtiger_crmentity:createdtime:createdtime:IGDNC_Created_Time:DT');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,0,'vtiger_notification:title:title:Notification_FL_TITLE:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,1,'vtiger_notification:number:number:Notification_FL_NUMBER:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,0,'u_yf_notification:title:title:Notification_FL_TITLE:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,1,'u_yf_notification:number:number:Notification_FL_NUMBER:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,2,'vtiger_crmentity:createdtime:createdtime:Notification_Created_Time:DT');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,3,'vtiger_crmentity:smownerid:assigned_user_id:Notification_Assigned_To:V');
 
@@ -7293,7 +7293,7 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (14,'leadstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (77,'lin_type_doc');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (78,'lout_type_doc');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (15,'manufacturer');
-insert  into `vtiger_picklist`(`picklistid`,`name`) values (95,'notificationtype');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (95,'notification_type');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (64,'oproductstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (59,'ossdc_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (60,'osservicesstatus');
@@ -25257,6 +25257,7 @@ insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (107,'vtig
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (108,'vtiger_min_version','2.3.1514');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (109,'vtiger_min_version','2.3.1528');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (110,'vtiger_min_version','3.2.999');
+insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (111,'vtiger_min_version','3.3.999');
 
 /*Data for the table `vtiger_taskpriority` */
 
