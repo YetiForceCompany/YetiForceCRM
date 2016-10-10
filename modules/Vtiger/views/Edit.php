@@ -26,7 +26,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 		if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$isPermited = $recordModel->isEditable() || ($request->get('isDuplicate') == 'true' && $recordModel->isCreateable() && $recordModel->isViewable());
+			$isPermited = $recordModel->isEditable() || ($request->getBoolean('isDuplicate') === true && $recordModel->isCreateable() && $recordModel->isViewable());
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$isPermited = $recordModel->isCreateable();
@@ -54,7 +54,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		if (!empty($record) && $request->get('isDuplicate') === 'true') {
+		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
 			$viewer->assign('MODE', '');
 			$viewer->assign('RECORD_ID', '');
 			$recordModel = $this->getDuplicate($record, $moduleName);
