@@ -73,34 +73,36 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 	registerHourFormatChangeEvent: function () {
 
 	},
+	getHourValues: function(list, currentValue) {
+		var options = '';
+		for (var key in list) {
+			//IE Browser consider the prototype properties also, it should consider has own properties only.
+			if (list.hasOwnProperty(key)) {
+				var conditionValue = list[key];
+				options += '<option value="' + key + '"';
+				if (key == currentValue) {
+					options += ' selected="selected" ';
+				}
+				options += '>' + conditionValue + '</option>';
+			}
+		}
+		return options;
+	},
 	changeStartHourValuesEvent: function (form) {
 		var thisInstance = this;
 		form.on('change', 'select[name="hour_format"]', function (e) {
 			var hourFormatVal = jQuery(e.currentTarget).val();
 			var startHourElement = jQuery('select[name="start_hour"]', form);
-			var conditionSelected = startHourElement.val();
-
+			var endHourElement = jQuery('select[name="end_hour"]', form);
+			var conditionStartSelected = startHourElement.val();
+			var conditionEndSelected = endHourElement.val();
 			if (typeof thisInstance.hourFormatConditionMapping == 'undefined') {
 				return false;
 			}
-
 			var list = thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];
-			var options = '';
-			for (var key in list) {
-				//IE Browser consider the prototype properties also, it should consider has own properties only.
-				if (list.hasOwnProperty(key)) {
-					var conditionValue = list[key];
-					options += '<option value="' + key + '"';
-					if (key == conditionSelected) {
-						options += ' selected="selected" ';
-					}
-					options += '>' + conditionValue + '</option>';
-				}
-			}
-			startHourElement.html(options).trigger("chosen:updated");
+			startHourElement.html(thisInstance.getHourValues(list, conditionStartSelected)).trigger("chosen:updated");
+			endHourElement.html(thisInstance.getHourValues(list, conditionEndSelected)).trigger("chosen:updated");
 		});
-
-
 	},
 	triggerHourFormatChangeEvent: function (form) {
 		this.hourFormatConditionMapping = jQuery('input[name="timeFormatOptions"]', form).data('value');
