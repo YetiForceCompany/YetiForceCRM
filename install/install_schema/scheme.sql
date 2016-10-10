@@ -98,17 +98,6 @@ CREATE TABLE `a_yf_mapped_fields` (
   CONSTRAINT `a_yf_mapped_fields_ibfk_1` FOREIGN KEY (`mappedid`) REFERENCES `a_yf_mapped_config` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `a_yf_notification_type` */
-
-CREATE TABLE `a_yf_notification_type` (
-  `id` int(19) unsigned NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `role` tinyint(5) unsigned NOT NULL DEFAULT '0',
-  `icon` varchar(20) DEFAULT NULL,
-  `presence` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `a_yf_pdf` */
 
 CREATE TABLE `a_yf_pdf` (

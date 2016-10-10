@@ -20,7 +20,6 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 			$watchdogModule = Vtiger_Watchdog_Model::getInstance($moduleName);
 			$modulesWatchingsByUsers[$moduleName] = $watchdogModule->getWatchingUsers();
 		}
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
@@ -35,11 +34,9 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.Configuration",
-		);
-
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
