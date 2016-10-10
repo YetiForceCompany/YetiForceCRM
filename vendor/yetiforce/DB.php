@@ -55,8 +55,11 @@ class DB extends \yii\db\Connection
 		if (isset(static::$cache[$type])) {
 			return static::$cache[$type];
 		}
-		$config = self::getConfig($type);
+		$config = static::getConfig($type);
 		$db = new self($config);
+		$db->attributes = [
+			\PDO::ATTR_EMULATE_PREPARES => false
+		];
 		static::$cache[$type] = $db;
 		return $db;
 	}
