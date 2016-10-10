@@ -91,11 +91,11 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getInstance($id)
 	{
-		$db = new App\db\Query();
+		$db = (new App\db\Query())->from(Settings_Currency_Module_Model::tableName);
 		if (vtlib\Utils::isNumber($id)) {
-			$query = $db->from(Settings_Currency_Module_Model::tableName)->where(['id' => $id]);
+			$query = $db->where(['id' => $id]);
 		} else {
-			$query = $db->from(Settings_Currency_Module_Model::tableName)->where(['currency_name' => $id]);
+			$query = $db->where(['currency_name' => $id]);
 		}
 		$row = $query->createCommand()->queryOne();
 		if ($row) {

@@ -42,11 +42,12 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function updateModuleColor($params)
 	{
-		\App\DB::getInstance()->createCommand()->update('vtiger_calendar_default_activitytypes', [
+		$db = \App\DB::getInstance();
+		$db->createCommand()->update('vtiger_calendar_default_activitytypes', [
 			'defaultcolor' => $params['color']],
 			['id' => $params['viewtypesid']]
 			)->execute();
-		\App\DB::getInstance()->createCommand()->update('vtiger_calendar_user_activitytypes', [
+		$db->createCommand()->update('vtiger_calendar_user_activitytypes', [
 			'color' => $params['color']],
 			['defaultid' => $params['viewtypesid']]
 			)->execute();

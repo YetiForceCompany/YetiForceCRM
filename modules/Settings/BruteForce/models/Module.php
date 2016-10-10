@@ -115,13 +115,13 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function updateUsersForNotifications($selectedUsers)
 	{
-		\App\DB::getInstance()
-			->createCommand()
+		$db = \App\DB::getInstance();
+		$db->createCommand()
 			->delete('vtiger_bruteforce_users')
 			->execute();
 		if (!empty($selectedUsers)) {
 			foreach ($selectedUsers as $userId) {
-				\App\DB::getInstance()->createCommand()
+				$db->createCommand()
 					->insert('vtiger_bruteforce_users', ['id' => $userId])->execute();
 			}
 		}
