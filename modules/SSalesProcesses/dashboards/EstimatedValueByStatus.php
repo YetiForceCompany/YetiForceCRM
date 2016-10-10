@@ -2,7 +2,7 @@
 
 /**
  * Widget show estimated value by status
- * @package YetiForce.Github
+ * @package YetiForce.Dashboard
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
