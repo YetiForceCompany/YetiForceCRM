@@ -36,12 +36,6 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		LEFT JOIN vtiger_crmentity procrm ON procrm.crmid = vtiger_activity.process
 		LEFT JOIN vtiger_crmentity subprocrm ON subprocrm.crmid = vtiger_activity.subprocess';
 		$params = [];
-		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
-		$calendarAlloRecords = $roleInstance->get('clendarallorecords');
-		if ($calendarAlloRecords === 1) {
-			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid AND u_yf_crmentity_showners.userid = ?';
-			$params []= $currentUser->getId();
-		}
 		$query .= ' WHERE vtiger_activity.deleted = 0 ';
 		$query .= \App\PrivilegeQuery::getAccessConditions($this->getModuleName());
 		if ($this->get('start') && $this->get('end')) {
@@ -87,7 +81,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
-				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar') . ')';
+				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
 				$filterInstance = new $filterClassName();
 				$condition = $filterInstance->getCondition($filter['value']);
 				if (!empty($condition)) {
@@ -95,12 +89,22 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		if ($calendarAlloRecords !== 1) {
-			$users = $this->get('user');
-			if (!empty($users)) {
-				$query .= ' AND vtiger_activity.smownerid IN (' . $db->generateQuestionMarks($users) . ')';
-				$params[] = $users;
-			}
+		$where = [];
+		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
+		$calendarAlloRecords = $roleInstance->get('clendarallorecords');
+		if ($calendarAlloRecords === 1) {
+			$where[] = 'vtiger_crmentity.crmid IN (SELECT crmid FROM u_yf_crmentity_showners WHERE userid = ?)';
+			$params [] = $currentUser->getId();
+		}
+		$users = $this->get('user');
+		if (!empty($users)) {
+			$where[] = 'vtiger_activity.smownerid IN (' . $db->generateQuestionMarks($users) . ')';
+			$params[] = $users;
+		}
+		if (!empty($where)) {
+			$query .= '  AND ( ';
+			$query .= implode(' OR ', $where);
+			$query .= ' ) ';
 		}
 		$query .= ' ORDER BY date_start,time_start ASC';
 		return ['query' => $query, 'params' => $params];
