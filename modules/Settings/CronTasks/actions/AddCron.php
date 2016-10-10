@@ -32,12 +32,10 @@ class Settings_CronTasks_AddCron_Action extends Settings_Vtiger_Index_Action
 
 	public function getSquence()
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = "select sequence from vtiger_cron_task ORDER BY sequence DESC";
-
-		$result = $db->pquery($sql, array(), true);
-
-		return $db->query_result($result, 0, 'sequence') + 1;
+		$query = (new \App\db\Query())
+			->select('MAX(sequence) as max')
+			->from('vtiger_cron_task');
+		$maxSequence = $query->createCommand()->queryOne();	
+		return $maxSequence + 1;
 	}
 }
