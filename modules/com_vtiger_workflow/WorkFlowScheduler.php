@@ -112,7 +112,7 @@ class WorkFlowScheduler
 							} else {
 								$delay = 0;
 							}
-							if ($task->executeImmediately == true) {
+							if ($task->executeImmediately === true) {
 								$task->doTask($entityData);
 							} else {
 								$taskQueue->queueTask($task->id, $entityData->getId(), $delay);

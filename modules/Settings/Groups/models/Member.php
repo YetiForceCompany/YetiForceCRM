@@ -83,7 +83,7 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$members = array();
+		$members = [];
 
 		if ($type == self::MEMBER_TYPE_USERS) {
 			$sql = 'SELECT vtiger_users.id, vtiger_users.last_name, vtiger_users.first_name FROM vtiger_users
@@ -187,9 +187,7 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 	 */
 	public static function getAllByGroup($groupModel)
 	{
-		$db = PearDatabase::getInstance();
-
-		$members = array();
+		$members = [];
 		$members[self::MEMBER_TYPE_USERS] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_USERS);
 		$members[self::MEMBER_TYPE_GROUPS] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_GROUPS);
 		$members[self::MEMBER_TYPE_ROLES] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_ROLES);
@@ -204,7 +202,7 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 	 */
 	public static function getAll($onlyActive = true)
 	{
-		$members = array();
+		$members = [];
 
 		$allUsers = Users_Record_Model::getAll($onlyActive);
 		foreach ($allUsers as $userId => $userModel) {

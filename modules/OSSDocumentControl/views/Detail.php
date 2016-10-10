@@ -29,7 +29,8 @@ class OSSDocumentControl_Detail_View extends Vtiger_Detail_View
 		$conditions = new Conditions();
 		$documentList = $conditions->getListDocForModule($relatedModuleName);
 
-		for ($i = 0; $i < count($documentList); $i++) {
+		$countDocumentList = count($documentList);
+		for ($i = 0; $i < $countDocumentList; $i++) {
 			if (mb_strlen($documentList[$i]['doc_name']) > 20) {
 				$documentList[$i]['doc_short_name'] = substr($documentList[$i]['doc_name'], 0, 15) . '...';
 			} else {
@@ -37,7 +38,8 @@ class OSSDocumentControl_Detail_View extends Vtiger_Detail_View
 			}
 		}
 
-		for ($i = 0; $i < count($documentList); $i++) {
+		$countDocumentList = count($documentList);
+		for ($i = 0; $i < $countDocumentList; $i++) {
 			$documentList[$i]['is_attach'] = $conditions->docIsAttachet($record, $documentList[$i]['doc_folder'], $documentList[$i]['doc_name']);
 			$documentList[$i]['status'] = $conditions->docStatus($record, $documentList[$i]['doc_folder'], $documentList[$i]['doc_name']);
 		}

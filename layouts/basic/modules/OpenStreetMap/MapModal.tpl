@@ -52,6 +52,17 @@
 							</button>
 						</div>
 					</div>
+					<div class="input-group group-btn form-group indirectContainer indirectTemplate hide">
+						<input type="text" readonly="readonly" class="form-control indirect">
+						<div class="input-group-btn">
+							<button class="btn btn-warning setView">
+								<span class="fa fa-flag"></span>
+							</button>
+							<button class="btn btn-danger removeIndirect">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+						</div>
+					</div>
 					<div class="input-group group-btn form-group">
 						<input type="text" readonly="readonly" class="form-control end">
 						<div class="input-group-btn">

@@ -71,10 +71,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT * FROM vtiger_servicecontracts INNER JOIN vtiger_crmentity ON vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid WHERE deleted = ? && contract_status = ? && sc_related_to = ?';
-		$instance = CRMEntity::getInstance('ServiceContracts');
-		$securityParameter = $instance->getUserAccessConditionsQuerySR('ServiceContracts', Users_Record_Model::getCurrentUserModel());
-		if ($securityParameter != '')
-			$sql.= $securityParameter;
+		$sql .= \App\PrivilegeQuery::getAccessConditions('ServiceContracts');
 
 		$result = $db->pquery($sql, [0, 'In Progress', $this->get('parent_id')]);
 		$rows = [];

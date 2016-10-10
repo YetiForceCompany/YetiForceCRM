@@ -223,6 +223,11 @@ class HTMLPurifier_ErrorCollector
                 }
                 $string .= '<strong class="description">' . $this->generator->escape($msg) . '</strong> ';
                 $string .= '</div>';
+                // Here, have a marker for the character on the column appropriate.
+                // Be sure to clip extremely long lines.
+                //$string .= '<pre>';
+                //$string .= '';
+                //$string .= '</pre>';
                 $ret[] = $string;
             }
             foreach ($current->children as $array) {

@@ -158,7 +158,7 @@ class VCalendar extends VObject\Document {
      *
      * @return int
      */
-    function getDocumentType() {
+    public function getDocumentType() {
 
         return self::ICALENDAR20;
 
@@ -175,7 +175,7 @@ class VCalendar extends VObject\Document {
      *
      * @return VObject\Component[]
      */
-    function getBaseComponents($componentName = null) {
+    public function getBaseComponents($componentName = null) {
 
         $isBaseComponent = function($component) {
 
@@ -231,7 +231,7 @@ class VCalendar extends VObject\Document {
      *
      * @return VObject\Component|null
      */
-    function getBaseComponent($componentName = null) {
+    public function getBaseComponent($componentName = null) {
 
         $isBaseComponent = function($component) {
 
@@ -290,7 +290,7 @@ class VCalendar extends VObject\Document {
      *                     times.
      * @return VCalendar
      */
-    function expand(DateTimeInterface $start, DateTimeInterface $end, DateTimeZone $timeZone = null) {
+    public function expand(DateTimeInterface $start, DateTimeInterface $end, DateTimeZone $timeZone = null) {
 
         $newChildren = [];
         $recurringEvents = [];
@@ -408,7 +408,7 @@ class VCalendar extends VObject\Document {
      *
      * @var array
      */
-    function getValidationRules() {
+    public function getValidationRules() {
 
         return [
             'PRODID'  => 1,
@@ -444,7 +444,7 @@ class VCalendar extends VObject\Document {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $warnings = parent::validate($options);
 
@@ -543,7 +543,7 @@ class VCalendar extends VObject\Document {
      *
      * @return array
      */
-    function getByUID($uid) {
+    public function getByUID($uid) {
 
         return array_filter($this->getComponents(), function($item) use ($uid) {
 

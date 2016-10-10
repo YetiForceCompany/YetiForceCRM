@@ -343,7 +343,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		if (empty($this->get('parentRoles'))) {
 			if ($this->isAdminUser()) {
-				$userParentRoles = getParentRole($this->getRole());
+				$userParentRoles = \App\PrivilegeUtil::getParentRole($this->getRole());
 			} else {
 				$privilegesModel = $this->getPrivileges();
 				$userParentRoles = $privilegesModel->get('parent_roles');

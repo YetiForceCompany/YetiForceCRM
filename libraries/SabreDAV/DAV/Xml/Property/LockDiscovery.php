@@ -44,7 +44,7 @@ class LockDiscovery implements XmlSerializable {
      *
      * @param LockInfo[] $locks
      */
-    function __construct($locks) {
+    public function __construct($locks) {
 
         $this->locks = $locks;
 
@@ -65,7 +65,7 @@ class LockDiscovery implements XmlSerializable {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->locks as $lock) {
 

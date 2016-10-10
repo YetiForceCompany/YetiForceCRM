@@ -16,7 +16,7 @@
 						<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 							<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
 								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-								<span class="badge hide">0</span>
+								<span class="badge bgDanger hide">0</span>
 							</a>
 						</div>
 					</div>
@@ -30,11 +30,11 @@
 						</div>
 					</div>
 				{/if}
-				{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationPreview')}
+				{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
 					<div class="pull-right rightHeaderBtn">
 						<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 							<div class="btn-group">
-								<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Home&view=NotificationsList">
+								<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Notification&view=List">
 									<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 									<span class="badge hide">0</span>
 								</a>

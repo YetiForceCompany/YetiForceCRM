@@ -1257,7 +1257,13 @@ $languageStrings = [
 	'LBL_PICKLIST_FIELD' => 'Lista wyboru z pola',
 	'LBL_MAP' => 'Mapa',
 	'LBL_SHOW_MAP' => 'Pokaż na mapie',
-	'FL_CAMPAIGN_STATUS' => 'Status kampani'
+	'FL_CAMPAIGN_STATUS' => 'Status kampani',
+	'LBL_SECTOR' => 'Sektory',
+	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Zamknięte zgłoszenie według priorytetu',
+	'LBL_CLOSED_TICKETS_BY_USER' => 'Zamknięte zgłoszenia według użytkowników',
+	'LBL_REVIEW_CHANGES' => 'Zapoznanie się ze zmianami',
+	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Kontrahenci według branży',
+	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Szacowana wartość szans sprzedaży',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1534,4 +1540,5 @@ $jsLanguageStrings = [
 	'JS_WIDGET_DELETED' => 'Usunięto widget',
 	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domena jest zastrzeżona, należy wprowadzić inną.',
 	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Czy jesteś pewien, że chcesz ponownie zresetować powiązane maile?',
+	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Czy jesteś pewien, że chcesz zapoznać się ze zmianami wybranych rekordów?',
 ];

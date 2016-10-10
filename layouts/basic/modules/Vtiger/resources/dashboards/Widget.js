@@ -625,7 +625,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 		var isColored = false;
 		var container = this.getContainer();
 		var isColoredInput = container.find('.color');
-		if(isColoredInput.length){
+		if (isColoredInput.length) {
 			isColored = isColoredInput.val() == 0 ? false : true;
 		}
 		var data = this.generateChartData();
@@ -689,7 +689,7 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 		var isColored = false;
 		var container = this.getContainer();
 		var isColoredInput = container.find('.color');
-		if(isColoredInput.length){
+		if (isColoredInput.length) {
 			isColored = isColoredInput.val() == 0 ? false : true;
 		}
 		var data = this.generateChartData();
@@ -877,8 +877,8 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 			instance = new chartClass();
 			instance.setContainer(container);
 			instance.loadChart();
+			instance.postInitializeCalls();
 		}
-
 	}
 });
 Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js', {}, {
@@ -1521,5 +1521,105 @@ YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {
 				});
 			}
 		});
+	}
+});
+Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
+	generateData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		var colorData = [];
+		var urlData = [];
+		for (var index in data) {
+			var row = data[index];
+			var rowData = [row.name, row.count];
+			chartData.push(rowData);
+			colorData.push(row.color);
+			urlData.push(row.url);
+		}
+
+		return {'chartData': chartData, color: colorData, url: urlData};
+	},
+	loadChart: function () {
+		var chartData = this.generateData();
+		if (chartData['chartData'].length > 0) {
+			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.PieRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value'
+					}
+				},
+				seriesColors: chartData['color'],
+				legend: {
+					show: true,
+					location: 'e'
+				},
+				title: chartData['title']
+			});
+			this.registerSectionClick();
+		}
+	},
+	registerSectionClick: function () {
+		var chartData = this.generateData();
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+			var url = chartData['url'][pointIndex];
+			window.location.href = url;
+		});
+	}
+});
+Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
+YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
+	registerSectionClick: function () {
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
+			if (item) {
+				$(this).css('cursor', 'pointer');
+			} else {
+				$(this).css('cursor', 'auto');
+			}
+		});
+		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
+			if (item) {
+				$(chartData['links']).each(function () {
+					if (item.seriesIndex == this[0])
+						window.location.href = this[1];
+				});
+			}
+		});
+	}
+});
+Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
+	generateData: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		return dataInfo;
+	},
+	loadChart: function () {
+		var dataInfo = this.generateData();
+		if (dataInfo.length > 0) {
+			this.getPlotContainer(false).jqplot([dataInfo], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.FunnelRenderer,
+					rendererOptions: {
+						sectionMargin: 0,
+						widthRatio: 0.3,
+						showDataLabels: true,
+						dataLabelThreshold: 0,
+						dataLabels: 'label',
+						highlightMouseDown: true
+					}
+				},
+				legend: {
+					show: false,
+					location: 'e',
+				}
+			});
+			this.registerSectionClick();
+		}
 	}
 });

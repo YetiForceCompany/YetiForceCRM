@@ -33,21 +33,23 @@ class OSSDocumentControl_CheckDoc_Action extends Vtiger_Action_Controller
 
 		$conditionCheckTab = array();
 
-		for ($i = 0; $i < count($listDoc); $i++) {
+		$countListDoc = count($listDoc);
+		for ($i = 0; $i < $countListDoc; $i++) {
 			$conditionCheckTab[] = $conditions->checkConditionsForDoc($listDoc[$i]['doc_id'], $form);
 		}
 
 		$passCondition = true;
 
-		for ($i = 0; $i < count($conditionCheckTab); $i++) {
+		$countConditionCheckTab = count($conditionCheckTab);
+		for ($i = 0; $i < $countConditionCheckTab; $i++) {
 			if (false == $conditionCheckTab[$i]['test']) {
 				$passCondition = false;
 			}
 		}
 
 		$passAttach = true;
-
-		for ($i = 0; $i < count($conditionCheckTab); $i++) {
+		$countConditionCheckTab = count($conditionCheckTab);
+		for ($i = 0; $i < $countConditionCheckTab; $i++) {
 			if ($conditionCheckTab[$i]['test'] && '1' == $conditionCheckTab[$i]['doc_request']) {
 
 				$isAttach = $conditions->docIsAttachet($record, $conditionCheckTab[$i]['folderid'], $conditionCheckTab[$i]['name']);

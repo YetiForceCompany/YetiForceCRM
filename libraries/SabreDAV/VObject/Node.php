@@ -98,7 +98,7 @@ abstract class Node
      *
      * @return void
      */
-    function destroy() {
+    public function destroy() {
 
         $this->parent = null;
         $this->root = null;
@@ -112,7 +112,7 @@ abstract class Node
      *
      * @return ElementList
      */
-    function getIterator() {
+    public function getIterator() {
 
         if (!is_null($this->iterator)) {
             return $this->iterator;
@@ -131,7 +131,7 @@ abstract class Node
      *
      * @return void
      */
-    function setIterator(ElementList $iterator) {
+    public function setIterator(ElementList $iterator) {
 
         $this->iterator = $iterator;
 
@@ -159,7 +159,7 @@ abstract class Node
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         return [];
 
@@ -174,7 +174,7 @@ abstract class Node
      *
      * @return int
      */
-    function count() {
+    public function count() {
 
         $it = $this->getIterator();
         return $it->count();
@@ -195,7 +195,7 @@ abstract class Node
      *
      * @return bool
      */
-    function offsetExists($offset) {
+    public function offsetExists($offset) {
 
         $iterator = $this->getIterator();
         return $iterator->offsetExists($offset);
@@ -211,7 +211,7 @@ abstract class Node
      *
      * @return mixed
      */
-    function offsetGet($offset) {
+    public function offsetGet($offset) {
 
         $iterator = $this->getIterator();
         return $iterator->offsetGet($offset);
@@ -228,7 +228,7 @@ abstract class Node
      *
      * @return void
      */
-    function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value) {
 
         $iterator = $this->getIterator();
         $iterator->offsetSet($offset, $value);
@@ -249,7 +249,7 @@ abstract class Node
      *
      * @return void
      */
-    function offsetUnset($offset) {
+    public function offsetUnset($offset) {
 
         $iterator = $this->getIterator();
         $iterator->offsetUnset($offset);

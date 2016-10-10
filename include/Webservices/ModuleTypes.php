@@ -26,7 +26,7 @@ function vtws_listtypes($fieldTypeList, $user)
 		return $types[$user->id][$fieldTypeString];
 	}
 	try {
-		$log = vglobal('log');
+		
 		/**
 		 * @var PearDatabase
 		 */
@@ -58,7 +58,7 @@ function vtws_listtypes($fieldTypeList, $user)
 			$it = new SqlResultIterator($db, $result);
 			$moduleList = [];
 			foreach ($it as $row) {
-				$moduleList[] = getTabModuleName($row->tabid);
+				$moduleList[] = \includes\Modules::getModuleName($row->tabid);
 			}
 			$allModuleNames = array_intersect($moduleList, $allModuleNames);
 
@@ -111,8 +111,8 @@ function vtws_listtypes($fieldTypeList, $user)
 		$current_language = $default_language;
 	$current_language = vtws_preserveGlobal('current_language', $current_language);
 
-	$appStrings = return_application_language($current_language);
-	$appListString = return_app_list_strings_language($current_language);
+	$appStrings = \vtlib\Deprecated::return_app_list_strings_language($current_language);
+	$appListString = \vtlib\Deprecated::return_app_list_strings_language($current_language);
 	vtws_preserveGlobal('app_strings', $appStrings);
 	vtws_preserveGlobal('app_list_strings', $appListString);
 

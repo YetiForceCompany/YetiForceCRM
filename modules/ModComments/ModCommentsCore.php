@@ -14,24 +14,23 @@ require_once('include/Tracker.php');
 class ModCommentsCore extends CRMEntity
 {
 
-	var $db, $log; // Used in class functions of CRMEntity
-	var $table_name = 'vtiger_modcomments';
-	var $table_index = 'modcommentsid';
+	public $table_name = 'vtiger_modcomments';
+	public $table_index = 'modcommentsid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_modcommentscf', 'modcommentsid');
+	public $customFieldTable = Array('vtiger_modcommentscf', 'modcommentsid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_modcomments', 'vtiger_modcommentscf');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_modcomments', 'vtiger_modcommentscf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_modcomments' => 'modcommentsid',
 		'vtiger_modcommentscf' => 'modcommentsid');
@@ -39,56 +38,53 @@ class ModCommentsCore extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Comment' => Array('modcomments', 'commentcontent'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Comment' => 'commentcontent',
 		'Assigned To' => 'assigned_user_id'
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'commentcontent';
+	public $list_link_field = 'commentcontent';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Comment' => Array('modcomments', 'commentcontent')
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Comment' => 'commentcontent'
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('commentcontent');
+	public $popup_fields = Array('commentcontent');
 	// Allow sorting on the following (field column names)
-	var $sortby_fields = Array('commentcontent');
+	public $sortby_fields = Array('commentcontent');
 	// Should contain field labels
 	//var $detailview_links = Array ('Comment');
 	// For Alphabetical search
-	var $def_basicsearch_col = 'commentcontent';
+	public $def_basicsearch_col = 'commentcontent';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'commentcontent';
+	public $def_detailview_recname = 'commentcontent';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('assigned_user_id' => 1);
+	public $required_fields = Array('assigned_user_id' => 1);
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'DESC';
+	public $special_functions = Array('set_import_assigned_user');
+	public $default_order_by = '';
+	public $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'commentcontent');
+	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'commentcontent');
 
 	public function __construct()
 	{
-		global $currentModule;
-		$log = LoggerManager::getInstance();
 		$this->column_fields = getColumnFields('ModComments');
 		$this->db = PearDatabase::getInstance();
-		$this->log = $log;
 	}
 
 	public function getSortOrder()
@@ -186,13 +182,11 @@ class ModCommentsCore extends CRMEntity
 				$joinedTables[] = $other->table_name;
 			}
 		}
-		$current_user = vglobal('current_user');
 		$query .= "	WHERE vtiger_crmentity.deleted = 0 ";
 		if ($usewhere) {
 			$query .= $usewhere;
 		}
-		$instance = CRMEntity::getInstance($module);
-		$query .= $instance->getUserAccessConditionsQuerySR($module, $current_user);
+		$query .= \App\PrivilegeQuery::getAccessConditions($module);
 		$query .= $this->getListViewSecurityParameter($module);
 		return $query;
 	}
@@ -209,7 +203,7 @@ class ModCommentsCore extends CRMEntity
 		$sec_query = '';
 		$tabid = \includes\Modules::getModuleId($module);
 
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
 			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
 					(
@@ -294,7 +288,7 @@ class ModCommentsCore extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		// Security Check for Field Access
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[7] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[7] == 3) {
 			//Added security check to get the permitted records only
 			$query = $query . " " . getListViewSecurityParameter($thismodule);
 		}
@@ -402,17 +396,17 @@ class ModCommentsCore extends CRMEntity
 	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
-
+			
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
-
+			
 		}
 	}
 	/**

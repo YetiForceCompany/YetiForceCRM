@@ -45,15 +45,12 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$colors[$row['timecontrol_type']] = $row['color'];
 		}
 		$module = 'OSSTimeControl';
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-		$param[] = 'OSSTimeControl';
+		$param[] = $module;
 		$param = array_merge($param, $user);
 		$sql = sprintf('SELECT sum_time AS daytime, due_date, timecontrol_type, vtiger_crmentity.smownerid FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid IN (%s) ', generateQuestionMarks($user));
-		if ($securityParameter != '')
-			$sql.= $securityParameter;
+		$sql .= \App\PrivilegeQuery::getAccessConditions($module, false);
 		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? && vtiger_osstimecontrol.due_date <= ?) && vtiger_osstimecontrol.deleted = 0 ";
 		$param[] = $timeDatabase['start'];
 		$param[] = $timeDatabase['end'];
@@ -117,12 +114,12 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$linkId = $request->get('linkid');
 		$user = $request->get('owner');
 		$time = $request->get('time');
-		if ($time == NULL) {
+		if ($time === null) {
 			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
 			$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
 		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if ($user == NULL) {
+		if ($user === null) {
 			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		$data = $this->getWidgetTimeControl($user, $time);

@@ -34,7 +34,7 @@ $GLOBALS['csrf']['expires'] = 7200;
 
 /**
  * Callback function to execute when there's the CSRF check fails and
- * $fatal == true (see csrf_check). This will usually output an error message
+ * $fatal === true (see csrf_check). This will usually output an error message
  * about the failure.
  */
 $GLOBALS['csrf']['callback'] = 'vtResponseForIllegalAccess'; //'csrf_callback'

@@ -10,9 +10,15 @@
 		{assign var="MODULES_LEVEL_0" value=Vtiger_ModulesHierarchy_Model::getModulesByLevel()}
 		{assign var="MODULES_LEVEL_1" value=Vtiger_ModulesHierarchy_Model::getModulesByLevel(1)}
 		{assign var="MODULES_LEVEL_2" value=Vtiger_ModulesHierarchy_Model::getModulesByLevel(2)}
-		<input type="hidden" id="modulesLevel0" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_0)))}" />
-		<input type="hidden" id="modulesLevel1" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_1)))}" />
-		<input type="hidden" id="modulesLevel2" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_2)))}" />
+		{if !empty($MODULES_LEVEL_0)}
+			<input type="hidden" id="modulesLevel0" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_0)))}" />
+		{/if}
+		{if !empty($MODULES_LEVEL_1)}
+			<input type="hidden" id="modulesLevel1" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_1)))}" />
+		{/if}
+		{if !empty($MODULES_LEVEL_2)}
+			<input type="hidden" id="modulesLevel2" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_2)))}" />
+		{/if}
 		<div class="row actionBar">
 			<div class="col-4" >
 				<div class="head row">
@@ -102,7 +108,6 @@
 					{/if}
 				</div>
 			</div>	
-
 			<div class="col-4">
 				<div class="head row">	
 					{if !empty($MODULES_LEVEL_2)}
@@ -135,9 +140,6 @@
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>
 									{/if}
-									<button class="hideBtn" data-type="0" title="{vtranslate('LBL_MINIMIZE_BAR',$MODULE_NAME)}">
-										<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-									</button>
 								</div>
 							</div>
 						</div>
@@ -156,7 +158,14 @@
 						</div>
 					{/if}
 				</div>
-			</div>
+			</div>	
 		</div>
+		{if $RELETED_RECORDS}
+			<div class="chevronBtnCube">
+				<button class="hideBtn" data-type="0" title="{vtranslate('LBL_MINIMIZE_BAR',$MODULE_NAME)}">
+					<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+				</button>
+			</div>
+		{/if}
 	{/if}
 {/strip}

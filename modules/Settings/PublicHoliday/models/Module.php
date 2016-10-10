@@ -20,8 +20,8 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getHolidays($date)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidays(" . print_r($date, true) . ") method ...");
+		
+		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::getHolidays(" . print_r($date, true) . ") method ...");
 
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT `publicholidayid`, `holidaydate`, `holidayname`, `holidaytype` FROM `vtiger_publicholiday`';
@@ -53,7 +53,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 
-		$log->debug("Exiting Settings_PublicHoliday_Module_Model::getHolidays() method ...");
+		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::getHolidays() method ...");
 		return $holidays;
 	}
 
@@ -64,8 +64,8 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function delete($id)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_PublicHoliday_Module_Model::delete(" . $id . ") method ...");
+		
+		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::delete(" . $id . ") method ...");
 
 		$db = PearDatabase::getInstance();
 		$sql = 'DELETE FROM `vtiger_publicholiday` WHERE `publicholidayid` = ? LIMIT 1;';
@@ -74,7 +74,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->pquery($sql, $params);
 		$deleted = $db->getAffectedRowCount($result);
 
-		$log->debug("Exiting Settings_PublicHoliday_Module_Model::delete() method ...");
+		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::delete() method ...");
 
 		if ($deleted == 1)
 			return true;
@@ -91,8 +91,8 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function save($date, $name, $type)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_PublicHoliday_Module_Model::save(" . $date . ', ' . $name . ', ' . $type . ") method ...");
+		
+		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::save(" . $date . ', ' . $name . ', ' . $type . ") method ...");
 
 		$db = PearDatabase::getInstance();
 		$sql = 'INSERT INTO `vtiger_publicholiday` (`holidaydate`, `holidayname`, `holidaytype`) VALUES (?, ?, ?);';
@@ -101,7 +101,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->pquery($sql, $params);
 		$saved = $db->getAffectedRowCount($result);
 
-		$log->debug("Exiting Settings_PublicHoliday_Module_Model::save() method ...");
+		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::save() method ...");
 
 		if ($saved == 1)
 			return true;
@@ -119,8 +119,8 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function edit($id, $date, $name, $type)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_PublicHoliday_Module_Model::edit(" . $id . ', ' . $date . ', ' . $name . ', ' . $type . ") method ...");
+		
+		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::edit(" . $id . ', ' . $date . ', ' . $name . ', ' . $type . ") method ...");
 
 		$db = PearDatabase::getInstance();
 		$sql = 'UPDATE `vtiger_publicholiday` SET `holidaydate` = ?, `holidayname` = ?, `holidaytype` = ? WHERE `publicholidayid` = ? LIMIT 1;';
@@ -129,7 +129,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->pquery($sql, $params);
 		$saved = $db->getAffectedRowCount($result);
 
-		$log->debug("Exiting Settings_PublicHoliday_Module_Model::edit() method ...");
+		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::edit() method ...");
 
 		if ($saved == 1)
 			return true;
@@ -144,8 +144,8 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function checkIfHoliday($date)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_PublicHoliday_Module_Model::checkIfHoliday(" . $date . ") method ...");
+		
+		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::checkIfHoliday(" . $date . ") method ...");
 
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT COUNT(1) as num FROM `vtiger_publicholiday` WHERE `holidaydate` = ?;';
@@ -154,7 +154,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->pquery($sql, $params);
 		$num = $db->query_result($result, 0, 'num');
 
-		$log->debug("Exiting Settings_PublicHoliday_Module_Model::checkIfHoliday() method ...");
+		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::checkIfHoliday() method ...");
 
 		if ($num > 0)
 			return true;
@@ -166,10 +166,10 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param <array> $date - start and end date to get holidays
 	 * @return - holidays count group by type if exist or false
 	 */
-	public static function getHolidayGroupType($date = FALSE)
+	public static function getHolidayGroupType($date = false)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidayGroupType method ...");
+		
+		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::getHolidayGroupType method ...");
 		$db = PearDatabase::getInstance();
 		$params = [];
 		$sql = 'SELECT COUNT(`publicholidayid`) AS count, `holidaytype` FROM `vtiger_publicholiday` ';
@@ -182,7 +182,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->pquery($sql, $params);
 		$numRows = $db->num_rows($result);
 		if (0 == $numRows)
-			$return = FALSE;
+			$return = false;
 		else {
 			for ($i = 0; $i < $numRows; $i++) {
 				$count = $db->query_result($result, $i, 'count');
@@ -190,7 +190,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 				$return[$type] = $count;
 			}
 		}
-		$log->debug("Exiting Settings_PublicHoliday_Module_Model::getHolidayGroupType() method ...");
+		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::getHolidayGroupType() method ...");
 		return $return;
 	}
 }

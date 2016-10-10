@@ -36,9 +36,6 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$db = PearDatabase::getInstance();
 		$module = 'Leads';
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		$leadsClosed = Settings_MarketingProcesses_Module_Model::getConfig('lead');
 
 		$dateFilterSql = $ownerSql = '';
@@ -61,8 +58,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 					ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
 					AND deleted=0 && converted = 0 %s %s
 			INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus ', $ownerSql, $dateFilterSql);
-		if (!empty($securityParameter))
-			$sql .= $securityParameter;
+		$sql .= \App\PrivilegeQuery::getAccessConditions($module);
 
 		if (!empty($leadsClosed['status'])) {
 			$leadStatusSearch = implode("','", $leadsClosed['status']);

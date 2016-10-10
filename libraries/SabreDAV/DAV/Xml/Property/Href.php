@@ -49,7 +49,7 @@ class Href implements Element, HtmlOutput {
      * @param string|string[] $href
      * @param bool $autoPrefix
      */
-    function __construct($hrefs, $autoPrefix = true) {
+    public function __construct($hrefs, $autoPrefix = true) {
 
         if (is_string($hrefs)) {
             $hrefs = [$hrefs];
@@ -65,7 +65,7 @@ class Href implements Element, HtmlOutput {
      *
      * @return string
      */
-    function getHref() {
+    public function getHref() {
 
         return $this->hrefs[0];
 
@@ -76,7 +76,7 @@ class Href implements Element, HtmlOutput {
      *
      * @return array
      */
-    function getHrefs() {
+    public function getHrefs() {
 
         return $this->hrefs;
 
@@ -101,7 +101,7 @@ class Href implements Element, HtmlOutput {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->getHrefs() as $href) {
             if ($this->autoPrefix) {
@@ -126,7 +126,7 @@ class Href implements Element, HtmlOutput {
      * @param HtmlOutputHelper $html
      * @return string
      */
-    function toHtml(HtmlOutputHelper $html) {
+    public function toHtml(HtmlOutputHelper $html) {
 
         $links = [];
         foreach ($this->getHrefs() as $href) {

@@ -26,7 +26,7 @@ class Deprecated
 		if ($rowdata != '' && count($rowdata) > 0) {
 			$name = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $rowdata);
 		}
-		$name = textlength_check($name);
+		$name = Functions::textLength($name);
 		return $name;
 	}
 
@@ -39,12 +39,12 @@ class Deprecated
 	}
 
 	/**
-	* this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
-	* @param1 $module - name of the module
-	* @param2 $fieldsName - fieldname with respect to module (ex : 'Accounts' - 'accountname', 'Contacts' - 'lastname','firstname')
-	* @param3 $fieldValues - array of fieldname and its value
-	* @return string $fieldConcatName - the entity field name for the module
-	*/
+	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
+	 * @param1 $module - name of the module
+	 * @param2 $fieldsName - fieldname with respect to module (ex : 'Accounts' - 'accountname', 'Contacts' - 'lastname','firstname')
+	 * @param3 $fieldValues - array of fieldname and its value
+	 * @return string $fieldConcatName - the entity field name for the module
+	 */
 	public static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
 	{
 		$current_user = vglobal('current_user');
@@ -81,43 +81,33 @@ class Deprecated
 	public static function createModuleMetaFile()
 	{
 		$adb = \PearDatabase::getInstance();
+		$result = $adb->pquery('select * from vtiger_tab');
+		$result_array = $seq_array = $ownedby_array = [];
 
-		$sql = "select * from vtiger_tab";
-		$result = $adb->pquery($sql, []);
-		$num_rows = $adb->num_rows($result);
-		$result_array = [];
-		$seq_array = [];
-		$ownedby_array = [];
-
-		for ($i = 0; $i < $num_rows; $i++) {
-			$tabid = $adb->query_result($result, $i, 'tabid');
-			$tabname = $adb->query_result($result, $i, 'name');
-			$presence = $adb->query_result($result, $i, 'presence');
-			$ownedby = $adb->query_result($result, $i, 'ownedby');
+		while ($row = $adb->getRow($result)) {
+			$tabid = (int) $row['tabid'];
+			$tabname = $row['name'];
+			$presence = (int) $row['presence'];
+			$ownedby = (int) $row['ownedby'];
 			$result_array[$tabname] = $tabid;
 			$seq_array[$tabid] = $presence;
 			$ownedby_array[$tabid] = $ownedby;
 		}
-
 		//Constructing the actionname=>actionid array
 		$actionid_array = [];
-		$sql1 = "select * from vtiger_actionmapping";
-		$result1 = $adb->pquery($sql1, []);
-		$num_seq1 = $adb->num_rows($result1);
-		for ($i = 0; $i < $num_seq1; $i++) {
-			$actionname = $adb->query_result($result1, $i, 'actionname');
-			$actionid = $adb->query_result($result1, $i, 'actionid');
+		$result = $adb->pquery('select * from vtiger_actionmapping');
+		while ($row = $adb->getRow($result)) {
+			$actionname = $row['actionname'];
+			$actionid = (int) $row['actionid'];
 			$actionid_array[$actionname] = $actionid;
 		}
 
 		//Constructing the actionid=>actionname array with securitycheck=0
 		$actionname_array = [];
-		$sql2 = "select * from vtiger_actionmapping where securitycheck=0";
-		$result2 = $adb->pquery($sql2, []);
-		$num_seq2 = $adb->num_rows($result2);
-		for ($i = 0; $i < $num_seq2; $i++) {
-			$actionname = $adb->query_result($result2, $i, 'actionname');
-			$actionid = $adb->query_result($result2, $i, 'actionid');
+		$result = $adb->pquery('select * from vtiger_actionmapping where securitycheck=0');
+		while ($row = $adb->getRow($result)) {
+			$actionname = $row['actionname'];
+			$actionid = (int) $row['actionid'];
 			$actionname_array[$actionid] = $actionname;
 		}
 
@@ -126,8 +116,7 @@ class Deprecated
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
 				if (!$handle = fopen($filename, 'w+')) {
-					echo "Cannot open file ($filename)";
-					exit;
+					throw new \Exception\NoPermitted("Cannot open file ($filename)");
 				}
 				require_once('modules/Users/CreateUserPrivilegeFile.php');
 				$newbuf = "<?php\n";
@@ -147,22 +136,11 @@ class Deprecated
 				fputs($handle, $newbuf);
 				fclose($handle);
 			} else {
-				echo "The file $filename is not writable";
+				\App\log::error("The file $filename is not writable");
 			}
 		} else {
-			echo "The file $filename does not exist";
+			\App\log::error("The file $filename does not exist");
 		}
-	}
-
-	public static function getTemplateDetails($templateid)
-	{
-		$adb = \PearDatabase::getInstance();
-		$returndata = [];
-		$result = $adb->pquery("select body, subject from vtiger_emailtemplates where templateid=?", array($templateid));
-		$returndata[] = $templateid;
-		$returndata[] = $adb->query_result($result, 0, 'body');
-		$returndata[] = $adb->query_result($result, 0, 'subject');
-		return $returndata;
 	}
 
 	public static function getModuleTranslationStrings($language, $module)
@@ -179,23 +157,9 @@ class Deprecated
 	}
 
 	/**
-	* Get translated currency name string.
-	* @param String $str - input currency name
-	* @return String $str - translated currency name
-	*/
-	public static function getTranslatedCurrencyString($str)
-	{
-		global $app_currency_strings;
-		if (isset($app_currency_strings) && isset($app_currency_strings[$str])) {
-			return $app_currency_strings[$str];
-		}
-		return $str;
-	}
-	
-	/**
-	* This function is used to get cvid of default "all" view for any module.
-	* @return a cvid of a module
-	*/
+	 * This function is used to get cvid of default "all" view for any module.
+	 * @return a cvid of a module
+	 */
 	public static function getIdOfCustomViewByNameAll($module)
 	{
 		$adb = \PearDatabase::getInstance();
@@ -210,9 +174,9 @@ class Deprecated
 	}
 
 	/** Stores the option in database to display  the tagclouds or not for the current user
-	* * @param $id -- user id:: Type integer
-	* * Added to provide User based Tagcloud
-	* */
+	 * * @param $id -- user id:: Type integer
+	 * * Added to provide User based Tagcloud
+	 * */
 	public static function SaveTagCloudView($id = '')
 	{
 		$adb = \PearDatabase::getInstance();
@@ -232,12 +196,12 @@ class Deprecated
 
 	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
 	{
-		if ($path == null) {
+		if ($path === null) {
 			$path = ROOT_DIRECTORY . '/cache/templates_c/';
 		}
 		$mydir = @opendir($path);
 		$compiled_file = null;
-		while (false !== ($file = readdir($mydir)) && $compiled_file == null) {
+		while (false !== ($file = readdir($mydir)) && $compiled_file === null) {
 			if ($file != '.' && $file != '..' && $file != '.svn') {
 				if (is_dir($path . $file)) {
 					chdir('.');
@@ -272,8 +236,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
-			$log = \LoggerManager::getInstance();
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -296,8 +259,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
-			$log = \LoggerManager::getInstance();
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -306,8 +268,8 @@ class Deprecated
 	public static function checkFileAccess($filepath)
 	{
 		if (!self::isFileAccessible($filepath)) {
-			$log = vglobal('log');
-			$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+
+			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -337,10 +299,10 @@ class Deprecated
 	}
 
 	/**
-	* This function is used to get the blockid of the settings block for a given label.
-	* @param $label - settings label
-	* @return string type value
-	*/
+	 * This function is used to get the blockid of the settings block for a given label.
+	 * @param $label - settings label
+	 * @return string type value
+	 */
 	public static function getSettingsBlockId($label)
 	{
 		$adb = \PearDatabase::getInstance();
@@ -368,27 +330,6 @@ class Deprecated
 		}
 		$sqlString = "CONCAT(" . $formattedNameListString . ")";
 		return $sqlString;
-	}
-
-	public static function getModuleFieldTypeOfDataInfos($tables, $tabid = '')
-	{
-		$result = [];
-		if (!empty($tabid)) {
-			$module = Functions::getModuleName($tabid);
-			$fieldInfos = Functions::getModuleFieldInfos($tabid);
-			foreach ($fieldInfos as $name => $field) {
-				if (($field['displaytype'] == '1' || $field['displaytype'] == '3') &&
-					($field['presence'] == '0' || $field['presence'] == '2')) {
-
-					$label = Functions::getTranslatedString($field['fieldlabel'], $module);
-					$result[$name] = array($label => $field['typeofdata']);
-				}
-			}
-		} else {
-			throw new \Exception('Field lookup by table no longer supported');
-		}
-
-		return $result;
 	}
 
 	public static function return_app_list_strings_language($language, $module = 'Vtiger')

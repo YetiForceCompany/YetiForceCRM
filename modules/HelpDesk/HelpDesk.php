@@ -16,22 +16,20 @@
 class HelpDesk extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_troubletickets";
-	var $table_index = 'ticketid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
+	public $table_name = "vtiger_troubletickets";
+	public $table_index = 'ticketid';
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_ticketcf', 'ticketid');
-	var $column_fields = Array();
+	public $customFieldTable = Array('vtiger_ticketcf', 'ticketid');
+	public $column_fields = Array();
 	//Pavani: Assign value to entity_table
-	var $entity_table = "vtiger_crmentity";
-	var $sortby_fields = Array('title', 'status', 'priority', 'crmid', 'firstname', 'smownerid');
-	var $list_fields = Array(
+	public $entity_table = "vtiger_crmentity";
+	public $sortby_fields = Array('title', 'status', 'priority', 'crmid', 'firstname', 'smownerid');
+	public $list_fields = Array(
 		//Module Sequence Numbering
 		//'Ticket ID'=>Array('crmentity'=>'crmid'),
 		'Ticket No' => Array('troubletickets' => 'ticket_no'),
@@ -44,7 +42,7 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'FL_TOTAL_TIME_H' => Array('troubletickets', 'sum_time')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'Ticket No' => 'ticket_no',
 		'Subject' => 'ticket_title',
 		'Related To' => 'parent_id',
@@ -54,8 +52,8 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
 	);
-	var $list_link_field = 'ticket_title';
-	var $range_fields = Array(
+	public $list_link_field = 'ticket_title';
+	public $range_fields = Array(
 		'ticketid',
 		'title',
 		'firstname',
@@ -72,25 +70,25 @@ class HelpDesk extends CRMEntity
 		'modifiedtime',
 		'createdtime'
 	);
-	var $search_fields = Array(
+	public $search_fields = Array(
 		//'Ticket ID' => Array('vtiger_crmentity'=>'crmid'),
 		'Ticket No' => Array('vtiger_troubletickets' => 'ticket_no'),
 		'Title' => Array('vtiger_troubletickets' => 'title')
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		'Ticket No' => 'ticket_no',
 		'Title' => 'ticket_title',
 	);
 	//Specify Required fields
-	var $required_fields = array();
+	public $required_fields = array();
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
+	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 	// For Alphabetical search
-	var $def_basicsearch_col = 'ticket_title';
+	public $def_basicsearch_col = 'ticket_title';
 
 	public function save_module($module)
 	{
@@ -128,8 +126,8 @@ class HelpDesk extends CRMEntity
 	 */
 	public function insertIntoAttachment($id, $module)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
+
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
 
@@ -140,7 +138,7 @@ class HelpDesk extends CRMEntity
 			}
 		}
 
-		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/**     Function to get the Ticket History information as in array format
@@ -154,8 +152,8 @@ class HelpDesk extends CRMEntity
 	public function get_ticket_history($ticketid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering into get_ticket_history($ticketid) method ...");
+
+		\App\Log::trace("Entering into get_ticket_history($ticketid) method ...");
 
 		$query = 'select title,update_log from vtiger_troubletickets where ticketid=?';
 		$result = $adb->pquery($query, array($ticketid));
@@ -166,7 +164,7 @@ class HelpDesk extends CRMEntity
 
 		$return_value = ['header' => $header, 'entries' => $splitval];
 
-		$log->debug("Exiting from get_ticket_history($ticketid) method ...");
+		\App\Log::trace("Exiting from get_ticket_history($ticketid) method ...");
 		return $return_value;
 	}
 
@@ -175,11 +173,11 @@ class HelpDesk extends CRMEntity
 	 * */
 	public function getColumnNames_Hd()
 	{
-		$log = LoggerManager::getInstance();
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering getColumnNames_Hd() method ...");
+		\App\Log::trace("Entering getColumnNames_Hd() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select fieldlabel from vtiger_field where tabid=13 and block <> 30 and vtiger_field.uitype <> '61' and vtiger_field.presence in (0,2)";
 			$params1 = array();
 		} else {
@@ -199,7 +197,7 @@ class HelpDesk extends CRMEntity
 			$custom_fields[$i] = strtoupper($custom_fields[$i]);
 		}
 		$mergeflds = $custom_fields;
-		$log->debug("Exiting getColumnNames_Hd method ...");
+		\App\Log::trace("Exiting getColumnNames_Hd method ...");
 		return $mergeflds;
 	}
 
@@ -209,13 +207,13 @@ class HelpDesk extends CRMEntity
 	 * */
 	public function getCustomerName($id)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering getCustomerName(" . $id . ") method ...");
+
+		\App\Log::trace("Entering getCustomerName(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$sql = "select * from vtiger_portalinfo inner join vtiger_troubletickets on vtiger_troubletickets.contact_id = vtiger_portalinfo.id where vtiger_troubletickets.ticketid=?";
 		$result = $adb->pquery($sql, array($id));
 		$customername = $adb->query_result($result, 0, 'user_name');
-		$log->debug("Exiting getCustomerName method ...");
+		\App\Log::trace("Exiting getCustomerName method ...");
 		return $customername;
 	}
 
@@ -226,9 +224,9 @@ class HelpDesk extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$log = LoggerManager::getInstance();
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -263,7 +261,7 @@ class HelpDesk extends CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		$log->debug("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -342,8 +340,8 @@ class HelpDesk extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Attachments" => "vtiger_seattachmentsrel", "Documents" => "vtiger_senotesrel");
 
@@ -368,7 +366,7 @@ class HelpDesk extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		$log->debug("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report
@@ -444,7 +442,7 @@ class HelpDesk extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		$log = LoggerManager::getInstance();
+
 		if (empty($return_module) || empty($return_id))
 			return;
 

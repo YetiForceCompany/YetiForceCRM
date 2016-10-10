@@ -49,19 +49,13 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	public function getWidgetData($moduleName, $owner)
 	{
 		$rawData = $data = $response = $ticks = $years = [];
-
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($moduleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
-
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
 		$param = [0, $date];
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT Year(`saledate`) as y,  Month(`saledate`) as m,sum(`sum_gross`) as s FROM u_yf_finvoice
 					INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.deleted = ? && saledate > ?';
-		if ($securityParameter != '')
-			$sql.= $securityParameter;
+		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
 		if ($owner != 'all') {
 			$sql .= ' && vtiger_crmentity.smownerid = ?';
 			$param[] = $owner;

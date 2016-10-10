@@ -28,7 +28,7 @@ class ChangesList
 			$tabid = \includes\Modules::getModuleId($data['module']);
 			$html = '<ul>';
 			foreach ($delta as $fieldName => $values) {
-				if ($fieldName != 'modifiedtime' && in_array($fieldName, array('record_id', 'record_module')) == false && strstr($fieldName, 'label') === false) {
+				if ($fieldName != 'modifiedtime' && in_array($fieldName, array('record_id', 'record_module')) === false && strstr($fieldName, 'label') === false) {
 					$result = $adb->pquery("SELECT uitype,fieldlabel FROM vtiger_field WHERE fieldname = ? && tabid = ?", array($fieldName, $tabid), true);
 					$fieldlabel = $adb->query_result_raw($result, 0, 'fieldlabel');
 					$uitype = $adb->query_result_raw($result, 0, 'uitype');

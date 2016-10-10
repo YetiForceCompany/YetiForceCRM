@@ -47,7 +47,7 @@ class PropPatch implements Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->properties as $propertyName => $propertyValue) {
 

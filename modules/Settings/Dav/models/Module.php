@@ -22,11 +22,13 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 		$addressbook = $calendarid = [];
 		$result = $adb->query('SELECT addressbookid, COUNT(id) AS num FROM dav_cards GROUP BY addressbookid;');
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$addressbook[$adb->query_result_raw($result, $i, 'addressbookid')] = $adb->query_result_raw($result, $i, 'num');
 		}
 		$result = $adb->query('SELECT calendarid, COUNT(id) AS num FROM dav_calendarobjects GROUP BY calendarid;');
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$calendarid[$adb->query_result_raw($result, $i, 'calendarid')] = $adb->query_result_raw($result, $i, 'num');
 		}
 		return ['calendar' => $calendarid, 'addressbook' => $addressbook];

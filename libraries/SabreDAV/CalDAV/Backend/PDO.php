@@ -107,7 +107,7 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      *
      * @param \PDO $pdo
      */
-    function __construct(\PDO $pdo) {
+    public function __construct(\PDO $pdo) {
 
         $this->pdo = $pdo;
 
@@ -137,7 +137,7 @@ class PDO extends AbstractBackend implements SyncSupport, SubscriptionSupport, S
      * @param string $principalUri
      * @return array
      */
-    function getCalendarsForUser($principalUri) {
+    public function getCalendarsForUser($principalUri) {
 
         $fields = array_values($this->propertyMap);
         $fields[] = 'id';
@@ -199,7 +199,7 @@ SQL
      * @param array $properties
      * @return string
      */
-    function createCalendar($principalUri, $calendarUri, array $properties) {
+    public function createCalendar($principalUri, $calendarUri, array $properties) {
 
         $fieldNames = [
             'principaluri',
@@ -261,7 +261,7 @@ SQL
      * @param \Sabre\DAV\PropPatch $propPatch
      * @return void
      */
-    function updateCalendar($calendarId, \Sabre\DAV\PropPatch $propPatch) {
+    public function updateCalendar($calendarId, \Sabre\DAV\PropPatch $propPatch) {
 
         $supportedProperties = array_keys($this->propertyMap);
         $supportedProperties[] = '{' . CalDAV\Plugin::NS_CALDAV . '}schedule-calendar-transp';
@@ -305,7 +305,7 @@ SQL
      * @param string $calendarId
      * @return void
      */
-    function deleteCalendar($calendarId) {
+    public function deleteCalendar($calendarId) {
 
 		$query = sprintf('DELETE FROM %s WHERE calendarid = ?', $this->calendarObjectTableName);
         $stmt = $this->pdo->prepare($query);
@@ -352,7 +352,7 @@ SQL
      * @param string $calendarId
      * @return array
      */
-    function getCalendarObjects($calendarId) {
+    public function getCalendarObjects($calendarId) {
 		
 		$query = sprintf('SELECT id, uri, lastmodified, etag, calendarid, size, componenttype FROM %s WHERE calendarid = ?', $this->calendarObjectTableName);
         $stmt = $this->pdo->prepare($query);
@@ -391,7 +391,7 @@ SQL
      * @param string $objectUri
      * @return array|null
      */
-    function getCalendarObject($calendarId, $objectUri) {
+    public function getCalendarObject($calendarId, $objectUri) {
 		
 		$query = sprintf('SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM %s WHERE calendarid = ? && uri = ?', $this->calendarObjectTableName);
         $stmt = $this->pdo->prepare($query);
@@ -425,7 +425,7 @@ SQL
      * @param array $uris
      * @return array
      */
-    function getMultipleCalendarObjects($calendarId, array $uris) {
+    public function getMultipleCalendarObjects($calendarId, array $uris) {
 
         $query =sprintf('SELECT id, uri, lastmodified, etag, calendarid, size, calendardata, componenttype FROM %s WHERE calendarid = ? && uri IN (', $this->calendarObjectTableName);
         // Inserting a whole bunch of question marks
@@ -473,7 +473,7 @@ SQL
      * @param string $calendarData
      * @return string|null
      */
-    function createCalendarObject($calendarId, $objectUri, $calendarData) {
+    public function createCalendarObject($calendarId, $objectUri, $calendarData) {
 
         $extraData = $this->getDenormalizedData($calendarData);
 
@@ -514,7 +514,7 @@ SQL
      * @param string $calendarData
      * @return string|null
      */
-    function updateCalendarObject($calendarId, $objectUri, $calendarData) {
+    public function updateCalendarObject($calendarId, $objectUri, $calendarData) {
 
         $extraData = $this->getDenormalizedData($calendarData);
 		$query = sprintf('UPDATE %s SET calendardata = ?, lastmodified = ?, etag = ?, size = ?, componenttype = ?, firstoccurence = ?, lastoccurence = ?, uid = ? WHERE calendarid = ? && uri = ?', $this->calendarObjectTableName);
@@ -618,7 +618,7 @@ SQL
      * @param string $objectUri
      * @return void
      */
-    function deleteCalendarObject($calendarId, $objectUri) {
+    public function deleteCalendarObject($calendarId, $objectUri) {
 
 		$query = sprintf('DELETE FROM %s WHERE calendarid = ? && uri = ?', $this->calendarObjectTableName);
         $stmt = $this->pdo->prepare($query);
@@ -680,7 +680,7 @@ SQL
      * @param array $filters
      * @return array
      */
-    function calendarQuery($calendarId, array $filters) {
+    public function calendarQuery($calendarId, array $filters) {
 
         $componentType = null;
         $requirePostFilter = true;
@@ -773,7 +773,7 @@ SQL
      * @param string $uid
      * @return string|null
      */
-    function getCalendarObjectByUID($principalUri, $uid) {
+    public function getCalendarObjectByUID($principalUri, $uid) {
 
         $query = <<<SQL
 SELECT
@@ -854,7 +854,7 @@ SQL;
      * @param int $limit
      * @return array
      */
-    function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null) {
+    public function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null) {
 
         // Current synctoken
 		$query = sprintf('SELECT synctoken FROM %s WHERE id = ?', $this->calendarTableName);
@@ -973,7 +973,7 @@ SQL;
      * @param string $principalUri
      * @return array
      */
-    function getSubscriptionsForUser($principalUri) {
+    public function getSubscriptionsForUser($principalUri) {
 
         $fields = array_values($this->subscriptionPropertyMap);
         $fields[] = 'id';
@@ -1026,7 +1026,7 @@ SQL;
      * @param array $properties
      * @return mixed
      */
-    function createSubscription($principalUri, $uri, array $properties) {
+    public function createSubscription($principalUri, $uri, array $properties) {
 
         $fieldNames = [
             'principaluri',
@@ -1077,7 +1077,7 @@ SQL;
      * @param \Sabre\DAV\PropPatch $propPatch
      * @return void
      */
-    function updateSubscription($subscriptionId, DAV\PropPatch $propPatch) {
+    public function updateSubscription($subscriptionId, DAV\PropPatch $propPatch) {
 
         $supportedProperties = array_keys($this->subscriptionPropertyMap);
         $supportedProperties[] = '{http://calendarserver.org/ns/}source';
@@ -1120,7 +1120,7 @@ SQL;
      * @param mixed $subscriptionId
      * @return void
      */
-    function deleteSubscription($subscriptionId) {
+    public function deleteSubscription($subscriptionId) {
 		$query = sprintf('DELETE FROM %s WHERE id = ?', $this->calendarSubscriptionsTableName);
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([$subscriptionId]);
@@ -1143,7 +1143,7 @@ SQL;
      * @param string $objectUri
      * @return array
      */
-    function getSchedulingObject($principalUri, $objectUri) {
+    public function getSchedulingObject($principalUri, $objectUri) {
 		
 		$query = sprintf('SELECT uri, calendardata, lastmodified, etag, size FROM %s WHERE principaluri = ? && uri = ?', $this->schedulingObjectTableName);
         $stmt = $this->pdo->prepare($query);
@@ -1173,7 +1173,7 @@ SQL;
      * @param string $principalUri
      * @return array
      */
-    function getSchedulingObjects($principalUri) {
+    public function getSchedulingObjects($principalUri) {
 
 		$query = sprintf('SELECT id, calendardata, uri, lastmodified, etag, size FROM %s WHERE principaluri = ?', $this->schedulingObjectTableName);
         $stmt = $this->pdo->prepare($query);
@@ -1201,7 +1201,7 @@ SQL;
      * @param string $objectUri
      * @return void
      */
-    function deleteSchedulingObject($principalUri, $objectUri) {
+    public function deleteSchedulingObject($principalUri, $objectUri) {
 
 		$query = sprintf('DELETE FROM %s WHERE principaluri = ? && uri = ?', $this->schedulingObjectTableName);	
         $stmt = $this->pdo->prepare($query);
@@ -1217,7 +1217,7 @@ SQL;
      * @param string $objectData
      * @return void
      */
-    function createSchedulingObject($principalUri, $objectUri, $objectData) {
+    public function createSchedulingObject($principalUri, $objectUri, $objectData) {
 
         $stmt = $this->pdo->prepare('INSERT INTO ' . $this->schedulingObjectTableName . ' (principaluri, calendardata, uri, lastmodified, etag, size) VALUES (?, ?, ?, ?, ?, ?)');
         $stmt->execute([$principalUri, $objectData, $objectUri, time(), md5($objectData), strlen($objectData) ]);

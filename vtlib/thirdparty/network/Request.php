@@ -128,85 +128,85 @@ class HTTP_Request
 	 * Instance of Net_URL
 	 * @var Net_URL
 	 */
-	var $_url;
+	public $_url;
 
 	/**
 	 * Type of request
 	 * @var string
 	 */
-	var $_method;
+	public $_method;
 
 	/**
 	 * HTTP Version
 	 * @var string
 	 */
-	var $_http;
+	public $_http;
 
 	/**
 	 * Request headers
 	 * @var array
 	 */
-	var $_requestHeaders;
+	public $_requestHeaders;
 
 	/**
 	 * Basic Auth Username
 	 * @var string
 	 */
-	var $_user;
+	public $_user;
 
 	/**
 	 * Basic Auth Password
 	 * @var string
 	 */
-	var $_pass;
+	public $_pass;
 
 	/**
 	 * Socket object
 	 * @var Net_Socket
 	 */
-	var $_sock;
+	public $_sock;
 
 	/**
 	 * Proxy server
 	 * @var string
 	 */
-	var $_proxy_host;
+	public $_proxy_host;
 
 	/**
 	 * Proxy port
 	 * @var integer
 	 */
-	var $_proxy_port;
+	public $_proxy_port;
 
 	/**
 	 * Proxy username
 	 * @var string
 	 */
-	var $_proxy_user;
+	public $_proxy_user;
 
 	/**
 	 * Proxy password
 	 * @var string
 	 */
-	var $_proxy_pass;
+	public $_proxy_pass;
 
 	/**
 	 * Post data
 	 * @var array
 	 */
-	var $_postData;
+	public $_postData;
 
 	/**
 	 * Request body
 	 * @var string
 	 */
-	var $_body;
+	public $_body;
 
 	/**
 	 * A list of methods that MUST NOT have a request body, per RFC 2616
 	 * @var array
 	 */
-	var $_bodyDisallowed = array('TRACE');
+	public $_bodyDisallowed = array('TRACE');
 
 	/**
 	 * Methods having defined semantics for request body
@@ -216,73 +216,73 @@ class HTTP_Request
 	 *
 	 * @var array
 	 */
-	var $_bodyRequired = array('POST', 'PUT');
+	public $_bodyRequired = array('POST', 'PUT');
 
 	/**
 	 * Files to post
 	 * @var array
 	 */
-	var $_postFiles = array();
+	public $_postFiles = array();
 
 	/**
 	 * Connection timeout.
 	 * @var float
 	 */
-	var $_timeout;
+	public $_timeout;
 
 	/**
 	 * HTTP_Response object
 	 * @var HTTP_Response
 	 */
-	var $_response;
+	public $_response;
 
 	/**
 	 * Whether to allow redirects
 	 * @var boolean
 	 */
-	var $_allowRedirects;
+	public $_allowRedirects;
 
 	/**
 	 * Maximum redirects allowed
 	 * @var integer
 	 */
-	var $_maxRedirects;
+	public $_maxRedirects;
 
 	/**
 	 * Current number of redirects
 	 * @var integer
 	 */
-	var $_redirects;
+	public $_redirects;
 
 	/**
 	 * Whether to append brackets [] to array variables
 	 * @var bool
 	 */
-	var $_useBrackets = true;
+	public $_useBrackets = true;
 
 	/**
 	 * Attached listeners
 	 * @var array
 	 */
-	var $_listeners = array();
+	public $_listeners = array();
 
 	/**
 	 * Whether to save response body in response object property
 	 * @var bool
 	 */
-	var $_saveBody = true;
+	public $_saveBody = true;
 
 	/**
 	 * Timeout for reading from socket (array(seconds, microseconds))
 	 * @var array
 	 */
-	var $_readTimeout = null;
+	public $_readTimeout = null;
 
 	/**
 	 * Options to pass to Net_Socket::connect. See stream_context_create
 	 * @var array
 	 */
-	var $_socketOptions = null;
+	public $_socketOptions = null;
 
 	/*	 * #@- */
 
@@ -1121,61 +1121,61 @@ class HTTP_Response
 	 * Socket object
 	 * @var Net_Socket
 	 */
-	var $_sock;
+	public $_sock;
 
 	/**
 	 * Protocol
 	 * @var string
 	 */
-	var $_protocol;
+	public $_protocol;
 
 	/**
 	 * Return code
 	 * @var string
 	 */
-	var $_code;
+	public $_code;
 
 	/**
 	 * Response reason phrase
 	 * @var string
 	 */
-	var $_reason;
+	public $_reason;
 
 	/**
 	 * Response headers
 	 * @var array
 	 */
-	var $_headers;
+	public $_headers;
 
 	/**
 	 * Cookies set in response
 	 * @var array
 	 */
-	var $_cookies;
+	public $_cookies;
 
 	/**
 	 * Response body
 	 * @var string
 	 */
-	var $_body = '';
+	public $_body = '';
 
 	/**
 	 * Used by _readChunked(): remaining length of the current chunk
 	 * @var string
 	 */
-	var $_chunkLength = 0;
+	public $_chunkLength = 0;
 
 	/**
 	 * Attached listeners
 	 * @var array
 	 */
-	var $_listeners = array();
+	public $_listeners = array();
 
 	/**
 	 * Bytes left to read from message-body
 	 * @var null|int
 	 */
-	var $_toRead;
+	public $_toRead;
 
 	/**
 	 * Constructor
@@ -1333,7 +1333,8 @@ class HTTP_Response
 			$cookie['name'] = trim(substr($elements[0], 0, $pos));
 			$cookie['value'] = trim(substr($elements[0], $pos + 1));
 
-			for ($i = 1; $i < count($elements); $i++) {
+			$countElements = count($elements);
+			for ($i = 1; $i < $countElements; $i++) {
 				if (false === strpos($elements[$i], '=')) {
 					$elName = trim($elements[$i]);
 					$elValue = null;

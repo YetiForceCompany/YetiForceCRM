@@ -29,7 +29,7 @@ class PrincipalCollection extends AbstractPrincipalCollection implements IExtend
      * @param array $principal
      * @return \Sabre\DAV\INode
      */
-    function getChildForPrincipal(array $principal) {
+    public function getChildForPrincipal(array $principal) {
 
         return new Principal($this->principalBackend, $principal);
 
@@ -59,7 +59,7 @@ class PrincipalCollection extends AbstractPrincipalCollection implements IExtend
      * @throws Exception\InvalidResourceType
      * @return void
      */
-    function createExtendedCollection($name, MkCol $mkCol) {
+    public function createExtendedCollection($name, MkCol $mkCol) {
 
         if (!$mkCol->hasResourceType('{DAV:}principal')) {
             throw new InvalidResourceType('Only resources of type {DAV:}principal may be created here');
@@ -79,7 +79,7 @@ class PrincipalCollection extends AbstractPrincipalCollection implements IExtend
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
         return null;
     }
 
@@ -90,7 +90,7 @@ class PrincipalCollection extends AbstractPrincipalCollection implements IExtend
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
         return null;
     }
 
@@ -106,7 +106,7 @@ class PrincipalCollection extends AbstractPrincipalCollection implements IExtend
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
         return [
             [
                 'principal' => '{DAV:}authenticated',
@@ -124,7 +124,7 @@ class PrincipalCollection extends AbstractPrincipalCollection implements IExtend
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new Forbidden('Updating ACLs is not allowed on this node');
 
@@ -142,7 +142,7 @@ class PrincipalCollection extends AbstractPrincipalCollection implements IExtend
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         return null;
 

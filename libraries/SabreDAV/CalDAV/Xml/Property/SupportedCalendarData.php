@@ -41,7 +41,7 @@ class SupportedCalendarData implements XmlSerializable {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         $writer->startElement('{' . Plugin::NS_CALDAV . '}calendar-data');
         $writer->writeAttributes([

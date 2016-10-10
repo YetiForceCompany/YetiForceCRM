@@ -13,7 +13,7 @@
 Class DataAccess_show_quick_create
 {
 
-	var $config = true;
+	public $config = true;
 
 	public function process($moduleName, $id, $record_form, $config)
 	{

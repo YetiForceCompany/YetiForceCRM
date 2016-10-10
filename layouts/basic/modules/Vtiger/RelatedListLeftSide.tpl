@@ -69,8 +69,9 @@
 	{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
 		<div>
 			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed alignMiddle">
-				<span class="badge bgDanger"></span>&nbsp;
-			</a>&nbsp;
+				<span class="badge bgDanger all" title="{vtranslate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
+				<span class="badge bgBlue mail noLeftRadius noRightRadius" title="{vtranslate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
+			</a>
 		</div>
 	{/if}
 {/strip}

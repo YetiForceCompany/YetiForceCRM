@@ -94,7 +94,7 @@ abstract class Document extends Component {
      *
      * @return void
      */
-    function __construct() {
+    public function __construct() {
 
         $args = func_get_args();
         if (count($args) === 0 || is_array($args[0])) {
@@ -112,7 +112,7 @@ abstract class Document extends Component {
      *
      * @return int
      */
-    function getDocumentType() {
+    public function getDocumentType() {
 
         return self::UNKNOWN;
 
@@ -129,7 +129,7 @@ abstract class Document extends Component {
      *
      * @return mixed
      */
-    function create($name) {
+    public function create($name) {
 
         if (isset(static::$componentMap[strtoupper($name)])) {
 
@@ -163,7 +163,7 @@ abstract class Document extends Component {
      *
      * @return Component
      */
-    function createComponent($name, array $children = null, $defaults = true) {
+    public function createComponent($name, array $children = null, $defaults = true) {
 
         $name = strtoupper($name);
         $class = 'Sabre\\VObject\\Component';
@@ -193,7 +193,7 @@ abstract class Document extends Component {
      *
      * @return Property
      */
-    function createProperty($name, $value = null, array $parameters = null, $valueType = null) {
+    public function createProperty($name, $value = null, array $parameters = null, $valueType = null) {
 
         // If there's a . in the name, it means it's prefixed by a groupname.
         if (($i = strpos($name, '.')) !== false) {
@@ -241,7 +241,7 @@ abstract class Document extends Component {
      * @param string $valueParam
      * @return string|null
      */
-    function getClassNameForPropertyValue($valueParam) {
+    public function getClassNameForPropertyValue($valueParam) {
 
         $valueParam = strtoupper($valueParam);
         if (isset(static::$valueMap[$valueParam])) {
@@ -257,7 +257,7 @@ abstract class Document extends Component {
      *
      * @return string
      */
-    function getClassNameForPropertyName($propertyName) {
+    public function getClassNameForPropertyName($propertyName) {
 
         if (isset(static::$propertyMap[$propertyName])) {
             return static::$propertyMap[$propertyName];

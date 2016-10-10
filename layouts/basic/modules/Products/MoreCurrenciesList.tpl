@@ -46,7 +46,7 @@
 										<td>
 											<span>
 												<span class="col-md-8 alignBottom">
-													<span class="pull-left">{\vtlib\Deprecated::getTranslatedCurrencyString($price.currencylabel)} ({$price.currencysymbol})</span>
+													<span class="pull-left">{\includes\Language::translate($price.currencylabel, 'Currency')} ({$price.currencysymbol})</span>
 												</span>
 												<span class="col-md-2">
 													<input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {if $check_value} title="{vtranslate('LBL_ENABLE_CURRENCY')}" {else} title="{vtranslate('LBL_DISABLE_CURRENCY')}" {/if} {$check_value}>

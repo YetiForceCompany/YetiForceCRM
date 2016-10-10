@@ -12,12 +12,12 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 {
 
 	STATIC $logoSupportedFormats = array('jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png');
-	var $baseTable = 'vtiger_organizationdetails';
-	var $baseIndex = 'organization_id';
-	var $listFields = array('organizationname');
-	var $nameFields = array('organizationname');
-	var $logoPath = 'storage/Logo/';
-	var $fields = array(
+	public $baseTable = 'vtiger_organizationdetails';
+	public $baseIndex = 'organization_id';
+	public $listFields = array('organizationname');
+	public $nameFields = array('organizationname');
+	public $logoPath = 'storage/Logo/';
+	public $fields = array(
 		'organizationname' => 'text',
 		'logoname' => 'text',
 		'logo' => 'file',
@@ -37,7 +37,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		'id2' => 'text',
 		'height_panellogo' => 'text',
 	);
-	var $heights = array(
+	public $heights = array(
 		'256', '192', '128', '96', '64', '32', '16'
 	);
 
@@ -194,7 +194,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 	public static function addNewField(Vtiger_Request $request)
 	{
-		$log = vglobal('log');
+		
 		$adb = PearDatabase::getInstance();
 		$newField = self::newFieldValidation($request->get('fieldName'));
 		$response = new Vtiger_Response();
@@ -213,14 +213,14 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 			if ($rowsNum > 0) {
 				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_ADDING_ERROR', $moduleName)));
-				$log->info("Settings_Vtiger_SaveCompanyField_Action::process - column $newField exist in table vtiger_organizationdetails");
+				\App\Log::trace("Settings_Vtiger_SaveCompanyField_Action::process - column $newField exist in table vtiger_organizationdetails");
 			} else {
 				$alterFieldQuery = "ALTER TABLE `vtiger_organizationdetails` ADD `$newField` VARCHAR(255)";
 				$alterFieldResult = $adb->query($alterFieldQuery, $alterFieldParams);
 				$rowsNum = $adb->getRowCount($alterFieldResult);
 				Settings_Vtiger_CompanyDetailsFieldSave_Action::addFieldToModule($newField);
 				$response->setResult(array('success' => true, 'message' => vtranslate('LBL_ADDED_COMPANY_FIELD', $moduleName)));
-				$log->info("Settings_Vtiger_SaveCompanyField_Action::process - add column $newField in table vtiger_organizationdetails");
+				\App\Log::trace("Settings_Vtiger_SaveCompanyField_Action::process - add column $newField in table vtiger_organizationdetails");
 			}
 		} else {
 			$response->setResult(array('success' => false, 'message' => vtranslate('LBL_FIELD_NOT_VALID', $moduleName)));
@@ -245,7 +245,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 			$result = 'not valid';
 
 		if ($result == 'not valid')
-			return FALSE;
+			return false;
 		else
 			return $field;
 	}

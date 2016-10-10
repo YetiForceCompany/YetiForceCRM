@@ -23,11 +23,8 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$db = PearDatabase::getInstance();
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$module = 'HelpDesk';
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
+		$moduleName = 'HelpDesk';
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 
 		$sql = sprintf('SELECT count(*) AS count, case when (%s not like "") then
@@ -39,9 +36,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
 			WHERE vtiger_crmentity.deleted = 0', $usersSqlFullName, $usersSqlFullName, $usersSqlFullName);
-		if (!empty($securityParameter)) {
-			$sql .= $securityParameter;
-		}
+		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
 		if (!empty($ticketStatus)) {
 			$ticketStatusSearch = implode("','", $ticketStatus);
 			$sql .= " && vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";

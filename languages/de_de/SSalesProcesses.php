@@ -7,7 +7,7 @@ $languageStrings = [
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibung Details',
-	'LBL_ATTENTION' => 'Achtung',
+	'LBL_ATTENTION' => 'Wichtig',
 	'LBL_FINANCES' => 'Finanzen',
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
@@ -21,6 +21,7 @@ $languageStrings = [
 	'FL_SOURCE' => 'Quelle',
 	'FL_TYPE' => 'Typ',
 	'FL_STATUS' => 'Status',
+	'FL_CAMPAIGN' => 'Kampagne',
 	//Picklist
 	'PLL_WEBSITE' => 'Website',
 	'PLL_PHONE' => 'Telefon',

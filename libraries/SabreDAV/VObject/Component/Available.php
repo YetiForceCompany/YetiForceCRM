@@ -28,7 +28,7 @@ class Available extends VObject\Component {
      *
      * @return array
      */
-    function getEffectiveStartEnd() {
+    public function getEffectiveStartEnd() {
 
         $effectiveStart = $this->DTSTART->getDateTime();
         if (isset($this->DTEND)) {
@@ -56,7 +56,7 @@ class Available extends VObject\Component {
      *
      * @var array
      */
-    function getValidationRules() {
+    public function getValidationRules() {
 
         return [
             'UID'     => 1,
@@ -108,7 +108,7 @@ class Available extends VObject\Component {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $result = parent::validate($options);
 

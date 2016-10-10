@@ -31,7 +31,7 @@ class Outbox extends DAV\Collection implements IOutbox {
      *
      * @param string $principalUri
      */
-    function __construct($principalUri) {
+    public function __construct($principalUri) {
 
         $this->principalUri = $principalUri;
 
@@ -44,7 +44,7 @@ class Outbox extends DAV\Collection implements IOutbox {
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         return 'outbox';
 
@@ -55,7 +55,7 @@ class Outbox extends DAV\Collection implements IOutbox {
      *
      * @return \Sabre\DAV\INode[]
      */
-    function getChildren() {
+    public function getChildren() {
 
         return [];
 
@@ -68,7 +68,7 @@ class Outbox extends DAV\Collection implements IOutbox {
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->principalUri;
 
@@ -81,7 +81,7 @@ class Outbox extends DAV\Collection implements IOutbox {
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
 
         return null;
 
@@ -99,7 +99,7 @@ class Outbox extends DAV\Collection implements IOutbox {
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         return [
             [
@@ -149,7 +149,7 @@ class Outbox extends DAV\Collection implements IOutbox {
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new DAV\Exception\MethodNotAllowed('You\'re not allowed to update the ACL');
 
@@ -167,7 +167,7 @@ class Outbox extends DAV\Collection implements IOutbox {
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         $default = DAVACL\Plugin::getDefaultSupportedPrivilegeSet();
         $default['aggregates'][] = [

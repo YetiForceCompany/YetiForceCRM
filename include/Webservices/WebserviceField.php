@@ -424,7 +424,7 @@ class WebserviceField
 				$elem = [];
 				$picklistValue = $this->pearDB->query_result($result, $i, $fieldName);
 				$picklistValue = decode_html($picklistValue);
-				$moduleName = getTabModuleName($this->getTabId());
+				$moduleName = \includes\Modules::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
 				$elem["label"] = \includes\Language::translate($picklistValue, $moduleName);
@@ -437,7 +437,7 @@ class WebserviceField
 			for ($i = 0; $i < sizeof($details); ++$i) {
 				$elem = [];
 				$picklistValue = decode_html($details[$i]);
-				$moduleName = getTabModuleName($this->getTabId());
+				$moduleName = \includes\Modules::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
 				$elem["label"] = \includes\Language::translate($picklistValue, $moduleName);
@@ -462,7 +462,7 @@ class WebserviceField
 		}
 		$result = $this->pearDB->pquery('SELECT module FROM vtiger_trees_templates WHERE templateid = ?', [$this->getFieldParams()]);
 		$module = $this->pearDB->getSingleValue($result);
-		$moduleName = getTabModuleName($module);
+		$moduleName = \includes\Modules::getModuleName($module);
 
 		$result = $this->pearDB->pquery('SELECT tree,label FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getFieldParams()]);
 		while ($row = $this->pearDB->fetch_array($result)) {

@@ -147,7 +147,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	{
 		return [
 			'id' => $rowData['importid'],
-			'module' => getTabModuleName($rowData['tabid']),
+			'module' => \includes\Modules::getModuleName($rowData['tabid']),
 			'field_mapping' => \includes\utils\Json::decode($rowData['field_mapping']),
 			'default_values' => \includes\utils\Json::decode($rowData['default_values']),
 			'merge_type' => $rowData['merge_type'],

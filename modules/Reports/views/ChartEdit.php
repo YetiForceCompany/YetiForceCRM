@@ -55,7 +55,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 				$viewer->assign('MODULE', $primaryModule);
 				$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 				$viewer->view('OperationNotPermitted.tpl', $primaryModule);
-				exit;
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 
@@ -72,9 +72,9 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
-			exit;
+		}  else {
+			$this->step1($request);
 		}
-		$this->step1($request);
 	}
 
 	public function step1(Vtiger_Request $request)

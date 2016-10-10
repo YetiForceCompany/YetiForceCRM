@@ -25,7 +25,7 @@ class PaymentsIn_GenerateRecords_Action extends Vtiger_Action_Controller
 			$ossPaymentsIn->column_fields['paymentstitle'] = $fields['details']['title'];
 			$ossPaymentsIn->column_fields['bank_account'] = $fields['details']['contAccount'];
 			$saved = $ossPaymentsIn->save('PaymentsIn');
-			if ($saved == false) {
+			if ($saved === false) {
 				$bag = true;
 			}
 		}

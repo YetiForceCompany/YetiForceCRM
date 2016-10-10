@@ -38,7 +38,7 @@
 				<script type="text/javascript">{$HEAD_LOCKS}</script>
 			{/if}
 			{if AppConfig::debug('DISPLAY_DEBUG_CONSOLE')}
-				{\includes\Debuger::getDebugBar()->getJavascriptRenderer()->renderHead()}
+				{\App\Debuger::getDebugBar()->getJavascriptRenderer()->renderHead()}
 			{/if}
 		</head>
 		<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>

@@ -18,33 +18,33 @@ class FieldBasic
 {
 
 	/** ID of this field instance */
-	var $id;
-	var $name;
-	var $tabid = false;
-	var $label = false;
-	var $table = false;
-	var $column = false;
-	var $columntype = false;
-	var $helpinfo = '';
-	var $summaryfield = 0;
-	var $header_field = false;
-	var $maxlengthtext = 0;
-	var $maxwidthcolumn = 0;
-	var $masseditable = 1; // Default: Enable massedit for field
-	var $uitype = 1;
-	var $typeofdata = 'V~O';
-	var $displaytype = 1;
-	var $generatedtype = 1;
-	var $readonly = 1;
-	var $presence = 2;
-	var $defaultvalue = '';
-	var $maximumlength = 100;
-	var $sequence = false;
-	var $quickcreate = 1;
-	var $quicksequence = false;
-	var $info_type = 'BAS';
-	var $block;
-	var $fieldparams = '';
+	public $id;
+	public $name;
+	public $tabid = false;
+	public $label = false;
+	public $table = false;
+	public $column = false;
+	public $columntype = false;
+	public $helpinfo = '';
+	public $summaryfield = 0;
+	public $header_field = false;
+	public $maxlengthtext = 0;
+	public $maxwidthcolumn = 0;
+	public $masseditable = 1; // Default: Enable massedit for field
+	public $uitype = 1;
+	public $typeofdata = 'V~O';
+	public $displaytype = 1;
+	public $generatedtype = 1;
+	public $readonly = 1;
+	public $presence = 2;
+	public $defaultvalue = '';
+	public $maximumlength = 100;
+	public $sequence = false;
+	public $quickcreate = 1;
+	public $quicksequence = false;
+	public $info_type = 'BAS';
+	public $block;
+	public $fieldparams = '';
 
 	/**
 	 * Initialize this instance

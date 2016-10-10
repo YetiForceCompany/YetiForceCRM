@@ -19,7 +19,7 @@ class LibraryRoundcube extends \includes\SystemWarnings\Template
 	{
 		$this->status = \Settings_ModuleManager_Library_Model::checkLibrary('roundcube') ? 0 : 1;
 		if ($this->status == 0) {
-			$this->link = 'index.php?module=ModuleManager&parent=Settings&action=Basic&mode=downloadLibrary&name=roundcube';
+			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=List';
 			$this->linkTitle = vtranslate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
 			$this->description = vtranslate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::$tempDir);
 		}

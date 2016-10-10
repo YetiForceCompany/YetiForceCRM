@@ -24,54 +24,52 @@
 class Accounts extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = 'vtiger_account';
-	var $table_index = 'accountid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_account', 'vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_account' => 'accountid', 'vtiger_accountaddress' => 'accountaddressid', 'vtiger_accountscf' => 'accountid', 'vtiger_entity_stats' => 'crmid');
+	public $table_name = 'vtiger_account';
+	public $table_index = 'accountid';
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_account', 'vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_entity_stats');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_account' => 'accountid', 'vtiger_accountaddress' => 'accountaddressid', 'vtiger_accountscf' => 'accountid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_accountscf', 'accountid');
-	var $entity_table = 'vtiger_crmentity';
-	var $column_fields = [];
-	var $sortby_fields = Array('accountname', 'bill_city', 'website', 'phone', 'smownerid');
+	public $customFieldTable = Array('vtiger_accountscf', 'accountid');
+	public $entity_table = 'vtiger_crmentity';
+	public $column_fields = [];
+	public $sortby_fields = Array('accountname', 'bill_city', 'website', 'phone', 'smownerid');
 	// This is the list of vtiger_fields that are in the lists.
-	var $list_fields = Array(
+	public $list_fields = Array(
 		'Account Name' => Array('vtiger_account' => 'accountname'),
 		'Website' => Array('vtiger_account' => 'website'),
 		'Phone' => Array('vtiger_account' => 'phone'),
 		'Assigned To' => Array('vtiger_crmentity' => 'smownerid')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'Account Name' => 'accountname',
 		'Website' => 'website',
 		'Phone' => 'phone',
 		'Assigned To' => 'assigned_user_id'
 	);
-	var $list_link_field = 'accountname';
-	var $search_fields = Array(
+	public $list_link_field = 'accountname';
+	public $search_fields = Array(
 		'Account Name' => Array('vtiger_account' => 'accountname'),
 		'Assigned To' => Array('vtiger_crmentity' => 'smownerid'),
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		'Account Name' => 'accountname',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// This is the list of vtiger_fields that are required
-	var $required_fields = [];
+	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'accountname');
+	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'accountname');
 	//Default Fields for Email Templates -- Pavani
-	var $emailTemplate_defaultFields = array('accountname', 'account_type', 'industry', 'annualrevenue', 'phone', 'email1', 'rating', 'website', 'fax');
+	public $emailTemplate_defaultFields = array('accountname', 'account_type', 'industry', 'annualrevenue', 'phone', 'email1', 'rating', 'website', 'fax');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 	// For Alphabetical search
-	var $def_basicsearch_col = 'accountname';
+	public $def_basicsearch_col = 'accountname';
 
 	/** Function to handle module specific operations when saving a entity
 	 */
@@ -87,10 +85,10 @@ class Accounts extends CRMEntity
 	 */
 	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_campaigns(" . $id . ") method ...");
+		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -136,11 +134,11 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_campaigns method ...");
+		\App\Log::trace("Exiting get_campaigns method ...");
 		return $return_value;
 	}
 
@@ -151,10 +149,10 @@ class Accounts extends CRMEntity
 	 */
 	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_contacts(" . $id . ") method ...");
+		\App\Log::trace("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -204,11 +202,11 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_contacts method ...");
+		\App\Log::trace("Exiting get_contacts method ...");
 		return $return_value;
 	}
 
@@ -219,10 +217,10 @@ class Accounts extends CRMEntity
 	 */
 	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_tickets(" . $id . ") method ...");
+		\App\Log::trace("Entering get_tickets(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -265,11 +263,11 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_tickets method ...");
+		\App\Log::trace("Exiting get_tickets method ...");
 		return $return_value;
 	}
 
@@ -280,10 +278,10 @@ class Accounts extends CRMEntity
 	 */
 	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_products(" . $id . ") method ...");
+		\App\Log::trace("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -329,11 +327,11 @@ class Accounts extends CRMEntity
 		$query = sprintf($query, $entityIds);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_products method ...");
+		\App\Log::trace("Exiting get_products method ...");
 		return $return_value;
 	}
 
@@ -343,9 +341,9 @@ class Accounts extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -377,7 +375,7 @@ class Accounts extends CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		$log->debug("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -387,11 +385,11 @@ class Accounts extends CRMEntity
 	 */
 	public function getColumnNames_Acnt()
 	{
-		$log = vglobal('log');
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering getColumnNames_Acnt() method ...");
+		\App\Log::trace("Entering getColumnNames_Acnt() method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "SELECT fieldlabel FROM vtiger_field WHERE tabid = 6 and vtiger_field.presence in (0,2)";
 			$params1 = [];
 		} else {
@@ -411,7 +409,7 @@ class Accounts extends CRMEntity
 			$custom_fields[$i] = strtoupper($custom_fields[$i]);
 		}
 		$mergeflds = $custom_fields;
-		$log->debug("Exiting getColumnNames_Acnt method ...");
+		\App\Log::trace("Exiting getColumnNames_Acnt method ...");
 		return $mergeflds;
 	}
 	/*
@@ -510,9 +508,9 @@ class Accounts extends CRMEntity
 	 */
 	public function getAccountHierarchy($id, $listColumns = false)
 	{
-		$log = LoggerManager::getInstance();
+
 		$current_user = vglobal('current_user');
-		$log->debug('Entering getAccountHierarchy(' . $id . ') method ...');
+		\App\Log::trace('Entering getAccountHierarchy(' . $id . ') method ...');
 
 		$listview_header = [];
 		$listview_entries = [];
@@ -547,7 +545,7 @@ class Accounts extends CRMEntity
 		$accountHierarchy = $this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listview_entries);
 
 		$accountHierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
-		$log->debug('Exiting getAccountHierarchy method ...');
+		\App\Log::trace('Exiting getAccountHierarchy method ...');
 		return $accountHierarchy;
 	}
 
@@ -561,8 +559,8 @@ class Accounts extends CRMEntity
 	 */
 	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
+
+		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
@@ -602,7 +600,7 @@ class Accounts extends CRMEntity
 				$listviewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listviewEntries);
 			}
 		}
-		$log->debug('Exiting getHierarchyData method ...');
+		\App\Log::trace('Exiting getHierarchyData method ...');
 		return $listviewEntries;
 	}
 
@@ -615,11 +613,11 @@ class Accounts extends CRMEntity
 	public function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering __getParentAccounts(' . $id . ') method ...');
+
+		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
 
 		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
-			$log->error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
+			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
 			return $parent_accounts;
 		}
 
@@ -665,7 +663,7 @@ class Accounts extends CRMEntity
 			}
 			$parent_accounts[$id] = $parent_account_info;
 		}
-		$log->debug('Exiting __getParentAccounts method ...');
+		\App\Log::trace('Exiting __getParentAccounts method ...');
 		return $parent_accounts;
 	}
 
@@ -679,11 +677,11 @@ class Accounts extends CRMEntity
 	public function __getChildAccounts($id, &$child_accounts, $depthBase)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
+
+		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
 
 		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
-			$log->error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
+			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
 			return $child_accounts;
 		}
 
@@ -723,14 +721,14 @@ class Accounts extends CRMEntity
 				$this->__getChildAccounts($child_acc_id, $child_accounts[$child_acc_id], $depth);
 			}
 		}
-		$log->debug('Exiting __getChildAccounts method ...');
+		\App\Log::trace('Exiting __getChildAccounts method ...');
 		return $child_accounts;
 	}
 
 	// Function to unlink the dependent records of the given record by id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+
 		//Backup Contact-Account Relation
 		$con_q = 'SELECT contactid FROM vtiger_contactdetails WHERE parentid = ?';
 		$con_res = $this->db->pquery($con_q, array($id));
@@ -767,7 +765,7 @@ class Accounts extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		$log = vglobal('log');
+
 		if (empty($return_module) || empty($return_id))
 			return;
 
@@ -873,7 +871,7 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 		return $return_value;
@@ -998,7 +996,7 @@ class Accounts extends CRMEntity
 
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = [];
 		$return_value['CUSTOM_BUTTON'] = $button;
 
@@ -1009,7 +1007,7 @@ class Accounts extends CRMEntity
 	public function getRelatedContactsIds($id = null)
 	{
 		$adb = PearDatabase::getInstance();
-		if ($id == null)
+		if ($id === null)
 			$id = $this->id;
 		$entityIds = [];
 		$query = 'SELECT contactid FROM vtiger_contactdetails

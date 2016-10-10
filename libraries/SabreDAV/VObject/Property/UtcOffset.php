@@ -29,7 +29,7 @@ class UtcOffset extends Text {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'UTC-OFFSET';
 
@@ -44,7 +44,7 @@ class UtcOffset extends Text {
      *
      * @return void
      */
-    function setJsonValue(array $value) {
+    public function setJsonValue(array $value) {
 
         $value = array_map(
             function($value) {
@@ -63,7 +63,7 @@ class UtcOffset extends Text {
      *
      * @return array
      */
-    function getJsonValue() {
+    public function getJsonValue() {
 
         return array_map(
             function($value) {

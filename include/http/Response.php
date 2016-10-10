@@ -69,7 +69,7 @@ class Vtiger_Response
 	 */
 	public function setError($code, $message = null)
 	{
-		if ($message == null)
+		if ($message === null)
 			$message = $code;
 		$error = array('code' => $code, 'message' => $message);
 		$this->error = $error;

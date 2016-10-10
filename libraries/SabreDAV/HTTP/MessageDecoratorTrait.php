@@ -32,7 +32,7 @@ trait MessageDecoratorTrait {
      *
      * @return resource
      */
-    function getBodyAsStream() {
+    public function getBodyAsStream() {
 
         return $this->inner->getBodyAsStream();
 
@@ -46,7 +46,7 @@ trait MessageDecoratorTrait {
      *
      * @return string
      */
-    function getBodyAsString() {
+    public function getBodyAsString() {
 
         return $this->inner->getBodyAsString();
 
@@ -59,7 +59,7 @@ trait MessageDecoratorTrait {
      *
      * @return resource|string
      */
-    function getBody() {
+    public function getBody() {
 
         return $this->inner->getBody();
 
@@ -71,7 +71,7 @@ trait MessageDecoratorTrait {
      * @param resource $body
      * @return void
      */
-    function setBody($body) {
+    public function setBody($body) {
 
         $this->inner->setBody($body);
 
@@ -84,7 +84,7 @@ trait MessageDecoratorTrait {
      *
      * @return array
      */
-    function getHeaders() {
+    public function getHeaders() {
 
         return $this->inner->getHeaders();
 
@@ -96,7 +96,7 @@ trait MessageDecoratorTrait {
      * @param string $name
      * @return bool
      */
-    function hasHeader($name) {
+    public function hasHeader($name) {
 
         return $this->inner->hasHeader($name);
 
@@ -118,7 +118,7 @@ trait MessageDecoratorTrait {
      * @param string $name
      * @return string|null
      */
-    function getHeader($name) {
+    public function getHeader($name) {
 
         return $this->inner->getHeader($name);
 
@@ -135,7 +135,7 @@ trait MessageDecoratorTrait {
      * @param string $name
      * @return string[]
      */
-    function getHeaderAsArray($name) {
+    public function getHeaderAsArray($name) {
 
         return $this->inner->getHeaderAsArray($name);
 
@@ -152,7 +152,7 @@ trait MessageDecoratorTrait {
      * @param string|string[] $value
      * @return void
      */
-    function setHeader($name, $value) {
+    public function setHeader($name, $value) {
 
         $this->inner->setHeader($name, $value);
 
@@ -169,7 +169,7 @@ trait MessageDecoratorTrait {
      * @param array $headers
      * @return void
      */
-    function setHeaders(array $headers) {
+    public function setHeaders(array $headers) {
 
         $this->inner->setHeaders($headers);
 
@@ -186,7 +186,7 @@ trait MessageDecoratorTrait {
      * @param string $value
      * @return void
      */
-    function addHeader($name, $value) {
+    public function addHeader($name, $value) {
 
         $this->inner->addHeader($name, $value);
 
@@ -200,7 +200,7 @@ trait MessageDecoratorTrait {
      * @param array $headers
      * @return void
      */
-    function addHeaders(array $headers) {
+    public function addHeaders(array $headers) {
 
         $this->inner->addHeaders($headers);
 
@@ -216,7 +216,7 @@ trait MessageDecoratorTrait {
      *
      * @return bool
      */
-    function removeHeader($name) {
+    public function removeHeader($name) {
 
         $this->inner->removeHeader($name);
 
@@ -230,7 +230,7 @@ trait MessageDecoratorTrait {
      * @param string $version
      * @return void
      */
-    function setHttpVersion($version) {
+    public function setHttpVersion($version) {
 
         $this->inner->setHttpVersion($version);
 
@@ -241,7 +241,7 @@ trait MessageDecoratorTrait {
      *
      * @return string
      */
-    function getHttpVersion() {
+    public function getHttpVersion() {
 
         return $this->inner->getHttpVersion();
 

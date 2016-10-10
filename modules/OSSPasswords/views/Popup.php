@@ -10,6 +10,8 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
+	 * @param Vtiger_Request $request
+	 * @param Vtiger_Viewer $viewer
 	 */
 
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
@@ -23,11 +25,14 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 		if ($showFilter && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], "module=$moduleName&src_module=$sourceModule") === 0) {
 			$filterField = ['HelpDesk' => 'parent_id', 'Project' => 'linktoaccountscontacts', 'OSSPasswords' => 'related_to'];
 			$relParentModule = 'Accounts';
-			$request->set('related_parent_module', $relParentModule);
 			$record = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
-			$request->set('related_parent_id', $record->get($filterField[$sourceModule]));
-			$viewer->assign('SWITCH', true);
-			$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+			$relId = $record->get($filterField[$sourceModule]);
+			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+				$request->set('related_parent_module', $relParentModule);
+				$request->set('related_parent_id', $relId);
+				$viewer->assign('SWITCH', true);
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+			}
 		}
 		parent::initializeListViewContents($request, $viewer);
 		if (array_key_exists('password', $this->listViewHeaders)) {

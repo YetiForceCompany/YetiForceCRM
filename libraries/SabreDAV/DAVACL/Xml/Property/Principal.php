@@ -59,7 +59,7 @@ class Principal extends DAV\Xml\Property\Href {
      * @param int $type
      * @param string|null $href
      */
-    function __construct($type, $href = null) {
+    public function __construct($type, $href = null) {
 
         $this->type = $type;
         if ($type === self::HREF && is_null($href)) {
@@ -77,7 +77,7 @@ class Principal extends DAV\Xml\Property\Href {
      *
      * @return int
      */
-    function getType() {
+    public function getType() {
 
         return $this->type;
 
@@ -103,7 +103,7 @@ class Principal extends DAV\Xml\Property\Href {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         switch ($this->type) {
 
@@ -137,7 +137,7 @@ class Principal extends DAV\Xml\Property\Href {
      * @param HtmlOutputHelper $html
      * @return string
      */
-    function toHtml(HtmlOutputHelper $html) {
+    public function toHtml(HtmlOutputHelper $html) {
 
         switch ($this->type) {
 

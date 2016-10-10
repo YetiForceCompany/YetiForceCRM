@@ -69,9 +69,9 @@ class Vtiger_Request
 			}
 		}
 
-		//Handled for null because vtlib_purify returns empty string
+		//Handled for null because App\Purifier::purify returns empty string
 		if (!empty($value)) {
-			$value = vtlib_purify($value);
+			$value = App\Purifier::purify($value);
 		}
 		$this->valueMap[$key] = $value;
 		return $value;
@@ -121,9 +121,9 @@ class Vtiger_Request
 			}
 		}
 
-		//Handled for null because vtlib_purifyForHtml returns empty string
+		//Handled for null because \App\Purifier::purifyHtml returns empty string
 		if (!empty($value)) {
-			$value = vtlib_purifyForHtml($value);
+			$value = \App\Purifier::purifyHtml($value);
 		}
 		return $value;
 	}
@@ -285,7 +285,7 @@ class Vtiger_Request
 
 	public function isAjax()
 	{
-		if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == true) {
+		if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] === true) {
 			return true;
 		} elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
 			return true;

@@ -20,7 +20,7 @@ interface MessageInterface {
      *
      * @return resource
      */
-    function getBodyAsStream();
+    public function getBodyAsStream();
 
     /**
      * Returns the body as a string.
@@ -30,7 +30,7 @@ interface MessageInterface {
      *
      * @return string
      */
-    function getBodyAsString();
+    public function getBodyAsString();
 
     /**
      * Returns the message body, as it's internal representation.
@@ -39,7 +39,7 @@ interface MessageInterface {
      *
      * @return resource|string
      */
-    function getBody();
+    public function getBody();
 
     /**
      * Updates the body resource with a new stream.
@@ -47,7 +47,7 @@ interface MessageInterface {
      * @param resource $body
      * @return void
      */
-    function setBody($body);
+    public function setBody($body);
 
     /**
      * Returns all the HTTP headers as an array.
@@ -56,7 +56,7 @@ interface MessageInterface {
      *
      * @return array
      */
-    function getHeaders();
+    public function getHeaders();
 
     /**
      * Will return true or false, depending on if a HTTP header exists.
@@ -64,7 +64,7 @@ interface MessageInterface {
      * @param string $name
      * @return bool
      */
-    function hasHeader($name);
+    public function hasHeader($name);
 
     /**
      * Returns a specific HTTP header, based on it's name.
@@ -82,7 +82,7 @@ interface MessageInterface {
      * @param string $name
      * @return string|null
      */
-    function getHeader($name);
+    public function getHeader($name);
 
     /**
      * Returns a HTTP header as an array.
@@ -95,7 +95,7 @@ interface MessageInterface {
      * @param string $name
      * @return string[]
      */
-    function getHeaderAsArray($name);
+    public function getHeaderAsArray($name);
 
     /**
      * Updates a HTTP header.
@@ -108,7 +108,7 @@ interface MessageInterface {
      * @param string|string[] $value
      * @return void
      */
-    function setHeader($name, $value);
+    public function setHeader($name, $value);
 
     /**
      * Sets a new set of HTTP headers.
@@ -121,7 +121,7 @@ interface MessageInterface {
      * @param array $headers
      * @return void
      */
-    function setHeaders(array $headers);
+    public function setHeaders(array $headers);
 
     /**
      * Adds a HTTP header.
@@ -134,7 +134,7 @@ interface MessageInterface {
      * @param string $value
      * @return void
      */
-    function addHeader($name, $value);
+    public function addHeader($name, $value);
 
     /**
      * Adds a new set of HTTP headers.
@@ -144,7 +144,7 @@ interface MessageInterface {
      * @param array $headers
      * @return void
      */
-    function addHeaders(array $headers);
+    public function addHeaders(array $headers);
 
     /**
      * Removes a HTTP header.
@@ -155,7 +155,7 @@ interface MessageInterface {
      *
      * @return bool
      */
-    function removeHeader($name);
+    public function removeHeader($name);
 
     /**
      * Sets the HTTP version.
@@ -165,13 +165,13 @@ interface MessageInterface {
      * @param string $version
      * @return void
      */
-    function setHttpVersion($version);
+    public function setHttpVersion($version);
 
     /**
      * Returns the HTTP version.
      *
      * @return string
      */
-    function getHttpVersion();
+    public function getHttpVersion();
 
 }

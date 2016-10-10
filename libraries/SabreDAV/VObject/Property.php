@@ -69,7 +69,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null) {
+    public function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null) {
 
         $this->name = $name;
         $this->group = $group;
@@ -95,7 +95,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function setValue($value) {
+    public function setValue($value) {
 
         $this->value = $value;
 
@@ -112,7 +112,7 @@ abstract class Property extends Node {
      *
      * @return string
      */
-    function getValue() {
+    public function getValue() {
 
         if (is_array($this->value)) {
             if (count($this->value) == 0) {
@@ -135,7 +135,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function setParts(array $parts) {
+    public function setParts(array $parts) {
 
         $this->value = $parts;
 
@@ -149,7 +149,7 @@ abstract class Property extends Node {
      *
      * @return array
      */
-    function getParts() {
+    public function getParts() {
 
         if (is_null($this->value)) {
             return [];
@@ -171,7 +171,7 @@ abstract class Property extends Node {
      * @param string $name
      * @param string|null|array $value
      */
-    function add($name, $value = null) {
+    public function add($name, $value = null) {
         $noName = false;
         if ($name === null) {
             $name = Parameter::guessParameterNameByValue($value);
@@ -193,7 +193,7 @@ abstract class Property extends Node {
      *
      * @return array
      */
-    function parameters() {
+    public function parameters() {
 
         return $this->parameters;
 
@@ -233,7 +233,7 @@ abstract class Property extends Node {
      *
      * @return string
      */
-    function serialize() {
+    public function serialize() {
 
         $str = $this->name;
         if ($this->group) $str = $this->group . '.' . $this->name;
@@ -269,7 +269,7 @@ abstract class Property extends Node {
      *
      * @return array
      */
-    function getJsonValue() {
+    public function getJsonValue() {
 
         return $this->getParts();
 
@@ -284,7 +284,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function setJsonValue(array $value) {
+    public function setJsonValue(array $value) {
 
         if (count($value) === 1) {
             $this->setValue(reset($value));
@@ -300,7 +300,7 @@ abstract class Property extends Node {
      *
      * @return array
      */
-    function jsonSerialize() {
+    public function jsonSerialize() {
 
         $parameters = [];
 
@@ -334,7 +334,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function setXmlValue(array $value) {
+    public function setXmlValue(array $value) {
 
         $this->setJsonValue($value);
 
@@ -348,7 +348,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function xmlSerialize(Xml\Writer $writer) {
+    public function xmlSerialize(Xml\Writer $writer) {
 
         $parameters = [];
 
@@ -414,7 +414,7 @@ abstract class Property extends Node {
      *
      * @return string
      */
-    function __toString() {
+    public function __toString() {
 
         return (string)$this->getValue();
 
@@ -429,7 +429,7 @@ abstract class Property extends Node {
      *
      * @return bool
      */
-    function offsetExists($name) {
+    public function offsetExists($name) {
 
         if (is_int($name)) return parent::offsetExists($name);
 
@@ -451,7 +451,7 @@ abstract class Property extends Node {
      *
      * @return Node
      */
-    function offsetGet($name) {
+    public function offsetGet($name) {
 
         if (is_int($name)) return parent::offsetGet($name);
         $name = strtoupper($name);
@@ -472,7 +472,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function offsetSet($name, $value) {
+    public function offsetSet($name, $value) {
 
         if (is_int($name)) {
             parent::offsetSet($name, $value);
@@ -495,7 +495,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function offsetUnset($name) {
+    public function offsetUnset($name) {
 
         if (is_int($name)) {
             parent::offsetUnset($name);
@@ -517,7 +517,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function __clone() {
+    public function __clone() {
 
         foreach ($this->parameters as $key => $child) {
             $this->parameters[$key] = clone $child;
@@ -544,7 +544,7 @@ abstract class Property extends Node {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $warnings = [];
 
@@ -649,7 +649,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    function destroy() {
+    public function destroy() {
 
         parent::destroy();
         foreach ($this->parameters as $param) {

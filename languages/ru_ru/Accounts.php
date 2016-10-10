@@ -94,6 +94,8 @@ $languageStrings = [
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Акаунт выключен ',
 	'SINGLE_Vendors' => 'Поставщик',
+	'LBL_NUMBER_OF_ACTIVE_CONTRACTS' => 'Number of active SLA',
+	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Products and services',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',

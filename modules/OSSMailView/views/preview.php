@@ -44,7 +44,8 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$bcc = $recordModel->get('bcc_email');
 		$subject = $recordModel->get('subject');
 		$owner = $recordModel->get('assigned_user_id');
-		$sent = $recordModel->get('createdtime');
+		$sentTime = new DateTimeField($recordModel->get('createdtime'));
+		$sent = $sentTime->getDisplayDateTimeValue();
 
 		// pobierz załączniki
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -87,6 +88,15 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('ISMODAL', $request->isAjax());
+		$viewer->assign('SCRIPTS', $this->getModalScripts($request));
 		$viewer->view('preview.tpl', 'OSSMailView');
+	}
+	public function getModalScripts(Vtiger_Request $request)
+	{
+		$scripts = [
+			'~layouts\basic\modules\OSSMailView\resources\preview.js'
+		];
+		$modalScripts = $this->checkAndConvertJsScripts($scripts);
+		return $modalScripts;
 	}
 }

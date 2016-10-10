@@ -16,9 +16,9 @@ namespace vtlib;
 class PackageUpdate extends PackageImport
 {
 
-	var $_migrationinfo = false;
-	var $listFields = [];
-	var $listBlocks = [];
+	public $_migrationinfo = false;
+	public $listFields = [];
+	public $listBlocks = [];
 
 	/**
 	 * Initialize Update
@@ -91,7 +91,7 @@ class PackageUpdate extends PackageImport
 			$buildModuleArray = [];
 			$installSequenceArray = [];
 			$moduleBundle = (boolean) $this->_modulexml->modulebundle;
-			if ($moduleBundle == true) {
+			if ($moduleBundle === true) {
 				$moduleList = (Array) $this->_modulexml->modulelist;
 				foreach ($moduleList as $moduleInfos) {
 					foreach ($moduleInfos as $moduleInfo) {

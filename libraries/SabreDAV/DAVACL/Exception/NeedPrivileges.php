@@ -36,7 +36,7 @@ class NeedPrivileges extends DAV\Exception\Forbidden {
      * @param string $uri
      * @param array $privileges
      */
-    function __construct($uri, array $privileges) {
+    public function __construct($uri, array $privileges) {
 
         $this->uri = $uri;
         $this->privileges = $privileges;
@@ -54,7 +54,7 @@ class NeedPrivileges extends DAV\Exception\Forbidden {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(DAV\Server $server, \DOMElement $errorNode) {
+    public function serialize(DAV\Server $server, \DOMElement $errorNode) {
 
         $doc = $errorNode->ownerDocument;
 

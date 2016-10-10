@@ -41,7 +41,7 @@ class BirthdayCalendarGenerator {
      *
      * @param mixed $objects
      */
-    function __construct($objects = null) {
+    public function __construct($objects = null) {
 
         if ($objects) {
             $this->setObjects($objects);
@@ -59,7 +59,7 @@ class BirthdayCalendarGenerator {
      *
      * @return void
      */
-    function setObjects($objects) {
+    public function setObjects($objects) {
 
         if (!is_array($objects)) {
             $objects = [$objects];
@@ -98,7 +98,7 @@ class BirthdayCalendarGenerator {
      *
      * @return void
      */
-    function setFormat($format) {
+    public function setFormat($format) {
 
         $this->format = $format;
 
@@ -109,7 +109,7 @@ class BirthdayCalendarGenerator {
      *
      * @return Component/VCalendar
      */
-    function getResult() {
+    public function getResult() {
 
         $calendar = new VCalendar();
 

@@ -322,7 +322,7 @@ class Cron
 		if ($result && $adb->getRowCount($result)) {
 			$sequence = $adb->getSingleValue($result);
 		}
-		if ($sequence == NULL) {
+		if ($sequence === null) {
 			$sequence = 1;
 		}
 		return $sequence + 1;

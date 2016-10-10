@@ -39,7 +39,7 @@ class SupportedMethodSet implements XmlSerializable, HtmlOutput {
      *
      * @param string|string[] $methods
      */
-    function __construct($methods = null) {
+    public function __construct($methods = null) {
 
         $this->methods = (array)$methods;
 
@@ -50,7 +50,7 @@ class SupportedMethodSet implements XmlSerializable, HtmlOutput {
      *
      * @return string[]
      */
-    function getValue() {
+    public function getValue() {
 
         return $this->methods;
 
@@ -62,7 +62,7 @@ class SupportedMethodSet implements XmlSerializable, HtmlOutput {
      * @param string $methodName
      * @return bool
      */
-    function has($methodName) {
+    public function has($methodName) {
 
         return in_array(
             $methodName,
@@ -90,7 +90,7 @@ class SupportedMethodSet implements XmlSerializable, HtmlOutput {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->getValue() as $val) {
             $writer->startElement('{DAV:}supported-method');
@@ -114,7 +114,7 @@ class SupportedMethodSet implements XmlSerializable, HtmlOutput {
      * @param HtmlOutputHelper $html
      * @return string
      */
-    function toHtml(HtmlOutputHelper $html) {
+    public function toHtml(HtmlOutputHelper $html) {
 
         return implode(
             ', ',

@@ -47,7 +47,8 @@ class EmailTemplate
 		if ($result != 0) {
 			$templateVariablePair = $matches[0];
 			$this->templateFields = [];
-			for ($i = 0; $i < count($templateVariablePair); $i++) {
+			$countTemplateVariablePair = count($templateVariablePair);
+			for ($i = 0; $i < $countTemplateVariablePair; $i++) {
 				$templateVariablePair[$i] = str_replace('$', '', $templateVariablePair[$i]);
 				list($module, $columnName) = explode('-', $templateVariablePair[$i]);
 				list($parentColumn, $childColumn) = explode(':', $columnName);

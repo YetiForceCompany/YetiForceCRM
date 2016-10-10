@@ -16,20 +16,18 @@
 class Campaigns extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_campaign";
-	var $table_index = 'campaignid';
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_campaign', 'vtiger_campaignscf', 'vtiger_entity_stats');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_campaign' => 'campaignid', 'vtiger_campaignscf' => 'campaignid', 'vtiger_entity_stats' => 'crmid');
+	public $table_name = "vtiger_campaign";
+	public $table_index = 'campaignid';
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_campaign', 'vtiger_campaignscf', 'vtiger_entity_stats');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_campaign' => 'campaignid', 'vtiger_campaignscf' => 'campaignid', 'vtiger_entity_stats' => 'crmid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_campaignscf', 'campaignid');
-	var $column_fields = Array();
-	var $sortby_fields = Array('campaignname', 'smownerid', 'campaigntype', 'productname', 'expectedrevenue', 'closingdate', 'campaignstatus', 'expectedresponse', 'targetaudience', 'expectedcost');
-	var $list_fields = Array(
+	public $customFieldTable = Array('vtiger_campaignscf', 'campaignid');
+	public $column_fields = Array();
+	public $sortby_fields = Array('campaignname', 'smownerid', 'campaigntype', 'productname', 'expectedrevenue', 'closingdate', 'campaignstatus', 'expectedresponse', 'targetaudience', 'expectedcost');
+	public $list_fields = Array(
 		'Campaign Name' => Array('campaign' => 'campaignname'),
 		'Campaign Type' => Array('campaign' => 'campaigntype'),
 		'Campaign Status' => Array('campaign' => 'campaignstatus'),
@@ -37,7 +35,7 @@ class Campaigns extends CRMEntity
 		'Expected Close Date' => Array('campaign' => 'closingdate'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'Campaign Name' => 'campaignname',
 		'Campaign Type' => 'campaigntype',
 		'Campaign Status' => 'campaignstatus',
@@ -45,23 +43,23 @@ class Campaigns extends CRMEntity
 		'Expected Close Date' => 'closingdate',
 		'Assigned To' => 'assigned_user_id'
 	);
-	var $list_link_field = 'campaignname';
+	public $list_link_field = 'campaignname';
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'DESC';
-	var $search_fields = Array(
+	public $default_order_by = '';
+	public $default_sort_order = 'DESC';
+	public $search_fields = Array(
 		'Campaign Name' => Array('vtiger_campaign' => 'campaignname'),
 		'Campaign Type' => Array('vtiger_campaign' => 'campaigntype'),
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		'Campaign Name' => 'campaignname',
 		'Campaign Type' => 'campaigntype',
 	);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('campaignname', 'createdtime', 'modifiedtime', 'assigned_user_id');
+	public $mandatory_fields = Array('campaignname', 'createdtime', 'modifiedtime', 'assigned_user_id');
 	// For Alphabetical search
-	var $def_basicsearch_col = 'campaignname';
+	public $def_basicsearch_col = 'campaignname';
 
 	/** Function to handle module specific operations when saving a entity
 	 */
@@ -77,10 +75,10 @@ class Campaigns extends CRMEntity
 	 */
 	public function get_campaigns_records($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = LoggerManager::getInstance();
+
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_campaigns_records(" . $id . ") method ...");
+		\App\Log::trace("Entering get_campaigns_records(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -168,7 +166,7 @@ class Campaigns extends CRMEntity
 		$query = sprintf($query, $id);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = Array();
 		else if ($is_CampaignStatusAllowed) {
 			$statusPos = count($return_value['header']) - 2; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.
@@ -177,7 +175,7 @@ class Campaigns extends CRMEntity
 
 		$return_value['CUSTOM_BUTTON'] = $button;
 
-		$log->debug("Exiting get_campaigns_records method ...");
+		\App\Log::trace("Exiting get_campaigns_records method ...");
 		return $return_value;
 	}
 	/*
@@ -278,7 +276,7 @@ class Campaigns extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$log = vglobal('log');
+
 		if (empty($returnModule) || empty($returnId))
 			return;
 

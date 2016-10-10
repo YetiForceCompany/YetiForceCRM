@@ -28,14 +28,14 @@ class Notifications
 		}
 		$conditions = $this->getNotificationsConditions($data, $modules);
 
-		$notificationInstance = Home_Notification_Model::getInstance();
-		$entries = $notificationInstance->getEntries(false, $conditions, $data['userId']);
+		$notificationInstance = Notification_Module_Model::getInstance('Notification');
+		$entries = $notificationInstance->getEntries(false, $conditions, $data['userId'], true);
 		foreach ($notificationInstance->getTypes() as $typeId => $type) {
 			if (array_key_exists($typeId, $entries)) {
-				$html .= '<hr><strong>' . vtranslate($type['name'], 'Home') . '</strong><ul>';
+				$html .= '<hr><strong>' . $type . '</strong><ul>';
 				foreach ($entries[$typeId] as $notification) {
 					$title = vtlib\Functions::replaceLinkAddress($notification->getTitle(), '/^index.php/', $siteURL . 'index.php');
-					$massage = vtlib\Functions::replaceLinkAddress($notification->getMassage(), '/^index.php/', $siteURL . 'index.php');
+					$massage = vtlib\Functions::replaceLinkAddress($notification->getMessage(), '/^index.php/', $siteURL . 'index.php');
 					$html .= '<li>' . $title . '<br>' . $massage . '</li>';
 				}
 				$html .= '</ul><br>';
@@ -55,12 +55,12 @@ class Notifications
 			if (!is_array($modules)) {
 				$modules = [$modules];
 			}
-			$conditions .= ' && reletedmodule IN ("' . implode('","', $modules) . '")';
+			$conditions .= ' AND u_yf_notification.relatedmodule IN ("' . implode('","', $modules) . '")';
 		}
 		if (!empty($data['endDate']) && !empty($data['startDate'])) {
-			$conditions .= ' && `time` BETWEEN ' . $db->sql_escape_string($data['startDate']) . ' AND ' . $db->sql_escape_string($data['endDate']);
+			$conditions .= ' AND `vtiger.crmentity.createdtime` BETWEEN ' . $db->sql_escape_string($data['startDate']) . ' AND ' . $db->sql_escape_string($data['endDate']);
 		} elseif (!empty($data['endDate'])) {
-			$conditions .= ' && `time` <= ' . $db->sql_escape_string($data['endDate']);
+			$conditions .= ' AND `vtiger.crmentity.createdtime` <= ' . $db->sql_escape_string($data['endDate']);
 		}
 		return $conditions;
 	}

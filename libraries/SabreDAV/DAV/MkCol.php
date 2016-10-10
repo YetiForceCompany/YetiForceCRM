@@ -35,7 +35,7 @@ class MkCol extends PropPatch {
      * @param string[] $resourceType List of resourcetype values.
      * @param array $mutations List of new properties values.
      */
-    function __construct(array $resourceType, array $mutations) {
+    public function __construct(array $resourceType, array $mutations) {
 
         $this->resourceType = $resourceType;
         parent::__construct($mutations);
@@ -47,7 +47,7 @@ class MkCol extends PropPatch {
      *
      * @return string[]
      */
-    function getResourceType() {
+    public function getResourceType() {
 
         return $this->resourceType;
 
@@ -62,7 +62,7 @@ class MkCol extends PropPatch {
      *
      * @param string|string[] $resourceType
      */
-    function hasResourceType($resourceType) {
+    public function hasResourceType($resourceType) {
 
         return count(array_diff((array)$resourceType, $this->resourceType)) === 0;
 

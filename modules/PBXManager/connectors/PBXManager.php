@@ -346,7 +346,7 @@ class PBXManager_PBXManager_Connector
 		$response = $httpClient->doPost(array());
 		$response = trim($response);
 
-		if ($response == "Error" || $response == "" || $response == null || $response == "Authentication Failure") {
+		if ($response == "Error" || $response == "" || $response === null || $response == "Authentication Failure") {
 			return false;
 		}
 		return true;

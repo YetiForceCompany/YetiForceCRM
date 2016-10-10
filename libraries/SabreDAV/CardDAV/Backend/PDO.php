@@ -45,7 +45,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      *
      * @param \PDO $pdo
      */
-    function __construct(\PDO $pdo) {
+    public function __construct(\PDO $pdo) {
 
         $this->pdo = $pdo;
 
@@ -57,7 +57,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param string $principalUri
      * @return array
      */
-    function getAddressBooksForUser($principalUri) {
+    public function getAddressBooksForUser($principalUri) {
 
         $stmt = $this->pdo->prepare(sprintf('SELECT id, uri, displayname, principaluri, description, synctoken FROM %s WHERE principaluri = ?', $this->addressBooksTableName));
         $stmt->execute([$principalUri]);
@@ -99,7 +99,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param \Sabre\DAV\PropPatch $propPatch
      * @return void
      */
-    function updateAddressBook($addressBookId, \Sabre\DAV\PropPatch $propPatch) {
+    public function updateAddressBook($addressBookId, \Sabre\DAV\PropPatch $propPatch) {
 
         $supportedProperties = [
             '{DAV:}displayname',
@@ -153,7 +153,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param array $properties
      * @return int Last insert id
      */
-    function createAddressBook($principalUri, $url, array $properties) {
+    public function createAddressBook($principalUri, $url, array $properties) {
 
         $values = [
             'displayname'  => null,
@@ -190,7 +190,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param int $addressBookId
      * @return void
      */
-    function deleteAddressBook($addressBookId) {
+    public function deleteAddressBook($addressBookId) {
 
         $stmt = $this->pdo->prepare(sprintf('DELETE FROM %s WHERE addressbookid = ?', $this->cardsTableName));
         $stmt->execute([$addressBookId]);
@@ -222,7 +222,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param mixed $addressbookId
      * @return array
      */
-    function getCards($addressbookId) {
+    public function getCards($addressbookId) {
 
         $stmt = $this->pdo->prepare(sprintf('SELECT id, uri, lastmodified, etag, size FROM %s WHERE addressbookid = ?', $this->cardsTableName));
         $stmt->execute([$addressbookId]);
@@ -248,7 +248,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param string $cardUri
      * @return array
      */
-    function getCard($addressBookId, $cardUri) {
+    public function getCard($addressBookId, $cardUri) {
 
         $stmt = $this->pdo->prepare(sprintf('SELECT id, carddata, uri, lastmodified, etag, size FROM %s WHERE addressbookid = ? && uri = ? LIMIT 1', $this->cardsTableName));
         $stmt->execute([$addressBookId, $cardUri]);
@@ -274,7 +274,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param array $uris
      * @return array
      */
-    function getMultipleCards($addressBookId, array $uris) {
+    public function getMultipleCards($addressBookId, array $uris) {
 
         $query = sprintf('SELECT id, uri, lastmodified, etag, size, carddata FROM %s WHERE addressbookid = ? && uri IN (', $this->cardsTableName);
         // Inserting a whole bunch of question marks
@@ -317,7 +317,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param string $cardData
      * @return string|null
      */
-    function createCard($addressBookId, $cardUri, $cardData) {
+    public function createCard($addressBookId, $cardUri, $cardData) {
 
         $stmt = $this->pdo->prepare('INSERT INTO ' . $this->cardsTableName . ' (carddata, uri, lastmodified, addressbookid, size, etag) VALUES (?, ?, ?, ?, ?, ?)');
 
@@ -363,7 +363,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param string $cardData
      * @return string|null
      */
-    function updateCard($addressBookId, $cardUri, $cardData) {
+    public function updateCard($addressBookId, $cardUri, $cardData) {
 
         $stmt = $this->pdo->prepare(sprintf('UPDATE %s SET carddata = ?, lastmodified = ?, size = ?, etag = ? WHERE uri = ? && addressbookid =?', $this->cardsTableName));
 
@@ -390,7 +390,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param string $cardUri
      * @return bool
      */
-    function deleteCard($addressBookId, $cardUri) {
+    public function deleteCard($addressBookId, $cardUri) {
 
         $stmt = $this->pdo->prepare(sprintf('DELETE FROM %s WHERE addressbookid = ? && uri = ?', $this->cardsTableName));
         $stmt->execute([$addressBookId, $cardUri]);
@@ -457,7 +457,7 @@ class PDO extends AbstractBackend implements SyncSupport {
      * @param int $limit
      * @return array
      */
-    function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
+    public function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
 
         // Current synctoken
         $stmt = $this->pdo->prepare(sprintf('SELECT synctoken FROM %s WHERE id = ?', $this->addressBooksTableName));

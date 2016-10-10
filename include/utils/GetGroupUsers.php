@@ -19,8 +19,8 @@ require_once('include/utils/GetParentGroups.php');
 class GetGroupUsers
 {
 
-	var $group_users = [];
-	var $group_subgroups = [];
+	public $group_users = [];
+	public $group_subgroups = [];
 
 	/** to get all the vtiger_users and vtiger_groups of the specified group
 	 * @params $groupId --> Group Id :: Type Integer
@@ -30,8 +30,8 @@ class GetGroupUsers
 	public function getAllUsersInGroup($groupid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering getAllUsersInGroup(" . $groupid . ") method...");
+		
+		\App\Log::trace("Entering getAllUsersInGroup(" . $groupid . ") method...");
 		//Retreiving from the user2grouptable
 		$query = "select * from vtiger_users2group where groupid=?";
 		$result = $adb->pquery($query, array($groupid));
@@ -104,6 +104,6 @@ class GetGroupUsers
 				}
 			}
 		}
-		$log->debug("Exiting getAllUsersInGroup method...");
+		\App\Log::trace("Exiting getAllUsersInGroup method...");
 	}
 }

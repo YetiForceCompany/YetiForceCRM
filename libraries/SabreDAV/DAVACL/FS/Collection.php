@@ -37,7 +37,7 @@ class Collection extends BaseCollection implements IACL {
      * @param array $acl ACL rules.
      * @param string|null $owner principal owner string.
      */
-    function __construct($path, array $acl, $owner = null) {
+    public function __construct($path, array $acl, $owner = null) {
 
         parent::__construct($path);
         $this->acl = $acl;
@@ -55,7 +55,7 @@ class Collection extends BaseCollection implements IACL {
      * @throws DAV\Exception\NotFound
      * @return DAV\INode
      */
-    function getChild($name) {
+    public function getChild($name) {
 
         $path = $this->path . '/' . $name;
 
@@ -81,7 +81,7 @@ class Collection extends BaseCollection implements IACL {
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->owner;
 
@@ -94,7 +94,7 @@ class Collection extends BaseCollection implements IACL {
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
 
         return null;
 
@@ -112,7 +112,7 @@ class Collection extends BaseCollection implements IACL {
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         return $this->acl;
 
@@ -126,7 +126,7 @@ class Collection extends BaseCollection implements IACL {
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new Forbidden('Setting ACL is not allowed here');
 
@@ -144,7 +144,7 @@ class Collection extends BaseCollection implements IACL {
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         return null;
 

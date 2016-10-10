@@ -20,60 +20,60 @@ class CurrencyField
 	 * Currency Format(3,3,3) or (2,2,3)
 	 * @var String
 	 */
-	var $currencyFormat = '123,456,789';
+	public $currencyFormat = '123,456,789';
 
 	/**
 	 * Currency Separator for example (comma, dot, hash)
 	 * @var String
 	 */
-	var $currencySeparator = ',';
+	public $currencySeparator = ',';
 
 	/**
 	 * Decimal Separator for example (dot, comma, space)
 	 * @var <type>
 	 */
-	var $decimalSeparator = '.';
+	public $decimalSeparator = '.';
 
 	/**
 	 * Number of Decimal Numbers
 	 * @var Integer
 	 */
-	var $numberOfDecimal = 3;
+	public $numberOfDecimal = 3;
 
 	/**
 	 * Currency Id
 	 * @var Integer
 	 */
-	var $currencyId = 1;
+	public $currencyId = 1;
 
 	/**
 	 * Currency Symbol
 	 * @var String
 	 */
-	var $currencySymbol;
+	public $currencySymbol;
 
 	/**
 	 * Currency Symbol Placement
 	 */
-	var $currencySymbolPlacement;
+	public $currencySymbolPlacement;
 
 	/**
 	 * Currency Conversion Rate
 	 * @var Number
 	 */
-	var $conversionRate = 1;
+	public $conversionRate = 1;
 
 	/**
 	 * Value to be converted
 	 * @param Number $value
 	 */
-	var $value = null;
+	public $value = null;
 
 	/**
 	 * Maximum Number Of Currency Decimals
 	 * @var Number
 	 */
-	var $maxNumberOfDecimals = 5;
+	public $maxNumberOfDecimals = 5;
 
 	/**
 	 * Constructor
@@ -155,11 +155,14 @@ class CurrencyField
 		$this->initialize($user);
 
 		$value = $this->value;
-		if ($skipConversion == false) {
+		if (empty($value)) {
+			$value = 0;
+		}
+		if ($skipConversion === false) {
 			$value = self::convertFromDollar($value, $this->conversionRate);
 		}
 
-		if ($skipFormatting == false) {
+		if ($skipFormatting === false) {
 			$value = $this->_formatCurrencyValue($value);
 		}
 		return $this->currencyDecimalFormat($value, $user);
@@ -380,7 +383,7 @@ class CurrencyField
 		$value = str_replace("$currencySeparator", "", $value);
 		$value = str_replace("$decimalSeparator", ".", $value);
 
-		if ($skipConversion == false) {
+		if ($skipConversion === false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}
 		$value = preg_replace('/\s+/u', '', $value);
@@ -445,7 +448,7 @@ class CurrencyField
 		if (!$user) {
 			$user = $current_user;
 		}
-		if ($user->truncate_trailing_zeros == true) {
+		if ($user->truncate_trailing_zeros === true) {
 			if (strpos($value, $user->currency_decimal_separator) != 0) {
 				/**
 				 * We should trim extra zero's if only the value had decimal separator(Ex :- 1600.00)

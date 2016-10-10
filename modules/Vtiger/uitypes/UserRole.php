@@ -28,7 +28,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Base_UIType
 	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if ($value) {
-			$userName = getRoleName($value);
+			$userName = \App\PrivilegeUtil::getRoleName($value);
 			return $userName;
 		}
 	}
@@ -46,7 +46,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Base_UIType
 		if ($currentUserModel->isAdminUser() && $rawText === false) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
 			$roleRecordModel->set('roleid', $value);
-			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . textlength_check($displayValue) . '</a>';
+			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
 		}
 		return $displayValue;
 	}

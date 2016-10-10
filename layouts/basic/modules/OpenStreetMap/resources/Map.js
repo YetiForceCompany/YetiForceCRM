@@ -9,6 +9,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	routeLayer: false,
 	recordsIds: false,
 	cacheLayerMarkers: {},
+	indirectPointLayer: {},
 	setSelectedParams: function (params) {
 		this.selectedParams = params;
 	},
@@ -340,6 +341,41 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			map.addLayer(endIconLayer);
 			thisInstance.showCalculateBtn();
 		});
+		
+		container.on('click', '.indirectPoint', function(e){
+			var currentTarget = $(e.currentTarget);
+			var containerPopup = currentTarget.closest('.leaflet-popup-content');
+			var description = containerPopup.find('.description').html();
+			var template = container.find('.indirectTemplate');
+			var indirect = template.clone();
+			template.after(indirect);
+			indirect.removeClass('indirectTemplate');
+			indirect.removeClass('hide');
+			var coordinates = containerPopup.find('.coordinates');
+			var description = description.replace(/\<br\>/gi, ", ");
+			if(typeof thisInstance.indirectPointLayer[description] != 'undefined'){
+				map.removeLayer(thisInstance.indirectPointLayer[description]);
+			}
+			var indirectField = indirect.find('.indirect');
+			indirectField.val(description);
+			indirectField.data('lat', coordinates.data('lat'));
+			indirectField.data('lon', coordinates.data('lon'));
+			var marker = L.marker([coordinates.data('lat'), coordinates.data('lon')], {
+				icon: L.AwesomeMarkers.icon({
+					icon: 'flag',
+					markerColor: 'orange',
+					prefix: 'fa',
+				})
+			}).bindPopup(containerPopup.html());
+			thisInstance.indirectPointLayer[description] = L.featureGroup([marker]);
+			map.addLayer(thisInstance.indirectPointLayer[description]);
+		});
+		container.on('click', '.removeIndirect', function(e){
+			var currentTarget = $(e.currentTarget);
+			var container = currentTarget.closest('.indirectContainer');
+			map.removeLayer(thisInstance.indirectPointLayer[container.find('.indirect').val()]);
+			currentTarget.closest('.indirectContainer').remove();
+		});
 		container.on('click', '.searchInRadius', function (e) {
 			map.removeLayer(endIconLayer);
 			var currentTarget = $(e.currentTarget);
@@ -367,6 +403,13 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			});
 		});
 		container.find('.calculateTrack').on('click', function () {
+			var indirectLon = [];
+			var indirectLat = [];
+			container.find('.indirectContainer:not(.hide) input.indirect').each(function(){
+				var currentTarget = $(this);
+				indirectLat.push(currentTarget.data('lat'));
+				indirectLon.push(currentTarget.data('lon'));
+			});
 			var endElement = container.find('.end');
 			var startElement = container.find('.start');
 			var progressIndicatorElement = jQuery.progressIndicator({
@@ -382,22 +425,22 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					action: 'GetRoute',
 					flon: startElement.data('lon'),
 					flat: startElement.data('lat'),
+					ilon: indirectLon,
+					ilat: indirectLat,
 					tlon: endElement.data('lon'),
 					tlat: endElement.data('lat')
-				},
-				dataType: 'html'
+				}
 			};
 			AppConnector.request(params).then(function (response) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 				map.removeLayer(thisInstance.routeLayer);
-				var response = JSON.parse(response);
-				var route = L.geoJson(response);
+				var route = L.geoJson(response.result);
 				thisInstance.routeLayer = L.featureGroup([route]);
 				map.addLayer(thisInstance.routeLayer);
 				container.find('.descriptionContainer').removeClass('hide');
-				container.find('.descriptionContent .instruction').html(response.properties.description);
-				container.find('.descriptionContent .distance').html(app.parseNumberToShow(response.properties.distance));
-				container.find('.descriptionContent .travelTime').html(app.parseNumberToShow(response.properties.traveltime / 60));
+				container.find('.descriptionContent .instruction').html(response.result.properties.description);
+				container.find('.descriptionContent .distance').html(app.parseNumberToShow(response.result.properties.distance));
+				container.find('.descriptionContent .travelTime').html(app.parseNumberToShow(response.result.properties.traveltime / 60));
 			});
 		});
 		container.find('.setView').on('click', function (e) {

@@ -43,7 +43,7 @@ class DateTime extends Property {
      *
      * @return void
      */
-    function setParts(array $parts) {
+    public function setParts(array $parts) {
 
         if (isset($parts[0]) && $parts[0] instanceof DateTimeInterface) {
             $this->setDateTimes($parts);
@@ -64,7 +64,7 @@ class DateTime extends Property {
      *
      * @return void
      */
-    function setValue($value) {
+    public function setValue($value) {
 
         if (is_array($value) && isset($value[0]) && $value[0] instanceof DateTimeInterface) {
             $this->setDateTimes($value);
@@ -86,7 +86,7 @@ class DateTime extends Property {
      *
      * @return void
      */
-    function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val) {
 
         $this->setValue(explode($this->delimiter, $val));
 
@@ -97,7 +97,7 @@ class DateTime extends Property {
      *
      * @return string
      */
-    function getRawMimeDirValue() {
+    public function getRawMimeDirValue() {
 
         return implode($this->delimiter, $this->getParts());
 
@@ -108,7 +108,7 @@ class DateTime extends Property {
      *
      * @return bool
      */
-    function hasTime() {
+    public function hasTime() {
 
         return strtoupper((string)$this['VALUE']) !== 'DATE';
 
@@ -119,7 +119,7 @@ class DateTime extends Property {
      *
      * Note that DATE is always floating.
      */
-    function isFloating() {
+    public function isFloating() {
 
         return
             !$this->hasTime() ||
@@ -145,7 +145,7 @@ class DateTime extends Property {
      *
      * @return DateTimeImmutable
      */
-    function getDateTime(DateTimeZone $timeZone = null) {
+    public function getDateTime(DateTimeZone $timeZone = null) {
 
         $dt = $this->getDateTimes($timeZone);
         if (!$dt) return;
@@ -166,7 +166,7 @@ class DateTime extends Property {
      * @return DateTimeImmutable[]
      * @return \DateTime[]
      */
-    function getDateTimes(DateTimeZone $timeZone = null) {
+    public function getDateTimes(DateTimeZone $timeZone = null) {
 
         // Does the property have a TZID?
         $tzid = $this['TZID'];
@@ -191,7 +191,7 @@ class DateTime extends Property {
      *
      * @return void
      */
-    function setDateTime(DateTimeInterface $dt, $isFloating = false) {
+    public function setDateTime(DateTimeInterface $dt, $isFloating = false) {
 
         $this->setDateTimes([$dt], $isFloating);
 
@@ -208,7 +208,7 @@ class DateTime extends Property {
      *
      * @return void
      */
-    function setDateTimes(array $dt, $isFloating = false) {
+    public function setDateTimes(array $dt, $isFloating = false) {
 
         $values = [];
 
@@ -267,7 +267,7 @@ class DateTime extends Property {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return $this->hasTime() ? 'DATE-TIME' : 'DATE';
 
@@ -280,7 +280,7 @@ class DateTime extends Property {
      *
      * @return array
      */
-    function getJsonValue() {
+    public function getJsonValue() {
 
         $dts = $this->getDateTimes();
         $hasTime = $this->hasTime();
@@ -313,7 +313,7 @@ class DateTime extends Property {
      *
      * @return void
      */
-    function setJsonValue(array $value) {
+    public function setJsonValue(array $value) {
 
         // dates and times in jCal have one difference to dates and times in
         // iCalendar. In jCal date-parts are separated by dashes, and
@@ -341,7 +341,7 @@ class DateTime extends Property {
      *
      * @return void
      */
-    function offsetSet($name, $value) {
+    public function offsetSet($name, $value) {
 
         parent::offsetSet($name, $value);
         if (strtoupper($name) !== 'VALUE') {
@@ -375,7 +375,7 @@ class DateTime extends Property {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $messages = parent::validate($options);
         $valueType = $this->getValueType();

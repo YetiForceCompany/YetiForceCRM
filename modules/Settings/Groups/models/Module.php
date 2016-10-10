@@ -15,10 +15,10 @@
 class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $baseTable = 'vtiger_groups';
-	var $baseIndex = 'groupid';
-	var $listFields = array('groupname' => 'Name', 'description' => 'Description');
-	var $name = 'Groups';
+	public $baseTable = 'vtiger_groups';
+	public $baseIndex = 'groupid';
+	public $listFields = array('groupname' => 'Name', 'description' => 'Description');
+	public $name = 'Groups';
 
 	/**
 	 * Function to get the url for default view of the module

@@ -56,7 +56,7 @@ class PropPatch {
      *
      * @param array $mutations A list of updates
      */
-    function __construct(array $mutations) {
+    public function __construct(array $mutations) {
 
         $this->mutations = $mutations;
 
@@ -84,7 +84,7 @@ class PropPatch {
      * @param callable $callback
      * @return void
      */
-    function handle($properties, callable $callback) {
+    public function handle($properties, callable $callback) {
 
         $usedProperties = [];
         foreach ((array)$properties as $propertyName) {
@@ -120,7 +120,7 @@ class PropPatch {
      * @param callable $callback
      * @return void
      */
-    function handleRemaining(callable $callback) {
+    public function handleRemaining(callable $callback) {
 
         $properties = $this->getRemainingMutations();
         if (!$properties) {
@@ -147,7 +147,7 @@ class PropPatch {
      * @param int $resultCode
      * @return void
      */
-    function setResultCode($properties, $resultCode) {
+    public function setResultCode($properties, $resultCode) {
 
         foreach ((array)$properties as $propertyName) {
             $this->result[$propertyName] = $resultCode;
@@ -165,7 +165,7 @@ class PropPatch {
      * @param int $resultCode
      * @return void
      */
-    function setRemainingResultCode($resultCode) {
+    public function setRemainingResultCode($resultCode) {
 
         $this->setResultCode(
             $this->getRemainingMutations(),
@@ -181,7 +181,7 @@ class PropPatch {
      *
      * @return string[]
      */
-    function getRemainingMutations() {
+    public function getRemainingMutations() {
 
         $remaining = [];
         foreach ($this->mutations as $propertyName => $propValue) {
@@ -201,7 +201,7 @@ class PropPatch {
      *
      * @return array
      */
-    function getRemainingValues() {
+    public function getRemainingValues() {
 
         $remaining = [];
         foreach ($this->mutations as $propertyName => $propValue) {
@@ -222,7 +222,7 @@ class PropPatch {
      *
      * @return bool
      */
-    function commit() {
+    public function commit() {
 
         // First we validate if every property has a handler
         foreach ($this->mutations as $propertyName => $value) {
@@ -353,7 +353,7 @@ class PropPatch {
      *
      * @return array
      */
-    function getResult() {
+    public function getResult() {
 
         return $this->result;
 
@@ -364,7 +364,7 @@ class PropPatch {
      *
      * @return array
      */
-    function getMutations() {
+    public function getMutations() {
 
         return $this->mutations;
 

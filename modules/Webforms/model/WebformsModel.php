@@ -29,7 +29,7 @@ class Webforms_Model
 	{
 		$this->data = $data;
 		if (isset($data["fields"])) {
-			$this->setFields(vtlib_purify($data["fields"]), vtlib_purify($data["required"]), vtlib_purify($data["value"]));
+			$this->setFields(App\Purifier::purify($data["fields"]), App\Purifier::purify($data["required"]), App\Purifier::purify($data["value"]));
 		}
 		if (isset($data['id'])) {
 			if (($data['enabled'] == 'on') || ($data['enabled'] == 1)) {
@@ -109,7 +109,7 @@ class Webforms_Model
 					$defaultvalue = $value[$fieldname];
 				}
 			} else {
-				$defaultvalue = vtlib_purify($value[$fieldname]);
+				$defaultvalue = App\Purifier::purify($value[$fieldname]);
 			}
 			$fieldModel->setDefaultValue($defaultvalue);
 			if ((!empty($required) && in_array($fieldname, $required))) {
@@ -123,61 +123,61 @@ class Webforms_Model
 
 	public function getId()
 	{
-		return vtlib_purify($this->data["id"]);
+		return App\Purifier::purify($this->data["id"]);
 	}
 
 	public function getName()
 	{
-		return html_entity_decode(vtlib_purify($this->data["name"]));
+		return html_entity_decode(App\Purifier::purify($this->data["name"]));
 	}
 
 	public function getTargetModule()
 	{
-		return vtlib_purify($this->data["targetmodule"]);
+		return App\Purifier::purify($this->data["targetmodule"]);
 	}
 
 	public function getPublicId()
 	{
-		return vtlib_purify($this->data["publicid"]);
+		return App\Purifier::purify($this->data["publicid"]);
 	}
 
 	public function getEnabled()
 	{
-		return vtlib_purify($this->data["enabled"]);
+		return App\Purifier::purify($this->data["enabled"]);
 	}
 
 	public function getDescription()
 	{
-		return vtlib_purify($this->data["description"]);
+		return App\Purifier::purify($this->data["description"]);
 	}
 
 	public function getReturnUrl()
 	{
-		return vtlib_purify($this->data["returnurl"]);
+		return App\Purifier::purify($this->data["returnurl"]);
 	}
 
 	public function getOwnerId()
 	{
-		return vtlib_purify($this->data["ownerid"]);
+		return App\Purifier::purify($this->data["ownerid"]);
 	}
 
 	public function getRoundrobin()
 	{
-		return vtlib_purify($this->data["roundrobin"]);
+		return App\Purifier::purify($this->data["roundrobin"]);
 	}
 
 	public function getRoundrobinOwnerId()
 	{
 		$adb = PearDatabase::getInstance();
-		$roundrobin_userid = vtlib_purify($this->data["roundrobin_userid"]);
-		$roundrobin_logic = vtlib_purify($this->data["roundrobin_logic"]);
+		$roundrobin_userid = App\Purifier::purify($this->data["roundrobin_userid"]);
+		$roundrobin_logic = App\Purifier::purify($this->data["roundrobin_logic"]);
 		$useridList = json_decode($roundrobin_userid, true);
 		if ($roundrobin_logic >= count($useridList))
 			$roundrobin_logic = 0;
 		$roundrobinOwnerId = $useridList[$roundrobin_logic];
 		$nextRoundrobinLogic = ($roundrobin_logic + 1) % count($useridList);
 		$adb->pquery("UPDATE vtiger_webforms SET roundrobin_logic = ? WHERE id = ?", array($nextRoundrobinLogic, $this->getId()));
-		return vtlib_purify($roundrobinOwnerId);
+		return App\Purifier::purify($roundrobinOwnerId);
 	}
 
 	public function getFields()
@@ -188,7 +188,7 @@ class Webforms_Model
 	public function generatePublicId($name)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$uid = md5(microtime(true) + $name);
 		return $uid;
 	}
@@ -206,7 +206,7 @@ class Webforms_Model
 	public function save()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$isNew = !$this->hasId();
 
@@ -243,7 +243,7 @@ class Webforms_Model
 	public function delete()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$adb->pquery("DELETE from vtiger_webforms_field where webformid=?", array($this->getId()));
 		$adb->pquery("DELETE from vtiger_webforms where id=?", array($this->getId()));
@@ -253,7 +253,7 @@ class Webforms_Model
 	static function retrieveWithPublicId($publicid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$model = false;
 		// Retrieve model and populate information
@@ -268,7 +268,7 @@ class Webforms_Model
 	static function retrieveWithId($data)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$id = $data;
 		$model = false;
@@ -284,7 +284,7 @@ class Webforms_Model
 	static function listAll()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$webforms = array();
 
 		$sql = "SELECT * FROM vtiger_webforms";
@@ -302,7 +302,7 @@ class Webforms_Model
 	static function isWebformField($webformid, $fieldname)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 
 		$checkSQL = "SELECT 1 from vtiger_webforms_field where webformid=? && fieldname=?";
 		$result = $adb->pquery($checkSQL, array($webformid, $fieldname));

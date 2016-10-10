@@ -12,7 +12,7 @@
 Class DataAccess_validate_mandatory
 {
 
-	var $config = false;
+	public $config = false;
 
 	public function process($moduleName, $ID, $record_form, $config)
 	{

@@ -49,7 +49,7 @@ class SharingPlugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getFeatures() {
+    public function getFeatures() {
 
         return ['calendarserver-sharing'];
 
@@ -63,7 +63,7 @@ class SharingPlugin extends DAV\ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'caldav-sharing';
 
@@ -80,7 +80,7 @@ class SharingPlugin extends DAV\ServerPlugin {
      * @param DAV\Server $server
      * @return void
      */
-    function initialize(DAV\Server $server) {
+    public function initialize(DAV\Server $server) {
 
         $this->server = $server;
         $server->resourceTypeMapping['Sabre\\CalDAV\\ISharedCalendar'] = '{' . Plugin::NS_CALENDARSERVER . '}shared';
@@ -112,7 +112,7 @@ class SharingPlugin extends DAV\ServerPlugin {
      * @param DAV\INode $node
      * @return void
      */
-    function propFindEarly(DAV\PropFind $propFind, DAV\INode $node) {
+    public function propFindEarly(DAV\PropFind $propFind, DAV\INode $node) {
 
         if ($node instanceof IShareableCalendar) {
 
@@ -177,7 +177,7 @@ class SharingPlugin extends DAV\ServerPlugin {
      * @param DAV\INode $node
      * @return void
      */
-    function propFindLate(DAV\PropFind $propFind, DAV\INode $node) {
+    public function propFindLate(DAV\PropFind $propFind, DAV\INode $node) {
 
         if ($node instanceof IShareableCalendar) {
             if ($rt = $propFind->get('{DAV:}resourcetype')) {
@@ -208,7 +208,7 @@ class SharingPlugin extends DAV\ServerPlugin {
      * @param DAV\PropPatch $propPatch
      * @return void
      */
-    function propPatch($path, DAV\PropPatch $propPatch) {
+    public function propPatch($path, DAV\PropPatch $propPatch) {
 
         $node = $this->server->tree->getNodeForPath($path);
         if (!$node instanceof IShareableCalendar)
@@ -236,7 +236,7 @@ class SharingPlugin extends DAV\ServerPlugin {
      * @param ResponseInterface $response
      * @return null|bool
      */
-    function httpPost(RequestInterface $request, ResponseInterface $response) {
+    public function httpPost(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
 
@@ -414,7 +414,7 @@ class SharingPlugin extends DAV\ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

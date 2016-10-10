@@ -38,7 +38,7 @@
 											<span class="glyphicon glyphicon-share-alt"></span>
 										</button>
 									{else}
-										<a class="btn btn-xs btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget('', 'reply',$RECORD_ID,$MODULE_NAME)}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+										{*<a class="btn btn-xs btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget('', 'reply',$RECORD_ID,$MODULE_NAME)}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
 											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
 										</a>
 										<a class="btn btn-xs btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget('', 'replyAll',$RECORD_ID,$MODULE_NAME)}" title="{vtranslate('LBL_REPLYALLL', 'OSSMailView')}">
@@ -46,7 +46,7 @@
 										</a>
 										<a class="btn btn-xs btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget('', 'forward',$RECORD_ID,$MODULE_NAME)}" title="{vtranslate('LBL_FORWARD', 'OSSMailView')}">
 											<span class="glyphicon glyphicon-share-alt"></span>
-										</a>
+										</a>*}
 									{/if}
 									</div>
 								{/if}<br>

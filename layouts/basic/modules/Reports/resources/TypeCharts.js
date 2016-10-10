@@ -11,6 +11,7 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 	postInitializeCalls: function () {
 		jQuery('table.jqplot-table-legend').css('width', '95px');
 		var thisInstance = this;
+		this.getContainer().off('jqplotDataClick');
 		this.getContainer().on('jqplotDataClick', function (ev, gridpos, datapos, neighbor, plot) {
 			var linkUrl = thisInstance.data['links'][neighbor[0] - 1];
 			if (linkUrl)
@@ -97,6 +98,7 @@ Vtiger_Pie_Widget_Js('Report_Piechart_Js', {}, {
 		var clickThrough = jQuery('input[name=clickthrough]').val();
 		if (clickThrough != '') {
 			var thisInstance = this;
+			this.getContainer().off('jqplotDataClick');
 			this.getContainer().on("jqplotDataClick", function (evt, seriesIndex, pointIndex, neighbor) {
 				var linkUrl = thisInstance.data['links'][pointIndex];
 				if (linkUrl)
@@ -304,6 +306,7 @@ Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
 	},
 	postInitializeCalls: function () {
 		var thisInstance = this;
+		this.getContainer().off('jqplotDataClick');
 		this.getContainer().on("jqplotDataClick", function (ev, gridpos, datapos, neighbor, plot) {
 			var linkUrl = thisInstance.data['links'][neighbor[1] - 1];
 			if (linkUrl)

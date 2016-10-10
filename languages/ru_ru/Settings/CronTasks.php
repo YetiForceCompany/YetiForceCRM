@@ -48,6 +48,7 @@ $languageStrings = [
 	'Assets Renewal' => 'Обновление Активов',
 	'SoldServices Renewal' => 'Возобновление продажи услуг',
 	'LBL_SEND_NOTIFICATIONS' => 'Отправление уведомлений',
+	'LBL_MARK_RECORDS_AS_REVIEWED' => 'Mark records as reviewed',
 ];
 $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Частота указывается в целых числах',

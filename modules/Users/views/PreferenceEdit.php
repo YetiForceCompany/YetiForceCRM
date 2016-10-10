@@ -26,7 +26,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
-		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
+		if (($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record)) {
 			return true;
 		} else {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');

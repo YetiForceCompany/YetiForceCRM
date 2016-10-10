@@ -144,7 +144,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $moduleModel);
 			$picklistValues = $fieldInstance->getPicklistValues();
-			if ($picklistValues == NULL) {
+			if ($picklistValues === null) {
 				$picklistValues = [];
 			}
 		}

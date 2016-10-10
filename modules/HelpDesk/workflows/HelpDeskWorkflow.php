@@ -36,8 +36,8 @@ function getContactsMailsFromTicket($id)
 
 function HeldDeskChangeNotifyContacts($entityData)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug('Entering HeldDeskChangeNotifyContacts');
+	
+	\App\Log::trace('Entering HeldDeskChangeNotifyContacts');
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
@@ -53,19 +53,19 @@ function HeldDeskChangeNotifyContacts($entityData)
 		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		if ($recordModel->sendMailFromTemplate($data)) {
-			$log->debug('HeldDeskChangeNotifyContacts');
+			\App\Log::trace('HeldDeskChangeNotifyContacts');
 			return true;
 		}
 	}
 
-	$log->debug('HeldDeskChangeNotifyContacts');
+	\App\Log::trace('HeldDeskChangeNotifyContacts');
 	return false;
 }
 
 function HeldDeskClosedNotifyContacts($entityData)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug('Entering HeldDeskClosedNotifyContacts');
+	
+	\App\Log::trace('Entering HeldDeskClosedNotifyContacts');
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
@@ -81,20 +81,20 @@ function HeldDeskClosedNotifyContacts($entityData)
 		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		if ($recordModel->sendMailFromTemplate($data)) {
-			$log->debug('HeldDeskClosedNotifyContacts');
+			\App\Log::trace('HeldDeskClosedNotifyContacts');
 			return true;
 		}
 	}
 
-	$log->debug('HeldDeskClosedNotifyContacts');
+	\App\Log::trace('HeldDeskClosedNotifyContacts');
 	return false;
 }
 
 function HeldDeskNewCommentAccount($entityData)
 {
-	$log = LoggerManager::getInstance();
+	
 	$db = PearDatabase::getInstance();
-	$log->debug('Entering HeldDeskNewCommentAccount');
+	\App\Log::trace('Entering HeldDeskNewCommentAccount');
 
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
@@ -126,19 +126,19 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
 		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		if ($recordModel->sendMailFromTemplate($data)) {
-			$log->debug('HeldDeskNewCommentAccount');
+			\App\Log::trace('HeldDeskNewCommentAccount');
 			return true;
 		}
 	}
 
-	$log->debug('HeldDeskNewCommentAccount');
+	\App\Log::trace('HeldDeskNewCommentAccount');
 	return false;
 }
 
 function HeldDeskNewCommentContacts($entityData)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug('Entering HeldDeskNewCommentAccount');
+	
+	\App\Log::trace('Entering HeldDeskNewCommentAccount');
 
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
@@ -158,19 +158,19 @@ function HeldDeskNewCommentContacts($entityData)
 		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		if ($recordModel->sendMailFromTemplate($data)) {
-			$log->debug('HeldDeskNewCommentAccount');
+			\App\Log::trace('HeldDeskNewCommentAccount');
 			return true;
 		}
 	}
 
-	$log->debug('HeldDeskNewCommentAccount');
+	\App\Log::trace('HeldDeskNewCommentAccount');
 	return false;
 }
 
 function HeldDeskNewCommentOwner($entityData)
 {
-	$log = LoggerManager::getInstance();
-	$log->debug('Entering HeldDeskNewCommentAccount');
+	
+	\App\Log::trace('Entering HeldDeskNewCommentAccount');
 	$db = PearDatabase::getInstance();
 
 	$wsId = $entityData->getId();
@@ -216,11 +216,11 @@ function HeldDeskNewCommentOwner($entityData)
 		];
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		if ($recordModel->sendMailFromTemplate($data)) {
-			$log->debug('HeldDeskNewCommentAccount');
+			\App\Log::trace('HeldDeskNewCommentAccount');
 			return true;
 		}
 	}
 
-	$log->debug('HeldDeskNewCommentAccount');
+	\App\Log::trace('HeldDeskNewCommentAccount');
 	return false;
 }

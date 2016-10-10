@@ -29,7 +29,7 @@ class CorePlugin extends ServerPlugin {
      * @param Server $server
      * @return void
      */
-    function initialize(Server $server) {
+    public function initialize(Server $server) {
 
         $this->server = $server;
         $server->on('method:GET',       [$this, 'httpGet']);
@@ -60,7 +60,7 @@ class CorePlugin extends ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'core';
 
@@ -73,7 +73,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpGet(RequestInterface $request, ResponseInterface $response) {
+    public function httpGet(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
         $node = $this->server->tree->getNodeForPath($path);
@@ -201,7 +201,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpOptions(RequestInterface $request, ResponseInterface $response) {
+    public function httpOptions(RequestInterface $request, ResponseInterface $response) {
 
         $methods = $this->server->getAllowedMethods($request->getPath());
 
@@ -236,7 +236,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpHead(RequestInterface $request, ResponseInterface $response) {
+    public function httpHead(RequestInterface $request, ResponseInterface $response) {
 
         // This is implemented by changing the HEAD request to a GET request,
         // and dropping the response body.
@@ -273,7 +273,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return void
      */
-    function httpDelete(RequestInterface $request, ResponseInterface $response) {
+    public function httpDelete(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
 
@@ -306,7 +306,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return void
      */
-    function httpPropFind(RequestInterface $request, ResponseInterface $response) {
+    public function httpPropFind(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
 
@@ -365,7 +365,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpPropPatch(RequestInterface $request, ResponseInterface $response) {
+    public function httpPropPatch(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
 
@@ -438,7 +438,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpPut(RequestInterface $request, ResponseInterface $response) {
+    public function httpPut(RequestInterface $request, ResponseInterface $response) {
 
         $body = $request->getBodyAsStream();
         $path = $request->getPath();
@@ -543,7 +543,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpMkcol(RequestInterface $request, ResponseInterface $response) {
+    public function httpMkcol(RequestInterface $request, ResponseInterface $response) {
 
         $requestBody = $request->getBodyAsString();
         $path = $request->getPath();
@@ -611,7 +611,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpMove(RequestInterface $request, ResponseInterface $response) {
+    public function httpMove(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
 
@@ -663,7 +663,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpCopy(RequestInterface $request, ResponseInterface $response) {
+    public function httpCopy(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
 
@@ -699,7 +699,7 @@ class CorePlugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return bool
      */
-    function httpReport(RequestInterface $request, ResponseInterface $response) {
+    public function httpReport(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
 
@@ -732,7 +732,7 @@ class CorePlugin extends ServerPlugin {
      * @param PropPatch $propPatch
      * @return void
      */
-    function propPatchProtectedPropertyCheck($path, PropPatch $propPatch) {
+    public function propPatchProtectedPropertyCheck($path, PropPatch $propPatch) {
 
         // Comparing the mutation list to the list of propetected properties.
         $mutations = $propPatch->getMutations();
@@ -758,7 +758,7 @@ class CorePlugin extends ServerPlugin {
      * @param PropPatch $propPatch
      * @return void
      */
-    function propPatchNodeUpdate($path, PropPatch $propPatch) {
+    public function propPatchNodeUpdate($path, PropPatch $propPatch) {
 
         // This should trigger a 404 if the node doesn't exist.
         $node = $this->server->tree->getNodeForPath($path);
@@ -778,7 +778,7 @@ class CorePlugin extends ServerPlugin {
      * @param INode $node
      * @return void
      */
-    function propFind(PropFind $propFind, INode $node) {
+    public function propFind(PropFind $propFind, INode $node) {
 
         $propFind->handle('{DAV:}getlastmodified', function() use ($node) {
             $lm = $node->getLastModified();
@@ -835,7 +835,7 @@ class CorePlugin extends ServerPlugin {
      * @param INode $node
      * @return void
      */
-    function propFindNode(PropFind $propFind, INode $node) {
+    public function propFindNode(PropFind $propFind, INode $node) {
 
         if ($node instanceof IProperties && $propertyNames = $propFind->get404Properties()) {
 
@@ -860,7 +860,7 @@ class CorePlugin extends ServerPlugin {
      * @param INode $node
      * @return void
      */
-    function propFindLate(PropFind $propFind, INode $node) {
+    public function propFindLate(PropFind $propFind, INode $node) {
 
         $propFind->handle('{http://calendarserver.org/ns/}getctag', function() use ($propFind) {
 
@@ -911,7 +911,7 @@ class CorePlugin extends ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

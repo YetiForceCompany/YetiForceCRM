@@ -21,7 +21,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function isReadOnly()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (($currentUserModel->isAdminUser() == false && $this->get('uitype') == 98) || $this->get('uitype') == 156 || $this->get('uitype') == 115) {
+		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || $this->get('uitype') == 156 || $this->get('uitype') == 115) {
 			return true;
 		}
 	}

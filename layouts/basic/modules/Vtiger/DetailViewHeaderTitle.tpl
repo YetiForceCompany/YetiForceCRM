@@ -16,7 +16,7 @@
 				<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 			</div>
 			<div class="paddingLeft5px">
-				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
+				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title='{$RECORD->getName()}'>
 					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				{if $MODULE_NAME}

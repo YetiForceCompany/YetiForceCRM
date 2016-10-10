@@ -50,7 +50,7 @@ class VTEventConditionParserParser extends AntlrParser
 
 	public function __construct($input, $state = null)
 	{
-		if ($state == null) {
+		if ($state === null) {
 			$state = new RecognizerSharedState();
 		}
 		parent::__construct($input, $state);

@@ -69,14 +69,11 @@ function GetHistoryBase($parentmodule, $query, $id)
  */
 function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 {
-	$log = vglobal('log');
-	$log->debug("Entering getPriceBookRelatedProducts(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
+
+	\App\Log::trace("Entering getPriceBookRelatedProducts(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
 
 	$adb = PearDatabase::getInstance();
-	global $mod_strings;
 	$current_user = vglobal('current_user');
-	$current_language = vglobal('current_language');
-	$current_module_strings = return_module_language($current_language, 'PriceBook');
 	$no_of_decimal_places = getCurrencyDecimalPlaces();
 	$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');
 	global $urlPrefix;
@@ -87,7 +84,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	$image_path = $theme_path . "images/";
 
 	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true ||
-		((boolean) AppRequest::get('withCount')) == true) {
+		((boolean) AppRequest::get('withCount')) === true) {
 		$noofrows = $adb->query_result($adb->query(vtlib\Functions::mkCountQuery($query)), 0, 'count');
 	} else {
 		$noofrows = null;
@@ -123,14 +120,14 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 			" LIMIT $limit_start_rec, $listMaxEntriesPerPage ", []);
 
 	$header = [];
-	$header[] = $mod_strings['LBL_LIST_PRODUCT_NAME'];
+	$header[] = \includes\Language::translate('LBL_LIST_PRODUCT_NAME');
 	if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
-		$header[] = $mod_strings['LBL_PRODUCT_CODE'];
+		$header[] = \includes\Language::translate('LBL_PRODUCT_CODE');
 	if (getFieldVisibilityPermission('Products', $current_user->id, 'unit_price') == '0')
-		$header[] = $mod_strings['LBL_PRODUCT_UNIT_PRICE'];
-	$header[] = $mod_strings['LBL_PB_LIST_PRICE'];
+		$header[] = \includes\Language::translate('LBL_PRODUCT_UNIT_PRICE');
+	$header[] = \includes\Language::translate('LBL_PB_LIST_PRICE');
 	if (isPermitted("PriceBooks", "EditView", "") == 'yes' || isPermitted("PriceBooks", "Delete", "") == 'yes')
-		$header[] = $mod_strings['LBL_ACTION'];
+		$header[] = \includes\Language::translate('LBL_ACTION');
 
 	$currency_id = $focus->column_fields['currency_id'];
 	$numRows = $adb->num_rows($list_result);
@@ -145,7 +142,7 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 		$field_name = $entity_id . "_listprice";
 
 		$entries = [];
-		$entries[] = textlength_check($adb->query_result($list_result, $i, "productname"));
+		$entries[] = \vtlib\Functions::textLength($adb->query_result($list_result, $i, "productname"));
 		if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
 			$entries[] = $adb->query_result($list_result, $i, "productcode");
 		if (getFieldVisibilityPermission('Products', $current_user->id, 'unit_price') == '0')
@@ -171,20 +168,19 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 	$navigationOutput[] = getRelatedTableHeaderNavigation($navigation_array, '', $module, $relatedmodule, $focus->id);
 	$return_data = array('header' => $header, 'entries' => $entries_list, 'navigation' => $navigationOutput);
 
-	$log->debug("Exiting getPriceBookRelatedProducts method ...");
+	\App\Log::trace("Exiting getPriceBookRelatedProducts method ...");
 	return $return_data;
 }
 
 function CheckFieldPermission($fieldname, $module)
 {
-	$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-	$adb = PearDatabase::getInstance();
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
+	$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+	require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 	if ($fieldname == '' || $module == '') {
 		return "false";
 	}
 
-	if (getFieldVisibilityPermission($module, $current_user->id, $fieldname) == '0') {
+	if (getFieldVisibilityPermission($module, $currentUser->id, $fieldname) == '0') {
 		return "true";
 	}
 	return "false";

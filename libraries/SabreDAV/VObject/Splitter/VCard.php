@@ -43,7 +43,7 @@ class VCard implements SplitterInterface {
      * @param resource $input
      * @param int $options Parser options, see the OPTIONS constants.
      */
-    function __construct($input, $options = 0) {
+    public function __construct($input, $options = 0) {
 
         $this->input = $input;
         $this->parser = new MimeDir($input, $options);
@@ -58,7 +58,7 @@ class VCard implements SplitterInterface {
      *
      * @return Sabre\VObject\Component|null
      */
-    function getNext() {
+    public function getNext() {
 
         try {
             $object = $this->parser->parse();

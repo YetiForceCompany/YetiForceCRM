@@ -45,7 +45,7 @@ class AllowedSharingModes implements XmlSerializable {
      * @param bool $canBePublished
      * @return void
      */
-    function __construct($canBeShared, $canBePublished) {
+    public function __construct($canBeShared, $canBePublished) {
 
         $this->canBeShared = $canBeShared;
         $this->canBePublished = $canBePublished;
@@ -71,7 +71,7 @@ class AllowedSharingModes implements XmlSerializable {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         if ($this->canBeShared) {
             $writer->writeElement('{' . Plugin::NS_CALENDARSERVER . '}can-be-shared');

@@ -31,7 +31,7 @@ class Install_InitSchema_Model
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
 		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
 		$this->db->pquery('UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?', [$currencyName, $currencyCode, $currencySymbol]);
-		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [AppConfig::main('YetiForce_current_version'), AppConfig::main('YetiForce_current_version')]);
+		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [\App\Version::get(), \App\Version::get()]);
 
 		// recalculate all sharing rules for users
 		vimport('~include/utils/UserInfoUtil.php');
@@ -140,7 +140,8 @@ class Install_InitSchema_Model
 			$queries[] = $query;
 		}
 		// Add function part as is
-		for ($f = 1; $f < count($funct); $f++) {
+		$countFunct = count($funct);
+		for ($f = 1; $f < $countFunct; $f++) {
 			$queries[] = 'CREATE || REPLACE FUNCTION ' . $funct[$f];
 		}
 		return $queries;
@@ -261,21 +262,21 @@ class Install_InitSchema_Model
 
 	public function deleteDirFile($src)
 	{
-		$log = LoggerManager::getInstance();
+
 		$rootDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if ($rootDirectory && strpos($src, $rootDirectory) === FALSE) {
+		if ($rootDirectory && strpos($src, $rootDirectory) === false) {
 			$src = $rootDirectory . $src;
 		}
 		if (!file_exists($src) || !$rootDirectory)
 			return;
 		@chmod($src, 0777);
-		$log->debug("Exiting VT620_to_YT::testest(" . $src . ") method ...");
+		\App\Log::trace("Exiting VT620_to_YT::testest(" . $src . ") method ...");
 		if (is_dir($src)) {
 			$dir = new DirectoryIterator($src);
 			foreach ($dir as $fileinfo) {
 				if (!$fileinfo->isDot()) {
 					if ($fileinfo->isDir()) {
-						$log->debug("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
+						\App\Log::trace("Exiting VT620_to_YT::testest 22(" . $fileinfo->getPathname() . ") method ...");
 						$this->deleteDirFile($fileinfo->getPathname());
 						rmdir($fileinfo->getPathname());
 					} else {

@@ -1,7 +1,7 @@
 <?php
 /**
  * Cron task to update coordinates
- * @package YetiForce.CRON
+ * @package YetiForce.Cron
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */

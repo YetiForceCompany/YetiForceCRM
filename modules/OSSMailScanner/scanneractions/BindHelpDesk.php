@@ -25,7 +25,7 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 				$recordModel->set('ticketstatus', AppConfig::module('Email', 'HELPDESK_WAIT_FOR_RESPONSE_STATUS'));
 				$recordModel->save();
 			}
-			$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+			$ticketStatus = array_flip(Settings_SupportProcesses_Module_Model::getTicketStatusNotModify());
 			if ($mail->getTypeEmail() == 1 && isset($ticketStatus[$recordModel->get('ticketstatus')])) {
 				if ($conf['changeTicketStatus'] == 'openTicket') {
 					$recordModel->set('ticketstatus', AppConfig::module('Email', 'HELPDESK_OPENTICKET_STATUS'));

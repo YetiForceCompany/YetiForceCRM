@@ -12,8 +12,9 @@ class Test{
 	public $restler;
 	
 	public function post($app_name = ''){
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
-		$log->info('Start Test metod');
+		$adb = PearDatabase::getInstance();
+		
+		\App\Log::trace('Start Test metod');
 		$return = 'false';
 		if ($app_name == 'PushCall')
 			$return = "true";
@@ -21,7 +22,7 @@ class Test{
 			$return = "true";
 		if ($app_name == 'HistoryCall')
 			$return = "true";
-		$log->info('tart Test metod | return: '.$return);
+		\App\Log::trace('tart Test metod | return: '.$return);
 		return $return;
 	}
 }

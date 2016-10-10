@@ -34,7 +34,7 @@ class SupportedAddressData implements XmlSerializable {
      *
      * @param array|null $supportedData
      */
-    function __construct(array $supportedData = null) {
+    public function __construct(array $supportedData = null) {
 
         if (is_null($supportedData)) {
             $supportedData = [
@@ -67,7 +67,7 @@ class SupportedAddressData implements XmlSerializable {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->supportedData as $supported) {
             $writer->startElement('{' . Plugin::NS_CARDDAV . '}address-data-type');

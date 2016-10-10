@@ -11,7 +11,7 @@
 function vtws_delete($id, $user)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();

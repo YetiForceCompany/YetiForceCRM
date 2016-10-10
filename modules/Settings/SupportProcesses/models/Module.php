@@ -24,9 +24,9 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 */
 	public static function getTicketStatus()
 	{
-		$log = LoggerManager::getInstance();
+		
 		$adb = PearDatabase::getInstance();
-		$log->debug("Entering Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
+		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
 		$sql = 'SELECT * FROM `vtiger_ticketstatus`;';
 		$result = $adb->query($sql);
 		$rowsNum = $adb->num_rows($result);
@@ -36,7 +36,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 			$return[$i]['statusTranslate'] = vtranslate($adb->query_result($result, $i, 'ticketstatus'), 'HelpDesk');
 			$return[$i]['status'] = $adb->query_result($result, $i, 'ticketstatus');
 		}
-		$log->debug("Exiting Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
+		\App\Log::trace("Exiting Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
 		return $return;
 	}
 
@@ -51,9 +51,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		if (self::$ticketStatusNotModify) {
 			return self::$ticketStatusNotModify;
 		}
-		$log = LoggerManager::getInstance();
 		$db = PearDatabase::getInstance();
-		$log->debug('Entering Settings_SupportProcesses_Module_Model::getTicketStatusNotModify() method ...');
 		$result = $db->query('SELECT ticket_status_indicate_closing FROM `vtiger_support_processes`');
 
 		$return = [];
@@ -62,8 +60,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 			$return = explode(',', $ticketStatus);
 		}
 		self::$ticketStatusNotModify = $return;
-		$log->debug('Exiting Settings_SupportProcesses_Module_Model::getTicketStatusNotModify() method ...');
-		return array_flip($return);
+		return $return;
 	}
 
 	/**
@@ -72,9 +69,9 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 */
 	public function updateTicketStatusNotModify($data)
 	{
-		$log = LoggerManager::getInstance();
+		
 		$adb = PearDatabase::getInstance();
-		$log->debug("Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
+		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		$deleteQuery = "UPDATE `vtiger_support_processes` SET `ticket_status_indicate_closing` = NULL WHERE `id` = 1";
 		$adb->query($deleteQuery);
 		if ('null' != $data['val']) {
@@ -82,15 +79,15 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 			$data = implode(',', $data['val']);
 			$adb->pquery($insertQuery, [$data]);
 		}
-		$log->debug("Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
-		return TRUE;
+		\App\Log::trace("Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
+		return true;
 	}
 
 	public function getAllTicketStatus()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering Settings_SupportProcesses_Module_Model::getAllTicketStatus() method ...");
+		
+		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getAllTicketStatus() method ...");
 		$sql = 'SELECT `ticketstatus` FROM `vtiger_ticketstatus`';
 		$result = $adb->query($sql);
 		$rowsNum = $adb->num_rows($result);
@@ -102,11 +99,11 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 
 	public static function getOpenTicketStatus()
 	{
-		$log = LoggerManager::getInstance();
+		
 		$getTicketStatusClosed = self::getTicketStatusNotModify();
-		$log->debug("Entering Settings_SupportProcesses_Module_Model::getOpenTicketStatus() method ...");
+		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getOpenTicketStatus() method ...");
 		if (empty($getTicketStatusClosed)) {
-			$result = FALSE;
+			$result = false;
 		} else {
 			$getAllTicketStatus = self::getAllTicketStatus();
 			foreach ($getTicketStatusClosed as $key => $closedStatus) {

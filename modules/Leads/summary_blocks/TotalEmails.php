@@ -18,8 +18,8 @@ class TotalEmails
 
 	public function process($instance)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering TotalEmails::process() method ...");
+		
+		\App\Log::trace("Entering TotalEmails::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$emails = 'SELECT COUNT(DISTINCT vtiger_ossmailview.ossmailviewid) AS mails
 			FROM vtiger_ossmailview 
@@ -28,7 +28,7 @@ class TotalEmails
 			WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid = ? || vtiger_crmentityrel.relcrmid = ?)';
 		$result_mailview = $adb->pquery($emails, array($instance->getId(), $instance->getId()));
 		$count = $adb->query_result($result_mailview, 0, 'mails');
-		$log->debug("Exiting TotalEmails::process() method ...");
+		\App\Log::trace("Exiting TotalEmails::process() method ...");
 		return $count;
 	}
 }

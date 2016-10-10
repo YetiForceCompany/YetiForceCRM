@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class ModTracker_Relation_Model extends Vtiger_Record_Model
@@ -47,5 +48,37 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 			return $recordInstance;
 		}
 		return false;
+	}
+
+	/**
+	 * Function adds records to task queue that updates reviewing changes in records
+	 * @param array $data - List of records to update
+	 * @param string $module - Module name
+	 */
+	public static function reviewChangesQueue($data, $module)
+	{
+		$db = \App\DB::getInstance();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$id = (new \App\db\Query())->from('u_#__reviewed_queue')->max('id') + 1;
+		$db->createCommand()->insert('u_#__reviewed_queue', [
+			'id' => $id,
+			'userid' => $currentUserModel->getRealId(),
+			'tabid' => \vtlib\Functions::getModuleId($module),
+			'data' => \includes\utils\Json::encode($data),
+			'time' => date('Y-m-d H:i:s')
+		])->execute();
+	}
+
+	/**
+	 * Function marks forwarded records as reviewed
+	 * @param array $recordsList - List of records to update
+	 * @param integer $userId - User id
+	 */
+	public static function reviewChanges($recordsList, $userId = false)
+	{
+		foreach ($recordsList as $record) {
+			$result = ModTracker_Record_Model::setLastReviewed($record);
+			ModTracker_Record_Model::unsetReviewed($record, $userId, $result);
+		}
 	}
 }

@@ -45,7 +45,7 @@ abstract class Parser {
      *
      * @return void
      */
-    function __construct($input = null, $options = 0) {
+    public function __construct($input = null, $options = 0) {
 
         if (!is_null($input)) {
             $this->setInput($input);

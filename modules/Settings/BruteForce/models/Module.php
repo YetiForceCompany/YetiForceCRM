@@ -12,31 +12,18 @@
 class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public function getConfig()
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT * FROM vtiger_bruteforce", true);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$output[] = $db->query_result($result, $i, 'value');
-		}
-		return $output;
-	}
-
 	static public function getBruteForceSettings()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT * FROM vtiger_bruteforce", true);
-		$output = $db->query_result_rowdata($result, 0);
-		return $output;
+		return (new App\db\Query())->from('vtiger_bruteforce')->one();
 	}
 
-	static public function getBlockedIP()
+	public static function getBlockedIP()
 	{
 		$db = PearDatabase::getInstance();
 		$bruteforceSettings = self::getBruteForceSettings();
 		$attempsNumber = $bruteforceSettings['attempsnumber'];
 		$blockTime = $bruteforceSettings['timelock'];
-		$now = date("Y-m-d H:i:s");
+		$now = date('Y-m-d H:i:s');
 
 		$query = "SELECT  COUNT(*) AS COUNT, user_ip, GROUP_CONCAT(DISTINCT(user_name)) as usersName, login_time, GROUP_CONCAT(DISTINCT(browser)) as browsers"
 			. " FROM `vtiger_loginhistory` vlh WHERE "
@@ -58,19 +45,19 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 		$browser = $_SERVER['HTTP_USER_AGENT'];
 
-		if (strpos($browser, 'MSIE') !== FALSE)
+		if (strpos($browser, 'MSIE') !== false)
 			return 'Internet explorer';
-		elseif (strpos($browser, 'Trident') !== FALSE) //For Supporting IE 11
+		elseif (strpos($browser, 'Trident') !== false) //For Supporting IE 11
 			return 'Internet explorer';
-		elseif (strpos($browser, 'Firefox') !== FALSE)
+		elseif (strpos($browser, 'Firefox') !== false)
 			return 'Mozilla Firefox';
-		elseif (strpos($browser, 'Chrome') !== FALSE)
+		elseif (strpos($browser, 'Chrome') !== false)
 			return 'Google Chrome';
-		elseif (strpos($browser, 'Opera Mini') !== FALSE)
+		elseif (strpos($browser, 'Opera Mini') !== false)
 			return "Opera Mini";
-		elseif (strpos($browser, 'Opera') !== FALSE)
+		elseif (strpos($browser, 'Opera') !== false)
 			return "Opera";
-		elseif (strpos($browser, 'Safari') !== FALSE)
+		elseif (strpos($browser, 'Safari') !== false)
 			return "Safari";
 		else
 			return 'unknow';
@@ -78,23 +65,19 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	static public function checkBlocked()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT * FROM `vtiger_bruteforce` LIMIT 1";
-		$result = $db->pquery($query, array());
-		$ip = vtlib\Functions::getRemoteIP();
-		$bruteforceSettings = $db->query_result_rowdata($result, 0);
-		$attempsNumber = $bruteforceSettings['attempsnumber'];
-		$blockTime = $bruteforceSettings['timelock'];
-
+		$config = self::getBruteForceSettings();
 		$blockDate = new DateTime();
-		$blockDate->modify("-$blockTime minutes");
+		$blockDate->modify("-{$config['timelock']} minutes");
+		$ip = vtlib\Functions::getRemoteIP();
 
-		$query = "SELECT count(login_id) as cn FROM `vtiger_loginhistory` vlh 
-			WHERE STATUS = 'Failed login' && user_ip = ? && unblock = 0 
-			AND vlh.login_time > ?";
-		$result = $db->pquery($query, array($ip, $blockDate->format('Y-m-d H:i:s')));
-		if ($db->getSingleValue($result) >= $attempsNumber) {
+		$count = (new \App\db\Query())
+			->from('vtiger_loginhistory')
+			->where(['>', 'login_time', $blockDate->format('Y-m-d H:i:s')])
+			->andWhere(['status' => 'Failed login'])
+			->andWhere(['user_ip' => $ip])
+			->andWhere(['unblock' => 0])
+			->count(1);
+		if ($count >= $config['attempsnumber']) {
 			return true;
 		}
 		return false;
@@ -117,18 +100,17 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function updateConfig($number, $timelock, $active)
 	{
-		$adb = PearDatabase::getInstance();
-
 		if ('true' == $active) {
-			$active = TRUE;
+			$active = true;
 		} else {
-			$active = FALSE;
+			$active = false;
 		}
-
-		$query = "UPDATE vtiger_bruteforce SET attempsnumber = ?, timelock = ?, active = ?;";
-		$params = array($number, $timelock, $active);
-		$result = $adb->pquery($query, $params);
-
+		$result = \App\DB::getInstance()->createCommand()
+				->update('vtiger_bruteforce', [
+					'attempsnumber' => $number,
+					'timelock' => $timelock,
+					'active' => $active,
+				])->execute();
 		return $result;
 	}
 
@@ -137,14 +119,14 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 		$deleteQuery = "DELETE FROM `vtiger_bruteforce_users`";
 		$adb->query($deleteQuery);
-		if ('null' != $selectedUsers) {
+		if (!empty($selectedUsers)) {
 			$insertQuery = "INSERT INTO `vtiger_bruteforce_users` (id) VALUES(?)";
 			foreach ($selectedUsers as $userId) {
 				$adb->pquery($insertQuery, array($userId));
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	public static function getUsersForNotifications()
@@ -163,11 +145,11 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function sendNotificationEmail()
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . '::' . __METHOD__);
+		
+		\App\Log::trace('Start ' . __CLASS__ . '::' . __METHOD__);
 		$usersId = self::getUsersForNotifications();
 		if (count($usersId) == 0) {
-			$log->fatal('No brute force users found to send email');
+			\App\Log::error('No brute force users found to send email');
 			return false;
 		}
 		foreach ($usersId as $id) {
@@ -185,8 +167,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$mail_status = $recordModel->sendMailFromTemplate($data);
 
 		if ($mail_status != 1) {
-			$log->error('Do not sent mail with information about brute force attack');
+			\App\Log::error('Do not sent mail with information about brute force attack');
 		}
-		$log->debug('End ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('End ' . __CLASS__ . '::' . __METHOD__);
 	}
 }

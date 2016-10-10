@@ -9,23 +9,23 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class SQuoteEnquiries extends Vtiger_CRMEntity
 {
 
-	var $table_name = 'u_yf_squoteenquiries';
-	var $table_index = 'squoteenquiriesid';
+	public $table_name = 'u_yf_squoteenquiries';
+	public $table_index = 'squoteenquiriesid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('u_yf_squoteenquiriescf', 'squoteenquiriesid');
+	public $customFieldTable = Array('u_yf_squoteenquiriescf', 'squoteenquiriesid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'u_yf_squoteenquiries', 'u_yf_squoteenquiriescf', 'vtiger_entity_stats');
+	public $tab_name = Array('vtiger_crmentity', 'u_yf_squoteenquiries', 'u_yf_squoteenquiriescf', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_squoteenquiries' => 'squoteenquiriesid',
 		'u_yf_squoteenquiriescf' => 'squoteenquiriesid',
@@ -34,42 +34,42 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => Array('squoteenquiries', 'subject'),
 		'Assigned To' => Array('crmentity', 'smownerid')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'subject';
+	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'LBL_SUBJECT' => Array('squoteenquiries', 'subject'),
 		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('subject');
+	public $popup_fields = Array('subject');
 	// For Alphabetical search
-	var $def_basicsearch_col = 'subject';
+	public $def_basicsearch_col = 'subject';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'subject';
+	public $def_detailview_recname = 'subject';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('subject', 'assigned_user_id');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $mandatory_fields = Array('subject', 'assigned_user_id');
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 
 	/**
 	 * Invoked when special actions are performed on the module.

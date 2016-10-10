@@ -238,7 +238,8 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 			case 'Multipicklist':
 				$value = explode(' |##| ', $value);
 				$trValue = [];
-				for ($i = 0; $i < count($value); $i++) {
+				$countValue = count($value);
+				for ($i = 0; $i < $countValue; $i++) {
 					$trValue[] = '(translate: [' . $value[$i] . '|||' . $fieldModel->getModuleName() . '])';
 				}
 				if (is_array($trValue)) {

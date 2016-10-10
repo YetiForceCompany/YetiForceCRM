@@ -47,6 +47,7 @@ $languageStrings = [
 	'Assets Renewal' => 'Assets Renewal',
 	'SoldServices Renewal' => 'SoldServices Renewal',
 	'LBL_SEND_NOTIFICATIONS' => 'Send notifications',
+	'LBL_MARK_RECORDS_AS_REVIEWED' => 'Mark records as reviewed',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',

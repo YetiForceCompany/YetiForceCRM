@@ -7,9 +7,8 @@ $baseDir = dirname($vendorDir);
 return [
 	'vtlib\\' => [$baseDir . '/vtlib/Vtiger'],
 	'includes\\' => [$baseDir . '/include'],
+	'App\\' => [$baseDir . '/vendor/yetiforce'],
 	'Exception\\' => [$baseDir . '/include/exceptions'],
-	'Psr\\Log\\' => [$baseDir . '/libraries/Psr/Log'],
-	'DebugBar\\' => [$baseDir . '/libraries/php-debugbar/src/DebugBar'],
-	'Symfony\\Component\\VarDumper\\' => [$baseDir . '/libraries/symfony/var-dumper'],
-	'Symfony\\Polyfill\\Mbstring\\' => [$baseDir . '/libraries/symfony/polyfill-mbstring'],
+	'DebugBar\\' => [$baseDir . '/vendor/php-debugbar/src/DebugBar'],
+	'Symfony\\Component\\VarDumper\\' => [$baseDir . '/vendor/symfony/var-dumper'],
 ];

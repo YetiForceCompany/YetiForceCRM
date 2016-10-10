@@ -11,28 +11,27 @@
 class ProjectMilestone extends CRMEntity
 {
 
-	var $db, $log; // Used in class functions of CRMEntity
-	var $table_name = 'vtiger_projectmilestone';
-	var $table_index = 'projectmilestoneid';
-	var $column_fields = Array();
+	public $table_name = 'vtiger_projectmilestone';
+	public $table_index = 'projectmilestoneid';
+	public $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
+	public $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_projectmilestonecf', 'projectmilestoneid');
+	public $customFieldTable = Array('vtiger_projectmilestonecf', 'projectmilestoneid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_projectmilestone', 'vtiger_projectmilestonecf');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_projectmilestone', 'vtiger_projectmilestonecf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_projectmilestone' => 'projectmilestoneid',
 		'vtiger_projectmilestonecf' => 'projectmilestoneid');
@@ -40,7 +39,7 @@ class ProjectMilestone extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Project Milestone Name' => Array('projectmilestone', 'projectmilestonename'),
@@ -48,7 +47,7 @@ class ProjectMilestone extends CRMEntity
 		'Type' => Array('projectmilestone', 'projectmilestonetype'),
 		//'Assigned To' => Array('crmentity','smownerid')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Project Milestone Name' => 'projectmilestonename',
 		'Milestone Date' => 'projectmilestonedate',
@@ -56,38 +55,38 @@ class ProjectMilestone extends CRMEntity
 		//'Assigned To' => 'assigned_user_id'
 	);
 	// Make the field link to detail view from list view (Fieldname)
-	var $list_link_field = 'projectmilestonename';
+	public $list_link_field = 'projectmilestonename';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Project Milestone Name' => Array('projectmilestone', 'projectmilestonename'),
 		'Milestone Date' => Array('projectmilestone', 'projectmilestonedate'),
 		'Type' => Array('projectmilestone', 'projectmilestonetype'),
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Project Milestone Namee' => 'projectmilestonename',
 		'Milestone Date' => 'projectmilestonedate',
 		'Type' => 'projectmilestonetype',
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('projectmilestonename');
+	public $popup_fields = Array('projectmilestonename');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	public $sortby_fields = Array();
 	// For Alphabetical search
-	var $def_basicsearch_col = 'projectmilestonename';
+	public $def_basicsearch_col = 'projectmilestonename';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'projectmilestonename';
+	public $def_detailview_recname = 'projectmilestonename';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('projectmilestonename' => 1);
+	public $required_fields = Array('projectmilestonename' => 1);
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $special_functions = Array('set_import_assigned_user');
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectmilestonename', 'projectid', 'assigned_user_id');
+	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectmilestonename', 'projectid', 'assigned_user_id');
 
 	public function save_module($module)
 	{
@@ -173,7 +172,7 @@ class ProjectMilestone extends CRMEntity
 		$sec_query = '';
 		$tabid = \includes\Modules::getModuleId($module);
 
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
 			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
 					(
@@ -343,13 +342,13 @@ class ProjectMilestone extends CRMEntity
 
 			\includes\fields\RecordNumber::setNumber($modulename, 'PM', 1);
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 
 			\includes\fields\RecordNumber::setNumber($modulename, 'PM', 1);

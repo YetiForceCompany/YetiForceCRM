@@ -25,7 +25,7 @@ class PaymentsOut_GenerateRecords_Action extends Vtiger_Action_Controller
 			$ossPaymentsOut->column_fields['paymentstitle'] = $fields['details']['title'];
 			$ossPaymentsOut->column_fields['bank_account'] = $fields['details']['contAccount'];
 			$saved = $ossPaymentsOut->save('PaymentsOut');
-			if ($saved == false) {
+			if ($saved === false) {
 				$bag = true;
 			}
 		}

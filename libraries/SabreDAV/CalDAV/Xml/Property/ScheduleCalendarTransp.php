@@ -41,7 +41,7 @@ class ScheduleCalendarTransp implements Element {
      *
      * @param string $value
      */
-    function __construct($value) {
+    public function __construct($value) {
 
         if ($value !== self::TRANSPARENT && $value !== self::OPAQUE) {
             throw new \InvalidArgumentException('The value must either be specified as "transparent" or "opaque"');
@@ -55,7 +55,7 @@ class ScheduleCalendarTransp implements Element {
      *
      * @return string
      */
-    function getValue() {
+    public function getValue() {
 
         return $this->value;
 
@@ -80,7 +80,7 @@ class ScheduleCalendarTransp implements Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         switch ($this->value) {
             case self::TRANSPARENT :

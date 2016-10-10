@@ -137,7 +137,7 @@ class Smarty_Internal_Configfilelexer
      * @param   string                             $data template source
      * @param Smarty_Internal_Config_File_Compiler $compiler
      */
-    function __construct($data, Smarty_Internal_Config_File_Compiler $compiler)
+    public function __construct($data, Smarty_Internal_Config_File_Compiler $compiler)
     {
         // set instance object
         self::instance($this);
@@ -271,52 +271,52 @@ class Smarty_Internal_Configfilelexer
 
     const START = 1;
 
-    function yy_r1_1()
+    public function yy_r1_1()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_COMMENTSTART;
         $this->yypushstate(self::COMMENT);
     }
 
-    function yy_r1_2()
+    public function yy_r1_2()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_OPENB;
         $this->yypushstate(self::SECTION);
     }
 
-    function yy_r1_3()
+    public function yy_r1_3()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_CLOSEB;
     }
 
-    function yy_r1_4()
+    public function yy_r1_4()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_EQUAL;
         $this->yypushstate(self::VALUE);
     }
 
-    function yy_r1_5()
+    public function yy_r1_5()
     {
 
         return false;
     }
 
-    function yy_r1_6()
+    public function yy_r1_6()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_NEWLINE;
     }
 
-    function yy_r1_7()
+    public function yy_r1_7()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_ID;
     }
 
-    function yy_r1_8()
+    public function yy_r1_8()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_OTHER;
@@ -376,48 +376,48 @@ class Smarty_Internal_Configfilelexer
 
     const VALUE = 2;
 
-    function yy_r2_1()
+    public function yy_r2_1()
     {
 
         return false;
     }
 
-    function yy_r2_2()
+    public function yy_r2_2()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_FLOAT;
         $this->yypopstate();
     }
 
-    function yy_r2_3()
+    public function yy_r2_3()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_INT;
         $this->yypopstate();
     }
 
-    function yy_r2_4()
+    public function yy_r2_4()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_TRIPPLE_QUOTES;
         $this->yypushstate(self::TRIPPLE);
     }
 
-    function yy_r2_5()
+    public function yy_r2_5()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_SINGLE_QUOTED_STRING;
         $this->yypopstate();
     }
 
-    function yy_r2_6()
+    public function yy_r2_6()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_DOUBLE_QUOTED_STRING;
         $this->yypopstate();
     }
 
-    function yy_r2_7()
+    public function yy_r2_7()
     {
 
         if (!$this->configBooleanize ||
@@ -432,14 +432,14 @@ class Smarty_Internal_Configfilelexer
         }
     }
 
-    function yy_r2_8()
+    public function yy_r2_8()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_NAKED_STRING;
         $this->yypopstate();
     }
 
-    function yy_r2_9()
+    public function yy_r2_9()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_NAKED_STRING;
@@ -500,7 +500,7 @@ class Smarty_Internal_Configfilelexer
 
     const NAKED_STRING_VALUE = 3;
 
-    function yy_r3_1()
+    public function yy_r3_1()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_NAKED_STRING;
@@ -560,19 +560,19 @@ class Smarty_Internal_Configfilelexer
 
     const COMMENT = 4;
 
-    function yy_r4_1()
+    public function yy_r4_1()
     {
 
         return false;
     }
 
-    function yy_r4_2()
+    public function yy_r4_2()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_NAKED_STRING;
     }
 
-    function yy_r4_3()
+    public function yy_r4_3()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_NEWLINE;
@@ -632,13 +632,13 @@ class Smarty_Internal_Configfilelexer
 
     const SECTION = 5;
 
-    function yy_r5_1()
+    public function yy_r5_1()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_DOT;
     }
 
-    function yy_r5_2()
+    public function yy_r5_2()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_SECTION;
@@ -698,7 +698,7 @@ class Smarty_Internal_Configfilelexer
 
     const TRIPPLE = 6;
 
-    function yy_r6_1()
+    public function yy_r6_1()
     {
 
         $this->token = Smarty_Internal_Configfileparser::TPC_TRIPPLE_QUOTES_END;
@@ -706,7 +706,7 @@ class Smarty_Internal_Configfilelexer
         $this->yypushstate(self::START);
     }
 
-    function yy_r6_2()
+    public function yy_r6_2()
     {
 
         $to = strlen($this->data);

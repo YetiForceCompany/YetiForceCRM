@@ -42,6 +42,6 @@ interface IPatchSupport extends DAV\IFile {
      * @param int $offset
      * @return string|null
      */
-    function patch($data, $rangeType, $offset = null);
+    public function patch($data, $rangeType, $offset = null);
 
 }

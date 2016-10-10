@@ -37,8 +37,8 @@ class DateTimeField
 	 */
 	public function getDBInsertDateValue($user = null)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
+
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
 		$value = explode(' ', $this->datetime);
 		if (count($value) == 2) {
 			$value[0] = self::convertToUserFormat($value[0]);
@@ -50,7 +50,7 @@ class DateTimeField
 		} else {
 			$insert_date = self::convertToDBFormat($value[0]);
 		}
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $insert_date;
 	}
 
@@ -61,15 +61,15 @@ class DateTimeField
 	 */
 	public function getDBInsertDateTimeValue($user = null)
 	{
-		$log = vglobal('log');
-		$log->debug(__CLASS__ . ':' . __FUNCTION__);
+
+		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__);
 		return $this->getDBInsertDateValue($user) . ' ' . $this->getDBInsertTimeValue($user);
 	}
 
 	public function getDisplayDateTimeValue($user = null)
 	{
-		$log = vglobal('log');
-		$log->debug(__CLASS__ . ':' . __FUNCTION__);
+
+		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__);
 		return $this->getDisplayDate($user) . ' ' . $this->getDisplayTime($user);
 	}
 
@@ -87,9 +87,9 @@ class DateTimeField
 	 */
 	public static function convertToDBFormat($date, $user = null)
 	{
-		$log = LoggerManager::getInstance();
+
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date));
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date));
 		if (empty($user)) {
 			$user = $current_user;
 		}
@@ -99,7 +99,7 @@ class DateTimeField
 			$format = 'yyyy-mm-dd';
 		}
 		$return = self::__convertToDBFormat($date, $format);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $return;
 	}
 
@@ -111,10 +111,10 @@ class DateTimeField
 	 */
 	public static function __convertToDBFormat($date, $format)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date) . ' | ' . $format);
+
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date) . ' | ' . $format);
 		if (empty($date)) {
-			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+			\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 			return $date;
 		}
 		if ($format == '') {
@@ -166,7 +166,7 @@ class DateTimeField
 		} else {
 			$dbDate = $y . '-' . $m . '-' . $d;
 		}
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $dbDate;
 	}
 
@@ -192,9 +192,8 @@ class DateTimeField
 	 */
 	public static function convertToUserFormat($date, $user = null)
 	{
-		$current_user = vglobal('current_user');
 		if (empty($user)) {
-			$user = $current_user;
+			$user = vglobal('current_user');
 		}
 		$format = $user->date_format;
 		if (empty($format)) {
@@ -211,8 +210,8 @@ class DateTimeField
 	 */
 	public static function __convertToUserFormat($date, $format)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date) . ' | ' . $format);
+
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . ' ' . serialize($date) . ' | ' . $format);
 		$date = self::convertToInternalFormat($date);
 		$separator = '-';
 		if (strpos($date[0], '-') !== false) {
@@ -250,7 +249,7 @@ class DateTimeField
 		} else {
 			$userDate = $date[0];
 		}
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $userDate;
 	}
 
@@ -267,16 +266,15 @@ class DateTimeField
 	 */
 	public static function convertToUserTimeZone($value, $user = null)
 	{
-		global $default_timezone;
-		$log = LoggerManager::getInstance();
+
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value) method ...");
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value) method ...");
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = $user->time_zone ? $user->time_zone : $default_timezone;
+		$timeZone = $user->time_zone ? $user->time_zone : AppConfig::main('default_timezone');
 		$return = DateTimeField::convertTimeZone($value, self::getDBTimeZone(), $timeZone);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $return;
 	}
 
@@ -288,21 +286,20 @@ class DateTimeField
 	 */
 	public static function convertToDBTimeZone($value, $user = null, $formatDate = true)
 	{
-		global $default_timezone;
-		$log = LoggerManager::getInstance();
+
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value)");
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($value)");
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = $user->time_zone ? $user->time_zone : $default_timezone;
+		$timeZone = $user->time_zone ? $user->time_zone : AppConfig::main('default_timezone');
 
 		if ($formatDate) {
 			$value = self::sanitizeDate($value, $user);
 		}
 
 		$return = DateTimeField::convertTimeZone($value, $timeZone, self::getDBTimeZone());
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $return;
 	}
 
@@ -315,8 +312,8 @@ class DateTimeField
 	 */
 	public static function convertTimeZone($time, $sourceTimeZoneName, $targetTimeZoneName)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($time, $sourceTimeZoneName, $targetTimeZoneName)");
+
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($time, $sourceTimeZoneName, $targetTimeZoneName)");
 
 		$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
 		if ($time == '24:00')
@@ -337,7 +334,7 @@ class DateTimeField
 		self::$cache[$time][$targetTimeZoneName] = $myDateTime;
 		//}
 		$myDateTime = self::$cache[$time][$targetTimeZoneName];
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $myDateTime;
 	}
 
@@ -347,16 +344,15 @@ class DateTimeField
 	 */
 	public function getDBInsertTimeValue($user = null)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
+
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
 		$date = self::convertToDBTimeZone($this->datetime, $user);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $date->format("H:i:s");
 	}
 
 	/**
 	 * This function returns the date in user specified format.
-	 * @global type $log
 	 * @global Users $current_user
 	 * @return string
 	 */
@@ -374,8 +370,8 @@ class DateTimeField
 
 	public function getDisplayTime($user = null)
 	{
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
+
+		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $this->datetime . ')');
 		$date = self::convertToUserTimeZone($this->datetime, $user);
 		$time = $date->format("H:i");
 
@@ -384,17 +380,17 @@ class DateTimeField
 		if ($userModel->get('hour_format') == '12') {
 			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
 		}
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return $time;
 	}
 
 	public function getFullcalenderTime($user = null)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering getDisplayTime(" . $this->datetime . ") method ...");
+
+		\App\Log::trace("Entering getDisplayTime(" . $this->datetime . ") method ...");
 		$date = self::convertToUserTimeZone($this->datetime, $user);
 		$time = $date->format("H:i:s");
-		$log->debug("Exiting getDisplayTime method ...");
+		\App\Log::trace("Exiting getDisplayTime method ...");
 		return $time;
 	}
 

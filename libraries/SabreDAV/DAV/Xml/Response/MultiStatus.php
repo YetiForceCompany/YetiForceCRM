@@ -41,7 +41,7 @@ class MultiStatus implements Element {
      * @param \Sabre\DAV\Xml\Element\Response[] $responses
      * @param string $syncToken
      */
-    function __construct(array $responses, $syncToken = null) {
+    public function __construct(array $responses, $syncToken = null) {
 
         $this->responses = $responses;
         $this->syncToken = $syncToken;
@@ -53,7 +53,7 @@ class MultiStatus implements Element {
      *
      * @return \Sabre\DAV\Xml\Element\Response[]
      */
-    function getResponses() {
+    public function getResponses() {
 
         return $this->responses;
 
@@ -64,7 +64,7 @@ class MultiStatus implements Element {
      *
      * @return string|null
      */
-    function getSyncToken() {
+    public function getSyncToken() {
 
         return $this->syncToken;
 
@@ -85,7 +85,7 @@ class MultiStatus implements Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         foreach ($this->getResponses() as $response) {
             $writer->writeElement('{DAV:}response', $response);

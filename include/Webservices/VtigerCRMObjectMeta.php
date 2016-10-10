@@ -56,7 +56,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	 */
 	public function getTabId()
 	{
-		if ($this->tabId == null) {
+		if ($this->tabId === null) {
 			$this->tabId = \includes\Modules::getModuleId($this->objectName);
 		}
 		return $this->tabId;
@@ -84,7 +84,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	{
 		$adb = PearDatabase::getInstance();
 		$active = \includes\Modules::isModuleActive($this->getTabName());
-		if ($active == false) {
+		if ($active === false) {
 			$this->hasAccess = false;
 			$this->hasReadAccess = false;
 			$this->hasWriteAccess = false;
@@ -92,7 +92,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 			return;
 		}
 		$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($this->user->id);
-		if ($userPrivileges['is_admin'] == true || $userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
+		if ($userPrivileges['is_admin'] === true || $userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
 			$this->hasAccess = true;
 			$this->hasReadAccess = true;
 			$this->hasWriteAccess = true;
@@ -211,7 +211,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$userId = $idComponents[1];
 		$ownerTypeId = $idComponents[0];
 
-		if ($userId == null || $userId == '' || $ownerTypeId == null || $ownerTypeId == '') {
+		if ($userId === null || $userId == '' || $ownerTypeId === null || $ownerTypeId == '') {
 			return false;
 		}
 		$webserviceObject = VtigerWebserviceObject::fromId($adb, $ownerTypeId);
@@ -379,7 +379,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$tabid = $this->getTabId();
 		require('user_privileges/user_privileges_' . $this->user->id . '.php');
-		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql = sprintf("select *, '0' as readonly from vtiger_field where tabid = ? and block in (%s)", generateQuestionMarks($block));
 			$params = array($tabid, $block);
 		} else {
@@ -476,7 +476,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$params = [$recordId];
 		if ($this->objectName == 'Users') {
 			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$users = \includes\PrivilegeFile::getUser('id');
+				$users = \App\PrivilegeFile::getUser('id');
 				if (isset($users[$recordId]) && $users[$recordId]['deleted'] == '0') {
 					self::$userExistsCache[$recordId] = true;
 					return true;
@@ -510,9 +510,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	public function getNameFields()
 	{
-		$adb = PearDatabase::getInstance();
-
-		$data = \includes\Modules::getEntityInfo(getTabModuleName($this->getEffectiveTabId()));
+		$data = \includes\Modules::getEntityInfo(\includes\Modules::getModuleName($this->getEffectiveTabId()));
 		$fieldNames = '';
 		if ($data) {
 			$fieldNames = $data['fieldname'];

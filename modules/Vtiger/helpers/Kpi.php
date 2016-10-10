@@ -31,7 +31,8 @@ class Vtiger_Kpi_Helper
 		$sql = "SELECT serviceid as id, servicename as name FROM vtiger_service INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? && discontinued = ?;";
 		$params = array(0, 1);
 		$result = $adb->pquery($sql, $params, true);
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$list[$adb->query_result_raw($result, $i, 'id')] = $adb->query_result_raw($result, $i, 'name');
 		}
 		return $list;
@@ -74,7 +75,8 @@ class Vtiger_Kpi_Helper
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			if ($adb->query_result_raw($result, $i, 'ordertime') < $reference) {
 				$accepted++;
 			}
@@ -111,7 +113,8 @@ class Vtiger_Kpi_Helper
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$sum = 0;
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$sum+= $adb->query_result_raw($result, $i, 'ordertime');
 			$all++;
 		}
@@ -147,7 +150,8 @@ class Vtiger_Kpi_Helper
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			if ($adb->query_result_raw($result, $i, 'ordertime') < $reference) {
 				$accepted++;
 			}
@@ -185,7 +189,8 @@ class Vtiger_Kpi_Helper
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$sum+= $adb->query_result_raw($result, $i, 'ordertime');
 			$all++;
 		}
@@ -220,7 +225,8 @@ class Vtiger_Kpi_Helper
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$sum+= $adb->query_result_raw($result, $i, 'ordertime');
 			$all++;
 		}
@@ -259,7 +265,8 @@ class Vtiger_Kpi_Helper
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+		$countResult = $adb->num_rows($result);
+		for ($i = 0; $i < $countResult; $i++) {
 			$sum+= $adb->query_result_raw($result, $i, 'ordertime');
 			$all++;
 		}

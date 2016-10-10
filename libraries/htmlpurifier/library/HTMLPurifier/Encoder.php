@@ -308,8 +308,8 @@ class HTMLPurifier_Encoder
 
     public static function unichr($code)
     {
-        if ($code > 1114111 || $code < 0 ||
-          ($code >= 55296 && $code <= 57343) ) {
+        if ($code > 1114111 or $code < 0 or
+          ($code >= 55296 and $code <= 57343) ) {
             // bits are set outside the "valid" range as defined
             // by UNICODE 4.1.0
             return '';

@@ -67,7 +67,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$result = $db->pquery($sql, [$pickListFieldName]);
 			$picklistid = $db->getSingleValue($result);
 			//add the picklist values to the selected roles
-			for ($j = 0; $j < count($rolesSelected); $j++) {
+			$countRolesSelected = count($rolesSelected);
+			for ($j = 0; $j < $countRolesSelected; $j++) {
 				$roleid = $rolesSelected[$j];
 
 				$sql = "SELECT max(sortid)+1 as sortid

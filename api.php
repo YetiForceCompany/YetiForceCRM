@@ -14,7 +14,8 @@ $service = $_REQUEST['service'];
 if(isset($service))
 {
 	if(!in_array($service,$enabledServices)){
-		die($service.' - Service is not active');
+		echo $service.' - Service is not active';
+		return;
 	}	
 	if($service == "customerportal")
 	{

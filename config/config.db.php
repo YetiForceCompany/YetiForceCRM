@@ -1,37 +1,56 @@
 <?php
-require('config/config.inc.php');
-if (file_exists('config/config_override.php')) {
-	require('config/config_override.php');
-}
-$dbConfig['base'] = [
-	'db_server' => $dbconfig['db_server'],
-	'db_port' => $dbconfig['db_port'],
-	'db_username' => $dbconfig['db_username'],
-	'db_password' => $dbconfig['db_password'],
-	'db_name' => $dbconfig['db_name'],
-	'db_type' => $dbconfig['db_type'],
-];
-$dbConfig['admin'] = [
-	'db_server' => '_SERVER_',
-	'db_port' => '_PORT_',
-	'db_username' => '_USERNAME_',
-	'db_password' => '_PASSWORD_',
-	'db_name' => '_NAME_',
-	'db_type' => '_TYPE_',
-];
-$dbConfig['log'] = [
-	'db_server' => '_SERVER_',
-	'db_port' => '_PORT_',
-	'db_username' => '_USERNAME_',
-	'db_password' => '_PASSWORD_',
-	'db_name' => '_NAME_',
-	'db_type' => '_TYPE_',
-];
-$dbConfig['portal'] = [
-	'db_server' => '_SERVER_',
-	'db_port' => '_PORT_',
-	'db_username' => '_USERNAME_',
-	'db_password' => '_PASSWORD_',
-	'db_name' => '_NAME_',
-	'db_type' => '_TYPE_',
+/*
+ * Supports databases:
+ * pgsql => PostgreSQL
+ * mysqli => MySQL
+ * mysql =>  MySQL
+ * sqlite => sqlite 3
+ * sqlite2 => sqlite 2
+ * sqlsrv => newer MSSQL driver on MS Windows hosts
+ * mssql => older MSSQL driver on MS Windows hosts
+ * dblib => dblib drivers on GNU/Linux (and maybe other OSes) hosts
+ * cubrid => CUBRID
+ * oci => Oracle driver
+ * 
+  'admin' => [
+  'host' => '',
+  'port' => '',
+  'username' => '',
+  'password' => '',
+  'name' => '',
+  'type' => '',
+  'charset' => 'utf8'
+  ],
+  'log' => [
+  'host' => '',
+  'port' => '',
+  'username' => '',
+  'password' => '',
+  'name' => '',
+  'type' => '',
+  'charset' => 'utf8'
+  ],
+  'portal' => [
+  'host' => '',
+  'port' => '',
+  'username' => '',
+  'password' => '',
+  'name' => '',
+  'type' => '',
+  'charset' => 'utf8'
+  ],
+ */
+$dbconfig = AppConfig::main('dbconfig');
+return [
+	'base' => [
+		'dsn' => 'mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'],
+		'host' => $dbconfig['db_server'],
+		'port' => $dbconfig['db_port'],
+		'username' => $dbconfig['db_username'],
+		'password' => $dbconfig['db_password'],
+		'dbName' => $dbconfig['db_name'],
+		'type' => 'mysql',
+		'tablePrefix' => 'yf_',
+		'charset' => 'utf8'
+	]
 ];

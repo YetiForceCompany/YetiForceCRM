@@ -14,12 +14,12 @@ require_once 'modules/Reports/ReportRun.php';
 class VTScheduledReport extends Reports
 {
 
-	var $db;
-	var $user;
-	var $isScheduled = false;
-	var $scheduledInterval = null;
-	var $scheduledFormat = null;
-	var $scheduledRecipients = null;
+	public $db;
+	public $user;
+	public $isScheduled = false;
+	public $scheduledInterval = null;
+	public $scheduledFormat = null;
+	public $scheduledRecipients = null;
 	static $SCHEDULED_HOURLY = 1;
 	static $SCHEDULED_DAILY = 2;
 	static $SCHEDULED_WEEKLY = 3;
@@ -42,7 +42,7 @@ class VTScheduledReport extends Reports
 		if (!empty($this->id)) {
 			$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
 
-			if ($cachedInfo == false) {
+			if ($cachedInfo === false) {
 				$result = $adb->pquery('SELECT * FROM vtiger_scheduled_reports WHERE reportid=?', array($this->id));
 
 				if ($adb->num_rows($result) > 0) {
@@ -270,12 +270,12 @@ class VTScheduledReport extends Reports
 				$optionValue = 'groups::' . $value;
 				break;
 			case 'roles' : if (empty($name))
-					$name = getRoleName($value);
+					$name = \App\PrivilegeUtil::getRoleName($value);
 				$optionName = 'Roles::' . addslashes(decode_html($name));
 				$optionValue = 'roles::' . $value;
 				break;
 			case 'rs' : if (empty($name))
-					$name = getRoleName($value);
+					$name = \App\PrivilegeUtil::getRoleName($value);
 				$optionName = 'RoleAndSubordinates::' . addslashes(decode_html($name));
 				$optionValue = 'rs::' . $value;
 				break;

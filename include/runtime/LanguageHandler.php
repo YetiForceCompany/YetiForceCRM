@@ -134,8 +134,8 @@ class Vtiger_Language_Handler
 			if (file_exists($file)) {
 				require $file;
 			} else {
-				$log = LoggerManager::getInstance();
-				$log->warn('Language file does not exist, module:' . $module . ' ,language: ' . $language);
+				
+				\App\Log::warning('Language file does not exist, module:' . $module . ' ,language: ' . $language);
 			}
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
@@ -279,8 +279,3 @@ function vtranslate($key, $moduleName = 'Vtiger')
 	return $formattedString;
 }
 
-function vJSTranslate($key, $moduleName = 'Vtiger')
-{
-	$args = func_get_args();
-	return call_user_func_array(array('Vtiger_Language_Handler', 'getJSTranslatedString'), $args);
-}

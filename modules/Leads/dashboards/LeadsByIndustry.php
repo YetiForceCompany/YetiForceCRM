@@ -34,16 +34,12 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$db = PearDatabase::getInstance();
 		$module = 'Leads';
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-		$securityParameterSql = $dateFilterSql = $ownerSql = '';
+		$dateFilterSql = $ownerSql = '';
 		$params = [];
 		if (!empty($owner)) {
 			$ownerSql = ' && smownerid = ' . $owner;
 		}
-		if (!empty($securityParameter))
-			$securityParameterSql = $securityParameter;
+		$securityParameterSql = \App\PrivilegeQuery::getAccessConditions($module);
 
 		if (!empty($dateFilter)) {
 			$dateFilterSql = ' && createdtime BETWEEN ? AND ? ';

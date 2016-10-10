@@ -14,17 +14,17 @@ require_once('modules/Calendar/Date.php');
 class RecurringType
 {
 
-	var $recur_type;
-	var $startdate;
-	var $enddate;
-	var $recur_freq;
-	var $dayofweek_to_rpt = [];
-	var $repeat_monthby;
-	var $rptmonth_datevalue;
-	var $rptmonth_daytype;
-	var $recurringdates = [];
-	var $reminder;
-	var $recurringenddate;
+	public $recur_type;
+	public $startdate;
+	public $enddate;
+	public $recur_freq;
+	public $dayofweek_to_rpt = [];
+	public $repeat_monthby;
+	public $rptmonth_datevalue;
+	public $rptmonth_daytype;
+	public $recurringdates = [];
+	public $reminder;
+	public $recurringenddate;
 
 	/**
 	 * Constructor for class RecurringType
@@ -118,7 +118,9 @@ class RecurringType
 				$userStartDateTime = DateTimeField::convertToUserTimeZone($startDate . ' ' . $startTime);
 				$dayOfWeek = $requestArray['dayofweek_to_repeat'];
 				$dbDaysOfWeek = [];
-				for ($i = 0; $i < count($dayOfWeek); ++$i) {
+				
+				$countDayOfWeek = count($dayOfWeek);
+				for ($i = 0; $i < $countDayOfWeek; ++$i) {
 					$selectedDayOfWeek = $dayOfWeek[$i];
 					$currentDayOfWeek = $userStartDateTime->format('w');
 					$newDate = $userStartDateTime->format('d') + ($selectedDayOfWeek - $currentDayOfWeek);
@@ -371,8 +373,9 @@ class RecurringType
 				if (count($this->dayofweek_to_rpt) == 0) {
 					$this->dayofweek_to_rpt[] = $this->startdate->dayofweek;
 				}
-
-				for ($i = 0; $i < count($this->dayofweek_to_rpt); $i++) {
+				
+				$countDayofweekToRpt = count($this->dayofweek_to_rpt);
+				for ($i = 0; $i < $countDayofweekToRpt; $i++) {
 					$repeat = $this->dayofweek_to_rpt[$i];
 					if ($repeat == 0) {
 						$repeat = $repeat + 1;
@@ -482,7 +485,7 @@ class RecurringType
 					$index = $year + 1;
 				if ($index > 2037 || $index < 1970) {
 					print("<font color='red'>" . \includes\Language::translate('LBL_CAL_LIMIT_MSG') . "</font>");
-					exit;
+					throw new \Exception\AppException('LBL_CAL_LIMIT_MSG');
 				}
 				$date_arr = Array(
 					'day' => $date,
@@ -495,7 +498,7 @@ class RecurringType
 					$recurringDates[] = $tempdate;
 				}
 			} else {
-				die("Recurring Type " . $this->recur_type . " is not defined");
+				throw new \Exception\AppException("Recurring Type " . $this->recur_type . " is not defined");
 			}
 		}
 		return $recurringDates;

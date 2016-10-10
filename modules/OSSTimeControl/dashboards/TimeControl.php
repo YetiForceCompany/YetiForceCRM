@@ -33,8 +33,6 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = 'HelpDesk';
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		$db = PearDatabase::getInstance();
 		$param = array('OSSTimeControl', $user, $time['start'], $time['end']);
 		$sql = "SELECT sum_time AS daytime, due_date, timecontrol_type FROM vtiger_osstimecontrol
@@ -42,6 +40,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 					WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.smownerid = ? ";
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
+		$sql .= \App\PrivilegeQuery::getAccessConditions($module);
 		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? && vtiger_osstimecontrol.due_date <= ?) && vtiger_osstimecontrol.deleted = 0 ORDER BY due_date ";
 		$result = $db->pquery($sql, $param);
 		$data = array();
@@ -153,14 +152,14 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$linkId = $request->get('linkid');
 		$user = $request->get('user');
 		$time = $request->get('time');
-		if ($time == NULL) {
+		if (empty($time)) {
 			$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 			$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 		}
 		$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
 		$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
 
-		if ($user == NULL)
+		if (empty($user))
 			$user = $loggedUserId;
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
@@ -225,20 +224,20 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 				$days++;
 				$whatDay = date("N", $begin);
 				$day = date('Y-m-d', $begin);
-				$isWorkDay = TRUE;
-				$isHolidayNotInWeekend = TRUE;
+				$isWorkDay = true;
+				$isHolidayNotInWeekend = true;
 				foreach ($holidayDays as $key => $value) {
 					if ($day == $value['date']) {
-						$isWorkDay = FALSE;
+						$isWorkDay = false;
 						if ($whatDay > 5) {
-							$isHolidayNotInWeekend = FALSE;
+							$isHolidayNotInWeekend = false;
 						}
 						unset($holidayDays[$key]);
 					}
 				}
 				foreach ($notWorkingDaysType as $key => $value) {
 					if ($whatDay == $value)
-						$isWorkDay = FALSE;
+						$isWorkDay = false;
 				}
 
 				if ($isWorkDay)

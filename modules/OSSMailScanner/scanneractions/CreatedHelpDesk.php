@@ -60,10 +60,11 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 				$record->set('ticketpriorities', $serviceContracts['priority']);
 			}
 		}
+
 		$accountOwner = $mail->getAccountOwner();
 		$record->set('assigned_user_id', $mail->getAccountOwner());
 		$record->set('ticket_title', $mail->get('subject'));
-		$record->set('description', vtlib_purifyForHtml($mail->get('body')));
+		$record->set('description', \App\Purifier::purifyHtml($mail->get('body')));
 		$record->set('ticketstatus', 'Open');
 		$record->set('mode', 'new');
 		$record->set('id', '');

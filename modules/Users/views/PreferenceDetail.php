@@ -20,7 +20,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
-		if ($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record) {
+		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
 			return true;
 		} else {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');

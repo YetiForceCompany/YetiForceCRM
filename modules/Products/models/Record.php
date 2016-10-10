@@ -83,51 +83,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function get details of taxes for this record
-	 * Function calls from Edit/Create view of Inventory Records
-	 * @param <Object> $focus
-	 * @return <Array> List of individual taxes
-	 */
-	public function getDetailsForInventoryModule($focus)
-	{
-		$productId = $this->getId();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$productDetails = getAssociatedProducts($this->getModuleName(), $focus, $productId);
-
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$convertedPriceDetails = $this->getModule()->getPricesForProducts($currentUserModel->get('currency_id'), array($productId));
-		$productDetails[1]['listPrice1'] = number_format($convertedPriceDetails[$productId], $currentUserModel->get('no_of_currency_decimals'), '.', '');
-
-		$totalAfterDiscount = $productDetails[1]['totalAfterDiscount1'];
-		$productTaxes = $productDetails[1]['taxes'];
-		if (!empty($productDetails)) {
-			$taxCount = count($productTaxes);
-			$taxTotal = '0';
-
-			for ($i = 0; $i < $taxCount; $i++) {
-				$taxValue = $productTaxes[$i]['percentage'];
-
-				$taxAmount = $totalAfterDiscount * $taxValue / 100;
-				$taxTotal = $taxTotal + $taxAmount;
-
-				$productDetails[1]['taxes'][$i]['amount'] = $taxAmount;
-				$productDetails[1]['taxTotal1'] = $taxTotal;
-			}
-			$netPrice = $totalAfterDiscount + $taxTotal;
-			$productDetails[1]['netPrice1'] = $netPrice;
-			$productDetails[1]['final_details']['hdnSubTotal'] = $netPrice;
-			$productDetails[1]['final_details']['grandTotal'] = $netPrice;
-		}
-
-		for ($i = 1; $i <= count($productDetails); $i++) {
-			$productId = $productDetails[$i]['hdnProductId' . $i];
-			$productPrices = $this->getModule()->getPricesForProducts($currentUser->get('currency_id'), array($productId), $this->getModuleName());
-			$productDetails[$i]['listPrice' . $i] = number_format($productPrices[$productId], $currentUser->get('no_of_currency_decimals'), '.', '');
-		}
-		return $productDetails;
-	}
-
-	/**
 	 * Function to get Tax Class Details for this record(Product)
 	 * @return <Array> List of Taxes
 	 */
@@ -350,7 +305,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$row['label'] = $labels[$row['crmid']];
 			$row['smownerid'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
-			$row['permitted'] = \includes\Privileges::isPermitted($row['setype'], 'DetailView', $row['crmid']);
+			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
@@ -397,8 +352,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering into function getPriceDetailsForProduct($productid)");
+
+		\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
 		if ($productid != '') {
 			$product_currency_id = $this->getProductBaseCurrency($productid, $itemtype);
 			$product_base_conv_rate = $this->getBaseConversionRateForProduct($productid, 'edit', $itemtype);
@@ -420,7 +375,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 			}
 
 			$res = $adb->pquery($query, $params);
-			for ($i = 0; $i < $adb->num_rows($res); $i++) {
+			$rows_rew = $adb->num_rows($res);
+			for ($i = 0; $i < $rows_rew; $i++) {
 				$price_details[$i]['productid'] = $productid;
 				$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
 				$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
@@ -440,7 +396,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					$is_basecurrency = true;
 				}
 
-				if ($cur_value == null || $cur_value == '') {
+				if ($cur_value === null || $cur_value == '') {
 					$price_details[$i]['check_value'] = false;
 					if ($unit_price != null) {
 						$cur_value = CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
@@ -465,7 +421,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 				$params = array();
 
 				$res = $adb->pquery($query, $params);
-				for ($i = 0; $i < $adb->num_rows($res); $i++) {
+				$rows_res = $adb->num_rows($res);
+				for ($i = 0; $i < $rows_res; $i++) {
 					$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
 					$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
 					$price_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');
@@ -491,11 +448,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 					$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 				}
 			} else {
-				$log->debug("Product id is empty. we cannot retrieve the associated prices.");
+				\App\Log::trace("Product id is empty. we cannot retrieve the associated prices.");
 			}
 		}
 
-		$log->debug("Exit from function getPriceDetailsForProduct($productid)");
+		\App\Log::trace("Exit from function getPriceDetailsForProduct($productid)");
 		return $price_details;
 	}
 

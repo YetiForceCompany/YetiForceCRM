@@ -13,7 +13,6 @@ class API_CalDAV_Model
 	const CALENDAR_NAME = 'YFCalendar';
 	const COMPONENTS = 'VEVENT,VTODO';
 
-	public $log = false;
 	public $user = false;
 	public $record = false;
 	public $calendarId = false;
@@ -30,7 +29,7 @@ class API_CalDAV_Model
 
 	public function calDavCrm2Dav()
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start');
 
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description '
@@ -43,7 +42,7 @@ class API_CalDAV_Model
 			$this->record = $row;
 			$this->davSync();
 		}
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function davSync()
@@ -82,7 +81,7 @@ class API_CalDAV_Model
 	public function davCreate()
 	{
 		$record = $this->record;
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
 		$calType = $record['activitytype'] == 'Task' ? 'VTODO' : 'VEVENT';
 		$endField = $this->getEndFieldName($calType);
 		$uid = date('Y-m-d\THis') . '-' . $record['crmid'];
@@ -161,13 +160,13 @@ class API_CalDAV_Model
 			'crmid' => $record['crmid']
 		]);
 		$this->addChange($calUri, 1);
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function davUpdate($calendar)
 	{
 		$record = $this->record;
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:' . $record['crmid']);
 
 		$calType = $record['activitytype'] == 'Task' ? 'VTODO' : 'VEVENT';
 		$endField = $this->getEndFieldName($calType);
@@ -240,21 +239,21 @@ class API_CalDAV_Model
 			], 'id = ?', [$calendar['id']]
 		);
 		$this->addChange($calendar['uri'], 2);
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function davDelete($calendar)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Calendar ID:' . $card['id']);
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start Calendar ID:' . $card['id']);
 		$this->addChange($calendar['uri'], 3);
 		$db = PearDatabase::getInstance();
 		$db->delete('dav_calendarobjects', 'id = ?', [$calendar['id']]);
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function calDav2Crm()
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		foreach ($this->davUsers as $key => $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
@@ -262,12 +261,12 @@ class API_CalDAV_Model
 			$current_user = $user;
 			$this->recordSync();
 		}
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function recordSync()
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT dav_calendarobjects.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype, vtiger_crmentity.smownerid FROM dav_calendarobjects LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_calendarobjects.crmid WHERE calendarid = ?';
 		$result = $db->pquery($query, [$this->calendarId]);
@@ -290,13 +289,13 @@ class API_CalDAV_Model
 				}
 			}
 		}
-		$this->log->info("calDav2Crm | create: $create | deletes: $deletes | updates: $updates | skipped: $skipped");
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\Log::trace("calDav2Crm | create: $create | deletes: $deletes | updates: $updates | skipped: $skipped");
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
 	public function recordCreate($cal)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Cal ID' . $cal['id']);
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start Cal ID' . $cal['id']);
 
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 		foreach ($vcalendar->getBaseComponents() as $component) {
@@ -326,7 +325,7 @@ class API_CalDAV_Model
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
-							$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End exclusion');
+							\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End exclusion');
 							return false;
 						}
 					}
@@ -348,13 +347,13 @@ class API_CalDAV_Model
 			}
 		}
 
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 		return true;
 	}
 
 	public function recordUpdate($record, $cal)
 	{
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | Start Cal ID:' . $card['id']);
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | Start Cal ID:' . $card['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 
 		foreach ($vcalendar->getBaseComponents() as $component) {
@@ -384,7 +383,7 @@ class API_CalDAV_Model
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
-							$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End exclusion');
+							\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End exclusion');
 							return false;
 						}
 					}
@@ -404,7 +403,7 @@ class API_CalDAV_Model
 				}
 			}
 		}
-		$this->log->debug(__CLASS__ . '::' . __METHOD__ . ' | End');
+		\App\Log::trace(__CLASS__ . '::' . __METHOD__ . ' | End');
 		return true;
 	}
 
@@ -541,10 +540,12 @@ class API_CalDAV_Model
 				'PLL_COMPLETED' => 'COMPLETED'
 			];
 		}
-
+		$value = false;
 		if ($toCrm) {
 			$values = array_flip($values);
-			$value = isset($component->STATUS) ? $component->STATUS->getValue() : false;
+			if (isset($component->STATUS)) {
+				$value = strtoupper($component->STATUS->getValue());
+			}
 		} else {
 			$value = $component;
 		}
@@ -834,7 +835,7 @@ class API_CalDAV_Model
 				$attendee->add('CN', $owner->getName());
 				$attendee->add('ROLE', 'CHAIR');
 				$attendee->add('PARTSTAT', 'ACCEPTED');
-				$attendee->add('RSVP', 'FALSE');
+				$attendee->add('RSVP', 'false');
 				$component->add($attendee);
 			}
 		} else {
@@ -854,7 +855,7 @@ class API_CalDAV_Model
 			$attendee->add('CN', vtlib\Functions::getCRMRecordLabel($row['crmid']));
 			$attendee->add('ROLE', 'REQ-PARTICIPANT');
 			$attendee->add('PARTSTAT', $this->getAttendeeStatus($row['status'], false));
-			$attendee->add('RSVP', $row['status'] == '0' ? 'TRUE' : 'FALSE');
+			$attendee->add('RSVP', $row['status'] == '0' ? 'true' : 'false');
 			$component->add($attendee);
 		}
 	}

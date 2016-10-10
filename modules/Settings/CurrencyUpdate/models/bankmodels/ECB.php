@@ -135,7 +135,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 							$exchangeVtiger = (float) $exchange / (float) $exchangeRate;
 							$exchange = (float) $exchangeRate / (float) $exchange;
 
-							if ($cron == true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+							if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 								$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 							}
 							$existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
@@ -166,7 +166,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 			}
 
 			if ($mainCurrencyId) {
-				if ($cron == true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $yfRate);
 				}
 

@@ -46,7 +46,7 @@ function Contacts_createPortalLoginDetails($entityData)
 			}
 		}
 
-		if ($insert == true) {
+		if ($insert === true) {
 			$password = \vtlib\Functions::generateRandomPassword();
 			$truePassword = $password;
 

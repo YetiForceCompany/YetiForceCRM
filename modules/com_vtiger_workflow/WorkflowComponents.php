@@ -40,14 +40,14 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 	$noOfFields = $adb->num_rows($result);
 	$dependentFields = [];
 	// List of modules which will not be supported by 'Create Entity' workflow task
-	$filterModules = array('Emails', 'Calendar', 'Events', 'Accounts');
+	$filterModules = ['Emails', 'Calendar', 'Events', 'Accounts'];
 	$skipFieldsList = [];
 	for ($i = 0; $i < $noOfFields; ++$i) {
 		$tabId = $adb->query_result($result, $i, 'tabid');
 		$fieldName = $adb->query_result($result, $i, 'fieldname');
 		$typeOfData = $adb->query_result($result, $i, 'typeofdata');
 		$referenceModule = $adb->query_result($result, $i, 'reference_module');
-		$tabModuleName = getTabModuleName($tabId);
+		$tabModuleName = \includes\Modules::getModuleName($tabId);
 		if (in_array($tabModuleName, $filterModules))
 			continue;
 		if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {

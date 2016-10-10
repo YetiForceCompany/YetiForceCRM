@@ -99,7 +99,7 @@ class VTWorkflowUtils
 			$arr = array('Task' => 'Calendar', 'Emails' => 'Emails');
 			$type = \vtlib\Functions::getActivityType($entityData->getId());
 			$moduleName = $arr[$type];
-			if ($moduleName == null) {
+			if ($moduleName === null) {
 				$moduleName = 'Events';
 			}
 		}

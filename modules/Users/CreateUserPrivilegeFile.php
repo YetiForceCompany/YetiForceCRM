@@ -47,14 +47,14 @@ function createUserPrivilegesfile($userid)
 			$tabsPermissionArr = getCombinedUserTabsPermissions($userid);
 			$actionPermissionArr = getCombinedUserActionPermissions($userid);
 			$user_role = fetchUserRole($userid);
-			$user_role_info = getRoleInformation($user_role);
+			$user_role_info = \App\PrivilegeUtil::getRoleDetail($user_role);
 			$user_role_parent = $user_role_info['parentrole'];
 			$userGroupFocus = new GetUserGroups();
 			$userGroupFocus->getAllUserGroups($userid);
 			$subRoles = getRoleSubordinates($user_role);
 			$subRoleAndUsers = getSubordinateRoleAndUsers($user_role);
 			$def_org_share = getDefaultSharingAction();
-			$parentRoles = getParentRole($user_role);
+			$parentRoles = \App\PrivilegeUtil::getParentRole($user_role);
 
 			$newbuf .= "\$current_user_roles='" . $user_role . "';\n";
 			$newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
@@ -94,11 +94,11 @@ function createUserSharingPrivilegesfile($userid)
 		} else {
 			$sharingPrivileges = [];
 			//Constructig the Default Org Share Array
-			$def_org_share = \includes\PrivilegesUtils::getAllDefaultSharingAction();
+			$def_org_share = \App\PrivilegeUtil::getAllDefaultSharingAction();
 			$newbuf .= "\$defaultOrgSharingPermission=" . constructArray($def_org_share) . ";\n";
 			$sharingPrivileges['defOrgShare'] = $def_org_share;
 
-			$relatedModuleShare = \includes\PrivilegesUtils::getDatashareRelatedModules();
+			$relatedModuleShare = \App\PrivilegeUtil::getDatashareRelatedModules();
 			$newbuf .= "\$related_module_share=" . constructTwoDimensionalValueArray($relatedModuleShare) . ";\n";
 			$sharingPrivileges['relatedModuleShare'] = $relatedModuleShare;
 			//Constructing Account Sharing Rules
@@ -1334,10 +1334,10 @@ function populateSharingtmptables($userid)
 	}
 	//Populating Values into the temp related sharing tables
 	foreach ($related_module_share as $rel_tab_id => $tabid_arr) {
-		$rel_tab_name = getTabname($rel_tab_id);
+		$rel_tab_name = \includes\Modules::getModuleName($rel_tab_id);
 		if (!empty($rel_tab_name)) {
 			foreach ($tabid_arr as $taid) {
-				$tab_name = getTabname($taid);
+				$tab_name = \includes\Modules::getModuleName($taid);
 
 				$relmodule_sharing_read_permvar = $tab_name . '_' . $rel_tab_name . '_share_read_permission';
 				$relmodule_sharing_write_permvar = $tab_name . '_' . $rel_tab_name . '_share_write_permission';

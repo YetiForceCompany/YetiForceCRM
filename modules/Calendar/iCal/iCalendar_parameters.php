@@ -26,7 +26,7 @@ class iCalendar_parameter
 			case 'RELATED': return 'START';
 			case 'RELTYPE': return 'PARENT';
 			case 'ROLE': return 'REQ-PARTICIPANT';
-			case 'RSVP': return 'FALSE';
+			case 'RSVP': return 'false';
 			default: return NULL;
 		}
 	}
@@ -163,7 +163,7 @@ class iCalendar_parameter
 
 			case 'RSVP':
 				$value = strtoupper($value);
-				return ($value == 'TRUE' || $value == 'FALSE');
+				return ($value == 'true' || $value == 'false');
 				break;
 
 			case 'TZID':

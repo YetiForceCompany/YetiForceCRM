@@ -5,9 +5,8 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$log = &LoggerManager::getLogger('CardDAV');
-$log->debug('Start cron CardDAV');
+\App\Log::trace('Start cron CardDAV');
 
-API_DAV_Model::runCronCardDav($log);
+API_DAV_Model::runCronCardDav();
 
-$log->debug('End cron CardDAV');
+\App\Log::trace('End cron CardDAV');

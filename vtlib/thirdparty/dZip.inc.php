@@ -7,13 +7,13 @@
 class dZip
 {
 
-	var $filename;
-	var $overwrite;
-	var $zipSignature = "\x50\x4b\x03\x04"; // local file header signature
-	var $dirSignature = "\x50\x4b\x01\x02"; // central dir header signature
-	var $dirSignatureE = "\x50\x4b\x05\x06"; // end of central dir signature
-	var $files_count = 0;
-	var $fh;
+	public $filename;
+	public $overwrite;
+	public $zipSignature = "\x50\x4b\x03\x04"; // local file header signature
+	public $dirSignature = "\x50\x4b\x01\x02"; // central dir header signature
+	public $dirSignatureE = "\x50\x4b\x05\x06"; // end of central dir signature
+	public $files_count = 0;
+	public $fh;
 
 	public function dZip($filename, $overwrite = true)
 	{

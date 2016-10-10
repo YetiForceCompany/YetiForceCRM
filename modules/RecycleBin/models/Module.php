@@ -205,7 +205,8 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	public function restore($sourceModule, $recordIds)
 	{
 		$focus = CRMEntity::getInstance($sourceModule);
-		for ($i = 0; $i < count($recordIds); $i++) {
+		$countRecordIds = count($recordIds);
+		for ($i = 0; $i < $countRecordIds; $i++) {
 			if (!empty($recordIds[$i])) {
 				$focus->restore($sourceModule, $recordIds[$i]);
 			}

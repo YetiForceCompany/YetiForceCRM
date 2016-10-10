@@ -21,23 +21,23 @@ class PackageImport extends PackageExport
 	 * Module Meta XML File (Parsed)
 	 * @access private
 	 */
-	var $_modulexml;
+	public $_modulexml;
 
 	/**
 	 * Module Fields mapped by [modulename][fieldname] which
 	 * will be used to create customviews.
 	 * @access private
 	 */
-	var $_modulefields_cache = [];
+	public $_modulefields_cache = [];
 
 	/**
 	 * License of the package.
 	 * @access private
 	 */
-	var $_licensetext = false;
-	var $_errorText = '';
-	var $packageType = '';
-	var $parameters = [];
+	public $_licensetext = false;
+	public $_errorText = '';
+	public $packageType = '';
+	public $parameters = [];
 
 	/**
 	 * Parse the manifest file
@@ -327,12 +327,12 @@ class PackageImport extends PackageExport
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
 
-			if (version_compare($moduleVersion, \AppConfig::main('YetiForce_current_version'), '>=') === true) {
+			if (\App\Version::check($moduleVersion) === true) {
 				$moduleVersionFound = true;
 			} else {
 				$_errorText = vtranslate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
 				$_errorText = str_replace('__MODULEVERSION__', $moduleVersion, $_errorText);
-				$_errorText = str_replace('__CRMVERSION__', \AppConfig::main('YetiForce_current_version'), $_errorText);
+				$_errorText = str_replace('__CRMVERSION__', \App\Version::get(), $_errorText);
 				$this->_errorText = $_errorText;
 			}
 		}
@@ -554,7 +554,7 @@ class PackageImport extends PackageExport
 			$buildModuleArray = [];
 			$installSequenceArray = [];
 			$moduleBundle = (boolean) $this->_modulexml->modulebundle;
-			if ($moduleBundle == true) {
+			if ($moduleBundle === true) {
 				$moduleList = (Array) $this->_modulexml->modulelist;
 				foreach ($moduleList as $moduleInfos) {
 					foreach ($moduleInfos as $moduleInfo) {

@@ -25,7 +25,7 @@ class VAlarm extends VObject\Component {
      *
      * @return DateTimeImmutable
      */
-    function getEffectiveTriggerTime() {
+    public function getEffectiveTriggerTime() {
 
         $trigger = $this->TRIGGER;
         if (!isset($trigger['VALUE']) || strtoupper($trigger['VALUE']) === 'DURATION') {
@@ -84,7 +84,7 @@ class VAlarm extends VObject\Component {
      *
      * @return bool
      */
-    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
+    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         $effectiveTrigger = $this->getEffectiveTriggerTime();
 
@@ -125,7 +125,7 @@ class VAlarm extends VObject\Component {
      *
      * @var array
      */
-    function getValidationRules() {
+    public function getValidationRules() {
 
         return [
             'ACTION'  => 1,

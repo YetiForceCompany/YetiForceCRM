@@ -17,7 +17,7 @@ class SharedCalendar extends Calendar implements ISharedCalendar {
      * @param Backend\BackendInterface $caldavBackend
      * @param array $calendarInfo
      */
-    function __construct(Backend\BackendInterface $caldavBackend, $calendarInfo) {
+    public function __construct(Backend\BackendInterface $caldavBackend, $calendarInfo) {
 
         $required = [
             '{http://calendarserver.org/ns/}shared-url',
@@ -40,7 +40,7 @@ class SharedCalendar extends Calendar implements ISharedCalendar {
      *
      * @return string
      */
-    function getSharedUrl() {
+    public function getSharedUrl() {
 
         return $this->calendarInfo['{http://calendarserver.org/ns/}shared-url'];
 
@@ -53,7 +53,7 @@ class SharedCalendar extends Calendar implements ISharedCalendar {
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->calendarInfo['{http://sabredav.org/ns}owner-principal'];
 
@@ -71,7 +71,7 @@ class SharedCalendar extends Calendar implements ISharedCalendar {
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         // The top-level ACL only contains access information for the true
         // owner of the calendar, so we need to add the information for the
@@ -106,7 +106,7 @@ class SharedCalendar extends Calendar implements ISharedCalendar {
      *
      * @return array
      */
-    function getChildACL() {
+    public function getChildACL() {
 
         $acl = parent::getChildACL();
         $acl[] = [
@@ -139,7 +139,7 @@ class SharedCalendar extends Calendar implements ISharedCalendar {
      *
      * @return array
      */
-    function getShares() {
+    public function getShares() {
 
         return $this->caldavBackend->getShares($this->calendarInfo['id']);
 

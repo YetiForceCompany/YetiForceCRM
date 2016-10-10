@@ -32,7 +32,7 @@ trait PHPUnitAssertions {
      * @param resource|string|Component $actual
      * @param string $message
      */
-    function assertVObjectEqualsVObject($expected, $actual, $message = '') {
+    public function assertVObjectEqualsVObject($expected, $actual, $message = '') {
 
         $self = $this;
         $getObj = function($input) use ($self) {
