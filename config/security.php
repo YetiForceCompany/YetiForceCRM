@@ -30,5 +30,5 @@ $SECURITY_CONFIG = [
 	// List of modules where restricted domains are enabled, if empty it will be enabled everywhere.
 	'RESTRICTED_DOMAINS_ALLOWED' => [],
 	//List of modules excluded from restricted domains validation.
-	'RESTRICTED_DOMAINS_EXCLUDED' => ['OSSEmployees'],
+	'RESTRICTED_DOMAINS_EXCLUDED' => ['OSSEmployees', 'Users'],
 ];
