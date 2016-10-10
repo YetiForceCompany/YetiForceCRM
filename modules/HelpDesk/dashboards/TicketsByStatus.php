@@ -33,13 +33,10 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	public function getTicketsByStatus($owner)
 	{
 		$db = PearDatabase::getInstance();
-		$module = 'HelpDesk';
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$moduleName = 'HelpDesk';
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$params = [];
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 
 		$sql = 'SELECT COUNT(*) as count
 					, priority, vtiger_ticketpriorities.color,
@@ -62,10 +59,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$sql .= " && vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
-		if (!empty($securityParameter))
-			$sql .= $securityParameter;
-
-
+		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
 		$sql .= ' GROUP BY statusvalue, priority ORDER BY vtiger_ticketstatus.sortorderid';
 
 		$result = $db->query($sql);

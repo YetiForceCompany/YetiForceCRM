@@ -31,7 +31,7 @@ class Reader extends XMLReader {
      *
      * @return string|null
      */
-    function getClark() {
+    public function getClark() {
 
         if (! $this->localName) {
             return null;
@@ -54,7 +54,7 @@ class Reader extends XMLReader {
      *
      * @return array
      */
-    function parse() {
+    public function parse() {
 
         $previousEntityState = libxml_disable_entity_loader(true);
         $previousSetting = libxml_use_internal_errors(true);
@@ -98,7 +98,7 @@ class Reader extends XMLReader {
      * @param array $elementMap
      * @return array
      */
-    function parseGetElements(array $elementMap = null) {
+    public function parseGetElements(array $elementMap = null) {
 
         $result = $this->parseInnerTree($elementMap);
         if (!is_array($result)) {
@@ -122,7 +122,7 @@ class Reader extends XMLReader {
      * @param array $elementMap
      * @return array|string
      */
-    function parseInnerTree(array $elementMap = null) {
+    public function parseInnerTree(array $elementMap = null) {
 
         $text = null;
         $elements = [];
@@ -191,7 +191,7 @@ class Reader extends XMLReader {
      *
      * @return string
      */
-    function readText() {
+    public function readText() {
 
         $result = '';
         $previousDepth = $this->depth;
@@ -215,7 +215,7 @@ class Reader extends XMLReader {
      *
      * @return array
      */
-    function parseCurrentElement() {
+    public function parseCurrentElement() {
 
         $name = $this->getClark();
 
@@ -248,7 +248,7 @@ class Reader extends XMLReader {
      *
      * @return array
      */
-    function parseAttributes() {
+    public function parseAttributes() {
 
         $attributes = [];
 
@@ -280,7 +280,7 @@ class Reader extends XMLReader {
      * @param string $name
      * @return callable
      */
-    function getDeserializerForElementName($name) {
+    public function getDeserializerForElementName($name) {
 
         if (!array_key_exists($name, $this->elementMap)) {
             return ['Sabre\\Xml\\Element\\Base', 'xmlDeserialize'];

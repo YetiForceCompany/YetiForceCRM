@@ -131,7 +131,7 @@ abstract class Smarty_CacheResource
 				// abort waiting for lock release
 				return false;
 			}
-			sleep(1);
+			//sleep(1);
 		}
 
 		return $hadLock;

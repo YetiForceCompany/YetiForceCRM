@@ -11,61 +11,7 @@
 
 class Conditions
 {
-	/* function getListValidDoc($moduleName, $record) {
-	  $listDocAndConditions = $this->getListConditions($moduleName);
-
-	  $output = array();
-
-	  foreach ($listDocAndConditions as $key => $lisConditions) {
-
-	  $responeListRequired = array();
-	  $responeListOptional = array();
-
-	  foreach ($lisConditions as $cndKey => $singleCnd) {
-
-	  if ('1' == $singleCnd['cnd_required']) {
-	  if (NULL != $singleCnd['comparator']) {
-	  $responeListRequired[] = $this->checkSingleCondition($record, $singleCnd);
-	  }
-	  } else {
-	  if (NULL != $singleCnd['comparator']) {
-	  $responeListOptional[] = $this->checkSingleCondition($record, $singleCnd);
-	  }
-	  }
-	  }
-
-	  $responeListRequiredStatus = true;
-
-	  for ($i = 0; $i < count($responeListRequired); $i++) {
-	  if (TRUE != $responeListRequired[$i]) {
-	  $responeListRequiredStatus = false;
-	  }
-	  }
-
-	  $responeListOptionalStatus = false;
-
-	  if (count($responeListOptional)) {
-	  for ($i = 0; $i < count($responeListOptional); $i++) {
-	  if (TRUE == $responeListOptional[$i]) {
-	  $responeListOptionalStatus = true;
-	  }
-	  }
-	  } else {
-	  $responeListOptionalStatus = TRUE;
-	  }
-
-	  if ($responeListRequiredStatus && $responeListOptionalStatus) {
-	  $singleDocInfo = array_shift(array_values($listDocAndConditions[$key]));
-
-	  $folderModel = Documents_Folder_Model::getInstanceById($singleDocInfo['doc_folder']);
-	  $singleDocInfo['folder'] = $folderModel->getName();
-	  $output[] = $singleDocInfo;
-	  }
-	  }
-
-	  return $output;
-	  } */
-
+	
 	public function checkConditionsForDoc($docId, $form)
 	{
 
@@ -92,8 +38,9 @@ class Conditions
 
 		$responeListRequiredStatus = true;
 
-		for ($i = 0; $i < count($responeListRequired); $i++) {
-			if (TRUE != $responeListRequired[$i]) {
+		$countResponeListRequired = count($responeListRequired);
+		for ($i = 0; $i < $countResponeListRequired; $i++) {
+			if (true != $responeListRequired[$i]) {
 				$responeListRequiredStatus = false;
 			}
 		}
@@ -103,13 +50,14 @@ class Conditions
 		$responeListOptionalStatus = false;
 
 		if (count($responeListOptional)) {
-			for ($i = 0; $i < count($responeListOptional); $i++) {
-				if (TRUE == $responeListOptional[$i]) {
+			$countResponeListOptional = count($responeListOptional);
+			for ($i = 0; $i < $countResponeListOptional; $i++) {
+				if (true == $responeListOptional[$i]) {
 					$responeListOptionalStatus = true;
 				}
 			}
 		} else {
-			$responeListOptionalStatus = TRUE;
+			$responeListOptionalStatus = true;
 		}
 
 		if ($responeListRequiredStatus && $responeListOptionalStatus) {
@@ -130,7 +78,8 @@ class Conditions
 
 		$exist = false;
 
-		for ($i = 0; $i < count($methodList); $i++) {
+		$countMethodList = count($methodList);
+		for ($i = 0; $i < $countMethodList; $i++) {
 			if ($methodList[$i]->name == $methodName) {
 				$exist = true;
 			}
@@ -145,7 +94,8 @@ class Conditions
 	{
 		$tabConditionName = explode(' ', $condition);
 
-		for ($i = 0; $i < count($tabConditionName); $i++) {
+		$countTabConditionName = count($tabConditionName);
+		for ($i = 0; $i < $countTabConditionName; $i++) {
 			if (0 != $i) {
 				$tabConditionName[$i] = ucfirst($tabConditionName[$i]);
 			}
@@ -172,7 +122,7 @@ class Conditions
 			. "LEFT JOIN vtiger_ossdocumentcontrol_cnd ON vtiger_ossdocumentcontrol_cnd.ossdocumentcontrolid = vtiger_ossdocumentcontrol.ossdocumentcontrolid "
 			. "WHERE module_name = ?";
 
-		$result = $db->pquery($sql, array($module), TRUE);
+		$result = $db->pquery($sql, array($module), true);
 
 
 		$output = array();
@@ -210,7 +160,7 @@ class Conditions
 			. "LEFT JOIN vtiger_ossdocumentcontrol_cnd ON vtiger_ossdocumentcontrol_cnd.ossdocumentcontrolid = vtiger_ossdocumentcontrol.ossdocumentcontrolid "
 			. "WHERE vtiger_ossdocumentcontrol.ossdocumentcontrolid = ?";
 
-		$result = $db->pquery($sql, array($docId), TRUE);
+		$result = $db->pquery($sql, array($docId), true);
 
 		$output = array();
 
@@ -249,7 +199,7 @@ class Conditions
 
 		$sql .= " ORDER BY vtiger_ossdocumentcontrol.doc_order ASC";
 
-		$result = $db->pquery($sql, array($moduleName), TRUE);
+		$result = $db->pquery($sql, array($moduleName), true);
 
 
 		$output = array();
@@ -274,7 +224,7 @@ class Conditions
 		$db = PearDatabase::getInstance();
 
 		$getListDocumentRelSql = "SELECT * FROM vtiger_senotesrel WHERE crmid = ?";
-		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), TRUE);
+		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), true);
 
 		for ($i = 0; $i < $db->num_rows($getListDocumentRelResult); $i++) {
 			$docId = $db->query_result($getListDocumentRelResult, $i, 'notesid');
@@ -283,7 +233,7 @@ class Conditions
 				$documentModel = Vtiger_Record_Model::getInstanceById($docId);
 
 				if ($docName == $documentModel->get('notes_title') && $folder == $documentModel->get('folderid')) {
-					return TRUE;
+					return true;
 				}
 			}
 		}
@@ -296,7 +246,7 @@ class Conditions
 		$db = PearDatabase::getInstance();
 
 		$getListDocumentRelSql = "SELECT * FROM vtiger_senotesrel WHERE crmid = ?";
-		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), TRUE);
+		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), true);
 
 		for ($i = 0; $i < $db->num_rows($getListDocumentRelResult); $i++) {
 			$docId = $db->query_result($getListDocumentRelResult, $i, 'notesid');

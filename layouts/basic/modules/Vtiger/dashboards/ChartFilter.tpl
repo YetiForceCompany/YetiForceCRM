@@ -63,6 +63,13 @@
 											</select>
 										</td>
 									</tr>
+									<tr class="hide sectorContainer">
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SECTOR'|vtranslate}</td>
+										<td class="fieldValue">
+											<select class="form-control select2" multiple name="sectorField" size="2" >
+											</select>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -85,7 +92,7 @@
 	{elseif $WIZARD_STEP eq 'step3'}
 		<option></option>
 		{foreach from=$MODULE_FILEDS item=FIELD key=FIELD_NAME}
-			<option value="{$FIELD_NAME}">{vtranslate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+			<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{vtranslate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 		{/foreach}
 	{/if}
 {/strip}

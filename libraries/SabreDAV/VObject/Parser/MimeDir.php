@@ -74,7 +74,7 @@ class MimeDir extends Parser {
      *
      * @return Sabre\VObject\Document
      */
-    function parse($input = null, $options = 0) {
+    public function parse($input = null, $options = 0) {
 
         $this->root = null;
 
@@ -104,7 +104,7 @@ class MimeDir extends Parser {
      *
      * @param string $charset
      */
-    function setCharset($charset) {
+    public function setCharset($charset) {
 
         if (!in_array($charset, self::$SUPPORTED_CHARSETS)) {
             throw new \InvalidArgumentException('Unsupported encoding. (Supported encodings: ' . implode(', ', self::$SUPPORTED_CHARSETS) . ')');
@@ -120,7 +120,7 @@ class MimeDir extends Parser {
      *
      * @return void
      */
-    function setInput($input) {
+    public function setInput($input) {
 
         // Resetting the parser
         $this->lineIndex = 0;

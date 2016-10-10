@@ -28,14 +28,16 @@ Class Settings_DataAccess_Step2_View extends Settings_Vtiger_Index_View
 		if ($idTpl && $baseModule != 'All') {
 			$docInfo = Settings_DataAccess_Module_Model::getDataAccessInfo($idTpl);
 			$viewer->assign('BASE_INFO', $docInfo['basic_info']);
-			for ($i = 0; $i < count($docInfo['required_conditions']); $i++) {
+			$countRequiredConditions = count($docInfo['required_conditions']);
+			for ($i = 0; $i < $countRequiredConditions; $i++) {
 				$fieldModel = Vtiger_Field_Model::getInstance($docInfo['required_conditions'][$i]['fieldname'], Vtiger_Module_Model::getInstance($baseModule));
 				$docInfo['required_conditions'][$i]['info'] = $fieldModel->getFieldInfo();
 			}
 
 			$viewer->assign('REQUIRED_CONDITIONS', $docInfo['required_conditions']);
 
-			for ($i = 0; $i < count($docInfo['optional_conditions']); $i++) {
+			$countOptionalConditions = count($docInfo['optional_conditions']);
+			for ($i = 0; $i < $countOptionalConditions; $i++) {
 
 				$fieldModel = Vtiger_Field_Model::getInstance($docInfo['optional_conditions'][$i]['fieldname'], Vtiger_Module_Model::getInstance($baseModule));
 				$docInfo['optional_conditions'][$i]['info'] = $fieldModel->getFieldInfo();

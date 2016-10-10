@@ -34,7 +34,7 @@ class Vtiger_DependencyPicklist
 				$sourceField = $adb->query_result($result, $i, 'sourcefield');
 				$targetField = $adb->query_result($result, $i, 'targetfield');
 
-				if (\vtlib\Functions::getModuleFieldId($fieldTabId, $sourceField) == false || \vtlib\Functions::getModuleFieldId($fieldTabId, $targetField) == false) {
+				if (\vtlib\Functions::getModuleFieldId($fieldTabId, $sourceField) === false || \vtlib\Functions::getModuleFieldId($fieldTabId, $targetField) === false) {
 					continue;
 				}
 
@@ -43,7 +43,7 @@ class Vtiger_DependencyPicklist
 
 				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($targetField));
 				$targetFieldLabel = $adb->query_result($fieldResult, 0, 'fieldlabel');
-				$forModule = getTabModuleName($fieldTabId);
+				$forModule = \includes\Modules::getModuleName($fieldTabId);
 				$dependentPicklists[] = array(
 					'sourcefield' => $sourceField,
 					'sourcefieldlabel' => vtranslate($sourceFieldLabel, $forModule),
@@ -59,7 +59,7 @@ class Vtiger_DependencyPicklist
 	static function getAvailablePicklists($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
+		
 		$tabId = \includes\Modules::getModuleId($module);
 
 		$query = "select vtiger_field.fieldlabel,vtiger_field.fieldname" .
@@ -87,7 +87,8 @@ class Vtiger_DependencyPicklist
 		$targetField = $dependencyMap['targetfield'];
 
 		$valueMapping = $dependencyMap['valuemapping'];
-		for ($i = 0; $i < count($valueMapping); ++$i) {
+		$countValueMapping = count($valueMapping);
+		for ($i = 0; $i < $countValueMapping; ++$i) {
 			$mapping = $valueMapping[$i];
 			$sourceValue = $mapping['sourcevalue'];
 			$targetValues = $mapping['targetvalues'];

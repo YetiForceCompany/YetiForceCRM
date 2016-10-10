@@ -46,7 +46,7 @@ class Plugin extends ServerPlugin {
      *
      * @return string
      */
-    function getPluginName() {
+    public function getPluginName() {
 
         return 'notifications';
 
@@ -63,7 +63,7 @@ class Plugin extends ServerPlugin {
      * @param Server $server
      * @return void
      */
-    function initialize(Server $server) {
+    public function initialize(Server $server) {
 
         $this->server = $server;
         $server->on('method:GET', [$this, 'httpGet'], 90);
@@ -86,7 +86,7 @@ class Plugin extends ServerPlugin {
      * @param BaseINode $node
      * @return void
      */
-    function propFind(PropFind $propFind, BaseINode $node) {
+    public function propFind(PropFind $propFind, BaseINode $node) {
 
         $caldavPlugin = $this->server->getPlugin('caldav');
 
@@ -125,7 +125,7 @@ class Plugin extends ServerPlugin {
      * @param ResponseInterface $response
      * @return void
      */
-    function httpGet(RequestInterface $request, ResponseInterface $response) {
+    public function httpGet(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
 
@@ -167,7 +167,7 @@ class Plugin extends ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo() {
+    public function getPluginInfo() {
 
         return [
             'name'        => $this->getPluginName(),

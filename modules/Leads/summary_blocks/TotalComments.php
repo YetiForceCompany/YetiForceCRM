@@ -18,14 +18,14 @@ class TotalComments
 
 	public function process($instance)
 	{
-		$log = vglobal('log');
-		$log->debug("Entering TotalComments::process() method ...");
+		
+		\App\Log::trace("Entering TotalComments::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$modcomments = 'SELECT COUNT(modcommentsid) AS comments FROM vtiger_modcomments
 			WHERE vtiger_modcomments.related_to = ?';
 		$result_modcomments = $adb->pquery($modcomments, array($instance->getId()));
 		$count = $adb->query_result($result_modcomments, 0, 'comments');
-		$log->debug("Exiting TotalComments::process() method ...");
+		\App\Log::trace("Exiting TotalComments::process() method ...");
 		return $count;
 	}
 }

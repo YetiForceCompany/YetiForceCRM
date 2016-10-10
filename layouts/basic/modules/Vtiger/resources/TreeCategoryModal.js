@@ -137,7 +137,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 						}
 					}
 				});
-			}else{
+			} else {
 				thisInstance.saveRecordsEvent(params);
 			}
 		});

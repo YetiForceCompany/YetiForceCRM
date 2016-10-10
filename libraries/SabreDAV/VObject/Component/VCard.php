@@ -144,7 +144,7 @@ class VCard extends VObject\Document {
      *
      * @return int
      */
-    function getDocumentType() {
+    public function getDocumentType() {
 
         if (!$this->version) {
 
@@ -185,7 +185,7 @@ class VCard extends VObject\Document {
      *
      * @return VCard
      */
-    function convert($target) {
+    public function convert($target) {
 
         $converter = new VObject\VCardConverter();
         return $converter->convert($this, $target);
@@ -221,7 +221,7 @@ class VCard extends VObject\Document {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $warnings = [];
 
@@ -327,7 +327,7 @@ class VCard extends VObject\Document {
      *
      * @var array
      */
-    function getValidationRules() {
+    public function getValidationRules() {
 
         return [
             'ADR'          => '*',
@@ -387,7 +387,7 @@ class VCard extends VObject\Document {
      *
      * @return VObject\Property|null
      */
-    function preferred($propertyName) {
+    public function preferred($propertyName) {
 
         $preferred = null;
         $lastPref = 101;
@@ -421,7 +421,7 @@ class VCard extends VObject\Document {
      *
      * @return VObject\Property|null
      */
-    function getByType($propertyName, $type) {
+    public function getByType($propertyName, $type) {
         foreach ($this->select($propertyName) as $field) {
             if (isset($field['TYPE']) && $field['TYPE']->has($type)) {
                 return $field;
@@ -450,7 +450,7 @@ class VCard extends VObject\Document {
      *
      * @return array
      */
-    function jsonSerialize() {
+    public function jsonSerialize() {
 
         // A vcard does not have sub-components, so we're overriding this
         // method to remove that array element.
@@ -475,7 +475,7 @@ class VCard extends VObject\Document {
      *
      * @return void
      */
-    function xmlSerialize(Xml\Writer $writer) {
+    public function xmlSerialize(Xml\Writer $writer) {
 
         $propertiesByGroup = [];
 
@@ -538,7 +538,7 @@ class VCard extends VObject\Document {
      *
      * @return string
      */
-    function getClassNameForPropertyName($propertyName) {
+    public function getClassNameForPropertyName($propertyName) {
 
         $className = parent::getClassNameForPropertyName($propertyName);
 

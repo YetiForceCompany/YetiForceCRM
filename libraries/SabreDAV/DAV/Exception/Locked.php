@@ -30,7 +30,7 @@ class Locked extends DAV\Exception {
      *
      * @param DAV\Locks\LockInfo $lock
      */
-    function __construct(DAV\Locks\LockInfo $lock = null) {
+    public function __construct(DAV\Locks\LockInfo $lock = null) {
 
         $this->lock = $lock;
 
@@ -41,7 +41,7 @@ class Locked extends DAV\Exception {
      *
      * @return int
      */
-    function getHTTPCode() {
+    public function getHTTPCode() {
 
         return 423;
 
@@ -54,7 +54,7 @@ class Locked extends DAV\Exception {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(DAV\Server $server, \DOMElement $errorNode) {
+    public function serialize(DAV\Server $server, \DOMElement $errorNode) {
 
         if ($this->lock) {
             $error = $errorNode->ownerDocument->createElementNS('DAV:', 'd:lock-token-submitted');

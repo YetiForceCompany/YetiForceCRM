@@ -29,7 +29,7 @@ class VCardConverter {
      * @param Component\VCard $input
      * @param int $targetVersion
      */
-    function convert(Component\VCard $input, $targetVersion) {
+    public function convert(Component\VCard $input, $targetVersion) {
 
         $inputVersion = $input->getDocumentType();
         if ($inputVersion === $targetVersion) {

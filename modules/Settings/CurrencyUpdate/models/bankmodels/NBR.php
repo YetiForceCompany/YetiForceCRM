@@ -132,7 +132,7 @@ class Settings_CurrencyUpdate_models_NBR_BankModel extends Settings_CurrencyUpda
 							$exchangeVtiger = (float) $exchangeRate / (float) $exchange;
 							$exchange = (float) $exchange / (float) $exchangeRate;
 
-							if ($cron == true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+							if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 								$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 							}
 							$existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
@@ -162,7 +162,7 @@ class Settings_CurrencyUpdate_models_NBR_BankModel extends Settings_CurrencyUpda
 			}
 
 			if ($mainCurrencyId) {
-				if ($cron == true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $exchange);
 				}
 

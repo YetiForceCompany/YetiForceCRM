@@ -13,27 +13,27 @@ include_once 'modules/Vtiger/CRMEntity.php';
 class OSSEmployees extends Vtiger_CRMEntity
 {
 
-	var $table_name = 'vtiger_ossemployees';
-	var $table_index = 'ossemployeesid';
-	var $column_fields = Array();
+	public $table_name = 'vtiger_ossemployees';
+	public $table_index = 'ossemployeesid';
+	public $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
+	public $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_ossemployeescf', 'ossemployeesid');
+	public $customFieldTable = Array('vtiger_ossemployeescf', 'ossemployeesid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_ossemployees', 'vtiger_ossemployeescf', 'vtiger_entity_stats');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_ossemployees', 'vtiger_ossemployeescf', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ossemployees' => 'ossemployeesid',
 		'vtiger_ossemployeescf' => 'ossemployeesid',
@@ -42,14 +42,14 @@ class OSSEmployees extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'No.' => Array('ossemployees', 'ossemployees_no'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'No.' => 'ossemployees_no',
 		'LBL_LASTNAME' => 'last_name',
@@ -58,35 +58,35 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'Assigned To' => 'assigned_user_id',
 	);
 	// Make the field link to detail view from list view (Fieldname)
-	var $list_link_field = 'assigned_user_id';
+	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public $search_fields = Array(
 		'No.' => Array('ossemployees', 'ossemployees_no'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Created Time' => Array('crmentity', 'createdtime'),
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		'No.' => 'ossemployees_no',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('last_name');
+	public $popup_fields = Array('last_name');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	public $sortby_fields = Array();
 	// For Alphabetical search
-	var $def_basicsearch_col = 'last_name';
+	public $def_basicsearch_col = 'last_name';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'last_name';
+	public $def_detailview_recname = 'last_name';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('assigned_user_id' => 1);
+	public $required_fields = Array('assigned_user_id' => 1);
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $special_functions = Array('set_import_assigned_user');
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'assigned_user_id');
+	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'assigned_user_id');
 
 	/**
 	 * Function to get Employees hierarchy of the given Employees
@@ -97,9 +97,9 @@ class OSSEmployees extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$log = vglobal('log');
+		
 
-		$log->debug("Entering getEmployeeHierarchy(" . $id . ") method ...");
+		\App\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
 		$listview_header = Array();
@@ -145,15 +145,15 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$listview_entries[$employees_id] = $account_info_data;
 		}
 		$hierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
-		$log->debug("Exiting getEmployeeHierarchy method ...");
+		\App\Log::trace("Exiting getEmployeeHierarchy method ...");
 		return $hierarchy;
 	}
 
 	public function __getParentEmployees($id, &$parent_accounts, &$encountered_accounts)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering __getParentEmployees(" . $id . "," . $parent_accounts . ") method ...");
+		
+		\App\Log::trace("Entering __getParentEmployees(" . $id . "," . $parent_accounts . ") method ...");
 		$query = "SELECT parentid FROM vtiger_ossemployees " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid" .
 			" WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?";
@@ -196,15 +196,15 @@ class OSSEmployees extends Vtiger_CRMEntity
 			}
 		}
 		$parent_accounts[$id] = $parent_account_info;
-		$log->debug("Exiting __getParentEmployees method ...");
+		\App\Log::trace("Exiting __getParentEmployees method ...");
 		return $parent_accounts;
 	}
 
 	public function __getChildEmployees($id, &$child_accounts, $depth)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
+		
+		\App\Log::trace("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_ossemployees.*," .
@@ -240,7 +240,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 				$this->__getChildEmployees($child_acc_id, $child_accounts, $depth);
 			}
 		}
-		$log->debug("Exiting __getChildEmployees method ...");
+		\App\Log::trace("Exiting __getChildEmployees method ...");
 		return $child_accounts;
 	}
 	/* function addWidgetTo($moduleNames, $widgetType='DETAILVIEWWIDGET', $widgetName='DetailViewBlockEMPLOYEEHOLIDAY') {
@@ -264,11 +264,11 @@ class OSSEmployees extends Vtiger_CRMEntity
 	 */
 	public function get_osstimecontrol($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		$log = vglobal('log');
+		
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering get_osstimecontrol(" . $id . ") method ...");
+		\App\Log::trace("Entering get_osstimecontrol(" . $id . ") method ...");
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
@@ -316,10 +316,10 @@ class OSSEmployees extends Vtiger_CRMEntity
 				WHERE  vtiger_crmentity.deleted = 0 && vtiger_crmentity.`smownerid`= " . $userId;
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-		if ($return_value == null)
+		if ($return_value === null)
 			$return_value = Array();
 		$return_value['CUSTOM_BUTTON'] = $button;
-		$log->debug("Exiting get_osstimecontrol method ...");
+		\App\Log::trace("Exiting get_osstimecontrol method ...");
 		return $return_value;
 	}
 

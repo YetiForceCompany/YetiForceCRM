@@ -17,9 +17,9 @@ namespace vtlib;
 class Profile
 {
 
-	var $id;
-	var $name;
-	var $desc;
+	public $id;
+	public $name;
+	public $desc;
 
 	public function save()
 	{
@@ -113,7 +113,8 @@ class Profile
 		$adb = \PearDatabase::getInstance();
 		$profileids = [];
 		$result = $adb->pquery('SELECT profileid FROM vtiger_profile', []);
-		for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+		$countResult = $adb->num_rows($result);
+		for ($index = 0; $index < $countResult; ++$index) {
 			$profileids[] = $adb->query_result($result, $index, 'profileid');
 		}
 		return $profileids;
@@ -135,7 +136,8 @@ class Profile
 		 * NOTE: Other actionname (actionid >= 5) is considered as utility (tools) for a profile.
 		 * Gather all the actionid for associating to profile.
 		 */
-		for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+		$countResult = $adb->num_rows($result);
+		for ($index = 0; $index < $countResult; ++$index) {
 			$actionids[] = $adb->query_result($result, $index, 'actionid');
 		}
 

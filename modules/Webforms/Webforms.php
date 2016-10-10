@@ -13,7 +13,7 @@ require_once 'include/Webservices/DescribeObject.php';
 class Webforms
 {
 
-	var $LBL_WEBFORMS = 'Webforms';
+	public $LBL_WEBFORMS = 'Webforms';
 	// Cache to speed up describe information store
 	protected static $moduleDescribeCache = array();
 
@@ -32,12 +32,12 @@ class Webforms
 		} else if ($eventType == 'module.disabled') {
 
 			$adb = PearDatabase::getInstance();
-			$log = vglobal('log');
+			
 			$adb->pquery('UPDATE vtiger_settings_field SET active= 1  WHERE  name= ?', array($this->LBL_WEBFORMS));
 		} else if ($eventType == 'module.enabled') {
 
 			$adb = PearDatabase::getInstance();
-			$log = vglobal('log');
+			
 			$adb->pquery('UPDATE vtiger_settings_field SET active= 0  WHERE  name= ?', array($this->LBL_WEBFORMS));
 		} else if ($eventType == 'module.preuninstall') {
 
@@ -90,7 +90,7 @@ class Webforms
 		</tbody></table>
 		</div>";
 		echo "</td></tr></table>";
-		exit;
+		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
 	static function getModuleDescribe($module)
@@ -98,7 +98,7 @@ class Webforms
 		if (!isset(self::$moduleDescribeCache[$module])) {
 			$adb = PearDatabase::getInstance();
 			$current_user = vglobal('current_user');
-			$log = vglobal('log');
+			
 			self::$moduleDescribeCache[$module] = vtws_describe($module, $current_user);
 		}
 		return self::$moduleDescribeCache[$module];

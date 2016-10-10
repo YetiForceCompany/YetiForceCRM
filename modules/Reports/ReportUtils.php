@@ -128,7 +128,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		}
 	} elseif ($dbField->name == "PriceBooks_Currency") {
 		if ($value != '') {
-			$fieldvalue = \vtlib\Deprecated::getTranslatedCurrencyString($value);
+			$fieldvalue = \includes\Language::translate($value, 'Currency');
 		}
 	} elseif (in_array($dbField->name, $report->ui101_fields) && !empty($value)) {
 		$entityNames = getEntityName('Users', $value);
@@ -213,14 +213,15 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			$listId = explode(',', $value);
 			$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 			$getListUserSql = "select $usersSqlFullName as uname from vtiger_users WHERE id IN (" . generateQuestionMarks($listId) . ') ';
-			$getListUserResult = $db->pquery($getListUserSql, array($listId), TRUE);
+			$getListUserResult = $db->pquery($getListUserSql, array($listId), true);
 
 			$fieldvalue = '';
 			$finalList = array();
 
 			$listUsers = $getListUserResult->GetAll();
 
-			for ($i = 0; $i < count($listUsers); $i++) {
+			$countListUsers = count($listUsers);
+			for ($i = 0; $i < $countListUsers; $i++) {
 				$finalList[] = $listUsers[$i][0];
 			}
 

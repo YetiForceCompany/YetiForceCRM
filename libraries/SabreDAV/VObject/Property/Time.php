@@ -31,7 +31,7 @@ class Time extends Text {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'TIME';
 
@@ -46,7 +46,7 @@ class Time extends Text {
      *
      * @return void
      */
-    function setJsonValue(array $value) {
+    public function setJsonValue(array $value) {
 
         // Removing colons from value.
         $value = str_replace(
@@ -70,7 +70,7 @@ class Time extends Text {
      *
      * @return array
      */
-    function getJsonValue() {
+    public function getJsonValue() {
 
         $parts = DateTimeParser::parseVCardTime($this->getValue());
         $timeStr = '';
@@ -129,7 +129,7 @@ class Time extends Text {
      *
      * @return void
      */
-    function setXmlValue(array $value) {
+    public function setXmlValue(array $value) {
 
         $value = array_map(
             function($value) {

@@ -193,6 +193,7 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 			"boolean" => array("is enabled", "is disabled"),
 			"reference" => array("is", "contains", "does not contain", "starts with", "ends with", "is empty", "is not empty"),
 			"owner" => array("is", "contains", "does not contain", "starts with", "ends with", "is empty", "is not empty"),
+			"sharedOwner" => array('has changed', 'is', 'is not'),
 			"recurrence" => array("is", "is not"),
 			"comment" => array("is added"),
 		);

@@ -387,7 +387,8 @@ class QueryGenerator
 						$value = [];
 						$value[] = $this->fixDateTimeValue($name, $date, false);
 						// Still fixDateTimeValue returns only date value, we need to append time because it is DT type
-						for ($i = 0; $i < count($value); $i++) {
+						$countValue = count($value);
+						for ($i = 0; $i < $countValue; $i++) {
 							$values = explode(' ', $value[$i]);
 							if ($values[1] == '') {
 								$values[1] = '00:00:00';
@@ -1002,8 +1003,11 @@ class QueryGenerator
 		}
 
 		if (!$onlyWhereQuery && $this->permissions) {
-			$instance = CRMEntity::getInstance($baseModule);
-			$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user, $this->getSourceRecord());
+			if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+				$sql .= " AND vtiger_crmentity.users LIKE '%,{$current_user->id},%'";
+			} else {
+				$sql .= \App\PrivilegeQuery::getAccessConditions($baseModule, $current_user->id, $this->getSourceRecord());
+			}
 		}
 		$this->whereClause = $sql;
 		return $sql;
@@ -1022,7 +1026,7 @@ class QueryGenerator
 		$db = PearDatabase::getInstance();
 		$inEqualityFieldTypes = ['currency', 'percentage', 'double', 'integer', 'number'];
 
-		if (is_string($value) && $this->ignoreComma == false) {
+		if (is_string($value) && $this->ignoreComma === false) {
 			$commaSeparatedFieldTypes = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
 			if (in_array($field->getFieldDataType(), $commaSeparatedFieldTypes)) {
 				$valueArray = explode(',', $value);
@@ -1361,7 +1365,7 @@ class QueryGenerator
 
 	public function addUserSearchConditions($input)
 	{
-		$log = LoggerManager::getInstance();
+
 		$default_charset = AppConfig::main('default_charset');
 		if ($input['searchtype'] == 'advance') {
 			$advftCriteria = AppRequest::get('advft_criteria');
@@ -1432,7 +1436,7 @@ class QueryGenerator
 			$this->endGroup();
 		} else {
 			if (isset($input['search_field']) && $input['search_field'] != "") {
-				$fieldName = vtlib_purify($input['search_field']);
+				$fieldName = App\Purifier::purify($input['search_field']);
 			} else {
 				return;
 			}
@@ -1453,20 +1457,7 @@ class QueryGenerator
 				}
 
 				if ($type == 'picklist') {
-					global $mod_strings;
-					// Get all the keys for the for the Picklist value
-					$mod_keys = array_keys($mod_strings, $value);
-					if (sizeof($mod_keys) >= 1) {
-						// Iterate on the keys, to get the first key which doesn't start with LBL_      (assuming it is not used in PickList)
-						foreach ($mod_keys as $mod_idx => $mod_key) {
-							$stridx = strpos($mod_key, 'LBL_');
-							// Use strict type comparision, refer strpos for more details
-							if ($stridx !== 0) {
-								$value = $mod_key;
-								break;
-							}
-						}
-					}
+					$value = \includes\Language::translate($value, $this->module);
 				}
 				if ($type == 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion

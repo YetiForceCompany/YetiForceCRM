@@ -1069,13 +1069,12 @@ class Vtiger_Module_Model extends \vtlib\Module
 			return $comments;
 		}
 		$db = PearDatabase::getInstance();
-		$instance = CRMEntity::getInstance('ModComments');
-		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('ModComments');
+		$accessConditions = \App\PrivilegeQuery::getAccessConditions('ModComments');
 		$query = sprintf('SELECT vtiger_crmentity.*, vtiger_modcomments.* FROM vtiger_modcomments
 			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
 			INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
 			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 && crmentity2.setype = ? %s
-			ORDER BY vtiger_crmentity.createdtime DESC LIMIT ?, ?', $UserAccessConditions);
+			ORDER BY vtiger_crmentity.createdtime DESC LIMIT ?, ?', $accessConditions);
 		$result = $db->pquery($query, [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$row = $db->query_result_rowdata($result, $i);
@@ -1215,10 +1214,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				array_push($params, $user);
 			}
 		}
-		$instance = CRMEntity::getInstance($moduleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser, $recordId);
-		if ($securityParameter != '')
-			$query .= $securityParameter;
+		$query .= \App\PrivilegeQuery::getAccessConditions($moduleName, $currentUser->getId(), $recordId);
 		$query .= sprintf(" ORDER BY date_start, time_start LIMIT %d,%d", $pagingModel->getStartIndex(), ($pagingModel->getPageLimit() + 1));
 
 		$result = $db->pquery($query, $params);
@@ -1230,7 +1226,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$newRow = $db->query_result_rowdata($result, $i);
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$ownerId = $newRow['smownerid'];
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$visibleFields = array('activitytype', 'date_start', 'time_start', 'due_date', 'time_end', 'assigned_user_id', 'visibility', 'smownerid', 'crmid');
 			$visibility = true;
 			if (in_array($ownerId, $groupsIds)) {
@@ -1543,14 +1538,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$selectColumnSql = sprintf('SELECT DISTINCT vtiger_crmentity.crmid,%s', $selectColumnSql);
 			$query = $selectColumnSql . ' FROM ' . $newQuery[1];
 		}
-
-		$instance = CRMEntity::getInstance($relatedModuleName);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName, false, $recordId);
-		//if ($securityParameter != '' && !($relationListViewModel && $relationListViewModel->noPermissions === true))
-		if ($securityParameter != '')
-			$query .= $securityParameter;
-
-
+		$query .= \App\PrivilegeQuery::getAccessConditions($relatedModuleName, false, $recordId);
 		return $query;
 	}
 

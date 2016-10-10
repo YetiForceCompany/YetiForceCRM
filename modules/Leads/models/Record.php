@@ -83,7 +83,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			$row['label'] = $labels[$row['crmid']];
 			$row['smownerid'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
-			$row['permitted'] = \includes\Privileges::isPermitted($row['setype'], 'DetailView', $row['crmid']);
+			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);

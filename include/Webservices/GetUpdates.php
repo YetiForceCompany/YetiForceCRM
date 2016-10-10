@@ -58,7 +58,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 	// End
 
 
-	if (!isset($elementType) || $elementType == '' || $elementType == null) {
+	if (!isset($elementType) || $elementType == '' || $elementType === null) {
 		$typed = false;
 	}
 
@@ -121,7 +121,8 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 	$result = $adb->pquery($q, $params);
 
 	$modTime = [];
-	for ($i = 0; $i < $adb->num_rows($result); $i++) {
+	$countResult = $adb->num_rows($result);
+	for ($i = 0; $i < $countResult; $i++) {
 		$modTime[] = $adb->query_result($result, $i, 'modifiedtime');
 	}
 	if (!empty($modTime)) {

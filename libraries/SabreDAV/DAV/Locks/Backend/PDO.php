@@ -35,7 +35,7 @@ class PDO extends AbstractBackend {
      *
      * @param PDO $pdo
      */
-    function __construct(\PDO $pdo) {
+    public function __construct(\PDO $pdo) {
 
         $this->pdo = $pdo;
 
@@ -54,7 +54,7 @@ class PDO extends AbstractBackend {
      * @param bool $returnChildLocks
      * @return array
      */
-    function getLocks($uri, $returnChildLocks) {
+    public function getLocks($uri, $returnChildLocks) {
 
         // NOTE: the following 10 lines or so could be easily replaced by
         // pure sql. MySQL's non-standard string concatenation prevents us
@@ -118,7 +118,7 @@ class PDO extends AbstractBackend {
      * @param LockInfo $lockInfo
      * @return bool
      */
-    function lock($uri, LockInfo $lockInfo) {
+    public function lock($uri, LockInfo $lockInfo) {
 
         // We're making the lock timeout 30 minutes
         $lockInfo->timeout = 30 * 60;
@@ -168,7 +168,7 @@ class PDO extends AbstractBackend {
      * @param LockInfo $lockInfo
      * @return bool
      */
-    function unlock($uri, LockInfo $lockInfo) {
+    public function unlock($uri, LockInfo $lockInfo) {
 
         $stmt = $this->pdo->prepare(sprintf('DELETE FROM %s WHERE uri = ? && token = ?', $this->tableName));
         $stmt->execute([$uri, $lockInfo->token]);

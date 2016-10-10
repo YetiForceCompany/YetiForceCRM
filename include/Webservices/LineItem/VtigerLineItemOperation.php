@@ -39,7 +39,6 @@ class VtigerLineItemOperation extends VtigerActorOperation
 	public function __construct($webserviceObject, $user, $adb, $log)
 	{
 		$this->user = $user;
-		$this->log = $log;
 		$this->webserviceObject = $webserviceObject;
 		$this->pearDB = $adb;
 		$this->entityTableName = $this->getActorTables();
@@ -223,7 +222,7 @@ class VtigerLineItemOperation extends VtigerActorOperation
 						}
 					}
 				}
-			} elseif ($found == false) {
+			} elseif ($found === false) {
 				array_merge($this->taxList, $productTaxList);
 			}
 		} else {

@@ -175,14 +175,14 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 			foreach ($removed as $moduleName => &$tabId) {
 				$db->delete('vtiger_group2modules', 'groupid = ? && tabid = ?', [$groupId, $tabId]);
-				\includes\Privileges::setUpdater($moduleName);
+				\App\Privilege::setUpdater($moduleName);
 			}
 			foreach ($add as &$tabId) {
 				$db->insert('vtiger_group2modules', [
 					'tabid' => $tabId,
 					'groupid' => $groupId
 				]);
-				\includes\Privileges::setUpdater(vtlib\Functions::getModuleName($tabId));
+				\App\Privilege::setUpdater(vtlib\Functions::getModuleName($tabId));
 			}
 		}
 		$this->recalculate($oldUsersList);

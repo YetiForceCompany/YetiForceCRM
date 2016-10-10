@@ -77,16 +77,16 @@ class dUnzip2
 	}
 
 	// Public
-	var $fileName;
-	var $compressedList; // You will problably use only this one!
-	var $centralDirList; // Central dir list... It's a kind of 'extra attributes' for a set of files
-	var $endOfCentral;   // End of central dir, contains ZIP Comments
-	var $debug;
+	public $fileName;
+	public $compressedList; // You will problably use only this one!
+	public $centralDirList; // Central dir list... It's a kind of 'extra attributes' for a set of files
+	public $endOfCentral;   // End of central dir, contains ZIP Comments
+	public $debug;
 	// Private
-	var $fh;
-	var $zipSignature = "\x50\x4b\x03\x04"; // local file header signature
-	var $dirSignature = "\x50\x4b\x01\x02"; // central dir header signature
-	var $dirSignatureE = "\x50\x4b\x05\x06"; // end of central dir signature
+	public $fh;
+	public $zipSignature = "\x50\x4b\x03\x04"; // local file header signature
+	public $dirSignature = "\x50\x4b\x01\x02"; // central dir header signature
+	public $dirSignatureE = "\x50\x4b\x05\x06"; // end of central dir signature
 
 	// Public
 

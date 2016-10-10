@@ -55,6 +55,8 @@ $languageStrings = [
 	'Birthdays of contacts' => 'Birthdays of contacts',
 	'SINGLE_Leads' => 'Lead',
 	'SINGLE_Vendors' => 'Vendor',
+	'LBL_SWITCH_ON_DECISION_MAKER' => 'Decision maker',
+	'LBL_SWITCH_OFF_DECISION_MAKER' => 'All', 
 ];
 
 $jsLanguageStrings = [

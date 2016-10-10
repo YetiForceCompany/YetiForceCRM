@@ -80,7 +80,7 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action
 		if ($activityType == 'Task') {
 			$status = 'Completed';
 			$recordModel->set('taskstatus', $status);
-			$result = array("valid" => TRUE, "markedascompleted" => TRUE, "activitytype" => "Task");
+			$result = array("valid" => true, "markedascompleted" => true, "activitytype" => "Task");
 		} else {
 			//checking if the event can be marked as Held (status validation)
 			$startDateTime[] = $recordModel->get('date_start');
@@ -90,14 +90,14 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action
 			$currentDateTime = date("Y-m-d H:i:s");
 			$currentDateTime = new DateTime($currentDateTime);
 			if ($startDateTime > $currentDateTime) {
-				$result = array("valid" => FALSE, "markedascompleted" => FALSE);
+				$result = array("valid" => false, "markedascompleted" => false);
 				$response->setResult($result);
 				$response->emit();
 				return;
 			}
 			$status = 'Held';
 			$recordModel->set('eventstatus', $status);
-			$result = array("valid" => TRUE, "markedascompleted" => TRUE, "activitytype" => "Event");
+			$result = array("valid" => true, "markedascompleted" => true, "activitytype" => "Event");
 		}
 		$recordModel->save();
 		$response->setResult($result);

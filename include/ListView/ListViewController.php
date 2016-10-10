@@ -277,7 +277,20 @@ class ListViewController
 						$value = ' --';
 					}
 					$value = vtlib\Functions::textLength($value);
-				} elseif ($field->getFieldDataType() == 'picklist') {
+				} elseif ($module == 'Notification' && ($fieldName == 'title' || $fieldName == 'description')){
+					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+					$relatedModule = $recordModel->get('relatedmodule');
+					$reletedId = $recordModel->get('relatedid');
+					if ($relatedModule != 'Users' && \includes\Record::isExists($reletedId)) {
+						$textParser = Vtiger_TextParser_Helper::getInstanceByModel(Vtiger_Record_Model::getInstanceById($reletedId, $relatedModule));
+					} else {
+						$textParser = Vtiger_TextParser_Helper::getCleanInstance();
+					}
+					$textParser->setContent($value);
+					$value = $textParser->parseTranslations();
+					$value = $value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
+				} 
+				elseif ($field->getFieldDataType() == 'picklist') {
 					$value = \includes\Language::translate($value, $module);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getFieldDataType() == 'date' || $field->getFieldDataType() == 'datetime') {
@@ -367,7 +380,7 @@ class ListViewController
 						$value = '--';
 					}
 				} elseif ($field->getUIType() == 98) {
-					$value = '<a href="index.php?module=Roles&parent=Settings&view=Edit&record=' . $value . '">' . vtlib\Functions::textLength(getRoleName($value), $fieldModel->get('maxlengthtext')) . '</a>';
+					$value = '<a href="index.php?module=Roles&parent=Settings&view=Edit&record=' . $value . '">' . vtlib\Functions::textLength(\App\PrivilegeUtil::getRoleName($value), $fieldModel->get('maxlengthtext')) . '</a>';
 				} elseif ($field->getFieldDataType() == 'multipicklist') {
 					$valueArray = ($value != "") ? explode(' |##| ', $value) : [];
 					foreach ($valueArray as $key => $valueSingle) {
@@ -393,7 +406,7 @@ class ListViewController
 						$value = $value . '<a class="phoneField" data-value="' . $phoneNumber . '" record="' . $recordId . '"onclick="Vtiger_PBXManager_Js.registerPBXOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')"> <img style="vertical-align:middle;" src="layouts/basic/skins/images/small_Call.png"/></a>';
 					} elseif ($outgoingMobilePermission && !empty($value)) {
 						$phoneNumber = preg_replace('/[-()\s]/', '', $value);
-						$value = '<a class="phoneField" data-phoneNumber="' . $phoneNumber . '" record="' . $recordId . '" onclick="Vtiger_Mobile_Js.registerOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')">' . textlength_check($value) . '</a>';
+						$value = '<a class="phoneField" data-phoneNumber="' . $phoneNumber . '" record="' . $recordId . '" onclick="Vtiger_Mobile_Js.registerOutboundCall(\'' . $phoneNumber . '\', ' . $recordId . ')">' . \vtlib\Functions::textLength($value) . '</a>';
 						$callUsers = Vtiger_Mobile_Model::getPrivilegesUsers();
 						if ($callUsers) {
 							$value .= '  <a class="btn btn-xs noLinkBtn" onclick="Vtiger_Mobile_Js.registerOutboundCallToUser(this,\'' . $phoneNumber . '\',' . $recordId . ')" data-placement="right" data-original-title="' . vtranslate('LBL_SELECT_USER_TO_CALL', $module) . '" data-content=\'<select class="select sesectedUser" name="sesectedUser">';

@@ -164,8 +164,8 @@ class Vtiger_Loader
 			return $fallBackComponentClassName;
 		}
 
-		$log = vglobal('log');
-		$log->error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
+		
+		\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
 
 		throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 	}

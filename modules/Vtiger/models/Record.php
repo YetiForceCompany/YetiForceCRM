@@ -396,7 +396,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$row['label'] = $labels[$row['crmid']];
 			$row['smownerid'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
-			$row['permitted'] = \includes\Privileges::isPermitted($row['setype'], 'DetailView', $row['crmid']);
+			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
@@ -431,7 +431,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$isPermitted = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId);
 			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $recordId);
 
-			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit == false;
+			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit === false;
 		}
 		return $this->privileges['isEditable'];
 	}
@@ -581,10 +581,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function trackView()
 	{
-		$log = vglobal('log');
+		
 		$db = PearDatabase::getInstance();
 		$id = $this->getId();
-		$log->debug("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
+		\App\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
 		if ($id != '') {
 			$updateQuery = "UPDATE vtiger_crmentity SET viewedtime=? WHERE crmid=?;";
 			$updateParams = array(date('Y-m-d H:i:s'), $this->getId());
@@ -686,8 +686,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getInventoryData()
 	{
-		$log = vglobal('log');
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
 		if (!$this->inventoryData) {
 			$module = $this->getModuleName();
 			$record = $this->getId();
@@ -699,7 +699,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 			$this->inventoryData = self::getInventoryDataById($record, $module);
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 		return $this->inventoryData;
 	}
 
@@ -721,8 +721,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function initInventoryData()
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__);
+		
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$moduleName = $this->getModuleName();
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
@@ -757,7 +757,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		$this->inventoryData = $inventoryData;
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
 	}
 
 	/**

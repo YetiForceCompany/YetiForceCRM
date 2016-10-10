@@ -35,7 +35,7 @@ class SupportedPrivilegeSet implements XmlSerializable, HtmlOutput {
      *
      * @param array $privileges
      */
-    function __construct(array $privileges) {
+    public function __construct(array $privileges) {
 
         $this->privileges = $privileges;
 
@@ -46,7 +46,7 @@ class SupportedPrivilegeSet implements XmlSerializable, HtmlOutput {
      *
      * @return array
      */
-    function getValue() {
+    public function getValue() {
 
         return $this->privileges;
 
@@ -71,7 +71,7 @@ class SupportedPrivilegeSet implements XmlSerializable, HtmlOutput {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         $this->serializePriv($writer, $this->privileges);
 
@@ -91,7 +91,7 @@ class SupportedPrivilegeSet implements XmlSerializable, HtmlOutput {
      * @param HtmlOutputHelper $html
      * @return string
      */
-    function toHtml(HtmlOutputHelper $html) {
+    public function toHtml(HtmlOutputHelper $html) {
 
         $traverse = function($priv) use (&$traverse, $html) {
             echo "<li>";

@@ -33,7 +33,7 @@ class Recur extends Property {
      *
      * @return void
      */
-    function setValue($value) {
+    public function setValue($value) {
 
         // If we're getting the data from json, we'll be receiving an object
         if ($value instanceof \StdClass) {
@@ -80,7 +80,7 @@ class Recur extends Property {
      *
      * @return string
      */
-    function getValue() {
+    public function getValue() {
 
         $out = [];
         foreach ($this->value as $key => $value) {
@@ -96,7 +96,7 @@ class Recur extends Property {
      * @param array $parts
      * @return void
      */
-    function setParts(array $parts) {
+    public function setParts(array $parts) {
 
         $this->setValue($parts);
 
@@ -110,7 +110,7 @@ class Recur extends Property {
      *
      * @return array
      */
-    function getParts() {
+    public function getParts() {
 
         return $this->value;
 
@@ -126,7 +126,7 @@ class Recur extends Property {
      *
      * @return void
      */
-    function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val) {
 
         $this->setValue($val);
 
@@ -137,7 +137,7 @@ class Recur extends Property {
      *
      * @return string
      */
-    function getRawMimeDirValue() {
+    public function getRawMimeDirValue() {
 
         return $this->getValue();
 
@@ -151,7 +151,7 @@ class Recur extends Property {
      *
      * @return string
      */
-    function getValueType() {
+    public function getValueType() {
 
         return 'RECUR';
 
@@ -164,7 +164,7 @@ class Recur extends Property {
      *
      * @return array
      */
-    function getJsonValue() {
+    public function getJsonValue() {
 
         $values = [];
         foreach ($this->getParts() as $k => $v) {
@@ -251,7 +251,7 @@ class Recur extends Property {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $repair = ($options & self::REPAIR);
 

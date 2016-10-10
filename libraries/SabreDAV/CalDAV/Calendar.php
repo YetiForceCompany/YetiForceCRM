@@ -36,7 +36,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param Backend\BackendInterface $caldavBackend
      * @param array $calendarInfo
      */
-    function __construct(Backend\BackendInterface $caldavBackend, $calendarInfo) {
+    public function __construct(Backend\BackendInterface $caldavBackend, $calendarInfo) {
 
         $this->caldavBackend = $caldavBackend;
         $this->calendarInfo = $calendarInfo;
@@ -48,7 +48,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         return $this->calendarInfo['uri'];
 
@@ -66,7 +66,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param PropPatch $propPatch
      * @return void
      */
-    function propPatch(PropPatch $propPatch) {
+    public function propPatch(PropPatch $propPatch) {
 
         return $this->caldavBackend->updateCalendar($this->calendarInfo['id'], $propPatch);
 
@@ -78,7 +78,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param array $requestedProperties
      * @return array
      */
-    function getProperties($requestedProperties) {
+    public function getProperties($requestedProperties) {
 
         $response = [];
 
@@ -100,7 +100,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param string $name
      * @return \Sabre\CalDAV\ICalendarObject
      */
-    function getChild($name) {
+    public function getChild($name) {
 
         $obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name);
 
@@ -117,7 +117,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return array
      */
-    function getChildren() {
+    public function getChildren() {
 
         $objs = $this->caldavBackend->getCalendarObjects($this->calendarInfo['id']);
         $children = [];
@@ -138,7 +138,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param string[] $paths
      * @return array
      */
-    function getMultipleChildren(array $paths) {
+    public function getMultipleChildren(array $paths) {
 
         $objs = $this->caldavBackend->getMultipleCalendarObjects($this->calendarInfo['id'], $paths);
         $children = [];
@@ -156,7 +156,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param string $name
      * @return bool
      */
-    function childExists($name) {
+    public function childExists($name) {
 
         $obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name);
         if (!$obj)
@@ -174,7 +174,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param string $name
      * @return void
      */
-    function createDirectory($name) {
+    public function createDirectory($name) {
 
         throw new DAV\Exception\MethodNotAllowed('Creating collections in calendar objects is not allowed');
 
@@ -189,7 +189,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param resource $calendarData
      * @return string|null
      */
-    function createFile($name, $calendarData = null) {
+    public function createFile($name, $calendarData = null) {
 
         if (is_resource($calendarData)) {
             $calendarData = stream_get_contents($calendarData);
@@ -203,7 +203,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return void
      */
-    function delete() {
+    public function delete() {
 
         $this->caldavBackend->deleteCalendar($this->calendarInfo['id']);
 
@@ -216,7 +216,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param string $newName
      * @return void
      */
-    function setName($newName) {
+    public function setName($newName) {
 
         throw new DAV\Exception\MethodNotAllowed('Renaming calendars is not yet supported');
 
@@ -227,7 +227,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return void
      */
-    function getLastModified() {
+    public function getLastModified() {
 
         return null;
 
@@ -240,7 +240,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->calendarInfo['principaluri'];
 
@@ -253,7 +253,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
 
         return null;
 
@@ -271,7 +271,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         $acl = [
             [
@@ -320,7 +320,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return array
      */
-    function getChildACL() {
+    public function getChildACL() {
 
         $acl = [
             [
@@ -366,7 +366,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new DAV\Exception\MethodNotAllowed('Changing ACL is not yet supported');
 
@@ -384,7 +384,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         $default = DAVACL\Plugin::getDefaultSupportedPrivilegeSet();
 
@@ -420,7 +420,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param array $filters
      * @return array
      */
-    function calendarQuery(array $filters) {
+    public function calendarQuery(array $filters) {
 
         return $this->caldavBackend->calendarQuery($this->calendarInfo['id'], $filters);
 
@@ -435,7 +435,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      *
      * @return string|null
      */
-    function getSyncToken() {
+    public function getSyncToken() {
 
         if (
             $this->caldavBackend instanceof Backend\SyncSupport &&
@@ -507,7 +507,7 @@ class Calendar implements ICalendar, DAV\IProperties, DAV\Sync\ISyncCollection, 
      * @param int $limit
      * @return array
      */
-    function getChanges($syncToken, $syncLevel, $limit = null) {
+    public function getChanges($syncToken, $syncLevel, $limit = null) {
 
         if (!$this->caldavBackend instanceof Backend\SyncSupport) {
             return null;

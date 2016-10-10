@@ -34,7 +34,7 @@ class Uri implements Xml\Element {
      *
      * @param string $value
      */
-    function __construct($value)
+    public function __construct($value)
     {
         $this->value = $value;
     }
@@ -58,7 +58,7 @@ class Uri implements Xml\Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Xml\Writer $writer) {
+    public function xmlSerialize(Xml\Writer $writer) {
 
         $writer->text(
             \Sabre\Uri\resolve(

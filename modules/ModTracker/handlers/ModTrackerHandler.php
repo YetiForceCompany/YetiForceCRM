@@ -17,7 +17,7 @@ class ModTrackerHandler extends VTEventHandler
 	public function handleEvent($eventName, $data)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+		
 
 		if (!is_object($data)) {
 			$extendedData = $data;
@@ -181,13 +181,14 @@ class ModTrackerHandler extends VTEventHandler
 				$users = $watchdog->getWatchingUsers();
 				if (!empty($users)) {
 					foreach ($users as $userId) {
-						$notification = Home_Notification_Model::getInstance();
-						$notification->set('record', $recordId);
-						$notification->set('moduleName', $moduleName);
+						$notification = Vtiger_Record_Model::getCleanInstance('Notification');
+						$notification->set('relatedid', $recordId);
+						$notification->set('assigned_user_id', $userId);
+						$notification->set('relatedmodule', $moduleName);
 						$notification->set('title', $watchdogTitle);
-						$notification->set('message', $watchdogMessage);
-						$notification->set('type', $watchdog->notificationDefaultType);
-						$notification->set('userid', $userId);
+						$notification->set('description', $watchdogMessage);
+						$notification->set('notification_type', $watchdog->notificationDefaultType);
+						$notification->set('notification_status', 'PLL_UNREAD');
 						$notification->save();
 					}
 				}

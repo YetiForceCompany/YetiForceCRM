@@ -22,7 +22,7 @@ class Vtiger_Util_Helper
 	 * 									array(1=> array('name'=> 'name2','type' => 'type2'),
 	 * 												...);
 	 */
-	public static function transformUploadedFiles(array $_files, $top = TRUE)
+	public static function transformUploadedFiles(array $_files, $top = true)
 	{
 		$files = [];
 		foreach ($_files as $name => $file) {
@@ -40,7 +40,7 @@ class Vtiger_Util_Helper
 						'error' => $file['error'][$key],
 						'size' => $file['size'][$key],
 					);
-					$files[$name] = self::transformUploadedFiles($files[$name], FALSE);
+					$files[$name] = self::transformUploadedFiles($files[$name], false);
 				}
 			} else {
 				$files[$name] = $file;
@@ -78,17 +78,25 @@ class Vtiger_Util_Helper
 		$months = floor($days / 30);
 
 		if ($seconds < 60)
-			return $prefix . self::pluralize($seconds, "LBL_SECOND") . $suffix;
+			return $prefix . self::pluralize($seconds, 'LBL_SECOND') . $suffix;
 		if ($minutes < 60)
-			return $prefix . self::pluralize($minutes, "LBL_MINUTE") . $suffix;
+			return $prefix . self::pluralize($minutes, 'LBL_MINUTE') . $suffix;
 		if ($hours < 24)
-			return $prefix . self::pluralize($hours, "LBL_HOUR") . $suffix;
+			return $prefix . self::pluralize($hours, 'LBL_HOUR') . $suffix;
 		if ($days < 30)
-			return $prefix . self::pluralize($days, "LBL_DAY") . $suffix;
+			return $prefix . self::pluralize($days, 'LBL_DAY') . $suffix;
 		if ($months < 12)
-			return $prefix . self::pluralize($months, "LBL_MONTH") . $suffix;
-		if ($months > 11)
-			return $prefix . self::pluralize(floor($days / 365), "LBL_YEAR") . $suffix;
+			return $prefix . self::pluralize($months, 'LBL_MONTH') . $suffix;
+		if ($months > 11){
+			$month = $months % 12;
+			$monthAgo = '';
+			if ($month != 0) {
+				$monthAgo = self::pluralize($month, 'LBL_MONTH');
+			}
+			$result = self::pluralize(floor($months / 12), 'LBL_YEAR') . ' ' . $monthAgo;
+			return $prefix . $result . $suffix;
+		}
+			
 	}
 
 	/**
@@ -131,7 +139,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function validateStringForSql($string, $skipEmpty = true)
 	{
-		if (vtlib_purifyForSql($string, $skipEmpty)) {
+		if (\App\Purifier::purifySql($string, $skipEmpty)) {
 			return $string;
 		}
 		return false;
@@ -664,7 +672,7 @@ class Vtiger_Util_Helper
 	{
 		$userPrivileges = self::getUserPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
-		return $field == false ? $userInfo : $userInfo[$field];
+		return $field === false ? $userInfo : $userInfo[$field];
 	}
 
 	protected static $userSharingCache = [];

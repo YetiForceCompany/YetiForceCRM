@@ -95,10 +95,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				FROM vtiger_activity a
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = a.activityid 
 				WHERE vtiger_crmentity.deleted = 0 && a.%s = %d', $field, $recordId);
-			$instance = CRMEntity::getInstance('Calendar');
-			$securityParameter = $instance->getUserAccessConditionsQuerySR('Calendar', false, $recordId);
-			if ($securityParameter != '')
-				$sql .= $securityParameter;
+			$sql .= \App\PrivilegeQuery::getAccessConditions('Calendar', false, $recordId);
 			$queries[] = $sql;
 		}
 		if (in_array('ModComments', $type)) {
@@ -106,10 +103,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				FROM vtiger_modcomments m
 				INNER JOIN vtiger_crmentity ON m.modcommentsid = vtiger_crmentity.crmid 
 				WHERE vtiger_crmentity.deleted = 0 && related_to = %d', $recordId);
-			$instance = CRMEntity::getInstance('ModComments');
-			$securityParameter = $instance->getUserAccessConditionsQuerySR('ModComments', false, $recordId);
-			if ($securityParameter != '')
-				$sql .= $securityParameter;
+			$sql .= \App\PrivilegeQuery::getAccessConditions('ModComments', false, $recordId);
 			$queries[] = $sql;
 		}
 		if (in_array('Emails', $type)) {
@@ -118,10 +112,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = o.ossmailviewid 
 				INNER JOIN vtiger_ossmailview_relation r ON r.ossmailviewid = o.ossmailviewid 
 				WHERE vtiger_crmentity.deleted = 0 && r.crmid = %d', $recordId);
-			$instance = CRMEntity::getInstance('OSSMailView');
-			$securityParameter = $instance->getUserAccessConditionsQuerySR('OSSMailView', false, $recordId);
-			if ($securityParameter != '')
-				$sql .= $securityParameter;
+			$sql .= \App\PrivilegeQuery::getAccessConditions('OSSMailView', false, $recordId);
 			$queries[] = $sql;
 		}
 

@@ -67,7 +67,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      *
      * @param PDO $pdo
      */
-    function __construct(\PDO $pdo) {
+    public function __construct(\PDO $pdo) {
 
         $this->pdo = $pdo;
 
@@ -89,7 +89,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      * @param string $prefixPath
      * @return array
      */
-    function getPrincipalsByPrefix($prefixPath) {
+    public function getPrincipalsByPrefix($prefixPath) {
 
         $fields = [
             'uri',
@@ -132,7 +132,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      * @param string $path
      * @return array
      */
-    function getPrincipalByPath($path) {
+    public function getPrincipalByPath($path) {
 
         $fields = [
             'id',
@@ -176,7 +176,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      * @param string $path
      * @param DAV\PropPatch $propPatch
      */
-    function updatePrincipal($path, DAV\PropPatch $propPatch) {
+    public function updatePrincipal($path, DAV\PropPatch $propPatch) {
 
         $propPatch->handle(array_keys($this->fieldMap), function($properties) use ($path) {
 
@@ -239,7 +239,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      * @param string $test
      * @return array
      */
-    function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
+    public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
         if (count($searchProperties) == 0) return [];    //No criteria
 
         $query = sprintf('SELECT uri FROM %s WHERE ', $this->tableName);
@@ -296,11 +296,11 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      * @param string $principalPrefix
      * @return string
      */
-    function findByUri($uri, $principalPrefix) {
+    public function findByUri($uri, $principalPrefix) {
         $value = null;
         $scheme = null;
         list($scheme, $value) = explode(":", $uri, 2);
-        if ($value == null) return null;
+        if ($value === null) return null;
 
         $uri = null;
         switch ($scheme){
@@ -331,7 +331,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      * @param string $principal
      * @return array
      */
-    function getGroupMemberSet($principal) {
+    public function getGroupMemberSet($principal) {
 
         $principal = $this->getPrincipalByPath($principal);
         if (!$principal) throw new DAV\Exception('Principal not found');
@@ -355,7 +355,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      * @param string $principal
      * @return array
      */
-    function getGroupMembership($principal) {
+    public function getGroupMembership($principal) {
 
         $principal = $this->getPrincipalByPath($principal);
         if (!$principal) throw new DAV\Exception('Principal not found');
@@ -380,7 +380,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      * @param array $members
      * @return void
      */
-    function setGroupMemberSet($principal, array $members) {
+    public function setGroupMemberSet($principal, array $members) {
 
         // Grabbing the list of principal id's.
         $stmt = $this->pdo->prepare(sprintf('SELECT id, uri FROM %s WHERE uri IN (? %s);',$this->tableName, str_repeat(', ? ', count($members))));
@@ -422,7 +422,7 @@ class PDO extends AbstractBackend implements CreatePrincipalSupport {
      * @param MkCol $mkCol
      * @return void
      */
-    function createPrincipal($path, MkCol $mkCol) {
+    public function createPrincipal($path, MkCol $mkCol) {
 
         $stmt = $this->pdo->prepare('INSERT INTO ' . $this->tableName . ' (uri) VALUES (?)');
         $stmt->execute([$path]);

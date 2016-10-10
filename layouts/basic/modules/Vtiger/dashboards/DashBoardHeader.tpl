@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="widget_header row">
-		<div class="col-xs-9 col-sm-6">
+		<div class="col-xs-9 col-sm-4 col-md-6">
 			<div class="btn-group listViewMassActions modOn_{$MODULE} pull-left paddingRight10">
 				{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false}
 			</div>

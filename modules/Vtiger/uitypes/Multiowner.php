@@ -27,7 +27,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($values == NULL && !is_array($values))
+		if ($values === null && !is_array($values))
 			return;
 		foreach ($values as $value) {
 			if (self::getOwnerType($value) === 'User') {

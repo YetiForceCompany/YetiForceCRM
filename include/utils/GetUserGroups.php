@@ -18,7 +18,7 @@ require_once('include/utils/GetParentGroups.php');
 class GetUserGroups
 {
 
-	var $user_groups = [];
+	public $user_groups = [];
 
 	//var $userRole='';
 
@@ -29,8 +29,8 @@ class GetUserGroups
 	public function getAllUserGroups($userid)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering getAllUserGroups(" . $userid . ") method...");
+
+		\App\Log::trace("Entering getAllUserGroups(" . $userid . ") method...");
 		//Retreiving from the user2grouptable
 		$query = "select * from vtiger_users2group where userid=?";
 		$result = $adb->pquery($query, array($userid));
@@ -56,7 +56,7 @@ class GetUserGroups
 		}
 
 		//Retreiving from the user2rs
-		$parentRoles = getParentRole($userRole);
+		$parentRoles = \App\PrivilegeUtil::getParentRole($userRole);
 		$parentRolelist = [];
 		foreach ($parentRoles as $par_rol_id) {
 			array_push($parentRolelist, $par_rol_id);
@@ -82,6 +82,6 @@ class GetUserGroups
 				}
 			}
 		}
-		$log->debug("Exiting getAllUserGroups method...");
+		\App\Log::trace("Exiting getAllUserGroups method...");
 	}
 }

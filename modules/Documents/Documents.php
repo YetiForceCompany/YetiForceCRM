@@ -12,59 +12,57 @@
 class Documents extends CRMEntity
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_notes";
-	var $table_index = 'notesid';
-	var $default_note_name_dom = array('Meeting vtiger_notes', 'Reminder');
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf');
-	var $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid', 'vtiger_notescf' => 'notesid');
+	public $table_name = "vtiger_notes";
+	public $table_index = 'notesid';
+	public $default_note_name_dom = array('Meeting vtiger_notes', 'Reminder');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid', 'vtiger_notescf' => 'notesid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_notescf', 'notesid');
-	var $column_fields = Array();
-	var $sortby_fields = Array('title', 'modifiedtime', 'filename', 'createdtime', 'lastname', 'filedownloadcount', 'smownerid');
+	public $customFieldTable = Array('vtiger_notescf', 'notesid');
+	public $column_fields = Array();
+	public $sortby_fields = Array('title', 'modifiedtime', 'filename', 'createdtime', 'lastname', 'filedownloadcount', 'smownerid');
 	// This is used to retrieve related vtiger_fields from form posts.
-	var $additional_column_fields = Array('', '', '', '');
+	public $additional_column_fields = Array('', '', '', '');
 	// This is the list of vtiger_fields that are in the lists.
-	var $list_fields = Array(
+	public $list_fields = Array(
 		'Title' => Array('notes' => 'title'),
 		'File Name' => Array('notes' => 'filename'),
 		'Modified Time' => Array('crmentity' => 'modifiedtime'),
 		'Assigned To' => Array('crmentity' => 'smownerid'),
 		'Folder Name' => Array('attachmentsfolder' => 'folderid')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		'Title' => 'notes_title',
 		'File Name' => 'filename',
 		'Modified Time' => 'modifiedtime',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
 	);
-	var $search_fields = Array(
+	public $search_fields = Array(
 		'Title' => Array('notes' => 'notes_title'),
 		'File Name' => Array('notes' => 'filename'),
 		'Assigned To' => Array('crmentity' => 'smownerid'),
 		'Folder Name' => Array('attachmentsfolder' => 'foldername')
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		'Title' => 'notes_title',
 		'File Name' => 'filename',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
 	);
-	var $list_link_field = 'notes_title';
-	var $old_filename = '';
-	var $mandatory_fields = Array('notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id');
+	public $list_link_field = 'notes_title';
+	public $old_filename = '';
+	public $mandatory_fields = Array('notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id');
 	//Added these variables which are used as default order by and sortorder in ListView
-	var $default_order_by = '';
-	var $default_sort_order = 'DESC';
+	public $default_order_by = '';
+	public $default_sort_order = 'DESC';
 
 	public function save_module($module)
 	{
-		$log = LoggerManager::getInstance();
+
 		$adb = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
 		if (isset($this->parentid) && $this->parentid != '')
@@ -150,8 +148,8 @@ class Documents extends CRMEntity
 	public function insertIntoAttachment($id, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
-		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
+
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
 
@@ -162,7 +160,7 @@ class Documents extends CRMEntity
 			}
 		}
 
-		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/**    Function used to get the sort order for Documents listview
@@ -170,13 +168,13 @@ class Documents extends CRMEntity
 	 */
 	public function getSortOrder()
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering getSortOrder() method ...');
+
+		\App\Log::trace('Entering getSortOrder() method ...');
 		if (AppRequest::has('sorder'))
 			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
 		else
 			$sorder = (($_SESSION['NOTES_SORT_ORDER'] != '') ? ($_SESSION['NOTES_SORT_ORDER']) : ($this->default_sort_order));
-		$log->debug('Exiting getSortOrder() method ...');
+		\App\Log::trace('Exiting getSortOrder() method ...');
 		return $sorder;
 	}
 
@@ -185,8 +183,8 @@ class Documents extends CRMEntity
 	 */
 	public function getOrderBy()
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering getOrderBy() method ...');
+
+		\App\Log::trace('Entering getOrderBy() method ...');
 
 		$use_default_order_by = '';
 		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
@@ -197,7 +195,7 @@ class Documents extends CRMEntity
 			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
 		else
 			$order_by = (($_SESSION['NOTES_ORDER_BY'] != '') ? ($_SESSION['NOTES_ORDER_BY']) : ($use_default_order_by));
-		$log->debug('Exiting getOrderBy method ...');
+		\App\Log::trace('Exiting getOrderBy method ...');
 		return $order_by;
 	}
 
@@ -245,9 +243,9 @@ class Documents extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		$log = LoggerManager::getInstance();
+
 		$current_user = vglobal('current_user');
-		$log->debug("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 		//To get the Permitted fields query and the permitted fields list
@@ -272,7 +270,7 @@ class Documents extends CRMEntity
 			$query .= '  WHERE %s';
 
 		$query = sprintf($query, $where_auto);
-		$log->debug("Exiting create_export_query method ...");
+		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -373,7 +371,7 @@ class Documents extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = LoggerManager::getInstance();
+
 		/* //Backup Documents Related Records
 		  $se_q = 'SELECT crmid FROM vtiger_senotesrel WHERE notesid = ?';
 		  $se_res = $this->db->pquery($se_q, array($id));
@@ -394,7 +392,7 @@ class Documents extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$log = LoggerManager::getInstance();
+
 		if (empty($returnModule) || empty($returnId))
 			return;
 
@@ -416,7 +414,7 @@ class Documents extends CRMEntity
 	public function getFileTypeFieldName()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
 		$tabid = \includes\Modules::getModuleId('Documents');
 		$filetype_uitype = 27;
@@ -436,7 +434,7 @@ class Documents extends CRMEntity
 	public function getFile_FieldName()
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
 		$tabid = \includes\Modules::getModuleId('Documents');
 		$filename_uitype = 28;
@@ -554,7 +552,7 @@ class Documents extends CRMEntity
 
 		$query = sprintf($query, $other->table_name);
 		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);
-		if ($returnValue == null)
+		if ($returnValue === null)
 			$returnValue = [];
 		$returnValue['CUSTOM_BUTTON'] = $button;
 		return $returnValue;

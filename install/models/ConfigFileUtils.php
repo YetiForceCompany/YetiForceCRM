@@ -70,41 +70,41 @@ class Install_ConfigFileUtils_Model
 	{
 		/* open template configuration file read only */
 		$templateFilename = 'config/config.template.php';
-		$templateHandle = fopen($templateFilename, "r");
+		$templateHandle = fopen($templateFilename, 'r');
 		if ($templateHandle) {
 			/* open include configuration file write only */
 			$includeFilename = 'config/config.inc.php';
-			$includeHandle = fopen($includeFilename, "w");
+			$includeHandle = fopen($includeFilename, 'w');
 			if ($includeHandle) {
 				while (!feof($templateHandle)) {
 					$buffer = fgets($templateHandle);
 
 					/* replace _DBC_ variable */
-					$buffer = str_replace("_DBC_SERVER_", $this->dbHostname, $buffer);
-					$buffer = str_replace("_DBC_PORT_", $this->dbPort, $buffer);
-					$buffer = str_replace("_DBC_USER_", $this->dbUsername, $buffer);
-					$buffer = str_replace("_DBC_PASS_", $this->dbPassword, $buffer);
-					$buffer = str_replace("_DBC_NAME_", $this->dbName, $buffer);
-					$buffer = str_replace("_DBC_TYPE_", $this->dbType, $buffer);
-					$buffer = str_replace("_SITE_URL_", $this->siteUrl, $buffer);
+					$buffer = str_replace('_DBC_SERVER_', $this->dbHostname, $buffer);
+					$buffer = str_replace('_DBC_PORT_', $this->dbPort, $buffer);
+					$buffer = str_replace('_DBC_USER_', $this->dbUsername, $buffer);
+					$buffer = str_replace('_DBC_PASS_', $this->dbPassword, $buffer);
+					$buffer = str_replace('_DBC_NAME_', $this->dbName, $buffer);
+					$buffer = str_replace('_DBC_TYPE_', $this->dbType, $buffer);
+					$buffer = str_replace('_SITE_URL_', $this->siteUrl, $buffer);
 
 					/* replace dir variable */
-					$buffer = str_replace("_VT_CACHEDIR_", $this->cacheDir, $buffer);
-					$buffer = str_replace("_VT_TMPDIR_", $this->cacheDir . "images/", $buffer);
-					$buffer = str_replace("_DB_STAT_", "true", $buffer);
+					$buffer = str_replace('_VT_CACHEDIR_', $this->cacheDir, $buffer);
+					$buffer = str_replace('_VT_TMPDIR_', $this->cacheDir . 'images/', $buffer);
+					$buffer = str_replace('_DB_STAT_', 'true', $buffer);
 
 					/* replace charset variable */
-					$buffer = str_replace("_VT_CHARSET_", $this->vtCharset, $buffer);
+					$buffer = str_replace('_VT_CHARSET_', $this->vtCharset, $buffer);
 
 					/* replace master currency variable */
-					$buffer = str_replace("_MASTER_CURRENCY_", $this->currencyName, $buffer);
+					$buffer = str_replace('_MASTER_CURRENCY_', $this->currencyName, $buffer);
 
 					/* replace the application unique key variable */
-					$buffer = str_replace("_VT_APP_UNIQKEY_", md5(time() + rand(1, 9999999) + md5(__DIR__)), $buffer);
+					$buffer = str_replace('_VT_APP_UNIQKEY_', md5(time() + rand(1, 9999999) + md5(__DIR__)), $buffer);
 
 					/* replace support email variable */
-					$buffer = str_replace("_LANG_", $this->default_language, $buffer);
-					$buffer = str_replace("_TIMEZONE_", $this->timezone, $buffer);
+					$buffer = str_replace('_LANG_', $this->default_language, $buffer);
+					$buffer = str_replace('_TIMEZONE_', $this->timezone, $buffer);
 
 					fwrite($includeHandle, $buffer);
 				}
@@ -112,8 +112,6 @@ class Install_ConfigFileUtils_Model
 			}
 			fclose($templateHandle);
 		}
-		$language = explode("_", $this->default_language);
-		OSSMail_Record_Model::setConfigData(array('language' => $language[0] . '_' . strtoupper($language[1])), false);
 		if ($templateHandle && $includeHandle) {
 			return true;
 		}

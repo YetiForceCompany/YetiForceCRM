@@ -63,7 +63,7 @@ class Service {
      *
      * @return Reader
      */
-    function getReader() {
+    public function getReader() {
 
         $r = new Reader();
         $r->elementMap = $this->elementMap;
@@ -76,7 +76,7 @@ class Service {
      *
      * @return Writer
      */
-    function getWriter() {
+    public function getWriter() {
 
         $w = new Writer();
         $w->namespaceMap = $this->namespaceMap;
@@ -104,7 +104,7 @@ class Service {
      * @throws ParseException
      * @return array|object|string
      */
-    function parse($input, $contextUri = null, &$rootElementName = null) {
+    public function parse($input, $contextUri = null, &$rootElementName = null) {
 
         if (is_resource($input)) {
             // Unfortunately the XMLReader doesn't support streams. When it
@@ -140,7 +140,7 @@ class Service {
      * @param string|null $contextUri
      * @return void
      */
-    function expect($rootElementName, $input, $contextUri = null) {
+    public function expect($rootElementName, $input, $contextUri = null) {
 
         if (is_resource($input)) {
             // Unfortunately the XMLReader doesn't support streams. When it
@@ -177,7 +177,7 @@ class Service {
      * @param string|array|XmlSerializable $value
      * @param string|null $contextUri
      */
-    function write($rootElementName, $value, $contextUri = null) {
+    public function write($rootElementName, $value, $contextUri = null) {
 
         $w = $this->getWriter();
         $w->openMemory();
@@ -217,7 +217,7 @@ class Service {
      * @param object $className
      * @return void
      */
-    function mapValueObject($elementName, $className) {
+    public function mapValueObject($elementName, $className) {
         list($namespace) = self::parseClarkNotation($elementName);
 
         $this->elementMap[$elementName] = function(Reader $reader) use ($className, $namespace) {
@@ -242,7 +242,7 @@ class Service {
      * @param string $contextUri
      * @return void
      */
-    function writeValueObject($object, $contextUri = null) {
+    public function writeValueObject($object, $contextUri = null) {
 
         if (!isset($this->valueObjectMap[get_class($object)])) {
             throw new \InvalidArgumentException('"' . get_class($object) . '" is not a registered value object class. Register your class with mapValueObject.');

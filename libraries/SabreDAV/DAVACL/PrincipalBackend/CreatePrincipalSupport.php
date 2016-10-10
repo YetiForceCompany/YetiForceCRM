@@ -25,6 +25,6 @@ interface CreatePrincipalSupport extends BackendInterface {
      * @param MkCol $mkCol
      * @return void
      */
-    function createPrincipal($path, MkCol $mkCol);
+    public function createPrincipal($path, MkCol $mkCol);
 
 }

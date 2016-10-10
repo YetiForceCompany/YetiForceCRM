@@ -13,7 +13,7 @@ class API_CardDAV_Handler extends VTEventHandler
 	{
 		if ($eventName == 'vtiger.entity.aftersave.final') {
 			$adb = PearDatabase::getInstance();
-			$log = LoggerManager::getInstance();
+			
 			$recordId = $entityData->getId();
 			$moduleName = $entityData->getModuleName();
 			$isNew = $entityData->isNew();

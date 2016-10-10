@@ -48,16 +48,11 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 		$assetConfig = Settings_SalesProcesses_Module_Model::getConfig('asset');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = 'Assets';
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 
 		$queryGenerator = new QueryGenerator($module, $currentUser);
 		$queryGenerator->setFields($fields);
 		$sql = $queryGenerator->getQuery();
-
-		if ($securityParameter != '')
-			$sql.= $securityParameter;
-
+		$sql.= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->getId());
 		if (!empty($assetStatus)) {
 			$assetStatus = implode("','", $assetConfig['assetstatus']);
 			$sql .= " && vtiger_assets.assetstatus NOT IN ('$assetStatus')";

@@ -23,7 +23,7 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 				throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 			}
 		}
-		if (($currentUserModel->isAdminUser() == true || $currentUserModel->get('id') == $record)) {
+		if (($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record)) {
 			return true;
 		} else {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');

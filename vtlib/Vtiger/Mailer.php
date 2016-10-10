@@ -18,7 +18,7 @@ require_once('modules/Emails/class.phpmailer.php');
 class Mailer extends \PHPMailer
 {
 
-	var $_serverConfigured = false;
+	public $_serverConfigured = false;
 
 	/**
 	 * Constructor
@@ -163,7 +163,7 @@ class Mailer extends \PHPMailer
 
 	/** Mail Queue * */
 	// Check if this instance is initialized.
-	var $_queueinitialized = false;
+	public $_queueinitialized = false;
 
 	public function __initializeQueue()
 	{
@@ -244,7 +244,8 @@ class Mailer extends \PHPMailer
 		$mailer = new self();
 		$queue = $adb->pquery('SELECT * FROM vtiger_mailer_queue WHERE failed != ?', array(1));
 		if ($adb->num_rows($queue)) {
-			for ($index = 0; $index < $adb->num_rows($queue); ++$index) {
+			$countQueue = $adb->num_rows($queue);
+			for ($index = 0; $index < $countQueue; ++$index) {
 				$mailer->reinitialize();
 
 				$queue_record = $adb->fetch_array($queue, $index);
@@ -259,7 +260,8 @@ class Mailer extends \PHPMailer
 				$mailer->ContentType = $queue_record['content_type'];
 
 				$emails = $adb->pquery('SELECT * FROM vtiger_mailer_queueinfo WHERE id=?', Array($queueid));
-				for ($eidx = 0; $eidx < $adb->num_rows($emails); ++$eidx) {
+				$countEmails = $adb->num_rows($emails);
+				for ($eidx = 0; $eidx < $countEmails; ++$eidx) {
 					$email_record = $adb->fetch_array($emails, $eidx);
 					if ($email_record[type] == 'TO')
 						$mailer->AddAddress($email_record[email], $email_record[name]);
@@ -272,7 +274,8 @@ class Mailer extends \PHPMailer
 				}
 
 				$attachments = $adb->pquery('SELECT * FROM vtiger_mailer_queueattachments WHERE id=?', Array($queueid));
-				for ($aidx = 0; $aidx < $adb->num_rows($attachments); ++$aidx) {
+				$countAttachments = $adb->num_rows($attachments);
+				for ($aidx = 0; $aidx < $countAttachments; ++$aidx) {
 					$attachment_record = $adb->fetch_array($attachments, $aidx);
 					if ($attachment_record['path'] != '') {
 						$mailer->AddAttachment($attachment_record['path'], $attachment_record['name'], $attachment_record['encoding'], $attachment_record['type']);

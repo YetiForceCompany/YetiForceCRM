@@ -17,33 +17,33 @@ require_once('modules/Calendar/Activity.php');
 class Appointment
 {
 
-	var $start_time;
-	var $end_time;
-	var $subject;
-	var $participant;
-	var $participant_state;
-	var $contact_name;
-	var $account_id;
-	var $account_name;
-	var $creatorid;
-	var $creator;
-	var $owner;
-	var $ownerid;
-	var $assignedto;
-	var $eventstatus;
-	var $priority;
-	var $activity_type;
-	var $description;
-	var $record;
-	var $temphour;
-	var $tempmin;
-	var $image_name;
-	var $formatted_datetime;
-	var $duration_min;
-	var $duration_hour;
-	var $shared = false;
-	var $recurring;
-	var $dur_hour;
+	public $start_time;
+	public $end_time;
+	public $subject;
+	public $participant;
+	public $participant_state;
+	public $contact_name;
+	public $account_id;
+	public $account_name;
+	public $creatorid;
+	public $creator;
+	public $owner;
+	public $ownerid;
+	public $assignedto;
+	public $eventstatus;
+	public $priority;
+	public $activity_type;
+	public $description;
+	public $record;
+	public $temphour;
+	public $tempmin;
+	public $image_name;
+	public $formatted_datetime;
+	public $duration_min;
+	public $duration_hour;
+	public $shared = false;
+	public $recurring;
+	public $dur_hour;
 
 	public function __construct()
 	{
@@ -61,9 +61,10 @@ class Appointment
 	 */
 	public function readAppointment($userid, &$from_datetime, &$to_datetime, $view)
 	{
-		global $current_user, $adb;
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+		$adb = PearDatabase::getInstance();
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
+		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
 		$and = "AND (
 					(
 						(
@@ -117,7 +118,7 @@ class Appointment
 			$startDate->getDBInsertDateTimeValue(), $endDate->getDBInsertDateTimeValue(),
 			$startDate->getDBInsertDateTimeValue(), $endDate->getDBInsertDateTimeValue()
 		);
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[16] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[16] == 3) {
 			//Added for User Based Custom View for Calendar
 			$sec_parameter = getCalendarViewSecurityParameter();
 			$q .= $sec_parameter;
@@ -152,10 +153,10 @@ class Appointment
 					if ($j == $start_timestamp) {
 						$result["duration_hours"] = 24 - $obj->temphour;
 					} elseif ($j > $start_timestamp && $j < $end_timestamp) {
-						list($obj->temphour, $obj->tempmin) = $current_user->start_hour != '' ? explode(":", $current_user->start_hour) : explode(":", "08:00");
+						list($obj->temphour, $obj->tempmin) = $currentUser->start_hour != '' ? explode(":", $currentUser->start_hour) : explode(":", "08:00");
 						$result["duration_hours"] = 24 - $obj->temphour;
 					} elseif ($j == $end_timestamp) {
-						list($obj->temphour, $obj->tempmin) = $current_user->start_hour != '' ? explode(":", $current_user->start_hour) : explode(":", "08:00");
+						list($obj->temphour, $obj->tempmin) = $currentUser->start_hour != '' ? explode(":", $currentUser->start_hour) : explode(":", "08:00");
 						list($ehr, $emin) = explode(":", $result["time_end"]);
 						$result["duration_hours"] = $ehr - $obj->temphour;
 					}
@@ -168,7 +169,7 @@ class Appointment
 		}
 		//Get Recurring events
 		$q = "SELECT vtiger_activity.*, vtiger_crmentity.*, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name , vtiger_recurringevents.recurringid, vtiger_recurringevents.recurringdate as date_start ,vtiger_recurringevents.recurringtype,vtiger_groups.groupname from vtiger_activity inner join vtiger_crmentity on vtiger_activity.activityid = vtiger_crmentity.crmid inner join vtiger_recurringevents on vtiger_activity.activityid=vtiger_recurringevents.activityid left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
-		$q .= getNonAdminAccessControlQuery('Calendar', $current_user);
+		$q .= getNonAdminAccessControlQuery('Calendar', $currentUser);
 		$q.=" where vtiger_crmentity.deleted = 0 and vtiger_activity.activitytype not in ('Emails','Task') && (cast(concat(recurringdate, ' ', time_start) as datetime) between ? and ?) ";
 
 		// User Select Customization
@@ -203,7 +204,7 @@ class Appointment
 	public function readResult($act_array, $view)
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$format_sthour = '';
 		$format_stmin = '';
 		$this->description = $act_array["description"];
@@ -216,10 +217,10 @@ class Appointment
 		$this->creatorid = $act_array["smcreatorid"];
 		$this->assignedto = $act_array["user_name"];
 		$this->owner = $act_array["user_name"];
-		if (!vtlib\Functions::userIsAdministrator($current_user)) {
-			if ($act_array["smownerid"] != 0 && $act_array["smownerid"] != $current_user->id && $act_array["visibility"] == "Public") {
+		if (!vtlib\Functions::userIsAdministrator($currentUser)) {
+			if ($act_array["smownerid"] != 0 && $act_array["smownerid"] != $currentUser->id && $act_array["visibility"] == "Public") {
 				$que = "select * from vtiger_sharedcalendar where sharedid=? and userid=?";
-				$row = $adb->pquery($que, array($current_user->id, $act_array["smownerid"]));
+				$row = $adb->pquery($que, array($currentUser->id, $act_array["smownerid"]));
 				$no = $adb->getRowCount($row);
 				if ($no > 0)
 					$this->shared = true;
@@ -289,10 +290,10 @@ function compare($a, $b)
 function getRoleBasesdPickList($fldname, $exist_val)
 {
 	$adb = PearDatabase::getInstance();
-	$current_user = vglobal('current_user');
-	$is_Admin = $current_user->is_admin;
+	$currentUser = vglobal('current_user');
+	$is_Admin = $currentUser->is_admin;
 	if ($is_Admin == 'off' && $fldname != '') {
-		$roleid = $current_user->roleid;
+		$roleid = $currentUser->roleid;
 		$roleids = Array();
 		$subrole = getRoleSubordinates($roleid);
 		if (count($subrole) > 0)

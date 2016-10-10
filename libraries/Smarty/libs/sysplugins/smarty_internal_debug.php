@@ -288,7 +288,7 @@ class Smarty_Internal_Debug extends Smarty_Internal_Data
                     $tpl_vars[ $key ][ $varkey ] = $varvalue;
                 } else {
                     if ($varkey == 'nocache') {
-                        if ($varvalue == true) {
+                        if ($varvalue === true) {
                             $tpl_vars[ $key ][ $varkey ] = $varvalue;
                         }
                     } else {
@@ -330,7 +330,7 @@ class Smarty_Internal_Debug extends Smarty_Internal_Data
                             $tpl_vars[ $key ][ $varkey ] = $varvalue;
                         } else {
                             if ($varkey == 'nocache') {
-                                if ($varvalue == true) {
+                                if ($varvalue === true) {
                                     $tpl_vars[ $key ][ $varkey ] = $varvalue;
                                 }
                             } else {

@@ -593,8 +593,64 @@ jQuery.Class("Vtiger_List_Js", {
 			var mapView = new OpenStreetMap_Map_Js();
 			mapView.setSelectedParams(selectedParams);
 			mapView.registerModalView(container);
-			
+
 		});
+	},
+	triggerReviewChanges: function (reviewUrl) {
+		var listInstance = Vtiger_List_Js.getInstance();
+		var validationResult = listInstance.checkListRecordSelected();
+		if (validationResult != true) {
+			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
+			var selectedIds = listInstance.readSelectedIds(true);
+			var excludedIds = listInstance.readExcludedIds(true);
+			var cvId = listInstance.getCurrentCvId();
+			var message = app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION');
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+					function (e) {
+						var url = reviewUrl + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
+						if (listInstance.getListSearchInstance()) {
+							var searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
+							url += "&search_params=" + JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
+							if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+								url += '&search_key=' + listInstance.getListSearchInstance().getAlphabetSearchField();
+								url += '&search_value=' + searchValue;
+								url += '&operator=s';
+							}
+						}
+						var deleteMessage = app.vtranslate('JS_LOADING_PLEASE_WAIT');
+						var progressIndicatorElement = jQuery.progressIndicator({
+							'message': deleteMessage,
+							'position': 'html',
+							'blockInfo': {
+								'enabled': true
+							}
+						});
+						AppConnector.request(url).then(
+								function (data) {
+									progressIndicatorElement.progressIndicator({
+										'mode': 'hide'
+									});
+									if (data.result) {
+										var params = {
+											text: data.result,
+											type: 'info'
+										}
+										Vtiger_Helper_Js.showPnotify(params);
+									} else {
+										listInstance.getListViewRecords();
+									}
+								},
+								function (error, err) {
+									app.errorLog(error, err);
+								}
+						);
+					},
+					function (error, err) {
+						Vtiger_List_Js.clearList();
+					})
+		} else {
+			listInstance.noRecordSelectedAlert();
+		}
 	}
 }, {
 	//contains the List View element.
@@ -1938,11 +1994,14 @@ jQuery.Class("Vtiger_List_Js", {
 		};
 		AppConnector.request(actionParams).then(function (appData) {
 			var data = appData.result;
-			for (var i in data) {
-				if (data[i] > 0) {
-					listViewContentDiv.find('tr[data-id="' + i + '"] .unreviewed .badge').text(data[i]);
+			$.each(data, function (id, value) {
+				if (value.a > 0) {
+					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.all').text(value.a);
 				}
-			}
+				if (value.m > 0) {
+					listViewContentDiv.find('tr[data-id="' + id + '"] .unreviewed .badge.mail').text(value.m);
+				}
+			});
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
 	},

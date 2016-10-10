@@ -24,7 +24,7 @@ interface INode {
      *
      * @return INotificationType
      */
-    function getNotificationType();
+    public function getNotificationType();
 
     /**
      * Returns the etag for the notification.
@@ -33,6 +33,6 @@ interface INode {
      *
      * @return string
      */
-    function getETag();
+    public function getETag();
 
 }

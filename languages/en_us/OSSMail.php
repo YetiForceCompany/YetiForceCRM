@@ -13,6 +13,7 @@ $languageStrings = [
 	'OSSMail' => 'My mailbox',
 	'OSSMail_manual' => 'Mail module',
 	'Roundcube config' => 'Roundcube configuration',
+	'Uninstall' => 'Uninstall',
 	'Cancel' => 'Cancel',
 	'Removed relationship' => 'Relation was removed',
 	'Add relationship' => 'Relation was added',

@@ -29,7 +29,7 @@
 									{/if}
 								{/if}
 							{/if}
-							{if \includes\Privileges::isPermitted('OSSMailView', 'ReloadRelationRecord')}
+							{if \App\Privilege::isPermitted('OSSMailView', 'ReloadRelationRecord')}
 								<button type="button" class="btn btn-sm btn-default resetRelationsEmail">
 									<span class="body-icon glyphicon glyphicon-retweet" title="{vtranslate('BTN_RESET_RELATED_MAILS', 'OSSMailView')}"></span>
 								</button>

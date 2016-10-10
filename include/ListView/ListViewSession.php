@@ -8,19 +8,17 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-
-require_once('include/logging.php');
 require_once('modules/CustomView/CustomView.php');
 
 class ListViewSession
 {
 
-	var $module = null;
-	var $viewname = null;
-	var $start = null;
-	var $sorder = null;
-	var $sortby = null;
-	var $page_view = null;
+	public $module = null;
+	public $viewname = null;
+	public $start = null;
+	public $sorder = null;
+	public $sortby = null;
+	public $page_view = null;
 
 	/*	 * initializes ListViewSession
 	 * Portions created by vtigerCRM are Copyright (C) vtigerCRM.
@@ -29,9 +27,9 @@ class ListViewSession
 
 	public function ListViewSession()
 	{
-		$log = vglobal('log');
+		
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering ListViewSession() method ...");
+		\App\Log::trace("Entering ListViewSession() method ...");
 
 		$this->module = $currentModule;
 		$this->sortby = 'ASC';
@@ -62,7 +60,7 @@ class ListViewSession
 	public static function getListViewNavigation($currentRecordId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = LoggerManager::getInstance();
+
 		$currentModule = vglobal('currentModule');
 		$current_user = vglobal('current_user');
 		$listMaxEntriesPerPage = AppConfig::main('list_max_entries_per_page');
@@ -100,7 +98,8 @@ class ListViewSession
 						}
 					}
 				}
-				if ($searchKey > $displayBufferRecordCount - 1 && $searchKey < count($recordList) - $displayBufferRecordCount) {
+				$countRecordList = count($recordList);
+				if ($searchKey > $displayBufferRecordCount - 1 && $searchKey < $countRecordList - $displayBufferRecordCount) {
 					$reUseData = true;
 				}
 			}
@@ -187,7 +186,6 @@ class ListViewSession
 
 	public function getRequestCurrentPage($currentModule, $query, $viewid, $queryMode = false)
 	{
-		global $listMaxEntriesPerPage;
 		$adb = PearDatabase::getInstance();
 		$start = 1;
 		if (AppRequest::has('query') && AppRequest::get('query') == 'true' && AppRequest::get('start') != 'last') {
@@ -199,7 +197,7 @@ class ListViewSession
 				$count_result = $adb->query(vtlib\Functions::mkCountQuery($query));
 				$noofrows = $adb->query_result($count_result, 0, "count");
 				if ($noofrows > 0) {
-					$start = ceil($noofrows / $listMaxEntriesPerPage);
+					$start = ceil($noofrows / AppConfig::main('list_max_entries_per_page'));
 				}
 			}
 			if (!is_numeric($start)) {

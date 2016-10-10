@@ -54,7 +54,7 @@ class Apache implements BackendInterface {
      * @param ResponseInterface $response
      * @return array
      */
-    function check(RequestInterface $request, ResponseInterface $response) {
+    public function check(RequestInterface $request, ResponseInterface $response) {
 
         $remoteUser = $request->getRawServerValue('REMOTE_USER');
         if (is_null($remoteUser)) {
@@ -89,7 +89,7 @@ class Apache implements BackendInterface {
      * @param ResponseInterface $response
      * @return void
      */
-    function challenge(RequestInterface $request, ResponseInterface $response) {
+    public function challenge(RequestInterface $request, ResponseInterface $response) {
 
     }
 

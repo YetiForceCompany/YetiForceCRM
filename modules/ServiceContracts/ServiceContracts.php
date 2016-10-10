@@ -9,28 +9,27 @@
 class ServiceContracts extends CRMEntity
 {
 
-	var $db, $log; // Used in class functions of CRMEntity
-	var $table_name = 'vtiger_servicecontracts';
-	var $table_index = 'servicecontractsid';
-	var $column_fields = Array();
+	public $table_name = 'vtiger_servicecontracts';
+	public $table_index = 'servicecontractsid';
+	public $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
+	public $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_servicecontractscf', 'servicecontractsid');
+	public $customFieldTable = Array('vtiger_servicecontractscf', 'servicecontractsid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_servicecontracts', 'vtiger_servicecontractscf', 'vtiger_entity_stats');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_servicecontracts', 'vtiger_servicecontractscf', 'vtiger_entity_stats');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_servicecontracts' => 'servicecontractsid',
 		'vtiger_servicecontractscf' => 'servicecontractsid',
@@ -39,7 +38,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Subject' => Array('servicecontracts', 'subject'),
@@ -48,7 +47,7 @@ class ServiceContracts extends CRMEntity
 		'Used Units' => Array('servicecontracts', 'used_units'),
 		'Total Units' => Array('servicecontracts', 'total_units')
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Subject' => 'subject',
 		'Assigned To' => 'assigned_user_id',
@@ -57,9 +56,9 @@ class ServiceContracts extends CRMEntity
 		'Total Units' => 'total_units'
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'subject';
+	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Subject' => Array('servicecontracts', 'subject'),
@@ -68,7 +67,7 @@ class ServiceContracts extends CRMEntity
 		'Used Units' => Array('servicecontracts', 'used_units'),
 		'Total Units' => Array('servicecontracts', 'total_units')
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Subject' => 'subject',
 		'Contract No' => 'contract_no',
@@ -77,22 +76,22 @@ class ServiceContracts extends CRMEntity
 		'Total Units' => 'total_units'
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('subject');
+	public $popup_fields = Array('subject');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	public $sortby_fields = Array();
 	// For Alphabetical search
-	var $def_basicsearch_col = 'subject';
+	public $def_basicsearch_col = 'subject';
 	// Column value to use on detail view record text display
-	var $def_detailview_recname = 'subject';
+	public $def_detailview_recname = 'subject';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('assigned_user_id' => 1);
+	public $required_fields = Array('assigned_user_id' => 1);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('subject', 'assigned_user_id');
+	public $mandatory_fields = Array('subject', 'assigned_user_id');
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
+	public $special_functions = Array('set_import_assigned_user');
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 
 	public function save_module($module)
 	{
@@ -174,7 +173,7 @@ class ServiceContracts extends CRMEntity
 		$sec_query = '';
 		$tabid = \includes\Modules::getModuleId($module);
 
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
 			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
 					(
@@ -257,7 +256,6 @@ class ServiceContracts extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		global $currentModule;
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		include("include/utils/ExportUtils.php");
@@ -391,11 +389,11 @@ class ServiceContracts extends CRMEntity
 			$em = new VTEventsManager($adb);
 			$em->setHandlerActive('ServiceContractsHandler');
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -598,7 +596,7 @@ class ServiceContracts extends CRMEntity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
 		global $currentModule;
-		$log = LoggerManager::getInstance();
+
 		if ($return_module == 'Accounts') {
 			$focus = CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);
@@ -642,8 +640,8 @@ class ServiceContracts extends CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+
+		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
 
@@ -668,6 +666,6 @@ class ServiceContracts extends CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		$log->debug("Exiting transferRelatedRecords...");
+		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
 }

@@ -24,7 +24,7 @@ class Bearer extends AbstractAuth {
      *
      * @return null|string
      */
-    function getToken() {
+    public function getToken() {
 
         $auth = $this->request->getHeader('Authorization');
 
@@ -46,7 +46,7 @@ class Bearer extends AbstractAuth {
      *
      * @return void
      */
-    function requireLogin() {
+    public function requireLogin() {
 
         $this->response->addHeader('WWW-Authenticate', 'Bearer realm="' . $this->realm . '"');
         $this->response->setStatus(401);

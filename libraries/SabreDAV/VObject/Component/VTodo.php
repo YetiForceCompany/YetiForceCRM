@@ -28,7 +28,7 @@ class VTodo extends VObject\Component {
      *
      * @return bool
      */
-    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
+    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         $dtstart = isset($this->DTSTART) ? $this->DTSTART->getDateTime() : null;
         $duration = isset($this->DURATION) ? VObject\DateTimeParser::parseDuration($this->DURATION) : null;
@@ -81,7 +81,7 @@ class VTodo extends VObject\Component {
      *
      * @var array
      */
-    function getValidationRules() {
+    public function getValidationRules() {
 
         return [
             'UID'     => 1,
@@ -144,7 +144,7 @@ class VTodo extends VObject\Component {
      *
      * @return array
      */
-    function validate($options = 0) {
+    public function validate($options = 0) {
 
         $result = parent::validate($options);
         if (isset($this->DUE) && isset($this->DTSTART)) {

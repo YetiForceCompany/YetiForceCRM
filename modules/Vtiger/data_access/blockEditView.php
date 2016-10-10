@@ -12,7 +12,7 @@
 Class DataAccess_blockEditView
 {
 
-	var $config = false;
+	public $config = false;
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{

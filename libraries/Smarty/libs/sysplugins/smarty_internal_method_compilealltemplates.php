@@ -108,8 +108,7 @@ class Smarty_Internal_Method_CompileAllTemplates
                 unset($_tpl);
                 $_smarty->_clearTemplateCache();
                 if ($max_errors !== null && $_error_count == $max_errors) {
-                    echo "\n<br><br>too many errors\n";
-                    exit();
+                    throw new \Exception\AppException('Too many errors');
                 }
             }
         }

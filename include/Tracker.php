@@ -20,9 +20,6 @@
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
  * ****************************************************************************** */
-include_once('config/config.php');
-require_once('include/logging.php');
-require_once('include/database/PearDatabase.php');
 
 /** This class is used to track the recently viewed items on a per user basis.
  * It is intended to be called by each module when rendering the detail form.
@@ -33,11 +30,10 @@ require_once('include/database/PearDatabase.php');
 class Tracker
 {
 
-	var $log;
-	var $db;
-	var $table_name = "vtiger_tracker";
+	public $db;
+	public $table_name = "vtiger_tracker";
 	// Tracker vtiger_table
-	var $column_fields = Array(
+	public $column_fields = Array(
 		"id",
 		"user_id",
 		"module_name",
@@ -47,7 +43,6 @@ class Tracker
 
 	public function __construct()
 	{
-		$this->log = LoggerManager::getLogger('Tracker');
 		$adb = PearDatabase::getInstance();
 		$this->db = $adb;
 	}
@@ -64,8 +59,8 @@ class Tracker
 	{
 		$adb = PearDatabase::getInstance();
 		$this->delete_history($user_id, $item_id);
-		$log = vglobal('log');
-		$log->info("in  track view method " . $current_module);
+
+		\App\Log::trace("in  track view method " . $current_module);
 
 //No genius required. Just add an if case and change the query so that it puts the tracker entry whenever you touch on the DetailView of the required entity
 		//get the first name and last name from the respective modules
@@ -98,7 +93,7 @@ class Tracker
 		$query = "INSERT into $this->table_name (user_id, module_name, item_id, item_summary) values (?,?,?,?)";
 		$qparams = array($user_id, $current_module, $item_id, $item_summary);
 
-		$this->log->info("Track Item View: " . $query);
+		\App\Log::trace("Track Item View: " . $query);
 
 		$this->db->pquery($query, $qparams, true);
 
@@ -120,7 +115,7 @@ class Tracker
 			return;
 		}
 		$query = "SELECT * from $this->table_name inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_tracker.item_id WHERE user_id=? and vtiger_crmentity.deleted=0 ORDER BY id DESC";
-		$this->log->debug("About to retrieve list: $query");
+		\App\Log::trace("About to retrieve list: $query");
 		$result = $this->db->pquery($query, array($userId), true);
 		$list = [];
 		while ($row = $this->db->fetchByAssoc($result, -1, false)) {
@@ -137,7 +132,7 @@ class Tracker
 						$per = true;
 					}
 				} else {
-					$per = \includes\Privileges::isPermitted($module, 'DetailView', $entityId);
+					$per = \App\Privilege::isPermitted($module, 'DetailView', $entityId);
 				}
 				if ($per) {
 					$list[] = $row;
@@ -185,20 +180,20 @@ class Tracker
 		// Check to see if the number of items in the list is now greater than the config max.
 		$query = "SELECT count(*) from $this->table_name WHERE user_id='$user_id'";
 
-		$this->log->debug("About to verify history size: $query");
+		\App\Log::trace("About to verify history size: $query");
 		$count = $this->db->getOne($query);
 
-		$this->log->debug("history size: (current, max)($count, $history_max_viewed)");
+		\App\Log::trace("history size: (current, max)($count, $history_max_viewed)");
 		while ($count > $history_max_viewed) {
 			// delete the last one.  This assumes that entries are added one at a time.
 			// we should never add a bunch of entries
 			$query = "SELECT * from $this->table_name WHERE user_id='$user_id' ORDER BY id ASC LIMIT 0,1";
-			$this->log->debug("About to try and find oldest item: $query");
+			\App\Log::trace("About to try and find oldest item: $query");
 			$result = $this->db->query($query);
 
 			$oldest_item = $this->db->fetchByAssoc($result, -1, false);
 			$query = "DELETE from $this->table_name WHERE id=?";
-			$this->log->debug("About to delete oldest item: ");
+			\App\Log::trace("About to delete oldest item: ");
 
 			$result = $this->db->pquery($query, array($oldest_item['id']), true);
 			$count--;

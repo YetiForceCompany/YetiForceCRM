@@ -111,7 +111,7 @@ class VTCacheUtils
 				'fieldlabel' => $field->get('label'),
 				'columnname' => $field->get('column'),
 				'tablename' => $field->get('table'),
-				'uitype' => $field->get('uitype'),
+				'uitype' => (int) $field->get('uitype'),
 				'typeofdata' => $field->get('typeofdata'),
 				'presence' => $field->get('presence'),
 			);
@@ -153,7 +153,7 @@ class VTCacheUtils
 							'fieldlabel' => $field->get('label'),
 							'columnname' => $field->get('column'),
 							'tablename' => $field->get('table'),
-							'uitype' => $field->get('uitype'),
+							'uitype' => (int) $field->get('uitype'),
 							'typeofdata' => $field->get('typeofdata'),
 							'presence' => $field->get('presence'),
 						);
@@ -188,7 +188,7 @@ class VTCacheUtils
 							'fieldlabel' => $field->get('label'),
 							'columnname' => $field->get('column'),
 							'tablename' => $field->get('table'),
-							'uitype' => $field->get('uitype'),
+							'uitype' => (int) $field->get('uitype'),
 							'typeofdata' => $field->get('typeofdata'),
 							'presence' => $field->get('presence'),
 						);

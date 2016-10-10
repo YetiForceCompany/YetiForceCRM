@@ -67,7 +67,6 @@ class Install_Index_view extends Vtiger_View_Controller
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
-			exit;
 		}
 
 		$request = $this->setLanguage($request);
@@ -234,7 +233,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$isInstalled = $webuiInstance->isInstalled();
 		if (!$isInstalled) {
 			if ($_SESSION['config_file_info']['authentication_key'] != $request->get('auth_key')) {
-				die(vtranslate('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION', $moduleName));
+				throw new \Exception\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
 
 			// Create configuration file
@@ -246,6 +245,27 @@ class Install_Index_view extends Vtiger_View_Controller
 			$db = new PearDatabase($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
 			$db->setDBCache();
 
+			$dbPort = 3306;
+			if (isset($configParams['db_hostname'])) {
+				if (strpos($configParams['db_hostname'], ':')) {
+					list($dbHostname, $dbPort) = explode(':', $configParams['db_hostname']);
+				} else {
+					$dbHostname = $configParams['db_hostname'];
+				}
+			}
+
+			\App\DB::setConfig([
+				'dsn' => 'mysql:host=' . $dbHostname . ';dbname=' . $configParams['db_name'] . ';port=' . $dbPort,
+				'host' => $dbHostname,
+				'port' => $dbPort,
+				'username' => $configParams['db_username'],
+				'password' => $configParams['db_password'],
+				'dbName' => $configParams['db_name'],
+				'type' => 'mysql',
+				'tablePrefix' => 'yf_',
+				'charset' => 'utf8'
+			]);
+
 			// Initialize and set up tables
 			$initSchema = new Install_InitSchema_Model($db);
 			$initSchema->initialize();
@@ -255,7 +275,7 @@ class Install_Index_view extends Vtiger_View_Controller
 			$viewer->setTemplateDir('install/tpl/');
 			$viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
-			$viewer->assign('CURRENT_VERSION', $_SESSION['yetiforce_version']);
+			$viewer->assign('CURRENT_VERSION', \App\Version::get());
 			$viewer->assign('INDUSTRY', $request->get('industry'));
 			echo $viewer->fetch('Step7.tpl');
 		} else {

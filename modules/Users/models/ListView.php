@@ -62,7 +62,8 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-		for ($i = 0; $i < count($links['LISTVIEWMASSACTION']); $i++) {
+		$countLinks = count($links['LISTVIEWMASSACTION']);
+		for ($i = 0; $i < $countLinks; $i++) {
 			if ($links['LISTVIEWMASSACTION'][$i]->linklabel == 'LBL_MASS_DELETE') {
 				unset($links['LISTVIEWMASSACTION'][$i]);
 			}

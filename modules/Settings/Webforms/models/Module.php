@@ -11,11 +11,11 @@
 class Settings_Webforms_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	var $baseTable = 'vtiger_webforms';
-	var $baseIndex = 'id';
-	var $nameFields = array('name');
-	var $listFields = array('name' => 'WebForm Name', 'targetmodule' => 'Module', 'publicid' => 'Public Id', 'returnurl' => 'Return Url', 'enabled' => 'Status');
-	var $name = 'Webforms';
+	public $baseTable = 'vtiger_webforms';
+	public $baseIndex = 'id';
+	public $nameFields = array('name');
+	public $listFields = array('name' => 'WebForm Name', 'targetmodule' => 'Module', 'publicid' => 'Public Id', 'returnurl' => 'Return Url', 'enabled' => 'Status');
+	public $name = 'Webforms';
 
 	public static function getSupportedModulesList()
 	{

@@ -18,12 +18,12 @@ class SECURE extends VTEventHandler
 
 	public function handleEvent($eventName, $entityData)
 	{
-		global $log, $adb, $current;
 		$moduleName = $entityData->getModuleName();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		if ($moduleName == 'OSSPasswords') {
 			if ($eventName == 'vtiger.entity.aftersave.final') {
+				$adb = PearDatabase::getInstance();
 				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 				$conf = $recordModel->getConfiguration();
 

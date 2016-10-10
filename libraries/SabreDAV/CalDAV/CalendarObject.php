@@ -50,7 +50,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      * @param array $calendarInfo
      * @param array $objectData
      */
-    function __construct(Backend\BackendInterface $caldavBackend, array $calendarInfo, array $objectData) {
+    public function __construct(Backend\BackendInterface $caldavBackend, array $calendarInfo, array $objectData) {
 
         $this->caldavBackend = $caldavBackend;
 
@@ -68,7 +68,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         return $this->objectData['uri'];
 
@@ -79,7 +79,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return string
      */
-    function get() {
+    public function get() {
 
         // Pre-populating the 'calendardata' is optional, if we don't have it
         // already we fetch it from the backend.
@@ -96,7 +96,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      * @param string|resource $calendarData
      * @return string
      */
-    function put($calendarData) {
+    public function put($calendarData) {
 
         if (is_resource($calendarData)) {
             $calendarData = stream_get_contents($calendarData);
@@ -114,7 +114,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return void
      */
-    function delete() {
+    public function delete() {
 
         $this->caldavBackend->deleteCalendarObject($this->calendarInfo['id'], $this->objectData['uri']);
 
@@ -125,7 +125,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return string
      */
-    function getContentType() {
+    public function getContentType() {
 
         $mime = 'text/calendar; charset=utf-8';
         if (isset($this->objectData['component']) && $this->objectData['component']) {
@@ -142,7 +142,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return string
      */
-    function getETag() {
+    public function getETag() {
 
         if (isset($this->objectData['etag'])) {
             return $this->objectData['etag'];
@@ -157,7 +157,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return int
      */
-    function getLastModified() {
+    public function getLastModified() {
 
         return $this->objectData['lastmodified'];
 
@@ -168,7 +168,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return int
      */
-    function getSize() {
+    public function getSize() {
 
         if (array_key_exists('size', $this->objectData)) {
             return $this->objectData['size'];
@@ -185,7 +185,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->calendarInfo['principaluri'];
 
@@ -198,7 +198,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
 
         return null;
 
@@ -216,7 +216,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         // An alternative acl may be specified in the object data.
         if (isset($this->objectData['acl'])) {
@@ -263,7 +263,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new \Sabre\DAV\Exception\MethodNotAllowed('Changing ACL is not yet supported');
 
@@ -281,7 +281,7 @@ class CalendarObject extends \Sabre\DAV\File implements ICalendarObject, \Sabre\
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         return null;
 

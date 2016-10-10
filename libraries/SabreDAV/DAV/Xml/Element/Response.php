@@ -60,7 +60,7 @@ class Response implements Element {
      * @param array $responseProperties
      * @param string $httpStatus
      */
-    function __construct($href, array $responseProperties, $httpStatus = null) {
+    public function __construct($href, array $responseProperties, $httpStatus = null) {
 
         $this->href = $href;
         $this->responseProperties = $responseProperties;
@@ -73,7 +73,7 @@ class Response implements Element {
      *
      * @return string
      */
-    function getHref() {
+    public function getHref() {
 
         return $this->href;
 
@@ -84,7 +84,7 @@ class Response implements Element {
      *
      * @return string
      */
-    function getHttpStatus() {
+    public function getHttpStatus() {
 
         return $this->httpStatus;
 
@@ -95,7 +95,7 @@ class Response implements Element {
      *
      * @return array
      */
-    function getResponseProperties() {
+    public function getResponseProperties() {
 
         return $this->responseProperties;
 
@@ -117,7 +117,7 @@ class Response implements Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         if ($status = $this->getHTTPStatus()) {
             $writer->writeElement('{DAV:}status', 'HTTP/1.1 ' . $status . ' ' . \Sabre\HTTP\Response::$statusCodes[$status]);

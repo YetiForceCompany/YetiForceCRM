@@ -42,7 +42,7 @@ class HtmlOutputHelper {
      * @param string $baseUri
      * @param array $namespaceMap
      */
-    function __construct($baseUri, array $namespaceMap) {
+    public function __construct($baseUri, array $namespaceMap) {
 
         $this->baseUri = $baseUri;
         $this->namespaceMap = $namespaceMap;
@@ -60,7 +60,7 @@ class HtmlOutputHelper {
      * @param string $path
      * @return string
      */
-    function fullUrl($path) {
+    public function fullUrl($path) {
 
         return Uri\resolve($this->baseUri, $path);
 
@@ -72,7 +72,7 @@ class HtmlOutputHelper {
      * @param string $input
      * @return string
      */
-    function h($input) {
+    public function h($input) {
 
         return htmlspecialchars($input, ENT_COMPAT, 'UTF-8');
 
@@ -88,7 +88,7 @@ class HtmlOutputHelper {
      * @param string $label
      * @return string
      */
-    function link($url, $label = null) {
+    public function link($url, $label = null) {
 
         $url = $this->h($this->fullUrl($url));
         return '<a href="' . $url . '">' . ($label ? $this->h($label) : $url) . '</a>';
@@ -102,7 +102,7 @@ class HtmlOutputHelper {
      * @param string $element
      * @return string
      */
-    function xmlName($element) {
+    public function xmlName($element) {
 
         list($ns, $localName) = XmlService::parseClarkNotation($element);
         if (isset($this->namespaceMap[$ns])) {

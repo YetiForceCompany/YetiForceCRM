@@ -21,6 +21,7 @@ $languageStrings = [
 	'Parent ID' => 'Related task',
 	'Project Task Number' => 'Project Task Number',
 	'description' => ' Description',
+	'FL_TOTAL_TIME_H' => 'Total working time',
 	'Project Task No' => 'Project Task No',
 	'Project Task Name' => 'Project Task Name',
 	'LBL_ESTIMATED_WORK_TIME' => 'Estimated work time',

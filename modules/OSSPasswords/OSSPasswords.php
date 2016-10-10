@@ -13,28 +13,27 @@
 class OSSPasswords extends CRMEntity
 {
 
-	var $db, $log; // Used in class functions of CRMEntity
-	var $table_name = 'vtiger_osspasswords';
-	var $table_index = 'osspasswordsid';
-	var $column_fields = Array();
+	public $table_name = 'vtiger_osspasswords';
+	public $table_index = 'osspasswordsid';
+	public $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
-	var $IsCustomModule = true;
+	public $IsCustomModule = true;
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_osspasswordscf', 'osspasswordsid');
+	public $customFieldTable = Array('vtiger_osspasswordscf', 'osspasswordsid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_osspasswords', 'vtiger_osspasswordscf');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_osspasswords', 'vtiger_osspasswordscf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	var $tab_name_index = Array(
+	public $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_osspasswords' => 'osspasswordsid',
 		'vtiger_osspasswordscf' => 'osspasswordsid');
@@ -42,7 +41,7 @@ class OSSPasswords extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	var $list_fields = Array(
+	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'OSSPassword No' => Array('osspasswords' => 'osspassword_no'),
@@ -51,7 +50,7 @@ class OSSPasswords extends CRMEntity
 		'Password' => Array('osspasswords' => 'password'),
 		'WWW page' => Array('osspasswords' => 'link_adres'),
 	);
-	var $list_fields_name = Array(
+	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'OSSPassword No' => 'osspassword_no',
 		'Key name' => 'passwordname',
@@ -60,9 +59,9 @@ class OSSPasswords extends CRMEntity
 		'WWW page' => 'link_adres',
 	);
 	// Make the field link to detail view
-	var $list_link_field = 'passwordname';
+	public $list_link_field = 'passwordname';
 	// For Popup listview and UI type support
-	var $search_fields = Array(
+	public $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'OSSPassword No' => Array('osspasswords' => 'osspassword_no'),
@@ -70,7 +69,7 @@ class OSSPasswords extends CRMEntity
 		'Username' => Array('osspasswords' => 'username'),
 		'WWW page' => Array('osspasswords' => 'link_adres'),
 	);
-	var $search_fields_name = Array(
+	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'OSSPassword No' => 'osspassword_no',
 		'Key name' => 'passwordname',
@@ -78,21 +77,21 @@ class OSSPasswords extends CRMEntity
 		'WWW page' => 'link_adres',
 	);
 	// For Popup window record selection
-	var $popup_fields = Array('username');
+	public $popup_fields = Array('username');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	var $sortby_fields = Array();
+	public $sortby_fields = Array();
 	// For Alphabetical search
-	var $def_basicsearch_col = 'passwordname';
+	public $def_basicsearch_col = 'passwordname';
 	// Required Information for enabling Import feature
-	var $required_fields = Array('passwordname' => 1);
+	public $required_fields = Array('passwordname' => 1);
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('passwordname');
+	public $mandatory_fields = Array('passwordname');
 	// Callback function list during Importing
-	var $special_functions = Array('set_import_assigned_user');
-	var $default_order_by = '';
-	var $default_sort_order = 'ASC';
-	var $unit_price;
+	public $special_functions = Array('set_import_assigned_user');
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
+	public $unit_price;
 
 	public function save_module($module)
 	{
@@ -165,7 +164,7 @@ class OSSPasswords extends CRMEntity
 		$sec_query = '';
 		$tabid = \includes\Modules::getModuleId($module);
 
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
 			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
 					(
@@ -234,7 +233,7 @@ class OSSPasswords extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		// Security Check for Field Access
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\includes\Modules::getModuleId('OSSPasswords')] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\includes\Modules::getModuleId('OSSPasswords')] == 3) {
 			//Added security check to get the permitted records only
 			$query = $query . " " . getListViewSecurityParameter($thismodule);
 		}
@@ -302,7 +301,7 @@ class OSSPasswords extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-		$log = vglobal('log');
+
 		parent::unlinkDependencies($module, $id);
 	}
 
@@ -332,13 +331,13 @@ class OSSPasswords extends CRMEntity
 			$em = new VTEventsManager($adb);
 			$em->setHandlerActive($handlerClass);
 		} else if ($eventType == 'module.preuninstall') {
-			$this->log->debug('Before starting uninstall script...');
+			\App\Log::trace('Before starting uninstall script...');
 			require_once( 'modules/Settings/' . $moduleName . '/views/uninstall.php' );
-			$this->log->debug('After uninstall script.');
+			\App\Log::trace('After uninstall script.');
 
 			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
 			
 		}

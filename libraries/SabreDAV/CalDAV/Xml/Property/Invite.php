@@ -63,7 +63,7 @@ class Invite implements Element {
      *
      * @param array $users
      */
-    function __construct(array $users, array $organizer = null) {
+    public function __construct(array $users, array $organizer = null) {
 
         $this->users = $users;
         $this->organizer = $organizer;
@@ -75,7 +75,7 @@ class Invite implements Element {
      *
      * @return array
      */
-    function getValue() {
+    public function getValue() {
 
         return $this->users;
 
@@ -100,7 +100,7 @@ class Invite implements Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Writer $writer) {
+    public function xmlSerialize(Writer $writer) {
 
         $cs = '{' . Plugin::NS_CALENDARSERVER . '}';
 

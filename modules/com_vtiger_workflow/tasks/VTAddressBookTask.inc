@@ -40,7 +40,7 @@ class VTAddressBookTask extends VTTask
 
 		$usersIds = \includes\fields\Owner::getUsersIds();
 		foreach ($usersIds as &$userId) {
-			if (\includes\Privileges::isPermitted($moduleName, 'DetailView', $entityId, $userId)) {
+			if (\App\Privilege::isPermitted($moduleName, 'DetailView', $entityId, $userId)) {
 				$users .= ',' . $userId;
 			}
 		}

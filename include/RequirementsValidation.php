@@ -9,5 +9,5 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-	die('Wrong PHP version, recommended version >= 5.4.0');
+	throw new \Exception\AppException('Wrong PHP version, recommended version >= 5.4.0');
 }

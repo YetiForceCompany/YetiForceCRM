@@ -47,7 +47,7 @@ class KeyValue implements Xml\Element {
      *
      * @param array $value
      */
-    function __construct(array $value = []) {
+    public function __construct(array $value = []) {
 
         $this->value = $value;
 
@@ -72,7 +72,7 @@ class KeyValue implements Xml\Element {
      * @param Writer $writer
      * @return void
      */
-    function xmlSerialize(Xml\Writer $writer) {
+    public function xmlSerialize(Xml\Writer $writer) {
 
         $writer->write($this->value);
 

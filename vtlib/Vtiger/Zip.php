@@ -86,7 +86,7 @@ class Zip extends \dZip
 		if (strripos($dirname, '/') != strlen($dirname) - 1)
 			$dirname .= '/';
 
-		if ($basedirname == null)
+		if ($basedirname === null)
 			$basedirname = realpath($dirname);
 
 		while (false !== ($file = readdir($dir))) {

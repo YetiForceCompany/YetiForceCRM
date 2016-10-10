@@ -42,7 +42,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @param Backend\BackendInterface $caldavBackend
      * @param mixed $userUri
      */
-    function __construct(Backend\BackendInterface $caldavBackend, $principalInfo) {
+    public function __construct(Backend\BackendInterface $caldavBackend, $principalInfo) {
 
         $this->caldavBackend = $caldavBackend;
         $this->principalInfo = $principalInfo;
@@ -54,7 +54,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      *
      * @return string
      */
-    function getName() {
+    public function getName() {
 
         list(, $name) = URLUtil::splitPath($this->principalInfo['uri']);
         return $name;
@@ -67,7 +67,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @param string $name
      * @return void
      */
-    function setName($name) {
+    public function setName($name) {
 
         throw new DAV\Exception\Forbidden();
 
@@ -78,7 +78,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      *
      * @return void
      */
-    function delete() {
+    public function delete() {
 
         throw new DAV\Exception\Forbidden();
 
@@ -89,7 +89,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      *
      * @return int
      */
-    function getLastModified() {
+    public function getLastModified() {
 
         return null;
 
@@ -104,7 +104,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @param resource $data
      * @return void
      */
-    function createFile($filename, $data = null) {
+    public function createFile($filename, $data = null) {
 
         throw new DAV\Exception\MethodNotAllowed('Creating new files in this collection is not supported');
 
@@ -118,7 +118,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @param string $filename
      * @return void
      */
-    function createDirectory($filename) {
+    public function createDirectory($filename) {
 
         throw new DAV\Exception\MethodNotAllowed('Creating new collections in this collection is not supported');
 
@@ -130,7 +130,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @param string $name
      * @return Calendar
      */
-    function getChild($name) {
+    public function getChild($name) {
 
         // Special nodes
         if ($name === 'inbox' && $this->caldavBackend instanceof Backend\SchedulingSupport) {
@@ -177,7 +177,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @param string $name
      * @return bool
      */
-    function childExists($name) {
+    public function childExists($name) {
 
         try {
             return !!$this->getChild($name);
@@ -192,7 +192,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      *
      * @return array
      */
-    function getChildren() {
+    public function getChildren() {
 
         $calendars = $this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']);
         $objs = [];
@@ -237,7 +237,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @throws DAV\Exception\InvalidResourceType
      * @return void
      */
-    function createExtendedCollection($name, MkCol $mkCol) {
+    public function createExtendedCollection($name, MkCol $mkCol) {
 
         $isCalendar = false;
         $isSubscription = false;
@@ -284,7 +284,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      *
      * @return string|null
      */
-    function getOwner() {
+    public function getOwner() {
 
         return $this->principalInfo['uri'];
 
@@ -297,7 +297,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      *
      * @return string|null
      */
-    function getGroup() {
+    public function getGroup() {
 
         return null;
 
@@ -315,7 +315,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      *
      * @return array
      */
-    function getACL() {
+    public function getACL() {
 
         return [
             [
@@ -356,7 +356,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @param array $acl
      * @return void
      */
-    function setACL(array $acl) {
+    public function setACL(array $acl) {
 
         throw new DAV\Exception\MethodNotAllowed('Changing ACL is not yet supported');
 
@@ -374,7 +374,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      *
      * @return array|null
      */
-    function getSupportedPrivilegeSet() {
+    public function getSupportedPrivilegeSet() {
 
         return null;
 
@@ -393,7 +393,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @param string $summary A description of the reply
      * @return null|string
      */
-    function shareReply($href, $status, $calendarUri, $inReplyTo, $summary = null) {
+    public function shareReply($href, $status, $calendarUri, $inReplyTo, $summary = null) {
 
         if (!$this->caldavBackend instanceof Backend\SharingSupport) {
             throw new DAV\Exception\NotImplemented('Sharing support is not implemented by this backend.');
@@ -421,7 +421,7 @@ class CalendarHome implements DAV\IExtendedCollection, DAVACL\IACL {
      * @param string $uid
      * @return string|null
      */
-    function getCalendarObjectByUID($uid) {
+    public function getCalendarObjectByUID($uid) {
 
         return $this->caldavBackend->getCalendarObjectByUID($this->principalInfo['uri'], $uid);
 

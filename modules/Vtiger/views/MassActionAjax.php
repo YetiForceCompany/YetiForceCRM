@@ -263,7 +263,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 
 		if ($step == 'step1') {
 			echo $viewer->view('SelectEmailFields.tpl', $moduleName, true);
-			exit;
 		}
 	}
 

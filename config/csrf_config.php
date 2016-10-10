@@ -29,7 +29,7 @@ function csrf_startup()
 
 function csrf_isAjax()
 {
-	if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == true) {
+	if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] === true) {
 		return true;
 	} elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
 		return true;

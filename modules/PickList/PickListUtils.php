@@ -21,7 +21,7 @@ require_once 'include/runtime/Cache.php';
 function getUserFldArray($fld_module, $roleid)
 {
 	$adb = PearDatabase::getInstance();
-	$log = vglobal('log');
+	
 	$user_fld = Array();
 	$tabid = \includes\Modules::getModuleId($fld_module);
 

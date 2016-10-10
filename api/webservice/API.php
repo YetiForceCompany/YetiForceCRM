@@ -81,7 +81,7 @@ class API
 		if (!($this->request->get('action') == 'Login' && $this->request->get('module') == 'Users')) {
 			$session = APISession::checkSession($this->headers['Sessionid']);
 
-			if ($session == false) {
+			if ($session === false) {
 				throw new APIException('Invalid Sessionid', 401);
 			}
 			if (!$handler->checkPermission($this->request->get('action'), $session->get('user_id'))) {

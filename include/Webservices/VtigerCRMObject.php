@@ -15,15 +15,15 @@ class VtigerCRMObject
 	private $moduleId;
 	private $instance;
 
-	public function VtigerCRMObject($moduleCredential, $isId = false)
+	public function __construct($moduleCredential, $isId = false)
 	{
 
 		if ($isId) {
 			$this->moduleId = $moduleCredential;
-			$this->moduleName = $this->getObjectTypeName($this->moduleId);
+			$this->moduleName = \includes\Modules::getModuleName($this->moduleId);
 		} else {
 			$this->moduleName = $moduleCredential;
-			$this->moduleId = $this->getObjectTypeId($this->moduleName);
+			$this->moduleId = \includes\Modules::getModuleId($this->moduleName);
 		}
 		$this->instance = null;
 		$this->getInstance();
@@ -41,7 +41,7 @@ class VtigerCRMObject
 
 	public function getInstance()
 	{
-		if ($this->instance == null) {
+		if ($this->instance === null) {
 			$this->instance = $this->getModuleClassInstance($this->moduleName);
 		}
 		return $this->instance;
@@ -49,7 +49,7 @@ class VtigerCRMObject
 
 	public function getObjectId()
 	{
-		if ($this->instance == null) {
+		if ($this->instance === null) {
 			$this->getInstance();
 		}
 		return $this->instance->id;
@@ -57,7 +57,7 @@ class VtigerCRMObject
 
 	public function setObjectId($id)
 	{
-		if ($this->instance == null) {
+		if ($this->instance === null) {
 			$this->getInstance();
 		}
 		$this->instance->id = $id;
@@ -95,11 +95,6 @@ class VtigerCRMObject
 		return CRMEntity::getInstance($moduleName);
 	}
 
-	private function getObjectTypeName($moduleId)
-	{
-
-		return getTabModuleName($moduleId);
-	}
 
 	private function getTabName()
 	{
@@ -151,7 +146,7 @@ class VtigerCRMObject
 		$error = false;
 
 		$error = $this->read($this->getObjectId());
-		if ($error == false) {
+		if ($error === false) {
 			return $error;
 		}
 

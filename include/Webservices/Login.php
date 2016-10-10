@@ -15,12 +15,12 @@ function vtws_login($username, $pwd)
 	$userId = $user->retrieve_user_id($username);
 
 	$token = vtws_getActiveToken($userId);
-	if ($token == null) {
+	if ($token === null) {
 		throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN, "Specified token is invalid or expired");
 	}
 
 	$accessKey = vtws_getUserAccessKey($userId);
-	if ($accessKey == null) {
+	if ($accessKey === null) {
 		throw new WebServiceException(WebServiceErrorCode::$ACCESSKEYUNDEFINED, "Access key for the user is undefined");
 	}
 

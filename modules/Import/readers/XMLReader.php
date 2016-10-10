@@ -129,7 +129,8 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 	{
 		$combine = array();
 		$dup = array();
-		for ($i = 0; $i < count($key); $i++) {
+		$countKey = count($key);
+		for ($i = 0; $i < $countKey; $i++) {
 			if (array_key_exists($key[$i], $combine)) {
 				if (!$dup[$key[$i]])
 					$dup[$key[$i]] = 1;

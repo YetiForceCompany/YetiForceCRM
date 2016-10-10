@@ -15,7 +15,7 @@ class Permissions extends TestCase
 
 	public function testIsPermitted()
 	{
-		\includes\Privileges::isPermitted('Accounts', 'DetailView', ACCOUNT_ID);
+		\App\Privilege::isPermitted('Accounts', 'DetailView', ACCOUNT_ID);
 	}
 	
 	public function testRecalculateSharingRules()

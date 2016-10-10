@@ -18,7 +18,7 @@ class LockTokenMatchesRequestUri extends Conflict {
     /**
      * Creates the exception
      */
-    function __construct() {
+    public function __construct() {
 
         $this->message = 'The locktoken supplied does not match any locks on this entity';
 
@@ -31,7 +31,7 @@ class LockTokenMatchesRequestUri extends Conflict {
      * @param \DOMElement $errorNode
      * @return void
      */
-    function serialize(DAV\Server $server, \DOMElement $errorNode) {
+    public function serialize(DAV\Server $server, \DOMElement $errorNode) {
 
         $error = $errorNode->ownerDocument->createElementNS('DAV:', 'd:lock-token-matches-request-uri');
         $errorNode->appendChild($error);

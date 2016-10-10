@@ -116,12 +116,8 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 		}
 
 		if ($type == self::RULE_MEMBER_TYPE_ROLES) {
-			$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
-			$params = array($memberId);
-			$result = $db->pquery($sql, $params);
-
-			if ($db->num_rows($result)) {
-				$row = $db->query_result_rowdata($result, 0);
+			$row = App\PrivilegeUtil::getRoleDetail($memberId);
+			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLES, $row['roleid']);
 				$name = $row['rolename'];
 				$rule = new self();
@@ -130,19 +126,14 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 		}
 
 		if ($type == self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
-			$sql = 'SELECT * FROM vtiger_role WHERE roleid = ?';
-			$params = array($memberId);
-			$result = $db->pquery($sql, $params);
-
-			if ($db->num_rows($result)) {
-				$row = $db->query_result_rowdata($result, 0);
+			$row = App\PrivilegeUtil::getRoleDetail($memberId);
+			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES, $row['roleid']);
 				$name = $row['rolename'];
 				$rule = new self();
 				return $rule->set('id', $qualifiedId)->set('name', $name);
 			}
 		}
-
 		return false;
 	}
 

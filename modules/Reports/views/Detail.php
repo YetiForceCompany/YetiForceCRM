@@ -70,7 +70,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 			$viewer->assign('MODULE', $primaryModule);
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', $primaryModule);
-			exit;
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$detailViewLinks = $detailViewModel->getDetailViewLinks();
@@ -111,7 +111,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 		$viewer->assign('SECONDARY_MODULE_RECORD_STRUCTURES', $secondaryModuleRecordStructures);
 
 		$secondaryModuleIsCalendar = strpos($secondaryModules, 'Calendar');
-		if (($primaryModule == 'Calendar') || ($secondaryModuleIsCalendar !== FALSE)) {
+		if (($primaryModule == 'Calendar') || ($secondaryModuleIsCalendar !== false)) {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();

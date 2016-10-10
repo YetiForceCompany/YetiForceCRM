@@ -92,6 +92,8 @@ $languageStrings = [
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
 	'SINGLE_Vendors' => 'Vendor',
+	'LBL_NUMBER_OF_ACTIVE_CONTRACTS' => 'Number of active SLA',
+	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Products and services',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Account name already exists. Do you want to create a duplicate record?',

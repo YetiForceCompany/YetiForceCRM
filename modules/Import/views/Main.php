@@ -12,9 +12,9 @@
 class Import_Main_View extends Vtiger_View_Controller
 {
 
-	var $request;
-	var $user;
-	var $numberOfRecords;
+	public $request;
+	public $user;
+	public $numberOfRecords;
 
 	public function process(Vtiger_Request $request)
 	{
@@ -55,7 +55,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
 				Import_Utils_Helper::showErrorPage(vtranslate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
-				exit;
+				throw new \Exception\AppException(vtranslate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
 			}
 		}
 
@@ -68,9 +68,9 @@ class Import_Main_View extends Vtiger_View_Controller
 
 	public static function showImportStatus($importInfo, $user)
 	{
-		if ($importInfo == null) {
+		if ($importInfo === null) {
 			Import_Utils_Helper::showErrorPage(vtranslate('ERR_IMPORT_INTERRUPTED', 'Import'));
-			exit;
+			throw new \Exception\AppException(vtranslate('ERR_IMPORT_INTERRUPTED', 'Import'));
 		}
 		$importDataController = new Import_Data_Action($importInfo, $user);
 		if ($importInfo['temp_status'] == Import_Queue_Action::$IMPORT_STATUS_HALTED ||
@@ -93,7 +93,7 @@ class Import_Main_View extends Vtiger_View_Controller
 //				exit;
 //			}
 			self::showCurrentStatus($importInfo, $importStatusCount, $continueImport);
-			exit;
+			throw new \Exception\AppException('Error');
 		} else {
 			$importDataController->finishImport();
 			self::showResult($importInfo, $importStatusCount);
@@ -157,7 +157,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		if ($saveMap && !empty($mapName)) {
 			$fieldMapping = $this->request->get('field_mapping');
 			$fileReader = Import_Utils_Helper::getFileReader($this->request, $this->user);
-			if ($fileReader == null) {
+			if ($fileReader === null) {
 				return false;
 			}
 			$hasHeader = $fileReader->hasHeader();

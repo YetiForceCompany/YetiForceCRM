@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-
-require_once('include/logging.php');
 require_once('include/ListView/ListViewSession.php');
 
 /* * initializes Related ListViewSession
@@ -20,17 +18,17 @@ require_once('include/ListView/ListViewSession.php');
 class RelatedListViewSession
 {
 
-	var $module = null;
-	var $start = null;
-	var $sorder = null;
-	var $sortby = null;
-	var $page_view = null;
+	public $module = null;
+	public $start = null;
+	public $sorder = null;
+	public $sortby = null;
+	public $page_view = null;
 
 	public function __construct()
 	{
-		$log = vglobal('log');
+		
 		$currentModule = vglobal('currentModule');
-		$log->debug("Entering RelatedListViewSession() method ...");
+		\App\Log::trace("Entering RelatedListViewSession() method ...");
 
 		$this->module = $currentModule;
 		$this->start = 1;

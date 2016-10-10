@@ -60,7 +60,7 @@
 								</td>
 								{/if}
 								<td class="cellLabel">
-									<span>{$_FIELD_VALUE|@textlength_check}</span>
+									<span>{\vtlib\Functions::textLength($_FIELD_VALUE)}</span>
 								</td>
 								<td class="cellLabel">
 									<input type="hidden" name="row_counter" value="{$_COUNTER}" />

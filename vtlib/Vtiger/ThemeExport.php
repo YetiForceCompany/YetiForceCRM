@@ -134,13 +134,11 @@ class ThemeExport extends Package
 	 */
 	public function export_Dependencies()
 	{
-		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
-		$vtigerMaxVersion = false;
-
+		$maxVersion = false;
 		$this->openNode('dependencies');
-		$this->outputNode($vtigerMinVersion, 'vtiger_version');
-		if ($vtigerMaxVersion !== false)
-			$this->outputNode($vtigerMaxVersion, 'vtiger_max_version');
+		$this->outputNode(\App\Version::get(), 'vtiger_version');
+		if ($maxVersion !== false)
+			$this->outputNode($maxVersion, 'vtiger_max_version');
 		$this->closeNode('dependencies');
 	}
 
@@ -173,7 +171,7 @@ class ThemeExport extends Package
 
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
-		if (strtolower($name) == 'basic' && $overrideCore == false)
+		if (strtolower($name) == 'basic' && $overrideCore === false)
 			return;
 
 		$useisdefault = ($isdefault) ? 1 : 0;

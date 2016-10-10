@@ -24,10 +24,11 @@ class HistoryCall{
 		1 => 'Outgoing received',
 	);
 	
-    function post($type = '', $authorization = '', $data = ''){
+    public function post($type = '', $authorization = '', $data = ''){
 		$authorization = json_decode($authorization);
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
-		$log->info("Start HistoryCall metod");
+		$adb = PearDatabase::getInstance();
+		
+		\App\Log::trace("Start HistoryCall metod");
 		if( $authorization->phoneKey == '' || !$this->checkPermissions($authorization) ){
 			$resultData = Array('status' => 0,'message' =>  'No permission to: HistoryCall');
 		}elseif( in_array($type,$this->permittedActions) ){
@@ -44,9 +45,10 @@ class HistoryCall{
     }
 	
 	public function addCallLogs($data){
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+		$adb = PearDatabase::getInstance();
+		
 		include_once 'include/main/WebUI.php';
-		$log->info("Start HistoryCall::addCallLogs | user id: ".$this->userID);
+		\App\Log::trace("Start HistoryCall::addCallLogs | user id: ".$this->userID);
 		$resultData = array('status' => 2);
 		$user = new Users();
 		$count = 0;
@@ -79,30 +81,33 @@ class HistoryCall{
 			$count++;
 		}
 		$resultData = array('status' => 1, 'count' => $count);
-		$log->info("End HistoryCall::addCallLogs | return: ".print_r( $resultData,true));
+		\App\Log::trace("End HistoryCall::addCallLogs | return: ".print_r( $resultData,true));
 		return $resultData;
 	}
 	
 	public function checkPermissions($authorization){
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
-		$log->info("Start HistoryCall::checkPermissions | ".print_r( $authorization,true));
+		$adb = PearDatabase::getInstance();
+		
+		\App\Log::trace("Start HistoryCall::checkPermissions | ".print_r( $authorization,true));
 		$return = false;	
 		$result = $adb->pquery("SELECT yetiforce_mobile_keys.user FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE service = ? && `key` = ? && vtiger_users.user_name = ?",array('historycall', $authorization->phoneKey, $authorization->userName),true);
 		if($adb->num_rows($result) > 0 ){
 			$this->userID = $adb->query_result_raw($result, 0, 'user');
 			$return = true;	
 		}
-		$log->info("End HistoryCall::checkPermissions | return: ".$return);
+		\App\Log::trace("End HistoryCall::checkPermissions | return: ".$return);
 		return $return;
 	}
 	
 	public function findPhoneNumber($number){
-		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+		$adb = PearDatabase::getInstance();
+		
 		$crmid = false;
 		$modulesInstance = array();
 		$sql = "SELECT columnname,tablename,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = 0 && uitype = '11' && vtiger_tab.name IN ('Contacts','Accounts','Leads','OSSEmployees','Vendors')";
 		$result = $adb->query($sql,true);
-		for($i = 0; $i < $adb->num_rows($result); $i++){
+		$rows = $adb->num_rows($result);
+		for($i = 0; $i < $rows; $i++){
 			$module = $adb->query_result_raw($result, $i, 'name');
 			$columnname = $adb->query_result_raw($result, $i, 'columnname');
 			$tablename = $adb->query_result_raw($result, $i, 'tablename');

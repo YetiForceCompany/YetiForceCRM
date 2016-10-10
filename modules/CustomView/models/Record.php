@@ -92,8 +92,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isDefault()
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
 			$db = PearDatabase::getInstance();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -101,7 +101,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$result = $db->pquery($sql, ['Users:' . $currentUser->getId(), $this->getModule()->getId(), $this->getId()]);
 			$this->isDefault = $result->rowCount();
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $this->isDefault;
 	}
 
@@ -167,8 +167,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function isFeatured($editView = false)
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isFeatured === false) {
 			if (empty($editView)) {
 				if (!empty($this->get('featured'))) {
@@ -180,7 +180,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				$this->isFeatured = $this->checkFeaturedInEditView();
 			}
 		}
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $this->isFeatured;
 	}
 
@@ -203,7 +203,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$params = [$userId, $roleId];
 		if ($currentUser->isAdminUser()) {
 			$userGroups = $currentUser->getUserGroups($currentUser->getId());
-			$parentRoles = getRoleInformation($currentUser->getRole());
+			$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
 			$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : [];
 		} else {
 			$parentRoles = $currentUser->getParentRoleSequence();
@@ -265,6 +265,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		$queryGenerator = $listViewModel->get('query_generator');
+		$queryGenerator->setFields(['id']);
 
 		$searchKey = $this->get('search_key');
 		$searchValue = $this->get('search_value');
@@ -453,7 +454,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 					$temp_val = explode(",", $advFitlerValue);
 					if (($fieldType == 'date' || ($fieldType == 'time' && $fieldName != 'time_start' && $fieldName != 'time_end') || ($fieldType == 'datetime')) && ($fieldType != '' && $advFitlerValue != '' )) {
 						$val = Array();
-						for ($x = 0; $x < count($temp_val); $x++) {
+						$countTempVal = count($temp_val);
+						for ($x = 0; $x < $countTempVal; $x++) {
 							//if date and time given then we have to convert the date and
 							//leave the time as it is, if date only given then temp_time
 							//value will be empty
@@ -688,7 +690,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				$temp_val = explode(",", $relcriteriarow["value"]);
 				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 					$val = Array();
-					for ($x = 0; $x < count($temp_val); $x++) {
+					$countTempVal = count($temp_val);
+					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($col[4] == 'D') {
 							/** while inserting in db for due_date it was taking date and time values also as it is 
 							 * date time field. We only need to take date from that value
@@ -921,8 +924,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getAll($moduleName = '')
 	{
-		$log = LoggerManager::getInstance();
-		$log->debug('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($moduleName) method ...");
+
+		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($moduleName) method ...");
 		$cacheName = 'getAll:' . $moduleName;
 		$customViews = Vtiger_Cache::get('CustomViews', $cacheName);
 		if ($customViews) {
@@ -979,7 +982,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		Vtiger_Cache::set('CustomViews', $cacheName, $customViews);
-		$log->debug('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $customViews;
 	}
 

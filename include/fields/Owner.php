@@ -17,7 +17,7 @@ class Owner
 	{
 		if ($currentUser && $currentUser instanceof Users) {
 			$currentUser = \Users_Record_Model::getInstanceFromUserObject($currentUser);
-		} elseif ($currentUser == false) {
+		} elseif ($currentUser === false) {
 			$currentUser = \Users_Record_Model::getCurrentUserModel();
 		}
 		$cacheKey = $moduleName . $currentUser->getId();
@@ -49,7 +49,7 @@ class Owner
 			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
 				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
-				$accessibleGroups = $this->getGroups(false, 'Active', '', $private);
+				$accessibleGroups = $this->getGroups(false, $private);
 			}
 			\Vtiger_Cache::set('getAccessibleGroups', $cacheKey, $accessibleGroups);
 		}
@@ -183,7 +183,7 @@ class Owner
 		} else {
 			$groups = $usersGroups ? $usersGroups['groups'] : [];
 			if (!empty($groups)) {
-				$groupsAll = $this->getGroups(false, 'Active', '', $private);
+				$groupsAll = $this->getGroups(false, $private);
 				foreach ($groupsAll as $ID => $name) {
 					if (in_array($ID, $groups)) {
 						$result[$ID] = $name;
@@ -194,9 +194,8 @@ class Owner
 		return $result;
 	}
 
-	public function initUsers($status = 'Active', $assignedUser = '', $private = '')
+	public function &initUsers($status = 'Active', $assignedUser = '', $private = '')
 	{
-		$log = \LoggerManager::getInstance();
 		$cacheKeyMod = $private == 'private' ? $this->moduleName : '';
 		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
 		$cacheKey = $cacheKeyMod . $status . $cacheKeyAss . $private;
@@ -208,13 +207,13 @@ class Owner
 			// Including deleted vtiger_users for now.
 			if ($private == 'private') {
 				$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($this->currentUser->getId());
-				$log->debug('Sharing is Private. Only the current user should be listed');
+				\App\Log::trace('Sharing is Private. Only the current user should be listed');
 				$query = "SELECT id,%s,is_admin,cal_color,status FROM vtiger_users WHERE id=? UNION SELECT vtiger_user2role.userid AS id,%s,is_admin,cal_color,status FROM vtiger_user2role 
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? UNION
 							SELECT shareduserid AS id,%s,is_admin,cal_color,status FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? && vtiger_tmp_write_user_sharing_per.tabid=?";
 				$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), \includes\Modules::getModuleId($this->moduleName));
 			} else {
-				$log->debug('Sharing is Public. All vtiger_users should be listed');
+				\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 				$query = 'SELECT id,%s,is_admin,cal_color,status FROM vtiger_users';
 				$params = [];
 			}
@@ -269,13 +268,12 @@ class Owner
 	 */
 	public function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false)
 	{
-		$log = \LoggerManager::getInstance();
-		$log->debug("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
+		\App\Log::trace("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
 
 		$tempResult = $this->initUsers($status, $assignedUser, $private);
 
 		$users = [];
-		if ($addBlank == true) {
+		if ($addBlank === true) {
 			// Add in a blank row
 			$users[''] = '';
 		}
@@ -287,21 +285,20 @@ class Owner
 			}
 		}
 		asort($users);
-		$log->debug('Exiting getUsers method ...');
+		\App\Log::trace('Exiting getUsers method ...');
 		return $users;
 	}
 
-	public function getGroups($addBlank = true, $status = 'Active', $assignedUser = '', $private = '')
+	public function getGroups($addBlank = true, $private = '')
 	{
-		$log = \LoggerManager::getInstance();
-		$log->debug("Entering getGroups($addBlank,$status,$assignedUser,$private) method ...");
-
+		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
+		$moduleName = '';
 		if (\AppRequest::get('parent') != 'Settings' && $this->moduleName) {
 			$moduleName = $this->moduleName;
 			$tabid = \includes\Modules::getModuleId($moduleName);
 		}
 
-		$cacheKey = $addBlank . $status . $assignedUser . $private . $moduleName;
+		$cacheKey = $addBlank . $private . $moduleName;
 		$tempResult = \Vtiger_Cache::get('getGroups', $cacheKey);
 		if ($tempResult !== false) {
 			return $tempResult;
@@ -309,11 +306,11 @@ class Owner
 
 		$db = \PearDatabase::getInstance();
 		// Including deleted vtiger_users for now.
-		$log->debug('Sharing is Public. All vtiger_users should be listed');
+		\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 		$query = 'SELECT groupid, groupname FROM vtiger_groups';
 		$tempResult = $params = [];
 
-		if ($moduleName && $moduleName != 'CustomView') {
+		if (!empty($moduleName) && $moduleName != 'CustomView') {
 			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
 			$params[] = $tabid;
 		}
@@ -330,7 +327,7 @@ class Owner
 				$query .= ' || vtiger_groups.groupid in (' . generateQuestionMarks($userPrivileges['groups']) . ')';
 				array_push($params, $userPrivileges['groups']);
 			}
-			$log->debug('Sharing is Private. Only the current user should be listed');
+			\App\Log::trace('Sharing is Private. Only the current user should be listed');
 			$query .= ' union select vtiger_group2role.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_group2role inner join vtiger_groups on vtiger_groups.groupid=vtiger_group2role.groupid inner join vtiger_role on vtiger_role.roleid=vtiger_group2role.roleid where vtiger_role.parentrole like ?';
 			array_push($params, $userPrivileges['parent_role_seq'] . '::%');
 
@@ -348,7 +345,7 @@ class Owner
 		$query .= ' order by groupname ASC';
 		$result = $db->pquery($query, $params);
 
-		if ($addBlank == true) {
+		if ($addBlank === true) {
 			// Add in a blank row
 			$tempResult[''] = '';
 		}
@@ -358,7 +355,7 @@ class Owner
 			$tempResult[$row['groupid']] = decode_html($row['groupname']);
 		}
 		\Vtiger_Cache::set('getGroups', $cacheKey, $tempResult);
-		$log->debug('Exiting getGroups method ...');
+		\App\Log::trace('Exiting getGroups method ...');
 		return $tempResult;
 	}
 
@@ -454,12 +451,12 @@ class Owner
 
 	protected static $usersIdsCache = [];
 
-	public static function getUsersIds($status = 'Active')
+	public static function &getUsersIds($status = 'Active')
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
 			$rows = [];
 			if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$rows = \includes\PrivilegeFile::getUser('id');
+				$rows = \App\PrivilegeFile::getUser('id');
 			} else {
 				$instance = new self();
 				$rows = $instance->initUsers($status);
@@ -528,7 +525,7 @@ class Owner
 		}
 
 		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \includes\PrivilegeFile::getUser('id');
+			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
 			if ($single) {
@@ -552,7 +549,7 @@ class Owner
 			return self::$typeCache[$id];
 		}
 		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \includes\PrivilegeFile::getUser('id');
+			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
 			$users = $instance->initUsers();

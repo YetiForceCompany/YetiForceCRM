@@ -368,6 +368,20 @@ $languageStrings = [
 	'LBL_WARNINGS_CORRECT' => 'Ok',
 	'LBL_WARNINGS_OMITTED' => 'Pominięte',
 	'LBL_WARNINGS_SWITCH' => 'Filtrowanie ostrzeżeń',
+	//Advance Filter Expressions
+	'LBL_LABEL' => 'Etykieta',
+	'LBL_FIELD' => 'Wartość',
+	'LBL_HEADER_DETAILS' => 'Edycja nagłówka',
+	'LBL_HEADER_CONTENT' => 'Nagłówek',
+	'LBL_SET_VALUE' => 'Ustaw wartość',
+	'LBL_RAW_TEXT' => 'Czysty tekst',
+	'LBL_USE_FIELD' => 'Użyj pola',
+	'LBL_USE_FUNCTION' => 'Użyj funkcji',
+	'LBL_EXAMPLE_EXPRESSION' => 'Wyrażenie',
+	'LBL_EXPRESSION' => 'Wyrażenie',
+	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
+	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
+	'LBL_EXAMPLE_FIELD_NAME' => 'Pole',
 ];
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',

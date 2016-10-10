@@ -168,7 +168,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false)
 	{
-		return \includes\Privileges::isPermitted($moduleName, $actionName, $record);
+		return \App\Privilege::isPermitted($moduleName, $actionName, $record);
 	}
 
 	public static function getLastPermittedAccessLog()
@@ -265,13 +265,13 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function setSharedOwnerRecursively($recordId, $addUser, $removeUser, $moduleName)
 	{
-		$log = vglobal('log');
+		
 		$db = PearDatabase::getInstance();
-		$log->info('Entering Into setSharedOwnerRecursively( ' . $recordId . ', ' . $moduleName . ')');
+		\App\Log::trace('Entering Into setSharedOwnerRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
 		$recordsByModule = self::getSharedRecordsRecursively($recordId, $moduleName);
 		if (count($recordsByModule) === 0) {
-			$log->info('Exiting setSharedOwnerRecursively() - No shared records');
+			\App\Log::trace('Exiting setSharedOwnerRecursively() - No shared records');
 			return false;
 		}
 		$removeUserString = $addUserString = false;
@@ -308,12 +308,12 @@ class Users_Privileges_Model extends Users_Record_Model
 				}
 			}
 		}
-		$log->info('Exiting setSharedOwnerRecursively()');
+		\App\Log::trace('Exiting setSharedOwnerRecursively()');
 	}
 
 	public static function isPermittedByUserId($userId, $moduleName, $actionName = '', $record = false)
 	{
-		return \includes\Privileges::isPermitted($moduleName, $actionName, $record, $userId);
+		return \App\Privilege::isPermitted($moduleName, $actionName, $record, $userId);
 	}
 
 	/**
@@ -321,8 +321,8 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
-		$log = vglobal('log');
-		$log->info('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
+		
+		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
 		$db = PearDatabase::getInstance();
 		$modulesSchema = [];
@@ -355,7 +355,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 		}
 		return $array;
-		$log->info('Exiting getSharedRecordsRecursively()');
+		\App\Log::trace('Exiting getSharedRecordsRecursively()');
 	}
 
 	protected static $parentRecordCache = [];

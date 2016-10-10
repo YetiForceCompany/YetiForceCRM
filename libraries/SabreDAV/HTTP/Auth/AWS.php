@@ -51,7 +51,7 @@ class AWS extends AbstractAuth {
      *
      * @return bool
      */
-    function init() {
+    public function init() {
 
         $authHeader = $this->request->getHeader('Authorization');
         $authHeader = explode(' ', $authHeader);
@@ -72,7 +72,7 @@ class AWS extends AbstractAuth {
      *
      * @return string
      */
-    function getAccessKey() {
+    public function getAccessKey() {
 
         return $this->accessKey;
 
@@ -84,7 +84,7 @@ class AWS extends AbstractAuth {
      * @param string $secretKey
      * @return bool
      */
-    function validate($secretKey) {
+    public function validate($secretKey) {
 
         $contentMD5 = $this->request->getHeader('Content-MD5');
 
@@ -139,7 +139,7 @@ class AWS extends AbstractAuth {
      *
      * @return void
      */
-    function requireLogin() {
+    public function requireLogin() {
 
         $this->response->addHeader('WWW-Authenticate', 'AWS');
         $this->response->setStatus(401);

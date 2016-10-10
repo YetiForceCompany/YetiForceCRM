@@ -192,7 +192,7 @@ class Server extends EventEmitter {
      *
      * @param Tree|INode|array|null $treeOrNode The tree object
      */
-    function __construct($treeOrNode = null) {
+    public function __construct($treeOrNode = null) {
 
         if ($treeOrNode instanceof Tree) {
             $this->tree = $treeOrNode;
@@ -231,7 +231,7 @@ class Server extends EventEmitter {
      *
      * @return void
      */
-    function exec() {
+    public function exec() {
 
         try {
 
@@ -323,7 +323,7 @@ class Server extends EventEmitter {
      * @param string $uri
      * @return void
      */
-    function setBaseUri($uri) {
+    public function setBaseUri($uri) {
 
         // If the baseUri does not end with a slash, we must add it
         if ($uri[strlen($uri) - 1] !== '/')
@@ -338,7 +338,7 @@ class Server extends EventEmitter {
      *
      * @return string
      */
-    function getBaseUri() {
+    public function getBaseUri() {
 
         if (is_null($this->baseUri)) $this->baseUri = $this->guessBaseUri();
         return $this->baseUri;
@@ -353,7 +353,7 @@ class Server extends EventEmitter {
      *
      * @return string
      */
-    function guessBaseUri() {
+    public function guessBaseUri() {
 
         $pathInfo = $this->httpRequest->getRawServerValue('PATH_INFO');
         $uri = $this->httpRequest->getRawServerValue('REQUEST_URI');
@@ -395,7 +395,7 @@ class Server extends EventEmitter {
      * @param ServerPlugin $plugin
      * @return void
      */
-    function addPlugin(ServerPlugin $plugin) {
+    public function addPlugin(ServerPlugin $plugin) {
 
         $this->plugins[$plugin->getPluginName()] = $plugin;
         $plugin->initialize($this);
@@ -410,7 +410,7 @@ class Server extends EventEmitter {
      * @param string $name
      * @return ServerPlugin
      */
-    function getPlugin($name) {
+    public function getPlugin($name) {
 
         if (isset($this->plugins[$name]))
             return $this->plugins[$name];
@@ -424,7 +424,7 @@ class Server extends EventEmitter {
      *
      * @return array
      */
-    function getPlugins() {
+    public function getPlugins() {
 
         return $this->plugins;
 
@@ -438,7 +438,7 @@ class Server extends EventEmitter {
      * @param $sendResponse Whether to send the HTTP response to the DAV client.
      * @return void
      */
-    function invokeMethod(RequestInterface $request, ResponseInterface $response, $sendResponse = true) {
+    public function invokeMethod(RequestInterface $request, ResponseInterface $response, $sendResponse = true) {
 
         $method = $request->getMethod();
 
@@ -489,7 +489,7 @@ class Server extends EventEmitter {
      * @param string $path
      * @return array
      */
-    function getAllowedMethods($path) {
+    public function getAllowedMethods($path) {
 
         $methods = [
             'OPTIONS',
@@ -524,7 +524,7 @@ class Server extends EventEmitter {
      *
      * @return string
      */
-    function getRequestUri() {
+    public function getRequestUri() {
 
         return $this->calculateUri($this->httpRequest->getUrl());
 
@@ -542,7 +542,7 @@ class Server extends EventEmitter {
      * @throws Exception\Forbidden A permission denied exception is thrown whenever there was an attempt to supply a uri outside of the base uri
      * @return string
      */
-    function calculateUri($uri) {
+    public function calculateUri($uri) {
 
         if ($uri[0] != '/' && strpos($uri, '://')) {
 
@@ -580,7 +580,7 @@ class Server extends EventEmitter {
      * @param mixed $default
      * @return int
      */
-    function getHTTPDepth($default = self::DEPTH_INFINITY) {
+    public function getHTTPDepth($default = self::DEPTH_INFINITY) {
 
         // If its not set, we'll grab the default
         $depth = $this->httpRequest->getHeader('Depth');
@@ -611,7 +611,7 @@ class Server extends EventEmitter {
      *
      * @return array|null
      */
-    function getHTTPRange() {
+    public function getHTTPRange() {
 
         $range = $this->httpRequest->getHeader('range');
         if (is_null($range)) return null;
@@ -655,7 +655,7 @@ class Server extends EventEmitter {
      *
      * @return array
      */
-    function getHTTPPrefer() {
+    public function getHTTPPrefer() {
 
         $result = [
             // can be true or false
@@ -706,7 +706,7 @@ class Server extends EventEmitter {
      *         subtree.
      * @return array
      */
-    function getCopyAndMoveInfo(RequestInterface $request) {
+    public function getCopyAndMoveInfo(RequestInterface $request) {
 
         // Collecting the relevant HTTP headers
         if (!$request->getHeader('Destination')) throw new Exception\BadRequest('The destination header was not supplied');
@@ -775,7 +775,7 @@ class Server extends EventEmitter {
      * @param string $path
      * @param array $propertyNames
      */
-    function getProperties($path, $propertyNames) {
+    public function getProperties($path, $propertyNames) {
 
         $result = $this->getPropertiesForPath($path, $propertyNames, 0);
         if (isset($result[0][200])) {
@@ -798,7 +798,7 @@ class Server extends EventEmitter {
      * @param array $propertyNames
      * @return array
      */
-    function getPropertiesForChildren($path, $propertyNames) {
+    public function getPropertiesForChildren($path, $propertyNames) {
 
         $result = [];
         foreach ($this->getPropertiesForPath($path, $propertyNames, 1) as $k => $row) {
@@ -825,7 +825,7 @@ class Server extends EventEmitter {
      * @param string $path
      * @return array
      */
-    function getHTTPHeaders($path) {
+    public function getHTTPHeaders($path) {
 
         $propertyMap = [
             '{DAV:}getcontenttype'   => 'Content-Type',
@@ -906,7 +906,7 @@ class Server extends EventEmitter {
      * @param int $depth
      * @return array
      */
-    function getPropertiesForPath($path, $propertyNames = [], $depth = 0) {
+    public function getPropertiesForPath($path, $propertyNames = [], $depth = 0) {
 
         // The only two options for the depth of a propfind is 0 or 1 - as long as depth infinity is not enabled
         if (!$this->enablePropfindDepthInfinity && $depth != 0) $depth = 1;
@@ -968,7 +968,7 @@ class Server extends EventEmitter {
      * @param array $propertyNames
      * @return array
      */
-    function getPropertiesForMultiplePaths(array $paths, array $propertyNames = []) {
+    public function getPropertiesForMultiplePaths(array $paths, array $propertyNames = []) {
 
         $result = [
         ];
@@ -1010,7 +1010,7 @@ class Server extends EventEmitter {
      * @param INode $node
      * @return bool
      */
-    function getPropertiesByNode(PropFind $propFind, INode $node) {
+    public function getPropertiesByNode(PropFind $propFind, INode $node) {
 
         return $this->emit('propFind', [$propFind, $node]);
 
@@ -1030,7 +1030,7 @@ class Server extends EventEmitter {
      * @param string   $etag
      * @return bool
      */
-    function createFile($uri, $data, &$etag = null) {
+    public function createFile($uri, $data, &$etag = null) {
 
         list($dir, $name) = URLUtil::splitPath($uri);
 
@@ -1071,7 +1071,7 @@ class Server extends EventEmitter {
      * @param string   $etag
      * @return bool
      */
-    function updateFile($uri, $data, &$etag = null) {
+    public function updateFile($uri, $data, &$etag = null) {
 
         $node = $this->tree->getNodeForPath($uri);
 
@@ -1098,7 +1098,7 @@ class Server extends EventEmitter {
      * @param string $uri
      * @return void
      */
-    function createDirectory($uri) {
+    public function createDirectory($uri) {
 
         $this->createCollection($uri, new MkCol(['{DAV:}collection'], []));
 
@@ -1111,7 +1111,7 @@ class Server extends EventEmitter {
      * @param MkCol $mkCol
      * @return array|null
      */
-    function createCollection($uri, MkCol $mkCol) {
+    public function createCollection($uri, MkCol $mkCol) {
 
         list($parentUri, $newName) = URLUtil::splitPath($uri);
 
@@ -1204,7 +1204,7 @@ class Server extends EventEmitter {
      * @param array $properties
      * @return array
      */
-    function updateProperties($path, array $properties) {
+    public function updateProperties($path, array $properties) {
 
         $propPatch = new PropPatch($properties);
         $this->emit('propPatch', [$path, $propPatch]);
@@ -1236,7 +1236,7 @@ class Server extends EventEmitter {
      * @param ResponseInterface $response
      * @return bool
      */
-    function checkPreconditions(RequestInterface $request, ResponseInterface $response) {
+    public function checkPreconditions(RequestInterface $request, ResponseInterface $response) {
 
         $path = $request->getPath();
         $node = null;
@@ -1520,7 +1520,7 @@ class Server extends EventEmitter {
      * @param RequestInterface $request
      * @return array
      */
-    function getIfConditions(RequestInterface $request) {
+    public function getIfConditions(RequestInterface $request) {
 
         $header = $request->getHeader('If');
         if (!$header) return [];
@@ -1576,7 +1576,7 @@ class Server extends EventEmitter {
      * @param INode $node
      * @return array
      */
-    function getResourceTypeForNode(INode $node) {
+    public function getResourceTypeForNode(INode $node) {
 
         $result = [];
         foreach ($this->resourceTypeMapping as $className => $resourceType) {
@@ -1599,7 +1599,7 @@ class Server extends EventEmitter {
      * @param bool strip404s
      * @return string
      */
-    function generateMultiStatus(array $fileProperties, $strip404s = false) {
+    public function generateMultiStatus(array $fileProperties, $strip404s = false) {
 
         $xml = [];
 

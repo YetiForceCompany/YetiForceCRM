@@ -14,19 +14,19 @@ require_once('modules/Calendar/Date.php');
 class Calendar
 {
 
-	var $view = 'day';
-	var $date_time;
-	var $hour_format = 12;
-	var $day_slice;
-	var $week_slice;
-	var $week_array;
-	var $month_array;
-	var $week_hour_slices = Array();
-	var $slices = Array();
+	public $view = 'day';
+	public $date_time;
+	public $hour_format = 12;
+	public $day_slice;
+	public $week_slice;
+	public $week_array;
+	public $month_array;
+	public $week_hour_slices = Array();
+	public $slices = Array();
 	/* for dayview */
-	var $day_start_hour = 0;
-	var $day_end_hour = 23;
-	var $sharedusers = Array();
+	public $day_start_hour = 0;
+	public $day_end_hour = 23;
+	public $sharedusers = Array();
 
 	/*
 	  constructor
@@ -209,8 +209,9 @@ class Calendar
 						$this->year_array[$value->formatted_datetime]->activities = array();
 					}
 					array_push($this->year_array[$value->formatted_datetime]->activities, $value);
-				} else
-					die("view:" . $this->view . " is not defined");
+				} else{
+					throw new \Exception\AppException("view: $this->view is not defined");
+				}
 			}
 		}
 	}
@@ -219,10 +220,10 @@ class Calendar
 class Layout
 {
 
-	var $view = 'day';
-	var $start_time;
-	var $end_time;
-	var $activities = Array();
+	public $view = 'day';
+	public $start_time;
+	public $end_time;
+	public $activities = Array();
 
 	/**
 	 * Constructor for Layout class

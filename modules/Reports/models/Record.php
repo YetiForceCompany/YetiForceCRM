@@ -502,7 +502,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$calculationFields = $this->get('calculationFields');
-		for ($i = 0; $i < count($calculationFields); $i++) {
+		$countCalculationFields = count($calculationFields);
+		for ($i = 0; $i < $countCalculationFields; $i++) {
 			$db->pquery('INSERT INTO vtiger_reportsummary (reportsummaryid, summarytype, columnname) VALUES (?,?,?)', array($this->getId(), $i, $calculationFields[$i]));
 		}
 	}
@@ -550,7 +551,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$selectedFields = $this->get('selectedFields');
 
 		if (!empty($selectedFields)) {
-			for ($i = 0; $i < count($selectedFields); $i++) {
+			$countSelectedFields = count($selectedFields);
+			for ($i = 0; $i < $countSelectedFields; $i++) {
 				if (!empty($selectedFields[$i])) {
 					$db->pquery("INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)", array($this->getId(), $i, decode_html($selectedFields[$i])));
 				}
@@ -612,7 +614,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					if (($columnInfo[4] == 'D' || ($columnInfo[4] == 'T' && $columnInfo[1] != 'time_start' && $columnInfo[1] != 'time_end') ||
 						($columnInfo[4] == 'DT')) && ($columnInfo[4] != '' && $advFilterValue != '' )) {
 						$val = Array();
-						for ($i = 0; $i < count($tempVal); $i++) {
+						$countTempVal = count($tempVal);
+						for ($i = 0; $i < $countTempVal; $i++) {
 							if (trim($tempVal[$i]) != '') {
 								$date = new DateTimeField(trim($tempVal[$i]));
 								if ($columnInfo[4] == 'D') {
@@ -723,7 +726,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	public function getReportsCount($query = null)
 	{
-		if ($query == null)
+		if ($query === null)
 			$query = $this->get('recordCountQuery');
 		$adb = PearDatabase::getInstance();
 		$count = 0;
@@ -1065,7 +1068,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function showLineItemFieldsInFilter($calculationFields = false)
 	{
-		if ($calculationFields == false)
+		if ($calculationFields === false)
 			$calculationFields = $this->getSelectedCalculationFields();
 
 		$primaryModule = $this->getPrimaryModule();
