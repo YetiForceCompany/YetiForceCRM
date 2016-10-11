@@ -27,5 +27,3 @@ class OSSMail_CheckConfig_View extends Vtiger_Index_View
 		require_once 'modules/OSSMail/views/CheckConfigCore.php';
 	}
 }
-
-?>
