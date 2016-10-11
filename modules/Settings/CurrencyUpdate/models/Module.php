@@ -25,12 +25,12 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public static function getCRMCurrencyName($code)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT `currency_name` FROM `vtiger_currencies` WHERE `currency_code` = ? LIMIT 1;';
-		$result = $db->pquery($query, [$code]);
-
-		return $db->getSingleValue($result);
+		$currencyName = (new \App\db\Query())
+				->select('currency_name')
+				->from('vtiger_currencies')
+				->where(['currency_code' => $code])
+				->limit(1)->scalar();
+		return $currencyName;
 	}
 	/*
 	 * Returns list of active currencies in CRM
@@ -51,31 +51,26 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function fetchCurrencyRates($dateCur, $cron = false)
 	{
 
-		$db = PearDatabase::getInstance();
 		$notifyNewRates = false;
-		$vtigerCurrencySql = 'SELECT `id`, `currency_code` FROM `vtiger_currency_info` WHERE `currency_status` = ? && `deleted` = 0 && `defaultid` != ?;';
-		$vtigerCurrencyResult = $db->pquery($vtigerCurrencySql, ['Active', '-11']);
-		$numToConvert = $db->num_rows($vtigerCurrencyResult);
 
+		$db = new \App\db\Query();
+		$db->select(['id', 'currency_code'])->from('vtiger_currency_info')->where(['currency_status' => 'Active', 'deleted' => 0])->andWhere(['!=', 'defaultid', -11]);
+		$numToConvert = $db->count();
 		if ($numToConvert >= 1) {
+			$result = $db->createCommand()->query();
 			$selectBankId = $this->getActiveBankId();
 			$activeBankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
 			$currIds = [];
 			$otherCurrencyCode = [];
-			while ($row = $db->fetchByAssoc($vtigerCurrencyResult)) {
+			while ($row = $result->read()) {
 				$id = $row['id'];
 				$code = $row['currency_code'];
 				$currIds[] = $id;
 				$otherCurrencyCode[$code] = $id;
 			}
-
-			$existSql = sprintf('SELECT COUNT(*) as num FROM `yetiforce_currencyupdate` WHERE `exchange_date` = ? && `currency_id` IN (%s) && `bank_id` = ? LIMIT 1;', $db->generateQuestionMarks($currIds));
-			$params = [$dateCur];
-			$params = array_merge($params, $currIds);
-			$params[] = $selectBankId;
-			$existResult = $db->pquery($existSql, $params);
-
-			$currNum = $db->getSingleValue($existResult);
+			$db = new \App\db\Query();
+			$db->from('yetiforce_currencyupdate')->where(['exchange_date' => $dateCur, 'currency_id' => $currIds, 'bank_id' => $selectBankId]);
+			$currNum = $db->count(1);
 			// download only if its not in archives
 			if ($currNum != $numToConvert && class_exists($activeBankName)) {
 				$bank = new $activeBankName();
@@ -92,19 +87,15 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function refreshBanks()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT `id`, `bank_name` FROM `yetiforce_currencyupdate_banks`;';
-		$result = $db->query($query);
-
-		while ($row = $db->fetchByAssoc($result)) {
+		$db = new \App\db\Query();
+		$db->select(['id', 'bank_name'])->from('yetiforce_currencyupdate_banks');
+		$result = $db->createCommand()->query();
+		while ($row = $result->read()) {
 			$id = $row['id'];
 			$bankName = $row['bank_name'];
-
 			$bankPath = __DIR__ . '/bankmodels/' . $bankName . '.php';
 			if (!file_exists($bankPath)) { // delete bank from database
-				$query = 'DELETE FROM `yetiforce_currencyupdate_banks` WHERE `id` = ? LIMIT 1;';
-				$db->pquery($query, [$id]);
+				\App\DB::getInstance()->createCommand()->delete('yetiforce_currencyupdate_banks', ['id' => $id])->execute();
 			}
 		}
 
@@ -116,19 +107,16 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 				continue;
 			}
 
-			$query = 'SELECT COUNT(*) as num FROM `yetiforce_currencyupdate_banks` WHERE `bank_name` = ?;';
-			$result = $db->pquery($query, [$bankClassName]);
-			$bankExists = intval($db->getSingleValue($result));
-
+			$db = new \App\db\Query();
+			$bankExists = $db->from('yetiforce_currencyupdate_banks')->where(['bank_name' => 'CBR'])->count(1);
 			if (!$bankExists) {
-				$query = 'INSERT INTO `yetiforce_currencyupdate_banks` (`bank_name`, `active`) VALUES (?,?);';
-				$db->pquery($query, [$bankClassName, 0]);
+				App\DB::getInstance()->createCommand()->insert('yetiforce_currencyupdate_banks',
+					['bank_name' => $bankClassName, 'active' => 0])->execute();
 			}
 		}
-
 		$activeId = $this->getActiveBankId();
-
 		if (!$activeId) {
+			$db = PearDatabase::getInstance();
 			$query = 'UPDATE `yetiforce_currencyupdate_banks` SET `active` = 1 ORDER BY `id` ASC LIMIT 1;';
 			$db->query($query);
 		}
@@ -141,10 +129,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function updateCurrencyRate($id, $exchange)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'UPDATE `yetiforce_currencyupdate` SET `exchange` = ? WHERE `id` = ? LIMIT 1;';
-		$db->pquery($query, [$exchange, $id]);
+		\App\DB::getInstance()->createCommand()->update('yetiforce_currencyupdate', ['exchange' => $exchange], ['id' => $id])->execute();
 	}
 	/*
 	 * Adds currency exchange rate to archive
@@ -156,8 +141,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function addCurrencyRate($currId, $exchangeDate, $exchange, $bankId)
 	{
-		$db = PearDatabase::getInstance();
-		$db->insert('yetiforce_currencyupdate', [
+		
+		\App\DB::getInstance()->createCommand()->insert('yetiforce_currencyupdate', [
 			'currency_id' => $currId,
 			'fetch_date' => date('Y-m-d'),
 			'exchange_date' => $exchangeDate,
@@ -175,13 +160,9 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getCurrencyRateId($currencyId, $exchangeDate, $bankId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT `id` FROM `yetiforce_currencyupdate` WHERE  `exchange_date` = ? && `currency_id` = ? && `bank_id` = ? LIMIT 1;';
-		$params = [$exchangeDate, $currencyId, $bankId];
-		$result = $db->pquery($query, $params);
-
-		return intval($db->getSingleValue($result));
+		$db = new \App\db\Query();
+		$db->select('id')->from('yetiforce_currencyupdate')->where(['exchange_date' => $exchangeDate, 'currency_id' => $currencyId, 'bank_id' => $bankId])->limit(1);
+		return $db->scalar();
 	}
 	/*
 	 * Returns currency rates from archive
@@ -267,21 +248,15 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
-
 		$supported = $bank->getSupportedCurrencies($bankName);
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT `currency_name`, `currency_code` FROM vtiger_currency_info WHERE `currency_status` = "Active" && `deleted` = 0;';
-		$result = $db->query($query);
-
-		$unsupported = [];
-		while ($row = $db->fetchByAssoc($result)) {
+		$db = new \App\db\Query();
+		$db->select(['currency_name', 'currency_code'])->from('vtiger_currency_info')->where(['currency_status' => 'Active', 'deleted' => 0]);
+		$result = $db->createCommand()->query();
+		while ($row = $result->read()) {
 			$name = $row['currency_name'];
 			$code = $row['currency_code'];
-
 			$unsupported[$name] = $code;
 		}
-
 		return array_diff($unsupported, $supported);
 	}
 	/*
@@ -416,13 +391,9 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getActiveBankId()
 	{
-		$db = PearDatabase::getInstance();
-
-		$queryBank = 'SELECT `id` FROM `yetiforce_currencyupdate_banks` WHERE `active` = 1 LIMIT 1;';
-		$resultBank = $db->query($queryBank);
-
-		$bankInfo = $db->getSingleValue($resultBank);
-		return $bankInfo;
+		$db = new \App\db\Query();
+		$db->select('id')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1);
+		return $db->scalar();
 	}
 	/*
 	 * Saves new active bank by id
@@ -432,15 +403,10 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function setActiveBankById($bankId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'UPDATE `yetiforce_currencyupdate_banks` SET `active` = 0;';
-		$db->query($query);
-
-		$query = 'UPDATE `yetiforce_currencyupdate_banks` SET `active` = ? WHERE `id` = ? LIMIT 1;';
-		$result = $db->pquery($query, [1, $bankId]);
-
-		if ($db->getAffectedRowCount($result)) {
+		$db = \App\DB::getInstance();
+		$db->update('yetiforce_currencyupdate_banks',['active' => 0])->execute();
+		$result = $db->update('yetiforce_currencyupdate_banks', ['active' => 1],['id' => $bankId])->execute();
+		if ($result) {
 			return true;
 		} else {
 			return false;
@@ -453,11 +419,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getActiveBankName()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT `bank_name` FROM `yetiforce_currencyupdate_banks` WHERE `active` = 1 LIMIT 1;';
-		$result = $db->query($query);
-
-		return $db->getSingleValue($result);
+		$db = new \App\db\Query();
+		$db->select('bank_name')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1);
+		return $db->scalar();
 	}
 }
