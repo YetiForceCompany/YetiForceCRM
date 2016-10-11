@@ -15,7 +15,7 @@ class Debuger
 
 	static public function init()
 	{
-		if (AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
+		if (\AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
 			static::initConsole();
 		}
 	}
