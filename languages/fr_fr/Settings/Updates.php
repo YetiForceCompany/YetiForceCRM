@@ -20,4 +20,5 @@ $languageStrings = [
 	'LBL_UPDATES' => 'Mises à jour',
 	'LBL_UPDATES_DESCRIPTION' => 'Historique des mises à jour',
 	'LBL_IMPORT_UPDATE' => 'Importer les mises à jour ',
+	'LBL_NAME_PACKAGES' => 'Name',
 ];
