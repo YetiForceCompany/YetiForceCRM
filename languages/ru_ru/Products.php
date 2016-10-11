@@ -95,4 +95,5 @@ $languageStrings = [
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Ограниченный список продуктов и услуг, связанных с возможностью продажи',
 	'FL_EAN_13' => 'EAN-13',
 	'FL_QTY_IN_STOCK' => 'Количество на складе',
+	'FL_POS' => 'POS',
 ];
