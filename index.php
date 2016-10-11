@@ -12,7 +12,9 @@
 $startTime = microtime(true);
 
 define('REQUEST_MODE', 'WebUI');
-define('ROOT_DIRECTORY', __DIR__);
+if (__DIR__ !== DIRECTORY_SEPARATOR) {
+	define('ROOT_DIRECTORY', __DIR__);
+}
 
 require 'include/RequirementsValidation.php';
 require 'include/Webservices/Relation.php';
