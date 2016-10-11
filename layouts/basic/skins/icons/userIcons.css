@@ -293,10 +293,10 @@
     content: "\e938";
 }
 
-.userIcon-HelpDesk:before {
+.userIcon-HelpDesk:before,.userIcon-Support:before {
 	content: "\f145";
 }
-.userIcon-HelpDesk {
+.userIcon-HelpDesk,.userIcon-Support {
     font: normal normal normal 14px/1 FontAwesome;
 	text-rendering: auto;
     -webkit-font-smoothing: antialiased;
