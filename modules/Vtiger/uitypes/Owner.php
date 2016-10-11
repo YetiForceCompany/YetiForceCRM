@@ -27,13 +27,15 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$ownerName = \includes\fields\Owner::getLabel($value);
+		$userModel = Users_Privileges_Model::getInstanceById($value);
+		$ownerName = $userModel->getName();
 		if ($rawText) {
 			return $ownerName;
 		}
+		if ($userModel->get('status') === 'Inactive') {
+			$ownerName = '<span class="redColor">' . $ownerName . '</span>';
+		}
 		if (\includes\fields\Owner::getType($value) === 'Users') {
-			$userModel = Users_Record_Model::getCleanInstance('Users');
-			$userModel->set('id', $value);
 			$detailViewUrl = $userModel->getDetailViewUrl();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
