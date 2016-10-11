@@ -552,7 +552,7 @@ class Owner
 			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
-			$users = $instance->initUsers();
+			$users = $instance->initUsers('Inactive');
 		}
 		$result = isset($users[$id]) ? 'Users' : 'Groups';
 		self::$typeCache[$id] = $result;
