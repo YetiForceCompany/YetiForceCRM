@@ -529,9 +529,9 @@ class Owner
 		} else {
 			$instance = new self();
 			if ($single) {
-				$users = $instance->initUsers('Active', $id);
+				$users = $instance->initUsers('Inactive', $id);
 			} else {
-				$users = $instance->initUsers();
+				$users = $instance->initUsers('Inactive');
 			}
 		}
 		foreach ($users as $uid => &$user) {
