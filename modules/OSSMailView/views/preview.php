@@ -94,7 +94,7 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 	public function getModalScripts(Vtiger_Request $request)
 	{
 		$scripts = [
-			'~layouts\basic\modules\OSSMailView\resources\preview.js'
+			'~layouts/basic/modules/OSSMailView/resources/preview.js'
 		];
 		$modalScripts = $this->checkAndConvertJsScripts($scripts);
 		return $modalScripts;
