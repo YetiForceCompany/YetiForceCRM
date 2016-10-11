@@ -32,6 +32,8 @@ $languageStrings = [
 	'LBL_REVIEW_HISTORY' => 'Historie anzeigen',
 	'LBL_REVIEWED' => 'Betrachtet',
 	'BTN_CHANGES_REVIEWED_ON' => 'Änderungen betrachtet am',
+	'LBL_NUMBER_UNREAD_MAILS' => 'Number of unread emails',
+	'LBL_NUMBER_UNREAD_CHANGES' => 'Number of unread changes',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Aufgrund der Beschränkung von Datenaktualisierungen, wurde die Aktion in die Hintergrundverarbeitung eingeplant.',
 	'LBL_ESTIMATED_TIME' => 'geschätzte Zeit',
 ];
