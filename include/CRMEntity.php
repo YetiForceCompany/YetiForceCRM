@@ -53,7 +53,7 @@ class CRMEntity
 	static function getInstance($module)
 	{
 		$modName = $module;
-		if ($module == 'Calendar' || $module == 'Events') {
+		if ($module === 'Calendar' || $module === 'Events') {
 			$module = 'Calendar';
 			$modName = 'Activity';
 		}

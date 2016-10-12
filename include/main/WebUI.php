@@ -109,10 +109,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		if ($this->isInstalled() === false) {
 			header('Location:install/Install.php');
 		}
-		$request_URL = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		if (AppConfig::main('forceRedirect') && stripos($request_URL, AppConfig::main('site_URL')) !== 0) {
-			header('Location: ' . AppConfig::main('site_URL'), true, 301);
-			throw new \Exception\AppException('Force Redirect');
+		if (AppConfig::main('forceRedirect')) {
+			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			if (stripos($requestUrl, AppConfig::main('site_URL')) !== 0) {
+				header('Location: ' . AppConfig::main('site_URL'), true, 301);
+			}
 		}
 		Vtiger_Session::init();
 
