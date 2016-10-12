@@ -66,6 +66,16 @@ class Debuger
 			}
 			$targets['file'] = $target;
 		}
+		if (\AppConfig::debug('LOG_TO_PROFILE')) {
+			$levels = \AppConfig::debug('LOG_LEVELS');
+			$target = [
+				'class' => 'App\log\Profiling'
+			];
+			if ($levels !== false) {
+				$target['levels'] = $levels;
+			}
+			$targets['profiling'] = $target;
+		}
 		Yii::createObject([
 			'class' => 'yii\log\Dispatcher',
 			'traceLevel' => \AppConfig::debug('LOG_TRACE_LEVEL'),

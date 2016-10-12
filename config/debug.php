@@ -9,6 +9,8 @@ $DEBUG_CONFIG = [
 	'LOG_TO_FILE' => false,
 	// Enable displaying logs in debug console. Values: false/true
 	'LOG_TO_CONSOLE' => false,
+	//
+	'LOG_TO_PROFILE' => false,
 	// Level of saved/displayed logs
 	// Examples: false,3,['error', 'warning', 'info', 'trace', 'profile'], 
 	'LOG_LEVELS' => false,
