@@ -8,7 +8,7 @@ $languageStrings = [
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
 	'LBL_DESCRIPTION_INFORMATION' => 'Informacje opisowe',
 	//FIELDS
-	'LBL_SUBJECT' => 'Temat',
+	'LBL_SUBJECT' => 'Nazwa',
 	'LBL_NUMBER' => 'Numer',
 	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
 	'LBL_VAT_ID' => 'NIP',
