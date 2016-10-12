@@ -64,32 +64,46 @@ class API_DAV_Model
 
 	public function getAllUser($type = 0)
 	{
-		$db = PearDatabase::getInstance();
+		$db = new App\db\Query();
 		if ($type == 0) {
-			$sql = 'SELECT dav_users.*,dav_addressbooks.id AS addressbooksid, dav_calendars.id AS calendarsid, dav_principals.email, dav_principals.displayname, vtiger_users.status, vtiger_users.id AS userid, vtiger_users.user_name '
-				. 'FROM dav_users '
-				. 'INNER JOIN vtiger_users ON vtiger_users.id = dav_users.userid '
-				. 'INNER JOIN dav_principals ON dav_principals.userid = dav_users.userid '
-				. 'LEFT JOIN dav_addressbooks ON dav_addressbooks.principaluri = dav_principals.uri '
-				. 'LEFT JOIN dav_calendars ON dav_calendars.principaluri = dav_principals.uri;';
+			$db->select([
+					'dav_users.*',
+					'addressbooksid' => 'dav_addressbooks.id',
+					'calendarsid' => 'dav_calendars.id',
+					'dav_principals.email',
+					'dav_principals.displayname',
+					'vtiger_users.status',
+					'userid' => 'vtiger_users.id',
+					'vtiger_users.user_name'
+				])->from('dav_users')
+				->innerJoin('vtiger_users', 'vtiger_users.id = dav_users.userid')
+				->innerJoin('dav_principals', 'dav_principals.userid = dav_users.userid')
+				->leftJoin('dav_addressbooks', 'dav_addressbooks.principaluri = dav_principals.uri')
+				->leftJoin('dav_calendars', 'dav_calendars.principaluri = dav_principals.uri');
 		} elseif ($type == 1) {
-			$sql = "SELECT dav_users.id AS david, dav_users.userid AS userid, dav_addressbooks.id AS addressbooksid FROM dav_users"
-				. " INNER JOIN vtiger_users ON vtiger_users.id = dav_users.userid"
-				. " INNER JOIN dav_principals ON dav_principals.userid = dav_users.userid"
-				. " INNER JOIN dav_addressbooks ON dav_addressbooks.principaluri = dav_principals.uri"
-				. " WHERE vtiger_users.status = 'Active';";
+			$db->select([
+				'david' => 'dav_users.id',
+				'userid' => 'dav_users.userid',
+				'addressbooksid' => 'dav_addressbooks.id'
+			])->from('dav_users')
+				->innerJoin('vtiger_users', 'vtiger_users.id = dav_users.userid')
+				->innerJoin('dav_principals', 'dav_principals.userid = dav_users.userid')
+				->innerJoin('dav_addressbooks', 'dav_addressbooks.principaluri = dav_principals.uri')
+				->where(['vtiger_users.status' => 'Active']);
 		} elseif ($type == 2) {
-			$sql = "SELECT dav_users.id AS david, dav_users.userid AS userid, dav_calendars.id AS calendarsid FROM dav_users"
-				. " INNER JOIN vtiger_users ON vtiger_users.id = dav_users.userid"
-				. " INNER JOIN dav_principals ON dav_principals.userid = dav_users.userid"
-				. " INNER JOIN dav_calendars ON dav_calendars.principaluri = dav_principals.uri"
-				. " WHERE vtiger_users.status = 'Active';";
+			$db->select([
+				'david' => 'dav_users.id',
+				'userid' => 'dav_users.userid',
+				'calendarsid' => 'dav_calendars.id'
+			])->from('dav_users')
+				->innerJoin('vtiger_users', 'vtiger_users.id = dav_users.userid')
+				->innerJoin('dav_principals', 'dav_principals.userid = dav_users.userid')
+				->innerJoin('dav_calendars', 'dav_calendars.principaluri = dav_principals.uri')
+				->where(['vtiger_users.status' => 'Active']);
 		}
-		$result = $db->query($sql);
-		$rows = $db->num_rows($result);
-		$users = Array();
-		for ($i = 0; $i < $rows; $i++) {
-			$row = $db->raw_query_result_rowdata($result, $i);
+		$dataReader = $db->createCommand()->query();
+		$users = [];
+		while ($row = $dataReader->read()) {
 			$users[$row['userid']] = $row;
 		}
 		return $users;

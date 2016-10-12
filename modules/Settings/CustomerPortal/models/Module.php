@@ -53,8 +53,8 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
 			$db = new App\db\Query();
 			$db->select(['vtiger_customerportal_tabs.*', 'vtiger_customerportal_prefs.prefvalue', 'vtiger_tab.name'])
 				->from('vtiger_customerportal_tabs')
-				->innerJoin('vtiger_customerportal_prefs', 'vtiger_customerportal_prefs.tabid = vtiger_customerportal_tabs.tabid AND vtiger_customerportal_prefs.prefkey = :pref', ['pref' => 'showrelatedinfo'])
-				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_customerportal_tabs.tabid AND vtiger_tab.presence = :pres', ['pres' => 0])
+				->innerJoin('vtiger_customerportal_prefs', 'vtiger_customerportal_prefs.tabid = vtiger_customerportal_tabs.tabid AND vtiger_customerportal_prefs.prefkey = :pref', [':pref' => 'showrelatedinfo'])
+				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_customerportal_tabs.tabid AND vtiger_tab.presence = :pres', [':pres' => 0])
 				->orderBy('vtiger_customerportal_tabs.sequence');
 			$dataReader = $db->createCommand()->query();
 			while ($row = $dataReader->read()) {

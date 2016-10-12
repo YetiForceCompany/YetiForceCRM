@@ -284,7 +284,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		else {
 			$db = new App\db\Query();
 			$db->from('yetiforce_currencyupdate')
-				->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', ['del' => 0])
+				->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', [':del' => 0])
 				->where(['yetiforce_currencyupdate.exchange_date' => $date,
 					'yetiforce_currencyupdate.bank_id' => $activeBankId,
 					'vtiger_currency_info.currency_code' => $to])
@@ -297,7 +297,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			$db = new App\db\Query();
 			$db->select('yetiforce_currencyupdate.exchange')
 				->from('yetiforce_currencyupdate')
-				->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', ['del' => 0])
+				->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', [':del' => 0])
 				->where(['yetiforce_currencyupdate.exchange_date' => $date,
 					'yetiforce_currencyupdate.bank_id' => $activeBankId,
 					'vtiger_currency_info.currency_code' => $to])
@@ -312,7 +312,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 				$db = new App\db\Query();
 				$db->select('yetiforce_currencyupdate.exchange')
 					->from('yetiforce_currencyupdate')
-					->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', ['del' => 0])
+					->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', [':del' => 0])
 					->where(['yetiforce_currencyupdate.exchange_date' => $date,
 						'yetiforce_currencyupdate.bank_id' => $activeBankId,
 						'vtiger_currency_info.currency_code' => $from])
