@@ -446,7 +446,7 @@ class ListViewController
 						$value = '--';
 					}
 				} elseif ($field->getFieldDataType() == 'owner') {
-					$value = vtlib\Functions::textLength($this->ownerNameList[$fieldName][$value], $fieldModel->get('maxlengthtext'));
+					$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value);
 				} elseif ($field->getUIType() == 8) {
 					if (!empty($value)) {
 						$temp_val = html_entity_decode($value, ENT_QUOTES, $default_charset);

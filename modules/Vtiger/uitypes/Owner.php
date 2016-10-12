@@ -56,6 +56,42 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
+	 * Function to get the Display Value in ListView, for the current field type with given DB Insert Value
+	 * @param mixed $value
+	 * @return string
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		$maxLengthText = $this->get('field')->get('maxlengthtext');
+		$ownerName = vtlib\Functions::textLength(\includes\fields\Owner::getLabel($value), $maxLengthText);
+		if ($rawText) {
+			return $ownerName;
+		}
+		if (\includes\fields\Owner::getType($value) === 'Users') {
+			$userModel = Users_Privileges_Model::getInstanceById($value);
+			$userModel->setModule('Users');
+			$ownerName = vtlib\Functions::textLength($userModel->getName(), $maxLengthText);
+			if ($userModel->get('status') === 'Inactive') {
+				$ownerName = '<span class="redColor">' . $ownerName . '</span>';
+			}
+			$detailViewUrl = $userModel->getDetailViewUrl();
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			if (!$currentUser->isAdminUser() || $rawText) {
+				return $ownerName;
+			}
+		} else {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			if (!$currentUser->isAdminUser() || $rawText) {
+				return $ownerName;
+			}
+			$recordModel = new Settings_Groups_Record_Model();
+			$recordModel->set('groupid', $value);
+			$detailViewUrl = $recordModel->getDetailViewUrl();
+		}
+		return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
+	}
+
+	/**
 	 * Function to get Display value for RelatedList
 	 * @param <String> $value
 	 * @return <String>
