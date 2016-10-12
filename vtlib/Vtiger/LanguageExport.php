@@ -116,12 +116,11 @@ class LanguageExport extends Package
 	 */
 	public function export_Dependencies($moduleInstance)
 	{
-		$vtigerMinVersion = \AppConfig::main('YetiForce_current_version');
-		$vtigerMaxVersion = current(explode('.', $vtigerMinVersion)) . '.*';
+		$minVersion = current(explode('.', \App\Version::get())) . '.*';
 		$this->openNode('dependencies');
 		$this->outputNode($vtigerMinVersion, 'vtiger_version');
-		if ($vtigerMaxVersion !== false)
-			$this->outputNode($vtigerMaxVersion, 'vtiger_max_version');
+		if ($minVersion !== false)
+			$this->outputNode($minVersion, 'vtiger_max_version');
 		$this->closeNode('dependencies');
 	}
 

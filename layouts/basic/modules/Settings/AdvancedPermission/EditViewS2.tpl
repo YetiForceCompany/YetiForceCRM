@@ -18,7 +18,7 @@
 			<div class="row">
 				<div class="col-md-5 pull-right">
 					<span class="pull-right">
-						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE_AND_CONDITIONS', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</div>

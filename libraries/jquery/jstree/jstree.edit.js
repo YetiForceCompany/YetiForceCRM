@@ -4,11 +4,9 @@
 	"use strict";
 	if (typeof define === 'function' && define.amd) {
 		define('jstree.edit', ['jquery', 'jstree'], factory);
-	}
-	else if (typeof exports === 'object') {
+	} else if (typeof exports === 'object') {
 		factory(require('jquery'), require('jstree'));
-	}
-	else {
+	} else {
 		factory(jQuery, jQuery.jstree);
 	}
 }(function ($, jstree, undefined) {
@@ -22,7 +20,7 @@
 		deleteClass: ' glyphicon-remove-circle'
 	};
 	var _i = document.createElement('I');
-	_i.className = 'jstree-edit glyphicon';
+	_i.className = 'jstree-edit glyphicon noAction';
 	_i.setAttribute('role', 'presentation');
 	$.jstree.plugins.edit = function (options, parent) {
 		this.bind = function () {

@@ -155,6 +155,9 @@ class CurrencyField
 		$this->initialize($user);
 
 		$value = $this->value;
+		if (empty($value)) {
+			$value = 0;
+		}
 		if ($skipConversion === false) {
 			$value = self::convertFromDollar($value, $this->conversionRate);
 		}

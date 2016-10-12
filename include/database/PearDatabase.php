@@ -154,7 +154,7 @@ class PearDatabase
 		if ($this->dieOnError || $dieOnError) {
 			$backtrace = false;
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				$backtrace = vtlib\Functions::getBacktrace();
+				$backtrace = \App\Debuger::getBacktrace();
 			}
 			$message = [
 				'message' => $message,

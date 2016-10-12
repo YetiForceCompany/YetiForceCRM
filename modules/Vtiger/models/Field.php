@@ -436,11 +436,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isEditableReadOnly()
 	{
 		$isEditableReadOnly = $this->get('isEditableReadOnly');
+
 		if ($isEditableReadOnly !== null) {
 			return $isEditableReadOnly;
 		}
-		$displayType = (int) $this->get('displaytype');
-		if ($displayType == 10) {
+		if ((int) $this->get('displaytype') === 10) {
 			return true;
 		}
 		return false;

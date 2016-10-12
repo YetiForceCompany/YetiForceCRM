@@ -327,8 +327,9 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 		$currentModule = vglobal('currentModule');
 		$current_language = vglobal('current_language');
-		if (empty($currentModule))
-			$currentModule = 'Reports';
+		if (empty($currentModule)) {
+			vglobal('currentModule', 'Reports');
+		}	
 		if (empty($current_language))
 			vglobal('current_language', 'en_us');
 

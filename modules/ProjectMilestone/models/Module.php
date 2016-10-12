@@ -11,6 +11,22 @@
 class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 {
 
+	/**
+	 * Add condition to sql query
+	 * @param <Vtiger_ListView_Model> $listviewModel
+	 * @param string $listQuery
+	 * @return string
+	 */
+	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, $listQuery)
+	{
+		if ($listviewModel->get('src_module') == 'Project' && !$listviewModel->isEmpty('filterFields')) {
+			$filterFields = $listviewModel->get('filterFields');
+			if (!empty($filterFields['projectid'])) {
+				return $listQuery . ' AND projectid = ' . $filterFields['projectid'];
+			}
+		}
+	}
+
 	public function updateProgressMilestone($id)
 	{
 		$adb = PearDatabase::getInstance();

@@ -38,18 +38,4 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 		}
 	}
 
-	public function saveType(Vtiger_Request $request)
-	{
-		$db = PearDatabase::getInstance();
-		$insertParams = [
-			'name' => $request->get('name'),
-			'role' => $request->get('roleId'),
-		];
-		if (($id = $request->get('id')) == 0) {
-			$insertParams['id'] = $db->getUniqueID('a_yf_notification_type');
-			$db->insert('a_yf_notification_type', $insertParams);
-		} else {
-			$db->update('a_yf_notification_type', $insertParams, 'id = ?', [$id]);
-		}
-	}
 }

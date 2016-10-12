@@ -22,22 +22,6 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->get('currency_name');
 	}
 
-	public function isDisabledRestricted()
-	{
-		$db = PearDatabase::getInstance();
-		$disabledRestircted = $this->get('_disable_restricted');
-		if (!empty($disabledRestircted)) {
-			return $disabledRestircted;
-		}
-		$query = 'SELECT 1 FROM vtiger_users WHERE currency_id = ?';
-		$params = array($this->getId());
-		$result = $db->pquery($query, $params);
-
-		$disabledRestircted = ($db->num_rows($result) > 0 ) ? true : false;
-		$this->set('_disable_restricted', $disabledRestircted);
-		return $disabledRestircted;
-	}
-
 	public function isBaseCurrency()
 	{
 		return ($this->get('defaultid') != '-11') ? false : true;
@@ -77,44 +61,44 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	public function save()
 	{
 		$db = PearDatabase::getInstance();
-		$ID = $this->getId();
+		$id = $this->getId();
 		$tableName = Settings_Currency_Module_Model::tableName;
-		if (!empty($ID)) {
-			$db->update($tableName, [
-				'currency_name' => $this->get('currency_name'),
-				'currency_code' => $this->get('currency_code'),
-				'currency_status' => $this->get('currency_status'),
-				'currency_symbol' => $this->get('currency_symbol'),
-				'conversion_rate' => $this->get('conversion_rate'),
-				'deleted' => $this->getDeleteStatus()
-				], 'id = ?', [$ID]);
+		if (!empty($id)) {
+			$query = \App\DB::getInstance()->createCommand()->update($tableName, [
+					'currency_name' => $this->get('currency_name'),
+					'currency_code' => $this->get('currency_code'),
+					'currency_status' => $this->get('currency_status'),
+					'currency_symbol' => $this->get('currency_symbol'),
+					'conversion_rate' => $this->get('conversion_rate'),
+					'deleted' => $this->getDeleteStatus()
+					], ['id' => $id])->execute();
 		} else {
-			$ID = $db->getUniqueID($tableName);
-			$db->insert($tableName, [
-				'id' => $ID,
-				'currency_name' => $this->get('currency_name'),
-				'currency_code' => $this->get('currency_code'),
-				'currency_status' => $this->get('currency_status'),
-				'currency_symbol' => $this->get('currency_symbol'),
-				'conversion_rate' => $this->get('conversion_rate'),
-				'defaultid' => 0,
-				'deleted' => 0
-			]);
+			$id = $db->getUniqueID($tableName);
+			\App\DB::getInstance()->createCommand()
+				->insert($tableName, [
+					'id' => $id,
+					'currency_name' => $this->get('currency_name'),
+					'currency_code' => $this->get('currency_code'),
+					'currency_status' => $this->get('currency_status'),
+					'currency_symbol' => $this->get('currency_symbol'),
+					'conversion_rate' => $this->get('conversion_rate'),
+					'defaultid' => 0,
+					'deleted' => 0
+				])->execute();
 		}
-		return $ID;
+		return $id;
 	}
 
-	public static function getInstance($ID)
+	public static function getInstance($id)
 	{
-		$db = PearDatabase::getInstance();
-		if (vtlib\Utils::isNumber($ID)) {
-			$query = sprintf('SELECT * FROM %s WHERE id = ?', Settings_Currency_Module_Model::tableName);
+		$db = (new App\db\Query())->from(Settings_Currency_Module_Model::tableName);
+		if (vtlib\Utils::isNumber($id)) {
+			$query = $db->where(['id' => $id]);
 		} else {
-			$query = sprintf('SELECT * FROM %s WHERE currency_name = ?', Settings_Currency_Module_Model::tableName);
+			$query = $db->where(['currency_name' => $id]);
 		}
-		$result = $db->pquery($query, [$ID]);
-		if ($db->getRowCount($result) > 0) {
-			$row = $db->getRow($result);
+		$row = $query->createCommand()->queryOne();
+		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
 		}

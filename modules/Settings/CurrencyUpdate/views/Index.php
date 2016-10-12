@@ -12,7 +12,6 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 	{
 		
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
-		$db = PearDatabase::getInstance();
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -52,11 +51,11 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		$history = $moduleModel->getRatesHistory($selectBankId, $dateCur, $request);
 		$bankTab = array();
 
-		$bankSQL = "SELECT * FROM yetiforce_currencyupdate_banks";
-		$bankResult = $db->query($bankSQL, true);
-
+		$db = new \App\db\Query();
+		$db->from('yetiforce_currencyupdate_banks');
+		$dataReader = $db->createCommand()->query();
 		$i = 0;
-		while ($row = $db->fetchByAssoc($bankResult)) {
+		while ($row = $dataReader->read()) {
 			$bankTab[$i]['id'] = $row['id'];
 			$bankName = $row['bank_name'];
 			$bankTab[$i]['bank_name'] = $bankName;

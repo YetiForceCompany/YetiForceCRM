@@ -10,10 +10,10 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 {
 	/**
 	 * Return search params (use to in bulding address URL to listview)
-	 * @param type $priority
-	 * @param type $time
-	 * @param type $owner
-	 * @return type
+	 * @param string $priority
+	 * @param array $time
+	 * @param int $owner
+	 * @return string
 	 */
 	public function getSearchParams($priority, $time, $owner)
 	{
@@ -32,9 +32,9 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 
 	/**
 	 * Function returns Tickets grouped by priority
-	 * @param <Array> $time
+	 * @param array $time
 	 * @param int $owner
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getTicketsByPriority($time, $owner)
 	{

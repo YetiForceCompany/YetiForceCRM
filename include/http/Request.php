@@ -69,9 +69,9 @@ class Vtiger_Request
 			}
 		}
 
-		//Handled for null because vtlib_purify returns empty string
+		//Handled for null because App\Purifier::purify returns empty string
 		if (!empty($value)) {
-			$value = vtlib_purify($value);
+			$value = App\Purifier::purify($value);
 		}
 		$this->valueMap[$key] = $value;
 		return $value;
@@ -121,9 +121,9 @@ class Vtiger_Request
 			}
 		}
 
-		//Handled for null because vtlib_purifyForHtml returns empty string
+		//Handled for null because \App\Purifier::purifyHtml returns empty string
 		if (!empty($value)) {
-			$value = vtlib_purifyForHtml($value);
+			$value = \App\Purifier::purifyHtml($value);
 		}
 		return $value;
 	}

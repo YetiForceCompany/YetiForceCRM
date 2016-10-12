@@ -1,13 +1,9 @@
 <?php
-/* +*******************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * ****************************************************************************** */
-$patch_version = '20161004';
-$YetiForce_current_version = '3.3.93';
-$_SESSION['yetiforce_version'] = $YetiForce_current_version;
+return [
+	'appVersion' => '3.4.46',
+	'patchVersion' => '2016.10.12',
+	'lib_mPDF' => '0.0.0',
+	'lib_roundcube' => '0.0.3',
+	'lib_PHPExcel' => '0.0.0',
+	'lib_AJAXChat' => '0.0.0',
+];

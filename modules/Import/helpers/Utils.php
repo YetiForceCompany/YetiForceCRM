@@ -214,7 +214,7 @@ class Import_Utils_Helper
 		if ($cache->getGroupList($module, $current_user->id)) {
 			return $cache->getGroupList($module, $current_user->id);
 		} else {
-			$groupList = \includes\fields\Owner::getInstance()->getGroups(false, 'Active', $current_user->id);
+			$groupList = \includes\fields\Owner::getInstance()->getGroups(false);
 			$cache->setGroupList($module, $groupList, $current_user->id);
 			return $groupList;
 		}

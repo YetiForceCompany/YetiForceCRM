@@ -78,22 +78,22 @@ class Vtiger_Util_Helper
 		$months = floor($days / 30);
 
 		if ($seconds < 60)
-			return $prefix . self::pluralize($seconds, "LBL_SECOND") . $suffix;
+			return $prefix . self::pluralize($seconds, 'LBL_SECOND') . $suffix;
 		if ($minutes < 60)
-			return $prefix . self::pluralize($minutes, "LBL_MINUTE") . $suffix;
+			return $prefix . self::pluralize($minutes, 'LBL_MINUTE') . $suffix;
 		if ($hours < 24)
-			return $prefix . self::pluralize($hours, "LBL_HOUR") . $suffix;
+			return $prefix . self::pluralize($hours, 'LBL_HOUR') . $suffix;
 		if ($days < 30)
-			return $prefix . self::pluralize($days, "LBL_DAY") . $suffix;
+			return $prefix . self::pluralize($days, 'LBL_DAY') . $suffix;
 		if ($months < 12)
-			return $prefix . self::pluralize($months, "LBL_MONTH") . $suffix;
+			return $prefix . self::pluralize($months, 'LBL_MONTH') . $suffix;
 		if ($months > 11){
 			$month = $months % 12;
 			$monthAgo = '';
 			if ($month != 0) {
-				$monthAgo = self::pluralize($month, "LBL_MONTH");
+				$monthAgo = self::pluralize($month, 'LBL_MONTH');
 			}
-			$result = self::pluralize(floor($months / 12), "LBL_YEAR") . ' ' . $monthAgo;
+			$result = self::pluralize(floor($months / 12), 'LBL_YEAR') . ' ' . $monthAgo;
 			return $prefix . $result . $suffix;
 		}
 			
@@ -139,7 +139,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function validateStringForSql($string, $skipEmpty = true)
 	{
-		if (vtlib_purifyForSql($string, $skipEmpty)) {
+		if (\App\Purifier::purifySql($string, $skipEmpty)) {
 			return $string;
 		}
 		return false;

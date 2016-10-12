@@ -45,6 +45,8 @@
 class SMTP
 {
 
+	public $verify_peer = false;
+
 	/**
 	 *  SMTP server port
 	 *  @var int
@@ -130,11 +132,23 @@ class SMTP
 		}
 
 		// connect to the smtp server
-		$this->smtp_conn = @fsockopen($host, // the host of the server
+		if ($this->verify_peer) {
+			$context = stream_context_create([
+				'ssl' => [
+					'verify_peer' => false,
+					'verfify_peer_name' => false,
+					'ciphers' => 'DHE-RSA-AES256-SHA:DHE-DSS-AES256-SHA:AES256-SHA:KRB5-DES-CBC3-MD5:KRB5-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:EDH-DSS-DES-CBC3-SHA:DES-CBC3-SHA:DES-CBC3-MD5:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:RC2-CBC-MD5:KRB5-RC4-MD5:KRB5-RC4-SHA:RC4-SHA:RC4-MD5:RC4-MD5:KRB5-DES-CBC-MD5:KRB5-DES-CBC-SHA:EDH-RSA-DES-CBC-SHA:EDH-DSS-DES-CBC-SHA:DES-CBC-SHA:DES-CBC-MD5:EXP-KRB5-RC2-CBC-MD5:EXP-KRB5-DES-CBC-MD5:EXP-KRB5-RC2-CBC-SHA:EXP-KRB5-DES-CBC-SHA:EXP-EDH-RSA-DES-CBC-SHA:EXP-EDH-DSS-DES-CBC-SHA:EXP-DES-CBC-SHA:EXP-RC2-CBC-MD5:EXP-RC2-CBC-MD5:EXP-KRB5-RC4-MD5:EXP-KRB5-RC4-SHA:EXP-RC4-MD5:EXP-RC4-MD5',
+				],
+			]);
+			$this->smtp_conn = stream_socket_client($host . ':' . $port, $errno, $errstr, $tval, STREAM_CLIENT_CONNECT, $context);
+		} else {
+			$this->smtp_conn = fsockopen($host, // the host of the server
 				$port, // the port to use
 				$errno, // error number if any
 				$errstr, // error message if any
 				$tval);   // give up after ? secs
+		}
+
 		// verify we connected properly
 		if (empty($this->smtp_conn)) {
 			$this->error = array("error" => "Failed to connect to server",

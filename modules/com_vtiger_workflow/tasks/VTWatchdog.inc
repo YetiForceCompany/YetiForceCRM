@@ -39,13 +39,14 @@ class VTWatchdog extends VTTask
 			unset($users[$key]);
 		}
 		foreach ($users as $userId) {
-			$notification = Home_Notification_Model::getInstance();
-			$notification->set('record', $recordId);
-			$notification->set('moduleName', $moduleName);
+			$notification = Vtiger_Record_Model::getCleanInstance('Notification');
+			$notification->set('relatedid', $recordId);
+			$notification->set('assigned_user_id', $userId);
+			$notification->set('relatedmodule', $moduleName);
 			$notification->set('title', $this->title);
-			$notification->set('message', $this->message);
-			$notification->set('type', $this->type);
-			$notification->set('userid', $userId);
+			$notification->set('description', $this->message);
+			$notification->set('notification_type', $this->type);
+			$notification->set('notification_status', 'PLL_UNREAD');
 			$notification->save();
 		}
 	}
@@ -53,10 +54,10 @@ class VTWatchdog extends VTTask
 	public function getAllTypes()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT * FROM a_yf_notification_type');
+		$result = $db->query('SELECT * FROM vtiger_notification_type WHERE presence = 1');
 		$types = [];
 		while ($row = $db->getRow($result)) {
-			$types[$row['id']] = $row;
+			$types[] = $row;
 		}
 		return $types;
 	}

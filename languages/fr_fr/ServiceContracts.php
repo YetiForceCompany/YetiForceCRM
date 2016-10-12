@@ -32,6 +32,7 @@ $languageStrings = [
 	'Archived' => 'Archivé',
 	'Due date' => 'Date due',
 	'Related to' => 'Lié à',
+	'LBL_ACTIVE_SERVICE_CONTRACTS' => 'Active SLA',
 	'Low' => 'Bas',
 	'Normal' => 'Normal',
 	'High' => 'Haut',

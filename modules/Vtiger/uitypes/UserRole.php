@@ -28,7 +28,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Base_UIType
 	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if ($value) {
-			$userName = getRoleName($value);
+			$userName = \App\PrivilegeUtil::getRoleName($value);
 			return $userName;
 		}
 	}

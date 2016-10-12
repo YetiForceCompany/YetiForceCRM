@@ -164,7 +164,6 @@ if (ROOT_DIRECTORY == 'ROOT_DIRECTORY') {
 
 require_once 'config/api.php';
 require_once 'config/config.php';
-require_once 'config/version.php';
 require_once('include/autoload.php');
 
 AppConfig::load('api', $API_CONFIG);
@@ -172,4 +171,3 @@ AppConfig::load('api', $API_CONFIG);
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 // Change of logs directory with PHP errors
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'phpError.log');
-

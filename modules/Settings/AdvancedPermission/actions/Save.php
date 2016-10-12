@@ -39,6 +39,8 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 		$recordModel->set('tabid', $request->get('tabid'));
 		$recordModel->set('action', $request->get('actions'));
 		$recordModel->set('status', $request->get('status'));
+		$recordModel->set('members', $request->get('members'));
+		$recordModel->set('priority', $request->get('priority'));
 		$recordModel->save();
 
 		header("Location: {$recordModel->getEditViewUrl(2)}");
@@ -52,7 +54,7 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 	{
 		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->get('record'));
 		$conditions = Vtiger_AdvancedFilter_Helper::transformToSave($request->get('conditions'));
-		$recordModel->set('conditions', json_encode($conditions));
+		$recordModel->set('conditions', $conditions);
 		$recordModel->save();
 
 		header("Location: {$recordModel->getDetailViewUrl()}");

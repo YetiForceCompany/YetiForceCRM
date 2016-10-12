@@ -107,5 +107,9 @@ $languageStrings = [
 	'LBL_REMAIND_MINS' => 'Remind after selected numer of minutes',
 	'LBL_SELECT_INVITE' => 'Invite others',
 	'LBL_SAVE_AND_CLOSE' => 'Save and close',
+	'LBL_NEEDS-ACTION' => 'Awaiting acceptance',
+	'LBL_ACCEPTED' => 'Accepted',
+	'LBL_DECLINED' => 'Rejected',
+	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill start date based on the first available date',
 ];
 

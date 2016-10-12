@@ -5735,3 +5735,9 @@ select.form-control {
 .activityContainer{
 	padding-left: 35px;
 }
+.bigLabel{
+	font-size: 100%;
+    font-weight: bold;
+	display: block;
+    padding: .7em .5em;
+}

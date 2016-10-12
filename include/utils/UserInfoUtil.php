@@ -15,21 +15,6 @@ require_once 'include/events/include.inc';
 require_once 'include/runtime/Globals.php';
 require_once 'include/runtime/Cache.php';
 
-/** To retreive the mail server info resultset for the specified user
- * @param $user -- The user object:: Type Object
- * @returns  the mail server info resultset
- */
-function getMailServerInfo($user)
-{
-
-	\App\Log::trace("Entering getMailServerInfo(" . $user->user_name . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$sql = "select * from vtiger_mail_accounts where status=1 and user_id=?";
-	$result = $adb->pquery($sql, array($user->id));
-	\App\Log::trace("Exiting getMailServerInfo method ...");
-	return $result;
-}
-
 /** To get the Role of the specified user
  * @param $userid -- The user Id:: Type integer
  * @returns  vtiger_roleid :: Type String
@@ -157,36 +142,6 @@ function getDefaultSharingAction()
 	\App\Log::trace("Exiting getDefaultSharingAction method ...");
 	return $copy;
 }
-/* * This Function returns the Default Organisation Sharing Action Array for all modules
- * The result array will be in the following format:
- * Arr=(tabid1=>Sharing Action Id,
- *      tabid2=>SharingAction Id,
- *            |
- *            |
- *            |
- *      tabid3=>SharingAcion Id)
- */
-
-function getAllDefaultSharingAction()
-{
-
-	\App\Log::trace("Entering getAllDefaultSharingAction() method ...");
-	$adb = PearDatabase::getInstance();
-	$copy = [];
-	//retreiving the standard permissions
-	$sql = "select * from vtiger_def_org_share";
-	$result = $adb->pquery($sql, []);
-	$num_rows = $adb->num_rows($result);
-
-	for ($i = 0; $i < $num_rows; $i++) {
-		$tabid = $adb->query_result($result, $i, 'tabid');
-		$permission = $adb->query_result($result, $i, 'permission');
-		$copy[$tabid] = $permission;
-	}
-
-	\App\Log::trace("Exiting getAllDefaultSharingAction method ...");
-	return $copy;
-}
 
 /** Function to update user to vtiger_role mapping based on the userid
  * @param $roleid -- Role Id:: Type varchar
@@ -210,23 +165,6 @@ function updateUser2RoleMapping($roleid, $userid)
 	$params = array($userid, $roleid);
 	$result = $adb->pquery($sql, $params);
 	\App\Log::trace("Exiting updateUser2RoleMapping method ...");
-}
-
-/** Function to get the vtiger_role name from the vtiger_roleid
- * @param $roleid -- Role Id:: Type varchar
- * @returns $rolename -- Role Name:: Type varchar
- *
- */
-function getRoleName($roleid)
-{
-
-	\App\Log::trace("Entering getRoleName(" . $roleid . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$sql1 = "select * from vtiger_role where roleid=?";
-	$result = $adb->pquery($sql1, array($roleid));
-	$rolename = $adb->query_result($result, 0, "rolename");
-	\App\Log::trace("Exiting getRoleName method ...");
-	return vtranslate($rolename);
 }
 
 /** Function to check if the currently logged in user is permitted to perform the specified action
@@ -867,35 +805,6 @@ function getAllRoleDetails()
 	return $role_det;
 }
 
-/** Function to get the vtiger_role information of the specified vtiger_role
- * @param $roleid -- RoleId :: Type varchar
- * @returns $roleInfoArray-- RoleInfoArray in the following format:
- *       $roleInfo=Array($roleId=>Array($rolename,$parentrole,$roledepth,$immediateParent));
- */
-function getRoleInformation($roleid)
-{
-
-	\App\Log::trace('Entering getRoleInformation(' . $roleid . ') method ...');
-	$adb = PearDatabase::getInstance();
-
-	$row = Vtiger_Cache::get('getRoleInformation', $roleid);
-	if ($row !== false) {
-		return $row;
-	}
-
-	$result = $adb->pquery('select * from vtiger_role where roleid=?', [$roleid]);
-	$row = $adb->fetch_array($result);
-
-	$parentrole = $row['parentrole'];
-	$parentRoleArr = explode('::', $parentrole);
-	$immediateParent = $parentRoleArr[sizeof($parentRoleArr) - 2];
-	$row['immediateParent'] = $immediateParent;
-
-	Vtiger_Cache::set('getRoleInformation', $roleid, $row);
-	\App\Log::trace('Exiting getRoleInformation method ...');
-	return $row;
-}
-
 /** Function to get the vtiger_role related vtiger_users
  * @param $roleid -- RoleId :: Type varchar
  * @returns $roleUsers-- Role Related User Array in the following format:
@@ -932,7 +841,7 @@ function getRoleUsers($roleId)
  */
 function getRoleUserIds($roleId)
 {
-	return \App\PrivilegeUtil::getRoleUserIds($roleId);
+	return \App\PrivilegeUtil::getUsersByRole($roleId);
 }
 
 /** Function to get the vtiger_role and subordinate vtiger_users
@@ -945,7 +854,7 @@ function getRoleAndSubordinateUsers($roleId)
 
 	\App\Log::trace("Entering getRoleAndSubordinateUsers(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$roleInfoArr = getRoleInformation($roleId);
+	$roleInfoArr = \App\PrivilegeUtil::getRoleDetail($roleId);
 	$parentRole = $roleInfoArr['parentrole'];
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?";
 	$result = $adb->pquery($query, array($parentRole . "%"));
@@ -972,7 +881,7 @@ function getRoleAndSubordinatesInformation($roleId)
 	if (!empty($roleInfoCache[$roleId])) {
 		return $roleInfoCache[$roleId];
 	}
-	$roleDetails = getRoleInformation($roleId);
+	$roleDetails = \App\PrivilegeUtil::getRoleDetail($roleId);
 	$roleParentSeq = $roleDetails['parentrole'];
 
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
@@ -1005,7 +914,7 @@ function getRoleAndSubordinatesRoleIds($roleId)
 
 	\App\Log::trace("Entering getRoleAndSubordinatesRoleIds(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$roleDetails = getRoleInformation($roleId);
+	$roleDetails = \App\PrivilegeUtil::getRoleDetail($roleId);
 	$roleParentSeq = $roleDetails['parentrole'];
 
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
@@ -1392,28 +1301,6 @@ function getCombinedUserActionPermissions($userId)
 	return $actionPerrArr;
 }
 
-/** To retreive the parent vtiger_role of the specified vtiger_role
- * @param $roleid -- The Role Id:: Type varchar
- * @returns  parent vtiger_role array in the following format:
- *     $parentRoleArray=(roleid1,roleid2,.......,roleidn);
- */
-function getParentRole($roleId)
-{
-
-	\App\Log::trace("Entering getParentRole(" . $roleId . ") method ...");
-	$roleInfo = getRoleInformation($roleId);
-	$parentRole = $roleInfo['parentrole'];
-	$tempParentRoleArr = explode('::', $parentRole);
-	$parentRoleArr = [];
-	foreach ($tempParentRoleArr as $role_id) {
-		if ($role_id != $roleId) {
-			$parentRoleArr[] = $role_id;
-		}
-	}
-	\App\Log::trace("Exiting getParentRole method ...");
-	return $parentRoleArr;
-}
-
 /** To retreive the subordinate vtiger_roles of the specified parent vtiger_role
  * @param $roleid -- The Role Id:: Type varchar
  * @returns  subordinate vtiger_role array in the following format:
@@ -1429,7 +1316,7 @@ function getRoleSubordinates($roleId)
 
 	if ($roleSubordinates === false) {
 		$adb = PearDatabase::getInstance();
-		$roleDetails = getRoleInformation($roleId);
+		$roleDetails = \App\PrivilegeUtil::getRoleDetail($roleId);
 		$roleParentSeq = $roleDetails['parentrole'];
 
 		$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";

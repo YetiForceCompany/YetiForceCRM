@@ -243,9 +243,9 @@ class Functions
 		}
 
 		if ($reload) {
-			$adb = \PearDatabase::getInstance();
-			$result = $adb->query('SELECT * FROM vtiger_tab');
-			while ($row = $adb->fetch_array($result)) {
+			$query = (new \App\db\Query())->from('vtiger_tab');
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
 				self::$moduleNameIdCache[$row['name']] = $row;
 				self::$moduleIdDataCache[$row['tabid']] = $row;
@@ -447,16 +447,6 @@ class Functions
 		if (is_string($string)) {
 			if (preg_match('/(script).*(\/script)/i', $string)) {
 				$string = preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
-			}
-		}
-		return $string;
-	}
-
-	public static function fromHTML_FCK($string)
-	{
-		if (is_string($string)) {
-			if (preg_match('/(script).*(\/script)/i', $string)) {
-				$string = str_replace('script', '', $string);
 			}
 		}
 		return $string;
@@ -990,12 +980,13 @@ class Functions
 			}
 		}
 		$savedHTML = $doc->saveHTML();
+		$savedHTML = preg_replace('/<!DOCTYPE[^>]+\>/', '', $savedHTML);
 		$savedHTML = preg_replace('/<html[^>]+\>/', '', $savedHTML);
 		$savedHTML = preg_replace('/<body[^>]+\>/', '', $savedHTML);
 		$savedHTML = preg_replace('#<head(.*?)>(.*?)</head>#is', '', $savedHTML);
 		$savedHTML = preg_replace('/<!--(.*)-->/Uis', '', $savedHTML);
 		$savedHTML = str_replace(['</html>', '</body>', '<?xml encoding="utf-8" ?>'], ['', '', ''], $savedHTML);
-		return $savedHTML;
+		return trim($savedHTML);
 	}
 
 	public static function getHtmlOrPlainText($content)
@@ -1059,82 +1050,6 @@ class Functions
 				copy($item, $rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
 			}
 		}
-	}
-
-	protected static $browerCache = false;
-
-	public static function getBrowserInfo()
-	{
-		if (!self::$browerCache) {
-			$HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
-
-			$browser = new \stdClass;
-			$browser->ver = 0;
-			$browser->https = false;
-			$browser->win = strpos($HTTP_USER_AGENT, 'win') != false;
-			$browser->mac = strpos($HTTP_USER_AGENT, 'mac') != false;
-			$browser->linux = strpos($HTTP_USER_AGENT, 'linux') != false;
-			$browser->unix = strpos($HTTP_USER_AGENT, 'unix') != false;
-
-			$browser->webkit = strpos($HTTP_USER_AGENT, 'applewebkit') !== false;
-			$browser->opera = strpos($HTTP_USER_AGENT, 'opera') !== false || ($browser->webkit && strpos($HTTP_USER_AGENT, 'opr/') !== false);
-			$browser->ns = strpos($HTTP_USER_AGENT, 'netscape') !== false;
-			$browser->chrome = !$browser->opera && strpos($HTTP_USER_AGENT, 'chrome') !== false;
-			$browser->ie = !$browser->opera && (strpos($HTTP_USER_AGENT, 'compatible; msie') !== false || strpos($HTTP_USER_AGENT, 'trident/') !== false);
-			$browser->safari = !$browser->opera && !$browser->chrome && ($browser->webkit || strpos($HTTP_USER_AGENT, 'safari') !== false);
-			$browser->mz = !$browser->ie && !$browser->safari && !$browser->chrome && !$browser->ns && !$browser->opera && strpos($HTTP_USER_AGENT, 'mozilla') !== false;
-
-			if ($browser->opera) {
-				if (preg_match('/(opera|opr)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
-					$browser->ver = (float) $regs[2];
-				}
-			} else if (preg_match('/(chrome|msie|version|khtml)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
-				$browser->ver = (float) $regs[3];
-			} else if (preg_match('/rv:([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
-				$browser->ver = (float) $regs[1];
-			}
-
-			if (preg_match('/ ([a-z]{2})-([a-z]{2})/', $HTTP_USER_AGENT, $regs))
-				$browser->lang = $regs[1];
-			else
-				$browser->lang = 'en';
-
-			if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
-				$browser->https = true;
-			}
-			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https') {
-				$browser->https = true;
-			}
-			$sp = strtolower($_SERVER['SERVER_PROTOCOL']);
-			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
-			$port = $_SERVER['SERVER_PORT'];
-			$port = ((!$browser->https && $port == '80') || ($browser->https && $port == '443')) ? '' : ':' . $port;
-			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
-			$host = isset($host) ? $host : $_SERVER['SERVER_NAME'] . $port;
-			$browser->url = $protocol . '://' . $host . $_SERVER['REQUEST_URI'];
-			$browser->requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
-			self::$browerCache = $browser;
-		}
-		return self::$browerCache;
-	}
-
-	public static function getRemoteIP($onlyIP = false)
-	{
-		$address = $_SERVER['REMOTE_ADDR'];
-
-		// append the NGINX X-Real-IP header, if set
-		if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-			$remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
-		}
-		// append the X-Forwarded-For header, if set
-		if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
-		}
-
-		if (!empty($remote_ip) && $onlyIP === false) {
-			$address .= '(' . implode(',', $remote_ip) . ')';
-		}
-		return $address;
 	}
 
 	public static function parseBytes($str)
@@ -1217,43 +1132,6 @@ class Functions
 		foreach (explode(' ', $name) as $word)
 			$initial .= strtoupper($word[0]);
 		return $initial;
-	}
-
-	public static function getBacktrace($ignore = 1)
-	{
-		$trace = '';
-		foreach (debug_backtrace() as $k => $v) {
-			if ($k < $ignore) {
-				continue;
-			}
-			$args = '';
-			if (isset($v['args'])) {
-				foreach ($v['args'] as &$arg) {
-					if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
-						$args .= "'$arg'";
-					} elseif (is_array($arg)) {
-						$args .= '[';
-						foreach ($arg as &$a) {
-							$val = $a;
-							if (is_array($a) || is_object($a) || is_resource($a)) {
-								$val = gettype($a);
-								if (is_object($a)) {
-									$val .= '(' . get_class($a) . ')';
-								}
-							}
-							$args .= $val . ',';
-						}
-						$args = rtrim($args, ',') . ']';
-					}
-					$args .= ',';
-				}
-				$args = rtrim($args, ',');
-			}
-			$file = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $v['file']);
-			$trace .= '#' . ($k - $ignore) . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '(' . $args . ') in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
-		}
-
-		return $trace;
 	}
 
 	public function getDiskSpace($dir = '')

@@ -173,4 +173,8 @@
 	<script>
 		$('#emailPreview_Content').css('height', document.documentElement.clientHeight - 267);
 	</script>
+{else}
+	{foreach key=index item=jsModel from=$SCRIPTS}
+		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
+	{/foreach}
 {/if}

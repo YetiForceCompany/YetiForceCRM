@@ -15,14 +15,8 @@ use yii\base\InvalidConfigException;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class FileTarget extends \yii\log\Target
+class FileTarget extends \yii\log\FileTarget
 {
-
-	/**
-	 * @var string log file path or path alias. If not set, it will use the "@runtime/logs/app.log" file.
-	 * The directory containing the log files will be automatically created if not existing.
-	 */
-	public $logFile;
 
 	/**
 	 * @var bool whether log files should be rotated when they reach a certain [[maxFileSize|maximum size]].
@@ -33,42 +27,10 @@ class FileTarget extends \yii\log\Target
 	public $enableRotation = false;
 
 	/**
-	 * @var integer maximum log file size, in kilo-bytes. Defaults to 10240, meaning 10MB.
+	 * @var array list of the PHP predefined variables that should be logged in a message.
+	 * Note that a variable must be accessible via `$GLOBALS`. Otherwise it won't be logged.
 	 */
-	public $maxFileSize = 10240; // in KB
-	/**
-	 * @var integer number of log files used for rotation. Defaults to 5.
-	 */
-	public $maxLogFiles = 5;
-
-	/**
-	 * @var integer the permission to be set for newly created log files.
-	 * This value will be used by PHP chmod() function. No umask will be applied.
-	 * If not set, the permission will be determined by the current environment.
-	 */
-	public $fileMode;
-
-	/**
-	 * @var integer the permission to be set for newly created directories.
-	 * This value will be used by PHP chmod() function. No umask will be applied.
-	 * Defaults to 0775, meaning the directory is read-writable by owner and group,
-	 * but read-only for other users.
-	 */
-	public $dirMode = 0775;
-
-	/**
-	 * @var boolean Whether to rotate log files by copy and truncate in contrast to rotation by
-	 * renaming files. Defaults to `true` to be more compatible with log tailers and is windows
-	 * systems which do not play well with rename on open files. Rotation by renaming however is
-	 * a bit faster.
-	 *
-	 * The problem with windows systems where the [rename()](http://www.php.net/manual/en/function.rename.php)
-	 * function does not work with files that are opened by some process is described in a
-	 * [comment by Martin Pelletier](http://www.php.net/manual/en/function.rename.php#102274) in
-	 * the PHP documentation. By setting rotateByCopy to `true` you can work
-	 * around this problem.
-	 */
-	public $rotateByCopy = true;
+	public $logVars = ['_GET', '_POST', '_FILES', '_COOKIE', '_SESSION'];
 
 	/**
 	 * Initializes the route.
@@ -76,9 +38,8 @@ class FileTarget extends \yii\log\Target
 	 */
 	public function init()
 	{
-		parent::init();
 		if ($this->logFile === null) {
-			$this->logFile = ROOT_DIRECTORY . '/cache/logs/app.log';
+			$this->logFile = ROOT_DIRECTORY . '/cache/logs/system.log';
 		} else {
 			$this->logFile = Yii::getAlias($this->logFile);
 		}
@@ -122,34 +83,6 @@ class FileTarget extends \yii\log\Target
 	}
 
 	/**
-	 * Rotates log files.
-	 */
-	protected function rotateFiles()
-	{
-		$file = $this->logFile;
-		for ($i = $this->maxLogFiles; $i >= 0; --$i) {
-			// $i == 0 is the original log file
-			$rotateFile = $file . ($i === 0 ? '' : '.' . $i);
-			if (is_file($rotateFile)) {
-				// suppress errors because it's possible multiple processes enter into this section
-				if ($i === $this->maxLogFiles) {
-					@unlink($rotateFile);
-				} else {
-					if ($this->rotateByCopy) {
-						@copy($rotateFile, $file . '.' . ($i + 1));
-						if ($fp = @fopen($rotateFile, 'a')) {
-							@ftruncate($fp, 0);
-							@fclose($fp);
-						}
-					} else {
-						@rename($rotateFile, $file . '.' . ($i + 1));
-					}
-				}
-			}
-		}
-	}
-
-	/**
 	 * Formats a log message for display as a string.
 	 * @param array $message the log message to be formatted.
 	 * The message structure follows that in [[Logger::messages]].
@@ -167,16 +100,15 @@ class FileTarget extends \yii\log\Target
 				$text = \yii\helpers\VarDumper::export($text);
 			}
 		}
-		$traces = [];
+		$traces = '';
 		if (isset($message[4])) {
-			foreach ($message[4] as $trace) {
-				$traces[] = "in {$trace['file']}:{$trace['line']}";
-			}
+			$traces = $message[4];
 		}
-
-		$prefix = $this->getMessagePrefix($message);
-		$now = \DateTime::createFromFormat('U.u', $timestamp);
-		return $now->format('Y-m-d H:i:s.u') . " {$prefix}[$level][$category] $text"
-			. (empty($traces) ? '' : "\n    " . implode("\n    ", $traces));
+		if ($category !== '') {
+			$category = '[' . $category . ']';
+		}
+		$micro = end(explode('.', $timestamp));
+		return date('Y-m-d H:i:s', $timestamp) . ".$micro [$level]$category - $text"
+			. (empty($traces) ? '' : "\n" . $traces);
 	}
 }

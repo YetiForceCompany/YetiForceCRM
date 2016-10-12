@@ -40,7 +40,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 			return is_numeric($vale);
 		}
 		if ($type == 'big_letters' || $type == 'small_letters' || $type == 'numbers' || $type == 'special') {
-			if ($vale == 'false' || $vale == 'true') {
+			if ($vale === 'false' || $vale === 'true') {
 				return true;
 			} else {
 				return false;

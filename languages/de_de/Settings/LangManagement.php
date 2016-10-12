@@ -55,7 +55,7 @@ $languageStrings = [
 	'LBL_LANGUAGE' => 'Sprache',
 	'LBL_SHOW' => 'Anzeigen',
 	'LBL_STATS_INFO' => 'Die angezeigte Statistik stellt das prozentuale Verhältnis der nicht übersetzten Labels zu allen Labels in den Standardsprachdateien.',
-	'LBL_UNTRANSLATED_LABELS' => 'Untranslated labels',
+	'LBL_UNTRANSLATED_LABELS' => 'Nicht übersetzte Labels',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Übersetzungen',
@@ -70,4 +70,5 @@ $jsLanguageStrings = [
 	'Search' => 'Suchen:',
 	'No data available in table' => 'Keine Übersetzung verfügbar',
 	'JS_EXPORT' => 'Exportieren',
+	'JS_NOTRANSLATION' => '--No Translation--',
 ];
