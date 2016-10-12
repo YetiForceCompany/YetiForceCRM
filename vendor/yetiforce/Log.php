@@ -47,7 +47,7 @@ class Log extends Logger
 	public static function trace($message, $category = '')
 	{
 		if (\AppConfig::debug('LOG_TO_FILE')) {
-			\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_TRACE, $category);
+			\Yii::getLogger()->log($message, Logger::LEVEL_TRACE, $category);
 		}
 	}
 
@@ -60,7 +60,7 @@ class Log extends Logger
 	 */
 	public static function info($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_INFO, $category);
+		\Yii::getLogger()->log($message, Logger::LEVEL_INFO, $category);
 	}
 
 	/**
@@ -72,7 +72,7 @@ class Log extends Logger
 	 */
 	public static function warning($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_WARNING, $category);
+		\Yii::getLogger()->log($message, Logger::LEVEL_WARNING, $category);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class Log extends Logger
 	 */
 	public static function error($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_ERROR, $category);
+		\Yii::getLogger()->log($message, Logger::LEVEL_ERROR, $category);
 	}
 
 	/**
@@ -106,7 +106,9 @@ class Log extends Logger
 	 */
 	public static function beginProfile($token, $category = '')
 	{
-		\Yii::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_BEGIN, $category);
+		if (\AppConfig::debug('LOG_TO_PROFILE')) {
+			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_BEGIN, $category);
+		}
 	}
 
 	/**
@@ -118,6 +120,8 @@ class Log extends Logger
 	 */
 	public static function endProfile($token, $category = '')
 	{
-		\Yii::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_END, $category);
+		if (\AppConfig::debug('LOG_TO_PROFILE')) {
+			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_END, $category);
+		}
 	}
 }
