@@ -81,20 +81,16 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 
 	public static function getAllByTypeForGroup($groupModel, $type)
 	{
-		$db = PearDatabase::getInstance();
-
+		$query = new App\db\Query();
 		$members = [];
 
 		if ($type == self::MEMBER_TYPE_USERS) {
-			$sql = 'SELECT vtiger_users.id, vtiger_users.last_name, vtiger_users.first_name FROM vtiger_users
-							INNER JOIN vtiger_users2group ON vtiger_users2group.userid = vtiger_users.id
-							WHERE vtiger_users2group.groupid = ?';
-			$params = array($groupModel->getId());
-			$result = $db->pquery($sql, $params);
-			$noOfUsers = $db->num_rows($result);
-
-			for ($i = 0; $i < $noOfUsers; ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
+			$query->select(['vtiger_users.id', 'vtiger_users.last_name', 'vtiger_users.first_name'])
+				->from('vtiger_users')
+				->innerJoin('vtiger_users2group', ' vtiger_users2group.userid = vtiger_users.id')
+				->where(['vtiger_users2group.groupid' => $groupModel->getId()]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$userId = $row['id'];
 				$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_USERS, $userId);
 				$name = \vtlib\Deprecated::getFullNameFromArray('Users', $row);
@@ -104,15 +100,12 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 		}
 
 		if ($type == self::MEMBER_TYPE_GROUPS) {
-			$sql = 'SELECT vtiger_groups.groupid, vtiger_groups.groupname FROM vtiger_groups
-							INNER JOIN vtiger_group2grouprel ON vtiger_group2grouprel.containsgroupid = vtiger_groups.groupid
-							WHERE vtiger_group2grouprel.groupid = ?';
-			$params = array($groupModel->getId());
-			$result = $db->pquery($sql, $params);
-			$noOfGroups = $db->num_rows($result);
-
-			for ($i = 0; $i < $noOfGroups; ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
+			$query->select(['vtiger_groups.groupid', 'vtiger_groups.groupname'])
+				->from('vtiger_groups')
+				->innerJoin('vtiger_group2grouprel', 'vtiger_group2grouprel.containsgroupid = vtiger_groups.groupid')
+				->where(['vtiger_group2grouprel.groupid' => $groupModel->getId()]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_GROUPS, $row['groupid']);
 				$name = $row['groupname'];
 				$member = new self();
@@ -121,15 +114,12 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 		}
 
 		if ($type == self::MEMBER_TYPE_ROLES) {
-			$sql = 'SELECT vtiger_role.roleid, vtiger_role.rolename FROM vtiger_role
-							INNER JOIN vtiger_group2role ON vtiger_group2role.roleid = vtiger_role.roleid
-							WHERE vtiger_group2role.groupid = ?';
-			$params = array($groupModel->getId());
-			$result = $db->pquery($sql, $params);
-			$noOfRoles = $db->num_rows($result);
-
-			for ($i = 0; $i < $noOfRoles; ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
+			$query->select(['vtiger_role.roleid', 'vtiger_role.rolename'])
+				->from('vtiger_role')
+				->innerJoin('vtiger_group2role', 'vtiger_group2role.roleid = vtiger_role.roleid')
+				->where(['vtiger_group2role.groupid' => $groupModel->getId()]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_ROLES, $row['roleid']);
 				$name = $row['rolename'];
 				$member = new self();
@@ -138,15 +128,12 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 		}
 
 		if ($type == self::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
-			$sql = 'SELECT vtiger_role.roleid, vtiger_role.rolename FROM vtiger_role
-							INNER JOIN vtiger_group2rs ON vtiger_group2rs.roleandsubid = vtiger_role.roleid
-							WHERE vtiger_group2rs.groupid = ?';
-			$params = array($groupModel->getId());
-			$result = $db->pquery($sql, $params);
-			$noOfRoles = $db->num_rows($result);
-
-			for ($i = 0; $i < $noOfRoles; ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
+			$query->select(['vtiger_role.roleid', 'vtiger_role.rolename'])
+				->from('vtiger_role')
+				->innerJoin('vtiger_group2rs', 'vtiger_group2rs.roleandsubid = vtiger_role.roleid')
+				->where(['vtiger_group2rs.groupid' => $groupModel->getId()]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_ROLE_AND_SUBORDINATES, $row['roleid']);
 				$name = $row['rolename'];
 				$member = new self();

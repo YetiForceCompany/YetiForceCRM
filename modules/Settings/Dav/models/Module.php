@@ -42,8 +42,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$db->select('id')
 			->from('dav_users')
 			->where(['userid' => $userID]);
-		$numRows = $db->count();
-		if ($numRows != 0) {
+		if ($db->count() != 0) {
 			return 1;
 		}
 		$keyLength = 10;

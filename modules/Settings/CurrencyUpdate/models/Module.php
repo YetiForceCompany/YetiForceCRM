@@ -251,7 +251,6 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getCRMConversionRate($from, $to, $date = '')
 	{
-		$db = PearDatabase::getInstance();
 		$mainCurrencyCode = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
 		$activeBankId = self::getActiveBankId();
 		$exchange = false;
@@ -268,7 +267,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 				->from('vtiger_currency_info')
 				->where(['currency_code' => $to])
 				->limit(1);
-			$exchange = floatval($db->createCommand()->queryScalar());
+			$exchange = floatval($db->scalar());
 			if ($from != $mainCurrencyCode) {
 				$convertToMainCurrency = 1 / $exchange;
 				$db = new App\db\Query();
@@ -276,7 +275,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 					->from('vtiger_currency_info')
 					->where(['currency_code' => $from])
 					->limit(1);
-				$fromExchange = floatval($db->createCommand()->queryScalar());
+				$fromExchange = floatval($db->scalar());
 				$exchange = 1 / ($fromExchange * $convertToMainCurrency);
 			}
 		}
@@ -302,7 +301,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 					'yetiforce_currencyupdate.bank_id' => $activeBankId,
 					'vtiger_currency_info.currency_code' => $to])
 				->limit(1);
-			$exchange = floatval($db->createCommand()->queryScalar());
+			$exchange = floatval($db->scalar());
 			if ($exchange > 0) {
 				$exchange = 1 / $exchange;
 			}
@@ -317,7 +316,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 						'yetiforce_currencyupdate.bank_id' => $activeBankId,
 						'vtiger_currency_info.currency_code' => $from])
 					->limit(1);
-				$fromExchange = floatval($db->createCommand()->queryScalar());
+				$fromExchange = floatval($db->scalar());
 				if ($from != $mainCurrencyCode && $to != $mainCurrencyCode) {
 					$exchange = $fromExchange / $convertToMainCurrency;
 				} else {
@@ -348,9 +347,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getActiveBankId()
 	{
-		$db = new \App\db\Query();
-		$db->select('id')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1);
-		return $db->scalar();
+		return (new \App\db\Query())->select('id')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();
 	}
 	/*
 	 * Saves new active bank by id
@@ -376,8 +373,6 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getActiveBankName()
 	{
-		$db = new \App\db\Query();
-		$db->select('bank_name')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1);
-		return $db->scalar();
+		return (new \App\db\Query())->select('bank_name')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();
 	}
 }
