@@ -86,7 +86,7 @@ class PrivilegeUtil
 	 * Function to get data share related modules
 	 * @return array
 	 */
-	public static function &getDatashareRelatedModules()
+	public static function getDatashareRelatedModules()
 	{
 		if (self::$datashareRelatedCache === false) {
 			$relModSharArr = [];
@@ -114,7 +114,7 @@ class PrivilegeUtil
 	 * This Function returns the Default Organisation Sharing Action Array for all modules
 	 * @return array
 	 */
-	public static function &getAllDefaultSharingAction()
+	public static function getAllDefaultSharingAction()
 	{
 		if (self::$defaultSharingActionCache === false) {
 			\App\Log::trace('getAllDefaultSharingAction');
@@ -137,7 +137,7 @@ class PrivilegeUtil
 	 * @param int $roleId RoleId :: Type varchar
 	 * @return array $users -- Role Related User Array in the following format:
 	 */
-	public static function &getUsersByRole($roleId)
+	public static function getUsersByRole($roleId)
 	{
 		if (isset(static::$usersByRoleCache[$roleId])) {
 			return static::$usersByRoleCache[$roleId];
@@ -163,7 +163,7 @@ class PrivilegeUtil
 	 * Function to get all members
 	 * @return array
 	 */
-	public static function &getMembers()
+	public static function getMembers()
 	{
 		if (self::$membersCache === false) {
 			$members = [];
@@ -190,7 +190,7 @@ class PrivilegeUtil
 	 * @param string $member
 	 * @return array
 	 */
-	public static function &getUserByMember($member)
+	public static function getUserByMember($member)
 	{
 		if (isset(static::$usersByMemberCache[$member])) {
 			return static::$usersByMemberCache[$member];
@@ -224,7 +224,7 @@ class PrivilegeUtil
 	 * @param int $i
 	 * @return array
 	 */
-	public static function &getUsersByGroup($groupId, $i = 0)
+	public static function getUsersByGroup($groupId, $i = 0)
 	{
 		if (isset(static::$usersByGroupCache[$roleId])) {
 			return static::$usersByGroupCache[$roleId];
@@ -270,7 +270,7 @@ class PrivilegeUtil
 	 * @param $roleid -- RoleId :: Type varchar
 	 * @returns $roleSubUsers-- Role and Subordinates Related Users Array in the following format:
 	 */
-	public static function &getUsersByRoleAndSubordinate($roleId)
+	public static function getUsersByRoleAndSubordinate($roleId)
 	{
 		if (isset(static::$usersBySubordinateCache[$roleId])) {
 			return static::$usersBySubordinateCache[$roleId];
@@ -295,7 +295,7 @@ class PrivilegeUtil
 	 * @param $roleid -- RoleId :: Type varchar
 	 * @returns $roleInfoArray-- RoleInfoArray in the following format:
 	 */
-	public static function &getRoleDetail($roleId)
+	public static function getRoleDetail($roleId)
 	{
 		if (isset(static::$roleInfoCache[$roleId])) {
 			return static::$roleInfoCache[$roleId];

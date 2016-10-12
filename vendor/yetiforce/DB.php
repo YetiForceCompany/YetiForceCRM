@@ -50,7 +50,7 @@ class DB extends \yii\db\Connection
 	 * @param string $type Name of database connection
 	 * @return \yii\db\Connection instance
 	 */
-	public static function &getInstance($type = 'base')
+	public static function getInstance($type = 'base')
 	{
 		if (isset(static::$cache[$type])) {
 			return static::$cache[$type];

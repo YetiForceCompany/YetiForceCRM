@@ -36,7 +36,7 @@ class Debuger
 		return static::$debugBar = $debugbar;
 	}
 
-	static public function &getDebugBar()
+	static public function getDebugBar()
 	{
 		return static::$debugBar;
 	}

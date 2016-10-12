@@ -46,7 +46,9 @@ class Log extends Logger
 	 */
 	public static function trace($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_TRACE, $category);
+		if (\AppConfig::debug('LOG_TO_FILE')) {
+			\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_TRACE, $category);
+		}
 	}
 
 	/**

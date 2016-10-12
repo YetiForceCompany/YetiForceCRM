@@ -28,7 +28,7 @@ class RequestUtil
 
 	protected static $browerCache = false;
 
-	public static function &getBrowserInfo()
+	public static function getBrowserInfo()
 	{
 		if (self::$browerCache === false) {
 			$browserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
