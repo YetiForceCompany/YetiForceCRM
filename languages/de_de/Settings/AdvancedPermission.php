@@ -10,8 +10,8 @@ $languageStrings = [
 	'LBL_ACTION' => 'Aktion',
 	'LBL_STATUS' => 'Status',
 	'LBL_ROLE' => 'Rolle',
-	'LBL_MEMBERS' => 'Members',
-	'LBL_PRIORITY' => 'Priority',
+	'LBL_MEMBERS' => 'Mitglieder',
+	'LBL_PRIORITY' => 'Priorität',
 	// Picklist
 	'FL_ACTIVE' => 'Aktiv',
 	'FL_INACTIVE' => 'Inaktiv',
