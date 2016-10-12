@@ -36,9 +36,14 @@ class Debuger
 		return static::$debugBar = $debugbar;
 	}
 
-	static public function getDebugBar()
+	static public function &getDebugBar()
 	{
 		return static::$debugBar;
+	}
+
+	static public function isDebugBar()
+	{
+		return isset(static::$debugBar);
 	}
 
 	public static function addLogs($message, $level, $traces)
@@ -71,8 +76,8 @@ class Debuger
 	public static function checkIP()
 	{
 		$ips = \AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
-		if ($ips === false || empty($ips)) {
-			return false;
+		if ($ips === false) {
+			return true;
 		}
 		if (is_array($ips) && in_array(RequestUtil::getRemoteIP(true), $ips)) {
 			return true;

@@ -37,7 +37,7 @@
 			{if $HEAD_LOCKS}
 				<script type="text/javascript">{$HEAD_LOCKS}</script>
 			{/if}
-			{if AppConfig::debug('DISPLAY_DEBUG_CONSOLE')}
+			{if \App\Debuger::isDebugBar()}
 				{\App\Debuger::getDebugBar()->getJavascriptRenderer()->renderHead()}
 			{/if}
 		</head>
