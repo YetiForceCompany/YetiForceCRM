@@ -25,12 +25,11 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public static function getCRMCurrencyName($code)
 	{
-		$currencyName = (new \App\db\Query())
+		return (new \App\db\Query())
 				->select('currency_name')
 				->from('vtiger_currencies')
 				->where(['currency_code' => $code])
 				->limit(1)->scalar();
-		return $currencyName;
 	}
 	/*
 	 * Returns list of active currencies in CRM
@@ -55,9 +54,9 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 		$db = new \App\db\Query();
 		$db->select(['id', 'currency_code'])->from('vtiger_currency_info')->where(['currency_status' => 'Active', 'deleted' => 0])->andWhere(['!=', 'defaultid', -11]);
-		$numToConvert = $db->count();
+		$result = $db->createCommand()->query();
+		$numToConvert = $result->count();
 		if ($numToConvert >= 1) {
-			$result = $db->createCommand()->query();
 			$selectBankId = $this->getActiveBankId();
 			$activeBankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
 			$currIds = [];
@@ -404,8 +403,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function setActiveBankById($bankId)
 	{
 		$db = \App\DB::getInstance();
-		$db->update('yetiforce_currencyupdate_banks',['active' => 0])->execute();
-		$result = $db->update('yetiforce_currencyupdate_banks', ['active' => 1],['id' => $bankId])->execute();
+		$db->createCommand()->update('yetiforce_currencyupdate_banks',['active' => 0])->execute();
+		$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1],['id' => $bankId])->execute();
 		if ($result) {
 			return true;
 		} else {
