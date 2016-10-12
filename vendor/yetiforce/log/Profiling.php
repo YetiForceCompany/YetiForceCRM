@@ -13,7 +13,7 @@ class Profiling extends Target
 	/**
 	 * @var string name of the DB table to store cache content. Defaults to "log".
 	 */
-	public $logTable = 'l_yf_profile';
+	public $logTable = 'l_#__profile';
 
 	/**
 	 * Initializes the DbTarget component.
@@ -23,7 +23,7 @@ class Profiling extends Target
 	public function init()
 	{
 		parent::init();
-		$this->db = DB::getInstance();
+		$this->db = DB::getInstance('admin');
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Profiling extends Target
 			}
 		}
 
-		$logID = (new \App\db\Query())->from($this->logTable)->max('id', $this->db);
+		$logID = (new \App\db\Query())->from($this->db->quoteSql($this->logTable))->max('id', $this->db);
 		$logID++;
 		foreach ($timings as &$message) {
 			$text = $message['info'];
@@ -64,7 +64,7 @@ class Profiling extends Target
 					$text = VarDumper::export($text);
 				}
 			}
-			$this->db->createCommand()->insert($this->logTable, [
+			$this->db->createCommand()->insert($this->db->quoteSql($this->logTable), [
 				'id' => $logID,
 				'info' => $text,
 				'category' => $message['category'],

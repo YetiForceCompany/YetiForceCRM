@@ -230,6 +230,8 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 
 /*Data for the table `dav_users` */
 
+/*Data for the table `l_yf_profile` */
+
 /*Data for the table `l_yf_settings_tracker_basic` */
 
 /*Data for the table `l_yf_settings_tracker_detail` */

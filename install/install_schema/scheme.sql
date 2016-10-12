@@ -499,6 +499,20 @@ CREATE TABLE `dav_users` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+/*Table structure for table `l_yf_profile` */
+
+CREATE TABLE `l_yf_profile` (
+  `id` int(19) unsigned NOT NULL DEFAULT '0',
+  `category` varchar(255) NOT NULL,
+  `info` text,
+  `log_time` varchar(20) NOT NULL,
+  `trace` text,
+  `level` varchar(255) DEFAULT NULL,
+  `duration` decimal(3,3) NOT NULL,
+  KEY `id` (`id`),
+  KEY `category` (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_settings_tracker_basic` */
 
 CREATE TABLE `l_yf_settings_tracker_basic` (
