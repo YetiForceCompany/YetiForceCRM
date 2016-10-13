@@ -27,10 +27,9 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 
 	public static function getGlobalPermissions()
 	{
-		$db = new App\db\Query();
-		$db->from('vtiger_profile2globalpermissions')
-			->leftJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_profile2globalpermissions.profileid');
-		$dataReader = $db->createCommand()->query();
+		$dataReader = (new App\db\Query())->from('vtiger_profile2globalpermissions')
+			->leftJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_profile2globalpermissions.profileid')
+			->createCommand()->query();
 		$globalPermissions = [];
 		while($row = $dataReader->read()) {
 			$profileid = $row['profileid'];

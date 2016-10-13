@@ -12,11 +12,13 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getCustomViews($tabId)
 	{
-		$db = new App\db\Query();
-		$db->select('vtiger_customview.*')->from('vtiger_customview')->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
-			->where(['vtiger_tab.tabid' => $tabId])->orderBy(['vtiger_customview.sequence' => SORT_ASC]);
+		$dataReader = (new App\db\Query())->select('vtiger_customview.*')
+				->from('vtiger_customview')
+				->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
+				->where(['vtiger_tab.tabid' => $tabId])
+				->orderBy(['vtiger_customview.sequence' => SORT_ASC])
+				->createCommand()->query();
 		$moduleEntity = [];
-		$dataReader = $db->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$moduleEntity[$row['cvid']] = $row;
 		}
@@ -25,14 +27,19 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getFilterPermissionsView($cvId, $action)
 	{
-		$db = new App\db\Query();
+		$query = new App\db\Query();
 		if ($action == 'default') {
-			$db->select('userid')->from('vtiger_user_module_preferences')->where(['default_cvid' => $cvId])->orderBy(['userid' => SORT_ASC]);
+			$query->select('userid')
+				->from('vtiger_user_module_preferences')
+				->where(['default_cvid' => $cvId])
+				->orderBy(['userid' => SORT_ASC]);
 		} elseif ($action == 'featured') {
-			$db->select('user')->from('a_yf_featured_filter')->where(['cvid' => $cvId])->orderBy(['user' => SORT_ASC]);
+			$query->select('user')
+				->from('a_yf_featured_filter')
+				->where(['cvid' => $cvId])
+				->orderBy(['user' => SORT_ASC]);
 		}
-		
-		$dataReader = $db->createCommand()->query();
+		$dataReader = $query->createCommand()->query();
 		$users = [];
 		while ($user = $dataReader->readColumn(0)) {
 			$members = explode(':', $user);
@@ -44,10 +51,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
 	{
 		if ($action == 'add') {
-			$query = new App\db\Query();
-			$query->select('vtiger_customview.viewname')->from('vtiger_user_module_preferences')->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
-				->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user]);
-			$dataReader = $query->createCommand()->query();
+			$dataReader = (new App\db\Query())->select('vtiger_customview.viewname')
+				->from('vtiger_user_module_preferences')
+				->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
+				->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user])
+				->createCommand()->query();
 			if ($dataReader->count()) {
 				return $dataReader->readColumn(0);
 			}
@@ -73,7 +81,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				'cvid' => $cvId
 			])->execute();
 		} elseif ($action == 'remove') {
-			$db->createCommand()->delete('a_yf_featured_filter', ['user' => $user, 'cvid' =>$cvId])->execute();
+			$db->createCommand()->delete('a_yf_featured_filter', ['user' => $user, 'cvid' => $cvId])->execute();
 		}
 		return false;
 	}
@@ -146,10 +154,12 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getSupportedModules()
 	{
-		$db = new App\db\Query();
 		$modulesList = [];
-		$db->select(['vtiger_tab.tabid', 'vtiger_customview.entitytype'])->from('vtiger_customview')->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')->distinct();
-		$dataReader = $db->createCommand()->query();
+		$dataReader = (new App\db\Query())
+			->select(['vtiger_tab.tabid', 'vtiger_customview.entitytype'])
+			->from('vtiger_customview')
+			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$modulesList[$row['tabid']] = $row['entitytype'];
 		}

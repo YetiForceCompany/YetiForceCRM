@@ -99,12 +99,11 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModules()
 	{
 		if (!isset($this->modules)) {
-			$db = new App\db\Query();
-			$db->select(['vtiger_tab.tabid', 'vtiger_tab.name'])
+			$dataReader = (new App\db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.name'])
 				->from('vtiger_group2modules')
 				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_group2modules.tabid')
-				->where(['vtiger_group2modules.groupid' => $this->getId()]);
-			$dataReader = $db->createCommand()->query();
+				->where(['vtiger_group2modules.groupid' => $this->getId()])
+				->createCommand()->query();
 			$modules = [];
 			while ($row = $dataReader->read()) {
 				$modules[$row['tabid']] = $row['name'];
@@ -189,7 +188,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		$this->recalculate($oldUsersList);
-		$em = new VTEventsManager($db);
+		$em = new VTEventsManager(PearDatabase::getInstance());
 		$em->initTriggerCache();
 		$entityData = [];
 		$entityData['groupid'] = $groupId;

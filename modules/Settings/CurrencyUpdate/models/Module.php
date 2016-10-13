@@ -51,25 +51,25 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	{
 
 		$notifyNewRates = false;
-
-		$db = new \App\db\Query();
-		$db->select(['id', 'currency_code'])->from('vtiger_currency_info')->where(['currency_status' => 'Active', 'deleted' => 0])->andWhere(['!=', 'defaultid', -11]);
-		$result = $db->createCommand()->query();
-		$numToConvert = $result->count();
+		$dataReader = (new \App\db\Query())->select(['id', 'currency_code'])
+				->from('vtiger_currency_info')
+				->where(['currency_status' => 'Active', 'deleted' => 0])
+				->andWhere(['!=', 'defaultid', -11])->createCommand()->query();
+		$numToConvert = $dataReader->count();
 		if ($numToConvert >= 1) {
 			$selectBankId = $this->getActiveBankId();
 			$activeBankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
 			$currIds = [];
 			$otherCurrencyCode = [];
-			while ($row = $result->read()) {
+			while ($row = $dataReader->read()) {
 				$id = $row['id'];
 				$code = $row['currency_code'];
 				$currIds[] = $id;
 				$otherCurrencyCode[$code] = $id;
 			}
-			$db = new \App\db\Query();
-			$db->from('yetiforce_currencyupdate')->where(['exchange_date' => $dateCur, 'currency_id' => $currIds, 'bank_id' => $selectBankId]);
-			$currNum = $db->count(1);
+			$currNum = (new \App\db\Query())->from('yetiforce_currencyupdate')
+				->where(['exchange_date' => $dateCur, 'currency_id' => $currIds, 'bank_id' => $selectBankId])
+				->count(1);
 			// download only if its not in archives
 			if ($currNum != $numToConvert && class_exists($activeBankName)) {
 				$bank = new $activeBankName();
@@ -86,18 +86,18 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function refreshBanks()
 	{
-		$db = new \App\db\Query();
-		$db->select(['id', 'bank_name'])->from('yetiforce_currencyupdate_banks');
-		$result = $db->createCommand()->query();
-		while ($row = $result->read()) {
+		$db = App\DB::getInstance();
+		$dataReader = (new \App\db\Query())->select(['id', 'bank_name'])
+				->from('yetiforce_currencyupdate_banks')
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$id = $row['id'];
 			$bankName = $row['bank_name'];
 			$bankPath = __DIR__ . '/bankmodels/' . $bankName . '.php';
 			if (!file_exists($bankPath)) { // delete bank from database
-				\App\DB::getInstance()->createCommand()->delete('yetiforce_currencyupdate_banks', ['id' => $id])->execute();
+				$db->createCommand()->delete('yetiforce_currencyupdate_banks', ['id' => $id])->execute();
 			}
 		}
-
 		foreach (new DirectoryIterator(__DIR__ . '/bankmodels/') as $fileInfo) {
 			$fileName = $fileInfo->getFilename();
 			$extension = end(explode('.', $fileName));
@@ -105,11 +105,11 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			if ($fileInfo->isDot() || $extension != 'php') {
 				continue;
 			}
-
-			$db = new \App\db\Query();
-			$bankExists = $db->from('yetiforce_currencyupdate_banks')->where(['bank_name' => 'CBR'])->count(1);
+			$bankExists = (new \App\db\Query())->from('yetiforce_currencyupdate_banks')
+				->where(['bank_name' => 'CBR'])
+				->count(1);
 			if (!$bankExists) {
-				App\DB::getInstance()->createCommand()->insert('yetiforce_currencyupdate_banks', ['bank_name' => $bankClassName, 'active' => 0])->execute();
+				$db->createCommand()->insert('yetiforce_currencyupdate_banks', ['bank_name' => $bankClassName, 'active' => 0])->execute();
 			}
 		}
 		$activeId = $this->getActiveBankId();
@@ -127,7 +127,9 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function updateCurrencyRate($id, $exchange)
 	{
-		\App\DB::getInstance()->createCommand()->update('yetiforce_currencyupdate', ['exchange' => $exchange], ['id' => $id])->execute();
+		\App\DB::getInstance()->createCommand()
+			->update('yetiforce_currencyupdate', ['exchange' => $exchange], ['id' => $id])
+			->execute();
 	}
 	/*
 	 * Adds currency exchange rate to archive
@@ -139,14 +141,14 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function addCurrencyRate($currId, $exchangeDate, $exchange, $bankId)
 	{
-		
+
 		\App\DB::getInstance()->createCommand()->insert('yetiforce_currencyupdate', [
 			'currency_id' => $currId,
 			'fetch_date' => date('Y-m-d'),
 			'exchange_date' => $exchangeDate,
 			'exchange' => $exchange,
 			'bank_id' => $bankId,
-		]);
+		])->execute();
 	}
 	/*
 	 * Returns currency exchange rate id
@@ -158,9 +160,10 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getCurrencyRateId($currencyId, $exchangeDate, $bankId)
 	{
-		$db = new \App\db\Query();
-		$db->select('id')->from('yetiforce_currencyupdate')->where(['exchange_date' => $exchangeDate, 'currency_id' => $currencyId, 'bank_id' => $bankId])->limit(1);
-		return $db->scalar();
+		return (new \App\db\Query())->select('id')
+			->from('yetiforce_currencyupdate')
+			->where(['exchange_date' => $exchangeDate, 'currency_id' => $currencyId, 'bank_id' => $bankId])
+			->limit(1)->scalar();
 	}
 	/*
 	 * Returns currency rates from archive
@@ -171,8 +174,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getRatesHistory($bankId, $dateCur, $request)
 	{
-		$db = new App\db\Query();
-		$db->select(['exchange', 'currency_name', 'currency_code', 'currency_symbol', 'fetch_date', 'exchange_date'])
+		$query = new App\db\Query();
+		$query->select(['exchange', 'currency_name', 'currency_code', 'currency_symbol', 'fetch_date', 'exchange_date'])
 			->from('yetiforce_currencyupdate')
 			->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id')
 			->innerJoin('yetiforce_currencyupdate_banks', 'yetiforce_currencyupdate_banks.id = yetiforce_currencyupdate.bank_id')
@@ -180,12 +183,12 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		// filter by date - if not exists then display this months history
 		$filter = $request->get('duedate');
 		if ($filter == '' && $dateCur) {
-			$db->andWhere(['between', 'exchange_date', date('Y-m-01'), date('Y-m-t')]);
+			$query->andWhere(['between', 'exchange_date', date('Y-m-01'), date('Y-m-t')]);
 		} else {
-			$db->andWhere(['exchange_date' => $dateCur]);
+			$query->andWhere(['exchange_date' => $dateCur]);
 		}
-		$db->orderBy(['exchange_date' => SORT_DESC, 'currency_code' => SORT_ASC]);
-		$dataReader = $db->createCommand()->query();
+		$query->orderBy(['exchange_date' => SORT_DESC, 'currency_code' => SORT_ASC]);
+		$dataReader = $query->createCommand()->query();
 		$history = $dataReader->readAll();
 		return $history;
 	}
@@ -217,10 +220,11 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		}
 		$bank = new $bankName();
 		$supported = $bank->getSupportedCurrencies($bankName);
-		$db = new \App\db\Query();
-		$db->select(['currency_name', 'currency_code'])->from('vtiger_currency_info')->where(['currency_status' => 'Active', 'deleted' => 0]);
-		$result = $db->createCommand()->query();
-		while ($row = $result->read()) {
+		$dataReader = (new \App\db\Query())->select(['currency_name', 'currency_code'])
+			->from('vtiger_currency_info')
+			->where(['currency_status' => 'Active', 'deleted' => 0])
+			->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$name = $row['currency_name'];
 			$code = $row['currency_code'];
 			$unsupported[$name] = $code;
@@ -235,9 +239,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function setCRMConversionRate($currency, $exchange)
 	{
-		$db = App\DB::getInstance();
 		$rate = (float) $exchange;
-		$db->createCommand()
+		\App\DB::getInstance()->createCommand()
 			->update('vtiger_currency_info', ['conversion_rate' => $rate], ['currency_code' => $currency])
 			->execute();
 	}
@@ -262,61 +265,61 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		}
 		// get present conversion rate from crm
 		if (empty($date)) {
-			$db = new App\db\Query();
-			$db->select('conversion_rate')
+			$query = new App\db\Query();
+			$query->select('conversion_rate')
 				->from('vtiger_currency_info')
 				->where(['currency_code' => $to])
 				->limit(1);
-			$exchange = floatval($db->scalar());
+			$exchange = floatval($query->scalar());
 			if ($from != $mainCurrencyCode) {
 				$convertToMainCurrency = 1 / $exchange;
-				$db = new App\db\Query();
-				$db->select('conversion_rate')
+				$query = new App\db\Query();
+				$query->select('conversion_rate')
 					->from('vtiger_currency_info')
 					->where(['currency_code' => $from])
 					->limit(1);
-				$fromExchange = floatval($db->scalar());
+				$fromExchange = floatval($query->scalar());
 				$exchange = 1 / ($fromExchange * $convertToMainCurrency);
 			}
 		}
 		// get conversion rate from archive
 		else {
-			$db = new App\db\Query();
-			$db->from('yetiforce_currencyupdate')
+			$query = new App\db\Query();
+			$query->from('yetiforce_currencyupdate')
 				->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', [':del' => 0])
 				->where(['yetiforce_currencyupdate.exchange_date' => $date,
 					'yetiforce_currencyupdate.bank_id' => $activeBankId,
 					'vtiger_currency_info.currency_code' => $to])
 				->limit(1);
-			$num = floatval($db->count());
+			$num = floatval($query->count());
 			// no exchange rate in archive, fetch new rates
 			if ($num == 0) {
 				self::fetchCurrencyRates($date);
 			}
-			$db = new App\db\Query();
-			$db->select('yetiforce_currencyupdate.exchange')
+			$query = new App\db\Query();
+			$query->select('yetiforce_currencyupdate.exchange')
 				->from('yetiforce_currencyupdate')
 				->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', [':del' => 0])
 				->where(['yetiforce_currencyupdate.exchange_date' => $date,
 					'yetiforce_currencyupdate.bank_id' => $activeBankId,
 					'vtiger_currency_info.currency_code' => $to])
 				->limit(1);
-			$exchange = floatval($db->scalar());
+			$exchange = floatval($query->scalar());
 			if ($exchange > 0) {
 				$exchange = 1 / $exchange;
 			}
 
 			if ($from != $mainCurrencyCode) {
 				$convertToMainCurrency = $exchange == 0 ? 1 : 1 / $exchange;
-				$db = new App\db\Query();
-				$db->select('yetiforce_currencyupdate.exchange')
+				$query = new App\db\Query();
+				$query->select('yetiforce_currencyupdate.exchange')
 					->from('yetiforce_currencyupdate')
 					->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', [':del' => 0])
 					->where(['yetiforce_currencyupdate.exchange_date' => $date,
 						'yetiforce_currencyupdate.bank_id' => $activeBankId,
 						'vtiger_currency_info.currency_code' => $from])
 					->limit(1);
-				$fromExchange = floatval($db->scalar());
+				$fromExchange = floatval($query->scalar());
 				if ($from != $mainCurrencyCode && $to != $mainCurrencyCode) {
 					$exchange = $fromExchange / $convertToMainCurrency;
 				} else {

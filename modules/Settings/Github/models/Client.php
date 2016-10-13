@@ -74,9 +74,10 @@ class Settings_Github_Client_Model
 	static function getInstance()
 	{
 		$instance = new self();
-		$db = new App\db\Query();
-		$db->select(['client_id', 'token', 'username'])->from('u_yf_github');
-		$row = $db->createCommand()->queryOne();
+		$row = (new App\db\Query())
+			->select(['client_id', 'token', 'username'])
+			->from('u_#__github')
+			->createCommand()->queryOne();
 		if (!empty($row)) {
 			$instance->setClientId($row['client_id']);
 			$instance->setToken(base64_decode($row['token']));
@@ -87,12 +88,11 @@ class Settings_Github_Client_Model
 
 	public function saveKeys()
 	{
-		$db = App\DB::getInstance();
 		$clientToken = base64_encode($this->clientToken);
 		$params = ['client_id' => $this->clientId,
 			'token' => $clientToken,
 			'username' => $this->username];
-		return $db->createCommand()->update('u_yf_github', $params)->execute();
+		return App\DB::getInstance()->createCommand()->update('u_#__github', $params)->execute();
 	}
 
 	public function checkToken()
