@@ -1003,7 +1003,7 @@ class QueryGenerator
 		}
 
 		if (!$onlyWhereQuery && $this->permissions) {
-			if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+			if (AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $baseModule != 'Users') {
 				$sql .= " AND vtiger_crmentity.users LIKE '%,{$current_user->id},%'";
 			} else {
 				$sql .= \App\PrivilegeQuery::getAccessConditions($baseModule, $current_user->id, $this->getSourceRecord());
