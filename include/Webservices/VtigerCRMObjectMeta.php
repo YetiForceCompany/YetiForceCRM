@@ -444,18 +444,14 @@ class VtigerCRMObjectMeta extends EntityMeta
 				}
 			}
 		} else {
-			$sql = "select setype from vtiger_crmentity where crmid=? and deleted=0";
-			$result = $adb->pquery($sql, array($id));
-			if ($result != null && isset($result)) {
-				if ($adb->num_rows($result) > 0) {
-					$seType = $adb->query_result($result, 0, "setype");
-					if ($seType == "Calendar") {
-						$seType = vtws_getCalendarEntityType($id);
-					}
+			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($id);
+			if ($recordMetaData && $recordMetaData['deleted'] === 0) {
+				$seType = $recordMetaData['setype'];
+				if ($seType === 'Calendar') {
+					$seType = vtws_getCalendarEntityType($id);
 				}
 			}
 		}
-
 		return $seType;
 	}
 

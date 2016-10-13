@@ -26,7 +26,7 @@ while ($row = $adb->getRow($resultUpdater)) {
 			return;
 		}
 	} else {
-		$resultCrm = $adb->pquery(sprintf('SELECT crmid FROM vtiger_crmentity WHERE setype =? && crmid > ? LIMIT %s', $limit), [$row['module'], $crmid]);
+		$resultCrm = $adb->pquery(sprintf('SELECT crmid FROM vtiger_crmentity WHERE deleted=0 and setype =? && crmid > ? LIMIT %s', $limit), [$row['module'], $crmid]);
 		while ($rowCrm = $adb->getRow($resultCrm)) {
 			\App\PrivilegeUpdater::update($rowCrm['crmid'], $row['module']);
 			$affected = $adb->update('s_yf_privileges_updater', ['crmid' => $rowCrm['crmid']], 'module =? && type =? && crmid =?', [$row['module'], 1, $crmid]);
