@@ -1,0 +1,53 @@
+<?php
+/* +***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * *********************************************************************************************************************************** */
+$languageStrings = [
+	'Calendar' => 'Calendario',
+	//ActivityTypes
+	'LBL_ACTIVITY_TYPES' => 'Calendario – Tipos',
+	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Tipos de Actividades.',
+	'LBL_ACTIVITY_NAME' => 'Nombre de Tipos de Actividades.',
+	'LBL_MODULE' => 'Modulo',
+	'LBL_COLOR' => 'Color',
+	'LBL_TOOLS' => 'Herramientas',
+	'LBL_ACTIVE' => 'Activo',
+	'LBL_SAVE_ACTIVE_TYPE' => 'Cambios guardados',
+	'LBL_UPDATE_COLOR' => 'Cambiar Color',
+	'LBL_EDIT_COLOR' => 'Editar Color',
+	'LBL_SELECT_COLOR' => 'Seleccionar Color:',
+	'LBL_SAVE_COLOR' => 'Color guardado',
+	'LBL_CALENDAR_CONFIG' => 'Calendario - Configuración',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
+	'LBL_USER_COLORS' => 'Colores de Usuario',
+	'LBL_CALENDAR_COLORS' => 'Colores de Calendario',
+	'LBL_CALENDAR_TYPE' => 'Tipo de Calendario',
+	'PLL_BREAK_TIME' => 'Vacaciones',
+	'PLL_HOLIDAY_TIME' => 'Feriados',
+	'LBL_SAVE_CHANGES' => 'Cambios guardados',
+	'LBL_UPDATE_EVENT' => 'Actualizar evento en el Calendario cuando se modifique.',
+	'LBL_GENERATE_COLOR' => 'Generar color al azar',
+	'LBL_GENERATED_COLOR' => 'Color generado',
+	'LBL_NOTWORKING_DAYS' => 'Días no laborables',
+	'LBL_NOTWORKEDDAYS_INFO' => 'Días no laborables',
+	'PLL_MONDAY' => 'Lunes',
+	'PLL_TUESDAY' => 'Martes',
+	'PLL_WEDNESDAY' => 'Miércoles',
+	'PLL_THURSDAY' => 'Jueves',
+	'PLL_FRIDAY' => 'Viernes',
+	'PLL_SATURDAY' => 'Sábado',
+	'PLL_SUNDAY' => 'Domingo',
+	'LBL_VIEW_USERCOLORS' => 'Configuración de Calendario',
+	'LBL_VIEW_ACTIVITYTYPES' => 'Tipos de Actividades',
+	'Task' => 'Tarea',
+	'Meeting' => 'Reunión',
+	'Call' => 'Llamada',
+];
+$jsLanguageStrings = [
+];
