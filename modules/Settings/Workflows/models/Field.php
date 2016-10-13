@@ -18,42 +18,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 	 */
 	public static function getAdvancedFilterOptions()
 	{
-		return [
-			'is' => 'is',
-			'is not' => 'is not',
-			'contains' => 'contains',
-			'does not contain' => 'does not contain',
-			'starts with' => 'starts with',
-			'ends with' => 'ends with',
-			'has changed' => 'has changed',
-			'has changed to' => 'has changed to',
-			'is empty' => 'is empty',
-			'is not empty' => 'is not empty',
-			'less than' => 'less than',
-			'greater than' => 'greater than',
-			'does not equal' => 'does not equal',
-			'less than or equal to' => 'less than or equal to',
-			'greater than or equal to' => 'greater than or equal to',
-			'before' => 'before',
-			'after' => 'after',
-			'between' => 'between',
-			'is added' => 'is added',
-			'is today' => 'is today',
-			'less than hours before' => 'less than hours before',
-			'less than hours later' => 'less than hours later',
-			'more than hours before' => 'more than hours before',
-			'more than hours later' => 'more than hours later',
-			'less than days ago' => 'less than days ago',
-			'more than days ago' => 'more than days ago',
-			'in less than' => 'in less than',
-			'in more than' => 'in more than',
-			'days ago' => 'days ago',
-			'days later' => 'days later',
-			'equal to' => 'equal to',
-			'None' => 'None',
-			'is Watching Record' => 'is Watching Record',
-			'is Not Watching Record' => 'is Not Watching Record',
-		];
+		return Vtiger_AdvancedFilter_Helper::getAdvancedFilterOptions();
 	}
 
 	/**
@@ -62,33 +27,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
-		return [
-			'string' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
-			'salutation' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
-			'text' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
-			'url' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
-			'email' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
-			'phone' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
-			'integer' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
-			'double' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
-			'currency' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'],
-			'picklist' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
-			'multipicklist' => ['is', 'is not', 'has changed', 'has changed to'],
-			'datetime' => ['is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty'],
-			'time' => ['is', 'is not', 'has changed', 'is not empty'],
-			'date' => ['is', 'is not', 'has changed', 'between', 'before', 'after', 'is today', 'less than days ago', 'more than days ago', 'in less than', 'in more than',
-				'days ago', 'days later', 'is not empty'],
-			'boolean' => ['is', 'is not', 'has changed'],
-			'reference' => ['has changed', 'is empty', 'is not empty'],
-			'owner' => ['has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record'],
-			'recurrence' => ['is', 'is not', 'has changed'],
-			'comment' => ['is added'],
-			'image' => ['is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'],
-			'percentage' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'],
-			'multiReferenceValue' => ['contains', 'does not contain', 'has changed', 'is empty', 'is not empty'],
-			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
-			'rangeTime' => ['is empty', 'is not empty'],
-		];
+		return Vtiger_AdvancedFilter_Helper::getAdvancedFilterOpsByFieldType();
 	}
 
 	/**
