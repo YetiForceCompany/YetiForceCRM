@@ -36,13 +36,13 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function addKey($params)
 	{
-		$db = new App\db\Query();
+		$query = new App\db\Query();
 		$type = (gettype($params['type']) == 'array') ? $params['type'] : [$params['type']];
 		$userID = $params['user'];
-		$db->select('id')
+		$query->select('id')
 			->from('dav_users')
 			->where(['userid' => $userID]);
-		if ($db->count() != 0) {
+		if ($query->count() !== 0) {
 			return 1;
 		}
 		$keyLength = 10;

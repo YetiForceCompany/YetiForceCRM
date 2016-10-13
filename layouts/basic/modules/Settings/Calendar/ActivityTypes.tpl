@@ -39,7 +39,7 @@
 								<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>
 							</label> 
 						</td>
-						<td class="calendarColor" style="background: {$item.color};"></td>
+						<td class="calendarColor" style="background: {$item.defaultcolor};"></td>
 						<td>
 							<button class="btn btn-primary marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
 							<button class="btn btn-info generateColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>

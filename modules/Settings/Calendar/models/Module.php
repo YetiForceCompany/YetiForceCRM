@@ -21,17 +21,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$query = (new \App\db\Query())->from('vtiger_calendar_default_activitytypes');
 		$dataReader = $query->createCommand()->query();
-		$calendarViewTypes = [];
-		while ($row = $dataReader->read()) {
-			$calendarViewTypes[] = [
-				'id' => $row['id'],
-				'module' => $row['module'],
-				'fieldname' => $row['fieldname'],
-				'fieldlabel' => $row['fieldname'],
-				'color' => $row['defaultcolor'],
-				'active' => $row['active']
-			];
-		}
+		$calendarViewTypes = $dataReader->readAll();
 		return $calendarViewTypes;
 	}
 
