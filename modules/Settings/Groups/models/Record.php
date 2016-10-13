@@ -105,6 +105,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_group2modules.tabid')
 				->where(['vtiger_group2modules.groupid' => $this->getId()]);
 			$dataReader = $db->createCommand()->query();
+			$modules = [];
 			while ($row = $dataReader->read()) {
 				$modules[$row['tabid']] = $row['name'];
 			}

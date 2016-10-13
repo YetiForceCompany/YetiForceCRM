@@ -19,7 +19,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, $listQuery)
 	{
-		if ($listviewModel->get('src_module') == 'Project' && !$listviewModel->isEmpty('filterFields')) {
+		if ($listviewModel->get('src_module') === 'Project' && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');
 			if (!empty($filterFields['projectid'])) {
 				return $listQuery . ' AND projectid = ' . $filterFields['projectid'];

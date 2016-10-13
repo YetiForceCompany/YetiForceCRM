@@ -34,8 +34,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		
 		$dataReader = $db->createCommand()->query();
 		$users = [];
-		while ($user = $dataReader->read()) {
-			$user = reset($user);
+		while ($user = $dataReader->readColumn(0)) {
 			$members = explode(':', $user);
 			$users[$members[0]][] = $user;
 		}
@@ -45,14 +44,12 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
 	{
 		if ($action == 'add') {
-			$db = new App\db\Query();
-			$db->select('vtiger_customview.viewname')->from('vtiger_user_module_preferences')->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
+			$query = new App\db\Query();
+			$query->select('vtiger_customview.viewname')->from('vtiger_user_module_preferences')->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
 				->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user]);
-			$dataReader = $db->createCommand()->query();
-			
+			$dataReader = $query->createCommand()->query();
 			if ($dataReader->count()) {
-				$result = $dataReader->read();
-				return $result['viewname'];
+				return $dataReader->readColumn(0);
 			}
 			$db = \App\DB::getInstance();
 			$db->createCommand()->insert('vtiger_user_module_preferences', [
