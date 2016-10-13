@@ -1,0 +1,33 @@
+<?php
+// The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html
+
+$languageStrings = [
+	'CurrencyUpdate' => 'Actualizar Moneda',
+	'LBL_CURRENCY_UPDATE' => 'Actualizar Moneda',
+	'LBL_CURRENCY_UPDATE_DESCRIPTION' => 'Ajustes del sistema de actualización en línea de tipos de cambio.',
+	'LBL_SELECT_BANK' => 'Seleccionar Banco',
+	'MSG_ONE_CURRENCY' => 'Hay una sola moneda principal. Para conseguir más tipos de cambio agregue otras monedas en los ajustes del CRM.',
+	'LBL_HISTORY' => 'Historial de Tipos de Cambio',
+	'LBL_BANK' => 'Seleccionar el Banco del cual pedir información sobre Tipos de Cambio',
+	'LBL_CAL_DATE' => 'Fecha de consulta',
+	'LBL_MAINCURRENCY' => 'Moneda principal',
+	'LBL_CODE' => 'Código',
+	'LBL_SYMBOL' => 'Símbolo',
+	'LBL_CURRENCY_NAME' => 'Nombre de Moneda',
+	'LBL_CURRENCY_SYMBOL' => 'Símbolo de Moneda',
+	'LBL_COURSE' => 'Tipo de Cambio',
+	'LBL_DATE' => 'Fecha de descarga',
+	'LBL_ACTUAL_DATE_OF_COURSE' => 'Fecha de consulta',
+	'LBL_SHOW' => 'Mostrar',
+	'LBL_CURRENCIES_SUPPORTED' => 'Lista de monedas soportadas por este Banco',
+	'LBL_CURRENCIES_UNSUPPORTED' => 'Lista de monedas no soportadas por este Banco',
+	'LBL_SET_BANK_OK' => 'Se guardó el Banco activo.',
+	'LBL_SET_BANK_ERROR' => 'Falló al guardar Banco activo.',
+	'LBL_INFORMATIONS' => 'Información',
+	'LBL_WARNING' => 'Cuidado!',
+	// bank labels
+	'NBP' => 'Banco Nacional de Polonia',
+	'ECB' => 'Banco Central Europeo',
+	'CBR' => 'Banco Central de Rusia',
+	'NBR' => 'Banco Nacional de Rumania',
+];
