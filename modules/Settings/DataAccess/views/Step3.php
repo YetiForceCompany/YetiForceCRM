@@ -19,36 +19,36 @@ Class Settings_DataAccess_Step3_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\DB::getInstance();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$baseModule = $request->get('base_module');
-		$tpl_id = $request->get('tpl_id');
+		$tplId = $request->get('tpl_id');
 
 		if ($request->get('s') == '' || $request->get('s') == 'true') {
 			$summary = $request->get('summary');
 			$conditionAll = $request->getRaw('condition_all_json');
 			$conditionOption = $request->getRaw('condition_option_json');
-			if ($tpl_id != '') {
-				$insertBaseRecord = "UPDATE vtiger_dataaccess SET module_name = ?, summary = ?  WHERE dataaccessid = ?";
-				$db->pquery($insertBaseRecord, array($baseModule, $summary, $tpl_id), true);
-
-				Settings_DataAccess_Module_Model::updateConditions($conditionAll, $tpl_id);
-				Settings_DataAccess_Module_Model::updateConditions($conditionOption, $tpl_id, false);
+			if ($tplId != '') {
+				$db->createCommand()
+					->update('vtiger_dataaccess', ['module_name' => $baseModule, 'summary' => $summary], ['dataaccessid' => $tplId])
+					->execute();
+				Settings_DataAccess_Module_Model::updateConditions($conditionAll, $tplId);
+				Settings_DataAccess_Module_Model::updateConditions($conditionOption, $tplId, false);
 			} else {
-				$insertBaseRecord = "INSERT INTO vtiger_dataaccess (module_name,summary) VALUES(?,?)";
-				$db->pquery($insertBaseRecord, array($baseModule, $summary), true);
-				$tpl_id = $db->getLastInsertID();
-
-				Settings_DataAccess_Module_Model::addConditions($conditionAll, $tpl_id);
-				Settings_DataAccess_Module_Model::addConditions($conditionOption, $tpl_id, false);
+				$db->createCommand()
+					->update('vtiger_dataaccess', ['module_name' => $baseModule, 'summary' => $summary])
+					->execute();
+				$tplId = $db->getLastInsertID();
+				Settings_DataAccess_Module_Model::addConditions($conditionAll, $tplId);
+				Settings_DataAccess_Module_Model::addConditions($conditionOption, $tplId, false);
 			}
 		}
 
-		$DataAccess = Settings_DataAccess_Module_Model::getDataAccessInfo($tpl_id, false);
+		$DataAccess = Settings_DataAccess_Module_Model::getDataAccessInfo($tplId, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('STEP', 3);
-		$viewer->assign('TPL_ID', $tpl_id);
+		$viewer->assign('TPL_ID', $tplId);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('REQUEST', $request);
 		$viewer->assign('BASE_MODULE', $baseModule);

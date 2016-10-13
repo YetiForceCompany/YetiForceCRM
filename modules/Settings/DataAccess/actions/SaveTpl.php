@@ -21,18 +21,16 @@ class Settings_DataAccess_SaveTpl_Action extends Settings_Vtiger_Index_Action
 	{
 		$baseModule = $request->get('base_module');
 		$summary = $request->get('summary');
-
 		$conditionAll = $request->getRaw('condition_all_json');
 		$conditionOption = $request->getRaw('condition_option_json');
-		$db = PearDatabase::getInstance();
-
-		$insertBaseRecord = "INSERT INTO vtiger_dataaccess VALUES(?, ?, ?)";
-		$db->pquery($insertBaseRecord, array(NULL, $baseModule, $summary), true);
+		$db = \App\DB::getInstance();
+		$db->createCommand()->insert('vtiger_dataaccess', [
+			'module_name' => $baseModule,
+			'summary' => $summary
+		])->execute();
 		$recordId = $db->getLastInsertID();
-
 		Settings_DataAccess_Module_Model::addConditions($conditionAll, $recordId);
 		Settings_DataAccess_Module_Model::addConditions($conditionOption, $recordId, false);
-
 		header("Location: index.php?module=DataAccess&parent=Settings&view=Index");
 	}
 }
