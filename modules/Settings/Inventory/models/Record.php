@@ -57,24 +57,26 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		return '?module=Inventory&parent=Settings&view=ModalAjax&type=' . $this->getType() . '&id=' . $this->getId();
 	}
 
+	private static $tableName = ['CreditLimits' => 'a_#__inventory_limits', 'Taxes' => 'a_#__taxes_global', 'Discounts' => 'a_#__discounts_global'];
+
 	public static function getTableNameFromType($type)
 	{
-		$tablename = ['CreditLimits' => 'a_yf_inventory_limits', 'Taxes' => 'a_yf_taxes_global', 'Discounts' => 'a_yf_discounts_global'];
-		return $tablename[$type];
+		return static::$tableName[$type];
 	}
 
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
 		$tablename = self::getTableNameFromType($this->getType());
 		$id = $this->getId();
-
 		if (!empty($id) && $tablename) {
-			$columns = ['name' => $this->getName(),
+			$columns = [
+				'name' => $this->getName(),
 				'value' => $this->get('value'),
 				'status' => $this->get('status')
 			];
-			$db->update($tablename, $columns, 'id = ?', [$id]);
+			\App\DB::getInstance()->createCommand()
+				->update($tablename, $columns, ['id' => $id])
+				->execute();
 		} else {
 			$id = $this->add();
 		}
@@ -89,23 +91,27 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 	 */
 	public function add()
 	{
-		$adb = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($this->getType());
 		if ($tableName) {
-			$query = 'INSERT INTO `' . $tableName . '` (`status`,`value`,`name`) values(?,?,?)';
-			$params = [$this->get('status'), $this->get('value'), $this->getName()];
-			$adb->pquery($query, $params);
-			return $adb->getLastInsertID();
+			$db = \App\DB::getInstance();
+			$db->createCommand()
+				->insert($tableName, [
+					'status' => $this->get('status'),
+					'value' => $this->get('value'),
+					'name' => $this->getName()
+				])->execute();
+			return $db->getLastInsertID();
 		}
 		throw new Error('Error occurred while adding value');
 	}
 
 	public function delete()
 	{
-		$adb = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($this->getType());
 		if ($tableName) {
-			$adb->delete($tableName, 'id = ?', [$this->getId()]);
+			\App\DB::getInstance()->createCommand()
+				->delete($tableName, ['id' => $this->getId()])
+				->execute();
 			return true;
 		}
 		throw new Error('Error occurred while deleting value');
@@ -116,13 +122,11 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$recordList = [];
 		$tableName = self::getTableNameFromType($type);
-
 		if (!$tableName) {
 			return $recordList;
 		}
-		$query = sprintf('SELECT * FROM %s', $tableName);
-		$result = $db->query($query);
-		while ($row = $db->fetch_array($result)) {
+		$dataReader = (new \App\db\Query)->from($tableName)->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$recordModel = new self();
 			$recordModel->setData($row)->setType($type);
 			$recordList[] = $recordModel;
@@ -132,16 +136,15 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 
 	public static function getInstanceById($id, $type = '')
 	{
-		$db = PearDatabase::getInstance();
 		$tableName = self::getTableNameFromType($type);
-
 		if (!$tableName) {
 			return false;
 		}
-		$query = sprintf('SELECT * FROM %s WHERE `id` = ?;', $tableName);
-		$result = $db->pquery($query, [$id]);
+		$row = (new \App\db\Query())->from($tableName)
+				->where(['id' => $id])
+				->createCommand()->queryOne();
 		$recordModel = new self();
-		while ($row = $db->fetch_array($result)) {
+		if ($row !== false) {
 			$recordModel->setData($row)->setType($type);
 		}
 		return $recordModel;
@@ -149,7 +152,6 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 
 	public static function checkDuplicate($label, $excludedIds = [], $type = '')
 	{
-		$db = PearDatabase::getInstance();
 		if (!is_array($excludedIds)) {
 			if (!empty($excludedIds)) {
 				$excludedIds = [$excludedIds];
@@ -158,15 +160,12 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		$tableName = self::getTableNameFromType($type);
-		$query = sprintf('SELECT 1 FROM %s WHERE `name` = ?', $tableName);
-		$params = [$label];
-
+		$query = (new \App\db\Query())
+			->from($tableName)
+			->where(['name' => $label]);
 		if (!empty($excludedIds)) {
-			$query .= " && `id` NOT IN (" . generateQuestionMarks($excludedIds) . ")";
-			$params = array_merge($params, $excludedIds);
+			$query->andWhere(['NOT IN', 'id', $excludedIds]);
 		}
-		$result = $db->pquery($query, $params);
-
-		return ($db->num_rows($result) > 0) ? true : false;
+		return ($query->count() > 0) ? true : false;
 	}
 }
