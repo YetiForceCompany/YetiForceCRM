@@ -5656,6 +5656,7 @@ select.form-control {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+	line-height: 14px;
 }
 .leftPanelOpen.siteBarRight{
 	width: calc(25% - 50px);
@@ -5733,6 +5734,7 @@ select.form-control {
 	border-bottom-left-radius: 0;
 }
 .activityContainer{
+	padding-top: 5px;
 	padding-left: 35px;
 }
 .bigLabel{
