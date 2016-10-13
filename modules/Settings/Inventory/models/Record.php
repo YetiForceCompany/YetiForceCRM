@@ -69,13 +69,12 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$tablename = self::getTableNameFromType($this->getType());
 		$id = $this->getId();
 		if (!empty($id) && $tablename) {
-			$columns = [
-				'name' => $this->getName(),
-				'value' => $this->get('value'),
-				'status' => $this->get('status')
-			];
 			\App\DB::getInstance()->createCommand()
-				->update($tablename, $columns, ['id' => $id])
+				->update($tablename, [
+					'name' => $this->getName(),
+					'value' => $this->get('value'),
+					'status' => $this->get('status')
+					], ['id' => $id])
 				->execute();
 		} else {
 			$id = $this->add();
@@ -119,7 +118,6 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 
 	public static function getDataAll($type)
 	{
-		$db = PearDatabase::getInstance();
 		$recordList = [];
 		$tableName = self::getTableNameFromType($type);
 		if (!$tableName) {
