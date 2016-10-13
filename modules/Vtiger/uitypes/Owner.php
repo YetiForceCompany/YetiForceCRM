@@ -63,9 +63,9 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$maxLengthText = $this->get('field')->get('maxlengthtext');
-		$ownerName = vtlib\Functions::textLength(\includes\fields\Owner::getLabel($value), $maxLengthText);
+		$ownerName = \includes\fields\Owner::getLabel($value);
 		if ($rawText) {
-			return $ownerName;
+			return \vtlib\Functions::textLength($ownerName, $maxLengthText);
 		}
 		if (\includes\fields\Owner::getType($value) === 'Users') {
 			$userModel = Users_Privileges_Model::getInstanceById($value);
@@ -82,7 +82,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		} else {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
-				return $ownerName;
+				return \vtlib\Functions::textLength($ownerName, $maxLengthText);
 			}
 			$recordModel = new Settings_Groups_Record_Model();
 			$recordModel->set('groupid', $value);
