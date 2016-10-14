@@ -71,35 +71,27 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getModulesCount($onlyActive = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT * FROM vtiger_tab';
-		$params = array();
+		$query = (new \App\db\Query)->from('vtiger_tab');
 		if ($onlyActive) {
-			$presence = [0];
 			$nonVisibleModules = self::getNonVisibleModulesList();
-			$query .= sprintf(' WHERE presence IN (%s) && name NOT IN (%s)', generateQuestionMarks($presence), generateQuestionMarks($nonVisibleModules));
-			array_push($params, $presence, $nonVisibleModules);
+			$query->where(['and', ['presence' => 0], ['NOT IN', 'name', $nonVisibleModules]]);
 		}
-		$result = $db->pquery($query, $params);
-		return $db->num_rows($result);
+		return $query->count();
 	}
 
 	/**
 	 * Function that returns all those modules that support Module Sequence Numbering
-	 * @global PearDatabase $db - database connector
 	 * @return <Array of Vtiger_Module_Model>
 	 */
 	public static function getModulesSupportingSequenceNumbering()
 	{
-		$db = PearDatabase::getInstance();
-		$sql = "SELECT tabid, name FROM vtiger_tab WHERE isentitytype = 1 && presence = 0 && tabid IN
-			(SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = '4')";
-		$result = $db->pquery($sql, array());
-
-		$moduleModels = array();
-		for ($i = 0; $i < $db->num_rows($result); ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		$subQuery = (new \App\db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
+		$dataReader = (new \App\db\Query())->select(['tabid', 'name'])
+			->from('vtiger_tab')
+			->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])
+			->createCommand()->query();
+		$moduleModels = [];
+		while ($row = $dataReader->read()) {
 			$moduleModels[$row['name']] = self::getInstanceFromArray($row);
 		}
 		return $moduleModels;
