@@ -299,7 +299,10 @@ class PearDatabase
 		$sqlStartTime = microtime(true);
 
 		try {
+			\App\log::beginProfile($query, __METHOD__);
 			$this->stmt = $this->database->query($query);
+			\App\log::endProfile($query, __METHOD__);
+
 			$this->logSqlTime($sqlStartTime, microtime(true), $query);
 		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();
@@ -328,7 +331,11 @@ class PearDatabase
 
 		try {
 			$this->stmt = $this->database->prepare($query);
+
+			\App\log::beginProfile($query, __METHOD__);
 			$this->stmt->execute($params);
+			\App\log::endProfile($query, __METHOD__);
+
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();
