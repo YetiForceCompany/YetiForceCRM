@@ -181,13 +181,13 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 		if ($createMappingsList) {
 			$count = count($createMappingsList);
+			$insertedData = [];
 			for ($i = 0; $i < $count; $i++) {
 				$mappingDetails = $createMappingsList[$i];
-				\App\DB::getInstance()->createCommand()->insert('vtiger_convertleadmapping', [
-					'leadfid' =>  $mappingDetails['lead'],
-					'accountfid' => $mappingDetails['account']
-				])->execute();
+				$insertedData []= [$mappingDetails['lead'], $mappingDetails['account']];
 			}
+			\App\DB::getInstance()->createCommand()->batchInsert('vtiger_convertleadmapping', ['leadfid', 'accountfid'], $insertedData)
+				->execute();
 		}
 
 		if ($updateMappingsList) {

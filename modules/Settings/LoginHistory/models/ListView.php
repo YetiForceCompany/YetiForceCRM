@@ -44,7 +44,7 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$searchKey = $this->get('search_key');
 		$value = $this->get('search_value');
 		if (!empty($searchKey) && !empty($value)) {
-			$query->where(["$module->baseTable.$searchKey" => $value]);
+			$query->where([$searchKey => $value]);
 		}
 		return $query->count();
 	}
