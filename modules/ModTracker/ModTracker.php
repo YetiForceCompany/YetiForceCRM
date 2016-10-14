@@ -131,15 +131,17 @@ class ModTracker
 	 */
 	static function enableTrackingForModule($tabid)
 	{
-		$adb = PearDatabase::getInstance();
 		if (!self::isModulePresent($tabid)) {
-			$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
+			\App\DB::getInstance()->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 1])
+				->execute();
 			self::updateCache($tabid, 1);
 		} else {
-			$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabid));
+			\App\DB::getInstance()->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 1], ['tabid' => $tabid])
+				->execute();
 			self::updateCache($tabid, 1);
 		}
-		$adb->pquery("UPDATE vtiger_field SET presence = 2 WHERE tabid = ? && fieldname = ?", array($tabid, 'was_read'));
+		\App\DB::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])
+			->execute();
 	}
 
 	/**
