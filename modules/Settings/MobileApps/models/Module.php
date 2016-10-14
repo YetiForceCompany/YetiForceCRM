@@ -35,15 +35,18 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function addKey($params)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT id FROM yetiforce_mobile_keys WHERE user = ? && service = ?;", array($params['user'], $params['service']), true);
-		$rows = $adb->num_rows($result);
-		if ($rows != 0) {
+		if ((new \App\db\Query())->from('yetiforce_mobile_keys')
+				->where(['user' => $params['user'], 'service' => $params['service']])
+				->count())
 			return 1;
-		}
 		$keyLength = 10;
 		$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
-		$result = $adb->pquery('INSERT INTO yetiforce_mobile_keys (`user`, `service`, `key`) VALUES (?, ?, ?);', array($params['user'], $params['service'], $key));
+		$result = \App\DB::getInstance()->createCommand()
+				->insert('yetiforce_mobile_keys', [
+					'user' => $params['user'],
+					'service' => $params['service'],
+					'key' => $key
+				])->execute();
 		if (!$result)
 			return 0;
 		return $key;
@@ -51,18 +54,19 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function deleteKey($params)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('DELETE FROM yetiforce_mobile_keys WHERE user = ? && service = ?;', array($params['user'], $params['service']));
+		\App\DB::getInstance()->createCommand()
+			->delete('yetiforce_mobile_keys', ['user' => $params['user'], 'service' => $params['service']])
+			->execute();
 	}
 
 	public function changePrivileges($params)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($params['privileges'] != 'null') {
 			$privileges = serialize($params['privileges']);
 		} else {
 			$privileges = '';
 		}
-		$adb->pquery('UPDATE yetiforce_mobile_keys SET privileges_users = ? WHERE user = ? && service = ?;', array($privileges, $params['user'], $params['service']));
+		\App\DB::getInstance()->createCommand()->update('yetiforce_mobile_keys', ['privileges_users' => $privileges], ['user' => $params['user'], 'service' => $params['service']])
+			->execute();
 	}
 }

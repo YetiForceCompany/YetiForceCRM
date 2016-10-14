@@ -49,7 +49,7 @@ class Settings_MobileApps_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$params = $request->get('params');
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);
-		$result = $moduleModel->deleteKey($params);
+		$moduleModel->deleteKey($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -63,7 +63,7 @@ class Settings_MobileApps_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$params = $request->get('params');
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);
-		$result = $moduleModel->changePrivileges($params);
+		$moduleModel->changePrivileges($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
