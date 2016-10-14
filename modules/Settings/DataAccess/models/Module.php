@@ -200,15 +200,9 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 	public function updateConditions($conditions, $relId, $mendatory = true)
 	{
-		if ($mendatory) {
-			\App\DB::getInstance()->createCommand()
-				->delete('vtiger_dataaccess_cnd', ['dataaccessid' => $relId, 'required' => 1])
-				->execute();
-		} else {
-			\App\DB::getInstance()->createCommand()
-				->delete('vtiger_dataaccess_cnd', ['dataaccessid' => $relId, 'required' => 0])
-				->execute();
-		}
+		\App\DB::getInstance()->createCommand()
+			->delete('vtiger_dataaccess_cnd', ['dataaccessid' => $relId, 'required' => $mendatory ? 1 : 0])
+			->execute();
 		$conditionObj = json_decode($conditions);
 		if (count($conditionObj)) {
 			foreach ($conditionObj as $key => $obj) {

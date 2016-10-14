@@ -43,18 +43,19 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 			$restrictedFieldNames = ['campaignrelstatus'];
 			$restrictedUitypes = $this->getRestrictedUitypes();
 			$selectedGeneratedTypes = [1, 2];
-
-			$db = PearDatabase::getInstance();
-			$query = sprintf('SELECT fieldid FROM vtiger_field
-						WHERE presence IN (%s)
-						AND tabid IN (%s)
-						AND uitype NOT IN (%s)
-						AND fieldname NOT IN (%s)
-						AND generatedtype IN (%s)', generateQuestionMarks($presense), generateQuestionMarks($selectedTabidsList), generateQuestionMarks($restrictedUitypes), generateQuestionMarks($restrictedFieldNames), generateQuestionMarks($selectedGeneratedTypes));
-
-			$params = array_merge($presense, $selectedTabidsList, $restrictedUitypes, $restrictedFieldNames, $selectedGeneratedTypes);
-			$result = $db->pquery($query, $params);
-			$this->supportedFieldIdsList = $db->getArrayColumn($result);
+			$dataReader = (new \App\db\Query())->select('fieldid')
+				->from('vtiger_field')
+				->where([
+					'presence' => $presense,
+					'tabid' => $selectedTabidsList,
+					'generatedtype' => $selectedGeneratedTypes
+				])
+				->andWhere(['and', ['NOT IN', 'uitype', $restrictedUitypes], ['NOT IN', 'fieldname', $restrictedFieldNames]])
+				->createCommand()->query();
+			$this->supportedFieldIdsList = [];
+			while ($field = $dataReader->readColumn(0)) {
+				$this->supportedFieldIdsList []= $field;
+			}
 		}
 		return $this->supportedFieldIdsList;
 	}
