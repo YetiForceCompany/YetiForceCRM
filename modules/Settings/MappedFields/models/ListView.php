@@ -13,71 +13,47 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getModule();
 		$parentModuleName = $module->getParentName();
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $module->getName();
 		}
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-
-		$listFields = $module->listFields;
-		$listQuery = 'SELECT ';
-		foreach ($listFields as $fieldName => $fieldLabel) {
-			$listQuery .= '`' . $fieldName . '`, ';
-		}
-		$listQuery .= '`' . $module->baseIndex . '` FROM `' . $module->baseTable . '`';
-
-		$params = [];
+		$listFields = array_keys($module->listFields);
+		$listFields []= $module->baseIndex;
+		$query = (new \App\db\Query())->select($listFields)
+			->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
-			$sourceModule = vtlib\Functions::getModuleName($sourceModule);
-			$listQuery .= ' WHERE `tabid` = ?';
-			$params[] = $sourceModule;
+			$query->where(['tabid' => $sourceModule]);
 		}
-
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
-
 		$orderBy = $this->getForSql('orderby');
-
 		if (!empty($orderBy)) {
-			$listQuery .= sprintf(' ORDER BY %s %s ', $orderBy, $this->getForSql('sortorder'));
+			$query->orderBy(sprintf('%s %s ', $orderBy, $this->getForSql('sortorder')));
 		}
-		$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
-		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
-
-		$listResult = $db->pquery($listQuery, $params);
-
+		$query->limit($pageLimit + 1)->offset($startIndex);
+		$dataReader = $query->createCommand()->query();
 		$listViewRecordModels = [];
-		while ($row = $db->getRow($listResult)) {
+		while ($row = $dataReader->read()) {
 			$recordModel = new $recordModelClass();
 			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
 			$relModuleName = vtlib\Functions::getModuleName($row['reltabid']);
-
 			$row['tabid'] = vtranslate($moduleName, $moduleName);
 			$row['reltabid'] = vtranslate($relModuleName, $relModuleName);
-
 			$recordModel->setData($row);
 			$listViewRecordModels[$recordModel->getId()] = $recordModel;
 		}
-
 		$pagingModel->calculatePageRange($listViewRecordModels);
-
-		if ($listResult->rowCount() > $pageLimit) {
+		if ($dataReader->count() > $pageLimit) {
 			array_pop($listViewRecordModels);
 			$pagingModel->set('nextPageExists', true);
 		} else {
-			$pagingModel->set('nextPageExists', false);
-		}
-
-		$nextPageResult = $db->pquery($nextListQuery, $params);
-		if ($nextPageResult->rowCount() <= 0) {
 			$pagingModel->set('nextPageExists', false);
 		}
 		return $listViewRecordModels;
@@ -89,19 +65,13 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 
 	public function getListViewCount()
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getModule();
-		$params = [];
-		$listQuery = sprintf('SELECT COUNT(1) AS count FROM %s', $module->baseTable);
-
+		$db = \App\DB::getInstance('admin');
+		$query = (new \App\db\Query())->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {
-			$listQuery .= ' WHERE `tabid` = ?;';
-			$params[] = $sourceModule;
+			$query->where(['tabid' => $sourceModule]);
 		}
-
-		$listResult = $db->pquery($listQuery, $params);
-		return $db->getSingleValue($listResult);
+		return $query->count('*', $db);
 	}
 }
