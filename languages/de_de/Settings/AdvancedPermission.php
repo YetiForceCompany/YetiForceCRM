@@ -21,4 +21,8 @@ $languageStrings = [
 	'LBL_SAVE_AND_CONDITIONS' => 'Nächster',
 	'ERR_INACTIVE_ALERT_TITLE' => 'Fortgeschrittene Berechtigungen sind deaktiviert',
 	'ERR_INACTIVE_ALERT_DESC' => 'Den Parameter  PERMITTED_BY_ADVANCED_PERMISSION in config/security.php ändern, um zu aktivieren.',
+	'LBL_RECALCULATE_PERMISSION_TITLE' => 'Permission recalculation',
+	'LBL_RECALCULATE_PERMISSION_BTN' => 'Recalculate permissions',
+	'LBL_RECALCULATE_CRON_INFO' => 'Permission recalculations requires enabled CRON, please check if the task is active.',
+	'LBL_MODULES_LIST' => 'Modules list',
 ];

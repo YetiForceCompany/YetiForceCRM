@@ -19,7 +19,7 @@
 					<button class="btn btn-success addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
 							{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
 									<span class="glyphicon glyphicon-plus"></span>&nbsp;
-									<strong>{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
+									<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $QUALIFIED_MODULE)}</strong>
 								</button>
 								{/foreach}
 								</div>
