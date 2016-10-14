@@ -17,7 +17,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\DB::getInstance();
 		parent::delete();
 
 		$fldModule = $this->getModuleName();
@@ -27,50 +27,52 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldname = $this->getName();
 		$oldfieldlabel = $this->get('label');
 		$tablename = $this->get('table');
-		$columnname = $this->get('column');
+		$columnName = $this->get('column');
 		$fieldtype = explode("~", $typeofdata);
 		$tabId = $this->getModuleId();
 
 		$focus = CRMEntity::getInstance($fldModule);
 
-		$deleteColumnName = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
-		$columnCvstdfilter = $tablename . ":" . $columnname . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
-		$selectColumnname = $tablename . ":" . $columnname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldname . ":" . $fieldtype[0];
-		$reportsummaryColumn = $tablename . ":" . $columnname . ":" . str_replace(" ", "_", $oldfieldlabel);
+		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
+		$columnCvstdfilter = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
+		$selectColumnname = $tablename . ":" . $columnName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldname . ":" . $fieldtype[0];
+		$reportsummaryColumn = $tablename . ":" . $columnName . ":" . str_replace(" ", "_", $oldfieldlabel);
 		if ($tablename != 'vtiger_crmentity') {
-			$dbquery = 'alter table ' . $db->quote($tablename, false) . ' drop column ' . $db->quote($columnname, false);
-			$db->pquery($dbquery, []);
+			$db->createCommand()->dropColumn($tablename, $columnName)->execute();
 		}
 		//we have to remove the entries in customview and report related tables which have this field ($colName)
-		$db->delete('vtiger_cvcolumnlist', 'columnname = ?', [$deleteColumnName]);
-		$db->delete('vtiger_cvstdfilter', 'columnname = ?', [$columnCvstdfilter]);
-		$db->delete('vtiger_cvadvfilter', 'columnname = ?', [$deleteColumnName]);
-		$db->delete('vtiger_selectcolumn', 'columnname = ?', [$selectColumnname]);
-		$db->delete('vtiger_relcriteria', 'columnname = ?', [$selectColumnname]);
-		$db->delete('vtiger_reportsortcol', 'columnname = ?', [$selectColumnname]);
-		$db->delete('vtiger_reportdatefilter', 'datecolumnname = ?', [$columnCvstdfilter]);
-		$db->delete('vtiger_reportsummary', 'columnname like ?', ['%' . $reportsummaryColumn . '%']);
-
+		$db->createCommand()->delete('vtiger_cvcolumnlist', ['columnname' => $deleteColumnName])->execute();
+		$db->createCommand()->delete('vtiger_cvstdfilter', ['columnname' => $columnCvstdfilter])->execute();
+		$db->createCommand()->delete('vtiger_cvadvfilter', ['columnname' => $deleteColumnName])->execute();
+		$db->createCommand()->delete('vtiger_selectcolumn', ['columnname' => $selectColumnname])->execute();
+		$db->createCommand()->delete('vtiger_relcriteria', ['columnname' => $selectColumnname])->execute();
+		$db->createCommand()->delete('vtiger_reportsortcol', ['columnname' => $selectColumnname])->execute();
+		$db->createCommand()->delete('vtiger_reportdatefilter', ['columnname' => $columnCvstdfilter])->execute();
+		$db->createCommand()->delete('vtiger_reportsummary', ['like', 'columnname', $reportsummaryColumn])->execute();
 		//Deleting from convert lead mapping vtiger_table- Jaguar
 		if ($fldModule == 'Leads') {
-			$db->delete('vtiger_convertleadmapping', 'leadfid = ?', [$id]);
+			$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();
 		} elseif ($fldModule == 'Accounts') {
 			$mapDelId = ['Accounts' => 'accountfid'];
-			$db->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], $mapDelId[$fldModule] . '=?', [$id]);
+			$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0] , [$mapDelId[$fldModule] => $id])->execute();
 		}
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
 		if ($this->getFieldDataType() == 'picklist' || $this->getFieldDataType() == 'multipicklist') {
-			$result = $db->pquery('SELECT * FROM `vtiger_field` WHERE `columnname` = ? && `uitype` IN (?,?,?);', [$columnname, 15, 16, 33]);
-			if (!$db->getRowCount($result)) {
-				$db->query('DROP TABLE vtiger_' . $columnname);
+			$query = (new \App\db\Query())->from('vtiger_field')
+				->where(['columnname' => $columnName])
+				->andWhere(['in', 'uitype', [15, 16, 33]]);
+			$dataReader = $query->createCommand()->query();
+			if (!$dataReader->count()) {
+				$db->createCommand()->dropTable('vtiger_' . $columnName)->execute();
 				//To Delete Sequence Table 
-				if (vtlib\Utils::CheckTable('vtiger_' . $columnname . '_seq')) {
-					$db->query('DROP TABLE vtiger_' . $columnname . '_seq');
+				if (vtlib\Utils::CheckTable('vtiger_' . $columnName . '_seq')) {
+					$db->createCommand()->dropTable('vtiger_' . $columnName . '_seq')->execute();
 				}
-				$db->delete('vtiger_picklist', 'name = ?', [$columnname]);
+				$db->createCommand()->delete('vtiger_picklist', ['name' => $columnName]);
+			
 			}
-			$db->delete('vtiger_picklist_dependency', '`tabid` = ? AND (sourcefield=? OR targetfield=?)', [$tabId, $columnname, $columnname]);
+			 $db->createCommand()->delete('vtiger_picklist_dependency', ['and', "tabid = $tabId", ['or', "sourcefield = '$columnname'", "targetfield = '$columnname'" ]])->execute();
 		}
 	}
 
@@ -81,8 +83,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function move($fieldNewDetails, $fieldOlderDetails)
 	{
-		$db = PearDatabase::getInstance();
-
+		$db = \App\DB::getInstance();
 		$newBlockId = $fieldNewDetails['blockId'];
 		$olderBlockId = $fieldOlderDetails['blockId'];
 
@@ -91,38 +92,31 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 		if ($olderBlockId == $newBlockId) {
 			if ($newSequence > $olderSequence) {
-				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? && sequence <= ? && block = ?';
-				$params = array($olderSequence, $newSequence, $olderBlockId);
-				$db->pquery($updateQuery, $params);
+				$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')],
+					['and', 'sequence > :olderSequence', 'sequence <= :newSequence', 'block = :olderBlockId'],
+					[':olderSequence' => $olderSequence, ':newSequence' => $newSequence, ':olderBlockId' => $olderBlockId])->execute();
 			} else if ($newSequence < $olderSequence) {
-				$updateQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence < ? && sequence >= ? && block = ?';
-				$params = array($olderSequence, $newSequence, $olderBlockId);
-				$db->pquery($updateQuery, $params);
+				$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence + 1')],
+					['and', 'sequence < :olderSequence', 'sequence >= :newSequence', 'block = :olderBlockId'],
+					[':olderSequence' => $olderSequence, ':newSequence' => $newSequence, ':olderBlockId' => $olderBlockId])->execute();
 			}
-			$query = 'UPDATE vtiger_field SET sequence = ? WHERE fieldid = ?';
-			$params = array($newSequence, $this->getId());
-			$db->pquery($query, $params);
+			$db->createCommand()->update('vtiger_field', ['sequence' => $newSequence], ['fieldid' => $this->getId()])->execute();
 		} else {
-			$updateOldBlockQuery = 'UPDATE vtiger_field SET sequence = sequence-1 WHERE sequence > ? && block = ?';
-			$params = array($olderSequence, $olderBlockId);
-			$db->pquery($updateOldBlockQuery, $params);
+			$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')],
+				['and', 'sequence > :olderSequence', 'block = :olderBlockId'],
+				[':olderSequence' => $olderSequence, ':olderBlockId' => $olderBlockId])->execute();
+			$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')],
+				['and', 'sequence >= :newSequence', 'block = :newBlockId'],
+				[':newSequence' => $newSequence, ':newBlockId' => $newBlockId])->execute();
 
-			$updateNewBlockQuery = 'UPDATE vtiger_field SET sequence = sequence+1 WHERE sequence >= ? && block = ?';
-			$params = array($newSequence, $newBlockId);
-			$db->pquery($updateNewBlockQuery, $params);
-
-			$query = 'UPDATE vtiger_field SET sequence = ?, block = ? WHERE fieldid = ?';
-			$params = array($newSequence, $newBlockId, $this->getId());
-			$db->pquery($query, $params);
+			$db->createCommand()->update('vtiger_field', ['sequence' => $newSequence, 'block' => $newBlockId], ['fieldid' => $this->getId()])->execute();
 		}
 	}
 
 	public static function makeFieldActive($fieldIdsList = array(), $blockId)
 	{
 		$db = PearDatabase::getInstance();
-		$maxSequenceQuery = "SELECT MAX(sequence) AS maxsequence FROM vtiger_field WHERE block = ? && presence IN (0,2) ";
-		$res = $db->pquery($maxSequenceQuery, array($blockId));
-		$maxSequence = $db->query_result($res, 0, 'maxsequence');
+		$maxSequence = (new \App\db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0,2]])->max('sequence');
 
 		$query = 'UPDATE vtiger_field SET presence = 2, sequence = CASE';
 		foreach ($fieldIdsList as $fieldId) {
@@ -246,24 +240,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		return $fieldModel;
 	}
 
-	public static function getDetailsForMove($fieldIdsList = array())
-	{
-		if ($fieldIdsList) {
-			$db = PearDatabase::getInstance();
-			$query = sprintf('SELECT fieldid, sequence, block, fieldlabel FROM vtiger_field WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdsList));
-			$result = $db->pquery($query, $fieldIdsList);
-			$numOfRows = $db->num_rows($result);
-
-			for ($i = 0; $i < $numOfRows; $i++) {
-				$blockIdsList[$db->query_result($result, $i, 'fieldid')] = array('blockId' => $db->query_result($result, $i, 'block'),
-					'sequence' => $db->query_result($result, $i, 'sequence'),
-					'label' => $db->query_result($result, $i, 'fieldlabel'));
-			}
-			return $blockIdsList;
-		}
-		return false;
-	}
-
 	/**
 	 * Function to get all fields list for all blocks
 	 * @param <Array> List of block ids
@@ -272,23 +248,15 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)
 	{
-		$db = PearDatabase::getInstance();
-
 		if (!is_array($blockId)) {
-			$blockId = array($blockId);
+			$blockId = [$blockId];
 		}
-
-		$query = sprintf('SELECT * FROM vtiger_field WHERE block IN(%s) && vtiger_field.displaytype IN (1,2,4,9,10) ORDER BY sequence', generateQuestionMarks($blockId));
-		$result = $db->pquery($query, $blockId);
-		$numOfRows = $db->num_rows($result);
-
-		$fieldModelsList = array();
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$rowData = $db->query_result_rowdata($result, $i);
-			//static is use to refer to the called class instead of defined class
-			//http://php.net/manual/en/language.oop5.late-static-bindings.php
+		$query = (new \App\db\Query())->from('vtiger_field')->where(['block' => $blockId, 'displaytype' => [1, 2, 4, 9, 10]])->orderBy('sequence');
+		$dataReader = $query->createCommand()->query();
+		$fieldModelsList = [];
+		while ($row = $dataReader->read()) {
 			$fieldModel = new self();
-			$fieldModel->initialize($rowData);
+			$fieldModel->initialize($row);
 			if ($moduleInstance) {
 				$fieldModel->setModule($moduleInstance);
 			}
@@ -314,18 +282,13 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
-		$db = PearDatabase::getInstance();
-
 		if (is_string($fieldId)) {
-			$fieldId = array($fieldId);
+			$fieldId = [$fieldId];
 		}
-
-		$query = sprintf('SELECT * FROM vtiger_field WHERE fieldid IN (%s) && tabid=?', generateQuestionMarks($fieldId));
-		$result = $db->pquery($query, [$fieldId, $moduleTabId]);
-		$fieldModelList = array();
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$query = (new \App\db\Query())->from('vtiger_field')->where(['tabid' => $moduleTabId, 'fieldid' => $fieldId])->orderBy('sequence');
+		$dataReader = $query->createCommand()->query();
+		$fieldModelList = [];
+		while ($row = $dataReader->read()) {
 			$fieldModel = new self();
 			$fieldModel->initialize($row);
 			$fieldModelList[] = $fieldModel;

@@ -175,10 +175,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldparams['field'] = $params['MRVField'];
 			$fieldparams['filterField'] = $params['MRVFilterField'];
 			$fieldparams['filterValue'] = $params['MRVFilterValue'];
-			$db->insert('s_yf_multireference', [
-				'source_module' => $moduleName,
-				'dest_module' => $params['MRVModule'],
-			]);
+			\App\DB::getInstance()->createCommand()->insert('s_yf_multireference',
+				['source_module' => $moduleName, 'dest_module' =>$params['MRVModule'] ])->execute();
+	
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
@@ -372,21 +371,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			//Check for fiel exists in both calendar and events module
 			$tabId = ['9', '16'];
 		}
-		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) && fieldlabel = ?', $db->generateQuestionMarks($tabId));
-		$result = $db->pquery($query, [$tabId, $fieldLabel]);
-		return ($db->getRowCount($result) > 0 ) ? true : false;
+		$query = (new \App\db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $tabId]);
+		$dataReader = $query->createCommand()->query();
+		return ($dataReader->count() > 0 ) ? true : false;
 	}
 
 	public function checkFieldNameExists($fieldName)
 	{
-		$db = PearDatabase::getInstance();
 		$tabId = [$this->getId()];
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
 		}
-		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) && (fieldname = ? || columnname = ?)', $db->generateQuestionMarks($tabId));
-		$result = $db->pquery($query, [$tabId, $fieldName, $fieldName]);
-		return ($db->getRowCount($result) > 0 ) ? true : false;
+		$query = (new \App\db\Query())->from('vtiger_field')->where(['tabid' => $tabId])->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]]);
+		$dataReader = $query->createCommand()->query();
+		return ($dataReader->count() > 0 ) ? true : false;
 	}
 
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
@@ -432,17 +430,16 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getEntityModulesList()
 	{
-		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
 
 		$presence = [0, 2];
 		$restrictedModules = ['SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter'];
 
-		$query = sprintf('SELECT `name` FROM vtiger_tab WHERE presence IN (%s) && isentitytype = ? && `name` NOT IN (%s)', $db->generateQuestionMarks($presence), $db->generateQuestionMarks($restrictedModules));
-		$result = $db->pquery($query, [$presence, 1, $restrictedModules]);
-
+		$query = (new \App\db\Query())->select('name')->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
+		$dataReader = $query->createCommand()->query();
 		$modulesList = [];
-		while (($moduleName = $db->getSingleValue($result)) !== false) {
+		while ($moduleName = $dataReader->read()) {
+			$moduleName = $moduleName['name'];
 			$modulesList[$moduleName] = $moduleName;
 		}
 		// If calendar is disabled we should not show events module too
@@ -527,14 +524,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function getTreeTemplates($sourceModule)
 	{
-		$db = PearDatabase::getInstance();
 		$sourceModule = vtlib\Functions::getModuleId($sourceModule);
-
-		$query = 'SELECT templateid,name FROM vtiger_trees_templates WHERE module = ?';
-		$result = $db->pquery($query, array($sourceModule));
-
+		$query = (new \App\db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule]);
 		$treeList = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		$modulesList = [];
+		while ($row = $dataReader->read()) {
 			$treeList[$row['templateid']] = $row['name'];
 		}
 		return $treeList;
