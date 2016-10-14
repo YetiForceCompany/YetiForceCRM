@@ -10,6 +10,15 @@ class DB extends \yii\db\Connection
 {
 
 	/**
+	 * @var boolean whether to turn on prepare emulation. Defaults to false, meaning PDO
+	 * will use the native prepare support if available. For some databases (such as MySQL),
+	 * this may need to be set true so that PDO can emulate the prepare support to bypass
+	 * the buggy native prepare support.
+	 * The default value is null, which means the PDO ATTR_EMULATE_PREPARES value will not be changed.
+	 */
+	public $emulatePrepare = false;
+
+	/**
 	 * @var Table of connections with database
 	 */
 	static private $cache = [];
@@ -57,9 +66,6 @@ class DB extends \yii\db\Connection
 		}
 		$config = static::getConfig($type);
 		$db = new self($config);
-		$db->attributes = [
-			\PDO::ATTR_EMULATE_PREPARES => false
-		];
 		static::$cache[$type] = $db;
 		return $db;
 	}

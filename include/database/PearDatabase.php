@@ -96,20 +96,18 @@ class PearDatabase
 	public function connect()
 	{
 		// Set DSN 
-		$dsn = 'mysql:host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';charset=utf8' . ';port=' . $this->port;
+		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port;
 
 		// Set options
 		$options = array(
 			PDO::ATTR_EMULATE_PREPARES => false,
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_TIMEOUT => 5
 		);
-
-		if ($this->isdb_default_utf8_charset) {
-			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
-		}
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
+			$this->database->exec('SET NAMES ' . $this->database->quote('utf8'));
 		} catch (\Exception\AppException $e) {
 			// Catch any errors
 			\App\Log::error('Database connect : ' . $e->getMessage());
