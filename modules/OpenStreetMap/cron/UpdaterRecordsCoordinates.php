@@ -10,7 +10,8 @@ $result = $db->pquery($query, [AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDA
 while ($row = $db->getRow($result)) {
 	$typeAddress = $row['type'];
 	$recordId = $row['crmid'];
-	$coordinates = OpenStreetMap_Module_Model::getCoordinates(\includes\utils\Json::decode($row['address']));
+	$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+	$coordinates = $coordinatesModel->getCoordinates(\includes\utils\Json::decode($row['address']));
 	if ($coordinates === false)
 		break;
 	if (empty($coordinates)) {

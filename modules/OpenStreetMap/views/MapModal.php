@@ -26,8 +26,9 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 				$fieldsToGroup [] = $fieldModel;
 			}
 		}
+		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$cacheRecords[$request->get('srcModule')] = 0; // default values
-		$cacheRecords = array_merge($cacheRecords, OpenStreetMap_Module_Model::getCachedRecords());
+		$cacheRecords = array_merge($cacheRecords, $coordinatesModel->getCachedRecords());
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELDS_TO_GROUP', $fieldsToGroup);
 		$viewer->assign('CACHE_GROUP_RECORDS', $cacheRecords);

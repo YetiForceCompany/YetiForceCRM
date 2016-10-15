@@ -27,11 +27,8 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 
 	public function delete(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
-		$srcModuleName = $request->get('srcModule');
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-		$userId = $currentUser->getId();
-		$db->delete('u_yf_openstreetmap_cache', '`user_id` = ? AND module_name = ?', [$userId, $srcModuleName]);
+		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel->deleteCache(Users_Privileges_Model::getCurrentUserModel()->getId(), $request->get('srcModule'));;
 		$response = new Vtiger_Response();
 		$response->setResult(0);
 		$response->emit();
@@ -39,17 +36,12 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 
 	public function save(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
 		$srcModuleName = $request->get('srcModule');
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-		$userId = $currentUser->getId();
+		$userId = Users_Privileges_Model::getCurrentUserModel()->getId();
 		$records = $request->get('recordIds');
-		$db->delete('u_yf_openstreetmap_cache', '`user_id` = ? AND module_name = ?', [$userId, $srcModuleName]);
-		$query = 'INSERT INTO `u_yf_openstreetmap_cache` SET `user_id` = ?, module_name = ?, crmids = ?';
-		foreach ($records as $record) {
-			$params = [$userId, $srcModuleName, $record];
-			$db->pquery($query, $params);
-		}
+		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel->deleteCache($userId, $srcModuleName);
+		$coordinatesModel->saveCache($userId, $srcModuleName, $records);
 		$response = new Vtiger_Response();
 		$response->setResult(count($records));
 		$response->emit();

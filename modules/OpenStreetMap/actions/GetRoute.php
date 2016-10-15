@@ -11,7 +11,6 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 
 	public function process(Vtiger_Request $request)
 	{
-		$data = $request->get('coordinates');
 		$flon = $request->get('flon');
 		$flat = $request->get('flat');
 		$tlon = $request->get('tlon');
@@ -22,20 +21,22 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 		$track = [];
 		$startLat = $flat;
 		$startLon = $flon;
-		foreach ($ilon as $key => $tempLon) {
-			if(!empty($tempLon)){
-				$endLon = $ilon[$key];
-				$endLat = $ilat[$key];
-				$tracks [] = [
-					'startLat' => $startLat,
-					'startLon' => $startLon,
-					'endLat' => $endLat,
-					'endLon' => $endLon
-				];
-				$startLat = $endLat;
-				$startLon = $endLon;
+		if(!empty($ilon)){
+			foreach ($ilon as $key => $tempLon) {
+				if(!empty($tempLon)){
+					$endLon = $ilon[$key];
+					$endLat = $ilat[$key];
+					$tracks [] = [
+						'startLat' => $startLat,
+						'startLon' => $startLon,
+						'endLat' => $endLat,
+						'endLon' => $endLon
+					];
+					$startLat = $endLat;
+					$startLon = $endLon;
+				}
+
 			}
-			
 		}
 		$tracks [] = [
 			'startLat' => $startLat,

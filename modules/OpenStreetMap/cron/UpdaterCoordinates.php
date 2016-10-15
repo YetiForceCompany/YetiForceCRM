@@ -12,10 +12,11 @@ if ($lastUpdatedCrmId = $db->getRow($result)) {
 	$query = 'SELECT crmid, setype, deleted FROM vtiger_crmentity WHERE crmid > ? LIMIT ?';
 	$result = $db->pquery($query, [$lastUpdatedCrmId, AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES')]);
 	$moduleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
+	$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 	while ($row = $db->getRow($result)) {
 		if ($moduleModel->isAllowModules($row['setype']) && $row['deleted'] == 0) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
-			$coordinates = OpenStreetMap_Module_Model::getCoordinatesByRecord($recordModel);
+			$coordinates = $coordinatesModel->getCoordinatesByRecord($recordModel);
 			foreach ($coordinates as $typeAddress => $coordinate) {
 				$isCoordinateExists = $db->pquery('SELECT 1 FROM u_yf_openstreetmap WHERE type = ? && crmid = ?', [$typeAddress, $recordModel->getId()]);
 				$isCoordinateExists = $db->getSingleValue($isCoordinateExists);
