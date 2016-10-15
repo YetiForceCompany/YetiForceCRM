@@ -1,4 +1,4 @@
-<?php namespace App\debug;
+<?php namespace App\Debug;
 
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;

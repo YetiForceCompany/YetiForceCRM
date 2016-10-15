@@ -1,4 +1,4 @@
-<?php namespace App\debug;
+<?php namespace App\Debug;
 
 use PDO;
 use PDOException;
