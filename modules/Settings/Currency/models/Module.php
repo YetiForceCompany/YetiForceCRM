@@ -39,7 +39,7 @@ class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function delete($recordId)
 	{
-		\App\DB::getInstance()->createCommand()->update(self::tableName,
+		\App\Db::getInstance()->createCommand()->update(self::tableName,
 			['deleted' => 1], ['id' => $recordId]
 		)->execute();
 	}

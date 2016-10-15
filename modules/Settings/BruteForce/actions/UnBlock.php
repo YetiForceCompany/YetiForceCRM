@@ -15,7 +15,7 @@ class Settings_BruteForce_Unblock_Action extends Settings_Vtiger_Basic_Action
 	public function process(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
-		$query = (new \App\db\Query())->select('timelock')->from('vtiger_bruteforce');
+		$query = (new \App\Db\Query())->select('timelock')->from('vtiger_bruteforce');
 		$row = $query->createCommand()->queryOne();
 		$blockTime = $row['timelock'];
 		$now = date("Y-m-d H:i:s");

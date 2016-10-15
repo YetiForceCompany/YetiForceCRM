@@ -27,7 +27,7 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 			\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 			return $cache;
 		}
-		$query = (new \App\db\Query())->from('yetiforce_proc_marketing')->where(['type' => $type]);
+		$query = (new \App\Db\Query())->from('yetiforce_proc_marketing')->where(['type' => $type]);
 		$dataReader = $query->createCommand()->query();
 		$noRows = $dataReader->count();
 		if ($noRows === 0) {
@@ -56,7 +56,7 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		\App\DB::getInstance()->createCommand()->update('yetiforce_proc_marketing',
+		\App\Db::getInstance()->createCommand()->update('yetiforce_proc_marketing',
 			['value' => $value], ['type' => $param['type'], 'param' => $param['param']])->execute();
 		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;

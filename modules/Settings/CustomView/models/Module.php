@@ -59,14 +59,14 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			if ($dataReader->count()) {
 				return $dataReader->readColumn(0);
 			}
-			$db = \App\DB::getInstance();
+			$db = \App\Db::getInstance();
 			$db->createCommand()->insert('vtiger_user_module_preferences', [
 				'userid' => $user,
 				'tabid' => $tabid,
 				'default_cvid' => $cvId
 			])->execute();
 		} elseif ($action == 'remove') {
-			$db = \App\DB::getInstance();
+			$db = \App\Db::getInstance();
 			$db->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
 		}
 		return false;
@@ -74,7 +74,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function setFeaturedFilterView($cvId, $user, $action)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		if ($action == 'add') {
 			$db->createCommand()->insert('a_yf_featured_filter', [
 				'user' => $user,
@@ -88,7 +88,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function delete($params)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$cvId = $params['cvid'];
 		if (is_numeric($cvId)) {
 			$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
@@ -101,7 +101,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public static function updateField($params)
 	{
 		$authorizedFields = ['setdefault', 'privileges', 'featured', 'sort'];
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$cvid = $params['cvid'];
 		$name = $params['name'];
 		$mod = $params['mod'];

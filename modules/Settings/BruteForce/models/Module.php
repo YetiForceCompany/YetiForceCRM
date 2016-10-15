@@ -47,7 +47,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$blockDate->modify("-{$config['timelock']} minutes");
 		$ip = \App\RequestUtil::getRemoteIP();
 
-		$count = (new \App\db\Query())
+		$count = (new \App\Db\Query())
 			->from('vtiger_loginhistory')
 			->where(['>', 'login_time', $blockDate->format('Y-m-d H:i:s')])
 			->andWhere(['status' => 'Failed login'])
@@ -62,7 +62,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getAdminUsers()
 	{
-		$query = (new \App\db\Query())
+		$query = (new \App\Db\Query())
 			->select('id, user_name')
 			->from('vtiger_users')
 			->where(['is_admin' => 'on'])
@@ -81,7 +81,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$active = false;
 		}
-		$result = \App\DB::getInstance()->createCommand()
+		$result = \App\Db::getInstance()->createCommand()
 				->update('vtiger_bruteforce', [
 					'attempsnumber' => $number,
 					'timelock' => $timelock,
@@ -92,7 +92,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function updateUsersForNotifications($selectedUsers)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$db->createCommand()
 			->delete('vtiger_bruteforce_users')
 			->execute();
@@ -108,7 +108,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getUsersForNotifications()
 	{
-		$query = (new \App\db\Query())->from('vtiger_bruteforce_users');
+		$query = (new \App\Db\Query())->from('vtiger_bruteforce_users');
 		$output = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {

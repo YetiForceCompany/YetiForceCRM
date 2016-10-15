@@ -74,7 +74,7 @@ class DataAccess_Conditions
 
 	private function getListConditions($module)
 	{
-		$dataReader = (new \App\db\Query())->select([
+		$dataReader = (new \App\Db\Query())->select([
 					self::$tab . '.dataaccessid',
 					'fieldname',
 					'comparator',
@@ -101,7 +101,7 @@ class DataAccess_Conditions
 
 	private function getListConditionsById($ID)
 	{
-		$dataReader = (new \App\db\Query())->select([
+		$dataReader = (new \App\Db\Query())->select([
 					self::$tab . '.dataaccessid',
 					'fieldname',
 					'comparator',
@@ -159,7 +159,7 @@ class DataAccess_Conditions
 
 	public function docIsAttachet($record, $folder, $docName)
 	{
-		$dataReader = (new \App\db\Query())->select('notesid')
+		$dataReader = (new \App\Db\Query())->select('notesid')
 				->from('vtiger_senotesrel')
 				->where(['crmid' => $record])
 				->createCommand()->query();
@@ -177,7 +177,7 @@ class DataAccess_Conditions
 
 	public function docStatus($record, $folder, $docName)
 	{
-		$dataReader = (new \App\db\Query())->select('notesid')
+		$dataReader = (new \App\Db\Query())->select('notesid')
 				->from('vtiger_senotesrel')
 				->where(['crmid' => $record])
 				->createCommand()->query();

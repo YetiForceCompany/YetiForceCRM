@@ -53,7 +53,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	 */
 	public static function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$recordId = $request->get('record');
 		$type = $request->get('type');
 		if (empty($type)) {
@@ -106,7 +106,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 		$sql = '';
 		if (in_array('Calendar', $type)) {
-			$query = (new \App\db\Query())
+			$query = (new \App\Db\Query())
 				->select(['NULL AS `body`', 'NULL AS `attachments_exist`', 'CONCAT(\'Calendar\') AS type', 'vtiger_crmentity.crmid AS id', 'a.subject AS content', 'vtiger_crmentity.smownerid AS user', 'CONCAT(a.date_start, " ", a.time_start) AS `time`'])
 				->from('vtiger_activity a')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = a.activityid')
@@ -117,7 +117,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$queries[] = $sql;
 		}
 		if (in_array('ModComments', $type)) {
-			$query = (new \App\db\Query())
+			$query = (new \App\Db\Query())
 				->select(['NULL AS `body`', 'NULL AS `attachments_exist`', 'CONCAT(\'ModComments\') AS type', 'm.modcommentsid AS id', 'm.commentcontent AS content', 'vtiger_crmentity.smownerid AS user', 'vtiger_crmentity.createdtime AS `time`'])
 				->from('vtiger_modcomments m')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = m.modcommentsid')
@@ -128,7 +128,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$queries[] = $sql;
 		}
 		if (in_array('Emails', $type)) {
-			$query = (new \App\db\Query())
+			$query = (new \App\Db\Query())
 				->select(['o.content AS `body`', '`attachments_exist`', 'CONCAT(\'OSSMailView\', o.ossmailview_sendtype) AS type', 'o.ossmailviewid AS id', 'o.subject AS content', 'vtiger_crmentity.smownerid AS user', 'vtiger_crmentity.createdtime AS `time`'])
 				->from('vtiger_ossmailview o')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = o.ossmailviewid')

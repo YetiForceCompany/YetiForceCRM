@@ -71,7 +71,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getModulesCount($onlyActive = false)
 	{
-		$query = (new \App\db\Query)->from('vtiger_tab');
+		$query = (new \App\Db\Query)->from('vtiger_tab');
 		if ($onlyActive) {
 			$nonVisibleModules = self::getNonVisibleModulesList();
 			$query->where(['and', ['presence' => 0], ['NOT IN', 'name', $nonVisibleModules]]);
@@ -85,8 +85,8 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getModulesSupportingSequenceNumbering()
 	{
-		$subQuery = (new \App\db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
-		$dataReader = (new \App\db\Query())->select(['tabid', 'name'])
+		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
+		$dataReader = (new \App\Db\Query())->select(['tabid', 'name'])
 			->from('vtiger_tab')
 			->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])
 			->createCommand()->query();

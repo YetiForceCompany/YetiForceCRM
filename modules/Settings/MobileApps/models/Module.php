@@ -35,13 +35,13 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function addKey($params)
 	{
-		if ((new \App\db\Query())->from('yetiforce_mobile_keys')
+		if ((new \App\Db\Query())->from('yetiforce_mobile_keys')
 				->where(['user' => $params['user'], 'service' => $params['service']])
 				->count())
 			return 1;
 		$keyLength = 10;
 		$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
-		$result = \App\DB::getInstance()->createCommand()
+		$result = \App\Db::getInstance()->createCommand()
 				->insert('yetiforce_mobile_keys', [
 					'user' => $params['user'],
 					'service' => $params['service'],
@@ -54,7 +54,7 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function deleteKey($params)
 	{
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->delete('yetiforce_mobile_keys', ['user' => $params['user'], 'service' => $params['service']])
 			->execute();
 	}
@@ -66,7 +66,7 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$privileges = '';
 		}
-		\App\DB::getInstance()->createCommand()->update('yetiforce_mobile_keys', ['privileges_users' => $privileges], ['user' => $params['user'], 'service' => $params['service']])
+		\App\Db::getInstance()->createCommand()->update('yetiforce_mobile_keys', ['privileges_users' => $privileges], ['user' => $params['user'], 'service' => $params['service']])
 			->execute();
 	}
 }

@@ -19,7 +19,7 @@ Class Settings_DataAccess_Step3_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$baseModule = $request->get('base_module');

@@ -132,15 +132,15 @@ class ModTracker
 	static function enableTrackingForModule($tabid)
 	{
 		if (!self::isModulePresent($tabid)) {
-			\App\DB::getInstance()->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 1])
+			\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 1])
 				->execute();
 			self::updateCache($tabid, 1);
 		} else {
-			\App\DB::getInstance()->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 1], ['tabid' => $tabid])
+			\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 1], ['tabid' => $tabid])
 				->execute();
 			self::updateCache($tabid, 1);
 		}
-		\App\DB::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])
+		\App\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])
 			->execute();
 	}
 

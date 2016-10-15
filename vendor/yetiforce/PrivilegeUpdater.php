@@ -77,7 +77,7 @@ class PrivilegeUpdater
 		if (!empty($recordAccessUsers)) {
 			$recordAccessUsers .= ',';
 		}
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$db->createCommand()
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
@@ -107,7 +107,7 @@ class PrivilegeUpdater
 		if (!empty($searchUsers)) {
 			$searchUsers .= ',';
 		}
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
 				], 'crmid = ' . $record)
@@ -131,7 +131,7 @@ class PrivilegeUpdater
 		if (!empty($recordAccessUsers)) {
 			$recordAccessUsers .= ',';
 		}
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('vtiger_crmentity', [
 				'users' => $recordAccessUsers,
 				], 'crmid = ' . $record)

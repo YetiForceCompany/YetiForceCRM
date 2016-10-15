@@ -175,7 +175,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldparams['field'] = $params['MRVField'];
 			$fieldparams['filterField'] = $params['MRVFilterField'];
 			$fieldparams['filterValue'] = $params['MRVFilterValue'];
-			\App\DB::getInstance()->createCommand()->insert('s_yf_multireference',
+			\App\Db::getInstance()->createCommand()->insert('s_yf_multireference',
 				['source_module' => $moduleName, 'dest_module' =>$params['MRVModule'] ])->execute();
 	
 		}
@@ -371,7 +371,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			//Check for fiel exists in both calendar and events module
 			$tabId = ['9', '16'];
 		}
-		$query = (new \App\db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $tabId]);
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $tabId]);
 		$dataReader = $query->createCommand()->query();
 		return ($dataReader->count() > 0 ) ? true : false;
 	}
@@ -382,7 +382,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
 		}
-		$query = (new \App\db\Query())->from('vtiger_field')->where(['tabid' => $tabId])->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]]);
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]]);
 		$dataReader = $query->createCommand()->query();
 		return ($dataReader->count() > 0 ) ? true : false;
 	}
@@ -435,7 +435,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$presence = [0, 2];
 		$restrictedModules = ['SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter'];
 
-		$query = (new \App\db\Query())->select('name')->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
+		$query = (new \App\Db\Query())->select('name')->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
 		$dataReader = $query->createCommand()->query();
 		$modulesList = [];
 		while ($moduleName = $dataReader->read()) {
@@ -525,7 +525,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getTreeTemplates($sourceModule)
 	{
 		$sourceModule = vtlib\Functions::getModuleId($sourceModule);
-		$query = (new \App\db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule]);
+		$query = (new \App\Db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule]);
 		$treeList = [];
 		$dataReader = $query->createCommand()->query();
 		$modulesList = [];

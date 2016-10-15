@@ -65,8 +65,8 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 */
 	public static function getInstance($id)
 	{
-		$db = \App\DB::getInstance('admin');
-		$query = (new \App\db\Query())->from('a_#__adv_permission')->where(['id' => $id]);
+		$db = \App\Db::getInstance('admin');
+		$query = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => $id]);
 		$row = $query->createCommand($db)->queryOne();
 		$instance = false;
 		if ($row !== false) {
@@ -83,7 +83,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 */
 	public function save()
 	{
-		$db = \App\DB::getInstance('admin');
+		$db = \App\Db::getInstance('admin');
 		$recordId = $this->getId();
 
 		$params = [];
@@ -169,7 +169,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 */
 	public function delete()
 	{
-		$db = \App\DB::getInstance('admin');
+		$db = \App\Db::getInstance('admin');
 		$db->createCommand()
 			->delete('a_#__adv_permission', ['id' => $this->getId()])
 			->execute();

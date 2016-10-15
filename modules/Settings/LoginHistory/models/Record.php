@@ -30,7 +30,7 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 	public function getAccessibleUsers()
 	{
 		$usersListArray = [];
-		$dataReader = (new \App\db\Query())->select('user_name')
+		$dataReader = (new \App\Db\Query())->select('user_name')
 				->from('vtiger_loginhistory')
 				->createCommand()->query();
 		while ($userName = $dataReader->readColumn(0)) {

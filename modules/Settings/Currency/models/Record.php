@@ -64,7 +64,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		$id = $this->getId();
 		$tableName = Settings_Currency_Module_Model::tableName;
 		if (!empty($id)) {
-			$query = \App\DB::getInstance()->createCommand()->update($tableName, [
+			$query = \App\Db::getInstance()->createCommand()->update($tableName, [
 					'currency_name' => $this->get('currency_name'),
 					'currency_code' => $this->get('currency_code'),
 					'currency_status' => $this->get('currency_status'),
@@ -74,7 +74,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 					], ['id' => $id])->execute();
 		} else {
 			$id = $db->getUniqueID($tableName);
-			\App\DB::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->insert($tableName, [
 					'id' => $id,
 					'currency_name' => $this->get('currency_name'),

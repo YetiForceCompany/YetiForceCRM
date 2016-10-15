@@ -1,6 +1,6 @@
 <?php namespace App\Log;
 
-use \App\DB;
+use \App\Db;
 use \yii\log\Logger;
 use \yii\log\Target;
 use \yii\helpers\VarDumper;
@@ -52,7 +52,7 @@ class Profiling extends Target
 			}
 		}
 
-		$logID = (new \App\db\Query())->from($this->db->quoteSql($this->logTable))->max('id', $this->db);
+		$logID = (new \App\Db\Query())->from($this->db->quoteSql($this->logTable))->max('id', $this->db);
 		$logID++;
 		foreach ($timings as &$message) {
 			$text = $message['info'];

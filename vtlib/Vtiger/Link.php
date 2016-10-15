@@ -158,7 +158,7 @@ class Link
 	static function getAllByType($tabid, $type = false, $parameters = false)
 	{
 		$adb = \PearDatabase::getInstance();
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		$multitype = false;
 		if ($type !== false) {
@@ -166,14 +166,14 @@ class Link
 			if (is_array($type)) {
 				$multitype = true;
 				if ($tabid === self::IGNORE_MODULE) {
-					$query = (new \App\db\Query())->from('vtiger_links')->where(['linktype' => $type]);
+					$query = (new \App\Db\Query())->from('vtiger_links')->where(['linktype' => $type]);
 					$permittedTabIdList = getPermittedModuleIdList();
 					if (!empty($permittedTabIdList) && !$currentUser->isAdminUser()) {
 						array_push($permittedTabIdList, 0);  // Added to support one link for all modules
 						$query->andWhere(['tabid' => $permittedTabIdList]);
 					}
 				} else {
-					$query = (new \App\db\Query())
+					$query = (new \App\Db\Query())
 						->from('vtiger_links')
 						->where(['linktype' => $type])
 						->andWhere(['or', 'tabid = 0', 'tabid = ' . $db->quoteValue($tabid)]);
@@ -181,16 +181,16 @@ class Link
 			} else {
 				// Single link type selection
 				if ($tabid === self::IGNORE_MODULE) {
-					$query = (new \App\db\Query())->from('vtiger_links')->where(['linktype' => $type]);
+					$query = (new \App\Db\Query())->from('vtiger_links')->where(['linktype' => $type]);
 				} else {
-					$query = (new \App\db\Query())
+					$query = (new \App\Db\Query())
 						->from('vtiger_links')
 						->where(['linktype' => $type])
 						->andWhere(['or', 'tabid = 0', 'tabid = ' . $db->quoteValue($tabid)]);
 				}
 			}
 		} else {
-			$query = (new \App\db\Query())->from('vtiger_links')->where(['tabid' => $tabid]);
+			$query = (new \App\Db\Query())->from('vtiger_links')->where(['tabid' => $tabid]);
 		}
 
 		$strtemplate = new \Vtiger_StringTemplate();

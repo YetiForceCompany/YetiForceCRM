@@ -243,7 +243,7 @@ class Functions
 		}
 
 		if ($reload) {
-			$query = (new \App\db\Query())->from('vtiger_tab');
+			$query = (new \App\Db\Query())->from('vtiger_tab');
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;

@@ -254,7 +254,7 @@ class Install_Index_view extends Vtiger_View_Controller
 				}
 			}
 
-			\App\DB::setConfig([
+			\App\Db::setConfig([
 				'dsn' => 'mysql:host=' . $dbHostname . ';dbname=' . $configParams['db_name'] . ';port=' . $dbPort,
 				'host' => $dbHostname,
 				'port' => $dbPort,

@@ -85,7 +85,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	public function getMapping($editable = false)
 	{
 		if (empty($this->mapping)) {
-			$query = (new \App\db\Query())->from('vtiger_convertleadmapping');
+			$query = (new \App\Db\Query())->from('vtiger_convertleadmapping');
 			if ($editable) {
 				$query->where(['editable' => 1]);
 			}
@@ -186,7 +186,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				$mappingDetails = $createMappingsList[$i];
 				$insertedData []= [$mappingDetails['lead'], $mappingDetails['account']];
 			}
-			\App\DB::getInstance()->createCommand()->batchInsert('vtiger_convertleadmapping', ['leadfid', 'accountfid'], $insertedData)
+			\App\Db::getInstance()->createCommand()->batchInsert('vtiger_convertleadmapping', ['leadfid', 'accountfid'], $insertedData)
 				->execute();
 		}
 
@@ -212,7 +212,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getRestrictedFieldIdsList()
 	{
-		$dataReader = (new \App\db\Query)->from('vtiger_convertleadmapping')
+		$dataReader = (new \App\Db\Query)->from('vtiger_convertleadmapping')
 			->where(['editable' => 0])
 			->createCommand()->query();
 		$restrictedIdsList = [];

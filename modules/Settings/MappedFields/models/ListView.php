@@ -25,7 +25,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
 		$listFields []= $module->baseIndex;
-		$query = (new \App\db\Query())->select($listFields)
+		$query = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
@@ -66,8 +66,8 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 	public function getListViewCount()
 	{
 		$module = $this->getModule();
-		$db = \App\DB::getInstance('admin');
-		$query = (new \App\db\Query())->from($module->baseTable);
+		$db = \App\Db::getInstance('admin');
+		$query = (new \App\Db\Query())->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {
 			$query->where(['tabid' => $sourceModule]);

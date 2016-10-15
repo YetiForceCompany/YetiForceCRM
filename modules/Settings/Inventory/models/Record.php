@@ -69,7 +69,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		$tablename = self::getTableNameFromType($this->getType());
 		$id = $this->getId();
 		if (!empty($id) && $tablename) {
-			\App\DB::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->update($tablename, [
 					'name' => $this->getName(),
 					'value' => $this->get('value'),
@@ -92,7 +92,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 	{
 		$tableName = self::getTableNameFromType($this->getType());
 		if ($tableName) {
-			$db = \App\DB::getInstance();
+			$db = \App\Db::getInstance();
 			$db->createCommand()
 				->insert($tableName, [
 					'status' => $this->get('status'),
@@ -108,7 +108,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 	{
 		$tableName = self::getTableNameFromType($this->getType());
 		if ($tableName) {
-			\App\DB::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->delete($tableName, ['id' => $this->getId()])
 				->execute();
 			return true;
@@ -123,7 +123,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		if (!$tableName) {
 			return $recordList;
 		}
-		$dataReader = (new \App\db\Query)->from($tableName)->createCommand()->query();
+		$dataReader = (new \App\Db\Query)->from($tableName)->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$recordModel = new self();
 			$recordModel->setData($row)->setType($type);
@@ -138,7 +138,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		if (!$tableName) {
 			return false;
 		}
-		$row = (new \App\db\Query())->from($tableName)
+		$row = (new \App\Db\Query())->from($tableName)
 				->where(['id' => $id])
 				->createCommand()->queryOne();
 		$recordModel = new self();
@@ -158,7 +158,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		$tableName = self::getTableNameFromType($type);
-		$query = (new \App\db\Query())
+		$query = (new \App\Db\Query())
 			->from($tableName)
 			->where(['name' => $label]);
 		if (!empty($excludedIds)) {

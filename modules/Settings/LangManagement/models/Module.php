@@ -16,7 +16,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getLang($data = false)
 	{
-		$query = (new \App\db\Query())->from('vtiger_language');
+		$query = (new \App\Db\Query())->from('vtiger_language');
 		if ($data && $data['prefix'] != '') {
 			$query->where(['prefix' => $data['prefix']]);
 		}
@@ -225,7 +225,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$langs[] = $lang;
 		}
 		$output['langs'] = $langs;
-		$dataReader = (new \App\db\Query())
+		$dataReader = (new \App\Db\Query())
 				->from('vtiger_field')
 				->where(['tabid' => \includes\Modules::getModuleId($mod), 'presence' => [0, 2]])
 				->createCommand()->query();
@@ -290,7 +290,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
 		self::CopyDir('languages/en_us/', 'languages/' . $params['prefix'] . '/');
-		\App\DB::getInstance()->createCommand()->insert('vtiger_language', [
+		\App\Db::getInstance()->createCommand()->insert('vtiger_language', [
 			'id' => $db->getUniqueId('vtiger_language'),
 			'name' => $params['name'],
 			'prefix' => $params['prefix'],
@@ -303,7 +303,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		if ($params['type'] == 'Checkbox') {
 			$val = $params['val'] == 'true' ? 1 : 0;
-			\App\DB::getInstance()->createCommand()
+			\App\Db::getInstance()->createCommand()
 				->update('vtiger_language', [$params['name'] => $val], ['prefix' => $params['prefix']])
 				->execute();
 			return true;
@@ -317,7 +317,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$params['value'] = [$params['value']];
 		}
 		$value = implode(',', $params['value']);
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('vtiger_field', ['helpinfo' => $value], ['fieldid' => $params['fieldid']])
 			->execute();
 		return array('success' => true, 'data' => 'LBL_SUCCESSFULLY_UPDATED');
@@ -329,7 +329,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (file_exists($dir)) {
 			self::DeleteDir($dir);
 		}
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->delete('vtiger_language', ['prefix' => $params['prefix']])
 			->execute();
 		return true;
@@ -383,7 +383,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	{
 
 		\App\Log::trace("Entering Settings_LangManagement_Module_Model::setAsDefault(" . $lang . ") method ...");
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$prefix = $lang['prefix'];
 		$fileName = 'config/config.inc.php';
 		$completeData = file_get_contents($fileName);
@@ -395,7 +395,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$filePointer = fopen($fileName, 'w');
 		fwrite($filePointer, $fileContent);
 		fclose($filePointer);
-		$dataReader = (new \App\db\Query)->select('prefix')
+		$dataReader = (new \App\Db\Query)->select('prefix')
 			->from('vtiger_language')
 			->where(['isdefault' => 1])
 			->createCommand()->query();

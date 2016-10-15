@@ -40,7 +40,7 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 	public function getListViewCount()
 	{
 		$module = $this->getModule();
-		$query = (new \App\db\Query())->from($module->baseTable);
+		$query = (new \App\Db\Query())->from($module->baseTable);
 		$searchKey = $this->get('search_key');
 		$value = $this->get('search_value');
 		if (!empty($searchKey) && !empty($value)) {

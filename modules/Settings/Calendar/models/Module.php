@@ -19,7 +19,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getCalendarViewTypes()
 	{
-		$query = (new \App\db\Query())->from('vtiger_calendar_default_activitytypes');
+		$query = (new \App\Db\Query())->from('vtiger_calendar_default_activitytypes');
 		$dataReader = $query->createCommand()->query();
 		$calendarViewTypes = $dataReader->readAll();
 		return $calendarViewTypes;
@@ -32,7 +32,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function updateModuleColor($params)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$db->createCommand()->update('vtiger_calendar_default_activitytypes', [
 			'defaultcolor' => $params['color']],
 			['id' => $params['viewtypesid']]
@@ -47,7 +47,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	public static function updateModuleActiveType($params)
 	{
 		$active = $params['active'] == 'true' ? '1' : '0';
-		\App\DB::getInstance()->createCommand()->update('vtiger_calendar_default_activitytypes', [
+		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_default_activitytypes', [
 			'active' => $active], ['id' => $params['viewtypesid']]
 		)->execute();
 	}
@@ -78,7 +78,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getCalendarConfig($type)
 	{
-		$query = (new \App\db\Query())
+		$query = (new \App\Db\Query())
 			->from('vtiger_calendar_config')
 			->where(['type' => $type]);
 		$dataReader = $query->createCommand()->query();
@@ -101,7 +101,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		if ($params['table']) {
 			Users_Colors_Model::updateColor($params);
 		} else {
-			\App\DB::getInstance()->createCommand()->update('vtiger_calendar_config',
+			\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config',
 				['value' => $params['color']], ['name' => $params['id']]
 				)->execute();
 			
@@ -114,14 +114,14 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 			$value = implode(';', $params['val']);
 		else
 			$value = NULL;
-		\App\DB::getInstance()->createCommand()->update('vtiger_calendar_config',
+		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config',
 				['value' => $value], ['name' => 'notworkingdays']
 				)->execute();
 	}
 
 	public static function getNotWorkingDays()
 	{
-		$query = (new \App\db\Query())
+		$query = (new \App\Db\Query())
 			->from('vtiger_calendar_config')
 			->where(['name' => 'notworkingdays']);
 		$row = $query->createCommand()->queryOne();

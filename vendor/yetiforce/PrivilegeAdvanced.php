@@ -21,8 +21,8 @@ class PrivilegeAdvanced
 	 */
 	public static function reloadCache()
 	{
-		$db = \App\DB::getInstance('admin');
-		$query = (new \App\db\Query())->from('a_#__adv_permission')->where(['status' => 0])->orderBy(['priority' => SORT_DESC]);
+		$db = \App\Db::getInstance('admin');
+		$query = (new \App\Db\Query())->from('a_#__adv_permission')->where(['status' => 0])->orderBy(['priority' => SORT_DESC]);
 		$dataReader = $query->createCommand($db)->query();
 		$cache = [];
 		while ($row = $dataReader->read()) {

@@ -247,20 +247,20 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		if (!is_array($mappedIds)) {
 			$mappedIds = [$mappedIds];
 		}
-		\App\DB::getInstance()->createCommand()->delete($this->mappingTable, [$this->mappingIndex => $mappedIds])
+		\App\Db::getInstance()->createCommand()->delete($this->mappingTable, [$this->mappingIndex => $mappedIds])
 			->execute();
 		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
 
 	public function delete()
 	{
-		return \App\DB::getInstance()->createCommand()->delete($this->baseTable, [$this->baseIndex => $this->getRecordId()])
+		return \App\Db::getInstance()->createCommand()->delete($this->baseTable, [$this->baseIndex => $this->getRecordId()])
 			->execute();
 	}
 
 	public function importsAllowed()
 	{
-		return (new \App\db\Query())->from($this->baseTable)
+		return (new \App\Db\Query())->from($this->baseTable)
 			->where(['tabid' => $this->get('tabid'), 'reltabid' => $this->get('reltabid')])
 			->count();
 	}
@@ -268,7 +268,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public function save($saveMapping = false)
 	{
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $saveMapping . ') method ...');
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$fields = self::$allFields;
 		$params = [];
 		foreach ($fields as $field) {

@@ -52,7 +52,7 @@ class DB extends \yii\db\Connection
 	 * @var string the class used to create new database [[Command]] objects. If you want to extend the [[Command]] class,
 	 * you may configure this property to use your extended version of the class.
 	 */
-	public $commandClass = '\App\db\Command';
+	public $commandClass = '\App\Db\Command';
 
 	/**
 	 * Creates the \yii\db\Connection instance.

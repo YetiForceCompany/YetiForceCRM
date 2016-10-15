@@ -32,7 +32,7 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 	{
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
 		$tableName = self::getTableNameFromType($type);
-		$query = (new \App\db\Query())->from($tableName);
+		$query = (new \App\Db\Query())->from($tableName);
 		if ($name && !is_array($name)) {
 			$name = [$name];
 		}
@@ -52,7 +52,7 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 	{
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$tableName = self::getTableNameFromType($type);
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update($tableName, ['value' => $param['value']], ['param' => $param['param']])
 			->execute();
 		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);

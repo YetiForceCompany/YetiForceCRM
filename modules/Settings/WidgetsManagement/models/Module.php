@@ -298,7 +298,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$adb = PearDatabase::getInstance();
 		$tabId = \includes\Modules::getModuleId($moduleName);
 		$data = [];
-		$query = (new \App\db\Query())
+		$query = (new \App\Db\Query())
 			->from('vtiger_module_dashboard_blocks')
 			->where(['tabid' => $tabId]);
 		if ($authorized) {

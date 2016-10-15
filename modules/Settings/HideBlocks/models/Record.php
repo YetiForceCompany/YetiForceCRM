@@ -100,7 +100,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	public function delete()
 	{
 		$recordId = $this->getId();
-		\App\DB::getInstance()->createCommand()->delete('vtiger_blocks_hide', ['id' => $recordId])->execute();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_blocks_hide', ['id' => $recordId])->execute();
 		return true;
 	}
 
@@ -109,7 +109,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function save()
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$conditions = $this->get('conditions');
 		$wfCondition = array();
 
@@ -154,7 +154,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
 		
-		$rowData = (new \App\db\Query())
+		$rowData = (new \App\Db\Query())
 			->from('vtiger_blocks_hide')
 			->where(['id' => $recordId])
 			->createCommand()->queryOne();
@@ -209,7 +209,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getModuleInstanceByBlockId($blockId)
 	{
-		$tabid = (new \App\db\Query())->select('tabid')
+		$tabid = (new \App\Db\Query())->select('tabid')
 			->from('vtiger_blocks')
 			->where(['blockid' => $blockId])->scalar();
 		if (!empty($tabid)) {

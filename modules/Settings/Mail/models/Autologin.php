@@ -14,14 +14,14 @@ class Settings_Mail_Autologin_Model
 
 	public function getAccountsList()
 	{
-		return (new \App\db\Query())->from('roundcube_users')
+		return (new \App\Db\Query())->from('roundcube_users')
 				->where(['<>', 'password', ''])
 				->all();
 	}
 
 	public function getAutologinUsers($userId)
 	{
-		return (new \App\db\Query())->select('crmuser_id')
+		return (new \App\Db\Query())->select('crmuser_id')
 				->from('roundcube_users_autologin')
 				->where(['rcuser_id' => $userId])
 				->createCommand()->queryColumn(0);
@@ -32,7 +32,7 @@ class Settings_Mail_Autologin_Model
 		if (!$users) {
 			$users = [];
 		}
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('roundcube_users_autologin', ['rcuser_id' => $id])
 			->execute();
 		if (!empty($users)) {

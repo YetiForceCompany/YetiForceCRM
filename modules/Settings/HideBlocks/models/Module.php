@@ -60,7 +60,7 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getAllBlock()
 	{
-		$dataReader = (new \App\db\Query())->from('vtiger_blocks')
+		$dataReader = (new \App\Db\Query())->from('vtiger_blocks')
 				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_blocks.tabid')
 				->orderBy(['vtiger_blocks.tabid' => SORT_ASC, 'sequence' => SORT_ASC])->createCommand()->query();
 		$rows = [];

@@ -24,7 +24,7 @@ class Settings_DataAccess_UpdateTpl_Action extends Settings_Vtiger_Index_Action
 		$tplId = $request->get('tpl_id');
 		$conditionAll = $request->getRaw('condition_all_json');
 		$conditionOption = $request->getRaw('condition_option_json');
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$db->createCommand()->update('vtiger_dataaccess', [
 				'module_name' => $baseModule,
 				'summary' => $summary

@@ -43,7 +43,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 			$restrictedFieldNames = ['campaignrelstatus'];
 			$restrictedUitypes = $this->getRestrictedUitypes();
 			$selectedGeneratedTypes = [1, 2];
-			$dataReader = (new \App\db\Query())->select('fieldid')
+			$dataReader = (new \App\Db\Query())->select('fieldid')
 				->from('vtiger_field')
 				->where([
 					'presence' => $presense,

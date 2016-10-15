@@ -14,7 +14,7 @@ class Settings_Mail_Config_Model
 
 	public function updateConfig($name, $val, $type)
 	{
-		\App\DB::getInstance()->createCommand()->update('yetiforce_mail_config', ['value' => $val], [
+		\App\Db::getInstance()->createCommand()->update('yetiforce_mail_config', ['value' => $val], [
 			'type' => $type,
 			'name' => $name
 		])->execute();
@@ -23,7 +23,7 @@ class Settings_Mail_Config_Model
 	public static function getConfig($type)
 	{
 		$config = [];
-		$dataReader = (new \App\db\Query())->select(['name', 'value'])
+		$dataReader = (new \App\Db\Query())->select(['name', 'value'])
 				->from('yetiforce_mail_config')
 				->where(['type' => $type])
 				->createCommand()->query();

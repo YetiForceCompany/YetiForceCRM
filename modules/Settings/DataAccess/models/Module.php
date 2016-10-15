@@ -31,7 +31,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$presence = [0, 2];
 		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
 
-		$dataReader = (new \App\db\Query())->select('name')
+		$dataReader = (new \App\Db\Query())->select('name')
 				->from('vtiger_tab')
 				->where(['presence' => $presence, 'isentitytype' => 1])
 				->andWhere(['NOT IN', 'name', $restrictedModules])
@@ -50,7 +50,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$output = [];
 		if (empty($module) || array_key_exists($module, self::getSupportedModules())) {
-			$query = (new \App\db\Query())->from('vtiger_dataaccess');
+			$query = (new \App\Db\Query())->from('vtiger_dataaccess');
 			if ($module) {
 				$query->where(['module_name' => ['All', $module]]);
 			} else {
@@ -71,7 +71,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 	public static function getDataAccessInfo($id, $type = true)
 	{
-		$query = (new \App\db\Query())->select('vtiger_dataaccess.*');
+		$query = (new \App\Db\Query())->select('vtiger_dataaccess.*');
 		if ($type) {
 			$query->addSelect('vtiger_dataaccess_cnd.*');
 		}
@@ -186,7 +186,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				if (is_array($obj->val)) {
 					$val = implode('::', $val);
 				}
-				\App\DB::getInstance()->createCommand()->insert('vtiger_dataaccess_cnd', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_dataaccess_cnd', [
 					'dataaccessid' => $relId,
 					'fieldname' => $obj->field,
 					'comparator' => $obj->name,
@@ -200,7 +200,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 	public function updateConditions($conditions, $relId, $mendatory = true)
 	{
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->delete('vtiger_dataaccess_cnd', ['dataaccessid' => $relId, 'required' => $mendatory ? 1 : 0])
 			->execute();
 		$conditionObj = json_decode($conditions);
@@ -210,7 +210,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				if (is_array($obj->val)) {
 					$val = implode('::', $val);
 				}
-				\App\DB::getInstance()->createCommand()->insert('vtiger_dataaccess_cnd', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_dataaccess_cnd', [
 					'dataaccessid' => $relId,
 					'fieldname' => $obj->field,
 					'comparator' => $obj->name,
@@ -239,7 +239,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		} else {
 			$data[$aid] = $form_data;
 		}
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('vtiger_dataaccess', ['data' => serialize($data)], ['dataaccessid' => $ID])
 			->execute();
 	}
@@ -249,7 +249,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		$dataAccess = self::getDataAccessInfo($ID, false);
 		$data = $dataAccess['basic_info']['data'];
 		unset($data[$aid]);
-		\App\DB::getInstance()->createCommand()->update('vtiger_dataaccess', ['data' => serialize($data)], ['dataaccessid' => $ID])
+		\App\Db::getInstance()->createCommand()->update('vtiger_dataaccess', ['data' => serialize($data)], ['dataaccessid' => $ID])
 			->execute();
 	}
 
@@ -389,7 +389,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 		$colorList = Vtiger_Cache::get('DataAccess::colorList', $moduleName);
 		if ($colorList === false) {
-			$colorList = (new \App\db\Query())->select(['dataaccessid', 'data'])
+			$colorList = (new \App\Db\Query())->select(['dataaccessid', 'data'])
 				->from('vtiger_dataaccess')
 				->where(['module_name' => $moduleName])
 				->andWhere(['like', 'data', 'colorList'])

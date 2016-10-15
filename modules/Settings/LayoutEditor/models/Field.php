@@ -17,7 +17,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function delete()
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		parent::delete();
 
 		$fldModule = $this->getModuleName();
@@ -59,7 +59,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
 		if ($this->getFieldDataType() == 'picklist' || $this->getFieldDataType() == 'multipicklist') {
-			$query = (new \App\db\Query())->from('vtiger_field')
+			$query = (new \App\Db\Query())->from('vtiger_field')
 				->where(['columnname' => $columnName])
 				->andWhere(['in', 'uitype', [15, 16, 33]]);
 			$dataReader = $query->createCommand()->query();
@@ -83,7 +83,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function move($fieldNewDetails, $fieldOlderDetails)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$newBlockId = $fieldNewDetails['blockId'];
 		$olderBlockId = $fieldOlderDetails['blockId'];
 
@@ -116,7 +116,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public static function makeFieldActive($fieldIdsList = array(), $blockId)
 	{
 		$db = PearDatabase::getInstance();
-		$maxSequence = (new \App\db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0,2]])->max('sequence');
+		$maxSequence = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0,2]])->max('sequence');
 
 		$query = 'UPDATE vtiger_field SET presence = 2, sequence = CASE';
 		foreach ($fieldIdsList as $fieldId) {
@@ -251,7 +251,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if (!is_array($blockId)) {
 			$blockId = [$blockId];
 		}
-		$query = (new \App\db\Query())->from('vtiger_field')->where(['block' => $blockId, 'displaytype' => [1, 2, 4, 9, 10]])->orderBy('sequence');
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'displaytype' => [1, 2, 4, 9, 10]])->orderBy('sequence');
 		$dataReader = $query->createCommand()->query();
 		$fieldModelsList = [];
 		while ($row = $dataReader->read()) {
@@ -285,7 +285,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if (is_string($fieldId)) {
 			$fieldId = [$fieldId];
 		}
-		$query = (new \App\db\Query())->from('vtiger_field')->where(['tabid' => $moduleTabId, 'fieldid' => $fieldId])->orderBy('sequence');
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $moduleTabId, 'fieldid' => $fieldId])->orderBy('sequence');
 		$dataReader = $query->createCommand()->query();
 		$fieldModelList = [];
 		while ($row = $dataReader->read()) {

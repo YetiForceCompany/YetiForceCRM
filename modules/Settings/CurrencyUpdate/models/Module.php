@@ -25,7 +25,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public static function getCRMCurrencyName($code)
 	{
-		return (new \App\db\Query())
+		return (new \App\Db\Query())
 				->select('currency_name')
 				->from('vtiger_currencies')
 				->where(['currency_code' => $code])
@@ -51,7 +51,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	{
 
 		$notifyNewRates = false;
-		$dataReader = (new \App\db\Query())->select(['id', 'currency_code'])
+		$dataReader = (new \App\Db\Query())->select(['id', 'currency_code'])
 				->from('vtiger_currency_info')
 				->where(['currency_status' => 'Active', 'deleted' => 0])
 				->andWhere(['!=', 'defaultid', -11])->createCommand()->query();
@@ -67,7 +67,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 				$currIds[] = $id;
 				$otherCurrencyCode[$code] = $id;
 			}
-			$currNum = (new \App\db\Query())->from('yetiforce_currencyupdate')
+			$currNum = (new \App\Db\Query())->from('yetiforce_currencyupdate')
 				->where(['exchange_date' => $dateCur, 'currency_id' => $currIds, 'bank_id' => $selectBankId])
 				->count(1);
 			// download only if its not in archives
@@ -87,7 +87,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function refreshBanks()
 	{
 		$db = App\DB::getInstance();
-		$dataReader = (new \App\db\Query())->select(['id', 'bank_name'])
+		$dataReader = (new \App\Db\Query())->select(['id', 'bank_name'])
 				->from('yetiforce_currencyupdate_banks')
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -105,7 +105,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			if ($fileInfo->isDot() || $extension != 'php') {
 				continue;
 			}
-			$bankExists = (new \App\db\Query())->from('yetiforce_currencyupdate_banks')
+			$bankExists = (new \App\Db\Query())->from('yetiforce_currencyupdate_banks')
 				->where(['bank_name' => 'CBR'])
 				->count(1);
 			if (!$bankExists) {
@@ -127,7 +127,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function updateCurrencyRate($id, $exchange)
 	{
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('yetiforce_currencyupdate', ['exchange' => $exchange], ['id' => $id])
 			->execute();
 	}
@@ -142,7 +142,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function addCurrencyRate($currId, $exchangeDate, $exchange, $bankId)
 	{
 
-		\App\DB::getInstance()->createCommand()->insert('yetiforce_currencyupdate', [
+		\App\Db::getInstance()->createCommand()->insert('yetiforce_currencyupdate', [
 			'currency_id' => $currId,
 			'fetch_date' => date('Y-m-d'),
 			'exchange_date' => $exchangeDate,
@@ -160,7 +160,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getCurrencyRateId($currencyId, $exchangeDate, $bankId)
 	{
-		return (new \App\db\Query())->select('id')
+		return (new \App\Db\Query())->select('id')
 			->from('yetiforce_currencyupdate')
 			->where(['exchange_date' => $exchangeDate, 'currency_id' => $currencyId, 'bank_id' => $bankId])
 			->limit(1)->scalar();
@@ -220,7 +220,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		}
 		$bank = new $bankName();
 		$supported = $bank->getSupportedCurrencies($bankName);
-		$dataReader = (new \App\db\Query())->select(['currency_name', 'currency_code'])
+		$dataReader = (new \App\Db\Query())->select(['currency_name', 'currency_code'])
 			->from('vtiger_currency_info')
 			->where(['currency_status' => 'Active', 'deleted' => 0])
 			->createCommand()->query();
@@ -240,7 +240,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	public function setCRMConversionRate($currency, $exchange)
 	{
 		$rate = (float) $exchange;
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('vtiger_currency_info', ['conversion_rate' => $rate], ['currency_code' => $currency])
 			->execute();
 	}
@@ -350,7 +350,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getActiveBankId()
 	{
-		return (new \App\db\Query())->select('id')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();
+		return (new \App\Db\Query())->select('id')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();
 	}
 	/*
 	 * Saves new active bank by id
@@ -360,7 +360,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function setActiveBankById($bankId)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 0])->execute();
 		$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['id' => $bankId])->execute();
 		if ($result) {
@@ -376,6 +376,6 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 
 	public function getActiveBankName()
 	{
-		return (new \App\db\Query())->select('bank_name')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();
+		return (new \App\Db\Query())->select('bank_name')->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();
 	}
 }
