@@ -36,7 +36,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function addKey($params)
 	{
-		$query = new App\db\Query();
+		$query = new App\Db\Query();
 		$type = (gettype($params['type']) == 'array') ? $params['type'] : [$params['type']];
 		$userID = $params['user'];
 		$query->select('id')
@@ -49,7 +49,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
 		$userModel = Users_Record_Model::getInstanceById($userID, 'Users');
 		$digesta1 = md5($userModel->get('user_name') . ':YetiDAV:' . $key);
-		$db = App\DB::getInstance();
+		$db = App\Db::getInstance();
 		$result = $db->createCommand()->insert('dav_users', [
 				'username' => $userModel->get('user_name'),
 				'digesta1' => $digesta1,
@@ -91,7 +91,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', array($params['user']));
-		$db = App\DB::getInstance();
+		$db = App\Db::getInstance();
 		$db->createCommand()->delete('dav_users', ['userid' => $params['user']])->execute();
 		$db->createCommand()->delete('dav_principals', ['userid' => $params['user']])->execute();
 

@@ -99,7 +99,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModules()
 	{
 		if (!isset($this->modules)) {
-			$dataReader = (new App\db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.name'])
+			$dataReader = (new App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.name'])
 				->from('vtiger_group2modules')
 				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_group2modules.tabid')
 				->where(['vtiger_group2modules.groupid' => $this->getId()])
@@ -118,7 +118,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function save()
 	{
-		$db = App\DB::getInstance();
+		$db = App\Db::getInstance();
 		$groupId = $this->getId();
 		$mode = 'edit';
 		$oldUsersList = $this->getUsersList(true);
@@ -288,7 +288,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	protected function transferOwnership($transferToGroup)
 	{
-		$db = App\DB::getInstance();
+		$db = App\Db::getInstance();
 		$groupId = $this->getId();
 		$transferGroupId = $transferToGroup->getId();
 
@@ -314,7 +314,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function delete($transferToGroup)
 	{
-		$db = App\DB::getInstance();
+		$db = App\Db::getInstance();
 		$groupId = $this->getId();
 		$transferGroupId = $transferToGroup->getId();
 
@@ -375,7 +375,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getAll()
 	{
-		$dataReader = (new App\db\Query())->from('vtiger_groups')->createCommand()->query();
+		$dataReader = (new App\Db\Query())->from('vtiger_groups')->createCommand()->query();
 		$groups = [];
 		while ($row = $dataReader->read()) {
 			$group = new self();
@@ -393,9 +393,9 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getInstance($value)
 	{
 		if (vtlib\Utils::isNumber($value)) {
-			$dataReader = (new App\db\Query())->from('vtiger_groups')->where(['groupid' => $value])->createCommand()->query();
+			$dataReader = (new App\Db\Query())->from('vtiger_groups')->where(['groupid' => $value])->createCommand()->query();
 		} else {
-			$dataReader = (new App\db\Query())->from('vtiger_groups')->where(['groupname' => $value])->createCommand()->query();
+			$dataReader = (new App\Db\Query())->from('vtiger_groups')->where(['groupname' => $value])->createCommand()->query();
 		}
 		if ($dataReader->count() > 0) {
 			$role = new self();
@@ -411,7 +411,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getInstanceByName($name, $excludedRecordId = [])
 	{
-		$query = new App\db\Query();
+		$query = new App\Db\Query();
 		$query->from('vtiger_groups')->where(['groupname' => $name]);
 		if (!empty($excludedRecordId)) {
 			$query->andWhere(['NOT IN', 'groupid', $excludedRecordId]);

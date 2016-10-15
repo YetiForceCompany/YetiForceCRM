@@ -27,7 +27,7 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 
 	public static function getGlobalPermissions()
 	{
-		$dataReader = (new App\db\Query())->from('vtiger_profile2globalpermissions')
+		$dataReader = (new App\Db\Query())->from('vtiger_profile2globalpermissions')
 			->leftJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_profile2globalpermissions.profileid')
 			->createCommand()->query();
 		$globalPermissions = [];
@@ -49,7 +49,7 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 		if ($globalactionid == 1) {
 			\App\Privilege::setAllUpdater();
 		}
-		$db = App\DB::getInstance();
+		$db = App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileID, 'globalactionid' => $globalactionid])->execute();
 		$db->createCommand()->insert('vtiger_profile2globalpermissions', [
 			'profileid' => $profileID,

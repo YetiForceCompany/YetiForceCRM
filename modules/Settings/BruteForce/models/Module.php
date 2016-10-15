@@ -14,7 +14,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	static public function getBruteForceSettings()
 	{
-		return (new App\db\Query())->from('vtiger_bruteforce')->one();
+		return (new App\Db\Query())->from('vtiger_bruteforce')->one();
 	}
 
 	public static function getBlockedIP()

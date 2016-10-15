@@ -1,4 +1,4 @@
-<?php namespace App\db;
+<?php namespace App\Db;
 
 /**
  * Command represents a SQL statement to be executed against a database.

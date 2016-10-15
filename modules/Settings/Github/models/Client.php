@@ -74,7 +74,7 @@ class Settings_Github_Client_Model
 	static function getInstance()
 	{
 		$instance = new self();
-		$row = (new App\db\Query())
+		$row = (new App\Db\Query())
 			->select(['client_id', 'token', 'username'])
 			->from('u_#__github')
 			->createCommand()->queryOne();
@@ -92,7 +92,7 @@ class Settings_Github_Client_Model
 		$params = ['client_id' => $this->clientId,
 			'token' => $clientToken,
 			'username' => $this->username];
-		return App\DB::getInstance()->createCommand()->update('u_#__github', $params)->execute();
+		return App\Db::getInstance()->createCommand()->update('u_#__github', $params)->execute();
 	}
 
 	public function checkToken()

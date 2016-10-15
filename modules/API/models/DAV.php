@@ -64,7 +64,7 @@ class API_DAV_Model
 
 	public function getAllUser($type = 0)
 	{
-		$db = new App\db\Query();
+		$db = new App\Db\Query();
 		if ($type == 0) {
 			$db->select([
 					'dav_users.*',

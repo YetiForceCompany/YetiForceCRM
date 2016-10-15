@@ -124,7 +124,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	{
 		$leadModel = Vtiger_Module_Model::getInstance($this->getName());
 		$leadId = $leadModel->getId();
-		$dataReader = (new App\db\Query())->select(['fieldid', 'fieldlabel', 'uitype', 'typeofdata', 'fieldname', 'tablename', 'tabid'])
+		$dataReader = (new App\Db\Query())->select(['fieldid', 'fieldlabel', 'uitype', 'typeofdata', 'fieldname', 'tablename', 'tabid'])
 			->from('vtiger_field')
 			->where(['fieldid' => $fieldIdsList])
 			->createCommand()->query();

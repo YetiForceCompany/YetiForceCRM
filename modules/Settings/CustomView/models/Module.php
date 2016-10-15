@@ -12,7 +12,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getCustomViews($tabId)
 	{
-		$dataReader = (new App\db\Query())->select('vtiger_customview.*')
+		$dataReader = (new App\Db\Query())->select('vtiger_customview.*')
 				->from('vtiger_customview')
 				->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
 				->where(['vtiger_tab.tabid' => $tabId])
@@ -27,7 +27,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getFilterPermissionsView($cvId, $action)
 	{
-		$query = new App\db\Query();
+		$query = new App\Db\Query();
 		if ($action == 'default') {
 			$query->select('userid')
 				->from('vtiger_user_module_preferences')
@@ -51,7 +51,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
 	{
 		if ($action == 'add') {
-			$dataReader = (new App\db\Query())->select('vtiger_customview.viewname')
+			$dataReader = (new App\Db\Query())->select('vtiger_customview.viewname')
 				->from('vtiger_user_module_preferences')
 				->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
 				->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user])
@@ -155,7 +155,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getSupportedModules()
 	{
 		$modulesList = [];
-		$dataReader = (new App\db\Query())
+		$dataReader = (new App\Db\Query())
 			->select(['vtiger_tab.tabid', 'vtiger_customview.entitytype'])
 			->from('vtiger_customview')
 			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')

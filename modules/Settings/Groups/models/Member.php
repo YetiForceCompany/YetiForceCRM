@@ -81,7 +81,7 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 
 	public static function getAllByTypeForGroup($groupModel, $type)
 	{
-		$query = new App\db\Query();
+		$query = new App\Db\Query();
 		$members = [];
 
 		if ($type == self::MEMBER_TYPE_USERS) {

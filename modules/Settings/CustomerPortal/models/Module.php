@@ -19,7 +19,7 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getCurrentPortalUser()
 	{
-		$dataReader = (new App\db\Query())->select('prefvalue')
+		$dataReader = (new App\Db\Query())->select('prefvalue')
 			->from('vtiger_customerportal_prefs')
 			->where(['prefkey' => 'userid', 'tabid' => 0])
 			->createCommand()->query();
@@ -35,7 +35,7 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getCurrentDefaultAssignee()
 	{
-		$dataReader = (new App\db\Query())->select('prefvalue')
+		$dataReader = (new App\Db\Query())->select('prefvalue')
 			->from('vtiger_customerportal_prefs')
 			->where(['prefkey' => 'defaultassignee', 'tabid' => 0])
 			->createCommand()->query();
@@ -52,7 +52,7 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
 	public function getModulesList()
 	{
 		if (!$this->portalModules) {
-			$dataReader = (new App\db\Query())->select(['vtiger_customerportal_tabs.*', 'vtiger_customerportal_prefs.prefvalue', 'vtiger_tab.name'])
+			$dataReader = (new App\Db\Query())->select(['vtiger_customerportal_tabs.*', 'vtiger_customerportal_prefs.prefvalue', 'vtiger_tab.name'])
 				->from('vtiger_customerportal_tabs')
 				->innerJoin('vtiger_customerportal_prefs', 'vtiger_customerportal_prefs.tabid = vtiger_customerportal_tabs.tabid AND vtiger_customerportal_prefs.prefkey = :pref', [':pref' => 'showrelatedinfo'])
 				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_customerportal_tabs.tabid AND vtiger_tab.presence = :pres', [':pres' => 0])
