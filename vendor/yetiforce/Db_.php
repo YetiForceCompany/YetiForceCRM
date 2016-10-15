@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class DB extends \yii\db\Connection
+class Db extends \yii\db\Connection
 {
 
 	/**
