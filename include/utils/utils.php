@@ -1795,11 +1795,7 @@ function getCombinations($array, $tempString = '')
 
 function getCompanyDetails()
 {
-	$db = PearDatabase::getInstance();
-	$result = $db->query('select * from vtiger_organizationdetails');
-
-	$companyDetails = $db->getRow($result);
-	return $companyDetails;
+	return (new \App\db\Query())->from('vtiger_organizationdetails')->one();
 }
 
 /** call back function to change the array values in to lower case */

@@ -22,9 +22,9 @@ class Modules
 				$entity = isset(self::$moduleEntityCacheByName[$mixed]) ? self::$moduleEntityCacheByName[$mixed] : false;
 		}
 		if (!$entity) {
-			$adb = \PearDatabase::getInstance();
-			$result = $adb->query('SELECT * from vtiger_entityname');
-			while ($row = $adb->getRow($result)) {
+			$dataReader = (new \App\db\Query())->from('vtiger_entityname')
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$row['fieldnameArr'] = explode(',', $row['fieldname']);
 				$row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
 				self::$moduleEntityCacheByName[$row['modulename']] = $row;

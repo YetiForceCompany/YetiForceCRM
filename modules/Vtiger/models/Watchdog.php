@@ -62,7 +62,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		$return = false;
 
 		$modules = self::getWatchingModules(false, $userId);
-		if (in_array(vtlib\Functions::getModuleId($this->get('module')), $modules)) {
+		if (in_array(\includes\Modules::getModuleId($this->get('module')), $modules)) {
 			$return = true;
 		}
 		$this->set('isWatchingModule', $return);
@@ -156,15 +156,15 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($ownerId === false) {
 			$ownerId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
 		}
-		$db = PearDatabase::getInstance();
-		$moduleId = vtlib\Functions::getModuleId($this->get('module'));
+		$db = App\Db::getInstance();
+		$moduleId = \includes\Modules::getModuleId($this->get('module'));
 		if ($state == 1) {
-			$db->insert('u_yf_watchdog_module', [
+			$db->createCommand()->insert('u_yf_watchdog_module', [
 				'userid' => $ownerId,
 				'module' => $moduleId
-			]);
+			])->execute();
 		} else {
-			$db->delete('u_yf_watchdog_module', 'userid = ? && module = ?', [$ownerId, $moduleId]);
+			$db->createCommand()->delete('u_yf_watchdog_module', ['userid' => $ownerId, 'module' => $moduleId])->execute();
 		}
 	}
 
@@ -193,14 +193,19 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 	public function getWatchingUsers()
 	{
 		$users = [];
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT userid FROM u_yf_watchdog_module WHERE module = ?', [vtlib\Functions::getModuleId($this->get('module'))]);
-		while (($userId = $db->getSingleValue($result)) !== false) {
+		$dataReader = (new App\Db\Query())->select(['userid'])
+				->from('u_yf_watchdog_module')
+				->where(['module' => \includes\Modules::getModuleId($this->get('module'))])
+				->createCommand()->query();
+		while (($userId = $dataReader->readColumn(0)) !== false) {
 			$users[$userId] = $userId;
 		}
 		if ($this->has('record')) {
-			$result = $db->pquery('SELECT * FROM u_yf_watchdog_record WHERE record = ?', [$this->get('record')]);
-			while ($row = $db->getRow($result)) {
+			$dataReader = (new App\Db\Query())->select(['userid', 'state'])
+				->from('u_yf_watchdog_record')
+				->where(['record' => \includes\Modules::getModuleId($this->get('record'))])
+				->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				if ($row['state'] == 1) {
 					$users[$row['userid']] = $row['userid'];
 				} else {
