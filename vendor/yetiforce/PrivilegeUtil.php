@@ -256,7 +256,7 @@ class PrivilegeUtil
 				$users = array_merge($users, $roleUsers);
 			}
 		} else {
-			\App\log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
+			\App\Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
 		$users = array_unique($users);
 		static::$usersByGroupCache[$groupId] = $users;

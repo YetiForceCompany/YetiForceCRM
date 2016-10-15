@@ -1,4 +1,4 @@
-<?php namespace App\log;
+<?php namespace App\Log;
 
 use \App\DB;
 use \yii\log\Logger;

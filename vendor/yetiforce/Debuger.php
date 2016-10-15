@@ -59,7 +59,7 @@ class Debuger
 		if (\AppConfig::debug('LOG_TO_FILE')) {
 			$levels = \AppConfig::debug('LOG_LEVELS');
 			$target = [
-				'class' => 'App\log\FileTarget'
+				'class' => 'App\Log\FileTarget'
 			];
 			if ($levels !== false) {
 				$target['levels'] = $levels;
@@ -69,7 +69,7 @@ class Debuger
 		if (\AppConfig::debug('LOG_TO_PROFILE')) {
 			$levels = \AppConfig::debug('LOG_LEVELS');
 			$target = [
-				'class' => 'App\log\Profiling'
+				'class' => 'App\Log\Profiling'
 			];
 			if ($levels !== false) {
 				$target['levels'] = $levels;

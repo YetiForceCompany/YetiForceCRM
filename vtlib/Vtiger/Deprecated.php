@@ -136,10 +136,10 @@ class Deprecated
 				fputs($handle, $newbuf);
 				fclose($handle);
 			} else {
-				\App\log::error("The file $filename is not writable");
+				\App\Log::error("The file $filename is not writable");
 			}
 		} else {
-			\App\log::error("The file $filename does not exist");
+			\App\Log::error("The file $filename does not exist");
 		}
 	}
 
