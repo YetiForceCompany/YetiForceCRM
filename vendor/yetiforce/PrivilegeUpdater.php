@@ -206,7 +206,7 @@ class PrivilegeUpdater
 	 */
 	public static function updateOnRecordSave(\Vtiger_Record_Model $record)
 	{
-		if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+		if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
 			return false;
 		}
 		\App\DB::getInstance('admin')->createCommand()
