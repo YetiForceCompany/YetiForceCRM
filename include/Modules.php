@@ -22,7 +22,7 @@ class Modules
 				$entity = isset(self::$moduleEntityCacheByName[$mixed]) ? self::$moduleEntityCacheByName[$mixed] : false;
 		}
 		if (!$entity) {
-			$dataReader = (new \App\db\Query())->from('vtiger_entityname')
+			$dataReader = (new \App\Db\Query())->from('vtiger_entityname')
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$row['fieldnameArr'] = explode(',', $row['fieldname']);

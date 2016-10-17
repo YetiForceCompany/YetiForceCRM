@@ -1,4 +1,5 @@
-<?php namespace App\Debug;
+<?php
+namespace App\Debug;
 
 use PDO;
 use PDOException;
@@ -10,5 +11,5 @@ use DebugBar\DataCollector\PDO\TracedStatement;
  */
 class DebugBarStatement extends \PDOStatement
 {
-
+	
 }

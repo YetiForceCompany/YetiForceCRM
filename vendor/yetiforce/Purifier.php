@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 

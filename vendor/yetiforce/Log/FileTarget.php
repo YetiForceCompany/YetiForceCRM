@@ -1,4 +1,5 @@
-<?php namespace App\Log;
+<?php
+namespace App\Log;
 
 use Yii;
 use yii\base\InvalidConfigException;

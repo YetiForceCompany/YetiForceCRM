@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 vimport('~/modules/com_vtiger_workflow/VTJsonCondition.inc');
 vimport('~/modules/com_vtiger_workflow/VTEntityCache.inc');

@@ -1,4 +1,5 @@
-<?php namespace App\Db;
+<?php
+namespace App\Db;
 
 /**
  * Query represents a SELECT SQL statement in a way that is independent of DBMS.

@@ -1,4 +1,5 @@
-<?php namespace App\Exceptions;
+<?php
+namespace App\Exceptions;
 
 /**
  * DbException represents a database error.
