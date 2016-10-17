@@ -17,13 +17,14 @@ class Settings_OSSProjectTemplates_GetTplInfo_Action extends Settings_Vtiger_Ind
 		$baseModuleName = $request->get('base_module');
 		$db = PearDatabase::getInstance();
 		$id = $request->get('tpl_id');
-		$sql = sprintf("SELECT * FROM vtiger_oss_%s_templates WHERE id_tpl = ?", strtolower($baseModuleName));
-		$result = $db->pquery($sql, [$id]);
+		$nameTable = sprintf('vtiger_oss_%s_templates', strtolower($baseModuleName));
+		$dataReader = (new \App\Db\Query())
+			->from($nameTable)
+			->where(['id_tpl' => $id])
+			->createCommand()->query();
 		$output = [];
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$record = $db->raw_query_result_rowdata($result, $i);
-			$key = $record['fld_name'];
-			$output[$key] = str_replace('&oacute;', 'ó', $record['fld_val']);
+		while($row = $dataReader->read()) {
+			$output[$row['fld_name']] = str_replace('&oacute;', 'ó', $row['fld_val']);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($output);

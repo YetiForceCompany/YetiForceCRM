@@ -14,11 +14,11 @@ class Settings_OSSProjectTemplates_DeleteTemplate_Action extends Settings_Vtiger
 
 	public function process(Vtiger_Request $request)
 	{
-
 		$baseModuleName = $request->get('base_module');
 		$idTpl = $request->get('tpl_id');
-		$db = PearDatabase::getInstance();
-		$db->delete('vtiger_oss_project_templates', 'parent = ? || id_tpl = ?', [$idTpl, $idTpl]);
+		\App\Db::getInstance()->createCommand()
+			->delete('vtiger_oss_project_templates', ['or', ['parent' => $idTpl], ['id_tpl' => $idTpl]])
+			->execute();
 		$backView = $request->get('back_view');
 		$backIdTpl = $request->get('parent_tpl_id');
 		header("Location: index.php?module=OSSProjectTemplates&parent=Settings&&view=" . $backView . '&tpl_id=' . $backIdTpl);
