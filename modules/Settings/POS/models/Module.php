@@ -13,12 +13,11 @@ class Settings_POS_Module_Model extends Settings_Vtiger_Module_Model
 
 	static function getUsers()
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM w_yf_pos_users';
-		$result = $db->query($query);
+		$dataReader = (new \App\Db\Query())->from('w_#__pos_users')
+			->createCommand()->query();
 		$listUsers = false;
 		$actions = self::getListActions();
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$userModel = Users_Record_Model::getInstanceById($row['userid'], 'Users');
 			$row['userModel'] = $userModel;
 			$actionForUser = explode(',', $row['action']);
@@ -36,11 +35,10 @@ class Settings_POS_Module_Model extends Settings_Vtiger_Module_Model
 		if (self::$actions) {
 			return self::$actions;
 		}
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM w_yf_pos_actions';
-		$result = $db->query($query);
+		$dataReader = (new \App\Db\Query())->from('w_#__pos_actions')
+			->createCommand()->query();
 		$listAction = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$listAction[$row['id']] = $row;
 		}
 		self::$actions = $listAction;
