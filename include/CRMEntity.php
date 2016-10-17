@@ -1264,6 +1264,7 @@ class CRMEntity
 			'deleted' => 0,
 			'modifiedtime' => date('Y-m-d H:i:s'),
 			'modifiedby' => $currentUser->id,
+			'users' => null,
 			], 'crmid = ?', [$id]
 		);
 

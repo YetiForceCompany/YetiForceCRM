@@ -105,6 +105,9 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			$db->createCommand()->update('a_#__adv_permission', $params, ['id' => $recordId])->execute();
 		}
 		\App\PrivilegeAdvanced::reloadCache();
+		if ($this->has('conditions')) {
+			\App\Privilege::setUpdater(\includes\Modules::getModuleName($this->get('tabid')));
+		}
 	}
 
 	/**
@@ -174,6 +177,9 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			->delete('a_#__adv_permission', ['id' => $this->getId()])
 			->execute();
 		\App\PrivilegeAdvanced::reloadCache();
+		if ($this->has('conditions')) {
+			\App\Privilege::setUpdater(\includes\Modules::getModuleName($this->get('tabid')));
+		}
 	}
 
 	/**

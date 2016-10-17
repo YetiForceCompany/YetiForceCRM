@@ -293,6 +293,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
+		if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+			\App\Privilege::setUpdater($this->getModuleName(), $this->getId(), 6, 0);
+		}
 	}
 
 	/**
@@ -581,7 +584,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function trackView()
 	{
-		
+
 		$db = PearDatabase::getInstance();
 		$id = $this->getId();
 		\App\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
@@ -686,7 +689,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getInventoryData()
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
 		if (!$this->inventoryData) {
 			$module = $this->getModuleName();
@@ -721,7 +724,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function initInventoryData()
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
 
 		$moduleName = $this->getModuleName();
