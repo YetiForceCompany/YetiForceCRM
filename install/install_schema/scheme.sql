@@ -9385,7 +9385,7 @@ CREATE TABLE `yetiforce_menu` (
   KEY `role` (`role`),
   KEY `module` (`module`),
   CONSTRAINT `yetiforce_menu_ibfk_1` FOREIGN KEY (`module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mobile_keys` */
 
