@@ -95,7 +95,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function save(Vtiger_PDF_Model $pdfModel, $step = 1)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance('admin');
 
 		switch ($step) {
 			case 2:
@@ -116,7 +116,9 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					$fields[$field] = $params;
 				}
-				$db->update('a_yf_pdf', $fields, '`pdfid` = ? LIMIT 1', [$pdfModel->getId()]);
+				$db->createCommand()
+					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
+					->execute();
 				return $pdfModel->get('pdfid');
 
 			case 1:
@@ -126,15 +128,16 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					foreach ($stepFields as $field) {
 						$params[$field] = $pdfModel->get($field);
 					}
-					$db->insert('a_yf_pdf', $params);
-
+					$db->createCommand()->insert('a_#__pdf', $fields)
+						->execute();
 					$pdfModel->set('pdfid', $db->getLastInsertID());
 				} else {
 					$fields = [];
 					foreach ($stepFields as $field) {
 						$fields[$field] = $pdfModel->get($field);
 					}
-					$db->update('a_yf_pdf', $fields, '`pdfid` = ? LIMIT 1', [$pdfModel->getId()]);
+					$db->createCommand()->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
+						->execute();
 				}
 				return $pdfModel->get('pdfid');
 
@@ -148,8 +151,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 						$params[$field] = $pdfModel->get($field);
 					}
 				}
-				$db->insert('a_yf_pdf', $params);
-
+				$db->createCommand()->insert('a_#__pdf', $params)->execute();
 				$pdfModel->set('pdfid', $db->getLastInsertID());
 				return $pdfModel->get('pdfid');
 		}
@@ -157,12 +159,11 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function deleteWatermark(Vtiger_PDF_Model $pdfModel)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance('admin');
 		$watermarkImage = $pdfModel->get('watermark_image');
-
-		$query = 'UPDATE `a_yf_pdf` SET `watermark_image` = ? WHERE `pdfid` = ? LIMIT 1;';
-		$db->pquery($query, ['', $pdfModel->getId()]);
-
+		$db->createCommand()
+			->update('a_#__pdf', ['watermark_image' => null], ['pdfid' => $pdfModel->getId()])
+			->execute();
 		if (file_exists($watermarkImage)) {
 			return unlink($watermarkImage);
 		}
@@ -171,8 +172,9 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function delete(Vtiger_PDF_Model $pdfModel)
 	{
-		$db = PearDatabase::getInstance();
-		return $db->delete('a_yf_pdf', '`pdfid` = ?', [$pdfModel->getId()]);
+		return App\Db::getInstance('admin')->createCommand()
+			->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
+			->execute();
 	}
 
 	/**
