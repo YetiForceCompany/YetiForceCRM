@@ -10,7 +10,7 @@
 class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 {
 
-	public $notificationDefaultType = 'PLL_USERS';
+	public $notificationDefaultType = 'PLL_SYSTEM';
 
 	/**
 	 * Function to get the instance by id

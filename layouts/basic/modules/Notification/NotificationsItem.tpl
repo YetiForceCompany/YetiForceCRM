@@ -34,10 +34,8 @@
 						<button type="button" class="btn btn-success btn-xs" onclick="Vtiger_Index_Js.markNotifications({$ROW->getId()});" title="{vtranslate('LBL_MARK_AS_READ', $MODULE_NAME)}">
 							<span class="glyphicon glyphicon-ok"></span>
 						</button>&nbsp;&nbsp;
-						{if isRecordExists($ROW->get('reletedid'))}
-							<a class="btn btn-info btn-xs" title="{vtranslate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$ROW->get('reletedmodule')}&view=Detail&record={$ROW->get('reletedid')}">
-								<span class="glyphicon glyphicon-th-list"></span>
-							</a>
+						{if \includes\Record::isExists($ROW->get('relatedid'))}
+							<a class="btn btn-info btn-xs glyphicon glyphicon-th-list" title="{vtranslate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$ROW->get('relatedmodule')}&view=Detail&record={$ROW->get('relatedid')}"></a>
 						{/if}
 					</div>
 				</div>

@@ -32,11 +32,10 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getEntries($limit = false, $conditions = false, $userId = false, $groupBy = false)
 	{
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($this->getName());
 		$queryGenerator->setFields(['description', 'smwonerid', 'id', 'title', 'relatedid', 'relatedmodule', 'createdtime', 'notification_type']);
 		if (empty($userId)) {
-			$userId = $currentUser->getId();
+			$userId = Users_Privileges_Model::getCurrentUserModel()->getId();
 		}
 		$queryGenerator->setCustomCondition([
 			'glue' => 'AND',
