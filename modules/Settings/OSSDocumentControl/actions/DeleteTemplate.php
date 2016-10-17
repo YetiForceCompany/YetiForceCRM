@@ -20,15 +20,11 @@ class Settings_OSSDocumentControl_DeleteTemplate_Action extends Settings_Vtiger_
 	public function process(Vtiger_Request $request)
 	{
 		$tplId = $request->get('tpl_id');
-
-		$db = PearDatabase::getInstance();
-
-		$deleteConditionSql = "DELETE FROM vtiger_ossdocumentcontrol_cnd WHERE ossdocumentcontrolid = ?";
-		$db->pquery($deleteConditionSql, array($tplId), true);
-
-		$deleteMineRecordSql = "DELETE FROM vtiger_ossdocumentcontrol WHERE ossdocumentcontrolid = ?";
-		$db->pquery($deleteMineRecordSql, array($tplId), true);
-
+		$db = App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_ossdocumentcontrol_cnd', ['ossdocumentcontrolid' => $tplId])
+			->execute();
+		$db->createCommand()->delete('vtiger_ossdocumentcontrol', ['ossdocumentcontrolid' => $tplId])
+			->execute();
 		header("Location: index.php?module=OSSDocumentControl&parent=Settings&view=Index");
 	}
 }

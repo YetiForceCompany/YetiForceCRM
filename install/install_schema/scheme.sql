@@ -6247,7 +6247,7 @@ CREATE TABLE `vtiger_ossdocumentcontrol` (
   `ossdocumentcontrolid` int(19) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(255) DEFAULT NULL,
   `summary` varchar(255) NOT NULL,
-  `doc_folder` int(19) NOT NULL,
+  `doc_folder` int(19) DEFAULT NULL,
   `doc_name` varchar(255) NOT NULL,
   `doc_request` tinyint(1) NOT NULL,
   `doc_order` int(19) NOT NULL,
