@@ -195,7 +195,7 @@ class PrivilegeUpdater
 	{
 		$modules = \vtlib\Functions::getAllModules();
 		foreach ($modules as &$module) {
-			self::setUpdater($module['name']);
+			static::setUpdater($module['name']);
 		}
 		PrivilegeAdvanced::reloadCache();
 	}
@@ -209,12 +209,6 @@ class PrivilegeUpdater
 		if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
 			return false;
 		}
-		\App\DB::getInstance('admin')->createCommand()
-			->insert('s_#__privileges_updater', [
-				'module' => $record->getModuleName(),
-				'crmid' => $record->getId(),
-				'priority' => 6,
-				'type' => 0
-			])->execute();
+		static::setUpdater($record->getModuleName(), $record->getId(), 6, 0);
 	}
 }
