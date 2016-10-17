@@ -30,22 +30,26 @@ class OpenStreetMapHandler extends VTEventHandler
 			}
 		}
 		foreach (['a', 'b', 'c'] as $typeAddress) {
-			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($data->focus->mode !== 'edit' || in_array($typeAddress, $typeAddressToUpdate))) {
+			if (!$recordModel->isEmpty('addresslevel5'.$typeAddress) && ($data->focus->mode !== 'edit' || in_array($typeAddress,
+					$typeAddressToUpdate))) {
 				$isCoordinateExists = (new App\Db\Query())
-						->from('u_yf_openstreetmap_record_updater')
-						->where(['type' => $typeAddress, 'crmid' => $data->getId()])
-						->exists();
+					->from('u_#__openstreetmap_record_updater')
+					->where(['type' => $typeAddress, 'crmid' => $data->getId()])
+					->exists();
 				$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 				$address = $coordinatesModel->getUrlParamsToSearching($recordModel, $typeAddress);
 				if (!$isCoordinateExists) {
-					App\Db::getInstance()->createCommand()->insert('u_yf_openstreetmap_record_updater', [
+					App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater',
+						[
 						'crmid' => $data->getId(),
 						'type' => $typeAddress,
 						'address' => \includes\utils\Json::encode($address)
 					])->execute();
 				} else {
 					App\Db::getInstance()->createCommand()
-						->update('u_yf_openstreetmap_record_updater', ['address' => \includes\utils\Json::encode($address)], ['crmid' => $data->getId(), 'type' => $typeAddress])
+						->update('u_#__openstreetmap_record_updater',
+							['address' => \includes\utils\Json::encode($address)],
+							['crmid' => $data->getId(), 'type' => $typeAddress])
 						->execute();
 				}
 			}

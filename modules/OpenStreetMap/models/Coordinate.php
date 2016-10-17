@@ -6,15 +6,16 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
-
+class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
+{
 	const earthRadius = 6378137;
 
 	/**
 	 * Function to get instance
 	 * @return \self
 	 */
-	public static function getInstance() {
+	public static function getInstance()
+	{
 		return new self();
 	}
 
@@ -23,9 +24,11 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param string $url
 	 * @return string
 	 */
-	private function doRequest($url) {
+	private function doRequest($url)
+	{
 		$curl = curl_init();
-		curl_setopt_array($curl, array(
+		curl_setopt_array($curl,
+			array(
 			CURLOPT_URL => $url,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
@@ -50,7 +53,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param type $radius
 	 * @return type
 	 */
-	private function getMargins($coordinates, $radius) {
+	private function getMargins($coordinates, $radius)
+	{
 		$earthRadius = static::earthRadius;
 		$lat = $coordinates['lat'];
 		$long = $coordinates['lon'];
@@ -68,8 +72,9 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param array $address params url
 	 * @return array
 	 */
-	public function getCoordinates($address) {
-		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
+	public function getCoordinates($address)
+	{
+		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH').'/?';
 		$data = [
 			'format' => 'json',
 			'addressdetails' => 1,
@@ -83,7 +88,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * Function to get coordinates of center point
 	 * @return array
 	 */
-	public function getCoordinatesCenter() {
+	public function getCoordinatesCenter()
+	{
 		$searchValue = $this->get('searchValue');
 		if (!$this->isEmpty('lat') && !$this->isEmpty('lon')) {
 			$coordinatesCenter = [
@@ -103,11 +109,11 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param string $searchValue
 	 * @return array
 	 */
-	public function getCoordinatesBySearching($searchValue) {
+	public function getCoordinatesBySearching($searchValue)
+	{
 
 		$coordinatesDetails = $this->getCoordinates(['q' => $searchValue]);
-		if ($coordinatesDetails === false)
-			return [];
+		if ($coordinatesDetails === false) return [];
 		$coordinatesDetails = reset($coordinatesDetails);
 		if (empty($coordinatesDetails)) {
 			return ['error' => vtranslate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
@@ -122,13 +128,14 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param string $type a,b or c
 	 * @return array
 	 */
-	public function getUrlParamsToSearching($recordModel, $type) {
+	public function getUrlParamsToSearching($recordModel, $type)
+	{
 		return [
-			'state' => $recordModel->get('addresslevel2' . $type),
-			'county' => $recordModel->get('addresslevel3' . $type),
-			'city' => $recordModel->get('addresslevel5' . $type),
-			'street' => $recordModel->get('addresslevel8' . $type) . ' ' . $recordModel->get('buildingnumber' . $type),
-			'country' => $recordModel->get('addresslevel1' . $type),
+			'state' => $recordModel->get('addresslevel2'.$type),
+			'county' => $recordModel->get('addresslevel3'.$type),
+			'city' => $recordModel->get('addresslevel5'.$type),
+			'street' => $recordModel->get('addresslevel8'.$type).' '.$recordModel->get('buildingnumber'.$type),
+			'country' => $recordModel->get('addresslevel1'.$type),
 		];
 	}
 
@@ -137,15 +144,14 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param <Vtiger_Record_Model> $recordModel
 	 * @return array
 	 */
-	public function getCoordinatesByRecord($recordModel) {
+	public function getCoordinatesByRecord($recordModel)
+	{
 		$coordinates = [];
 		foreach (['a', 'b', 'c'] as $numAddress) {
 			$address = $this->getUrlParamsToSearching($recordModel, $numAddress);
 			$coordinatesDetails = $this->getCoordinates($address);
-			if ($coordinatesDetails === false)
-				break;
-			if (empty($coordinatesDetails))
-				continue;
+			if ($coordinatesDetails === false) break;
+			if (empty($coordinatesDetails)) continue;
 			$coordinatesDetails = reset($coordinatesDetails);
 			$coordinates [$numAddress] = [
 				'lat' => $coordinatesDetails['lat'],
@@ -160,7 +166,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param int $crmid
 	 * @return string
 	 */
-	public function getLabelsToPopupById($crmid) {
+	public function getLabelsToPopupById($crmid)
+	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
@@ -181,7 +188,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 		$html = '';
 		foreach ($row as $fieldName => $value) {
 			if (!empty($value)) {
-				$html .= $value . '<br>';
+				$html .= $value.'<br>';
 			}
 		}
 		return $html;
@@ -192,10 +199,11 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param int $recordId
 	 * @return array
 	 */
-	public function readCoordinates($recordId) {
-		$dataReader = (new App\Db\Query())->from('u_yf_openstreetmap')
-						->where(['crmid' => $recordId])
-						->createCommand()->query();
+	public function readCoordinates($recordId)
+	{
+		$dataReader = (new App\Db\Query())->from('u_#__openstreetmap')
+				->where(['crmid' => $recordId])
+				->createCommand()->query();
 		$popup = self::getLabelsToPopupById($recordId);
 		$coordinates = [];
 		while ($row = $dataReader->read()) {
@@ -215,24 +223,28 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * Function to get content in popup
 	 * @param array $data
 	 * @param string $moduleName
-	 * @return string 
+	 * @return string
 	 */
-	public function getLabelToPopupByArray($data, $moduleName) {
-		$html = '<b><a href="index.php?module=' . $moduleName . '&view=Detail&record=' . $data['crmid'] . '"><span class="description">';
+	public function getLabelToPopupByArray($data, $moduleName)
+	{
+		$html = '<b><a href="index.php?module='.$moduleName.'&view=Detail&record='.$data['crmid'].'"><span class="description">';
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
-				$html .= $data[$fieldName] . '<br>';
+				$html .= $data[$fieldName].'<br>';
 			}
 		}
-		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
-		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . vtranslate('LBL_START', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . vtranslate('LBL_END', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . vtranslate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . vtranslate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
+		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="'.$data['lon'].'" data-lat="'.$data['lat'].'">';
+		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">'.vtranslate('LBL_START',
+				'OpenStreetMap').'</button><br>';
+		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">'.vtranslate('LBL_END',
+				'OpenStreetMap').'</button><br>';
+		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">'.vtranslate('LBL_INDIRECT_POINT',
+				'OpenStreetMap').'</button><br>';
+		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">'.vtranslate('LBL_SEARCH_IN_RADIUS',
+				'OpenStreetMap').'</button>';
 		return $html;
 	}
-
 	static public $colors = [];
 
 	/**
@@ -241,7 +253,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param string $value
 	 * @return string color
 	 */
-	private function getMarkerColor($value) {
+	private function getMarkerColor($value)
+	{
 		static $indexColor = 0;
 		if (empty($value)) {
 			return '#000';
@@ -310,7 +323,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 			'EFCDF8', 'DBDBFF', 'D8F0F8', 'E7F3F1', 'FFEAEA', 'FAE7EC', 'FFE3FF', 'F8E9FC', 'EEEEFF',
 			'EFF9FC', 'F2F9F8', 'FFFDFD', 'FEFAFB', 'FFFDFF', 'FFFFFF', 'FDFDFF', 'FAFDFE', 'F7FBFA'];
 
-		$color = '#' . $colors[$indexColor];
+		$color = '#'.$colors[$indexColor];
 		$indexColor++;
 		self::$colors[$value] = $color;
 		return $color;
@@ -321,7 +334,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param type $records Array with id of records
 	 * @return type
 	 */
-	public function readCoordinatesByRecords($records) {
+	public function readCoordinatesByRecords($records)
+	{
 		$params = [];
 		$moduleModel = $this->get('srcModuleModel');
 		$groupByField = $this->get('groupBy');
@@ -349,7 +363,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 			'baseIndex' => 'crmid',
 		]);
 		$query = $queryGenerator->getQuery();
-		$query .= sprintf(' AND vtiger_crmentity.crmid IN (%s) AND u_yf_openstreetmap.type = \'a\' ', generateQuestionMarks($records));
+		$query .= sprintf(' AND vtiger_crmentity.crmid IN (%s) AND u_yf_openstreetmap.type = \'a\' ',
+			generateQuestionMarks($records));
 		$params = $records;
 		if (!empty($coordinatesCenter) && !empty($radius)) {
 			$query .= ' AND u_yf_openstreetmap.lat < ? AND u_yf_openstreetmap.lat > ? AND u_yf_openstreetmap.lon < ? AND u_yf_openstreetmap.lon > ?';
@@ -377,7 +392,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * Get coordinates for select records
 	 * @return array
 	 */
-	public function getCoordinatesCustomView() {
+	public function getCoordinatesCustomView()
+	{
 		$selectedIds = $this->get('selectedIds');
 		if ($selectedIds == 'all') {
 			return $this->readAllCoordinatesFromCustomeView();
@@ -392,7 +408,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * Get coordinates for all records in the listview
 	 * @return array
 	 */
-	public function readAllCoordinatesFromCustomeView() {
+	public function readAllCoordinatesFromCustomeView()
+	{
 		$moduleModel = $this->get('srcModuleModel');
 		$moduleName = $moduleModel->getName();
 		$filterId = $this->get('viewname');
@@ -427,7 +444,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 		]);
 
 		if (!empty($searchValue)) {
-			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
+			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue,
+				'operator' => $operator));
 		}
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
@@ -442,12 +460,13 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
 			$glue = QueryGenerator::$AND;
 		}
-		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
+		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams,
+				$moduleModel);
 		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
 		$query = $queryGenerator->getQuery();
 		$query .= ' AND u_yf_openstreetmap.type = \'a\' ';
 		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
-			$query .= ' AND vtiger_crmentity.crmid NOT IN (' . implode(',', $excludedIds) . ')';
+			$query .= ' AND vtiger_crmentity.crmid NOT IN ('.implode(',', $excludedIds).')';
 		}
 		if (!empty($coordinatesCenter) && !empty($radius)) {
 			$query .= ' AND u_yf_openstreetmap.lat < ? AND u_yf_openstreetmap.lat > ? AND u_yf_openstreetmap.lon < ? AND u_yf_openstreetmap.lon > ?';
@@ -474,12 +493,13 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * Get total count of records in the clipboard
 	 * @return array
 	 */
-	public function getCachedRecords() {
+	public function getCachedRecords()
+	{
 		$db = \App\Db::getInstance();
 		$dataReader = (new App\Db\Query())->select(['count' => 'COUNT(*)', 'module_name'])
-						->from('u_yf_openstreetmap_cache')->where(['user_id' => Users_Privileges_Model::getCurrentUserModel()->getId()])
-						->groupBy('module_name')
-						->createCommand($db)->query();
+				->from('u_#__openstreetmap_cache')->where(['user_id' => Users_Privileges_Model::getCurrentUserModel()->getId()])
+				->groupBy('module_name')
+				->createCommand($db)->query();
 		$records = [];
 		while ($row = $dataReader->read()) {
 			$records[$row['module_name']] = $row['count'];
@@ -491,7 +511,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * Get coordinates for records from the clipboard
 	 * @return array
 	 */
-	public function readCoordinatesCache() {
+	public function readCoordinatesCache()
+	{
 		$modules = $this->get('cache');
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -499,10 +520,10 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 		$coordinates = [];
 		foreach ($modules as $moduleName) {
 			$records = (new App\Db\Query())
-							->select('crmids')
-							->from('u_yf_openstreetmap_cache')
-							->where(['user_id' => $userId, 'module_name' => $moduleName])
-							->createCommand($db)->queryColumn(0);
+					->select('crmids')
+					->from('u_#__openstreetmap_cache')
+					->where(['user_id' => $userId, 'module_name' => $moduleName])
+					->createCommand($db)->queryColumn(0);
 			if (!empty($records)) {
 				$this->set('srcModuleModel', Vtiger_Module_Model::getInstance($moduleName));
 				$coordinates [$moduleName] = $this->readCoordinatesByRecords($records);
@@ -517,14 +538,15 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param string $moduleName name of module
 	 * @param array $records Array with records id
 	 */
-	public function saveCache($userId, $moduleName, $records) {
+	public function saveCache($userId, $moduleName, $records)
+	{
 		$insertedData = [];
 		foreach ($records as $recordId) {
 			$insertedData [] = [$userId, $moduleName, $recordId];
 		}
 		App\Db::getInstance()->createCommand()
-				->batchInsert('u_yf_openstreetmap_cache', ['user_id', 'module_name', 'crmids'], $insertedData)
-				->execute();
+			->batchInsert('u_#__openstreetmap_cache', ['user_id', 'module_name', 'crmids'], $insertedData)
+			->execute();
 	}
 
 	/**
@@ -532,10 +554,10 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model {
 	 * @param int $userId id of user
 	 * @param string $moduleName name of module
 	 */
-	public function deleteCache($userId, $moduleName) {
+	public function deleteCache($userId, $moduleName)
+	{
 		\App\Db::getInstance()->createCommand()
-				->delete('u_yf_openstreetmap_cache', ['module_name' => $moduleName, 'user_id' => $userId])
-				->execute();
+			->delete('u_#__openstreetmap_cache', ['module_name' => $moduleName, 'user_id' => $userId])
+			->execute();
 	}
-
 }

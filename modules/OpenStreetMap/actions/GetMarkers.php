@@ -6,9 +6,11 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action {
+class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
+{
 
-	public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request)
+	{
 		$data = [];
 		$sourceModule = $request->get('srcModule');
 		$srcModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
@@ -54,5 +56,4 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action {
 		$response->setResult($data);
 		$response->emit();
 	}
-
 }

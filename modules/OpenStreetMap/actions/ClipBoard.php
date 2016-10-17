@@ -28,7 +28,9 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	public function delete(Vtiger_Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$coordinatesModel->deleteCache(Users_Privileges_Model::getCurrentUserModel()->getId(), $request->get('srcModule'));;
+		$coordinatesModel->deleteCache(Users_Privileges_Model::getCurrentUserModel()->getId(),
+			$request->get('srcModule'));
+		;
 		$response = new Vtiger_Response();
 		$response->setResult(0);
 		$response->emit();
