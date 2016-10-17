@@ -199,4 +199,22 @@ class PrivilegeUpdater
 		}
 		PrivilegeAdvanced::reloadCache();
 	}
+
+	/**
+	 * Update permissions while saving record
+	 * @param \Vtiger_Record_Model $record
+	 */
+	public static function updateOnRecordSave(\Vtiger_Record_Model $record)
+	{
+		if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+			return false;
+		}
+		\App\DB::getInstance('admin')->createCommand()
+			->insert('s_#__privileges_updater', [
+				'module' => $record->getModuleName(),
+				'crmid' => $record->getId(),
+				'priority' => 6,
+				'type' => 0
+			])->execute();
+	}
 }

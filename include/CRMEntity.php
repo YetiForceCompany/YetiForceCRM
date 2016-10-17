@@ -359,10 +359,10 @@ class CRMEntity
 				'attention' => $attention_val,
 				'modifiedby' => $currentUser->getId(),
 				'createdtime' => $created_date_var,
-				'modifiedtime' => $modified_date_var
+				'modifiedtime' => $modified_date_var,
+				'users' => ",$ownerid,",
 			];
 			$adb->insert('vtiger_crmentity', $params);
-
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
 			$this->column_fields['modifiedby'] = $currentUser->getId();
@@ -1973,7 +1973,7 @@ class CRMEntity
 					$matrix->addDependency($tab_name, $crmentityRelModuleFieldTable);
 
 					if ($queryPlanner->requireTable($crmentityRelModuleFieldTable, $matrix)) {
-						$relquery.= " left join vtiger_crmentity as $crmentityRelModuleFieldTable on $crmentityRelModuleFieldTable.crmid = $tab_name.$field_name and vtiger_crmentityRel$module$field_id.deleted=0";
+						$relquery .= " left join vtiger_crmentity as $crmentityRelModuleFieldTable on $crmentityRelModuleFieldTable.crmid = $tab_name.$field_name and vtiger_crmentityRel$module$field_id.deleted=0";
 					}
 
 					$countNumRows = $adb->num_rows($ui10_modules_query);
@@ -1988,7 +1988,7 @@ class CRMEntity
 						$rel_tab_name_rel_module_table_alias = $rel_tab_name . "Rel$module$field_id";
 
 						if ($queryPlanner->requireTable($rel_tab_name_rel_module_table_alias)) {
-							$relquery.= " left join $rel_tab_name as $rel_tab_name_rel_module_table_alias  on $rel_tab_name_rel_module_table_alias.$rel_tab_index = $crmentityRelModuleFieldTable.crmid";
+							$relquery .= " left join $rel_tab_name as $rel_tab_name_rel_module_table_alias  on $rel_tab_name_rel_module_table_alias.$rel_tab_index = $crmentityRelModuleFieldTable.crmid";
 						}
 					}
 				}
@@ -2383,7 +2383,7 @@ class CRMEntity
 		$entitycolumnnames = $entityfields['fieldname'];
 		$query = "select crmid as id, $querycolumnnames, $entitycolumnnames as name ";
 		$query .= " FROM $this->table_name ";
-		$query .=" INNER JOIN vtiger_crmentity ON $this->table_name.$this->table_index = vtiger_crmentity.crmid && deleted = 0 ";
+		$query .= " INNER JOIN vtiger_crmentity ON $this->table_name.$this->table_index = vtiger_crmentity.crmid && deleted = 0 ";
 
 		//remove the base table
 		$LookupTable = array_unique($lookuptables);
@@ -2398,7 +2398,7 @@ class CRMEntity
 						on $this->table_name.$this->table_index = $tablename." . $this->tab_name_index[$tablename];
 		}
 		if (!empty($lookupcolumns) && $value !== false) {
-			$query .=" WHERE ";
+			$query .= " WHERE ";
 			$i = 0;
 			$columnCount = count($lookupcolumns);
 			foreach ($lookupcolumns as $columnname) {

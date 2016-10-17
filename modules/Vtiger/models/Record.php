@@ -293,9 +293,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
-		if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
-			\App\Privilege::setUpdater($this->getModuleName(), $this->getId(), 6, 0);
-		}
+
+		\App\PrivilegeUpdater::updateOnRecordSave($this);
 	}
 
 	/**
