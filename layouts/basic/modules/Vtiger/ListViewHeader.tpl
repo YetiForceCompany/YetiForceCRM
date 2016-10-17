@@ -110,12 +110,10 @@
 									<h5 class="btn-group resetButton cursorPointer">
 										<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
 											{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+											{if $CUSTOM_VIEW->get('description')}
+												&nbsp;<span class="popoverTooltip glyphicon glyphicon-info-sign"  data-placement="auto right" data-content="{Vtiger_Util_Helper::toSafeHTML($CUSTOM_VIEW->get('description'))}"></span>
+											{/if}
 										</span>
-										{if $CUSTOM_VIEW->get('description')}
-											<a href="#" class="featuredInfoPopover" title="" data-placement="auto right" data-content="{Vtiger_Util_Helper::toSafeHTML($CUSTOM_VIEW->get('description'))}">
-												<i class="glyphicon glyphicon-info-sign"></i>
-											</a>
-										{/if}
 									</h5>
 								{/if}
 							{/foreach}
