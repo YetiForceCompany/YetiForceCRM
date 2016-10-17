@@ -5,7 +5,6 @@
  * @package YetiForce.Widget
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 {
@@ -14,7 +13,6 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		'ModComments' => 'bgBlue',
 		'OSSMailViewReceived' => 'bgGreen',
 		'OSSMailViewSent' => 'bgDanger',
-		'OSSMailViewInternal' => 'bgBlue',
 		'Calendar' => 'bgOrange',
 	];
 
@@ -45,15 +43,9 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return 'HistoryRelationConfig';
 	}
 
-	/**
-	 * Function gets records for timeline widget
-	 * @param Vtiger_Request $request
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - List of records
-	 */
 	public static function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
 	{
-		$db = \App\Db::getInstance();
+		$db = PearDatabase::getInstance();
 		$recordId = $request->get('record');
 		$type = $request->get('type');
 		if (empty($type)) {
@@ -68,11 +60,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$limitQuery = $query . ' LIMIT ' . $startIndex . ',' . $pageLimit;
+		$results = $db->query($limitQuery);
 		$history = [];
 		$groups = Settings_Groups_Record_Model::getAll();
 		$groupIds = array_keys($groups);
-		$dataReader = $db->createCommand($limitQuery)->query();
-		while ($row = $dataReader->read()) {
+		while ($row = $db->getRow($results)) {
 			if (in_array($row['user'], $groupIds)) {
 				$row['isGroup'] = true;
 				$row['userModel'] = $groups[$row['user']];
@@ -93,52 +85,37 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		return $history;
 	}
 
-	/**
-	 * Function creates database query in order to get records for timeline widget
-	 * @param int $recordId
-	 * @param string $moduleName
-	 * @param array $type
-	 * @return query
-	 */
 	public function getQuery($recordId, $moduleName, $type)
 	{
 		$queries = [];
 		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
-		$sql = '';
+
 		if (in_array('Calendar', $type)) {
-			$query = (new \App\Db\Query())
-				->select(['NULL AS `body`', 'NULL AS `attachments_exist`', 'CONCAT(\'Calendar\') AS type', 'vtiger_crmentity.crmid AS id', 'a.subject AS content', 'vtiger_crmentity.smownerid AS user', 'CONCAT(a.date_start, " ", a.time_start) AS `time`'])
-				->from('vtiger_activity a')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = a.activityid')
-				->where(['vtiger_crmentity.deleted' => 0])
-				->andWhere(['=', 'a.' . $field, $recordId]);
-			$sql = $query->createCommand()->getRawSql();
+			$sql = sprintf('SELECT NULL AS `body`, CONCAT(\'Calendar\') AS type, vtiger_crmentity.crmid AS id,a.subject AS content,vtiger_crmentity.smownerid AS user,concat(a.date_start, " ", a.time_start) AS `time`
+				FROM vtiger_activity a
+				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = a.activityid 
+				WHERE vtiger_crmentity.deleted = 0 && a.%s = %d', $field, $recordId);
 			$sql .= \App\PrivilegeQuery::getAccessConditions('Calendar', false, $recordId);
 			$queries[] = $sql;
 		}
 		if (in_array('ModComments', $type)) {
-			$query = (new \App\Db\Query())
-				->select(['NULL AS `body`', 'NULL AS `attachments_exist`', 'CONCAT(\'ModComments\') AS type', 'm.modcommentsid AS id', 'm.commentcontent AS content', 'vtiger_crmentity.smownerid AS user', 'vtiger_crmentity.createdtime AS `time`'])
-				->from('vtiger_modcomments m')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = m.modcommentsid')
-				->where(['vtiger_crmentity.deleted' => 0])
-				->andWhere(['=', 'related_to', $recordId]);
-			$sql = $query->createCommand()->getRawSql();
+			$sql = sprintf('SELECT NULL AS `body`, CONCAT(\'ModComments\') AS type,m.modcommentsid AS id,m.commentcontent AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
+				FROM vtiger_modcomments m
+				INNER JOIN vtiger_crmentity ON m.modcommentsid = vtiger_crmentity.crmid 
+				WHERE vtiger_crmentity.deleted = 0 && related_to = %d', $recordId);
 			$sql .= \App\PrivilegeQuery::getAccessConditions('ModComments', false, $recordId);
 			$queries[] = $sql;
 		}
 		if (in_array('Emails', $type)) {
-			$query = (new \App\Db\Query())
-				->select(['o.content AS `body`', '`attachments_exist`', 'CONCAT(\'OSSMailView\', o.ossmailview_sendtype) AS type', 'o.ossmailviewid AS id', 'o.subject AS content', 'vtiger_crmentity.smownerid AS user', 'vtiger_crmentity.createdtime AS `time`'])
-				->from('vtiger_ossmailview o')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = o.ossmailviewid')
-				->innerJoin('vtiger_ossmailview_relation r', 'r.ossmailviewid = o.ossmailviewid ')
-				->where(['vtiger_crmentity.deleted' => 0])
-				->andWhere(['=', 'r.crmid', $recordId]);
-			$sql = $query->createCommand()->getRawSql();
+			$sql = sprintf('SELECT o.content AS `body`, CONCAT(\'OSSMailView\', o.ossmailview_sendtype) AS `type`,o.ossmailviewid AS id,o.subject AS content,vtiger_crmentity.smownerid AS user,vtiger_crmentity.createdtime AS `time` 
+				FROM vtiger_ossmailview o
+				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = o.ossmailviewid 
+				INNER JOIN vtiger_ossmailview_relation r ON r.ossmailviewid = o.ossmailviewid 
+				WHERE vtiger_crmentity.deleted = 0 && r.crmid = %d', $recordId);
 			$sql .= \App\PrivilegeQuery::getAccessConditions('OSSMailView', false, $recordId);
 			$queries[] = $sql;
 		}
+
 		if (count($queries) == 1) {
 			$sql = reset($queries);
 		} else {
