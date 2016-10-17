@@ -35,7 +35,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				->orderBy(['userid' => SORT_ASC]);
 		} elseif ($action == 'featured') {
 			$query->select('user')
-				->from('a_yf_featured_filter')
+				->from('a_#__featured_filter')
 				->where(['cvid' => $cvId])
 				->orderBy(['user' => SORT_ASC]);
 		}
@@ -59,29 +59,32 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			if ($dataReader->count()) {
 				return $dataReader->readColumn(0);
 			}
-			$db = \App\Db::getInstance();
-			$db->createCommand()->insert('vtiger_user_module_preferences', [
+			\App\Db::getInstance()->createCommand()->insert('vtiger_user_module_preferences', [
 				'userid' => $user,
 				'tabid' => $tabid,
 				'default_cvid' => $cvId
 			])->execute();
 		} elseif ($action == 'remove') {
-			$db = \App\Db::getInstance();
-			$db->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
+			\App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
 		}
 		return false;
 	}
 
 	public static function setFeaturedFilterView($cvId, $user, $action)
 	{
-		$db = \App\Db::getInstance();
 		if ($action == 'add') {
-			$db->createCommand()->insert('a_yf_featured_filter', [
+			/*\App\Db::getInstance()->createCommand()->insert('a_yf_featured_filter', [
 				'user' => $user,
 				'cvid' => $cvId
-			])->execute();
+			])->execute();*/
+			PearDatabase::getInstance()->insert('a_yf_featured_filter', [
+				'user' => $user,
+				'cvid' => $cvId
+			]);
 		} elseif ($action == 'remove') {
-			$db->createCommand()->delete('a_yf_featured_filter', ['user' => $user, 'cvid' => $cvId])->execute();
+			\App\Db::getInstance()->createCommand()
+				->delete('a_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
+				->execute();
 		}
 		return false;
 	}
