@@ -119,19 +119,18 @@
 		</div>
 		<div class="col-md-3">
 			<input type="hidden" name="comparatorValue" value="{$CONDITION_INFO['comparator']}">
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
-				<option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
+			{if $SELECTED_FIELD_MODEL}
+				{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
 				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
-				{if $FIELD_TYPE eq 'D' || $FIELD_TYPE eq 'DT'}
+				{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 					{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 				{/if}
+			{/if}
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
+				<option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}"
-							{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}
-								selected
-							{/if}
-							>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected {/if}>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 				{/foreach}
 			</select>
 		</div>
