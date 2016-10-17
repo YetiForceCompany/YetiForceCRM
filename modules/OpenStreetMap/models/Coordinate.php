@@ -80,6 +80,9 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 			'addressdetails' => 1,
 			'limit' => 1
 		];
+		if(empty($address)) {
+			return [];
+		}
 		$url .= http_build_query(array_merge($data, $address));
 		return $this->doRequest($url);
 	}
