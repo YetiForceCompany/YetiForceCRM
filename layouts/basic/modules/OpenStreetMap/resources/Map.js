@@ -28,7 +28,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var markerArray = [];
 		var container = this.container;
 		var map = this.mapInstance;
-		
+
 		if (typeof response.result.coordinates != 'undefined') {
 			var coordinates = response.result.coordinates;
 			var markers = L.markerClusterGroup({
@@ -116,7 +116,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				thisInstance.cacheLayerMarkers[key] = markersCache;
 			});
 		}
-		
+
 		var footer = this.container.find('.modal-footer');
 		if (typeof response.result.legend != 'undefined') {
 			var html = '';
@@ -142,23 +142,23 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	},
 	registerCacheEvents: function (container) {
 		var thisInstance = this;
-		container.find('.showRecordsFromCache').on('change', function(e){
+		container.find('.showRecordsFromCache').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var moduleName = currentTarget.data('module');
-			if(currentTarget.is(':checked')){
+			if (currentTarget.is(':checked')) {
 				var params = {
 					module: 'OpenStreetMap',
 					action: 'GetMarkers',
 					srcModule: app.getModuleName(),
 					cache: [moduleName],
 				};
-				AppConnector.request(params).then(function(response){
+				AppConnector.request(params).then(function (response) {
 					thisInstance.setMarkersByResponse(response);
 				});
 			} else {
 				thisInstance.mapInstance.removeLayer(thisInstance.cacheLayerMarkers[moduleName]);
 			}
-			
+
 		});
 		container.find('.copyToClipboard').on('click', function () {
 			var params = {
@@ -176,7 +176,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					animation: 'show'
 				};
 				Vtiger_Helper_Js.showMessage(params);
-				container.find('.countRecords' + app.getModuleName()).html(response.result);
+				var countRecords = container.find('.countRecords' + app.getModuleName());
+				countRecords.html(response.result);
+				countRecords.closest('.cacheModuleContainer').find('.deleteClipBoard').removeClass('hide');
 			});
 		});
 		container.find('.deleteClipBoard').on('click', function (e) {
@@ -197,15 +199,41 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				};
 				Vtiger_Helper_Js.showMessage(params);
 				container.find('.countRecords' + moduleName).html('');
+				currentTarget.addClass('hide');
+			});
+		});
+		container.find('.addAllRecords').on('click', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var moduleName = currentTarget.data('module');
+			var params = {
+				module: 'OpenStreetMap',
+				action: 'ClipBoard',
+				mode: 'addAllRecords',
+				srcModule: moduleName
+			};
+			AppConnector.request(params).then(function (response) {
+				var params = {
+					title: app.vtranslate('JS_LBL_PERMISSION'),
+					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+					type: 'success',
+					animation: 'show'
+				};
+				Vtiger_Helper_Js.showMessage(params);
+				container.find('.countRecords' + moduleName).html(response.result.count);
+				var moduleContainer = currentTarget.closest('.cacheModuleContainer');
+				moduleContainer.find('.showRecordsFromCache').prop('checked', true);
+				moduleContainer.find('.showRecordsFromCache').trigger('change');
+				if(response.result.count != '0')
+					moduleContainer.find('.deleteClipBoard').removeClass('hide');
 			});
 		});
 	},
-	getCacheParamsToRequest: function(){
+	getCacheParamsToRequest: function () {
 		var container = this.container;
 		var params = [];
-		container.find('.showRecordsFromCache').each(function(){
+		container.find('.showRecordsFromCache').each(function () {
 			var currentObject = $(this);
-			if(currentObject.is(':checked'))
+			if (currentObject.is(':checked'))
 				params.push(currentObject.data('module'));
 		});
 		return params;
@@ -341,8 +369,8 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			map.addLayer(endIconLayer);
 			thisInstance.showCalculateBtn();
 		});
-		
-		container.on('click', '.indirectPoint', function(e){
+
+		container.on('click', '.indirectPoint', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			var description = containerPopup.find('.description').html();
@@ -353,7 +381,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			indirect.removeClass('hide');
 			var coordinates = containerPopup.find('.coordinates');
 			var description = description.replace(/\<br\>/gi, ", ");
-			if(typeof thisInstance.indirectPointLayer[description] != 'undefined'){
+			if (typeof thisInstance.indirectPointLayer[description] != 'undefined') {
 				map.removeLayer(thisInstance.indirectPointLayer[description]);
 			}
 			var indirectField = indirect.find('.indirect');
@@ -370,7 +398,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			thisInstance.indirectPointLayer[description] = L.featureGroup([marker]);
 			map.addLayer(thisInstance.indirectPointLayer[description]);
 		});
-		container.on('click', '.removeIndirect', function(e){
+		container.on('click', '.removeIndirect', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var container = currentTarget.closest('.indirectContainer');
 			map.removeLayer(thisInstance.indirectPointLayer[container.find('.indirect').val()]);
@@ -405,7 +433,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		container.find('.calculateTrack').on('click', function () {
 			var indirectLon = [];
 			var indirectLat = [];
-			container.find('.indirectContainer:not(.hide) input.indirect').each(function(){
+			container.find('.indirectContainer:not(.hide) input.indirect').each(function () {
 				var currentTarget = $(this);
 				indirectLat.push(currentTarget.data('lat'));
 				indirectLon.push(currentTarget.data('lon'));

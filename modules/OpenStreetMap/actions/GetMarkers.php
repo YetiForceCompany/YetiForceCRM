@@ -33,7 +33,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		$coordinatesCenter = $coordinatesModel->getCoordinatesCenter();
-		if ($moduleModel->isAllowModules($sourceModule)) {
+		if ($moduleModel->isAllowModules($sourceModule) && !$request->isEmpty('viewname')) {
 			$data ['coordinates'] = $coordinatesModel->getCoordinatesCustomView();
 		}
 		if ($request->has('groupBy')) {

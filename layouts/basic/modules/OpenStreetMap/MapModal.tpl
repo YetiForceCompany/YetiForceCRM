@@ -82,16 +82,25 @@
 					{vtranslate('LBL_CLIPBOARD', $MODULE_NAME)}
 				</div>
 				<div class="panel-body cacheContent">
-					{foreach from=$CACHE_GROUP_RECORDS key=MODULE item=COUNT_RECORDS}
-						<div class="col-xs-8">
-							<label>
-								<input type="checkbox"{if $MODULE eq $SRC_MODULE} disabled {/if} class="showRecordsFromCache" data-module="{$MODULE}">
-								&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;
-								<span class="badge countRecords{$MODULE}">{$COUNT_RECORDS}</span>
-							</label>
-						</div>
-						<div class="col-xs-4">
-							<button class="btn btn-xs btn-danger deleteClipBoard pull-right" data-module="{$MODULE}"><span class="fa fa-trash"></span></button>
+					{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
+						<div class="cacheModuleContainer">
+							<div class="col-xs-8">
+								<label>
+									<input type="checkbox" class="showRecordsFromCache" {if $ALLOWED_MODULE_NAME eq $SRC_MODULE} disabled {/if} data-module="{$ALLOWED_MODULE_NAME}">
+									&nbsp;{vtranslate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}&nbsp;
+									<span class="badge countRecords{$ALLOWED_MODULE_NAME}">
+										{if !empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}
+											{$CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME]}
+										{/if}
+									</span>
+								</label>
+							</div>
+							<div class="col-xs-4">
+								{if $ALLOWED_MODULE_NAME neq $SRC_MODULE}
+									<button class="btn btn-xs btn-success addAllRecords pull-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="glyphicon glyphicon-download-alt"></span></button>
+									<button class="btn btn-xs btn-danger deleteClipBoard pull-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fa fa-trash"></span></button>
+								{/if}
+							</div>
 						</div>
 					{/foreach}
 					<div class="col-xs-12">

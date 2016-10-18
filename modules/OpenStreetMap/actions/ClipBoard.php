@@ -14,6 +14,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		parent::__construct();
 		$this->exposeMethod('save');
 		$this->exposeMethod('delete');
+		$this->exposeMethod('addAllRecords');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -25,12 +26,19 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
+	public function addAllRecords(Vtiger_Request $request)
+	{
+		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$count = $coordinatesModel->saveAllRecordsToCache($request->get('srcModule'));
+		$response = new Vtiger_Response();
+		$response->setResult(['count' => $count]);
+		$response->emit();
+	}
+
 	public function delete(Vtiger_Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$coordinatesModel->deleteCache(Users_Privileges_Model::getCurrentUserModel()->getId(),
-			$request->get('srcModule'));
-		;
+		$coordinatesModel->deleteCache($request->get('srcModule'));
 		$response = new Vtiger_Response();
 		$response->setResult(0);
 		$response->emit();
@@ -39,11 +47,10 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	public function save(Vtiger_Request $request)
 	{
 		$srcModuleName = $request->get('srcModule');
-		$userId = Users_Privileges_Model::getCurrentUserModel()->getId();
 		$records = $request->get('recordIds');
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$coordinatesModel->deleteCache($userId, $srcModuleName);
-		$coordinatesModel->saveCache($userId, $srcModuleName, $records);
+		$coordinatesModel->deleteCache($srcModuleName);
+		$coordinatesModel->saveCache($srcModuleName, $records);
 		$response = new Vtiger_Response();
 		$response->setResult(count($records));
 		$response->emit();
