@@ -641,7 +641,7 @@ class API_CalDAV_Model
 			}
 		}
 		if (!$componentType) {
-			throw new Sabre\DAV\Exception\BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
+			throw new \Sabre\DAV\Exception\BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
 		}
 		if ($componentType === 'VEVENT') {
 			$firstOccurence = $component->DTSTART->getDateTime()->getTimeStamp();
@@ -651,17 +651,17 @@ class API_CalDAV_Model
 					$lastOccurence = $component->DTEND->getDateTime()->getTimeStamp();
 				} elseif (isset($component->DURATION)) {
 					$endDate = clone $component->DTSTART->getDateTime();
-					$endDate->add(VObject\DateTimeParser::parse($component->DURATION->getValue()));
+					$endDate = $endDate->add(Sabre\VObject\DateTimeParser::parse($component->DURATION->getValue()));
 					$lastOccurence = $endDate->getTimeStamp();
 				} elseif (!$component->DTSTART->hasTime()) {
 					$endDate = clone $component->DTSTART->getDateTime();
-					$endDate->modify('+1 day');
+					$endDate = $endDate->modify('+1 day');
 					$lastOccurence = $endDate->getTimeStamp();
 				} else {
 					$lastOccurence = $firstOccurence;
 				}
 			} else {
-				$it = new Sabre\VObject\RecurrenceIterator($vObject, (string) $component->UID);
+				$it = new Sabre\VObject\Recur\EventIterator($vObject, (string) $component->UID);
 				$maxDate = new \DateTime(self::MAX_DATE);
 				if ($it->isInfinite()) {
 					$lastOccurence = $maxDate->getTimeStamp();
@@ -675,6 +675,8 @@ class API_CalDAV_Model
 				}
 			}
 		}
+		// Destroy circular references to PHP will GC the object.
+		$vObject->destroy();
 		return [
 			'etag' => md5($calendarData),
 			'size' => strlen($calendarData),
