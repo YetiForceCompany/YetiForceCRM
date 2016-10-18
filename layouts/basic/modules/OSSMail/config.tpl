@@ -33,7 +33,7 @@
 						<h4>{vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
 					</div>
 				</div>
-			{elseif !\includes\Modules::isModuleActive('OSSMail')}	
+			{elseif !\App\Module::isModuleActive('OSSMail')}	
 				<br>
 				<div class="alert alert-danger" role="alert">
 					<div>

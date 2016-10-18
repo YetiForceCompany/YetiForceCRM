@@ -183,7 +183,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		} elseif (strpos($moduleName, '+') !== false) {
 			$moduleName = explode('+', $moduleName)[1];
 		}
-		$tabId = \includes\Modules::getModuleId($moduleName);
+		$tabId = \App\Module::getModuleId($moduleName);
 		$dataReader = (new \App\Db\Query())->select(['fieldid', 'fieldlabel', 'fieldname', 'uitype', 'block'])
 			->from('vtiger_field')
 			->where(['tabid' => $tabId])

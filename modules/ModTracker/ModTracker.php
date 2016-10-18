@@ -95,7 +95,7 @@ class ModTracker
 			$visible = $adb->query_result($moduleResult, $i, 'visible');
 			self::updateCache($tabId, $visible);
 			if ($visible == 1) {
-				$modules[] = \includes\Modules::getModuleName($tabId);
+				$modules[] = \App\Module::getModuleName($tabId);
 			}
 		}
 		return $modules;
@@ -155,7 +155,7 @@ class ModTracker
 		if ($tracking !== false) {
 			return $tracking ? true : false;
 		}
-		$tabid = \includes\Modules::getModuleId($moduleName);
+		$tabid = \App\Module::getModuleId($moduleName);
 		if (!self::getVisibilityForModule($tabid) || self::getVisibilityForModule($tabid) !== 0) {
 			$query = $adb->pquery('SELECT 1 FROM vtiger_modtracker_tabs WHERE vtiger_modtracker_tabs.visible = 1 && vtiger_modtracker_tabs.tabid=?', array($tabid));
 

@@ -20,7 +20,7 @@ $bindByPrefix = ['Campaigns', 'HelpDesk', 'Project', 'SSalesProcesses'];
 $result = $db->query('SELECT * FROM s_yf_mail_relation_updater');
 while ($relationRow = $db->getRow($result)) {
 	$db->delete('vtiger_ossmailview_relation', 'crmid = ?', [$relationRow['crmid']]);
-	$moduleName = \includes\Modules::getModuleName($relationRow['tabid']);
+	$moduleName = \App\Module::getModuleName($relationRow['tabid']);
 	$bind = false;
 	if (in_array($moduleName, $bindByEmail)) {
 		$bind = 'email';

@@ -144,7 +144,7 @@ class Reports extends CRMEntity
 		if (!isset($module))
 			return;
 		require_once('include/utils/utils.php');
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = [9, 16];
 		}
@@ -260,7 +260,7 @@ class Reports extends CRMEntity
 
 							$rel_mod = array();
 							foreach ($old_related_modules[$module] as $key => $name) {
-								if (\includes\Modules::isModuleActive($name) && isPermitted($name, 'index', '')) {
+								if (\App\Module::isModuleActive($name) && isPermitted($name, 'index', '')) {
 									$rel_mod[] = $name;
 								}
 							}
@@ -599,7 +599,7 @@ class Reports extends CRMEntity
 			$block = explode(",", $block);
 		$skipTalbes = array('vtiger_emaildetails', 'vtiger_attachments');
 
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = array('9', '16');
 		}
@@ -761,7 +761,7 @@ class Reports extends CRMEntity
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		foreach ($this->module_list[$module] as $key => $blockid) {
 			$blockids[] = $blockid;
 		}
@@ -910,7 +910,7 @@ class Reports extends CRMEntity
 
 			$selmod_field_disabled = true;
 			foreach ($selected_mod as $smod) {
-				if ((stripos($fieldcolname, ':' . $smod . '__') > -1) && \includes\Modules::isModuleActive($smod)) {
+				if ((stripos($fieldcolname, ':' . $smod . '__') > -1) && \App\Module::isModuleActive($smod)) {
 					$selmod_field_disabled = false;
 					break;
 				}
@@ -1127,7 +1127,7 @@ class Reports extends CRMEntity
 		$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
 
 
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
 		$sparams = array($tabid);
 		if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
@@ -1261,7 +1261,7 @@ function getReportsModuleList($focus)
 function getReportRelatedModules($module, $focus)
 {
 	$optionhtml = [];
-	if (\includes\Modules::isModuleActive($module)) {
+	if (\App\Module::isModuleActive($module)) {
 		if (!empty($focus->related_modules[$module])) {
 			foreach ($focus->related_modules[$module] as $rel_modules) {
 				if (isPermitted($rel_modules, 'index') == "yes") {

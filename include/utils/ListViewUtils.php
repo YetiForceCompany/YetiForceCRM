@@ -38,7 +38,7 @@ function getListQuery($module, $where = '')
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-	$tab_id = \includes\Modules::getModuleId($module);
+	$tab_id = \App\Module::getModuleId($module);
 	$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
 			'vtiger_users.last_name'), 'Users');
 	switch ($module) {
@@ -380,8 +380,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 	$adb = PearDatabase::getInstance();
 	\App\Log::trace("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
 	global $theme;
-	$relatedTabId = \includes\Modules::getModuleId($related_module);
-	$tabid = \includes\Modules::getModuleId($module);
+	$relatedTabId = \App\Module::getModuleId($related_module);
+	$tabid = \App\Module::getModuleId($module);
 
 	$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid=? AND
 		related_tabid=?', array($tabid, $relatedTabId));
@@ -506,7 +506,7 @@ function getFirstModule($module, $fieldname)
 {
 	$adb = PearDatabase::getInstance();
 	$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
-	$result = $adb->pquery($sql, array(\includes\Modules::getModuleId($module), $fieldname));
+	$result = $adb->pquery($sql, array(\App\Module::getModuleId($module), $fieldname));
 
 	if ($adb->num_rows($result) > 0) {
 		$uitype = $adb->query_result($result, 0, "uitype");

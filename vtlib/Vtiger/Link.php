@@ -56,7 +56,7 @@ class Link
 	public function module()
 	{
 		if (!empty($this->tabid)) {
-			return \includes\Modules::getModuleName($this->tabid);
+			return \App\Module::getModuleName($this->tabid);
 		}
 		return false;
 	}

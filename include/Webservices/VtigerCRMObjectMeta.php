@@ -57,7 +57,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	public function getTabId()
 	{
 		if ($this->tabId === null) {
-			$this->tabId = \includes\Modules::getModuleId($this->objectName);
+			$this->tabId = \App\Module::getModuleId($this->objectName);
 		}
 		return $this->tabId;
 	}
@@ -69,7 +69,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	 */
 	public function getEffectiveTabId()
 	{
-		return \includes\Modules::getModuleId($this->getTabName());
+		return \App\Module::getModuleId($this->getTabName());
 	}
 
 	public function getTabName()
@@ -83,7 +83,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	private function computeAccess()
 	{
 		$adb = PearDatabase::getInstance();
-		$active = \includes\Modules::isModuleActive($this->getTabName());
+		$active = \App\Module::isModuleActive($this->getTabName());
 		if ($active === false) {
 			$this->hasAccess = false;
 			$this->hasReadAccess = false;
@@ -506,7 +506,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	public function getNameFields()
 	{
-		$data = \includes\Modules::getEntityInfo(\includes\Modules::getModuleName($this->getEffectiveTabId()));
+		$data = \App\Module::getEntityInfo(\App\Module::getModuleName($this->getEffectiveTabId()));
 		$fieldNames = '';
 		if ($data) {
 			$fieldNames = $data['fieldname'];

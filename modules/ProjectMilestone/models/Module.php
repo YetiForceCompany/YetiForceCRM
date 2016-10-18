@@ -35,7 +35,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 			return;
 		}
 		$focus = CRMEntity::getInstance($this->getName());
-		$relatedListMileston = $focus->get_dependents_list($id, $this->getId(), \includes\Modules::getModuleId('ProjectTask'));
+		$relatedListMileston = $focus->get_dependents_list($id, $this->getId(), \App\Module::getModuleId('ProjectTask'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
 		$estimatedWorkTime = 0;

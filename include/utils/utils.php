@@ -282,7 +282,7 @@ function getActionid($action)
 		\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
 		return $actionid;
 	}
-	$actionIds = \includes\Modules::getTabData('actionId');
+	$actionIds = \App\Module::getTabData('actionId');
 	if (isset($actionIds[$action])) {
 		$actionid = $actionIds[$action];
 	}
@@ -507,7 +507,7 @@ function getTableNameForField($module, $fieldname)
 
 	\App\Log::trace("Entering getTableNameForField(" . $module . "," . $fieldname . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$tabid = \includes\Modules::getModuleId($module);
+	$tabid = \App\Module::getModuleId($module);
 	//Asha
 	if ($module == 'Calendar') {
 		$tabid = array('9', '16');
@@ -760,7 +760,7 @@ function getAccessPickListValues($module)
 	$current_user = vglobal('current_user');
 	\App\Log::trace("Entering into function getAccessPickListValues($module)");
 
-	$id = \includes\Modules::getModuleId($module);
+	$id = \App\Module::getModuleId($module);
 	$query = "select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid = ? and uitype in ('15','33','55') and vtiger_field.presence in (0,2)";
 	$result = $adb->pquery($query, array($id));
 
@@ -970,7 +970,7 @@ function getCallerInfo($number)
 function get_use_asterisk($id)
 {
 	$adb = PearDatabase::getInstance();
-	if (!\includes\Modules::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
+	if (!\App\Module::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
 		return false;
 	}
 	$sql = "select * from vtiger_asteriskextensions where userid = ?";

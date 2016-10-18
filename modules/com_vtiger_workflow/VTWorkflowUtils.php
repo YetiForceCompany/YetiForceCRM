@@ -135,7 +135,7 @@ class VTWorkflowUtils
 	public static function checkModuleWorkflow($modulename)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = \includes\Modules::getModuleId($modulename);
+		$tabid = \App\Module::getModuleId($modulename);
 		$modules_not_supported = ['Calendar', 'Emails', 'Faq', 'Events', 'Users'];
 		$query = sprintf('SELECT name FROM vtiger_tab WHERE name not in (%s) && isentitytype=1 && presence = 0 && tabid = ?', generateQuestionMarks($modules_not_supported));
 		$result = $adb->pquery($query, [$modules_not_supported, $tabid]);

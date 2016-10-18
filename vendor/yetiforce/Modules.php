@@ -1,8 +1,9 @@
-<?php namespace includes;
+<?php
+namespace App;
 
 /**
- * Record basic class
- * @package YetiForce.Include
+ * Modules basic class
+ * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */

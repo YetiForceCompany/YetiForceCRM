@@ -27,7 +27,7 @@ class Webform_Capture
 
 		$returnURL = false;
 		try {
-			if (!\includes\Modules::isModuleActive('Webforms'))
+			if (!\App\Module::isModuleActive('Webforms'))
 				throw new Exception('webforms is not active');
 
 			$webform = Webforms_Model::retrieveWithPublicId($request->get('publicid'));

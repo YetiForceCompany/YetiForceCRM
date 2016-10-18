@@ -47,7 +47,7 @@ class Privilege
 			return $permission;
 		}
 		//Retreiving the Tabid and Action Id
-		$tabid = \includes\Modules::getModuleId($moduleName);
+		$tabid = Module::getModuleId($moduleName);
 		$actionid = getActionid($actionName);
 		$checkModule = $moduleName;
 
@@ -55,7 +55,7 @@ class Privilege
 			$checkModule = 'Calendar';
 		}
 
-		if (\includes\Modules::isModuleActive($checkModule)) {
+		if (Module::isModuleActive($checkModule)) {
 			//Checking whether the user is admin
 			if ($userPrivileges['is_admin']) {
 				self::$isPermittedLevel = 'SEC_USER_IS_ADMIN';
@@ -213,7 +213,7 @@ class Privilege
 									break;
 								case 2:
 									if (\AppConfig::security('PERMITTED_BY_SHARING')) {
-										$relatedPermission = self::isPermittedBySharing($recordMetaData['setype'], \includes\Modules::getModuleId($recordMetaData['setype']), $actionid, $parentRecord, $userId);
+										$relatedPermission = self::isPermittedBySharing($recordMetaData['setype'], Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord, $userId);
 									}
 									break;
 							}

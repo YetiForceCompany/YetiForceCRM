@@ -62,7 +62,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		$return = false;
 
 		$modules = self::getWatchingModules(false, $userId);
-		if (in_array(\includes\Modules::getModuleId($this->get('module')), $modules)) {
+		if (in_array(\App\Module::getModuleId($this->get('module')), $modules)) {
 			$return = true;
 		}
 		$this->set('isWatchingModule', $return);
@@ -157,7 +157,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			$ownerId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
 		}
 		$db = App\Db::getInstance();
-		$moduleId = \includes\Modules::getModuleId($this->get('module'));
+		$moduleId = \App\Module::getModuleId($this->get('module'));
 		if ($state == 1) {
 			$db->createCommand()->insert('u_yf_watchdog_module', [
 				'userid' => $ownerId,
@@ -195,7 +195,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		$users = [];
 		$dataReader = (new App\Db\Query())->select(['userid'])
 				->from('u_yf_watchdog_module')
-				->where(['module' => \includes\Modules::getModuleId($this->get('module'))])
+				->where(['module' => \App\Module::getModuleId($this->get('module'))])
 				->createCommand()->query();
 		while (($userId = $dataReader->readColumn(0)) !== false) {
 			$users[$userId] = $userId;
@@ -203,7 +203,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($this->has('record')) {
 			$dataReader = (new App\Db\Query())->select(['userid', 'state'])
 				->from('u_yf_watchdog_record')
-				->where(['record' => \includes\Modules::getModuleId($this->get('record'))])
+				->where(['record' => \App\Module::getModuleId($this->get('record'))])
 				->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				if ($row['state'] == 1) {

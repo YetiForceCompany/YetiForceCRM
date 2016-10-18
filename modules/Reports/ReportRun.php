@@ -794,7 +794,7 @@ class ReportRun extends CRMEntity
 		$field = explode('#', $field);
 		$module = $field[0];
 		$fieldname = trim($field[1]);
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? && fieldname= ?", array($tabid, $fieldname));
 		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
 		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
@@ -1763,7 +1763,7 @@ class ReportRun extends CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = \includes\Modules::getModuleId($module);
+		$tabId = \App\Module::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $$sharingRuleInfoVariable;
@@ -1778,7 +1778,7 @@ class ReportRun extends CRMEntity
 			}
 
 			if (!empty($sharedTabId)) {
-				$module = \includes\Modules::getModuleName($sharedTabId);
+				$module = \App\Module::getModuleName($sharedTabId);
 				if ($module == "Calendar") {
 					// For calendar we have some special case to check like, calendar shared type
 					$moduleInstance = CRMEntity::getInstance($module);
@@ -2337,7 +2337,7 @@ class ReportRun extends CRMEntity
 		if ($referencefieldres) {
 			foreach ($referencefieldres as $referencefieldrow) {
 				$uiType = $referencefieldrow['uitype'];
-				$modprefixedlabel = \includes\Modules::getModuleName($referencefieldrow['tabid']) . ' ' . $referencefieldrow['fieldlabel'];
+				$modprefixedlabel = \App\Module::getModuleName($referencefieldrow['tabid']) . ' ' . $referencefieldrow['fieldlabel'];
 				$modprefixedlabel = str_replace(' ', '__', $modprefixedlabel);
 
 				if ($uiType == 10 && !in_array($modprefixedlabel, $this->ui10_fields)) {
@@ -2625,7 +2625,7 @@ class ReportRun extends CRMEntity
 						$fieldlist = explode(":", $key);
 						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 						if ($adb->num_rows($mod_query) > 0) {
-							$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
+							$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
@@ -2735,7 +2735,7 @@ class ReportRun extends CRMEntity
 						if (!isset($modulename_cache[$cachekey])) {
 							$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 							if ($adb->num_rows($mod_query) > 0) {
-								$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
+								$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 								$modulename_cache[$cachekey] = $module_name;
 							}
 						} else {
@@ -2945,7 +2945,7 @@ class ReportRun extends CRMEntity
 						$fieldlist = explode(":", $key);
 						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 						if ($adb->num_rows($mod_query) > 0) {
-							$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
+							$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
@@ -3079,7 +3079,7 @@ class ReportRun extends CRMEntity
 				if (!isset($modulename_cache[$cachekey])) {
 					$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 					if ($adb->num_rows($mod_query) > 0) {
-						$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
+						$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 						$modulename_cache[$cachekey] = $module_name;
 					}
 				} else {
@@ -3270,9 +3270,9 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$id = array(\includes\Modules::getModuleId($this->primarymodule));
+		$id = array(\App\Module::getModuleId($this->primarymodule));
 		if ($this->secondarymodule != '')
-			array_push($id, \includes\Modules::getModuleId($this->secondarymodule));
+			array_push($id, \App\Module::getModuleId($this->secondarymodule));
 
 		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
@@ -3294,7 +3294,7 @@ class ReportRun extends CRMEntity
 			$uitype = $adb->query_result($result, $i, "uitype");
 
 			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
-			$keyvalue = \includes\Modules::getModuleName($tabid) . "__" . $fieldlabel1;
+			$keyvalue = \App\Module::getModuleName($tabid) . "__" . $fieldlabel1;
 			$fieldvalues = Array();
 			if (count($roleids) > 1) {
 				$mulsel = "select distinct $fieldname from vtiger_$fieldname inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$fieldname.picklist_valueid where roleid in (\"" . implode($roleids, "\",\"") . "\") and picklistid in (select picklistid from vtiger_$fieldname)"; // order by sortid asc - not requried
@@ -3535,7 +3535,7 @@ class ReportRun extends CRMEntity
 		$reportSecondaryModules = explode(':', $this->secondarymodule);
 
 		if ($moduleName != $this->primarymodule && in_array($this->primarymodule, $referenceModuleList)) {
-			$entityTableFieldNames = \includes\Modules::getEntityInfo($this->primarymodule);
+			$entityTableFieldNames = \App\Module::getEntityInfo($this->primarymodule);
 			$entityTableName = $entityTableFieldNames['tablename'];
 			$entityFieldNames = $entityTableFieldNames['fieldname'];
 
@@ -3555,7 +3555,7 @@ class ReportRun extends CRMEntity
 			$columnsSqlList[] = $columnSql;
 		} else {
 			foreach ($referenceModuleList as $referenceModule) {
-				$entityTableFieldNames = \includes\Modules::getEntityInfo($referenceModule);
+				$entityTableFieldNames = \App\Module::getEntityInfo($referenceModule);
 				$entityTableName = $entityTableFieldNames['tablename'];
 				$entityFieldNames = $entityTableFieldNames['fieldname'];
 

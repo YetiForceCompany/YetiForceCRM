@@ -56,7 +56,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		$convertLeadFields = $recordModel->getConvertLeadFields();
 		$availableModules = ['Accounts'];
 		foreach ($availableModules as $module) {
-			if (\includes\Modules::isModuleActive($module) && in_array($module, $modules)) {
+			if (\App\Module::isModuleActive($module) && in_array($module, $modules)) {
 				$entityValues['entities'][$module]['create'] = true;
 				$entityValues['entities'][$module]['name'] = $module;
 

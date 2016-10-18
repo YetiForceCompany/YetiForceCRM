@@ -239,7 +239,7 @@ class EmailTemplate
 	public function isModuleActive($module)
 	{
 		include_once 'include/utils/VtlibUtils.php';
-		if (\includes\Modules::isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
+		if (\App\Module::isModuleActive($module) && ((isPermitted($module, 'EditView') == 'yes'))) {
 			return true;
 		}
 		return false;
@@ -248,7 +248,7 @@ class EmailTemplate
 	public function isActive($field, $mod)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = \includes\Modules::getModuleId($mod);
+		$tabid = \App\Module::getModuleId($mod);
 		$query = 'select * from vtiger_field where fieldname = ?  and tabid = ? and presence in (0,2)';
 		$res = $adb->pquery($query, array($field, $tabid));
 		$rows = $adb->num_rows($res);

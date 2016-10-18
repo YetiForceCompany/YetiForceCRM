@@ -723,7 +723,7 @@ class Users extends CRMEntity
 		if ($insertion_mode == 'edit') {
 			$update = '';
 			$update_params = [];
-			$tabid = \includes\Modules::getModuleId($module);
+			$tabid = \App\Module::getModuleId($module);
 			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,5) and vtiger_field.presence in (0,2)";
 			$params = array($tabid, $table_name);
 		} else {
@@ -733,7 +733,7 @@ class Users extends CRMEntity
 				$this->id = $currentuser_id;
 			}
 			$qparams = array($this->id);
-			$tabid = \includes\Modules::getModuleId($module);
+			$tabid = \App\Module::getModuleId($module);
 			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,4,5) and vtiger_field.presence in (0,2)";
 			$params = array($tabid, $table_name);
 
@@ -905,7 +905,7 @@ class Users extends CRMEntity
 			$query = sprintf($query, $table_name, $index);
 			$result[$table_name] = $adb->pquery($query, [$record]);
 		}
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
 		$result1 = $adb->pquery($sql1, array($tabid));
 		while ($row = $adb->getRow($result1)) {

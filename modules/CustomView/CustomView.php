@@ -198,7 +198,7 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$tabid = \includes\Modules::getModuleId($this->customviewmodule);
+		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
@@ -238,7 +238,7 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$tabid = \includes\Modules::getModuleId($this->customviewmodule);
+		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
@@ -326,7 +326,7 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$block_ids = explode(",", $block);
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if (empty($this->meta) && $module != 'Calendar') {
@@ -502,7 +502,7 @@ class CustomView extends CRMEntity
 	public function getStdCriteriaByModule($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -1363,8 +1363,8 @@ class CustomView extends CRMEntity
 
 		// Tabid mapped to the list of block labels to be skipped for that tab.
 		$skipBlocksList = array(
-			\includes\Modules::getModuleId('HelpDesk') => array('LBL_COMMENTS'),
-			\includes\Modules::getModuleId('Faq') => array('LBL_COMMENT_INFORMATION')
+			\App\Module::getModuleId('HelpDesk') => array('LBL_COMMENTS'),
+			\App\Module::getModuleId('Faq') => array('LBL_COMMENT_INFORMATION')
 		);
 
 		$sql = sprintf('SELECT DISTINCT block,vtiger_field.tabid,`name`,blocklabel FROM	vtiger_field 

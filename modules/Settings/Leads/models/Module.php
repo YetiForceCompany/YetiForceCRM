@@ -38,7 +38,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 	public function getMappingSupportedFieldIdsList()
 	{
 		if (empty($this->supportedFieldIdsList)) {
-			$selectedTabidsList[] = \includes\Modules::getModuleId($this->getName());
+			$selectedTabidsList[] = \App\Module::getModuleId($this->getName());
 			$presense = [0, 2];
 			$restrictedFieldNames = ['campaignrelstatus'];
 			$restrictedUitypes = $this->getRestrictedUitypes();

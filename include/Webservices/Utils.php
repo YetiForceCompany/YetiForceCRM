@@ -84,7 +84,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	$adb = PearDatabase::getInstance();
 	require('user_privileges/user_privileges_' . $user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $user->id . '.php');
-	$tabName = \includes\Modules::getModuleName($moduleId);
+	$tabName = \App\Module::getModuleName($moduleId);
 	if ($is_admin === false && $profileGlobalPermission[2] == 1 &&
 		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
 		$result = get_current_user_access_groups($tabName);
@@ -729,7 +729,7 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 
 function vtws_transferComments($sourceRecordId, $destinationRecordId)
 {
-	if (\includes\Modules::isModuleActive('ModComments')) {
+	if (\App\Module::isModuleActive('ModComments')) {
 		CRMEntity::getInstance('ModComments');
 		ModComments::transferRecords($sourceRecordId, $destinationRecordId);
 	}

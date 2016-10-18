@@ -227,7 +227,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$output['langs'] = $langs;
 		$dataReader = (new \App\Db\Query())
 				->from('vtiger_field')
-				->where(['tabid' => \includes\Modules::getModuleId($mod), 'presence' => [0, 2]])
+				->where(['tabid' => \App\Module::getModuleId($mod), 'presence' => [0, 2]])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = vtranslate($row['fieldlabel'], $mod);

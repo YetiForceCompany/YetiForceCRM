@@ -211,7 +211,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::addBlock(" . $data . ", " . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = \includes\Modules::getModuleId($moduleName);
+		$tabId = \App\Module::getModuleId($moduleName);
 		$query = 'INSERT INTO vtiger_module_dashboard_blocks (`authorized`, `tabid`) VALUES (?, ?);';
 		$params = array($data['authorized'], $tabId);
 		$adb->pquery($query, $params);
@@ -296,7 +296,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		\App\Log::trace('getBlocksFromModule(' . $moduleName . ', ' . $authorized . ') method ...');
 		$adb = PearDatabase::getInstance();
-		$tabId = \includes\Modules::getModuleId($moduleName);
+		$tabId = \App\Module::getModuleId($moduleName);
 		$data = [];
 		$query = (new \App\Db\Query())
 			->from('vtiger_module_dashboard_blocks')
@@ -316,7 +316,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
 		$db = PearDatabase::getInstance();
-		$tabId = \includes\Modules::getModuleId($moduleName);
+		$tabId = \App\Module::getModuleId($moduleName);
 		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? && linklabel IN (?, ?, ?, ?, ?)';
 		$result = $db->pquery($query, array_merge([$tabId], self::getWidgetSpecial()));
 		$widgets = [];
@@ -337,7 +337,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getDashboardForModule(" . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = \includes\Modules::getModuleId($moduleName);
+		$tabId = \App\Module::getModuleId($moduleName);
 		$data = array();
 
 		$query = 'SELECT 

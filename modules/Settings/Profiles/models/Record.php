@@ -877,7 +877,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$db = PearDatabase::getInstance();
 			$userRecordModel = Users_Record_Model::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
-			$tabId = \includes\Modules::getModuleId($module);
+			$tabId = \App\Module::getModuleId($module);
 			$userModuleModel = Users_Module_Model::getInstance($module);
 			$moduleFields = $userModuleModel->getFields();
 

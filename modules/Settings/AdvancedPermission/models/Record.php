@@ -106,7 +106,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		}
 		\App\PrivilegeAdvanced::reloadCache();
 		if ($this->has('conditions')) {
-			\App\Privilege::setUpdater(\includes\Modules::getModuleName($this->get('tabid')));
+			\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
 		}
 	}
 
@@ -120,7 +120,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$value = $this->get($key);
 		switch ($key) {
 			case 'tabid':
-				$value = \includes\Modules::getModuleName($value);
+				$value = \App\Module::getModuleName($value);
 				break;
 			case 'status':
 				if (isset(Settings_AdvancedPermission_Module_Model::$status[$value])) {
@@ -178,7 +178,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			->execute();
 		\App\PrivilegeAdvanced::reloadCache();
 		if ($this->has('conditions')) {
-			\App\Privilege::setUpdater(\includes\Modules::getModuleName($this->get('tabid')));
+			\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
 		}
 	}
 

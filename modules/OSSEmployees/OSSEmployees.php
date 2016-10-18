@@ -328,7 +328,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			//block with fields in summary
-			$tabid = \includes\Modules::getModuleId($modulename);
+			$tabid = \App\Module::getModuleId($modulename);
 			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('ossemployees_no','employee_status','name','last_name','pesel','id_card','employee_education','parentid','business_mail');", true);
 
 			\includes\fields\RecordNumber::setNumber($modulename, 'P', '1');

@@ -375,7 +375,7 @@ function get_combo_values($input_array)
 	}
 
 	// Gather service contract information
-	if (!\includes\Modules::isModuleActive('ServiceContracts')) {
+	if (!\App\Module::isModuleActive('ServiceContracts')) {
 		
 	} else {
 		$servicequery = "SELECT vtiger_servicecontracts.servicecontractsid,vtiger_servicecontracts.subject
@@ -1989,7 +1989,7 @@ function get_details($id, $module, $customerid, $sessionid)
 		INNER JOIN  vtiger_blocks on vtiger_blocks.blockid=vtiger_field.block WHERE vtiger_field.tabid = ? && displaytype in (1,2,4,10)
 		ORDER BY vtiger_field.block,vtiger_field.sequence";
 
-	$fieldres = $adb->pquery($fieldquery, array(\includes\Modules::getModuleId($module)));
+	$fieldres = $adb->pquery($fieldquery, array(\App\Module::getModuleId($module)));
 	$nooffields = $adb->num_rows($fieldres);
 
 	// Dummy instance to make sure column fields are initialized for futher processing
@@ -2720,7 +2720,7 @@ function get_modules($id)
 		$norows = $adb->num_rows($query);
 		if ($norows) {
 			while ($resultrow = $adb->fetch_array($query)) {
-				$name = \includes\Modules::getModuleName($resultrow['tabid']);
+				$name = \App\Module::getModuleName($resultrow['tabid']);
 				$modules[(int) $resultrow['sequence']] = array('name' => $name, 'translated_name' => Vtiger_Language_Handler::getTranslatedString($name, $name, vglobal('default_language')));
 			}
 			ksort($modules); // Order via SQL might cost us, so handling it ourselves in this case
@@ -2739,9 +2739,9 @@ function show_all($module)
 	$adb = PearDatabase::getInstance();
 
 	\App\Log::trace("Entering customer portal Function show_all");
-	$tabid = \includes\Modules::getModuleId($module);
+	$tabid = \App\Module::getModuleId($module);
 	if ($module == 'Tickets') {
-		$tabid = \includes\Modules::getModuleId('HelpDesk');
+		$tabid = \App\Module::getModuleId('HelpDesk');
 	}
 	$query = $adb->pquery("SELECT prefvalue from vtiger_customerportal_prefs where tabid = ?", array($tabid));
 	$norows = $adb->num_rows($query);
@@ -2766,7 +2766,7 @@ function getRelatedServiceContracts($crmid)
 	\App\Log::trace("Entering customer portal function getRelatedServiceContracts");
 	$module = 'ServiceContracts';
 	$sc_info = [];
-	if (\includes\Modules::isModuleActive($module) !== true) {
+	if (\App\Module::isModuleActive($module) !== true) {
 		return $sc_info;
 	}
 	$query = "SELECT * FROM vtiger_servicecontracts " .

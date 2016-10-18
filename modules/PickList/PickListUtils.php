@@ -23,7 +23,7 @@ function getUserFldArray($fld_module, $roleid)
 	$adb = PearDatabase::getInstance();
 	
 	$user_fld = Array();
-	$tabid = \includes\Modules::getModuleId($fld_module);
+	$tabid = \App\Module::getModuleId($fld_module);
 
 	$query = "select vtiger_field.fieldlabel,vtiger_field.columnname,vtiger_field.fieldname, vtiger_field.uitype" .
 		" FROM vtiger_field inner join vtiger_picklist on vtiger_field.fieldname = vtiger_picklist.name" .

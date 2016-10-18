@@ -92,7 +92,7 @@ class SMSNotifier extends SMSNotifierBase
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			while ($resultrow = $adb->fetch_array($result)) {
 				$accessCheck = false;
-				$relatedTabId = \includes\Modules::getModuleId($resultrow['setype']);
+				$relatedTabId = \App\Module::getModuleId($resultrow['setype']);
 				if ($relatedTabId == 0) {
 					$accessCheck = true;
 				} else {
