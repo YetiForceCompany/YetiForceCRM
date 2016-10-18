@@ -158,6 +158,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public function saveLoginHistory($userName, $status = 'Signed in')
 	{
 		$userIPAddress = \App\RequestUtil::getRemoteIP();
+		$browser = \App\RequestUtil::getBrowserInfo();
 		\App\DB::getInstance()->createCommand()
 			->insert('vtiger_loginhistory', [
 				'user_name' => $userName,
@@ -165,7 +166,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 				'login_time' => date('Y-m-d H:i:s'),
 				'logout_time' => '0000-00-00 00:00:00',
 				'status' => $status,
-				'browser' => \App\RequestUtil::getBrowserInfo()->name
+				'browser' => $browser->name . ' ' . $browser->ver
 			])->execute();
 	}
 
