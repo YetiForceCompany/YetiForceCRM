@@ -3,7 +3,7 @@ namespace App;
 
 /**
  * Debuger basic class
- * @package YetiForce.Include
+ * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -14,15 +14,12 @@ use Yii;
 class Debuger
 {
 
-	static public function init()
-	{
-		if (\AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
-			static::initConsole();
-		}
-	}
-
 	protected static $debugBar;
 
+	/**
+	 * Initiating debugging console
+	 * @return App\DebugBar\Debuger
+	 */
 	static public function initConsole()
 	{
 		$debugbar = new DebugBar\DebugBar();
@@ -37,11 +34,19 @@ class Debuger
 		return static::$debugBar = $debugbar;
 	}
 
+	/**
+	 * Get Debuger instance
+	 * @return App\DebugBar\Debuger
+	 */
 	static public function getDebugBar()
 	{
 		return static::$debugBar;
 	}
 
+	/**
+	 * Checking is active debugging
+	 * @return bool
+	 */
 	static public function isDebugBar()
 	{
 		return isset(static::$debugBar);
@@ -54,8 +59,14 @@ class Debuger
 		}
 	}
 
-	public static function initLogger()
+	/**
+	 * Initiating debugging
+	 */
+	public static function init()
 	{
+		if (\AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
+			static::initConsole();
+		}
 		$targets = [];
 		if (\AppConfig::debug('LOG_TO_FILE')) {
 			$levels = \AppConfig::debug('LOG_LEVELS');
@@ -84,6 +95,10 @@ class Debuger
 		]);
 	}
 
+	/**
+	 * Checking user IP
+	 * @return boolean
+	 */
 	public static function checkIP()
 	{
 		$ips = \AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
@@ -98,6 +113,13 @@ class Debuger
 		return false;
 	}
 
+	/**
+	 * Generates a backtrace
+	 * @param int $minLevel
+	 * @param int $maxLevel
+	 * @param string $sep
+	 * @return string
+	 */
 	public static function getBacktrace($minLevel = 1, $maxLevel = 0, $sep = '#')
 	{
 		$trace = '';

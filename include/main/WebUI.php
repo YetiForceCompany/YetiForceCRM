@@ -14,7 +14,8 @@ require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
-\App\Debuger::initLogger();
+\App\Debuger::init();
+\App\Cache::init();
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {

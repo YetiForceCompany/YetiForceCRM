@@ -18,8 +18,6 @@ require 'include/RequirementsValidation.php';
 require 'include/Webservices/Relation.php';
 require 'include/main/WebUI.php';
 
-\App\Debuger::init();
-
 $webUI = new Vtiger_WebUI();
 $webUI->process(AppRequest::init());
 
