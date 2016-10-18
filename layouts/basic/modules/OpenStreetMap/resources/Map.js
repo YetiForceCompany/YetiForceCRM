@@ -268,6 +268,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					}).bindPopup(response.result[0].label);
 					markers.addLayer(marker);
 					map.addLayer(markers);
+					map.setView(new L.LatLng(response.result[0].lat, response.result[0].lon), 14);
 				} else {
 					var params = {
 						title: app.vtranslate('JS_LBL_PERMISSION'),
