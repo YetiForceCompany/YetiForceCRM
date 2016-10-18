@@ -12,6 +12,10 @@ class Cache
 
 	public static $pool;
 
+	const LONG = 3600;
+	const MEDIUM = 300;
+	const SHORT = 60;
+
 	/**
 	 * Initialize cache class.
 	 */
@@ -52,7 +56,7 @@ class Cache
 	 * @param int $duration Cache TTL (in seconds)
 	 * @return bool
 	 */
-	public static function save($key, $value = null, $duration)
+	public static function save($key, $value = null, $duration = self::MEDIUM)
 	{
 		return static::$pool->save($key, $value, $duration);
 	}
