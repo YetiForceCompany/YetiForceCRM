@@ -114,14 +114,13 @@ class Notification_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get icon for notification
-	 * @return <Array> params icon
+	 * @return array params icon
 	 */
 	public function getIcon()
 	{
 		$icon = false;
 		switch ($this->get('notification_type')) {
 			case 'PLL_USERS':
-				var_dump($this->get('relatedid'));
 				$userModel = Users_Privileges_Model::getInstanceById($this->get('relatedid'));
 				$icon = [
 					'type' => 'image',
