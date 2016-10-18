@@ -1,4 +1,5 @@
-<?php namespace includes;
+<?php
+namespace includes;
 
 use vtlib\Functions;
 
