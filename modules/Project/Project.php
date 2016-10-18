@@ -472,7 +472,7 @@ class Project extends CRMEntity
 		require_once("BURAK_Gantt.class.php");
 
 		$headers = array();
-		$headers[0] = \includes\Language::translate('LBL_PROGRESS_CHART');
+		$headers[0] = \App\Language::translate('LBL_PROGRESS_CHART');
 
 		$entries = array();
 

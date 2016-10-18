@@ -105,12 +105,12 @@ class Campaigns extends CRMEntity
 		$button = '';
 
 		// Send mail button for selected Leads
-		$button .= "<input title='" . \includes\Language::translate('LBL_SEND_MAIL_BUTTON') . "' class='crmbutton small edit' value='" . \includes\Language::translate('LBL_SEND_MAIL_BUTTON') . "' type='button' name='button' onclick='rel_eMail(\"$this_module\",this,\"$related_module\")'>";
+		$button .= "<input title='" . \App\Language::translate('LBL_SEND_MAIL_BUTTON') . "' class='crmbutton small edit' value='" . \App\Language::translate('LBL_SEND_MAIL_BUTTON') . "' type='button' name='button' onclick='rel_eMail(\"$this_module\",this,\"$related_module\")'>";
 		$button .= '&nbsp;&nbsp;&nbsp;&nbsp';
 
 		/* To get Leads CustomView -START */
 		require_once('modules/CustomView/CustomView.php');
-		$lhtml = "<select id='" . $related_module . "_cv_list' class='small'><option value='None'>-- " . \includes\Language::translate('Select One') . " --</option>";
+		$lhtml = "<select id='" . $related_module . "_cv_list' class='small'><option value='None'>-- " . \App\Language::translate('Select One') . " --</option>";
 		$oCustomView = new CustomView($related_module);
 		$viewid = $oCustomView->getViewId($related_module);
 		$customviewcombo_html = $oCustomView->getCustomViewCombo($viewid, false);
@@ -118,20 +118,20 @@ class Campaigns extends CRMEntity
 		$lhtml .= "</select>";
 		/* To get Leads CustomView -END */
 
-		$button .= $lhtml . "<input title='" . \includes\Language::translate('LBL_LOAD_LIST', $this_module) . "' class='crmbutton small edit' value='" . \includes\Language::translate('LBL_LOAD_LIST', $this_module) . "' type='button' name='button' onclick='loadCvList(\"$related_module\",\"$id\")'>";
+		$button .= $lhtml . "<input title='" . \App\Language::translate('LBL_LOAD_LIST', $this_module) . "' class='crmbutton small edit' value='" . \App\Language::translate('LBL_LOAD_LIST', $this_module) . "' type='button' name='button' onclick='loadCvList(\"$related_module\",\"$id\")'>";
 		$button .= '&nbsp;&nbsp;&nbsp;&nbsp';
 
 		if ($actions) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
 				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
+					"<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
 			}
 		}
 
@@ -198,7 +198,7 @@ class Campaigns extends CRMEntity
 		foreach ($related_list['entries'] as $key => &$entry) {
 			$popupitemshtml = '';
 			foreach ($this->campaignrelstatus as $campaingrelstatus) {
-				$camprelstatus = \includes\Language::translate($campaingrelstatus[campaignrelstatus], 'Campaigns');
+				$camprelstatus = \App\Language::translate($campaingrelstatus[campaignrelstatus], 'Campaigns');
 				$popupitemshtml .= "<a onmouseover=\"javascript: showBlock('campaignstatus_popup_$key')\" href=\"javascript:updateCampaignRelationStatus('$related_module', '" . $this->id . "', '$key', '$campaingrelstatus[campaignrelstatusid]', '" . addslashes($camprelstatus) . "');\">$camprelstatus</a><br />";
 			}
 			$popuphtml = '<div onmouseover="javascript:clearTimeout(statusPopupTimer);" onmouseout="javascript:closeStatusPopup(\'campaignstatus_popup_' . $key . '\');" style="margin-top: -14px; width: 200px;" id="campaignstatus_popup_' . $key . '" class="calAction"><div style="background-color: #FFFFFF; padding: 8px;">' . $popupitemshtml . '</div></div>';

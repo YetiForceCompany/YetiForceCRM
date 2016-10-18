@@ -119,8 +119,8 @@ function vtws_listtypes($fieldTypeList, $user)
 	$informationArray = [];
 	foreach ($accessibleModules as $module) {
 		$vtigerModule = ($module == 'Events') ? 'Calendar' : $module;
-		$informationArray[$module] = array('isEntity' => true, 'label' => \includes\Language::translate($module, $vtigerModule),
-			'singular' => \includes\Language::translate('SINGLE_' . $module, $vtigerModule));
+		$informationArray[$module] = array('isEntity' => true, 'label' => \App\Language::translate($module, $vtigerModule),
+			'singular' => \App\Language::translate('SINGLE_' . $module, $vtigerModule));
 	}
 
 	foreach ($accessibleEntities as $entity) {

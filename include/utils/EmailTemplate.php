@@ -187,10 +187,10 @@ class EmailTemplate
 							$values[$fieldName] = $referencedObjectMeta->getName(vtws_getId(
 									$referencedObjectMeta->getEntityId(), $values[$fieldName]));
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'picklist') === 0) {
-							$values[$fieldName] = \includes\Language::translate(
+							$values[$fieldName] = \App\Language::translate(
 									$values[$fieldName], $module);
 						} elseif (strcasecmp($fieldName, 'salutationtype') === 0 && $webserviceField->getUIType() == '55') {
-							$values[$fieldName] = \includes\Language::translate(
+							$values[$fieldName] = \App\Language::translate(
 									$values[$fieldName], $module);
 						} elseif (strcasecmp($webserviceField->getFieldDataType(), 'datetime') === 0) {
 							$values[$fieldName] = $values[$fieldName] . ' ' . DateTimeField::getDBTimeZone();

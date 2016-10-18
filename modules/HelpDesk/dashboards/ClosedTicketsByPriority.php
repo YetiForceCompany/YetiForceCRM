@@ -72,7 +72,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$response = [];
 		while ($row = $db->getRow($result)) {
 			$response[] = [
-				'name' => \includes\Language::translate($row['priority'], $moduleName),
+				'name' => \App\Language::translate($row['priority'], $moduleName),
 				'count' => $row['count'],
 				'color' => $row['color'],
 				'url' => $listViewUrl . $this->getSearchParams($row['priority'], $time, $owner),

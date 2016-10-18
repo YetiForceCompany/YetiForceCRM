@@ -94,7 +94,7 @@ function get_available_module_picklist($picklist_details)
 {
 	$avail_pick_values = $picklist_details;
 	foreach ($avail_pick_values as $key => $val) {
-		$module_pick[$avail_pick_values[$key]['fieldname']] = \includes\Language::translate($avail_pick_values[$key]['fieldlabel']);
+		$module_pick[$avail_pick_values[$key]['fieldname']] = \App\Language::translate($avail_pick_values[$key]['fieldlabel']);
 	}
 	return $module_pick;
 }

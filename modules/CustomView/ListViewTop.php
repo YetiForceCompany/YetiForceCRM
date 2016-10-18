@@ -103,7 +103,7 @@ function getKeyMetrics($maxval, $calCnt)
 			$value = [];
 			$CVname = (strlen($metriclist['name']) > 20) ? (substr($metriclist['name'], 0, 20) . '...') : $metriclist['name'];
 			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . $CVname . '</a> <font style="color:#6E6E6E;">(' . $metriclist['user'] . ')</font>';
-			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . \includes\Language::translate($metriclist['module']) . '</a>';
+			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . \App\Language::translate($metriclist['module']) . '</a>';
 			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . $metriclist['count'] . '</a>';
 			$entries[$metriclist['id']] = $value;
 		}

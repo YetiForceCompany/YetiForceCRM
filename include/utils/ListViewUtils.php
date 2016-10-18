@@ -402,8 +402,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 
 	$output = '<td align="right" style="padding="5px;">';
 	if (($navigation_array['prev']) != 0) {
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \includes\Language::translate('LBL_FIRST') . '" title="' . \includes\Language::translate('LBL_FIRST') . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \includes\Language::translate('LNK_LIST_PREVIOUS') . '"title="' . \includes\Language::translate('LNK_LIST_PREVIOUS') . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \App\Language::translate('LBL_FIRST') . '" title="' . \App\Language::translate('LBL_FIRST') . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \App\Language::translate('LNK_LIST_PREVIOUS') . '"title="' . \App\Language::translate('LNK_LIST_PREVIOUS') . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 	} else {
 		$output .= '<img src="' . vtiger_imageurl('start_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
 		$output .= '<img src="' . vtiger_imageurl('previous_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
@@ -416,13 +416,13 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
 	$computeCount = AppRequest::get('withCount');
 	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true || ((boolean) $computeCount) === true) {
-		$output .= \includes\Language::translate('LBL_LIST_OF') . ' ' . $navigation_array['verylast'];
+		$output .= \App\Language::translate('LBL_LIST_OF') . ' ' . $navigation_array['verylast'];
 	} else {
-		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . \includes\Language::translate('LBL_HOME_COUNT') . "'
+		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . \App\Language::translate('LBL_HOME_COUNT') . "'
 			onclick=\"loadRelatedListBlock('{$urldata}&withCount=true&start={$navigation_array['current']}','{$target}','{$imagesuffix}');\"
 			align='absmiddle' name='" . $module . "_listViewCountRefreshIcon'/>
 			<img name='" . $module . "_listViewCountContainerBusy' src='" . vtiger_imageurl('vtbusy.gif', $theme) . "' style='display: none;'
-			align='absmiddle' alt='" . \includes\Language::translate('LBL_LOADING') . "'>";
+			align='absmiddle' alt='" . \App\Language::translate('LBL_LOADING') . "'>";
 	}
 	$output .= '</span>';
 
@@ -555,10 +555,10 @@ function getRecordRangeMessage($listResult, $limitStartRecord, $totalRows = '')
 	$numRows = $adb->num_rows($listResult);
 	$recordListRangeMsg = '';
 	if ($numRows > 0) {
-		$recordListRangeMsg = \includes\Language::translate('LBL_SHOWING') . ' ' . \includes\Language::translate('LBL_RECORDS') .
+		$recordListRangeMsg = \App\Language::translate('LBL_SHOWING') . ' ' . \App\Language::translate('LBL_RECORDS') .
 			' ' . ($limitStartRecord + 1) . ' - ' . ($limitStartRecord + $numRows);
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true) {
-			$recordListRangeMsg .= ' ' . \includes\Language::translate('LBL_LIST_OF') . " $totalRows";
+			$recordListRangeMsg .= ' ' . \App\Language::translate('LBL_LIST_OF') . " $totalRows";
 		}
 	}
 	return $recordListRangeMsg;

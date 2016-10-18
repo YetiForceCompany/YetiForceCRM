@@ -53,7 +53,7 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 		if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
 			if (!\includes\Modules::isModuleActive($tabModuleName))
 				continue;
-			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \includes\Language::translate($tabModuleName, $tabModuleName));
+			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \App\Language::translate($tabModuleName, $tabModuleName));
 		} else {
 			$dataTypeInfo = explode('~', $typeOfData);
 			if ($dataTypeInfo[1] == 'M') { // If the current reference field is mandatory

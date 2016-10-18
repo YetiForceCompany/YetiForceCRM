@@ -483,10 +483,10 @@ class HelpDesk extends CRMEntity
 		$isNew = $entityData->isNew();
 
 		if (!$isNew) {
-			$reply = \includes\Language::translate("replied", $moduleName);
-			$temp = \includes\Language::translate("Re", $moduleName);
+			$reply = \App\Language::translate("replied", $moduleName);
+			$temp = \App\Language::translate("Re", $moduleName);
 		} else {
-			$reply = \includes\Language::translate("created", $moduleName);
+			$reply = \App\Language::translate("created", $moduleName);
 			$temp = " ";
 		}
 
@@ -499,19 +499,19 @@ class HelpDesk extends CRMEntity
 		// Regardless of the entry we need just the ID
 		$parentId = array_pop($parentIdParts);
 
-		$desc = \includes\Language::translate('Ticket ID', $moduleName) . ' : ' . $entityId . '<br>'
-			. \includes\Language::translate('Ticket Title', $moduleName) . ' : ' . $temp . ' '
+		$desc = \App\Language::translate('Ticket ID', $moduleName) . ' : ' . $entityId . '<br>'
+			. \App\Language::translate('Ticket Title', $moduleName) . ' : ' . $temp . ' '
 			. $entityData->get('ticket_title');
 		$name = (!$toOwner) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
-		$desc .= "<br><br>" . \includes\Language::translate('Hi', $moduleName) . " " . $name . ",<br><br>"
-			. \includes\Language::translate('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . \includes\Language::translate('LBL_DETAIL', $moduleName) . "<br>";
-		$desc .= "<br>" . \includes\Language::translate('Ticket No', $moduleName) . " : " . $entityData->get('ticket_no');
-		$desc .= "<br>" . \includes\Language::translate('Status', $moduleName) . " : " . $entityData->get('ticketstatus');
-		$desc .= "<br>" . \includes\Language::translate('Category', $moduleName) . " : " . $entityData->get('ticketcategories');
-		$desc .= "<br>" . \includes\Language::translate('Severity', $moduleName) . " : " . $entityData->get('ticketseverities');
-		$desc .= "<br>" . \includes\Language::translate('Priority', $moduleName) . " : " . $entityData->get('ticketpriorities');
-		$desc .= "<br><br>" . \includes\Language::translate('Description', $moduleName) . " : <br>" . $entityData->get('description');
-		$desc .= "<br><br>" . \includes\Language::translate('Solution', $moduleName) . " : <br>" . $entityData->get('solution');
+		$desc .= "<br><br>" . \App\Language::translate('Hi', $moduleName) . " " . $name . ",<br><br>"
+			. \App\Language::translate('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . \App\Language::translate('LBL_DETAIL', $moduleName) . "<br>";
+		$desc .= "<br>" . \App\Language::translate('Ticket No', $moduleName) . " : " . $entityData->get('ticket_no');
+		$desc .= "<br>" . \App\Language::translate('Status', $moduleName) . " : " . $entityData->get('ticketstatus');
+		$desc .= "<br>" . \App\Language::translate('Category', $moduleName) . " : " . $entityData->get('ticketcategories');
+		$desc .= "<br>" . \App\Language::translate('Severity', $moduleName) . " : " . $entityData->get('ticketseverities');
+		$desc .= "<br>" . \App\Language::translate('Priority', $moduleName) . " : " . $entityData->get('ticketpriorities');
+		$desc .= "<br><br>" . \App\Language::translate('Description', $moduleName) . " : <br>" . $entityData->get('description');
+		$desc .= "<br><br>" . \App\Language::translate('Solution', $moduleName) . " : <br>" . $entityData->get('solution');
 		$desc .= \vtlib\Functions::getTicketComments($entityId);
 
 		$sql = "SELECT * FROM vtiger_ticketcf WHERE ticketid = ?";
@@ -525,7 +525,7 @@ class HelpDesk extends CRMEntity
 				$desc .= '<br>' . $cfLabel . ' : ' . $cfData;
 			}
 		}
-		$desc .= '<br><br>' . \includes\Language::translate("LBL_REGARDS", $moduleName) . ',<br>' . $HELPDESK_SUPPORT_NAME;
+		$desc .= '<br><br>' . \App\Language::translate("LBL_REGARDS", $moduleName) . ',<br>' . $HELPDESK_SUPPORT_NAME;
 		return $desc;
 	}
 
@@ -552,15 +552,15 @@ class HelpDesk extends CRMEntity
 		$parentId = array_pop($parentIdParts);
 
 		$portalUrl = "<a href='" . $PORTAL_URL . "/index.php?module=HelpDesk&action=index&ticketid=" . $entityId . "&fun=detail'>"
-			. \includes\Language::translate('LBL_TICKET_DETAILS', $moduleName) . "</a>";
-		$contents = \includes\Language::translate('Dear', $moduleName) . ' ';
+			. \App\Language::translate('LBL_TICKET_DETAILS', $moduleName) . "</a>";
+		$contents = \App\Language::translate('Dear', $moduleName) . ' ';
 		$contents .= ($parentId) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
 		$contents .= ",<br>";
-		$contents .= \includes\Language::translate('reply', $moduleName) . ' <b>' . $entityData->get('ticket_title')
-			. '</b> ' . \includes\Language::translate('customer_portal', $moduleName);
-		$contents .= \includes\Language::translate("link", $moduleName) . '<br>';
+		$contents .= \App\Language::translate('reply', $moduleName) . ' <b>' . $entityData->get('ticket_title')
+			. '</b> ' . \App\Language::translate('customer_portal', $moduleName);
+		$contents .= \App\Language::translate("link", $moduleName) . '<br>';
 		$contents .= $portalUrl;
-		$contents .= '<br><br>' . \includes\Language::translate("Thanks", $moduleName) . '<br>' . $HELPDESK_SUPPORT_NAME;
+		$contents .= '<br><br>' . \App\Language::translate("Thanks", $moduleName) . '<br>' . $HELPDESK_SUPPORT_NAME;
 		return $contents;
 	}
 
