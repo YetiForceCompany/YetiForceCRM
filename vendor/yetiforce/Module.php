@@ -18,9 +18,9 @@ class Module
 		$entity = false;
 		if ($mixed) {
 			if (is_numeric($mixed))
-				$entity = isset(self::$moduleEntityCacheById[$mixed]) ? self::$moduleEntityCacheById[$mixed] : false;
+				$entity = isset(static::$moduleEntityCacheById[$mixed]) ? static::$moduleEntityCacheById[$mixed] : false;
 			else
-				$entity = isset(self::$moduleEntityCacheByName[$mixed]) ? self::$moduleEntityCacheByName[$mixed] : false;
+				$entity = isset(static::$moduleEntityCacheByName[$mixed]) ? static::$moduleEntityCacheByName[$mixed] : false;
 		}
 		if (!$entity) {
 			$dataReader = (new \App\Db\Query())->from('vtiger_entityname')
@@ -28,14 +28,14 @@ class Module
 			while ($row = $dataReader->read()) {
 				$row['fieldnameArr'] = explode(',', $row['fieldname']);
 				$row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
-				self::$moduleEntityCacheByName[$row['modulename']] = $row;
-				self::$moduleEntityCacheById[$row['tabid']] = $row;
+				static::$moduleEntityCacheByName[$row['modulename']] = $row;
+				static::$moduleEntityCacheById[$row['tabid']] = $row;
 			}
 			if ($mixed) {
 				if (is_numeric($mixed))
-					return self::$moduleEntityCacheById[$mixed];
+					return static::$moduleEntityCacheById[$mixed];
 				else
-					return self::$moduleEntityCacheByName[$mixed];
+					return static::$moduleEntityCacheByName[$mixed];
 			}
 		}
 		return $entity;
@@ -43,17 +43,17 @@ class Module
 
 	static public function getAllEntityModuleInfo($sort = false)
 	{
-		if (empty(self::$moduleEntityCacheById)) {
-			self::getEntityInfo();
+		if (empty(static::$moduleEntityCacheById)) {
+			static::getEntityInfo();
 		}
 		$entity = [];
 		if ($sort) {
-			foreach (self::$moduleEntityCacheById as $tabid => $row) {
+			foreach (static::$moduleEntityCacheById as $tabid => $row) {
 				$entity[$row['sequence']] = $row;
 			}
 			ksort($entity);
 		} else {
-			$entity = self::$moduleEntityCacheById;
+			$entity = static::$moduleEntityCacheById;
 		}
 		return $entity;
 	}
@@ -62,19 +62,19 @@ class Module
 
 	static public function isModuleActive($moduleName)
 	{
-		if (isset(self::$isModuleActiveCache[$moduleName])) {
-			return self::$isModuleActiveCache[$moduleName];
+		if (isset(static::$isModuleActiveCache[$moduleName])) {
+			return static::$isModuleActiveCache[$moduleName];
 		}
 		$moduleAlwaysActive = ['Administration', 'CustomView', 'Settings', 'Users', 'Migration',
 			'Utilities', 'uploads', 'Import', 'System', 'com_vtiger_workflow', 'PickList'
 		];
 		if (in_array($moduleName, $moduleAlwaysActive)) {
-			self::$isModuleActiveCache[$moduleName] = true;
+			static::$isModuleActiveCache[$moduleName] = true;
 			return true;
 		}
-		$tabPresence = self::getTabData('tabPresence');
-		$isActive = $tabPresence[self::getModuleId($moduleName)] == 0 ? true : false;
-		self::$isModuleActiveCache[$moduleName] = $isActive;
+		$tabPresence = static::getTabData('tabPresence');
+		$isActive = $tabPresence[static::getModuleId($moduleName)] == 0 ? true : false;
+		static::$isModuleActiveCache[$moduleName] = $isActive;
 		return $isActive;
 	}
 
@@ -82,15 +82,15 @@ class Module
 
 	static public function getTabData($type)
 	{
-		if (self::$tabdataCache === false) {
-			self::$tabdataCache = require 'user_privileges/tabdata.php';
+		if (static::$tabdataCache === false) {
+			static::$tabdataCache = require 'user_privileges/tabdata.php';
 		}
-		return isset(self::$tabdataCache[$type]) ? self::$tabdataCache[$type] : false;
+		return isset(static::$tabdataCache[$type]) ? static::$tabdataCache[$type] : false;
 	}
 
 	public static function getModuleId($name)
 	{
-		$tabId = self::getTabData('tabId');
+		$tabId = static::getTabData('tabId');
 		return isset($tabId[$name]) ? $tabId[$name] : false;
 	}
 

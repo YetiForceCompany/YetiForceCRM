@@ -29,14 +29,14 @@ class PrivilegeFile
 			$users['id'][$row['id']] = $row;
 			$users['userName'][$row['user_name']] = $row['id'];
 		}
-		file_put_contents(self::$usersFile, '<?php return ' . \vtlib\Functions::varExportMin($users) . ';');
+		file_put_contents(static::$usersFile, '<?php return ' . \vtlib\Functions::varExportMin($users) . ';');
 	}
 
 	public static function getUser($type)
 	{
-		if (self::$usersFileCache === false) {
-			self::$usersFileCache = require self::$usersFile;
+		if (static::$usersFileCache === false) {
+			static::$usersFileCache = require static::$usersFile;
 		}
-		return isset(self::$usersFileCache[$type]) ? self::$usersFileCache[$type] : false;
+		return isset(static::$usersFileCache[$type]) ? static::$usersFileCache[$type] : false;
 	}
 }

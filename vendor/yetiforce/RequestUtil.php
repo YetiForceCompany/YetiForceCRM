@@ -31,7 +31,7 @@ class RequestUtil
 
 	public static function getBrowserInfo()
 	{
-		if (self::$browerCache === false) {
+		if (static::$browerCache === false) {
 			$browserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
 			$browser = new \stdClass;
@@ -95,8 +95,8 @@ class RequestUtil
 			$host = isset($host) ? $host : $_SERVER['SERVER_NAME'] . $port;
 			$browser->url = $protocol . '://' . $host . $_SERVER['REQUEST_URI'];
 			$browser->requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
-			self::$browerCache = $browser;
+			static::$browerCache = $browser;
 		}
-		return self::$browerCache;
+		return static::$browerCache;
 	}
 }

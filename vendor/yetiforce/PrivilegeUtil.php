@@ -23,7 +23,7 @@ class PrivilegeUtil
 		$parentTabName = \vtlib\Functions::getModuleName($parModId);
 		$relTabName = \vtlib\Functions::getModuleName($tabid);
 		$fn_name = 'get' . $relTabName . 'Related' . $parentTabName;
-		$entId = self::$fn_name($recordId);
+		$entId = static::$fn_name($recordId);
 		if ($entId != '') {
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($entId);
 			if ($recordMetaData) {
@@ -89,7 +89,7 @@ class PrivilegeUtil
 	 */
 	public static function getDatashareRelatedModules()
 	{
-		if (self::$datashareRelatedCache === false) {
+		if (static::$datashareRelatedCache === false) {
 			$relModSharArr = [];
 			$adb = \PearDatabase::getInstance();
 			$result = $adb->query('select * from vtiger_datashare_relatedmodules');
@@ -104,9 +104,9 @@ class PrivilegeUtil
 				}
 				$relModSharArr[$relTabId] = $temArr;
 			}
-			self::$datashareRelatedCache = $relModSharArr;
+			static::$datashareRelatedCache = $relModSharArr;
 		}
-		return self::$datashareRelatedCache;
+		return static::$datashareRelatedCache;
 	}
 
 	protected static $defaultSharingActionCache = false;
@@ -117,7 +117,7 @@ class PrivilegeUtil
 	 */
 	public static function getAllDefaultSharingAction()
 	{
-		if (self::$defaultSharingActionCache === false) {
+		if (static::$defaultSharingActionCache === false) {
 			\App\Log::trace('getAllDefaultSharingAction');
 			$adb = \PearDatabase::getInstance();
 			$copy = [];
@@ -126,9 +126,9 @@ class PrivilegeUtil
 			while ($row = $adb->getRow($result)) {
 				$copy[$row['tabid']] = $row['permission'];
 			}
-			self::$defaultSharingActionCache = $copy;
+			static::$defaultSharingActionCache = $copy;
 		}
-		return self::$defaultSharingActionCache;
+		return static::$defaultSharingActionCache;
 	}
 
 	protected static $usersByRoleCache = [];
@@ -166,22 +166,22 @@ class PrivilegeUtil
 	 */
 	public static function getMembers()
 	{
-		if (self::$membersCache === false) {
+		if (static::$membersCache === false) {
 			$members = [];
 			$owner = new \includes\fields\Owner();
 			foreach ($owner->initUsers() as $id => $user) {
-				$members[self::MEMBER_TYPE_USERS][self::MEMBER_TYPE_USERS . ':' . $id] = ['name' => $user['fullName'], 'id' => $id, 'type' => self::MEMBER_TYPE_USERS];
+				$members[static::MEMBER_TYPE_USERS][static::MEMBER_TYPE_USERS . ':' . $id] = ['name' => $user['fullName'], 'id' => $id, 'type' => static::MEMBER_TYPE_USERS];
 			}
 			foreach ($owner->getGroups(false) as $id => $groupName) {
-				$members[self::MEMBER_TYPE_GROUPS][self::MEMBER_TYPE_GROUPS . ':' . $id] = ['name' => $groupName, 'id' => $id, 'type' => self::MEMBER_TYPE_GROUPS];
+				$members[static::MEMBER_TYPE_GROUPS][static::MEMBER_TYPE_GROUPS . ':' . $id] = ['name' => $groupName, 'id' => $id, 'type' => static::MEMBER_TYPE_GROUPS];
 			}
 			foreach (\Settings_Roles_Record_Model::getAll() as $id => $roleModel) {
-				$members[self::MEMBER_TYPE_ROLES][self::MEMBER_TYPE_ROLES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => self::MEMBER_TYPE_ROLES];
-				$members[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES][self::MEMBER_TYPE_ROLE_AND_SUBORDINATES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => self::MEMBER_TYPE_ROLE_AND_SUBORDINATES];
+				$members[static::MEMBER_TYPE_ROLES][static::MEMBER_TYPE_ROLES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => static::MEMBER_TYPE_ROLES];
+				$members[static::MEMBER_TYPE_ROLE_AND_SUBORDINATES][static::MEMBER_TYPE_ROLE_AND_SUBORDINATES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => static::MEMBER_TYPE_ROLE_AND_SUBORDINATES];
 			}
-			self::$membersCache = $members;
+			static::$membersCache = $members;
 		}
-		return self::$membersCache;
+		return static::$membersCache;
 	}
 
 	protected static $usersByMemberCache = [];

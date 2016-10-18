@@ -20,7 +20,7 @@ class Version
 	public static function get($type = 'appVersion')
 	{
 		static::init();
-		return self::$versions[$type];
+		return static::$versions[$type];
 	}
 
 	/**
@@ -28,8 +28,8 @@ class Version
 	 */
 	private static function init()
 	{
-		if (self::$versions === false) {
-			self::$versions = require 'config/version.php';
+		if (static::$versions === false) {
+			static::$versions = require 'config/version.php';
 		}
 	}
 
@@ -43,6 +43,6 @@ class Version
 	public static function check($version, $type = 'appVersion', $condition = '>=')
 	{
 		static::init();
-		return version_compare($version, self::$versions[$type], $condition);
+		return version_compare($version, static::$versions[$type], $condition);
 	}
 }
