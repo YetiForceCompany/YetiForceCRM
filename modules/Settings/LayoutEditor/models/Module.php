@@ -371,9 +371,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			//Check for fiel exists in both calendar and events module
 			$tabId = ['9', '16'];
 		}
-		$query = (new \App\Db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $tabId]);
-		$dataReader = $query->createCommand()->query();
-		return ($dataReader->count() > 0 ) ? true : false;
+		$count = (new \App\Db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $tabId])->count();
+		return ($count > 0 ) ? true : false;
 	}
 
 	public function checkFieldNameExists($fieldName)
@@ -382,9 +381,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
 		}
-		$query = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]]);
-		$dataReader = $query->createCommand()->query();
-		return ($dataReader->count() > 0 ) ? true : false;
+		$count = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])
+			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])
+			->count();
+		return ($count > 0 ) ? true : false;
 	}
 
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
