@@ -1,11 +1,11 @@
 <?php
-namespace includes;
+namespace App;
 
 use vtlib\Functions;
 
 /**
  * Record basic class
- * @package YetiForce.Include
+ * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -20,7 +20,7 @@ class Record
 		$ids = $multiMode ? $mixedId : [$mixedId];
 		$missing = [];
 		foreach ($ids as $id) {
-			if ($id && !isset(self::$recordLabelCache[$id])) {
+			if ($id && !isset(static::$recordLabelCache[$id])) {
 				$missing[] = $id;
 			}
 		}
@@ -30,20 +30,20 @@ class Record
 			$query = sprintf('SELECT `crmid`,`label` FROM `u_yf_crmentity_label` WHERE `crmid` IN(%s)', $adb->generateQuestionMarks($missing));
 			$result = $adb->pquery($query, $missing);
 			while ($row = $adb->getRow($result)) {
-				self::$recordLabelCache[$row['crmid']] = $row['label'];
+				static::$recordLabelCache[$row['crmid']] = $row['label'];
 			}
 			foreach ($ids as $id) {
-				if ($id && !isset(self::$recordLabelCache[$id])) {
-					$metainfo = \vtlib\Functions::getCRMRecordMetadata($id);
-					$computeLabel = self::computeLabels($metainfo['setype'], $id);
-					self::$recordLabelCache[$id] = $computeLabel[$id];
+				if ($id && !isset(static::$recordLabelCache[$id])) {
+					$metainfo = Functions::getCRMRecordMetadata($id);
+					$computeLabel = static::computeLabels($metainfo['setype'], $id);
+					static::$recordLabelCache[$id] = $computeLabel[$id];
 				}
 			}
 		}
 		$result = [];
 		foreach ($ids as $id) {
-			if (isset(self::$recordLabelCache[$id])) {
-				$result[$id] = self::$recordLabelCache[$id];
+			if (isset(static::$recordLabelCache[$id])) {
+				$result[$id] = static::$recordLabelCache[$id];
 			} else {
 				$result[$id] = NULL;
 			}
@@ -55,8 +55,8 @@ class Record
 
 	public static function findCrmidByLabel($label, $moduleName = false, $limit = 20)
 	{
-		if (isset(self::$crmidByLabelCache[$label])) {
-			$crmIds = self::$crmidByLabelCache[$label];
+		if (isset(static::$crmidByLabelCache[$label])) {
+			$crmIds = static::$crmidByLabelCache[$label];
 		} else {
 			$currentUser = \Users_Record_Model::getCurrentUserModel();
 			$adb = \PearDatabase::getInstance();
@@ -92,7 +92,7 @@ class Record
 			while ($row = $adb->getRow($result)) {
 				$crmIds[] = $row;
 			}
-			self::$crmidByLabelCache[$label] = $crmIds;
+			static::$crmidByLabelCache[$label] = $crmIds;
 		}
 		return $crmIds;
 	}
@@ -113,7 +113,7 @@ class Record
 		if ($moduleName) {
 			$entityDisplay = [];
 			if (!empty($ids)) {
-				if (!isset(self::$computeLabelsSqlCache[$moduleName])) {
+				if (!isset(static::$computeLabelsSqlCache[$moduleName])) {
 					if ($moduleName == 'Groups') {
 						$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
 					} else {
@@ -156,15 +156,15 @@ class Record
 					}
 					$paramsCol[] = $idcolumn;
 					$sql = sprintf('SELECT %s AS id FROM %s %s WHERE %s IN', implode(',', $paramsCol), $table, $leftJoin, $idcolumn);
-					self::$computeLabelsSqlCache[$moduleName] = $sql;
-					self::$computeLabelsColumnsCache[$moduleName] = $columnsName;
-					self::$computeLabelsInfoExtendCache[$moduleName] = $moduleInfoExtend;
-					self::$computeLabelsColumnsSearchCache[$moduleName] = $columnsSearch;
+					static::$computeLabelsSqlCache[$moduleName] = $sql;
+					static::$computeLabelsColumnsCache[$moduleName] = $columnsName;
+					static::$computeLabelsInfoExtendCache[$moduleName] = $moduleInfoExtend;
+					static::$computeLabelsColumnsSearchCache[$moduleName] = $columnsSearch;
 				} else {
-					$sql = self::$computeLabelsSqlCache[$moduleName];
-					$columnsName = self::$computeLabelsColumnsCache[$moduleName];
-					$moduleInfoExtend = self::$computeLabelsInfoExtendCache[$moduleName];
-					$columnsSearch = self::$computeLabelsColumnsSearchCache[$moduleName];
+					$sql = static::$computeLabelsSqlCache[$moduleName];
+					$columnsName = static::$computeLabelsColumnsCache[$moduleName];
+					$moduleInfoExtend = static::$computeLabelsInfoExtendCache[$moduleName];
+					$columnsSearch = static::$computeLabelsColumnsSearchCache[$moduleName];
 				}
 				$ids = array_unique($ids);
 				$sql = sprintf($sql . '(%s)', $adb->generateQuestionMarks($ids));
@@ -173,14 +173,14 @@ class Record
 					$labelSearch = $labelName = [];
 					foreach ($columnsName as $columnName) {
 						if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
-							$labelName[] = self::getLabel($row[$columnName]);
+							$labelName[] = static::getLabel($row[$columnName]);
 						else
 							$labelName[] = $row[$columnName];
 					}
 					if ($search) {
 						foreach ($columnsSearch as $columnName) {
 							if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
-								$labelSearch[] = self::getLabel($row[$columnName]);
+								$labelSearch[] = static::getLabel($row[$columnName]);
 							else
 								$labelSearch[] = $row[$columnName];
 						}
@@ -196,7 +196,7 @@ class Record
 
 	public static function updateLabel($moduleName, $id, $mode = 'edit', $updater = false)
 	{
-		$labelInfo = self::computeLabels($moduleName, $id, true);
+		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
 			$adb = \PearDatabase::getInstance();
 			$label = decode_html($labelInfo[$id]['name']);
@@ -231,7 +231,7 @@ class Record
 					$adb->insert('u_yf_crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName]);
 				}
 			}
-			self::$recordLabelCache[$id] = $labelInfo[$id]['name'];
+			static::$recordLabelCache[$id] = $labelInfo[$id]['name'];
 		}
 	}
 

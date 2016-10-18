@@ -281,7 +281,7 @@ class ListViewController
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 					$relatedModule = $recordModel->get('relatedmodule');
 					$reletedId = $recordModel->get('relatedid');
-					if ($relatedModule != 'Users' && \includes\Record::isExists($reletedId)) {
+					if ($relatedModule != 'Users' && \App\Record::isExists($reletedId)) {
 						$textParser = Vtiger_TextParser_Helper::getInstanceByModel(Vtiger_Record_Model::getInstanceById($reletedId, $relatedModule));
 					} else {
 						$textParser = Vtiger_TextParser_Helper::getCleanInstance();

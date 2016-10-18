@@ -290,7 +290,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \vtlib\Functions::getCRMRecordType($value);
-					$displayValueArray = \includes\Record::computeLabels($recordModule, $value);
+					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
@@ -327,7 +327,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = vtlib\Functions::getCRMRecordType($value);
-					$displayValueArray = includes\Record::computeLabels($recordModule, $value);
+					$displayValueArray = App\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;

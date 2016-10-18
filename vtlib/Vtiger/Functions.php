@@ -344,7 +344,7 @@ class Functions
 
 	public static function getCRMRecordLabel($id, $default = '')
 	{
-		$label = \includes\Record::getLabel($id);
+		$label = \App\Record::getLabel($id);
 		return empty($label) ? $default : $label;
 	}
 

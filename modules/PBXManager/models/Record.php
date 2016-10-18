@@ -201,7 +201,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			if ($db->num_rows($contact)) {
 				$rowCrm = $db->getRow($contact);
 				$data['id'] = $crmid;
-				$data['name'] = \includes\Record::getLabel($crmid);
+				$data['name'] = \App\Record::getLabel($crmid);
 				$data['setype'] = $rowCrm['setype'];
 				$data['fieldname'] = $fieldname;
 				return $data;

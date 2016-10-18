@@ -19,7 +19,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$relatedModule = $this->get('relatedmodule');
 		$reletedId = $this->get('relatedid');
 		$value = $this->get($fieldName);
-		if ($relatedModule != 'Users' && \includes\Record::isExists($reletedId)) {
+		if ($relatedModule != 'Users' && \App\Record::isExists($reletedId)) {
 			$textParser = Vtiger_TextParser_Helper::getInstanceById($reletedId, $relatedModule);
 			$textParser->setContent($value);
 			$value = $textParser->parse();
@@ -96,7 +96,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($relatedModule != 'Users' && \includes\Record::isExists($reletedId)) {
+		if ($relatedModule != 'Users' && \App\Record::isExists($reletedId)) {
 			$message = $this->get('description');
 			$textParser = Vtiger_TextParser_Helper::getInstanceById($reletedId, $relatedModule);
 			$textParser->set('withoutTranslations', true);

@@ -131,7 +131,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 				$ids[] = $record['subprocess'];
 			}
 		}
-		$labels = \includes\Record::getLabel($ids);
+		$labels = \App\Record::getLabel($ids);
 
 		foreach ($records as &$record) {
 			$item = [];

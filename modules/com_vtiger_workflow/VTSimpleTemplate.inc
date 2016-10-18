@@ -110,7 +110,7 @@ class VTSimpleTemplate
 									if ($fieldname == 'currency_id' && $referenceModule == 'Users') {
 										$result = decode_html(vtlib\Functions::getCurrencyName($idComponents[1]));
 									} else {
-										$result = decode_html(\includes\Record::getLabel($idComponents[1]));
+										$result = decode_html(\App\Record::getLabel($idComponents[1]));
 									}
 								} else {
 									$result = $this->transformToUserFormat($referenceModule, $fieldname, $data[$fieldname]);

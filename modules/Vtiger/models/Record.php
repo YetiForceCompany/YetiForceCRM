@@ -213,7 +213,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getDisplayName()
 	{
-		return \includes\Record::getLabel($this->getId());
+		return \App\Record::getLabel($this->getId());
 	}
 
 	/**
@@ -337,7 +337,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$module = Vtiger_Module_Model::getInstance($module);
 			$moduleName = $module->get('name');
 		} elseif (empty($module)) {
-			$moduleName = \includes\Record::getType($recordId);
+			$moduleName = \App\Record::getType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
 		}
 		$cacheName = $recordId . ':' . $moduleName;
@@ -378,7 +378,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if (!$limit) {
 			$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 		}
-		$rows = \includes\Record::findCrmidByLabel($searchKey, $module, $limit);
+		$rows = \App\Record::findCrmidByLabel($searchKey, $module, $limit);
 		$ids = $matchingRecords = $leadIdsList = [];
 		foreach ($rows as &$row) {
 			$ids[] = $row['crmid'];
@@ -387,7 +387,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
-		$labels = \includes\Record::getLabel($ids);
+		$labels = \App\Record::getLabel($ids);
 
 		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {

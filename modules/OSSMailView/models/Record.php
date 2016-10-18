@@ -275,7 +275,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$relations[$module][] = [
 				'id' => $row['crmid'],
 				'module' => $module,
-				'label' => \includes\Record::getLabel($row['crmid'])
+				'label' => \App\Record::getLabel($row['crmid'])
 			];
 		}
 		return $relations;

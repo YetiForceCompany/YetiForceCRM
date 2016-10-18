@@ -35,7 +35,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 		if (empty($modules)) {
 			return [];
 		}
-		$rows = \includes\Record::findCrmidByLabel($value, $modules);
+		$rows = \App\Record::findCrmidByLabel($value, $modules);
 
 		$matchingRecords = $leadIdsList = [];
 		foreach ($rows as &$row) {
@@ -49,7 +49,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 				continue;
 			}
 			if (Users_Privileges_Model::isPermitted($row['moduleName'], 'DetailView', $row['crmid'])) {
-				$label = \includes\Record::getLabel($row['crmid']);
+				$label = \App\Record::getLabel($row['crmid']);
 				$matchingRecords[] = [
 					'id' => $row['crmid'],
 					'module' => $row['moduleName'],
