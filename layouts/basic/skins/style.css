@@ -5743,3 +5743,6 @@ select.form-control {
 	display: block;
     padding: .7em .5em;
 }
+.modalContainer + .ui-autocomplete {
+	z-index: 100000;
+}

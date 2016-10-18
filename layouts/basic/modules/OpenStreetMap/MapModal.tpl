@@ -26,6 +26,25 @@
 			<div id="mapid"></div>
 		</div>
 		<div class="col-xs-3">
+			<div class="col-xs-12 paddingLRZero ">
+				<div class="col-xs-7 form-group paddingLefttZero">
+					<div class="input-group">
+						<input type="text" class="form-control searchCompany">
+						<span class="input-group-btn">
+							<button class="btn btn-default addRecord" type="button">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+				<div class="col-xs-5 paddingLRZero">
+					<select class="select2 searchModule col-xs-6">
+						{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
+							<option value="{$ALLOWED_MODULE_NAME}">{vtranslate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}</option>
+						{/foreach}
+					</select>
+				</div>
+			</div>
 			<div class="input-group group-btn form-group">
 				<select class="select2 fieldsToGroup">
 					{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}

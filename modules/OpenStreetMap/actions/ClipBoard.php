@@ -15,6 +15,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('save');
 		$this->exposeMethod('delete');
 		$this->exposeMethod('addAllRecords');
+		$this->exposeMethod('addRecord');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -53,6 +54,23 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$coordinatesModel->saveCache($srcModuleName, $records);
 		$response = new Vtiger_Response();
 		$response->setResult(count($records));
+		$response->emit();
+	}
+
+	public function addRecord(Vtiger_Request $request)
+	{
+		$record = $request->get('record');
+		$srcModuleName = $request->get('srcModuleName');
+		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel->addCache($srcModuleName, $record);
+		$moduleModel = Vtiger_Module_Model::getInstance($srcModuleName);
+		$coordinatesModel->set('srcModuleModel', $moduleModel);
+		$coordinates = $coordinatesModel->readCoordinatesByRecords([$record]);
+		if(empty($coordinates)) {
+			$coordinates = vtranslate('ERR_ADDRESS_NOT_FOUND', 'OpenStreetMap');
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($coordinates);
 		$response->emit();
 	}
 }

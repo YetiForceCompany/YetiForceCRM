@@ -223,7 +223,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				var moduleContainer = currentTarget.closest('.cacheModuleContainer');
 				moduleContainer.find('.showRecordsFromCache').prop('checked', true);
 				moduleContainer.find('.showRecordsFromCache').trigger('change');
-				if(response.result.count != '0')
+				if (response.result.count != '0')
 					moduleContainer.find('.deleteClipBoard').removeClass('hide');
 			});
 		});
@@ -237,6 +237,107 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				params.push(currentObject.data('module'));
 		});
 		return params;
+	},
+	registerSearchCompany: function () {
+		var container = this.container;
+		var searchValue = container.find('.searchCompany');
+		var searchModule = container.find('.searchModule');
+		var addButton = container.find('.addRecord');
+		var map = this.mapInstance;
+		var markers = this.layerMarkers;
+		addButton.on('click', function () {
+			var crmId = addButton.data('crmId');
+			if (crmId == '')
+				return false;
+			AppConnector.request({
+				module: 'OpenStreetMap',
+				action: 'ClipBoard',
+				mode: 'addRecord',
+				record: crmId,
+				srcModuleName: searchModule.val()
+			}).then(function (response) {
+				addButton.data('crmId', '');
+				if(response.result.length == 1){
+					var marker = L.marker([response.result[0].lat, response.result[0].lon], {
+						icon: L.AwesomeMarkers.icon({
+							icon: 'home',
+							markerColor: 'cadetblue',
+							prefix: 'fa',
+							iconColor: response.result[0].color
+						})
+					}).bindPopup(response.result[0].label);
+					markers.addLayer(marker);
+					map.addLayer(markers);
+				} else {
+					var params = {
+						title: app.vtranslate('JS_LBL_PERMISSION'),
+						text: response.result,
+						type: 'error',
+						animation: 'show'
+					};
+					Vtiger_Helper_Js.showMessage(params);
+				}
+			});
+		});
+		$.widget("custom.ivAutocomplete", $.ui.autocomplete, {
+			_create: function () {
+				this._super();
+				this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
+			},
+			_renderMenu: function (ul, items) {
+				var that = this, currentCategory = "";
+				$.each(items, function (index, item) {
+					var li;
+					if (item.category != currentCategory) {
+						ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+						currentCategory = item.category;
+					}
+					that._renderItemData(ul, item);
+				});
+			},
+			_renderItemData: function (ul, item) {
+				return this._renderItem(ul, item).data("ui-autocomplete-item", item);
+			},
+			_renderItem: function (ul, item) {
+				return $("<li>")
+						.data("item.autocomplete", item)
+						.append($("<a></a>").html(item.label))
+						.appendTo(ul);
+			},
+		});
+		searchValue.ivAutocomplete({
+			delay: '600',
+			minLength: '3',
+			source: function (request, response) {
+				AppConnector.request({
+					module: app.getModuleName(),
+					view: 'BasicAjax',
+					mode: 'showSearchResults',
+					value: searchValue.val(),
+					searchModule: searchModule.val(),
+					html: false,
+				}).then(function (responseAjax) {
+					responseAjax = JSON.parse(responseAjax);
+					var reponseDataList = responseAjax.result;
+					if (reponseDataList.length <= 0) {
+						reponseDataList.push({
+							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
+							type: 'no results',
+							category: ''
+						});
+					}
+					response(reponseDataList);
+				})
+			},
+			select: function (event, ui) {
+				var selected = ui.item;
+				addButton.data('crmId', selected.id);
+			},
+			close: function (event, ui) {
+
+			}
+
+		});
 	},
 	registerBasicModal: function () {
 		var thisInstance = this;
@@ -480,7 +581,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				map.setView(new L.LatLng(lat, lon), 14);
 			}
 		});
-
+		this.registerSearchCompany();
 	},
 	registerModalView: function (container) {
 		var thisInstance = this;

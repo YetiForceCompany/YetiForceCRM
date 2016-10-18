@@ -334,8 +334,8 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get coordinates for many records
-	 * @param type $records Array with id of records
-	 * @return type
+	 * @param array $records Array with id of records
+	 * @return array
 	 */
 	public function readCoordinatesByRecords($records)
 	{
@@ -352,7 +352,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		if (!empty($groupByField)) {
 			$fields [] = $groupByField;
 			$fieldModel = Vtiger_Field_Model::getInstance($groupByField, $moduleModel);
-			if($fieldModel !== false)
+			if ($fieldModel !== false)
 				$groupByFieldColumn = $fieldModel->get('column');
 		}
 		$queryGenerator = new QueryGenerator($moduleName, $currentUserModel);
@@ -580,5 +580,17 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		$this->deleteCache($moduleName);
 		$this->saveCache($moduleName, $records);
 		return $db->getRowCount($result);
+	}
+
+	public function addCache($moduleName, $record)
+	{
+		if (!(new \App\Db\Query())->from('u_#__openstreetmap_cache')
+				->where(['crmids' => $record])->exists()) {
+			App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_cache', [
+				'module_name' => $moduleName,
+				'user_id' => Users_Privileges_Model::getCurrentUserModel()->getId(),
+				'crmids' => $record
+			])->execute();
+		}
 	}
 }
