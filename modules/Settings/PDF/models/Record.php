@@ -128,7 +128,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					foreach ($stepFields as $field) {
 						$params[$field] = $pdfModel->get($field);
 					}
-					$db->createCommand()->insert('a_#__pdf', $fields)
+					$db->createCommand()->insert('a_#__pdf', $params)
 						->execute();
 					$pdfModel->set('pdfid', $db->getLastInsertID());
 				} else {
