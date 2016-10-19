@@ -164,7 +164,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 				'user_name' => $userName,
 				'user_ip' => empty($userIPAddress) ? '-' : $userIPAddress,
 				'login_time' => date('Y-m-d H:i:s'),
-				'logout_time' => '0000-00-00 00:00:00',
+				'logout_time' => null,
 				'status' => $status,
 				'browser' => $browser->name . ' ' . $browser->ver
 			])->execute();
