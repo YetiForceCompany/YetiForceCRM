@@ -1351,31 +1351,32 @@ class CustomView extends CRMEntity
 
 	public function getCustomViewModuleInfo($module)
 	{
-		$adb = PearDatabase::getInstance();
 		$current_language = vglobal('current_language');
 		$current_mod_strings = \vtlib\Deprecated::return_app_list_strings_language($current_language, $module);
 		$blockInfo = [];
 		$modulesList = explode(',', $module);
 		if ($module == 'Calendar') {
 			$module = "Calendar','Events";
-			$modulesList = array('Calendar', 'Events');
+			$modulesList = ['Calendar', 'Events'];
 		}
 
 		// Tabid mapped to the list of block labels to be skipped for that tab.
 		$skipBlocksList = array(
-			\App\Module::getModuleId('HelpDesk') => array('LBL_COMMENTS'),
-			\App\Module::getModuleId('Faq') => array('LBL_COMMENT_INFORMATION')
+			\App\Module::getModuleId('HelpDesk') => ['LBL_COMMENTS'],
+			\App\Module::getModuleId('Faq') => ['LBL_COMMENT_INFORMATION']
 		);
 
-		$sql = sprintf('SELECT DISTINCT block,vtiger_field.tabid,`name`,blocklabel FROM	vtiger_field 
-					INNER JOIN vtiger_blocks ON vtiger_blocks.blockid = vtiger_field.block INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid 
-				  WHERE vtiger_tab.name IN (%s) && vtiger_field.presence IN (0, 2)', generateQuestionMarks($modulesList));
-		$result = $adb->pquery($sql, [$modulesList]);
+		$query = (new \App\Db\Query())->select('block, vtiger_field.tabid, name, blocklabel')
+				->from('vtiger_field')
+				->innerJoin('vtiger_blocks', 'vtiger_blocks.blockid = vtiger_field.block')
+				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid ')
+				->where(['vtiger_tab.name' => $modulesList, 'vtiger_field.presence' => [0, 2]])->distinct();
+		$dataReader = $query->createCommand()->query();
 		if ($module == "Calendar','Events")
 			$module = 'Calendar';
 
 		$preBlockLabel = '';
-		while ($block = $adb->getRow($result)) {
+		while ($block = $dataReader->read()) {
 			$blockLabel = $block['blocklabel'];
 			$tabid = $block['tabid'];
 			// Skip certain blocks of certain modules
