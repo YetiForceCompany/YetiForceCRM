@@ -18,7 +18,7 @@ class Debuger
 
 	/**
 	 * Initiating debugging console
-	 * @return App\DebugBar\Debuger
+	 * @return \App\DebugBar\Debuger
 	 */
 	static public function initConsole()
 	{
@@ -36,7 +36,7 @@ class Debuger
 
 	/**
 	 * Get Debuger instance
-	 * @return App\DebugBar\Debuger
+	 * @return \App\DebugBar\Debuger
 	 */
 	static public function getDebugBar()
 	{
