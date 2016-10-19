@@ -297,18 +297,23 @@ class WebserviceField
 			$referenceTypes = [];
 			if (!in_array($this->getUIType(), [66, 67, 68])) {
 				if ($this->getUIType() != $this->genericUIType) {
-					$sql = "select vtiger_ws_referencetype.`type` from vtiger_ws_referencetype INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_ws_referencetype.`type` where fieldtypeid=? && vtiger_tab.`presence` NOT IN (?)";
-					$params = array($fieldTypeData['fieldtypeid'], 1);
+					$query = (new \App\Db\Query())->select('vtiger_ws_referencetype.type')
+						->from('vtiger_ws_referencetype')
+						->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_ws_referencetype.type')
+						->where(['fieldtypeid' => $fieldTypeData['fieldtypeid']])
+						->andWhere(['not in', 'vtiger_tab.presence', [1]]);
 				} else {
-					$sql = 'select relmodule as type from vtiger_fieldmodulerel INNER JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_fieldmodulerel.`relmodule` WHERE fieldid=? && vtiger_tab.`presence` NOT IN (?) ORDER BY sequence ASC';
-					$params = array($this->getFieldId(), 1);
+					$query = (new \App\Db\Query())->select('relmodule as type')
+						->from('vtiger_fieldmodulerel')
+						->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_fieldmodulerel.relmodule')
+						->where(['fieldid' => $this->getFieldId()])
+						->andWhere(['not in', 'vtiger_tab.presence', [1]])
+						->orderBy(['sequence' => SORT_ASC]);
 				}
-				$result = $this->pearDB->pquery($sql, $params);
-				$numRows = $this->pearDB->num_rows($result);
-				for ($i = 0; $i < $numRows; ++$i) {
-					$referenceType = $this->pearDB->query_result($result, $i, "type");
-					if (in_array($referenceType, $accessibleTypes))
-						array_push($referenceTypes, $referenceType);
+				$dataReader = $query->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					if (in_array($row['type'], $accessibleTypes))
+						array_push($referenceTypes, $row['type']);
 				}
 			} else {
 				$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($this->getFieldId());

@@ -1366,7 +1366,7 @@ class CustomView extends CRMEntity
 			\App\Module::getModuleId('Faq') => ['LBL_COMMENT_INFORMATION']
 		);
 
-		$query = (new \App\Db\Query())->select('block, vtiger_field.tabid, name, blocklabel')
+		$query = (new \App\Db\Query())->select('vtiger_field.block, vtiger_field.tabid, vtiger_tab.name, vtiger_blocks.blocklabel')
 				->from('vtiger_field')
 				->innerJoin('vtiger_blocks', 'vtiger_blocks.blockid = vtiger_field.block')
 				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid ')
