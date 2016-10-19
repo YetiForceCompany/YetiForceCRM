@@ -101,16 +101,18 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				});
 				coordinates = cache[key];
 				coordinates.forEach(function (e) {
-					markerArray.push([e.lat, e.lon]);
-					var marker = L.marker([e.lat, e.lon], {
-						icon: L.AwesomeMarkers.icon({
-							icon: 'home',
-							markerColor: 'orange',
-							prefix: 'fa',
-							iconColor: e.color
-						})
-					}).bindPopup(e.label);
-					markersCache.addLayer(marker);
+					if(thisInstance.recordsIds.indexOf(e.recordId) === -1){
+						markerArray.push([e.lat, e.lon]);
+						var marker = L.marker([e.lat, e.lon], {
+							icon: L.AwesomeMarkers.icon({
+								icon: 'home',
+								markerColor: 'orange',
+								prefix: 'fa',
+								iconColor: e.color
+							})
+						}).bindPopup(e.label);
+						markersCache.addLayer(marker);
+					}
 				});
 				map.addLayer(markersCache);
 				thisInstance.cacheLayerMarkers[key] = markersCache;
@@ -169,13 +171,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				srcModule: app.getModuleName()
 			};
 			AppConnector.request(params).then(function (response) {
-				var params = {
+				Vtiger_Helper_Js.showMessage({
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success',
 					animation: 'show'
-				};
-				Vtiger_Helper_Js.showMessage(params);
+				});
 				var countRecords = container.find('.countRecords' + app.getModuleName());
 				countRecords.html(response.result);
 				countRecords.closest('.cacheModuleContainer').find('.deleteClipBoard').removeClass('hide');
@@ -198,8 +199,11 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					animation: 'show'
 				};
 				Vtiger_Helper_Js.showMessage(params);
-				container.find('.countRecords' + moduleName).html('');
+				var countRecords = container.find('.countRecords' + moduleName);
+				countRecords.html('');
 				currentTarget.addClass('hide');
+				countRecords.closest('.cacheModuleContainer').find('.showRecordsFromCache').prop('checked', false);
+				countRecords.closest('.cacheModuleContainer').find('.showRecordsFromCache').trigger('change');
 			});
 		});
 		container.find('.addAllRecords').on('click', function (e) {

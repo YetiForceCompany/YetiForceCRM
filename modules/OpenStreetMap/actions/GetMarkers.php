@@ -36,6 +36,9 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		if ($moduleModel->isAllowModules($sourceModule) && !$request->isEmpty('viewname')) {
 			$data ['coordinates'] = $coordinatesModel->getCoordinatesCustomView();
 		}
+		if (!$request->isEmpty('cache')) {
+			$data['cache'] = $coordinatesModel->readCoordinatesCache();
+		}
 		if ($request->has('groupBy')) {
 			$legend = [];
 			foreach (OpenStreetMap_Coordinate_Model::$colors as $key => $value) {
@@ -45,9 +48,6 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 				];
 			}
 			$data ['legend'] = $legend;
-		}
-		if (!$request->isEmpty('cache')) {
-			$data['cache'] = $coordinatesModel->readCoordinatesCache();
 		}
 		if (!empty($coordinatesCenter)) {
 			$data['coordinatesCeneter'] = $coordinatesCenter;
