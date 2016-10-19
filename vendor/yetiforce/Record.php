@@ -117,7 +117,7 @@ class Record
 					if ($moduleName == 'Groups') {
 						$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
 					} else {
-						$metainfo = Modules::getEntityInfo($moduleName);
+						$metainfo = \App\Module::getEntityInfo($moduleName);
 					}
 					if (empty($metainfo)) {
 						return $entityDisplay;
