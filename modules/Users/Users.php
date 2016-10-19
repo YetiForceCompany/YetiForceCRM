@@ -1074,7 +1074,6 @@ class Users extends CRMEntity
 		$prev_reminder_interval = $adb->query_result($query_prev_interval, 0, 'reminder_interval');
 
 		$this->saveHomeStuffOrder($this->id);
-		\vtlib\Deprecated::SaveTagCloudView($this->id);
 
 		// Added for Reminder Popup support
 		$this->resetReminderInterval($prev_reminder_interval);

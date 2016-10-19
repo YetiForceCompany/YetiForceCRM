@@ -173,26 +173,6 @@ class Deprecated
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
 
-	/** Stores the option in database to display  the tagclouds or not for the current user
-	 * * @param $id -- user id:: Type integer
-	 * * Added to provide User based Tagcloud
-	 * */
-	public static function SaveTagCloudView($id = '')
-	{
-		$adb = \PearDatabase::getInstance();
-		$tag_cloud_status = \AppRequest::get('tagcloudview');
-		if ($tag_cloud_status == "true") {
-			$tag_cloud_view = 0;
-		} else {
-			$tag_cloud_view = 1;
-		}
-		if ($id == '') {
-			$tag_cloud_view = 1;
-		} else {
-			$query = "update vtiger_homestuff set visible = ? where userid=? and stufftype='Tag Cloud'";
-			$adb->pquery($query, array($tag_cloud_view, $id));
-		}
-	}
 
 	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
 	{

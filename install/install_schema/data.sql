@@ -5897,14 +5897,6 @@ insert  into `vtiger_finvoiceproforma_formpayment`(`finvoiceproforma_formpayment
 
 insert  into `vtiger_finvoiceproforma_status`(`finvoiceproforma_statusid`,`finvoiceproforma_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'None',1,670,1);
 
-/*Data for the table `vtiger_freetagged_objects` */
-
-/*Data for the table `vtiger_freetags` */
-
-/*Data for the table `vtiger_freetags_seq` */
-
-insert  into `vtiger_freetags_seq`(`id`) values (1);
-
 /*Data for the table `vtiger_glacct` */
 
 insert  into `vtiger_glacct`(`glacctid`,`glacct`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'300-Sales-Software',1,51,0);
@@ -5998,7 +5990,6 @@ insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`
 insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`visible`,`stufftitle`) values (11,11,'Default',1,1,'My New Leads');
 insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`visible`,`stufftitle`) values (13,13,'Default',1,1,'Pending Activities');
 insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`visible`,`stufftitle`) values (14,14,'Default',1,1,'My Recent FAQs');
-insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`visible`,`stufftitle`) values (15,15,'Tag Cloud',1,1,'Tag Cloud');
 
 /*Data for the table `vtiger_homestuff_seq` */
 
@@ -6390,7 +6381,6 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (73,15,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (102,3,'DASHBOARDWIDGET','Key Metrics','index.php?module=Home&view=ShowWidget&name=KeyMetrics','',15,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (103,3,'DASHBOARDWIDGET','Mini List','index.php?module=Home&view=ShowWidget&name=MiniList','',16,NULL,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (104,3,'DASHBOARDWIDGET','Tag Cloud','index.php?module=Home&view=ShowWidget&name=TagCloud','',17,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (107,3,'DASHBOARDWIDGET','Notebook','index.php?module=Home&view=ShowWidget&name=Notebook','',18,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (111,42,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (114,43,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);

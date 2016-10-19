@@ -1147,10 +1147,6 @@ class CRMEntity
 		$this->mark_deleted($id);
 		$this->unlinkDependencies($module, $id);
 
-		require_once('libraries/freetag/freetag.class.php');
-		$freetag = new freetag();
-		$freetag->delete_all_object_tags_for_user($current_user->id, $id);
-
 		$this->db->delete('vtiger_tracker', 'user_id = ? && item_id = ?', [$current_user->id, $id]);
 
 		if ($em) {

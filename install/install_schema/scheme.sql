@@ -4864,35 +4864,6 @@ CREATE TABLE `vtiger_finvoiceproforma_status` (
   PRIMARY KEY (`finvoiceproforma_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_freetagged_objects` */
-
-CREATE TABLE `vtiger_freetagged_objects` (
-  `tag_id` int(20) NOT NULL DEFAULT '0',
-  `tagger_id` int(20) NOT NULL DEFAULT '0',
-  `object_id` int(20) NOT NULL DEFAULT '0',
-  `tagged_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `module` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`tag_id`,`tagger_id`,`object_id`),
-  KEY `freetagged_objects_tag_id_tagger_id_object_id_idx` (`tag_id`,`tagger_id`,`object_id`),
-  KEY `object_id` (`object_id`),
-  CONSTRAINT `vtiger_freetagged_objects_ibfk_1` FOREIGN KEY (`object_id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_freetags` */
-
-CREATE TABLE `vtiger_freetags` (
-  `id` int(19) NOT NULL,
-  `tag` varchar(50) NOT NULL DEFAULT '',
-  `raw_tag` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_freetags_seq` */
-
-CREATE TABLE `vtiger_freetags_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_glacct` */
 
 CREATE TABLE `vtiger_glacct` (
