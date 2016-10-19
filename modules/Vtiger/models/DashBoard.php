@@ -47,15 +47,14 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 */
 	public function getDashboards($action = 1)
 	{
-		$db = PearDatabase::getInstance();
+
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		if ($action == 'Header')
 			$action = 0;
-		$sql = " SELECT 
-					vtiger_links.*,
+		$query = (new \App\Db\Query())->select('vtiger_links.*,
 					mdw.userid,
 					mdw.data,
 					mdw.active,
@@ -68,22 +67,14 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 					mdw.limit,
 					mdw.cache,
 					mdw.owners,
-					mdw.isdefault
-				  FROM
-					vtiger_links 
-					LEFT JOIN vtiger_module_dashboard_widgets mdw 
-					  ON vtiger_links.linkid = mdw.linkid 
-				  WHERE mdw.userid = ? 
-					AND vtiger_links.linktype = ? 
-					AND mdw.module = ? 
-					AND `active` = ?";
-		$params = [$currentUser->getId(), 'DASHBOARDWIDGET', $moduleModel->getId(), $action];
-
-		$result = $db->pquery($sql, $params);
-
+					mdw.isdefault')
+			->from('vtiger_links')
+			->leftJoin('vtiger_module_dashboard_widgets mdw', 'vtiger_links.linkid = mdw.linkid')
+			->where(['mdw.userid' => $currentUser->getId(), 'vtiger_links.linktype' => 'DASHBOARDWIDGET', 'mdw.module' => $moduleModel->getId(), 'active' => $action]);
+		$dataReader = $query->createCommand()->query();
 		$widgets = [];
 
-		while ($row = $db->fetch_array($result)) {
+		while ($row = $dataReader->read()) {
 			$row['linkid'] = $row['id'];
 			if ($row['linklabel'] == 'Mini List') {
 				if (!$row['isdeafult'])
