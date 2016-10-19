@@ -127,15 +127,12 @@ class CustomView extends CRMEntity
 
 	public function getDefaultCvId($module)
 	{
-
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-		$db = PearDatabase::getInstance();
+		$query = new \App\Db\Query();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$tabId = vtlib\Functions::getModuleId($module);
-
-		$sql = 'SELECT userid, default_cvid FROM vtiger_user_module_preferences WHERE `tabid` = ?';
-		$result = $db->pquery($sql, [$tabId]);
-		$data = $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
+		$query->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => $tabId]);
+		$data = $query->createCommand()->query();
 		$user = 'Users:' . $currentUser->getId();
 		if (array_key_exists($user, $data)) {
 			return $data[$user][0];
@@ -164,10 +161,11 @@ class CustomView extends CRMEntity
 				return $data[$role][0];
 			}
 		}
-		$query = 'select cvid from vtiger_customview where setdefault = ? and entitytype = ?';
-		$result = $db->pquery($query, [1, $module]);
+		$cvId =	$query->select('cvid')
+			->from('vtiger_customview')
+			->where(['setdefault' => 1, 'entitytype' => $module])->scalar();
 		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-		return $db->getSingleValue($result);
+		return $cvId;
 	}
 
 	public function getViewIdByName($viewname, $module)
