@@ -313,14 +313,12 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public static function getSpecialWidgets($moduleName)
 	{
-
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
-		$db = PearDatabase::getInstance();
 		$tabId = \App\Module::getModuleId($moduleName);
-		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? && linklabel IN (?, ?, ?, ?, ?)';
-		$result = $db->pquery($query, array_merge([$tabId], self::getWidgetSpecial()));
-		$widgets = [];
-		while ($row = $db->fetch_array($result)) {
+		$query = (new \App\Db\Query())->from('vtiger_links')
+			->where(['tabid' => $tabId, 'linklabel' => self::getWidgetSpecial()]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
 		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::getSpecialWidgets() method ...');
