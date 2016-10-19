@@ -16,6 +16,7 @@ class PrivilegeAdvanced
 
 	protected static $cacheFile = 'user_privileges/advancedPermission.php';
 	protected static $cache = false;
+	public static $webservice = true;
 
 	/**
 	 * Update advanced permissions cache.
@@ -77,9 +78,11 @@ class PrivilegeAdvanced
 			if (!isset($privilege['members'][$userId])) {
 				continue;
 			}
+			static::$webservice = false;
 			$entityCache = new \VTEntityCache($currentUser);
 			$wsId = vtws_getWebserviceEntityId($moduleName, $record);
 			$test = (new \VTJsonCondition())->evaluate($privilege['conditions'], $entityCache, $wsId);
+			static::$webservice = true;
 			if ($test) {
 				return $privilege['action'] === 0 ? 1 : 0;
 			}
