@@ -47,9 +47,11 @@
 			</div>
 			<div class="input-group group-btn form-group">
 				<select class="select2 fieldsToGroup">
+					<optgroup label="{vtranslate($SRC_MODULE, $SRC_MODULE)}">
 					{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
 						<option value="{$FIELD_MODEL->getFieldName()}">{vtranslate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
 					{/foreach}
+					</optgroup>
 				</select>
 				<span class="input-group-addon">
 					<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{vtranslate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours">
@@ -95,7 +97,6 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="panel panel-default cacheContainer">
 				<div class="panel-heading">
 					{vtranslate('LBL_CLIPBOARD', $MODULE_NAME)}

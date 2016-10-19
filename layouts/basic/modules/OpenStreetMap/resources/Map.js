@@ -270,14 +270,14 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					map.addLayer(markers);
 					map.setView(new L.LatLng(response.result[0].lat, response.result[0].lon), 14);
 				} else {
-					var params = {
+					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_LBL_PERMISSION'),
 						text: response.result,
 						type: 'error',
 						animation: 'show'
-					};
-					Vtiger_Helper_Js.showMessage(params);
+					});
 				}
+				searchValue.val('');
 			});
 		});
 		$.widget("custom.ivAutocomplete", $.ui.autocomplete, {

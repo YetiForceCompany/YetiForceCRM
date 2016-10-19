@@ -17,4 +17,6 @@ $languageStrings = [
 	'LBL_COPY_TO_CLIPBOARD' => 'In die Zwischenablage kopieren',
 	'LBL_CLIPBOARD' => 'Zwischenablage',
 	'LBL_INDIRECT_POINT' => 'Indirekte Punkt',
+	//Errors
+	'ERR_ADDRESS_NOT_FOUND' => 'Address not found',
 ];
