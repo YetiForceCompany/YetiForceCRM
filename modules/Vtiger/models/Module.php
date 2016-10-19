@@ -884,18 +884,20 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$db = PearDatabase::getInstance();
+		
 		self::preModuleInitialize2();
-
-		$sql = 'SELECT DISTINCT vtiger_tab.* FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
-				 WHERE (quickcreate=0 || quickcreate=2) && vtiger_tab.presence != 1 && vtiger_tab.type <> 1';
+		$query = new \App\Db\Query();
+		$query->select('vtiger_tab.*')->from('vtiger_field')
+			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
+			->where(['or', 'quickcreate = 0', 'quickcreate = 2'])
+			->andWhere(['!=', 'vtiger_tab.presence', 1])
+			->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
 		if ($restrictList) {
-			$sql .= " && vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events')";
+			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments','PriceBooks','Events']]);
 		}
-		$result = $db->query($sql);
-
 		$quickCreateModules = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'CreateView')) {
 				$moduleModel = self::getInstanceFromArray($row);
 				$quickCreateModules[$row['name']] = $moduleModel;
