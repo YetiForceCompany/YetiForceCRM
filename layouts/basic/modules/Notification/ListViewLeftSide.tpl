@@ -31,12 +31,10 @@
 					<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash"></span>
 				</a>
 			{/if}
-			{if ($IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->isEditable() && $LISTVIEW_ENTRY->editFieldByModalPermission()) || $LISTVIEW_ENTRY->editFieldByModalPermission(true)}
-				<span class="actionImages">
-					<a  href="javascript:Notification_List_Js.setAsMarked({$LISTVIEW_ENTRY->getId()})" >
-						<span title="{vtranslate('LBL_MARK_AS_READ', $MODULE)}" class="glyphicon glyphicon-ok"></span>
-					</a>
-				</span>
+			{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->isEditable()}
+				<a  href="javascript:Notification_List_Js.setAsMarked({$LISTVIEW_ENTRY->getId()})" >
+					<span title="{vtranslate('LBL_MARK_AS_READ', $MODULE)}" class="glyphicon glyphicon-ok"></span>
+				</a>
 			{/if}
 		</span>
 	</div>

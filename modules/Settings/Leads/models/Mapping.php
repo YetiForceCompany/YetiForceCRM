@@ -208,17 +208,17 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get restricted field ids list
-	 * @return <Array> list of field ids
+	 * @return array list of field ids
 	 */
 	public static function getRestrictedFieldIdsList()
 	{
-		$dataReader = (new \App\Db\Query)->from('vtiger_convertleadmapping')
+		$dataReader = (new \App\Db\Query)->select(['accountfid'])->from('vtiger_convertleadmapping')
 			->where(['editable' => 0])
 			->createCommand()->query();
 		$restrictedIdsList = [];
-		while ($rowData = $dataReader->read()) {
-			if ($rowData['accountfid']) {
-				$restrictedIdsList[] = $rowData['accountfid'];
+		while ($accountfId = $dataReader->readColumn(0)) {
+			if ($accountfId) {
+				$restrictedIdsList[] = $accountfId;
 			}
 		}
 		return $restrictedIdsList;
@@ -226,7 +226,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get mapping supported modules list
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getSupportedModulesList()
 	{

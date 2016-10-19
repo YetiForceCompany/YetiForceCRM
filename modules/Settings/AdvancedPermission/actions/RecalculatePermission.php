@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * Save module to recalculate permissions
  * @package YetiForce.Settings.Action
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>

@@ -24,7 +24,7 @@ class Settings_Mail_Autologin_Model
 		return (new \App\Db\Query())->select('crmuser_id')
 				->from('roundcube_users_autologin')
 				->where(['rcuser_id' => $userId])
-				->createCommand()->queryColumn(0);
+				->createCommand()->queryColumn();
 	}
 
 	public function updateUsersAutologin($id, $users)
