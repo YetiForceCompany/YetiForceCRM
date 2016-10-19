@@ -127,4 +127,29 @@ class Db extends \yii\db\Connection
 		}
 		return parent::createPdoInstance();
 	}
+
+	/**
+	 * Get table unique ID. Temporary function 
+	 * @param string $tableName
+	 * @param false|string $columnName
+	 * @param bool $seq
+	 * @return int
+	 */
+	public function getUniqueID($tableName, $columnName = false, $seq = true)
+	{
+		if ($seq) {
+			$tableName .= '_seq';
+			$id = (new \App\Db\Query())->from($tableName)->scalar($this);
+			$id++;
+			$this->createCommand()->update($tableName, [
+				'id' => $id,
+			])->execute();
+		} else {
+			$id = (new \App\Db\Query())
+				->from($tableName)
+				->max($columnName, $this);
+			$id++;
+		}
+		return $id;
+	}
 }
