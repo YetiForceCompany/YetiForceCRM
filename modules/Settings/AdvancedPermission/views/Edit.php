@@ -57,7 +57,7 @@ class Settings_AdvancedPermission_Edit_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
-		$selectedModule = \includes\Modules::getModuleName($recordModel->get('tabid'));
+		$selectedModule = \App\Module::getModuleName($recordModel->get('tabid'));
 		$moduleModel = Vtiger_Module_Model::getInstance($selectedModule);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 

@@ -100,7 +100,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$db->insert('vtiger_ossmailscanner_folders_uid', [
 					'user_id' => $user,
 					'type' => $type,
-					'folder' => $folder
+					'folder' => html_entity_decode($folder)
 				]);
 			}
 			foreach ($toRemove as $folder) {
@@ -195,7 +195,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function executeActions($account, $mail, $folder, $params = false)
 	{
-		
+
 		\App\Log::trace('Start execute actions: ' . $account['username']);
 
 		$actions = [];
@@ -382,7 +382,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public function executeCron($who_trigger)
 	{
-		
+
 		\App\Log::trace('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {

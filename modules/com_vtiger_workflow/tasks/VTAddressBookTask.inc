@@ -33,7 +33,7 @@ class VTAddressBookTask extends VTTask
 
 		$users = $name = '';
 		$table = OSSMail_AddressBoock_Model::TABLE;
-		$metainfo = \includes\Modules::getEntityInfo($moduleName);
+		$metainfo = \App\Module::getEntityInfo($moduleName);
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $entity->get($entityName);
 		}

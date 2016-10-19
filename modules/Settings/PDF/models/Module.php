@@ -178,20 +178,25 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getMainModuleFields($moduleName)
 	{
-		$db = PearDatabase::getInstance();
 		if (is_array($moduleName)) {
 			$moduleName = $moduleName['moduleName'];
 		} elseif (strpos($moduleName, '+') !== false) {
 			$moduleName = explode('+', $moduleName)[1];
 		}
-		$tabId = \includes\Modules::getModuleId($moduleName);
-		$query = 'SELECT `fieldid`, `fieldlabel`, `fieldname`, `uitype`, `block` FROM `vtiger_field` WHERE `tabid` = ? && `presence` != ? && `typeofdata` != ? && `block` NOT IN (?) ORDER BY block,sequence;';
-		$result = $db->pquery($query, [$tabId, 1, 'P~M', 0]);
+		$tabId = \App\Module::getModuleId($moduleName);
+		$dataReader = (new \App\Db\Query())->select(['fieldid', 'fieldlabel', 'fieldname', 'uitype', 'block'])
+			->from('vtiger_field')
+			->where(['tabid' => $tabId])
+			->andWhere(['<>', 'block', 0])
+			->andWhere(['<>', 'presence', 1])
+			->andWhere(['<>', 'typeofdata', 'P~M'])
+			->orderBy(['block' => SORT_ASC, 'sequence' => SORT_ASC])
+			->createCommand()->query();
 		$output = [];
 		$currentBlockId = '';
 		$currentBlockName = '';
 		$i = 0;
-		while ($row = $db->fetchByAssoc($result)) {
+		while ($row = $dataReader->read()) {
 			if ($currentBlockId != $row['block']) {
 				$currentBlockName = vtranslate(getBlockName($row['block']), $moduleName);
 			}

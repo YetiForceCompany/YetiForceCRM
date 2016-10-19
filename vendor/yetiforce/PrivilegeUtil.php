@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 /**
  * Privilege Util basic class
@@ -22,7 +23,7 @@ class PrivilegeUtil
 		$parentTabName = \vtlib\Functions::getModuleName($parModId);
 		$relTabName = \vtlib\Functions::getModuleName($tabid);
 		$fn_name = 'get' . $relTabName . 'Related' . $parentTabName;
-		$entId = self::$fn_name($recordId);
+		$entId = static::$fn_name($recordId);
 		if ($entId != '') {
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($entId);
 			if ($recordMetaData) {
@@ -86,9 +87,9 @@ class PrivilegeUtil
 	 * Function to get data share related modules
 	 * @return array
 	 */
-	public static function &getDatashareRelatedModules()
+	public static function getDatashareRelatedModules()
 	{
-		if (self::$datashareRelatedCache === false) {
+		if (static::$datashareRelatedCache === false) {
 			$relModSharArr = [];
 			$adb = \PearDatabase::getInstance();
 			$result = $adb->query('select * from vtiger_datashare_relatedmodules');
@@ -103,9 +104,9 @@ class PrivilegeUtil
 				}
 				$relModSharArr[$relTabId] = $temArr;
 			}
-			self::$datashareRelatedCache = $relModSharArr;
+			static::$datashareRelatedCache = $relModSharArr;
 		}
-		return self::$datashareRelatedCache;
+		return static::$datashareRelatedCache;
 	}
 
 	protected static $defaultSharingActionCache = false;
@@ -114,9 +115,9 @@ class PrivilegeUtil
 	 * This Function returns the Default Organisation Sharing Action Array for all modules
 	 * @return array
 	 */
-	public static function &getAllDefaultSharingAction()
+	public static function getAllDefaultSharingAction()
 	{
-		if (self::$defaultSharingActionCache === false) {
+		if (static::$defaultSharingActionCache === false) {
 			\App\Log::trace('getAllDefaultSharingAction');
 			$adb = \PearDatabase::getInstance();
 			$copy = [];
@@ -125,9 +126,9 @@ class PrivilegeUtil
 			while ($row = $adb->getRow($result)) {
 				$copy[$row['tabid']] = $row['permission'];
 			}
-			self::$defaultSharingActionCache = $copy;
+			static::$defaultSharingActionCache = $copy;
 		}
-		return self::$defaultSharingActionCache;
+		return static::$defaultSharingActionCache;
 	}
 
 	protected static $usersByRoleCache = [];
@@ -137,7 +138,7 @@ class PrivilegeUtil
 	 * @param int $roleId RoleId :: Type varchar
 	 * @return array $users -- Role Related User Array in the following format:
 	 */
-	public static function &getUsersByRole($roleId)
+	public static function getUsersByRole($roleId)
 	{
 		if (isset(static::$usersByRoleCache[$roleId])) {
 			return static::$usersByRoleCache[$roleId];
@@ -163,24 +164,24 @@ class PrivilegeUtil
 	 * Function to get all members
 	 * @return array
 	 */
-	public static function &getMembers()
+	public static function getMembers()
 	{
-		if (self::$membersCache === false) {
+		if (static::$membersCache === false) {
 			$members = [];
 			$owner = new \includes\fields\Owner();
 			foreach ($owner->initUsers() as $id => $user) {
-				$members[self::MEMBER_TYPE_USERS][self::MEMBER_TYPE_USERS . ':' . $id] = ['name' => $user['fullName'], 'id' => $id, 'type' => self::MEMBER_TYPE_USERS];
+				$members[static::MEMBER_TYPE_USERS][static::MEMBER_TYPE_USERS . ':' . $id] = ['name' => $user['fullName'], 'id' => $id, 'type' => static::MEMBER_TYPE_USERS];
 			}
 			foreach ($owner->getGroups(false) as $id => $groupName) {
-				$members[self::MEMBER_TYPE_GROUPS][self::MEMBER_TYPE_GROUPS . ':' . $id] = ['name' => $groupName, 'id' => $id, 'type' => self::MEMBER_TYPE_GROUPS];
+				$members[static::MEMBER_TYPE_GROUPS][static::MEMBER_TYPE_GROUPS . ':' . $id] = ['name' => $groupName, 'id' => $id, 'type' => static::MEMBER_TYPE_GROUPS];
 			}
 			foreach (\Settings_Roles_Record_Model::getAll() as $id => $roleModel) {
-				$members[self::MEMBER_TYPE_ROLES][self::MEMBER_TYPE_ROLES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => self::MEMBER_TYPE_ROLES];
-				$members[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES][self::MEMBER_TYPE_ROLE_AND_SUBORDINATES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => self::MEMBER_TYPE_ROLE_AND_SUBORDINATES];
+				$members[static::MEMBER_TYPE_ROLES][static::MEMBER_TYPE_ROLES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => static::MEMBER_TYPE_ROLES];
+				$members[static::MEMBER_TYPE_ROLE_AND_SUBORDINATES][static::MEMBER_TYPE_ROLE_AND_SUBORDINATES . ':' . $id] = ['name' => $roleModel->getName(), 'id' => $id, 'type' => static::MEMBER_TYPE_ROLE_AND_SUBORDINATES];
 			}
-			self::$membersCache = $members;
+			static::$membersCache = $members;
 		}
-		return self::$membersCache;
+		return static::$membersCache;
 	}
 
 	protected static $usersByMemberCache = [];
@@ -190,7 +191,7 @@ class PrivilegeUtil
 	 * @param string $member
 	 * @return array
 	 */
-	public static function &getUserByMember($member)
+	public static function getUserByMember($member)
 	{
 		if (isset(static::$usersByMemberCache[$member])) {
 			return static::$usersByMemberCache[$member];
@@ -224,7 +225,7 @@ class PrivilegeUtil
 	 * @param int $i
 	 * @return array
 	 */
-	public static function &getUsersByGroup($groupId, $i = 0)
+	public static function getUsersByGroup($groupId, $i = 0)
 	{
 		if (isset(static::$usersByGroupCache[$roleId])) {
 			return static::$usersByGroupCache[$roleId];
@@ -256,7 +257,7 @@ class PrivilegeUtil
 				$users = array_merge($users, $roleUsers);
 			}
 		} else {
-			\App\log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
+			\App\Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
 		$users = array_unique($users);
 		static::$usersByGroupCache[$groupId] = $users;
@@ -270,7 +271,7 @@ class PrivilegeUtil
 	 * @param $roleid -- RoleId :: Type varchar
 	 * @returns $roleSubUsers-- Role and Subordinates Related Users Array in the following format:
 	 */
-	public static function &getUsersByRoleAndSubordinate($roleId)
+	public static function getUsersByRoleAndSubordinate($roleId)
 	{
 		if (isset(static::$usersBySubordinateCache[$roleId])) {
 			return static::$usersBySubordinateCache[$roleId];
@@ -295,7 +296,7 @@ class PrivilegeUtil
 	 * @param $roleid -- RoleId :: Type varchar
 	 * @returns $roleInfoArray-- RoleInfoArray in the following format:
 	 */
-	public static function &getRoleDetail($roleId)
+	public static function getRoleDetail($roleId)
 	{
 		if (isset(static::$roleInfoCache[$roleId])) {
 			return static::$roleInfoCache[$roleId];

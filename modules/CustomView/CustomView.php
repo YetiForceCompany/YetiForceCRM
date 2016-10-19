@@ -127,15 +127,12 @@ class CustomView extends CRMEntity
 
 	public function getDefaultCvId($module)
 	{
-
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-		$db = PearDatabase::getInstance();
+		$query = new \App\Db\Query();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$tabId = vtlib\Functions::getModuleId($module);
-
-		$sql = 'SELECT userid, default_cvid FROM vtiger_user_module_preferences WHERE `tabid` = ?';
-		$result = $db->pquery($sql, [$tabId]);
-		$data = $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
+		$query->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => $tabId]);
+		$data = $query->createCommand()->query();
 		$user = 'Users:' . $currentUser->getId();
 		if (array_key_exists($user, $data)) {
 			return $data[$user][0];
@@ -164,10 +161,11 @@ class CustomView extends CRMEntity
 				return $data[$role][0];
 			}
 		}
-		$query = 'select cvid from vtiger_customview where setdefault = ? and entitytype = ?';
-		$result = $db->pquery($query, [1, $module]);
+		$cvId =	$query->select('cvid')
+			->from('vtiger_customview')
+			->where(['setdefault' => 1, 'entitytype' => $module])->scalar();
 		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
-		return $db->getSingleValue($result);
+		return $cvId;
 	}
 
 	public function getViewIdByName($viewname, $module)
@@ -198,7 +196,7 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$tabid = \includes\Modules::getModuleId($this->customviewmodule);
+		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
@@ -238,7 +236,7 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$tabid = \includes\Modules::getModuleId($this->customviewmodule);
+		$tabid = \App\Module::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
@@ -264,7 +262,7 @@ class CustomView extends CRMEntity
 		$result = $adb->pquery($ssql, $sparams);
 		while ($cvrow = $adb->fetch_array($result)) {
 			if ($cvrow['viewname'] == 'All') {
-				$cvrow['viewname'] = \includes\Language::translate('COMBO_ALL');
+				$cvrow['viewname'] = \App\Language::translate('COMBO_ALL');
 			}
 
 			$option = '';
@@ -293,15 +291,15 @@ class CustomView extends CRMEntity
 					$shtml_user .= $option;
 				} elseif ($cvrow['status'] == CV_STATUS_PUBLIC) {
 					if ($shtml_public == '')
-						$shtml_public = "<option disabled>--- " . \includes\Language::translate('LBL_PUBLIC') . " ---</option>";
+						$shtml_public = "<option disabled>--- " . \App\Language::translate('LBL_PUBLIC') . " ---</option>";
 					$shtml_public .= $option;
 				} elseif ($cvrow['status'] == CV_STATUS_PENDING) {
 					if ($shtml_pending == '')
-						$shtml_pending = "<option disabled>--- " . \includes\Language::translate('LBL_PENDING') . " ---</option>";
+						$shtml_pending = "<option disabled>--- " . \App\Language::translate('LBL_PENDING') . " ---</option>";
 					$shtml_pending .= $option;
 				} else {
 					if ($shtml_others == '')
-						$shtml_others = "<option disabled>--- " . \includes\Language::translate('LBL_OTHERS') . " ---</option>";
+						$shtml_others = "<option disabled>--- " . \App\Language::translate('LBL_OTHERS') . " ---</option>";
 					$shtml_others .= $option;
 				}
 			}
@@ -326,7 +324,7 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$block_ids = explode(",", $block);
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if (empty($this->meta) && $module != 'Calendar') {
@@ -404,7 +402,7 @@ class CustomView extends CRMEntity
 			$optionvalue = $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . ":" . $module . "_" .
 				$fieldlabel1 . ":" . $fieldtypeofdata;
 			//added to escape attachments fields in customview as we have multiple attachments
-			$fieldlabel = \includes\Language::translate($fieldlabel); //added to support i18n issue
+			$fieldlabel = \App\Language::translate($fieldlabel); //added to support i18n issue
 			if ($module != 'HelpDesk' || $fieldname != 'filename')
 				$module_columnlist[$optionvalue] = $fieldlabel;
 			if ($fieldtype[1] == "M") {
@@ -502,7 +500,7 @@ class CustomView extends CRMEntity
 	public function getStdCriteriaByModule($module)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -1351,31 +1349,32 @@ class CustomView extends CRMEntity
 
 	public function getCustomViewModuleInfo($module)
 	{
-		$adb = PearDatabase::getInstance();
 		$current_language = vglobal('current_language');
 		$current_mod_strings = \vtlib\Deprecated::return_app_list_strings_language($current_language, $module);
 		$blockInfo = [];
 		$modulesList = explode(',', $module);
 		if ($module == 'Calendar') {
 			$module = "Calendar','Events";
-			$modulesList = array('Calendar', 'Events');
+			$modulesList = ['Calendar', 'Events'];
 		}
 
 		// Tabid mapped to the list of block labels to be skipped for that tab.
 		$skipBlocksList = array(
-			\includes\Modules::getModuleId('HelpDesk') => array('LBL_COMMENTS'),
-			\includes\Modules::getModuleId('Faq') => array('LBL_COMMENT_INFORMATION')
+			\App\Module::getModuleId('HelpDesk') => ['LBL_COMMENTS'],
+			\App\Module::getModuleId('Faq') => ['LBL_COMMENT_INFORMATION']
 		);
 
-		$sql = sprintf('SELECT DISTINCT block,vtiger_field.tabid,`name`,blocklabel FROM	vtiger_field 
-					INNER JOIN vtiger_blocks ON vtiger_blocks.blockid = vtiger_field.block INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid 
-				  WHERE vtiger_tab.name IN (%s) && vtiger_field.presence IN (0, 2)', generateQuestionMarks($modulesList));
-		$result = $adb->pquery($sql, [$modulesList]);
+		$query = (new \App\Db\Query())->select('vtiger_field.block, vtiger_field.tabid, vtiger_tab.name, vtiger_blocks.blocklabel')
+				->from('vtiger_field')
+				->innerJoin('vtiger_blocks', 'vtiger_blocks.blockid = vtiger_field.block')
+				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid ')
+				->where(['vtiger_tab.name' => $modulesList, 'vtiger_field.presence' => [0, 2]])->distinct();
+		$dataReader = $query->createCommand()->query();
 		if ($module == "Calendar','Events")
 			$module = 'Calendar';
 
 		$preBlockLabel = '';
-		while ($block = $adb->getRow($result)) {
+		while ($block = $dataReader->read()) {
 			$blockLabel = $block['blocklabel'];
 			$tabid = $block['tabid'];
 			// Skip certain blocks of certain modules

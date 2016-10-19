@@ -47,43 +47,22 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 */
 	public function getDashboards($action = 1)
 	{
-		$db = PearDatabase::getInstance();
+
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		if ($action == 'Header')
 			$action = 0;
-		$sql = " SELECT 
-					vtiger_links.*,
-					mdw.userid,
-					mdw.data,
-					mdw.active,
-					mdw.title,
-					mdw.size,
-					mdw.filterid,
-					mdw.id AS widgetid,
-					mdw.position,
-					vtiger_links.linkid AS id,
-					mdw.limit,
-					mdw.cache,
-					mdw.owners,
-					mdw.isdefault
-				  FROM
-					vtiger_links 
-					LEFT JOIN vtiger_module_dashboard_widgets mdw 
-					  ON vtiger_links.linkid = mdw.linkid 
-				  WHERE mdw.userid = ? 
-					AND vtiger_links.linktype = ? 
-					AND mdw.module = ? 
-					AND `active` = ?";
-		$params = [$currentUser->getId(), 'DASHBOARDWIDGET', $moduleModel->getId(), $action];
-
-		$result = $db->pquery($sql, $params);
-
+		$query = (new \App\Db\Query())->select('vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid,
+					mdw.id AS widgetid, mdw.position, vtiger_links.linkid AS id, mdw.limit, mdw.cache, mdw.owners, mdw.isdefault')
+			->from('vtiger_links')
+			->leftJoin('vtiger_module_dashboard_widgets mdw', 'vtiger_links.linkid = mdw.linkid')
+			->where(['mdw.userid' => $currentUser->getId(), 'vtiger_links.linktype' => 'DASHBOARDWIDGET', 'mdw.module' => $moduleModel->getId(), 'active' => $action]);
+		$dataReader = $query->createCommand()->query();
 		$widgets = [];
 
-		while ($row = $db->fetch_array($result)) {
+		while ($row = $dataReader->read()) {
 			$row['linkid'] = $row['id'];
 			if ($row['linklabel'] == 'Mini List') {
 				if (!$row['isdeafult'])
@@ -215,13 +194,17 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	public static function getModulesWithWidgets($moduleName = false)
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT vtiger_module_dashboard_widgets.module, vtiger_module_dashboard_blocks.tabid FROM vtiger_module_dashboard 
-			LEFT JOIN vtiger_module_dashboard_blocks ON vtiger_module_dashboard_blocks.id = vtiger_module_dashboard.blockid
-			LEFT JOIN `vtiger_module_dashboard_widgets` ON `vtiger_module_dashboard_widgets`.templateid = vtiger_module_dashboard.id
-			WHERE userid = ? OR authorized = ? GROUP BY module, tabid;', [$currentUser->getId(), $currentUser->getRole()]);
+
+		$query = (new \App\Db\Query())->select('vtiger_module_dashboard_widgets.module, vtiger_module_dashboard_blocks.tabid')
+			->from('vtiger_module_dashboard')
+			->leftJoin('vtiger_module_dashboard_blocks', 'vtiger_module_dashboard_blocks.id = vtiger_module_dashboard.blockid')
+			->leftJoin('vtiger_module_dashboard_widgets', 'vtiger_module_dashboard_widgets.templateid = vtiger_module_dashboard.id')
+			->where(['userid' => $currentUser->getId()])
+			->orWhere(['authorized' => $currentUser->getRole()])
+			->groupBy('module, tabid');
+		$dataReader = $query->createCommand()->query();
 		$modules = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$tabId = $row['module'] ? $row['module'] : $row['tabid'];
 			if (!isset($modules[$tabId])) {
 				$modules[$tabId] = vtlib\Functions::getModuleName($tabId);

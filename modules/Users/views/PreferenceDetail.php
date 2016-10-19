@@ -50,7 +50,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	{
 		if ($this->checkPermission($request)) {
 			$viewer = $this->getViewer($request);
-			if ($activeReminder = \includes\Modules::isModuleActive('Calendar')) {
+			if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
 				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 				$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 			}
@@ -73,7 +73,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 			$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
-			$viewer->assign('CHAT_ACTIVE', \includes\Modules::isModuleActive('AJAXChat'));
+			$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
 			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 

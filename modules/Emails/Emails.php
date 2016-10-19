@@ -238,12 +238,12 @@ class Emails extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('BULKMAIL', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_BULK_MAILS') . "' class='crmbutton small create'" .
+				$button .= "<input title='" . \App\Language::translate('LBL_BULK_MAILS') . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"sendmail\";this.form.module.value=\"$this_module\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_BULK_MAILS') . "'>";
+					" value='" . \App\Language::translate('LBL_BULK_MAILS') . "'>";
 			}
 		}
 
@@ -338,11 +338,11 @@ class Emails extends CRMEntity
 
 		$id = $_REQUEST['record'];
 
-		$button = '<input title="' . \includes\Language::translate('LBL_BULK_MAILS') . '" accessykey="F" class="crmbutton small create"
+		$button = '<input title="' . \App\Language::translate('LBL_BULK_MAILS') . '" accessykey="F" class="crmbutton small create"
 				onclick="this.form.action.value=\"sendmail\";this.form.return_action.value=\"DetailView\";this.form.module.value=\"Emails\";this.form.return_module.value=\"Emails\";"
-				name="button" value="' . \includes\Language::translate('LBL_BULK_MAILS') . '" type="submit">&nbsp;
-				<input title="' . \includes\Language::translate('LBL_BULK_MAILS') . '" accesskey="" tabindex="2" class="crmbutton small edit"
-				value="' . \includes\Language::translate('LBL_SELECT_USER_BUTTON_LABEL') . '" name="Button" language="javascript"
+				name="button" value="' . \App\Language::translate('LBL_BULK_MAILS') . '" type="submit">&nbsp;
+				<input title="' . \App\Language::translate('LBL_BULK_MAILS') . '" accesskey="" tabindex="2" class="crmbutton small edit"
+				value="' . \App\Language::translate('LBL_SELECT_USER_BUTTON_LABEL') . '" name="Button" language="javascript"
 				onclick=\"return window.open("index.php?module=Users&return_module=Emails&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=true&return_id=' . $id . '&recordid=' . $id . '","test","width=640,height=520,resizable=0,scrollbars=0");\"
 				type="button">';
 
@@ -497,7 +497,7 @@ class Emails extends CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = \includes\Modules::getModuleId($module);
+		$tabId = \App\Module::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
@@ -519,7 +519,7 @@ class Emails extends CRMEntity
 	{
 		$module = null;
 		if (!empty($tabId)) {
-			$module = \includes\Modules::getModuleName($tabId);
+			$module = \App\Module::getModuleName($tabId);
 		}
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared int(1) default 0) ignore " . $query;

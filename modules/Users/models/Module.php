@@ -153,19 +153,21 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to store the login history
-	 * @param type $username
+	 * @param type $userName
 	 */
-	public function saveLoginHistory($username, $status = 'Signed in', $browser = '')
+	public function saveLoginHistory($userName, $status = 'Signed in')
 	{
-		$adb = PearDatabase::getInstance();
-
-		$userIPAddress = vtlib\Functions::getRemoteIP();
-		$userIPAddress = empty($userIPAddress) ? '-' : $userIPAddress;
-		$loginTime = date('Y-m-d H:i:s');
-		$browser = empty($browser) ? $browser : '-';
-		$query = "INSERT INTO vtiger_loginhistory (user_name, user_ip, logout_time, login_time, status, browser) VALUES (?,?,?,?,?,?)";
-		$params = array($username, $userIPAddress, '0000-00-00 00:00:00', $loginTime, $status, $browser);
-		$adb->pquery($query, $params);
+		$userIPAddress = \App\RequestUtil::getRemoteIP();
+		$browser = \App\RequestUtil::getBrowserInfo();
+		\App\DB::getInstance()->createCommand()
+			->insert('vtiger_loginhistory', [
+				'user_name' => $userName,
+				'user_ip' => empty($userIPAddress) ? '-' : $userIPAddress,
+				'login_time' => date('Y-m-d H:i:s'),
+				'logout_time' => null,
+				'status' => $status,
+				'browser' => $browser->name . ' ' . $browser->ver
+			])->execute();
 	}
 
 	/**

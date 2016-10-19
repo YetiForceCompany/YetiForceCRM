@@ -72,6 +72,18 @@ $languageStrings = [
 	'LBL_EXTENSION_MODULE' => 'Расширение модуля',
 	'LBL_LANGUAGE_MODULE' => 'Языковой пакет',
 	'LBL_VIEW_MODULEIMPORT' => 'Установка',
+	// Library
+	'LBL_LIBRARY_NAME' => 'Name',
+	'LBL_LIBRARY_STATUS' => 'Status',
+	'LBL_LIBRARY_URL' => 'Library repository address',
+	'LBL_LIBRARY_DIR' => 'Library directory',
+	'LBL_LIBRARY_ACTION' => 'Actions',
+	'BTN_LIBRARY_DOWNLOAD' => 'Download library',
+	'BTN_LIBRARY_UPDATE' => 'Update library',
+	'LBL_LIBRARY_DOWNLOADED' => 'Downloaded',
+	'LBL_LIBRARY_NO_DOWNLOAD' => 'Not downloaded',
+	'LBL_LIBRARY_NEEDS_UPDATING' => 'Update required',
+	'LBL_NO_PERMISSION_TO_DIR' => 'No permission to directories',
 ];
 $jsLanguageStrings = [
 	'JS_ON' => 'вкл',

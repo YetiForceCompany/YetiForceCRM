@@ -11,7 +11,6 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 
 	public function process(Vtiger_Request $request)
 	{
-		$data = $request->get('coordinates');
 		$flon = $request->get('flon');
 		$flat = $request->get('flat');
 		$tlon = $request->get('tlon');
@@ -22,20 +21,21 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 		$track = [];
 		$startLat = $flat;
 		$startLon = $flon;
-		foreach ($ilon as $key => $tempLon) {
-			if(!empty($tempLon)){
-				$endLon = $ilon[$key];
-				$endLat = $ilat[$key];
-				$tracks [] = [
-					'startLat' => $startLat,
-					'startLon' => $startLon,
-					'endLat' => $endLat,
-					'endLon' => $endLon
-				];
-				$startLat = $endLat;
-				$startLon = $endLon;
+		if (!empty($ilon)) {
+			foreach ($ilon as $key => $tempLon) {
+				if (!empty($tempLon)) {
+					$endLon = $ilon[$key];
+					$endLat = $ilat[$key];
+					$tracks [] = [
+						'startLat' => $startLat,
+						'startLon' => $startLon,
+						'endLat' => $endLat,
+						'endLon' => $endLon
+					];
+					$startLat = $endLat;
+					$startLon = $endLon;
+				}
 			}
-			
 		}
 		$tracks [] = [
 			'startLat' => $startLat,
@@ -47,11 +47,12 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 		$coordinates = [];
 		$travel = 0;
 		$description = '';
-		$urlToRoute =  AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE') ;
+		$urlToRoute = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
 		foreach ($tracks as $track) {
-			$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . $language . '&instructions=1';
+			$url = $urlToRoute.'?format=geojson&flat='.$track['startLat'].'&flon='.$track['startLon'].'&tlat='.$track['endLat'].'&tlon='.$track['endLon'].'&lang='.$language.'&instructions=1';
 			$curl = curl_init();
-			curl_setopt_array($curl, [
+			curl_setopt_array($curl,
+				[
 				CURLOPT_URL => $url,
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_ENCODING => "",

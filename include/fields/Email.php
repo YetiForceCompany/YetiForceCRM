@@ -69,7 +69,7 @@ class Email
 			$ids[] = $row['id'];
 			$rows[] = ['crmid' => $row['id'], 'modules' => $row['setype'], 'label' => isset($row['label']) ? $row['label'] : false];
 		}
-		$labels = \includes\Record::getLabel($ids);
+		$labels = \App\Record::getLabel($ids);
 		foreach ($rows as &$row) {
 			$row['label'] = $labels[$row['crmid']];
 		}

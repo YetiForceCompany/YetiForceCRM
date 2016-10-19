@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 /**
  * Global privileges basic class
@@ -77,7 +78,7 @@ class PrivilegeUpdater
 		if (!empty($recordAccessUsers)) {
 			$recordAccessUsers .= ',';
 		}
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$db->createCommand()
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
@@ -107,7 +108,7 @@ class PrivilegeUpdater
 		if (!empty($searchUsers)) {
 			$searchUsers .= ',';
 		}
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
 				], 'crmid = ' . $record)
@@ -131,7 +132,7 @@ class PrivilegeUpdater
 		if (!empty($recordAccessUsers)) {
 			$recordAccessUsers .= ',';
 		}
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('vtiger_crmentity', [
 				'users' => $recordAccessUsers,
 				], 'crmid = ' . $record)
@@ -194,8 +195,20 @@ class PrivilegeUpdater
 	{
 		$modules = \vtlib\Functions::getAllModules();
 		foreach ($modules as &$module) {
-			self::setUpdater($module['name']);
+			static::setUpdater($module['name']);
 		}
 		PrivilegeAdvanced::reloadCache();
+	}
+
+	/**
+	 * Update permissions while saving record
+	 * @param \Vtiger_Record_Model $record
+	 */
+	public static function updateOnRecordSave(\Vtiger_Record_Model $record)
+	{
+		if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+			return false;
+		}
+		static::setUpdater($record->getModuleName(), $record->getId(), 6, 0);
 	}
 }

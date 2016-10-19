@@ -114,7 +114,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$linkId = $request->get('linkid');
 		$user = $request->get('owner');
 		$time = $request->get('time');
-		if ($time === null) {
+		if (empty($time)) {
 			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
 			$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
 		}

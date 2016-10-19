@@ -96,16 +96,15 @@ abstract class Vtiger_Controller
 		if (headers_sent()) {
 			return;
 		}
-		$browser = vtlib\Functions::getBrowserInfo();
-		header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-
+		$browser = \App\RequestUtil::getBrowserInfo();
+		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		if ($browser->ie && $browser->https) {
 			header('Pragma: private');
-			header("Cache-Control: private, must-revalidate");
+			header('Cache-Control: private, must-revalidate');
 		} else {
-			header("Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0");
-			header("Pragma: no-cache");
+			header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: no-cache');
 		}
 	}
 }
@@ -167,7 +166,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		if (!isset($this->viewer)) {
 			$viewer = Vtiger_Viewer::getInstance();
-			$viewer->assign('APPTITLE', \includes\Language::translate('APPTITLE'));
+			$viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

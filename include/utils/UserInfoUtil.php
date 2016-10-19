@@ -203,7 +203,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	}
 
 	//Retreiving the Tabid and Action Id
-	$tabid = \includes\Modules::getModuleId($module);
+	$tabid = \App\Module::getModuleId($module);
 	$actionid = getActionid($actionname);
 	$checkModule = $module;
 
@@ -211,7 +211,7 @@ function isPermitted($module, $actionname, $record_id = '')
 		$checkModule = 'Calendar';
 	}
 
-	if (\includes\Modules::isModuleActive($checkModule)) {
+	if (\App\Module::isModuleActive($checkModule)) {
 
 		//Checking whether the user is admin
 		if ($userPrivileges['is_admin']) {
@@ -362,7 +362,7 @@ function isPermitted($module, $actionname, $record_id = '')
 								break;
 							case 2:
 								if (\AppConfig::security('PERMITTED_BY_SHARING')) {
-									$permission = isPermittedBySharing($recordMetaData['setype'], \includes\Modules::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
+									$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
 									$relatedPermission = $permission == 'yes' ? true : false;
 								}
 								break;
@@ -496,7 +496,7 @@ function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
 		foreach ($relatedModuleArray as $parModId) {
 			$parRecordOwner = App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
 			if (sizeof($parRecordOwner) > 0) {
-				$parModName = \includes\Modules::getModuleName($parModId);
+				$parModName = \App\Module::getModuleName($parModId);
 				$rel_var = $parModName . "_" . $module . "_share_read_permission";
 				$read_related_per_arr = $$rel_var;
 				$rel_owner_type = '';
@@ -605,7 +605,7 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 		foreach ($relatedModuleArray as $parModId) {
 			$parRecordOwner = App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
 			if (sizeof($parRecordOwner) > 0) {
-				$parModName = \includes\Modules::getModuleName($parModId);
+				$parModName = \App\Module::getModuleName($parModId);
 				$rel_var = $parModName . "_" . $module . "_share_write_permission";
 				$write_related_per_arr = $$rel_var;
 				$rel_owner_type = '';
@@ -1257,7 +1257,7 @@ function getCombinedUserTabsPermissions($userId)
 		}
 	}
 
-	$homeTabid = \includes\Modules::getModuleId('Home');
+	$homeTabid = \App\Module::getModuleId('Home');
 	if (!array_key_exists($homeTabid, $userTabPerrArr)) {
 		$userTabPerrArr[$homeTabid] = 0;
 	}
@@ -1401,7 +1401,7 @@ function getWriteSharingGroupsList($module)
 	$adb = PearDatabase::getInstance();
 	$current_user = vglobal('current_user');
 	$grp_array = [];
-	$tabid = \includes\Modules::getModuleId($module);
+	$tabid = \App\Module::getModuleId($module);
 	$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
 	$result = $adb->pquery($query, array($current_user->id, $tabid));
 	$num_rows = $adb->num_rows($result);
@@ -1440,7 +1440,7 @@ function getListViewSecurityParameter($module)
 	\App\Log::trace("Entering getListViewSecurityParameter(" . $module . ") method ...");
 	$adb = PearDatabase::getInstance();
 
-	$tabid = \includes\Modules::getModuleId($module);
+	$tabid = \App\Module::getModuleId($module);
 	$current_user = vglobal('current_user');
 	if ($current_user) {
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -1603,7 +1603,7 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
 		$profilelist = getCurrentUserProfileList();
 
 		//get tabid
-		$tabid = \includes\Modules::getModuleId($fld_module);
+		$tabid = \App\Module::getModuleId($fld_module);
 
 		if (count($profilelist) > 0) {
 			if ($accessmode == 'readonly') {
@@ -1642,7 +1642,7 @@ function getColumnVisibilityPermission($userid, $columnname, $module, $accessmod
 	$adb = PearDatabase::getInstance();
 
 	\App\Log::trace("in function getcolumnvisibilitypermission $columnname -$userid");
-	$tabid = \includes\Modules::getModuleId($module);
+	$tabid = \App\Module::getModuleId($module);
 
 	// Look at cache if information is available.
 	$cacheFieldInfo = VTCacheUtils::lookupFieldInfoByColumn($tabid, $columnname);
@@ -1673,13 +1673,13 @@ function getPermittedModuleNames()
 	if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 		foreach ($tab_seq_array as $tabid => $seq_value) {
 			if ($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
-				$permittedModules[] = \includes\Modules::getModuleName($tabid);
+				$permittedModules[] = \App\Module::getModuleName($tabid);
 			}
 		}
 	} else {
 		foreach ($tab_seq_array as $tabid => $seq_value) {
 			if ($seq_value === 0) {
-				$permittedModules[] = \includes\Modules::getModuleName($tabid);
+				$permittedModules[] = \App\Module::getModuleName($tabid);
 			}
 		}
 	}
@@ -1713,7 +1713,7 @@ function getPermittedModuleIdList()
 			}
 		}
 	}
-	$homeTabid = \includes\Modules::getModuleId('Home');
+	$homeTabid = \App\Module::getModuleId('Home');
 	if (!in_array($homeTabid, $permittedModules)) {
 		$permittedModules[] = $homeTabid;
 	}
@@ -1770,7 +1770,7 @@ function getSharingModuleList($eliminateModules = false)
  */
 function isFieldActive($modulename, $fieldname)
 {
-	$fieldid = \vtlib\Functions::getModuleFieldId(\includes\Modules::getModuleId($modulename), $fieldname, true);
+	$fieldid = \vtlib\Functions::getModuleFieldId(\App\Module::getModuleId($modulename), $fieldname, true);
 	return ($fieldid !== false);
 }
 

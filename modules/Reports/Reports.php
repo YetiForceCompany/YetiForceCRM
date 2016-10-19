@@ -144,7 +144,7 @@ class Reports extends CRMEntity
 		if (!isset($module))
 			return;
 		require_once('include/utils/utils.php');
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = [9, 16];
 		}
@@ -215,19 +215,19 @@ class Reports extends CRMEntity
 
 						if (in_array($blocklabel, $restricted_blocks) ||
 							in_array($blockid, $this->module_list[$module]) ||
-							isset($this->module_list[$module][\includes\Language::translate($blocklabel, $module)])
+							isset($this->module_list[$module][\App\Language::translate($blocklabel, $module)])
 						) {
 							continue;
 						}
 
 						if (!empty($blocklabel)) {
 							if ($module == 'Calendar' && $blocklabel == 'LBL_CUSTOM_INFORMATION')
-								$this->module_list[$module][$blockid] = \includes\Language::translate($blocklabel, $module);
+								$this->module_list[$module][$blockid] = \App\Language::translate($blocklabel, $module);
 							else
-								$this->module_list[$module][$blockid] = \includes\Language::translate($blocklabel, $module);
+								$this->module_list[$module][$blockid] = \App\Language::translate($blocklabel, $module);
 							$prev_block_label = $blocklabel;
 						} else {
-							$this->module_list[$module][$blockid] = \includes\Language::translate($prev_block_label, $module);
+							$this->module_list[$module][$blockid] = \App\Language::translate($prev_block_label, $module);
 						}
 					}
 				}
@@ -260,7 +260,7 @@ class Reports extends CRMEntity
 
 							$rel_mod = array();
 							foreach ($old_related_modules[$module] as $key => $name) {
-								if (\includes\Modules::isModuleActive($name) && isPermitted($name, 'index', '')) {
+								if (\App\Module::isModuleActive($name) && isPermitted($name, 'index', '')) {
 									$rel_mod[] = $name;
 								}
 							}
@@ -599,7 +599,7 @@ class Reports extends CRMEntity
 			$block = explode(",", $block);
 		$skipTalbes = array('vtiger_emaildetails', 'vtiger_attachments');
 
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = array('9', '16');
 		}
@@ -672,7 +672,7 @@ class Reports extends CRMEntity
 			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
 			$optionvalue = $fieldtablename . ":" . $fieldcolname . ":" . $module . "__" . $fieldlabel1 . ":" . $fieldname . ":" . $fieldtypeofdata;
 
-			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . \includes\Language::translate($module, $module) . " " . \includes\Language::translate($fieldlabel, $module);
+			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . \App\Language::translate($module, $module) . " " . \App\Language::translate($fieldlabel, $module);
 			if (!is_array($this->adv_rel_fields[$fieldtypeofdata]) ||
 				!in_array($adv_rel_field_tod_value, $this->adv_rel_fields[$fieldtypeofdata])) {
 				$this->adv_rel_fields[$fieldtypeofdata][] = $adv_rel_field_tod_value;
@@ -761,7 +761,7 @@ class Reports extends CRMEntity
 		$current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		foreach ($this->module_list[$module] as $key => $blockid) {
 			$blockids[] = $blockid;
 		}
@@ -910,7 +910,7 @@ class Reports extends CRMEntity
 
 			$selmod_field_disabled = true;
 			foreach ($selected_mod as $smod) {
-				if ((stripos($fieldcolname, ':' . $smod . '__') > -1) && \includes\Modules::isModuleActive($smod)) {
+				if ((stripos($fieldcolname, ':' . $smod . '__') > -1) && \App\Module::isModuleActive($smod)) {
 					$selmod_field_disabled = false;
 					break;
 				}
@@ -928,8 +928,8 @@ class Reports extends CRMEntity
 				$mod = ($mod_arr[0] == '') ? $module : $mod_arr[0];
 				$fieldlabel = trim(str_replace('__', ' ', $fieldlabel));
 				//modified code to support i18n issue
-				$mod_lbl = \includes\Language::translate($mod, $module); //module
-				$fld_lbl = \includes\Language::translate($fieldlabel, $module); //fieldlabel
+				$mod_lbl = \App\Language::translate($mod, $module); //module
+				$fld_lbl = \App\Language::translate($fieldlabel, $module); //fieldlabel
 				$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 				if (in_array($mod, $inventoryModules) && $fieldname == 'serviceid') {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
@@ -1127,7 +1127,7 @@ class Reports extends CRMEntity
 		$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
 
 
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
 		$sparams = array($tabid);
 		if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
@@ -1193,11 +1193,11 @@ class Reports extends CRMEntity
 						}
 					}
 					if (!AppRequest::isEmpty('record')) {
-						$options['label'][] = \includes\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . \includes\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+						$options['label'][] = \App\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' -' . \App\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					}
 
 					$columntototalrow['fieldlabel'] = str_replace(" ", "__", $columntototalrow['fieldlabel']);
-					$options [] = \includes\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \includes\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+					$options [] = \App\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \App\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					if ($selectedcolumn1[2] == "cb:" . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . "__SUM:2") {
 						$options [] = '<input checked name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__SUM:2" type="checkbox" value="">';
 					} else {
@@ -1221,7 +1221,7 @@ class Reports extends CRMEntity
 						$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__MAX:5" type="checkbox" value="">';
 					}
 				} else {
-					$options [] = \includes\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \includes\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
+					$options [] = \App\Language::translate($columntototalrow['tablabel'], $columntototalrow['tablabel']) . ' - ' . \App\Language::translate($columntototalrow['fieldlabel'], $columntototalrow['tablabel']);
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__SUM:2" type="checkbox" value="">';
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__AVG:3" type="checkbox" value="" >';
 					$options [] = '<input name="cb:' . $columntototalrow['tablename'] . ':' . $columntototalrow['columnname'] . ':' . $columntototalrow['fieldlabel'] . '__MIN:4"type="checkbox" value="" >';
@@ -1247,7 +1247,7 @@ function getReportsModuleList($focus)
 	foreach ($focus->module_list as $key => $value) {
 		if (isPermitted($key, 'index') == "yes") {
 			$count_flag = 1;
-			$modules [$key] = \includes\Language::translate($key, $key);
+			$modules [$key] = \App\Language::translate($key, $key);
 		}
 	}
 	asort($modules);
@@ -1261,7 +1261,7 @@ function getReportsModuleList($focus)
 function getReportRelatedModules($module, $focus)
 {
 	$optionhtml = [];
-	if (\includes\Modules::isModuleActive($module)) {
+	if (\App\Module::isModuleActive($module)) {
 		if (!empty($focus->related_modules[$module])) {
 			foreach ($focus->related_modules[$module] as $rel_modules) {
 				if (isPermitted($rel_modules, 'index') == "yes") {

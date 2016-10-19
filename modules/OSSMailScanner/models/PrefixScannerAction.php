@@ -23,7 +23,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		$returnIds = [];
 		$result = $db->pquery('SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid = ?;', [$mailId]);
 		while ($crmid = $db->getSingleValue($result)) {
-			$type = \includes\Record::getType($crmid);
+			$type = \App\Record::getType($crmid);
 			if ($type == $this->moduleName) {
 				$returnIds[] = $crmid;
 			}

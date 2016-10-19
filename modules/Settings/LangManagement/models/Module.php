@@ -16,18 +16,14 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getLang($data = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$sql = "SELECT * FROM vtiger_language ";
-		$where = array();
-		$output = false;
+		$query = (new \App\Db\Query())->from('vtiger_language');
 		if ($data && $data['prefix'] != '') {
-			$sql .= "WHERE prefix = ?";
-			$where[] = $data['prefix'];
+			$query->where(['prefix' => $data['prefix']]);
 		}
-		$result = $adb->pquery($sql, $where, true);
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$output[$adb->query_result($result, $i, 'prefix')] = $adb->query_result_rowdata($result, $i);
+		$output = false;
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$output[$row['prefix']] = $row;
 		}
 		return $output;
 	}
@@ -77,12 +73,12 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			require_once($fileName);
 			if ($params['type'] == 'php') {
 				vglobal('languageStrings');
-				$lang_tab = $languageStrings;
+				$langTab = $languageStrings;
 			} else {
 				vglobal('jsLanguageStrings');
-				$lang_tab = $jsLanguageStrings;
+				$langTab = $jsLanguageStrings;
 			}
-			if (is_array($lang_tab) && array_key_exists($langkey, $lang_tab)) {
+			if (is_array($langTab) && array_key_exists($langkey, $langTab)) {
 				return array('success' => false, 'data' => 'LBL_KeyExists');
 			}
 			$fileContent = file_get_contents($fileName);
@@ -129,15 +125,15 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			vglobal('jsLanguageStrings');
 			if ($params['type'] == 'php') {
 				vglobal('languageStrings');
-				$lang_tab = $languageStrings;
+				$langTab = $languageStrings;
 			} else {
 				vglobal('jsLanguageStrings');
-				$lang_tab = $jsLanguageStrings;
+				$langTab = $jsLanguageStrings;
 			}
-			if (!is_array($lang_tab) || !array_key_exists($langkey, $lang_tab)) {
+			if (!is_array($langTab) || !array_key_exists($langkey, $langTab)) {
 				return array('success' => false, 'data' => 'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES');
 			}
-			$countLangEl = count(explode("\n", $lang_tab[$langkey]));
+			$countLangEl = count(explode("\n", $langTab[$langkey]));
 			$i = 1;
 			$start = false;
 			$fileContentEdit = file($fileName);
@@ -178,13 +174,12 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function loadLangTranslation($lang, $mod, $ShowDifferences = 0)
 	{
-		$adb = PearDatabase::getInstance();
-		$keys_php = array();
-		$keys_js = array();
+		$keysPhp = array();
+		$keysJs = array();
 		$langs = array();
-		$lang_tab = array();
-		$resp_php = array();
-		$resp_js = array();
+		$langTab = array();
+		$respPhp = array();
+		$respJs = array();
 		$mod = str_replace(self::url_separator, '/', $mod);
 		if (self::parse_data(',', $lang)) {
 			$langs = explode(",", $lang);
@@ -199,42 +194,42 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				require($dir);
 				vglobal('languageStrings');
 				vglobal('jsLanguageStrings');
-				$lang_tab[$lang]['php'] = $languageStrings;
-				$lang_tab[$lang]['js'] = $jsLanguageStrings;
-				$keys_php = array_merge($keys_php, array_keys($languageStrings));
-				$keys_js = array_merge($keys_js, array_keys($jsLanguageStrings));
+				$langTab[$lang]['php'] = $languageStrings;
+				$langTab[$lang]['js'] = $jsLanguageStrings;
+				$keysPhp = array_merge($keysPhp, array_keys($languageStrings));
+				$keysJs = array_merge($keysJs, array_keys($jsLanguageStrings));
 			}
 		}
-		$keys_php = array_unique($keys_php);
-		$keys_js = array_unique($keys_js);
-		foreach ($keys_php as $key) {
+		$keysPhp = array_unique($keysPhp);
+		$keysJs = array_unique($keysJs);
+		foreach ($keysPhp as $key) {
 			foreach ($langs as $language) {
-				$resp_php[$key][$language] = htmlentities($lang_tab[$language]['php'][$key], ENT_QUOTES, "UTF-8");
+				$respPhp[$key][$language] = htmlentities($langTab[$language]['php'][$key], ENT_QUOTES, "UTF-8");
 			}
 		}
-		foreach ($keys_js as $key) {
+		foreach ($keysJs as $key) {
 			foreach ($langs as $language) {
-				$resp_js[$key][$language] = htmlentities($lang_tab[$language]['js'][$key], ENT_QUOTES, "UTF-8");
+				$respJs[$key][$language] = htmlentities($langTab[$language]['js'][$key], ENT_QUOTES, "UTF-8");
 			}
 		}
-		return array('php' => $resp_php, 'js' => $resp_js, 'langs' => $langs, 'keys' => $keys);
+		return array('php' => $respPhp, 'js' => $respJs, 'langs' => $langs, 'keys' => $keys);
 	}
 
-	public function loadAllFieldsFromModule($lang, $mod, $ShowDifferences = 0)
+	public function loadAllFieldsFromModule($lang, $mod, $showDifferences = 0)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? && `presence` IN (0,2)", array(\includes\Modules::getModuleId($mod)));
-		$variablesFromFile = $this->loadLangTranslation($lang, 'HelpInfo', $ShowDifferences);
-		$output = array();
+		$variablesFromFile = $this->loadLangTranslation($lang, 'HelpInfo', $showDifferences);
+		$output = [];
 		if (self::parse_data(',', $lang)) {
 			$langs = explode(",", $lang);
 		} else {
 			$langs[] = $lang;
 		}
 		$output['langs'] = $langs;
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
+		$dataReader = (new \App\Db\Query())
+				->from('vtiger_field')
+				->where(['tabid' => \App\Module::getModuleId($mod), 'presence' => [0, 2]])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = vtranslate($row['fieldlabel'], $mod);
 			$output['php'][$mod . '|' . $row['fieldlabel']]['info'] = array('view' => explode(',', $row['helpinfo']), 'fieldid' => $row['fieldid']);
 			foreach ($langs AS $lang) {
@@ -246,13 +241,12 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getModFromLang($lang)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($lang == '' || $lang === null) {
 			$lang = 'en_us';
 		} else {
 			if (self::parse_data(',', $lang)) {
-				$lang_a = explode(",", $lang);
-				$lang = $lang_a[0];
+				$langA = explode(",", $lang);
+				$lang = $langA[0];
 			}
 		}
 		$dir = "languages/$lang";
@@ -280,9 +274,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$settings = array();
 		foreach ($langs as $key => $lang) {
 			if (self::parse_data('|', $lang)) {
-				$lang_array = explode("|", $lang);
+				$langArray = explode("|", $lang);
 				unset($langs[$key]);
-				$settings[$key] = vtranslate($lang_array[1], 'Settings:' . $lang_array[1]);
+				$settings[$key] = vtranslate($langArray[1], 'Settings:' . $langArray[1]);
 			} else {
 				$langs[$key] = vtranslate($key, $key);
 			}
@@ -292,26 +286,26 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function add($params)
 	{
-		$db = PearDatabase::getInstance();
 		if (self::getLang($params)) {
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
 		self::CopyDir('languages/en_us/', 'languages/' . $params['prefix'] . '/');
-		$db->insert('vtiger_language', [
+		\App\Db::getInstance()->createCommand()->insert('vtiger_language', [
 			'id' => $db->getUniqueId('vtiger_language'),
 			'name' => $params['name'],
 			'prefix' => $params['prefix'],
 			'label' => $params['label'],
-		]);
+		])->execute();
 		return ['success' => true, 'data' => 'LBL_AddDataOK'];
 	}
 
 	public function save($params)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($params['type'] == 'Checkbox') {
 			$val = $params['val'] == 'true' ? 1 : 0;
-			$adb->pquery("UPDATE vtiger_language SET ? = ? WHERE prefix = ?;", array($params['name'], $val, $params['prefix']), true);
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_language', [$params['name'] => $val], ['prefix' => $params['prefix']])
+				->execute();
 			return true;
 		}
 		return false;
@@ -319,23 +313,25 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function saveView($params)
 	{
-		$adb = PearDatabase::getInstance();
 		if (!is_array($params['value'])) {
-			$params['value'] = array($params['value']);
+			$params['value'] = [$params['value']];
 		}
 		$value = implode(',', $params['value']);
-		$adb->pquery("UPDATE `vtiger_field` SET `helpinfo` = ? WHERE `fieldid` = ?;", array($value, $params['fieldid']), true);
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_field', ['helpinfo' => $value], ['fieldid' => $params['fieldid']])
+			->execute();
 		return array('success' => true, 'data' => 'LBL_SUCCESSFULLY_UPDATED');
 	}
 
 	public function delete($params)
 	{
-		$adb = PearDatabase::getInstance();
 		$dir = "languages/" . $params['prefix'];
 		if (file_exists($dir)) {
 			self::DeleteDir($dir);
 		}
-		$adb->pquery("DELETE FROM vtiger_language WHERE prefix = ?;", array($params['prefix']), true);
+		\App\Db::getInstance()->createCommand()
+			->delete('vtiger_language', ['prefix' => $params['prefix']])
+			->execute();
 		return true;
 	}
 
@@ -385,9 +381,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function setAsDefault($lang)
 	{
-		
+
 		\App\Log::trace("Entering Settings_LangManagement_Module_Model::setAsDefault(" . $lang . ") method ...");
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$prefix = $lang['prefix'];
 		$fileName = 'config/config.inc.php';
 		$completeData = file_get_contents($fileName);
@@ -399,14 +395,15 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$filePointer = fopen($fileName, 'w');
 		fwrite($filePointer, $fileContent);
 		fclose($filePointer);
-		$result = $db->pquery('SELECT * FROM `vtiger_language` WHERE `isdefault` = 1');
-		if ($db->num_rows($result) == 1) {
-			$prefixOld = $db->query_result($result, 0, 'prefix');
-			$db->query('UPDATE `vtiger_language` SET `isdefault` = 0 where `isdefault` = 1');
+		$dataReader = (new \App\Db\Query)->select('prefix')
+			->from('vtiger_language')
+			->where(['isdefault' => 1])
+			->createCommand()->query();
+		if ($dataReader->count() == 1) {
+			$prefixOld = $dataReader->readColumn(0);
+			$db->createCommand()->update('vtiger_language', ['isdefault' => 0], ['isdefault' => 1])->execute();
 		}
-		$query = 'UPDATE `vtiger_language` SET `isdefault` = ? WHERE `prefix` = ?';
-		$params = array(1, $prefix);
-		$status = $db->pquery($query, $params);
+		$status = $db->createCommand()->update('vtiger_language', ['isdefault' => 1], ['prefix' => $prefix])->execute();
 		if ($status)
 			$status = true;
 		else

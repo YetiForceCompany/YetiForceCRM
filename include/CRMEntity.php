@@ -53,7 +53,7 @@ class CRMEntity
 	static function getInstance($module)
 	{
 		$modName = $module;
-		if ($module == 'Calendar' || $module == 'Events') {
+		if ($module === 'Calendar' || $module === 'Events') {
 			$module = 'Calendar';
 			$modName = 'Activity';
 		}
@@ -281,7 +281,7 @@ class CRMEntity
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
 			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
-			$tabid = \includes\Modules::getModuleId($module);
+			$tabid = \App\Module::getModuleId($module);
 
 			if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
 				$columns = [
@@ -359,10 +359,10 @@ class CRMEntity
 				'attention' => $attention_val,
 				'modifiedby' => $currentUser->getId(),
 				'createdtime' => $created_date_var,
-				'modifiedtime' => $modified_date_var
+				'modifiedtime' => $modified_date_var,
+				'users' => ",$ownerid,",
 			];
 			$adb->insert('vtiger_crmentity', $params);
-
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
 			$this->column_fields['modifiedby'] = $currentUser->getId();
@@ -405,9 +405,9 @@ class CRMEntity
 			}
 		}
 
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar' && $this->column_fields["activitytype"] != null && $this->column_fields["activitytype"] != 'Task') {
-			$tabid = \includes\Modules::getModuleId('Events');
+			$tabid = \App\Module::getModuleId('Events');
 		}
 		if ($insertion_mode == 'edit') {
 			$updateColumns = [];
@@ -507,7 +507,7 @@ class CRMEntity
 					}
 				} elseif ($uitype == 15 || $uitype == 16) {
 
-					if ($this->column_fields[$fieldname] == \includes\Language::translate('LBL_NOT_ACCESSIBLE')) {
+					if ($this->column_fields[$fieldname] == \App\Language::translate('LBL_NOT_ACCESSIBLE')) {
 
 						//If the value in the request is Not Accessible for a picklist, the existing value will be replaced instead of Not Accessible value.
 						$sql = "select $columname from  $table_name where " . $this->tab_name_index[$table_name] . "=?";
@@ -717,7 +717,7 @@ class CRMEntity
 		}
 		if ($cachedModuleFields === false) {
 			// Pull fields and cache for further use
-			$tabid = \includes\Modules::getModuleId($module);
+			$tabid = \App\Module::getModuleId($module);
 
 			$sql0 = "SELECT fieldname, fieldid, fieldlabel, columnname, tablename, uitype, typeofdata,presence FROM vtiger_field WHERE tabid=?";
 			// NOTE: Need to skip in-active fields which we will be done later.
@@ -952,7 +952,7 @@ class CRMEntity
 	public function constructCustomQueryAddendum($tablename, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql1, array($tabid));
 		$numRows = $adb->num_rows($result);
@@ -1112,7 +1112,7 @@ class CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql, array($tabid));
 		$numRows = $adb->num_rows($result);
@@ -1146,10 +1146,6 @@ class CRMEntity
 		}
 		$this->mark_deleted($id);
 		$this->unlinkDependencies($module, $id);
-
-		require_once('libraries/freetag/freetag.class.php');
-		$freetag = new freetag();
-		$freetag->delete_all_object_tags_for_user($current_user->id, $id);
 
 		$this->db->delete('vtiger_tracker', 'user_id = ? && item_id = ?', [$current_user->id, $id]);
 
@@ -1264,6 +1260,7 @@ class CRMEntity
 			'deleted' => 0,
 			'modifiedtime' => date('Y-m-d H:i:s'),
 			'modifiedby' => $currentUser->id,
+			'users' => null,
 			], 'crmid = ?', [$id]
 		);
 
@@ -1333,7 +1330,7 @@ class CRMEntity
 		$exclude_columns = Array('parent_id', 'vendorid', 'access_count');
 		$exclude_uitypes = [];
 
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = array('9', '16');
 		}
@@ -1384,7 +1381,7 @@ class CRMEntity
 		\App\Log::trace("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		if (!\includes\fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
 		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? && uitype = 4", Array($tabid));
@@ -1443,13 +1440,13 @@ class CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
 				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
+					"<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
 			}
 		}
 
@@ -1667,15 +1664,15 @@ class CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' " .
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' " .
 					" type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$current_module&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\"" .
-					" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module, $related_module) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module, $related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
 				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
+					"<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname, $related_module) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname, $related_module) . "'>&nbsp;";
 			}
 		}
 
@@ -1785,9 +1782,9 @@ class CRMEntity
 				if (is_string($actions))
 					$actions = explode(',', strtoupper($actions));
 				if (in_array('ADD', $actions) && isPermitted($relatedModule, 1, '') == 'yes' && getFieldVisibilityPermission($relatedModule, $current_user->id, $dependentField, 'readwrite') == '0') {
-					$button .= "<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname, $relatedModule) . "' class='crmbutton small create'" .
+					$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname, $relatedModule) . "' class='crmbutton small create'" .
 						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$relatedModule\"' type='submit' name='button'" .
-						" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname, $relatedModule) . "'>&nbsp;";
+						" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname, $relatedModule) . "'>&nbsp;";
 				}
 			}
 			$query = $this->createDependentQuery($other, $row, $id);
@@ -1972,7 +1969,7 @@ class CRMEntity
 					$matrix->addDependency($tab_name, $crmentityRelModuleFieldTable);
 
 					if ($queryPlanner->requireTable($crmentityRelModuleFieldTable, $matrix)) {
-						$relquery.= " left join vtiger_crmentity as $crmentityRelModuleFieldTable on $crmentityRelModuleFieldTable.crmid = $tab_name.$field_name and vtiger_crmentityRel$module$field_id.deleted=0";
+						$relquery .= " left join vtiger_crmentity as $crmentityRelModuleFieldTable on $crmentityRelModuleFieldTable.crmid = $tab_name.$field_name and vtiger_crmentityRel$module$field_id.deleted=0";
 					}
 
 					$countNumRows = $adb->num_rows($ui10_modules_query);
@@ -1987,7 +1984,7 @@ class CRMEntity
 						$rel_tab_name_rel_module_table_alias = $rel_tab_name . "Rel$module$field_id";
 
 						if ($queryPlanner->requireTable($rel_tab_name_rel_module_table_alias)) {
-							$relquery.= " left join $rel_tab_name as $rel_tab_name_rel_module_table_alias  on $rel_tab_name_rel_module_table_alias.$rel_tab_index = $crmentityRelModuleFieldTable.crmid";
+							$relquery .= " left join $rel_tab_name as $rel_tab_name_rel_module_table_alias  on $rel_tab_name_rel_module_table_alias.$rel_tab_index = $crmentityRelModuleFieldTable.crmid";
 						}
 					}
 				}
@@ -2143,7 +2140,7 @@ class CRMEntity
 
 	public function getListViewSecurityParameter($module)
 	{
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$current_user = vglobal('current_user');
 		if ($current_user) {
 			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($current_user->id);
@@ -2382,7 +2379,7 @@ class CRMEntity
 		$entitycolumnnames = $entityfields['fieldname'];
 		$query = "select crmid as id, $querycolumnnames, $entitycolumnnames as name ";
 		$query .= " FROM $this->table_name ";
-		$query .=" INNER JOIN vtiger_crmentity ON $this->table_name.$this->table_index = vtiger_crmentity.crmid && deleted = 0 ";
+		$query .= " INNER JOIN vtiger_crmentity ON $this->table_name.$this->table_index = vtiger_crmentity.crmid && deleted = 0 ";
 
 		//remove the base table
 		$LookupTable = array_unique($lookuptables);
@@ -2397,7 +2394,7 @@ class CRMEntity
 						on $this->table_name.$this->table_index = $tablename." . $this->tab_name_index[$tablename];
 		}
 		if (!empty($lookupcolumns) && $value !== false) {
-			$query .=" WHERE ";
+			$query .= " WHERE ";
 			$i = 0;
 			$columnCount = count($lookupcolumns);
 			foreach ($lookupcolumns as $columnname) {
@@ -2477,7 +2474,7 @@ class CRMEntity
 	public function getNonAdminModuleAccessQuery($module, $user)
 	{
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
-		$tabId = \includes\Modules::getModuleId($module);
+		$tabId = \App\Module::getModuleId($module);
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
 		$sharedTabId = null;
@@ -2503,7 +2500,7 @@ class CRMEntity
 	{
 		$module = null;
 		if (!empty($tabId)) {
-			$module = \includes\Modules::getModuleName($tabId);
+			$module = \App\Module::getModuleName($tabId);
 		}
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key) ignore " .
@@ -2527,7 +2524,7 @@ class CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = \includes\Modules::getModuleId($module);
+		$tabId = \App\Module::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';

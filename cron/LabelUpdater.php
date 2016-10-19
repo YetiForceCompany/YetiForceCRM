@@ -16,12 +16,12 @@ while ($row = $adb->getRow($result)) {
 	} elseif ($row['searchlabel'] === null && $row['label'] !== null) {
 		$updater = 'searchlabel';
 	}
-	\includes\Record::updateLabel($row['setype'], $row['crmid'], 'new', $updater);
+	\App\Record::updateLabel($row['setype'], $row['crmid'], 'new', $updater);
 }
 $result = $adb->pquery("SELECT `vtiger_crmentity`.crmid,`vtiger_crmentity`.setype FROM `vtiger_crmentity` INNER JOIN `vtiger_tab` ON vtiger_tab.`name` = vtiger_crmentity.`setype` LEFT JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid 
 LEFT JOIN u_yf_crmentity_search_label ON u_yf_crmentity_search_label.crmid = vtiger_crmentity.crmid WHERE `vtiger_crmentity`.deleted = '0' && (u_yf_crmentity_label.label = '' || u_yf_crmentity_search_label.searchlabel = '') && vtiger_tab.`presence` = 0 LIMIT ?", [AppConfig::performance('CRON_MAX_NUMERS_RECORD_LABELS_UPDATER')]);
 while ($row = $adb->getRow($result)) {
-	\includes\Record::updateLabel($row['setype'], $row['crmid']);
+	\App\Record::updateLabel($row['setype'], $row['crmid']);
 }
 $result = $adb->query("SELECT `vtiger_crmentity`.crmid,u_yf_crmentity_label.label,u_yf_crmentity_search_label.searchlabel FROM `vtiger_crmentity` 
 LEFT JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid LEFT JOIN u_yf_crmentity_search_label ON u_yf_crmentity_search_label.crmid = vtiger_crmentity.crmid 

@@ -314,7 +314,7 @@ function getRoleBasesdPickList($fldname, $exist_val)
 		if ($num_val > 0)
 			$pick_val = $exist_val;
 		else
-			$pick_val = \includes\Language::translate('LBL_NOT_ACCESSIBLE');
+			$pick_val = \App\Language::translate('LBL_NOT_ACCESSIBLE');
 	} else
 		$pick_val = $exist_val;
 

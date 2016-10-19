@@ -30,7 +30,7 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 
 	public function getListViewLinks()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -39,19 +39,13 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 	 */
 	public function getListViewCount()
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getModule();
-		$listQuery = "SELECT count(*) AS count FROM $module->baseTable ";
-
-		$search_key = $this->get('search_key');
+		$query = (new \App\Db\Query())->from($module->baseTable);
+		$searchKey = $this->get('search_key');
 		$value = $this->get('search_value');
-
-		if (!empty($search_key) && !empty($value)) {
-			$listQuery .= " WHERE $module->baseTable.$search_key = '$value'";
+		if (!empty($searchKey) && !empty($value)) {
+			$query->where([$searchKey => $value]);
 		}
-
-		$listResult = $db->query($listQuery);
-		return $db->getSingleValue($listResult);
+		return $query->count();
 	}
 }

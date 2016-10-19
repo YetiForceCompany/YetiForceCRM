@@ -205,7 +205,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 			foreach ($relModules as $relModule) {
 				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
-				if (!\includes\Modules::isModuleActive($relModule) || !$relationListView->getRelationModel()) {
+				if (!\App\Module::isModuleActive($relModule) || !$relationListView->getRelationModel()) {
 					continue;
 				}
 				if ($relatedModuleName == 'ProductsAndServices' && in_array($relModule, $categoryCount)) {

@@ -282,7 +282,7 @@ function getActionid($action)
 		\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
 		return $actionid;
 	}
-	$actionIds = \includes\Modules::getTabData('actionId');
+	$actionIds = \App\Module::getTabData('actionId');
 	if (isset($actionIds[$action])) {
 		$actionid = $actionIds[$action];
 	}
@@ -507,7 +507,7 @@ function getTableNameForField($module, $fieldname)
 
 	\App\Log::trace("Entering getTableNameForField(" . $module . "," . $fieldname . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$tabid = \includes\Modules::getModuleId($module);
+	$tabid = \App\Module::getModuleId($module);
 	//Asha
 	if ($module == 'Calendar') {
 		$tabid = array('9', '16');
@@ -760,7 +760,7 @@ function getAccessPickListValues($module)
 	$current_user = vglobal('current_user');
 	\App\Log::trace("Entering into function getAccessPickListValues($module)");
 
-	$id = \includes\Modules::getModuleId($module);
+	$id = \App\Module::getModuleId($module);
 	$query = "select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid = ? and uitype in ('15','33','55') and vtiger_field.presence in (0,2)";
 	$result = $adb->pquery($query, array($id));
 
@@ -970,7 +970,7 @@ function getCallerInfo($number)
 function get_use_asterisk($id)
 {
 	$adb = PearDatabase::getInstance();
-	if (!\includes\Modules::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
+	if (!\App\Module::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
 		return false;
 	}
 	$sql = "select * from vtiger_asteriskextensions where userid = ?";
@@ -1316,7 +1316,7 @@ function com_vtGetModules($adb)
 	$modules = [];
 	foreach ($it as $row) {
 		if (isPermitted($row->name, 'index') == "yes") {
-			$modules[$row->name] = \includes\Language::translate($row->name);
+			$modules[$row->name] = \App\Language::translate($row->name);
 		}
 	}
 	return $modules;
@@ -1483,17 +1483,17 @@ function dateDiffAsString($d1, $d2)
 	$seconds = $dateDiff['seconds'];
 
 	if ($years > 0) {
-		$diffString = "$years " . \includes\Language::translate('LBL_YEARS', $currentModule);
+		$diffString = "$years " . \App\Language::translate('LBL_YEARS', $currentModule);
 	} elseif ($months > 0) {
-		$diffString = "$months " . \includes\Language::translate('LBL_MONTHS', $currentModule);
+		$diffString = "$months " . \App\Language::translate('LBL_MONTHS', $currentModule);
 	} elseif ($days > 0) {
-		$diffString = "$days " . \includes\Language::translate('LBL_DAYS', $currentModule);
+		$diffString = "$days " . \App\Language::translate('LBL_DAYS', $currentModule);
 	} elseif ($hours > 0) {
-		$diffString = "$hours " . \includes\Language::translate('LBL_HOURS', $currentModule);
+		$diffString = "$hours " . \App\Language::translate('LBL_HOURS', $currentModule);
 	} elseif ($minutes > 0) {
-		$diffString = "$minutes " . \includes\Language::translate('LBL_MINUTES', $currentModule);
+		$diffString = "$minutes " . \App\Language::translate('LBL_MINUTES', $currentModule);
 	} else {
-		$diffString = "$seconds " . \includes\Language::translate('LBL_SECONDS', $currentModule);
+		$diffString = "$seconds " . \App\Language::translate('LBL_SECONDS', $currentModule);
 	}
 	return $diffString;
 }
@@ -1795,11 +1795,7 @@ function getCombinations($array, $tempString = '')
 
 function getCompanyDetails()
 {
-	$db = PearDatabase::getInstance();
-	$result = $db->query('select * from vtiger_organizationdetails');
-
-	$companyDetails = $db->getRow($result);
-	return $companyDetails;
+	return (new \App\Db\Query())->from('vtiger_organizationdetails')->one();
 }
 
 /** call back function to change the array values in to lower case */

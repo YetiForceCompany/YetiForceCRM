@@ -20,10 +20,10 @@ class VtigerCRMObject
 
 		if ($isId) {
 			$this->moduleId = $moduleCredential;
-			$this->moduleName = \includes\Modules::getModuleName($this->moduleId);
+			$this->moduleName = \App\Module::getModuleName($this->moduleId);
 		} else {
 			$this->moduleName = $moduleCredential;
-			$this->moduleId = \includes\Modules::getModuleId($this->moduleName);
+			$this->moduleId = \App\Module::getModuleId($this->moduleName);
 		}
 		$this->instance = null;
 		$this->getInstance();
@@ -73,7 +73,7 @@ class VtigerCRMObject
 	{
 
 		// Use getTabid API
-		$tid = \includes\Modules::getModuleId($objectName);
+		$tid = \App\Module::getModuleId($objectName);
 
 		if ($tid === false) {
 			$adb = PearDatabase::getInstance();

@@ -178,7 +178,7 @@ class ProjectTask extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -336,7 +336,7 @@ class ProjectTask extends CRMEntity
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 
-			if (\includes\Modules::getModuleId('CustomerPortal')) {
+			if (\App\Module::getModuleId('CustomerPortal')) {
 				$checkAlreadyExists = $adb->pquery('SELECT 1 FROM vtiger_customerportal_tabs WHERE tabid=?', array($projecttaskTabid));
 				if ($checkAlreadyExists && $adb->num_rows($checkAlreadyExists) < 1) {
 					$maxSequenceQuery = $adb->query("SELECT max(sequence) as maxsequence FROM vtiger_customerportal_tabs");
@@ -383,7 +383,7 @@ class ProjectTask extends CRMEntity
 	static function isLinkPermitted($linkData)
 	{
 		$moduleName = "ProjectTask";
-		if (\includes\Modules::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
+		if (\App\Module::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}
 		return false;

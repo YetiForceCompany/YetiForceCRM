@@ -140,6 +140,23 @@ class CurrencyField
 		return ($negative) ? '-' . $value : $value;
 	}
 
+	public static function convertToUserFormatSymbol($value, $skipConversion = false, $currencySymbol = false, $skipFormatting = false)
+	{
+		// To support negative values
+		$negative = false;
+		if (stripos($value, '-') === 0) {
+			$negative = true;
+			$value = substr($value, 1);
+		}
+		$self = new self($value);
+		$formattedValue = $self->getDisplayValue(null, $skipConversion);
+		if ($currencySymbol === false) {
+			$currencySymbol = $self->currencySymbol;
+		}
+		$value = self::appendCurrencySymbol($formattedValue, $currencySymbol, $self->currencySymbolPlacement);
+		return ($negative) ? '-' . $value : $value;
+	}
+
 	/**
 	 * Function that converts the Number into Users Currency
 	 * @param Users $user

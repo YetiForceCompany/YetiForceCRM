@@ -416,7 +416,7 @@ class Documents extends CRMEntity
 		$adb = PearDatabase::getInstance();
 
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
-		$tabid = \includes\Modules::getModuleId('Documents');
+		$tabid = \App\Module::getModuleId('Documents');
 		$filetype_uitype = 27;
 		$res = $adb->pquery($query, array($tabid, $filetype_uitype));
 		$fieldname = null;
@@ -436,7 +436,7 @@ class Documents extends CRMEntity
 		$adb = PearDatabase::getInstance();
 
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
-		$tabid = \includes\Modules::getModuleId('Documents');
+		$tabid = \App\Module::getModuleId('Documents');
 		$filename_uitype = 28;
 		$res = $adb->pquery($query, array($tabid, $filename_uitype));
 		$fieldname = null;
@@ -565,7 +565,7 @@ class Documents extends CRMEntity
 	static function isLinkPermitted($linkData)
 	{
 		$moduleName = 'Documents';
-		if (\includes\Modules::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
+		if (\App\Module::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}
 		return false;

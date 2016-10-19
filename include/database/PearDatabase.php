@@ -96,20 +96,18 @@ class PearDatabase
 	public function connect()
 	{
 		// Set DSN 
-		$dsn = 'mysql:host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';charset=utf8' . ';port=' . $this->port;
+		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port;
 
 		// Set options
 		$options = array(
 			PDO::ATTR_EMULATE_PREPARES => false,
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_TIMEOUT => 5
 		);
-
-		if ($this->isdb_default_utf8_charset) {
-			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
-		}
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
+			$this->database->exec('SET NAMES ' . $this->database->quote('utf8'));
 		} catch (\Exception\AppException $e) {
 			// Catch any errors
 			\App\Log::error('Database connect : ' . $e->getMessage());
@@ -299,7 +297,10 @@ class PearDatabase
 		$sqlStartTime = microtime(true);
 
 		try {
+			\App\Log::beginProfile($query, __METHOD__);
 			$this->stmt = $this->database->query($query);
+			\App\Log::endProfile($query, __METHOD__);
+
 			$this->logSqlTime($sqlStartTime, microtime(true), $query);
 		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();
@@ -328,7 +329,11 @@ class PearDatabase
 
 		try {
 			$this->stmt = $this->database->prepare($query);
+
+			\App\Log::beginProfile($query, __METHOD__);
 			$this->stmt->execute($params);
+			\App\Log::endProfile($query, __METHOD__);
+
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();

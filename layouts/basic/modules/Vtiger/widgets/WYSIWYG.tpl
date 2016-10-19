@@ -5,7 +5,7 @@
 		</div>
 		<div class="defaultMarginP">
 			{assign var=FULL_TEXT value=vtlib\Functions::removeHtmlTags(array('link', 'style', 'img', 'script', 'base'),decode_html($RECORD->get($WIDGET['data']['field_name'])))}
-			<div class="moreContent">
+			<div class="moreContent table-responsive">
 				<span class="teaserContent">
 					{Vtiger_Util_Helper::toVtiger6SafeHTML($FULL_TEXT)|substr:0:600}
 				</span>

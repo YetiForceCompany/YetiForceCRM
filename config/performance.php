@@ -50,4 +50,6 @@ $PERFORMANCE_CONFIG = [
 	'ENABLE_CACHING_USERS' => false,
 	// In how many records should the address boock be updated in cron
 	'CRON_MAX_NUMERS_RECORD_ADDRESS_BOOCK_UPDATER' => 10000,
+	//Data caching is about storing some PHP variables in cache and retrieving it later from cache. Drivers: Base, Apcu
+	'CACHING_DRIVER' => 'Base',
 ];

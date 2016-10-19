@@ -74,9 +74,11 @@ class Settings_Github_Client_Model
 	static function getInstance()
 	{
 		$instance = new self();
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT client_id, token, username FROM u_yf_github");
-		while ($row = $db->getRow($result)) {
+		$row = (new App\Db\Query())
+			->select(['client_id', 'token', 'username'])
+			->from('u_#__github')
+			->createCommand()->queryOne();
+		if (!empty($row)) {
 			$instance->setClientId($row['client_id']);
 			$instance->setToken(base64_decode($row['token']));
 			$instance->setUsername($row['username']);
@@ -86,12 +88,11 @@ class Settings_Github_Client_Model
 
 	public function saveKeys()
 	{
-		$db = PearDatabase::getInstance();
 		$clientToken = base64_encode($this->clientToken);
 		$params = ['client_id' => $this->clientId,
 			'token' => $clientToken,
 			'username' => $this->username];
-		return $db->update('u_yf_github', $params);
+		return App\Db::getInstance()->createCommand()->update('u_#__github', $params)->execute();
 	}
 
 	public function checkToken()

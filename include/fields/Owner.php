@@ -202,7 +202,7 @@ class Owner
 		$tempResult = \Vtiger_Cache::get('getUsers', $cacheKey);
 		if ($tempResult === false) {
 			$db = \PearDatabase::getInstance();
-			$entityData = \includes\Modules::getEntityInfo('Users');
+			$entityData = \App\Module::getEntityInfo('Users');
 
 			// Including deleted vtiger_users for now.
 			if ($private == 'private') {
@@ -211,7 +211,7 @@ class Owner
 				$query = "SELECT id,%s,is_admin,cal_color,status FROM vtiger_users WHERE id=? UNION SELECT vtiger_user2role.userid AS id,%s,is_admin,cal_color,status FROM vtiger_user2role 
 							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? UNION
 							SELECT shareduserid AS id,%s,is_admin,cal_color,status FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? && vtiger_tmp_write_user_sharing_per.tabid=?";
-				$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), \includes\Modules::getModuleId($this->moduleName));
+				$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), \App\Module::getModuleId($this->moduleName));
 			} else {
 				\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 				$query = 'SELECT id,%s,is_admin,cal_color,status FROM vtiger_users';
@@ -295,7 +295,7 @@ class Owner
 		$moduleName = '';
 		if (\AppRequest::get('parent') != 'Settings' && $this->moduleName) {
 			$moduleName = $this->moduleName;
-			$tabid = \includes\Modules::getModuleId($moduleName);
+			$tabid = \App\Module::getModuleId($moduleName);
 		}
 
 		$cacheKey = $addBlank . $private . $moduleName;
@@ -529,9 +529,9 @@ class Owner
 		} else {
 			$instance = new self();
 			if ($single) {
-				$users = $instance->initUsers('Active', $id);
+				$users = $instance->initUsers('Inactive', $id);
 			} else {
-				$users = $instance->initUsers();
+				$users = $instance->initUsers('Inactive');
 			}
 		}
 		foreach ($users as $uid => &$user) {
@@ -552,7 +552,7 @@ class Owner
 			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
-			$users = $instance->initUsers();
+			$users = $instance->initUsers('Inactive');
 		}
 		$result = isset($users[$id]) ? 'Users' : 'Groups';
 		self::$typeCache[$id] = $result;

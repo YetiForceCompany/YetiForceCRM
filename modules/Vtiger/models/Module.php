@@ -135,15 +135,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function isCommentEnabled()
 	{
 		$enabled = false;
-		$db = PearDatabase::getInstance();
+		$query = new \App\Db\Query();
 		$commentsModuleModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($commentsModuleModel && $commentsModuleModel->isActive()) {
-			$relatedToFieldResult = $db->pquery('SELECT fieldid FROM vtiger_field WHERE fieldname = ? && tabid = ?', array('related_to', $commentsModuleModel->getId()));
-			$fieldId = $db->getSingleValue($relatedToFieldResult);
+			$fieldId = $query->select('fieldid')->from('vtiger_field')->where(['fieldname' => 'related_to', 'tabid' => $commentsModuleModel->getId()])->scalar();
 			if (!empty($fieldId)) {
-				$relatedModuleResult = $db->pquery('SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid = ?', array($fieldId));
-				while (($relatedModule = $db->getSingleValue($relatedModuleResult)) !== false) {
-					if ($this->getName() == $relatedModule) {
+				$query->select('relmodule')->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId]);
+				$dataReader = $query->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					if ($this->getName() === $row['relmodule']) {
 						$enabled = true;
 					}
 				}
@@ -884,18 +884,20 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$db = PearDatabase::getInstance();
+		
 		self::preModuleInitialize2();
-
-		$sql = 'SELECT DISTINCT vtiger_tab.* FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
-				 WHERE (quickcreate=0 || quickcreate=2) && vtiger_tab.presence != 1 && vtiger_tab.type <> 1';
+		$query = new \App\Db\Query();
+		$query->select('vtiger_tab.*')->from('vtiger_field')
+			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
+			->where(['or', 'quickcreate = 0', 'quickcreate = 2'])
+			->andWhere(['!=', 'vtiger_tab.presence', 1])
+			->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
 		if ($restrictList) {
-			$sql .= " && vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events')";
+			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments','PriceBooks','Events']]);
 		}
-		$result = $db->query($sql);
-
 		$quickCreateModules = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'CreateView')) {
 				$moduleModel = self::getInstanceFromArray($row);
 				$quickCreateModules[$row['name']] = $moduleModel;

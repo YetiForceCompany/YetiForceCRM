@@ -5,9 +5,7 @@
 			{assign var=SHOW_TYPE value=true}
 			<div class="notificationEntries">
 				{foreach item=ROW from=$NOTIFICATIONS}
-					
-						{include file='NotificationsItem.tpl'|@vtemplate_path:$MODULE_NAME}
-				
+					{include file='NotificationsItem.tpl'|@vtemplate_path:$MODULE_NAME}
 				{/foreach}
 			</div>
 		{else}

@@ -95,7 +95,7 @@ class ModTracker
 			$visible = $adb->query_result($moduleResult, $i, 'visible');
 			self::updateCache($tabId, $visible);
 			if ($visible == 1) {
-				$modules[] = \includes\Modules::getModuleName($tabId);
+				$modules[] = \App\Module::getModuleName($tabId);
 			}
 		}
 		return $modules;
@@ -131,15 +131,17 @@ class ModTracker
 	 */
 	static function enableTrackingForModule($tabid)
 	{
-		$adb = PearDatabase::getInstance();
 		if (!self::isModulePresent($tabid)) {
-			$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
+			\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 1])
+				->execute();
 			self::updateCache($tabid, 1);
 		} else {
-			$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabid));
+			\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 1], ['tabid' => $tabid])
+				->execute();
 			self::updateCache($tabid, 1);
 		}
-		$adb->pquery("UPDATE vtiger_field SET presence = 2 WHERE tabid = ? && fieldname = ?", array($tabid, 'was_read'));
+		\App\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])
+			->execute();
 	}
 
 	/**
@@ -148,25 +150,26 @@ class ModTracker
 	 */
 	static function isTrackingEnabledForModule($moduleName)
 	{
-		$adb = PearDatabase::getInstance();
+		
 		$tracking = Vtiger_Cache::get('isTrackingEnabledForModule', $moduleName);
 		if ($tracking !== false) {
 			return $tracking ? true : false;
 		}
-		$tabid = \includes\Modules::getModuleId($moduleName);
-		if (!self::getVisibilityForModule($tabid) || self::getVisibilityForModule($tabid) !== 0) {
-			$query = $adb->pquery('SELECT 1 FROM vtiger_modtracker_tabs WHERE vtiger_modtracker_tabs.visible = 1 && vtiger_modtracker_tabs.tabid=?', array($tabid));
-
-			if ($adb->num_rows($query) < 1) {
-				self::updateCache($tabid, 0);
+		$tabId = \App\Module::getModuleId($moduleName);
+		if (!self::getVisibilityForModule($tabid) || self::getVisibilityForModule($tabId) !== 0) {
+			$count = (new \App\Db\Query())
+					->from('vtiger_modtracker_tabs')
+					->where(['vtiger_modtracker_tabs.visible' => 1, 'vtiger_modtracker_tabs.tabid' => $tabId])->count(1);
+			if ($count < 1) {
+				self::updateCache($tabId, 0);
 				Vtiger_Cache::set('isTrackingEnabledForModule', $moduleName, 0);
 				return false;
 			} else {
-				self::updateCache($tabid, 1);
+				self::updateCache($tabId, 1);
 				Vtiger_Cache::set('isTrackingEnabledForModule', $moduleName, 1);
 				return true;
 			}
-		} else if (self::getVisibilityForModule($tabid) === 0) {
+		} else if (self::getVisibilityForModule($tabId) === 0) {
 			Vtiger_Cache::set('isTrackingEnabledForModule', $moduleName, 0);
 			return false;
 		} else {

@@ -15,7 +15,6 @@ class Settings_DataAccess_Condition_View extends Settings_Vtiger_Index_View
 	public function process(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleName = $request->getModule();
 		$baseModule = $request->get('base_module');
 		$num = $request->get('num');
 		if ("" == $num) {

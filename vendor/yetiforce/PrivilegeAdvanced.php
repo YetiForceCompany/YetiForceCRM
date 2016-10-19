@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 vimport('~/modules/com_vtiger_workflow/VTJsonCondition.inc');
 vimport('~/modules/com_vtiger_workflow/VTEntityCache.inc');
@@ -21,8 +22,8 @@ class PrivilegeAdvanced
 	 */
 	public static function reloadCache()
 	{
-		$db = \App\DB::getInstance('admin');
-		$query = (new \App\db\Query())->from('a_#__adv_permission')->where(['status' => 0])->orderBy(['priority' => SORT_DESC]);
+		$db = \App\Db::getInstance('admin');
+		$query = (new \App\Db\Query())->from('a_#__adv_permission')->where(['status' => 0])->orderBy(['priority' => SORT_DESC]);
 		$dataReader = $query->createCommand($db)->query();
 		$cache = [];
 		while ($row = $dataReader->read()) {
@@ -55,7 +56,7 @@ class PrivilegeAdvanced
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
-		$tabid = \includes\Modules::getModuleId($moduleName);
+		$tabid = Module::getModuleId($moduleName);
 		return isset(static::$cache[$tabid]) ? static::$cache[$tabid] : false;
 	}
 

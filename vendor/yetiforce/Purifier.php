@@ -1,6 +1,7 @@
-<?php namespace App;
+<?php
+namespace App;
 
-include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
+require ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 
 /**
  * Purifier basic class
@@ -11,7 +12,6 @@ include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 class Purifier
 {
 
-	private static $variablesCache = [];
 	private static $purifyInstanceCache = false;
 	private static $htmlEventAttributes = 'onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|' .
 		'onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|' .
@@ -25,11 +25,14 @@ class Purifier
 	 */
 	public static function purify($input, $ignore = false)
 	{
+		if (empty($input)) {
+			return $input;
+		}
 		$value = $input;
 		if (!is_array($input)) {
-			$md5OfInput = md5($input);
-			if (isset(static::$variablesCache[$md5OfInput])) {
-				$value = static::$variablesCache[$md5OfInput];
+			$md5OfInput = md5($input) . '0';
+			if (Cache::has($md5OfInput)) {
+				$value = Cache::get($md5OfInput);
 				$ignore = true; //to escape cleaning up again
 			}
 		}
@@ -55,9 +58,10 @@ class Purifier
 				} else { // Simple type
 					$value = static::$purifyInstanceCache->purify($input);
 					$value = static::purifyHtmlEventAttributes($value);
+					$value = str_replace('&amp;', '&', $value);
+					Cache::save($md5OfInput, $value, Cache::SHORT);
 				}
 			}
-			static::$variablesCache[$md5OfInput] = str_replace('&amp;', '&', $value);
 		}
 		return $value;
 	}
@@ -75,7 +79,6 @@ class Purifier
 		return $value;
 	}
 
-	private static $variablesHtmlCache = [];
 	private static $purifyHtmlInstanceCache = false;
 
 	/**
@@ -87,11 +90,14 @@ class Purifier
 	 */
 	public static function purifyHtml($input, $ignore = false)
 	{
+		if (empty($input)) {
+			return $input;
+		}
 		$value = $input;
 		if (!is_array($input)) {
-			$md5OfInput = md5($input);
-			if (isset(static::$variablesHtmlCache[$md5OfInput])) {
-				$value = static::$variablesHtmlCache[$md5OfInput];
+			$md5OfInput = md5($input) . '1';
+			if (Cache::has($md5OfInput)) {
+				$value = Cache::get($md5OfInput);
 				$ignore = true; //to escape cleaning up again
 			}
 		}
@@ -197,9 +203,10 @@ class Purifier
 				} else { // Simple type
 					$value = static::$purifyHtmlInstanceCache->purify($input);
 					$value = static::purifyHtmlEventAttributes($value);
+					$value = str_replace('&amp;', '&', $value);
+					Cache::save($md5OfInput, $value, Cache::SHORT);
 				}
 			}
-			static::$variablesHtmlCache[$md5OfInput] = str_replace('&amp;', '&', $value);
 		}
 		return $value;
 	}

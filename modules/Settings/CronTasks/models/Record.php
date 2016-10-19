@@ -177,12 +177,11 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	 * Function to save the record
 	 */
 	public function save()
-	{
-		$db = PearDatabase::getInstance();
-
-		$updateQuery = "UPDATE vtiger_cron_task SET frequency = ?, status = ? WHERE id = ?";
-		$params = array($this->get('frequency'), $this->get('status'), $this->getId());
-		$db->pquery($updateQuery, $params);
+	{	
+		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', 
+			['frequency' => $this->get('frequency'), 'status' => $this->get('status')],
+			['id' => $this->getId()])
+			->execute();
 	}
 
 	/**
@@ -193,30 +192,31 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery("SELECT * FROM vtiger_cron_task WHERE id = ?", array($recordId));
-		if ($db->num_rows($result)) {
+		$query = (new \App\Db\Query())
+			->from('vtiger_cron_task')
+			->where(['id' => $recordId]);
+		$row = $query->createCommand()->queryOne();
+		if ($row) {
 			$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-			$rowData = $db->query_result_rowdata($result, 0);
 			$recordModel = new $recordModelClass();
-			$recordModel->setData($rowData)->setModule($moduleModel);
+			$recordModel->setData($row)->setModule($moduleModel);
 			return $recordModel;
 		}
+
 		return false;
 	}
 
 	public static function getInstanceByName($name)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery("SELECT * FROM vtiger_cron_task WHERE name = ?", array($name));
-		if ($db->num_rows($result)) {
+		$query = (new \App\Db\Query())
+			->from('vtiger_cron_task')
+			->where(['name' => $name]);
+		$row = $query->createCommand()->queryOne();
+		if ($row) {
 			$moduleModel = new Settings_CronTasks_Module_Model();
-			$rowData = $db->query_result_rowdata($result, 0);
 			$recordModel = new self();
-			$recordModel->setData($rowData)->setModule($moduleModel);
+			$recordModel->setData($row)->setModule($moduleModel);
 			return $recordModel;
 		}
 		return false;

@@ -20,10 +20,10 @@ class NoPermittedToRecord extends NoPermitted
 		$dbLog->insert('o_yf_access_to_record', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => \vtlib\Functions::getRemoteIP(),
+			'ip' => \App\RequestUtil::getRemoteIP(),
 			'record' => $request->get('record'),
 			'module' => $request->getModule(),
-			'url' => \vtlib\Functions::getBrowserInfo()->url,
+			'url' => \App\RequestUtil::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''

@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 /**
  * Privilege File basic class
@@ -33,7 +34,7 @@ class PrivilegeQuery
 			}
 		}
 		$query = [];
-		$tabId = \includes\Modules::getModuleId($moduleName);
+		$tabId = Module::getModuleId($moduleName);
 		if ($userModel->is_admin === 'off' && $userModel->profile_global_permission[1] == 1 && $userModel->profile_global_permission[2] == 1 && $userModel->defaultOrgSharingPermission[$tabId] === 3) {
 			$parentRoleSeq = $userModel->parent_role_seq;
 			$query[] = "vtiger_crmentity.smownerid = '$userId'";

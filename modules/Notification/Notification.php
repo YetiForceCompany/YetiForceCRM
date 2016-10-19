@@ -12,7 +12,7 @@ class Notification extends Vtiger_CRMEntity
 
 	public $table_name = 'u_yf_notification';
 	public $table_index = 'id';
-
+	protected $lockFields = ['notification_status' => ['PLL_READ']];
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */

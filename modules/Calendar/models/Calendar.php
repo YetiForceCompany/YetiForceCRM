@@ -27,17 +27,17 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 	public function getQuery()
 	{
+		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$query = 'SELECT vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf ON vtiger_activitycf.activityid = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity relcrm ON relcrm.crmid = vtiger_activity.link
 		LEFT JOIN vtiger_crmentity procrm ON procrm.crmid = vtiger_activity.process
-		LEFT JOIN vtiger_crmentity subprocrm ON subprocrm.crmid = vtiger_activity.subprocess
-		WHERE vtiger_activity.deleted = 0 ';
-		$query .= \App\PrivilegeQuery::getAccessConditions($this->getModuleName());
-
+		LEFT JOIN vtiger_crmentity subprocrm ON subprocrm.crmid = vtiger_activity.subprocess';
 		$params = [];
+		$queryWhere .= ' WHERE vtiger_activity.deleted = 0 ';
+		$queryWhere .= \App\PrivilegeQuery::getAccessConditions($this->getModuleName());
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
@@ -45,7 +45,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query .= " && ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) || (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) || (date_start < ? && due_date > ?) ) ";
+			$queryWhere .= " && ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) || (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) || (date_start < ? && due_date > ?) ) ";
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
@@ -56,43 +56,56 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$db = \PearDatabase::getInstance();
 		$types = $this->get('types');
 		if (!empty($types)) {
-			$query .= ' && vtiger_activity.activitytype IN (' . $db->generateQuestionMarks($this->get('types')) . ')';
+			$queryWhere .= ' && vtiger_activity.activitytype IN (' . $db->generateQuestionMarks($this->get('types')) . ')';
 			$params[] = $types;
 		}
 		if ($this->get('time') == 'current') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= ' && vtiger_activity.status IN (' . $db->generateQuestionMarks($stateActivityLabels) . ')';
+			$queryWhere .= ' && vtiger_activity.status IN (' . $db->generateQuestionMarks($stateActivityLabels) . ')';
 			$params[] = $stateActivityLabels;
 		}
 		if ($this->get('time') == 'history') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
-			$query .= ' && vtiger_activity.status IN (' . $db->generateQuestionMarks($stateActivityLabels) . ')';
+			$queryWhere .= ' && vtiger_activity.status IN (' . $db->generateQuestionMarks($stateActivityLabels) . ')';
 			$params[] = $stateActivityLabels;
 		}
 		$activityStatus = $this->get('activitystatus');
 		if (!empty($activityStatus)) {
-			$query .= ' && vtiger_activity.status IN (' . $db->generateQuestionMarks($activityStatus) . ')';
+			$queryWhere .= ' && vtiger_activity.status IN (' . $db->generateQuestionMarks($activityStatus) . ')';
 			$params[] = $activityStatus;
 		}
 		$restrict = $this->get('restrict');
 		if (!empty($restrict)) {
-			$query .= ' && vtiger_activity.activityid IN (' . $db->generateQuestionMarks($restrict) . ')';
-			$params[] = $restrict;
+			$query .= ' LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid = vtiger_groups.groupid';
+			$queryWhere .= $restrict;
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
-				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar') . ')';
+				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
 				$filterInstance = new $filterClassName();
 				$condition = $filterInstance->getCondition($filter['value']);
 				if (!empty($condition)) {
-					$query .= ' ' . $condition;
+					$queryWhere .= ' ' . $condition;
 				}
 			}
 		}
+		$query .= $queryWhere;
+		$where = [];
+		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
+		$calendarAlloRecords = $roleInstance->get('clendarallorecords');
+		if ($calendarAlloRecords === 1) {
+			$where[] = 'vtiger_crmentity.crmid IN (SELECT crmid FROM u_yf_crmentity_showners WHERE userid = ?)';
+			$params [] = $currentUser->getId();
+		}
 		$users = $this->get('user');
 		if (!empty($users)) {
-			$query .= ' && vtiger_activity.smownerid IN (' . $db->generateQuestionMarks($users) . ')';
+			$where[] = 'vtiger_activity.smownerid IN (' . $db->generateQuestionMarks($users) . ')';
 			$params[] = $users;
+		}
+		if (!empty($where)) {
+			$query .= '  AND ( ';
+			$query .= implode(' OR ', $where);
+			$query .= ' ) ';
 		}
 		$query .= ' ORDER BY date_start,time_start ASC';
 		return ['query' => $query, 'params' => $params];
@@ -118,7 +131,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 				$ids[] = $record['subprocess'];
 			}
 		}
-		$labels = \includes\Record::getLabel($ids);
+		$labels = \App\Record::getLabel($ids);
 
 		foreach ($records as &$record) {
 			$item = [];
@@ -222,7 +235,9 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
 
 		if ($this->get('customFilter')) {
-			$this->set('restrict', CustomView_Record_Model::getInstanceById($this->get('customFilter'))->getRecordIds());
+			$queryGenerator = new QueryGenerator($this->getModuleName());
+			$queryGenerator->initForCustomViewById($this->get('customFilter'));
+			$this->set('restrict', $queryGenerator->getWhereClause(true));
 		}
 		$data = $this->getQuery();
 		$result = $db->pquery($data['query'], $data['params']);

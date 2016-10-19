@@ -20,7 +20,7 @@ $bindByPrefix = ['Campaigns', 'HelpDesk', 'Project', 'SSalesProcesses'];
 $result = $db->query('SELECT * FROM s_yf_mail_relation_updater');
 while ($relationRow = $db->getRow($result)) {
 	$db->delete('vtiger_ossmailview_relation', 'crmid = ?', [$relationRow['crmid']]);
-	$moduleName = \includes\Modules::getModuleName($relationRow['tabid']);
+	$moduleName = \App\Module::getModuleName($relationRow['tabid']);
 	$bind = false;
 	if (in_array($moduleName, $bindByEmail)) {
 		$bind = 'email';
@@ -51,8 +51,10 @@ while ($relationRow = $db->getRow($result)) {
 	$query = 'SELECT vtiger_ossmailview.*,roundcube_users.actions FROM vtiger_ossmailview INNER JOIN roundcube_users ON roundcube_users.user_id = vtiger_ossmailview.rc_user WHERE ';
 	$query .= implode(' OR ', $where);
 	$resultMail = $db->query($query);
-	while ($row = $db->getRow($resultMail)) {
-		$scanerModel->bindMail($row);
+	if ($db->getRowCount($resultMail)) {
+		while ($row = $db->getRow($resultMail)) {
+			$scanerModel->bindMail($row);
+		}
 	}
 	$db->delete('s_yf_mail_relation_updater', 'crmid = ?', [$relationRow['crmid']]);
 }

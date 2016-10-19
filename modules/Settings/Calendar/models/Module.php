@@ -19,23 +19,9 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getCalendarViewTypes()
 	{
-		$adb = PearDatabase::getInstance();
-
-		$result = $adb->query("SELECT * FROM vtiger_calendar_default_activitytypes");
-		$rows = $adb->num_rows($result);
-
-		$calendarViewTypes = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$activityTypes = $adb->query_result_rowdata($result, $i);
-			$calendarViewTypes[] = array(
-				'id' => $activityTypes['id'],
-				'module' => $activityTypes['module'],
-				'fieldname' => $activityTypes['fieldname'],
-				'fieldlabel' => $activityTypes['fieldname'],
-				'color' => $activityTypes['defaultcolor'],
-				'active' => $activityTypes['active']
-			);
-		}
+		$query = (new \App\Db\Query())->from('vtiger_calendar_default_activitytypes');
+		$dataReader = $query->createCommand()->query();
+		$calendarViewTypes = $dataReader->readAll();
 		return $calendarViewTypes;
 	}
 
@@ -46,24 +32,24 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function updateModuleColor($params)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_calendar_default_activitytypes SET defaultcolor = ? WHERE id = ?;', array($params['color'], $params['viewtypesid']));
-		$adb->pquery('UPDATE vtiger_calendar_user_activitytypes SET color = ? WHERE defaultid = ?;', array($params['color'], $params['viewtypesid']));
-	}
-
-	public static function addActivityTypes($module, $fieldname, $defaultcolor)
-	{
-		$adb = PearDatabase::getInstance();
-		$queryResult = $adb->pquery('SELECT id, defaultcolor FROM vtiger_calendar_default_activitytypes', []);
-		$insertActivityTypesSql = 'INSERT INTO vtiger_calendar_default_activitytypes (id, module, fieldname, defaultcolor) VALUES (?,?,?,?)';
-		$insertActivityTypesParams = array($adb->getUniqueID('vtiger_calendar_default_activitytypes'), $module, $fieldname, $defaultcolor);
+		$db = \App\Db::getInstance();
+		$db->createCommand()->update('vtiger_calendar_default_activitytypes', [
+			'defaultcolor' => $params['color']],
+			['id' => $params['viewtypesid']]
+			)->execute();
+		$db->createCommand()->update('vtiger_calendar_user_activitytypes', [
+			'color' => $params['color']],
+			['defaultid' => $params['viewtypesid']]
+			)->execute();
+		
 	}
 
 	public static function updateModuleActiveType($params)
 	{
-		$adb = PearDatabase::getInstance();
 		$active = $params['active'] == 'true' ? '1' : '0';
-		$adb->pquery('UPDATE vtiger_calendar_default_activitytypes SET active = ? WHERE id = ?;', array($active, $params['viewtypesid']));
+		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_default_activitytypes', [
+			'active' => $active], ['id' => $params['viewtypesid']]
+		)->execute();
 	}
 
 	public static function getUserColors()
@@ -92,17 +78,17 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getCalendarConfig($type)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM vtiger_calendar_config WHERE type = ?;", array($type));
-		$rows = $adb->num_rows($result);
+		$query = (new \App\Db\Query())
+			->from('vtiger_calendar_config')
+			->where(['type' => $type]);
+		$dataReader = $query->createCommand()->query();
 		$calendarConfig = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$calendar = $adb->query_result_rowdata($result, $i);
-			$calendarConfig[] = array(
-				'name' => $calendar['name'],
-				'label' => $calendar['label'],
-				'value' => $calendar['value']
-			);
+		while ($row = $dataReader->read()) {
+				$calendarConfig[] = [
+				'name' => $row['name'],
+				'label' => $row['label'],
+				'value' => $row['value']
+			];
 		}
 		if ($type == 'colors') {
 			$calendarConfig = array_merge($calendarConfig, self::getPicklistValue());
@@ -112,35 +98,37 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function updateCalendarConfig($params)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($params['table']) {
 			Users_Colors_Model::updateColor($params);
 		} else {
-			$adb->pquery('UPDATE vtiger_calendar_config SET value = ? WHERE name = ?;', array($params['color'], $params['id']));
+			\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config',
+				['value' => $params['color']], ['name' => $params['id']]
+				)->execute();
+			
 		}
 	}
 
 	public static function updateNotWorkingDays($params)
 	{
-		$adb = PearDatabase::getInstance();
 		if ('null' != $params['val'])
 			$value = implode(';', $params['val']);
 		else
 			$value = NULL;
-		$adb->pquery('UPDATE vtiger_calendar_config SET value = ? WHERE name = "notworkingdays";', [$value]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config',
+				['value' => $value], ['name' => 'notworkingdays']
+				)->execute();
 	}
 
 	public static function getNotWorkingDays()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query('SELECT value FROM vtiger_calendar_config WHERE  name = "notworkingdays";');
-		$rows = $adb->num_rows($result);
+		$query = (new \App\Db\Query())
+			->from('vtiger_calendar_config')
+			->where(['name' => 'notworkingdays']);
+		$row = $query->createCommand()->queryOne();
 		$return = [];
-		if ($rows > 0) {
-			$row = $adb->query_result_rowdata($result, 0);
-			if ($row['value'])
-				$return = explode(';', $row['value']);
-		}
+		if (isset($row['value']))
+			$return = explode(';', $row['value']);
+		
 		return $return;
 	}
 

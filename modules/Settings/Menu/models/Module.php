@@ -64,9 +64,8 @@ class Settings_Menu_Module_Model
 			case 6: $name = 'LBL_HOME';
 				break;
 			case 7:
-				$adb = PearDatabase::getInstance();
-				$result = $adb->pquery('SELECT viewname,entitytype FROM vtiger_customview WHERE cvid=?', [$row['dataurl']]);
-				$data = $adb->raw_query_result_rowdata($result, 0);
+				$query = (new \App\db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
+				$data =  $query->one();
 				if ($settings) {
 					$name = Vtiger_Menu_Model::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . vtranslate($data['viewname'], $data['entitytype']);
 				} else {
@@ -100,28 +99,31 @@ class Settings_Menu_Module_Model
 
 	public function getModulesList()
 	{
-		$db = PearDatabase::getInstance();
-		$modules = [];
-		$result = $db->query("SELECT tabid,name FROM vtiger_tab WHERE name NOT "
-			. "IN ('Users','ModComments','Emails') && ( isentitytype = '1' || name IN ('Home','Reports','RecycleBin','OSSMail','Portal','Rss') ) ORDER BY name;");
-		while ($row = $db->fetch_array($result)) {
-			$modules[] = $row;
-		}
+		$notInParam = "('Home','Reports','RecycleBin','OSSMail','Portal','Rss')";
+		$query = (new \App\db\Query())->select('tabid, name')->from('vtiger_tab')
+			->where(['not in', 'name', ['Users', 'ModComments', 'Emails']])
+			->andWhere(['or', 'isentitytype = 1', "name IN $notInParam"])
+			->orderBy('name');
+		$dataReader = $query->createCommand()->query();
+		$modules = $dataReader->readAll();
 		return $modules;
 	}
 
 	public function getLastId()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT MAX(id) AS max FROM yetiforce_menu;');
-		return (int) $db->query_result_raw($result, 0, 'max');
+		$maxSequence = (new \App\Db\Query())
+			->from('yetiforce_menu')
+			->max('id');
+		return (int) $maxSequence;
 	}
 
 	public function getCustomViewList()
 	{
-		$db = PearDatabase::getInstance();
-		$list = $db->query('SELECT cvid,viewname,entitytype,vtiger_tab.tabid FROM vtiger_customview LEFT JOIN vtiger_tab ON vtiger_tab.name = vtiger_customview.entitytype');
-		$filters = $db->getArray($list);
+		$query = (new \App\Db\Query())->select('cvid, viewname, entitytype, vtiger_tab.tabid')
+			->from('vtiger_customview')
+			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype');
+		$dataReader = $query->createCommand()->query();
+		$filters = $dataReader->readAll();
 		foreach (Vtiger_Module_Model::getAll() as $module) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $module->get('name') . DIRECTORY_SEPARATOR . 'filters';
 			if (file_exists($filterDir)) {

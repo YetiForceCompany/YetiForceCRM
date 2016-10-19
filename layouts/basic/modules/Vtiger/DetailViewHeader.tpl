@@ -61,9 +61,6 @@
 				{/foreach}
 			{/if}
 			{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
-			{if Users_Privileges_Model::isPermitted($MODULE, 'TagCloud', $RECORD->getId())}
-				<div class="pull-left paddingTop10 tagContainer col-md-12 paddingLRZero row"></div>
-			{/if}
 		</div>
 		<div class="detailViewInfo row">
 			{include file="RelatedListButtons.tpl"|vtemplate_path:$MODULE}

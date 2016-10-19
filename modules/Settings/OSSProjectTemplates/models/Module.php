@@ -28,18 +28,15 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 
 	public function getListTpl($moduleName, $parentId = 0, $forTpl = false)
 	{
-		$db = PearDatabase::getInstance();
+		$dataReader = (new \App\Db\Query())->from('vtiger_oss_project_templates')
+			->where(['module' => $moduleName, 'parent' => $parentId])
+			->createCommand()->query();
+		$output = [];
 
-		$sql = "SELECT * FROM vtiger_oss_project_templates WHERE module = ? && parent = ?";
-		$result = $db->pquery($sql, array($moduleName, $parentId), true);
-
-		$output = array();
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$record = $db->raw_query_result_rowdata($result, $i);
-			$idTpl = $record['id_tpl'];
-			$fldName = $record['fld_name'];
-			$output[$idTpl][$fldName] = $record['fld_val'];
+		while($row = $dataReader->read()) {
+			$idTpl = $row['id_tpl'];
+			$fldName = $row['fld_name'];
+			$output[$idTpl][$fldName] = $row['fld_val'];
 		}
 
 		$userProfileList = $this->getCurrentUserProfile();
@@ -72,7 +69,7 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 		}
 
 		$menuModelsList = Vtiger_Module_Model::getAll([1]);
-		if (array_key_exists(\includes\Modules::getModuleId('Project'), $menuModelsList)) {
+		if (array_key_exists(\App\Module::getModuleId('Project'), $menuModelsList)) {
 			unset($output);
 		}
 
@@ -83,19 +80,15 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$roleId = $userModel->getRole();
-
-		$db = PearDatabase::getInstance();
-		$sql = "SELECT p.profileid as id FROM vtiger_profile p LEFT JOIN vtiger_role2profile r ON r.profileid = p.profileid WHERE r.roleid = ?";
-		$params = array($roleId);
-		$result = $db->pquery($sql, $params, true);
-
-		$profileList = array();
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$profileName = $db->query_result($result, $i, 'id');
-			$profileList[] = str_replace('+', '\\+', $profileName);
+		$dataReader = (new \App\Db\Query())->select(['vtiger_profile.profileid'])
+			->from('vtiger_profile')
+			->leftJoin('vtiger_role2profile', 'vtiger_role2profile.profileid = vtiger_profile.profileid ')
+			->where(['vtiger_role2profile.roleid' => $roleId])
+			->createCommand()->query();
+		$profileList = [];
+		while($profileId = $dataReader->readColumn(0)) {
+			$profileList[] = str_replace('+', '\\+', $profileId);
 		}
-
 		return $profileList;
 	}
 }

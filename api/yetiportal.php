@@ -375,7 +375,7 @@ function get_combo_values($input_array)
 	}
 
 	// Gather service contract information
-	if (!\includes\Modules::isModuleActive('ServiceContracts')) {
+	if (!\App\Module::isModuleActive('ServiceContracts')) {
 		
 	} else {
 		$servicequery = "SELECT vtiger_servicecontracts.servicecontractsid,vtiger_servicecontracts.subject
@@ -539,10 +539,10 @@ function get_tickets_list($input_array)
 {
 
 	//To avoid SQL injection we are type casting as well as bound the id variable.
-	$id = (int) vtlib_purify($input_array['id']);
+	$id = (int) App\Purifier::purify($input_array['id']);
 
 	$only_mine = $input_array['onlymine'];
-	$where = vtlib_purifyForSql($input_array['where']); //addslashes is already added with where condition fields in portal itself
+	$where = \App\Purifier::purifySql($input_array['where']); //addslashes is already added with where condition fields in portal itself
 	$match = $input_array['match'];
 	$sessionid = $input_array['sessionid'];
 
@@ -706,8 +706,8 @@ function create_ticket($input_array)
 
 	$ticket = CRMEntity::getInstance('HelpDesk');
 
-	$ticket->column_fields[ticket_title] = vtlib_purify($title);
-	$ticket->column_fields[description] = vtlib_purify($description);
+	$ticket->column_fields[ticket_title] = App\Purifier::purify($title);
+	$ticket->column_fields[description] = App\Purifier::purify($description);
 	$ticket->column_fields[ticketpriorities] = $priority;
 	$ticket->column_fields[ticketseverities] = $severity;
 	$ticket->column_fields[ticketcategories] = $category;
@@ -776,7 +776,7 @@ function update_ticket_comment($input_array)
 
 	if (trim($comments) != '') {
 		$modComments = CRMEntity::getInstance('ModComments');
-		$modComments->column_fields['commentcontent'] = vtlib_purify($comments);
+		$modComments->column_fields['commentcontent'] = App\Purifier::purify($comments);
 		$modComments->column_fields['assigned_user_id'] = $current_user->id;
 		$modComments->column_fields['customer'] = $ownerid;
 		$modComments->column_fields['related_to'] = $ticketid;
@@ -1049,10 +1049,10 @@ function get_picklists($input_array)
 	$adb->println($input_array);
 
 	//To avoid SQL injection we are type casting as well as bound the id variable
-	$id = (int) vtlib_purify($input_array['id']);
+	$id = (int) App\Purifier::purify($input_array['id']);
 	$sessionid = $input_array['sessionid'];
 	//To avoid SQL injection.
-	$picklist_name = vtlib_purifyForSql($input_array['picklist_name']);
+	$picklist_name = \App\Purifier::purifySql($input_array['picklist_name']);
 	if (empty($picklist_name))
 		return null;
 
@@ -1435,7 +1435,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 	}
 
 	//To avoid SQL injection we are type casting as well as bound the id variable.
-	$id = (int) vtlib_purify($id);
+	$id = (int) App\Purifier::purify($id);
 	$user = new Users();
 	$userid = getPortalUserid();
 	$current_user = $user->retrieveCurrentUserInfoFromFile($userid);
@@ -1989,7 +1989,7 @@ function get_details($id, $module, $customerid, $sessionid)
 		INNER JOIN  vtiger_blocks on vtiger_blocks.blockid=vtiger_field.block WHERE vtiger_field.tabid = ? && displaytype in (1,2,4,10)
 		ORDER BY vtiger_field.block,vtiger_field.sequence";
 
-	$fieldres = $adb->pquery($fieldquery, array(\includes\Modules::getModuleId($module)));
+	$fieldres = $adb->pquery($fieldquery, array(\App\Module::getModuleId($module)));
 	$nooffields = $adb->num_rows($fieldres);
 
 	// Dummy instance to make sure column fields are initialized for futher processing
@@ -2458,7 +2458,7 @@ function get_project_components($id, $module, $customerid, $sessionid)
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_projectmilestone.projectmilestoneid && vtiger_crmentity.deleted = 0";
 	}
 
-	$res = $adb->pquery($query, array(vtlib_purify($id)));
+	$res = $adb->pquery($query, array(App\Purifier::purify($id)));
 	$noofdata = $adb->num_rows($res);
 
 	for ($j = 0; $j < $noofdata; ++$j) {
@@ -2592,7 +2592,7 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 	$userid = getPortalUserid();
 	$current_user = $user->retrieveCurrentUserInfoFromFile($userid);
 	//To avoid SQL injection we are type casting as well as bound the id variable
-	$id = (int) vtlib_purify($id);
+	$id = (int) App\Purifier::purify($id);
 	$entity_ids_list = [];
 	$show_all = show_all($modulename);
 
@@ -2720,7 +2720,7 @@ function get_modules($id)
 		$norows = $adb->num_rows($query);
 		if ($norows) {
 			while ($resultrow = $adb->fetch_array($query)) {
-				$name = \includes\Modules::getModuleName($resultrow['tabid']);
+				$name = \App\Module::getModuleName($resultrow['tabid']);
 				$modules[(int) $resultrow['sequence']] = array('name' => $name, 'translated_name' => Vtiger_Language_Handler::getTranslatedString($name, $name, vglobal('default_language')));
 			}
 			ksort($modules); // Order via SQL might cost us, so handling it ourselves in this case
@@ -2739,9 +2739,9 @@ function show_all($module)
 	$adb = PearDatabase::getInstance();
 
 	\App\Log::trace("Entering customer portal Function show_all");
-	$tabid = \includes\Modules::getModuleId($module);
+	$tabid = \App\Module::getModuleId($module);
 	if ($module == 'Tickets') {
-		$tabid = \includes\Modules::getModuleId('HelpDesk');
+		$tabid = \App\Module::getModuleId('HelpDesk');
 	}
 	$query = $adb->pquery("SELECT prefvalue from vtiger_customerportal_prefs where tabid = ?", array($tabid));
 	$norows = $adb->num_rows($query);
@@ -2766,7 +2766,7 @@ function getRelatedServiceContracts($crmid)
 	\App\Log::trace("Entering customer portal function getRelatedServiceContracts");
 	$module = 'ServiceContracts';
 	$sc_info = [];
-	if (\includes\Modules::isModuleActive($module) !== true) {
+	if (\App\Module::isModuleActive($module) !== true) {
 		return $sc_info;
 	}
 	$query = "SELECT * FROM vtiger_servicecontracts " .

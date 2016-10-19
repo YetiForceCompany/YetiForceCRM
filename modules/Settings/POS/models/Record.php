@@ -25,11 +25,11 @@ class Settings_POS_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 		$model = new self();
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM w_yf_pos_users WHERE id = ? LIMIT 1', [$recordId]);
-		$data = $db->getRow($result);
-		$data['action'] = explode(',', $data['action']);
-		$model->setData($data);
+		$data = (new \App\Db\Query())->from('w_#__pos_users')->where(['id' => $recordId])->one();
+		if ($data !== false) {
+			$data['action'] = explode(',', $data['action']);
+			$model->setData($data);
+		}
 		return $model;
 	}
 }

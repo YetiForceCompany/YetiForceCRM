@@ -14,17 +14,20 @@ class Settings_Mail_Config_Model
 
 	public function updateConfig($name, $val, $type)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE yetiforce_mail_config SET `value` = ? WHERE `type` = ? && `name` = ?;', [$val, $type, $name]);
+		\App\Db::getInstance()->createCommand()->update('yetiforce_mail_config', ['value' => $val], [
+			'type' => $type,
+			'name' => $name
+		])->execute();
 	}
 
 	public static function getConfig($type)
 	{
-		$db = PearDatabase::getInstance();
 		$config = [];
-		$result = $db->pquery('SELECT * FROM yetiforce_mail_config WHERE type = ?;', [$type]);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$row = $db->raw_query_result_rowdata($result, $i);
+		$dataReader = (new \App\Db\Query())->select(['name', 'value'])
+				->from('yetiforce_mail_config')
+				->where(['type' => $type])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$config[$row['name']] = $row['value'];
 		}
 		return $config;
@@ -32,12 +35,11 @@ class Settings_Mail_Config_Model
 
 	/**
 	 * Function to get instance
-	 * @param <Boolean> true/false
-	 * @return <Settings_Leads_Mapping_Model>
+	 * @param boolean true/false
+	 * @return <Settings_Mail_Config_Model>
 	 */
 	public static function getInstance()
 	{
-		$instance = new self();
-		return $instance;
+		return new self();
 	}
 }

@@ -835,7 +835,7 @@ class QueryGenerator
 						$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => "vtiger_users$fieldName.first_name", 'last_name' => "vtiger_users$fieldName.last_name"), 'Users');
 						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
 					} else {
-						$entityFields = \includes\Modules::getEntityInfo('Users');
+						$entityFields = \App\Module::getEntityInfo('Users');
 						if (count($entityFields['fieldnameArr']) > 1) {
 							$columns = [];
 							foreach ($entityFields['fieldnameArr'] as &$fieldname) {
@@ -1003,7 +1003,7 @@ class QueryGenerator
 		}
 
 		if (!$onlyWhereQuery && $this->permissions) {
-			if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+			if (AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $baseModule != 'Users') {
 				$sql .= " AND vtiger_crmentity.users LIKE '%,{$current_user->id},%'";
 			} else {
 				$sql .= \App\PrivilegeQuery::getAccessConditions($baseModule, $current_user->id, $this->getSourceRecord());
@@ -1457,7 +1457,7 @@ class QueryGenerator
 				}
 
 				if ($type == 'picklist') {
-					$value = \includes\Language::translate($value, $this->module);
+					$value = \App\Language::translate($value, $this->module);
 				}
 				if ($type == 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion

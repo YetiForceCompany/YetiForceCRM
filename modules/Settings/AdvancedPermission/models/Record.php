@@ -65,8 +65,8 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 */
 	public static function getInstance($id)
 	{
-		$db = \App\DB::getInstance('admin');
-		$query = (new \App\db\Query())->from('a_#__adv_permission')->where(['id' => $id]);
+		$db = \App\Db::getInstance('admin');
+		$query = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => $id]);
 		$row = $query->createCommand($db)->queryOne();
 		$instance = false;
 		if ($row !== false) {
@@ -83,7 +83,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 */
 	public function save()
 	{
-		$db = \App\DB::getInstance('admin');
+		$db = \App\Db::getInstance('admin');
 		$recordId = $this->getId();
 
 		$params = [];
@@ -105,6 +105,9 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			$db->createCommand()->update('a_#__adv_permission', $params, ['id' => $recordId])->execute();
 		}
 		\App\PrivilegeAdvanced::reloadCache();
+		if ($this->has('conditions')) {
+			\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
+		}
 	}
 
 	/**
@@ -117,7 +120,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$value = $this->get($key);
 		switch ($key) {
 			case 'tabid':
-				$value = \includes\Modules::getModuleName($value);
+				$value = \App\Module::getModuleName($value);
 				break;
 			case 'status':
 				if (isset(Settings_AdvancedPermission_Module_Model::$status[$value])) {
@@ -144,18 +147,18 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 								$name = \includes\fields\Owner::getUserLabel($id);
 								break;
 							case 'Groups' :
-								$name = \includes\Language::translate(\includes\fields\Owner::getGroupName($id));
+								$name = \App\Language::translate(\includes\fields\Owner::getGroupName($id));
 								break;
 							case 'Roles' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \includes\Language::translate($roleInfo['rolename']);
+								$name = \App\Language::translate($roleInfo['rolename']);
 								break;
 							case 'RoleAndSubordinates' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \includes\Language::translate($roleInfo['rolename']);
+								$name = \App\Language::translate($roleInfo['rolename']);
 								break;
 						}
-						$values[] = \includes\Language::translate($type) . ': ' . $name;
+						$values[] = \App\Language::translate($type) . ': ' . $name;
 					}
 					$value = implode(', ', $values);
 				}
@@ -169,11 +172,14 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 */
 	public function delete()
 	{
-		$db = \App\DB::getInstance('admin');
+		$db = \App\Db::getInstance('admin');
 		$db->createCommand()
 			->delete('a_#__adv_permission', ['id' => $this->getId()])
 			->execute();
 		\App\PrivilegeAdvanced::reloadCache();
+		if ($this->has('conditions')) {
+			\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
+		}
 	}
 
 	/**

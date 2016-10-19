@@ -19,9 +19,9 @@ class Csrf extends \Exception
 		$dbLog->insert('o_yf_csrf', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => \vtlib\Functions::getRemoteIP(),
+			'ip' => \App\RequestUtil::getRemoteIP(),
 			'referer' => $_SERVER['HTTP_REFERER'],
-			'url' => \vtlib\Functions::getBrowserInfo()->url,
+			'url' => \App\RequestUtil::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 		]);
 	}

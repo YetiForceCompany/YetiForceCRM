@@ -78,7 +78,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$cont_name = '';
 		foreach ($cont_id as $key => $id) {
 			if ($id != '') {
-				$contact_name = \includes\Record::getLabel($id);
+				$contact_name = \App\Record::getLabel($id);
 				$cont_name .= $contact_name . ', ';
 			}
 		}
@@ -86,7 +86,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$parentId = $this->get('parent_id');
 		$parentName = '';
 		if ($parentId != '') {
-			$parentName = \includes\Record::getLabel($parentId);
+			$parentName = \App\Record::getLabel($parentId);
 		}
 
 		$cont_name = trim($cont_name, ', ');

@@ -15,7 +15,7 @@ class RecordActions extends TestCase
 
 	static protected $record;
 
-	public function testGet()
+	public function testCreateRecord()
 	{
 		$record = Vtiger_Record_Model::getCleanInstance('Accounts');
 		$record->set('accountname', 'YetiForce Sp. z o.o.');

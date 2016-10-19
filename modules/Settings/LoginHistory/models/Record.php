@@ -29,13 +29,12 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getAccessibleUsers()
 	{
-		$adb = PearDatabase::getInstance();
-		$usersListArray = array();
-
-		$query = 'SELECT user_name FROM vtiger_loginhistory';
-		$result = $adb->pquery($query, array());
-		while ($row = $adb->fetchByAssoc($result)) {
-			$usersListArray[$row['user_name']] = $row['user_name'];
+		$usersListArray = [];
+		$dataReader = (new \App\Db\Query())->select('user_name')
+				->from('vtiger_loginhistory')
+				->createCommand()->query();
+		while ($userName = $dataReader->readColumn(0)) {
+			$usersListArray[$userName] = $userName;
 		}
 		return $usersListArray;
 	}

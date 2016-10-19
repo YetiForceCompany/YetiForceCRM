@@ -344,9 +344,9 @@ class Users extends CRMEntity
 		}
 		$cryptType = $this->db->getSingleValue($result);
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
-		$query = "SELECT 1 from $this->table_name where user_name=? && user_password=? && status = ?";
-		$result = $this->db->pquery($query, [$userName, $encryptedPassword, 'Active']);
-		if ($result->rowCount() == 1) {
+
+		$query = (new \App\db\Query())->from($this->table_name)->where(['user_name' => $userName, 'user_password' => $encryptedPassword, 'status' => 'Active']);
+		if ($query->count() === 1) {
 			\App\Log::trace("Authentication OK. User: $userName");
 			return true;
 		}
@@ -723,7 +723,7 @@ class Users extends CRMEntity
 		if ($insertion_mode == 'edit') {
 			$update = '';
 			$update_params = [];
-			$tabid = \includes\Modules::getModuleId($module);
+			$tabid = \App\Module::getModuleId($module);
 			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,5) and vtiger_field.presence in (0,2)";
 			$params = array($tabid, $table_name);
 		} else {
@@ -733,7 +733,7 @@ class Users extends CRMEntity
 				$this->id = $currentuser_id;
 			}
 			$qparams = array($this->id);
-			$tabid = \includes\Modules::getModuleId($module);
+			$tabid = \App\Module::getModuleId($module);
 			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,4,5) and vtiger_field.presence in (0,2)";
 			$params = array($tabid, $table_name);
 
@@ -759,7 +759,7 @@ class Users extends CRMEntity
 						$fldvalue = 0;
 					}
 				} elseif ($uitype == 15) {
-					if ($this->column_fields[$fieldname] == \includes\Language::translate('LBL_NOT_ACCESSIBLE')) {
+					if ($this->column_fields[$fieldname] == \App\Language::translate('LBL_NOT_ACCESSIBLE')) {
 						//If the value in the request is Not Accessible for a picklist, the existing value will be replaced instead of Not Accessible value.
 						$sql = "select $columname from  $table_name where " . $this->tab_name_index[$table_name] . "=?";
 						$res = $adb->pquery($sql, array($this->id));
@@ -905,7 +905,7 @@ class Users extends CRMEntity
 			$query = sprintf($query, $table_name, $index);
 			$result[$table_name] = $adb->pquery($query, [$record]);
 		}
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
 		$result1 = $adb->pquery($sql1, array($tabid));
 		while ($row = $adb->getRow($result1)) {
@@ -1074,7 +1074,6 @@ class Users extends CRMEntity
 		$prev_reminder_interval = $adb->query_result($query_prev_interval, 0, 'reminder_interval');
 
 		$this->saveHomeStuffOrder($this->id);
-		\vtlib\Deprecated::SaveTagCloudView($this->id);
 
 		// Added for Reminder Popup support
 		$this->resetReminderInterval($prev_reminder_interval);

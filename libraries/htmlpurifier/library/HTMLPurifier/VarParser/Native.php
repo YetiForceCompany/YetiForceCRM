@@ -27,7 +27,7 @@ class HTMLPurifier_VarParser_Native extends HTMLPurifier_VarParser
     protected function evalExpression($expr)
     {
         $var = null;
-        $result = eval("\$var = $expr;");
+        throw new BadMethodCallException('Eval: evalExpression');
         if ($result === false) {
             throw new HTMLPurifier_VarParserException("Fatal error in evaluated code");
         }

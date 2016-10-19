@@ -429,7 +429,7 @@ class Activity extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 		}
 
@@ -464,7 +464,7 @@ class Activity extends CRMEntity
 		$focus = new Users();
 
 		$button = '<input title="Change" accessKey="" tabindex="2" type="button" class="crmbutton small edit"
-					value="' . \includes\Language::translate('LBL_SELECT_USER_BUTTON_LABEL') . '" name="button" LANGUAGE=javascript
+					value="' . \App\Language::translate('LBL_SELECT_USER_BUTTON_LABEL') . '" name="button" LANGUAGE=javascript
 					onclick=\'return window.open("index.php?module=Users&return_module=Calendar&return_action={$return_modname}&activity_mode=Events&action=Popup&popuptype=detailview&form=EditView&form_submit=true&select=enable&return_id=' . $id . '&recordid=' . $id . '","test","width=640,height=525,resizable=0,scrollbars=0")\';>';
 
 		$returnset = '&return_module=Calendar&return_action=CallRelatedList&return_id=' . $id;
@@ -862,7 +862,7 @@ class Activity extends CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = \includes\Modules::getModuleId($module);
+		$tabId = \App\Module::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id . '_t' . $tabId;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
@@ -902,7 +902,7 @@ class Activity extends CRMEntity
 	{
 		$module = null;
 		if (!empty($tabId)) {
-			$module = \includes\Modules::getModuleName($tabId);
+			$module = \App\Module::getModuleName($tabId);
 		}
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared " .

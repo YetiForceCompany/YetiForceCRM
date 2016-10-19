@@ -115,7 +115,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function isAdminUser()
 	{
 		$adminStatus = $this->get('is_admin');
-		if ($adminStatus == 'on') {
+		if ($adminStatus === 'on') {
 			return true;
 		}
 		return false;

@@ -22,12 +22,12 @@ Class Settings_DataAccess_ActionConfig_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$baseModule = $request->get('m');
-		$tpl_id = $request->get('did');
+		$tplId = $request->get('did');
 		$aid = $request->get('aid');
 		$action = $request->get('an');
 		$actionsName = explode(Settings_DataAccess_Module_Model::$separator, $action);
-		$Config = Settings_DataAccess_Module_Model::showConfigDataAccess($tpl_id, $action, $baseModule);
-		$DataAccess = Settings_DataAccess_Module_Model::getDataAccessInfo($tpl_id, false);
+		$Config = Settings_DataAccess_Module_Model::showConfigDataAccess($tplId, $action, $baseModule);
+		$DataAccess = Settings_DataAccess_Module_Model::getDataAccessInfo($tplId, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('BASE_MODULE', $baseModule);
@@ -35,7 +35,7 @@ Class Settings_DataAccess_ActionConfig_View extends Settings_Vtiger_Index_View
 		$viewer->assign('ACTION', $actionsName[1]);
 		$viewer->assign('ACTIONNAME', $action);
 		$viewer->assign('AID', $aid);
-		$viewer->assign('TPL_ID', $tpl_id);
+		$viewer->assign('TPL_ID', $tplId);
 		$viewer->assign('CONFIG', $Config);
 		$viewer->assign('SAVED_DATA', $DataAccess['basic_info']['data'][$aid]);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

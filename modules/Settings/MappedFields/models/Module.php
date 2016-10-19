@@ -192,7 +192,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getSpecialFields()
 	{
-		$db = PearDatabase::getInstance();
 		$fields = ['id' => ['name' => 'id', 'id' => 'id', 'fieldDataType' => 'reference', 'label' => 'LBL_SELF_ID', 'typeofdata' => 'SELF']];
 		$models = [];
 		foreach ($fields as $fieldName => $data) {
@@ -244,35 +243,32 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function deleteMapping($mappedIds)
 	{
-		
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
-		$db = PearDatabase::getInstance();
 		if (!is_array($mappedIds)) {
 			$mappedIds = [$mappedIds];
 		}
-		$db->delete($this->mappingTable, $this->mappingIndex . ' IN (' . generateQuestionMarks($mappedIds) . ');', $mappedIds);
+		\App\Db::getInstance()->createCommand()->delete($this->mappingTable, [$this->mappingIndex => $mappedIds])
+			->execute();
 		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 	}
 
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
-		return $db->delete($this->baseTable, '`' . $this->baseIndex . '` = ?', [$this->getRecordId()]);
+		return \App\Db::getInstance()->createCommand()->delete($this->baseTable, [$this->baseIndex => $this->getRecordId()])
+			->execute();
 	}
 
 	public function importsAllowed()
 	{
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT 1 FROM `%s` WHERE `tabid` = ? && `reltabid` = ? ;', $this->baseTable);
-		$result = $db->pquery($query, [$this->get('tabid'), $this->get('reltabid')]);
-		return $result->rowCount();
+		return (new \App\Db\Query())->from($this->baseTable)
+			->where(['tabid' => $this->get('tabid'), 'reltabid' => $this->get('reltabid')])
+			->count();
 	}
 
 	public function save($saveMapping = false)
 	{
-		
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $saveMapping . ') method ...');
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$fields = self::$allFields;
 		$params = [];
 		foreach ($fields as $field) {
@@ -286,10 +282,10 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 		if (!$this->getRecordId()) {
-			$db->insert($this->baseTable, $params);
+			$db->createCommand()->insert($this->baseTable, $params)->execute();
 			$this->record->set('id', $db->getLastInsertID());
 		} else {
-			$db->update($this->baseTable, $params, '`' . $this->baseIndex . '` = ?', [$this->getRecordId()]);
+			$db->createCommand()->update($this->baseTable, $params, [$this->baseIndex => $this->getRecordId()])->execute();
 		}
 		if ($saveMapping) {
 			$stepFields = Settings_MappedFields_Module_Model::getFieldsByStep(2);
@@ -301,7 +297,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 					$params[$name] = $mapp[$name];
 				}
 				if ($params['source'] && $params['target']) {
-					$db->insert($this->mappingTable, $params);
+					$db->createCommand()->insert($this->mappingTable, $params)->execute();
 				}
 			}
 		}

@@ -14,7 +14,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	static public function getBruteForceSettings()
 	{
-		return (new App\db\Query())->from('vtiger_bruteforce')->one();
+		return (new App\Db\Query())->from('vtiger_bruteforce')->one();
 	}
 
 	public static function getBlockedIP()
@@ -40,37 +40,14 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		return $output;
 	}
 
-	static public function browserDetect()
-	{
-
-		$browser = $_SERVER['HTTP_USER_AGENT'];
-
-		if (strpos($browser, 'MSIE') !== false)
-			return 'Internet explorer';
-		elseif (strpos($browser, 'Trident') !== false) //For Supporting IE 11
-			return 'Internet explorer';
-		elseif (strpos($browser, 'Firefox') !== false)
-			return 'Mozilla Firefox';
-		elseif (strpos($browser, 'Chrome') !== false)
-			return 'Google Chrome';
-		elseif (strpos($browser, 'Opera Mini') !== false)
-			return "Opera Mini";
-		elseif (strpos($browser, 'Opera') !== false)
-			return "Opera";
-		elseif (strpos($browser, 'Safari') !== false)
-			return "Safari";
-		else
-			return 'unknow';
-	}
-
 	static public function checkBlocked()
 	{
 		$config = self::getBruteForceSettings();
 		$blockDate = new DateTime();
 		$blockDate->modify("-{$config['timelock']} minutes");
-		$ip = vtlib\Functions::getRemoteIP();
+		$ip = \App\RequestUtil::getRemoteIP();
 
-		$count = (new \App\db\Query())
+		$count = (new \App\Db\Query())
 			->from('vtiger_loginhistory')
 			->where(['>', 'login_time', $blockDate->format('Y-m-d H:i:s')])
 			->andWhere(['status' => 'Failed login'])
@@ -85,16 +62,15 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getAdminUsers()
 	{
-		$adb = PearDatabase::getInstance();
-		$query = "SELECT id, user_name FROM `vtiger_users` WHERE is_admin = 'on' && deleted = 0";
-		$result = $adb->query($query);
-		$numRows = $adb->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$userId = $adb->query_result_raw($result, $i, 'id');
-			$userName = $adb->query_result_raw($result, $i, 'user_name');
-			$output[$userId] = $userName;
+		$query = (new \App\Db\Query())
+			->select('id, user_name')
+			->from('vtiger_users')
+			->where(['is_admin' => 'on'])
+			->andWhere(['deleted' => 0]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$output[$row['id']] = $row['user_name'];
 		}
-
 		return $output;
 	}
 
@@ -105,7 +81,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$active = false;
 		}
-		$result = \App\DB::getInstance()->createCommand()
+		$result = \App\Db::getInstance()->createCommand()
 				->update('vtiger_bruteforce', [
 					'attempsnumber' => $number,
 					'timelock' => $timelock,
@@ -116,13 +92,14 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function updateUsersForNotifications($selectedUsers)
 	{
-		$adb = PearDatabase::getInstance();
-		$deleteQuery = "DELETE FROM `vtiger_bruteforce_users`";
-		$adb->query($deleteQuery);
+		$db = \App\Db::getInstance();
+		$db->createCommand()
+			->delete('vtiger_bruteforce_users')
+			->execute();
 		if (!empty($selectedUsers)) {
-			$insertQuery = "INSERT INTO `vtiger_bruteforce_users` (id) VALUES(?)";
 			foreach ($selectedUsers as $userId) {
-				$adb->pquery($insertQuery, array($userId));
+				$db->createCommand()
+					->insert('vtiger_bruteforce_users', ['id' => $userId])->execute();
 			}
 		}
 
@@ -131,12 +108,11 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getUsersForNotifications()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_bruteforce_users", true);
-		$numRows = $adb->num_rows($result);
+		$query = (new \App\Db\Query())->from('vtiger_bruteforce_users');
 		$output = [];
-		for ($i = 0; $i < $numRows; $i++) {
-			$id = $adb->query_result($result, $i, 'id');
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$id = $row['id'];
 			$output[$id] = $id;
 		}
 
@@ -145,7 +121,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function sendNotificationEmail()
 	{
-		
+
 		\App\Log::trace('Start ' . __CLASS__ . '::' . __METHOD__);
 		$usersId = self::getUsersForNotifications();
 		if (count($usersId) == 0) {

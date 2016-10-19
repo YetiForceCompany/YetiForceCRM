@@ -19,7 +19,6 @@ class Settings_OSSDocumentControl_UpdateTpl_Action extends Settings_Vtiger_Index
 
 	public function process(Vtiger_Request $request)
 	{
-
 		$baseModule = $request->get('base_module');
 		$summary = $request->get('summary');
 		$docFolder = $request->get('doc_folder');
@@ -27,45 +26,39 @@ class Settings_OSSDocumentControl_UpdateTpl_Action extends Settings_Vtiger_Index
 		$docRequest = $request->get('doc_request');
 		$tplId = $request->get('tpl_id');
 		$docOrder = (int) $request->get('doc_order');
-		//var_dump($docOrder);
 		$conditionAll = $request->getRaw('condition_all_json');
 		$conditionOption = $request->getRaw('condition_option_json');
-
-		$db = PearDatabase::getInstance();
-
-		$insertBaseRecord = "UPDATE vtiger_ossdocumentcontrol SET module_name = ?, summary = ?, doc_folder = ?, doc_name = ?, doc_request = ?, doc_order = ? WHERE ossdocumentcontrolid = ?";
-		$db->pquery($insertBaseRecord, array($baseModule, $summary, $docFolder, $docName, $docRequest, $docOrder, $tplId), true);
-
+		$db = App\Db::getInstance();
+		$db->createCommand()->update('vtiger_ossdocumentcontrol', [
+			'module_name' => $baseModule,
+			'summary' => $summary,
+			'doc_folder' => $docFolder,
+			'doc_name' => $docName,
+			'doc_request' => $docRequest ? 1 : 0,
+			'doc_order' => $docOrder
+			], ['ossdocumentcontrolid' => $tplId])->execute();
 		$this->updateConditions($conditionAll, $tplId);
 		$this->updateConditions($conditionOption, $tplId, false);
-
 		header("Location: index.php?module=OSSDocumentControl&parent=Settings&view=Index");
 	}
 
 	private function updateConditions($conditions, $relId, $mendatory = true)
 	{
-		$db = PearDatabase::getInstance();
-
-		if ($mendatory) {
-
-			$deleteOldConditionsSql = "DELETE FROM vtiger_ossdocumentcontrol_cnd WHERE ossdocumentcontrolid = ? && required = 1";
-		} else {
-
-			$deleteOldConditionsSql = "DELETE FROM vtiger_ossdocumentcontrol_cnd WHERE ossdocumentcontrolid = ? && required = 0";
-		}
-
-		$db->pquery($deleteOldConditionsSql, array($relId), true);
-
+		$db = App\Db::getInstance();
+		$db->createCommand()
+			->delete('vtiger_ossdocumentcontrol_cnd', ['ossdocumentcontrolid' => $relId, 'required' => $mendatory ? 1 : 0])
+			->execute();
 		$conditionObj = json_decode($conditions);
-
 		if (count($conditionObj)) {
-			foreach ($conditionObj as $key => $obj) {
-				$insertConditionSql = "INSERT INTO vtiger_ossdocumentcontrol_cnd VALUES(?, ?, ?, ?, ?, ?, ?)";
-				if (is_array($obj->val)) {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, implode('::', $obj->val), $mendatory, $obj->type), true);
-				} else {
-					$db->pquery($insertConditionSql, array(NULL, $relId, $obj->field, $obj->name, $obj->val, $mendatory, $obj->type), true);
-				}
+			foreach ($conditionObj as $obj) {
+				$db->createCommand()->insert('vtiger_ossdocumentcontrol_cnd', [
+					'ossdocumentcontrolid' => $relId,
+					'fieldname' => $obj->field,
+					'comparator' => $obj->name,
+					'val' => is_array($obj->val) ? implode('::', $obj->val) : $obj->val,
+					'required' => $mendatory,
+					'field_type' => $obj->type
+				])->execute();
 			}
 		}
 	}
