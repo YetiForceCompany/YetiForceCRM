@@ -1162,6 +1162,11 @@ $languageStrings = [
 	'Api Address' => 'Поиск адресов',
 	'Notifications' => 'Уведомления',
 	'Mails' => 'Письма',
+	'LBL_SQL_ERROR' => 'Error when calling SQL query',
+	'LBL_ERROR_MASAGE' => 'Error message',
+	'LBL_SQL_QUERY' => 'SQL query',
+	'LBL_SQL_PARAMS' => 'SQL query parameters',
+	'LBL_BACKTRACE' => 'Track function calling',
 	'LBL_CATEGORY_MULTIPICKLIST' => 'Список категорий',
 	// popup
 	'LBL_POPUP_SWITCH_BUTTON' => 'Переключатель',
