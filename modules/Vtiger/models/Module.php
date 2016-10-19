@@ -135,15 +135,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function isCommentEnabled()
 	{
 		$enabled = false;
-		$db = PearDatabase::getInstance();
+		$query = new \App\Db\Query();
 		$commentsModuleModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($commentsModuleModel && $commentsModuleModel->isActive()) {
-			$relatedToFieldResult = $db->pquery('SELECT fieldid FROM vtiger_field WHERE fieldname = ? && tabid = ?', array('related_to', $commentsModuleModel->getId()));
-			$fieldId = $db->getSingleValue($relatedToFieldResult);
+			$fieldId = $query->select('fieldid')->from('vtiger_field')->where(['fieldname' => 'related_to', 'tabid' => $commentsModuleModel->getId()])->scalar();
 			if (!empty($fieldId)) {
-				$relatedModuleResult = $db->pquery('SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid = ?', array($fieldId));
-				while (($relatedModule = $db->getSingleValue($relatedModuleResult)) !== false) {
-					if ($this->getName() == $relatedModule) {
+				$query->select('relmodule')->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId]);
+				$dataReader = $query->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					if ($this->getName() === $row['relmodule']) {
 						$enabled = true;
 					}
 				}
