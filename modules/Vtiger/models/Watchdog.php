@@ -75,16 +75,14 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			return $this->get('isWatchingRecord');
 		}
 		$return = $this->isWatchingModule($userId);
-		$db = PearDatabase::getInstance();
 		if ($userId === false) {
 			$userId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
 		}
-		$sql = 'SELECT state FROM u_yf_watchdog_record WHERE userid = ? && record = ?';
-		$result = $db->pquery($sql, [$userId, $this->get('record')]);
-		$count = $db->getRowCount($result);
-		$this->set('isRecord', $count);
-		if ($count) {
-			if ($db->getSingleValue($result) == 1) {
+		$state = (new \App\Db\Query())->select('state')->from('u_#__watchdog_record')->where(['userid' => $userId, 'record' => $this->get('record')])->scalar();
+		$isRecord = ($state === false) ? 0 : 1;
+		$this->set('isRecord', $isRecord);
+		if ($isRecord) {
+			if ($state === 1) {
 				$return = true;
 			} else {
 				$return = false;
