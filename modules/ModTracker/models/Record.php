@@ -29,21 +29,16 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getUpdates($parentRecordId, $pagingModel, $type)
 	{
-		$db = PearDatabase::getInstance();
 		$recordInstances = [];
-		$params = [];
 
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
-
 		$where = self::getConditionByType($type);
-		$listQuery = sprintf('SELECT * FROM vtiger_modtracker_basic WHERE crmid = ? %s ORDER BY changedon DESC LIMIT ?, ?;', $where);
-		array_push($params, $parentRecordId, $startIndex, $pageLimit);
-		$result = $db->pquery($listQuery, $params);
-		$rows = $db->num_rows($result);
+		$query = (new \App\Db\Query())->from('vtiger_modtracker_basic')->where(['crmid' => $parentRecordId])
+			->andWhere(($where))->limit($startIndex)->offset($pageLimit)->orderBy('changedon');
+		$dataReader = $query->createCommand()->query();
 
-		for ($i = 0; $i < $rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
 			$recordInstance->setData($row)->setParent($row['crmid'], $row['module']);
 			$recordInstances[] = $recordInstance;
@@ -325,22 +320,20 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	public static function getTotalRecordCount($recordId, $type = false)
 	{
-		$db = PearDatabase::getInstance();
 		$where = self::getConditionByType($type);
-		$query = sprintf('SELECT COUNT(*) AS count FROM vtiger_modtracker_basic WHERE crmid = ? %s', $where);
-		$result = $db->pquery($query, [$recordId]);
-		return $db->query_result($result, 0, 'count');
+		$count = (new \App\Db\Query())->from('vtiger_modtracker_basic')->where(['crmid' => $recordId])->andWhere($where)->count();
+		return $count;
 	}
 
 	public static function getConditionByType($type)
 	{
-		$where = '';
+		$where = [];
 		switch ($type) {
 			case 'changes':
-				$where = ' && status <> ' . self::DISPLAYED;
+				$where = ['<>', 'status', self::DISPLAYED];
 				break;
 			case 'review':
-				$where = ' && status = ' . self::DISPLAYED;
+				$where = ['status' => self::DISPLAYED];
 				break;
 			default:
 				break;

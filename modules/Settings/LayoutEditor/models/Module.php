@@ -176,7 +176,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldparams['filterField'] = $params['MRVFilterField'];
 			$fieldparams['filterValue'] = $params['MRVFilterValue'];
 			\App\Db::getInstance()->createCommand()->insert('s_yf_multireference',
-				['source_module' => $moduleName, 'dest_module' =>$params['MRVModule'] ])->execute();
+				['source_module' => $moduleName, 'dest_module' =>$params['MRVModule']])->execute();
 	
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
