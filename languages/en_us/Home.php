@@ -23,7 +23,6 @@ $languageStrings = [
 	'QLTQ' => 'Top Quotes',
 	'UA' => 'Upcoming Activities',
 	'LBL_MARK_AS_READ' => 'Mark as read',
-	'LBL_NO_NOTIFICATIONS' => 'No notifications',
 	'Notifications' => 'Notifications',
 	'LBL_MESSAGES_FROM_USERS' => 'From users',
 	'LBL_WATCHDOG' => 'Track changes',

@@ -106,6 +106,19 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$relatedModule = $relatedModule['setype'];
 		return ['id' => $relatedId, 'module' => $relatedModule];
 	}
+
+	/**
+	 * Function to get name of user who create this notification
+	 */
+	public function getCreatorUser()
+	{
+		$userid = $this->get('smcreatorid');
+		if (!empty($userid)) {
+			$userModel = Users_Privileges_Model::getInstanceById($userid);
+			return $userModel->getName();
+		}
+		return '';
+	}
 	/*
 	 * Function to save record
 	 */

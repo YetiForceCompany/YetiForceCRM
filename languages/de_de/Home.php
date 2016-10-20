@@ -22,7 +22,6 @@ $languageStrings = [
 	'QLTQ' => 'Top Angebote',
 	'UA' => 'Die nächsten Aktivitäten',
 	'LBL_MARK_AS_READ' => 'Als gelesen markieren',
-	'LBL_NO_NOTIFICATIONS' => 'Keine Benachrichtigungen',
 	'Notifications' => 'Benachrichtigungen',
 	'LBL_CREATING_NOTIFICATION' => 'Benachrichtigung senden',
 	'LBL_MESSAGES_FROM_USERS' => 'Benutzermeldungen',

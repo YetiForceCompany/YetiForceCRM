@@ -23,7 +23,6 @@ $languageStrings = [
 	'QLTQ' => 'Najlepsze oferty',
 	'UA' => 'Nadchodzące zdarzenia',
 	'LBL_MARK_AS_READ' => 'Oznacz jako przeczytane',
-	'LBL_NO_NOTIFICATIONS' => 'Brak powiadomień',
 	'Notifications' => 'Powiadomienia',
 	'LBL_MESSAGES_FROM_USERS' => 'Od użytkowników',
 	'LBL_WATCHDOG' => 'Śledzenie zmian',
