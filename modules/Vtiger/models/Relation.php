@@ -300,26 +300,26 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename,vtiger_tab.tabid as moduleid FROM vtiger_relatedlists 
-                    INNER JOIN vtiger_tab on vtiger_relatedlists.related_tabid = vtiger_tab.tabid
-                    WHERE vtiger_relatedlists.tabid = ? && related_tabid != 0';
+		$query = new \App\Db\Query();
+		$query->select('vtiger_relatedlists.*, vtiger_tab.name as modulename, vtiger_tab.tabid as moduleid')
+			->from('vtiger_relatedlists')
+			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId()])
+			->andWhere(['<>' , 'related_tabid', 0]);
 
 		if ($selected) {
-			$query .= ' && vtiger_relatedlists.presence <> 1';
+			$query->andWhere(['<>', 'vtiger_relatedlists.presence', 1]);
 		}
 		if ($onlyActive) {
-			$query .= ' && vtiger_tab.presence <> 1 ';
+			$query->andWhere(['<>', 'vtiger_tab.presence', 1 ]);
 		}
-		$query .= ' ORDER BY sequence'; 
-
-		$result = $db->pquery($query, array($parentModuleModel->getId()));
+		$query->orderBy('sequence');
+		$dataReader = $query->createCommand()->query();
 
 		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			// Skip relation where target module does not exits or is no permitted for view.
 			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
