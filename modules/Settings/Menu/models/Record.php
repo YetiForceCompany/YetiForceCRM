@@ -309,11 +309,11 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 		if ($rows) {
 			
-			foreach ($rows as $row) {
+			foreach ($rows as &$row) {
 				$oldAndNewIds[$row['id']] = $nextId;
 				$nextId += 1;
 			}
-			foreach ($rows as $row) {
+			foreach ($rows as &$row) {
 				if (array_key_exists($row['parentid'], $oldAndNewIds))
 					$parentId = $oldAndNewIds[$row['parentid']];
 				else
