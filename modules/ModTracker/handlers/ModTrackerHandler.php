@@ -29,6 +29,7 @@ class ModTrackerHandler extends VTEventHandler
 		if ($flag) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$watchdogTitle = $watchdogMessage = '';
+			$db = \App\DB::getInstance();
 			switch ($eventName) {
 				case 'vtiger.entity.aftersave.final':
 
@@ -157,16 +158,17 @@ class ModTrackerHandler extends VTEventHandler
 					// TODU
 					break;
 				case 'vtiger.view.detail.before':
-
+					$uniqueId = $db->getUniqueID('vtiger_modtracker_basic');
 					$recordId = $data->getId();
-					$adb->insert('vtiger_modtracker_basic', [
-						'id' => $adb->getUniqueId('vtiger_modtracker_basic'),
+					$db->createCommand()->insert('vtiger_modtracker_basic', [
+						'id' => $uniqueId,
 						'crmid' => $recordId,
 						'module' => $moduleName,
 						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$DISPLAYED
-					]);
+					])->execute();
+				
 
 					break;
 			}
