@@ -10,7 +10,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Añadir registro',
 	'LBL_ADD_USERS_ROLES' => 'Añadir Usuarios, Roles, etc.',
-	'LBL_DUPLICATES_EXIST' => 'Ya exite ese nombre de Grupo',
+	'LBL_DUPLICATES_EXIST' => 'Ya existe ese nombre de Grupo',
 	'LBL_GROUP_MEMBERS' => 'Miembros del Grupo',
 	'LBL_GROUP_NAME' => 'Nombre de Grupo',
 	'LBL_ROLEANDSUBORDINATE' => 'Rol y subordinados',
@@ -23,6 +23,6 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Please select at least one member for a group',
-	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Group deleted successfully',
+	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Seleccione al menos un miembro de grupo',
+	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Grupo eliminado correctamente',
 ];
