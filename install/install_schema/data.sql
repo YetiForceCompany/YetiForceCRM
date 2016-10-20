@@ -6471,10 +6471,11 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (300,6,'DASHBOARDWIDGET','LBL_ACCOUNTS_BY_INDUSTRY','index.php?module=Accounts&view=ShowWidget&name=AccountsByIndustry','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (301,3,'DASHBOARDWIDGET','LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS','index.php?module=SSalesProcesses&view=ShowWidget&name=EstimatedValueByStatus','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (302,86,'DASHBOARDWIDGET','LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS','index.php?module=SSalesProcesses&view=ShowWidget&name=EstimatedValueByStatus','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (303,111,'DASHBOARDWIDGET','Notifications','index.php?module=Notification&view=ShowWidget&name=Notifications','',0,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (302);
+insert  into `vtiger_links_seq`(`id`) values (303);
 
 /*Data for the table `vtiger_loginhistory` */
 
