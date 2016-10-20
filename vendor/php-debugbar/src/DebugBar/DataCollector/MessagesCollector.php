@@ -9,13 +9,12 @@
  */
 namespace DebugBar\DataCollector;
 
-
 use DebugBar\DataFormatter\DataFormatterInterface;
 
 /**
  * Provides a way to log messages
  */
-class MessagesCollector  implements DataCollectorInterface, MessagesAggregateInterface, Renderable
+class MessagesCollector implements DataCollectorInterface, MessagesAggregateInterface, Renderable
 {
 
 	protected $name;

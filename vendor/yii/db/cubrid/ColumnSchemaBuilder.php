@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
 namespace yii\db\cubrid;
 
 use yii\db\ColumnSchemaBuilder as AbstractColumnSchemaBuilder;
@@ -17,55 +16,56 @@ use yii\db\ColumnSchemaBuilder as AbstractColumnSchemaBuilder;
  */
 class ColumnSchemaBuilder extends AbstractColumnSchemaBuilder
 {
-    /**
-     * @inheritdoc
-     */
-    protected function buildUnsignedString()
-    {
-        return $this->isUnsigned ? ' UNSIGNED' : '';
-    }
 
-    /**
-     * @inheritdoc
-     */
-    protected function buildAfterString()
-    {
-        return $this->after !== null ?
-            ' AFTER ' . $this->db->quoteColumnName($this->after) :
-            '';
-    }
+	/**
+	 * @inheritdoc
+	 */
+	protected function buildUnsignedString()
+	{
+		return $this->isUnsigned ? ' UNSIGNED' : '';
+	}
 
-    /**
-     * @inheritdoc
-     */
-    protected function buildFirstString()
-    {
-        return $this->isFirst ? ' FIRST' : '';
-    }
+	/**
+	 * @inheritdoc
+	 */
+	protected function buildAfterString()
+	{
+		return $this->after !== null ?
+			' AFTER ' . $this->db->quoteColumnName($this->after) :
+			'';
+	}
 
-    /**
-     * @inheritdoc
-     */
-    protected function buildCommentString()
-    {
-        return $this->comment !== null ? " COMMENT " . $this->db->quoteValue($this->comment) : '';
-    }
+	/**
+	 * @inheritdoc
+	 */
+	protected function buildFirstString()
+	{
+		return $this->isFirst ? ' FIRST' : '';
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function __toString()
-    {
-        switch ($this->getTypeCategory()) {
-            case self::CATEGORY_PK:
-                $format = '{type}{check}{pos}{comment}{append}';
-                break;
-            case self::CATEGORY_NUMERIC:
-                $format = '{type}{length}{unsigned}{notnull}{unique}{default}{check}{comment}{pos}{append}';
-                break;
-            default:
-                $format = '{type}{length}{notnull}{unique}{default}{check}{comment}{pos}{append}';
-        }
-        return $this->buildCompleteString($format);
-    }
+	/**
+	 * @inheritdoc
+	 */
+	protected function buildCommentString()
+	{
+		return $this->comment !== null ? " COMMENT " . $this->db->quoteValue($this->comment) : '';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function __toString()
+	{
+		switch ($this->getTypeCategory()) {
+			case self::CATEGORY_PK:
+				$format = '{type}{check}{pos}{comment}{append}';
+				break;
+			case self::CATEGORY_NUMERIC:
+				$format = '{type}{length}{unsigned}{notnull}{unique}{default}{check}{comment}{pos}{append}';
+				break;
+			default:
+				$format = '{type}{length}{notnull}{unique}{default}{check}{comment}{pos}{append}';
+		}
+		return $this->buildCompleteString($format);
+	}
 }

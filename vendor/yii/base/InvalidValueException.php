@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
 namespace yii\base;
 
 /**
@@ -15,11 +14,12 @@ namespace yii\base;
  */
 class InvalidValueException extends \UnexpectedValueException
 {
-    /**
-     * @return string the user-friendly name of this exception
-     */
-    public function getName()
-    {
-        return 'Invalid Return Value';
-    }
+
+	/**
+	 * @return string the user-friendly name of this exception
+	 */
+	public function getName()
+	{
+		return 'Invalid Return Value';
+	}
 }

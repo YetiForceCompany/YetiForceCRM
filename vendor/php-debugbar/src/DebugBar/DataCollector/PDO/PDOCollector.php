@@ -1,4 +1,5 @@
-<?php namespace DebugBar\DataCollector\PDO;
+<?php
+namespace DebugBar\DataCollector\PDO;
 
 use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\DataCollector;
