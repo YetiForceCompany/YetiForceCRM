@@ -27,4 +27,17 @@ class Command extends \yii\db\Command
 			}
 		}
 	}
+
+	/**
+	 * Executes the SQL statement and returns ALL rows at once.
+	 * @param integer $fetchMode the result fetch mode. Please refer to [PHP manual](http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php)
+	 * for valid fetch modes. If this parameter is null, the value set in [[fetchMode]] will be used.
+	 * @return array all rows of the query result. Each array element is an array representing a row of data.
+	 * An empty array is returned if the query results in nothing.
+	 * @throws Exception execution failed
+	 */
+	public function queryAllByGroup()
+	{
+		return $this->queryInternal('fetchAll', \PDO::FETCH_GROUP | \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
+	}
 }
