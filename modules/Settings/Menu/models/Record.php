@@ -141,7 +141,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$recordModel = Settings_Menu_Record_Model::getInstanceById($id);
 		$query = (new \App\Db\Query())->select('id')->from('yetiforce_menu')->where(['parentid' => $id]);
 		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
+		while ($row = $dataReader->readColumn(0)) {
 			$this->removeMenu($row['id']);
 		}
 		$db->createCommand()->delete('yetiforce_menu', ['id' => $id])->execute();
