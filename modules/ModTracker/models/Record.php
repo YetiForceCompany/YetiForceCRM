@@ -93,16 +93,15 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	public static function isNewChange($recordId, $userId = false)
 	{
-		$db = PearDatabase::getInstance();
 		if ($userId === false) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getId();
 		}
 
-		$listQuery = 'SELECT `last_reviewed_users` FROM vtiger_modtracker_basic WHERE crmid = ? && status <> ? ORDER BY changedon DESC, id DESC LIMIT 1;';
-		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
-		$lastReviewedUsers = $db->getSingleValue($result);
-		if (!empty($lastReviewedUsers)) {
+		$lastReviewedUsers = (new \App\Db\Query())->select('last_reviewed_users')->from('vtiger_modtracker_basic')
+				->where(['crmid' => $recordId])
+				->andWhere(['<>', 'status', self::DISPLAYED])->orderBy('changedon, id')->limit(1)->scalar();
+		if ($lastReviewedUsers !== false) {
 			return strpos($lastReviewedUsers, "#$userId#") === false;
 		}
 		return true;
