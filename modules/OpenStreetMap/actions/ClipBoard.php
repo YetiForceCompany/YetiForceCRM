@@ -30,7 +30,8 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	public function addAllRecords(Vtiger_Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$count = $coordinatesModel->saveAllRecordsToCache($request->get('srcModule'));
+		$coordinatesModel->set('moduleName', $request->get('srcModule'));
+		$count = $coordinatesModel->saveAllRecordsToCache();
 		$response = new Vtiger_Response();
 		$response->setResult(['count' => $count]);
 		$response->emit();
@@ -39,7 +40,8 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	public function delete(Vtiger_Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$coordinatesModel->deleteCache($request->get('srcModule'));
+		$coordinatesModel->set('moduleName', $request->get('srcModule'));
+		$coordinatesModel->deleteCache();
 		$response = new Vtiger_Response();
 		$response->setResult(0);
 		$response->emit();
@@ -47,11 +49,11 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 
 	public function save(Vtiger_Request $request)
 	{
-		$srcModuleName = $request->get('srcModule');
 		$records = $request->get('recordIds');
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$coordinatesModel->deleteCache($srcModuleName);
-		$coordinatesModel->saveCache($srcModuleName, $records);
+		$coordinatesModel->set('moduleName', $request->get('srcModule'));
+		$coordinatesModel->deleteCache();
+		$coordinatesModel->saveCache($records);
 		$response = new Vtiger_Response();
 		$response->setResult(count($records));
 		$response->emit();
@@ -62,7 +64,8 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$record = $request->get('record');
 		$srcModuleName = $request->get('srcModuleName');
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$coordinatesModel->addCache($srcModuleName, $record);
+		$coordinatesModel->set('moduleName', $srcModuleName);
+		$coordinatesModel->addCache($record);
 		$moduleModel = Vtiger_Module_Model::getInstance($srcModuleName);
 		$coordinatesModel->set('srcModuleModel', $moduleModel);
 		$coordinates = $coordinatesModel->readCoordinatesByRecords([$record]);

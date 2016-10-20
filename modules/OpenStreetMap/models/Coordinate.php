@@ -537,12 +537,11 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 
 	/**
 	 * Save records to clipboard
-	 * @param int $userId id of user
-	 * @param string $moduleName name of module
 	 * @param array $records Array with records id
 	 */
-	public function saveCache($moduleName, $records)
+	public function saveCache($records)
 	{
+		$moduleName = $this->get('moduleName');
 		$userId = Users_Privileges_Model::getCurrentUserModel()->getId();
 		$insertedData = [];
 		foreach ($records as $recordId) {
@@ -555,11 +554,10 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 
 	/**
 	 * Removes records in the clipbord
-	 * @param int $userId id of user
-	 * @param string $moduleName name of module
 	 */
-	public function deleteCache($moduleName)
+	public function deleteCache()
 	{
+		$moduleName = $this->get('moduleName');
 		\App\Db::getInstance()->createCommand()
 			->delete('u_#__openstreetmap_cache', ['module_name' => $moduleName, 'user_id' => Users_Privileges_Model::getCurrentUserModel()->getId()])
 			->execute();
@@ -567,23 +565,28 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to set all records from module to cache
-	 * @param string $moduleName
 	 */
-	public function saveAllRecordsToCache($moduleName)
+	public function saveAllRecordsToCache()
 	{
+		$moduleName = $this->get('moduleName');
 		$queryGenerator = new QueryGenerator($moduleName);
 		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
 		$query = $queryGenerator->getQuery();
 		$db = PearDatabase::getInstance();
 		$result = $db->query($query);
 		$records = $db->getArrayColumn($result);
-		$this->deleteCache($moduleName);
-		$this->saveCache($moduleName, $records);
+		$this->deleteCache();
+		$this->saveCache($records);
 		return $db->getRowCount($result);
 	}
 
-	public function addCache($moduleName, $record)
+	/**
+	 * Adding records to the clipboard
+	 * @param type $record
+	 */
+	public function addCache($record)
 	{
+		$moduleName = $this->get('moduleName');
 		if (!(new \App\Db\Query())->from('u_#__openstreetmap_cache')
 				->where(['crmids' => $record])->exists()) {
 			App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_cache', [
