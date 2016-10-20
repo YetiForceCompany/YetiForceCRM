@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 require_once('VTJsonCondition.inc');
 require_once 'include/utils/ConfigReader.php';
@@ -127,12 +128,8 @@ class VTWorkflowManager
 		if ($cache->getWorkflowForModule($cacheName)) {
 			return $this->getWorkflowsForResult($cache->getWorkflowForModule($cacheName));
 		} else {
-			$result = $adb->getColumnNames("com_vtiger_workflows");
-			if (in_array('defaultworkflow', $result)) {
-				$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, defaultworkflow, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';
-			} else {
-				$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';
-			}
+			$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, defaultworkflow, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';
+			
 			$params[] = $moduleName;
 			if ($executionCondition) {
 				$params[] = $executionCondition;
