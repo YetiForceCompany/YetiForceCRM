@@ -158,10 +158,9 @@ class ModTrackerHandler extends VTEventHandler
 					// TODU
 					break;
 				case 'vtiger.view.detail.before':
-					$uniqueId = $db->getUniqueID('vtiger_modtracker_basic');
 					$recordId = $data->getId();
 					$db->createCommand()->insert('vtiger_modtracker_basic', [
-						'id' => $uniqueId,
+						'id' => $db->getUniqueID('vtiger_modtracker_basic'),
 						'crmid' => $recordId,
 						'module' => $moduleName,
 						'whodid' => $currentUser->getRealId(),

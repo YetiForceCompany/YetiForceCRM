@@ -25,11 +25,9 @@ class Record
 			}
 		}
 		if (!empty($missing)) {
-			$adb = \PearDatabase::getInstance();
-
-			$query = sprintf('SELECT `crmid`,`label` FROM `u_yf_crmentity_label` WHERE `crmid` IN(%s)', $adb->generateQuestionMarks($missing));
-			$result = $adb->pquery($query, $missing);
-			while ($row = $adb->getRow($result)) {
+			$query = (new \App\Db\Query())->select('crmid, label')->from('u_#__crmentity_label')->where(['crmid' => $missing]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				static::$recordLabelCache[$row['crmid']] = $row['label'];
 			}
 			foreach ($ids as $id) {
