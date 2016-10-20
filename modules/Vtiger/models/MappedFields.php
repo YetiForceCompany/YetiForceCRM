@@ -148,27 +148,23 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
-
 		$mf = Vtiger_Cache::get('MappedFieldsModel', $recordId);
 		if ($mf) {
 			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 			return $mf;
 		}
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM `%s` WHERE `%s` = ? LIMIT 1;', self::$baseTable, self::$baseIndex);
-		$result = $db->pquery($query, [$recordId]);
-		if ($result->rowCount() == 0) {
+		$row = (new App\Db\Query())->from(self::$baseTable)
+				->where([self::$baseIndex => $recordId])
+				->one();
+		if ($row === false) {
 			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 			return false;
 		}
-
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
-		$mf->setData($db->getRow($result));
+		$mf->setData($row);
 		Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
-
 		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $mf;
 	}
@@ -181,7 +177,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get mapping details
-	 * @return <Array> list of mapping details
+	 * @return array list of mapping details
 	 */
 	public function getMapping()
 	{

@@ -532,24 +532,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the users count
-	 * @param <Boolean> $onlyActive - If true it returns count of only acive users else only inactive users
-	 * @return <Integer> number of users
+	 * @param boolean $onlyActive - If true it returns count of only acive users else only inactive users
+	 * @return int number of users
 	 */
 	public static function getCount($onlyActive = false)
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT 1 FROM vtiger_users ';
-		$params = [];
-
+		$query = (new App\Db\Query())->from('vtiger_users');
 		if ($onlyActive) {
-			$query.= ' WHERE status=? ';
-			array_push($params, 'active');
+			$query->where(['status' => 'Active']);
 		}
-
-		$result = $db->pquery($query, $params);
-
-		$numOfUsers = $db->num_rows($result);
-		return $numOfUsers;
+		return $query->count();
 	}
 
 	/**

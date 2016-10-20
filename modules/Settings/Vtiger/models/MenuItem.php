@@ -242,36 +242,29 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	/**
 	 * Static function to get the list of all the items of the given Menu, all items if Menu is not specified
 	 * @param <Settings_Vtiger_Menu_Model> $menuModel
-	 * @return <Array> - List of Settings_Vtiger_MenuItem_Model instances
+	 * @return array - List of <Settings_Vtiger_MenuItem_Model> instances
 	 */
 	public static function getAll($menuModel = false, $onlyActive = true)
 	{
-		$skipMenuItemList = array('LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
+		$skipMenuItemList = ['LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
 			'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
-			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', 'Webforms Configuration Editor');
-
-		$db = PearDatabase::getInstance();
-		$sql = sprintf('SELECT * FROM %s', self::$itemsTable);
-		$params = [];
-
+			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', 'Webforms Configuration Editor'];
+		$query = (new App\Db\Query())->from(self::$itemsTable);
 		$conditionsSqls = [];
-		if ($menuModel != false) {
-			$conditionsSqls[] = 'blockid = ?';
-			$params[] = $menuModel->getId();
+		if ($menuModel !== false) {
+			$conditionsSqls['blockid'] = $menuModel->getId();
 		}
 		if ($onlyActive) {
-			$conditionsSqls[] = 'active = 0';
+			$conditionsSqls['active'] = 0;
 		}
 		if (count($conditionsSqls) > 0) {
-			$sql .= sprintf(' WHERE %s', implode(' && ', $conditionsSqls));
+			$query->where($conditionsSqls);
 		}
-		$sql .= ' && name NOT IN (' . generateQuestionMarks($skipMenuItemList) . ')';
-
-		$sql .= ' ORDER BY sequence';
-		$result = $db->pquery($sql, array_merge($params, $skipMenuItemList));
-
+		$dataReader = $query->andWhere(['NOT IN', 'name', $skipMenuItemList])
+				->orderBy('sequence')
+				->createCommand()->query();
 		$menuItemModels = [];
-		while ($rowData = $db->getRow($result)) {
+		while ($rowData = $dataReader->read()) {
 			$fieldId = $rowData[self::$itemId];
 			$menuItem = Settings_Vtiger_MenuItem_Model::getInstanceFromArray($rowData);
 			if ($menuModel) {
@@ -287,35 +280,25 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	/**
 	 * Function to get the pinned items 
 	 * @param array of fieldids.
-	 * @return <Array> - List of Settings_Vtiger_MenuItem_Model instances
+	 * @return array - List of <Settings_Vtiger_MenuItem_Model> instances
 	 */
-	public static function getPinnedItems($fieldList = array())
+	public static function getPinnedItems($fieldList = [])
 	{
-		$skipMenuItemList = array('LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
+		$skipMenuItemList = ['LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
 			'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
-			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', 'Webforms Configuration Editor');
-
-		$db = PearDatabase::getInstance();
-
-		$query = sprintf('SELECT * FROM %s WHERE pinned = 1 && active = 0', self::$itemsTable);
+			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', 'Webforms Configuration Editor'];
+		$query = (new App\Db\Query())->from(self::$itemsTable)
+				->where(['pinned' => 1, 'active' => 0]);
 		if (!empty($fieldList)) {
-			if (!is_array($fieldList)) {
-				$fieldList = array($fieldList);
-			}
-			$query .=' && ' . self::$itemsId . ' IN (' . generateQuestionMarks($fieldList) . ')';
+			$query->andWhere([self::$itemsId => $fieldList]);
 		}
-		$query .= ' && name NOT IN (' . generateQuestionMarks($skipMenuItemList) . ')';
-
-		$result = $db->pquery($query, array_merge($fieldList, $skipMenuItemList));
-		$noOfMenus = $db->num_rows($result);
-
-		$menuItemModels = array();
-		for ($i = 0; $i < $noOfMenus; ++$i) {
-			$fieldId = $db->query_result($result, $i, self::$itemId);
-			$rowData = $db->query_result_rowdata($result, $i);
+		$dataReader = $query->andWhere(['NOT IN', 'name', $skipMenuItemList])
+				->createCommand()->query();
+		$menuItemModels = [];
+		while($rowData = $dataReader->read()) {
 			$menuItem = Settings_Vtiger_MenuItem_Model::getInstanceFromArray($rowData);
 			$menuItem->setMenu($rowData['blockid']);
-			$menuItemModels[$fieldId] = $menuItem;
+			$menuItemModels[$rowData[self::$itemId]] = $menuItem;
 		}
 		return $menuItemModels;
 	}
