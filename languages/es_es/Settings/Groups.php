@@ -8,18 +8,18 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_ADD_USERS_ROLES' => 'Add Users, Roles...',
-	'LBL_DUPLICATES_EXIST' => 'Group name already exists',
-	'LBL_GROUP_MEMBERS' => 'Group members',
-	'LBL_GROUP_NAME' => 'Group name',
-	'LBL_ROLEANDSUBORDINATE' => 'Role and subordinates',
-	'LBL_TO_OTHER_GROUP' => 'To other group ',
-	'LBL_TRANSFORM_OWNERSHIP' => 'Transfer ownership',
-	'SINGLE_Groups' => 'Group',
-	'Users' => 'Users',
-	'Name' => 'Group name',
-	'Description' => 'Description',
+	'LBL_ADD_RECORD' => 'Añadir registro',
+	'LBL_ADD_USERS_ROLES' => 'Añadir Usuarios, Roles, etc.',
+	'LBL_DUPLICATES_EXIST' => 'Ya exite ese nombre de Grupo',
+	'LBL_GROUP_MEMBERS' => 'Miembros del Grupo',
+	'LBL_GROUP_NAME' => 'Nombre de Grupo',
+	'LBL_ROLEANDSUBORDINATE' => 'Rol y subordinados',
+	'LBL_TO_OTHER_GROUP' => 'a otro grupo ',
+	'LBL_TRANSFORM_OWNERSHIP' => 'Transferir propiedad ',
+	'SINGLE_Groups' => 'Grupo',
+	'Users' => 'Usuario',
+	'Name' => 'Nombre de Grupo',
+	'Description' => 'Descripción',
 ];
 
 $jsLanguageStrings = [
