@@ -56,6 +56,13 @@ class Db extends \yii\db\Connection
 	public $commandClass = '\App\Db\Command';
 
 	/**
+	 * @var Cache|string the cache object or the ID of the cache application component that
+	 * is used to cache the table metadata.
+	 * @see enableSchemaCache
+	 */
+	public $schemaCache = false;
+
+	/**
 	 * Creates the \yii\db\Connection instance.
 	 * @param string $type Name of database connection
 	 * @return \yii\db\Connection instance
