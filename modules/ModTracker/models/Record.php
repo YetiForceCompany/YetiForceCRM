@@ -104,7 +104,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	public static function getUnreviewed($recordsId, $userId = false, $sort = false)
 	{
-		$db = PearDatabase::getInstance();
 		if ($userId === false) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getId();
@@ -113,18 +112,19 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if (!is_array($recordsId)) {
 			$recordsId = [$recordsId];
 		}
-		$select = 'SELECT `crmid`,`last_reviewed_users` AS u';
-		$from = ' FROM vtiger_modtracker_basic';
-		$where = sprintf(' WHERE crmid IN (%s) AND status <> ?', $db->generateQuestionMarks($recordsId));
+		$query = (new \App\Db\Query())->select('crmid, last_reviewed_users AS u')->from('vtiger_modtracker_basic')
+			->where(['crmid' => $recordsId])
+			->andWhere(['<>', 'status', self::DISPLAYED]);
 		if ($sort) {
-			$select .= ',vtiger_ossmailview.type';
-			$from .= ' LEFT JOIN vtiger_modtracker_relations ON vtiger_modtracker_relations.id = vtiger_modtracker_basic.id';
-			$from .= ' LEFT JOIN vtiger_ossmailview ON vtiger_ossmailview.ossmailviewid = vtiger_modtracker_relations.targetid';
-			$where .=' ORDER BY vtiger_modtracker_basic.crmid, vtiger_modtracker_basic.id DESC';
+			$query->select('crmid, last_reviewed_users AS u, vtiger_ossmailview.type');
+			$query->leftJoin('vtiger_modtracker_relations', 'vtiger_modtracker_basic.id = vtiger_modtracker_relations.id');
+			$query->leftJoin('vtiger_ossmailview', 'vtiger_modtracker_relations.targetid = vtiger_ossmailview.ossmailviewid');
+			$query->orderBy('vtiger_modtracker_basic.crmid ,vtiger_modtracker_basic.id DESC');
 		}
-		$result = $db->pquery($select . $from . $where, [$recordsId, self::DISPLAYED]);
+		$dataReader = $query->createCommand()->query();
+		
 		$changes = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$changes[$row['crmid']][] = $row;
 		}
 		$unreviewed = [];
