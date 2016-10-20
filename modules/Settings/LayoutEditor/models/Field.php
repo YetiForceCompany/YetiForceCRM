@@ -47,7 +47,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$db->createCommand()->delete('vtiger_selectcolumn', ['columnname' => $selectColumnname])->execute();
 		$db->createCommand()->delete('vtiger_relcriteria', ['columnname' => $selectColumnname])->execute();
 		$db->createCommand()->delete('vtiger_reportsortcol', ['columnname' => $selectColumnname])->execute();
-		$db->createCommand()->delete('vtiger_reportdatefilter', ['columnname' => $columnCvstdfilter])->execute();
+		$db->createCommand()->delete('vtiger_reportdatefilter', ['datecolumnname' => $columnCvstdfilter])->execute();
 		$db->createCommand()->delete('vtiger_reportsummary', ['like', 'columnname', $reportsummaryColumn])->execute();
 		//Deleting from convert lead mapping vtiger_table- Jaguar
 		if ($fldModule == 'Leads') {
