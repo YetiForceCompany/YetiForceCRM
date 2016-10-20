@@ -225,10 +225,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($e instanceof \Exception\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';
 			}
-
 			\vtlib\Functions::throwNewException($e->getMessage(), false, $tpl);
 			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				echo '<pre>' . $e->getTraceAsString() . '</pre>';
+				echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) . '</pre>';
 				$response = false;
 			}
 		}
