@@ -172,20 +172,16 @@ class ModTrackerHandler extends VTEventHandler
 					break;
 			}
 			if (AppConfig::module('ModTracker', 'WATCHDOG') && $watchdogTitle != '') {
-				$actionsTypes = ModTracker::getAllActionsTypes();
 				$watchdogTitle = '(translate: [' . $watchdogTitle . '|||ModTracker]) (general: RecordLabel)';
-				if (in_array($watchdogTitle, [0, 2, 3, 7])) {
-					$watchdogTitle = '<a href="index.php?module=' . $moduleName . '&view=Detail&record=' . $recordId . '">' . $watchdogTitle . '</a>';
-				}
 				$watchdogTitle = $currentUser->getName() . ' ' . $watchdogTitle;
 				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 				$users = $watchdog->getWatchingUsers();
 				if (!empty($users)) {
-					foreach ($users as $userId) {
+					$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+					if($relatedField !== false) {
 						$notification = Vtiger_Record_Model::getCleanInstance('Notification');
-						$notification->set('relatedid', $recordId);
-						$notification->set('assigned_user_id', $userId);
-						$notification->set('relatedmodule', $moduleName);
+						$notification->set('shownerid', $users);
+						$notification->set($relatedField, $recordId);
 						$notification->set('title', $watchdogTitle);
 						$notification->set('description', $watchdogMessage);
 						$notification->set('notification_type', $watchdog->notificationDefaultType);

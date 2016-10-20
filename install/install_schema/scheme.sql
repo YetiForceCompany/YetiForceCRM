@@ -2145,12 +2145,13 @@ CREATE TABLE `u_yf_notification` (
   `id` int(11) unsigned NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `number` varchar(50) DEFAULT NULL,
-  `relatedid` int(19) DEFAULT NULL,
-  `relatedmodule` varchar(50) DEFAULT NULL,
   `notification_status` varchar(255) DEFAULT NULL,
   `notification_type` varchar(255) DEFAULT '',
+  `link` int(19) DEFAULT NULL,
+  `process` int(19) DEFAULT NULL,
+  `subprocess` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `relatedid` (`relatedid`)
+  KEY `relatedid` (`link`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap` */
@@ -4801,7 +4802,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2397 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2401 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
