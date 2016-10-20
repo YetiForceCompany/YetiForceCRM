@@ -97,13 +97,12 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	{
 		
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
-		$db = PearDatabase::getInstance();
 		$moduleId = vtlib\Functions::getModuleId($moduleName);
-		$query = sprintf('SELECT * FROM `%s` WHERE `tabid` = ? and `status` = ?;', self::$baseTable);
-		$result = $db->pquery($query, [$moduleId, 'active']);
+		$query = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $moduleId, 'status' => 'active']);
+		$dataReader = $query->createCommand()->query();
 		$templates = [];
 
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mf = new $handlerClass();
 			$mf->setData($row);
