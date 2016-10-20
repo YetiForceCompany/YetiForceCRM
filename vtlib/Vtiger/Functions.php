@@ -371,18 +371,13 @@ class Functions
 
 	public static function getModuleFieldInfos($mixed)
 	{
-		$adb = \PearDatabase::getInstance();
-
 		$moduleInfo = self::getModuleData($mixed);
 		$module = $moduleInfo['name'];
-
 		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]))) {
-			$result = ($module == 'Calendar') ?
-				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? || tabid=?', array(9, 16)) :
-				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=?', array(self::getModuleId($module)));
-
+			$dataReader = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
+				->createCommand()->query();
 			self::$moduleFieldInfoByNameCache[$module] = [];
-			while ($row = $adb->getRow($result)) {
+			while ($row = $dataReader->read()) {
 				self::$moduleFieldInfoByNameCache[$module][$row['fieldname']] = $row;
 			}
 		}

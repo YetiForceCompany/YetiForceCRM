@@ -20,14 +20,15 @@ class Picklist
 		$cacheKey = $fieldName . $roleid;
 		$fldVal = \Vtiger_Cache::get('includes\fields\Picklist', $cacheKey);
 		if ($fldVal === false) {
-			$db = \PearDatabase::getInstance();
+			$dataReader = (new \App\Db\Query())->select($fieldName)
+					->from("vtiger_$fieldName")
+					->innerJoin('vtiger_role2picklist', "vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid")
+					->innerJoin('vtiger_picklist', 'vtiger_picklist.picklistid = vtiger_role2picklist.picklistid')
+					->where(['roleid' => $roleid])
+					->orderBy('sortid')
+					->createCommand()->query();
 			$fldVal = [];
-			$query = "SELECT $fieldName FROM vtiger_$fieldName
-				INNER JOIN vtiger_role2picklist ON vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid 
-				INNER JOIN vtiger_picklist ON vtiger_picklist.`picklistid` = vtiger_role2picklist.`picklistid`
-				WHERE roleid = ? ORDER BY sortid;";
-			$result = $db->pquery($query, [$roleid]);
-			while (($val = $db->getSingleValue($result)) !== false) {
+			while (($val = $dataReader->readColumn(0)) !== false) {
 				$fldVal[] = decode_html($val);
 			}
 			\Vtiger_Cache::set('includes\fields\Owner', $cacheKey, $fldVal);

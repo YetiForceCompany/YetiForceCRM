@@ -11,13 +11,8 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$adb = PearDatabase::getInstance();
-
 		// get min, max, allow_chars from vtiger_passwords_config
-		$result = $adb->query("SELECT * FROM vtiger_passwords_config WHERE 1 LIMIT 1", true);
-		$min = $adb->query_result($result, 0, 'pass_length_min');
-		$max = $adb->query_result($result, 0, 'pass_length_max');
-		$allowChars = $adb->query_result($result, 0, 'pass_allow_chars');
+		$passwordConfig = (new App\Db\Query())->from('vtiger_passwords_config')->one();
 
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -72,9 +67,9 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('passLengthMin', $min);
-		$viewer->assign('passLengthMax', $max);
-		$viewer->assign('allowChars', $allowChars);
+		$viewer->assign('passLengthMin', $passwordConfig['pass_length_min']);
+		$viewer->assign('passLengthMax', $passwordConfig['pass_length_max']);
+		$viewer->assign('allowChars', $passwordConfig['pass_allow_chars']);
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
