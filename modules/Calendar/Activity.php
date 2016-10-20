@@ -646,123 +646,6 @@ class Activity extends CRMEntity
 		\App\Log::trace('Exiting vtiger_activity_reminder method ...');
 	}
 
-	//Used for vtigerCRM Outlook Add-In
-	/**
-	 * Function to get tasks to display in outlookplugin
-	 * @param   string    $username     -  User name
-	 * return   string    $query        -  sql query
-	 */
-	public function get_tasksforol($username)
-	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering get_tasksforol(" . $username . ") method ...");
-		$current_user = vglobal('current_user');
-		require_once("modules/Users/Users.php");
-		$seed_user = new Users();
-		$user_id = $seed_user->retrieve_user_id($username);
-		$current_user = $seed_user;
-		$current_user->retrieve_entity_info($user_id, 'Users');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-
-		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql1 = "select tablename,columnname from vtiger_field where tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.presence in (0,2)";
-			$params1 = [];
-		} else {
-			$profileList = getCurrentUserProfileList();
-			$sql1 = "select tablename,columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.displaytype in (1,2,4,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = [];
-			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
-				array_push($params1, $profileList);
-			}
-		}
-		
-		$result1 = $adb->pquery($sql1, $params1);
-		$countResult = $adb->num_rows($result1);
-		for ($i = 0; $i < $countResult; $i++) {
-			$permitted_lists[] = $adb->query_result($result1, $i, 'tablename');
-			$permitted_lists[] = $adb->query_result($result1, $i, 'columnname');
-		}
-		$permitted_lists = array_chunk($permitted_lists, 2);
-		$column_table_lists = [];
-		$countPermittedLists = count($permitted_lists);
-		for ($i = 0; $i < $countPermittedLists; $i++) {
-			$column_table_lists[] = implode(".", $permitted_lists[$i]);
-		}
-
-		$query = "select vtiger_activity.activityid as taskid, %s from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
-			 inner join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-			 where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
-		$columnTableList = implode(',', $column_table_lists, $username);
-		$query = sprintf($query, $columnTableList);
-		\App\Log::trace("Exiting get_tasksforol method ...");
-		return $query;
-	}
-
-	/**
-	 * Function to get calendar query for outlookplugin
-	 * @param   string    $username     -  User name                                                                            * return   string    $query        -  sql query                                                                            */
-	public function get_calendarsforol($user_name)
-	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering get_calendarsforol(" . $user_name . ") method ...");
-		$current_user = vglobal('current_user');
-		require_once("modules/Users/Users.php");
-		$seed_user = new Users();
-		$user_id = $seed_user->retrieve_user_id($user_name);
-		$current_user = $seed_user;
-		$current_user->retrieve_entity_info($user_id, 'Users');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-
-		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql1 = "select tablename,columnname from vtiger_field where tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.presence in (0,2)";
-			$params1 = [];
-		} else {
-			$profileList = getCurrentUserProfileList();
-			$sql1 = "select tablename,columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=9 and tablename <> 'vtiger_recurringevents' and tablename <> 'vtiger_activity_reminder' and vtiger_field.displaytype in (1,2,4,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = [];
-			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
-				array_push($params1, $profileList);
-			}
-		}
-		$result1 = $adb->pquery($sql1, $params1);
-		$countResult = $adb->num_rows($result1);
-		for ($i = 0; $i < $countResult; $i++) {
-			$permitted_lists[] = $adb->query_result($result1, $i, 'tablename');
-			$permitted_lists[] = $adb->query_result($result1, $i, 'columnname');
-			if ($adb->query_result($result1, $i, 'columnname') == "date_start") {
-				$permitted_lists[] = 'vtiger_activity';
-				$permitted_lists[] = 'time_start';
-			}
-			if ($adb->query_result($result1, $i, 'columnname') == "due_date") {
-				$permitted_lists[] = 'vtiger_activity';
-				$permitted_lists[] = 'time_end';
-			}
-		}
-		$permitted_lists = array_chunk($permitted_lists, 2);
-		$column_table_lists = [];
-		$countPermittedLists = count($permitted_lists);
-		for ($i = 0; $i < $countPermittedLists; $i++) {
-			$column_table_lists[] = implode(".", $permitted_lists[$i]);
-		}
-
-		$query = "select vtiger_activity.activityid as clndrid, %s from vtiger_activity
-				inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.activityid=vtiger_activity.activityid
-				inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid
-				left join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_activity.link
-				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
-				where vtiger_users.user_name='%s' and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Meeting'";
-		$columnTableLists = implode(',', $column_table_lists);
-		$query = sprintf($query, $columnTableLists, $user_name);
-		\App\Log::trace("Exiting get_calendarsforol method ...");
-		return $query;
-	}
-
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
@@ -816,40 +699,40 @@ class Activity extends CRMEntity
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity", "activityid", $queryPlanner);
 
 		if ($queryPlanner->requireTable("vtiger_crmentityCalendar", $matrix)) {
-			$query .=" left join vtiger_crmentity as vtiger_crmentityCalendar on vtiger_crmentityCalendar.crmid=vtiger_activity.activityid and vtiger_crmentityCalendar.deleted=0";
+			$query .= " left join vtiger_crmentity as vtiger_crmentityCalendar on vtiger_crmentityCalendar.crmid=vtiger_activity.activityid and vtiger_crmentityCalendar.deleted=0";
 		}
 		if ($queryPlanner->requireTable("vtiger_contactdetailsCalendar")) {
-			$query .=" 	left join vtiger_contactdetails as vtiger_contactdetailsCalendar on vtiger_contactdetailsCalendar.contactid= vtiger_activity.link";
+			$query .= " 	left join vtiger_contactdetails as vtiger_contactdetailsCalendar on vtiger_contactdetailsCalendar.contactid= vtiger_activity.link";
 		}
 		if ($queryPlanner->requireTable("vtiger_activitycf")) {
-			$query .=" 	left join vtiger_activitycf on vtiger_activitycf.activityid = vtiger_activity.activityid";
+			$query .= " 	left join vtiger_activitycf on vtiger_activitycf.activityid = vtiger_activity.activityid";
 		}
 		if ($queryPlanner->requireTable("vtiger_activity_reminder")) {
-			$query .=" 	left join vtiger_activity_reminder on vtiger_activity_reminder.activity_id = vtiger_activity.activityid";
+			$query .= " 	left join vtiger_activity_reminder on vtiger_activity_reminder.activity_id = vtiger_activity.activityid";
 		}
 		if ($queryPlanner->requireTable("vtiger_recurringevents")) {
-			$query .=" 	left join vtiger_recurringevents on vtiger_recurringevents.activityid = vtiger_activity.activityid";
+			$query .= " 	left join vtiger_recurringevents on vtiger_recurringevents.activityid = vtiger_activity.activityid";
 		}
 		if ($queryPlanner->requireTable("vtiger_accountRelCalendar")) {
-			$query .=" 	left join vtiger_account as vtiger_accountRelCalendar on vtiger_accountRelCalendar.accountid=vtiger_activity.link";
+			$query .= " 	left join vtiger_account as vtiger_accountRelCalendar on vtiger_accountRelCalendar.accountid=vtiger_activity.link";
 		}
 		if ($queryPlanner->requireTable("vtiger_leaddetailsRelCalendar")) {
-			$query .=" 	left join vtiger_leaddetails as vtiger_leaddetailsRelCalendar on vtiger_leaddetailsRelCalendar.leadid = vtiger_activity.link";
+			$query .= " 	left join vtiger_leaddetails as vtiger_leaddetailsRelCalendar on vtiger_leaddetailsRelCalendar.leadid = vtiger_activity.link";
 		}
 		if ($queryPlanner->requireTable("vtiger_troubleticketsRelCalendar")) {
-			$query .=" left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_activity.process";
+			$query .= " left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_activity.process";
 		}
 		if ($queryPlanner->requireTable("vtiger_campaignRelCalendar")) {
-			$query .=" 	left join vtiger_campaign as vtiger_campaignRelCalendar on vtiger_campaignRelCalendar.campaignid = vtiger_activity.process";
+			$query .= " 	left join vtiger_campaign as vtiger_campaignRelCalendar on vtiger_campaignRelCalendar.campaignid = vtiger_activity.process";
 		}
 		if ($queryPlanner->requireTable("vtiger_groupsCalendar")) {
-			$query .=" left join vtiger_groups as vtiger_groupsCalendar on vtiger_groupsCalendar.groupid = vtiger_crmentityCalendar.smownerid";
+			$query .= " left join vtiger_groups as vtiger_groupsCalendar on vtiger_groupsCalendar.groupid = vtiger_crmentityCalendar.smownerid";
 		}
 		if ($queryPlanner->requireTable("vtiger_usersCalendar")) {
-			$query .=" 	left join vtiger_users as vtiger_usersCalendar on vtiger_usersCalendar.id = vtiger_crmentityCalendar.smownerid";
+			$query .= " 	left join vtiger_users as vtiger_usersCalendar on vtiger_usersCalendar.id = vtiger_crmentityCalendar.smownerid";
 		}
 		if ($queryPlanner->requireTable("vtiger_lastModifiedByCalendar")) {
-			$query .="  left join vtiger_users as vtiger_lastModifiedByCalendar on vtiger_lastModifiedByCalendar.id = vtiger_crmentityCalendar.modifiedby ";
+			$query .= "  left join vtiger_users as vtiger_lastModifiedByCalendar on vtiger_lastModifiedByCalendar.id = vtiger_crmentityCalendar.modifiedby ";
 		}
 		if ($queryPlanner->requireTable("vtiger_createdbyCalendar")) {
 			$query .= " left join vtiger_users as vtiger_createdbyCalendar on vtiger_createdbyCalendar.id = vtiger_crmentityCalendar.smcreatorid ";
