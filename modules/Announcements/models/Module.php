@@ -32,16 +32,15 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 
 		$result = $db->pquery($query, ['PLL_PUBLISHED']);
 		while ($row = $db->getRow($result)) {
-			$query = 'SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?';
-			$paramsMark = [$row['announcementid'], $userModel->getId()];
+			$query = (new \App\Db\Query())
+				->from('u_yf_announcement_mark')
+				->where(['announcementid' => $row['announcementid'], 'userid' => $userModel->getId()]);
 			if (!empty($row['interval'])) {
 				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
-				$paramsMark[] = 0;
-				$paramsMark[] = $date;
-				$query .= ' && status = ? && date < ?';
+				$query->andWhere(['status' => 0]);
+				$query->andWhere(['<', 'date', $date]);
 			}
-			$resultMark = $db->pquery($query, $paramsMark);
-			if ($db->getRowCount($resultMark) == 1) {
+			if ($query->count() !== 0) {
 				continue;
 			}
 			$recordModel = $this->getRecordFromArray($row);
