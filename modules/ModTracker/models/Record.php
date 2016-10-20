@@ -35,7 +35,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$pageLimit = $pagingModel->getPageLimit();
 		$where = self::getConditionByType($type);
 		$query = (new \App\Db\Query())->from('vtiger_modtracker_basic')->where(['crmid' => $parentRecordId])
-			->andWhere(($where))->limit($startIndex)->offset($pageLimit)->orderBy('changedon');
+			->andWhere(($where))->limit($startIndex)->offset($pageLimit)->orderBy(['changedon' => SORT_DESC]);
 		$dataReader = $query->createCommand()->query();
 
 		while ($row = $dataReader->read()) {
