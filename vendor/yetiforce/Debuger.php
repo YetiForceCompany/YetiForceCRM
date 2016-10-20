@@ -151,12 +151,11 @@ class Debuger
 				}
 				$args = rtrim($args, ',');
 			}
-			$file = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $v['file']);
-			$trace .= $sep . $l . ' ' . (isset($v['class']) ? $v['class'] . '->' : '') . $v['function'] . '(' . $args . ') in ' . $file . '(' . $v['line'] . '): ' . PHP_EOL;
+			$trace .= "$sep$l $file ({$v['line']})  >>  " . (isset($v['class']) ? $v['class'] . '->' : '') . "{$v['function']}($args)" . PHP_EOL;
 			if ($maxLevel !== 0 && $l >= $maxLevel) {
 				break;
 			}
 		}
-		return rtrim($trace, PHP_EOL);
+		return rtrim(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $trace), PHP_EOL);
 	}
 }
