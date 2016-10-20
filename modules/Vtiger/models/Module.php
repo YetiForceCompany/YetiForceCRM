@@ -890,7 +890,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$query->select('vtiger_tab.*')->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where(['or', 'quickcreate = 0', 'quickcreate = 2'])
-			->andWhere(['!=', 'vtiger_tab.presence', 1])
+			->andWhere(['<>', 'vtiger_tab.presence', 1])
 			->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
 		if ($restrictList) {
 			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments','PriceBooks','Events']]);
