@@ -210,7 +210,7 @@ class LanguageExport extends Package
 	 */
 	public static function getAll($includeInActive = false)
 	{
-		$query = (new \App\db\Query())->from(self::TABLENAME)->select('prefix,label');
+		$query = (new \App\Db\Query())->from(self::TABLENAME)->select('prefix,label');
 		if (!$includeInActive) {
 			$query->where(['active' => 1]);
 		}

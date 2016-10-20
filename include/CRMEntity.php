@@ -293,7 +293,7 @@ class CRMEntity
 					'was_read' => $was_read
 				];
 			} else {
-				$profileList = getCurrentUserProfileList();
+				$profileList = $currentUser->getProfiles();
 				$permQuery = sprintf('SELECT columnname FROM vtiger_field 
 					INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid 
 					INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid 
@@ -386,7 +386,7 @@ class CRMEntity
 	public function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
 
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		\App\Log::trace("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
 		$insertion_mode = $this->mode;
@@ -411,13 +411,12 @@ class CRMEntity
 		}
 		if ($insertion_mode == 'edit') {
 			$updateColumns = [];
-			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->id);
+			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
 			if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
 				$sql = sprintf('SELECT * FROM vtiger_field WHERE tabid in (%s) && tablename = ? && presence IN (0,2) GROUP BY columnname', $adb->generateQuestionMarks($tabid));
 				$params = [$tabid, $table_name];
 			} else {
-				$profileList = getCurrentUserProfileList();
-
+				$profileList = $currentUser->getProfiles();
 				if (count($profileList) > 0) {
 					$sql = sprintf('SELECT *
 			  			FROM vtiger_field
@@ -537,7 +536,7 @@ class CRMEntity
 					$fldvalue = $field_list;
 				} elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
 					//Added to avoid function call getDBInsertDateValue in ajax save
-					if (isset($current_user->date_format) && !$ajaxSave) {
+					if (isset($currentUser->date_format) && !$ajaxSave) {
 						$fldvalue = getValidDBInsertDateValue($this->column_fields[$fieldname]);
 					} else {
 						$fldvalue = $this->column_fields[$fieldname];
@@ -577,7 +576,7 @@ class CRMEntity
 
 					if (empty($fldvalue)) {
 						$query = "SELECT email1 FROM vtiger_users WHERE id = ?";
-						$res = $adb->pquery($query, array($current_user->id));
+						$res = $adb->pquery($query, array($currentUser->getId()));
 						$rows = $adb->num_rows($res);
 						if ($rows > 0) {
 							$fldvalue = $adb->query_result($res, 0, 'email1');

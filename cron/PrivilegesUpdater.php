@@ -8,7 +8,7 @@
 $adb = PearDatabase::getInstance();
 $limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_PRIVILEGES_UPDATER');
 
-$query = (new \App\db\Query())->select('crmid, setype')->from('vtiger_crmentity')->where(['users' => null])->limit($limit);
+$query = (new \App\Db\Query())->select('crmid, setype')->from('vtiger_crmentity')->where(['users' => null])->limit($limit);
 $dataReader = $query->createCommand()->query();
 while ($row = $dataReader->read()) {
 	\App\PrivilegeUpdater::update($row['crmid'], $row['setype']);

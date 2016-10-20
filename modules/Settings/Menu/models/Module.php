@@ -64,7 +64,7 @@ class Settings_Menu_Module_Model
 			case 6: $name = 'LBL_HOME';
 				break;
 			case 7:
-				$query = (new \App\db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
+				$query = (new \App\Db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
 				$data =  $query->one();
 				if ($settings) {
 					$name = Vtiger_Menu_Model::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . vtranslate($data['viewname'], $data['entitytype']);
@@ -100,7 +100,7 @@ class Settings_Menu_Module_Model
 	public function getModulesList()
 	{
 		$notInParam = "('Home','Reports','RecycleBin','OSSMail','Portal','Rss')";
-		$query = (new \App\db\Query())->select('tabid, name')->from('vtiger_tab')
+		$query = (new \App\Db\Query())->select('tabid, name')->from('vtiger_tab')
 			->where(['not in', 'name', ['Users', 'ModComments', 'Emails']])
 			->andWhere(['or', 'isentitytype = 1', "name IN $notInParam"])
 			->orderBy('name');

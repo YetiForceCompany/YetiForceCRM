@@ -36,7 +36,6 @@ class WebserviceField
 	 *
 	 * @var PearDatabase
 	 */
-	private $pearDB;
 	private $typeOfData;
 	private $fieldDataType;
 	private $dataFromMeta;
@@ -48,7 +47,7 @@ class WebserviceField
 	private $genericUIType = 10;
 	private $readOnly = 0;
 
-	private function __construct($adb, $row)
+	public function __construct($row)
 	{
 		$this->uitype = $row['uitype'];
 		$this->blockId = $row['block'];
@@ -70,7 +69,6 @@ class WebserviceField
 		$this->fieldType = $typeOfData[0];
 		$this->tabid = $row['tabid'];
 		$this->fieldId = $row['fieldid'];
-		$this->pearDB = $adb;
 		$this->fieldDataType = null;
 		$this->dataFromMeta = false;
 		$this->defaultValuePresent = false;
@@ -84,14 +82,9 @@ class WebserviceField
 		}
 	}
 
-	public static function fromQueryResult($adb, $result, $rowNumber)
-	{
-		return new WebserviceField($adb, $adb->query_result_rowdata($result, $rowNumber));
-	}
-
 	public static function fromArray($adb, $row)
 	{
-		return new WebserviceField($adb, $row);
+		return new WebserviceField($row);
 	}
 
 	public function getTableName()
@@ -231,7 +224,7 @@ class WebserviceField
 		if (isset(WebserviceField::$tableMeta[$this->getTableName()])) {
 			$tableFields = WebserviceField::$tableMeta[$this->getTableName()];
 		} else {
-			$dbMetaColumns = $this->pearDB->getColumnsMeta($this->getTableName());
+			$dbMetaColumns = PearDatabase::getInstance()->getColumnsMeta($this->getTableName());
 			$tableFields = [];
 			foreach ($dbMetaColumns as $key => $dbField) {
 				$tableFields[$dbField->name] = $dbField;
@@ -367,8 +360,9 @@ class WebserviceField
 
 		// Cache all the information for futher re-use
 		if (empty(self::$fieldTypeMapping)) {
-			$result = $this->pearDB->pquery('select * from vtiger_ws_fieldtype', []);
-			while ($resultrow = $this->pearDB->fetch_array($result)) {
+			$db = PearDatabase::getInstance();
+			$result = $db->pquery('select * from vtiger_ws_fieldtype', []);
+			while ($resultrow = $db->fetch_array($result)) {
 				self::$fieldTypeMapping[$resultrow['uitype']] = $resultrow;
 			}
 		}
@@ -415,19 +409,19 @@ class WebserviceField
 	public function getPickListOptions()
 	{
 		$fieldName = $this->getFieldName();
-
+		$db = PearDatabase::getInstance();
 		$default_charset = VTWS_PreserveGlobal::getGlobal('default_charset');
 		$options = [];
 		$sql = "select * from vtiger_picklist where name=?";
-		$result = $this->pearDB->pquery($sql, array($fieldName));
-		$numRows = $this->pearDB->num_rows($result);
+		$result = $db->pquery($sql, array($fieldName));
+		$numRows = $db->num_rows($result);
 		if ($numRows == 0) {
 			$sql = "select * from vtiger_$fieldName";
-			$result = $this->pearDB->pquery($sql, []);
-			$numRows = $this->pearDB->num_rows($result);
+			$result = $db->pquery($sql, []);
+			$numRows = $db->num_rows($result);
 			for ($i = 0; $i < $numRows; ++$i) {
 				$elem = [];
-				$picklistValue = $this->pearDB->query_result($result, $i, $fieldName);
+				$picklistValue = $db->query_result($result, $i, $fieldName);
 				$picklistValue = decode_html($picklistValue);
 				$moduleName = \App\Module::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
@@ -465,12 +459,13 @@ class WebserviceField
 		if (count(self::$treeDetails) > 0) {
 			return self::$treeDetails;
 		}
-		$result = $this->pearDB->pquery('SELECT module FROM vtiger_trees_templates WHERE templateid = ?', [$this->getFieldParams()]);
-		$module = $this->pearDB->getSingleValue($result);
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT module FROM vtiger_trees_templates WHERE templateid = ?', [$this->getFieldParams()]);
+		$module = $db->getSingleValue($result);
 		$moduleName = \App\Module::getModuleName($module);
 
-		$result = $this->pearDB->pquery('SELECT tree,label FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getFieldParams()]);
-		while ($row = $this->pearDB->fetch_array($result)) {
+		$result = $db->pquery('SELECT tree,label FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getFieldParams()]);
+		while ($row = $db->fetch_array($result)) {
 			self::$treeDetails[$row['tree']] = \App\Language::translate($row['label'], $moduleName);
 		}
 		return self::$treeDetails;

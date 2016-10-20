@@ -265,7 +265,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function setSharedOwnerRecursively($recordId, $addUser, $removeUser, $moduleName)
 	{
-		
+
 		$db = PearDatabase::getInstance();
 		\App\Log::trace('Entering Into setSharedOwnerRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
@@ -321,7 +321,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
-		
+
 		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
 		$db = PearDatabase::getInstance();
@@ -474,5 +474,15 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		self::$parentRecordCache[$record] = $parentRecord;
 		return $parentRecord;
+	}
+
+	/**
+	 * Get profiles ids
+	 * @return array
+	 */
+	public function getProfiles()
+	{
+		\App\Log::trace('Get profile list');
+		return $this->get('profiles');
 	}
 }

@@ -995,7 +995,7 @@ function deleteGroupRelatedSharingRules($grpId)
 		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
 		$params = array($grpId);
 		if (sizeof($colNameArr) > 1) {
-			$query .=" or " . $colNameArr[1] . "=?";
+			$query .= " or " . $colNameArr[1] . "=?";
 			array_push($params, $grpId);
 		}
 
@@ -1031,7 +1031,7 @@ function deleteUserRelatedSharingRules($usId)
 		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
 		$params = array($grpId);
 		if (sizeof($colNameArr) > 1) {
-			$query .=" or " . $colNameArr[1] . "=?";
+			$query .= " or " . $colNameArr[1] . "=?";
 			array_push($params, $grpId);
 		}
 
@@ -1360,22 +1360,6 @@ function getSubordinateRoleAndUsers($roleId)
 	return $subRoleAndUsers;
 }
 
-function getCurrentUserProfileList()
-{
-
-	\App\Log::trace("Entering getCurrentUserProfileList() method ...");
-	$current_user = vglobal('current_user');
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	$profList = [];
-	$i = 0;
-	foreach ($current_user_profiles as $profid) {
-		array_push($profList, $profid);
-		$i++;
-	}
-	\App\Log::trace("Exiting getCurrentUserProfileList method ...");
-	return $profList;
-}
-
 function getCurrentUserGroupList()
 {
 
@@ -1580,38 +1564,32 @@ function getGrpId($groupname)
  */
 function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessmode = 'readonly')
 {
-
 	\App\Log::trace('Entering getFieldVisibilityPermission(' . $fld_module . ',' . $userid . ',' . $fieldname . ') method ...');
-
 	$adb = PearDatabase::getInstance();
-	$current_user = vglobal('current_user');
 
 	// Check if field is in-active
 	$fieldActive = isFieldActive($fld_module, $fieldname);
 	if ($fieldActive === false) {
 		return '1';
 	}
-
-	require('user_privileges/user_privileges_' . $userid . '.php');
-
-	/* Asha: Fix for ticket #4508. Users with View all and Edit all permission will also have visibility permission for all fields */
-	if ($is_admin || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
+	$currentUser = Users_Privileges_Model::getInstanceById($userid);
+	$profileGlobalPermission = $currentUser->get('profile_global_permission');
+	if ($currentUser->isAdminUser() || $profileGlobalPermission[1] === 0 || $profileGlobalPermission[2] === 0) {
 		\App\Log::trace("Exiting getFieldVisibilityPermission method ...");
 		return '0';
 	} else {
 		//get vtiger_profile list using userid
-		$profilelist = getCurrentUserProfileList();
-
+		$profileList = $currentUser->getProfiles();
 		//get tabid
 		$tabid = \App\Module::getModuleId($fld_module);
 
-		if (count($profilelist) > 0) {
+		if (count($profileList) > 0) {
 			if ($accessmode == 'readonly') {
-				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profilelist));
+				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profileList));
 			} else {
-				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_profile2field.readonly=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profilelist));
+				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_profile2field.readonly=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profileList));
 			}
-			$params = array($tabid, $profilelist, $fieldname);
+			$params = array($tabid, $profileList, $fieldname);
 		} else {
 			if ($accessmode == 'readonly') {
 				$query = "SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0  && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
@@ -1627,7 +1605,7 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
 		// Returns value as a string
 		if ($adb->num_rows($result) == 0)
 			return '1';
-		return ($adb->query_result($result, "0", "visible") . "");
+		return ($adb->query_result($result, '0', 'visible') . '');
 	}
 }
 

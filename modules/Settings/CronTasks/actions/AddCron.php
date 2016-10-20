@@ -32,7 +32,7 @@ class Settings_CronTasks_AddCron_Action extends Settings_Vtiger_Index_Action
 
 	public function getSquence()
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$maxSequence = $db->getUniqueID('vtiger_cron_task', 'sequence', false);
 		return $maxSequence;
 	}

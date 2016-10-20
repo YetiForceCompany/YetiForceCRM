@@ -159,7 +159,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		$userIPAddress = \App\RequestUtil::getRemoteIP();
 		$browser = \App\RequestUtil::getBrowserInfo();
-		\App\DB::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->insert('vtiger_loginhistory', [
 				'user_name' => $userName,
 				'user_ip' => empty($userIPAddress) ? '-' : $userIPAddress,

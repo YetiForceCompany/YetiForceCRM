@@ -29,7 +29,7 @@ class ModTrackerHandler extends VTEventHandler
 		if ($flag) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$watchdogTitle = $watchdogMessage = '';
-			$db = \App\DB::getInstance();
+			$db = \App\Db::getInstance();
 			switch ($eventName) {
 				case 'vtiger.entity.aftersave.final':
 
