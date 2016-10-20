@@ -116,7 +116,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			->where(['crmid' => $recordsId])
 			->andWhere(['<>', 'status', self::DISPLAYED]);
 		if ($sort) {
-			$query->select('crmid, last_reviewed_users AS u, vtiger_ossmailview.type');
+			$query->addSelect('vtiger_ossmailview.type');
 			$query->leftJoin('vtiger_modtracker_relations', 'vtiger_modtracker_basic.id = vtiger_modtracker_relations.id');
 			$query->leftJoin('vtiger_ossmailview', 'vtiger_modtracker_relations.targetid = vtiger_ossmailview.ossmailviewid');
 			$query->orderBy('vtiger_modtracker_basic.crmid ,vtiger_modtracker_basic.id DESC');
