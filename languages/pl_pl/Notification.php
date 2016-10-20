@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'Notification' => 'Powiadomienia',
-	'SINGLE_Notification' => 'Notification',
+	'SINGLE_Notification' => 'Powiadomienie',
 	'Notification ID' => 'Notification ID',
 	'LBL_NOTIFICATION_CONTENTS' => 'Treść powiadomienia',
 	'FL_TITLE' => 'Temat',

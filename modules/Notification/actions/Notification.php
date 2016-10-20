@@ -36,7 +36,6 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('setMark');
 		$this->exposeMethod('getNumberOfNotifications');
 		$this->exposeMethod('saveWatchingModules');
-		$this->exposeMethod('createMessage');
 		$this->exposeMethod('createMail');
 	}
 
@@ -93,34 +92,6 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 				$watchdogModel->changeModuleState(0);
 			}
 		}
-	}
-
-	public function createMessage(Vtiger_Request $request)
-	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		
-		$message = $request->get('message');
-		$title = $request->get('title');
-		$users = $request->get('users');
-		if (!is_array($users)) {
-			$users = [$users];
-		}
-		if (count($users)) {
-			foreach ($users as $user) {
-				$notificationRecordModel = Vtiger_Record_Model::getCleanInstance('Notification');
-				$notificationRecordModel->set('relatedmodule', 'Users');
-				$notificationRecordModel->set('assigned_user_id', $user);
-				$notificationRecordModel->set('relatedid', $userPrivilegesModel->getId());
-				$notificationRecordModel->set('title', $title);
-				$notificationRecordModel->set('description', $message);
-				$notificationRecordModel->set('notification_type', 'PLL_USERS');
-				$notificationRecordModel->set('notification_status', 'PLL_UNREAD');
-				$notificationRecordModel->save();
-			}
-		}
-		$response = new Vtiger_Response();
-		$response->setResult($users);
-		$response->emit();
 	}
 
 	public function createMail(Vtiger_Request $request)
