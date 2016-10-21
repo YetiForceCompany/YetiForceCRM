@@ -34,4 +34,5 @@ $languageStrings = [
 	'LBL_TYPE_NOTIFICATIONS' => 'Typy powiadomień',
 	'LBL_TIME' => 'Czas',
 	'LBL_NOTIFICATION_BY_SENDER' => 'Ilość powiadomień wg nadawców',
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Ilość powiadomien wg odbiorców',
 ];

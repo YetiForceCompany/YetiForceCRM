@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
+class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_View
 {
 
 	/**
@@ -23,18 +23,18 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 			$conditions [] = ['createdtime', 'bw', implode(',', $time)];
 		}
 		if (!empty($owner)) {
-			$conditions [] = ['smcreatorid', 'e', $owner];
+			$conditions [] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**
-	 * Function to get data for chart Return number notification by sender
+	 * Function to get data for chart. Return number notification by recipient
 	 * @param array $time Contains start and end created time of natification
 	 * @return array
 	 */
-	private function getNotificationBySender($time)
+	private function getNotificationByRecipient($time)
 	{
 		$accessibleUsers = \includes\fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
@@ -42,11 +42,11 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 		$db = PearDatabase::getInstance();
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
-		$query = 'SELECT COUNT(*) AS `count`, smcreatorid
+		$query = 'SELECT COUNT(*) AS `count`, smownerid
 			FROM vtiger_crmentity 
-			WHERE setype = ? AND deleted = ? AND createdtime BETWEEN ? AND ? AND smcreatorid IN (%s) ' .
+			WHERE setype = ? AND deleted = ? AND createdtime BETWEEN ? AND ? AND smownerid IN (%s) ' .
 			\App\PrivilegeQuery::getAccessConditions($moduleName) .
-			' GROUP BY smcreatorid';
+			' GROUP BY smownerid';
 		$query = sprintf($query, generateQuestionMarks($accessibleUsers));
 		$params = array_merge([$moduleName, 0, $time['start'], $time['end']], array_keys($accessibleUsers));
 		$result = $db->pquery($query, $params);
@@ -54,8 +54,8 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 		while ($row = $db->getRow($result)) {
 			$data [] = [
 				$row['count'],
-				$accessibleUsers[$row['smcreatorid']],
-				$listView . $this->getSearchParams($accessibleUsers[$row['smcreatorid']], $time)
+				$accessibleUsers[$row['smownerid']],
+				$listView . $this->getSearchParams($row['smownerid'], $time)
 			];
 		}
 		return $data;
@@ -73,7 +73,7 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 			$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
 			$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
 		}
-		$data = $this->getNotificationBySender($time);
+		$data = $this->getNotificationByRecipient($time);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

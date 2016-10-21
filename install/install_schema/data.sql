@@ -6476,10 +6476,12 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (303,111,'DASHBOARDWIDGET','Notifications','index.php?module=Notification&view=ShowWidget&name=Notifications','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (304,3,'DASHBOARDWIDGET','LBL_NOTIFICATION_BY_SENDER','index.php?module=Notification&view=ShowWidget&name=NotificationsBySender','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (305,111,'DASHBOARDWIDGET','LBL_NOTIFICATION_BY_SENDER','index.php?module=Notification&view=ShowWidget&name=NotificationsBySender','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (306,3,'DASHBOARDWIDGET','LBL_NOTIFICATION_BY_RECIPIENT','index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (307,111,'DASHBOARDWIDGET','LBL_NOTIFICATION_BY_RECIPIENT','index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient','',0,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (305);
+insert  into `vtiger_links_seq`(`id`) values (307);
 
 /*Data for the table `vtiger_loginhistory` */
 
