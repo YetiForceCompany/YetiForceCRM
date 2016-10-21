@@ -9,11 +9,10 @@ class CalculationsAccepted
 
 	public function process($instance)
 	{
-		$db = PearDatabase::getInstance();
-		$calculations = 'SELECT COUNT(1) FROM u_yf_scalculations
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=u_yf_scalculations.scalculationsid
-				WHERE vtiger_crmentity.deleted=0 && u_yf_scalculations.accountid = ? && u_yf_scalculations.scalculations_status = ?';
-		$resultCalculations = $db->pquery($calculations, [$instance->getId(), 'PLL_ACCEPTED']);
-		return (int) $db->getSingleValue($resultCalculations);
+		$count = (new \App\Db\Query())->from('u_yf_scalculations')
+			->innerJoin('vtiger_crmentity', 'u_yf_scalculations.scalculationsid = vtiger_crmentity.crmid')
+			->where(['deleted' => 0, 'u_yf_scalculations.accountid' => $instance->getId(), 'u_yf_scalculations.scalculations_status' => 'PLL_ACCEPTED'])->count(1);
+
+		return (int) $count;
 	}
 }
