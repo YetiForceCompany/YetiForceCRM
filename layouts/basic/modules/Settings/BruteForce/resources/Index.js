@@ -46,7 +46,6 @@ jQuery.Class('Settings_BruteForce_Index_Js', {}, {
 			}
 		});
 		forms.validationEngine(app.validationEngineOptions);
-		console.log('aa')
 		jQuery('.unblock').on('click', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({
 				'position': 'html',
@@ -55,7 +54,6 @@ jQuery.Class('Settings_BruteForce_Index_Js', {}, {
 				}
 			});
 			var element = jQuery(e.currentTarget);
-			console.log(element.data('id'))
 			app.saveAjax('unBlock', element.data('id')).then(function (data) {
 				var response = data.result;
 				var params = {text: app.vtranslate(response.message)};
