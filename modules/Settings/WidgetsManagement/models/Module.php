@@ -31,6 +31,33 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		return ['Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss'];
 	}
 
+	public static function getDateSelectDefault()
+	{
+		return [
+			'day' => 'PLL_CURRENT_DAY',
+			'week' => 'PLL_CURRENT_WEEK',
+			'month' => 'PLL_CURRENT_MONTH',
+			'year' => 'PLL_CURRENT_YEAR'
+		];
+	}
+
+	public static function getDefaultDate($widgetModel)
+	{
+		$defaultDate = $widgetModel->get('date');
+		if ($defaultDate === 'day') {
+			$timeStart = date('Y-m-d');
+		} elseif ($defaultDate === 'week') {
+			$timeStart = date( 'Y-m-d', strtotime('last Monday'));
+		} elseif ($defaultDate === 'month') {
+			$timeStart = date('Y-m-01');
+		} elseif ($defaultDate === 'year') {
+			$timeStart = date('Y-01-01'); 
+		} else {
+			return false;
+		}
+		return ['start' => $timeStart, 'end' => date('Y-m-d')];
+	}
+
 	public static function getDefaultUserId($widgetModel, $moduleName = false)
 	{
 
@@ -78,7 +105,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
 
-		$filterSelect = array('LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups');
+		$filterSelect = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
 
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
 		return $filterSelect;
@@ -89,10 +116,15 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
 
-		$filterSelectDefault = array('LBL_MINE' => 'mine', 'LBL_ALL' => 'all');
+		$filterSelectDefault = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all'];
 
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
 		return $filterSelectDefault;
+	}
+
+	public static function getWidgetsWithDate()
+	{
+		return ['LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT'];
 	}
 
 	public function getWidgetsWithFilterUsers()
@@ -222,10 +254,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function addWidget($data, $moduleName, $addToUser = false)
 	{
-
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::addWidget(" . $data . ", " . $moduleName . ") method ...");
-		$adb = PearDatabase::getInstance();
-
+		$db = App\Db::getInstance();
 		$status = false;
 		$widgetWithLimit = self::getWidgetsWithLimit();
 		if (in_array($data['name'], $widgetWithLimit))
@@ -233,35 +263,51 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		if ($status && !$data['limit'])
 			$data['limit'] = 10;
-		$query = 'INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`,`isdefault`, `cache`) VALUES(?,?,?,?,?,?,?,?,?,?);';
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1')
 			$data['isdefault'] = 0;
-		$size = \includes\utils\Json::encode(array('width' => $data['width'], 'height' => $data['height']));
-		$owners = \includes\utils\Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
-		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $owners, $data['isdefault'], $data['cache']);
-
-		$adb->pquery($query, $params);
-		$templateId = $adb->getLastInsertID();
-
+		$size = \includes\utils\Json::encode([
+				'width' => $data['width'],
+				'height' => $data['height']
+		]);
+		$owners = \includes\utils\Json::encode([
+				'default' => $data['default_owner'],
+				'available' => $data['owners_all']
+		]);
+		$db->createCommand()->insert('vtiger_module_dashboard', [
+			'linkid' => $data['linkid'],
+			'blockid' => $data['blockid'],
+			'filterid' => $data['filterid'],
+			'title' => $data['title'],
+			'data' => $data['data'],
+			'size' => $size,
+			'limit' => $data['limit'],
+			'owners' => $owners,
+			'isdefault' => $data['isdefault'],
+			'cache' => $data['cache'],
+			'date' => $data['default_date'],
+		])->execute();
+		$templateId = $db->getLastInsertID();
 		if ($addToUser) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$module = vtlib\Functions::getModuleId($moduleName);
-
 			$active = 0;
 			if ($data['isdefault'])
 				$active = 1;
-			$insert = [
-				'linkid' => $data['linkid'], 'userid' => $currentUser->getId(), 'templateid' => $templateId,
-				'filterid' => $data['filterid'], 'title' => $data['title'], 'data' => $data['data'],
-				'size' => $size, 'limit' => $data['limit'], 'owners' => $owners,
-				'isdefault' => $data['isdefault'], 'active' => $active, 'module' => $module, 'cache' => $data['cache']
-			];
-			$adb->insert('vtiger_module_dashboard_widgets', $insert);
-			$widgetId = $adb->getLastInsertID();
+			$db->createCommand()->insert('vtiger_module_dashboard_widgets', [
+				'linkid' => $data['linkid'], 'userid' => Users_Record_Model::getCurrentUserModel()->getId(), 'templateid' => $templateId,
+				'filterid' => $data['filterid'],
+				'title' => $data['title'],
+				'data' => $data['data'],
+				'size' => $size, 'limit' => $data['limit'],
+				'owners' => $owners,
+				'isdefault' => $data['isdefault'],
+				'active' => $active,
+				'module' => \App\Module::getModuleId($moduleName),
+				'cache' => $data['cache'],
+				'date' => $data['default_date'],
+			])->execute();
+			$widgetId = $db->getLastInsertID();
 		}
-		$text = vtranslate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement');
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...");
-		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => $text);
+		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => vtranslate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement'));
 	}
 
 	public function getBlocksId()

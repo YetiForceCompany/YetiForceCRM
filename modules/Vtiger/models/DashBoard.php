@@ -141,17 +141,18 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 			\App\Log::trace('Exiting ' . __CLASS__ . ':' . __FUNCTION__);
 			return;
 		}
-		$query = 'SELECT vtiger_module_dashboard.*, vtiger_links.tabid FROM `vtiger_module_dashboard` 
-			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard.linkid 
-			WHERE vtiger_module_dashboard.blockid = ?;';
-		$result = $db->pquery($query, $blockId);
-		while ($row = $db->getRow($result)) {
+		$dataReader = (new App\Db\Query())->select('vtiger_module_dashboard.*, vtiger_links.tabid')
+				->from('vtiger_module_dashboard')
+				->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard.linkid')
+				->where(['vtiger_module_dashboard.blockid' => $blockId])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$row['data'] = htmlspecialchars_decode($row['data']);
 			$row['size'] = htmlspecialchars_decode($row['size']);
 			$row['owners'] = htmlspecialchars_decode($row['owners']);
-			$query = 'SELECT 1 FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ? && `templateid` = ?;';
-			$resultVerify = $db->pquery($query, [$currentUser->getId(), $row['id']]);
-			if (!$db->getRowCount($resultVerify)) {
+			if (!(new App\Db\Query())->from('vtiger_module_dashboard_widgets')
+					->where(['userid' => $currentUser->getId(), 'templateid' => $row['id']])
+					->exists()) {
 				$active = $row['isdefault'] ? 1 : 0;
 				$db->insert('vtiger_module_dashboard_widgets', [
 					'linkid' => $row['linkid'],
@@ -166,7 +167,8 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 					'isdefault' => $row['isdefault'],
 					'active' => $active,
 					'module' => $row['tabid'],
-					'cache' => $row['cache']
+					'cache' => $row['cache'],
+					'date' => $row['date']
 				]);
 			}
 		}
