@@ -290,7 +290,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
 		self::CopyDir('languages/en_us/', 'languages/' . $params['prefix'] . '/');
-		\App\Db::getInstance()->createCommand()->insert('vtiger_language', [
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('vtiger_language', [
 			'id' => $db->getUniqueId('vtiger_language'),
 			'name' => $params['name'],
 			'prefix' => $params['prefix'],
