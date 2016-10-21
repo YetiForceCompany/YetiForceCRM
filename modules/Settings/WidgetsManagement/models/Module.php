@@ -223,6 +223,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'size' => $size,
 				'limit' => $data['limit'],
 				'cache' => $data['cache'],
+				'date' => $data['default_date']
 			];
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
 				$insert['owners'] = \includes\utils\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
@@ -399,6 +400,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				  mdw.isdefault,
 				  mdw.owners,
 				  mdw.cache,
+				  mdw.date,
 				  `vtiger_links`.*,
 				  `mdb`.`authorized`
 				FROM

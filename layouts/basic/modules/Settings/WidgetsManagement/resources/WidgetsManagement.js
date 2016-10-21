@@ -416,7 +416,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var users = dropDownMenu.find('select[name="owners_all"]');
 				app.showSelectizeElementView(users);
 			}
-
+			selectElements = basicDropDown.find('select[name="default_date"]');
+			if (selectElements.length > 0) {
+				var users = dropDownMenu.find('select[name="default_date"]');
+				app.showSelect2ElementView(users);
+			}
 
 			thisInstance.avoidDropDownClick(dropDownContainer);
 
