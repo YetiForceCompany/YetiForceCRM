@@ -64,13 +64,10 @@ class VtigerWebserviceObject
 
 		// If the information not available in cache?
 		if (!isset(self::$_fromIdCache[$entityId])) {
-			$result = $adb->pquery("select * from vtiger_ws_entity where id=?", array($entityId));
+			$query = (new \App\Db\Query())->from('vtiger_ws_entity')->where(['id' => $entityId]);
+			$result = $query->one();
 			if ($result) {
-				$rowCount = $adb->num_rows($result);
-				if ($rowCount === 1) {
-					$rowData = $adb->query_result_rowdata($result, 0);
-					self::$_fromIdCache[$entityId] = $rowData;
-				}
+				self::$_fromIdCache[$entityId] = $result;
 			}
 		}
 
