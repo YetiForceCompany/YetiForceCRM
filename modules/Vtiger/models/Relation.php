@@ -276,19 +276,18 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			self::$_cached_instance[$relKey] = $relationModel;
 			return $relationModel;
 		}
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists
-					INNER JOIN vtiger_tab on vtiger_tab.tabid = vtiger_relatedlists.related_tabid && vtiger_tab.presence != 1
-					WHERE vtiger_relatedlists.tabid = ? && related_tabid = ?';
-		$params = [$parentModuleModel->getId(), $relatedModuleModel->getId()];
-		if (!empty($label)) {
-			$query .= ' && label = ?';
-			$params[] = $label;
-		}
+		$query = new \App\Db\Query();
+		$query->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
+			->from('vtiger_relatedlists')
+			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
+			->andWhere(['<>', 'vtiger_tab.presence', 1]);
 
-		$result = $db->pquery($query, $params);
-		if ($db->getRowCount($result)) {
-			$row = $db->getRow($result);
+		if (!empty($label)) {
+			$query->andWhere(['label' => 'SSalesProcesses']);
+		}
+		$row = $query->one();
+		if ($row) {
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
