@@ -94,8 +94,11 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		if (empty($time)) {
-			$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-			$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			if($time === false) {
+				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
+			}
 			$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
 			$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
 		}

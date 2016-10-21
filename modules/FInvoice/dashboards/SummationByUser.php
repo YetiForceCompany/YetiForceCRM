@@ -12,22 +12,24 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	public function process(Vtiger_Request $request)
 	{
 		$linkId = $request->get('linkid');
-
-
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
+		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
 		if ($request->has('time')) {
 			$time = $request->get('time');
 		} else {
-			$time['start'] = date('Y-m-01');
-			$time['end'] = date('Y-m-t');
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			if($time === false) {
+				$time['start'] = date('Y-m-01');
+				$time['end'] = date('Y-m-t');
+			}
 		}
 		// date parameters passed, convert them to YYYY-mm-dd
 		$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
 		$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
+		
 		$param = \includes\utils\Json::decode($widget->get('data'));
 		$data = $this->getWidgetData($moduleName, $param, $time);
 

@@ -47,11 +47,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($defaultDate === 'day') {
 			$timeStart = date('Y-m-d');
 		} elseif ($defaultDate === 'week') {
-			$timeStart = date( 'Y-m-d', strtotime('last Monday'));
+			$timeStart = date('Y-m-d', strtotime('last Monday'));
 		} elseif ($defaultDate === 'month') {
 			$timeStart = date('Y-m-01');
 		} elseif ($defaultDate === 'year') {
-			$timeStart = date('Y-01-01'); 
+			$timeStart = date('Y-01-01');
 		} else {
 			return false;
 		}
@@ -124,7 +124,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public static function getWidgetsWithDate()
 	{
-		return ['LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT'];
+		return [
+			'LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT', 'DW_SUMMATION_BY_USER', 'Leads by Status',
+			'Leads by Industry', 'Leads by Source', 'Leads by Status Converted', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
+			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY'
+		];
 	}
 
 	public function getWidgetsWithFilterUsers()
