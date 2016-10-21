@@ -21,6 +21,36 @@ CREATE TABLE `a_yf_adv_permission` (
   KEY `tabid` (`tabid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_bruteforce` */
+
+CREATE TABLE `a_yf_bruteforce` (
+  `attempsnumber` tinyint(2) NOT NULL,
+  `timelock` smallint(5) NOT NULL,
+  `active` tinyint(1) DEFAULT '0',
+  `sent` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_bruteforce_blocked` */
+
+CREATE TABLE `a_yf_bruteforce_blocked` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(50) NOT NULL,
+  `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `attempts` tinyint(2) DEFAULT '0',
+  `blocked` tinyint(1) DEFAULT '0',
+  `userid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bf1_mixed` (`ip`,`time`,`blocked`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_bruteforce_users` */
+
+CREATE TABLE `a_yf_bruteforce_users` (
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_1_vtiger_bruteforce_users` FOREIGN KEY (`id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_discounts_config` */
 
 CREATE TABLE `a_yf_discounts_config` (
@@ -3365,22 +3395,6 @@ CREATE TABLE `vtiger_blocks_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_bruteforce` */
-
-CREATE TABLE `vtiger_bruteforce` (
-  `attempsnumber` int(11) NOT NULL COMMENT 'Number of attempts',
-  `timelock` int(11) DEFAULT NULL COMMENT 'Time lock',
-  `active` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_bruteforce_users` */
-
-CREATE TABLE `vtiger_bruteforce_users` (
-  `id` int(19) NOT NULL,
-  KEY `fk_1_vtiger_bruteforce_users` (`id`),
-  CONSTRAINT `fk_1_vtiger_bruteforce_users` FOREIGN KEY (`id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_calendar_config` */
 
 CREATE TABLE `vtiger_calendar_config` (
@@ -5765,16 +5779,15 @@ CREATE TABLE `vtiger_links_seq` (
 
 CREATE TABLE `vtiger_loginhistory` (
   `login_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(255) DEFAULT NULL,
-  `user_ip` varchar(25) NOT NULL,
+  `user_name` varchar(32) DEFAULT NULL,
+  `user_ip` varchar(50) NOT NULL,
   `logout_time` timestamp NULL DEFAULT NULL,
   `login_time` timestamp NOT NULL,
   `status` varchar(25) DEFAULT NULL,
   `browser` varchar(25) DEFAULT NULL,
-  `unblock` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`login_id`),
   KEY `user_name` (`user_name`),
-  KEY `user_ip` (`user_ip`,`login_time`,`status`,`unblock`)
+  KEY `user_ip` (`user_ip`,`login_time`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lout_dimensions` */
