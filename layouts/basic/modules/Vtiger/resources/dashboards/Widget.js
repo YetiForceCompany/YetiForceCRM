@@ -1623,3 +1623,4 @@ Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 		}
 	}
 });
+Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});

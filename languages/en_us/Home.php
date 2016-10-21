@@ -33,6 +33,7 @@ $languageStrings = [
 	'LBL_NOTIFICATION_SETTINGS' => 'Notification settings',
 	'LBL_TYPE_NOTIFICATIONS' => 'Notification types',
 	'LBL_TIME' => 'Time',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Number of notifications by sender',
 ];
 
 $jsLanguageStrings = [

@@ -43,6 +43,7 @@ $languageStrings = [
 	'LBL_ADD_CHANNEL' => 'Добавить канал',
 	'LBL_ADD_RSS' => 'RSS',
 	'LBL_ADD_CHART_FILTER' => 'Chart from filter',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Number of notifications by sender',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Блок Виджетов успешно добавлен',

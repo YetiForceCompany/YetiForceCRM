@@ -43,6 +43,7 @@ $languageStrings = [
 	'LBL_ADD_CHANNEL' => 'Dodaj kanał',
 	'LBL_ADD_RSS' => 'RSS',
 	'LBL_ADD_CHART_FILTER' => 'Wykres z filtru',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Ilość powiadomień wg nadawców',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',

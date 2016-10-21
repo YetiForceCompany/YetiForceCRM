@@ -33,4 +33,5 @@ $languageStrings = [
 	'LBL_NOTIFICATION_SETTINGS' => 'Настройки уведомлений',
 	'LBL_TYPE_NOTIFICATIONS' => 'Типы уведомлений',
 	'LBL_TIME' => 'Время',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Number of notifications by sender',
 ];

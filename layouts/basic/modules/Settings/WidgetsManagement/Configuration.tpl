@@ -241,7 +241,7 @@
 													{if array_key_exists($WIDGET->getTitle(), $SPECIAL_WIDGETS)}
 														{continue}
 													{/if}
-													<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
+													<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
 										</div>
