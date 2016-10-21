@@ -624,7 +624,12 @@ class QueryGenerator
 		}
 		$ownerFields = $this->meta->getOwnerFields();
 		if (count($ownerFields) > 0) {
-			$ownerField = $ownerFields[0];
+			//there are more than one field pointing to the users table, the real one is the one called assigned_user_id if there is one, otherwise pick the first
+			if (in_array('assigned_user_id', $ownerFields)) {
+				$ownerField = 'assigned_user_id';
+			} else {
+				$ownerField = $ownerFields[0];
+			}
 		}
 		$baseTable = $this->meta->getEntityBaseTable();
 		$sql = " FROM $baseTable ";

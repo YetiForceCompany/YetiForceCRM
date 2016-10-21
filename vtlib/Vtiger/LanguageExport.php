@@ -32,7 +32,7 @@ class LanguageExport extends Package
 	 * Initialize Export
 	 * @access private
 	 */
-	public function __initExport($languageCode)
+	public function __initExport($languageCode, $moduleInstance = null)
 	{
 		// Security check to ensure file is withing the web folder.
 		Utils::checkFileAccessForInclusion("languages/$languageCode/Vtiger.php");

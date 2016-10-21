@@ -460,8 +460,11 @@ class ReportRun extends CRMEntity
 				} else if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
 					$columnSQL = "vtiger_crmentity." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
 				} else {
-					$columnSQL = $selectedfields[0] . "." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
+					$userModel = Users_Record_Model::getCurrentUserModel();
+					$userformat = str_replace(array('dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd'), array('%d-%m-%Y', '%m-%d-%Y', '%Y-%m-%d'), $userModel->get('date_format'));
+					$columnSQL = "date_format (" . $selectedfields[0] . "." . $selectedfields[1] . ",'$userformat') AS '" . decode_html($header_label) . "'";
 				}
+
 				$this->queryPlanner->addTable($selectedfields[0]);
 			}
 		} elseif ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'status') {

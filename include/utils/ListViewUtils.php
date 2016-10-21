@@ -32,7 +32,7 @@ require_once('include/utils/UserInfoUtil.php');
  */
 function getListQuery($module, $where = '')
 {
-	
+
 	\App\Log::trace("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
 	$current_user = vglobal('current_user');
@@ -194,11 +194,11 @@ function getListQuery($module, $where = '')
 
 			//added to fix #5135
 			if (AppRequest::get('from_homepage') == 'upcoming_activities' || AppRequest::get('from_homepage') == 'pending_activities') {
-				$query.=' LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid';
+				$query .= ' LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid';
 			}
 			//end
 			$query .= \App\PrivilegeQuery::getAccessConditions($module, $current_user->id);
-			$query.= ' ' . $where;
+			$query .= ' ' . $where;
 			break;
 		Case "Emails":
 			$query = "SELECT DISTINCT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -376,7 +376,7 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 
 function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $related_module, $recordid)
 {
-	
+
 	$adb = PearDatabase::getInstance();
 	\App\Log::trace("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
 	global $theme;
@@ -445,7 +445,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 function getEntityId($module, $entityName)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 	\App\Log::trace("in getEntityId " . $entityName);
 
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
@@ -481,7 +481,7 @@ function decode_html($str)
 	if (empty($default_charset))
 		$defaultCharset = 'UTF-8';
 	// Direct Popup action or Ajax Popup action should be treated the same.
-	if (AppRequest::get('action') == 'Popup' || (AppRequest::has('action') && AppRequest::get('file') == 'Popup'))
+	if (AppRequest::get('action') === 'Popup' || (AppRequest::has('action') && AppRequest::get('file') === 'Popup'))
 		return html_entity_decode($str);
 	else
 		return html_entity_decode($str, ENT_QUOTES, $defaultCharset);

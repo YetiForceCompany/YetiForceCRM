@@ -170,7 +170,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$currentUserModel = NULL;
 			if (isset(self::$currentUserModels[$currentUser->id])) {
 				$currentUserModel = self::$currentUserModels[$currentUser->id];
-				if (isset($currentUser->column_fields['modifiedtime']) && $currentUser->column_fields['modifiedtime'] != $currentUserModel->get('modifiedtime')) {
+				if (isset($currentUser->column_fields['modifiedtime']) && $currentUser->column_fields['modifiedtime'] !== $currentUserModel->get('modifiedtime')) {
 					$currentUserModel = NULL;
 				}
 			}

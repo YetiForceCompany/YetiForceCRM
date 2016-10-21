@@ -95,7 +95,7 @@ class Link
 				'linklabel' => $label,
 				'linkurl' => $url,
 				'linkicon' => $iconpath,
-				'sequence' => $sequence,
+				'sequence' => intval($sequence),
 			];
 			if (!empty($handlerInfo)) {
 				$params['handler_path'] = $handlerInfo['path'];

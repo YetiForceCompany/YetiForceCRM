@@ -599,7 +599,7 @@ class Users extends CRMEntity
 
 	/** Function to save the user information into the database
 	 * @param $module -- module name:: Type varchar
-	 *
+	 * @param $fileid
 	 */
 	public function saveentity($module, $fileid = '')
 	{

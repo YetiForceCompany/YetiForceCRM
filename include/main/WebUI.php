@@ -46,9 +46,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	public function getLogin()
 	{
 		$user = parent::getLogin();
-		if (!$user) {
-			$userid = Vtiger_Session::get('AUTHUSERID', $_SESSION['authenticated_user_id']);
-			if ($userid && AppConfig::main('application_unique_key') == Vtiger_Session::get('app_unique_key')) {
+		if (!$user && Vtiger_Session::has('authenticated_user_id')) {
+			$userid = Vtiger_Session::get('AUTHUSERID', Vtiger_Session::get('authenticated_user_id'));
+			if ($userid && AppConfig::main('application_unique_key') === Vtiger_Session::get('app_unique_key')) {
 				$user = CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				$this->setLogin($user);
@@ -135,12 +135,16 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 		if ($currentUser && $qualifiedModuleName) {
 			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $qualifiedModuleName);
-			vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
+			if (isset($moduleLanguageStrings['languageStrings'])) {
+				vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
+			}
 		}
 
 		if ($currentUser) {
 			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage);
-			vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
+			if (isset($moduleLanguageStrings['languageStrings'])) {
+				vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
+			}
 		}
 
 		$view = $request->get('view');

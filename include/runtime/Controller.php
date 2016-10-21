@@ -157,6 +157,8 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 {
 
+	protected $viewer;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -168,6 +170,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$viewer = Vtiger_Viewer::getInstance();
 			$viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
+			$viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 				if ($request->get('parent') == 'Settings') {
