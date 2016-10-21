@@ -13,11 +13,10 @@ class Accounts_FInvoice_HeaderField
 	{
 		$recordId = $viewModel->getRecord()->getId();
 
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT MAX(saledate) AS date,SUM(sum_total) AS total FROM u_yf_finvoice INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid WHERE deleted = ? && accountid = ?';
-
-		$result = $db->pquery($sql, [0, $recordId]);
-		$row = $db->getRow($result);
+		$query = (new \App\Db\Query())->select('MAX(saledate) AS date,SUM(sum_total)')->from('u_yf_finvoice')
+			->innerJoin('vtiger_crmentity', 'u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid')
+			->where(['deleted' => 0, 'accountid' => $recordId]);
+		$row = $query->createCommand()->queryOne();
 
 		if (!empty($row['date']) && !empty($row['total'])) {
 			$title = vtranslate('Sum invoices') . ': ' . CurrencyField::convertToUserFormat($row['total'], null, true);
