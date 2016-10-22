@@ -73,7 +73,7 @@ class Block
 		$this->sequence = isset($valuemap['sequence']) ? $valuemap['sequence'] : null;
 		$this->iscustom = isset($valuemap['iscustom']) ? $valuemap['iscustom'] : null;
 		$tabid = isset($valuemap['tabid']) ? $valuemap['tabid'] : null;
-		$this->module = $moduleInstance ? $moduleInstance : Vtiger_Module::getInstance($tabid);
+		$this->module = $moduleInstance ? $moduleInstance : Module::getInstance($tabid);
 	}
 
 	/**
