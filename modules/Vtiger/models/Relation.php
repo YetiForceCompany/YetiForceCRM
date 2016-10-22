@@ -505,24 +505,22 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function getRelationFields($onlyFields = false, $association = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$relationId = $this->getId();
-		$query = 'SELECT vtiger_field.columnname, vtiger_field.fieldname FROM vtiger_relatedlists_fields INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid WHERE vtiger_relatedlists_fields.relation_id = ? && vtiger_field.presence IN (0,2);';
-		$result = $adb->pquery($query, [$relationId]);
+		$query = (new \App\Db\Query())->select('vtiger_field.columnname, vtiger_field.fieldname')
+			->from('vtiger_relatedlists_fields')
+			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
+			->where(['vtiger_relatedlists_fields.relation_id' => $this->getId(), 'vtiger_field.presence' => [0, 2]]);
+		$dataReader = $query->createCommand()->query();
 		if ($onlyFields) {
 			$fields = [];
-			$countResult = $adb->num_rows($result);
-			for ($i = 0; $i < $countResult; $i++) {
-				$columnname = $adb->query_result_raw($result, $i, 'columnname');
-				$fieldname = $adb->query_result_raw($result, $i, 'fieldname');
+			while ($row = $dataReader->read()) {
 				if ($association)
-					$fields[$columnname] = $fieldname;
+					$fields[$row['columnname']] = $row['fieldname'];
 				else
-					$fields[] = $fieldname;
+					$fields[] = $row['fieldname'];
 			}
 			return $fields;
 		}
-		return $result->GetArray();
+		return $dataReader->readAll();
 	}
 
 	public function getRelationInventoryFields()
