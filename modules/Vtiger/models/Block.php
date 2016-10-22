@@ -76,11 +76,11 @@ class Vtiger_Block_Model extends vtlib\Block
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT * FROM vtiger_blocks_hide WHERE enabled = ? && blockid = ? && view LIKE '%$view%';", array(1, $this->get('id')));
-		$num_rows = $db->num_rows($result);
+		$query = (new \App\Db\Query())->from('vtiger_blocks_hide')->where(['enabled' => 1, 'blockid' => $this->get('id')])->andWhere(['like', 'view', $view]);
+		$dataReader = $query->createCommand()->query();
+		
 		$hideBlocks = [];
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->raw_query_result_rowdata($result, $i);
+		while ($row = $dataReader->read()){
 			$hideBlocks[] = $row;
 		}
 		if (count($hideBlocks) == 0) {
