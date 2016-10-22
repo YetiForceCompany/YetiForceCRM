@@ -276,15 +276,14 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			self::$_cached_instance[$relKey] = $relationModel;
 			return $relationModel;
 		}
-		$query = new \App\Db\Query();
-		$query->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
+		$query = (new \App\Db\Query())->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
 			->from('vtiger_relatedlists')
 			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
 			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
 			->andWhere(['<>', 'vtiger_tab.presence', 1]);
 
 		if (!empty($label)) {
-			$query->andWhere(['label' => 'SSalesProcesses']);
+			$query->andWhere(['label' => $label]);
 		}
 		$row = $query->one();
 		if ($row) {
