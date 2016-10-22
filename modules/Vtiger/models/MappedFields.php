@@ -131,17 +131,15 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	{
 		
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM `%s` WHERE `tabid` = ? && `reltabid` = ? LIMIT 1', self::$baseTable);
-		$result = $db->pquery($query, [$tabId, $relTabId]);
-		if ($result->rowCount() == 0) {
+		$row = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $tabId, 'reltabid' => $relTabId])->limit(1)->one();
+		if ($row === false) {
 			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 			return false;
 		}
 
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
 		$mf = new $handlerClass();
-		$mf->setData($db->getRow($result));
+		$mf->setData($row);
 		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $mf;
 	}
