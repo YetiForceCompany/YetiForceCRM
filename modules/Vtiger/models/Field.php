@@ -1047,12 +1047,12 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getCurrencyList()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE currency_status = ? && deleted=0', array('Active'));
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$currencyId = $db->query_result($result, $i, 'id');
-			$currencyName = $db->query_result($result, $i, 'currency_name');
-			$currencies[$currencyId] = $currencyName;
+		$dataReader = (new \App\Db\Query())->select('id, currency_name')
+				->from('vtiger_currency_info')
+				->where(['currency_status' => 'Active', 'deleted' => 0])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$currencies[$row['id']] = $row['currency_name'];
 		}
 		asort($currencies);
 		return $currencies;
