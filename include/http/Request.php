@@ -327,7 +327,7 @@ class Vtiger_Request
 
 	protected function validateCSRF()
 	{
-		if (!csrf_check(false)) {
+		if (!CSRF::check(false)) {
 			throw new \Exception\Csrf('Unsupported request');
 		}
 	}

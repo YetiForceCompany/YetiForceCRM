@@ -8,31 +8,35 @@
  * All Rights Reserved.
  * ****************************************************************************** */
 
-/**
- * Specific custom config startup for CSRF 
- */
-function csrf_startup()
+class CSRFConfig
 {
-	//Override the default expire time of token 
-	$GLOBALS['csrf']['expires'] = 259200;
 
-	/*	 * if an ajax request initiated, then if php serves content with <html> tags
-	 * as a response, then unnecessarily we are injecting csrf magic javascipt 
-	 * in the response html at <head> and <body> using csrf_ob_handler(). 
-	 * So, to overwride above rewriting we need following config.
+	/**
+	 * Specific custom config startup for CSRF 
 	 */
-	if (csrf_isAjax()) {
-		$GLOBALS['csrf']['frame-breaker'] = false;
-		$GLOBALS['csrf']['rewrite-js'] = null;
-	}
-}
+	public static function startup()
+	{
+		//Override the default expire time of token 
+		CSRF::$expires = 259200;
 
-function csrf_isAjax()
-{
-	if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] === true) {
-		return true;
-	} elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-		return true;
+		/*		 * if an ajax request initiated, then if php serves content with <html> tags
+		 * as a response, then unnecessarily we are injecting csrf magic javascipt 
+		 * in the response html at <head> and <body> using csrf_ob_handler(). 
+		 * So, to overwride above rewriting we need following config.
+		 */
+		if (static::isAjax()) {
+			CSRF::$frameBreaker = false;
+			CSRF::$rewriteJs = null;
+		}
 	}
-	return false;
+
+	public static function isAjax()
+	{
+		if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] === true) {
+			return true;
+		} elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+			return true;
+		}
+		return false;
+	}
 }
