@@ -105,7 +105,7 @@ class dUnzip2
 
 		// Open file, and set file handler
 		$fh = fopen($this->fileName, "r");
-		$this->fh = &$fh;
+		$this->fh = $fh;
 		if (!$fh) {
 			$this->debugMsg(2, "Failed to load file.");
 			return false;
@@ -206,7 +206,7 @@ class dUnzip2
 			$this->getList(false, $compressedFileName);
 		}
 
-		$fdetails = &$this->compressedList[$compressedFileName];
+		$fdetails = $this->compressedList[$compressedFileName];
 		if (!isset($this->compressedList[$compressedFileName])) {
 			$this->debugMsg(2, "File '<b>$compressedFileName</b>' is not compressed in the zip.");
 			return false;
@@ -378,7 +378,7 @@ class dUnzip2
 					$dir['compression_method'] = unpack("v", fread($fh, 2)); // compression method
 					$dir['lastmod_time'] = unpack("v", fread($fh, 2)); // last mod file time
 					$dir['lastmod_date'] = unpack("v", fread($fh, 2)); // last mod file date
-					$dir['crc-32'] = fread($fh, 4);	 // crc-32
+					$dir['crc-32'] = fread($fh, 4);  // crc-32
 					$dir['compressed_size'] = unpack("V", fread($fh, 4)); // compressed size
 					$dir['uncompressed_size'] = unpack("V", fread($fh, 4)); // uncompressed size
 					$fileNameLength = unpack("v", fread($fh, 2)); // filename length
@@ -389,7 +389,7 @@ class dUnzip2
 					$dir['external_attributes1'] = unpack("v", fread($fh, 2)); // external file attributes-byte2
 					$dir['external_attributes2'] = unpack("v", fread($fh, 2)); // external file attributes
 					$dir['relative_offset'] = unpack("V", fread($fh, 4)); // relative offset of local header
-					$dir['file_name'] = fread($fh, $fileNameLength[1]);		// filename
+					$dir['file_name'] = fread($fh, $fileNameLength[1]);  // filename
 					$dir['extra_field'] = $extraFieldLength[1] ? fread($fh, $extraFieldLength[1]) : ''; // extra field
 					$dir['file_comment'] = $fileCommentLength[1] ? fread($fh, $fileCommentLength[1]) : ''; // file comment			
 					// Convert the date and time, from MS-DOS format to UNIX Timestamp
@@ -489,7 +489,7 @@ class dUnzip2
 			$file['compression_method'] = unpack("v", fread($fh, 2)); // compression method
 			$file['lastmod_time'] = unpack("v", fread($fh, 2)); // last mod file time
 			$file['lastmod_date'] = unpack("v", fread($fh, 2)); // last mod file date
-			$file['crc-32'] = fread($fh, 4);	 // crc-32
+			$file['crc-32'] = fread($fh, 4);  // crc-32
 			$file['compressed_size'] = unpack("V", fread($fh, 4)); // compressed size
 			$file['uncompressed_size'] = unpack("V", fread($fh, 4)); // uncompressed size
 			$fileNameLength = unpack("v", fread($fh, 2)); // filename length

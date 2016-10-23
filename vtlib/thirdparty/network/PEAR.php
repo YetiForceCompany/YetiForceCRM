@@ -178,7 +178,7 @@ class PEAR
 			$destructor = "_$classname";
 			if (method_exists($this, $destructor)) {
 				global $_PEAR_destructor_object_list;
-				$_PEAR_destructor_object_list[] = &$this;
+				$_PEAR_destructor_object_list[] = $this;
 				if (!isset($GLOBALS['_PEAR_SHUTDOWN_REGISTERED'])) {
 					register_shutdown_function("_PEAR_call_destructors");
 					$GLOBALS['_PEAR_SHUTDOWN_REGISTERED'] = true;
@@ -328,11 +328,11 @@ class PEAR
 	public function setErrorHandling($mode = null, $options = null)
 	{
 		if (isset($this) && is_a($this, 'PEAR')) {
-			$setmode = &$this->_default_error_mode;
-			$setoptions = &$this->_default_error_options;
+			$setmode = $this->_default_error_mode;
+			$setoptions = $this->_default_error_options;
 		} else {
-			$setmode = &$GLOBALS['_PEAR_default_error_mode'];
-			$setoptions = &$GLOBALS['_PEAR_default_error_options'];
+			$setmode = $GLOBALS['_PEAR_default_error_mode'];
+			$setoptions = $GLOBALS['_PEAR_default_error_options'];
 		}
 
 		switch ($mode) {
@@ -572,10 +572,10 @@ class PEAR
 	public function &throwError($message = null, $code = null, $userinfo = null)
 	{
 		if (isset($this) && is_a($this, 'PEAR')) {
-			$a = &$this->raiseError($message, $code, null, null, $userinfo);
+			$a = $this->raiseError($message, $code, null, null, $userinfo);
 			return $a;
 		} else {
-			$a = &PEAR::raiseError($message, $code, null, null, $userinfo);
+			$a = PEAR::raiseError($message, $code, null, null, $userinfo);
 			return $a;
 		}
 	}
@@ -583,9 +583,9 @@ class PEAR
 	// }}}
 	public function staticPushErrorHandling($mode, $options = null)
 	{
-		$stack = &$GLOBALS['_PEAR_error_handler_stack'];
-		$def_mode = &$GLOBALS['_PEAR_default_error_mode'];
-		$def_options = &$GLOBALS['_PEAR_default_error_options'];
+		$stack = $GLOBALS['_PEAR_error_handler_stack'];
+		$def_mode = $GLOBALS['_PEAR_default_error_mode'];
+		$def_options = $GLOBALS['_PEAR_default_error_options'];
 		$stack[] = array($def_mode, $def_options);
 		switch ($mode) {
 			case PEAR_ERROR_EXCEPTION:
@@ -618,9 +618,9 @@ class PEAR
 
 	public function staticPopErrorHandling()
 	{
-		$stack = &$GLOBALS['_PEAR_error_handler_stack'];
-		$setmode = &$GLOBALS['_PEAR_default_error_mode'];
-		$setoptions = &$GLOBALS['_PEAR_default_error_options'];
+		$stack = $GLOBALS['_PEAR_error_handler_stack'];
+		$setmode = $GLOBALS['_PEAR_default_error_mode'];
+		$setoptions = $GLOBALS['_PEAR_default_error_options'];
 		array_pop($stack);
 		list($mode, $options) = $stack[sizeof($stack) - 1];
 		array_pop($stack);
@@ -667,13 +667,13 @@ class PEAR
 	 */
 	public function pushErrorHandling($mode, $options = null)
 	{
-		$stack = &$GLOBALS['_PEAR_error_handler_stack'];
+		$stack = $GLOBALS['_PEAR_error_handler_stack'];
 		if (isset($this) && is_a($this, 'PEAR')) {
-			$def_mode = &$this->_default_error_mode;
-			$def_options = &$this->_default_error_options;
+			$def_mode = $this->_default_error_mode;
+			$def_options = $this->_default_error_options;
 		} else {
-			$def_mode = &$GLOBALS['_PEAR_default_error_mode'];
-			$def_options = &$GLOBALS['_PEAR_default_error_options'];
+			$def_mode = $GLOBALS['_PEAR_default_error_mode'];
+			$def_options = $GLOBALS['_PEAR_default_error_options'];
 		}
 		$stack[] = array($def_mode, $def_options);
 
@@ -697,7 +697,7 @@ class PEAR
 	 */
 	public function popErrorHandling()
 	{
-		$stack = &$GLOBALS['_PEAR_error_handler_stack'];
+		$stack = $GLOBALS['_PEAR_error_handler_stack'];
 		array_pop($stack);
 		list($mode, $options) = $stack[sizeof($stack) - 1];
 		array_pop($stack);
@@ -1040,8 +1040,8 @@ class PEAR_Error
 		if ($this->mode & PEAR_ERROR_CALLBACK) {
 			if (is_array($this->callback)) {
 				$callback = (is_object($this->callback[0]) ?
-						strtolower(get_class($this->callback[0])) :
-						$this->callback[0]) . '::' .
+					strtolower(get_class($this->callback[0])) :
+					$this->callback[0]) . '::' .
 					$this->callback[1];
 			} else {
 				$callback = $this->callback;

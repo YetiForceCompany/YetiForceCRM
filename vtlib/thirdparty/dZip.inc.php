@@ -30,7 +30,7 @@ class dZip
 
 	public function addFile($filename, $cfilename, $fileComments = '', $data = false)
 	{
-		if (!($fh = &$this->fh))
+		if (!($fh = $this->fh))
 			$fh = fopen($this->filename, $this->overwrite ? 'wb' : 'a+b');
 
 		// $filename can be a local file OR the data wich will be compressed
@@ -53,7 +53,7 @@ class dZip
 			$details['comsize'] = $details['uncsize'];
 			$details['vneeded'] = 10;
 			$details['cmethod'] = 0;
-			$zdata = &$data;
+			$zdata = $data;
 		} else { // otherwise, compress it
 			$zdata = gzcompress($data);
 			$zdata = substr(substr($zdata, 0, strlen($zdata) - 4), 2); // fix crc bug (thanks to Eric Mueller)
@@ -108,15 +108,15 @@ class dZip
 
 	public function save($zipComments = '')
 	{
-		if (!($fh = &$this->fh))
+		if (!($fh = $this->fh))
 			$fh = fopen($this->filename, $this->overwrite ? 'w' : 'a+');
 
 		$cdrec = "";
 		foreach ($this->centraldirs as $filename => $cd) {
 			$cdrec .= $this->dirSignature;
-			$cdrec .= "\x0\x0";	  // version made by
+			$cdrec .= "\x0\x0";   // version made by
 			$cdrec .= pack('v', $cd['vneeded']); // version needed to extract
-			$cdrec .= "\x0\x0";	  // general bit flag
+			$cdrec .= "\x0\x0";   // general bit flag
 			$cdrec .= pack('v', $cd['cmethod']); // compression method
 			$cdrec .= pack('v', $cd['modtime']); // lastmod time
 			$cdrec .= pack('v', $cd['moddate']); // lastmod date
@@ -124,7 +124,7 @@ class dZip
 			$cdrec .= pack('V', $cd['comsize']); // compressed filesize
 			$cdrec .= pack('V', $cd['uncsize']); // uncompressed filesize
 			$cdrec .= pack('v', strlen($filename)); // file comment length
-			$cdrec .= pack('v', 0);	// extra field length
+			$cdrec .= pack('v', 0); // extra field length
 			$cdrec .= pack('v', strlen($cd['comments'])); // file comment length
 			$cdrec .= pack('v', 0); // disk number start
 			$cdrec .= pack('v', 0); // internal file attributes

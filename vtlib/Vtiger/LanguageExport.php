@@ -219,6 +219,7 @@ class LanguageExport extends Package
 		while ($row = $dataReader->read()) {
 			$languages[$row['prefix']] = $row['label'];
 		}
+		asort($languages);
 		return $languages;
 	}
 }

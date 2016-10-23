@@ -253,9 +253,10 @@ class Users_Module_Model extends Vtiger_Module_Model
 		for ($i = 0; $i < $num_rows; $i++) {
 			$lang_prefix = decode_html($adb->query_result($result, $i, 'prefix'));
 			$label = decode_html($adb->query_result($result, $i, 'label'));
-			$languages_list[$lang_prefix] = $label;
+			$languages[$lang_prefix] = $label;
 		}
-		return $languages_list;
+		asort($languages);
+		return $languages;
 	}
 
 	public static function getAdminUsers()

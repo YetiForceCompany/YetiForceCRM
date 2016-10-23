@@ -1054,6 +1054,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			$currencyName = $db->query_result($result, $i, 'currency_name');
 			$currencies[$currencyId] = $currencyName;
 		}
+		asort($currencies);
 		return $currencies;
 	}
 

@@ -325,6 +325,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 				e.preventDefault();
 				thisInstance.getMoreCurrenciesUI().then(function(data){
 					thisInstance.preSaveConfigOfForm(form);
+					InitialFormData = form.serialize();
 					form.submit();
 				})
 			}else if(multiCurrencyContent.length > 0){

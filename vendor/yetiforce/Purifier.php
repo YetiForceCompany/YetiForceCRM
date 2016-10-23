@@ -15,7 +15,7 @@ class Purifier
 	private static $purifyInstanceCache = false;
 	private static $htmlEventAttributes = 'onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|' .
 		'onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|' .
-		'onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste';
+		'onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste|onload|onselectionchange|onabort|onselectstart';
 
 	/**
 	 * Purify (Cleanup) malicious snippets of code from the input
