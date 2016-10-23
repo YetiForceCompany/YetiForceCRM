@@ -53,8 +53,8 @@ class Settings_Webforms_ModuleField_Model extends Vtiger_Field_Model
 
 		if ($this->getFieldDataType() == 'currency') {
 			$fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
-			$fieldInfo['decimalSeperator'] = $currentUser->get('currency_decimal_separator');
-			$fieldInfo['groupSeperator'] = $currentUser->get('currency_grouping_separator');
+			$fieldInfo['decimalSeparator'] = $currentUser->get('currency_decimal_separator');
+			$fieldInfo['groupSeparator'] = $currentUser->get('currency_grouping_separator');
 		}
 
 		if ($this->getFieldDataType() == 'owner') {

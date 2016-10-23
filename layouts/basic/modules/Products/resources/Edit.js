@@ -110,7 +110,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 			var price = parseFloat(unitPrice) * parseFloat(conversionRate);
 			var userPreferredDecimalPlaces = unitPriceFieldData.numberOfDecimalPlaces;
 			price = price.toFixed(userPreferredDecimalPlaces);
-			var calculatedPrice = price.toString().replace('.',unitPriceFieldData.decimalSeperator);
+			var calculatedPrice = price.toString().replace('.',unitPriceFieldData.decimalSeparator);
 			jQuery('.convertedPrice',parentElem).val(calculatedPrice);
 		});
 		return this;
@@ -128,9 +128,9 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 				var fieldData = field.data();
 				//As replace is doing replace of single occurence and using regex 
 				//replace has a problem with meta characters  like (.,$),so using split and join
-				var strippedValue = unitPrice.split(fieldData.groupSeperator);
+				var strippedValue = unitPrice.split(fieldData.groupSeparator);
 				strippedValue = strippedValue.join("");
-				strippedValue = strippedValue.replace(fieldData.decimalSeperator, '.');
+				strippedValue = strippedValue.replace(fieldData.decimalSeparator, '.');
 				unitPrice = strippedValue;
 			}
 			return unitPrice;
@@ -176,7 +176,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 				jQuery('button.currencyReset', parentRow).attr('disabled', true).removeAttr('disabled');
 				var userPreferredDecimalPlaces = unitPriceFieldData.numberOfDecimalPlaces;
 				price = price.toFixed(userPreferredDecimalPlaces);
-				var calculatedPrice = price.toString().replace('.',unitPriceFieldData.decimalSeperator);
+				var calculatedPrice = price.toString().replace('.',unitPriceFieldData.decimalSeparator);
 				jQuery('input.convertedPrice',parentRow).val(calculatedPrice)
 			}else{
 				jQuery('input',parentRow).attr('disabled', true);

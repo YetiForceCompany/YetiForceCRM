@@ -186,7 +186,7 @@ class VTSimpleTemplate
 				$parts = explode('x', $wsId);
 				$recordId = $parts[1];
 				$moduleName = $this->parent->getModuleName();
-				return "$siteURL/index.php?module=$moduleName&view=Detail&record=$recordId";
+				return "<a href='$site_URL/index.php?module=$moduleName&view=Detail&record=$recordId'>" . \App\Language::translate($moduleName, $moduleName) . "</a>";
 			case 'portaldetailviewurl' : $wsId = $this->parent->getId();
 				$parts = explode('x', $wsId);
 				$recordId = $parts[1];
@@ -198,15 +198,15 @@ class VTSimpleTemplate
 					$recorIdName = 'faqid';
 				if ($moduleName == 'Products')
 					$recorIdName = 'productid';
-				return $portalUrl . '/index.php?module=' . $moduleName . '&action=index&' . $recorIdName . '=' . $recordId . '&status=true';
+				return "<a href='" . $PORTAL_URL . '/index.php?module=' . $moduleName . '&action=index&' . $recorIdName . '=' . $recordId . '&status=true' . "'>Portal</a>";
 			case 'portalpdfurl' : $wsId = $this->parent->getId();
 				$parts = explode('x', $wsId);
 				$recordId = $parts[1];
 				$moduleName = $this->parent->getModuleName();
 				$recorIdName = 'id';
-				return $portalUrl . '/index.php?module=' . $moduleName . '&action=index&' . $recorIdName . '=' . $recordId . '&downloadfile=true';
-			case 'siteurl' : return $siteURL;
-			case 'portalurl' : return $portalUrl;
+				return "<a href='" . $PORTAL_URL . '/index.php?module=' . $moduleName . '&action=index&' . $recorIdName . '=' . $recordId . '&downloadfile=true' . "'>Download</a>";
+			case 'siteurl' : return "<a href='$site_URL'>$site_URL</a>";
+			case 'portalurl' : return "<a href='$PORTAL_URL'>$PORTAL_URL</a>";
 			case 'logo' : return '<img src="cid:logo" />';
 
 			case 'recordId' : list($moduleId, $recordId) = vtws_getIdComponents($this->parent->getId());
@@ -229,7 +229,7 @@ class VTSimpleTemplate
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		
+
 
 		//getting owner info
 		$referenceId = $this->parent->get('assigned_user_id');
@@ -360,7 +360,7 @@ class VTSimpleTemplate
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		
+
 
 		$sql = 'SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ? ORDER BY modcommentsid DESC';
 

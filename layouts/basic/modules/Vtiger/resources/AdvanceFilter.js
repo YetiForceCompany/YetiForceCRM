@@ -306,8 +306,8 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		fieldSpecificUi.find('[name="' + fieldName + '"]').attr('data-value', 'value').removeAttr('data-validation-engine');
 
 		if (fieldModel.getType() == 'currency') {
-			fieldSpecificUi.filter('[name="' + fieldName + '"]').attr('data-decimal-seperator', fieldInfo.decimal_seperator).attr('data-group-seperator', fieldInfo.group_seperator);
-			fieldSpecificUi.find('[name="' + fieldName + '"]').attr('data-decimal-seperator', fieldInfo.decimal_seperator).attr('data-group-seperator', fieldInfo.group_seperator);
+			fieldSpecificUi.filter('[name="' + fieldName + '"]').attr('data-decimal-separator', fieldInfo.decimal_separator).attr('data-group-separator', fieldInfo.group_separator);
+			fieldSpecificUi.find('[name="' + fieldName + '"]').attr('data-decimal-separator', fieldInfo.decimal_separator).attr('data-group-separator', fieldInfo.group_separator);
 		}
 
 		fieldUiHolder.html(fieldSpecificUi);

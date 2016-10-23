@@ -317,8 +317,8 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	//Curency seperator validation messages
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
+	//Curency separator validation messages
+	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 	'JS_ENTER_CONFIRMATION_PASSWORD' => 'Wpisz potwierdzenie nowego hasła.',
 	'JS_ENTER_NEW_PASSWORD' => 'Wpisz nowe hasło.',
 	'JS_ENTER_OLD_PASSWORD' => 'Wpisz swoje stare hasło.',

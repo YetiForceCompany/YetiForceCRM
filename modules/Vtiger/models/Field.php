@@ -681,8 +681,8 @@ class Vtiger_Field_Model extends vtlib\Field
 				break;
 			case 'currency':
 				$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
-				$this->fieldInfo['decimal_seperator'] = $currentUser->get('currency_decimal_separator');
-				$this->fieldInfo['group_seperator'] = $currentUser->get('currency_grouping_separator');
+				$this->fieldInfo['decimal_separator'] = $currentUser->get('currency_decimal_separator');
+				$this->fieldInfo['group_separator'] = $currentUser->get('currency_grouping_separator');
 				break;
 			case 'owner':
 			case 'sharedOwner':

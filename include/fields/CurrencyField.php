@@ -474,18 +474,18 @@ class CurrencyField
 				$value = rtrim($value, '0');
 			}
 			if ($user->currency_decimal_separator == '&nbsp;')
-				$decimalSeperator = ' ';
+				$decimalSeparator = ' ';
 			else
-				$decimalSeperator = $user->currency_decimal_separator;
+				$decimalSeparator = $user->currency_decimal_separator;
 
-			$fieldValue = explode(decode_html($decimalSeperator), $value);
+			$fieldValue = explode(decode_html($decimalSeparator), $value);
 			if (strlen($fieldValue[1]) <= 1) {
 				if (strlen($fieldValue[1]) == 1) {
-					return $value = $fieldValue[0] . $decimalSeperator . $fieldValue[1];
+					return $value = $fieldValue[0] . $decimalSeparator . $fieldValue[1];
 				} else if (!strlen($fieldValue[1])) {
 					return $value = $fieldValue[0];
 				} else {
-					return $value = $fieldValue[0] . $decimalSeperator;
+					return $value = $fieldValue[0] . $decimalSeparator;
 				}
 			} else {
 				return preg_replace("/(?<=\\.[0-9])[0]+\$/", "", $value);

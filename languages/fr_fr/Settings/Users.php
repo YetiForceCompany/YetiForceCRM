@@ -53,6 +53,6 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST' => 'Un utilisateur avec cette adresse email existe déjà',
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Le séparateur des décimales et des milliers ne peuvent être identiques',
+	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Le séparateur des décimales et des milliers ne peuvent être identiques',
 	'Changed password successfully' => 'Mot de passe modifié avec succès',
 ];
