@@ -476,8 +476,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get user groups
-	 * @param type $userId
-	 * @return <array> - groupId's
+	 * @param int $userId
+	 * @return array - groupId's
 	 */
 	public static function getUserGroups($userId)
 	{
@@ -485,11 +485,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($groupIds !== false) {
 			return $groupIds;
 		}
-		$db = PearDatabase::getInstance();
+		$dataReader = (new \App\Db\Query())->select('groupid')
+				->from('vtiger_users2group')
+				->where(['userid' => $userId])
+				->createCommand()->query();
 		$groupIds = [];
-		$query = 'SELECT groupid FROM vtiger_users2group WHERE userid=?';
-		$result = $db->pquery($query, array($userId));
-		while (($groupId = $db->getSingleValue($result)) !== false) {
+		while (($groupId = $dataReader->readColumn(0)) !== false) {
 			$groupIds[] = $groupId;
 		}
 		Vtiger_Cache::set('getUserGroups', $userId, $groupIds);

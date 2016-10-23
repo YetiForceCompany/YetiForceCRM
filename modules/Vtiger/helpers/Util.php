@@ -288,13 +288,13 @@ class Vtiger_Util_Helper
 		if ($cache->getPicklistValues($fieldName)) {
 			return $cache->getPicklistValues($fieldName);
 		}
-		$db = PearDatabase::getInstance();
-
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-		$query = sprintf('SELECT %s, %s FROM vtiger_%s ORDER BY sortorderid', $primaryKey, $fieldName, $fieldName);
+		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
+				->from("vtiger_$fieldName")
+				->orderBy('sortorderid')
+				->createCommand()->query();
 		$values = [];
-		$result = $db->query($query);
-		while ($row = $db->fetch_array($result)) {
+		while ($row = $dataReader->read()) {
 			$values[$row[$primaryKey]] = decode_html(decode_html($row[$fieldName]));
 		}
 		$cache->setPicklistValues($fieldName, $values);

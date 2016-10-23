@@ -301,9 +301,7 @@ class PrivilegeUtil
 		if (isset(static::$roleInfoCache[$roleId])) {
 			return static::$roleInfoCache[$roleId];
 		}
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('select * from vtiger_role where roleid=?', [$roleId]);
-		$row = $adb->getRow($result);
+		$row = (new Db\Query())->from('vtiger_role')->where(['roleid' => $roleId])->one();
 		if ($row) {
 			$parentRoleArr = explode('::', $row['parentrole']);
 			array_pop($parentRoleArr);

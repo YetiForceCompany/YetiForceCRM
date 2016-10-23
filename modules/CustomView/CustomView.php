@@ -381,10 +381,11 @@ class CustomView extends CRMEntity
 		}
 
 		if (is_numeric($cvid)) {
-			$adb = PearDatabase::getInstance();
-			$sSQL = 'select vtiger_cvstdfilter.* from vtiger_cvstdfilter inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvstdfilter.cvid where vtiger_cvstdfilter.cvid=?';
-			$result = $adb->pquery($sSQL, array($cvid));
-			$stdfilterrow = $adb->fetch_array($result);
+			$stdfilterrow = (new \App\Db\Query())->select('vtiger_cvstdfilter.*')
+					->from('vtiger_cvstdfilter')
+					->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')
+					->where(['vtiger_cvstdfilter.cvid' => $cvid])
+					->one();
 		} else {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
@@ -432,15 +433,14 @@ class CustomView extends CRMEntity
 	public function getAdvFilterByCvid($cvid)
 	{
 		$adb = PearDatabase::getInstance();
-		$default_charset = vglobal('default_charset');
 		$advft_criteria = [];
-
-		$sql = 'SELECT * FROM vtiger_cvadvfilter_grouping WHERE cvid = ? ORDER BY groupid';
-		$groupsresult = $adb->pquery($sql, [$cvid]);
-
+		$dataReader = (new \App\Db\Query())->from('vtiger_cvadvfilter_grouping')
+				->where(['cvid' => $cvid])
+				->orderBy('groupid')
+				->createCommand()->query();
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $adb->fetch_array($groupsresult)) {
+		while ($relcriteriagroup = $dataReader->read()) {
 			$groupId = $relcriteriagroup["groupid"];
 			$groupCondition = $relcriteriagroup["group_condition"];
 
@@ -1213,14 +1213,14 @@ class CustomView extends CRMEntity
 	 */
 	public function getStatusAndUserid($viewid)
 	{
-		$adb = PearDatabase::getInstance();
-
 		if ($this->_status === false || $this->_userid === false) {
-			$query = "SELECT status, userid FROM vtiger_customview WHERE cvid=?";
-			$result = $adb->pquery($query, array($viewid));
-			if ($result && $adb->num_rows($result)) {
-				$this->_status = $adb->query_result($result, 0, 'status');
-				$this->_userid = $adb->query_result($result, 0, 'userid');
+			$row = (new \App\Db\Query())->select(['status', 'userid'])
+					->from('vtiger_customview')
+					->where(['cvid' => $viewid])
+					->one();
+			if ($row !== false) {
+				$this->_status = $row['status'];
+				$this->_userid = $row['userid'];
 			} else {
 				return false;
 			}

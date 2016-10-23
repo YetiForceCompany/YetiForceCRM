@@ -33,7 +33,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($query, ['PLL_PUBLISHED']);
 		while ($row = $db->getRow($result)) {
 			$query = (new \App\Db\Query())
-				->from('u_yf_announcement_mark')
+				->from('u_#__announcement_mark')
 				->where(['announcementid' => $row['announcementid'], 'userid' => $userModel->getId()]);
 			if (!empty($row['interval'])) {
 				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
