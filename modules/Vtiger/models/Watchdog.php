@@ -132,16 +132,15 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($ownerId === false) {
 			$ownerId = Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId();
 		}
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 
 		$row = ['state' => $state];
 		if ($this->get('isRecord') == 0) {
 			$row['userid'] = $ownerId;
 			$row['record'] = $this->get('record');
-			$db->insert('u_yf_watchdog_record', $row);
+			$db->createCommand()->insert('u_#__watchdog_record', $row)->execute();
 		} else {
-
-			$db->update('u_yf_watchdog_record', $row, 'userid = ? && record = ?', [$ownerId, $this->get('record')]);
+			$db->createCommand()->update(('u_#__watchdog_record'), $row, ['userid' => $ownerId, 'record' => $this->get('record')])->execute();
 		}
 	}
 

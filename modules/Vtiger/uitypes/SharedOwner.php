@@ -61,13 +61,14 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
-		if ($record === false) {
+		if (empty($record) ) {
 			return [];
 		}
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT DISTINCT userid FROM u_yf_crmentity_showners WHERE crmid = ?', [$record]);
+		
+		$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
+		$dataReader = $query->createCommand()->query();
 		$values = [];
-		while (($shownerid = $db->getSingleValue($result)) !== false) {
+		while ($shownerid = $dataReader->readColumn(0)) {
 			$values[] = $shownerid;
 		}
 		return $values;
@@ -86,10 +87,10 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			return $shownerid;
 		}
 
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT DISTINCT userid FROM u_yf_crmentity_showners WHERE crmid = ?', [$record]);
+		$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
+		$dataReader = $query->createCommand()->query();
 		$values = [];
-		while (($shownerid = $db->getSingleValue($result)) !== false) {
+		while ($shownerid = $dataReader->readColumn(0)) {
 			$values[] = $shownerid;
 		}
 		Vtiger_Cache::set('SharedOwner', $record, $values);
