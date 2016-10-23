@@ -195,12 +195,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function checkPermissionToFeatured($editView = false)
 	{
-		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$userId = 'Users:' . $currentUser->getId();
-		$roleId = 'Roles:' . $currentUser->getRole();
-		$sql = 'SELECT 1 FROM a_yf_featured_filter WHERE (a_yf_featured_filter.user = ? || a_yf_featured_filter.user = ? ';
-		$params = [$userId, $roleId];
+		$query = (new \App\Db\Query())->from('a_#__featured_filter');
 		if ($currentUser->isAdminUser()) {
 			$userGroups = $currentUser->getUserGroups($currentUser->getId());
 			$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
@@ -209,16 +205,16 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$parentRoles = $currentUser->getParentRoleSequence();
 			$userGroups = $currentUser->get('privileges')->get('groups');
 		}
+		$where = ['or' , ['user' => 'Users:' . $currentUser->getId()], ['user' => 'Roles:' . $currentUser->getRole()]];
 		foreach ($userGroups as $groupId) {
-			$sql .= ' || a_yf_featured_filter.user = "Groups:' . $groupId . '"';
+			$where []= ['user' => "Groups:$groupId"];
 		}
 		foreach (explode('::', $parentRoles) as $role) {
-			$sql .= ' || a_yf_featured_filter.user = "RoleAndSubordinates:' . $role . '"';
+			$where []= ['user' => "RoleAndSubordinates:$role"];
 		}
-		$sql .= ') && a_yf_featured_filter.cvid = ?;';
-		$params[] = $this->getId();
-		$result = $db->pquery($sql, $params);
-		return $result->rowCount();
+		$query->where(['cvid' =>  $this->getId()]);
+		$query->andWhere($where);
+		return $query->count();
 	}
 
 	public function isEditable()
