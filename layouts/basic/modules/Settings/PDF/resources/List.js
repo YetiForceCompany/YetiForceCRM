@@ -6,7 +6,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 	registerFilterChangeEvent: function () {
 		var thisInstance = this;
 		jQuery('#moduleFilter').on('change', function (e) {
-			jQuery('#pageNumber').val("1");
+			jQuery('#pageNumber').val('1');
 			jQuery('#pageToJump').val('1');
 			jQuery('#orderBy').val('');
 			jQuery("#sortOrder").val('');
@@ -18,11 +18,10 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			//Make the select all count as empty
 			jQuery('#recordsCount').val('');
 			//Make total number of pages as empty
-			jQuery('#totalPageCount').text("");
+			jQuery('#totalPageCount').text('');
 			thisInstance.getListViewRecords(params).then(
 					function (data) {
 						thisInstance.updatePagination();
-						thisInstance.registerTemplateDelete(thisInstance.getListContainer());
 					}
 			);
 		});
@@ -63,16 +62,29 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 	},
 	registerTemplateDelete: function (container) {
 		var thisInstance = this;
-		container.find('.templateDelete').each(function (index) {
-			jQuery(this).on('click', function (e) {
-				e.stopPropagation();
-				e.preventDefault();
-				var templateId = jQuery(this).closest('tr').data('id');
-				Vtiger_List_Js.deleteRecord(templateId).then(function(){
-					thisInstance.registerTemplateDelete(container);
-				});
+		if (container == undefined) {
+			container = thisInstance.getListContainer();
+		}
+		container.find('.templateDelete').on('click', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			var templateId = jQuery(this).closest('tr').data('id');
+			Vtiger_List_Js.deleteRecord(templateId).then(function () {
+				thisInstance.registerTemplateDelete(container);
 			});
 		});
+	},
+	/*
+	 * Function which will give you all the list view params
+	 */
+	getListViewRecords: function (urlParams) {
+		var thisInstance = this;
+		var aDeferred = jQuery.Deferred();
+		this._super(urlParams).then(function (data) {
+			thisInstance.registerTemplateDelete();
+			aDeferred.resolve(data);
+		});
+		return aDeferred.promise();
 	},
 	registerEvents: function () {
 		this._super();
