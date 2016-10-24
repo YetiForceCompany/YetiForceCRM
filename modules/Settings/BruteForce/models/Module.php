@@ -57,7 +57,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$blockDate->modify("-$time minutes");
 
 		$query = (new \App\Db\Query())
-			->select(['COUNT(*) AS c', 'id', 'ip', 'GROUP_CONCAT(DISTINCT(user_name)) as usersName', 'time', 'GROUP_CONCAT(DISTINCT(browser)) as browsers'])
+			->select(['COUNT(*) AS c', 'id', 'ip', new \yii\db\Expression('GROUP_CONCAT(DISTINCT(user_name)) as usersName'), 'time', new \yii\db\Expression('GROUP_CONCAT(DISTINCT(browser)) as browsers')])
 			->from('vtiger_loginhistory')
 			->innerJoin('a_#__bruteforce_blocked', 'vtiger_loginhistory.user_ip = a_#__bruteforce_blocked.ip')
 			->where(['status' => 'Failed login'])
@@ -97,7 +97,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	public function incAttempts()
 	{
 		if (!empty($this->blockedId)) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db::getInstance('admin')->createCommand()
 				->update('a_#__bruteforce_blocked', [
 					'attempts' => new \yii\db\Expression('attempts + 1')
 					], ['id' => $this->blockedId])
@@ -111,7 +111,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	public function updateBlockedIp()
 	{
 		\App\Log::trace('Start ' . __CLASS__ . '::' . __METHOD__);
-		$db = \App\Db::getInstance();
+		$db = \App\Db::getInstance('admin');
 		$time = $this->get('timelock');
 		$date = new DateTime();
 		$checkData = $date->modify("-$time minutes")->format('Y-m-d H:i:s');
@@ -148,7 +148,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	private function setBlockedIp($ip)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db::getInstance('admin');
 		$db->createCommand()->insert('a_#__bruteforce_blocked', [
 			'ip' => $ip,
 			'attempts' => 1,
@@ -165,7 +165,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	private function clearBlockedByIp($ip, $data)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db::getInstance('admin');
 		$db->createCommand()->delete('a_#__bruteforce_blocked', [
 			'and', ['<', 'time', $data],
 			['blocked' => self::UNBLOCKED],
@@ -179,7 +179,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	public static function unBlock($id)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		return \App\Db::getInstance()->createCommand()
+		return \App\Db::getInstance('admin')->createCommand()
 				->update('a_#__bruteforce_blocked', [
 					'blocked' => self::UNBLOCKED_BY_USER,
 					'userid' => $currentUser->getRealId()
@@ -202,7 +202,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function updateConfig($data)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db::getInstance('admin');
 		$db->createCommand()
 			->update('a_#__bruteforce', [
 				'attempsnumber' => $data['attempsnumber'],
