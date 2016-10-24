@@ -632,7 +632,7 @@ var Vtiger_Index_Js = {
 		return aDeferred.promise();
 	},
 	sendNotification: function () {
-		$('.quickCreateModule[data-name="Notification"]:first').trigger('click');
+		Vtiger_Header_Js.getInstance().quickCreateModule('Notification');
 	},
 	loadPreSaveRecord: function (form) {
 		SaveResult = new SaveResult()

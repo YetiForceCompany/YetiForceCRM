@@ -1047,13 +1047,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getCurrencyList()
 	{
-		$dataReader = (new \App\Db\Query())->select('id, currency_name')
+		$currencies = (new \App\Db\Query())->select('id, currency_name')
 				->from('vtiger_currency_info')
 				->where(['currency_status' => 'Active', 'deleted' => 0])
-				->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$currencies[$row['id']] = $row['currency_name'];
-		}
+				->createCommand()->queryAllByGroup();
 		asort($currencies);
 		return $currencies;
 	}
