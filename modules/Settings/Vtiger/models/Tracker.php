@@ -27,7 +27,7 @@ class Settings_Vtiger_Tracker_Model
 		if (self::$id != false || self::$lockTrack) {
 			return true;
 		}
-		$insertedInfo = $db->createCommand()->insert('l_yf_settings_tracker_basic', [
+		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
 			'user_id' => Users_Privileges_Model::getCurrentUserModel()->getId(),
 			'type' => self::$types[$type],
 			'module_name' => AppRequest::get('module'),

@@ -485,14 +485,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($groupIds !== false) {
 			return $groupIds;
 		}
-		$dataReader = (new \App\Db\Query())->select('groupid')
+		$groupIds = (new \App\Db\Query())->select('groupid')
 				->from('vtiger_users2group')
 				->where(['userid' => $userId])
-				->createCommand()->query();
-		$groupIds = [];
-		while (($groupId = $dataReader->readColumn(0)) !== false) {
-			$groupIds[] = $groupId;
-		}
+				->column();
 		Vtiger_Cache::set('getUserGroups', $userId, $groupIds);
 		return $groupIds;
 	}

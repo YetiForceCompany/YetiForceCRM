@@ -114,8 +114,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	{
 		$userid = $this->get('smcreatorid');
 		if (!empty($userid)) {
-			$userModel = Users_Privileges_Model::getInstanceById($userid);
-			return $userModel->getName();
+			return \includes\fields\Owner::getLabel($userid);
 		}
 		return '';
 	}

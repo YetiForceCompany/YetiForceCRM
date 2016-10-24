@@ -214,7 +214,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		}
 		$query->where(['cvid' =>  $this->getId()]);
 		$query->andWhere($where);
-		return $query->count();
+		return $query->exists();
 	}
 
 	public function isEditable()
