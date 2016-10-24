@@ -972,20 +972,17 @@ class Accounts extends CRMEntity
 
 	public function getRelatedContactsIds($id = null)
 	{
-		$adb = PearDatabase::getInstance();
+
 		if ($id === null)
 			$id = $this->id;
 		$entityIds = [];
-		$query = 'SELECT contactid FROM vtiger_contactdetails
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid
-				WHERE vtiger_contactdetails.parentid = ? && vtiger_crmentity.deleted = 0';
-		$accountContacts = $adb->pquery($query, array($id));
-		$numOfContacts = $adb->num_rows($accountContacts);
-		if ($accountContacts && $numOfContacts > 0) {
-			for ($i = 0; $i < $numOfContacts; ++$i) {
-				array_push($entityIds, $adb->query_result($accountContacts, $i, 'contactid'));
-			}
-		}
+		$query = (new \App\Db\Query())->select('contactid')->from('vtiger_contactdetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
+			->where(['vtiger_contactdetails.parentid' => $id, 'vtiger_crmentity.deleted' => 0]);
+		$values = $query->column();
+		if (empty($values))
+			$entityIds = [];
+
 		return $entityIds;
 	}
 }
