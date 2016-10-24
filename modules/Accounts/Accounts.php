@@ -979,7 +979,7 @@ class Accounts extends CRMEntity
 			->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
 			->where(['vtiger_contactdetails.parentid' => $id, 'vtiger_crmentity.deleted' => 0]);
 		$entityIds = $query->column();
-		if (empty($values))
+		if (empty($entityIds))
 			$entityIds = [];
 
 		return $entityIds;
