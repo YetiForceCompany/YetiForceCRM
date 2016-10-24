@@ -36,8 +36,12 @@ class Command extends \yii\db\Command
 	 * An empty array is returned if the query results in nothing.
 	 * @throws Exception execution failed
 	 */
-	public function queryAllByGroup()
+	public function queryAllByGroup($array = false)
 	{
-		return $this->queryInternal('fetchAll', \PDO::FETCH_GROUP | \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
+		if ($array) {
+			return $this->queryInternal('fetchAll', \PDO::FETCH_GROUP | \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
+		} else {
+			return $this->queryInternal('fetchAll', \PDO::FETCH_KEY_PAIR);
+		}
 	}
 }
