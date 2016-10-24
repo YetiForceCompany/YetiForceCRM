@@ -143,7 +143,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function adds unsuccessful login attempt to database 
-	 * @param int $ip - User IP
+	 * @param string $ip - User IP
 	 * @return int - Created record’s ID
 	 */
 	private function setBlockedIp($ip)
@@ -160,7 +160,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function removes redundant entries from database
-	 * @param int $ip - User IP
+	 * @param string $ip - User IP
 	 * @param string $data - Cut-off date of user’s block condition
 	 */
 	private function clearBlockedByIp($ip, $data)

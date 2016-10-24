@@ -45,7 +45,7 @@ class Settings_BruteForce_SaveAjax_Action extends Settings_Vtiger_Index_View
 		$status = Settings_BruteForce_Module_Model::unBlock($id);
 
 		if (!$status) {
-			$return = ['success' => true, 'message' => vtranslate('LBL_UNBLOCK_FAIL', $moduleName)];
+			$return = ['success' => false, 'message' => vtranslate('LBL_UNBLOCK_FAIL', $moduleName)];
 		} else {
 			$return = ['success' => true, 'message' => vtranslate('LBL_UNBLOCK_SUCCESS', $moduleName)];
 		}
