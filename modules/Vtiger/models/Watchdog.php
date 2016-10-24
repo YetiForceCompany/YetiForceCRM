@@ -191,7 +191,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 	{
 		$users = [];
 		$dataReader = (new App\Db\Query())->select(['userid'])
-				->from('u_yf_watchdog_module')
+				->from('u_#__watchdog_module')
 				->where(['module' => \App\Module::getModuleId($this->get('module'))])
 				->createCommand()->query();
 		while (($userId = $dataReader->readColumn(0)) !== false) {
@@ -199,7 +199,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		}
 		if ($this->has('record')) {
 			$dataReader = (new App\Db\Query())->select(['userid', 'state'])
-				->from('u_yf_watchdog_record')
+				->from('u_#__watchdog_record')
 				->where(['record' => \App\Module::getModuleId($this->get('record'))])
 				->createCommand()->query();
 			while ($row = $dataReader->read()) {

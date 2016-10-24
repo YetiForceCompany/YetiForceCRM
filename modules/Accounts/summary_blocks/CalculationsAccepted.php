@@ -9,9 +9,9 @@ class CalculationsAccepted
 
 	public function process($instance)
 	{
-		return (int) (new \App\Db\Query())->from('u_yf_scalculations')
-				->innerJoin('vtiger_crmentity', 'u_yf_scalculations.scalculationsid = vtiger_crmentity.crmid')
-				->where(['deleted' => 0, 'u_yf_scalculations.accountid' => $instance->getId(), 'u_yf_scalculations.scalculations_status' => 'PLL_ACCEPTED'])
+		return (int) (new \App\Db\Query())->from('u_#__scalculations')
+				->innerJoin('vtiger_crmentity', 'u_#__scalculations.scalculationsid = vtiger_crmentity.crmid')
+				->where(['deleted' => 0, 'u_#__scalculations.accountid' => $instance->getId(), 'u_#__scalculations.scalculations_status' => 'PLL_ACCEPTED'])
 				->count(1);
 	}
 }

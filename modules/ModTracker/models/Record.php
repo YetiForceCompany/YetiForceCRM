@@ -99,7 +99,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 		$lastReviewedUsers = (new \App\Db\Query())->select('last_reviewed_users')->from('vtiger_modtracker_basic')
 				->where(['crmid' => $recordId])
-				->andWhere(['<>', 'status', self::DISPLAYED])->orderBy('changedon, id')->limit(1)->scalar();
+				->andWhere(['<>', 'status', self::DISPLAYED])->orderBy(['changedon' => SORT_DESC, 'id' => SORT_DESC])->limit(1)->scalar();
 		if ($lastReviewedUsers !== false) {
 			return strpos($lastReviewedUsers, "#$userId#") === false;
 		}

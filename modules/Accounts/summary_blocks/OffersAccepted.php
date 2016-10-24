@@ -9,8 +9,8 @@ class OffersAccepted
 
 	public function process($instance)
 	{
-		return (int) (new \App\Db\Query())->from('u_yf_squotes')
-			->innerJoin('vtiger_crmentity', 'u_yf_squotes.squotesid = vtiger_crmentity.crmid')
-			->where(['deleted' => 0, 'u_yf_squotes.accountid' => $instance->getId(), 'u_yf_squotes.squotes_status' => 'PLL_ACCEPTED'])->count(1);
+		return (int) (new \App\Db\Query())->from('u_#__squotes')
+			->innerJoin('vtiger_crmentity', 'u_#__squotes.squotesid = vtiger_crmentity.crmid')
+			->where(['deleted' => 0, 'u_#__squotes.accountid' => $instance->getId(), 'u_#__squotes.squotes_status' => 'PLL_ACCEPTED'])->count(1);
 	}
 }
