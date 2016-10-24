@@ -23,21 +23,25 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the history of updates on a record
-	 * @param <type> $record - Record model
-	 * @param <type> $limit - number of latest changes that need to retrieved
-	 * @return <array> - list of  ModTracker_Record_Model
+	 * @param int $parentRecordId
+	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param string $type
+	 * @return array - list of  ModTracker_Record_Model
 	 */
-	public static function getUpdates($parentRecordId, $pagingModel, $type)
+	public static function getUpdates($parentRecordId, Vtiger_Paging_Model $pagingModel, $type)
 	{
 		$recordInstances = [];
-
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 		$where = self::getConditionByType($type);
-		$query = (new \App\Db\Query())->from('vtiger_modtracker_basic')->where(['crmid' => $parentRecordId])
-			->andWhere(($where))->limit($startIndex)->offset($pageLimit)->orderBy(['changedon' => SORT_DESC]);
+		$query = (new \App\Db\Query())
+			->from('vtiger_modtracker_basic')
+			->where(['crmid' => $parentRecordId])
+			->andWhere(($where))
+			->limit($pageLimit)
+			->offset($startIndex)
+			->orderBy(['changedon' => SORT_DESC]);
 		$dataReader = $query->createCommand()->query();
-
 		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
 			$recordInstance->setData($row)->setParent($row['crmid'], $row['module']);
@@ -122,7 +126,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$query->orderBy('vtiger_modtracker_basic.crmid ,vtiger_modtracker_basic.id DESC');
 		}
 		$dataReader = $query->createCommand()->query();
-		
+
 		$changes = [];
 		while ($row = $dataReader->read()) {
 			$changes[$row['crmid']][] = $row;
