@@ -768,7 +768,7 @@ class CRMEntity
 			$where_clause .= ' vtiger_crmentity.crmid = ? ';
 			$params[] = $record;
 			if ($module != '') {
-				$where_clause .= ' && vtiger_crmentity.setype = ?';
+				$where_clause .= ' AND vtiger_crmentity.setype = ?';
 				$params[] = $module;
 			}
 

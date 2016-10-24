@@ -315,7 +315,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
 
-		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
+		$listQuery .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		$listResult = $db->query($listQuery);
 
 		$listViewRecordModels = [];

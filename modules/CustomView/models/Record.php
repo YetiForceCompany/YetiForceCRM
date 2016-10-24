@@ -95,11 +95,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
-			$db = PearDatabase::getInstance();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$sql = 'SELECT 1 FROM vtiger_user_module_preferences WHERE userid = ? && `tabid` = ? && default_cvid= ? LIMIT 1';
-			$result = $db->pquery($sql, ['Users:' . $currentUser->getId(), $this->getModule()->getId(), $this->getId()]);
-			$this->isDefault = $result->rowCount();
+			$cvId = $this->getId();
+			if($cvId === false) {
+				return 0;
+			}
+			$this->isDefault = (new App\Db\Query())->from('vtiger_user_module_preferences')
+				->where(['userid' => 'Users:' . $currentUser->getId(), 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
+				->count();
 		}
 		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $this->isDefault;
@@ -186,11 +189,13 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function checkFeaturedInEditView()
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$sql = 'SELECT `user` FROM a_yf_featured_filter WHERE `cvid` = ? && `user` = ?';
-		$result = $db->pquery($sql, [$this->getId(), 'Users:' . $currentUser->getId()]);
-		return (bool) $result->rowCount();
+		$db = App\Db::getInstance('admin');
+		$cvId = $this->getId();
+		if($cvId === false)
+			return false;
+		return (new App\Db\Query())->from('a_#__featured_filter')
+			->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
+			->exists($db);
 	}
 
 	public function checkPermissionToFeatured($editView = false)
