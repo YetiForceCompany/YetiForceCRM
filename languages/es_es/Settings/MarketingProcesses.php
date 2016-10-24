@@ -9,21 +9,21 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_CONVERSION' => 'Conversion',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Change Assigned To',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'When this option is ticked, a user who converts a Lead to an Account becomes its Assigned To',
-	'LBL_LEADS' => 'Leads',
-	'LBL_INFO' => 'Information',
-	'LBL_VALUES' => 'Values',
-	'LBL_GROUPS_INFO' => 'Groups with no Assigned To',
-	'LBL_LEAD_STATUS' => 'Statuses indicating end of work with Leads',
-	'LBL_LEAD_CONVERT_STATUS' => 'Statuses that allow for converting Lead to Account',
-	'LBL_CURRENTUSER_STATUS' => 'Change Assigned To to a user who edits a record',
-	'LBL_CONVERT_LEAD_MERGE' => 'Link the record meeting specified requirements while converting from Lead to Account',
-	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows the system to automatically link converted record with an already existing one - new Account will not be created, instead, all existing record data will be transferred from Lead',
-	'LBL_CONDITION' => 'Add condition',
-	'MarketingProcesses' => 'Marketing processes',
+	'LBL_CONVERSION' => 'Conversión',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Cambiar Asignado',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Cuando selecciona esta opción, el usuario que convierte un Potencial en Cuenta es Asignado a ese cliente',
+	'LBL_LEADS' => 'Potenciales',
+	'LBL_INFO' => 'Información',
+	'LBL_VALUES' => 'Valores',
+	'LBL_GROUPS_INFO' => 'Grupos sin Asignado',
+	'LBL_LEAD_STATUS' => 'Estados que indican el fin del trabajo con Potenciales',
+	'LBL_LEAD_CONVERT_STATUS' => 'Estados que permiten convertir un Potencial en Cuenta',
+	'LBL_CURRENTUSER_STATUS' => 'Cambiar Asignado por el usuario que edita un registro',
+	'LBL_CONVERT_LEAD_MERGE' => 'Al convertir un Potencial en Cuenta, asociar los requerimientos específicos alcanzados del registro',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Esta opción permite al sistema asociar automáticamente un registro convertido con otro ya existente. De este modo no se creará una cuenta nueva, pero todos los datos del potencial serán transferidos a esta cuenta',
+	'LBL_CONDITION' => 'Añadir Condición',
+	'MarketingProcesses' => 'Procesos de Mercadeo',
 ];
 $jsLanguageStrings = [
-	'JS_NO_CONDITIONS' => 'At least one condition is required',
+	'JS_NO_CONDITIONS' => 'Se requiere al menos una condición',
 ];
