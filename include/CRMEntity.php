@@ -1741,7 +1741,6 @@ class CRMEntity
 		$singular_modname = 'SINGLE_' . $relatedModule;
 
 		$button = '';
-		$row = [];
 
 		// To make the edit or del link actions to return back to same view.
 		if ($singlepane_view == 'true')
@@ -1751,24 +1750,26 @@ class CRMEntity
 
 		$return_value = null;
 
-		$dependentFieldSql = $this->db->pquery('SELECT tabid, fieldname, columnname, tablename FROM vtiger_field WHERE uitype = 10 AND' .
-			' fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? && module=?)', [$currentModule, $relatedModule]);
-		if ($dependentFieldSql->rowCount()) {
-			$row = $this->db->getRow($dependentFieldSql);
-		} else {
-			$depProcessFieldSql = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [$relTabId]);
-			while ($rowProc = $this->db->getRow($depProcessFieldSql)) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
-				$fieldModel = new $className();
-				foreach ($rowProc as $properName => $propertyValue) {
-					$fieldModel->$properName = $propertyValue;
+		$query = new \App\Db\Query();
+		$subQuery = $query->select('fieldid')->from('vtiger_fieldmodulerel')->where(['relmodule' => $currentModule, 'module' => $relatedModule])->one();
+		$mainQuery = $query->select('tabid, fieldname, columnname, tablename')->from('vtiger_field')->where(['uitype' => 10, 'fieldid' => $subQuery]);
+		$row = $mainQuery->one();
+		if ($row === false) {
+			$mainQuery = $query->select('fieldname AS name, fieldid AS id, fieldlabel AS label, columnname AS column, tablename AS table')->from('vtiger_field')
+				->where(['uitype' => [66, 67, 68], 'tabid' => $relTabId]);
+			$dataReader = $mainQuery->createCommand()->query();
+				while ($rowProc = $dataReader->read()){
+					$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
+					$fieldModel = new $className();
+					foreach ($rowProc as $properName => $propertyValue) {
+						$fieldModel->$properName = $propertyValue;
+					}
+					$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
+					if (!empty($moduleList) && in_array($currentModule, $moduleList)) {
+						$row = $rowProc;
+						break;
+					}
 				}
-				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
-				if (!empty($moduleList) && in_array($currentModule, $moduleList)) {
-					$row = $rowProc;
-					break;
-				}
-			}
 		}
 
 		if (!empty($row)) {
