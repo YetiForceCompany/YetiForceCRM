@@ -11,10 +11,12 @@ class Vtiger_PosList_UIType extends Vtiger_Base_UIType
 
 	private function getServers()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT id, name FROM w_yf_servers WHERE type = ? && status = ?', ['POS', 1]);
+		$dataReader = (new \App\Db\Query())->select(['id', 'name'])
+				->from('w_yf_servers')
+				->where(['type' => 'POS', 'status' => 1])
+				->createCommand()->query();
 		$listServers = [];
-		while ($server = $db->getRow($result)) {
+		while ($server = $dataReader->read()) {
 			$listServers[$server['id']] = $server['name'];
 		}
 		return $listServers;

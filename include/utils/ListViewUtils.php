@@ -32,13 +32,13 @@ require_once('include/utils/UserInfoUtil.php');
  */
 function getListQuery($module, $where = '')
 {
-	
+
 	\App\Log::trace("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-	$tab_id = \includes\Modules::getModuleId($module);
+	$tab_id = \App\Module::getModuleId($module);
 	$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
 			'vtiger_users.last_name'), 'Users');
 	switch ($module) {
@@ -194,11 +194,11 @@ function getListQuery($module, $where = '')
 
 			//added to fix #5135
 			if (AppRequest::get('from_homepage') == 'upcoming_activities' || AppRequest::get('from_homepage') == 'pending_activities') {
-				$query.=' LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid';
+				$query .= ' LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid';
 			}
 			//end
 			$query .= \App\PrivilegeQuery::getAccessConditions($module, $current_user->id);
-			$query.= ' ' . $where;
+			$query .= ' ' . $where;
 			break;
 		Case "Emails":
 			$query = "SELECT DISTINCT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -376,12 +376,12 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 
 function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $related_module, $recordid)
 {
-	
+
 	$adb = PearDatabase::getInstance();
 	\App\Log::trace("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
 	global $theme;
-	$relatedTabId = \includes\Modules::getModuleId($related_module);
-	$tabid = \includes\Modules::getModuleId($module);
+	$relatedTabId = \App\Module::getModuleId($related_module);
+	$tabid = \App\Module::getModuleId($module);
 
 	$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid=? AND
 		related_tabid=?', array($tabid, $relatedTabId));
@@ -402,8 +402,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 
 	$output = '<td align="right" style="padding="5px;">';
 	if (($navigation_array['prev']) != 0) {
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \includes\Language::translate('LBL_FIRST') . '" title="' . \includes\Language::translate('LBL_FIRST') . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \includes\Language::translate('LNK_LIST_PREVIOUS') . '"title="' . \includes\Language::translate('LNK_LIST_PREVIOUS') . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \App\Language::translate('LBL_FIRST') . '" title="' . \App\Language::translate('LBL_FIRST') . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \App\Language::translate('LNK_LIST_PREVIOUS') . '"title="' . \App\Language::translate('LNK_LIST_PREVIOUS') . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 	} else {
 		$output .= '<img src="' . vtiger_imageurl('start_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
 		$output .= '<img src="' . vtiger_imageurl('previous_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
@@ -416,13 +416,13 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
 	$computeCount = AppRequest::get('withCount');
 	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true || ((boolean) $computeCount) === true) {
-		$output .= \includes\Language::translate('LBL_LIST_OF') . ' ' . $navigation_array['verylast'];
+		$output .= \App\Language::translate('LBL_LIST_OF') . ' ' . $navigation_array['verylast'];
 	} else {
-		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . \includes\Language::translate('LBL_HOME_COUNT') . "'
+		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . \App\Language::translate('LBL_HOME_COUNT') . "'
 			onclick=\"loadRelatedListBlock('{$urldata}&withCount=true&start={$navigation_array['current']}','{$target}','{$imagesuffix}');\"
 			align='absmiddle' name='" . $module . "_listViewCountRefreshIcon'/>
 			<img name='" . $module . "_listViewCountContainerBusy' src='" . vtiger_imageurl('vtbusy.gif', $theme) . "' style='display: none;'
-			align='absmiddle' alt='" . \includes\Language::translate('LBL_LOADING') . "'>";
+			align='absmiddle' alt='" . \App\Language::translate('LBL_LOADING') . "'>";
 	}
 	$output .= '</span>';
 
@@ -445,7 +445,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 function getEntityId($module, $entityName)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 	\App\Log::trace("in getEntityId " . $entityName);
 
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
@@ -481,7 +481,7 @@ function decode_html($str)
 	if (empty($default_charset))
 		$defaultCharset = 'UTF-8';
 	// Direct Popup action or Ajax Popup action should be treated the same.
-	if (AppRequest::get('action') == 'Popup' || (AppRequest::has('action') && AppRequest::get('file') == 'Popup'))
+	if (AppRequest::get('action') === 'Popup' || (AppRequest::has('action') && AppRequest::get('file') === 'Popup'))
 		return html_entity_decode($str);
 	else
 		return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
@@ -506,7 +506,7 @@ function getFirstModule($module, $fieldname)
 {
 	$adb = PearDatabase::getInstance();
 	$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
-	$result = $adb->pquery($sql, array(\includes\Modules::getModuleId($module), $fieldname));
+	$result = $adb->pquery($sql, array(\App\Module::getModuleId($module), $fieldname));
 
 	if ($adb->num_rows($result) > 0) {
 		$uitype = $adb->query_result($result, 0, "uitype");
@@ -555,10 +555,10 @@ function getRecordRangeMessage($listResult, $limitStartRecord, $totalRows = '')
 	$numRows = $adb->num_rows($listResult);
 	$recordListRangeMsg = '';
 	if ($numRows > 0) {
-		$recordListRangeMsg = \includes\Language::translate('LBL_SHOWING') . ' ' . \includes\Language::translate('LBL_RECORDS') .
+		$recordListRangeMsg = \App\Language::translate('LBL_SHOWING') . ' ' . \App\Language::translate('LBL_RECORDS') .
 			' ' . ($limitStartRecord + 1) . ' - ' . ($limitStartRecord + $numRows);
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true) {
-			$recordListRangeMsg .= ' ' . \includes\Language::translate('LBL_LIST_OF') . " $totalRows";
+			$recordListRangeMsg .= ' ' . \App\Language::translate('LBL_LIST_OF') . " $totalRows";
 		}
 	}
 	return $recordListRangeMsg;

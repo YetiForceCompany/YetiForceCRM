@@ -136,6 +136,20 @@
 									</div>	
 								</div>
 							{/if}
+							{if in_array($WIDGET_MODEL->get('linklabel'), $WIDGETS_WITH_FILTER_DATE)}
+								<div class="form-group ">
+									<div class="col-sm-3 control-label">
+										{vtranslate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
+									</div>
+									<div class="col-sm-8 controls">
+										<select class="widgetFilterDate form-control" id="date" name="default_date">
+											{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
+												<option value="{$DATE_VALUE}" {if $DATE_VALUE eq $WIDGET_MODEL->get('date')} selected {/if}>{vtranslate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
+											{/foreach}
+										</select>
+									</div>	
+								</div>
+							{/if}
 							<div class="modal-footer">
 								<span class="pull-right">
 									<div class="pull-right"><button class='cancel btn btn-warning' type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>

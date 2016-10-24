@@ -72,7 +72,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
-		$labels = \includes\Record::getLabel($ids);
+		$labels = \App\Record::getLabel($ids);
 
 		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {

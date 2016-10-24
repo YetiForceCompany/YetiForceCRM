@@ -624,7 +624,12 @@ class QueryGenerator
 		}
 		$ownerFields = $this->meta->getOwnerFields();
 		if (count($ownerFields) > 0) {
-			$ownerField = $ownerFields[0];
+			//there are more than one field pointing to the users table, the real one is the one called assigned_user_id if there is one, otherwise pick the first
+			if (in_array('assigned_user_id', $ownerFields)) {
+				$ownerField = 'assigned_user_id';
+			} else {
+				$ownerField = $ownerFields[0];
+			}
 		}
 		$baseTable = $this->meta->getEntityBaseTable();
 		$sql = " FROM $baseTable ";
@@ -835,7 +840,7 @@ class QueryGenerator
 						$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => "vtiger_users$fieldName.first_name", 'last_name' => "vtiger_users$fieldName.last_name"), 'Users');
 						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
 					} else {
-						$entityFields = \includes\Modules::getEntityInfo('Users');
+						$entityFields = \App\Module::getEntityInfo('Users');
 						if (count($entityFields['fieldnameArr']) > 1) {
 							$columns = [];
 							foreach ($entityFields['fieldnameArr'] as &$fieldname) {
@@ -1003,7 +1008,7 @@ class QueryGenerator
 		}
 
 		if (!$onlyWhereQuery && $this->permissions) {
-			if (AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+			if (AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $baseModule != 'Users') {
 				$sql .= " AND vtiger_crmentity.users LIKE '%,{$current_user->id},%'";
 			} else {
 				$sql .= \App\PrivilegeQuery::getAccessConditions($baseModule, $current_user->id, $this->getSourceRecord());
@@ -1436,7 +1441,7 @@ class QueryGenerator
 			$this->endGroup();
 		} else {
 			if (isset($input['search_field']) && $input['search_field'] != "") {
-				$fieldName = vtlib_purify($input['search_field']);
+				$fieldName = App\Purifier::purify($input['search_field']);
 			} else {
 				return;
 			}
@@ -1457,7 +1462,7 @@ class QueryGenerator
 				}
 
 				if ($type == 'picklist') {
-					$value = \includes\Language::translate($value, $this->module);
+					$value = \App\Language::translate($value, $this->module);
 				}
 				if ($type == 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion

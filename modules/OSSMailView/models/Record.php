@@ -275,7 +275,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$relations[$module][] = [
 				'id' => $row['crmid'],
 				'module' => $module,
-				'label' => \includes\Record::getLabel($row['crmid'])
+				'label' => \App\Record::getLabel($row['crmid'])
 			];
 		}
 		return $relations;
@@ -330,7 +330,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery('SELECT * FROM s_yf_mail_relation_updater WHERE crmid = ?', [$record]);
 		if ($db->getRowCount($result) == 0) {
 			$db->insert('s_yf_mail_relation_updater', [
-				'tabid' => \includes\Modules::getModuleId($moduleName),
+				'tabid' => \App\Module::getModuleId($moduleName),
 				'crmid' => $record
 			]);
 		}

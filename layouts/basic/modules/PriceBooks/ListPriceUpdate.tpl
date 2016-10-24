@@ -27,7 +27,7 @@
 					<span><strong>{vtranslate('LBL_EDIT_LIST_PRICE',$MODULE)}</strong></span>
 					&nbsp;:&nbsp;
 					<input type="text" class="form-control" name="currentPrice" value="{$CURRENT_PRICE}" data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" 
-						   data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
+						   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}' />
 				</div>
 			</div>
 			{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}

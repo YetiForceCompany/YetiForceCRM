@@ -11,7 +11,7 @@ class OSSMailTemplates_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
 	public function getModulesListValues($onlyActive = true)
 	{
@@ -19,13 +19,12 @@ class OSSMailTemplates_Field_Model extends Vtiger_Field_Model
 		$modules = [];
 		$params = [];
 		$where = '';
+		$query = (new App\Db\Query())->select(['tabid', 'name', 'ownedby'])->from('vtiger_tab');
 		if ($onlyActive) {
-			$where = ' WHERE (presence = ? && isentitytype = ? ) or name = ?';
-			array_push($params, 0, 1, 'Users');
+			$query->where(['or', ['name' => 'Users'], ['and', ['presence' => 0], ['isentitytype' => 1]]]);
 		}
-		$query = sprintf('SELECT tabid, name, ownedby FROM vtiger_tab %s', $where);
-		$result = $adb->pquery($query, $params);
-		while ($row = $adb->fetch_array($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$modules[$row['tabid']] = ['name' => $row['name'], 'label' => vtranslate($row['name'], $row['name'])];
 		}
 		if ($this->getName() == 'oss_module_list') {

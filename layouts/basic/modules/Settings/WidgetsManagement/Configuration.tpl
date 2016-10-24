@@ -36,6 +36,7 @@
 				</div>
 
 				<div id="moduleBlocks">
+					<input type="hidden" name="filter_date" value='{\includes\utils\Json::encode($WIDGETS_WITH_FILTER_DATE)}'>
 					<input type="hidden" name="filter_users" value='{\includes\utils\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
 					<input type="hidden" name="filter_restrict" value='{\includes\utils\Json::encode($RESTRICT_FILTER)}'>
 					{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
@@ -241,7 +242,7 @@
 													{if array_key_exists($WIDGET->getTitle(), $SPECIAL_WIDGETS)}
 														{continue}
 													{/if}
-													<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
+													<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
 										</div>
@@ -296,6 +297,18 @@
 											<select class="form-control owners_all" multiple="true" disabled name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 													<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+												{/foreach}
+											</select>
+										</div>	
+									</div>
+									<div class="form-group widgetFilterDate hide">
+										<div class="col-sm-3 control-label">
+											{vtranslate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
+										</div>
+										<div class="col-sm-8 controls">
+											<select class="form-control" id="date" disabled name="default_date">
+												{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
+													<option value="{$DATE_VALUE}">{vtranslate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
 										</div>	
@@ -396,6 +409,18 @@
 													{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 												</label>
 											</div>	
+											<div class="form-group hide">
+												<div class="col-sm-3 control-label">
+													{vtranslate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
+												</div>
+												<div class="col-sm-8 controls">
+													<select class="widgetFilterDate form-control" id="date" disabled name="default_date">
+														{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
+															<option value="{$DATE_VALUE}">{vtranslate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
+														{/foreach}
+													</select>
+												</div>	
+											</div>
 										</div>
 										<div class="modal-footer">
 											<span class="pull-right">

@@ -268,7 +268,7 @@ class Services extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -439,9 +439,9 @@ class Services extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 1, '') == 'yes' && isPermitted($currentModule, 'EditView', $id) == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_ADD_TO') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small create'" .
+				$button .= "<input title='" . \App\Language::translate('LBL_ADD_TO') . " " . \App\Language::translate($related_module) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"AddServiceToPriceBooks\";this.form.module.value=\"$currentModule\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_TO') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_ADD_TO') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
 			}
 		}
 
@@ -533,7 +533,7 @@ class Services extends CRMEntity
 			$header[] = $current_module_strings['LBL_SERVICE_UNIT_PRICE'];
 		$header[] = $current_module_strings['LBL_PB_LIST_PRICE'];
 		if (isPermitted("PriceBooks", "EditView", "") == 'yes' || isPermitted("PriceBooks", "Delete", "") == 'yes')
-			$header[] = \includes\Language::translate('LBL_ACTION');
+			$header[] = \App\Language::translate('LBL_ACTION');
 
 		$currency_id = $focus->column_fields['currency_id'];
 		$numRows = $adb->num_rows($list_result);
@@ -555,14 +555,14 @@ class Services extends CRMEntity
 			$entries[] = CurrencyField::convertToUserFormat($listprice, null, true);
 			$action = "";
 			if (isPermitted("PriceBooks", "EditView", "") == 'yes' && isPermitted('Services', 'EditView', $entity_id) == 'yes') {
-				$action .= '<img style="cursor:pointer;" src="themes/images/editfield.gif" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '" title="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '"/>';
+				$action .= '<img style="cursor:pointer;" src="themes/images/editfield.gif" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . \App\Language::translate('LBL_EDIT_BUTTON') . '" title="' . \App\Language::translate('LBL_EDIT_BUTTON') . '"/>';
 			} else {
 				$action .= '<img src="' . vtiger_imageurl('blank.gif', $theme) . '" border="0" />';
 			}
 			if (isPermitted("PriceBooks", "Delete", "") == 'yes' && isPermitted('Services', 'Delete', $entity_id) == 'yes') {
 				if ($action != "")
 					$action .= '&nbsp;|&nbsp;';
-				$action .= '<img src="themes/images/delete.gif" onclick="if(confirm(\'' . \includes\Language::translate('ARE_YOU_SURE') . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . \includes\Language::translate('LBL_DELETE') . '" title="' . \includes\Language::translate('LBL_DELETE') . '" style="cursor:pointer;" border="0">';
+				$action .= '<img src="themes/images/delete.gif" onclick="if(confirm(\'' . \App\Language::translate('ARE_YOU_SURE') . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . \App\Language::translate('LBL_DELETE') . '" title="' . \App\Language::translate('LBL_DELETE') . '" style="cursor:pointer;" border="0">';
 			}
 			if ($action != "")
 				$entries[] = $action;
@@ -847,13 +847,13 @@ class Services extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
 				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \includes\Language::translate('LBL_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
+					"<input title='" . \App\Language::translate('LBL_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\";' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
 			}
 		}
 

@@ -19,7 +19,44 @@ require(__DIR__ . '/BaseYii.php');
  */
 class Yii extends \yii\BaseYii
 {
-	
+
+	/**
+	 * Marks the beginning of a code block for profiling.
+	 * This has to be matched with a call to [[endProfile]] with the same category name.
+	 * The begin- and end- calls must also be properly nested. For example,
+	 *
+	 * ```php
+	 * \Yii::beginProfile('block1');
+	 * // some code to be profiled
+	 *     \Yii::beginProfile('block2');
+	 *     // some other code to be profiled
+	 *     \Yii::endProfile('block2');
+	 * \Yii::endProfile('block1');
+	 * ```
+	 * @param string $token token for the code block
+	 * @param string $category the category of this log message
+	 * @see endProfile()
+	 */
+	public static function beginProfile($token, $category = 'application')
+	{
+		if (\AppConfig::debug('LOG_TO_PROFILE')) {
+			self::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_BEGIN, $category);
+		}
+	}
+
+	/**
+	 * Marks the end of a code block for profiling.
+	 * This has to be matched with a previous call to [[beginProfile]] with the same category name.
+	 * @param string $token token for the code block
+	 * @param string $category the category of this log message
+	 * @see beginProfile()
+	 */
+	public static function endProfile($token, $category = 'application')
+	{
+		if (\AppConfig::debug('LOG_TO_PROFILE')) {
+			self::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_END, $category);
+		}
+	}
 }
 
 spl_autoload_register(['Yii', 'autoload'], true, true);

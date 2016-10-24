@@ -1,7 +1,7 @@
 <?php
 /**
  * Cron task to update coordinates
- * @package YetiForce.CRON
+ * @package YetiForce.Cron
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
@@ -10,20 +10,25 @@ $result = $db->query('SELECT crmid FROM u_yf_openstreetmap_address_updater');
 if ($lastUpdatedCrmId = $db->getRow($result)) {
 	$lastUpdatedCrmId = $lastUpdatedCrmId['crmid'];
 	$query = 'SELECT crmid, setype, deleted FROM vtiger_crmentity WHERE crmid > ? LIMIT ?';
-	$result = $db->pquery($query, [$lastUpdatedCrmId, AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES')]);
+	$result = $db->pquery($query,
+		[$lastUpdatedCrmId, AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES')]);
 	$moduleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
+	$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 	while ($row = $db->getRow($result)) {
 		if ($moduleModel->isAllowModules($row['setype']) && $row['deleted'] == 0) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
-			$coordinates = OpenStreetMap_Module_Model::getCoordinatesByRecord($recordModel);
+			$coordinates = $coordinatesModel->getCoordinatesByRecord($recordModel);
 			foreach ($coordinates as $typeAddress => $coordinate) {
-				$isCoordinateExists = $db->pquery('SELECT 1 FROM u_yf_openstreetmap WHERE type = ? && crmid = ?', [$typeAddress, $recordModel->getId()]);
+				$isCoordinateExists = $db->pquery('SELECT 1 FROM u_yf_openstreetmap WHERE type = ? && crmid = ?',
+					[$typeAddress, $recordModel->getId()]);
 				$isCoordinateExists = $db->getSingleValue($isCoordinateExists);
 				if ($isCoordinateExists) {
 					if (empty($coordinate['lat']) && empty($coordinate['lon'])) {
-						$db->delete('u_yf_openstreetmap', 'type = ? && crmid = ?', [$typeAddress, $recordModel->getId()]);
+						$db->delete('u_yf_openstreetmap', 'type = ? && crmid = ?',
+							[$typeAddress, $recordModel->getId()]);
 					} else {
-						$db->update('u_yf_openstreetmap', $coordinate, 'type = ? && crmid = ?', [$typeAddress, $recordModel->getId()]);
+						$db->update('u_yf_openstreetmap', $coordinate, 'type = ? && crmid = ?',
+							[$typeAddress, $recordModel->getId()]);
 					}
 				} else {
 					if (!empty($coordinate['lat']) && !empty($coordinate['lon'])) {

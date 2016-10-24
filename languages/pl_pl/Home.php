@@ -23,7 +23,6 @@ $languageStrings = [
 	'QLTQ' => 'Najlepsze oferty',
 	'UA' => 'Nadchodzące zdarzenia',
 	'LBL_MARK_AS_READ' => 'Oznacz jako przeczytane',
-	'LBL_NO_NOTIFICATIONS' => 'Brak powiadomień',
 	'Notifications' => 'Powiadomienia',
 	'LBL_MESSAGES_FROM_USERS' => 'Od użytkowników',
 	'LBL_WATCHDOG' => 'Śledzenie zmian',
@@ -34,4 +33,6 @@ $languageStrings = [
 	'LBL_NOTIFICATION_SETTINGS' => 'Konfiguracja powiadomień',
 	'LBL_TYPE_NOTIFICATIONS' => 'Typy powiadomień',
 	'LBL_TIME' => 'Czas',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Ilość powiadomień wg nadawców',
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Ilość powiadomien wg odbiorców',
 ];

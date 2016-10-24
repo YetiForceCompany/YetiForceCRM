@@ -151,7 +151,7 @@ class Leads extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 		}
 
@@ -209,12 +209,12 @@ class Leads extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
+				$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
 			}
 		}
 
@@ -241,40 +241,6 @@ class Leads extends CRMEntity
 
 		\App\Log::trace("Exiting get_products method ...");
 		return $return_value;
-	}
-
-	/** Function to get the Columnnames of the Leads Record
-	 * Used By vtigerCRM Word Plugin
-	 * Returns the Merge Fields for Word Plugin
-	 */
-	public function getColumnNames_Lead()
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace("Entering getColumnNames_Lead() method ...");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql1 = "select fieldlabel from vtiger_field where tabid=7 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-		} else {
-			$profileList = getCurrentUserProfileList();
-			$sql1 = "select vtiger_field.fieldid,fieldlabel from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=7 and vtiger_field.displaytype in (1,2,3,4) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")  group by fieldid";
-				array_push($params1, $profileList);
-			}
-		}
-		$result = $this->db->pquery($sql1, $params1);
-		$numRows = $this->db->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$custom_fields[$i] = $this->db->query_result($result, $i, "fieldlabel");
-			$custom_fields[$i] = preg_replace("/\s+/", "", $custom_fields[$i]);
-			$custom_fields[$i] = strtoupper($custom_fields[$i]);
-		}
-		$mergeflds = $custom_fields;
-		\App\Log::trace("Exiting getColumnNames_Lead method ...");
-		return $mergeflds;
 	}
 
 	/**

@@ -363,7 +363,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			if (empty($handlerOn) && ($createRecord || $mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS || $mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE)) {
 				$entityIdComponents = vtws_getIdComponents($entityInfo['id']);
 				$recordId = $entityIdComponents[1];
-				\includes\Record::updateLabel($this->module, $recordId);
+				\App\Record::updateLabel($this->module, $recordId);
 			}
 
 			$this->importedRecordInfo[$rowId] = $entityInfo;
@@ -542,7 +542,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
 				if (vtlib\Functions::getModuleId($referenceModuleName)) {
-					$entityId = getEntityId($referenceModuleName, $entityLabel);
+					$entityId = getEntityId($referenceModuleName, decode_html($entityLabel));
 				} else {
 					$referencedModules = $fieldInstance->getReferenceList();
 					if (isset($defaultFieldValues[$fieldName])) {
@@ -564,7 +564,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					} elseif ($referenceModule == 'Currency') {
 						$referenceEntityId = getCurrencyId($entityLabel);
 					} else {
-						$referenceEntityId = getEntityId($referenceModule, $entityLabel);
+						$referenceEntityId = getEntityId($referenceModule, decode_html($entityLabel));
 					}
 					if ($referenceEntityId != 0) {
 						$entityId = $referenceEntityId;
@@ -765,7 +765,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$entityIdComponents = vtws_getIdComponents($entityIdInfo['id']);
 		$recordId = $entityIdComponents[1];
 
-		\includes\Record::updateLabel($moduleName, $recordId);
+		\App\Record::updateLabel($moduleName, $recordId);
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$focus = $recordModel->getEntity();

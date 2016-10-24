@@ -1153,6 +1153,11 @@ $languageStrings = [
 	'Api Address' => 'Adresssuche',
 	'Notifications' => 'Benachrichtigung',
 	'Mails' => 'E-Mails',
+	'LBL_SQL_ERROR' => 'Error when calling SQL query',
+	'LBL_ERROR_MASAGE' => 'Error message',
+	'LBL_SQL_QUERY' => 'SQL query',
+	'LBL_SQL_PARAMS' => 'SQL query parameters',
+	'LBL_BACKTRACE' => 'Track function calling',
 	'LBL_CATEGORY_MULTIPICKLIST' => 'Liste der Kategorien',
 	// popup
 	'LBL_POPUP_SWITCH_BUTTON' => 'Button umschalten',
@@ -1264,6 +1269,7 @@ $languageStrings = [
 	'LBL_REVIEW_CHANGES' => 'Änderungen in Datensätzen anschauen',
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Organisationen nach Industrie',
 	'LBL_RELATION_COMMENT' => 'Anmerkung',
+	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Estimated Opportunity value',
 	];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

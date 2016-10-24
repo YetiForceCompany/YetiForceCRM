@@ -10,6 +10,8 @@ $languageStrings = [
 	'LBL_ACTION' => 'Action',
 	'LBL_STATUS' => 'Status',
 	'LBL_ROLE' => 'Role',
+	'LBL_MEMBERS' => 'Members',
+	'LBL_PRIORITY' => 'Priority',
 	// Picklist
 	'FL_ACTIVE' => 'Active',
 	'FL_INACTIVE' => 'Inactive',
@@ -19,4 +21,8 @@ $languageStrings = [
 	'LBL_SAVE_AND_CONDITIONS' => 'Next',
 	'ERR_INACTIVE_ALERT_TITLE' => 'Advanced permissions are disabled',
 	'ERR_INACTIVE_ALERT_DESC' => 'Change the  PERMITTED_BY_ADVANCED_PERMISSION  parameter in config/security.php file to enable.',
+	'LBL_RECALCULATE_PERMISSION_TITLE' => 'Permission recalculation',
+	'LBL_RECALCULATE_PERMISSION_BTN' => 'Recalculate permissions',
+	'LBL_RECALCULATE_CRON_INFO' => 'Permission recalculations requires enabled CRON, please check if the task is active.',
+	'LBL_MODULES_LIST' => 'Modules list',
 ];

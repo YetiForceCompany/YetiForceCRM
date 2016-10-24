@@ -29,6 +29,7 @@ class ModTrackerHandler extends VTEventHandler
 		if ($flag) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$watchdogTitle = $watchdogMessage = '';
+			$db = \App\Db::getInstance();
 			switch ($eventName) {
 				case 'vtiger.entity.aftersave.final':
 
@@ -157,34 +158,30 @@ class ModTrackerHandler extends VTEventHandler
 					// TODU
 					break;
 				case 'vtiger.view.detail.before':
-
 					$recordId = $data->getId();
-					$adb->insert('vtiger_modtracker_basic', [
-						'id' => $adb->getUniqueId('vtiger_modtracker_basic'),
+					$db->createCommand()->insert('vtiger_modtracker_basic', [
+						'id' => $db->getUniqueID('vtiger_modtracker_basic'),
 						'crmid' => $recordId,
 						'module' => $moduleName,
 						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$DISPLAYED
-					]);
+					])->execute();
+				
 
 					break;
 			}
 			if (AppConfig::module('ModTracker', 'WATCHDOG') && $watchdogTitle != '') {
-				$actionsTypes = ModTracker::getAllActionsTypes();
 				$watchdogTitle = '(translate: [' . $watchdogTitle . '|||ModTracker]) (general: RecordLabel)';
-				if (in_array($watchdogTitle, [0, 2, 3, 7])) {
-					$watchdogTitle = '<a href="index.php?module=' . $moduleName . '&view=Detail&record=' . $recordId . '">' . $watchdogTitle . '</a>';
-				}
 				$watchdogTitle = $currentUser->getName() . ' ' . $watchdogTitle;
 				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 				$users = $watchdog->getWatchingUsers();
 				if (!empty($users)) {
-					foreach ($users as $userId) {
+					$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+					if($relatedField !== false) {
 						$notification = Vtiger_Record_Model::getCleanInstance('Notification');
-						$notification->set('relatedid', $recordId);
-						$notification->set('assigned_user_id', $userId);
-						$notification->set('relatedmodule', $moduleName);
+						$notification->set('shownerid', $users);
+						$notification->set($relatedField, $recordId);
 						$notification->set('title', $watchdogTitle);
 						$notification->set('description', $watchdogMessage);
 						$notification->set('notification_type', $watchdog->notificationDefaultType);

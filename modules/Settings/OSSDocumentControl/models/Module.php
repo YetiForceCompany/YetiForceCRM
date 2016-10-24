@@ -25,24 +25,17 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 
 	public static function getEntityModulesList()
 	{
-		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
-
 		$presence = [0, 2];
 		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
 		$module = ['Project', 'HelpDesk'];
-
-		$query = 'SELECT name FROM vtiger_tab WHERE
-                    presence IN (%s)
-                    && isentitytype = ?
-                    && name NOT IN (%s) && name IN (%s)';
-		$query = sprintf($query, generateQuestionMarks($presence), generateQuestionMarks($restrictedModules), generateQuestionMarks($module));
-		$result = $db->pquery($query, [$presence, 1, $restrictedModules, $module]);
-		$numOfRows = $db->num_rows($result);
-
-		$modulesList = array();
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$moduleName = $db->query_result($result, $i, 'name');
+		$dataReader = (new \App\Db\Query())->select(['name'])
+				->from('vtiger_tab')
+				->where(['presence' => $presence, 'isentitytype' => 1, 'name' => $module])
+				->andWhere(['NOT IN', 'name', $restrictedModules])
+				->createCommand()->query();
+		$modulesList = [];
+		while ($moduleName = $dataReader->readColumn(0)) {
 			$modulesList[$moduleName] = $moduleName;
 		}
 		// If calendar is disabled we should not show events module too
@@ -55,98 +48,78 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 
 	public static function getDocList($module = NULL)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = "SELECT * FROM vtiger_ossdocumentcontrol ";
-
+		$query = (new \App\Db\Query())->from('vtiger_ossdocumentcontrol');
 		if ($module) {
-			$sql .= " WHERE module_name = ? ORDER BY vtiger_ossdocumentcontrol.doc_order ASC";
-			$result = $db->pquery($sql, array($module), true);
-		} else {
-			$sql .= " ORDER BY vtiger_ossdocumentcontrol.doc_order ASC";
-			$result = $db->pquery($sql, array(), true);
+			$query->where(['module_name' => $module]);
 		}
-
-
-		$output = array();
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$output[$i]['module'] = $db->query_result($result, $i, 'module_name');
-			$output[$i]['summary'] = $db->query_result($result, $i, 'summary');
-			$output[$i]['id'] = $db->query_result($result, $i, 'ossdocumentcontrolid');
+		$query->orderBy(['doc_order' => SORT_ASC]);
+		$dataReader = $query->createCommand()->query();
+		$output = [];
+		while ($row = $dataReader->read()) {
+			$output [] = [
+				'module' => $row['module_name'],
+				'summary' => $row['summary'],
+				'id' => $row['ossdocumentcontrolid']
+			];
 		}
-
 		return $output;
 	}
 
 	public static function getDocInfo($id)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = "SELECT "
-			. "vtiger_ossdocumentcontrol.module_name as module_name, "
-			. "vtiger_ossdocumentcontrol.summary as summary, "
-			. "vtiger_ossdocumentcontrol.doc_folder as doc_folder, "
-			. "vtiger_ossdocumentcontrol.doc_name as doc_name, "
-			. "vtiger_ossdocumentcontrol.doc_order as doc_order, "
-			. "vtiger_ossdocumentcontrol.doc_request as doc_request, "
-			. "vtiger_ossdocumentcontrol_cnd.fieldname as fieldname, "
-			. "vtiger_ossdocumentcontrol_cnd.comparator as comparator, "
-			. "vtiger_ossdocumentcontrol_cnd.val as val, "
-			. "vtiger_ossdocumentcontrol_cnd.field_type as field_type, "
-			. "vtiger_ossdocumentcontrol_cnd.required as required "
-			. "FROM vtiger_ossdocumentcontrol "
-			. "LEFT JOIN vtiger_ossdocumentcontrol_cnd ON vtiger_ossdocumentcontrol_cnd.ossdocumentcontrolid = vtiger_ossdocumentcontrol.ossdocumentcontrolid "
-			. "WHERE vtiger_ossdocumentcontrol.ossdocumentcontrolid = ?";
-
-		$result = $db->pquery($sql, array($id), true);
-		$basicInfo = array();
-
-		$basicInfo['module_name'] = $db->query_result($result, 0, 'module_name');
-		$basicInfo['summary'] = $db->query_result($result, 0, 'summary');
-		$basicInfo['doc_folder'] = $db->query_result($result, 0, 'doc_folder');
-		$basicInfo['doc_name'] = $db->query_result($result, 0, 'doc_name');
-		$basicInfo['doc_request'] = $db->query_result($result, 0, 'doc_request');
-		$basicInfo['doc_order'] = $db->query_result($result, 0, 'doc_order');
-
-		$requiredConditions = array();
+		$rows = (new \App\Db\Query())->select([
+				'module_name' => 'vtiger_ossdocumentcontrol.module_name',
+				'summary' => 'vtiger_ossdocumentcontrol.summary',
+				'doc_folder' => 'vtiger_ossdocumentcontrol.doc_folder',
+				'doc_name' => 'vtiger_ossdocumentcontrol.doc_name',
+				'doc_order' => 'vtiger_ossdocumentcontrol.doc_order',
+				'fieldname' => 'vtiger_ossdocumentcontrol_cnd.fieldname',
+				'comparator' => 'vtiger_ossdocumentcontrol_cnd.comparator',
+				'val' => 'vtiger_ossdocumentcontrol_cnd.val',
+				'field_type' => 'vtiger_ossdocumentcontrol_cnd.field_type',
+				'required' => 'vtiger_ossdocumentcontrol_cnd.required'
+			])->from('vtiger_ossdocumentcontrol')
+			->leftJoin('vtiger_ossdocumentcontrol_cnd', 'vtiger_ossdocumentcontrol_cnd.ossdocumentcontrolid = vtiger_ossdocumentcontrol.ossdocumentcontrolid')
+			->where(['vtiger_ossdocumentcontrol.ossdocumentcontrolid' => $id])
+			->all();
+		$firstRow = $rows[0];
+		$basicInfo = [];
+		$basicInfo['module_name'] = $firstRow['module_name'];
+		$basicInfo['summary'] = $firstRow['summary'];
+		$basicInfo['doc_folder'] = $firstRow['doc_folder'];
+		$basicInfo['doc_name'] = $firstRow['doc_name'];
+		$basicInfo['doc_request'] = $firstRow['doc_request'];
+		$basicInfo['doc_order'] = $firstRow['doc_order'];
+		$requiredConditions = [];
 		$requiredNum = 0;
-		$optionalConditions = array();
+		$optionalConditions = [];
 		$optionalNum = 0;
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$idRequired = $db->query_result($result, $i, 'required');
+		foreach ($rows as $row) {
+			$idRequired = $row['required'];
 			if (NULL !== $idRequired) {
 				if ($idRequired) {
-					//var_dump($db->query_result($result, $i, 'field_type'));
-					$requiredConditions[$requiredNum]['fieldname'] = $db->query_result($result, $i, 'fieldname');
-					$requiredConditions[$requiredNum]['comparator'] = $db->query_result($result, $i, 'comparator');
-
-					$requiredConditions[$requiredNum]['field_type'] = $db->query_result($result, $i, 'field_type');
-
+					$requiredConditions[$requiredNum]['fieldname'] = $row['fieldname'];
+					$requiredConditions[$requiredNum]['comparator'] = $row['comparator'];
+					$requiredConditions[$requiredNum]['field_type'] = $row['field_type'];
 					if ($requiredConditions[$requiredNum]['field_type'] == 'multipicklist') {
-						$requiredConditions[$requiredNum]['val'] = explode('::', $db->query_result($result, $i, 'val'));
+						$requiredConditions[$requiredNum]['val'] = explode('::', $row['val']);
 					} else {
-						$requiredConditions[$requiredNum]['val'] = $db->query_result($result, $i, 'val');
+						$requiredConditions[$requiredNum]['val'] = $row['val'];
 					}
-
 					$requiredNum++;
 				} else {
-					$optionalConditions[$optionalNum]['fieldname'] = $db->query_result($result, $i, 'fieldname');
-					$optionalConditions[$optionalNum]['comparator'] = $db->query_result($result, $i, 'comparator');
-
-					$optionalConditions[$optionalNum]['field_type'] = $db->query_result($result, $i, 'field_type');
-
+					$optionalConditions[$optionalNum]['fieldname'] = $row['fieldname'];
+					$optionalConditions[$optionalNum]['comparator'] = $row['comparator'];
+					$optionalConditions[$optionalNum]['field_type'] = $row['field_type'];
 					if ($optionalConditions[$optionalNum]['field_type'] == 'multipicklist') {
-						$optionalConditions[$optionalNum]['val'] = explode('::', $db->query_result($result, $i, 'val'));
+						$optionalConditions[$optionalNum]['val'] = explode('::', $row['val']);
 					} else {
-						$optionalConditions[$optionalNum]['val'] = $db->query_result($result, $i, 'val');
+						$optionalConditions[$optionalNum]['val'] = $row['val'];
 					}
 					$optionalNum++;
 				}
 			}
 		}
-
 		return array('basic_info' => $basicInfo, 'required_conditions' => $requiredConditions, 'optional_conditions' => $optionalConditions);
 	}
 
@@ -197,7 +170,6 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 			"recurrence" => array("is", "is not"),
 			"comment" => array("is added"),
 		);
-
 		if (NULL != $type) {
 			return $list[$type];
 		} else {

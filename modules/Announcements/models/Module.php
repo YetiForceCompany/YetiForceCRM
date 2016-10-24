@@ -28,20 +28,19 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		$queryGenerator = $listView->get('query_generator');
 		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime']);
 		$query = $queryGenerator->getQuery();
-		$query .= ' && announcementstatus = ?';
+		$query .= ' AND ' . \App\Db::getInstance()->quoteTableName('announcementstatus') . ' = ?';
 
 		$result = $db->pquery($query, ['PLL_PUBLISHED']);
 		while ($row = $db->getRow($result)) {
-			$query = 'SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?';
-			$paramsMark = [$row['announcementid'], $userModel->getId()];
+			$query = (new \App\Db\Query())
+				->from('u_#__announcement_mark')
+				->where(['announcementid' => $row['announcementid'], 'userid' => $userModel->getId()]);
 			if (!empty($row['interval'])) {
 				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
-				$paramsMark[] = 0;
-				$paramsMark[] = $date;
-				$query .= ' && status = ? && date < ?';
+				$query->andWhere(['status' => 0]);
+				$query->andWhere(['<', 'date', $date]);
 			}
-			$resultMark = $db->pquery($query, $paramsMark);
-			if ($db->getRowCount($resultMark) == 1) {
+			if ($query->count() !== 0) {
 				continue;
 			}
 			$recordModel = $this->getRecordFromArray($row);
@@ -60,24 +59,27 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 
 	public function setMark($record, $state)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$userModel = Users_Record_Model::getCurrentUserModel();
-		$params = [$record, $userModel->getId()];
 
-		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?', $params);
-		if ($db->getRowCount($result) == 0) {
-			$db->insert('u_yf_announcement_mark', [
-				'announcementid' => $record,
-				'userid' => $userModel->getId(),
-				'date' => date('Y-m-d H:i:s'),
-				'status' => $state
-			]);
+		$query = (new \App\Db\Query())
+				->from('u_#__announcement_mark')
+				->where(['announcementid' => $record, 'userid' => $userModel->getId()])->limit(1);
+		if ($query->scalar() !== false) {
+			$db->createCommand()
+				->insert('u_#__announcement_mark', [
+					'announcementid' => $record,
+					'userid' => $userModel->getId(),
+					'date' => date('Y-m-d H:i:s'),
+					'status' => $state
+				])->execute();
 		} else {
-			$db->update('u_yf_announcement_mark', [
-				'date' => date('Y-m-d H:i:s'),
-				'status' => $state
-				], 'announcementid = ? && userid = ?', $params
-			);
+			$db->createCommand()
+				->update('u_#__announcement_mark', [
+					'date' => date('Y-m-d H:i:s'),
+					'status' => $state
+					], ['announcementid' => $record, 'userid' => $userModel->getId()])
+				->execute();
 		}
 		$this->checkStatus($record);
 	}

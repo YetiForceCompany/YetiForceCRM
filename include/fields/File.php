@@ -1,4 +1,5 @@
-<?php namespace includes\fields;
+<?php
+namespace includes\fields;
 
 /**
  * File class
@@ -130,10 +131,32 @@ class File
 	{
 		if (in_array($this->getShortMimeType(0), self::$phpInjection)) {
 			// Check for php code injection
-			if (preg_match('/(<\?php?(.*?))/i', $this->getContents()) == 1) {
+			$shortTagSupported = ini_get('short_open_tag') ? true : false;
+			if (stripos($shortTagSupported ? '<?' : '<?php', $this->getContents()) !== false) {
+				throw new \Exception('Error php code injection');
+			}
+			$exifdata = exif_read_data($this->name);
+			if ($exifdata && !$this->validateImageMetadata($exifdata, $shortTagSupported)) {
 				throw new \Exception('Error php code injection');
 			}
 		}
+	}
+
+	public function validateImageMetadata($data, $short = true)
+	{
+		if (is_array($data)) {
+			foreach ($data as $key => $value) {
+				$ok = $this->validateImageMetadata($value);
+				if (!$ok) {
+					return false;
+				}
+			}
+		} else {
+			if (stripos($data, $short ? '<?' : '<?php') !== false) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public function getContents()

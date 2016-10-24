@@ -296,7 +296,7 @@ class RecurringType
 
 		$recurringInfo = $this->getUserRecurringInfo();
 
-		$displayRecurringData['recurringcheck'] = \includes\Language::translate('LBL_YES', $currentModule);
+		$displayRecurringData['recurringcheck'] = \App\Language::translate('LBL_YES', $currentModule);
 		$displayRecurringData['repeat_frequency'] = $this->getRecurringFrequency();
 		$displayRecurringData['recurringtype'] = $this->getRecurringType();
 
@@ -304,25 +304,25 @@ class RecurringType
 			$noOfDays = count($recurringInfo['dayofweek_to_repeat']);
 			$translatedRepeatDays = [];
 			for ($i = 0; $i < $noOfDays; ++$i) {
-				$translatedRepeatDays[] = \includes\Language::translate('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][$i], $currentModule);
+				$translatedRepeatDays[] = \App\Language::translate('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][$i], $currentModule);
 			}
-			$displayRecurringData['repeat_str'] = \includes\Language::translate('On', $currentModule) . ' ' . implode(',', $translatedRepeatDays);
+			$displayRecurringData['repeat_str'] = \App\Language::translate('On', $currentModule) . ' ' . implode(',', $translatedRepeatDays);
 		} elseif ($this->getRecurringType() == 'Monthly') {
 
 			$translatedRepeatDays = [];
 			$displayRecurringData['repeatMonth'] = $recurringInfo['repeatmonth_type'];
 			if ($recurringInfo['repeatmonth_type'] == 'date') {
 				$displayRecurringData['repeatMonth_date'] = $recurringInfo['repeatmonth_date'];
-				$displayRecurringData['repeat_str'] = \includes\Language::translate('on', $currentModule)
+				$displayRecurringData['repeat_str'] = \App\Language::translate('on', $currentModule)
 					. ' ' . $recurringInfo['repeatmonth_date']
-					. ' ' . \includes\Language::translate('day of the month', $currentModule);
+					. ' ' . \App\Language::translate('day of the month', $currentModule);
 			} else {
 				$displayRecurringData['repeatMonth_daytype'] = $recurringInfo['repeatmonth_daytype'];
 				$displayRecurringData['repeatMonth_day'] = $recurringInfo['dayofweek_to_repeat'][0];
-				$translatedRepeatDay = \includes\Language::translate('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][0], $currentModule);
+				$translatedRepeatDay = \App\Language::translate('LBL_DAY' . $recurringInfo['dayofweek_to_repeat'][0], $currentModule);
 
-				$displayRecurringData['repeat_str'] = \includes\Language::translate('On', $currentModule)
-					. ' ' . \includes\Language::translate($recurringInfo['repeatmonth_daytype'], $currentModule)
+				$displayRecurringData['repeat_str'] = \App\Language::translate('On', $currentModule)
+					. ' ' . \App\Language::translate($recurringInfo['repeatmonth_daytype'], $currentModule)
 					. ' ' . $translatedRepeatDay;
 			}
 		}
@@ -484,7 +484,7 @@ class RecurringType
 				else
 					$index = $year + 1;
 				if ($index > 2037 || $index < 1970) {
-					print("<font color='red'>" . \includes\Language::translate('LBL_CAL_LIMIT_MSG') . "</font>");
+					print("<font color='red'>" . \App\Language::translate('LBL_CAL_LIMIT_MSG') . "</font>");
 					throw new \Exception\AppException('LBL_CAL_LIMIT_MSG');
 				}
 				$date_arr = Array(

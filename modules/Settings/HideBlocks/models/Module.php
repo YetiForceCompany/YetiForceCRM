@@ -60,16 +60,16 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getAllBlock()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query('SELECT * FROM vtiger_blocks INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_blocks.tabid ORDER BY vtiger_blocks.tabid,sequence ASC');
-		$rows = array();
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$module = $adb->query_result($result, $i, 'name');
-			$rows[$module][$adb->query_result($result, $i, 'blockid')] = array(
+		$dataReader = (new \App\Db\Query())->from('vtiger_blocks')
+				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_blocks.tabid')
+				->orderBy(['vtiger_blocks.tabid' => SORT_ASC, 'sequence' => SORT_ASC])->createCommand()->query();
+		$rows = [];
+		while ($row = $dataReader->read()) {
+			$module = $row['name'];
+			$rows[$module][$row['blockid']] = [
 				'module' => $module,
-				'blocklabel' => $adb->query_result($result, $i, 'blocklabel'),
-			);
+				'blocklabel' => $row['blocklabel']
+			];
 		}
 		return $rows;
 	}

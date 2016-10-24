@@ -39,7 +39,7 @@ while ($row = $db->getRow($mainResult)) {
 	foreach ($fields as $field) {
 		$emailFields[] = $field->getName();
 	}
-	$metainfo = \includes\Modules::getEntityInfo($moduleName);
+	$metainfo = \App\Module::getEntityInfo($moduleName);
 	$queryFields = array_merge(['id'], $metainfo['fieldnameArr'], $emailFields);
 
 	$queryGenerator = new QueryGenerator($moduleName, $currentUser);

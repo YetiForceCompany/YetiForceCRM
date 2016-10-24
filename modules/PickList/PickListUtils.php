@@ -23,7 +23,7 @@ function getUserFldArray($fld_module, $roleid)
 	$adb = PearDatabase::getInstance();
 	
 	$user_fld = Array();
-	$tabid = \includes\Modules::getModuleId($fld_module);
+	$tabid = \App\Module::getModuleId($fld_module);
 
 	$query = "select vtiger_field.fieldlabel,vtiger_field.columnname,vtiger_field.fieldname, vtiger_field.uitype" .
 		" FROM vtiger_field inner join vtiger_picklist on vtiger_field.fieldname = vtiger_picklist.name" .
@@ -94,7 +94,7 @@ function get_available_module_picklist($picklist_details)
 {
 	$avail_pick_values = $picklist_details;
 	foreach ($avail_pick_values as $key => $val) {
-		$module_pick[$avail_pick_values[$key]['fieldname']] = \includes\Language::translate($avail_pick_values[$key]['fieldlabel']);
+		$module_pick[$avail_pick_values[$key]['fieldname']] = \App\Language::translate($avail_pick_values[$key]['fieldlabel']);
 	}
 	return $module_pick;
 }

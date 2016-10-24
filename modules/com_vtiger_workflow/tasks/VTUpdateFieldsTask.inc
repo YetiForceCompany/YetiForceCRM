@@ -108,10 +108,10 @@ class VTUpdateFieldsTask extends VTTask
 								} elseif ($rightOperandFieldInstance->getFieldName() == 'roleid') {
 									$fieldValue = \App\PrivilegeUtil::getRoleName($fieldValue);
 								} else {
-									$fieldValue = \includes\Record::getLabel($fieldValue);
+									$fieldValue = \App\Record::getLabel($fieldValue);
 								}
 							} else {
-								$fieldValue = \includes\Record::getLabel($fieldValue);
+								$fieldValue = \App\Record::getLabel($fieldValue);
 							}
 						} else {
 							//Not value is there for reference fields . So skip this field mapping

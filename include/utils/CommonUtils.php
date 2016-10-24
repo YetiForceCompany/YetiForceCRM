@@ -31,9 +31,9 @@ function getEntityName($module, $ids, $compute = true)
 	if ($module == 'Users' || $module == 'Groups') {
 		return \includes\fields\Owner::getLabel($ids);
 	} elseif ($compute) {
-		return \includes\Record::computeLabels($module, $ids);
+		return \App\Record::computeLabels($module, $ids);
 	} else {
-		return \includes\Record::getLabel($ids);
+		return \App\Record::getLabel($ids);
 	}
 }
 // vtiger cache utility

@@ -342,14 +342,14 @@ class ReportRun extends CRMEntity
 			$fld_arr = explode(" ", $fieldlabel);
 			if (($mod_arr[0] == '')) {
 				$mod = $module;
-				$mod_lbl = \includes\Language::translate($module, $module); //module
+				$mod_lbl = \App\Language::translate($module, $module); //module
 			} else {
 				$mod = $mod_arr[0];
 				array_shift($fld_arr);
-				$mod_lbl = \includes\Language::translate($fld_arr[0], $mod); //module
+				$mod_lbl = \App\Language::translate($fld_arr[0], $mod); //module
 			}
 			$fld_lbl_str = implode(" ", $fld_arr);
-			$fld_lbl = \includes\Language::translate($fld_lbl_str, $module); //fieldlabel
+			$fld_lbl = \App\Language::translate($fld_lbl_str, $module); //fieldlabel
 			$fieldlabel = $mod_lbl . " " . $fld_lbl;
 			if (($selectedfields[0] == "vtiger_usersRel1") && ($selectedfields[1] == 'user_name') && ($selectedfields[2] == 'Quotes_Inventory_Manager')) {
 				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
@@ -460,8 +460,11 @@ class ReportRun extends CRMEntity
 				} else if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
 					$columnSQL = "vtiger_crmentity." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
 				} else {
-					$columnSQL = $selectedfields[0] . "." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
+					$userModel = Users_Record_Model::getCurrentUserModel();
+					$userformat = str_replace(array('dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd'), array('%d-%m-%Y', '%m-%d-%Y', '%Y-%m-%d'), $userModel->get('date_format'));
+					$columnSQL = "date_format (" . $selectedfields[0] . "." . $selectedfields[1] . ",'$userformat') AS '" . decode_html($header_label) . "'";
 				}
+
 				$this->queryPlanner->addTable($selectedfields[0]);
 			}
 		} elseif ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'status') {
@@ -561,11 +564,11 @@ class ReportRun extends CRMEntity
 	 */
 	public function getaccesfield($module)
 	{
-		$current_user = vglobal('current_user');
+		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$adb = PearDatabase::getInstance();
 		$access_fields = Array();
 
-		$profileList = getCurrentUserProfileList();
+		$profileList = $currentUser->getProfiles();
 		$query = "select vtiger_field.fieldname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where";
 		$params = array();
 		if ($module == "Calendar") {
@@ -626,7 +629,7 @@ class ReportRun extends CRMEntity
 				foreach ($fieldSqlColumns as $columnSql) {
 					$queryColumn .= " WHEN $columnSql NOT LIKE '' THEN $columnSql";
 				}
-				$moduleFieldLabel = vtlib_purify(decode_html($moduleFieldLabel));
+				$moduleFieldLabel = App\Purifier::purify(decode_html($moduleFieldLabel));
 				$queryColumn .= " ELSE '' END) ELSE '' END) AS '$moduleFieldLabel'";
 				$this->queryPlanner->addTable($tableName);
 			}
@@ -709,64 +712,64 @@ class ReportRun extends CRMEntity
 		if ($is_field === true) {
 			$value = $this->getFilterComparedField($temp);
 		}
-		if ($comparator == "e") {
-			if (trim($value) == "NULL") {
-				$rtvalue = " is NULL";
-			} elseif (trim($value) != "") {
+		if ($comparator == 'e') {
+			if (trim($value) == 'NULL') {
+				$rtvalue = ' is NULL';
+			} elseif (trim($value) != '') {
 				$rtvalue = " = " . $adb->quote($value);
-			} elseif (trim($value) == "" && $datatype == "V") {
-				$rtvalue = " = " . $adb->quote($value);
+			} elseif (trim($value) == '' && $datatype == 'V') {
+				$rtvalue = ' = ' . $adb->quote($value);
 			} else {
-				$rtvalue = " is NULL";
+				$rtvalue = ' is NULL';
 			}
 		}
-		if ($comparator == "n") {
-			if (trim($value) == "NULL") {
-				$rtvalue = " is NOT NULL";
-			} elseif (trim($value) != "") {
+		if ($comparator == 'n') {
+			if (trim($value) == 'NULL') {
+				$rtvalue = ' is NOT NULL';
+			} elseif (trim($value) != '') {
 				if ($columnName)
-					$rtvalue = " <> " . $adb->quote($value) . " || " . $columnName . " IS NULL ";
+					$rtvalue = ' <> ' . $adb->quote($value) . ' || ' . $columnName . " IS NULL ";
 				else
-					$rtvalue = " <> " . $adb->quote($value);
-			}elseif (trim($value) == "" && $datatype == "V") {
-				$rtvalue = " <> " . $adb->quote($value);
+					$rtvalue = ' <> ' . $adb->quote($value);
+			}elseif (trim($value) == '' && $datatype == 'V') {
+				$rtvalue = ' <> ' . $adb->quote($value);
 			} else {
-				$rtvalue = " is NOT NULL";
+				$rtvalue = ' is NOT NULL';
 			}
 		}
-		if ($comparator == "s") {
+		if ($comparator == 's') {
 			$rtvalue = " like " . formatForSqlLike($value, 2, $is_field);
 		}
-		if ($comparator == "ew") {
-			$rtvalue = " like " . formatForSqlLike($value, 1, $is_field);
+		if ($comparator == 'ew') {
+			$rtvalue = ' like ' . formatForSqlLike($value, 1, $is_field);
 		}
-		if ($comparator == "c") {
-			$rtvalue = " like " . formatForSqlLike($value, 0, $is_field);
+		if ($comparator == 'c') {
+			$rtvalue = ' like ' . formatForSqlLike($value, 0, $is_field);
 		}
-		if ($comparator == "k") {
-			$rtvalue = " not like " . formatForSqlLike($value, 0, $is_field);
+		if ($comparator == 'k') {
+			$rtvalue = ' not like ' . formatForSqlLike($value, 0, $is_field);
 		}
-		if ($comparator == "l") {
-			$rtvalue = " < " . $adb->quote($value);
+		if ($comparator == 'l') {
+			$rtvalue = ' < ' . $adb->quote($value);
 		}
-		if ($comparator == "g") {
-			$rtvalue = " > " . $adb->quote($value);
+		if ($comparator == 'g') {
+			$rtvalue = ' > ' . $adb->quote($value);
 		}
-		if ($comparator == "m") {
-			$rtvalue = " <= " . $adb->quote($value);
+		if ($comparator == 'm') {
+			$rtvalue = ' <= ' . $adb->quote($value);
 		}
-		if ($comparator == "h") {
-			$rtvalue = " >= " . $adb->quote($value);
+		if ($comparator == 'h') {
+			$rtvalue = ' >= ' . $adb->quote($value);
 		}
-		if ($comparator == "b") {
-			$rtvalue = " < " . $adb->quote($value);
+		if ($comparator == 'b') {
+			$rtvalue = ' < ' . $adb->quote($value);
 		}
-		if ($comparator == "a") {
-			$rtvalue = " > " . $adb->quote($value);
+		if ($comparator == 'a') {
+			$rtvalue = ' > ' . $adb->quote($value);
 		}
-		if ($comparator == "om") {
+		if ($comparator == 'om') {
 			$currentUser = Users_Privileges_Model::getCurrentUserModel();
-			$rtvalue = " = " . $adb->quote($currentUser->getId());
+			$rtvalue = ' = ' . $adb->quote($currentUser->getId());
 		}
 		if ($is_field === true) {
 			$rtvalue = str_replace("'", "", $rtvalue);
@@ -794,7 +797,7 @@ class ReportRun extends CRMEntity
 		$field = explode('#', $field);
 		$module = $field[0];
 		$fieldname = trim($field[1]);
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? && fieldname= ?", array($tabid, $fieldname));
 		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
 		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
@@ -860,7 +863,7 @@ class ReportRun extends CRMEntity
 						inner join vtiger_relcriteria on vtiger_relcriteria.queryid = vtiger_report.queryid
 						left join vtiger_relcriteria_grouping on vtiger_relcriteria.queryid = vtiger_relcriteria_grouping.queryid
 								and vtiger_relcriteria.groupid = vtiger_relcriteria_grouping.groupid';
-			$ssql.= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
+			$ssql .= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
 
 			$result = $adb->pquery($ssql, array($reportid, $groupId));
 			$noOfColumns = $adb->num_rows($result);
@@ -1093,7 +1096,7 @@ class ReportRun extends CRMEntity
 								if (($selectedfields[0] == "vtiger_users" . $this->primarymodule || $selectedfields[0] == "vtiger_users" . $this->secondarymodule) && $selectedfields[1] == 'user_name') {
 									$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
 									if (is_numeric($valuearray[$n])) {
-										$advcolsql[] = $selectedfields[0] . '.id ' . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . " OR vtiger_groups$module_from_tablename.groupid " . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
+										$advcolsql[] = '(' . $selectedfields[0] . '.id ' . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . " OR vtiger_groups$module_from_tablename.groupid " . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . ')';
 									} else {
 										$advcolsql[] = " (trim($concatSql)" . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . " or vtiger_groups$module_from_tablename.groupname " . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . ")";
 									}
@@ -1137,7 +1140,7 @@ class ReportRun extends CRMEntity
 							if ($selectedfields[0] == "vtiger_users" . $this->primarymodule) {
 								$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
 								if (is_numeric($value) || empty($value)) {
-									$fieldvalue = $selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupname" . $this->getAdvComparator($comparator, trim($value), $datatype);
+									$fieldvalue = '(' . $selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupid" . $this->getAdvComparator($comparator, trim($value), $datatype) . ')';
 								} else {
 									$fieldvalue = " trim(case when (" . $selectedfields[0] . ".last_name NOT LIKE '') then " . $concatSql . " else vtiger_groups" . $module_from_tablename . ".groupname end) " . $this->getAdvComparator($comparator, trim($value), $datatype);
 								}
@@ -1150,7 +1153,7 @@ class ReportRun extends CRMEntity
 									$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
 									$moduleInstance = CRMEntity::getInstance($module_from_tablename);
 									if (is_numeric($value)) {
-										$fieldvalue = $selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupname" . $this->getAdvComparator($comparator, trim($value), $datatype);
+										$fieldvalue = '(' . $selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupid" . $this->getAdvComparator($comparator, trim($value), $datatype) . ')';
 									} else {
 										$fieldvalue = " trim(case when (" . $selectedfields[0] . ".last_name NOT LIKE '') then " . $concatSql . " else vtiger_groups" . $module_from_tablename . ".groupname end) " . $this->getAdvComparator($comparator, trim($value), $datatype);
 									}
@@ -1763,7 +1766,7 @@ class ReportRun extends CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = \includes\Modules::getModuleId($module);
+		$tabId = \App\Module::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $$sharingRuleInfoVariable;
@@ -1778,7 +1781,7 @@ class ReportRun extends CRMEntity
 			}
 
 			if (!empty($sharedTabId)) {
-				$module = \includes\Modules::getModuleName($sharedTabId);
+				$module = \App\Module::getModuleName($sharedTabId);
 				if ($module == "Calendar") {
 					// For calendar we have some special case to check like, calendar shared type
 					$moduleInstance = CRMEntity::getInstance($module);
@@ -1811,7 +1814,7 @@ class ReportRun extends CRMEntity
 		$current_user = vglobal('current_user');
 		$secondary_module = "'";
 		$secondary_module .= str_replace(":", "','", $this->secondarymodule);
-		$secondary_module .="'";
+		$secondary_module .= "'";
 
 		if ($module == "Leads") {
 			$query = "from vtiger_leaddetails
@@ -1875,7 +1878,7 @@ class ReportRun extends CRMEntity
 				left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
 
 			if ($this->queryPlanner->requireTable('vtiger_lastModifiedByAccounts')) {
-				$query.= " left join vtiger_users as vtiger_lastModifiedByAccounts on vtiger_lastModifiedByAccounts.id = vtiger_crmentity.modifiedby";
+				$query .= " left join vtiger_users as vtiger_lastModifiedByAccounts on vtiger_lastModifiedByAccounts.id = vtiger_crmentity.modifiedby";
 			}
 			if ($this->queryPlanner->requireTable('vtiger_createdbyAccounts')) {
 				$query .= " left join vtiger_users as vtiger_createdbyAccounts on vtiger_createdbyAccounts.id = vtiger_crmentity.smcreatorid";
@@ -2282,18 +2285,18 @@ class ReportRun extends CRMEntity
 			$fieldType = $field->getFieldDataType();
 		}
 		if (!empty($fieldInfo)) {
-			$translatedLabel = \includes\Language::translate($field->getFieldLabelKey(), $module);
+			$translatedLabel = \App\Language::translate($field->getFieldLabelKey(), $module);
 		} else {
 			$fieldLabel = str_replace("__", " ", $fieldLabel);
-			$translatedLabel = \includes\Language::translate($fieldLabel, $module);
+			$translatedLabel = \App\Language::translate($fieldLabel, $module);
 		}
 		/* STRING TRANSLATION starts */
 		$moduleLabel = '';
 		if (in_array($module, $modules_selected))
-			$moduleLabel = \includes\Language::translate($module, $module);
+			$moduleLabel = \App\Language::translate($module, $module);
 
 		if (empty($translatedLabel)) {
-			$translatedLabel = \includes\Language::translate(str_replace('__', " ", $fld->name), $module);
+			$translatedLabel = \App\Language::translate(str_replace('__', " ", $fld->name), $module);
 		}
 		$headerLabel = $translatedLabel;
 		if (!empty($this->secondarymodule)) {
@@ -2337,7 +2340,7 @@ class ReportRun extends CRMEntity
 		if ($referencefieldres) {
 			foreach ($referencefieldres as $referencefieldrow) {
 				$uiType = $referencefieldrow['uitype'];
-				$modprefixedlabel = \includes\Modules::getModuleName($referencefieldrow['tabid']) . ' ' . $referencefieldrow['fieldlabel'];
+				$modprefixedlabel = \App\Module::getModuleName($referencefieldrow['tabid']) . ' ' . $referencefieldrow['fieldlabel'];
 				$modprefixedlabel = str_replace(' ', '__', $modprefixedlabel);
 
 				if ($uiType == 10 && !in_array($modprefixedlabel, $this->ui10_fields)) {
@@ -2357,7 +2360,7 @@ class ReportRun extends CRMEntity
 			if (!$result && $error_msg != '') {
 				// Performance Optimization: If direct output is requried
 				if ($directOutput) {
-					echo \includes\Language::translate('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br>" . $error_msg;
+					echo \App\Language::translate('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br>" . $error_msg;
 					$error_msg = false;
 				}
 				// END
@@ -2389,24 +2392,24 @@ class ReportRun extends CRMEntity
 					$mod_name = explode(' ', $headerLabel, 2);
 					$moduleLabel = '';
 					if (in_array($mod_name[0], $modules_selected)) {
-						$moduleLabel = \includes\Language::translate($mod_name[0], $mod_name[0]);
+						$moduleLabel = \App\Language::translate($mod_name[0], $mod_name[0]);
 					}
 
 					if (!empty($this->secondarymodule)) {
 						if ($moduleLabel != '') {
-							$headerLabel_tmp = $moduleLabel . " " . \includes\Language::translate($mod_name[1], $mod_name[0]);
+							$headerLabel_tmp = $moduleLabel . " " . \App\Language::translate($mod_name[1], $mod_name[0]);
 						} else {
-							$headerLabel_tmp = \includes\Language::translate($mod_name[0] . " " . $mod_name[1]);
+							$headerLabel_tmp = \App\Language::translate($mod_name[0] . " " . $mod_name[1]);
 						}
 					} else {
 						if ($moduleLabel != '') {
-							$headerLabel_tmp = \includes\Language::translate($mod_name[1], $mod_name[0]);
+							$headerLabel_tmp = \App\Language::translate($mod_name[1], $mod_name[0]);
 						} else {
-							$headerLabel_tmp = \includes\Language::translate($mod_name[0] . " " . $mod_name[1]);
+							$headerLabel_tmp = \App\Language::translate($mod_name[0] . " " . $mod_name[1]);
 						}
 					}
 					if ($headerLabel == $headerLabel_tmp)
-						$headerLabel = \includes\Language::translate($headerLabel_tmp);
+						$headerLabel = \App\Language::translate($headerLabel_tmp);
 					else
 						$headerLabel = $headerLabel_tmp;
 					/* STRING TRANSLATION ends */
@@ -2473,7 +2476,7 @@ class ReportRun extends CRMEntity
 						if ($fieldvalue == "") {
 							$fieldvalue = "-";
 						} else if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
-							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&action=DetailView&record={$fieldvalue}' target='_blank'>" . \includes\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
+							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&action=DetailView&record={$fieldvalue}' target='_blank'>" . \App\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
 						}
 
 						if (($lastvalue == $fieldvalue) && $this->reporttype == "summary") {
@@ -2532,14 +2535,14 @@ class ReportRun extends CRMEntity
 					// Performance Optimization: Output directly
 					if ($directOutput) {
 						echo '</tr></table><br><table width="100%" cellpading="0" cellspacing="0"><tr>';
-						echo sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \includes\Language::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
-							"+ " . \includes\Language::translate('records found') . ". " . \includes\Language::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
+						echo sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \App\Language::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
+							"+ " . \App\Language::translate('records found') . ". " . \App\Language::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
 							" <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('CreateXL',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/xls-file.jpg'></a>"
 						);
 					} else {
 						$valtemplate .= '</tr></table><br><table width="100%" cellpading="0" cellspacing="0"><tr>';
-						$valtemplate .= sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \includes\Language::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
-							" " . \includes\Language::translate('records found') . ". " . \includes\Language::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
+						$valtemplate .= sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \App\Language::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
+							" " . \App\Language::translate('records found') . ". " . \App\Language::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
 							" <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('CreateXL',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/xls-file.jpg'></a>"
 						);
 					}
@@ -2598,7 +2601,7 @@ class ReportRun extends CRMEntity
 						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $temp_val);
 
 						if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
-							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . \includes\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
+							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . \App\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
 						}
 
 						$arraylists[$headerLabel] = $fieldvalue;
@@ -2625,13 +2628,13 @@ class ReportRun extends CRMEntity
 						$fieldlist = explode(":", $key);
 						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 						if ($adb->num_rows($mod_query) > 0) {
-							$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
+							$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
-								$field = \includes\Language::translate($module_name, $module_name) . " " . \includes\Language::translate($fieldlabel, $module_name);
+								$field = \App\Language::translate($module_name, $module_name) . " " . \App\Language::translate($fieldlabel, $module_name);
 							} else {
-								$field = \includes\Language::translate($fieldlabel);
+								$field = \App\Language::translate($fieldlabel);
 							}
 						}
 						// Since there are duplicate entries for this table
@@ -2653,7 +2656,7 @@ class ReportRun extends CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2735,7 +2738,7 @@ class ReportRun extends CRMEntity
 						if (!isset($modulename_cache[$cachekey])) {
 							$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 							if ($adb->num_rows($mod_query) > 0) {
-								$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
+								$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 								$modulename_cache[$cachekey] = $module_name;
 							}
 						} else {
@@ -2744,9 +2747,9 @@ class ReportRun extends CRMEntity
 						if ($module_name) {
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
-							$field = \includes\Language::translate($module_name, $module_name) . " " . \includes\Language::translate($fieldlabel, $module_name);
+							$field = \App\Language::translate($module_name, $module_name) . " " . \App\Language::translate($fieldlabel, $module_name);
 						} else {
-							$field = \includes\Language::translate($fieldlabel);
+							$field = \App\Language::translate($fieldlabel);
 						}
 
 						$uitype_arr[str_replace($escapedchars, " ", $module_name . "__" . $fieldlist[3])] = $adb->query_result($mod_query, 0, "uitype");
@@ -2764,7 +2767,7 @@ class ReportRun extends CRMEntity
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -2945,13 +2948,13 @@ class ReportRun extends CRMEntity
 						$fieldlist = explode(":", $key);
 						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 						if ($adb->num_rows($mod_query) > 0) {
-							$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
+							$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
 							if ($module_name) {
-								$field = \includes\Language::translate($module_name, $module_name) . " " . \includes\Language::translate($fieldlabel, $module_name);
+								$field = \App\Language::translate($module_name, $module_name) . " " . \App\Language::translate($fieldlabel, $module_name);
 							} else {
-								$field = \includes\Language::translate($fieldlabel);
+								$field = \App\Language::translate($fieldlabel);
 							}
 						}
 						$uitype_arr[str_replace($escapedchars, " ", $module_name . "__" . $fieldlist[3])] = $adb->query_result($mod_query, 0, "uitype");
@@ -2964,12 +2967,12 @@ class ReportRun extends CRMEntity
 					}
 					foreach ($totclmnflds as $key => $value) {
 						$coltotalhtml .= '<tr class="rptGrpHead">';
-						$col_header = \includes\Language::translate(trim(str_replace($modules, " ", $value)));
+						$col_header = \App\Language::translate(trim(str_replace($modules, " ", $value)));
 						$fld_name_1 = $this->primarymodule . "__" . trim($value);
 						$fld_name_2 = $this->secondarymodule . "__" . trim($value);
 						if ($uitype_arr[$key] == 71 || $uitype_arr[$key] == 72 ||
 							in_array($fld_name_1, $this->append_currency_symbol_to_value) || in_array($fld_name_2, $this->append_currency_symbol_to_value)) {
-							$col_header .= " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+							$col_header .= " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 							$convert_price = true;
 						} else {
 							$convert_price = false;
@@ -3079,7 +3082,7 @@ class ReportRun extends CRMEntity
 				if (!isset($modulename_cache[$cachekey])) {
 					$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
 					if ($adb->num_rows($mod_query) > 0) {
-						$module_name = \includes\Modules::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
+						$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 						$modulename_cache[$cachekey] = $module_name;
 					}
 				} else {
@@ -3256,9 +3259,9 @@ class ReportRun extends CRMEntity
 		$fieldLabel = ltrim(str_replace($rep_module, '', $rep_header), '__');
 		$fieldInfo = getFieldByReportLabel($rep_module, $fieldLabel);
 		if ($fieldInfo['uitype'] == '71') {
-			$curr_symb = " (" . \includes\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
+			$curr_symb = " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 		}
-		$rep_header .=$curr_symb;
+		$rep_header .= $curr_symb;
 
 		return $rep_header;
 	}
@@ -3270,9 +3273,9 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$id = array(\includes\Modules::getModuleId($this->primarymodule));
+		$id = array(\App\Module::getModuleId($this->primarymodule));
 		if ($this->secondarymodule != '')
-			array_push($id, \includes\Modules::getModuleId($this->secondarymodule));
+			array_push($id, \App\Module::getModuleId($this->secondarymodule));
 
 		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
@@ -3294,7 +3297,7 @@ class ReportRun extends CRMEntity
 			$uitype = $adb->query_result($result, $i, "uitype");
 
 			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
-			$keyvalue = \includes\Modules::getModuleName($tabid) . "__" . $fieldlabel1;
+			$keyvalue = \App\Module::getModuleName($tabid) . "__" . $fieldlabel1;
 			$fieldvalues = Array();
 			if (count($roleids) > 1) {
 				$mulsel = "select distinct $fieldname from vtiger_$fieldname inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$fieldname.picklist_valueid where roleid in (\"" . implode($roleids, "\",\"") . "\") and picklistid in (select picklistid from vtiger_$fieldname)"; // order by sortid asc - not requried
@@ -3535,7 +3538,7 @@ class ReportRun extends CRMEntity
 		$reportSecondaryModules = explode(':', $this->secondarymodule);
 
 		if ($moduleName != $this->primarymodule && in_array($this->primarymodule, $referenceModuleList)) {
-			$entityTableFieldNames = \includes\Modules::getEntityInfo($this->primarymodule);
+			$entityTableFieldNames = \App\Module::getEntityInfo($this->primarymodule);
 			$entityTableName = $entityTableFieldNames['tablename'];
 			$entityFieldNames = $entityTableFieldNames['fieldname'];
 
@@ -3555,7 +3558,7 @@ class ReportRun extends CRMEntity
 			$columnsSqlList[] = $columnSql;
 		} else {
 			foreach ($referenceModuleList as $referenceModule) {
-				$entityTableFieldNames = \includes\Modules::getEntityInfo($referenceModule);
+				$entityTableFieldNames = \App\Module::getEntityInfo($referenceModule);
 				$entityTableName = $entityTableFieldNames['tablename'];
 				$entityFieldNames = $entityTableFieldNames['fieldname'];
 

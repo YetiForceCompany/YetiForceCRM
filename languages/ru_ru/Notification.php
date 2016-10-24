@@ -4,7 +4,7 @@ $languageStrings = [
 	'Notification' => 'Notification',
 	'SINGLE_Notification' => 'Notification',
 	'Notification ID' => 'Notification ID',
-	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
+	'LBL_NOTIFICATION_CONTENTS' => 'Notification contents',
 	'Notification' => 'Notification',
 	'SINGLE_Notification' => 'Notification',
 	'Notification ID' => 'Notification ID',
@@ -36,6 +36,7 @@ $languageStrings = [
 	'FL_USER' => 'User',
 	'FL_TYPE' => 'Type',
 	'LBL_MARK_AS_READ' => 'Mark as read',
+	'LBL_NO_NOTIFICATIONS' => ' Нет уведомлений',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Marked as read',

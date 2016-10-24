@@ -36,22 +36,24 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 			return $name;
 		}
 
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $tree]);
+		$row = (new App\Db\Query())
+				->from('vtiger_trees_templates_data')
+				->where(['templateid' => $template, 'tree' => $tree])
+				->one();
 		$parentName = '';
 		$module = $this->get('field')->getModuleName();
 		$name = false;
-		if ($adb->getRowCount($result)) {
-			$row = $adb->getRow($result);
+		if ($row !== false) {
 			if ($row['depth'] > 0) {
 				$parenttrre = $row['parenttrre'];
 				$pieces = explode('::', $parenttrre);
 				end($pieces);
 				$parent = prev($pieces);
-
-				$result2 = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $parent]);
-				$parentName = $adb->getSingleValue($result2);
-
+				$parentName = (new App\Db\Query())
+						->select('name')
+						->from('vtiger_trees_templates_data')
+						->where(['templateid' => $template, 'tree' => $parent])
+						->scalar();
 				$parentName = '(' . vtranslate($parentName, $module) . ') ';
 			}
 			$name = $parentName . vtranslate($row['name'], $module);

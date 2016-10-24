@@ -584,10 +584,7 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	showMap: function () {
-		var selectedParams = Vtiger_List_Js.getSelectedRecordsParams();
-		if (selectedParams === false) {
-			return false;
-		}
+		var selectedParams = Vtiger_List_Js.getSelectedRecordsParams(false);
 		var url = 'index.php?module=OpenStreetMap&view=MapModal&srcModule=' + app.getModuleName();
 		app.showModalWindow(null, url, function (container) {
 			var mapView = new OpenStreetMap_Map_Js();
@@ -1916,16 +1913,6 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewTopMenuDiv.on('click', '.featuredLabel', function (e) {
 			var cvId = jQuery(this).data('cvid');
 			thisInstance.getFilterSelectElement().val(cvId).trigger('change')
-		})
-		var elemente = app.showPopoverElementView(listViewTopMenuDiv.find('.featuredInfoPopover'), {trigger: 'click', html: true});
-		elemente.trigger('click').trigger('click');
-		elemente.on('shown.bs.popover', function (e, i) {
-			var element = jQuery(e.currentTarget);
-			var popover = element.next();
-			app.showScrollBar(popover.find('.popover-content'), {
-				height: '200px',
-				railVisible: true,
-			});
 		});
 	},
 	triggerDisplayTypeEvent: function () {

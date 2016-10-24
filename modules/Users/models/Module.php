@@ -153,40 +153,44 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to store the login history
-	 * @param type $username
+	 * @param type $userName
 	 */
-	public function saveLoginHistory($username, $status = 'Signed in', $browser = '')
+	public function saveLoginHistory($userName, $status = 'Signed in')
 	{
-		$adb = PearDatabase::getInstance();
-
-		$userIPAddress = vtlib\Functions::getRemoteIP();
-		$userIPAddress = empty($userIPAddress) ? '-' : $userIPAddress;
-		$loginTime = date('Y-m-d H:i:s');
-		$browser = empty($browser) ? $browser : '-';
-		$query = "INSERT INTO vtiger_loginhistory (user_name, user_ip, logout_time, login_time, status, browser) VALUES (?,?,?,?,?,?)";
-		$params = array($username, $userIPAddress, '0000-00-00 00:00:00', $loginTime, $status, $browser);
-		$adb->pquery($query, $params);
+		$userIPAddress = \App\RequestUtil::getRemoteIP();
+		$browser = \App\RequestUtil::getBrowserInfo();
+		\App\Db::getInstance()->createCommand()
+			->insert('vtiger_loginhistory', [
+				'user_name' => $userName,
+				'user_ip' => empty($userIPAddress) ? '-' : $userIPAddress,
+				'login_time' => date('Y-m-d H:i:s'),
+				'logout_time' => null,
+				'status' => $status,
+				'browser' => $browser->name . ' ' . $browser->ver
+			])->execute();
 	}
 
 	/**
 	 * Function to store the logout history
-	 * @param type $username
 	 */
 	public function saveLogoutHistory()
 	{
-		$adb = PearDatabase::getInstance();
-
 		$userRecordModel = Users_Record_Model::getCurrentUserModel();
-		$userIPAddress = $_SERVER['REMOTE_ADDR'];
-		$outtime = date("Y-m-d H:i:s");
+		$userIPAddress = \App\RequestUtil::getRemoteIP();
+		$outtime = date('Y-m-d H:i:s');
 
-		$loginIdQuery = "SELECT MAX(login_id) AS login_id FROM vtiger_loginhistory WHERE user_name=? && user_ip=?";
-		$result = $adb->pquery($loginIdQuery, array($userRecordModel->get('user_name'), $userIPAddress));
-		$loginid = $adb->query_result($result, 0, "login_id");
-
-		if (!empty($loginid)) {
-			$query = "UPDATE vtiger_loginhistory SET logout_time =?, status=? WHERE login_id = ?";
-			$result = $adb->pquery($query, array($outtime, 'Signed off', $loginid));
+		$loginId = (new \App\Db\Query())
+				->select('login_id')
+				->from('vtiger_loginhistory')
+				->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => $userIPAddress])
+				->limit(1)->orderBy('login_id DESC')->scalar();
+		if ($loginId !== false) {
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_loginhistory', [
+					'logout_time' => $outtime,
+					'status' => 'Signed off',
+					], ['login_id' => $loginId])
+				->execute();
 		}
 	}
 
@@ -249,9 +253,10 @@ class Users_Module_Model extends Vtiger_Module_Model
 		for ($i = 0; $i < $num_rows; $i++) {
 			$lang_prefix = decode_html($adb->query_result($result, $i, 'prefix'));
 			$label = decode_html($adb->query_result($result, $i, 'label'));
-			$languages_list[$lang_prefix] = $label;
+			$languages[$lang_prefix] = $label;
 		}
-		return $languages_list;
+		asort($languages);
+		return $languages;
 	}
 
 	public static function getAdminUsers()

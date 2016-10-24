@@ -8,6 +8,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 /*Data for the table `a_yf_adv_permission` */
 
+/*Data for the table `a_yf_bruteforce` */
+
+insert  into `a_yf_bruteforce`(`attempsnumber`,`timelock`,`active`,`sent`) values (10,15,1,0);
+
+/*Data for the table `a_yf_bruteforce_blocked` */
+
+/*Data for the table `a_yf_bruteforce_users` */
+
 /*Data for the table `a_yf_discounts_config` */
 
 insert  into `a_yf_discounts_config`(`param`,`value`) values ('active','0');
@@ -40,11 +48,6 @@ insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`defa
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (9,1,'SELF','id','2262','');
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (10,2,'V','1','288','');
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (11,2,'E','9','291','');
-
-/*Data for the table `a_yf_notification_type` */
-
-insert  into `a_yf_notification_type`(`id`,`name`,`role`,`icon`,`presence`) values (0,'LBL_MESSAGES_FROM_USERS',0,'glyphicon glyphicon-',0);
-insert  into `a_yf_notification_type`(`id`,`name`,`role`,`icon`,`presence`) values (1,'LBL_WATCHDOG',0,'glyphicon glyphicon-',0);
 
 /*Data for the table `a_yf_pdf` */
 
@@ -234,6 +237,8 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (138);
 /*Data for the table `dav_schedulingobjects` */
 
 /*Data for the table `dav_users` */
+
+/*Data for the table `l_yf_profile` */
 
 /*Data for the table `l_yf_settings_tracker_basic` */
 
@@ -1029,28 +1034,6 @@ insert  into `vtiger_asteriskextensions`(`userid`,`asterisk_extension`,`use_aste
 
 /*Data for the table `vtiger_audit_trial` */
 
-/*Data for the table `vtiger_backup` */
-
-/*Data for the table `vtiger_backup_db` */
-
-/*Data for the table `vtiger_backup_files` */
-
-/*Data for the table `vtiger_backup_settings` */
-
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','storage_folder','false');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','backup_folder','false');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('notifications','users','');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('main','type','false');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','host','');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','login','');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','password','');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','port','');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','path','');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','active','');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','status','');
-
-/*Data for the table `vtiger_backup_tmp` */
-
 /*Data for the table `vtiger_blocks` */
 
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (4,4,'LBL_CONTACT_INFORMATION',1,0,0,0,0,0,1,0);
@@ -1306,19 +1289,13 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (372,109,'LBL_ATTENTION_BLOCK',4,0,0,0,0,0,0,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (373,90,'LBL_SYNCHRONIZE_POS',2,0,0,0,0,0,1,1);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (374,111,'LBL_NOTIFICATION_INFORMATION',1,0,0,0,0,0,1,0);
-insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (375,111,'LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0);
+insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (375,111,'LBL_NOTIFICATION_CONTENTS',2,0,0,0,0,0,1,0);
 
 /*Data for the table `vtiger_blocks_hide` */
 
 /*Data for the table `vtiger_blocks_seq` */
 
 insert  into `vtiger_blocks_seq`(`id`) values (375);
-
-/*Data for the table `vtiger_bruteforce` */
-
-insert  into `vtiger_bruteforce`(`attempsnumber`,`timelock`,`active`) values (10,15,1);
-
-/*Data for the table `vtiger_bruteforce_users` */
 
 /*Data for the table `vtiger_calendar_config` */
 
@@ -1562,7 +1539,6 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (10,'MailScannerAction','modules/OSSMailScanner/cron/action.php',200,NULL,NULL,1,'OSSMailScanner',8,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (11,'MailScannerVerification','modules/OSSMailScanner/cron/verification.php',100,NULL,NULL,1,'OSSMailScanner',9,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (12,'MailScannerBind','modules/OSSMailScanner/cron/bind.php',600,NULL,NULL,1,'OSSMailScanner',10,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (13,'Backup','cron/backup.service',43200,NULL,NULL,0,'BackUp',11,NULL);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (14,'CardDav','modules/API/cron/CardDav.php',300,NULL,NULL,1,'Contacts',12,NULL);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (15,'CalDav','modules/API/cron/CalDav.php',300,NULL,NULL,1,'Calendar',13,NULL);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (16,'Activity state','modules/Calendar/cron/ActivityState.php',1800,NULL,NULL,1,'Calendar',14,'');
@@ -2233,8 +2209,8 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (10
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (103,2,'u_yf_igdnc:storageid:storageid:IGDNC_FL_STORAGE:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (103,3,'vtiger_crmentity:smownerid:assigned_user_id:IGDNC_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (103,4,'vtiger_crmentity:createdtime:createdtime:IGDNC_Created_Time:DT');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,0,'vtiger_notification:title:title:Notification_FL_TITLE:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,1,'vtiger_notification:number:number:Notification_FL_NUMBER:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,0,'u_yf_notification:title:title:Notification_FL_TITLE:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,1,'u_yf_notification:number:number:Notification_FL_NUMBER:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,2,'vtiger_crmentity:createdtime:createdtime:Notification_Created_Time:DT');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (104,3,'vtiger_crmentity:smownerid:assigned_user_id:Notification_Assigned_To:V');
 
@@ -3842,9 +3818,12 @@ insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) valu
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2391,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2392,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2393,0,0);
-insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2394,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2395,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2396,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2397,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2398,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2399,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (111,2400,0,0);
 
 /*Data for the table `vtiger_def_org_share` */
 
@@ -4954,8 +4933,8 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1507,'location','vtiger_callhistory',1,1,'location','LBL_LOCATION',1,2,'',100,9,232,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1508,'phonecallid','vtiger_callhistory',1,1,'phonecallid','LBL_PHONE_CALL_ID',1,2,'',100,8,232,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1509,'duration','vtiger_callhistory',1,7,'duration','LBL_DURATION',1,2,'',100,7,232,1,'I~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1511,'start_time','vtiger_callhistory',1,70,'start_time','LBL_START_TIME',1,2,'',100,5,232,1,'V~O',1,NULL,'BAS',0,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1512,'end_time','vtiger_callhistory',1,70,'end_time','LBL_END_TIME',1,2,'',100,6,232,1,'V~O',1,NULL,'BAS',0,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1511,'start_time','vtiger_callhistory',1,70,'start_time','LBL_START_TIME',1,2,'',100,5,232,1,'DT~O',1,NULL,'BAS',0,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1512,'end_time','vtiger_callhistory',1,70,'end_time','LBL_END_TIME',1,2,'',100,6,232,1,'DT~O',1,NULL,'BAS',0,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1513,'country','vtiger_callhistory',1,1,'country','LBL_COUNTRY_CODE',1,2,'',100,10,232,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1514,'smownerid','vtiger_crmentity',1,53,'assigned_user_id','Assigned To',1,2,'',100,3,233,1,'V~M',1,NULL,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (74,1515,'createdtime','vtiger_crmentity',1,70,'createdtime','Created Time',1,2,'',100,1,233,2,'DT~O',1,NULL,'BAS',0,'',0,'',NULL,0,0);
@@ -5727,20 +5706,23 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (61,2384,'rbh','vtiger_ossemployees',1,71,'rbh','FL_RBH',1,2,'',100,18,151,1,'N~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (86,2385,'campaignid','u_yf_ssalesprocesses',1,10,'campaignid','FL_CAMPAIGN',1,2,'',100,12,269,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (43,2386,'ssalesprocessesid','vtiger_project',1,10,'ssalesprocessesid','SINGLE_SSalesProcesses',1,2,'',100,14,107,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2387,'title','u_yf_notification',1,2,'title','FL_TITLE',1,2,'',100,1,374,1,'V~M',1,NULL,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2387,'title','u_yf_notification',1,2,'title','FL_TITLE',1,2,'',100,1,374,1,'V~M',1,1,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2388,'number','u_yf_notification',1,4,'number','FL_NUMBER',1,2,'',100,2,374,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2389,'smownerid','vtiger_crmentity',1,53,'assigned_user_id','Assigned To',1,2,'',100,3,374,1,'V~M',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2390,'createdtime','vtiger_crmentity',1,70,'createdtime','Created Time',1,2,'',100,4,374,2,'DT~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2391,'modifiedtime','vtiger_crmentity',1,70,'modifiedtime','Modified Time',1,2,'',100,5,374,2,'DT~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2392,'description','vtiger_crmentity',1,300,'description','FL_MESSAGE',1,2,'',100,1,375,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2393,'relatedid','u_yf_notification',1,10,'relatedid','FL_RELATED_RECORD',1,2,'',100,6,374,1,'I~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2394,'relatedmodule','u_yf_notification',1,1,'relatedmodule','FL_RELATED_MODULE',1,2,'',100,7,374,1,'I~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2395,'notification_status','u_yf_notification',1,16,'notification_status','FL_STATUS',1,2,'PLL_UNREAD',100,8,374,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2396,'notification_type','u_yf_notification',1,15,'notification_type','FL_TYPE',1,2,'',100,9,374,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2389,'smownerid','vtiger_crmentity',1,53,'assigned_user_id','Assigned To',1,2,'',100,3,374,1,'V~M',1,3,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2390,'createdtime','vtiger_crmentity',1,70,'createdtime','Created Time',1,2,'',100,10,374,2,'DT~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2391,'modifiedtime','vtiger_crmentity',1,70,'modifiedtime','Modified Time',1,2,'',100,13,374,2,'DT~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2392,'description','vtiger_crmentity',1,300,'description','FL_MESSAGE',1,2,'',100,1,375,1,'V~O',2,8,'BAS',1,'',0,'','0',0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2393,'link','u_yf_notification',1,67,'link','FL_RELATION',1,2,'',100,6,374,1,'I~O',2,5,'BAS',1,'',0,'','0',0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2395,'notification_status','u_yf_notification',1,16,'notification_status','FL_STATUS',1,2,'PLL_UNREAD',100,9,374,10,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2396,'notification_type','u_yf_notification',1,15,'notification_type','FL_TYPE',1,2,'PLL_USERS',100,5,374,10,'V~O',2,4,'BAS',1,'',0,'','0',0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2397,'process','u_yf_notification',1,66,'process','FL_PROCESS',1,2,'',100,7,374,1,'I~O',2,6,'BAS',1,'',0,'','0',0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2398,'subprocess','u_yf_notification',1,68,'subprocess','FL_SUB_PROCESS',1,2,'',100,8,374,1,'I~O',2,7,'BAS',1,'',0,'','0',0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2399,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',1,2,'',100,4,374,1,'V~O',2,2,'BAS',1,'',0,'','0',0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (111,2400,'smcreatorid','vtiger_crmentity',1,52,'smcreatorid','Created By',1,2,'',100,11,374,2,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
-insert  into `vtiger_field_seq`(`id`) values (2396);
+insert  into `vtiger_field_seq`(`id`) values (2400);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -5923,14 +5905,6 @@ insert  into `vtiger_finvoiceproforma_formpayment`(`finvoiceproforma_formpayment
 
 insert  into `vtiger_finvoiceproforma_status`(`finvoiceproforma_statusid`,`finvoiceproforma_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'None',1,670,1);
 
-/*Data for the table `vtiger_freetagged_objects` */
-
-/*Data for the table `vtiger_freetags` */
-
-/*Data for the table `vtiger_freetags_seq` */
-
-insert  into `vtiger_freetags_seq`(`id`) values (1);
-
 /*Data for the table `vtiger_glacct` */
 
 insert  into `vtiger_glacct`(`glacctid`,`glacct`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'300-Sales-Software',1,51,0);
@@ -6024,7 +5998,6 @@ insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`
 insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`visible`,`stufftitle`) values (11,11,'Default',1,1,'My New Leads');
 insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`visible`,`stufftitle`) values (13,13,'Default',1,1,'Pending Activities');
 insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`visible`,`stufftitle`) values (14,14,'Default',1,1,'My Recent FAQs');
-insert  into `vtiger_homestuff`(`stuffid`,`stuffsequence`,`stufftype`,`userid`,`visible`,`stufftitle`) values (15,15,'Tag Cloud',1,1,'Tag Cloud');
 
 /*Data for the table `vtiger_homestuff_seq` */
 
@@ -6416,7 +6389,6 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (73,15,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (102,3,'DASHBOARDWIDGET','Key Metrics','index.php?module=Home&view=ShowWidget&name=KeyMetrics','',15,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (103,3,'DASHBOARDWIDGET','Mini List','index.php?module=Home&view=ShowWidget&name=MiniList','',16,NULL,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (104,3,'DASHBOARDWIDGET','Tag Cloud','index.php?module=Home&view=ShowWidget&name=TagCloud','',17,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (107,3,'DASHBOARDWIDGET','Notebook','index.php?module=Home&view=ShowWidget&name=Notebook','',18,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (111,42,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (114,43,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
@@ -6499,10 +6471,17 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (298,3,'DASHBOARDWIDGET','LBL_CLOSED_TICKETS_BY_USER','index.php?module=HelpDesk&view=ShowWidget&name=ClosedTicketsByUser','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (299,3,'DASHBOARDWIDGET','LBL_ACCOUNTS_BY_INDUSTRY','index.php?module=Accounts&view=ShowWidget&name=AccountsByIndustry','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (300,6,'DASHBOARDWIDGET','LBL_ACCOUNTS_BY_INDUSTRY','index.php?module=Accounts&view=ShowWidget&name=AccountsByIndustry','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (301,3,'DASHBOARDWIDGET','LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS','index.php?module=SSalesProcesses&view=ShowWidget&name=EstimatedValueByStatus','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (302,86,'DASHBOARDWIDGET','LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS','index.php?module=SSalesProcesses&view=ShowWidget&name=EstimatedValueByStatus','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (303,111,'DASHBOARDWIDGET','Notifications','index.php?module=Notification&view=ShowWidget&name=Notifications','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (304,3,'DASHBOARDWIDGET','LBL_NOTIFICATION_BY_SENDER','index.php?module=Notification&view=ShowWidget&name=NotificationsBySender','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (305,111,'DASHBOARDWIDGET','LBL_NOTIFICATION_BY_SENDER','index.php?module=Notification&view=ShowWidget&name=NotificationsBySender','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (306,3,'DASHBOARDWIDGET','LBL_NOTIFICATION_BY_RECIPIENT','index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (307,111,'DASHBOARDWIDGET','LBL_NOTIFICATION_BY_RECIPIENT','index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient','',0,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (300);
+insert  into `vtiger_links_seq`(`id`) values (307);
 
 /*Data for the table `vtiger_loginhistory` */
 
@@ -7319,7 +7298,7 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (14,'leadstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (77,'lin_type_doc');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (78,'lout_type_doc');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (15,'manufacturer');
-insert  into `vtiger_picklist`(`picklistid`,`name`) values (95,'notificationtype');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (95,'notification_type');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (64,'oproductstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (59,'ossdc_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (60,'osservicesstatus');
@@ -8912,9 +8891,12 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2391,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2392,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2393,0,0);
-insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2394,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2395,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2396,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2397,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2398,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2399,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,111,2400,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,3,0,0);
@@ -10416,9 +10398,12 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2391,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2392,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2393,0,0);
-insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2394,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2395,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2396,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2397,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2398,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2399,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,111,2400,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,3,0,0);
@@ -11920,9 +11905,12 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2391,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2392,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2393,0,0);
-insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2394,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2395,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2396,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2397,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2398,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2399,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,111,2400,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,3,0,0);
@@ -13424,9 +13412,12 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2391,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2392,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2393,0,0);
-insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2394,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2395,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2396,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2397,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2398,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2399,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,111,2400,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -21107,16 +21098,16 @@ insert  into `vtiger_reservations_status_seq`(`id`) values (2);
 /*Data for the table `vtiger_role` */
 
 insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H1','Organization','H1',0,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H10','Sales Department','H1::H2::H10',2,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H14','Logistics Department','H1::H2::H14',2,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H18','Project Management Department','H1::H2::H18',2,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H2','Board of Management','H1::H2',1,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H22','Help Desk Department','H1::H2::H22',2,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H26','Human Resources Department','H1::H2::H26',2,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H3','Secretary\'s Office','H1::H2::H3',2,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H30','Financial Department','H1::H2::H30',2,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H34','Production Department','H1::H2::H34',2,1,1,NULL,1,0,0,0,'0',1,0);
-insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H6','Marketing Department','H1::H2::H6',2,1,1,NULL,1,0,0,0,'0',1,0);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H10','Sales Department','H1::H2::H10',2,1,1,NULL,3,0,0,0,'0',1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H14','Logistics Department','H1::H2::H14',2,1,1,NULL,3,0,0,0,'0',1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H18','Project Management Department','H1::H2::H18',2,1,1,NULL,3,0,0,0,'0',1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H2','Board of Management','H1::H2',1,1,1,NULL,3,0,0,0,'0',1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H22','Help Desk Department','H1::H2::H22',2,1,1,NULL,3,0,0,0,'0',1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H26','Human Resources Department','H1::H2::H26',2,1,1,NULL,3,0,0,0,'0',1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H3','Secretary\'s Office','H1::H2::H3',2,1,1,NULL,3,0,0,0,'0',1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H30','Financial Department','H1::H2::H30',2,1,1,NULL,3,0,0,0,'0',1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H34','Production Department','H1::H2::H34',2,1,1,NULL,3,0,0,0,'0',1,1);
+insert  into `vtiger_role`(`roleid`,`rolename`,`parentrole`,`depth`,`allowassignedrecordsto`,`changeowner`,`searchunpriv`,`clendarallorecords`,`listrelatedrecord`,`previewrelatedrecord`,`editrelatedrecord`,`permissionsrelatedfield`,`globalsearchadv`,`assignedmultiowner`) values ('H6','Marketing Department','H1::H2::H6',2,1,1,NULL,3,0,0,0,'0',1,1);
 
 /*Data for the table `vtiger_role2picklist` */
 
@@ -24820,9 +24811,8 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (59,9,'Credits','adminIcon-contributors','LBL_CREDITS_DESCRIPTION','index.php?module=Vtiger&view=Credits&parent=Settings',3,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (60,2,'LBL_QUICK_CREATE_EDITOR','adminIcon-fields-quick-create','LBL_QUICK_CREATE_EDITOR_DESCRIPTION','index.php?module=QuickCreateEditor&parent=Settings&view=Index',8,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (61,5,'LBL_API_ADDRESS','adminIcon-address','LBL_API_ADDRESS_DESCRIPTION','index.php?module=ApiAddress&parent=Settings&view=Configuration',5,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (62,7,'LBL_BRUTEFORCE','adminIcon-brute-force','LBL_BRUTEFORCE_DESCRIPTION','index.php?module=BruteForce&parent=Settings&view=Show',2,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (62,7,'LBL_BRUTEFORCE','adminIcon-brute-force','LBL_BRUTEFORCE_DESCRIPTION','index.php?module=BruteForce&parent=Settings&view=Index',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (63,14,'LBL_UPDATES_HISTORY','adminIcon-server-updates','LBL_UPDATES_HISTORY_DESCRIPTION','index.php?parent=Settings&module=Updates&view=Index',2,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (64,7,'Backup','adminIcon-backup','LBL_BACKUP_DESCRIPTION','index.php?parent=Settings&module=BackUp&view=Index',4,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (65,14,'LBL_CONFREPORT','adminIcon-server-configuration','LBL_CONFREPORT_DESCRIPTION','index.php?parent=Settings&module=ConfReport&view=Index',1,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (66,12,'LBL_ACTIVITY_TYPES','adminIcon-calendar-types','LBL_ACTIVITY_TYPES_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=ActivityTypes',1,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (67,2,'LBL_WIDGETS_MANAGEMENT','adminIcon-widgets-configuration','LBL_WIDGETS_MANAGEMENT_DESCRIPTION','index.php?module=WidgetsManagement&parent=Settings&view=Configuration',15,0,0);
@@ -24853,7 +24843,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (94,8,'Mail','adminIcon-mail-download-history','LBL_OSSMAIL_DESCRIPTION','index.php?module=OSSMail&parent=Settings&view=index',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (95,2,'LBL_MAPPEDFIELDS','adminIcon-mapped-fields','LBL_MAPPEDFIELDS_DESCRIPTION','index.php?module=MappedFields&parent=Settings&view=List',16,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (96,1,'LBL_LOCKS','adminIcon-locks','LBL_LOCKS_DESCRIPTION','index.php?module=Users&view=Locks&parent=Settings',8,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (97,4,'LBL_TYPE_NOTIFICATIONS','adminIcon-TypeNotification','LBL_TYPE_NOTIFICATIONS_DESCRIPTION','index.php?module=Notifications&view=List&parent=Settings',12,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (98,4,'LBL_NOTIFICATIONS_CONFIGURATION','adminIcon-NotificationConfiguration','LBL_TYPE_NOTIFICATIONS_DESCRIPTION','index.php?module=Notifications&view=Configuration&parent=Settings',13,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (99,5,'LBL_POS',NULL,NULL,'index.php?module=POS&view=Index&parent=Settings',10,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (100,5,'LBL_WEBSERVICE_APPS',NULL,NULL,'index.php?module=WebserviceApps&view=Index&parent=Settings',11,0,0);
@@ -25285,6 +25274,7 @@ insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (107,'vtig
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (108,'vtiger_min_version','2.3.1514');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (109,'vtiger_min_version','2.3.1528');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (110,'vtiger_min_version','3.2.999');
+insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (111,'vtiger_min_version','3.3.999');
 
 /*Data for the table `vtiger_taskpriority` */
 
@@ -26209,6 +26199,7 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (142,0,71,0,3,107,NULL,0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (143,0,131,0,2,108,'IGRNC',0,NULL,0,'',NULL,'',NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (144,0,131,0,3,109,'IGDNC',0,NULL,0,'',NULL,'',NULL);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`) values (145,0,84,0,24,44,'',0,NULL,0,'',NULL,'',NULL);
 
 /*Data for the table `yetiforce_mobile_keys` */
 

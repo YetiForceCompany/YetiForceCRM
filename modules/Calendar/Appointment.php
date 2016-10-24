@@ -140,7 +140,7 @@ class Appointment
 			$windowTo = strtotime($endDate->getDBInsertDateTimeValue());
 			for ($j = $from; $j <= $to; $j = $j + (60 * 60 * 24)) {
 
-				$obj = &new Appointment();
+				$obj = new Appointment();
 				$temp_start = date("Y-m-d", $j);
 				$endTime = strtotime($temp_start . ' ' . $result['time_start']);
 				if ($endTime > $windowTo) {
@@ -170,7 +170,7 @@ class Appointment
 		//Get Recurring events
 		$q = "SELECT vtiger_activity.*, vtiger_crmentity.*, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name , vtiger_recurringevents.recurringid, vtiger_recurringevents.recurringdate as date_start ,vtiger_recurringevents.recurringtype,vtiger_groups.groupname from vtiger_activity inner join vtiger_crmentity on vtiger_activity.activityid = vtiger_crmentity.crmid inner join vtiger_recurringevents on vtiger_activity.activityid=vtiger_recurringevents.activityid left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
 		$q .= getNonAdminAccessControlQuery('Calendar', $currentUser);
-		$q.=" where vtiger_crmentity.deleted = 0 and vtiger_activity.activitytype not in ('Emails','Task') && (cast(concat(recurringdate, ' ', time_start) as datetime) between ? and ?) ";
+		$q .= " where vtiger_crmentity.deleted = 0 and vtiger_activity.activitytype not in ('Emails','Task') && (cast(concat(recurringdate, ' ', time_start) as datetime) between ? and ?) ";
 
 		// User Select Customization
 		$q .= $query_filter_prefix;
@@ -183,7 +183,7 @@ class Appointment
 		$n = $adb->getRowCount($r);
 		$a = 0;
 		while ($a < $n) {
-			$obj = &new Appointment();
+			$obj = new Appointment();
 			$result = $adb->fetchByAssoc($r);
 			list($obj->temphour, $obj->tempmin) = explode(":", $result["time_start"]);
 			$obj->readResult($result, $view);
@@ -314,7 +314,7 @@ function getRoleBasesdPickList($fldname, $exist_val)
 		if ($num_val > 0)
 			$pick_val = $exist_val;
 		else
-			$pick_val = \includes\Language::translate('LBL_NOT_ACCESSIBLE');
+			$pick_val = \App\Language::translate('LBL_NOT_ACCESSIBLE');
 	} else
 		$pick_val = $exist_val;
 

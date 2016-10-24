@@ -52,7 +52,7 @@ class Users_ForgotPassword_Action
 	public function requestForgotPassword(Vtiger_Request $request)
 	{
 		$adb = PearDatabase::getInstance();
-		$username = vtlib_purify($request->get('user_name'));
+		$username = App\Purifier::purify($request->get('user_name'));
 		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', array($username));
 		if ($adb->num_rows($result) > 0) {
 			$email = $adb->query_result($result, 0, 'email1');

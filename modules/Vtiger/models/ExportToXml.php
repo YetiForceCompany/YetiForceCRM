@@ -79,7 +79,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \vtlib\Functions::getCRMRecordType($value);
-					$displayValueArray = \includes\Record::computeLabels($recordModule, $value);
+					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;

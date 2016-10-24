@@ -14,7 +14,6 @@ class Settings_Leads_MappingSave_Action extends Settings_Vtiger_Index_Action
 
 	public function process(Vtiger_Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
 		$mapping = $request->get('mapping');
 		$csrfKey = $GLOBALS['csrf']['input-name'];
 		if (array_key_exists($csrfKey, $mapping)) {

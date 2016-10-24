@@ -115,7 +115,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function isAdminUser()
 	{
 		$adminStatus = $this->get('is_admin');
-		if ($adminStatus == 'on') {
+		if ($adminStatus === 'on') {
 			return true;
 		}
 		return false;
@@ -170,7 +170,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$currentUserModel = NULL;
 			if (isset(self::$currentUserModels[$currentUser->id])) {
 				$currentUserModel = self::$currentUserModels[$currentUser->id];
-				if (isset($currentUser->column_fields['modifiedtime']) && $currentUser->column_fields['modifiedtime'] != $currentUserModel->get('modifiedtime')) {
+				if (isset($currentUser->column_fields['modifiedtime']) && $currentUser->column_fields['modifiedtime'] !== $currentUserModel->get('modifiedtime')) {
 					$currentUserModel = NULL;
 				}
 			}
@@ -476,8 +476,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get user groups
-	 * @param type $userId
-	 * @return <array> - groupId's
+	 * @param int $userId
+	 * @return array - groupId's
 	 */
 	public static function getUserGroups($userId)
 	{
@@ -485,13 +485,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($groupIds !== false) {
 			return $groupIds;
 		}
-		$db = PearDatabase::getInstance();
-		$groupIds = [];
-		$query = 'SELECT groupid FROM vtiger_users2group WHERE userid=?';
-		$result = $db->pquery($query, array($userId));
-		while (($groupId = $db->getSingleValue($result)) !== false) {
-			$groupIds[] = $groupId;
-		}
+		$groupIds = (new \App\Db\Query())->select('groupid')
+				->from('vtiger_users2group')
+				->where(['userid' => $userId])
+				->column();
 		Vtiger_Cache::set('getUserGroups', $userId, $groupIds);
 		return $groupIds;
 	}
@@ -532,24 +529,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the users count
-	 * @param <Boolean> $onlyActive - If true it returns count of only acive users else only inactive users
-	 * @return <Integer> number of users
+	 * @param boolean $onlyActive - If true it returns count of only acive users else only inactive users
+	 * @return int number of users
 	 */
 	public static function getCount($onlyActive = false)
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT 1 FROM vtiger_users ';
-		$params = [];
-
+		$query = (new App\Db\Query())->from('vtiger_users');
 		if ($onlyActive) {
-			$query.= ' WHERE status=? ';
-			array_push($params, 'active');
+			$query->where(['status' => 'Active']);
 		}
-
-		$result = $db->pquery($query, $params);
-
-		$numOfUsers = $db->num_rows($result);
-		return $numOfUsers;
+		return $query->count();
 	}
 
 	/**

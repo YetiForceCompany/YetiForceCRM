@@ -10,10 +10,10 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 {
 	/**
 	 * Return search params (use to in bulding address URL to listview)
-	 * @param type $priority
-	 * @param type $time
-	 * @param type $owner
-	 * @return type
+	 * @param string $priority
+	 * @param array $time
+	 * @param int $owner
+	 * @return string
 	 */
 	public function getSearchParams($priority, $time, $owner)
 	{
@@ -32,9 +32,9 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 
 	/**
 	 * Function returns Tickets grouped by priority
-	 * @param <Array> $time
+	 * @param array $time
 	 * @param int $owner
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getTicketsByPriority($time, $owner)
 	{
@@ -72,7 +72,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$response = [];
 		while ($row = $db->getRow($result)) {
 			$response[] = [
-				'name' => \includes\Language::translate($row['priority'], $moduleName),
+				'name' => \App\Language::translate($row['priority'], $moduleName),
 				'count' => $row['count'],
 				'color' => $row['color'],
 				'url' => $listViewUrl . $this->getSearchParams($row['priority'], $time, $owner),
@@ -94,8 +94,11 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		if (empty($time)) {
-			$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-			$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			if($time === false) {
+				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
+			}
 			$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
 			$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
 		}

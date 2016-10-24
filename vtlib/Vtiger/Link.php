@@ -56,7 +56,7 @@ class Link
 	public function module()
 	{
 		if (!empty($this->tabid)) {
-			return \includes\Modules::getModuleName($this->tabid);
+			return \App\Module::getModuleName($this->tabid);
 		}
 		return false;
 	}
@@ -95,7 +95,7 @@ class Link
 				'linklabel' => $label,
 				'linkurl' => $url,
 				'linkicon' => $iconpath,
-				'sequence' => $sequence,
+				'sequence' => intval($sequence),
 			];
 			if (!empty($handlerInfo)) {
 				$params['handler_path'] = $handlerInfo['path'];
@@ -158,40 +158,39 @@ class Link
 	static function getAllByType($tabid, $type = false, $parameters = false)
 	{
 		$adb = \PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
+		$db = \App\Db::getInstance();
+		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		$multitype = false;
-
-		if ($type) {
+		if ($type !== false) {
 			// Multiple link type selection?
 			if (is_array($type)) {
 				$multitype = true;
 				if ($tabid === self::IGNORE_MODULE) {
-					$sql = 'SELECT * FROM vtiger_links WHERE linktype IN (' .
-						Utils::implodestr('?', count($type), ',') . ') ';
-					$params = $type;
+					$query = (new \App\Db\Query())->from('vtiger_links')->where(['linktype' => $type]);
 					$permittedTabIdList = getPermittedModuleIdList();
-					if (count($permittedTabIdList) > 0 && $current_user->is_admin !== 'on') {
+					if (!empty($permittedTabIdList) && !$currentUser->isAdminUser()) {
 						array_push($permittedTabIdList, 0);  // Added to support one link for all modules
-						$sql .= ' and tabid IN (' .
-							Utils::implodestr('?', count($permittedTabIdList), ',') . ')';
-						$params[] = $permittedTabIdList;
+						$query->andWhere(['tabid' => $permittedTabIdList]);
 					}
-					$result = $adb->pquery($sql, Array($adb->flatten_array($params)));
 				} else {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? || tabid=0) && linktype IN (' .
-						Utils::implodestr('?', count($type), ',') . ')', Array($tabid, $adb->flatten_array($type)));
+					$query = (new \App\Db\Query())
+						->from('vtiger_links')
+						->where(['linktype' => $type])
+						->andWhere(['or', 'tabid = 0', 'tabid = ' . $db->quoteValue($tabid)]);
 				}
 			} else {
 				// Single link type selection
 				if ($tabid === self::IGNORE_MODULE) {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE linktype=?', Array($type));
+					$query = (new \App\Db\Query())->from('vtiger_links')->where(['linktype' => $type]);
 				} else {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE (tabid=? || tabid=0) && linktype=?', Array($tabid, $type));
+					$query = (new \App\Db\Query())
+						->from('vtiger_links')
+						->where(['linktype' => $type])
+						->andWhere(['or', 'tabid = 0', 'tabid = ' . $db->quoteValue($tabid)]);
 				}
 			}
 		} else {
-			$result = $adb->pquery('SELECT * FROM vtiger_links WHERE tabid=?', Array($tabid));
+			$query = (new \App\Db\Query())->from('vtiger_links')->where(['tabid' => $tabid]);
 		}
 
 		$strtemplate = new \Vtiger_StringTemplate();
@@ -205,14 +204,14 @@ class Link
 			foreach ($type as $t)
 				$instances[$t] = [];
 		}
-
-		while ($row = $adb->fetch_array($result)) {
+		$dataReader = $query->createCommand($db)->query();
+		while ($row = $dataReader->read()) {
 			$instance = new self();
 			$instance->initialize($row);
 			if (!empty($row['handler_path']) && \vtlib\Deprecated::isFileAccessible($row['handler_path'])) {
 				\vtlib\Deprecated::checkFileAccessForInclusion($row['handler_path']);
 				require_once $row['handler_path'];
-				$linkData = new LinkData($instance, $current_user);
+				$linkData = new LinkData($instance, vglobal('current_user'));
 				$ignore = call_user_func(array($row['handler_class'], $row['handler']), $linkData);
 				if (!$ignore) {
 					self::log('Ignoring Link ... ' . var_export($row, true));

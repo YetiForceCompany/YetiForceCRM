@@ -140,6 +140,23 @@ class CurrencyField
 		return ($negative) ? '-' . $value : $value;
 	}
 
+	public static function convertToUserFormatSymbol($value, $skipConversion = false, $currencySymbol = false, $skipFormatting = false)
+	{
+		// To support negative values
+		$negative = false;
+		if (stripos($value, '-') === 0) {
+			$negative = true;
+			$value = substr($value, 1);
+		}
+		$self = new self($value);
+		$formattedValue = $self->getDisplayValue(null, $skipConversion);
+		if ($currencySymbol === false) {
+			$currencySymbol = $self->currencySymbol;
+		}
+		$value = self::appendCurrencySymbol($formattedValue, $currencySymbol, $self->currencySymbolPlacement);
+		return ($negative) ? '-' . $value : $value;
+	}
+
 	/**
 	 * Function that converts the Number into Users Currency
 	 * @param Users $user
@@ -457,18 +474,18 @@ class CurrencyField
 				$value = rtrim($value, '0');
 			}
 			if ($user->currency_decimal_separator == '&nbsp;')
-				$decimalSeperator = ' ';
+				$decimalSeparator = ' ';
 			else
-				$decimalSeperator = $user->currency_decimal_separator;
+				$decimalSeparator = $user->currency_decimal_separator;
 
-			$fieldValue = explode(decode_html($decimalSeperator), $value);
+			$fieldValue = explode(decode_html($decimalSeparator), $value);
 			if (strlen($fieldValue[1]) <= 1) {
 				if (strlen($fieldValue[1]) == 1) {
-					return $value = $fieldValue[0] . $decimalSeperator . $fieldValue[1];
+					return $value = $fieldValue[0] . $decimalSeparator . $fieldValue[1];
 				} else if (!strlen($fieldValue[1])) {
 					return $value = $fieldValue[0];
 				} else {
-					return $value = $fieldValue[0] . $decimalSeperator;
+					return $value = $fieldValue[0] . $decimalSeparator;
 				}
 			} else {
 				return preg_replace("/(?<=\\.[0-9])[0]+\$/", "", $value);

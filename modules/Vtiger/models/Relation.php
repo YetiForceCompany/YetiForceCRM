@@ -276,19 +276,17 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			self::$_cached_instance[$relKey] = $relationModel;
 			return $relationModel;
 		}
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename FROM vtiger_relatedlists
-					INNER JOIN vtiger_tab on vtiger_tab.tabid = vtiger_relatedlists.related_tabid && vtiger_tab.presence != 1
-					WHERE vtiger_relatedlists.tabid = ? && related_tabid = ?';
-		$params = [$parentModuleModel->getId(), $relatedModuleModel->getId()];
-		if (!empty($label)) {
-			$query .= ' && label = ?';
-			$params[] = $label;
-		}
+		$query = (new \App\Db\Query())->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
+			->from('vtiger_relatedlists')
+			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
+			->andWhere(['<>', 'vtiger_tab.presence', 1]);
 
-		$result = $db->pquery($query, $params);
-		if ($db->getRowCount($result)) {
-			$row = $db->getRow($result);
+		if (!empty($label)) {
+			$query->andWhere(['label' => $label]);
+		}
+		$row = $query->one();
+		if ($row) {
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
@@ -300,26 +298,26 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT vtiger_relatedlists.*,vtiger_tab.name as modulename,vtiger_tab.tabid as moduleid FROM vtiger_relatedlists 
-                    INNER JOIN vtiger_tab on vtiger_relatedlists.related_tabid = vtiger_tab.tabid
-                    WHERE vtiger_relatedlists.tabid = ? && related_tabid != 0';
+		$query = new \App\Db\Query();
+		$query->select('vtiger_relatedlists.*, vtiger_tab.name as modulename, vtiger_tab.tabid as moduleid')
+			->from('vtiger_relatedlists')
+			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId()])
+			->andWhere(['<>' , 'related_tabid', 0]);
 
 		if ($selected) {
-			$query .= ' && vtiger_relatedlists.presence <> 1';
+			$query->andWhere(['<>', 'vtiger_relatedlists.presence', 1]);
 		}
 		if ($onlyActive) {
-			$query .= ' && vtiger_tab.presence <> 1 ';
+			$query->andWhere(['<>', 'vtiger_tab.presence', 1 ]);
 		}
-		$query .= ' ORDER BY sequence'; 
-
-		$result = $db->pquery($query, array($parentModuleModel->getId()));
+		$query->orderBy('sequence');
+		$dataReader = $query->createCommand()->query();
 
 		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			// Skip relation where target module does not exits or is no permitted for view.
 			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
@@ -507,24 +505,22 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function getRelationFields($onlyFields = false, $association = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$relationId = $this->getId();
-		$query = 'SELECT vtiger_field.columnname, vtiger_field.fieldname FROM vtiger_relatedlists_fields INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid WHERE vtiger_relatedlists_fields.relation_id = ? && vtiger_field.presence IN (0,2);';
-		$result = $adb->pquery($query, [$relationId]);
+		$query = (new \App\Db\Query())->select('vtiger_field.columnname, vtiger_field.fieldname')
+			->from('vtiger_relatedlists_fields')
+			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
+			->where(['vtiger_relatedlists_fields.relation_id' => $this->getId(), 'vtiger_field.presence' => [0, 2]]);
+		$dataReader = $query->createCommand()->query();
 		if ($onlyFields) {
 			$fields = [];
-			$countResult = $adb->num_rows($result);
-			for ($i = 0; $i < $countResult; $i++) {
-				$columnname = $adb->query_result_raw($result, $i, 'columnname');
-				$fieldname = $adb->query_result_raw($result, $i, 'fieldname');
+			while ($row = $dataReader->read()) {
 				if ($association)
-					$fields[$columnname] = $fieldname;
+					$fields[$row['columnname']] = $row['fieldname'];
 				else
-					$fields[] = $fieldname;
+					$fields[] = $row['fieldname'];
 			}
 			return $fields;
 		}
-		return $result->GetArray();
+		return $dataReader->readAll();
 	}
 
 	public function getRelationInventoryFields()

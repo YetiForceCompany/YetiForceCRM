@@ -95,11 +95,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
-			$db = PearDatabase::getInstance();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$sql = 'SELECT 1 FROM vtiger_user_module_preferences WHERE userid = ? && `tabid` = ? && default_cvid= ? LIMIT 1';
-			$result = $db->pquery($sql, ['Users:' . $currentUser->getId(), $this->getModule()->getId(), $this->getId()]);
-			$this->isDefault = $result->rowCount();
+			$cvId = $this->getId();
+			if($cvId === false) {
+				return 0;
+			}
+			$this->isDefault = (new App\Db\Query())->from('vtiger_user_module_preferences')
+				->where(['userid' => 'Users:' . $currentUser->getId(), 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
+				->count();
 		}
 		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $this->isDefault;
@@ -186,21 +189,19 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function checkFeaturedInEditView()
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$sql = 'SELECT `user` FROM a_yf_featured_filter WHERE `cvid` = ? && `user` = ?';
-		$result = $db->pquery($sql, [$this->getId(), 'Users:' . $currentUser->getId()]);
-		return (bool) $result->rowCount();
+		$db = App\Db::getInstance('admin');
+		$cvId = $this->getId();
+		if($cvId === false)
+			return false;
+		return (new App\Db\Query())->from('a_#__featured_filter')
+			->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
+			->exists($db);
 	}
 
 	public function checkPermissionToFeatured($editView = false)
 	{
-		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$userId = 'Users:' . $currentUser->getId();
-		$roleId = 'Roles:' . $currentUser->getRole();
-		$sql = 'SELECT 1 FROM a_yf_featured_filter WHERE (a_yf_featured_filter.user = ? || a_yf_featured_filter.user = ? ';
-		$params = [$userId, $roleId];
+		$query = (new \App\Db\Query())->from('a_#__featured_filter');
 		if ($currentUser->isAdminUser()) {
 			$userGroups = $currentUser->getUserGroups($currentUser->getId());
 			$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
@@ -209,16 +210,16 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$parentRoles = $currentUser->getParentRoleSequence();
 			$userGroups = $currentUser->get('privileges')->get('groups');
 		}
+		$where = ['or' , ['user' => 'Users:' . $currentUser->getId()], ['user' => 'Roles:' . $currentUser->getRole()]];
 		foreach ($userGroups as $groupId) {
-			$sql .= ' || a_yf_featured_filter.user = "Groups:' . $groupId . '"';
+			$where []= ['user' => "Groups:$groupId"];
 		}
 		foreach (explode('::', $parentRoles) as $role) {
-			$sql .= ' || a_yf_featured_filter.user = "RoleAndSubordinates:' . $role . '"';
+			$where []= ['user' => "RoleAndSubordinates:$role"];
 		}
-		$sql .= ') && a_yf_featured_filter.cvid = ?;';
-		$params[] = $this->getId();
-		$result = $db->pquery($sql, $params);
-		return $result->rowCount();
+		$query->where(['cvid' =>  $this->getId()]);
+		$query->andWhere($where);
+		return $query->exists();
 	}
 
 	public function isEditable()
@@ -298,7 +299,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$lockFields = $crmEntityModel->getLockFields();
 			if (is_array($lockFields)) {
 				foreach ($lockFields as $fieldName => $fieldValues) {
-					$listQuery .=' && ' . $baseTableName . '.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')';
+					$listQuery .= ' && ' . $baseTableName . '.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')';
 					$params = array_merge($params, $fieldValues);
 				}
 			}
@@ -320,7 +321,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$cvIdOrg = $cvId = $this->getId();
-		$setDefault = $this->get('setdefault');
+		$setDefault = intval($this->get('setdefault'));
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
@@ -674,7 +675,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 						inner join vtiger_cvadvfilter on vtiger_cvadvfilter.cvid = vtiger_customview.cvid
 						left join vtiger_cvadvfilter_grouping on vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid
 								and vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid';
-			$ssql.= " where vtiger_customview.cvid = ? && vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
+			$ssql .= " where vtiger_customview.cvid = ? && vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
 
 			$result = $db->pquery($ssql, array($this->getId(), $groupId));
 			$noOfColumns = $db->num_rows($result);

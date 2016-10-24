@@ -64,7 +64,7 @@ class TimeDataCollector extends DataCollector implements Renderable
 	{
 		$start = microtime(true);
 		$this->startedMeasures[$name] = array(
-			'label' => $label ? : $name,
+			'label' => $label ?: $name,
 			'start' => $start,
 			'collector' => $collector
 		);

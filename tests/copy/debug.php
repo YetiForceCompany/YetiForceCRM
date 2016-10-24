@@ -1,14 +1,21 @@
 <?php
-/**
- * Travis CI test script
- * @package YetiForce.Travis CI
- * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 $DEBUG_CONFIG = [
 	/* +***************************************************************
-	 * 	CRM 
+	 * 	Logger 
 	 * ************************************************************** */
+	// Enable saving logs to file. Values: false/true
+	'LOG_TO_FILE' => false,
+	// Enable displaying logs in debug console. Values: false/true
+	'LOG_TO_CONSOLE' => false,
+	// Level of saved/displayed logs
+	// Examples: false,3,['error', 'warning', 'info', 'trace', 'profile'], 
+	'LOG_LEVELS' => false,
+	// Level of saved/displayed tracerts.
+	'LOG_TRACE_LEVEL' => 0,
+	// Display Main Debug Console
+	'DISPLAY_DEBUG_CONSOLE' => false,
 	// Stop the running process of the system if there is and error in sql query
 	'SQL_DIE_ON_ERROR' => true,
 	// Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true
@@ -21,7 +28,7 @@ $DEBUG_CONFIG = [
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */
 	'EXCEPTION_ERROR_HANDLER' => false,
-	// Save logs to file
+	// Save logs to file (cache/logs/errors.log)
 	'EXCEPTION_ERROR_TO_FILE' => false,
 	// Display errors
 	'EXCEPTION_ERROR_TO_SHOW' => false,

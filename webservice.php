@@ -17,7 +17,8 @@ require_once('include/Webservices/SessionManager.php');
 
 require_once('config/api.php');
 if (!in_array('webservices', $enabledServices)) {
-	throw new \Exception\NoPermitted('Webservice - Service is not active');
+	echo 'Webservice - Service is not active';
+	return;
 }
 
 $API_VERSION = "0.22";
@@ -62,9 +63,14 @@ $operation = strtolower($operation);
 $format = AppRequest::get('format', 'json');
 $sessionId = AppRequest::get('sessionName');
 
-$sessionManager = new SessionManager();
-$operationManager = new OperationManager($adb, $operation, $format, $sessionManager);
+try{
+	$sessionManager = new SessionManager();
+	$operationManager = new OperationManager($adb, $operation, $format, $sessionManager);
 
+} catch (WebServiceException $ex) {
+	echo $ex->getMessage();
+	return;
+}
 try {
 	if (!$sessionId || strcasecmp($sessionId, "null") === 0) {
 		$sessionId = null;

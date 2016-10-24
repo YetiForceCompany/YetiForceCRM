@@ -314,11 +314,14 @@ $languageStrings = [
 	'LBL_SWITCH' => 'Przełącz',
 	'LBL_SWITCH_USER' => 'Przełącz na użytkownika',
 	'LBL_SWITCH_TO_YOURSELF' => 'Przełącz na siebie',
+	'LBL_CHANGE_ACCESS_KEY' => 'Zmień Access Key',
+	'LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY' => 'Klucz pomyślnie zaktualizowane',
+	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Nie udało się zaktualizować klucza',
 ];
 
 $jsLanguageStrings = [
-	//Curency seperator validation messages
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
+	//Curency separator validation messages
+	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 	'JS_ENTER_CONFIRMATION_PASSWORD' => 'Wpisz potwierdzenie nowego hasła.',
 	'JS_ENTER_NEW_PASSWORD' => 'Wpisz nowe hasło.',
 	'JS_ENTER_OLD_PASSWORD' => 'Wpisz swoje stare hasło.',
@@ -328,5 +331,6 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_INCORRECT_OLD' => 'Podano niepoprawne stare hasło. Wpisz ponownie.',
 	'JS_REENTER_PASSWORDS' => 'Wpisz hasła ponownie. Nowe hasło i potwierdzenie hasła nie są identyczne.',
 	'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
+	'JS_NEW_ACCESS_KEY_REQUESTED' => 'Wprowadź nowy klucz dostępu',
+	'JS_CHANGE_ACCESS_KEY_CONFIRMATION' => 'Zażądano nowego klucza dostępowego. Z nowego przepisu klucz dostępu, trzeba zastąpić stary klucz dostępu z nową we wszystkich zainstalowanych rozszerzeń. chcesz kontynuować?',
 ];
-

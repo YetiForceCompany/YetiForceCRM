@@ -35,7 +35,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			if ($uiType == 72) {
 				// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 				$value = CurrencyField::convertToUserFormat($value, null, true);
-			} else {
+			} else if($uiType !== 71) {
 				$value = CurrencyField::convertToUserFormat($value);
 			}
 			if (!$this->edit) {

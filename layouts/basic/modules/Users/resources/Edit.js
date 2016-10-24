@@ -10,16 +10,16 @@
 
 Vtiger_Edit_Js("Users_Edit_Js", {
 	/**
-	 * Function to register change event for currency seperator
+	 * Function to register change event for currency separator
 	 */
-	registerChangeEventForCurrencySeperator: function () {
+	registerChangeEventForCurrencySeparator: function () {
 		var form = jQuery('form');
 		jQuery('[name="currency_decimal_separator"]', form).on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			var selectedValue = element.val();
-			var groupingSeperatorValue = jQuery('[name="currency_grouping_separator"]', form).data('selectedValue');
-			if (groupingSeperatorValue == selectedValue) {
-				var message = app.vtranslate('JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME');
+			var groupingSeparatorValue = jQuery('[name="currency_grouping_separator"]', form).data('selectedValue');
+			if (groupingSeparatorValue == selectedValue) {
+				var message = app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME');
 				var params = {
 					text: message,
 					type: 'error'
@@ -36,9 +36,9 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 		jQuery('[name="currency_grouping_separator"]', form).on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			var selectedValue = element.val();
-			var decimalSeperatorValue = jQuery('[name="currency_decimal_separator"]', form).data('selectedValue');
-			if (decimalSeperatorValue == selectedValue) {
-				var message = app.vtranslate('JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME');
+			var decimalSeparatorValue = jQuery('[name="currency_decimal_separator"]', form).data('selectedValue');
+			if (decimalSeparatorValue == selectedValue) {
+				var message = app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME');
 				var params = {
 					text: message,
 					type: 'error'
@@ -73,34 +73,36 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 	registerHourFormatChangeEvent: function () {
 
 	},
+	getHourValues: function(list, currentValue) {
+		var options = '';
+		for (var key in list) {
+			//IE Browser consider the prototype properties also, it should consider has own properties only.
+			if (list.hasOwnProperty(key)) {
+				var conditionValue = list[key];
+				options += '<option value="' + key + '"';
+				if (key == currentValue) {
+					options += ' selected="selected" ';
+				}
+				options += '>' + conditionValue + '</option>';
+			}
+		}
+		return options;
+	},
 	changeStartHourValuesEvent: function (form) {
 		var thisInstance = this;
 		form.on('change', 'select[name="hour_format"]', function (e) {
 			var hourFormatVal = jQuery(e.currentTarget).val();
 			var startHourElement = jQuery('select[name="start_hour"]', form);
-			var conditionSelected = startHourElement.val();
-
+			var endHourElement = jQuery('select[name="end_hour"]', form);
+			var conditionStartSelected = startHourElement.val();
+			var conditionEndSelected = endHourElement.val();
 			if (typeof thisInstance.hourFormatConditionMapping == 'undefined') {
 				return false;
 			}
-
 			var list = thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];
-			var options = '';
-			for (var key in list) {
-				//IE Browser consider the prototype properties also, it should consider has own properties only.
-				if (list.hasOwnProperty(key)) {
-					var conditionValue = list[key];
-					options += '<option value="' + key + '"';
-					if (key == conditionSelected) {
-						options += ' selected="selected" ';
-					}
-					options += '>' + conditionValue + '</option>';
-				}
-			}
-			startHourElement.html(options).trigger("chosen:updated");
+			startHourElement.html(thisInstance.getHourValues(list, conditionStartSelected)).trigger("chosen:updated");
+			endHourElement.html(thisInstance.getHourValues(list, conditionEndSelected)).trigger("chosen:updated");
 		});
-
-
 	},
 	triggerHourFormatChangeEvent: function (form) {
 		this.hourFormatConditionMapping = jQuery('input[name="timeFormatOptions"]', form).data('value');
@@ -152,6 +154,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 							},
 							function (data, error) {
 								thisInstance.duplicateCheckCache[userName] = data.result;
+								InitialFormData = form.serialize();
 								//form.submit();
 							}
 					);
@@ -273,6 +276,6 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 		this.triggerHourFormatChangeEvent(form);
 		this.registerRecordPreSaveEvent(form);
 		this.registerCalendarSharedType(form);
-		Users_Edit_Js.registerChangeEventForCurrencySeperator();
+		Users_Edit_Js.registerChangeEventForCurrencySeparator();
 	}
 });

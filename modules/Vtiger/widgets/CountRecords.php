@@ -42,7 +42,7 @@ class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		foreach ($modules as $relatedModuleName) {
 			$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
-			if (!\includes\Modules::isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
+			if (!\App\Module::isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
 				continue;
 			}
 			$countRecords[$relatedModuleName] = (int) $relationListView->getRelatedEntriesCount();

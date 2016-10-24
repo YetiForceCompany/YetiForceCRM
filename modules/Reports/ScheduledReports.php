@@ -133,9 +133,9 @@ class VTScheduledReport extends Reports
 		$currentTime = date('Y-m-d H:i:s');
 		$subject = $this->reportname . ' - ' . $currentTime . ' (' . DateTimeField::getDBTimeZone() . ')';
 
-		$contents = \includes\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '<br/><br/>';
-		$contents .= '<b>' . \includes\Language::translate('LBL_REPORT_NAME', $currentModule) . ' :</b> ' . $this->reportname . '<br/>';
-		$contents .= '<b>' . \includes\Language::translate('LBL_DESCRIPTION', $currentModule) . ' :</b><br/>' . $this->reportdescription . '<br/><br/>';
+		$contents = \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '<br/><br/>';
+		$contents .= '<b>' . \App\Language::translate('LBL_REPORT_NAME', $currentModule) . ' :</b> ' . $this->reportname . '<br/>';
+		$contents .= '<b>' . \App\Language::translate('LBL_DESCRIPTION', $currentModule) . ' :</b><br/>' . $this->reportdescription . '<br/><br/>';
 
 		$vtigerMailer->Subject = $subject;
 		$vtigerMailer->Body = $contents;

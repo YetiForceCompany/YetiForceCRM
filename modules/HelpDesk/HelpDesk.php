@@ -168,39 +168,6 @@ class HelpDesk extends CRMEntity
 		return $return_value;
 	}
 
-	/** 	public function to get the HelpDesk field labels in caps letters without space
-	 * 	@return array $mergeflds - array(	key => val	)    where   key=0,1,2..n & val = ASSIGNEDTO,RELATEDTO, .,etc
-	 * */
-	public function getColumnNames_Hd()
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace("Entering getColumnNames_Hd() method ...");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql1 = "select fieldlabel from vtiger_field where tabid=13 and block <> 30 and vtiger_field.uitype <> '61' and vtiger_field.presence in (0,2)";
-			$params1 = array();
-		} else {
-			$profileList = getCurrentUserProfileList();
-			$sql1 = "select vtiger_field.fieldid,fieldlabel from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=13 and vtiger_field.block <> 30 and vtiger_field.uitype <> '61' and vtiger_field.displaytype in (1,2,3,4) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")  group by fieldid";
-				array_push($params1, $profileList);
-			}
-		}
-		$result = $this->db->pquery($sql1, $params1);
-		$numRows = $this->db->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$custom_fields[$i] = $this->db->query_result($result, $i, "fieldlabel");
-			$custom_fields[$i] = preg_replace("/\s+/", "", $custom_fields[$i]);
-			$custom_fields[$i] = strtoupper($custom_fields[$i]);
-		}
-		$mergeflds = $custom_fields;
-		\App\Log::trace("Exiting getColumnNames_Hd method ...");
-		return $mergeflds;
-	}
-
 	/**     Function to get the Customer Name who has made comment to the ticket from the customer portal
 	 *      @param  int    $id   - Ticket id
 	 *      @return string $customername - The contact name
@@ -390,31 +357,31 @@ class HelpDesk extends CRMEntity
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_troubletickets", "ticketid", $queryplanner);
 
 		if ($queryplanner->requireTable("vtiger_crmentityHelpDesk", $matrix)) {
-			$query .=" left join vtiger_crmentity as vtiger_crmentityHelpDesk on vtiger_crmentityHelpDesk.crmid=vtiger_troubletickets.ticketid and vtiger_crmentityHelpDesk.deleted=0";
+			$query .= " left join vtiger_crmentity as vtiger_crmentityHelpDesk on vtiger_crmentityHelpDesk.crmid=vtiger_troubletickets.ticketid and vtiger_crmentityHelpDesk.deleted=0";
 		}
 		if ($queryplanner->requireTable("vtiger_ticketcf")) {
-			$query .=" left join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid";
+			$query .= " left join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid";
 		}
 		if ($queryplanner->requireTable("vtiger_crmentityRelHelpDesk", $matrix)) {
-			$query .=" left join vtiger_crmentity as vtiger_crmentityRelHelpDesk on vtiger_crmentityRelHelpDesk.crmid = vtiger_troubletickets.parent_id";
+			$query .= " left join vtiger_crmentity as vtiger_crmentityRelHelpDesk on vtiger_crmentityRelHelpDesk.crmid = vtiger_troubletickets.parent_id";
 		}
 		if ($queryplanner->requireTable("vtiger_accountRelHelpDesk")) {
-			$query .=" left join vtiger_account as vtiger_accountRelHelpDesk on vtiger_accountRelHelpDesk.accountid=vtiger_crmentityRelHelpDesk.crmid";
+			$query .= " left join vtiger_account as vtiger_accountRelHelpDesk on vtiger_accountRelHelpDesk.accountid=vtiger_crmentityRelHelpDesk.crmid";
 		}
 		if ($queryplanner->requireTable("vtiger_contactdetailsRelHelpDesk")) {
-			$query .=" left join vtiger_contactdetails as vtiger_contactdetailsRelHelpDesk on vtiger_contactdetailsRelHelpDesk.contactid= vtiger_troubletickets.contact_id";
+			$query .= " left join vtiger_contactdetails as vtiger_contactdetailsRelHelpDesk on vtiger_contactdetailsRelHelpDesk.contactid= vtiger_troubletickets.contact_id";
 		}
 		if ($queryplanner->requireTable("vtiger_productsRel")) {
-			$query .=" left join vtiger_products as vtiger_productsRel on vtiger_productsRel.productid = vtiger_troubletickets.product_id";
+			$query .= " left join vtiger_products as vtiger_productsRel on vtiger_productsRel.productid = vtiger_troubletickets.product_id";
 		}
 		if ($queryplanner->requireTable("vtiger_groupsHelpDesk")) {
-			$query .=" left join vtiger_groups as vtiger_groupsHelpDesk on vtiger_groupsHelpDesk.groupid = vtiger_crmentityHelpDesk.smownerid";
+			$query .= " left join vtiger_groups as vtiger_groupsHelpDesk on vtiger_groupsHelpDesk.groupid = vtiger_crmentityHelpDesk.smownerid";
 		}
 		if ($queryplanner->requireTable("vtiger_usersHelpDesk")) {
-			$query .=" left join vtiger_users as vtiger_usersHelpDesk on vtiger_usersHelpDesk.id = vtiger_crmentityHelpDesk.smownerid";
+			$query .= " left join vtiger_users as vtiger_usersHelpDesk on vtiger_usersHelpDesk.id = vtiger_crmentityHelpDesk.smownerid";
 		}
 		if ($queryplanner->requireTable("vtiger_lastModifiedByHelpDesk")) {
-			$query .=" left join vtiger_users as vtiger_lastModifiedByHelpDesk on vtiger_lastModifiedByHelpDesk.id = vtiger_crmentityHelpDesk.modifiedby ";
+			$query .= " left join vtiger_users as vtiger_lastModifiedByHelpDesk on vtiger_lastModifiedByHelpDesk.id = vtiger_crmentityHelpDesk.modifiedby ";
 		}
 		if ($queryplanner->requireTable("vtiger_createdbyHelpDesk")) {
 			$query .= " left join vtiger_users as vtiger_createdbyHelpDesk on vtiger_createdbyHelpDesk.id = vtiger_crmentityHelpDesk.smcreatorid ";
@@ -483,10 +450,10 @@ class HelpDesk extends CRMEntity
 		$isNew = $entityData->isNew();
 
 		if (!$isNew) {
-			$reply = \includes\Language::translate("replied", $moduleName);
-			$temp = \includes\Language::translate("Re", $moduleName);
+			$reply = \App\Language::translate("replied", $moduleName);
+			$temp = \App\Language::translate("Re", $moduleName);
 		} else {
-			$reply = \includes\Language::translate("created", $moduleName);
+			$reply = \App\Language::translate("created", $moduleName);
 			$temp = " ";
 		}
 
@@ -499,19 +466,19 @@ class HelpDesk extends CRMEntity
 		// Regardless of the entry we need just the ID
 		$parentId = array_pop($parentIdParts);
 
-		$desc = \includes\Language::translate('Ticket ID', $moduleName) . ' : ' . $entityId . '<br>'
-			. \includes\Language::translate('Ticket Title', $moduleName) . ' : ' . $temp . ' '
+		$desc = \App\Language::translate('Ticket ID', $moduleName) . ' : ' . $entityId . '<br>'
+			. \App\Language::translate('Ticket Title', $moduleName) . ' : ' . $temp . ' '
 			. $entityData->get('ticket_title');
 		$name = (!$toOwner) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
-		$desc .= "<br><br>" . \includes\Language::translate('Hi', $moduleName) . " " . $name . ",<br><br>"
-			. \includes\Language::translate('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . \includes\Language::translate('LBL_DETAIL', $moduleName) . "<br>";
-		$desc .= "<br>" . \includes\Language::translate('Ticket No', $moduleName) . " : " . $entityData->get('ticket_no');
-		$desc .= "<br>" . \includes\Language::translate('Status', $moduleName) . " : " . $entityData->get('ticketstatus');
-		$desc .= "<br>" . \includes\Language::translate('Category', $moduleName) . " : " . $entityData->get('ticketcategories');
-		$desc .= "<br>" . \includes\Language::translate('Severity', $moduleName) . " : " . $entityData->get('ticketseverities');
-		$desc .= "<br>" . \includes\Language::translate('Priority', $moduleName) . " : " . $entityData->get('ticketpriorities');
-		$desc .= "<br><br>" . \includes\Language::translate('Description', $moduleName) . " : <br>" . $entityData->get('description');
-		$desc .= "<br><br>" . \includes\Language::translate('Solution', $moduleName) . " : <br>" . $entityData->get('solution');
+		$desc .= "<br><br>" . \App\Language::translate('Hi', $moduleName) . " " . $name . ",<br><br>"
+			. \App\Language::translate('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . \App\Language::translate('LBL_DETAIL', $moduleName) . "<br>";
+		$desc .= "<br>" . \App\Language::translate('Ticket No', $moduleName) . " : " . $entityData->get('ticket_no');
+		$desc .= "<br>" . \App\Language::translate('Status', $moduleName) . " : " . $entityData->get('ticketstatus');
+		$desc .= "<br>" . \App\Language::translate('Category', $moduleName) . " : " . $entityData->get('ticketcategories');
+		$desc .= "<br>" . \App\Language::translate('Severity', $moduleName) . " : " . $entityData->get('ticketseverities');
+		$desc .= "<br>" . \App\Language::translate('Priority', $moduleName) . " : " . $entityData->get('ticketpriorities');
+		$desc .= "<br><br>" . \App\Language::translate('Description', $moduleName) . " : <br>" . $entityData->get('description');
+		$desc .= "<br><br>" . \App\Language::translate('Solution', $moduleName) . " : <br>" . $entityData->get('solution');
 		$desc .= \vtlib\Functions::getTicketComments($entityId);
 
 		$sql = "SELECT * FROM vtiger_ticketcf WHERE ticketid = ?";
@@ -525,7 +492,7 @@ class HelpDesk extends CRMEntity
 				$desc .= '<br>' . $cfLabel . ' : ' . $cfData;
 			}
 		}
-		$desc .= '<br><br>' . \includes\Language::translate("LBL_REGARDS", $moduleName) . ',<br>' . $HELPDESK_SUPPORT_NAME;
+		$desc .= '<br><br>' . \App\Language::translate("LBL_REGARDS", $moduleName) . ',<br>' . $HELPDESK_SUPPORT_NAME;
 		return $desc;
 	}
 
@@ -552,15 +519,15 @@ class HelpDesk extends CRMEntity
 		$parentId = array_pop($parentIdParts);
 
 		$portalUrl = "<a href='" . $PORTAL_URL . "/index.php?module=HelpDesk&action=index&ticketid=" . $entityId . "&fun=detail'>"
-			. \includes\Language::translate('LBL_TICKET_DETAILS', $moduleName) . "</a>";
-		$contents = \includes\Language::translate('Dear', $moduleName) . ' ';
+			. \App\Language::translate('LBL_TICKET_DETAILS', $moduleName) . "</a>";
+		$contents = \App\Language::translate('Dear', $moduleName) . ' ';
 		$contents .= ($parentId) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
 		$contents .= ",<br>";
-		$contents .= \includes\Language::translate('reply', $moduleName) . ' <b>' . $entityData->get('ticket_title')
-			. '</b> ' . \includes\Language::translate('customer_portal', $moduleName);
-		$contents .= \includes\Language::translate("link", $moduleName) . '<br>';
+		$contents .= \App\Language::translate('reply', $moduleName) . ' <b>' . $entityData->get('ticket_title')
+			. '</b> ' . \App\Language::translate('customer_portal', $moduleName);
+		$contents .= \App\Language::translate("link", $moduleName) . '<br>';
 		$contents .= $portalUrl;
-		$contents .= '<br><br>' . \includes\Language::translate("Thanks", $moduleName) . '<br>' . $HELPDESK_SUPPORT_NAME;
+		$contents .= '<br><br>' . \App\Language::translate("Thanks", $moduleName) . '<br>' . $HELPDESK_SUPPORT_NAME;
 		return $contents;
 	}
 

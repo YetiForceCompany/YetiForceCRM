@@ -52,7 +52,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 
 		$db->pquery('INSERT INTO vtiger_import_queue VALUES(?,?,?,?,?,?,?,?,?)', array($db->getUniqueID('vtiger_import_queue'),
 			$user->id,
-			\includes\Modules::getModuleId($request->get('module')),
+			\App\Module::getModuleId($request->get('module')),
 			\includes\utils\Json::encode($request->get('field_mapping')),
 			\includes\utils\Json::encode($request->get('default_values')),
 			$request->get('merge_type'),
@@ -97,7 +97,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		$db = PearDatabase::getInstance();
 
 		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
-			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE tabid=? && userid=?', array(\includes\Modules::getModuleId($module), $user->id));
+			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE tabid=? && userid=?', array(\App\Module::getModuleId($module), $user->id));
 
 			if ($queueResult && $db->num_rows($queueResult) > 0) {
 				$rowData = $db->raw_query_result_rowdata($queueResult, 0);
@@ -147,7 +147,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	{
 		return [
 			'id' => $rowData['importid'],
-			'module' => \includes\Modules::getModuleName($rowData['tabid']),
+			'module' => \App\Module::getModuleName($rowData['tabid']),
 			'field_mapping' => \includes\utils\Json::decode($rowData['field_mapping']),
 			'default_values' => \includes\utils\Json::decode($rowData['default_values']),
 			'merge_type' => $rowData['merge_type'],

@@ -83,13 +83,13 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
 		$reference = $fieldModel->getReferenceList();
 
-		$rows = \includes\Record::findCrmidByLabel($searchValue, $reference);
+		$rows = \App\Record::findCrmidByLabel($searchValue, $reference);
 		$data = $modules = $ids = [];
 		foreach ($rows as &$row) {
 			$ids[] = $row['crmid'];
 			$modules[$row['setype']][] = $row['crmid'];
 		}
-		$labels = \includes\Record::getLabel($ids);
+		$labels = \App\Record::getLabel($ids);
 		foreach ($modules as $moduleName => &$rows) {
 			$data[] = ['name' => Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
 			foreach ($rows as &$id) {

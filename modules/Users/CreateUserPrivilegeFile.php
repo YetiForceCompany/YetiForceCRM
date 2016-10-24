@@ -165,7 +165,7 @@ function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_
 {
 	$adb = PearDatabase::getInstance();
 
-	$mod_tabid = \includes\Modules::getModuleId($module);
+	$mod_tabid = \App\Module::getModuleId($module);
 
 	$mod_share_permission;
 	$mod_share_read_permission = [];
@@ -958,8 +958,8 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 	$mod_share_read_permission['GROUP'] = [];
 	$mod_share_write_permission['GROUP'] = [];
 
-	$par_mod_id = \includes\Modules::getModuleId($par_mod);
-	$share_mod_id = \includes\Modules::getModuleId($share_mod);
+	$par_mod_id = \App\Module::getModuleId($par_mod);
+	$share_mod_id = \App\Module::getModuleId($share_mod);
 
 	if ($def_org_share[$share_mod_id] == 3 || $def_org_share[$share_mod_id] == 0) {
 		$role_read_per = [];
@@ -1334,10 +1334,10 @@ function populateSharingtmptables($userid)
 	}
 	//Populating Values into the temp related sharing tables
 	foreach ($related_module_share as $rel_tab_id => $tabid_arr) {
-		$rel_tab_name = \includes\Modules::getModuleName($rel_tab_id);
+		$rel_tab_name = \App\Module::getModuleName($rel_tab_id);
 		if (!empty($rel_tab_name)) {
 			foreach ($tabid_arr as $taid) {
-				$tab_name = \includes\Modules::getModuleName($taid);
+				$tab_name = \App\Module::getModuleName($taid);
 
 				$relmodule_sharing_read_permvar = $tab_name . '_' . $rel_tab_name . '_share_read_permission';
 				$relmodule_sharing_write_permvar = $tab_name . '_' . $rel_tab_name . '_share_write_permission';
@@ -1361,7 +1361,7 @@ function populateSharingtmptables($userid)
 function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_name_arr = false)
 {
 	$adb = PearDatabase::getInstance();
-	$tabid = \includes\Modules::getModuleId($module);
+	$tabid = \App\Module::getModuleId($module);
 
 	if (!$var_name_arr) {
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
@@ -1439,8 +1439,8 @@ function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_na
 function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule, $pertype, $var_name_arr = false)
 {
 	$adb = PearDatabase::getInstance();
-	$tabid = \includes\Modules::getModuleId($module);
-	$reltabid = \includes\Modules::getModuleId($relmodule);
+	$tabid = \App\Module::getModuleId($module);
+	$reltabid = \App\Module::getModuleId($relmodule);
 
 	if (!$var_name_arr) {
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');

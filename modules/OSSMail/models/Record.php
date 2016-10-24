@@ -50,10 +50,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function load_roundcube_config()
 	{
-		global $no_include_config;
-		$no_include_config = true;
 		include 'modules/OSSMail/roundcube/config/defaults.inc.php';
-		include 'modules/OSSMail/roundcube/config/config.inc.php';
+		include 'config/modules/OSSMail.php';
 		return $config;
 	}
 
@@ -61,7 +59,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
 	{
-		
+
 		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
 		$rcConfig = self::load_roundcube_config();
 		$cacheName = $user . $host . $folder;
@@ -114,14 +112,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function imapThrowError($error)
 	{
-		
+
 		\App\Log::error("Error OSSMail_Record_Model::imapConnect(): " . $error);
 		vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
 	{
-		
+
 		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		if (count($users) == 0) {
@@ -154,7 +152,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function getMailBoxmsgInfo($users)
 	{
-		
+
 		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
@@ -279,7 +277,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$mail = self::initMailPart($mbox, $mail, $partStructure, $partNum + 1);
 			}
 		}
-		$ret = array();
+		$ret = [];
 		$ret['body'] = $mail['textHtml'] ? $mail['textHtml'] : $mail['textPlain'];
 		$ret['attachment'] = $mail["attachments"];
 		return $ret;
@@ -297,7 +295,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		} elseif ($partStructure->encoding == 4) {
 			$data = imap_qprint($data);
 		}
-		$params = array();
+		$params = [];
 		if (!empty($partStructure->parameters)) {
 			foreach ($partStructure->parameters as $param) {
 				$params[strtolower($param->attribute)] = $param->value;
@@ -475,8 +473,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 						$content = $adb->getSingleValue($result);
 						preg_match_all('/src="cid:(.*)"/Uims', $content, $matches);
 						if (count($matches)) {
-							$search = array();
-							$replace = array();
+							$search = [];
+							$replace = [];
 							foreach ($matches[1] as $match) {
 								if (strpos($filename, $match) !== false || strpos($match, $filename) !== false) {
 									$search[] = "src=\"cid:$match\"";
@@ -554,10 +552,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function getViewableData()
 	{
-		global $no_include_config;
-		$no_include_config = true;
-		$return = array();
-		include 'modules/OSSMail/roundcube/config/config.inc.php';
+		$return = [];
+		include 'config/modules/OSSMail.php';
 		foreach ($config as $key => $value) {
 			if ($key == 'skin_logo') {
 				$return[$key] = $value['*'];
@@ -570,10 +566,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function setConfigData($param, $dbupdate = true)
 	{
-		$fileName = 'modules/OSSMail/roundcube/config/config.inc.php';
+		$fileName = 'config/modules/OSSMail.php';
 		$fileContent = file_get_contents($fileName);
 		$Fields = self::getEditableFields();
-
 		foreach ($param as $fieldName => $fieldValue) {
 			$type = $Fields[$fieldName]['fieldType'];
 			$pattern = '/(\$config\[\'' . $fieldName . '\'\])[\s]+=([^;]+);/';

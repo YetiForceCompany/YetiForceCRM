@@ -1,25 +1,39 @@
 <?php
 
+/**
+ * Widget show accounts by industry
+ * @package YetiForce.Dashboard
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	public function getSearchParams($value, $assignedto, $dates)
+	/**
+	 * Function to get params to searching in listview
+	 * @param string $industry
+	 * @param int $assignedto
+	 * @param array $dates
+	 * @return string
+	 */
+	public function getSearchParams($industry, $assignedto, $dates)
 	{
 		$listSearchParams = [];
-		$conditions = array(array('industry', 'e', $value));
+		$conditions = array(array('industry', 'e', $industry));
 		if ($assignedto != '')
 			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
 		if (!empty($dates)) {
 			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59'));
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams);
+		return '&search_params=' . includes\utils\Json::encode($listSearchParams);
 	}
 
 	/**
-	 * Function returns Leads grouped by Industry
-	 * @param type $data
-	 * @return <Array>
+	 * Function to get data to display chart
+	 * @param int $owner
+	 * @param array $dateFilter
+	 * @return array
 	 */
 	public function getAccountsByIndustry($owner, $dateFilter)
 	{
@@ -88,6 +102,11 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($createdTime)) {
 			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
+		} else {
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			if($time !== false){
+				$dates = $time;
+			}
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $this->getAccountsByIndustry($owner, $dates);
@@ -103,7 +122,8 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
-
+		$viewer->assign('DTIME', $dates);
+		
 		$accessibleUsers = \includes\fields\Owner::getInstance('Accounts', $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \includes\fields\Owner::getInstance('Accounts', $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);

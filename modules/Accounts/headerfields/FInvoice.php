@@ -11,19 +11,13 @@ class Accounts_FInvoice_HeaderField
 
 	public function process(Vtiger_DetailView_Model $viewModel)
 	{
-		$recordId = $viewModel->getRecord()->getId();
-
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT MAX(saledate) AS date,SUM(sum_total) AS total FROM u_yf_finvoice INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid WHERE deleted = ? && accountid = ?';
-
-		$result = $db->pquery($sql, [0, $recordId]);
-		$row = $db->getRow($result);
-
+		$row = (new \App\Db\Query())->select('MAX(saledate) AS date, SUM(sum_total) as total')->from('u_#__finvoice')
+			->innerJoin('vtiger_crmentity', 'u_#__finvoice.finvoiceid = vtiger_crmentity.crmid')
+			->where(['deleted' => 0, 'accountid' => $viewModel->getRecord()->getId()])->one();
 		if (!empty($row['date']) && !empty($row['total'])) {
-			$title = vtranslate('Sum invoices') . ': ' . CurrencyField::convertToUserFormat($row['total'], null, true);
 			return [
 				'class' => 'btn-success',
-				'title' => $title,
+				'title' => vtranslate('Sum invoices') . ': ' . CurrencyField::convertToUserFormat($row['total'], null, true),
 				'badge' => DateTimeField::convertToUserFormat($row['date'])
 			];
 		}

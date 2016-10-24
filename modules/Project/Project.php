@@ -177,7 +177,7 @@ class Project extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -338,7 +338,7 @@ class Project extends CRMEntity
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 
 			// Add module to Customer portal
-			if (\includes\Modules::getModuleId('CustomerPortal') && $projectTabid) {
+			if (\App\Module::getModuleId('CustomerPortal') && $projectTabid) {
 				$checkAlreadyExists = $adb->pquery('SELECT 1 FROM vtiger_customerportal_tabs WHERE tabid=?', array($projectTabid));
 				if ($checkAlreadyExists && $adb->num_rows($checkAlreadyExists) < 1) {
 					$maxSequenceQuery = $adb->query("SELECT max(sequence) as maxsequence FROM vtiger_customerportal_tabs");
@@ -472,7 +472,7 @@ class Project extends CRMEntity
 		require_once("BURAK_Gantt.class.php");
 
 		$headers = array();
-		$headers[0] = \includes\Language::translate('LBL_PROGRESS_CHART');
+		$headers[0] = \App\Language::translate('LBL_PROGRESS_CHART');
 
 		$entries = array();
 

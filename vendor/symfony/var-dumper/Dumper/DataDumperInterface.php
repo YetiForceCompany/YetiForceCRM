@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the Symfony package.
  *
@@ -8,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\VarDumper\Dumper;
 
 use Symfony\Component\VarDumper\Cloner\Data;
@@ -20,10 +18,11 @@ use Symfony\Component\VarDumper\Cloner\Data;
  */
 interface DataDumperInterface
 {
-    /**
-     * Dumps a Data object.
-     *
-     * @param Data $data A Data object
-     */
-    public function dump(Data $data);
+
+	/**
+	 * Dumps a Data object.
+	 *
+	 * @param Data $data A Data object
+	 */
+	public function dump(Data $data);
 }

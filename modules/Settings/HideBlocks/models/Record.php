@@ -54,7 +54,6 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEditViewUrl()
 	{
-		$moduleModel = $this->getModule();
 		return "index.php?module=HideBlocks&parent=Settings&view=Edit&record=" . $this->getId();
 	}
 
@@ -64,7 +63,6 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDeleteUrl()
 	{
-		$moduleModel = $this->getModule();
 		return "index.php?module=HideBlocks&parent=Settings&action=Delete&record=" . $this->getId();
 	}
 
@@ -74,21 +72,21 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getRecordLinks()
 	{
-		$links = array();
-		$recordLinks = array(
-			array(
+		$links = [];
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => $this->getDeleteUrl(),
 				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
@@ -102,8 +100,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	public function delete()
 	{
 		$recordId = $this->getId();
-		$db = PearDatabase::getInstance();
-		$db->pquery("DELETE from vtiger_blocks_hide WHERE id = ?", array($recordId));
+		\App\Db::getInstance()->createCommand()->delete('vtiger_blocks_hide', ['id' => $recordId])->execute();
 		return true;
 	}
 
@@ -112,7 +109,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$conditions = $this->get('conditions');
 		$wfCondition = array();
 
@@ -135,25 +132,16 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 		$conditions = \includes\utils\Json::encode($wfCondition);
 		$views = $this->get('views');
+		$params = [
+			'blockid' => $this->get('blockid'),
+			'conditions' => $conditions,
+			'enabled' => ($this->get('enabled') == 'true') ? 1 : 0,
+			'view' => $views
+		];
 		if ($this->getId()) {
-			$updateQuery = "UPDATE vtiger_blocks_hide SET `blockid` = ?,`conditions` = ?,`enabled` = ?,`view` = ? WHERE `id` = ?;";
-			$params = array(
-				$this->get('blockid'),
-				$conditions,
-				($this->get('enabled') == 'true') ? 1 : 0,
-				$views,
-				$this->getId(),
-			);
-			$db->pquery($updateQuery, $params);
+			$db->createCommand()->update('vtiger_blocks_hide', $params, ['id' => $this->getId()])->execute();
 		} else {
-			$updateQuery = "INSERT INTO vtiger_blocks_hide (`blockid`, `conditions`, `enabled`, `view`) VALUES (?, ?, ?, ?);";
-			$params = array(
-				$this->get('blockid'),
-				$conditions,
-				($this->get('enabled') == 'true') ? 1 : 0,
-				$views,
-			);
-			$db->pquery($updateQuery, $params);
+			$db->createCommand()->insert('vtiger_blocks_hide', $params)->execute();
 		}
 	}
 
@@ -165,18 +153,18 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery("SELECT * FROM vtiger_blocks_hide WHERE id = ?", array($recordId));
-		if ($db->num_rows($result)) {
+		
+		$rowData = (new \App\Db\Query())
+			->from('vtiger_blocks_hide')
+			->where(['id' => $recordId])
+			->createCommand()->queryOne();
+		if ($rowData !== false) {
 			$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-			$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-			$rowData = $db->raw_query_result_rowdata($result, 0);
 			$recordModel = new $recordModelClass();
 			$recordModel->setData($rowData);
 			return $recordModel;
 		}
-		return false;
+		return $rowData;
 	}
 
 	static public function getCleanInstance($qualifiedModuleName)
@@ -221,13 +209,11 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getModuleInstanceByBlockId($blockId)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT * FROM vtiger_blocks WHERE blockid = ?", array($blockId));
-
-		if ($db->num_rows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
-			$moduleInstance = Vtiger_Module_Model::getInstance($rowData['tabid']);
-			return $moduleInstance;
+		$tabid = (new \App\Db\Query())->select('tabid')
+			->from('vtiger_blocks')
+			->where(['blockid' => $blockId])->scalar();
+		if (!empty($tabid)) {
+			return Vtiger_Module_Model::getInstance($tabid);
 		}
 		return false;
 	}

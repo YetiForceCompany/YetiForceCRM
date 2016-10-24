@@ -189,69 +189,6 @@ class Contacts extends CRMEntity
 		return $response;
 	}
 
-	/** Function to process list query for Plugin with Security Parameters for a given query
-	 *  @param $query
-	 *  Returns the results of query in array format
-	 */
-	public function plugin_process_list_query($query)
-	{
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
-		\App\Log::trace("Entering process_list_query1(" . $query . ") method ...");
-		$permitted_field_lists = Array();
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql1 = "select columnname from vtiger_field where tabid=4 and block <> 75 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-		} else {
-			$profileList = getCurrentUserProfileList();
-			$sql1 = "select columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=4 and vtiger_field.block <> 6 and vtiger_field.block <> 75 and vtiger_field.displaytype in (1,2,4,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
-				array_push($params1, $profileList);
-			}
-		}
-		$result1 = $this->db->pquery($sql1, $params1);
-		$countResult = $adb->num_rows($result1);
-		for ($i = 0; $i < $countResult; $i++) {
-			$permitted_field_lists[] = $adb->query_result($result1, $i, 'columnname');
-		}
-
-		$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
-		$list = Array();
-		$rows_found = $this->db->getRowCount($result);
-		if ($rows_found != 0) {
-			for ($index = 0, $row = $this->db->fetchByAssoc($result, $index); $row && $index < $rows_found; $index++, $row = $this->db->fetchByAssoc($result, $index)) {
-				$contact = Array();
-
-				$contact[lastname] = in_array("lastname", $permitted_field_lists) ? $row[lastname] : "";
-				$contact[firstname] = in_array("firstname", $permitted_field_lists) ? $row[firstname] : "";
-				$contact[email] = in_array("email", $permitted_field_lists) ? $row[email] : "";
-
-
-				if (in_array("accountid", $permitted_field_lists)) {
-					$contact[accountname] = $row[accountname];
-					$contact[parent_id] = $row[accountid];
-				} else {
-					$contact[accountname] = "";
-					$contact[parent_id] = "";
-				}
-				$contact[contactid] = $row[contactid];
-				$list[] = $contact;
-			}
-		}
-
-		$response = Array();
-		$response['list'] = $list;
-		$response['row_count'] = $rows_found;
-		$response['next_offset'] = $next_offset;
-		$response['previous_offset'] = $previous_offset;
-		\App\Log::trace("Exiting process_list_query1 method ...");
-		return $response;
-	}
-
 	/**
 	 * Function to get Contact related Tickets.
 	 * @param  integer   $id      - contactid
@@ -283,12 +220,12 @@ class Contacts extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
+				$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
 			}
 		}
 
@@ -346,12 +283,12 @@ class Contacts extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
+				$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
 			}
 		}
 
@@ -415,10 +352,10 @@ class Contacts extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' accessyKey='F' class='crmbutton small create' onclick='fnvshobj(this,\"sendmail_cont\");sendmail(\"$this_module\",$id);' type='button' name='button' value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'></td>";
+				$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' accessyKey='F' class='crmbutton small create' onclick='fnvshobj(this,\"sendmail_cont\");sendmail(\"$this_module\",$id);' type='button' name='button' value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'></td>";
 			}
 		}
 
@@ -476,12 +413,12 @@ class Contacts extends CRMEntity
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
+				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
+				$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
 					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
+					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
 			}
 		}
 
@@ -545,147 +482,6 @@ class Contacts extends CRMEntity
 
 		\App\Log::trace("Export Query Constructed Successfully");
 		\App\Log::trace("Exiting create_export_query method ...");
-		return $query;
-	}
-
-	/** Function to get the Columnnames of the Contacts
-	 * Used By vtigerCRM Word Plugin
-	 * Returns the Merge Fields for Word Plugin
-	 */
-	public function getColumnNames()
-	{
-		$current_user = vglobal('current_user');
-
-		\App\Log::trace("Entering getColumnNames() method ...");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql1 = "select fieldlabel from vtiger_field where tabid=4 and block <> 75 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-		} else {
-			$profileList = getCurrentUserProfileList();
-			$sql1 = "select vtiger_field.fieldid,fieldlabel from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=4 and vtiger_field.block <> 75 and vtiger_field.displaytype in (1,2,4,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ") group by fieldid";
-				array_push($params1, $profileList);
-			}
-		}
-		$result = $this->db->pquery($sql1, $params1);
-		$numRows = $this->db->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$custom_fields[$i] = $this->db->query_result($result, $i, "fieldlabel");
-			$custom_fields[$i] = preg_replace("/\s+/", "", $custom_fields[$i]);
-			$custom_fields[$i] = strtoupper($custom_fields[$i]);
-		}
-		$mergeflds = $custom_fields;
-		\App\Log::trace("Exiting getColumnNames method ...");
-		return $mergeflds;
-	}
-
-//End
-	/** Function to get the Contacts assigned to a user with a valid email address.
-	 * @param varchar $username - User Name
-	 * @param varchar $emailaddress - Email Addr for each contact.
-	 * Used By vtigerCRM Outlook Plugin
-	 * Returns the Query
-	 */
-	public function get_searchbyemailid($username, $emailaddress)
-	{
-
-		$current_user = vglobal('current_user');
-		require_once("modules/Users/Users.php");
-		$seed_user = new Users();
-		$user_id = $seed_user->retrieve_user_id($username);
-		$current_user = $seed_user;
-		$current_user->retrieve_entity_info($user_id, 'Users');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-		\App\Log::trace("Entering get_searchbyemailid(" . $username . "," . $emailaddress . ") method ...");
-		$query = "select vtiger_contactdetails.lastname,vtiger_contactdetails.firstname,
-					vtiger_contactdetails.contactid, vtiger_contactdetails.salutation,
-					vtiger_contactdetails.email,vtiger_contactdetails.title,
-					vtiger_contactdetails.mobile,vtiger_account.accountname,
-					vtiger_account.accountid as accountid  from vtiger_contactdetails
-						inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid
-						inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-						left join vtiger_account on vtiger_account.accountid=vtiger_contactdetails.parentid
-						left join vtiger_contactaddress on vtiger_contactaddress.contactaddressid=vtiger_contactdetails.contactid
-			      LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= getNonAdminAccessControlQuery('Contacts', $current_user);
-		$query .= "where vtiger_crmentity.deleted=0";
-		if (trim($emailaddress) != '') {
-			$query .= " and ((vtiger_contactdetails.email like '" . formatForSqlLike($emailaddress) .
-				"') or vtiger_contactdetails.lastname REGEXP REPLACE('" . $emailaddress .
-				"',' ','|') or vtiger_contactdetails.firstname REGEXP REPLACE('" . $emailaddress .
-				"',' ','|'))  and vtiger_contactdetails.email != ''";
-		} else {
-			$query .= " and (vtiger_contactdetails.email like '" . formatForSqlLike($emailaddress) .
-				"' and vtiger_contactdetails.email != '')";
-		}
-
-		\App\Log::trace("Exiting get_searchbyemailid method ...");
-		return $this->plugin_process_list_query($query);
-	}
-
-	/** Function to get the Contacts associated with the particular User Name.
-	 *  @param varchar $user_name - User Name
-	 *  Returns query
-	 */
-	public function get_contactsforol($user_name)
-	{
-		$adb = PearDatabase::getInstance();
-
-		$current_user = vglobal('current_user');
-		require_once("modules/Users/Users.php");
-		$seed_user = new Users();
-		$user_id = $seed_user->retrieve_user_id($user_name);
-		$current_user = $seed_user;
-		$current_user->retrieve_entity_info($user_id, 'Users');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-
-		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql1 = "select tablename,columnname from vtiger_field where tabid=4 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-		} else {
-			$profileList = getCurrentUserProfileList();
-			$sql1 = "select tablename,columnname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=4 and vtiger_field.displaytype in (1,2,4,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
-				array_push($params1, $profileList);
-			}
-		}
-		$result1 = $adb->pquery($sql1, $params1);
-		$countResult = $adb->num_rows($result1);
-		for ($i = 0; $i < $countResult; $i++) {
-			$permitted_lists[] = $adb->query_result($result1, $i, 'tablename');
-			$permitted_lists[] = $adb->query_result($result1, $i, 'columnname');
-			if ($adb->query_result($result1, $i, 'columnname') == "parentid") {
-				$permitted_lists[] = 'vtiger_account';
-				$permitted_lists[] = 'accountname';
-			}
-		}
-		$permitted_lists = array_chunk($permitted_lists, 2);
-		$column_table_lists = array();
-		$countPermittedLists = count($permitted_lists);
-		for ($i = 0; $i < $countPermittedLists; $i++) {
-			$column_table_lists[] = implode(".", $permitted_lists[$i]);
-		}
-
-		\App\Log::trace("Entering get_contactsforol(" . $user_name . ") method ...");
-		$query = sprintf("select vtiger_contactdetails.contactid as id, %s from vtiger_contactdetails
-						inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid
-						inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-						left join vtiger_customerdetails on vtiger_customerdetails.customerid=vtiger_contactdetails.contactid
-						left join vtiger_account on vtiger_account.accountid=vtiger_contactdetails.parentid
-						left join vtiger_contactaddress on vtiger_contactaddress.contactaddressid=vtiger_contactdetails.contactid
-						left join vtiger_contactsubdetails on vtiger_contactsubdetails.contactsubscriptionid = vtiger_contactdetails.contactid
-                        left join vtiger_campaign_records on vtiger_contactdetails.contactid = vtiger_campaign_records.crmid
-                        left join vtiger_campaignrelstatus on vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid
-			      LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						where vtiger_crmentity.deleted=0 and vtiger_users.user_name='%s'", implode(',', $column_table_lists), $user_name);
-		\App\Log::trace("Exiting get_contactsforol method ...");
 		return $query;
 	}
 

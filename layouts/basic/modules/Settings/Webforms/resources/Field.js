@@ -106,7 +106,7 @@ Vtiger_Field_Js('Webforms_Currency_Field_Js',{},{
 	getUi : function() {
 		var html = '<div class="input-group">'+
 						'<span class="input-group-addon">'+ this.getCurrencySymbol()+'</span>'+
-						'<input type="text" name="'+ this.getName() +'" value="'+  this.getValue() + '" class="form-control" data-decimal-seperator="'+this.getData().decimalSeperator+'" data-group-seperator="'+this.getData().groupSeperator+'"/>'+
+						'<input type="text" name="'+ this.getName() +'" value="'+  this.getValue() + '" class="form-control" data-decimal-separator="'+this.getData().decimalSeparator+'" data-group-separator="'+this.getData().groupSeparator+'"/>'+
 					'</div>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);

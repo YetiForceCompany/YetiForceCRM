@@ -122,10 +122,10 @@ class VTCacheUtils
 
 	static function lookupFieldInfo_Module($module, $presencein = array('0', '2'))
 	{
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$modulefields = false;
 		$fieldInfo = Vtiger_Cache::get('fieldInfo', $tabid);
-		if ($fieldInfo) {
+		if (isset($fldcache) && $fldcache) {
 			$fldcache = $fieldInfo;
 		} else if (isset(self::$_fieldinfo_cache[$tabid])) {
 			$fldcache = self::$_fieldinfo_cache[$tabid];

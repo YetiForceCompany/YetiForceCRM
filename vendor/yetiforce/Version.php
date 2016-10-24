@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 /**
  * Version class
@@ -19,7 +20,7 @@ class Version
 	public static function get($type = 'appVersion')
 	{
 		static::init();
-		return self::$versions[$type];
+		return static::$versions[$type];
 	}
 
 	/**
@@ -27,26 +28,21 @@ class Version
 	 */
 	private static function init()
 	{
-		if (self::$versions === false) {
-			self::$versions = require 'config/version.php';
+		if (static::$versions === false) {
+			static::$versions = require 'config/version.php';
 		}
 	}
-	/**
-	 * 
-	 * @param String Version against which comparision to be done
-	 * @param String Condition like ( '=', '!=', '<', '<=', '>', '>=')
-	 */
 
 	/**
 	 * Check app versions with given version
-	 * @param string $version
+	 * @param string $version - String Version against which comparision to be done
 	 * @param string $type
-	 * @param string $condition
+	 * @param string $condition - String Condition like ( '=', '!=', '<', '<=', '>', '>=')
 	 * @return bool|int
 	 */
 	public static function check($version, $type = 'appVersion', $condition = '>=')
 	{
 		static::init();
-		return version_compare($version, self::$versions[$type], $condition);
+		return version_compare($version, static::$versions[$type], $condition);
 	}
 }

@@ -26,6 +26,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$this->exposeMethod('updateColorForProcesses');
 		$this->exposeMethod('generateColor');
 		$this->exposeMethod('activeColor');
+		$this->exposeMethod('changeAccessKey');
 	}
 
 	public function checkPermission(Vtiger_Request $request)
@@ -265,6 +266,35 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			'color' => $color,
 			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
+		$response->emit();
+	}
+
+	public function changeAccessKey(Vtiger_Request $request)
+	{
+		$recordId = $request->get('record');
+		$moduleName = $request->getModule();
+
+		$response = new Vtiger_Response();
+		try {
+			$recordModel = Users_Record_Model::getInstanceById($recordId, $moduleName);
+			$oldAccessKey = $recordModel->get('accesskey');
+
+			$entity = $recordModel->getEntity();
+			$entity->createAccessKey();
+
+			require_once('modules/Users/CreateUserPrivilegeFile.php');
+			createUserPrivilegesfile($recordId);
+
+			require("user_privileges/user_privileges_$recordId.php");
+			$newAccessKey = $user_info['accesskey'];
+			if ($newAccessKey != $oldAccessKey) {
+				$response->setResult(array('message' => vtranslate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
+			} else {
+				$response->setError(vtranslate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
+			}
+		} catch (Exception $ex) {
+			$response->setError($ex->getMessage());
+		}
 		$response->emit();
 	}
 }

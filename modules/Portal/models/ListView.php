@@ -56,7 +56,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 	public function getQuery()
 	{
 		$query = 'SELECT portalid, portalname, portalurl, createdtime FROM vtiger_portal';
-		$searchValue = $this->get('search_value');
+		$searchValue = $this->getForSql('search_value');
 		if (!empty($searchValue))
 			$query .= sprintf(" WHERE portalname LIKE '%s%'", $searchValue);
 

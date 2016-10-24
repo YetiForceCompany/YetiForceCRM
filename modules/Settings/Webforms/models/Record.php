@@ -355,10 +355,10 @@ class Settings_Webforms_Record_Model extends Settings_Vtiger_Record_Model
 			}
 
 			if ($dataType === 'currency') {
-				$decimalSeperator = $currentUser->get('currency_decimal_separator');
-				$groupSeperator = $currentUser->get('currency_grouping_separator');
-				$fieldDefaultValue = str_replace($decimalSeperator, '.', $fieldDefaultValue);
-				$fieldDefaultValue = str_replace($groupSeperator, '', $fieldDefaultValue);
+				$decimalSeparator = $currentUser->get('currency_decimal_separator');
+				$groupSeparator = $currentUser->get('currency_grouping_separator');
+				$fieldDefaultValue = str_replace($decimalSeparator, '.', $fieldDefaultValue);
+				$fieldDefaultValue = str_replace($groupSeparator, '', $fieldDefaultValue);
 			}
 
 			array_push($params, $fieldName, $neutralizedField, $fieldDefaultValue, $fieldDetails['required'], $fieldDetails['sequence'], $fieldDetails['hidden']);

@@ -279,7 +279,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$rows = [];
 		if (!$query) {
-			$rows = \includes\Record::findCrmidByLabel($searchKey, $moduleName, $limit);
+			$rows = \App\Record::findCrmidByLabel($searchKey, $moduleName, $limit);
 		} else {
 			$result = $adb->pquery($query, $params);
 			while ($row = $adb->getRow($result)) {
@@ -294,7 +294,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
-		$labels = \includes\Record::getLabel($ids);
+		$labels = \App\Record::getLabel($ids);
 
 		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {

@@ -688,17 +688,17 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 		var fieldValue = this.getFieldValue();
 		var fieldData = field.data();
 
-		var strippedValue = fieldValue.replace(fieldData.decimalSeperator, '');
+		var strippedValue = fieldValue.replace(fieldData.decimalSeparator, '');
 		var spacePattern = /\s/;
-		if (spacePattern.test(fieldData.decimalSeperator) || spacePattern.test(fieldData.groupSeperator))
+		if (spacePattern.test(fieldData.decimalSeparator) || spacePattern.test(fieldData.groupSeparator))
 			strippedValue = strippedValue.replace(/ /g, '');
 		var errorInfo;
 
-		if (fieldData.groupSeperator == "$") {
-			fieldData.groupSeperator = "\\$"
+		if (fieldData.groupSeparator == "$") {
+			fieldData.groupSeparator = "\\$"
 		}
 
-		var regex = new RegExp(fieldData.groupSeperator, 'g');
+		var regex = new RegExp(fieldData.groupSeparator, 'g');
 		strippedValue = strippedValue.replace(regex, '');
 		//Note: Need to review if we should allow only positive values in currencies
 		/*if(strippedValue < 0){

@@ -19,6 +19,15 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		else
 			thisInstance.widgetWithFilterUsers = [];
 	},
+	widgetWithFilterDate: [],
+	setWidgetWithFilterDate: function () {
+		var thisInstance = this;
+		var element = jQuery('[name="filter_date"]').val();
+		if (element)
+			thisInstance.widgetWithFilterDate = JSON.parse(element);
+		else
+			thisInstance.widgetWithFilterDate = [];
+	},
 	restrictFilter: [],
 	setRestrictFilter: function () {
 		var thisInstance = this;
@@ -176,14 +185,21 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					}
 				}
 			}
+			if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
+				addFieldContainer.find('.widgetFilterDate').removeClass('hide').find('select').removeAttr('disabled').show();
+			}
 
 			var callBackFunction = function (data) {
 				//register all select2 Elements
 				app.showSelect2ElementView(data.find('select'));
 				data.find('select.widgets').on('change', function () {
 					data.find('.widgetFilter').remove();
+					data.find('.widgetFilterDate').remove();
 					var elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
+					var elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
+					
 					data.find('.modal-body').append(elementsToFilter);
+					data.find('.modal-body').append(elementsToFilterDate);
 					var name = jQuery(this).find(':selected').data('name');
 					if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 						elementsToFilter.removeClass('hide').find('select').prop('disabled', false);
@@ -196,6 +212,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 						app.showSelect2ElementView(elementsToFilter.find('select'));
 					} else {
 						elementsToFilter.addClass('hide').find('select').prop('disabled', true);
+					}
+					if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
+						elementsToFilterDate.removeClass('hide').find('select').prop('disabled', false);
+						app.showSelect2ElementView(elementsToFilterDate.find('select'));
+					} else {
+						elementsToFilterDate.addClass('hide').find('select').prop('disabled', true);
 					}
 				});
 
@@ -394,7 +416,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var users = dropDownMenu.find('select[name="owners_all"]');
 				app.showSelectizeElementView(users);
 			}
-
+			selectElements = basicDropDown.find('select[name="default_date"]');
+			if (selectElements.length > 0) {
+				var users = dropDownMenu.find('select[name="default_date"]');
+				app.showSelect2ElementView(users);
+			}
 
 			thisInstance.avoidDropDownClick(dropDownContainer);
 
@@ -1054,6 +1080,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		thisInstance.registerModulesChangeEvent();
 		thisInstance.setWidgetWithFilterUsers();
 		thisInstance.setRestrictFilter();
+		thisInstance.setWidgetWithFilterDate();
 	}
 
 });

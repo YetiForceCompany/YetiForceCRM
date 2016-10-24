@@ -320,8 +320,8 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	//Curency seperator validation messages
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Le séparateur des décimales et des milliers ne peuvent être identiques.',
+	//Curency separator validation messages
+	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Le séparateur des décimales et des milliers ne peuvent être identiques.',
 	'JS_ENTER_CONFIRMATION_PASSWORD' => 'Merci de saisir votre confirmation de mot de passe.',
 	'JS_ENTER_NEW_PASSWORD' => 'Saisir votre nouveau mot de passe.',
 	'JS_ENTER_OLD_PASSWORD' => 'Saisir votre ancien mot de passe.',

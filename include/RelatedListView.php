@@ -120,14 +120,14 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 			" LIMIT $limit_start_rec, $listMaxEntriesPerPage ", []);
 
 	$header = [];
-	$header[] = \includes\Language::translate('LBL_LIST_PRODUCT_NAME');
+	$header[] = \App\Language::translate('LBL_LIST_PRODUCT_NAME');
 	if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
-		$header[] = \includes\Language::translate('LBL_PRODUCT_CODE');
+		$header[] = \App\Language::translate('LBL_PRODUCT_CODE');
 	if (getFieldVisibilityPermission('Products', $current_user->id, 'unit_price') == '0')
-		$header[] = \includes\Language::translate('LBL_PRODUCT_UNIT_PRICE');
-	$header[] = \includes\Language::translate('LBL_PB_LIST_PRICE');
+		$header[] = \App\Language::translate('LBL_PRODUCT_UNIT_PRICE');
+	$header[] = \App\Language::translate('LBL_PB_LIST_PRICE');
 	if (isPermitted("PriceBooks", "EditView", "") == 'yes' || isPermitted("PriceBooks", "Delete", "") == 'yes')
-		$header[] = \includes\Language::translate('LBL_ACTION');
+		$header[] = \App\Language::translate('LBL_ACTION');
 
 	$currency_id = $focus->column_fields['currency_id'];
 	$numRows = $adb->num_rows($list_result);
@@ -151,14 +151,14 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 		$entries[] = CurrencyField::convertToUserFormat($listprice, null, true);
 		$action = "";
 		if (isPermitted("PriceBooks", "EditView", "") == 'yes' && isPermitted('Products', 'EditView', $entity_id) == 'yes') {
-			$action .= '<img style="cursor:pointer;" src="' . vtiger_imageurl('editfield.gif', $theme) . '" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '" title="' . \includes\Language::translate('LBL_EDIT_BUTTON') . '"/>';
+			$action .= '<img style="cursor:pointer;" src="' . vtiger_imageurl('editfield.gif', $theme) . '" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . \App\Language::translate('LBL_EDIT_BUTTON') . '" title="' . \App\Language::translate('LBL_EDIT_BUTTON') . '"/>';
 		} else {
 			$action .= '<img src="' . vtiger_imageurl('blank.gif', $theme) . '" border="0" />';
 		}
 		if (isPermitted("PriceBooks", "Delete", "") == 'yes' && isPermitted('Products', 'Delete', $entity_id) == 'yes') {
 			if ($action != "")
 				$action .= '&nbsp;|&nbsp;';
-			$action .= '<img src="' . vtiger_imageurl('delete.gif', $theme) . '" onclick="if(confirm(\'' . \includes\Language::translate('ARE_YOU_SURE') . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . \includes\Language::translate('LBL_DELETE') . '" title="' . \includes\Language::translate('LBL_DELETE') . '" style="cursor:pointer;" border="0">';
+			$action .= '<img src="' . vtiger_imageurl('delete.gif', $theme) . '" onclick="if(confirm(\'' . \App\Language::translate('ARE_YOU_SURE') . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . \App\Language::translate('LBL_DELETE') . '" title="' . \App\Language::translate('LBL_DELETE') . '" style="cursor:pointer;" border="0">';
 		}
 		if ($action != "")
 			$entries[] = $action;

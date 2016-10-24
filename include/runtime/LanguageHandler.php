@@ -134,8 +134,7 @@ class Vtiger_Language_Handler
 			if (file_exists($file)) {
 				require $file;
 			} else {
-				
-				\App\Log::warning('Language file does not exist, module:' . $module . ' ,language: ' . $language);
+				\App\Log::warning("Language file does not exist, module: $module ,language: $language");
 			}
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
@@ -153,7 +152,10 @@ class Vtiger_Language_Handler
 				}
 			}
 		}
-		return self::$languageContainer[$language][$module];
+		if (isset(self::$languageContainer[$language][$module])) {
+			return self::$languageContainer[$language][$module];
+		}
+		return [];
 	}
 
 	protected static $lang = false;
@@ -278,4 +280,3 @@ function vtranslate($key, $moduleName = 'Vtiger')
 	}
 	return $formattedString;
 }
-

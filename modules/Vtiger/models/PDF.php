@@ -125,7 +125,6 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	{
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
-			$active = true;
 			if (!$template->isVisible($view) || !$template->checkUserPermissions()) {
 				unset($templates[$id]);
 			}
@@ -140,13 +139,12 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public static function getTemplatesByModule($moduleName)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = sprintf('SELECT * FROM `%s` WHERE `module_name` = ? and `status` = ?;', self::$baseTable);
-		$result = $db->pquery($query, [$moduleName, 'active']);
+		
+		$dataReader = (new \App\Db\Query())->from(self::$baseTable)
+				->where(['module_name' => $moduleName, 'status' => 'active'])
+				->createCommand()->query();
 		$templates = [];
-
-		while ($row = $db->fetchByAssoc($result)) {
+		while ($row = $dataReader->read()) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdf = new $handlerClass();
 			$pdf->setData($row);
@@ -161,20 +159,17 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($pdf) {
 			return $pdf;
 		}
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM `%s` WHERE `%s` = ? LIMIT 1', self::$baseTable, self::$baseIndex);
-		$result = $db->pquery($query, [$recordId]);
-		if ($result->rowCount() == 0) {
+		$row = (new \App\Db\Query())->from(self::$baseTable)->where([self::$baseIndex => $recordId])->one();
+		if ($row === false) {
 			return false;
 		}
-		$data = $db->fetchByAssoc($result);
-		if ($moduleName == 'Vtiger' && isset($data['module_name'])) {
-			$moduleName = $data['module_name'];
+		if ($moduleName == 'Vtiger' && isset($row['module_name'])) {
+			$moduleName = $row['module_name'];
 		}
 
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
-		$pdf->setData($data);
+		$pdf->setData($row);
 		Vtiger_Cache::set('PDFModel', $recordId, $pdf);
 		return $pdf;
 	}

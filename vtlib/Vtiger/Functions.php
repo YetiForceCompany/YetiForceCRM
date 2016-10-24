@@ -134,7 +134,7 @@ class Functions
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
 		if ($show_symbol) {
-			return sprintf("%s : %s", \includes\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
+			return sprintf("%s : %s", \App\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
 		}
 		return $currencyInfo['currency_name'];
 	}
@@ -243,9 +243,9 @@ class Functions
 		}
 
 		if ($reload) {
-			$adb = \PearDatabase::getInstance();
-			$result = $adb->query('SELECT * FROM vtiger_tab');
-			while ($row = $adb->fetch_array($result)) {
+			$query = (new \App\Db\Query())->from('vtiger_tab');
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
 				self::$moduleNameIdCache[$row['name']] = $row;
 				self::$moduleIdDataCache[$row['tabid']] = $row;
@@ -283,7 +283,7 @@ class Functions
 	public static function getEntityModuleSQLColumnString($mixed)
 	{
 		$data = [];
-		$info = \includes\Modules::getEntityInfo($mixed);
+		$info = \App\Module::getEntityInfo($mixed);
 		if ($info) {
 			$data['tablename'] = $info['tablename'];
 			$fieldnames = $info['fieldname'];
@@ -344,7 +344,7 @@ class Functions
 
 	public static function getCRMRecordLabel($id, $default = '')
 	{
-		$label = \includes\Record::getLabel($id);
+		$label = \App\Record::getLabel($id);
 		return empty($label) ? $default : $label;
 	}
 
@@ -371,18 +371,13 @@ class Functions
 
 	public static function getModuleFieldInfos($mixed)
 	{
-		$adb = \PearDatabase::getInstance();
-
 		$moduleInfo = self::getModuleData($mixed);
 		$module = $moduleInfo['name'];
-
 		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]))) {
-			$result = ($module == 'Calendar') ?
-				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? || tabid=?', array(9, 16)) :
-				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=?', array(self::getModuleId($module)));
-
+			$dataReader = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
+				->createCommand()->query();
 			self::$moduleFieldInfoByNameCache[$module] = [];
-			while ($row = $adb->getRow($result)) {
+			while ($row = $dataReader->read()) {
 				self::$moduleFieldInfoByNameCache[$module][$row['fieldname']] = $row;
 			}
 		}
@@ -667,7 +662,7 @@ class Functions
 			}
 		}
 		if ($commentlist != '')
-			$commentlist = '<br><br>' . \includes\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
+			$commentlist = '<br><br>' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
 	}
 
@@ -980,12 +975,13 @@ class Functions
 			}
 		}
 		$savedHTML = $doc->saveHTML();
+		$savedHTML = preg_replace('/<!DOCTYPE[^>]+\>/', '', $savedHTML);
 		$savedHTML = preg_replace('/<html[^>]+\>/', '', $savedHTML);
 		$savedHTML = preg_replace('/<body[^>]+\>/', '', $savedHTML);
 		$savedHTML = preg_replace('#<head(.*?)>(.*?)</head>#is', '', $savedHTML);
 		$savedHTML = preg_replace('/<!--(.*)-->/Uis', '', $savedHTML);
 		$savedHTML = str_replace(['</html>', '</body>', '<?xml encoding="utf-8" ?>'], ['', '', ''], $savedHTML);
-		return $savedHTML;
+		return trim($savedHTML);
 	}
 
 	public static function getHtmlOrPlainText($content)
@@ -1049,82 +1045,6 @@ class Functions
 				copy($item, $rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
 			}
 		}
-	}
-
-	protected static $browerCache = false;
-
-	public static function getBrowserInfo()
-	{
-		if (!self::$browerCache) {
-			$HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
-
-			$browser = new \stdClass;
-			$browser->ver = 0;
-			$browser->https = false;
-			$browser->win = strpos($HTTP_USER_AGENT, 'win') != false;
-			$browser->mac = strpos($HTTP_USER_AGENT, 'mac') != false;
-			$browser->linux = strpos($HTTP_USER_AGENT, 'linux') != false;
-			$browser->unix = strpos($HTTP_USER_AGENT, 'unix') != false;
-
-			$browser->webkit = strpos($HTTP_USER_AGENT, 'applewebkit') !== false;
-			$browser->opera = strpos($HTTP_USER_AGENT, 'opera') !== false || ($browser->webkit && strpos($HTTP_USER_AGENT, 'opr/') !== false);
-			$browser->ns = strpos($HTTP_USER_AGENT, 'netscape') !== false;
-			$browser->chrome = !$browser->opera && strpos($HTTP_USER_AGENT, 'chrome') !== false;
-			$browser->ie = !$browser->opera && (strpos($HTTP_USER_AGENT, 'compatible; msie') !== false || strpos($HTTP_USER_AGENT, 'trident/') !== false);
-			$browser->safari = !$browser->opera && !$browser->chrome && ($browser->webkit || strpos($HTTP_USER_AGENT, 'safari') !== false);
-			$browser->mz = !$browser->ie && !$browser->safari && !$browser->chrome && !$browser->ns && !$browser->opera && strpos($HTTP_USER_AGENT, 'mozilla') !== false;
-
-			if ($browser->opera) {
-				if (preg_match('/(opera|opr)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
-					$browser->ver = (float) $regs[2];
-				}
-			} else if (preg_match('/(chrome|msie|version|khtml)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
-				$browser->ver = (float) $regs[3];
-			} else if (preg_match('/rv:([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
-				$browser->ver = (float) $regs[1];
-			}
-
-			if (preg_match('/ ([a-z]{2})-([a-z]{2})/', $HTTP_USER_AGENT, $regs))
-				$browser->lang = $regs[1];
-			else
-				$browser->lang = 'en';
-
-			if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
-				$browser->https = true;
-			}
-			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https') {
-				$browser->https = true;
-			}
-			$sp = strtolower($_SERVER['SERVER_PROTOCOL']);
-			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
-			$port = $_SERVER['SERVER_PORT'];
-			$port = ((!$browser->https && $port == '80') || ($browser->https && $port == '443')) ? '' : ':' . $port;
-			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
-			$host = isset($host) ? $host : $_SERVER['SERVER_NAME'] . $port;
-			$browser->url = $protocol . '://' . $host . $_SERVER['REQUEST_URI'];
-			$browser->requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
-			self::$browerCache = $browser;
-		}
-		return self::$browerCache;
-	}
-
-	public static function getRemoteIP($onlyIP = false)
-	{
-		$address = $_SERVER['REMOTE_ADDR'];
-
-		// append the NGINX X-Real-IP header, if set
-		if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-			$remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
-		}
-		// append the X-Forwarded-For header, if set
-		if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
-		}
-
-		if (!empty($remote_ip) && $onlyIP === false) {
-			$address .= '(' . implode(',', $remote_ip) . ')';
-		}
-		return $address;
 	}
 
 	public static function parseBytes($str)

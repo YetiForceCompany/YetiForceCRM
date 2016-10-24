@@ -852,7 +852,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$coordinates = OpenStreetMap_Module_Model::readCoordinates($recordId);
+		$coordinateModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinates = $coordinateModel->readCoordinates($recordId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COORRDINATES', $coordinates);
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);

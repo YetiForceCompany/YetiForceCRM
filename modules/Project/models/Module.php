@@ -39,7 +39,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 		$response = ['data' => [], 'links' => []];
 		$focus = CRMEntity::getInstance($this->getName());
-		$relatedListMileston = $focus->get_dependents_list($id, $this->getId(), \includes\Modules::getModuleId('ProjectMilestone'));
+		$relatedListMileston = $focus->get_dependents_list($id, $this->getId(), \App\Module::getModuleId('ProjectMilestone'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
 		$milestoneTime = 0;
@@ -84,7 +84,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 		$response = ['data' => [], 'links' => []];
 		$focus = CRMEntity::getInstance('ProjectMilestone');
-		$relatedListMileston = $focus->get_dependents_list($id, \includes\Modules::getModuleId('ProjectMilestone'), \includes\Modules::getModuleId('ProjectTask'));
+		$relatedListMileston = $focus->get_dependents_list($id, \App\Module::getModuleId('ProjectMilestone'), \App\Module::getModuleId('ProjectTask'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
 		$taskTime = 0;

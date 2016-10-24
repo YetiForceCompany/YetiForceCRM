@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 vimport('~/modules/com_vtiger_workflow/VTJsonCondition.inc');
 vimport('~/modules/com_vtiger_workflow/VTEntityCache.inc');
@@ -15,14 +16,15 @@ class PrivilegeAdvanced
 
 	protected static $cacheFile = 'user_privileges/advancedPermission.php';
 	protected static $cache = false;
+	public static $webservice = true;
 
 	/**
 	 * Update advanced permissions cache.
 	 */
 	public static function reloadCache()
 	{
-		$db = \App\DB::getInstance('admin');
-		$query = (new \App\db\Query())->from('a_#__adv_permission')->where(['status' => 0])->orderBy(['priority' => SORT_DESC]);
+		$db = Db::getInstance('admin');
+		$query = (new Db\Query())->from('a_#__adv_permission')->where(['status' => 0])->orderBy(['priority' => SORT_DESC]);
 		$dataReader = $query->createCommand($db)->query();
 		$cache = [];
 		while ($row = $dataReader->read()) {
@@ -34,13 +36,12 @@ class PrivilegeAdvanced
 				}
 				$users = array_unique($users);
 			}
-			$cache[(int) $row['tabid']][] = [
-				'action' => (int) $row['action'],
+			$cache[$row['tabid']][$row['id']] = [
+				'action' => $row['action'],
 				'conditions' => $row['conditions'],
 				'members' => array_flip($users)
 			];
 		}
-
 		$content = '<?php return ' . \vtlib\Functions::varExportMin($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
 	}
@@ -55,7 +56,7 @@ class PrivilegeAdvanced
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
-		$tabid = \includes\Modules::getModuleId($moduleName);
+		$tabid = Module::getModuleId($moduleName);
 		return isset(static::$cache[$tabid]) ? static::$cache[$tabid] : false;
 	}
 
@@ -71,16 +72,22 @@ class PrivilegeAdvanced
 		if ($privileges === false) {
 			return false;
 		}
+		Log::trace("Check advanced permissions: $record,$moduleName,$userId");
 		$currentUser = \Users_Privileges_Model::getInstanceById($userId);
-		foreach ($privileges as &$privilege) {
+		foreach ($privileges as $id => &$privilege) {
 			if (!isset($privilege['members'][$userId])) {
 				continue;
 			}
+			static::$webservice = false;
 			$entityCache = new \VTEntityCache($currentUser);
 			$wsId = vtws_getWebserviceEntityId($moduleName, $record);
 			$test = (new \VTJsonCondition())->evaluate($privilege['conditions'], $entityCache, $wsId);
+			static::$webservice = true;
 			if ($test) {
+				Log::trace("Check advanced permissions test OK,action: {$privilege['action']},id: $id");
 				return $privilege['action'] === 0 ? 1 : 0;
+			} else {
+				Log::trace("Check advanced permissions test FALSE , id: $id");
 			}
 		}
 		return false;

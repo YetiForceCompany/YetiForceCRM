@@ -32,8 +32,12 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			return $ownerName;
 		}
 		if (\includes\fields\Owner::getType($value) === 'Users') {
-			$userModel = Users_Record_Model::getCleanInstance('Users');
-			$userModel->set('id', $value);
+			$userModel = Users_Privileges_Model::getInstanceById($value);
+			$userModel->setModule('Users');
+			$ownerName = $userModel->getName();
+			if ($userModel->get('status') === 'Inactive') {
+				$ownerName = '<span class="redColor">' . $ownerName . '</span>';
+			}
 			$detailViewUrl = $userModel->getDetailViewUrl();
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
@@ -43,6 +47,42 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;
+			}
+			$recordModel = new Settings_Groups_Record_Model();
+			$recordModel->set('groupid', $value);
+			$detailViewUrl = $recordModel->getDetailViewUrl();
+		}
+		return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
+	}
+
+	/**
+	 * Function to get the Display Value in ListView, for the current field type with given DB Insert Value
+	 * @param mixed $value
+	 * @return string
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		$maxLengthText = $this->get('field')->get('maxlengthtext');
+		$ownerName = \includes\fields\Owner::getLabel($value);
+		if ($rawText) {
+			return \vtlib\Functions::textLength($ownerName, $maxLengthText);
+		}
+		if (\includes\fields\Owner::getType($value) === 'Users') {
+			$userModel = Users_Privileges_Model::getInstanceById($value);
+			$userModel->setModule('Users');
+			$ownerName = vtlib\Functions::textLength($userModel->getName(), $maxLengthText);
+			if ($userModel->get('status') === 'Inactive') {
+				$ownerName = '<span class="redColor">' . $ownerName . '</span>';
+			}
+			$detailViewUrl = $userModel->getDetailViewUrl();
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			if (!$currentUser->isAdminUser() || $rawText) {
+				return $ownerName;
+			}
+		} else {
+			$currentUser = Users_Record_Model::getCurrentUserModel();
+			if (!$currentUser->isAdminUser() || $rawText) {
+				return \vtlib\Functions::textLength($ownerName, $maxLengthText);
 			}
 			$recordModel = new Settings_Groups_Record_Model();
 			$recordModel->set('groupid', $value);

@@ -52,27 +52,27 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function adds records to task queue that updates reviewing changes in records
-	 * @param <array> $data - List of records to update
-	 * @param <string> $module - Module name
+	 * @param array $data - List of records to update
+	 * @param string $module - Module name
 	 */
 	public static function reviewChangesQueue($data, $module)
 	{
-		$db = \PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$id = $db->getUniqueID('u_yf_reviewed_queue');
-		$db->insert('u_yf_reviewed_queue', [
+		$id = (new \App\Db\Query())->from('u_#__reviewed_queue')->max('id') + 1;
+		$db->createCommand()->insert('u_#__reviewed_queue', [
 			'id' => $id,
 			'userid' => $currentUserModel->getRealId(),
 			'tabid' => \vtlib\Functions::getModuleId($module),
 			'data' => \includes\utils\Json::encode($data),
 			'time' => date('Y-m-d H:i:s')
-		]);
+		])->execute();
 	}
 
 	/**
 	 * Function marks forwarded records as reviewed
-	 * @param <array> $recordsList - List of records to update
-	 * @param <integer> $userId - User id
+	 * @param array $recordsList - List of records to update
+	 * @param integer $userId - User id
 	 */
 	public static function reviewChanges($recordsList, $userId = false)
 	{

@@ -26,16 +26,11 @@ class PBXManager_Server_Model extends Vtiger_Base_Model
 	public static function getInstance()
 	{
 		$serverModel = new self();
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM %s', self::tableName);
-		$gatewatResult = $db->pquery($query, array());
-		$gatewatResultCount = $db->num_rows($gatewatResult);
-
-		if ($gatewatResultCount > 0) {
-			$rowData = $db->query_result_rowdata($gatewatResult, 0);
-			$serverModel->set('gateway', $rowData['gateway']);
-			$serverModel->set('id', $rowData['id']);
-			$parameters = \includes\utils\Json::decode(decode_html($rowData['parameters']));
+		$row = (new \App\Db\Query())->from(self::tableName)->one();
+		if ($row !== false) {
+			$serverModel->set('gateway', $row['gateway']);
+			$serverModel->set('id', $row['id']);
+			$parameters = \includes\utils\Json::decode(decode_html($row['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}

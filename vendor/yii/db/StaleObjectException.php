@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
 namespace yii\db;
 
 /**
@@ -13,11 +12,12 @@ namespace yii\db;
  */
 class StaleObjectException extends Exception
 {
-    /**
-     * @return string the user-friendly name of this exception
-     */
-    public function getName()
-    {
-        return 'Stale Object Exception';
-    }
+
+	/**
+	 * @return string the user-friendly name of this exception
+	 */
+	public function getName()
+	{
+		return 'Stale Object Exception';
+	}
 }

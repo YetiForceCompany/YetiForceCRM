@@ -16,7 +16,7 @@ class Settings_OSSProjectTemplates_CreateTemplate_Action extends Settings_Vtiger
 	{
 
 		$baseModuleName = $request->get('base_module');
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$parentTplId = $request->get('parent_tpl_id');
 
 		if (!$parentTplId) {
@@ -32,26 +32,33 @@ class Settings_OSSProjectTemplates_CreateTemplate_Action extends Settings_Vtiger
 		if ($fieldTab && count($fieldTab)) {
 			foreach ($fieldTab as $key => $value) {
 				$valField = $request->get($key);
-
-				$sql = "INSERT INTO vtiger_oss_project_templates VALUES(?, ?, ?, ?, ?, ?)";
-
-				if (is_array($valField)) {
-					$db->pquery($sql, array(NULL, $key, json_encode($valField), $lastTplId, $parentTplId, $baseModuleName), true);
-				} else {
-					$db->pquery($sql, array(NULL, $key, $valField, $lastTplId, $parentTplId, $baseModuleName), true);
-				}
-
+				$db->createCommand()->insert('vtiger_oss_project_templates', [
+					'fld_name' => $key,
+					'fld_val' => is_array($valField) ? includes\utils\Json::encode($valField) : $valField,
+					'id_tpl' => $lastTplId,
+					'parent' => $parentTplId,
+					'module' => $baseModuleName
+				])->execute();
 				$dateDayInterval = $request->get($key . '_day');
 				$dateDayIntervalType = $request->get($key . '_day_type');
 
 				if ($dateDayInterval) {
-					$sql = "INSERT INTO vtiger_oss_project_templates VALUES(NULL, '{$key}_day', '$dateDayInterval', $lastTplId, $parentTplId, '$baseModuleName')";
-					$db->query($sql, true);
+					$db->createCommand()->insert('vtiger_oss_project_templates', [
+						'fld_name' => $key . '_day',
+						'fld_val' => $dateDayInterval,
+						'id_tpl' => $lastTplId,
+						'parent' => $parentTplId,
+						'module' => $baseModuleName
+					])->execute();
 				}
-
 				if ($dateDayIntervalType) {
-					$sql = "INSERT INTO vtiger_oss_project_templates VALUES(NULL, '{$key}_day_type', '$dateDayIntervalType', $lastTplId, $parentTplId, '$baseModuleName')";
-					$db->query($sql, true);
+					$db->createCommand()->insert('vtiger_oss_project_templates', [
+						'fld_name' => $key . '_day_type',
+						'fld_val' => $dateDayIntervalType,
+						'id_tpl' => $lastTplId,
+						'parent' => $parentTplId,
+						'module' => $baseModuleName
+					])->execute();
 				}
 			}
 		}
@@ -64,10 +71,9 @@ class Settings_OSSProjectTemplates_CreateTemplate_Action extends Settings_Vtiger
 
 	public function getLastTplId($moduleName)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = "SELECT id_tpl FROM vtiger_oss_project_templates order by id_tpl desc limit 0,1";
-		$result = $db->query($sql, true);
-		return $db->query_result($result, 0, 'id_tpl');
+		return (new \App\Db\Query())->select(['id_tpl'])
+			->from('vtiger_oss_project_templates')
+			->orderBy(['id_tpl' => SORT_DESC])
+			->limit(1)->scalar();
 	}
 }

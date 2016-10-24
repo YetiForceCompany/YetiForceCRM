@@ -1141,6 +1141,11 @@ $languageStrings = [
 	'Api Address' => 'Address search',
 	'Notifications' => 'Notifications',
 	'Mails' => 'Mails',
+	'LBL_SQL_ERROR' => 'Error when calling SQL query',
+	'LBL_ERROR_MASAGE' => 'Error message',
+	'LBL_SQL_QUERY' => 'SQL query',
+	'LBL_SQL_PARAMS' => 'SQL query parameters',
+	'LBL_BACKTRACE' => 'Track function calling',
 	'LBL_CATEGORY_MULTIPICKLIST' => 'List of categories',
 	// popup
 	'LBL_POPUP_SWITCH_BUTTON' => 'Switch button',
@@ -1251,6 +1256,7 @@ $languageStrings = [
 	'LBL_CLOSED_TICKETS_BY_USER' => 'Closed ticket by user',
 	'LBL_REVIEW_CHANGES' => 'Review changes in records',
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Accounts by industry',
+	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Estimated Opportunity value',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

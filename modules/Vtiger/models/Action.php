@@ -111,17 +111,14 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 	{
 		$actionModels = Vtiger_Cache::get('vtiger', 'actions');
 		if (!$actionModels) {
-			$db = PearDatabase::getInstance();
-
-			$sql = 'SELECT * FROM vtiger_actionmapping';
+			$query = (new \App\Db\Query())->from('vtiger_actionmapping');
 			$params = [];
 			if ($configurable) {
-				$sql .= sprintf(' WHERE actionname NOT IN (%s)', generateQuestionMarks(self::$nonConfigurableActions));
-				array_push($params, self::$nonConfigurableActions);
+				$query->where(['NOT IN', 'actionname', self::$nonConfigurableActions]);
 			}
-			$result = $db->pquery($sql, $params);
 			$actionModels = [];
-			while ($row = $db->getRow($result)) {
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$actionModels[] = self::getInstanceFromRow($row);
 			}
 			Vtiger_Cache::set('vtiger', 'actions', $actionModels);

@@ -22,7 +22,6 @@ $languageStrings = [
 	'QLTQ' => 'Top Angebote',
 	'UA' => 'Die nächsten Aktivitäten',
 	'LBL_MARK_AS_READ' => 'Als gelesen markieren',
-	'LBL_NO_NOTIFICATIONS' => 'Keine Benachrichtigungen',
 	'Notifications' => 'Benachrichtigungen',
 	'LBL_CREATING_NOTIFICATION' => 'Benachrichtigung senden',
 	'LBL_MESSAGES_FROM_USERS' => 'Benutzermeldungen',
@@ -34,6 +33,8 @@ $languageStrings = [
 	'LBL_NOTIFICATION_SETTINGS' => 'Benachrichtigungseinstellungen',
 	'LBL_TYPE_NOTIFICATIONS' => 'Meldungstyp',
 	'LBL_TIME' => 'Zeit',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Number of notifications by sender',
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Number of notifications by recipient',
 ];
 
 $jsLanguageStrings = [

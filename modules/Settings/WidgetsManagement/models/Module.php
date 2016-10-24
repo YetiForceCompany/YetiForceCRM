@@ -31,9 +31,36 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		return ['Mini List', 'Notebook', 'Chart', 'ChartFilter', 'Rss'];
 	}
 
+	public static function getDateSelectDefault()
+	{
+		return [
+			'day' => 'PLL_CURRENT_DAY',
+			'week' => 'PLL_CURRENT_WEEK',
+			'month' => 'PLL_CURRENT_MONTH',
+			'year' => 'PLL_CURRENT_YEAR'
+		];
+	}
+
+	public static function getDefaultDate($widgetModel)
+	{
+		$defaultDate = $widgetModel->get('date');
+		if ($defaultDate === 'day') {
+			$timeStart = date('Y-m-d');
+		} elseif ($defaultDate === 'week') {
+			$timeStart = date('Y-m-d', strtotime('last Monday'));
+		} elseif ($defaultDate === 'month') {
+			$timeStart = date('Y-m-01');
+		} elseif ($defaultDate === 'year') {
+			$timeStart = date('Y-01-01');
+		} else {
+			return false;
+		}
+		return ['start' => $timeStart, 'end' => date('Y-m-d')];
+	}
+
 	public static function getDefaultUserId($widgetModel, $moduleName = false)
 	{
-		
+
 		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$user = '';
@@ -75,10 +102,10 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getFilterSelect()
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
 
-		$filterSelect = array('LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups');
+		$filterSelect = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
 
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
 		return $filterSelect;
@@ -86,13 +113,22 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getFilterSelectDefault()
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
 
-		$filterSelectDefault = array('LBL_MINE' => 'mine', 'LBL_ALL' => 'all');
+		$filterSelectDefault = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all'];
 
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
 		return $filterSelectDefault;
+	}
+
+	public static function getWidgetsWithDate()
+	{
+		return [
+			'LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT', 'DW_SUMMATION_BY_USER', 'Leads by Status',
+			'Leads by Industry', 'Leads by Source', 'Leads by Status Converted', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
+			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY'
+		];
 	}
 
 	public function getWidgetsWithFilterUsers()
@@ -103,13 +139,14 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks',
 			'Delagated Events/To Dos', 'Delegated (overdue) Events/ToDos', 'Calendar',
 			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
-			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_ACCOUNTS_BY_INDUSTRY'
+			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_ACCOUNTS_BY_INDUSTRY',
+			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS'
 		];
 	}
 
 	public function getSize()
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getSize() method ...");
 
 		$width = array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
@@ -121,7 +158,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getDefaultValues()
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...");
 
 		$defaultValues = array('width' => 4, 'height' => 4);
@@ -132,7 +169,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getSelectableDashboard()
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -172,7 +209,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * */
 	public function saveDetails($data, $moduleName)
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::saveDetails($moduleName) method ...");
 
 		$adb = PearDatabase::getInstance();
@@ -186,6 +223,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'size' => $size,
 				'limit' => $data['limit'],
 				'cache' => $data['cache'],
+				'date' => $data['default_date']
 			];
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
 				$insert['owners'] = \includes\utils\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
@@ -207,10 +245,10 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function addBlock($data, $moduleName)
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::addBlock(" . $data . ", " . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = \includes\Modules::getModuleId($moduleName);
+		$tabId = \App\Module::getModuleId($moduleName);
 		$query = 'INSERT INTO vtiger_module_dashboard_blocks (`authorized`, `tabid`) VALUES (?, ?);';
 		$params = array($data['authorized'], $tabId);
 		$adb->pquery($query, $params);
@@ -221,10 +259,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function addWidget($data, $moduleName, $addToUser = false)
 	{
-		
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::addWidget(" . $data . ", " . $moduleName . ") method ...");
-		$adb = PearDatabase::getInstance();
-
+		$db = App\Db::getInstance();
 		$status = false;
 		$widgetWithLimit = self::getWidgetsWithLimit();
 		if (in_array($data['name'], $widgetWithLimit))
@@ -232,40 +268,56 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		if ($status && !$data['limit'])
 			$data['limit'] = 10;
-		$query = 'INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`,`isdefault`, `cache`) VALUES(?,?,?,?,?,?,?,?,?,?);';
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1')
 			$data['isdefault'] = 0;
-		$size = \includes\utils\Json::encode(array('width' => $data['width'], 'height' => $data['height']));
-		$owners = \includes\utils\Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
-		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $owners, $data['isdefault'], $data['cache']);
-
-		$adb->pquery($query, $params);
-		$templateId = $adb->getLastInsertID();
-
+		$size = \includes\utils\Json::encode([
+				'width' => $data['width'],
+				'height' => $data['height']
+		]);
+		$owners = \includes\utils\Json::encode([
+				'default' => $data['default_owner'],
+				'available' => $data['owners_all']
+		]);
+		$db->createCommand()->insert('vtiger_module_dashboard', [
+			'linkid' => $data['linkid'],
+			'blockid' => $data['blockid'],
+			'filterid' => $data['filterid'],
+			'title' => $data['title'],
+			'data' => $data['data'],
+			'size' => $size,
+			'limit' => $data['limit'],
+			'owners' => $owners,
+			'isdefault' => $data['isdefault'],
+			'cache' => $data['cache'],
+			'date' => $data['default_date'],
+		])->execute();
+		$templateId = $db->getLastInsertID();
 		if ($addToUser) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$module = vtlib\Functions::getModuleId($moduleName);
-
 			$active = 0;
 			if ($data['isdefault'])
 				$active = 1;
-			$insert = [
-				'linkid' => $data['linkid'], 'userid' => $currentUser->getId(), 'templateid' => $templateId,
-				'filterid' => $data['filterid'], 'title' => $data['title'], 'data' => $data['data'],
-				'size' => $size, 'limit' => $data['limit'], 'owners' => $owners,
-				'isdefault' => $data['isdefault'], 'active' => $active, 'module' => $module, 'cache' => $data['cache']
-			];
-			$adb->insert('vtiger_module_dashboard_widgets', $insert);
-			$widgetId = $adb->getLastInsertID();
+			$db->createCommand()->insert('vtiger_module_dashboard_widgets', [
+				'linkid' => $data['linkid'], 'userid' => Users_Record_Model::getCurrentUserModel()->getId(), 'templateid' => $templateId,
+				'filterid' => $data['filterid'],
+				'title' => $data['title'],
+				'data' => $data['data'],
+				'size' => $size, 'limit' => $data['limit'],
+				'owners' => $owners,
+				'isdefault' => $data['isdefault'],
+				'active' => $active,
+				'module' => \App\Module::getModuleId($moduleName),
+				'cache' => $data['cache'],
+				'date' => $data['default_date'],
+			])->execute();
+			$widgetId = $db->getLastInsertID();
 		}
-		$text = vtranslate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement');
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...");
-		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => $text);
+		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => vtranslate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement'));
 	}
 
 	public function getBlocksId()
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getBlocksId() method ...");
 		$adb = PearDatabase::getInstance();
 		$data = array();
@@ -292,35 +344,32 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public static function getBlocksFromModule($moduleName, $authorized = '')
 	{
-		
-		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getBlocksFromModule(" . $moduleName . ", " . $authorized . ") method ...");
+
+		\App\Log::trace('getBlocksFromModule(' . $moduleName . ', ' . $authorized . ') method ...');
 		$adb = PearDatabase::getInstance();
-		$tabId = \includes\Modules::getModuleId($moduleName);
+		$tabId = \App\Module::getModuleId($moduleName);
 		$data = [];
-		$query = 'SELECT * FROM `vtiger_module_dashboard_blocks` WHERE `tabid` = ?';
-		$params = [$tabId];
+		$query = (new \App\Db\Query())
+			->from('vtiger_module_dashboard_blocks')
+			->where(['tabid' => $tabId]);
 		if ($authorized) {
-			$query .= ' && `authorized` = ? ;';
-			$params[] = $authorized;
+			$query->andWhere(['authorized' => $authorized]);
 		}
-		$result = $adb->pquery($query, $params);
-		while ($row = $adb->fetch_array($result)) {
+		$dataReader = $query->createCommand($db)->query();
+		while ($row = $dataReader->read()) {
 			$data[$row['authorized']] = $row['id'];
 		}
-		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getBlocksFromModule() method ...");
 		return $data;
 	}
 
 	public static function getSpecialWidgets($moduleName)
 	{
-		
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getSpecialWidgets($moduleName) method ...");
-		$db = PearDatabase::getInstance();
-		$tabId = \includes\Modules::getModuleId($moduleName);
-		$query = 'SELECT * FROM `vtiger_links` WHERE `tabid` = ? && linklabel IN (?, ?, ?, ?, ?)';
-		$result = $db->pquery($query, array_merge([$tabId], self::getWidgetSpecial()));
-		$widgets = [];
-		while ($row = $db->fetch_array($result)) {
+		$tabId = \App\Module::getModuleId($moduleName);
+		$query = (new \App\Db\Query())->from('vtiger_links')
+			->where(['tabid' => $tabId, 'linklabel' => self::getWidgetSpecial()]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
 		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::getSpecialWidgets() method ...');
@@ -334,10 +383,10 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * */
 	public function getDashboardForModule($moduleName)
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getDashboardForModule(" . $moduleName . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$tabId = \includes\Modules::getModuleId($moduleName);
+		$tabId = \App\Module::getModuleId($moduleName);
 		$data = array();
 
 		$query = 'SELECT 
@@ -351,6 +400,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				  mdw.isdefault,
 				  mdw.owners,
 				  mdw.cache,
+				  mdw.date,
 				  `vtiger_links`.*,
 				  `mdb`.`authorized`
 				FROM
@@ -388,7 +438,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function removeWidget($data)
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::removeWidget(" . $data . ") method ...");
 		$adb = PearDatabase::getInstance();
 		$query = 'DELETE FROM vtiger_module_dashboard WHERE vtiger_module_dashboard.id = ?;';
@@ -400,7 +450,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function removeBlock($data)
 	{
-		
+
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::removeBlock(" . $data . ") method ...");
 		$adb = PearDatabase::getInstance();
 

@@ -13,7 +13,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 	public function getListFiledOfModule($moduleName, $relID = false)
 	{
 		$db = PearDatabase::getInstance();
-		$tabid = \includes\Modules::getModuleId($moduleName);
+		$tabid = \App\Module::getModuleId($moduleName);
 		$sql = "select `fieldid`, `fieldlabel`, `uitype`, `block` from vtiger_field where tabid = ? && presence <> ? && typeofdata <> ? && `block` NOT IN (?)";
 		$result = $db->pquery($sql, array($tabid, 1, 'P~M', 0));
 		$output = array();
@@ -40,7 +40,7 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 	public function getListFiledOfRelatedModule($moduleName)
 	{
 		$db = PearDatabase::getInstance();
-		$tabid = \includes\Modules::getModuleId($moduleName);
+		$tabid = \App\Module::getModuleId($moduleName);
 		$sourceModule = $moduleName;
 		$params = $referenceUitype = [10, 59, 53, 51, 66, 67, 68];
 		$params[] = $tabid;

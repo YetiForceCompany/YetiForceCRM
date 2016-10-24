@@ -18,7 +18,7 @@ class RecordNumber
 	{
 		$db = \PearDatabase::getInstance();
 		if (!is_numeric($tabId)) {
-			$tabId = \includes\Modules::getModuleId($tabId);
+			$tabId = \App\Module::getModuleId($tabId);
 		}
 		$result = $db->pquery('SELECT 1 FROM vtiger_modentity_num WHERE tabid = ?', [$tabId]);
 		if ($result && $db->num_rows($result) > 0) {
@@ -40,7 +40,7 @@ class RecordNumber
 		if ($no != '') {
 			$db = \PearDatabase::getInstance();
 			if (!is_numeric($tabId)) {
-				$tabId = \includes\Modules::getModuleId($tabId);
+				$tabId = \App\Module::getModuleId($tabId);
 			}
 			$query = 'SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ?';
 			$check = $db->pquery($query, [$tabId]);
@@ -121,7 +121,7 @@ class RecordNumber
 			return self::$numberCache[$tabId];
 		}
 		if (is_string($tabId)) {
-			$tabId = \includes\Modules::getModuleId($tabId);
+			$tabId = \App\Module::getModuleId($tabId);
 		}
 		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ? ', [$tabId]);

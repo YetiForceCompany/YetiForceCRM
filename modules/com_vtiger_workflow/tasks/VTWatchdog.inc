@@ -25,7 +25,6 @@ class VTWatchdog extends VTTask
 		$parts = explode('x', $wsId);
 		$recordId = $parts[1];
 		$users = [];
-
 		$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
 		if ($this->recipients == 'watchdog') {
 			$users = $watchdog->getWatchingUsers();
@@ -38,17 +37,15 @@ class VTWatchdog extends VTTask
 		if ($this->skipCurrentUser == 1 && ($key = array_search(Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId(), $users)) !== false) {
 			unset($users[$key]);
 		}
-		foreach ($users as $userId) {
-			$notification = Vtiger_Record_Model::getCleanInstance('Notification');
-			$notification->set('relatedid', $recordId);
-			$notification->set('assigned_user_id', $userId);
-			$notification->set('relatedmodule', $moduleName);
-			$notification->set('title', $this->title);
-			$notification->set('desciption', $this->message);
-			$notification->set('notification_type', $this->type);
-			$notification->set('notification_status', 'PLL_UNREAD');
-			$notification->save();
-		}
+		$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+		$notification = Vtiger_Record_Model::getCleanInstance('Notification');
+		$notification->set('shownerid', $users);
+		$notification->set($relatedField, $recordId);
+		$notification->set('title', $this->title);
+		$notification->set('description', $this->message);
+		$notification->set('notification_type', $this->type);
+		$notification->set('notification_status', 'PLL_UNREAD');
+		$notification->save();
 	}
 
 	public function getAllTypes()

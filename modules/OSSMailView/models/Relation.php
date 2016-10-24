@@ -17,7 +17,7 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 		$em = new VTEventsManager($db);
 		$em->initTriggerCache();
 
-		$destinationModuleName = \includes\Record::getType($crmid);
+		$destinationModuleName = \App\Record::getType($crmid);
 		$destinationModuleModel = Vtiger_Module_Model::getInstance($destinationModuleName);
 		$data = [];
 		$data['CRMEntity'] = $destinationModuleModel->focus;

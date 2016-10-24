@@ -28,7 +28,7 @@ class Vtiger_ModulesHierarchy_Model
 		self::$modulesMapMMBase = $modulesMapMMBase;
 		self::$modulesMapMMCustom = $modulesMapMMCustom;
 		foreach (self::$modulesHierarchy as $module => &$details) {
-			if (\includes\Modules::isModuleActive($module) && Users_Privileges_Model::isPermitted($module)) {
+			if (\App\Module::isModuleActive($module) && Users_Privileges_Model::isPermitted($module)) {
 				self::$modulesByLevels[$details['level']][$module] = $details;
 			}
 		}

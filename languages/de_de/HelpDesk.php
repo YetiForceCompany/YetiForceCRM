@@ -96,6 +96,8 @@ $languageStrings = [
 	'ticketpriorities' => 'Priorität',
 	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'Das Ticket ist nicht mit einer Organisation verknüpft. Bitte verküpfen Sie dies Ticket mit einer Organisation.',
 	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'Die Organisation hat keinen aktiven Servicevertrag',
+	'LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK' => 'The ticket is not related to any SLA.',
+	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Pressing this button will relate this SLA to ticket.',
 	//notifications translation 
 	'LBL_NOTICE_WELCOME' => 'Willkommen',
 	'LBL_NOTICE_CREATED' => 'wurde erstellt (von',

@@ -226,13 +226,13 @@ class ListViewController
 						if ($downloadType == 'I') {
 							$value = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
 								' href="index.php?module=Documents&action=DownloadFile&record=' . $recordId . '&fileid=' . $fileId . '"' .
-								' title="' . \includes\Language::translate('LBL_DOWNLOAD_FILE', $module) .
+								' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', $module) .
 								'" >' . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) .
 								'</a>';
 						} elseif ($downloadType == 'E') {
 							$value = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
 								' href="' . $fileName . '" target="_blank"' .
-								' title="' . \includes\Language::translate('LBL_DOWNLOAD_FILE', $module) .
+								' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', $module) .
 								'" >' . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) .
 								'</a>';
 						} else {
@@ -255,9 +255,9 @@ class ListViewController
 					}
 				} elseif ($module == 'Documents' && $fieldName == 'filestatus') {
 					if ($value == 1)
-						$value = \includes\Language::translate('yes', $module);
+						$value = \App\Language::translate('yes', $module);
 					elseif ($value == 0)
-						$value = \includes\Language::translate('no', $module);
+						$value = \App\Language::translate('no', $module);
 					else
 						$value = '--';
 				} elseif ($module == 'Documents' && $fieldName == 'filetype') {
@@ -270,18 +270,18 @@ class ListViewController
 					$value = $value['short'];
 				} elseif ($field->getUIType() == '27') {
 					if ($value == 'I') {
-						$value = \includes\Language::translate('LBL_INTERNAL', $module);
+						$value = \App\Language::translate('LBL_INTERNAL', $module);
 					} elseif ($value == 'E') {
-						$value = \includes\Language::translate('LBL_EXTERNAL', $module);
+						$value = \App\Language::translate('LBL_EXTERNAL', $module);
 					} else {
 						$value = ' --';
 					}
 					$value = vtlib\Functions::textLength($value);
-				} elseif (($module == 'Notification' && $fieldName == 'title') || ($module == 'Notification' && $fieldName == 'description')){
+				} elseif ($module == 'Notification' && ($fieldName == 'title' || $fieldName == 'description')){
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 					$relatedModule = $recordModel->get('relatedmodule');
 					$reletedId = $recordModel->get('relatedid');
-					if ($relatedModule != 'Users' && \includes\Record::isExists($reletedId)) {
+					if ($relatedModule != 'Users' && \App\Record::isExists($reletedId)) {
 						$textParser = Vtiger_TextParser_Helper::getInstanceByModel(Vtiger_Record_Model::getInstanceById($reletedId, $relatedModule));
 					} else {
 						$textParser = Vtiger_TextParser_Helper::getCleanInstance();
@@ -291,7 +291,7 @@ class ListViewController
 					$value = $value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} 
 				elseif ($field->getFieldDataType() == 'picklist') {
-					$value = \includes\Language::translate($value, $module);
+					$value = \App\Language::translate($value, $module);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getFieldDataType() == 'date' || $field->getFieldDataType() == 'datetime') {
 					if ($value != '' && $value != '0000-00-00') {
@@ -373,9 +373,9 @@ class ListViewController
 						$value = 0;
 					}
 					if ($value == 1) {
-						$value = \includes\Language::translate('yes', $module);
+						$value = \App\Language::translate('yes', $module);
 					} elseif ($value == 0) {
-						$value = \includes\Language::translate('no', $module);
+						$value = \App\Language::translate('no', $module);
 					} else {
 						$value = '--';
 					}
@@ -384,7 +384,7 @@ class ListViewController
 				} elseif ($field->getFieldDataType() == 'multipicklist') {
 					$valueArray = ($value != "") ? explode(' |##| ', $value) : [];
 					foreach ($valueArray as $key => $valueSingle) {
-						$valueArray[$key] = \includes\Language::translate($valueSingle, $module);
+						$valueArray[$key] = \App\Language::translate($valueSingle, $module);
 					}
 					$value = implode(', ', $valueArray);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
@@ -437,7 +437,7 @@ class ListViewController
 							} else {
 								$value = vtlib\Functions::textLength($this->nameList[$fieldName][$ID], $fieldModel->get('maxlengthtext'));
 								$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&" .
-									"record=$rawValue' title='" . \includes\Language::translate($parentModule, $parentModule) . "'>$value</a>";
+									"record=$rawValue' title='" . \App\Language::translate($parentModule, $parentModule) . "'>$value</a>";
 							}
 						} else {
 							$value = vtlib\Functions::textLength($this->nameList[$fieldName][$ID], $fieldModel->get('maxlengthtext'));
@@ -446,7 +446,7 @@ class ListViewController
 						$value = '--';
 					}
 				} elseif ($field->getFieldDataType() == 'owner') {
-					$value = vtlib\Functions::textLength($this->ownerNameList[$fieldName][$value], $fieldModel->get('maxlengthtext'));
+					$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value);
 				} elseif ($field->getUIType() == 8) {
 					if (!empty($value)) {
 						$temp_val = html_entity_decode($value, ENT_QUOTES, $default_charset);

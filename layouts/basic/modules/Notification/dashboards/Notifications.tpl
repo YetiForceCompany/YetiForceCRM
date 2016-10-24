@@ -15,14 +15,21 @@
 		<div class="row" >
 			<div class="col-md-12 textAlignRight">
 				{if Users_Privileges_Model::isPermitted('Dashboard', 'NotificationCreateMessage')}
-					<a class="btn btn-default btn-xs showModal" data-url="index.php?module=Notification&view=CreateNotificationModal">
+					<a class="btn btn-default btn-xs marginTop5" onclick="Vtiger_Index_Js.sendNotification()">
 						<span class="glyphicon glyphicon-plus" title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
 				&nbsp;
-				<a class="btn btn-xs btn-default" href="index.php?module=Notification&view=List">
+				<a class="btn btn-xs btn-default marginTop5" href="index.php?module=Notification&view=List">
 					<span class="glyphicon glyphicon-th-list" title="{vtranslate('LBL_GO_TO_RECORDS_LIST')}" alt="{vtranslate('LBL_GO_TO_RECORDS_LIST')}"></span>
 				</a>
+				<div class="col-xs-6">
+					<select class="widgetFilter select2" name="type">
+						{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
+							<option value="{$KEY}">{$TYPE}</option>
+						{/foreach}
+					</select>
+				</div>
 			</div>
 		</div>
 	</div>

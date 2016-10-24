@@ -332,7 +332,7 @@ $languageStrings = [
 
 $jsLanguageStrings = [
 	'JS_ENTER_OLD_PASSWORD' => 'Пожалуйста, введите ваш старый пароль.',
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
+	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
 	'JS_ENTER_CONFIRMATION_PASSWORD' => 'Пожалуйста, введите подтверждение пароля.',
 	'JS_ENTER_NEW_PASSWORD' => 'Пожалуйста, введите ваш новый пароль.',
 	'JS_INVALID_PASSWORD' => 'Вы должны указать правильный Логин и пароль.',

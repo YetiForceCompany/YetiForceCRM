@@ -98,7 +98,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		
 		if ($event_type == 'module.postinstall') {
 
-			$tabid = \includes\Modules::getModuleId($modulename);
+			$tabid = \App\Module::getModuleId($modulename);
 			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('name','osstimecontrol_no','osstimecontrol_status','smownerid','date_start','time_start','time_end','due_date','sum_time','platnosc');", true);
 			\includes\fields\RecordNumber::setNumber($modulename, 'TC', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

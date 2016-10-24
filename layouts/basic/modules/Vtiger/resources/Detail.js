@@ -1864,143 +1864,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			Vtiger_Index_Js.showComposeEmailPopup(params);
 		})
 	},
-	registerEnterClickEventForTagRecord: function () {
-		jQuery('#tagRecordText').keypress(function (e) {
-			if (e.which == 13) {
-				jQuery('#tagRecord').trigger('click');
-			}
-		});
-	},
-	checkTagExists: function (tagText) {
-		var tagsArray = tagText.split(' ');
-		for (var i = 0; i < tagsArray.length; i++) {
-			var tagElement = jQuery('#tagsList').find("[data-tagname='" + tagsArray[i] + "']");
-			if (tagElement.length > 0) {
-				tagsArray.splice(i, 1);
-				i--;
-			}
-		}
-		var tagName = tagsArray.join(' ');
-		if (tagName == '') {
-			return true;
-		} else {
-			return tagName;
-		}
-
-	},
-	addTagsToList: function (data) {
-		for (var key in data.result[1]) {
-			var tagId = data.result[1][key];
-			var tagElement = jQuery('#tagsList').find("[data-tagid='" + tagId + "']");
-			if (tagElement.length == 0) {
-				jQuery('#tagsList').prepend('<div class="btn-info btn-xs pull-left tag" data-tagname="' + key + '" data-tagid="' + tagId + '"><span class="glyphicon glyphicon-asterisk">&nbsp;</span><span class="tagName textOverflowEllipsis"><a class="cursorPointer">' + key + '</a></span><span id="deleteTag" class="glyphicon glyphicon-remove cursorPointer deleteTag" aria-hidden="true"></span></div>');
-			}
-		}
-	},
-	checkTagMaxLengthExceeds: function (tagText) {
-		var tagsArray = tagText.split(' ');
-		var maxTagLength = jQuery('#maxTagLength').val();
-
-		for (var i = 0; i < tagsArray.length; i++) {
-			if (tagsArray[i].length > parseInt(maxTagLength)) {
-				return true;
-			}
-		}
-		return false;
-	},
-	registerClickEventForAddingTagRecord: function () {
-		var thisInstance = this;
-		jQuery('#tagRecord').on('click', function () {
-			var textElement = jQuery('#tagRecordText');
-			var tagText = textElement.val();
-			tagTextSplit = tagText.split(' ');
-			if ((tagTextSplit.length + $('#tagsList').children().length) > $('#maxTag').val()) {
-				var maxTag = jQuery('#maxTag').val();
-				textElement.validationEngine('showPrompt', app.vtranslate('JS_MAX_TAG_EXCEEDS') + ' ' + maxTag, 'error', 'bottomLeft', true);
-				return;
-			}
-			if (tagText == '') {
-				textElement.validationEngine('showPrompt', app.vtranslate('JS_PLEASE_ENTER_A_TAG'), 'error', 'bottomLeft', true);
-				return;
-			}
-			var maxLengthExceeds = thisInstance.checkTagMaxLengthExceeds(tagText);
-			if (maxLengthExceeds == true) {
-				var maxTagLenth = jQuery('#maxTagLength').val();
-				textElement.validationEngine('showPrompt', app.vtranslate('JS_MAX_TAG_LENGTH_EXCEEDS') + ' ' + maxTagLenth, 'error', 'bottomLeft', true);
-				return;
-			}
-			var tagExistResult = thisInstance.checkTagExists(tagText);
-			if (tagExistResult == true) {
-				textElement.validationEngine('showPrompt', app.vtranslate('JS_TAG_NAME_ALREADY_EXIST'), 'error', 'bottomLeft', true);
-				return;
-			} else {
-				tagText = tagExistResult;
-			}
-			var params = {
-				module: app.getModuleName(),
-				action: 'TagCloud',
-				mode: 'save',
-				tagname: tagText,
-				record: thisInstance.getRecordId()
-			}
-			AppConnector.request(params).then(
-					function (data) {
-						thisInstance.addTagsToList(data);
-						textElement.val('');
-					}
-			);
-		});
-	},
-	registerRemovePromptEventForTagCloud: function (data) {
-		jQuery('#tagRecordText').on('focus', function (e) {
-			var errorPrompt = jQuery('.formError', data);
-			if (errorPrompt.length > 0) {
-				errorPrompt.remove();
-			}
-		});
-	},
-	registerDeleteEventForTag: function (data) {
-		var thisInstance = this;
-		jQuery(data).on('click', '.deleteTag', function (e) {
-			var tag = jQuery(e.currentTarget).closest('.tag');
-			var tagId = tag.data('tagid');
-			tag.fadeOut('slow', function () {
-				tag.remove();
-			});
-			var params = {
-				module: app.getModuleName(),
-				action: 'TagCloud',
-				mode: 'delete',
-				tag_id: tagId,
-				record: thisInstance.getRecordId()
-			}
-			AppConnector.request(params).then(
-					function (data) {
-					});
-		});
-	},
-	registerTagClickEvent: function (data) {
-		var thisInstance = this;
-		jQuery(data).on('click', '.tagName', function (e) {
-			var tagElement = jQuery(e.currentTarget);
-			var tagId = tagElement.closest('.tag').data('tagid');
-			var params = {
-				'module': app.getModuleName(),
-				'view': 'TagCloudSearchAjax',
-				'tag_id': tagId,
-				'tag_name': tagElement.find('a').text()
-			}
-			AppConnector.request(params).then(
-					function (data) {
-						var params = {
-							'data': data
-						}
-						app.showModalWindow(params);
-						thisInstance.registerChangeEventForModulesList();
-					}
-			)
-		});
-	},
 	registerChangeEventForModulesList: function () {
 		jQuery('#tagSearchModulesList').on('change', function (e) {
 			var modulesSelectElement = jQuery(e.currentTarget);
@@ -2012,39 +1875,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				jQuery('[name="tagSearchModuleResults"]').filter(':not(#' + selectedOptionValue + ')').addClass('hide');
 			}
 		});
-	},
-	registerPostTagCloudWidgetLoad: function () {
-		var thisInstance = this;
-		app.getContentsContainer().on('Vtiger.Widget.Load.LBL_TAG_CLOUD', function (e, data) {
-			thisInstance.registerClickEventForAddingTagRecord();
-			thisInstance.registerEnterClickEventForTagRecord();
-			thisInstance.registerDeleteEventForTag(data);
-			thisInstance.registerRemovePromptEventForTagCloud(data);
-			thisInstance.registerTagClickEvent(data);
-		});
-	},
-	registerGetAllTagCloudWidgetLoad: function (detailViewContainer) {
-		var thisInstance = this;
-		var tagContainer = detailViewContainer.find('.tagContainer');
-		if (tagContainer.length) {
-			AppConnector.request({
-				module: app.getModuleName(),
-				mode: 'showTags',
-				source_module: app.getModuleName(),
-				record: this.getRecordId(),
-				view: 'ShowTagCloudTop'
-			}).then(function (data) {
-				if (data.length > 0) {
-					data = $(data);
-					tagContainer.append(data);
-					thisInstance.registerDeleteEventForTag(data);
-					thisInstance.registerRemovePromptEventForTagCloud(data);
-					thisInstance.registerTagClickEvent(data);
-					thisInstance.registerClickEventForAddingTagRecord();
-					thisInstance.registerEnterClickEventForTagRecord();
-				}
-			});
-		}
 	},
 	registerEventForRelatedTabClick: function () {
 		var thisInstance = this;
@@ -2909,6 +2739,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerEventForRelatedListPagination();
 		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
+		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"]'));
 		detailContentsHolder.on('switchChange.bootstrapSwitch', '.recentActivitiesSwitch.switchBtn', function (e, state) {
 			var currentTarget = jQuery(e.currentTarget);
 			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
@@ -3040,7 +2871,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerPhoneFieldClickEvent();
 		this.registerEventForEmailsRelatedRecord();
 		this.registerEventForAddingEmailFromRelatedList();
-		this.registerPostTagCloudWidgetLoad();
 		this.registerEventForRelatedTabClick();
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		this.registerUrlFieldClickEvent();
@@ -3058,7 +2888,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.loadWidgets();
 
 		this.registerEventForTotalRecordsCount();
-		this.registerGetAllTagCloudWidgetLoad(detailViewContainer);
 		var header = Vtiger_Header_Js.getInstance();
 		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
 	}

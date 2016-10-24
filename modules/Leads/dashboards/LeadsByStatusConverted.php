@@ -49,6 +49,11 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($createdTime)) {
 			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
+		} else {
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			if($time !== false){
+				$dates = $time;
+			}
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -63,6 +68,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
+		$viewer->assign('DTIME', $dates);
 
 		$accessibleUsers = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule();

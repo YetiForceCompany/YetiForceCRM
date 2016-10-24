@@ -21,10 +21,10 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model
 			return $return;
 		}
 		$return = 0;
-
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT id FROM yetiforce_mobile_keys WHERE user = ? && service = ?;', [$userId, 'pushcall']);
-		if ($adb->getRowCount($result)) {
+		$isExists = (new \App\Db\Query())->from('yetiforce_mobile_keys')
+				->where(['user' => $userId, 'service' => 'pushcall'])
+				->exists();
+		if ($isExists) {
 			$return = true;
 		}
 		Vtiger_Cache::set('checkPermissionForOutgoingCall', $userId, $return);

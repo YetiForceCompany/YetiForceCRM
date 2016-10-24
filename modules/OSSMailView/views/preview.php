@@ -88,6 +88,15 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('ISMODAL', $request->isAjax());
+		$viewer->assign('SCRIPTS', $this->getModalScripts($request));
 		$viewer->view('preview.tpl', 'OSSMailView');
+	}
+	public function getModalScripts(Vtiger_Request $request)
+	{
+		$scripts = [
+			'~layouts/basic/modules/OSSMailView/resources/preview.js'
+		];
+		$modalScripts = $this->checkAndConvertJsScripts($scripts);
+		return $modalScripts;
 	}
 }

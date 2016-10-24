@@ -135,15 +135,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function isCommentEnabled()
 	{
 		$enabled = false;
-		$db = PearDatabase::getInstance();
+		$query = new \App\Db\Query();
 		$commentsModuleModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($commentsModuleModel && $commentsModuleModel->isActive()) {
-			$relatedToFieldResult = $db->pquery('SELECT fieldid FROM vtiger_field WHERE fieldname = ? && tabid = ?', array('related_to', $commentsModuleModel->getId()));
-			$fieldId = $db->getSingleValue($relatedToFieldResult);
+			$fieldId = $query->select('fieldid')->from('vtiger_field')->where(['fieldname' => 'related_to', 'tabid' => $commentsModuleModel->getId()])->scalar();
 			if (!empty($fieldId)) {
-				$relatedModuleResult = $db->pquery('SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid = ?', array($fieldId));
-				while (($relatedModule = $db->getSingleValue($relatedModuleResult)) !== false) {
-					if ($this->getName() == $relatedModule) {
+				$query->select('relmodule')->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId]);
+				$dataReader = $query->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					if ($this->getName() === $row['relmodule']) {
 						$enabled = true;
 					}
 				}
@@ -802,30 +802,23 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
-		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
 		$moduleModels = Vtiger_Cache::get('vtiger', 'modules');
-
 		if (!$moduleModels) {
 			$moduleModels = [];
-
-			$query = 'SELECT * FROM vtiger_tab';
-			$params = [];
+			$query = (new \App\Db\Query())->from('vtiger_tab');
 			$where = [];
 			if ($presence) {
-				$where[] = 'presence IN (' . generateQuestionMarks($presence) . ')';
-				array_push($params, $presence);
+				$where['presence'] = $presence;
 			}
 			if ($isEntityType) {
-				$where[] = 'isentitytype = ?';
-				array_push($params, 1);
+				$where['isentitytype'] = 1;
 			}
 			if ($where) {
-				$query .= sprintf(' WHERE %s', implode(' && ', $where));
+				$query->where($where);
 			}
-
-			$result = $db->pquery($query, $params);
-			while ($row = $db->getRow($result)) {
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$moduleModels[$row['tabid']] = self::getInstanceFromArray($row);
 				Vtiger_Cache::set('module', $row['tabid'], $moduleModels[$row['tabid']]);
 				Vtiger_Cache::set('module', $row['name'], $moduleModels[$row['tabid']]);
@@ -834,7 +827,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				Vtiger_Cache::set('vtiger', 'modules', $moduleModels);
 			}
 		}
-
 		if ($presence && $moduleModels) {
 			foreach ($moduleModels as $key => $moduleModel) {
 				if (!in_array($moduleModel->get('presence'), $presence)) {
@@ -842,7 +834,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
-
 		if ($restrictedModulesList && $moduleModels) {
 			foreach ($moduleModels as $key => $moduleModel) {
 				if (in_array($moduleModel->getName(), $restrictedModulesList)) {
@@ -850,7 +841,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
-
 		return $moduleModels;
 	}
 
@@ -884,18 +874,20 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$db = PearDatabase::getInstance();
+		
 		self::preModuleInitialize2();
-
-		$sql = 'SELECT DISTINCT vtiger_tab.* FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
-				 WHERE (quickcreate=0 || quickcreate=2) && vtiger_tab.presence != 1 && vtiger_tab.type <> 1';
+		$query = new \App\Db\Query();
+		$query->select('vtiger_tab.*')->from('vtiger_field')
+			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
+			->where(['or', 'quickcreate = 0', 'quickcreate = 2'])
+			->andWhere(['<>', 'vtiger_tab.presence', 1])
+			->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
 		if ($restrictList) {
-			$sql .= " && vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events')";
+			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments','PriceBooks','Events']]);
 		}
-		$result = $db->query($sql);
-
 		$quickCreateModules = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'CreateView')) {
 				$moduleModel = self::getInstanceFromArray($row);
 				$quickCreateModules[$row['name']] = $moduleModel;
@@ -907,21 +899,20 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the list of all searchable modules
-	 * @return <Array> - List of Vtiger_Module_Model instances
+	 * @return array - List of <Vtiger_Module_Model> instances
 	 */
 	public static function getSearchableModules()
 	{
-		$db = PearDatabase::getInstance();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$entityModules = self::getEntityModules();
 		$searchableModules = [];
-		$sql = 'SELECT tabid FROM vtiger_entityname WHERE turn_off = 0';
-		$result = $db->query($sql);
+		$dataReader = (new \App\Db\Query())->select('tabid')
+				->from('vtiger_entityname')->where(['turn_off' => 0])
+				->createCommand()->query();
 		$turnOffModules = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$turnOffModules[$row['tabid']] = $row['tabid'];
 		}
-
 		foreach ($entityModules as $tabid => $moduleModel) {
 			$moduleName = $moduleModel->getName();
 			if ($moduleName == 'Users' || $moduleName == 'Emails' || $moduleName == 'Events' || in_array($tabid, $turnOffModules))
@@ -936,10 +927,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 	protected static function preModuleInitialize2()
 	{
 		if (!Vtiger_Cache::get('EntityField', 'all')) {
-			$db = PearDatabase::getInstance();
 			// Initialize meta information - to speed up instance creation (vtlib\ModuleBasic::initialize2)
-			$result = $db->pquery('SELECT modulename,tablename,entityidfield,fieldname FROM vtiger_entityname', []);
-			while ($row = $db->getRow($result)) {
+			$dataReader = (new \App\Db\Query())->select('modulename,tablename,entityidfield,fieldname')
+					->from('vtiger_entityname')
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$entiyObj = new stdClass();
 				$entiyObj->basetable = $row['tablename'];
 				$entiyObj->basetableid = $row['entityidfield'];
