@@ -1,9 +1,9 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'LBL_CREDITLIMITS' => 'Kreditlimit Grundlage',
+	'LBL_CREDITLIMITS' => 'Merchant limits',
 	'LBL_CREDITLIMITS_DESCRIPTION' => ' ',
-	'LBL_CREDITLIMITS_SINGLE' => 'Kreditlimit',
+	'LBL_CREDITLIMITS_SINGLE' => 'Merchant limit',
 	'LBL_ENTER_NAME' => 'Name eingeben',
 	'LBL_ENTER_VALUE' => 'Betrag eingeben',
 	'LBL_NAME' => 'Name',
@@ -36,7 +36,7 @@ $languageStrings = [
 	'LBL_NO' => 'Nein',
 	//history
 	'Inventory' => 'Erweiterte Module',
-	'LBL_VIEW_CREDITLIMITS' => 'Kreditlimit Grundlage',
+	'LBL_VIEW_CREDITLIMITS' => 'Merchant limits base',
 	'LBL_VIEW_TAXES' => 'Basissteuer',
 	'LBL_VIEW_TAXCONFIGURATION' => 'Steuerkonfiguration',
 	'LBL_VIEW_DISCOUNTCONFIGURATION' => 'Rabattkonfiguration',
