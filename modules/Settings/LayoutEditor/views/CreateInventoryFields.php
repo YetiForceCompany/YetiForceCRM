@@ -54,7 +54,7 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 		$viewer->assign('INVENTORY_MODEL', $instance);
 		$viewer->assign('FIELD_INSTANCE', $fieldInstance);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('MODULE', $qualifiedModuleName);
+		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ID', $request->get('id'));
 		$viewer->view('CreateInventoryFieldsStep2.tpl', $qualifiedModuleName);
 	}

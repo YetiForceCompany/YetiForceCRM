@@ -44,7 +44,6 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$record = $request->get('record');
 		$currency = $request->get('currency');
 		$price = $request->get('price');
-		$limitConfig = $request->get('limitConfig');
 		$limitFieldName = 'creditlimit';
 		$balanceFieldName = 'inventorybalance';
 		$response = new Vtiger_Response();
@@ -85,7 +84,6 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 			$viewer->assign('SYMBOL', $symbol);
 			$viewer->assign('LIMIT', $limit);
 			$viewer->assign('TOTALS', $totalPrice);
-			$viewer->assign('LOCK', $limitConfig);
 			$html = $viewer->view('InventoryLimitAlert.tpl', $moduleName, true);
 		}
 

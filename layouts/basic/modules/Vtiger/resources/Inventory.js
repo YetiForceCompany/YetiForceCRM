@@ -898,9 +898,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	checkLimits: function () {
 		var thisInstance = this;
 		var account = thisInstance.getAccountId();
+		var limit = parseInt(app.getMainParams('inventoryLimit'));
 		var response = true;
 
-		if (account == '' || thisInstance.limitEnableSave) {
+		if (account == '' || thisInstance.limitEnableSave || !limit) {
 			return response;
 		}
 
@@ -911,8 +912,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			mode: 'checkLimits',
 			record: account,
 			currency: thisInstance.getCurrency(),
-			price: thisInstance.getSummaryGrossPrice(),
-			limitConfig: app.getMainParams('inventoryLimit')
+			price: thisInstance.getSummaryGrossPrice()
 		};
 		params.async = false;
 		params.dataType = 'json';
@@ -922,13 +922,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 					progressInstace.hide();
 					var editViewForm = Vtiger_Edit_Js.getInstance().getForm();
 					if (data.result.status == false) {
-						app.showModalWindow(data.result.html, function (data) {
-							data.find('.enableSave').on('click', function (e, data) {
-								thisInstance.limitEnableSave = true;
-								editViewForm.submit();
-								app.hideModalWindow();
-							});
-						});
+						app.showModalWindow(data.result.html, function (data) {});
 						response = false;
 					}
 				},
