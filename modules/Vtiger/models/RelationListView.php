@@ -298,8 +298,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$query = $this->getRelationListViewOrderBy($query);
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
-
-		$limitQuery = $query . ' LIMIT ' . $startIndex . ',' . $pageLimit;
+		$limitQuery = $query . ' LIMIT ' . $pageLimit . ' OFFSET ' . $startIndex;
 		$result = $db->query($limitQuery);
 		$relatedRecordList = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -399,9 +398,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$relatedRecordList[$row['crmid']] = $record;
 		}
 		$pagingModel->calculatePageRange($relatedRecordList);
-
-		$nextLimitQuery = $query . ' LIMIT ' . ($startIndex + $pageLimit) . ' , 1';
-		$nextPageLimitResult = $db->pquery($nextLimitQuery, []);
+		$nextLimitQuery = $query. " LIMIT " . ($startIndex + $pageLimit) . ' OFFSET 1';
+		$nextPageLimitResult = $db->query($nextLimitQuery);
 		if ($db->num_rows($nextPageLimitResult) > 0) {
 			$pagingModel->set('nextPageExists', true);
 		} else {
@@ -587,7 +585,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if ($count > 1) {
 			$appendAndCondition = true;
 		}
-
 		$i = 1;
 		foreach ($whereCondition as $fieldName => $fieldValue) {
 			if (is_array($fieldValue)) {
@@ -595,7 +592,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$fieldValue = current($fieldValue);
 				if (is_array($fieldValue) && $fieldValue['comparison'] && in_array(strtoupper($fieldValue['comparison']), ['IN', 'NOT IN'])) {
 					if (is_array($fieldValue['value']))
-						$fieldValue['value'] = '"' . implode('","', $fieldValue['value']) . '"';
+						$fieldValue['value'] = "'" . implode("','", $fieldValue['value']) . "'";
 					$condition .= " $fieldName " . $fieldValue['comparison'] . ' (' . $fieldValue['value'] . ') ';
 				} else {
 					$condition .= " $fieldName = '$fieldValue' ";
@@ -604,13 +601,13 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$condition .= " $fieldName = '$fieldValue' ";
 			}
 			if ($appendAndCondition && ($i++ != $count)) {
-				$condition .= " && ";
+				$condition .= " AND ";
 			}
 		}
 
 		if (stripos($relationQuery, 'WHERE')) {
 			$split = preg_split('/WHERE/i', $relationQuery, 2);
-			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' && ' . $condition;
+			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' AND ' . $condition;
 		} else {
 			$updatedQuery = "$relationQuery WHERE $condition";
 		}

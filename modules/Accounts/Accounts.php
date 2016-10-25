@@ -885,7 +885,7 @@ class Accounts extends CRMEntity
 		$query .= $join;
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 && $other->table_name.$dependentColumn IN ($entityIds)";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 AND $other->table_name.$dependentColumn IN ($entityIds)";
 		return $query;
 	}
 
