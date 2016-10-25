@@ -12,6 +12,7 @@ class Field
 
 	public static function getFieldsPermission($tabId, $block = false, $readOnly = true)
 	{
+		\App\Log::trace('Entering  ' . __METHOD__);
 		$currentUser = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$query = (new \App\Db\Query())
 			->select('vtiger_field.*, vtiger_profile2field.readonly,vtiger_profile2field.visible')

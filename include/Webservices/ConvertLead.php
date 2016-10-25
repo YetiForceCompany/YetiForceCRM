@@ -24,7 +24,7 @@ function vtws_convertlead($entityvalues, $user)
 {
 	$adb = PearDatabase::getInstance();
 	
-	\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+	\App\Log::trace('Start ' . __METHOD__);
 	if (empty($entityvalues['assignedTo'])) {
 		$entityvalues['assignedTo'] = vtws_getWebserviceEntityId('Users', $user->id);
 	}
@@ -134,7 +134,7 @@ function vtws_convertlead($entityvalues, $user)
 		}
 		return null;
 	}
-	\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+	\App\Log::trace('End ' . __METHOD__);
 	return $entityIds;
 }
 /*

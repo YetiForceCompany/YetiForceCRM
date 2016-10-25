@@ -315,7 +315,7 @@ class Field extends FieldBasic
 	 */
 	static function deleteUiType10Fields($moduleInstance)
 	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		self::log(__METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
 		$query = 'SELECT fieldid FROM `vtiger_fieldmodulerel` WHERE relmodule = ?';
 		$result = $db->pquery($query, [$moduleInstance->name]);
@@ -327,7 +327,7 @@ class Field extends FieldBasic
 				$field->delete();
 			}
 		}
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+		self::log(__METHOD__ . ' | END');
 	}
 
 	/**
@@ -336,7 +336,7 @@ class Field extends FieldBasic
 	 */
 	static function deletePickLists($moduleInstance)
 	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		self::log(__METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
 		$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = ? &&  uitype IN (15, 16, 33)";
 		$result = $db->pquery($query, [$moduleInstance->getId()]);
@@ -357,6 +357,6 @@ class Field extends FieldBasic
 			$db->query("DELETE FROM vtiger_role2picklist WHERE picklistid = '$picklistId'");
 			$db->query("DELETE FROM vtiger_picklist WHERE name = '$picklistName'");
 		}
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+		self::log(__METHOD__ . ' | END');
 	}
 }

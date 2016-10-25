@@ -133,12 +133,12 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 	public function verifyDashboard($moduleName)
 	{
-		\App\Log::trace('Entering ' . __CLASS__ . ':' . __FUNCTION__ . '(' . $moduleName . ')');
+		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole());
 		if (count($blockId) == 0) {
-			\App\Log::trace('Exiting ' . __CLASS__ . ':' . __FUNCTION__);
+			\App\Log::trace('Exiting ' . __METHOD__);
 			return;
 		}
 		$dataReader = (new App\Db\Query())->select('vtiger_module_dashboard.*, vtiger_links.tabid')
@@ -172,7 +172,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 				]);
 			}
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	/**

@@ -87,7 +87,7 @@ class CustomView extends CRMEntity
 	public function getViewId($module)
 	{
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($module) method ...");
+		\App\Log::trace('Entering ' . __METHOD__ . " ($module) method ...");
 		$nowAction = AppRequest::get('view');
 		if (AppRequest::isEmpty('viewname')) {
 			if (isset($_SESSION['lvs'][$module]['viewname']) && $_SESSION['lvs'][$module]['viewname'] != '') {
@@ -114,7 +114,7 @@ class CustomView extends CRMEntity
 				$viewid = 0;
 		}
 		ListViewSession::setCurrentView($module, $viewid);
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $viewid;
 	}
 
@@ -127,7 +127,7 @@ class CustomView extends CRMEntity
 
 	public function getDefaultCvId($module)
 	{
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
 		$query = new \App\Db\Query();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$tabId = vtlib\Functions::getModuleId($module);
@@ -164,14 +164,14 @@ class CustomView extends CRMEntity
 		$cvId = $query->select('cvid')
 				->from('vtiger_customview')
 				->where(['setdefault' => 1, 'entitytype' => $module])->scalar();
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $cvId;
 	}
 
 	public function getViewIdByName($viewname, $module)
 	{
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
 		$db = PearDatabase::getInstance();
 		if (!empty($viewname)) {
 			$query = "select cvid from vtiger_customview where viewname = ? and entitytype = ?";
@@ -181,7 +181,7 @@ class CustomView extends CRMEntity
 		} else {
 			return 0;
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 	}
 
 	// return type array
@@ -323,7 +323,7 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
 
 		$sSQL = 'select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist';
 		$sSQL .= ' inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid';
@@ -350,7 +350,7 @@ class CustomView extends CRMEntity
 				$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
 			}
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $columnlist;
 	}
 

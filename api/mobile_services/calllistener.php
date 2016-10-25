@@ -18,7 +18,7 @@ class CallListener{
 		$authorization = json_decode($authorization);
 		$adb = PearDatabase::getInstance();
 		
-		\App\Log::trace("Entering " . __CLASS__ . "::" . __METHOD__ . "| user id: ".$this->userID);
+		\App\Log::trace("Entering " . __METHOD__ . "| user id: ".$this->userID);
 		if( $authorization->phoneKey == '' || !$this->checkPermissions($authorization) ){
 			$resultData = Array('status' => 0,'message' =>  'No permission to: PushCall');
 		}elseif( in_array($type,$this->permittedActions) ){
@@ -31,30 +31,30 @@ class CallListener{
 			$test = print_r( array('respons' => $resultData, 'request' => $data ),true);
 			file_put_contents($file,'-----> '.date("Y-m-d H:i:s").' <-----'.PHP_EOL.$test.PHP_EOL,FILE_APPEND | LOCK_EX);
 		}
-		\App\Log::trace("Exiting " . __CLASS__ . "::" . __METHOD__ . " | return(".print_r( $resultData,true));
+		\App\Log::trace("Exiting " . __METHOD__ . " | return(".print_r( $resultData,true));
 		return $resultData;
     }
 	public function addCallActions($data){
 		$adb = PearDatabase::getInstance();
 		
-		\App\Log::trace("Entering " . __CLASS__ . "::" . __METHOD__ . "| user id: ".$this->userID);
+		\App\Log::trace("Entering " . __METHOD__ . "| user id: ".$this->userID);
 		$data = json_decode($data);
 		$params = array($this->userID, $data->callActions->to_number, $this->getDirection($data->callActions->direction), $this->getStatus($data->callActions->action), $data->callActions->timestamp);
 		$adb->pquery("INSERT INTO yetiforce_mobile_calllistener (`user`,`number`,`direction`,`status`,`time`) VALUES (?,?,?,?,?);",$params);
-		\App\Log::trace("Exiting " . __CLASS__ . "::" . __METHOD__ . " | return(".print_r( $resultData,true));
+		\App\Log::trace("Exiting " . __METHOD__ . " | return(".print_r( $resultData,true));
 		return array('status' => 1);
 	}
 	public function checkPermissions($authorization){
 		$adb = PearDatabase::getInstance();
 		
-		\App\Log::trace("Entering " . __CLASS__ . "::" . __METHOD__ . "| ".print_r( $authorization,true));
+		\App\Log::trace("Entering " . __METHOD__ . "| ".print_r( $authorization,true));
 		$return = false;	
 		$result = $adb->pquery("SELECT yetiforce_mobile_keys.user FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE service = ? && `key` = ? && vtiger_users.user_name = ?",array($this->mobileKeysName, $authorization->phoneKey, $authorization->userName));
 		if($adb->num_rows($result) > 0 ){
 			$this->userID = $adb->query_result_raw($result, 0, 'user');
 			$return = true;	
 		}
-		\App\Log::trace("Exiting " . __CLASS__ . "::" . __METHOD__ . " | return(".$return);
+		\App\Log::trace("Exiting " . __METHOD__ . " | return(".$return);
 		return $return;
 	}
 	public function getDirection($type){

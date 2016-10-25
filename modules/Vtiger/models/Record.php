@@ -689,7 +689,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function getInventoryData()
 	{
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Entering ' . __METHOD__);
 		if (!$this->inventoryData) {
 			$module = $this->getModuleName();
 			$record = $this->getId();
@@ -701,7 +701,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 			$this->inventoryData = self::getInventoryDataById($record, $module);
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __METHOD__);
 		return $this->inventoryData;
 	}
 
@@ -724,7 +724,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function initInventoryData()
 	{
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Entering ' . __METHOD__);
 
 		$moduleName = $this->getModuleName();
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
@@ -759,7 +759,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		$this->inventoryData = $inventoryData;
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	/**

@@ -86,7 +86,7 @@ class CRMEntity
 	{
 		$db = PearDatabase::getInstance();
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Entering ' . __METHOD__);
 
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
@@ -98,7 +98,7 @@ class CRMEntity
 				$db->insert($table, $insertData);
 			}
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	public function saveentity($module, $fileid = '')

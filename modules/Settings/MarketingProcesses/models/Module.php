@@ -21,10 +21,10 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 	public static function getConfig($type)
 	{
 		
-		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type");
+		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
 		$cache = Vtiger_Cache::get('MarketingProcesses', $type);
 		if ($cache) {
-			\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
 		}
 		$query = (new \App\Db\Query())->from('yetiforce_proc_marketing')->where(['type' => $type]);
@@ -44,21 +44,21 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 			}
 		}
 		Vtiger_Cache::set('MarketingProcesses', $type, $config);
-		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}
 
 	public static function setConfig($param)
 	{
 		
-		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('Start ' . __METHOD__);
 		$value = $param['val'];
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
 		\App\Db::getInstance()->createCommand()->update('yetiforce_proc_marketing',
 			['value' => $value], ['type' => $param['type'], 'param' => $param['param']])->execute();
-		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __METHOD__);
 		return true;
 	}
 }
