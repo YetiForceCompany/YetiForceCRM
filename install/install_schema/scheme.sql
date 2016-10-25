@@ -5942,7 +5942,7 @@ CREATE TABLE `vtiger_modentity_num` (
 /*Table structure for table `vtiger_modtracker_basic` */
 
 CREATE TABLE `vtiger_modtracker_basic` (
-  `id` int(20) NOT NULL,
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `crmid` int(20) DEFAULT NULL,
   `module` varchar(50) DEFAULT NULL,
   `whodid` int(20) DEFAULT NULL,
@@ -5954,12 +5954,6 @@ CREATE TABLE `vtiger_modtracker_basic` (
   KEY `idx` (`id`),
   KEY `id` (`id`,`module`,`changedon`),
   KEY `crmid` (`crmid`,`changedon`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_modtracker_basic_seq` */
-
-CREATE TABLE `vtiger_modtracker_basic_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_detail` */

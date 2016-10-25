@@ -6624,10 +6624,6 @@ insert  into `vtiger_modentity_num`(`id`,`tabid`,`prefix`,`postfix`,`start_id`,`
 
 /*Data for the table `vtiger_modtracker_basic` */
 
-/*Data for the table `vtiger_modtracker_basic_seq` */
-
-insert  into `vtiger_modtracker_basic_seq`(`id`) values (0);
-
 /*Data for the table `vtiger_modtracker_detail` */
 
 /*Data for the table `vtiger_modtracker_relations` */

@@ -350,7 +350,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$adb->insert('vtiger_modtracker_basic', [
-			'id' => $adb->getUniqueId('vtiger_modtracker_basic'),
 			'crmid' => $sourceId,
 			'module' => $sourceModule,
 			'whodid' => $current_user,
