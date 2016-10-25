@@ -362,7 +362,7 @@ class CRMEntity
 				'modifiedtime' => $modified_date_var,
 				'users' => ",$ownerid,",
 			];
-			$adb->insert('vtiger_crmentity', $params);
+			\App\DB::getInstance()->createCommand()->insert('vtiger_crmentity', $params)->execute();
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
 			$this->column_fields['modifiedby'] = $currentUser->getId();
@@ -619,7 +619,7 @@ class CRMEntity
 			}
 		} else {
 			$params = array_combine($column, $value);
-			$adb->insert($table_name, $params);
+			\App\DB::getInstance()->createCommand()->insert($table_name, $params)->execute();
 		}
 	}
 
@@ -1597,20 +1597,19 @@ class CRMEntity
 					'notesid' => $relcrmid
 				]);
 			} else {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? && module = ? && relcrmid = ? && relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
+				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
 				);
 				// Relation already exists? No need to add again
 				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
-
-				$db->insert('vtiger_crmentityrel', [
+				\App\DB::getInstance()->createCommand()->insert('vtiger_crmentityrel', [
 					'crmid' => $crmid,
 					'module' => $module,
 					'relcrmid' => $relcrmid,
 					'relmodule' => $withModule,
 					'rel_created_user' => $currentUserModel->getId(),
 					'rel_created_time' => date('Y-m-d H:i:s')
-				]);
+				])->execute();
 			}
 		}
 	}
@@ -2594,13 +2593,11 @@ class CRMEntity
 	/**
 	 * Function to track when a new record is linked to a given record
 	 */
-	public static function trackLinkedInfo($crmid)
+	public static function trackLinkedInfo($crmId)
 	{
 		$current_user = vglobal('current_user');
-		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
-
-		$adb->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], 'crmid = ?', [$crmid]);
+		\App\DB::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
 	}
 
 	/**
