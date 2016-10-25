@@ -119,9 +119,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
 		// pre fetch the fields and premmisions of module
 		Vtiger_Field_Model::getAllForModule($moduleModel);
-		if ($this->user->is_admin == 'off') {
-			Vtiger_Field_Model::preFetchModuleFieldPermission($moduleModel->getId());
-		}
 		if (method_exists($focus, 'createRecords')) {
 			$focus->createRecords($this);
 		} else {

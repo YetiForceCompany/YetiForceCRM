@@ -1089,18 +1089,19 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * @param <String> $accessmode
 	 * @return <Boolean>
 	 */
-	public function getPermissions($accessmode = 'readonly')
+	public function getPermissions($accessMode = 'readonly')
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		$privileges = $user->getPrivileges();
 		if ($privileges->hasGlobalReadPermission()) {
 			return true;
 		} else {
-			$modulePermission = Vtiger_Cache::get('modulePermission-' . $accessmode, $this->getModuleId());
+			$readOnly = $accessMode === 'readonly';
+			$modulePermission = Vtiger_Cache::get('modulePermission-' . $readOnly, $this->getModuleId());
 			if (!$modulePermission) {
-				$modulePermission = self::preFetchModuleFieldPermission($this->getModuleId(), $accessmode);
+				$modulePermission = self::preFetchModuleFieldPermission($this->getModuleId(), $readOnly);
 			}
-			if (array_key_exists($this->getId(), $modulePermission)) {
+			if (isset($modulePermission[$this->getId()])) {
 				return true;
 			} else {
 				return false;
@@ -1114,39 +1115,14 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * @param <String> $accessmode
 	 * @return <Array>
 	 */
-	public static function preFetchModuleFieldPermission($tabid, $accessmode = 'readonly')
+	public static function preFetchModuleFieldPermission($tabid, $readOnly = true)
 	{
-		$adb = PearDatabase::getInstance();
-		$user = Users_Record_Model::getCurrentUserModel();
-		$privileges = $user->getPrivileges();
-		$profilelist = $privileges->get('profiles');
-
-		if (count($profilelist) > 0) {
-			if ($accessmode == 'readonly') {
-				$query = 'SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid';
-			} else {
-				$query = 'SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_profile2field.profileid in (%s) AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid';
-			}
-			$query = sprintf($query, generateQuestionMarks($profilelist));
-			$params = [$tabid, $profilelist];
-		} else {
-			if ($accessmode == 'readonly') {
-				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_def_org_field.visible=0  AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
-			} else {
-				$query = "SELECT vtiger_profile2field.visible,vtiger_field.fieldid FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? AND vtiger_profile2field.visible=0 AND vtiger_profile2field.readonly=0 AND vtiger_def_org_field.visible=0  AND vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
-			}
-			$params = [$tabid];
-		}
-
-		$result = $adb->pquery($query, $params);
+		$fields = \App\Field::getFieldsPermission($tabid, false, $readOnly);
 		$modulePermission = [];
-		$noOfFields = $adb->num_rows($result);
-		for ($i = 0; $i < $noOfFields; ++$i) {
-			$row = $adb->query_result_rowdata($result, $i);
-			$modulePermission[$row['fieldid']] = $row['visible'];
+		foreach ($fields as &$field) {
+			$modulePermission[$field['fieldid']] = $field['visible'];
 		}
-		Vtiger_Cache::set('modulePermission-' . $accessmode, $tabid, $modulePermission);
-
+		Vtiger_Cache::set('modulePermission-' . $readOnly, $tabid, $modulePermission);
 		return $modulePermission;
 	}
 

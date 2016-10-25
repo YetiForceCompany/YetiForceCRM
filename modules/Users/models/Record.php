@@ -407,12 +407,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function getPrivileges()
 	{
 		$privilegesModel = $this->get('privileges');
-
 		if (empty($privilegesModel)) {
 			$privilegesModel = Users_Privileges_Model::getInstanceById($this->getId());
 			$this->set('privileges', $privilegesModel);
 		}
-
 		return $privilegesModel;
 	}
 
@@ -486,9 +484,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 			return $groupIds;
 		}
 		$groupIds = (new \App\Db\Query())->select('groupid')
-				->from('vtiger_users2group')
-				->where(['userid' => $userId])
-				->column();
+			->from('vtiger_users2group')
+			->where(['userid' => $userId])
+			->column();
 		Vtiger_Cache::set('getUserGroups', $userId, $groupIds);
 		return $groupIds;
 	}

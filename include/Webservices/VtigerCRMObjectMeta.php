@@ -375,7 +375,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	private function retrieveMetaForBlock($block)
 	{
-		$fields = \App\Field::getUserFields($this->getTabId(), $block);
+		$fields = \App\Field::getFieldsPermission($this->getTabId(), $block);
 		foreach ($fields as &$field) {
 			$webserviceField = new WebserviceField($field);
 			$this->moduleFields[$webserviceField->getFieldName()] = $webserviceField;
