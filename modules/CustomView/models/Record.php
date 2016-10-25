@@ -97,12 +97,13 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if ($this->isDefault === false) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$cvId = $this->getId();
-			if($cvId === false) {
-				return 0;
+			if(!$cvId) {
+				$this->isDefault = false;
+				return false;
 			}
 			$this->isDefault = (new App\Db\Query())->from('vtiger_user_module_preferences')
 				->where(['userid' => 'Users:' . $currentUser->getId(), 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
-				->count();
+				->exists();
 		}
 		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 		return $this->isDefault;
@@ -191,7 +192,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	{
 		$db = App\Db::getInstance('admin');
 		$cvId = $this->getId();
-		if($cvId === false)
+		if(!$cvId)
 			return false;
 		return (new App\Db\Query())->from('a_#__featured_filter')
 			->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
