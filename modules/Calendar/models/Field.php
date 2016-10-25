@@ -154,24 +154,18 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getPermissions($accessmode = 'readonly')
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		$privileges = $user->getPrivileges();
-		if ($privileges->hasGlobalReadPermission()) {
+		$modulePermission = Vtiger_Cache::get('modulePermission-' . $accessmode, $this->getModuleId());
+		if (!$modulePermission) {
+			$readOnly = $accessmode === 'readonly';
+			$modulePermissionCalendar = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Calendar'), $readOnly);
+			$modulePermissionEvents = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Events'), $readOnly);
+			$modulePermission = $modulePermissionCalendar + $modulePermissionEvents;
+			Vtiger_Cache::set('modulePermission-' . $accessmode, $this->getModuleId(), $modulePermission);
+		}
+		if (isset($modulePermission[$this->getId()])) {
 			return true;
 		} else {
-			$modulePermission = Vtiger_Cache::get('modulePermission-' . $accessmode, $this->getModuleId());
-			if (!$modulePermission) {
-				$readOnly = $accessmode === 'readonly';
-				$modulePermissionCalendar = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Calendar'), $readOnly);
-				$modulePermissionEvents = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Events'), $readOnly);
-				$modulePermission = $modulePermissionCalendar + $modulePermissionEvents;
-				Vtiger_Cache::set('modulePermission-' . $accessmode, $this->getModuleId(), $modulePermission);
-			}
-			if (isset($modulePermission[$this->getId()])) {
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
 	}
 

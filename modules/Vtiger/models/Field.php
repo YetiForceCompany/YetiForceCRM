@@ -390,11 +390,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isViewEnabled()
 	{
-		$permision = $this->getPermissions();
 		if ($this->getDisplayType() == '4' || in_array($this->get('presence'), array(1, 3))) {
 			return false;
 		}
-		return $permision;
+		return $this->getPermissions();
 	}
 
 	/**
@@ -1091,21 +1090,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getPermissions($accessMode = 'readonly')
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		$privileges = $user->getPrivileges();
-		if ($privileges->hasGlobalReadPermission()) {
+		$readOnly = $accessMode === 'readonly';
+		$modulePermission = Vtiger_Cache::get('modulePermission-' . $readOnly, $this->getModuleId());
+		if (!$modulePermission) {
+			$modulePermission = static::preFetchModuleFieldPermission($this->getModuleId(), $readOnly);
+		}
+		if (isset($modulePermission[$this->getId()])) {
 			return true;
 		} else {
-			$readOnly = $accessMode === 'readonly';
-			$modulePermission = Vtiger_Cache::get('modulePermission-' . $readOnly, $this->getModuleId());
-			if (!$modulePermission) {
-				$modulePermission = self::preFetchModuleFieldPermission($this->getModuleId(), $readOnly);
-			}
-			if (isset($modulePermission[$this->getId()])) {
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
 	}
 
