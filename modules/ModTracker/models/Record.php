@@ -56,7 +56,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			->from('vtiger_modtracker_basic')
 			->where(['crmid' => $recordId])
 			->andWhere(['<>', 'status', self::DISPLAYED])
-			->orderBy(['changedon' => SORT_DESC])
+			->orderBy(['changedon' => SORT_DESC, 'id' => SORT_DESC])
 			->limit(1)
 			->one();
 		if ($row) {
