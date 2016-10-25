@@ -73,7 +73,7 @@ class Importer
 			}
 			if (isset($table['primaryKeys'])) {
 				foreach ($table['primaryKeys'] as $primaryKey) {
-					$importer->db->createCommand()->addPrimaryKey($index[0], $tableName, $index[1])->execute();
+					$importer->db->createCommand()->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
 				}
 			}
 		}
