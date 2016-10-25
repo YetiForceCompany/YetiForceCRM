@@ -382,10 +382,10 @@ class CustomView extends CRMEntity
 
 		if (is_numeric($cvid)) {
 			$stdfilterrow = (new \App\Db\Query())->select('vtiger_cvstdfilter.*')
-					->from('vtiger_cvstdfilter')
-					->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')
-					->where(['vtiger_cvstdfilter.cvid' => $cvid])
-					->one();
+				->from('vtiger_cvstdfilter')
+				->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')
+				->where(['vtiger_cvstdfilter.cvid' => $cvid])
+				->one();
 		} else {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
@@ -1151,59 +1151,6 @@ class CustomView extends CRMEntity
 		}
 		return $calist;
 	}
-	/* This function sets the block information for the given module to the class variable module_list
-	 * and return the array
-	 */
-
-	public function getCustomViewModuleInfo($module)
-	{
-		$current_language = vglobal('current_language');
-		$current_mod_strings = \vtlib\Deprecated::return_app_list_strings_language($current_language, $module);
-		$blockInfo = [];
-		$modulesList = explode(',', $module);
-		if ($module == 'Calendar') {
-			$module = "Calendar','Events";
-			$modulesList = ['Calendar', 'Events'];
-		}
-
-		// Tabid mapped to the list of block labels to be skipped for that tab.
-		$skipBlocksList = array(
-			\App\Module::getModuleId('HelpDesk') => ['LBL_COMMENTS'],
-			\App\Module::getModuleId('Faq') => ['LBL_COMMENT_INFORMATION']
-		);
-
-		$query = (new \App\Db\Query())->select('vtiger_field.block, vtiger_field.tabid, vtiger_tab.name, vtiger_blocks.blocklabel')
-				->from('vtiger_field')
-				->innerJoin('vtiger_blocks', 'vtiger_blocks.blockid = vtiger_field.block')
-				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid ')
-				->where(['vtiger_tab.name' => $modulesList, 'vtiger_field.presence' => [0, 2]])->distinct();
-		$dataReader = $query->createCommand()->query();
-		if ($module == "Calendar','Events")
-			$module = 'Calendar';
-
-		$preBlockLabel = '';
-		while ($block = $dataReader->read()) {
-			$blockLabel = $block['blocklabel'];
-			$tabid = $block['tabid'];
-			// Skip certain blocks of certain modules
-			if (array_key_exists($tabid, $skipBlocksList) && in_array($blockLabel, $skipBlocksList[$tabid]))
-				continue;
-
-			if (trim($blockLabel) == '') {
-				$blockInfo[$preBlockLabel] = $blockInfo[$preBlockLabel] . ',' . $block['block'];
-			} else {
-				$lanBlockLabel = $current_mod_strings[$blockLabel];
-				if (!empty($blockInfo[$lanBlockLabel])) {
-					$blockInfo[$lanBlockLabel] = $blockInfo[$lanBlockLabel] . ',' . $block['block'];
-				} else {
-					$blockInfo[$lanBlockLabel] = $block['block'];
-				}
-				$preBlockLabel = $lanBlockLabel;
-			}
-		}
-		$this->module_list[$module] = $blockInfo;
-		return $this->module_list;
-	}
 
 	/**
 	 * Get the userid, status information of this custom view.
@@ -1215,9 +1162,9 @@ class CustomView extends CRMEntity
 	{
 		if ($this->_status === false || $this->_userid === false) {
 			$row = (new \App\Db\Query())->select(['status', 'userid'])
-					->from('vtiger_customview')
-					->where(['cvid' => $viewid])
-					->one();
+				->from('vtiger_customview')
+				->where(['cvid' => $viewid])
+				->one();
 			if ($row !== false) {
 				$this->_status = $row['status'];
 				$this->_userid = $row['userid'];

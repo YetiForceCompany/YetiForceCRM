@@ -352,14 +352,11 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$this->computeAccess();
 
-		$cv = new CustomView();
-		$module_info = $cv->getCustomViewModuleInfo($this->getTabName());
-		$blockArray = [];
-		foreach ($cv->module_list[$this->getTabName()] as $label => $blockList) {
-			$blockArray = array_merge($blockArray, explode(',', $blockList));
+		$fields = \App\Field::getFieldsPermission($this->getTabId());
+		foreach ($fields as &$field) {
+			$webserviceField = new WebserviceField($field);
+			$this->moduleFields[$webserviceField->getFieldName()] = $webserviceField;
 		}
-		$this->retrieveMetaForBlock($blockArray);
-
 		$this->meta = true;
 		VTWS_PreserveGlobal::flush();
 	}
@@ -371,15 +368,6 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$groupUsers = vtws_getUsersInTheSameGroup($this->user->id);
 		$this->assignUsers = $heirarchyUsers + $groupUsers;
 		$this->assign = true;
-	}
-
-	private function retrieveMetaForBlock($block)
-	{
-		$fields = \App\Field::getFieldsPermission($this->getTabId(), $block);
-		foreach ($fields as &$field) {
-			$webserviceField = new WebserviceField($field);
-			$this->moduleFields[$webserviceField->getFieldName()] = $webserviceField;
-		}
 	}
 
 	public function getObjectEntityName($webserviceId)

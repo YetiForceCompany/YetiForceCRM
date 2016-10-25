@@ -1106,16 +1106,16 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function preFetchModuleFieldPermission($tabid, $readOnly = true)
 	{
-		$cache = \App\Cache::staticGet('FieldPermission-' . $readOnly, $tabid);
+		$cache = \App\Cache::staticGet(__METHOD__ . $readOnly, $tabid);
 		if ($cache) {
 			return $cache;
 		}
-		$fields = \App\Field::getFieldsPermission($tabid, false, $readOnly);
+		$fields = \App\Field::getFieldsPermission($tabid, $readOnly);
 		$modulePermission = [];
 		foreach ($fields as &$field) {
 			$modulePermission[$field['fieldid']] = $field['visible'];
 		}
-		\App\Cache::staticSave('FieldPermission-' . $readOnly, $tabid, $modulePermission);
+		\App\Cache::staticSave(__METHOD__ . $readOnly, $tabid, $modulePermission);
 		return $modulePermission;
 	}
 

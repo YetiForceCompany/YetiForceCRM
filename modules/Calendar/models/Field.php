@@ -154,12 +154,12 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getPermissions($readOnly = true)
 	{
-		$modulePermission = \App\Cache::staticGet('FieldGetPermissions-' . $readOnly, $this->getModuleId());
+		$modulePermission = \App\Cache::staticGet('CalendarFieldGetPermissions-' . $readOnly, $this->getModuleId());
 		if (!$modulePermission) {
 			$modulePermissionCalendar = self::preFetchModuleFieldPermission(\App\Module::getModuleId('Calendar'), $readOnly);
 			$modulePermissionEvents = self::preFetchModuleFieldPermission(\App\Module::getModuleId('Events'), $readOnly);
 			$modulePermission = $modulePermissionCalendar + $modulePermissionEvents;
-			\App\Cache::staticSave('FieldGetPermissions-' . $readOnly, $this->getModuleId(), $modulePermission);
+			\App\Cache::staticSave('CalendarFieldGetPermissions-' . $readOnly, $this->getModuleId(), $modulePermission);
 		}
 		if (isset($modulePermission[$this->getId()])) {
 			return true;
