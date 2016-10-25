@@ -212,7 +212,7 @@ class Record
 					}
 				}
 				if (($insertMode || $rowCount == 0) && $updater != 'searchlabel') {
-					$adb->insert('u_yf_crmentity_label', ['crmid' => $id, 'label' => $label]);
+					\App\DB::getInstance()->createCommand()->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
 				}
 			}
 			if (empty($search)) {
