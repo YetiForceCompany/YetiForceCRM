@@ -36,11 +36,11 @@ $languageStrings = [
 	'LBL_NO' => 'Nie',
 	//history
 	'Inventory' => 'Moduły rozszerzone',
-	'LBL_VIEW_CREDITLIMITS' => 'Baza limitów kupieckich',
-	'LBL_VIEW_TAXES' => 'Baza podatków',
+	'LBL_VIEW_CREDITLIMITS' => 'Lista limitów kupieckich',
+	'LBL_VIEW_TAXES' => 'Lista podatków',
 	'LBL_VIEW_TAXCONFIGURATION' => 'Konfiguracja podatków',
 	'LBL_VIEW_DISCOUNTCONFIGURATION' => 'Konfiguracja rabatów',
-	'LBL_VIEW_DISCOUNTS' => 'Baza rabatów',
+	'LBL_VIEW_DISCOUNTS' => 'Lista rabatów',
 ];
 $jsLanguageStrings = [
 	'JS_SAVE_CHANGES' => 'Pomyślnie zapisano zmiany.',
