@@ -52,16 +52,19 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	public static function setLastReviewed($recordId)
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
-		$listQuery = 'SELECT `last_reviewed_users`, `id` FROM vtiger_modtracker_basic WHERE crmid = ? && status <> ? ORDER BY changedon DESC, id DESC LIMIT 1;';
-		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
-		if ($result->rowCount()) {
-			$row = $db->getRow($result);
+		$row = (new App\Db\Query())->select('last_reviewed_users,id')
+			->from('vtiger_modtracker_basic')
+			->where(['crmid' => $recordId])
+			->andWhere(['<>', 'status', self::DISPLAYED])
+			->orderBy(['changedon' => SORT_DESC])
+			->limit(1)
+			->one();
+		if ($row) {
 			$lastReviewedUsers = explode('#', $row['last_reviewed_users']);
-			$lastReviewedUsers[] = $currentUser->getRealId();
-			$db->update('vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ' `id` = ?', [$row['id']]);
+			$lastReviewedUsers[] = Users_Record_Model::getCurrentUserModel()->getRealId();
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ['id' => $row['id']])
+				->execute();
 			return $row['id'];
 		}
 		return false;
