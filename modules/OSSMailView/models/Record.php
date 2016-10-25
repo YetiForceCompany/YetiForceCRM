@@ -58,7 +58,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			if ($filter == 'All' || $filter == 'Contacts') {
 				$result = $adb->pquery('SELECT vtiger_contactdetails.contactid FROM vtiger_contactdetails '
 					. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid '
-					. 'WHERE vtiger_contactdetails.parentid = ? && vtiger_crmentity.deleted = ?', [$srecord, 0]);
+					. 'WHERE vtiger_contactdetails.parentid = ? AND vtiger_crmentity.deleted = ?', [$srecord, 0]);
 				while ($row = $adb->fetch_array($result)) {
 					$relatedID[] = $row['contactid'];
 				}
@@ -69,7 +69,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			if (count($relatedID) == 0) {
 				return [];
 			}
-			$query = sprintf('SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(%s) && `deleted` = ? ORDER BY `date` DESC', implode(',', $relatedID));
+			$query = sprintf('SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(%s) AND deleted = ? ORDER BY date DESC', implode(',', $relatedID));
 			$result = $adb->pquery($query, [0]);
 
 			while ($row = $adb->fetch_array($result)) {
@@ -80,7 +80,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 			$queryParams[] = $ids;
 			if ($type != 'All') {
-				$ifwhere = ' && type = ?';
+				$ifwhere = ' AND type = ?';
 				$queryParams[] = $type;
 			}
 			$query = 'SELECT vtiger_ossmailview.* FROM vtiger_ossmailview INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid';
