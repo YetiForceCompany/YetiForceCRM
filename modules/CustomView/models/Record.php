@@ -938,7 +938,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		}
 		if (!$currentUser->isAdminUser()) {
 			$userParentRoleSeq = $currentUser->getParentRoleSequence();
-			$sql .= " && ( vtiger_customview.userid = ? || vtiger_customview.status = 0 || vtiger_customview.status = 3
+			$sql .= " AND ( vtiger_customview.userid = ? OR vtiger_customview.status = 0 OR vtiger_customview.status = 3
 							OR vtiger_customview.userid IN (
 								SELECT vtiger_user2role.userid FROM vtiger_user2role
 									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
