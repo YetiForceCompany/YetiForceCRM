@@ -49,7 +49,16 @@ $languageStrings = [
 	'LBL_PARENT_IS_CHILD' => 'Выбранный родительский контрагент не может быть подчиненным по отношению к текущему контрагенту',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'Последняя дата счета',
+	'FL_STATUS' => 'Status',
 	//PICKLIST VALUES
+	'PLL_PROMISING_CLIENT' => 'Promising client',
+	'PLL_ACTIVE_CLIENT' => 'Active client',
+	'PLL_SPECIAL_CLIENT' => 'Special client',
+	'PLL_LOST_CLIENT' => 'Lost client',
+	'PLL_UNOBTAINED_CLIENT' => 'Unobtained client',
+	'PLL_INACTIVE_CLIENT' => 'Inactive client',
+	'PLL_CLOSED_CLIENT' => 'Closed client',
+	'PLL_BLACKLISTED_CLIENT' => 'Blacklisted client',
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',
 	'PLL_BUSINESS_ACTIVITY' => 'Юридическое лицо',
 	'PLL_GENERAL_PARTNERSHIP' => 'Общество с Неограниченной Ответственностью',
@@ -90,7 +99,7 @@ $languageStrings = [
 	'LBL_LEGAL_FORM' => 'Юридическая форма организации',
 	'LBL_INVENTORY_BALANCE' => 'Баланс',
 	'LBL_DISCOUNT' => 'Скидка',
-	'LBL_CREDIT_LIMIT' => 'Кредитный лимит',
+	'LBL_CREDIT_LIMIT' => 'Merchant limit',
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Акаунт выключен ',
 	'SINGLE_Vendors' => 'Поставщик',
