@@ -85,6 +85,7 @@ class Cache
 
 	/**
 	 * Returns a static Cache Item representing the specified key.
+	 * @param string $nameSpace
 	 * @param string $key Cache ID
 	 * @return string|array
 	 */
@@ -95,6 +96,7 @@ class Cache
 
 	/**
 	 * Confirms if the static cache contains specified cache item.
+	 * @param string $nameSpace
 	 * @param string $key Cache ID
 	 * @return bool
 	 */
@@ -104,19 +106,21 @@ class Cache
 	}
 
 	/**
-	 * static cache save
+	 * Static cache save
+	 * @param string $nameSpace
 	 * @param string $key Cache ID
 	 * @param string $value Data to store
 	 * @param int $duration Cache TTL (in seconds)
 	 * @return bool
 	 */
-	public static function staticSave($nameSpace, $key, $value = null, $duration = self::MEDIUM)
+	public static function staticSave($nameSpace, $key, $value = null)
 	{
-		return static::$staticPool->save("$nameSpace-$key", $value, $duration);
+		return static::$staticPool->save("$nameSpace-$key", $value);
 	}
 
 	/**
 	 * Removes the item from the static cache.
+	 * @param string $nameSpace
 	 * @param string $key Cache ID
 	 * @return bool
 	 */
