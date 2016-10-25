@@ -362,7 +362,7 @@ class CRMEntity
 				'modifiedtime' => $modified_date_var,
 				'users' => ",$ownerid,",
 			];
-			\App\DB::getInstance()->createCommand()->insert('vtiger_crmentity', $params)->execute();
+			\App\Db::getInstance()->createCommand()->insert('vtiger_crmentity', $params)->execute();
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
 			$this->column_fields['modifiedby'] = $currentUser->getId();
@@ -619,7 +619,7 @@ class CRMEntity
 			}
 		} else {
 			$params = array_combine($column, $value);
-			\App\DB::getInstance()->createCommand()->insert($table_name, $params)->execute();
+			\App\Db::getInstance()->createCommand()->insert($table_name, $params)->execute();
 		}
 	}
 
@@ -1602,7 +1602,7 @@ class CRMEntity
 				// Relation already exists? No need to add again
 				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
-				\App\DB::getInstance()->createCommand()->insert('vtiger_crmentityrel', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_crmentityrel', [
 					'crmid' => $crmid,
 					'module' => $module,
 					'relcrmid' => $relcrmid,
@@ -2597,7 +2597,7 @@ class CRMEntity
 	{
 		$current_user = vglobal('current_user');
 		$currentTime = date('Y-m-d H:i:s');
-		\App\DB::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
 	}
 
 	/**
