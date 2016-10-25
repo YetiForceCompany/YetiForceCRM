@@ -1199,6 +1199,8 @@ CREATE TABLE `u_yf_finvoice` (
   `sum_total` decimal(16,5) DEFAULT NULL,
   `sum_gross` decimal(16,5) DEFAULT NULL,
   `finvoice_status` varchar(255) DEFAULT '',
+  `finvoice_paymentstatus` varchar(255) DEFAULT NULL,
+  `finvoice_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`finvoiceid`),
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_vtiger_finvoice` FOREIGN KEY (`finvoiceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -4828,7 +4830,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2402 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2404 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4856,7 +4858,18 @@ CREATE TABLE `vtiger_finvoice_formpayment` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`finvoice_formpaymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_finvoice_paymentstatus` */
+
+CREATE TABLE `vtiger_finvoice_paymentstatus` (
+  `finvoice_paymentstatusid` int(11) NOT NULL AUTO_INCREMENT,
+  `finvoice_paymentstatus` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`finvoice_paymentstatusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoice_status` */
 
@@ -4868,6 +4881,17 @@ CREATE TABLE `vtiger_finvoice_status` (
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`finvoice_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_finvoice_type` */
+
+CREATE TABLE `vtiger_finvoice_type` (
+  `finvoice_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `finvoice_type` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`finvoice_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoiceproforma_formpayment` */
 
@@ -6830,7 +6854,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
