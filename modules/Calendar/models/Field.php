@@ -149,18 +149,17 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get visibilty permissions of a Field
-	 * @param <String> $accessmode
-	 * @return <Boolean>
+	 * @param boolean $readOnly
+	 * @return boolean
 	 */
-	public function getPermissions($accessmode = 'readonly')
+	public function getPermissions($readOnly = true)
 	{
-		$modulePermission = Vtiger_Cache::get('modulePermission-' . $accessmode, $this->getModuleId());
+		$modulePermission = \App\Cache::staticGet('FieldGetPermissions-' . $readOnly, $this->getModuleId());
 		if (!$modulePermission) {
-			$readOnly = $accessmode === 'readonly';
-			$modulePermissionCalendar = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Calendar'), $readOnly);
-			$modulePermissionEvents = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Events'), $readOnly);
+			$modulePermissionCalendar = self::preFetchModuleFieldPermission(\App\Module::getModuleId('Calendar'), $readOnly);
+			$modulePermissionEvents = self::preFetchModuleFieldPermission(\App\Module::getModuleId('Events'), $readOnly);
 			$modulePermission = $modulePermissionCalendar + $modulePermissionEvents;
-			Vtiger_Cache::set('modulePermission-' . $accessmode, $this->getModuleId(), $modulePermission);
+			\App\Cache::staticSave('FieldGetPermissions-' . $readOnly, $this->getModuleId(), $modulePermission);
 		}
 		if (isset($modulePermission[$this->getId()])) {
 			return true;

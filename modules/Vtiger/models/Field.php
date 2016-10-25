@@ -932,7 +932,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getProfileReadWritePermission()
 	{
-		return $this->getPermissions('readwrite');
+		return $this->getPermissions(false);
 	}
 
 	/**
@@ -1085,16 +1085,12 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get visibilty permissions of a Field
-	 * @param <String> $accessmode
-	 * @return <Boolean>
+	 * @param boolean $readOnly
+	 * @return boolean
 	 */
-	public function getPermissions($accessMode = 'readonly')
+	public function getPermissions($readOnly = true)
 	{
-		$readOnly = $accessMode === 'readonly';
-		$modulePermission = Vtiger_Cache::get('modulePermission-' . $readOnly, $this->getModuleId());
-		if (!$modulePermission) {
-			$modulePermission = static::preFetchModuleFieldPermission($this->getModuleId(), $readOnly);
-		}
+		$modulePermission = static::preFetchModuleFieldPermission($this->getModuleId(), $readOnly);
 		if (isset($modulePermission[$this->getId()])) {
 			return true;
 		} else {
@@ -1110,12 +1106,16 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function preFetchModuleFieldPermission($tabid, $readOnly = true)
 	{
+		$cache = \App\Cache::staticGet('FieldPermission-' . $readOnly, $this->getModuleId());
+		if ($cache) {
+			return $cache;
+		}
 		$fields = \App\Field::getFieldsPermission($tabid, false, $readOnly);
 		$modulePermission = [];
 		foreach ($fields as &$field) {
 			$modulePermission[$field['fieldid']] = $field['visible'];
 		}
-		Vtiger_Cache::set('modulePermission-' . $readOnly, $tabid, $modulePermission);
+		\App\Cache::staticSave('FieldPermission-' . $readOnly, $tabid, $modulePermission);
 		return $modulePermission;
 	}
 
