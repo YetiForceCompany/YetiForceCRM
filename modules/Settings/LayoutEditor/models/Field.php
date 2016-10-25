@@ -54,7 +54,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();
 		} elseif ($fldModule == 'Accounts') {
 			$mapDelId = ['Accounts' => 'accountfid'];
-			$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0] , [$mapDelId[$fldModule] => $id])->execute();
+			$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], [$mapDelId[$fldModule] => $id])->execute();
 		}
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
@@ -70,9 +70,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 					$db->createCommand()->dropTable('vtiger_' . $columnName . '_seq')->execute();
 				}
 				$db->createCommand()->delete('vtiger_picklist', ['name' => $columnName]);
-			
 			}
-			 $db->createCommand()->delete('vtiger_picklist_dependency', ['and', "tabid = $tabId", ['or', "sourcefield = '$columnname'", "targetfield = '$columnname'" ]])->execute();
+			$db->createCommand()->delete('vtiger_picklist_dependency', ['and', "tabid = $tabId", ['or', "sourcefield = '$columnname'", "targetfield = '$columnname'"]])->execute();
 		}
 	}
 
@@ -92,22 +91,14 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 		if ($olderBlockId == $newBlockId) {
 			if ($newSequence > $olderSequence) {
-				$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')],
-					['and', 'sequence > :olderSequence', 'sequence <= :newSequence', 'block = :olderBlockId'],
-					[':olderSequence' => $olderSequence, ':newSequence' => $newSequence, ':olderBlockId' => $olderBlockId])->execute();
+				$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')], ['and', 'sequence > :olderSequence', 'sequence <= :newSequence', 'block = :olderBlockId'], [':olderSequence' => $olderSequence, ':newSequence' => $newSequence, ':olderBlockId' => $olderBlockId])->execute();
 			} else if ($newSequence < $olderSequence) {
-				$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence + 1')],
-					['and', 'sequence < :olderSequence', 'sequence >= :newSequence', 'block = :olderBlockId'],
-					[':olderSequence' => $olderSequence, ':newSequence' => $newSequence, ':olderBlockId' => $olderBlockId])->execute();
+				$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence + 1')], ['and', 'sequence < :olderSequence', 'sequence >= :newSequence', 'block = :olderBlockId'], [':olderSequence' => $olderSequence, ':newSequence' => $newSequence, ':olderBlockId' => $olderBlockId])->execute();
 			}
 			$db->createCommand()->update('vtiger_field', ['sequence' => $newSequence], ['fieldid' => $this->getId()])->execute();
 		} else {
-			$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')],
-				['and', 'sequence > :olderSequence', 'block = :olderBlockId'],
-				[':olderSequence' => $olderSequence, ':olderBlockId' => $olderBlockId])->execute();
-			$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')],
-				['and', 'sequence >= :newSequence', 'block = :newBlockId'],
-				[':newSequence' => $newSequence, ':newBlockId' => $newBlockId])->execute();
+			$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')], ['and', 'sequence > :olderSequence', 'block = :olderBlockId'], [':olderSequence' => $olderSequence, ':olderBlockId' => $olderBlockId])->execute();
+			$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')], ['and', 'sequence >= :newSequence', 'block = :newBlockId'], [':newSequence' => $newSequence, ':newBlockId' => $newBlockId])->execute();
 
 			$db->createCommand()->update('vtiger_field', ['sequence' => $newSequence, 'block' => $newBlockId], ['fieldid' => $this->getId()])->execute();
 		}
@@ -115,18 +106,18 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 	public static function makeFieldActive($fieldIdsList = array(), $blockId)
 	{
-		$db = PearDatabase::getInstance();
-		$maxSequence = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0,2]])->max('sequence');
+		$maxSequence = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0, 2]])->max('sequence');
 
-		$query = 'UPDATE vtiger_field SET presence = 2, sequence = CASE';
+		$caseExpression = 'CASE';
 		foreach ($fieldIdsList as $fieldId) {
-			$maxSequence = $maxSequence + 1;
-			$query .= ' WHEN fieldid = ? THEN ' . $maxSequence;
+			$caseExpression .= " WHEN fieldid = $fieldId THEN " . ($maxSequence + 1);
 		}
-		$query .= ' ELSE sequence END';
-		$query .= sprintf(' WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdsList));
-
-		$db->pquery($query, array_merge($fieldIdsList, $fieldIdsList));
+		$caseExpression .= ' ELSE sequence END';
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_field', [
+				'presence' => 2,
+				'sequence' => new \yii\db\Expression($caseExpression),
+				], ['fieldid' => $fieldIdsList])->execute();
 	}
 
 	/**
