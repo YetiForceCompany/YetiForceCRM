@@ -57,10 +57,9 @@ class CRMEntity
 			$module = 'Calendar';
 			$modName = 'Activity';
 		}
-
-		$instance = Vtiger_Cache::get('CRMEntity', $module);
-		if ($instance) {
-			return clone $instance;
+		$cache = \App\Cache::staticGet('CRMEntity', $module);
+		if ($cache) {
+			return clone $cache;
 		}
 
 		// File access security check
@@ -75,7 +74,7 @@ class CRMEntity
 		}
 		$focus = new $modName();
 		$focus->moduleName = $module;
-		Vtiger_Cache::set('CRMEntity', $module, clone $focus);
+		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
 		return $focus;
 	}
 
@@ -544,8 +543,9 @@ class CRMEntity
 				} elseif ($uitype === 14) {
 					$fldvalue = Vtiger_Time_UIType::getDBTimeFromUserValue($this->column_fields[$fieldname]);
 				} elseif ($uitype === 10) {
-					if(empty($this->column_fields[$fieldname]));
+					if (empty($this->column_fields[$fieldname])) {
 						$fldvalue = 0;
+					}
 				} elseif ($uitype === 7) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
 					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); //trim($this->column_fields[$fieldname],",");
@@ -1760,18 +1760,18 @@ class CRMEntity
 			$mainQuery = $query->select('fieldname AS name, fieldid AS id, fieldlabel AS label, columnname AS column, tablename AS table')->from('vtiger_field')
 				->where(['uitype' => [66, 67, 68], 'tabid' => $relTabId]);
 			$dataReader = $mainQuery->createCommand()->query();
-				while ($rowProc = $dataReader->read()){
-					$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
-					$fieldModel = new $className();
-					foreach ($rowProc as $properName => $propertyValue) {
-						$fieldModel->$properName = $propertyValue;
-					}
-					$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
-					if (!empty($moduleList) && in_array($currentModule, $moduleList)) {
-						$row = $rowProc;
-						break;
-					}
+			while ($rowProc = $dataReader->read()) {
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
+				$fieldModel = new $className();
+				foreach ($rowProc as $properName => $propertyValue) {
+					$fieldModel->$properName = $propertyValue;
 				}
+				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
+				if (!empty($moduleList) && in_array($currentModule, $moduleList)) {
+					$row = $rowProc;
+					break;
+				}
+			}
 		}
 
 		if (!empty($row)) {
