@@ -182,7 +182,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			'assigned_user_id', 'commentcontent', 'creator', 'id', 'customer', 'reasontoedit', 'userid', 'from_mailconverter'));
 		$queryGenerator->setSourceRecord($parentRecordId);
 		$query = $queryGenerator->getQuery();
-		$query = $query . " && related_to = ? ORDER BY vtiger_crmentity.createdtime DESC LIMIT $startIndex, $limit";
+		$query = $query . " AND related_to = ? ORDER BY vtiger_crmentity.createdtime DESC LIMIT $startIndex OFFSET $limit";
 
 		$result = $db->pquery($query, array($parentRecordId));
 		while ($row = $db->getRow($result)) {
