@@ -340,49 +340,59 @@ class AppRequest
 
 	public static function init()
 	{
-		if (!self::$request) {
-			self::$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		if (!static::$request) {
+			static::$request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		}
-		return self::$request;
+		return static::$request;
 	}
 
 	public static function get($key, $defvalue = '')
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->get($key, $defvalue);
+		return static::$request->get($key, $defvalue);
 	}
 
 	public static function has($key)
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->has($key);
+		return static::$request->has($key);
 	}
 
 	public static function getForSql($key, $skipEmtpy = true)
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->getForSql($key, $skipEmtpy);
+		return static::$request->getForSql($key, $skipEmtpy);
 	}
 
 	public static function set($key, $value)
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->set($key, $value);
+		return static::$request->set($key, $value);
 	}
 
 	public static function isEmpty($key)
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->isEmpty($key);
+		return static::$request->isEmpty($key);
+	}
+
+	public static function isAjax()
+	{
+		if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] === true) {
+			return true;
+		} elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+			return true;
+		}
+		return false;
 	}
 }
