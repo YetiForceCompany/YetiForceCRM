@@ -1,5 +1,12 @@
 <?php namespace Importers;
 
+/**
+ * Class that imports admin database
+ * @package YetiForce.Install
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
 class Admin extends \App\Db\Importers\Base
 {
 
@@ -17,7 +24,7 @@ class Admin extends \App\Db\Importers\Base
 					'action' => $this->boolean()->unsigned()->notNull(),
 					'conditions' => $this->text()->notNull(),
 					'members' => $this->text()->notNull(),
-					'priority' => $this->smallInteger()->unsigned()->notNull(),
+					'priority' => $this->smallInteger(1)->unsigned()->notNull(),
 				],
 				'index' => [
 					['tabid', 'tabid']
@@ -41,9 +48,9 @@ class Admin extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->primaryKey(),
 					'ip' => $this->stringType(50)->notNull(),
-					'time' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-					'attempts' => $this->smallInteger(2),
-					'blocked' => $this->boolean(),
+					'time' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP')->null(),
+					'attempts' => $this->smallInteger(2)->defaultValue(0),
+					'blocked' => $this->boolean()->defaultValue(0),
 					'userid' => $this->integer(),
 				],
 				'index' => [
@@ -58,6 +65,9 @@ class Admin extends \App\Db\Importers\Base
 				],
 				'index' => [
 				],
+				'primaryKeys' => [
+					['PRIMARY KEY', 'id']
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -68,15 +78,18 @@ class Admin extends \App\Db\Importers\Base
 				],
 				'index' => [
 				],
+				'primaryKeys' => [
+					['PRIMARY KEY', 'param']
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'a_#__discounts_global' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey()->unsigned(),
 					'name' => $this->stringType(50)->notNull(),
-					'value' => $this->decimal('5,2')->defaultValue(0),
-					'status' => $this->boolean()->defaultValue(1),
+					'value' => $this->decimal('5,2')->defaultValue(0)->unsigned()->notNull(),
+					'status' => $this->boolean()->defaultValue(1)->notNull(),
 				],
 				'index' => [
 				],
@@ -86,35 +99,34 @@ class Admin extends \App\Db\Importers\Base
 			'a_#__encryption' => [
 				'columns' => [
 					'method' => $this->stringType(40)->notNull(),
-					'pass' => $this->stringType(11)->notNull(),
+					'pass' => $this->stringType(16)->notNull(),
 				],
 				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'a__yf_featured_filter' => [
+			'a_#__featured_filter' => [
 				'columns' => [
-					'user' => $this->stringType(30),
-					'cvid' => $this->integer(),
+					'user' => $this->stringType(30)->notNull(),
+					'cvid' => $this->integer()->notNull(),
 				],
 				'index' => [
 					['cvid', 'cvid'],
 					['user', 'user'],
 				],
 				'primaryKeys' => [
-					['cvid', 'cvid'],
-					['user', 'user'],
+					['PRIMARY KEY', ['user', 'cvid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'a_#__inventory_limits' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
-					'status' => $this->boolean()->defaultValue(0),
-					'name' => $this->stringType(50),
-					'value' => $this->integer(),
+					'id' => $this->primaryKey()->unsigned(),
+					'status' => $this->boolean()->defaultValue(0)->notNull(),
+					'name' => $this->stringType(50)->notNull(),
+					'value' => $this->integer(10)->unsigned()->notNull(),
 				],
 				'index' => [
 					['status', 'status'],
@@ -125,9 +137,9 @@ class Admin extends \App\Db\Importers\Base
 			'a_#__mapped_config' => [
 				'columns' => [
 					'id' => $this->primaryKey(),
-					'tabid' => $this->smallInteger(),
-					'reltabid' => $this->smallInteger(),
-					'status' => $this->boolean(),
+					'tabid' => $this->smallInteger()->unsigned()->notNull(),
+					'reltabid' => $this->smallInteger()->unsigned()->notNull(),
+					'status' => $this->boolean()->unsigned()->defaultValue(0),
 					'conditions' => $this->text(),
 					'permissions' => $this->stringType(),
 					'params' => $this->stringType(),
@@ -168,17 +180,17 @@ class Admin extends \App\Db\Importers\Base
 					'meta_author' => $this->stringType()->notNull(),
 					'meta_creator' => $this->stringType()->notNull(),
 					'meta_keywords' => $this->stringType()->notNull(),
-					'metatags_status' => $this->boolean(),
+					'metatags_status' => $this->boolean()->notNull(),
 					'meta_subject' => $this->stringType()->notNull(),
 					'meta_title' => $this->stringType()->notNull(),
 					'page_format' => $this->stringType()->notNull(),
 					'margin_chkbox' => $this->boolean(),
-					'margin_top' => $this->smallInteger(2)->notNull(),
-					'margin_bottom' => $this->smallInteger(2)->notNull(),
-					'margin_left' => $this->smallInteger(2)->notNull(),
-					'margin_right' => $this->smallInteger(2)->notNull(),
-					'header_height' => $this->smallInteger(2)->notNull(),
-					'footer_height' => $this->smallInteger(2)->notNull(),
+					'margin_top' => $this->smallInteger(2)->notNull()->unsigned(),
+					'margin_bottom' => $this->smallInteger(2)->notNull()->unsigned(),
+					'margin_left' => $this->smallInteger(2)->notNull()->unsigned(),
+					'margin_right' => $this->smallInteger(2)->notNull()->unsigned(),
+					'header_height' => $this->smallInteger(2)->notNull()->unsigned(),
+					'footer_height' => $this->smallInteger(2)->notNull()->unsigned(),
 					'page_orientation' => $this->stringType(20)->notNull(),
 					'language' => $this->stringType(7)->notNull(),
 					'filename' => $this->stringType()->notNull(),
@@ -187,8 +199,8 @@ class Admin extends \App\Db\Importers\Base
 					'conditions' => $this->text()->notNull(),
 					'watermark_type' => $this->stringType(10)->notNull(),
 					'watermark_text' => $this->stringType()->notNull(),
-					'watermark_size' => $this->smallInteger(2)->notNull(),
-					'watermark_angle' => $this->smallInteger(3)->notNull(),
+					'watermark_size' => $this->smallInteger(2)->notNull()->unsigned(),
+					'watermark_angle' => $this->smallInteger(3)->notNull()->unsigned(),
 					'watermark_image' => $this->stringType()->notNull(),
 					'template_members' => $this->text()->notNull(),
 					'one_pdf' => $this->boolean(),
@@ -217,6 +229,9 @@ class Admin extends \App\Db\Importers\Base
 					'param' => $this->stringType(30)->notNull(),
 					'value' => $this->stringType()->notNull(),
 				],
+				'primaryKeys' => [
+					['PRIMARY KEY', 'param']
+				],
 				'index' => [
 				],
 				'engine' => 'InnoDB',
@@ -224,10 +239,10 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__taxes_global' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
-					'name' => $this->stringType(50),
-					'value' => $this->decimal('5,2')->defaultValue(0),
-					'status' => $this->boolean()->defaultValue(1),
+					'id' => $this->primaryKey()->unsigned(),
+					'name' => $this->stringType(50)->notNull(),
+					'value' => $this->decimal('5,2')->defaultValue(0)->notNull()->unsigned(),
+					'status' => $this->boolean()->defaultValue(1)->notNull(),
 				],
 				'index' => [
 				],
@@ -236,17 +251,15 @@ class Admin extends \App\Db\Importers\Base
 			],
 		];
 		$this->foreignKey = [
-			['fk_1_vtiger_bruteforce_users', 'a_yf_bruteforce_users', 'id', 'vtiger_users', 'id', 'CASCADE'],
-			['a_yf_featured_filter_ibfk_1', 'a_yf_featured_filter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE'],
-			['a_yf_mapped_fields_ibfk_1', 'a_yf_mapped_fields', 'mappedid', 'a_yf_mapped_config', 'id', 'CASCADE'],
+			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE'],
 		];
 	}
 
 	public function data()
 	{
 		$this->data = [
-			'a_#__adv_permission' => [
-				'columns' => ['name', 'tabid', 'status', 'action'],
+			'a_#__bruteforce' => [
+				'columns' => ['attempsnumber', 'timelock', 'active', 'sent'],
 				'values' => [
 					[10, 15, 1, 0]
 				],
