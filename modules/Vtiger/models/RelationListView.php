@@ -678,7 +678,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$result = $db->pquery('SELECT tr.*,rel.crmid,rel.rel_created_time,rel.rel_created_user,rel.rel_comment FROM vtiger_trees_templates_data tr '
 			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
-			. 'WHERE tr.templateid = ? && rel.crmid = ? && rel.relmodule = ?', [$template, $recordId, $relModuleId]);
+			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
 		$trees = [];
 		while ($row = $db->getRow($result)) {
 			$treeID = $row['tree'];
@@ -687,7 +687,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parent = prev($pieces);
 			$parentName = '';
 			if ($row['depth'] > 0) {
-				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $parent]);
+				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
 				$parentName = $db->getSingleValue($result2);
 				$parentName = '(' . vtranslate($parentName, $relModuleName) . ') ';
 			}

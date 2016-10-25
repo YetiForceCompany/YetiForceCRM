@@ -323,7 +323,7 @@ class Accounts extends CRMEntity
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
 				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.crmid IN (%s)";
+				WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.crmid IN (%s)";
 		$query = sprintf($query, $entityIds);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
