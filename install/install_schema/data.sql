@@ -32,8 +32,8 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 
 /*Data for the table `a_yf_mapped_config` */
 
-insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (1,104,106,'active','[]','','{\"autofill\":\"on\"}');
-insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (2,6,18,'active','[]','','{\"autofill\":\"on\"}');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (1,104,106,1,'[]','','{\"autofill\":\"on\"}');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (2,6,18,1,'[]','','{\"autofill\":\"on\"}');
 
 /*Data for the table `a_yf_mapped_fields` */
 

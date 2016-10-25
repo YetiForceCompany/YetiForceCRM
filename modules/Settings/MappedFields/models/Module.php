@@ -110,7 +110,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
@@ -143,7 +143,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getInstance($moduleName = 'Settings:Vtiger')
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if ($moduleModel) {
@@ -159,7 +159,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		$instance = new self();
 		$instance->record = Vtiger_MappedFields_Model::getInstanceById($recordId, $moduleName);
@@ -207,7 +207,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getFields($source = false)
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getName());
 		$moduleMeta = $moduleModel->getModuleMeta();
@@ -255,14 +255,14 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public function delete()
 	{
 		return \App\Db::getInstance()->createCommand()->delete($this->baseTable, [$this->baseIndex => $this->getRecordId()])
-			->execute();
+				->execute();
 	}
 
 	public function importsAllowed()
 	{
 		return (new \App\Db\Query())->from($this->baseTable)
-			->where(['tabid' => $this->get('tabid'), 'reltabid' => $this->get('reltabid')])
-			->count();
+				->where(['tabid' => $this->get('tabid'), 'reltabid' => $this->get('reltabid')])
+				->count();
 	}
 
 	public function save($saveMapping = false)
@@ -310,7 +310,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function transformAdvanceFilterToWorkFlowFilter()
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		$conditions = $this->get('conditions');
 		$wfCondition = [];

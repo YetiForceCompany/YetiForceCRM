@@ -68,7 +68,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
 		if (!isRecordExists($recordId)) {
 			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
@@ -95,10 +95,10 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	 */
 	public static function getTemplatesByModule($moduleName)
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$moduleId = vtlib\Functions::getModuleId($moduleName);
-		$query = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $moduleId, 'status' => 'active']);
+		$query = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $moduleId, 'status' => 1]);
 		$dataReader = $query->createCommand()->query();
 		$templates = [];
 
@@ -114,7 +114,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function getActiveTemplatesForModule($moduleName, $view)
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
@@ -129,7 +129,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public static function getInstanceByModules($tabId, $relTabId)
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
 		$row = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $tabId, 'reltabid' => $relTabId])->limit(1)->one();
 		if ($row === false) {
@@ -153,8 +153,8 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			return $mf;
 		}
 		$row = (new App\Db\Query())->from(self::$baseTable)
-				->where([self::$baseIndex => $recordId])
-				->one();
+			->where([self::$baseIndex => $recordId])
+			->one();
 		if ($row === false) {
 			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
 			return false;
@@ -179,7 +179,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	 */
 	public function getMapping()
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
 			$db = PearDatabase::getInstance();
@@ -251,7 +251,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function checkUserPermissions()
 	{
-		
+
 		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
 		$permissions = $this->get('permissions');
 		if (empty($permissions)) {

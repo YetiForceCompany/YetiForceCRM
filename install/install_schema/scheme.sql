@@ -102,9 +102,9 @@ CREATE TABLE `a_yf_inventory_limits` (
 
 CREATE TABLE `a_yf_mapped_config` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
-  `tabid` smallint(11) unsigned NOT NULL,
-  `reltabid` smallint(11) unsigned NOT NULL,
-  `status` set('active','inactive') DEFAULT NULL,
+  `tabid` smallint(6) unsigned NOT NULL,
+  `reltabid` smallint(6) unsigned NOT NULL,
+  `status` tinyint(1) unsigned DEFAULT '0',
   `conditions` text,
   `permissions` varchar(255) DEFAULT NULL,
   `params` varchar(255) DEFAULT NULL,
