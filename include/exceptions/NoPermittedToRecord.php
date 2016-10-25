@@ -15,9 +15,8 @@ class NoPermittedToRecord extends NoPermitted
 		\Vtiger_Session::init();
 
 		$request = \AppRequest::init();
-		$dbLog = \PearDatabase::getInstance('log');
 		$userName = \Vtiger_Session::get('full_user_name');
-		$dbLog->insert('o_yf_access_to_record', [
+		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_to_record', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\RequestUtil::getRemoteIP(),
@@ -27,6 +26,6 @@ class NoPermittedToRecord extends NoPermitted
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
-		]);
+		])->execute();
 	}
 }

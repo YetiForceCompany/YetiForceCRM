@@ -15,9 +15,8 @@ class NoPermitted extends \Exception
 		\Vtiger_Session::init();
 
 		$request = \AppRequest::init();
-		$dbLog = \PearDatabase::getInstance('log');
 		$userName = \Vtiger_Session::get('full_user_name');
-		$dbLog->insert('o_yf_access_for_user', [
+		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_for_user', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\RequestUtil::getRemoteIP(),
@@ -26,6 +25,6 @@ class NoPermitted extends \Exception
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
-		]);
+		])->execute();
 	}
 }
