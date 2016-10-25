@@ -1106,7 +1106,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function preFetchModuleFieldPermission($tabid, $readOnly = true)
 	{
-		$cache = \App\Cache::staticGet('FieldPermission-' . $readOnly, $this->getModuleId());
+		$cache = \App\Cache::staticGet('FieldPermission-' . $readOnly, $tabid);
 		if ($cache) {
 			return $cache;
 		}
