@@ -119,6 +119,7 @@ $languageStrings = [
 	'LBL_NEXT' => 'Suivant',
 	'LBL_PARAMS_MODULES' => 'Modules',
 	'LBL_PARAMS_LIMIT' => 'Limite',
+	'LBL_PARAMS_LIMIT_CONDITIONS' => 'Required fields',
 	'LBL_DISPLAY_TYPE' => 'Type de champ',
 	'LBL_DISPLAYTYPE_ALL' => 'Visible partout',
 	'LBL_DISPLAYTYPE_READONLY' => 'Lecture seule',
