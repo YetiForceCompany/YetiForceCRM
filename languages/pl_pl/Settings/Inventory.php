@@ -4,6 +4,7 @@ $languageStrings = [
 	'LBL_CREDITLIMITS' => 'Limity kupieckie',
 	'LBL_CREDITLIMITS_DESCRIPTION' => ' ',
 	'LBL_CREDITLIMITS_SINGLE' => 'limit kupiecki',
+	'LBL_CREDITLIMITS_INFO' => 'W systemie YetiForce mamy możliwość zarządzania limitami kupieckimi dla kontrahentów. Funkcjonalność ta, służy do ograniczenia nadmiernego zadłużenia kontrahenta przy stałej współpracy z nim. Limity kupieckie nadaje się przede wszystkim kontrahentom z którymi współpracujemy od dłuższego czasu i chcemy mu wydłużyć okres płatności, w praktyce oznacza to, że kontrahent nie może złożyć nowego zamówienia o ile poprzednie nie zostały opłacone [aktualne saldo finansowe oraz wystawiany dokument przekraczają nadany limit].',
 	'LBL_ENTER_NAME' => 'Wprowadź nazwę',
 	'LBL_ENTER_VALUE' => 'Wprowadź wartość',
 	'LBL_NAME' => 'Nazwa',

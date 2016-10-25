@@ -4,6 +4,7 @@ $languageStrings = [
 	'LBL_CREDITLIMITS' => 'Merchant limits',
 	'LBL_CREDITLIMITS_DESCRIPTION' => ' ',
 	'LBL_CREDITLIMITS_SINGLE' => 'Merchant limit',
+	'LBL_CREDITLIMITS_INFO' => 'In the YetiForce system we got the ability to manage merchant limits for Accounts. This functionality is used to limit the Account\'s excessive debt in permanent cooperation. Merchant limits are mainly granted to these Accounts who cooperate with us for a longer period of time and we want to extend their payment deadline, which means that the Account won\'t be able to place a new order unless his previous balance has been regulated [current balance and issued document exceed granted limit].',
 	'LBL_ENTER_NAME' => 'Saisir le nom',
 	'LBL_ENTER_VALUE' => 'Saisir une valeur',
 	'LBL_NAME' => 'Nom',
