@@ -581,26 +581,19 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the list of selected fields for the current custom view
-	 * @return <Array> List of Field Column Names
+	 * @return array List of Field Column Names
 	 */
 	public function getSelectedFields()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT vtiger_cvcolumnlist.* FROM vtiger_cvcolumnlist
-					INNER JOIN vtiger_customview ON vtiger_customview.cvid = vtiger_cvcolumnlist.cvid
-				WHERE vtiger_customview.cvid  = ? ORDER BY vtiger_cvcolumnlist.columnindex';
-		$params = [$this->getId()];
-
-		$result = $db->pquery($query, $params);
-		$noOfFields = $db->num_rows($result);
-		$selectedFields = [];
-		for ($i = 0; $i < $noOfFields; ++$i) {
-			$columnIndex = $db->query_result($result, $i, 'columnindex');
-			$columnName = $db->query_result($result, $i, 'columnname');
-			$selectedFields[$columnIndex] = $columnName;
+		$cvId = $this->getId();
+		if(!$cvId) {
+			return [];
 		}
-		return $selectedFields;
+		return (new App\Db\Query())->select('vtiger_cvcolumnlist.columnindex, vtiger_cvcolumnlist.columnname')
+			->from('vtiger_cvcolumnlist')
+			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+			->createCommand()->queryAllByGroup();
 	}
 
 	/**
@@ -1060,29 +1053,18 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * function to check duplicates from database
-	 * @param <type> $viewName
-	 * @param <type> module name entity type in database
-	 * @return <boolean> true/false
+	 * Function to check duplicates from database
+	 * @return boolean
 	 */
 	public function checkDuplicate()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT 1 FROM vtiger_customview WHERE viewname = ? && entitytype = ?";
-		$params = array($this->get('viewname'), $this->getModule()->getName());
-
+		$query = (new App\Db\Query())->from('vtiger_customview')
+			->where(['viewname' => $this->get('viewname'), 'entitytype' => $this->getModule()->getName()]);
 		$cvid = $this->getId();
 		if ($cvid) {
-			$query .= " && cvid != ?";
-			array_push($params, $cvid);
+			$query->andWhere(['<>', 'cvid', $cvid]);
 		}
-
-		$result = $db->pquery($query, $params);
-		if ($db->num_rows($result)) {
-			return true;
-		}
-		return false;
+		return $query->exists();
 	}
 
 	/**
