@@ -30,7 +30,7 @@ class RecurringType
 	 * Constructor for class RecurringType
 	 * @param array  $repeat_arr     - array contains recurring info
 	 */
-	public function RecurringType($repeat_arr)
+	public function __construct($repeat_arr)
 	{
 
 		$st_date = explode("-", $repeat_arr["startdate"]);
@@ -118,7 +118,7 @@ class RecurringType
 				$userStartDateTime = DateTimeField::convertToUserTimeZone($startDate . ' ' . $startTime);
 				$dayOfWeek = $requestArray['dayofweek_to_repeat'];
 				$dbDaysOfWeek = [];
-				
+
 				$countDayOfWeek = count($dayOfWeek);
 				for ($i = 0; $i < $countDayOfWeek; ++$i) {
 					$selectedDayOfWeek = $dayOfWeek[$i];
@@ -373,7 +373,7 @@ class RecurringType
 				if (count($this->dayofweek_to_rpt) == 0) {
 					$this->dayofweek_to_rpt[] = $this->startdate->dayofweek;
 				}
-				
+
 				$countDayofweekToRpt = count($this->dayofweek_to_rpt);
 				for ($i = 0; $i < $countDayofweekToRpt; $i++) {
 					$repeat = $this->dayofweek_to_rpt[$i];

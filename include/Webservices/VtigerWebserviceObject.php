@@ -16,7 +16,7 @@ class VtigerWebserviceObject
 	private $handlerPath;
 	private $handlerClass;
 
-	private function VtigerWebserviceObject($entityId, $entityName, $handler_path, $handler_class)
+	private function __construct($entityId, $entityName, $handler_path, $handler_class)
 	{
 		$this->id = $entityId;
 		$this->name = $entityName;
@@ -67,7 +67,7 @@ class VtigerWebserviceObject
 			$id = explode('x', $entityId);
 			$query = (new \App\Db\Query())->from('vtiger_ws_entity')->where(['id' => $id[0]]);
 			$result = $query->one();
-			
+
 			if ($result) {
 				self::$_fromIdCache[$entityId] = $result;
 			}
