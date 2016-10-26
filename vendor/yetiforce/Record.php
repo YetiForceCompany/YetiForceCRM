@@ -56,12 +56,12 @@ class Record
 		if (isset(static::$crmidByLabelCache[$label])) {
 			$crmIds = static::$crmidByLabelCache[$label];
 		} else {
-			$currentUser = \Users_Record_Model::getCurrentUserModel();
+			$userId = \App\User::getCurrentUserId();
 			$crmIds = [];
 			$query = (new \App\Db\Query())
 				->select('crmid,setype,searchlabel')
 				->from('u_#__crmentity_search_label')
-				->where(['like', 'userid', ",{$currentUser->getId()},"])
+				->where(['like', 'userid', ",$userId,"])
 				->andWhere(['like', 'searchlabel', $label]);
 			if ($moduleName) {
 				$query->andWhere(['setype' => $moduleName]);

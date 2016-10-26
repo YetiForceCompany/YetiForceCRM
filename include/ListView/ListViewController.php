@@ -185,6 +185,7 @@ class ListViewController
 			}
 		}
 		$useAsterisk = get_use_asterisk($this->user->id);
+		$currentUser = \App\User::getCurrentUserModel();
 
 		$data = $rawData = [];
 		for ($i = 0; $i < $rowCount; ++$i) {
@@ -277,7 +278,7 @@ class ListViewController
 						$value = ' --';
 					}
 					$value = vtlib\Functions::textLength($value);
-				} elseif ($module == 'Notification' && ($fieldName == 'title' || $fieldName == 'description')){
+				} elseif ($module == 'Notification' && ($fieldName == 'title' || $fieldName == 'description')) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 					$relatedModule = $recordModel->get('relatedmodule');
 					$reletedId = $recordModel->get('relatedid');
@@ -289,8 +290,7 @@ class ListViewController
 					$textParser->setContent($value);
 					$value = $textParser->parseTranslations();
 					$value = $value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
-				} 
-				elseif ($field->getFieldDataType() == 'picklist') {
+				} elseif ($field->getFieldDataType() == 'picklist') {
 					$value = \App\Language::translate($value, $module);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getFieldDataType() == 'date' || $field->getFieldDataType() == 'datetime') {
@@ -318,10 +318,9 @@ class ListViewController
 					} elseif ($value == '0000-00-00') {
 						$value = '';
 					}
-				} elseif ($field->getFieldDataType() == 'time') {
+				} elseif ($field->getFieldDataType() === 'time') {
 					if (!empty($value)) {
-						$userModel = Users_Privileges_Model::getCurrentUserModel();
-						if ($userModel->get('hour_format') == '12') {
+						if ($currentUser->getDetail('hour_format') === '12') {
 							$value = Vtiger_Time_UIType::getTimeValueInAMorPM($value);
 						}
 					}
@@ -357,9 +356,8 @@ class ListViewController
 						$value = '<a class="urlField cursorPointer" title="' . $rawValue . '" href="http://' . $rawValue . '" target="_blank">' . vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext')) . '</a>';
 					}
 				} elseif ($field->getFieldDataType() == 'email') {
-					$currentUser = Users_Record_Model::getCurrentUserModel();
 					$value = vtlib\Functions::textLength($value);
-					if ($currentUser->get('internal_mailer') == 1) {
+					if ($currentUser->getDetail('internal_mailer')) {
 						$url = OSSMail_Module_Model::getComposeUrl($module, $recordId, 'Detail', 'new');
 						$mailConfig = OSSMail_Module_Model::getComposeParameters();
 						$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$module\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . vtranslate('LBL_SEND_EMAIL') . ">$value</a>";

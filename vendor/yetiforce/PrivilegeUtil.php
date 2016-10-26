@@ -153,6 +153,45 @@ class PrivilegeUtil
 		return $users;
 	}
 
+	/**
+	 * Function to get user groups
+	 * @param int $userId
+	 * @return array - groupId's
+	 */
+	public static function getUserGroups($userId)
+	{
+		$groupIds = Cache::staticGet('getUserGroups', $userId);
+		if ($groupIds) {
+			return $groupIds;
+		}
+		$groupIds = (new \App\Db\Query())->select('groupid')
+			->from('vtiger_users2group')
+			->where(['userid' => $userId])
+			->column();
+		Cache::staticSave('getUserGroups', $userId, $groupIds);
+		return $groupIds;
+	}
+
+	/**
+	 * This function is to retreive the vtiger_profiles associated with the  the specified role
+	 * @param string $roleId
+	 * @return array
+	 */
+	public static function getProfilesByRole($roleId)
+	{
+		$profiles = Cache::staticGet('getProfilesByRole', $roleId);
+		if ($profiles) {
+			return $profiles;
+		}
+		$profiles = (new \App\Db\Query())
+			->select('profileid')
+			->from('vtiger_role2profile')
+			->where(['roleid' => $roleId])
+			->column();
+		Cache::staticSave('getProfilesByRole', $roleId, $profiles);
+		return $profiles;
+	}
+
 	const MEMBER_TYPE_USERS = 'Users';
 	const MEMBER_TYPE_GROUPS = 'Groups';
 	const MEMBER_TYPE_ROLES = 'Roles';

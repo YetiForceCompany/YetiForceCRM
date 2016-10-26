@@ -1205,11 +1205,11 @@ class QueryGenerator
 				continue;
 			}
 			if (trim($value) == '' && ($operator == 'om') && in_array($field->getFieldName(), $this->ownerFields)) {
-				$sql[] = " = '" . Users_Record_Model::getCurrentUserModel()->get('id') . "'";
+				$sql[] = " = '" . $this->user->get('id') . "'";
 				continue;
 			}
 			if (trim($value) == '' && in_array($operator, ['wr', 'nwr']) && in_array($field->getFieldName(), $this->ownerFields)) {
-				$userId = Users_Record_Model::getCurrentUserModel()->get('id');
+				$userId = $this->user->get('id');
 				$watchingSql = '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' && module = ' . vtlib\Functions::getModuleId($this->module) . ') > 0 && ';
 				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' && record = vtiger_crmentity.crmid && state = 0) = 0) || ';
 				$watchingSql .= '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' && module = ' . vtlib\Functions::getModuleId($this->module) . ') = 0 && ';
@@ -1219,7 +1219,7 @@ class QueryGenerator
 			}
 			if ($field->getUIType() == 120) {
 				if ($operator == 'om') {
-					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . Users_Record_Model::getCurrentUserModel()->get('id') . ')';
+					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $this->user->get('id') . ')';
 				} elseif (in_array($operator, ['e', 's', 'ew', 'c'])) {
 					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $value . ')';
 				} elseif (in_array($operator, ['n', 'k'])) {

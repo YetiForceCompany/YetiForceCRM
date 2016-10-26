@@ -25,7 +25,7 @@ function createUserPrivilegesfile($userid)
 
 	if ($handle) {
 		$newbuf = '';
-		$newbuf .="<?php\n";
+		$newbuf .= "<?php\n";
 		$user_focus = CRMEntity::getInstance('Users');
 		$user_focus->retrieve_entity_info($userid, 'Users');
 		$userInfo = [];
@@ -49,20 +49,17 @@ function createUserPrivilegesfile($userid)
 			$user_role = fetchUserRole($userid);
 			$user_role_info = \App\PrivilegeUtil::getRoleDetail($user_role);
 			$user_role_parent = $user_role_info['parentrole'];
-			$userGroupFocus = new GetUserGroups();
-			$userGroupFocus->getAllUserGroups($userid);
 			$subRoles = getRoleSubordinates($user_role);
 			$subRoleAndUsers = getSubordinateRoleAndUsers($user_role);
 			$def_org_share = getDefaultSharingAction();
 			$parentRoles = \App\PrivilegeUtil::getParentRole($user_role);
-
 			$newbuf .= "\$current_user_roles='" . $user_role . "';\n";
 			$newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
-			$newbuf .= "\$current_user_profiles=" . constructSingleArray(getUserProfile($userid)) . ";\n";
+			$newbuf .= "\$current_user_profiles=" . constructSingleArray(\App\PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
 			$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
 			$newbuf .= "\$profileTabsPermission=" . constructArray($tabsPermissionArr) . ";\n";
 			$newbuf .= "\$profileActionPermission=" . constructTwoDimensionalArray($actionPermissionArr) . ";\n";
-			$newbuf .= "\$current_user_groups=" . constructSingleArray($userGroupFocus->user_groups) . ";\n";
+			$newbuf .= "\$current_user_groups=" . constructSingleArray(\App\PrivilegeUtil::getUserGroups($userId)) . ";\n";
 			$newbuf .= "\$subordinate_roles=" . constructSingleCharArray($subRoles) . ";\n";
 			$newbuf .= "\$parent_roles=" . constructSingleCharArray($parentRoles) . ";\n";
 			$newbuf .= "\$subordinate_roles_users=" . constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
@@ -70,6 +67,7 @@ function createUserPrivilegesfile($userid)
 		}
 		fputs($handle, $newbuf);
 		fclose($handle);
+		\App\PrivilegeFile::createUserPrivilegesFile($userid);
 	}
 }
 
@@ -1215,7 +1213,7 @@ function constructSingleCharArray($var)
 	if (is_array($var)) {
 		$code = '[';
 		foreach ($var as $value) {
-			$code .="'" . $value . "',";
+			$code .= "'" . $value . "',";
 		}
 		$code .= ']';
 		return $code;

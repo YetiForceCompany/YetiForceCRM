@@ -446,9 +446,9 @@ class API_CalDAV_Model
 		}
 		if (!$startHasTime && !$endHasTime) {
 			$allday = 1;
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$timeStart = $currentUser->get('start_hour');
-			$timeEnd = $currentUser->get('end_hour');
+			$currentUser = \App\User::getCurrentUserModel();
+			$timeStart = $currentUser->getDetail('start_hour');
+			$timeEnd = $currentUser->getDetail('end_hour');
 		}
 		return ['allday' => $allday, 'date_start' => $dateStart, 'due_date' => $dueDate, 'time_start' => $timeStart, 'time_end' => $timeEnd];
 	}

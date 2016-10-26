@@ -24,6 +24,7 @@ if (!isset($current_language))
 $userid = getPortalUserid();
 $user = new Users();
 $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
+App\User::setCurrentUserId($userid);
 
 $NAMESPACE = 'http://www.yetiforce.com';
 $server = new soap_server;

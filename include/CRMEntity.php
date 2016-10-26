@@ -259,7 +259,7 @@ class CRMEntity
 	public function insertIntoCrmEntity($module, $fileid = '')
 	{
 		$adb = PearDatabase::getInstance();
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
+		$userId = \App\User::getCurrentUserId();
 
 		if ($fileid != '') {
 			$this->id = $fileid;
@@ -271,8 +271,9 @@ class CRMEntity
 
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if (empty($ownerid)) {
-			$ownerid = $currentUser->getId();
+			$ownerid = $userId;
 		}
+
 
 		if ($module == 'Events') {
 			$module = 'Calendar';
@@ -283,7 +284,7 @@ class CRMEntity
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
 
-			$profileList = $currentUser->getProfiles();
+			$profileList = \App\User::getCurrentUserModel()->get('profiles');
 			$columname = (new \App\Db\Query())->select('columnname')->from('vtiger_field')
 					->innerJoin('vtiger_profile2field', 'vtiger_field.fieldid = vtiger_profile2field.fieldid')
 					->innerJoin('vtiger_def_org_field', 'vtiger_field.fieldid = vtiger_def_org_field.fieldid')
@@ -293,7 +294,7 @@ class CRMEntity
 			if (is_array($columname) && in_array('description', $columname)) {
 				$columns = [
 					'smownerid' => $ownerid,
-					'modifiedby' => $currentUser->getId(),
+					'modifiedby' => $userId,
 					'description' => $description_val,
 					'attention' => $attention_val,
 					'modifiedtime' => $adb->formatDate($date_var, true),
@@ -302,14 +303,14 @@ class CRMEntity
 			} else {
 				$columns = [
 					'smownerid' => $ownerid,
-					'modifiedby' => $currentUser->getId(),
+					'modifiedby' => $userId,
 					'modifiedtime' => $adb->formatDate($date_var, true)
 				];
 			}
 
 			\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', $columns, ['crmid' => $this->id])->execute();
 			$this->column_fields['modifiedtime'] = $adb->formatDate($date_var, true);
-			$this->column_fields['modifiedby'] = $currentUser->getId();
+			$this->column_fields['modifiedby'] = $userId;
 		} else {
 			//if this is the create mode and the group allocation is chosen, then do the following
 			if (empty($this->newRecord)) {
@@ -317,8 +318,6 @@ class CRMEntity
 			} else {
 				$this->id = $this->newRecord;
 			}
-			if (empty($currentUser->id))
-				$currentUser->id = 0;
 
 			// Customization
 			$created_date_var = $adb->formatDate($date_var, true);
@@ -335,12 +334,12 @@ class CRMEntity
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$params = [
 				'crmid' => $this->id,
-				'smcreatorid' => $currentUser->getId(),
+				'smcreatorid' => $userId,
 				'smownerid' => $ownerid,
 				'setype' => $module,
 				'description' => $description_val,
 				'attention' => $attention_val,
-				'modifiedby' => $currentUser->getId(),
+				'modifiedby' => $userId,
 				'createdtime' => $created_date_var,
 				'modifiedtime' => $modified_date_var,
 				'users' => ",$ownerid,",
@@ -348,7 +347,7 @@ class CRMEntity
 			\App\Db::getInstance()->createCommand()->insert('vtiger_crmentity', $params)->execute();
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
-			$this->column_fields['modifiedby'] = $currentUser->getId();
+			$this->column_fields['modifiedby'] = $userId;
 		}
 	}
 
@@ -1563,7 +1562,6 @@ class CRMEntity
 	public function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
 	{
 		$db = PearDatabase::getInstance();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		foreach ($withCrmid as $relcrmid) {
 			if ($withModule == 'Documents') {
 				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? && notesid = ?', [$crmid, $relcrmid]);
@@ -1586,7 +1584,7 @@ class CRMEntity
 					'module' => $module,
 					'relcrmid' => $relcrmid,
 					'relmodule' => $withModule,
-					'rel_created_user' => $currentUserModel->getId(),
+					'rel_created_user' => \App\User::getCurrentUserId(),
 					'rel_created_time' => date('Y-m-d H:i:s')
 				])->execute();
 			}
@@ -2119,8 +2117,8 @@ class CRMEntity
 		$tabid = \App\Module::getModuleId($module);
 		$current_user = vglobal('current_user');
 		if ($current_user) {
-			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($current_user->id);
-			$sharingPrivileges = Vtiger_Util_Helper::getUserSharingFile($current_user->id);
+			$privileges = App\User::getPrivilegesFile($current_user->id);
+			$sharingPrivileges = App\User::getSharingFile($current_user->id);
 		} else {
 			return '';
 		}
@@ -2130,7 +2128,7 @@ class CRMEntity
 					in (select vtiger_user2role.userid from vtiger_user2role
 							inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid
 							inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid
-							where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%') or vtiger_crmentity.smownerid
+							where vtiger_role.parentrole like '" . $privileges['parent_role_seq'] . "::%') or vtiger_crmentity.smownerid
 					in(select shareduserid from vtiger_tmp_read_user_sharing_per
 						where userid=" . $current_user->id . " and tabid=" . $tabid . ") or (";
 			if (sizeof($privileges['groups']) > 0) {

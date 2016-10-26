@@ -139,7 +139,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		if (isset(self::$userPrivilegesModelCache[$userId])) {
 			return self::$userPrivilegesModelCache[$userId];
 		}
-		$valueMap = Vtiger_Util_Helper::getUserPrivilegesFile($userId);
+		$valueMap = App\User::getPrivilegesFile($userId);
 		if (is_array($valueMap['user_info'])) {
 			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}

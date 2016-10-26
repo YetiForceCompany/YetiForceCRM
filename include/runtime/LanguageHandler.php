@@ -174,7 +174,7 @@ class Vtiger_Language_Handler
 		} elseif (Vtiger_Session::get('language') != '') {
 			$language = Vtiger_Session::get('language');
 		} else {
-			$language = Users_Record_Model::getCurrentUserModel()->get('language');
+			$language = \App\User::getCurrentUserModel()->getDetail('language');
 		}
 		$language = empty($language) ? vglobal('default_language') : $language;
 		self::$lang = $language;

@@ -744,8 +744,6 @@ class Accounts extends CRMEntity
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
 		if (!in_array($with_module, ['Products', 'Campaigns'])) {
@@ -757,7 +755,7 @@ class Accounts extends CRMEntity
 						'crmid' => $crmid,
 						'productid' => $with_crmid,
 						'setype' => $module,
-						'rel_created_user' => $currentUser->getId(),
+						'rel_created_user' => \App\User::getCurrentUserId(),
 						'rel_created_time' => date('Y-m-d H:i:s')
 					]);
 				} elseif ($with_module == 'Campaigns') {

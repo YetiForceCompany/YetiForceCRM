@@ -180,7 +180,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	\App\Log::trace("Entering isPermitted($module,$actionname,$record_id) method ...");
 
 	$current_user = vglobal('current_user');
-	$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($current_user->id);
+	$userPrivileges = App\User::getPrivilegesFile($current_user->id);
 
 	$permission = 'no';
 	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && AppRequest::get('parenttab') != 'Settings') {

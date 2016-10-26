@@ -585,7 +585,7 @@ class Users extends CRMEntity
 	 */
 	public function retrieveCurrentUserInfoFromFile($userid)
 	{
-		$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($userid);
+		$userPrivileges = App\User::getPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
 		foreach ($this->column_fields as $field => $value_iter) {
 			if (isset($userInfo[$field])) {
@@ -821,7 +821,7 @@ class Users extends CRMEntity
 					}
 				}
 				if ($current_user->id == $this->id) {
-					$_SESSION['authenticated_user_language'] = $fldvalue;
+					Vtiger_Session::set('language', $fldvalue);
 				}
 			}
 			if ($fldvalue == '') {

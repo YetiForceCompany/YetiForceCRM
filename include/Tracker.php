@@ -102,47 +102,6 @@ class Tracker
 	}
 
 	/**
-	 * param $user_id - The id of the user to retrive the history for
-	 * param $module_name - Filter the history to only return records from the specified module.  If not specified all records are returned
-	 * return - return the array of result set rows from the query.  All of the vtiger_table vtiger_fields are included
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
-	 * All Rights Reserved.
-	 * Contributor(s): ______________________________________..
-	 */
-	public function get_recently_viewed($userId, $moduleName = "")
-	{
-		if (empty($userId)) {
-			return;
-		}
-		$query = "SELECT * from $this->table_name inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_tracker.item_id WHERE user_id=? and vtiger_crmentity.deleted=0 ORDER BY id DESC";
-		\App\Log::trace("About to retrieve list: $query");
-		$result = $this->db->pquery($query, array($userId), true);
-		$list = [];
-		while ($row = $this->db->fetchByAssoc($result, -1, false)) {
-			// If the module was not specified or the module matches the module of the row, add the row to the list
-			if ($moduleName == "" || $row['module_name'] == $moduleName) {
-				//Adding Security check
-				require_once('include/utils/utils.php');
-				require_once('include/utils/UserInfoUtil.php');
-				$entityId = $row['item_id'];
-				$module = $row['module_name'];
-				if ($module == 'Users') {
-					$currentUser = Users_Privileges_Model::getCurrentUserModel();
-					if ($currentUser->isAdminUser()) {
-						$per = true;
-					}
-				} else {
-					$per = \App\Privilege::isPermitted($module, 'DetailView', $entityId);
-				}
-				if ($per) {
-					$list[] = $row;
-				}
-			}
-		}
-		return $list;
-	}
-
-	/**
 	 * INTERNAL -- This method cleans out any entry for a record for a user.
 	 * It is used to remove old occurances of previously viewed items.
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.

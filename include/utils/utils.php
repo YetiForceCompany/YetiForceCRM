@@ -215,25 +215,6 @@ function getColumnFields($module)
 	return $column_fld;
 }
 
-/** Function to get a users's mail id
- * @param $userid -- userid :: Type integer
- * @returns $email -- email :: Type string
- *
- */
-function getUserEmail($userid)
-{
-
-	\App\Log::trace("Entering getUserEmail(" . $userid . ") method ...");
-	\App\Log::trace("in getUserEmail " . $userid);
-
-	$adb = PearDatabase::getInstance();
-	if ($userid != '') {
-		$email = Vtiger_Util_Helper::getUserDetail($userid, 'email1');
-	}
-	\App\Log::trace("Exiting getUserEmail method ...");
-	return $email;
-}
-
 /** Function to get a userid for outlook
  * @param $username -- username :: Type string
  * @returns $user_id -- user id :: Type integer

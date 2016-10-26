@@ -40,7 +40,6 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 		$name = $currentUserModel->getName();
 		$userName = $currentUser->column_fields['user_name'];
-		Vtiger_Session::set('AUTHUSERID', $userId);
 		Vtiger_Session::set('authenticated_user_id', $userId);
 		Vtiger_Session::set('user_name', $userName);
 		Vtiger_Session::set('full_user_name', $name);

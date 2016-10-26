@@ -132,8 +132,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getDefaultThemeName()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$theme = $currentUserModel->get('theme');
+		$theme = \App\User::getCurrentUserModel()->getDetail('theme');
 		return empty($theme) ? self::DEFAULTTHEME : $theme;
 	}
 
