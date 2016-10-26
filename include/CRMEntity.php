@@ -314,8 +314,7 @@ class CRMEntity
 				];
 			}
 
-			$params = [$this->id];
-			$adb->update('vtiger_crmentity', $columns, 'crmid = ?', $params);
+			\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', $columns, ['crmid' => $this->id])->execute();
 			$this->column_fields['modifiedtime'] = $adb->formatDate($date_var, true);
 			$this->column_fields['modifiedby'] = $currentUser->getId();
 		} else {
