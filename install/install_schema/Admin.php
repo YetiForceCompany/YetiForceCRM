@@ -174,7 +174,7 @@ class Admin extends \App\Db\Importers\Base
 					'header_content' => $this->text()->notNull(),
 					'body_content' => $this->text()->notNull(),
 					'footer_content' => $this->text()->notNull(),
-					'status' => $this->boolean()->notNull(),
+					'status' => $this->boolean()->notNull()->defaultValue(0),
 					'primary_name' => $this->stringType()->notNull(),
 					'secondary_name' => $this->stringType()->notNull(),
 					'meta_author' => $this->stringType()->notNull(),
