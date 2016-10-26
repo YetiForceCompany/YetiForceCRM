@@ -130,7 +130,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid 
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid 
 			LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-			WHERE vtiger_crmentity.deleted = 0 && vtiger_ossmailview_relation.crmid = " . $recordId . " ";
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_ossmailview_relation.crmid = " . $recordId . " ";
 		return $query;
 	}
 
