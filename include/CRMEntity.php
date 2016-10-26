@@ -53,6 +53,9 @@ class CRMEntity
 	static function getInstance($module)
 	{
 		$modName = $module;
+		if (is_numeric($module)) {
+			$modName = App\Module::getModuleName($module);
+		}
 		if ($module === 'Calendar' || $module === 'Events') {
 			$module = 'Calendar';
 			$modName = 'Activity';
@@ -545,7 +548,7 @@ class CRMEntity
 				} elseif ($uitype === 10) {
 					if (empty($this->column_fields[$fieldname])) {
 						$fldvalue = 0;
-					}else
+					} else
 						$fldvalue = $this->column_fields[$fieldname];
 				} elseif ($uitype === 7) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
@@ -1047,19 +1050,16 @@ class CRMEntity
 		require_once('include/utils/UserInfoUtil.php');
 		foreach ($this->column_fields as $fieldname => $fieldvalue) {
 			$reset_value = false;
-			if (getFieldVisibilityPermission($moduleName, $current_user->id, $fieldname) != '0')
+			if (!\App\Field::getFieldPermission($moduleName, $fieldname))
 				$reset_value = true;
-
-			if ($fieldname == "record_id" || $fieldname == "record_module")
+			if ($fieldname == 'record_id' || $fieldname == 'record_module')
 				$reset_value = false;
-
 			/*
 			  if (isset($this->additional_column_fields) && in_array($fieldname, $this->additional_column_fields) === true)
 			  $reset_value = false;
 			 */
-
 			if ($reset_value === true)
-				$this->column_fields[$fieldname] = "";
+				$this->column_fields[$fieldname] = '';
 		}
 	}
 
@@ -1105,8 +1105,9 @@ class CRMEntity
 		}
 
 		foreach ($colf as $key => $value) {
-			if (getFieldVisibilityPermission($module, $current_user->id, $key, 'readwrite') == '0')
+			if (\App\Field::getFieldPermission($module, $key, false)) {
 				$this->importable_fields[$key] = $value;
+			}
 		}
 	}
 
@@ -1784,7 +1785,7 @@ class CRMEntity
 			if ($actions) {
 				if (is_string($actions))
 					$actions = explode(',', strtoupper($actions));
-				if (in_array('ADD', $actions) && isPermitted($relatedModule, 1, '') == 'yes' && getFieldVisibilityPermission($relatedModule, $current_user->id, $dependentField, 'readwrite') == '0') {
+				if (in_array('ADD', $actions) && isPermitted($relatedModule, 1, '') == 'yes' && \App\Field::getFieldPermission($relatedModule, $dependentField, false)) {
 					$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname, $relatedModule) . "' class='crmbutton small create'" .
 						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$relatedModule\"' type='submit' name='button'" .
 						" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname, $relatedModule) . "'>&nbsp;";

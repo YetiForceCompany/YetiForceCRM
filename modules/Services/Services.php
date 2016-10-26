@@ -529,7 +529,7 @@ class Services extends CRMEntity
 
 		$header = array();
 		$header[] = $current_module_strings['LBL_LIST_SERVICE_NAME'];
-		if (getFieldVisibilityPermission('Services', $current_user->id, 'unit_price') == '0')
+		if (\App\Field::getFieldPermission('Services', 'unit_price'))
 			$header[] = $current_module_strings['LBL_SERVICE_UNIT_PRICE'];
 		$header[] = $current_module_strings['LBL_PB_LIST_PRICE'];
 		if (isPermitted("PriceBooks", "EditView", "") == 'yes' || isPermitted("PriceBooks", "Delete", "") == 'yes')
@@ -549,7 +549,7 @@ class Services extends CRMEntity
 
 			$entries = [];
 			$entries[] = \vtlib\Functions::textLength($adb->query_result($list_result, $i, "servicename"));
-			if (getFieldVisibilityPermission('Services', $current_user->id, 'unit_price') == '0')
+			if (\App\Field::getFieldPermission('Services', 'unit_price'))
 				$entries[] = CurrencyField::convertToUserFormat($unit_price, null, true);
 
 			$entries[] = CurrencyField::convertToUserFormat($listprice, null, true);
@@ -831,8 +831,7 @@ class Services extends CRMEntity
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 

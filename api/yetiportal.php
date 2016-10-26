@@ -613,19 +613,12 @@ function get_tickets_list($input_array)
 	}
 	$params = array($entity_ids_list);
 
-
-	$TicketsfieldVisibilityByColumn = [];
-	foreach ($fields_list as $fieldlabel => $fieldname) {
-		$TicketsfieldVisibilityByColumn[$fieldname] = getColumnVisibilityPermission($current_user->id, $fieldname, 'HelpDesk');
-	}
-
 	$res = $adb->pquery($query, $params);
 	$noofdata = $adb->num_rows($res);
 	for ($j = 0; $j < $noofdata; $j++) {
 		$i = 0;
 		foreach ($fields_list as $fieldlabel => $fieldname) {
-			$fieldper = $TicketsfieldVisibilityByColumn[$fieldname]; //in troubletickets the list_fields has columns so we call this API
-			if ($fieldper == '1') {
+			if (!\App\Field::getColumnPermission('HelpDesk', $fieldname)) {
 				continue;
 			}
 			$output[0]['head'][0][$i]['fielddata'] = Vtiger_Language_Handler::getTranslatedString($fieldlabel, 'HelpDesk', vglobal('default_language'));
@@ -1515,17 +1508,11 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 	$noofdata = $adb->num_rows($res);
 
 	$columnVisibilityByFieldnameInfo = [];
-	if ($noofdata) {
-		foreach ($fields_list as $fieldlabel => $fieldname) {
-			$columnVisibilityByFieldnameInfo[$fieldname] = getColumnVisibilityPermission($current_user->id, $fieldname, $module);
-		}
-	}
 
 	for ($j = 0; $j < $noofdata; $j++) {
 		$i = 0;
 		foreach ($fields_list as $fieldlabel => $fieldname) {
-			$fieldper = $columnVisibilityByFieldnameInfo[$fieldname];
-			if ($fieldper == '1' && $fieldname != 'entityid') {
+			if (!\App\Field::getColumnPermission($module, $fieldname) && $fieldname != 'entityid') {
 				continue;
 			}
 			$fieldlabelOrg = $fieldlabel;
@@ -1823,8 +1810,8 @@ function get_product_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 		for ($j = 0; $j < $noofdata[$k]; $j++) {
 			$i = 0;
 			foreach ($fields_list as $fieldlabel => $fieldname) {
-				$fieldper = getFieldVisibilityPermission('Products', $current_user->id, $fieldname);
-				if ($fieldper == '1' && $fieldname != 'entityid') {
+				$fieldPer = \App\Field::getFieldPermission('Products', $fieldname);
+				if (!$fieldPer && $fieldname != 'entityid') {
 					continue;
 				}
 				$output[$k][$modulename]['head'][0][$i]['fielddata'] = Vtiger_Language_Handler::getTranslatedString($fieldlabel, 'Products', vglobal('default_language'));
@@ -2009,8 +1996,8 @@ function get_details($id, $module, $customerid, $sessionid)
 		if ($uitype == 83) { //for taxclass in products and services
 			continue;
 		}
-		$fieldper = getFieldVisibilityPermission($module, $current_user->id, $fieldname);
-		if ($fieldper == '1') {
+		$fieldPer = \App\Field::getFieldPermission($module, $fieldname);
+		if (!$fieldPer) {
 			continue;
 		}
 
@@ -2442,7 +2429,6 @@ function get_project_components($id, $module, $customerid, $sessionid)
 	foreach ($focus->list_fields as $fieldlabel => $values) {
 		foreach ($values as $table => $fieldname) {
 			$fields_list[$fieldlabel] = $fieldname;
-			$componentfieldVisibilityByColumn[$fieldname] = getColumnVisibilityPermission($current_user->id, $fieldname, $module);
 		}
 	}
 
@@ -2464,8 +2450,7 @@ function get_project_components($id, $module, $customerid, $sessionid)
 	for ($j = 0; $j < $noofdata; ++$j) {
 		$i = 0;
 		foreach ($fields_list as $fieldlabel => $fieldname) {
-			$fieldper = $componentfieldVisibilityByColumn[$fieldname];
-			if ($fieldper == '1') {
+			if (!\App\Field::getColumnPermission($module, $fieldname)) {
 				continue;
 			}
 			$output[0][$module]['head'][0][$i]['fielddata'] = Vtiger_Language_Handler::getTranslatedString($fieldlabel, $module, vglobal('default_language'));
@@ -2521,7 +2506,6 @@ function get_project_tickets($id, $module, $customerid, $sessionid)
 	foreach ($focus->list_fields as $fieldlabel => $values) {
 		foreach ($values as $table => $fieldname) {
 			$fields_list[$fieldlabel] = $fieldname;
-			$TicketsfieldVisibilityByColumn[$fieldname] = getColumnVisibilityPermission($current_user->id, $fieldname, 'HelpDesk');
 		}
 	}
 
@@ -2537,8 +2521,7 @@ function get_project_tickets($id, $module, $customerid, $sessionid)
 	for ($j = 0; $j < $noofdata; $j++) {
 		$i = 0;
 		foreach ($fields_list as $fieldlabel => $fieldname) {
-			$fieldper = $TicketsfieldVisibilityByColumn[$fieldname]; //in troubletickets the list_fields has columns so we call this API
-			if ($fieldper == '1') {
+			if (!\App\Field::getColumnPermission('HelpDesk', $fieldname)) {
 				continue;
 			}
 			$output[0][$module]['head'][0][$i]['fielddata'] = Vtiger_Language_Handler::getTranslatedString($fieldlabel, 'HelpDesk', vglobal('default_language'));
@@ -2641,11 +2624,6 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 
 	$params[] = array($entity_ids_list, $entity_ids_list);
 
-	$ServicesfieldVisibilityPermissions = [];
-	foreach ($fields_list as $fieldlabel => $fieldname) {
-		$ServicesfieldVisibilityPermissions[$fieldname] = getFieldVisibilityPermission('Services', $current_user->id, $fieldname);
-	}
-
 	$fieldValuesToRound = array('unit_price', 'commissionrate');
 	$rows_count = count($query);
 	for ($k = 0; $k < $rows_count; $k++) {
@@ -2657,8 +2635,8 @@ function get_service_list_values($id, $modulename, $sessionid, $only_mine = 'tru
 		for ($j = 0; $j < $noofdata[$k]; $j++) {
 			$i = 0;
 			foreach ($fields_list as $fieldlabel => $fieldname) {
-				$fieldper = $ServicesfieldVisibilityPermissions[$fieldname];
-				if ($fieldper == '1' && $fieldname != 'entityid') {
+				$fieldper = \App\Field::getFieldPermission('Services', $fieldname);
+				if (!$fieldper && $fieldname != 'entityid') {
 					continue;
 				}
 				$output[$k][$modulename]['head'][0][$i]['fielddata'] = Vtiger_Language_Handler::getTranslatedString($fieldlabel, 'Services', vglobal('default_language'));

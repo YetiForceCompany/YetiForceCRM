@@ -97,7 +97,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		
+
 
 		\App\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -106,7 +106,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$listview_entries = array();
 
 		foreach ($this->list_fields_name as $fieldname => $colname) {
-			if (getFieldVisibilityPermission('OSSEmployees', $current_user->id, $colname) == '0') {
+			if (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
 				$listview_header[] = \App\Language::translate($fieldname);
 			}
 		}
@@ -122,7 +122,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			foreach ($this->list_fields_name as $fieldname => $colname) {
 				if (!$hasRecordViewAccess && $colname != 'name') {
 					$account_info_data[] = '';
-				} else if (getFieldVisibilityPermission('OSSEmployees', $current_user->id, $colname) == '0') {
+				} else if (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
 					$data = $account_info[$colname];
 					if ($colname == 'ossemployees_no') {
 						if ($employees_id != $id) {
@@ -152,7 +152,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	public function __getParentEmployees($id, &$parent_accounts, &$encountered_accounts)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		\App\Log::trace("Entering __getParentEmployees(" . $id . "," . $parent_accounts . ") method ...");
 		$query = "SELECT parentid FROM vtiger_ossemployees " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid" .
@@ -203,7 +203,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	public function __getChildEmployees($id, &$child_accounts, $depth)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		\App\Log::trace("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -264,7 +264,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	 */
 	public function get_osstimecontrol($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
-		
+
 		$current_user = vglobal('current_user');
 		$singlepane_view = vglobal('singlepane_view');
 		$currentModule = vglobal('currentModule');
@@ -291,7 +291,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 		$button = '';
 
-		if ($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'parent_id', 'readwrite') == '0') {
+		if ($actions && \App\Field::getFieldPermission($related_module, 'parent_id', false)) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
@@ -340,13 +340,13 @@ class OSSEmployees extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('OSSEmployees'));
 			}
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 			
 		}

@@ -352,7 +352,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$this->computeAccess();
 
-		$fields = \App\Field::getFieldsPermission($this->getTabId());
+		$fields = \App\Field::getFieldsPermissions($this->getTabId());
 		foreach ($fields as &$field) {
 			$webserviceField = new WebserviceField($field);
 			$this->moduleFields[$webserviceField->getFieldName()] = $webserviceField;

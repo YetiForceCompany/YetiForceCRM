@@ -166,7 +166,7 @@ class Accounts extends CRMEntity
 
 		$button = '';
 		$current_user = vglobal('current_user');
-		if ($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'account_id', 'readwrite') == '0') {
+		if ($actions && \App\Field::getFieldPermission($related_module, 'account_id', false)) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
@@ -233,7 +233,7 @@ class Accounts extends CRMEntity
 
 		$button = '';
 		$current_user = vglobal('current_user');
-		if ($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'parent_id', 'readwrite') == '0') {
+		if ($actions && \App\Field::getFieldPermission($related_module, 'parent_id', false)) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
@@ -484,7 +484,7 @@ class Accounts extends CRMEntity
 
 		$hierarchyFields = [];
 		foreach ($listColumns as $fieldLabel => $fieldName) {
-			if (getFieldVisibilityPermission('Accounts', $current_user->id, $fieldName) == '0') {
+			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
 				$listview_header[] = $fieldLabel;
 			}
 			$field = vtlib\Functions::getModuleFieldInfo('Accounts', $fieldName);
@@ -531,7 +531,7 @@ class Accounts extends CRMEntity
 			$fieldName = $field['fieldname'];
 			$rawData = '';
 			// Permission to view account is restricted, avoid showing field values (except account name)
-			if (getFieldVisibilityPermission('Accounts', $currentUser->id, $fieldName) == '0') {
+			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
 				$data = $accountInfoBase[$fieldName];
 				if ($fieldName == 'accountname') {
 					if ($accountId != $id) {
