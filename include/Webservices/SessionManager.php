@@ -27,7 +27,7 @@ class SessionManager
 	private $sessionVar = "__SessionExists";
 	private $error;
 
-	public function SessionManager()
+	public function __construct()
 	{
 
 		global $maxWebServiceSessionLifeSpan, $maxWebServiceSessionIdleTime;
