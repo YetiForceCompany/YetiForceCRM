@@ -5,10 +5,11 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 $languageStrings = [
-	'image' => 'Изображение',
-	'text' => 'Текст',
+	'PLL_IMAGE' => 'Изображение',
+	'PLL_TEXT' => 'Текст',
 	'PAGENUM' => 'Номер страницы',
 	'PAGENO' => 'Количество страниц',
 	'LBL_INSERT' => 'Вставить',
