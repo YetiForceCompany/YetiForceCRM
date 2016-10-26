@@ -1779,7 +1779,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModule->getName());
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
-			$query .= ' AND vtiger_activity.`link` = ';
+			$query .= ' AND vtiger_activity.link = ';
 		} else {
 			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModule->getName());
 			$referenceProcessInstance = new $referenceProcessClass();
