@@ -76,15 +76,15 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT 
 					comm.*,
-					crm.`smownerid`,
-					crm.`createdtime`,
-					crm.`modifiedtime` 
+					crm.smownerid,
+					crm.createdtime,
+					crm.modifiedtime 
 				FROM
-					`vtiger_modcomments` comm
-					INNER JOIN `vtiger_crmentity` crm
-						ON comm.`modcommentsid` = crm.`crmid` 
-				WHERE comm.`modcommentsid` = ? 
-					AND crm.`deleted` = 0;';
+					vtiger_modcomments comm
+					INNER JOIN vtiger_crmentity crm
+						ON comm.modcommentsid = crm.crmid 
+				WHERE comm.modcommentsid = ? 
+					AND crm.deleted = 0;';
 		$result = $db->pquery($sql, [$record]);
 		if ($db->getRowCount($result)) {
 			$self = new self();
