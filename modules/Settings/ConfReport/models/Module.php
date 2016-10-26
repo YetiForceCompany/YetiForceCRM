@@ -102,15 +102,17 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'max_allowed_packet' => ['prefer' => '10 MB'], // MySQL
 			'max_input_vars' => ['prefer' => '5000'],
 			'magic_quotes_gpc' => ['prefer' => 'Off'],
+			'magic_quotes_sybase' => ['prefer' => 'Off'],
 			'magic_quotes_runtime' => ['prefer' => 'Off'],
 			'zlib.output_compression' => ['prefer' => 'Off'],
-			'zend.ze1_compatibility_mode' => ['prefer' => 'Off'],
 			'session.auto_start' => ['prefer' => 'Off'],
-			'magic_quotes_sybase' => ['prefer' => 'Off'],
+			'session.cookie_httponly' => ['prefer' => 'On'],
+			//'session.cookie_secure' => ['prefer' => 'On'],
 			'session.gc_maxlifetime' => ['prefer' => '21600'],
 			'session.gc_divisor' => ['prefer' => '500'],
 			'session.gc_probability' => ['prefer' => '1'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
+			'zend.ze1_compatibility_mode' => ['prefer' => 'Off'],
 		];
 		if (extension_loaded('suhosin')) {
 			$directiveValues['suhosin.session.encrypt'] = array('prefer' => 'Off');
@@ -191,6 +193,14 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (ini_get('session.auto_start') == '1' || stripos(ini_get('session.auto_start'), 'On') !== false)
 			$directiveValues['session.auto_start']['status'] = true;
 		$directiveValues['session.auto_start']['current'] = self::getFlag(ini_get('session.auto_start'));
+
+		if (ini_get('session.cookie_httponly') != '1' || stripos(ini_get('session.cookie_httponly'), 'On') !== false)
+			$directiveValues['session.cookie_httponly']['status'] = true;
+		$directiveValues['session.cookie_httponly']['current'] = self::getFlag(ini_get('session.cookie_httponly'));
+
+		if (ini_get('session.cookie_secure') != '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false)
+			$directiveValues['session.cookie_secure']['status'] = true;
+		$directiveValues['session.cookie_secure']['current'] = self::getFlag(ini_get('session.cookie_secure'));
 
 		if (ini_get('mbstring.func_overload') == '1' || stripos(ini_get('mbstring.func_overload'), 'On') !== false)
 			$directiveValues['mbstring.func_overload']['status'] = true;
@@ -326,7 +336,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return 'Off';
 	}
 
-	public function error2string($value)
+	public static function error2string($value)
 	{
 		$level_names = array(
 			E_ERROR => 'E_ERROR', E_WARNING => 'E_WARNING',
@@ -340,7 +350,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$levels = array();
 		if (($value & E_ALL) == E_ALL) {
 			$levels[] = 'E_ALL';
-			$value&=~E_ALL;
+			$value &= ~E_ALL;
 		}
 		foreach ($level_names as $level => $name)
 			if (($value & $level) == $level)

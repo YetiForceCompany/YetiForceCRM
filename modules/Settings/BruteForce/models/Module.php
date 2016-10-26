@@ -110,7 +110,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function updateBlockedIp()
 	{
-		\App\Log::trace('Start ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Start ' . __METHOD__);
 		$db = \App\Db::getInstance('admin');
 		$time = $this->get('timelock');
 		$date = new DateTime();
@@ -138,7 +138,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			$this->blockedId = $bfData['id'];
 		}
 		$this->clearBlockedByIp($ip, $checkData);
-		\App\Log::trace('End ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('End ' . __METHOD__);
 	}
 
 	/**
@@ -233,11 +233,11 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function sendNotificationEmail()
 	{
-		\App\Log::trace('Start ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Start ' . __METHOD__);
 		if (!empty($this->get('sent'))) {
 			$usersId = self::getUsersForNotifications();
 			if (count($usersId) === 0) {
-				\App\Log::trace('End ' . __CLASS__ . '::' . __METHOD__ . ' - No brute force users found to send email');
+				\App\Log::trace('End ' . __METHOD__ . ' - No brute force users found to send email');
 				return false;
 			}
 			$emails = [];
@@ -257,6 +257,6 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 				\App\Log::error('Do not sent mail with information about brute force attack');
 			}
 		}
-		\App\Log::trace('End ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('End ' . __METHOD__);
 	}
 }

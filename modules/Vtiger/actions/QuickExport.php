@@ -72,7 +72,6 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 				$value = $record->getDisplayValue($field->name);
 				$uitype = $field->uitype;
 				switch ($uitype) {
-					case 4://numbers
 					case 25:
 					case 7:
 						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_NUMERIC);

@@ -219,7 +219,7 @@ class Functions
 	public static function getModuleData($mixed)
 	{
 		if (empty($mixed)) {
-			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . ' - Required parameter missing');
+			\App\Log::error(__METHOD__ . ' - Required parameter missing');
 			return false;
 		}
 		$id = $name = NULL;
@@ -375,7 +375,7 @@ class Functions
 		$module = $moduleInfo['name'];
 		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]))) {
 			$dataReader = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
-				->createCommand()->query();
+					->createCommand()->query();
 			self::$moduleFieldInfoByNameCache[$module] = [];
 			while ($row = $dataReader->read()) {
 				self::$moduleFieldInfoByNameCache[$module][$row['fieldname']] = $row;
@@ -1074,7 +1074,7 @@ class Functions
 		return floatval($bytes);
 	}
 
-	public function showBytes($bytes, &$unit = null)
+	public static function showBytes($bytes, &$unit = null)
 	{
 		$bytes = self::parseBytes($bytes);
 		if ($bytes >= 1073741824) {

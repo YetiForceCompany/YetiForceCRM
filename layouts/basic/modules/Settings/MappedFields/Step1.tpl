@@ -27,10 +27,10 @@
 							</label>
 							<div class="col-sm-8 controls">
 								<select class="chzn-select form-control" id="status" name="status" required="true">
-									<option value="active" {if $MAPPEDFIELDS_MODULE_MODEL->get('status') eq 'active'} selected {/if}>
+									<option value="1" {if $MAPPEDFIELDS_MODULE_MODEL->get('status')}selected{/if}>
 										{vtranslate('active', $QUALIFIED_MODULE)}
 									</option>
-									<option value="inactive" {if $MAPPEDFIELDS_MODULE_MODEL->get('status') eq 'inactive'} selected {/if}>
+									<option value="0" {if !$MAPPEDFIELDS_MODULE_MODEL->get('status')}selected{/if}>
 										{vtranslate('inactive', $QUALIFIED_MODULE)}
 									</option>
 								</select>

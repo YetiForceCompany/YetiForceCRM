@@ -1,9 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-{if $VIEW == 'CreditLimits'}
-	{assign var=CURRENCY_BOOL value=true}
-	<input type="hidden" id="currency" value='{\includes\utils\Json::encode($CURRENCY)}' />
-{/if}
 <input type="hidden" id="view" value="{$VIEW}" />
 <div class="" id="inventory">
 	<div class="widget_header row">
@@ -12,6 +8,14 @@
 			{vtranslate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
 		</div>
 	</div>
+	{if $VIEW == 'CreditLimits'}
+		{assign var=CURRENCY_BOOL value=true}
+		<input type="hidden" id="currency" value='{\includes\utils\Json::encode($CURRENCY)}' />
+		<div class="alert alert-info fade in marginBottom5">
+			<a href="#" class="close" data-dismiss="alert">&times;</a>
+			{vtranslate('LBL_CREDITLIMITS_INFO', $QUALIFIED_MODULE)}
+		</div>
+	{/if}
 	<div class="contents row">
 		<div class="col-md-12">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}

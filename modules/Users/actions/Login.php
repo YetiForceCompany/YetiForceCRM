@@ -35,7 +35,6 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			header('Location: index.php?module=Users&view=Login&error=2');
-			exit;
 		}
 
 		$user = CRMEntity::getInstance('Users');

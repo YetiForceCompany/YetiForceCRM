@@ -132,7 +132,7 @@ class Debuger
 			if (isset($v['args'])) {
 				foreach ($v['args'] as &$arg) {
 					if (!is_array($arg) && !is_object($arg) && !is_resource($arg)) {
-						$args .= "'$arg'";
+						$args .= var_export($arg, true);
 					} elseif (is_array($arg)) {
 						$args .= '[';
 						foreach ($arg as &$a) {

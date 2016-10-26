@@ -337,16 +337,16 @@ class Users extends CRMEntity
 
 		//Default authentication
 		\App\Log::trace('Using integrated/SQL authentication');
-		$result = $this->db->pquery("SELECT crypt_type FROM $this->table_name WHERE id=?", [$userid]);
-		if ($result->rowCount() != 1) {
+		$query = new \App\Db\Query();
+		$cryptType = $query->select('crypt_type')->from($this->table_name)->where(['id' => $userid])->scalar();
+		if ($cryptType === false) {
 			\App\Log::error("User not found: $userName");
 			return false;
 		}
-		$cryptType = $this->db->getSingleValue($result);
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
 
-		$query = (new \App\Db\Query())->from($this->table_name)->where(['user_name' => $userName, 'user_password' => $encryptedPassword, 'status' => 'Active']);
-		if ($query->count() === 1) {
+		$result = $query->from($this->table_name)->where(['user_name' => $userName, 'user_password' => $encryptedPassword, 'status' => 'Active']);
+		if ($result->count() === 1) {
 			\App\Log::trace("Authentication OK. User: $userName");
 			return true;
 		}
@@ -1401,7 +1401,7 @@ class Users extends CRMEntity
 					}
 				}
 			} else {
-				$result = $db->query("SELECT id FROM vtiger_users WHERE is_admin = 'on' && status = 'Active' limit 1");
+				$result = $db->query("SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' limit 1");
 				$adminId = 1;
 				while (($id = $db->getSingleValue($result)) !== false) {
 					$adminId = $id;

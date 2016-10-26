@@ -50,7 +50,7 @@ class Base
 	 * @param int $duration Cache TTL (in seconds)
 	 * @return bool
 	 */
-	public function save($key, $value = null, $duration)
+	public function save($key, $value = null, $duration = false)
 	{
 		static::$cache[$key] = $value;
 		return true;

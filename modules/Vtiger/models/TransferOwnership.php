@@ -74,34 +74,32 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 
 	public function transferRecordsOwnership($module, $transferOwnerId, $relatedModuleRecordIds)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$oldOwners = \vtlib\Functions::getCRMRecordMetadata($relatedModuleRecordIds);
 		$currentUser = vglobal('current_user');
-		$db->update('vtiger_crmentity', [
+		$db->createCommand()->update('vtiger_crmentity', [
 			'smownerid' => $transferOwnerId,
 			'modifiedby' => $currentUser->id,
 			'modifiedtime' => date('Y-m-d H:i:s'),
-			], 'crmid IN (' . implode(',', $relatedModuleRecordIds) . ')'
-		);
-
+			], ['crmid' => $relatedModuleRecordIds]
+		)->execute();
 		vimport('~modules/ModTracker/ModTracker.php');
 		$flag = ModTracker::isTrackingEnabledForModule($module);
 		if ($flag) {
 			foreach ($relatedModuleRecordIds as $record) {
-				$id = $db->getUniqueID('vtiger_modtracker_basic');
-				$db->insert('vtiger_modtracker_basic', [
-					'id' => $id,
+				$db->createCommand()->insert('vtiger_modtracker_basic', [
 					'crmid' => $record,
 					'module' => $module,
 					'whodid' => $currentUser->id,
 					'changedon' => date('Y-m-d H:i:s', time())
-				]);
-				$db->insert('vtiger_modtracker_detail', [
+				])->execute();
+				$id = $db->getLastInsertID();
+				$db->createCommand()->insert('vtiger_modtracker_detail', [
 					'id' => $id,
 					'fieldname' => 'assigned_user_id',
 					'postvalue' => $transferOwnerId,
 					'prevalue' => $oldOwners[$record]['smownerid']
-				]);
+				])->execute();
 			}
 		}
 	}

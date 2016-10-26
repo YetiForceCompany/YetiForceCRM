@@ -52,10 +52,10 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		if ($action == 'add') {
 			$dataReader = (new App\Db\Query())->select('vtiger_customview.viewname')
-				->from('vtiger_user_module_preferences')
-				->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
-				->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user])
-				->createCommand()->query();
+					->from('vtiger_user_module_preferences')
+					->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
+					->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user])
+					->createCommand()->query();
 			if ($dataReader->count()) {
 				return $dataReader->readColumn(0);
 			}
@@ -72,17 +72,14 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function setFeaturedFilterView($cvId, $user, $action)
 	{
+		$db = \App\Db::getInstance('admin');
 		if ($action == 'add') {
-			/*\App\Db::getInstance()->createCommand()->insert('a_yf_featured_filter', [
+			$db->createCommand()->insert('a_#__featured_filter', [
 				'user' => $user,
 				'cvid' => $cvId
-			])->execute();*/
-			PearDatabase::getInstance()->insert('a_yf_featured_filter', [
-				'user' => $user,
-				'cvid' => $cvId
-			]);
+			])->execute();
 		} elseif ($action == 'remove') {
-			\App\Db::getInstance()->createCommand()
+			$db->createCommand()
 				->delete('a_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
 				->execute();
 		}
@@ -159,10 +156,10 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$modulesList = [];
 		$dataReader = (new App\Db\Query())
-			->select(['vtiger_tab.tabid', 'vtiger_customview.entitytype'])
-			->from('vtiger_customview')
-			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
-			->createCommand()->query();
+				->select(['vtiger_tab.tabid', 'vtiger_customview.entitytype'])
+				->from('vtiger_customview')
+				->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
+				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$modulesList[$row['tabid']] = $row['entitytype'];
 		}

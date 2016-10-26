@@ -120,7 +120,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function updateMailBoxmsgInfo($users)
 	{
 
-		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+		\App\Log::trace(__METHOD__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		if (count($users) == 0) {
 			return false;
@@ -146,14 +146,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		\App\Log::trace(__METHOD__ . ' - End');
 		return true;
 	}
 
 	public static function getMailBoxmsgInfo($users)
 	{
 
-		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+		\App\Log::trace(__METHOD__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
 		$result = $adb->query($query);
@@ -162,7 +162,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		for ($i = 0; $i < $countResult; $i++) {
 			$account[$adb->query_result_raw($result, $i, 'userid')] = $adb->query_result_raw($result, $i, 'num');
 		}
-		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		\App\Log::trace(__METHOD__ . ' - End');
 		return $account;
 	}
 

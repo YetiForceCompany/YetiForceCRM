@@ -47,7 +47,16 @@ $languageStrings = [
 	'LBL_PARENT_IS_CHILD' => 'The selected parent account cannot be secondary to current account',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
+	'FL_STATUS' => 'Status',
 	//PICKLIST VALUES
+	'PLL_PROMISING_CLIENT' => 'Promising client',
+	'PLL_ACTIVE_CLIENT' => 'Active client',
+	'PLL_SPECIAL_CLIENT' => 'Special client',
+	'PLL_LOST_CLIENT' => 'Lost client',
+	'PLL_UNOBTAINED_CLIENT' => 'Unobtained client',
+	'PLL_INACTIVE_CLIENT' => 'Inactive client',
+	'PLL_CLOSED_CLIENT' => 'Closed client',
+	'PLL_BLACKLISTED_CLIENT' => 'Blacklisted client',
 	'PLL_NATURAL_PERSON' => 'Private individual',
 	'PLL_BUSINESS_ACTIVITY' => 'Sole proprietorship',
 	'PLL_GENERAL_PARTNERSHIP' => 'Registered partnership',
@@ -88,7 +97,7 @@ $languageStrings = [
 	'LBL_LEGAL_FORM' => 'Legal form',
 	'LBL_INVENTORY_BALANCE' => 'balance',
 	'LBL_DISCOUNT' => 'Discount',
-	'LBL_CREDIT_LIMIT' => 'Credit limit',
+	'LBL_CREDIT_LIMIT' => 'Merchant limit',
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
 	'SINGLE_Vendors' => 'Vendor',

@@ -36,6 +36,8 @@ RedirectMatch 403 (?i).*\.log$
 	php_value	suhosin.post.max_vars		5000
 	php_flag	suhosin.session.encrypt		Off
 
+	php_flag	session.cookie_httponly		On
+	#php_flag	session.cookie_secure		On
 	php_flag	session.auto_start			Off
 	# 86400 = 3600*24
 	php_value	session.gc_maxlifetime		86400 

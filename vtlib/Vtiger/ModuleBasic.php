@@ -469,7 +469,7 @@ class ModuleBasic
 	 */
 	public function unsetAllRelatedList()
 	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		self::log(__METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
 		$result = $db->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? || related_tabid=?', [$this->id, $this->id]);
 		$ids = $db->getArrayColumn($result, 'relation_id');
@@ -478,7 +478,7 @@ class ModuleBasic
 			$db->delete('vtiger_relatedlists_fields', 'relation_id IN (' . generateQuestionMarks($ids) . ')', [$ids]);
 			$db->delete('a_yf_relatedlists_inv_fields', 'relation_id IN (' . generateQuestionMarks($ids) . ')', [$ids]);
 		}
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+		self::log(__METHOD__ . ' | END');
 	}
 
 	/**
@@ -486,10 +486,10 @@ class ModuleBasic
 	 */
 	public function deleteGroup2Modules()
 	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		self::log(__METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
 		$db->delete('vtiger_group2modules', 'tabid = ?', [$this->id]);
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+		self::log(__METHOD__ . ' | END');
 	}
 
 	/**
@@ -506,7 +506,7 @@ class ModuleBasic
 	 */
 	public function deleteFromCRMEntity()
 	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		self::log(__METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
 		$result = $db->pquery('SELECT crmid FROM vtiger_crmentity where setype = ?', [$this->name]);
 		while ($id = $db->getSingleValue($result)) {
@@ -514,7 +514,7 @@ class ModuleBasic
 			$recordModel->delete();
 		}
 		$db->delete('vtiger_crmentity', 'setype = ?', [$this->name]);
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+		self::log(__METHOD__ . ' | END');
 	}
 
 	/**
@@ -522,10 +522,10 @@ class ModuleBasic
 	 */
 	public function deleteFromModentityNum()
 	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		self::log(__METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
 		$db->delete('vtiger_modentity_num', 'tabid = ?', [$this->id]);
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+		self::log(__METHOD__ . ' | END');
 	}
 
 	/**
@@ -533,7 +533,7 @@ class ModuleBasic
 	 */
 	public function deleteModuleTables()
 	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		self::log(__METHOD__ . ' | Start');
 		$db = \PearDatabase::getInstance();
 		$db->query('SET foreign_key_checks = 0');
 		$moduleInstance = \Vtiger_Module_Model::getInstance($this->name);
@@ -547,7 +547,7 @@ class ModuleBasic
 			$db->query('DROP TABLE IF EXISTS ' . $this->tableName);
 		}
 		$db->query('SET foreign_key_checks = 1');
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+		self::log(__METHOD__ . ' | END');
 	}
 
 	/**
@@ -556,14 +556,14 @@ class ModuleBasic
 	 */
 	public function deleteDir($moduleInstance)
 	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		self::log(__METHOD__ . ' | Start');
 		$modulePath = 'modules/' . $moduleInstance->name;
 		Functions::recurseDelete($modulePath);
 		foreach (\Yeti_Layout::getAllLayouts() as $name => $label) {
 			$layoutPath = 'layouts/' . $name . '/modules/' . $moduleInstance->name;
 			Functions::recurseDelete($layoutPath);
 		}
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | END');
+		self::log(__METHOD__ . ' | END');
 	}
 
 	/**
@@ -571,7 +571,7 @@ class ModuleBasic
 	 */
 	public function deleteIcons()
 	{
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | Start');
+		self::log(__METHOD__ . ' | Start');
 		$iconSize = ['', 48, 64, 128];
 		foreach ($iconSize as $value) {
 			foreach (\Yeti_Layout::getAllLayouts() as $name => $label) {
@@ -581,6 +581,6 @@ class ModuleBasic
 				}
 			}
 		}
-		self::log(__CLASS__ . '::' . __METHOD__ . ' | End');
+		self::log(__METHOD__ . ' | End');
 	}
 }

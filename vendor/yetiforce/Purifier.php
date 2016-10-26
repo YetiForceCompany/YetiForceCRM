@@ -31,8 +31,8 @@ class Purifier
 		$value = $input;
 		if (!is_array($input)) {
 			$md5OfInput = md5($input) . '0';
-			if (Cache::has($md5OfInput)) {
-				$value = Cache::get($md5OfInput);
+			if (Cache::has('purify', $md5OfInput)) {
+				$value = Cache::get('purify', $md5OfInput);
 				$ignore = true; //to escape cleaning up again
 			}
 		}
@@ -59,7 +59,7 @@ class Purifier
 					$value = static::$purifyInstanceCache->purify($input);
 					$value = static::purifyHtmlEventAttributes($value);
 					$value = str_replace('&amp;', '&', $value);
-					Cache::save($md5OfInput, $value, Cache::SHORT);
+					Cache::save('purify', $md5OfInput, $value, Cache::SHORT);
 				}
 			}
 		}
@@ -96,8 +96,8 @@ class Purifier
 		$value = $input;
 		if (!is_array($input)) {
 			$md5OfInput = md5($input) . '1';
-			if (Cache::has($md5OfInput)) {
-				$value = Cache::get($md5OfInput);
+			if (Cache::has('purifyHtml', $md5OfInput)) {
+				$value = Cache::get('purifyHtml', $md5OfInput);
 				$ignore = true; //to escape cleaning up again
 			}
 		}
@@ -204,7 +204,7 @@ class Purifier
 					$value = static::$purifyHtmlInstanceCache->purify($input);
 					$value = static::purifyHtmlEventAttributes($value);
 					$value = str_replace('&amp;', '&', $value);
-					Cache::save($md5OfInput, $value, Cache::SHORT);
+					Cache::save('purifyHtml', $md5OfInput, $value, Cache::SHORT);
 				}
 			}
 		}

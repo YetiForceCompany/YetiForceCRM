@@ -124,6 +124,7 @@ $languageStrings = [
 	'LBL_NEXT' => 'Далее',
 	'LBL_PARAMS_MODULES' => 'Модули',
 	'LBL_PARAMS_LIMIT' => 'Лимит',
+	'LBL_PARAMS_LIMIT_CONDITIONS' => 'Required fields',
 	'LBL_DISPLAY_TYPE' => 'Тип поля',
 	'LBL_DISPLAYTYPE_ALL' => 'Видим везде',
 	'LBL_DISPLAYTYPE_READONLY' => 'Только для чтения',

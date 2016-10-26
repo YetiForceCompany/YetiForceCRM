@@ -102,9 +102,9 @@ CREATE TABLE `a_yf_inventory_limits` (
 
 CREATE TABLE `a_yf_mapped_config` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
-  `tabid` smallint(11) unsigned NOT NULL,
-  `reltabid` smallint(11) unsigned NOT NULL,
-  `status` set('active','inactive') DEFAULT NULL,
+  `tabid` smallint(6) unsigned NOT NULL,
+  `reltabid` smallint(6) unsigned NOT NULL,
+  `status` tinyint(1) unsigned DEFAULT '0',
   `conditions` text,
   `permissions` varchar(255) DEFAULT NULL,
   `params` varchar(255) DEFAULT NULL,
@@ -136,7 +136,7 @@ CREATE TABLE `a_yf_pdf` (
   `header_content` text NOT NULL,
   `body_content` text NOT NULL,
   `footer_content` text NOT NULL,
-  `status` set('active','inactive') NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   `primary_name` varchar(255) NOT NULL,
   `secondary_name` varchar(255) NOT NULL,
   `meta_author` varchar(255) NOT NULL,
@@ -153,13 +153,13 @@ CREATE TABLE `a_yf_pdf` (
   `margin_right` smallint(2) unsigned NOT NULL,
   `header_height` smallint(2) unsigned NOT NULL,
   `footer_height` smallint(2) unsigned NOT NULL,
-  `page_orientation` set('PLL_PORTRAIT','PLL_LANDSCAPE') NOT NULL,
+  `page_orientation` varchar(30) NOT NULL,
   `language` varchar(7) NOT NULL,
   `filename` varchar(255) NOT NULL,
-  `visibility` set('PLL_LISTVIEW','PLL_DETAILVIEW') NOT NULL,
+  `visibility` varchar(200) NOT NULL,
   `default` tinyint(1) DEFAULT NULL,
   `conditions` text NOT NULL,
-  `watermark_type` set('text','image') NOT NULL,
+  `watermark_type` tinyint(1) NOT NULL DEFAULT '0',
   `watermark_text` varchar(255) NOT NULL,
   `watermark_size` tinyint(2) unsigned NOT NULL,
   `watermark_angle` smallint(3) unsigned NOT NULL,
@@ -1199,6 +1199,8 @@ CREATE TABLE `u_yf_finvoice` (
   `sum_total` decimal(16,5) DEFAULT NULL,
   `sum_gross` decimal(16,5) DEFAULT NULL,
   `finvoice_status` varchar(255) DEFAULT '',
+  `finvoice_paymentstatus` varchar(255) DEFAULT NULL,
+  `finvoice_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`finvoiceid`),
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_vtiger_finvoice` FOREIGN KEY (`finvoiceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -2961,6 +2963,7 @@ CREATE TABLE `vtiger_account` (
   `services` text,
   `last_invoice_date` date DEFAULT NULL,
   `active` tinyint(1) DEFAULT '0',
+  `accounts_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -3009,6 +3012,17 @@ CREATE TABLE `vtiger_accountaddress` (
   PRIMARY KEY (`accountaddressid`),
   CONSTRAINT `vtiger_accountaddress_ibfk_1` FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_accounts_status` */
+
+CREATE TABLE `vtiger_accounts_status` (
+  `accounts_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `accounts_status` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`accounts_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_accountscf` */
 
@@ -4816,7 +4830,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2401 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2404 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4844,7 +4858,18 @@ CREATE TABLE `vtiger_finvoice_formpayment` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`finvoice_formpaymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_finvoice_paymentstatus` */
+
+CREATE TABLE `vtiger_finvoice_paymentstatus` (
+  `finvoice_paymentstatusid` int(11) NOT NULL AUTO_INCREMENT,
+  `finvoice_paymentstatus` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`finvoice_paymentstatusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoice_status` */
 
@@ -4856,6 +4881,17 @@ CREATE TABLE `vtiger_finvoice_status` (
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`finvoice_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_finvoice_type` */
+
+CREATE TABLE `vtiger_finvoice_type` (
+  `finvoice_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `finvoice_type` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`finvoice_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoiceproforma_formpayment` */
 
@@ -5942,7 +5978,7 @@ CREATE TABLE `vtiger_modentity_num` (
 /*Table structure for table `vtiger_modtracker_basic` */
 
 CREATE TABLE `vtiger_modtracker_basic` (
-  `id` int(20) NOT NULL,
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `crmid` int(20) DEFAULT NULL,
   `module` varchar(50) DEFAULT NULL,
   `whodid` int(20) DEFAULT NULL,
@@ -5954,12 +5990,6 @@ CREATE TABLE `vtiger_modtracker_basic` (
   KEY `idx` (`id`),
   KEY `id` (`id`,`module`,`changedon`),
   KEY `crmid` (`crmid`,`changedon`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_modtracker_basic_seq` */
-
-CREATE TABLE `vtiger_modtracker_basic_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_detail` */
@@ -6824,7 +6854,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 

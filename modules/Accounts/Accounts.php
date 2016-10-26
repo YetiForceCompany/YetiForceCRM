@@ -91,9 +91,8 @@ class Accounts extends CRMEntity
 		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$related_module = \App\Module::getModuleName($rel_tab_id);
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
@@ -155,9 +154,8 @@ class Accounts extends CRMEntity
 		\App\Log::trace("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$related_module = \App\Module::getModuleName($rel_tab_id);
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
@@ -223,9 +221,8 @@ class Accounts extends CRMEntity
 		\App\Log::trace("Entering get_tickets(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$related_module = \App\Module::getModuleName($rel_tab_id);
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
@@ -284,9 +281,8 @@ class Accounts extends CRMEntity
 		\App\Log::trace("Entering get_products(" . $id . ") method ...");
 		$this_module = $currentModule;
 
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$related_module = \App\Module::getModuleName($rel_tab_id);
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
@@ -323,7 +319,7 @@ class Accounts extends CRMEntity
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
 				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.crmid IN (%s)";
+				WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.crmid IN (%s)";
 		$query = sprintf($query, $entityIds);
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -785,7 +781,7 @@ class Accounts extends CRMEntity
 
 		global $currentModule, $singlepane_view;
 		$this_module = $currentModule;
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
+		$related_module = \App\Module::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -885,7 +881,7 @@ class Accounts extends CRMEntity
 		$query .= $join;
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 && $other->table_name.$dependentColumn IN ($entityIds)";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 AND $other->table_name.$dependentColumn IN ($entityIds)";
 		return $query;
 	}
 
@@ -898,8 +894,8 @@ class Accounts extends CRMEntity
 	{
 		global $currentModule, $singlepane_view;
 
-		$current_module = vtlib\Functions::getModuleName($cur_tab_id);
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
+		$current_module = \App\Module::getModuleName($cur_tab_id);
+		$related_module = \App\Module::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 
 		// Some standard module class doesn't have required variables
@@ -954,11 +950,11 @@ class Accounts extends CRMEntity
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*,
 				CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name FROM $other->table_name
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $other->table_name.$other->table_index
-				INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid || vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)
+				INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)
 				$more_relation
 				LEFT  JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 				LEFT  JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid IN (" . $entityIds . ") || vtiger_crmentityrel.relcrmid IN (" . $entityIds . "))";
+				WHERE vtiger_crmentity.deleted = 0 AND (vtiger_crmentityrel.crmid IN (" . $entityIds . ") OR vtiger_crmentityrel.relcrmid IN (" . $entityIds . "))";
 
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 

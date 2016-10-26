@@ -1158,17 +1158,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
-			$relationField = '`link`';
+			$relationField = 'link';
 		} else {
 			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $moduleName);
 			$referenceProcessInstance = new $referenceProcessClass();
 			if (in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
-				$relationField = '`process`';
+				$relationField = 'process';
 			} else {
 				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $moduleName);
 				$referenceSubProcessInstance = new $referenceSubProcessClass();
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
-					$relationField = '`subprocess`';
+					$relationField = 'subprocess';
 				} else {
 					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 				}
@@ -1176,39 +1176,39 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 		$query = sprintf('SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.%s = crmentity2.crmid && crmentity2.deleted = 0 && crmentity2.setype = ?
+					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.%s = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
 					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0', $relationField);
 		$params = [$this->getName()];
 		if ($recordId) {
-			$query .= ' && vtiger_activity.' . $relationField . ' = ?';
+			$query .= ' AND vtiger_activity.' . $relationField . ' = ?';
 			array_push($params, $recordId);
 		}
 		if ($mode === 'current') {
-			$query .= " && (vtiger_activity.activitytype NOT IN ('Emails') && vtiger_activity.status IN (" . generateQuestionMarks($currentActivityLabels) . "))";
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN (" . generateQuestionMarks($currentActivityLabels) . "))";
 			$params = array_merge($params, $currentActivityLabels);
 		} elseif ($mode === 'history') {
-			$query .= " && (vtiger_activity.activitytype NOT IN ('Emails') && vtiger_activity.status NOT IN (" . generateQuestionMarks($currentActivityLabels) . "))";
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status NOT IN (" . generateQuestionMarks($currentActivityLabels) . "))";
 			$params = array_merge($params, $currentActivityLabels);
 		} elseif ($mode === 'upcoming') {
-			$query .= " && (vtiger_activity.activitytype NOT IN ('Emails'))
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
 					AND (vtiger_activity.status is NULL || vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
-			$query .= " && due_date >= '$currentDate'";
+			$query .= " AND due_date >= '$currentDate'";
 		} elseif ($mode === 'overdue') {
-			$query .= " && (vtiger_activity.activitytype NOT IN ('Emails'))
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
 					AND (vtiger_activity.status is NULL || vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
-			$query .= " && due_date < '$currentDate'";
+			$query .= " AND due_date < '$currentDate'";
 		}
 
 
 		if ($user != 'all' && $user != '') {
 			if ($user === $currentUser->id) {
-				$query .= " && vtiger_crmentity.smownerid = ?";
+				$query .= " AND vtiger_crmentity.smownerid = ?";
 				array_push($params, $user);
 			}
 		}
 		$query .= \App\PrivilegeQuery::getAccessConditions($moduleName, $currentUser->getId(), $recordId);
-		$query .= sprintf(" ORDER BY date_start, time_start LIMIT %d,%d", $pagingModel->getStartIndex(), ($pagingModel->getPageLimit() + 1));
-
+		$query .= sprintf(" ORDER BY date_start, time_start LIMIT %d OFFSET %d", $pagingModel->getStartIndex(), ($pagingModel->getPageLimit() + 1));
+			
 		$result = $db->pquery($query, $params);
 		$numOfRows = $db->num_rows($result);
 
@@ -1779,17 +1779,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModule->getName());
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
-			$query .= ' && vtiger_activity.`link` = ';
+			$query .= ' AND vtiger_activity.link = ';
 		} else {
 			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModule->getName());
 			$referenceProcessInstance = new $referenceProcessClass();
 			if (in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
-				$query .= ' && vtiger_activity.`process` = ';
+				$query .= ' AND vtiger_activity.`process` = ';
 			} else {
 				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModule->getName());
 				$referenceSubProcessInstance = new $referenceSubProcessClass();
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
-					$query .= ' && vtiger_activity.`subprocess` = ';
+					$query .= ' AND vtiger_activity.`subprocess` = ';
 				} else {
 					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 				}
@@ -1800,11 +1800,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$time = AppRequest::get('time');
 		if ($time == 'current') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= " && (vtiger_activity.activitytype NOT IN ('Emails') && vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
 		}
 		if ($time == 'history') {
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
-			$query .= " && (vtiger_activity.activitytype NOT IN ('Emails') && vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
 		}
 		return $query;
 	}

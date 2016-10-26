@@ -5,8 +5,11 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 $languageStrings = [
+	'PLL_TEXT' => 'Text',
+	'PLL_IMAGE' => 'Image',
 	'LBL_PDF' => 'PDF',
 	'LBL_PDF_DESCRIPTION' => 'Version de Test de la configuration modèle de PDF ',
 	'LBL_CREATING_PDF' => 'Créer un modèle PDF',
@@ -26,8 +29,8 @@ $languageStrings = [
 	'LBL_DOCUMENT_PERMISSIONS' => 'Droits d\'accès',
 	'LBL_DOCUMENT_WATERMARK' => 'Filigrane',
 	'Module' => 'Module',
-	'active' => 'Actif',
-	'inactive' => 'Inactif',
+	'PLL_ACTIVE' => 'Actif',
+	'PLL_INACTIVE' => 'Inactif',
 	'LBL_PRIMARY_NAME' => 'Nom',
 	'LBL_SECONDARY_NAME' => 'Nom complémentaire',
 	'LBL_FOLDER_NAME' => 'Nom dossier',

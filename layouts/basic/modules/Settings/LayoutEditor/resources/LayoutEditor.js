@@ -1834,6 +1834,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var id = editField.data('id');
 			var progress = jQuery.progressIndicator();
 			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + mType + "&id=" + id, function (container) {
+				app.showPopoverElementView(container.find('.HelpInfoPopover'));
 				thisInstance.registerStep2(container, blockId);
 				progress.progressIndicator({'mode': 'hide'});
 			});

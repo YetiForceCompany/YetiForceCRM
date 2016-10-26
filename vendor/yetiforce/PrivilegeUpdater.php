@@ -160,9 +160,9 @@ class PrivilegeUpdater
 		}
 		$adb = \PearDatabase::getInstance();
 		$insert = $update = $row = false;
-		$result = $adb->pquery('SELECT * FROM `s_yf_privileges_updater` WHERE module = ? && type = ?', [$moduleName, 1]);
-		if ($adb->getRowCount($result) === 1) {
-			$row = $adb->getRow($result);
+		$query = new \App\Db\Query();
+		$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 1])->one();
+		if ($row) {
 			if ($record === false) {
 				if ($row['crmid'] != 0) {
 					$update = true;
@@ -174,14 +174,15 @@ class PrivilegeUpdater
 		} elseif ($record === false) {
 			$insert = true;
 		} else {
-			$result = $adb->pquery('SELECT * FROM `s_yf_privileges_updater` WHERE module = ? && type = ? && crmid = ?', [$moduleName, 0, $record]);
-			if ($adb->getRowCount($result) === 0) {
+			$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 0, 'crmid' => $record])->one();
+			if ($row === false) {
 				$insert = true;
 				$params['type'] = 0;
 			}
 		}
+		$db = \App\Db::getInstance();
 		if ($insert) {
-			$adb->insert('s_yf_privileges_updater', $params);
+			$db->createCommand()->insert('s_yf_privileges_updater', $params)->execute();
 		}
 		if ($update) {
 			$adb->update('s_yf_privileges_updater', $params, 'module = ? && type = ?', [$moduleName, $type]);

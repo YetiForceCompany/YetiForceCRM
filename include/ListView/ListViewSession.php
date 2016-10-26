@@ -25,9 +25,9 @@ class ListViewSession
 	 * All Rights Reserved.
 	 */
 
-	public function ListViewSession()
+	public function __construct()
 	{
-		
+
 		$currentModule = vglobal('currentModule');
 		\App\Log::trace("Entering ListViewSession() method ...");
 
@@ -162,7 +162,7 @@ class ListViewSession
 				$firstPageRecordCount = $listMaxEntriesPerPage;
 			} else {
 				$firstPageRecordCount = $bufferRecordCount;
-				$current -=1;
+				$current -= 1;
 			}
 
 			$searchKey = array_search($currentRecordId, $navigationRecordList);

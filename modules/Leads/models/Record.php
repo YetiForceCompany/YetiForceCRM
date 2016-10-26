@@ -131,7 +131,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			}
 			foreach ($complusoryFields as $complusoryField) {
 				$fieldModel = Vtiger_Field_Model::getInstance($complusoryField, $moduleModel);
-				if ($fieldModel->getPermissions('readwrite')) {
+				if ($fieldModel->getPermissions(false)) {
 					$industryFieldModel = $moduleModel->getField($complusoryField);
 					$industryLeadMappedField = $this->getConvertLeadMappedField($complusoryField, $moduleName);
 					if ($industryLeadMappedField) {

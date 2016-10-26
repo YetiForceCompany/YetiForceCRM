@@ -88,7 +88,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 				'File Location Type' => 'filelocationtype');
 			foreach ($reqPopUpFields as $fieldLabel => $fieldName) {
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
-				if ($fieldModel->getPermissions('readwrite')) {
+				if ($fieldModel->getPermissions(false)) {
 					$popupFileds[$fieldName] = $fieldModel;
 				}
 			}

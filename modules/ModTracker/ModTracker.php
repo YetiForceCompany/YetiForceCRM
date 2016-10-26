@@ -401,10 +401,7 @@ class ModTracker
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentTime = date('Y-m-d H:i:s');
-
-		$id = $adb->getUniqueId('vtiger_modtracker_basic');
 		$adb->insert('vtiger_modtracker_basic', [
-			'id' => $id,
 			'crmid' => $sourceId,
 			'module' => $sourceModule,
 			'whodid' => $currentUser->getRealId(),
@@ -412,6 +409,7 @@ class ModTracker
 			'status' => $type,
 			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 		]);
+		$id = $adb->getLastInsertID();
 		ModTracker_Record_Model::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
 		$adb->insert('vtiger_modtracker_relations', [
 			'id' => $id,

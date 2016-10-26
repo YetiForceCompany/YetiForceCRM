@@ -68,10 +68,10 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
-		
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
+
+		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
 		if (!isRecordExists($recordId)) {
-			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return [];
 		}
 		if (!$moduleName) {
@@ -84,7 +84,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 				unset($templates[$id]);
 			}
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $templates;
 	}
 
@@ -95,10 +95,10 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	 */
 	public static function getTemplatesByModule($moduleName)
 	{
-		
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ') method ...');
+
+		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$moduleId = vtlib\Functions::getModuleId($moduleName);
-		$query = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $moduleId, 'status' => 'active']);
+		$query = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $moduleId, 'status' => 1]);
 		$dataReader = $query->createCommand()->query();
 		$templates = [];
 
@@ -108,14 +108,14 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			$mf->setData($row);
 			$templates[$mf->getId()] = $mf;
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $templates;
 	}
 
 	public function getActiveTemplatesForModule($moduleName, $view)
 	{
-		
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
+
+		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
 			$active = true;
@@ -123,47 +123,47 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 				unset($templates[$id]);
 			}
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $templates;
 	}
 
 	public static function getInstanceByModules($tabId, $relTabId)
 	{
-		
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
+
+		\App\Log::trace('Entering ' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
 		$row = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $tabId, 'reltabid' => $relTabId])->limit(1)->one();
 		if ($row === false) {
-			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return false;
 		}
 
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
 		$mf = new $handlerClass();
 		$mf->setData($row);
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $mf;
 	}
 
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
+		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		$mf = Vtiger_Cache::get('MappedFieldsModel', $recordId);
 		if ($mf) {
-			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return $mf;
 		}
 		$row = (new App\Db\Query())->from(self::$baseTable)
-				->where([self::$baseIndex => $recordId])
-				->one();
+			->where([self::$baseIndex => $recordId])
+			->one();
 		if ($row === false) {
-			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return false;
 		}
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$mf->setData($row);
 		Vtiger_Cache::set('MappedFieldsModel', $recordId, $mf);
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $mf;
 	}
 
@@ -179,8 +179,8 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	 */
 	public function getMapping()
 	{
-		
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
+
+		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
 			$db = PearDatabase::getInstance();
 			$query = sprintf('SELECT * FROM %s WHERE %s = ?;', self::$mappingTable, self::$mappingIndex);
@@ -199,7 +199,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 			}
 			$this->mapping = $finalMapping;
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $this->mapping;
 	}
 
@@ -251,11 +251,11 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	public function checkUserPermissions()
 	{
-		
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . '() method ...');
+
+		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		$permissions = $this->get('permissions');
 		if (empty($permissions)) {
-			\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return true;
 		}
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -284,7 +284,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 				$return = true;
 			}
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $return;
 	}
 }

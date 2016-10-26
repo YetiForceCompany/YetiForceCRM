@@ -20,11 +20,11 @@
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="status" name="status" required="true">
-							<option value="active" {if $PDF_MODEL->get('status') eq 'active'} selected {/if}>
-								{vtranslate('active', $QUALIFIED_MODULE)}
+							<option value="1" {if $PDF_MODEL->get('status') eq 1} selected {/if}>
+								{vtranslate('PLL_ACTIVE', $QUALIFIED_MODULE)}
 							</option>
-							<option value="inactive" {if $PDF_MODEL->get('status') eq 'inactive'} selected {/if}>
-								{vtranslate('inactive', $QUALIFIED_MODULE)}
+							<option value="0" {if $PDF_MODEL->get('status') eq 0} selected {/if}>
+								{vtranslate('PLL_INACTIVE', $QUALIFIED_MODULE)}
 							</option>
 						</select>
 					</div>

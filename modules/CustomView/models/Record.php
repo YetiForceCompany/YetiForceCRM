@@ -93,18 +93,19 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function isDefault()
 	{
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$cvId = $this->getId();
-			if($cvId === false) {
-				return 0;
+			if(!$cvId) {
+				$this->isDefault = false;
+				return false;
 			}
 			$this->isDefault = (new App\Db\Query())->from('vtiger_user_module_preferences')
 				->where(['userid' => 'Users:' . $currentUser->getId(), 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
-				->count();
+				->exists();
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $this->isDefault;
 	}
 
@@ -171,7 +172,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function isFeatured($editView = false)
 	{
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
 		if ($this->isFeatured === false) {
 			if (empty($editView)) {
 				if (!empty($this->get('featured'))) {
@@ -183,7 +184,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				$this->isFeatured = $this->checkFeaturedInEditView();
 			}
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $this->isFeatured;
 	}
 
@@ -191,7 +192,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	{
 		$db = App\Db::getInstance('admin');
 		$cvId = $this->getId();
-		if($cvId === false)
+		if(!$cvId)
 			return false;
 		return (new App\Db\Query())->from('a_#__featured_filter')
 			->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
@@ -581,26 +582,19 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the list of selected fields for the current custom view
-	 * @return <Array> List of Field Column Names
+	 * @return array List of Field Column Names
 	 */
 	public function getSelectedFields()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT vtiger_cvcolumnlist.* FROM vtiger_cvcolumnlist
-					INNER JOIN vtiger_customview ON vtiger_customview.cvid = vtiger_cvcolumnlist.cvid
-				WHERE vtiger_customview.cvid  = ? ORDER BY vtiger_cvcolumnlist.columnindex';
-		$params = [$this->getId()];
-
-		$result = $db->pquery($query, $params);
-		$noOfFields = $db->num_rows($result);
-		$selectedFields = [];
-		for ($i = 0; $i < $noOfFields; ++$i) {
-			$columnIndex = $db->query_result($result, $i, 'columnindex');
-			$columnName = $db->query_result($result, $i, 'columnname');
-			$selectedFields[$columnIndex] = $columnName;
+		$cvId = $this->getId();
+		if(!$cvId) {
+			return [];
 		}
-		return $selectedFields;
+		return (new App\Db\Query())->select('vtiger_cvcolumnlist.columnindex, vtiger_cvcolumnlist.columnname')
+			->from('vtiger_cvcolumnlist')
+			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+			->createCommand()->queryAllByGroup();
 	}
 
 	/**
@@ -926,7 +920,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public static function getAll($moduleName = '')
 	{
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__ . " ($moduleName) method ...");
+		\App\Log::trace('Entering ' . __METHOD__ . " ($moduleName) method ...");
 		$cacheName = 'getAll:' . $moduleName;
 		$customViews = Vtiger_Cache::get('CustomViews', $cacheName);
 		if ($customViews) {
@@ -944,7 +938,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		}
 		if (!$currentUser->isAdminUser()) {
 			$userParentRoleSeq = $currentUser->getParentRoleSequence();
-			$sql .= " && ( vtiger_customview.userid = ? || vtiger_customview.status = 0 || vtiger_customview.status = 3
+			$sql .= " AND ( vtiger_customview.userid = ? OR vtiger_customview.status = 0 OR vtiger_customview.status = 3
 							OR vtiger_customview.userid IN (
 								SELECT vtiger_user2role.userid FROM vtiger_user2role
 									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
@@ -983,7 +977,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		Vtiger_Cache::set('CustomViews', $cacheName, $customViews);
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__ . ' method ...');
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $customViews;
 	}
 
@@ -1060,29 +1054,18 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * function to check duplicates from database
-	 * @param <type> $viewName
-	 * @param <type> module name entity type in database
-	 * @return <boolean> true/false
+	 * Function to check duplicates from database
+	 * @return boolean
 	 */
 	public function checkDuplicate()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT 1 FROM vtiger_customview WHERE viewname = ? && entitytype = ?";
-		$params = array($this->get('viewname'), $this->getModule()->getName());
-
+		$query = (new App\Db\Query())->from('vtiger_customview')
+			->where(['viewname' => $this->get('viewname'), 'entitytype' => $this->getModule()->getName()]);
 		$cvid = $this->getId();
 		if ($cvid) {
-			$query .= " && cvid != ?";
-			array_push($params, $cvid);
+			$query->andWhere(['<>', 'cvid', $cvid]);
 		}
-
-		$result = $db->pquery($query, $params);
-		if ($db->num_rows($result)) {
-			return true;
-		}
-		return false;
+		return $query->exists();
 	}
 
 	/**

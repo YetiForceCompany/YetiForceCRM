@@ -16,7 +16,7 @@
 class UserTimeZones
 {
 
-	public function userTimeZones()
+	public function __construct()
 	{
 		$arrayOfSupportedTimeZones = array(
 			'Pacific/Midway',
@@ -119,5 +119,3 @@ class UserTimeZones
 		return $arrayOfSupportedTimeZones;
 	}
 }
-
-?>

@@ -5,6 +5,7 @@
  * @package YetiForce.Actions
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 {
@@ -33,21 +34,24 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * Function verifies whether the Account's credit limit has been reached
+	 * @param Vtiger_Request $request
+	 */
 	public function checkLimits(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$currency = $request->get('currency');
 		$price = $request->get('price');
-		$limitConfig = $request->get('limitConfig');
 		$limitFieldName = 'creditlimit';
 		$balanceFieldName = 'inventorybalance';
+		$response = new Vtiger_Response();
 
 		$moduleInstance = Vtiger_Module_Model::getInstance('Accounts');
 		$limitField = Vtiger_Field_Model::getInstance($limitFieldName, $moduleInstance);
 		$balanceField = Vtiger_Field_Model::getInstance($balanceFieldName, $moduleInstance);
 		if (!$limitField->isActiveField() || !$balanceField->isActiveField()) {
-			$response = new Vtiger_Response();
 			$response->setResult(['status' => true]);
 			$response->emit();
 			return;
@@ -58,9 +62,10 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		if (!empty($limitID)) {
 			$limit = reset(Vtiger_InventoryLimit_UIType::getValues($limitID))['value'];
 		} else {
-			$limit = '-';
+			$response->setResult(['status' => true]);
+			$response->emit();
+			return;
 		}
-
 
 		$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
@@ -79,10 +84,9 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 			$viewer->assign('SYMBOL', $symbol);
 			$viewer->assign('LIMIT', $limit);
 			$viewer->assign('TOTALS', $totalPrice);
-			$viewer->assign('LOCK', $limitConfig);
 			$html = $viewer->view('InventoryLimitAlert.tpl', $moduleName, true);
 		}
-		$response = new Vtiger_Response();
+
 		$response->setResult([
 			'status' => $status,
 			'html' => $html

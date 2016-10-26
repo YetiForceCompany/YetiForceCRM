@@ -79,15 +79,15 @@ class RecordNumber
 
 		$prefix = $row['prefix'];
 		$postfix = $row['postfix'];
-		$curid = $row['cur_id'];
-		$fullPrefix = self::parse($prefix . $curid . $postfix);
-		$strip = strlen($curid) - strlen($curid + 1);
+		$curId = $row['cur_id'];
+		$fullPrefix = self::parse($prefix . $curId . $postfix);
+		$strip = strlen($curId) - strlen($curId + 1);
 		if ($strip < 0) {
 			$strip = 0;
 		}
 		$temp = str_repeat('0', $strip);
-		$reqNo = $temp . ($curid + 1);
-		$db->update('vtiger_modentity_num', ['cur_id' => $reqNo], 'cur_id = ? && tabid = ?', [$curid, $moduleId]);
+		$reqNo = $temp . ($curId + 1);
+		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo], ['cur_id' => $curId, 'tabid' => $moduleId])->execute();
 		return decode_html($fullPrefix);
 	}
 

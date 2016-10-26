@@ -200,7 +200,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($this->has('record')) {
 			$dataReader = (new App\Db\Query())->select(['userid', 'state'])
 				->from('u_#__watchdog_record')
-				->where(['record' => \App\Module::getModuleId($this->get('record'))])
+				->where(['record' => (int) $this->get('record')])
 				->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				if ($row['state'] == 1) {

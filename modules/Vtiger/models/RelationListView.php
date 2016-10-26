@@ -298,8 +298,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$query = $this->getRelationListViewOrderBy($query);
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
-
-		$limitQuery = $query . ' LIMIT ' . $startIndex . ',' . $pageLimit;
+		$limitQuery = $query . ' LIMIT ' . $pageLimit . ' OFFSET ' . $startIndex;
 		$result = $db->query($limitQuery);
 		$relatedRecordList = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -399,9 +398,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$relatedRecordList[$row['crmid']] = $record;
 		}
 		$pagingModel->calculatePageRange($relatedRecordList);
-
-		$nextLimitQuery = $query . ' LIMIT ' . ($startIndex + $pageLimit) . ' , 1';
-		$nextPageLimitResult = $db->pquery($nextLimitQuery, []);
+		$nextLimitQuery = $query. " LIMIT " . ($startIndex + $pageLimit) . ' OFFSET 1';
+		$nextPageLimitResult = $db->query($nextLimitQuery);
 		if ($db->num_rows($nextPageLimitResult) > 0) {
 			$pagingModel->set('nextPageExists', true);
 		} else {
@@ -587,7 +585,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if ($count > 1) {
 			$appendAndCondition = true;
 		}
-
 		$i = 1;
 		foreach ($whereCondition as $fieldName => $fieldValue) {
 			if (is_array($fieldValue)) {
@@ -595,7 +592,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$fieldValue = current($fieldValue);
 				if (is_array($fieldValue) && $fieldValue['comparison'] && in_array(strtoupper($fieldValue['comparison']), ['IN', 'NOT IN'])) {
 					if (is_array($fieldValue['value']))
-						$fieldValue['value'] = '"' . implode('","', $fieldValue['value']) . '"';
+						$fieldValue['value'] = "'" . implode("','", $fieldValue['value']) . "'";
 					$condition .= " $fieldName " . $fieldValue['comparison'] . ' (' . $fieldValue['value'] . ') ';
 				} else {
 					$condition .= " $fieldName = '$fieldValue' ";
@@ -604,13 +601,13 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$condition .= " $fieldName = '$fieldValue' ";
 			}
 			if ($appendAndCondition && ($i++ != $count)) {
-				$condition .= " && ";
+				$condition .= " AND ";
 			}
 		}
 
 		if (stripos($relationQuery, 'WHERE')) {
 			$split = preg_split('/WHERE/i', $relationQuery, 2);
-			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' && ' . $condition;
+			$updatedQuery = $split[0] . 'WHERE' . $split[1] . ' AND ' . $condition;
 		} else {
 			$updatedQuery = "$relationQuery WHERE $condition";
 		}
@@ -681,7 +678,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$result = $db->pquery('SELECT tr.*,rel.crmid,rel.rel_created_time,rel.rel_created_user,rel.rel_comment FROM vtiger_trees_templates_data tr '
 			. 'INNER JOIN u_yf_crmentity_rel_tree rel ON rel.tree = tr.tree '
-			. 'WHERE tr.templateid = ? && rel.crmid = ? && rel.relmodule = ?', [$template, $recordId, $relModuleId]);
+			. 'WHERE tr.templateid = ? AND rel.crmid = ? AND rel.relmodule = ?', [$template, $recordId, $relModuleId]);
 		$trees = [];
 		while ($row = $db->getRow($result)) {
 			$treeID = $row['tree'];
@@ -690,7 +687,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$parent = prev($pieces);
 			$parentName = '';
 			if ($row['depth'] > 0) {
-				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', [$template, $parent]);
+				$result2 = $db->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', [$template, $parent]);
 				$parentName = $db->getSingleValue($result2);
 				$parentName = '(' . vtranslate($parentName, $relModuleName) . ') ';
 			}

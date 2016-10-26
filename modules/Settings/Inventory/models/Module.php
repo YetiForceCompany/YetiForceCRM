@@ -30,7 +30,7 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 
 	public static function getConfig($type, $name = false)
 	{
-		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
+		\App\Log::trace('Start ' . __METHOD__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
 		$tableName = self::getTableNameFromType($type);
 		$query = (new \App\Db\Query())->from($tableName);
 		if ($name && !is_array($name)) {
@@ -44,18 +44,18 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 		while ($row = $dataReader->read()) {
 			$output[$row['param']] = $row['value'];
 		}
-		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __METHOD__);
 		return $output;
 	}
 
 	public function setConfig($type, $param)
 	{
-		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('Start ' . __METHOD__);
 		$tableName = self::getTableNameFromType($type);
 		\App\Db::getInstance()->createCommand()
 			->update($tableName, ['value' => $param['value']], ['param' => $param['param']])
 			->execute();
-		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __METHOD__);
 		return true;
 	}
 }

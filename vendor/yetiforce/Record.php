@@ -197,6 +197,7 @@ class Record
 		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
 			$adb = \PearDatabase::getInstance();
+			$db = \App\Db::getInstance();
 			$label = decode_html($labelInfo[$id]['name']);
 			$search = decode_html($labelInfo[$id]['search']);
 			$insertMode = $mode != 'edit';
@@ -212,7 +213,7 @@ class Record
 					}
 				}
 				if (($insertMode || $rowCount == 0) && $updater != 'searchlabel') {
-					$adb->insert('u_yf_crmentity_label', ['crmid' => $id, 'label' => $label]);
+					$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
 				}
 			}
 			if (empty($search)) {
@@ -226,7 +227,7 @@ class Record
 					}
 				}
 				if (($insertMode || $rowCount == 0) && $updater != 'label') {
-					$adb->insert('u_yf_crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName]);
+					$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
 				}
 			}
 			static::$recordLabelCache[$id] = $labelInfo[$id]['name'];

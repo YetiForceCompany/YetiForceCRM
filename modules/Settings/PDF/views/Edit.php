@@ -50,6 +50,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		switch ($step) {
 			case 'step8':
+				$viewer->assign('WATERMARK_TEXT', Vtiger_mPDF_Pdf::WATERMARK_TYPE_TEXT);
 				$viewer->view('Step8.tpl', $qualifiedModuleName);
 				break;
 

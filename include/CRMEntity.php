@@ -57,10 +57,9 @@ class CRMEntity
 			$module = 'Calendar';
 			$modName = 'Activity';
 		}
-
-		$instance = Vtiger_Cache::get('CRMEntity', $module);
-		if ($instance) {
-			return clone $instance;
+		$cache = \App\Cache::staticGet('CRMEntity', $module);
+		if ($cache) {
+			return clone $cache;
 		}
 
 		// File access security check
@@ -75,7 +74,7 @@ class CRMEntity
 		}
 		$focus = new $modName();
 		$focus->moduleName = $module;
-		Vtiger_Cache::set('CRMEntity', $module, clone $focus);
+		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
 		return $focus;
 	}
 
@@ -86,7 +85,7 @@ class CRMEntity
 	{
 		$db = PearDatabase::getInstance();
 
-		\App\Log::trace('Entering ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Entering ' . __METHOD__);
 
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
@@ -98,7 +97,7 @@ class CRMEntity
 				$db->insert($table, $insertData);
 			}
 		}
-		\App\Log::trace('Exiting ' . __CLASS__ . '::' . __METHOD__);
+		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	public function saveentity($module, $fileid = '')
@@ -362,7 +361,7 @@ class CRMEntity
 				'modifiedtime' => $modified_date_var,
 				'users' => ",$ownerid,",
 			];
-			$adb->insert('vtiger_crmentity', $params);
+			\App\Db::getInstance()->createCommand()->insert('vtiger_crmentity', $params)->execute();
 			$this->column_fields['createdtime'] = $created_date_var;
 			$this->column_fields['modifiedtime'] = $modified_date_var;
 			$this->column_fields['modifiedby'] = $currentUser->getId();
@@ -489,7 +488,7 @@ class CRMEntity
 				$ajaxSave = true;
 			}
 
-			if ($uitype == 4 && $insertion_mode != 'edit') {
+			if ($uitype === 4 && $insertion_mode !== 'edit') {
 				$fldvalue = '';
 				// Bulk Save Mode: Avoid generation of module sequence number, take care later.
 				if (!CRMEntity::isBulkSaveMode()) {
@@ -498,15 +497,15 @@ class CRMEntity
 				$this->column_fields[$fieldname] = $fldvalue;
 			}
 			if (isset($this->column_fields[$fieldname])) {
-				if ($uitype == 56) {
+				if ($uitype === 56) {
 					if ($this->column_fields[$fieldname] == 'on' || $this->column_fields[$fieldname] == 1) {
 						$fldvalue = '1';
 					} else {
 						$fldvalue = '0';
 					}
-				} elseif ($uitype == 15 || $uitype == 16) {
+				} elseif ($uitype === 15 || $uitype === 16) {
 
-					if ($this->column_fields[$fieldname] == \App\Language::translate('LBL_NOT_ACCESSIBLE')) {
+					if ($this->column_fields[$fieldname] === \App\Language::translate('LBL_NOT_ACCESSIBLE')) {
 
 						//If the value in the request is Not Accessible for a picklist, the existing value will be replaced instead of Not Accessible value.
 						$sql = "select $columname from  $table_name where " . $this->tab_name_index[$table_name] . "=?";
@@ -516,7 +515,7 @@ class CRMEntity
 					} else {
 						$fldvalue = $this->column_fields[$fieldname];
 					}
-				} elseif ($uitype == 33) {
+				} elseif ($uitype === 33) {
 					if (is_array($this->column_fields[$fieldname])) {
 						$field_list = implode(' |##| ', $this->column_fields[$fieldname]);
 					} else {
@@ -534,25 +533,30 @@ class CRMEntity
 						$field_list = $this->column_fields[$fieldname];
 					}
 					$fldvalue = $field_list;
-				} elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
+				} elseif ($uitype === 5 || $uitype === 6 || $uitype === 23) {
 					//Added to avoid function call getDBInsertDateValue in ajax save
 					if (isset($currentUser->date_format) && !$ajaxSave) {
 						$fldvalue = getValidDBInsertDateValue($this->column_fields[$fieldname]);
 					} else {
 						$fldvalue = $this->column_fields[$fieldname];
 					}
-				} elseif ($uitype == 14) {
+				} elseif ($uitype === 14) {
 					$fldvalue = Vtiger_Time_UIType::getDBTimeFromUserValue($this->column_fields[$fieldname]);
-				} elseif ($uitype == 7) {
+				} elseif ($uitype === 10) {
+					if (empty($this->column_fields[$fieldname])) {
+						$fldvalue = 0;
+					}else
+						$fldvalue = $this->column_fields[$fieldname];
+				} elseif ($uitype === 7) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
 					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); //trim($this->column_fields[$fieldname],",");
-				} elseif ($uitype == 26) {
+				} elseif ($uitype === 26) {
 					if (empty($this->column_fields[$fieldname])) {
 						$fldvalue = 1; //the documents will stored in default folder
 					} else {
 						$fldvalue = $this->column_fields[$fieldname];
 					}
-				} elseif ($uitype == 28) {
+				} elseif ($uitype === 28) {
 					if ($this->column_fields[$fieldname] === null) {
 						$fileQuery = $adb->pquery("SELECT filename from vtiger_notes WHERE notesid = ?", array($this->id));
 						$fldvalue = null;
@@ -565,11 +569,11 @@ class CRMEntity
 					} else {
 						$fldvalue = decode_html($this->column_fields[$fieldname]);
 					}
-				} elseif ($uitype == 8) {
+				} elseif ($uitype === 8) {
 					$this->column_fields[$fieldname] = rtrim($this->column_fields[$fieldname], ',');
 					$ids = explode(',', $this->column_fields[$fieldname]);
 					$fldvalue = \includes\utils\Json::encode($ids);
-				} elseif ($uitype == 12) {
+				} elseif ($uitype === 12) {
 
 					// Bulk Sae Mode: Consider the FROM email address as specified, if not lookup
 					$fldvalue = $this->column_fields[$fieldname];
@@ -583,15 +587,15 @@ class CRMEntity
 						}
 					}
 					// END
-				} elseif ($uitype == 72 && !$ajaxSave) {
+				} elseif ($uitype === 72 && !$ajaxSave) {
 					// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 					$fldvalue = CurrencyField::convertToDBFormat($this->column_fields[$fieldname], null, true);
-				} elseif ($uitype == 71 && !$ajaxSave) {
+				} elseif ($uitype === 71 && !$ajaxSave) {
 					$fldvalue = CurrencyField::convertToDBFormat($this->column_fields[$fieldname]);
 				} else {
 					$fldvalue = $this->column_fields[$fieldname];
 				}
-				if ($uitype != 33 && $uitype != 8)
+				if ($uitype !== 33 && $uitype !== 8)
 					$fldvalue = \vtlib\Functions::fromHTML($fldvalue, ($insertion_mode == 'edit') ? true : false);
 			}
 			else {
@@ -602,8 +606,8 @@ class CRMEntity
 				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
 			}
 
-			if ($insertion_mode == 'edit') {
-				if ($uitype != '4') {
+			if ($insertion_mode === 'edit') {
+				if ($uitype !== '4') {
 					$updateColumns[$columname] = $fldvalue;
 				}
 			} else {
@@ -612,14 +616,14 @@ class CRMEntity
 			}
 		}
 
-		if ($insertion_mode == 'edit') {
+		if ($insertion_mode === 'edit') {
 			//Check done by Don. If update is empty the the query fails
 			if (count($updateColumns) > 0) {
 				$adb->update($table_name, $updateColumns, $this->tab_name_index[$table_name] . ' = ?', [$this->id]);
 			}
 		} else {
 			$params = array_combine($column, $value);
-			$adb->insert($table_name, $params);
+			\App\Db::getInstance()->createCommand()->insert($table_name, $params)->execute();
 		}
 	}
 
@@ -1597,20 +1601,19 @@ class CRMEntity
 					'notesid' => $relcrmid
 				]);
 			} else {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? && module = ? && relcrmid = ? && relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
+				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
 				);
 				// Relation already exists? No need to add again
 				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
-
-				$db->insert('vtiger_crmentityrel', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_crmentityrel', [
 					'crmid' => $crmid,
 					'module' => $module,
 					'relcrmid' => $relcrmid,
 					'relmodule' => $withModule,
 					'rel_created_user' => $currentUserModel->getId(),
 					'rel_created_time' => date('Y-m-d H:i:s')
-				]);
+				])->execute();
 			}
 		}
 	}
@@ -1758,18 +1761,18 @@ class CRMEntity
 			$mainQuery = $query->select('fieldname AS name, fieldid AS id, fieldlabel AS label, columnname AS column, tablename AS table')->from('vtiger_field')
 				->where(['uitype' => [66, 67, 68], 'tabid' => $relTabId]);
 			$dataReader = $mainQuery->createCommand()->query();
-				while ($rowProc = $dataReader->read()){
-					$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
-					$fieldModel = new $className();
-					foreach ($rowProc as $properName => $propertyValue) {
-						$fieldModel->$properName = $propertyValue;
-					}
-					$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
-					if (!empty($moduleList) && in_array($currentModule, $moduleList)) {
-						$row = $rowProc;
-						break;
-					}
+			while ($rowProc = $dataReader->read()) {
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
+				$fieldModel = new $className();
+				foreach ($rowProc as $properName => $propertyValue) {
+					$fieldModel->$properName = $propertyValue;
 				}
+				$moduleList = $fieldModel->getUITypeModel()->getReferenceList();
+				if (!empty($moduleList) && in_array($currentModule, $moduleList)) {
+					$row = $rowProc;
+					break;
+				}
+			}
 		}
 
 		if (!empty($row)) {
@@ -2594,13 +2597,11 @@ class CRMEntity
 	/**
 	 * Function to track when a new record is linked to a given record
 	 */
-	public static function trackLinkedInfo($crmid)
+	public static function trackLinkedInfo($crmId)
 	{
 		$current_user = vglobal('current_user');
-		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
-
-		$adb->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], 'crmid = ?', [$crmid]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
 	}
 
 	/**

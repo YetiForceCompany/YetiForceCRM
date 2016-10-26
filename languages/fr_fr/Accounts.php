@@ -45,6 +45,14 @@ $languageStrings = [
 	'LBL_CREATING_NEW' => 'Nouveau',
 	'Fax' => 'Fax',
 	//PICKLIST VALUES
+	'PLL_PROMISING_CLIENT' => 'Promising client',
+	'PLL_ACTIVE_CLIENT' => 'Active client',
+	'PLL_SPECIAL_CLIENT' => 'Special client',
+	'PLL_LOST_CLIENT' => 'Lost client',
+	'PLL_UNOBTAINED_CLIENT' => 'Unobtained client',
+	'PLL_INACTIVE_CLIENT' => 'Inactive client',
+	'PLL_CLOSED_CLIENT' => 'Closed client',
+	'PLL_BLACKLISTED_CLIENT' => 'Blacklisted client',
 	'PLL_NATURAL_PERSON' => 'Individuel',
 	'PLL_BUSINESS_ACTIVITY' => 'Entreprise Individuelle',
 	'PLL_GENERAL_PARTNERSHIP' => 'Société en nom collectif',
@@ -85,9 +93,10 @@ $languageStrings = [
 	'LBL_LEGAL_FORM' => 'Forme légale',
 	'LBL_INVENTORY_BALANCE' => 'Solde Inventaire',
 	'LBL_DISCOUNT' => 'Réduction',
-	'LBL_CREDIT_LIMIT' => 'Limite de crédit',
+	'LBL_CREDIT_LIMIT' => 'Merchant limit',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'Last invoice date',
+	'FL_STATUS' => 'Status',
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Account deactivated by ',
 	'SINGLE_Vendors' => 'Vendeur',

@@ -10,33 +10,39 @@ namespace App;
 class Field
 {
 
-	public static function getUserFields($tabId, $block = false)
+	public static function getFieldsPermission($tabId, $readOnly = true)
 	{
+		Log::trace('Entering  ' . __METHOD__);
 		$currentUser = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$profileGlobalPermission = $currentUser->get('profile_global_permission');
-		if ($currentUser->isAdminUser() || $profileGlobalPermission[1] === 0 || $profileGlobalPermission[2] === 0) {
+		$fields = Cache::get(__METHOD__ . $currentUser->getId(), $tabId);
+		if (!$fields) {
 			$query = (new \App\Db\Query())
-				->from('vtiger_field')
-				->where(['tabid' => $tabId, 'presence' => [0, 2]]);
-		} else {
-			$query = (new \App\Db\Query())
-				->select('vtiger_field.tabid,vtiger_field.*, vtiger_profile2field.readonly')
+				->select('vtiger_field.*, vtiger_profile2field.readonly,vtiger_profile2field.visible')
 				->from('vtiger_field')
 				->innerJoin('vtiger_profile2field', 'vtiger_profile2field.fieldid = vtiger_field.fieldid')
 				->innerJoin('vtiger_def_org_field', 'vtiger_def_org_field.fieldid = vtiger_field.fieldid')
 				->where([
-				'vtiger_field.tabid' => $tabId,
-				'vtiger_profile2field.visible' => 0,
-				'vtiger_def_org_field.visible' => 0,
-				'vtiger_field.presence' => [0, 2]]);
+					'vtiger_field.tabid' => $tabId,
+					'vtiger_profile2field.visible' => 0,
+					'vtiger_def_org_field.visible' => 0,
+					'vtiger_field.presence' => [0, 2]])
+				->groupBy('vtiger_field.fieldid,vtiger_profile2field.readonly,vtiger_profile2field.visible');
+
 			$profileList = $currentUser->getProfiles();
-			if (!empty($profileList)) {
+			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
+			$fields = $query->all();
+			Cache::save(__METHOD__ . $currentUser->getId(), $tabId, $fields, Cache::SHORT);
 		}
-		if ($block !== false) {
-			$query->andWhere(['block' => $block]);
+		if (!$readOnly) {
+			return $fields;
 		}
-		return $query->all();
+		foreach ($fields as $key => &$field) {
+			if ($field['readonly']) {
+				unset($fields[$key]);
+			}
+		}
+		return $fields;
 	}
 }

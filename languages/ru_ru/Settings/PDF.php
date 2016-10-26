@@ -5,10 +5,11 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 $languageStrings = [
-	'image' => 'Изображение',
-	'text' => 'Текст',
+	'PLL_IMAGE' => 'Изображение',
+	'PLL_TEXT' => 'Текст',
 	'PAGENUM' => 'Номер страницы',
 	'PAGENO' => 'Количество страниц',
 	'LBL_INSERT' => 'Вставить',
@@ -31,8 +32,8 @@ $languageStrings = [
 	'LBL_DOCUMENT_PERMISSIONS' => 'Права доступа',
 	'LBL_DOCUMENT_WATERMARK' => 'Водяной знак',
 	'Module' => 'Модуль',
-	'active' => 'Активный',
-	'inactive' => 'Неактивный',
+	'PLL_ACTIVE' => 'Активный',
+	'PLL_INACTIVE' => 'Неактивный',
 	'LBL_PRIMARY_NAME' => 'Полное название',
 	'LBL_SECONDARY_NAME' => 'Краткое название',
 	'LBL_FOLDER_NAME' => 'Имя папки',

@@ -6,6 +6,7 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -173,8 +174,8 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 	public static function delete(Vtiger_PDF_Model $pdfModel)
 	{
 		return App\Db::getInstance('admin')->createCommand()
-			->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
-			->execute();
+				->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
+				->execute();
 	}
 
 	/**
@@ -201,5 +202,21 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		$pdfModel->set('conditions', $wfCondition);
+	}
+
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * @param string $key
+	 * @return string
+	 */
+	public function getDisplayValue($key)
+	{
+		$value = $this->get($key);
+		switch ($key) {
+			case 'status':
+				$value = $value ? 'PLL_ACTIVE' : 'PLL_INACTIVE';
+				break;
+		}
+		return $value;
 	}
 }
