@@ -131,11 +131,6 @@ insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (30,'HelpDesk','Ticket Closed: Send Email to Record Account','[{\"fieldname\":\"ticketstatus\",\"operation\":\"has changed\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Closed\",\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"(parent_id : (Accounts) emailoptout)\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (31,'HelpDesk','Ticket Creation: Send Email to Record Owner','[]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (33,'HelpDesk','Ticket Creation: Send Email to Record Account','[{\"fieldname\":\"(parent_id : (Accounts) emailoptout)\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
-insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (47,'Leads','Marketing process - Data Verification','[{\"fieldname\":\"leadstatus\",\"operation\":\"is\",\"value\":\"LBL_REQUIRES_VERIFICATION\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
-insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (48,'Leads','Marketing process - Preliminary analysis','[{\"fieldname\":\"leadstatus\",\"operation\":\"is\",\"value\":\"LBL_PRELIMINARY_ANALYSIS_OF\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
-insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (49,'Leads','Marketing process - Advanced Analysis','[{\"fieldname\":\"leadstatus\",\"operation\":\"is\",\"value\":\"LBL_ADVANCED_ANALYSIS\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
-insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (50,'Leads','Marketing process - Initial acquisition','[{\"fieldname\":\"leadstatus\",\"operation\":\"is\",\"value\":\"LBL_INITIAL_ACQUISITION\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
-insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (51,'Leads','Proces marketingowy - Kontakt w przyszłości','[{\"fieldname\":\"leadstatus\",\"operation\":\"is\",\"value\":\"LBL_CONTACTS_IN_THE_FUTURE\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (52,'Contacts','Generate Customer Login Details','[{\"fieldname\":\"portal\",\"operation\":\"has changed\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (53,'Contacts','Send Customer Login Details','[{\"fieldname\":\"emailoptout\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"portal\",\"operation\":\"has changed\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"portal\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (54,'HelpDesk','Update Closed Time','[{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Rejected\",\"valuetype\":\"rawtext\",\"joincondition\":\"or\",\"groupjoin\":null,\"groupid\":\"1\"},{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Closed\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":null,\"groupid\":\"1\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
@@ -159,21 +154,6 @@ insert  into `com_vtiger_workflows_seq`(`id`) values (69);
 
 /*Data for the table `com_vtiger_workflowtasks` */
 
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (91,47,'Data verification','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"47\";s:7:\"summary\";s:17:\"Data verification\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:17:\"Data verification\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:91;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (92,48,'Red news on the website','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"48\";s:7:\"summary\";s:23:\"Red news on the website\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:23:\"Red news on the website\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:92;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (93,48,'Read social networking news  ','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"48\";s:7:\"summary\";s:29:\"Read social networking news  \";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:29:\"Read social networking news  \";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:93;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (94,49,'Mail or call','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"49\";s:7:\"summary\";s:12:\"Mail or call\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:12:\"Mail or call\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:94;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (95,49,'Determine the decision maker ','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"49\";s:7:\"summary\";s:29:\"Determine the decision maker \";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:29:\"Determine the decision maker \";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:95;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (96,49,'Present experience of company','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"49\";s:7:\"summary\";s:29:\"Present experience of company\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:29:\"Present experience of company\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:96;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (97,49,'Present products and services','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"49\";s:7:\"summary\";s:29:\"Present products and services\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:29:\"Present products and services\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:97;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (98,49,'Preliminary analysis of the client\'s needs','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"49\";s:7:\"summary\";s:42:\"Preliminary analysis of the client\'s needs\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:42:\"Preliminary analysis of the client\'s needs\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:98;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (99,49,'Update: \'Outsourced services\'','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"49\";s:7:\"summary\";s:29:\"Update: \'Outsourced services\'\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:29:\"Update: \'Outsourced services\'\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:99;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (100,49,'Update: \'Outsourced products\'','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"49\";s:7:\"summary\";s:29:\"Update: \'Outsourced products\'\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:29:\"Update: \'Outsourced products\'\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:100;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (101,49,'Update preliminary agreements in the system','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"49\";s:7:\"summary\";s:43:\"Update preliminary agreements in the system\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:43:\"Update preliminary agreements in the system\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:101;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (102,50,'Specify client\'s needs','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"50\";s:7:\"summary\";s:22:\"Specify client\'s needs\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:22:\"Specify client\'s needs\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:102;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (103,50,'Update information on: \'Interested in services\' ','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"50\";s:7:\"summary\";s:48:\"Update information on: \'Interested in services\' \";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:48:\"Update information on: \'Interested in services\' \";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:103;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (104,50,'Update information on: \'Interested in products\'','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"50\";s:7:\"summary\";s:47:\"Update information on: \'Interested in products\'\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:47:\"Update information on: \'Interested in products\'\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:104;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (105,51,'Mail or call','O:16:\"VTCreateTodoTask\":26:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"51\";s:7:\"summary\";s:12:\"Mail or call\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:12:\"Mail or call\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:0:\"\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:105;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";s:14:\"doNotDuplicate\";s:0:\"\";s:15:\"duplicateStatus\";s:0:\"\";s:11:\"updateDates\";s:0:\"\";}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (106,33,'Notify Account On Ticket Create','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"33\";s:7:\"summary\";s:31:\"Notify Account On Ticket Create\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"40\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:25:\"parent_id=Accounts=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:106;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (108,31,'Notify Owner On Ticket Create','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"31\";s:7:\"summary\";s:29:\"Notify Owner On Ticket Create\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"43\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:29:\"assigned_user_id=Users=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:108;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (109,30,'Notify Account On Ticket Closed','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"30\";s:7:\"summary\";s:31:\"Notify Account On Ticket Closed\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"38\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:25:\"parent_id=Accounts=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:109;}');
@@ -2246,7 +2226,7 @@ insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`,`
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (37,1,'ticketstatus','has changed','Open',1,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (39,3,'projecttaskstatus','has changed','Open',1,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (42,5,'projectmilestoneid','is not empty','',1,'reference');
-insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (46,7,'leadstatus','is','LBL_LEAD_ACQUIRED',1,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (46,7,'leadstatus','is','PLL_LEAD_ACQUIRED',1,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (50,10,'ticketstatus','is','Rejected',0,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (51,10,'ticketstatus','is','Closed',0,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (52,11,'accountname','is not empty','',1,'string');
@@ -6274,18 +6254,17 @@ insert  into `vtiger_leadsource_seq`(`id`) values (13);
 
 /*Data for the table `vtiger_leadstatus` */
 
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (13,'LBL_TO_REALIZE',1,446,12,'#E6FAD8');
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (14,'LBL_REQUIRES_VERIFICATION',1,447,13,'#E6FAD8');
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (15,'LBL_PRELIMINARY_ANALYSIS_OF',1,448,14,'#E6FAD8');
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (16,'LBL_ADVANCED_ANALYSIS',1,449,15,'#E6FAD8');
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (17,'LBL_INITIAL_ACQUISITION',1,450,16,'#E6FAD8');
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (18,'LBL_CONTACTS_IN_THE_FUTURE',1,451,17,'#E6FAD8');
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (19,'LBL_LEAD_UNTAPPED',1,452,18,'#E6FAD8');
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (20,'LBL_LEAD_ACQUIRED',1,453,19,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (13,'PLL_TO_REALIZE',1,446,2,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (18,'PLL_CONTACTS_IN_THE_FUTURE',1,451,4,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (19,'PLL_LEAD_UNTAPPED',1,452,6,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (20,'PLL_LEAD_ACQUIRED',1,453,7,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (21,'PLL_PENDING',0,720,1,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (22,'PLL_IN_REALIZATION',1,721,3,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (23,'PLL_INCORRECT',1,722,5,'#E6FAD8');
 
 /*Data for the table `vtiger_leadstatus_seq` */
 
-insert  into `vtiger_leadstatus_seq`(`id`) values (20);
+insert  into `vtiger_leadstatus_seq`(`id`) values (23);
 
 /*Data for the table `vtiger_leadsubdetails` */
 
@@ -7388,7 +7367,7 @@ insert  into `vtiger_picklist_seq`(`id`) values (98);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
-insert  into `vtiger_picklistvalues_seq`(`id`) values (719);
+insert  into `vtiger_picklistvalues_seq`(`id`) values (722);
 
 /*Data for the table `vtiger_portal` */
 
@@ -21433,10 +21412,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',453,14,19);
@@ -21562,6 +21537,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',722,14,22);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',3,1,2);
@@ -21798,10 +21776,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',453,14,19);
@@ -21927,6 +21901,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',722,14,22);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',3,1,2);
@@ -22163,10 +22140,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',453,14,19);
@@ -22292,6 +22265,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',722,14,22);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',3,1,2);
@@ -22528,10 +22504,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',453,14,19);
@@ -22657,6 +22629,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',722,14,22);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',3,1,2);
@@ -22893,10 +22868,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',453,14,19);
@@ -23022,6 +22993,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',722,14,22);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',3,1,2);
@@ -23258,10 +23232,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',453,14,19);
@@ -23387,6 +23357,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',722,14,22);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',3,1,2);
@@ -23623,10 +23596,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',453,14,19);
@@ -23752,6 +23721,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',722,14,22);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',3,1,2);
@@ -23988,10 +23960,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',453,14,19);
@@ -24117,6 +24085,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',722,14,22);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',3,1,2);
@@ -24353,10 +24324,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',453,14,19);
@@ -24482,6 +24449,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',722,14,22);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',3,1,2);
@@ -24718,10 +24688,6 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',444,68,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',445,68,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',446,14,12);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',447,14,13);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',448,14,14);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',449,14,15);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',450,14,16);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',451,14,17);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',452,14,18);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',453,14,19);
@@ -24847,6 +24813,9 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',717,98,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',718,98,2);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',719,98,3);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',720,14,20);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',721,14,21);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',722,14,22);
 
 /*Data for the table `vtiger_role2profile` */
 
@@ -26415,7 +26384,7 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('conversion','change_owner','false');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','groups','');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','status','');
-insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','convert_status','LBL_LEAD_ACQUIRED');
+insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','convert_status','PLL_LEAD_ACQUIRED');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','currentuser_status','false');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('conversion','create_always','false');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('conversion','mapping','[{\"company\":\"accountname\"}]');

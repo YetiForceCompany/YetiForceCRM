@@ -5625,7 +5625,7 @@ CREATE TABLE `vtiger_leadstatus` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`leadstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leadstatus_seq` */
 
