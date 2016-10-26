@@ -297,10 +297,10 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
-		$query = $query . ' && parent_comments = ? && related_to = ?';
+		$query = $query . ' AND parent_comments = ? AND related_to = ?';
 
 		$recordInstances = [];
-		$result = $db->pquery($query, array($parentCommentId, $parentRecordId));
+		$result = $db->pquery($query, [$parentCommentId, $parentRecordId]);
 		while ($row = $db->getRow($result)) {
 			$recordInstance = new self();
 			$recordInstance->setData($row);

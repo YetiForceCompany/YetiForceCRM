@@ -77,13 +77,15 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getRealId();
 		}
+		$query = new \App\Db\Query();
+		$query->select('last_reviewed_users, id')->from('vtiger_modtracker_basic')->where(['crmid' => $recordId])
+			->andWhere(['<>', 'status', self::DISPLAYED])->andWhere(['like', 'last_reviewed_users', "#$userId#"])->orderBy(['changedon' => SORT_DESC, 'id' => SORT_DESC])->limit(1);
 		if ($exception) {
-			$where = ' && `id` <> ' . $exception;
+			$query->andWhere(['<>', 'id', $exception]);
 		}
-		$listQuery = sprintf('SELECT last_reviewed_users,id FROM vtiger_modtracker_basic WHERE crmid = ? && status <> ? && last_reviewed_users LIKE "%s" %s ORDER BY changedon DESC, id DESC LIMIT 1;', "%#$userId#%", $where);
-		$result = $db->pquery($listQuery, [$recordId, self::DISPLAYED]);
-		if ($result->rowCount()) {
-			$row = $db->getRow($result);
+		$row = $query->one();
+		
+		if ($row) {
 			$lastReviewedUsers = array_filter(explode('#', $row['last_reviewed_users']));
 			$key = array_search($userId, $lastReviewedUsers);
 			unset($lastReviewedUsers[$key]);
