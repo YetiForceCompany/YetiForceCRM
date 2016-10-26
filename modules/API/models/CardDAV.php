@@ -247,7 +247,7 @@ class API_CardDAV_Model
 			$lead->set('assigned_user_id', $this->user->get('id'));
 			$lead->set('company', (string) $vcard->ORG);
 			$lead->set('lastname', (string) $vcard->ORG);
-			$lead->set('leadstatus', 'LBL_REQUIRES_VERIFICATION');
+			$lead->set('leadstatus', 'PLL_PENDING');
 			$lead->set('vat_id', '');
 			$lead->save();
 			$leadId = $lead->getId();

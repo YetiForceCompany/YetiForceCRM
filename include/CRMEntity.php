@@ -1707,11 +1707,11 @@ class CRMEntity
 
 		$query .= " FROM $other->table_name";
 		$query .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $other->table_name.$other->table_index";
-		$query .= " INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid || vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)";
+		$query .= " INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)";
 		$query .= $more_relation;
 		$query .= " LEFT  JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
 		$query .= " LEFT  JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " WHERE vtiger_crmentity.deleted = 0 && (vtiger_crmentityrel.crmid = $id || vtiger_crmentityrel.relcrmid = $id)";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 AND (vtiger_crmentityrel.crmid = $id OR vtiger_crmentityrel.relcrmid = $id)";
 		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
 
 		if ($return_value === null)
@@ -1754,14 +1754,12 @@ class CRMEntity
 
 		$return_value = null;
 
-		$query = new \App\Db\Query();
-		$subQuery = $query->select('fieldid')->from('vtiger_fieldmodulerel')->where(['relmodule' => $currentModule, 'module' => $relatedModule])->one();
-		$mainQuery = $query->select('tabid, fieldname, columnname, tablename')->from('vtiger_field')->where(['uitype' => 10, 'fieldid' => $subQuery]);
-		$row = $mainQuery->one();
+		$subQuery = (new \App\Db\Query())->select('fieldid')->from('vtiger_fieldmodulerel')->where(['relmodule' => $currentModule, 'module' => $relatedModule]);
+		$row = (new \App\Db\Query())->select('tabid, fieldname, columnname, tablename')->from('vtiger_field')->where(['uitype' => 10, 'fieldid' => $subQuery])->one();
 		if ($row === false) {
-			$mainQuery = $query->select('fieldname AS name, fieldid AS id, fieldlabel AS label, columnname AS column, tablename AS table')->from('vtiger_field')
+			$query = (new \App\Db\Query())->select('fieldname AS name, fieldid AS id, fieldlabel AS label, columnname AS column, tablename AS table, vtiger_field.*')->from('vtiger_field')
 				->where(['uitype' => [66, 67, 68], 'tabid' => $relTabId]);
-			$dataReader = $mainQuery->createCommand()->query();
+			$dataReader = $query->createCommand()->query();
 			while ($rowProc = $dataReader->read()) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $relatedModule);
 				$fieldModel = new $className();
@@ -1840,7 +1838,7 @@ class CRMEntity
 		$query .= " INNER JOIN $this->table_name ON $this->table_name.$this->table_index = $dependentTable.$dependentColumn";
 		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 && $this->table_name.$this->table_index = $id";
+		$query .= " WHERE vtiger_crmentity.deleted = 0 AND $this->table_name.$this->table_index = $id";
 		return $query;
 	}
 
@@ -2649,13 +2647,11 @@ class CRMEntity
 	/**
 	 * Function to track when a record is unlinked to a given record
 	 */
-	public function trackUnLinkedInfo($module, $crmid, $with_module, $with_crmid)
+	public function trackUnLinkedInfo($module, $crmId, $with_module, $with_crmid)
 	{
 		$current_user = vglobal('current_user');
-		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
-
-		$adb->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], 'crmid = ?', [$crmid]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' =>$crmId])->execute();
 	}
 
 	/**
