@@ -6,7 +6,6 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 class Admin extends \App\Db\Importers\Base
 {
 
@@ -245,6 +244,44 @@ class Admin extends \App\Db\Importers\Base
 					'status' => $this->boolean()->defaultValue(1)->notNull(),
 				],
 				'index' => [
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__mail_relation_updater' => [
+				'columns' => [
+					'tabid' => $this->integer()->unsigned()->notNull(),
+					'crmid' => $this->integer()->unsigned()->notNull(),
+				],
+				'index' => [
+					['tabid', 'tabid'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__multireference' => [
+				'columns' => [
+					'source_module' => $this->stringType(50)->notNull(),
+					'dest_module' => $this->stringType(50)->notNull(),
+					'lastid' => $this->integer(11)->unsigned()->notNull()->defaultValue(0),
+					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
+				],
+				'index' => [
+					['source_module', ['source_module', 'dest_module']],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__privileges_updater' => [
+				'columns' => [
+					'module' => $this->stringType(30)->notNull()->defaultValue(''),
+					'crmid' => $this->integer()->notNull()->defaultValue(0),
+					'priority' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
+				],
+				'index' => [
+					['module', ['module', 'crmid', 'type'], true],
+					['crmid', 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

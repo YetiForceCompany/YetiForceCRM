@@ -68,7 +68,7 @@ class Importer
 			)->execute();
 			if (isset($table['index'])) {
 				foreach ($table['index'] as $index) {
-					$importer->db->createCommand()->createIndex($index[0], $tableName, $index[1])->execute();
+					$importer->db->createCommand()->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false )->execute();
 				}
 			}
 			if (isset($table['primaryKeys'])) {
