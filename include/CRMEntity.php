@@ -282,21 +282,14 @@ class CRMEntity
 			$description_val = \vtlib\Functions::fromHTML($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
-			$tabid = \App\Module::getModuleId($module);
 
 			$profileList = $currentUser->getProfiles();
-			$permQuery = sprintf('SELECT columnname FROM vtiger_field 
-					INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid 
-					INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid 
-					WHERE vtiger_field.tabid = ? && vtiger_profile2field.visible = 0 
-					AND vtiger_profile2field.readonly = 0 
-					AND vtiger_profile2field.profileid IN (%s) 
-					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=\'vtiger_crmentity\' 
-					and vtiger_field.presence in (0,2)', generateQuestionMarks($profileList));
-			$permResult = $adb->pquery($permQuery, [$tabid, $profileList]);
-			while ($columnname = $adb->getSingleValue($permResult)) {
-				$columname[] = $columnname;
-			}
+			$columname = (new \App\Db\Query())->select('columnname')->from('vtiger_field')
+					->innerJoin('vtiger_profile2field', 'vtiger_field.fieldid = vtiger_profile2field.fieldid')
+					->innerJoin('vtiger_def_org_field', 'vtiger_field.fieldid = vtiger_def_org_field.fieldid')
+					->where(['vtiger_profile2field.profileid' => $profileList, 'vtiger_field.tabid' => \App\Module::getModuleId($module),
+						'vtiger_profile2field.visible' => 0, 'vtiger_profile2field.readonly' => 0, 'vtiger_def_org_field.visible' => 0,
+						'vtiger_field.tablename' => 'vtiger_crmentity', 'vtiger_field.presence' => [0, 2]])->column();
 			if (is_array($columname) && in_array('description', $columname)) {
 				$columns = [
 					'smownerid' => $ownerid,
