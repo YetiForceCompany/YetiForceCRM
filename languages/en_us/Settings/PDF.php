@@ -5,8 +5,11 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 $languageStrings = [
+	'PLL_TEXT' => 'Text',
+	'PLL_IMAGE' => 'Image',
 	'LBL_PDF' => 'PDF',
 	'LBL_PDF_DESCRIPTION' => 'Test version of the PDF template configuration',
 	'LBL_CREATING_PDF' => 'Create PDF template',

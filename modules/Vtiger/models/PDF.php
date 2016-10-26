@@ -6,6 +6,7 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_PDF_Model extends Vtiger_Base_Model
 {
@@ -15,6 +16,15 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	protected $recordCache = [];
 	protected $recordId;
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
+	
+	/**
+	 * Function to get watermark type
+	 * @return array
+	 */
+	public function getWatermarkType()
+	{
+		return [Vtiger_mPDF_Pdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', Vtiger_mPDF_Pdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
+	}
 
 	/**
 	 * Function to get the id of the record

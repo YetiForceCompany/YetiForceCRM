@@ -5,8 +5,11 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 $languageStrings = [
+	'PLL_TEXT' => 'Tekst',
+	'PLL_IMAGE' => 'Obraz',
 	'LBL_PDF' => 'PDF',
 	'LBL_PDF_DESCRIPTION' => 'Testowa wersja konfiguracji szablonów PDF.',
 	'LBL_CREATING_PDF' => 'Utwórz szablon pdf',
