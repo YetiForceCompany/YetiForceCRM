@@ -6807,7 +6807,7 @@ CREATE TABLE `vtiger_pbxmanager` (
   `recordingurl` varchar(200) DEFAULT NULL,
   `sourceuuid` varchar(100) DEFAULT NULL,
   `gateway` varchar(20) DEFAULT NULL,
-  `customer` int(11) DEFAULT NULL,,
+  `customer` int(11) DEFAULT NULL,
   `user` varchar(100) DEFAULT NULL,
   `customernumber` varchar(100) DEFAULT NULL,
   `customertype` varchar(100) DEFAULT NULL,
