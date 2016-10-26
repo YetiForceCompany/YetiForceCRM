@@ -288,7 +288,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 		];
 		$this->foreignKey = [
-			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE'],
+			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
 		];
 	}
 
