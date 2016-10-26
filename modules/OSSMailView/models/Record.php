@@ -329,7 +329,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM s_yf_mail_relation_updater WHERE crmid = ?', [$record]);
 		if ($db->getRowCount($result) == 0) {
-			$db->insert('s_yf_mail_relation_updater', [
+			\App\Db::getInstance()->createCommand()->insert('s_#__mail_relation_updater', [
 				'tabid' => \App\Module::getModuleId($moduleName),
 				'crmid' => $record
 			]);
