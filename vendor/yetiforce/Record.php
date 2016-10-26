@@ -51,43 +51,32 @@ class Record
 
 	protected static $crmidByLabelCache = [];
 
-	public static function findCrmidByLabel($label, $moduleName = false, $limit = 20)
+	public static function findCrmidByLabel($label, $moduleName = false, $limit = 20, $entityName = true)
 	{
 		if (isset(static::$crmidByLabelCache[$label])) {
 			$crmIds = static::$crmidByLabelCache[$label];
 		} else {
 			$currentUser = \Users_Record_Model::getCurrentUserModel();
-			$adb = \PearDatabase::getInstance();
 			$crmIds = [];
-			$params = ['%,' . $currentUser->getId() . ',%', "%$label%"];
-			$queryFrom = 'SELECT `crmid`,`setype`,`searchlabel` FROM `u_yf_crmentity_search_label`';
-			$queryWhere = ' WHERE `userid` LIKE ? && `searchlabel` LIKE ?';
-			$orderWhere = '';
-			if ($moduleName !== false) {
-				$multiMode = is_array($moduleName);
-				if ($multiMode) {
-					$queryWhere .= sprintf(' && `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
-					$params = array_merge($params, $moduleName);
-					$orderWhere = 'setype';
-				} else {
-					$queryWhere .= ' && `setype` = ?';
-					$params[] = $moduleName;
+			$query = (new \App\Db\Query())
+				->select('crmid,setype,searchlabel')
+				->from('u_#__crmentity_search_label')
+				->where(['like', 'userid', ",{$currentUser->getId()},"])
+				->andWhere(['like', 'searchlabel', $label]);
+			if ($moduleName) {
+				$query->andWhere(['setype' => $moduleName]);
+			} elseif ($entityName) {
+				$query->andWhere(['vtiger_entityname.turn_off' => 1]);
+				$query->innerJoin('vtiger_entityname', 'u_#__crmentity_search_label.setype = vtiger_entityname.modulename');
+				if (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 2) {
+					$query->orderBy('vtiger_entityname.sequence');
 				}
-			} elseif (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 2) {
-				$queryFrom .= ' LEFT JOIN vtiger_entityname ON vtiger_entityname.modulename = u_yf_crmentity_search_label.setype';
-				$queryWhere .= ' && vtiger_entityname.`turn_off` = 1 ';
-				$orderWhere = 'vtiger_entityname.sequence';
-			}
-			$query = $queryFrom . $queryWhere;
-			if (!empty($orderWhere)) {
-				$query .= sprintf(' ORDER BY %s', $orderWhere);
 			}
 			if ($limit) {
-				$query .= ' LIMIT ';
-				$query .= $limit;
+				$query->limit($limit);
 			}
-			$result = $adb->pquery($query, $params);
-			while ($row = $adb->getRow($result)) {
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$crmIds[] = $row;
 			}
 			static::$crmidByLabelCache[$label] = $crmIds;
