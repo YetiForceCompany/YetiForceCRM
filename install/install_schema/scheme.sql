@@ -6543,7 +6543,7 @@ CREATE TABLE `vtiger_osspasswords` (
   `username` varchar(100) NOT NULL,
   `password` varbinary(200) NOT NULL,
   `link_adres` varchar(255) DEFAULT NULL,
-  `linkto` varchar(100) DEFAULT NULL,
+  `linkto` int(11) DEFAULT NULL,
   PRIMARY KEY (`osspasswordsid`),
   CONSTRAINT `fk_1_vtiger_osspasswords` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
