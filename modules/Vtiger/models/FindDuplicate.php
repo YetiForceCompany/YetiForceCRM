@@ -63,8 +63,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		$focus = CRMEntity::getInstance($module);
 		$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
 
-		$query .= " LIMIT $startIndex, " . ($pageLimit + 1);
-
+		$query .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		$result = $db->query($query);
 		$rows = $db->num_rows($result);
 		$this->result = $result;
