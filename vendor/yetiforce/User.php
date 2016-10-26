@@ -61,7 +61,7 @@ class User
 			return static::$userModelCache[$userId];
 		}
 		$privileges = static::getPrivilegesFile($userId);
-		$privileges = $privileges['privileges'];
+		$privileges = $privileges['_privileges'];
 
 		$userModel = new self();
 		$userModel->privileges = $privileges;
@@ -85,7 +85,7 @@ class User
 		$valueMap['id'] = $userId;
 		$valueMap['is_admin'] = (bool) $is_admin;
 		$valueMap['user_info'] = $user_info;
-		$valueMap['privileges'] = $privileges;
+		$valueMap['_privileges'] = $privileges;
 		if (!$is_admin) {
 			$valueMap['roleid'] = $current_user_roles;
 			$valueMap['parent_role_seq'] = $current_user_parent_role_seq;
