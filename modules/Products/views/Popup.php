@@ -53,8 +53,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
-		$isRecordExists = Vtiger_Util_Helper::checkRecordExistance($relatedParentId);
-		if ($isRecordExists || $isRecordExists === NULL) {
+		if (!\App\Record::isExists($relatedParentId)) {
 			$relatedParentModule = '';
 			$relatedParentId = '';
 		}

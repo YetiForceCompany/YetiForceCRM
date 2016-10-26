@@ -87,7 +87,7 @@ class Vtiger_Util_Helper
 			return $prefix . self::pluralize($days, 'LBL_DAY') . $suffix;
 		if ($months < 12)
 			return $prefix . self::pluralize($months, 'LBL_MONTH') . $suffix;
-		if ($months > 11){
+		if ($months > 11) {
 			$month = $months % 12;
 			$monthAgo = '';
 			if ($month != 0) {
@@ -96,7 +96,6 @@ class Vtiger_Util_Helper
 			$result = self::pluralize(floor($months / 12), 'LBL_YEAR') . ' ' . $monthAgo;
 			return $prefix . $result . $suffix;
 		}
-			
 	}
 
 	/**
@@ -128,31 +127,6 @@ class Vtiger_Util_Helper
 	{
 		$allowableTags = '<a><br>';
 		return strip_tags($input, $allowableTags);
-	}
-
-	/**
-	 * Function to validate the input with given pattern.
-	 * @param <String> $string
-	 * @param <Boolean> $skipEmpty Skip the check if string is empty.
-	 * @return <String>
-	 * @throws AppException
-	 */
-	public static function validateStringForSql($string, $skipEmpty = true)
-	{
-		if (\App\Purifier::purifySql($string, $skipEmpty)) {
-			return $string;
-		}
-		return false;
-	}
-
-	/**
-	 * Function Checks the existence of the record
-	 * @param type $recordId - module recordId
-	 * returns 1 if record exists else 0
-	 */
-	public static function checkRecordExistance($recordId)
-	{
-		return (new \App\Db\Query())->select('deleted')->from('vtiger_crmentity')->where(['crmid' => $recordId]);;
 	}
 
 	/**

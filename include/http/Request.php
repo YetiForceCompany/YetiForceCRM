@@ -93,7 +93,7 @@ class Vtiger_Request
 	 */
 	public function getForSql($key, $skipEmtpy = true)
 	{
-		return Vtiger_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
+		return \App\Purifier::purifySql($this->get($key), $skipEmtpy);
 	}
 
 	public function getForHtml($key, $defvalue = '')
