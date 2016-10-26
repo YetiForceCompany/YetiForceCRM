@@ -282,10 +282,22 @@ class CRMEntity
 			$description_val = \vtlib\Functions::fromHTML($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
-			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
 			$tabid = \App\Module::getModuleId($module);
 
-			if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
+			$profileList = $currentUser->getProfiles();
+			$permQuery = sprintf('SELECT columnname FROM vtiger_field 
+					INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid 
+					INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid 
+					WHERE vtiger_field.tabid = ? && vtiger_profile2field.visible = 0 
+					AND vtiger_profile2field.readonly = 0 
+					AND vtiger_profile2field.profileid IN (%s) 
+					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=\'vtiger_crmentity\' 
+					and vtiger_field.presence in (0,2)', generateQuestionMarks($profileList));
+			$permResult = $adb->pquery($permQuery, [$tabid, $profileList]);
+			while ($columnname = $adb->getSingleValue($permResult)) {
+				$columname[] = $columnname;
+			}
+			if (is_array($columname) && in_array('description', $columname)) {
 				$columns = [
 					'smownerid' => $ownerid,
 					'modifiedby' => $currentUser->getId(),
@@ -295,36 +307,13 @@ class CRMEntity
 					'was_read' => $was_read
 				];
 			} else {
-				$profileList = $currentUser->getProfiles();
-				$permQuery = sprintf('SELECT columnname FROM vtiger_field 
-					INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid 
-					INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid 
-					WHERE vtiger_field.tabid = ? && vtiger_profile2field.visible = 0 
-					AND vtiger_profile2field.readonly = 0 
-					AND vtiger_profile2field.profileid IN (%s) 
-					AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=\'vtiger_crmentity\' 
-					and vtiger_field.presence in (0,2)', generateQuestionMarks($profileList));
-				$permResult = $adb->pquery($permQuery, [$tabid, $profileList]);
-				while ($columnname = $adb->getSingleValue($permResult)) {
-					$columname[] = $columnname;
-				}
-				if (is_array($columname) && in_array('description', $columname)) {
-					$columns = [
-						'smownerid' => $ownerid,
-						'modifiedby' => $currentUser->getId(),
-						'description' => $description_val,
-						'attention' => $attention_val,
-						'modifiedtime' => $adb->formatDate($date_var, true),
-						'was_read' => $was_read
-					];
-				} else {
-					$columns = [
-						'smownerid' => $ownerid,
-						'modifiedby' => $currentUser->getId(),
-						'modifiedtime' => $adb->formatDate($date_var, true)
-					];
-				}
+				$columns = [
+					'smownerid' => $ownerid,
+					'modifiedby' => $currentUser->getId(),
+					'modifiedtime' => $adb->formatDate($date_var, true)
+				];
 			}
+
 			$params = [$this->id];
 			$adb->update('vtiger_crmentity', $columns, 'crmid = ?', $params);
 			$this->column_fields['modifiedtime'] = $adb->formatDate($date_var, true);
@@ -394,7 +383,7 @@ class CRMEntity
 		$insertion_mode = $this->mode;
 
 		//Checkin whether an entry is already is present in the vtiger_table to update
-		if ($insertion_mode == 'edit') {
+		if ($insertion_mode === 'edit') {
 			$tablekey = $this->tab_name_index[$table_name];
 			// Make selection on the primary key of the module table to check.
 			$check_query = "select $tablekey from $table_name where $tablekey=?";
@@ -408,19 +397,14 @@ class CRMEntity
 		}
 
 		$tabid = \App\Module::getModuleId($module);
-		if ($module == 'Calendar' && $this->column_fields["activitytype"] != null && $this->column_fields["activitytype"] != 'Task') {
+		if ($module == 'Calendar' && $this->column_fields['activitytype'] != null && $this->column_fields['activitytype'] != 'Task') {
 			$tabid = \App\Module::getModuleId('Events');
 		}
 		if ($insertion_mode == 'edit') {
 			$updateColumns = [];
-			$privileges = Vtiger_Util_Helper::getUserPrivilegesFile($currentUser->getId());
-			if ($privileges['is_admin'] === true || $privileges['profile_global_permission'][1] == 0 || $privileges['profile_global_permission'][2] == 0) {
-				$sql = sprintf('SELECT * FROM vtiger_field WHERE tabid in (%s) && tablename = ? && presence IN (0,2) GROUP BY columnname', $adb->generateQuestionMarks($tabid));
-				$params = [$tabid, $table_name];
-			} else {
-				$profileList = $currentUser->getProfiles();
-				if (count($profileList) > 0) {
-					$sql = sprintf('SELECT *
+			$profileList = $currentUser->getProfiles();
+			if ($profileList) {
+				$sql = sprintf('SELECT *
 			  			FROM vtiger_field
 			  			INNER JOIN vtiger_profile2field
 			  			ON vtiger_profile2field.fieldid = vtiger_field.fieldid
@@ -430,10 +414,9 @@ class CRMEntity
 			  			AND vtiger_profile2field.visible = 0 && vtiger_profile2field.readonly = 0
 			  			AND vtiger_profile2field.profileid IN (%s)
 			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname', generateQuestionMarks($profileList));
-
-					$params = array($tabid, $profileList, $table_name);
-				} else {
-					$sql = 'SELECT *
+				$params = array($tabid, $profileList, $table_name);
+			} else {
+				$sql = 'SELECT *
 			  			FROM vtiger_field
 			  			INNER JOIN vtiger_profile2field
 			  			ON vtiger_profile2field.fieldid = vtiger_field.fieldid
@@ -443,8 +426,7 @@ class CRMEntity
 			  			AND vtiger_profile2field.visible = 0 && vtiger_profile2field.readonly = 0
 			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname';
 
-					$params = array($tabid, $table_name);
-				}
+				$params = array($tabid, $table_name);
 			}
 		} else {
 			$table_index_column = $this->tab_name_index[$table_name];
@@ -2651,7 +2633,7 @@ class CRMEntity
 	{
 		$current_user = vglobal('current_user');
 		$currentTime = date('Y-m-d H:i:s');
-		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' =>$crmId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
 	}
 
 	/**
