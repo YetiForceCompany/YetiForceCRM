@@ -147,15 +147,12 @@ class Vtiger_Util_Helper
 
 	/**
 	 * Function Checks the existence of the record
-	 * @param <type> $recordId - module recordId
+	 * @param type $recordId - module recordId
 	 * returns 1 if record exists else 0
 	 */
 	public static function checkRecordExistance($recordId)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = 'SELECT deleted FROM vtiger_crmentity WHERE crmid=?';
-		$result = $adb->pquery($query, [$recordId]);
-		return $adb->getSingleValue($result);
+		return (new \App\Db\Query())->select('deleted')->from('vtiger_crmentity')->where(['crmid' => $recordId]);;
 	}
 
 	/**
