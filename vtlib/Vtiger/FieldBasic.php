@@ -251,7 +251,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	public function getModuleName()
 	{
 		if ($this->tabid) {
-			return \App\Module::getModuleId($this->tabid);
+			return \App\Module::getModuleName($this->tabid);
 		}
 		return $this->block->module->name;
 	}
