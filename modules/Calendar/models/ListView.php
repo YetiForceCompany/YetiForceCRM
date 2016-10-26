@@ -149,9 +149,9 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel, $searchResult = false)
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
@@ -162,7 +162,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 		$queryGenerator = $this->get('query_generator');
 		$listViewContoller = $this->get('listview_controller');
 
-		$listViewFields = array('visibility', 'assigned_user_id', 'activitystatus');
+		$listViewFields = ['visibility', 'assigned_user_id', 'activitystatus'];
 		$queryGenerator->setFields(array_unique(array_merge($queryGenerator->getFields(), $listViewFields)));
 
 		$this->loadListViewCondition($moduleName);
@@ -212,32 +212,8 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
-		$index = 0;
 		foreach ($listViewEntries as $recordId => $record) {
-			$rawData = $db->query_result_rowdata($listResult, $index++);
-			$visibleFields = array('activitytype', 'date_start', 'due_date', 'assigned_user_id', 'visibility', 'smownerid');
-			$ownerId = $rawData['smownerid'];
-			$visibility = true;
-			if (in_array($ownerId, $groupsIds)) {
-				$visibility = false;
-			} else if ($ownerId == $currentUser->getId()) {
-				$visibility = false;
-			}
-
-			if (!$currentUser->isAdminUser() && $rawData['activitytype'] != 'Task' && $rawData['visibility'] == 'Private' && $ownerId && $visibility) {
-				foreach ($record as $data => $value) {
-					if (in_array($data, $visibleFields) != -1) {
-						unset($rawData[$data]);
-						unset($record[$data]);
-					}
-				}
-				$record['subject'] = vtranslate('Busy', 'Events') . '*';
-			}
-			if ($record['activitytype'] == 'Task') {
-				unset($record['visibility']);
-				unset($rawData['visibility']);
-			}
-
+			$rawData = $db->getRow($listResult);
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
 			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
