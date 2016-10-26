@@ -87,7 +87,7 @@ class RecordNumber
 		}
 		$temp = str_repeat('0', $strip);
 		$reqNo = $temp . ($curId + 1);
-		\App\DB::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo], ['cur_id' => $curId, 'tabid' => $moduleId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo], ['cur_id' => $curId, 'tabid' => $moduleId])->execute();
 		return decode_html($fullPrefix);
 	}
 

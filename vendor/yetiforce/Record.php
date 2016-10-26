@@ -197,7 +197,7 @@ class Record
 		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
 			$adb = \PearDatabase::getInstance();
-			$db = \App\DB::getInstance();
+			$db = \App\Db::getInstance();
 			$label = decode_html($labelInfo[$id]['name']);
 			$search = decode_html($labelInfo[$id]['search']);
 			$insertMode = $mode != 'edit';

@@ -180,7 +180,7 @@ class PrivilegeUpdater
 				$params['type'] = 0;
 			}
 		}
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		if ($insert) {
 			$db->createCommand()->insert('s_yf_privileges_updater', $params)->execute();
 		}
