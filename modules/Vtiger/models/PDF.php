@@ -141,7 +141,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	{
 		
 		$dataReader = (new \App\Db\Query())->from(self::$baseTable)
-				->where(['module_name' => $moduleName, 'status' => 'active'])
+				->where(['module_name' => $moduleName, 'status' => 1])
 				->createCommand()->query();
 		$templates = [];
 		while ($row = $dataReader->read()) {

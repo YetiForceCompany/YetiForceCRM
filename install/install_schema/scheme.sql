@@ -136,7 +136,7 @@ CREATE TABLE `a_yf_pdf` (
   `header_content` text NOT NULL,
   `body_content` text NOT NULL,
   `footer_content` text NOT NULL,
-  `status` set('active','inactive') NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   `primary_name` varchar(255) NOT NULL,
   `secondary_name` varchar(255) NOT NULL,
   `meta_author` varchar(255) NOT NULL,
