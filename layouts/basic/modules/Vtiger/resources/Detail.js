@@ -601,7 +601,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
 		}
 		var element = jQuery(e.currentTarget);
-		element.attr('disabled', 'disabled');
 		var commentInfoHeader = closestCommentBlock.closest('.commentDetails').find('.commentInfoHeader');
 		var commentId = commentInfoHeader.data('commentid');
 		var parentCommentId = commentInfoHeader.data('parentcommentid');
