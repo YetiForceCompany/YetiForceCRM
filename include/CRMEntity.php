@@ -2646,13 +2646,11 @@ class CRMEntity
 	/**
 	 * Function to track when a record is unlinked to a given record
 	 */
-	public function trackUnLinkedInfo($module, $crmid, $with_module, $with_crmid)
+	public function trackUnLinkedInfo($module, $crmId, $with_module, $with_crmid)
 	{
 		$current_user = vglobal('current_user');
-		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
-
-		$adb->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], 'crmid = ?', [$crmid]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' =>$crmId])->execute();
 	}
 
 	/**
