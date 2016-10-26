@@ -592,6 +592,7 @@ jQuery.Class("Vtiger_Header_Js", {
 						var url = 'index.php?module=' + selectedItemData.module + '&view=Detail&record=' + selectedItemData.id;
 						window.location.href = url;
 					}
+					return false;
 				},
 				close: function (event, ui) {
 					//jQuery('.globalSearchValue').val('');
