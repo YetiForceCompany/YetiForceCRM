@@ -160,9 +160,8 @@ class PrivilegeUtil
 	 */
 	public static function getUserGroups($userId)
 	{
-		$groupIds = Cache::staticGet('getUserGroups', $userId);
-		if ($groupIds) {
-			return $groupIds;
+		if (Cache::staticHas('getUserGroups', $userId)) {
+			return Cache::staticGet('getUserGroups', $userId);
 		}
 		$groupIds = (new \App\Db\Query())->select('groupid')
 			->from('vtiger_users2group')

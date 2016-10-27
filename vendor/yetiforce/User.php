@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 /**
  * User basic class
@@ -139,13 +140,23 @@ class User
 	 */
 	public static function isExists($id)
 	{
-		if (isset(self::$userExistsCache[$id])) {
-			return self::$userExistsCache[$id];
+		if (Cache::has('UserIsExists', $id)) {
+			return Cache::get('UserIsExists', $id);
 		}
-		return self::$userExistsCache[$id] = (new \App\Db\Query())
-				->from('vtiger_users')
-				->where(['status' => 'Active'])
-				->where(['deleted' => 0])
-				->andWhere(['id' => $id])->exists();
+		$isExists = false;
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			$users = PrivilegeFile::getUser('id');
+			if (isset($users[$id]) && !$users[$id]['deleted']) {
+				$isExists = true;
+			}
+		} else {
+			$isExists = (new \App\Db\Query())
+					->from('vtiger_users')
+					->where(['status' => 'Active'])
+					->where(['deleted' => 0])
+					->andWhere(['id' => $id])->exists();
+		}
+		Cache::save('UserIsExists', $id, $isExists);
+		return $isExists;
 	}
 }

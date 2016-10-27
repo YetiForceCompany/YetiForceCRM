@@ -60,9 +60,8 @@ class CRMEntity
 			$module = 'Calendar';
 			$modName = 'Activity';
 		}
-		$cache = \App\Cache::staticGet('CRMEntity', $module);
-		if ($cache) {
-			return clone $cache;
+		if (\App\Cache::staticHas('CRMEntity', $module)) {
+			return clone \App\Cache::staticGet('CRMEntity', $module);
 		}
 
 		// File access security check

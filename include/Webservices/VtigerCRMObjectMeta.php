@@ -407,21 +407,9 @@ class VtigerCRMObjectMeta extends EntityMeta
 		// 
 		// NOTE: We are not caching the record existence 
 		// to ensure only latest state from DB is sent.
-
 		$exists = false;
 		if ($this->objectName == 'Users') {
-			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$users = \App\PrivilegeFile::getUser('id');
-				if (isset($users[$recordId]) && $users[$recordId]['deleted'] == '0') {
-					self::$userExistsCache[$recordId] = true;
-					return true;
-				}
-			}
-			if (isset(self::$userExistsCache[$recordId])) {
-				$exists = true;
-			} else {
-				self::$userExistsCache[$recordId] = $exists = \App\User::isExists($recordId);
-			}
+			$exists = \App\User::isExists($recordId);
 		} else {
 			$exists = \App\Record::isExists($recordId);
 		}

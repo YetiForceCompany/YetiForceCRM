@@ -20,8 +20,9 @@ class Field
 	{
 		Log::trace('Entering ' . __METHOD__ . ": $tabId");
 		$currentUser = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$fields = Cache::get(__METHOD__ . $currentUser->getId(), $tabId);
-		if (!$fields) {
+		if (Cache::has(__METHOD__ . $currentUser->getId(), $tabId)) {
+			$fields = Cache::get(__METHOD__ . $currentUser->getId(), $tabId);
+		} else {
 			$query = (new \App\Db\Query())
 				->select('vtiger_field.*, vtiger_profile2field.readonly,vtiger_profile2field.visible')
 				->from('vtiger_field')
