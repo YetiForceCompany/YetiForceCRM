@@ -1,5 +1,4 @@
-<?php
-namespace App;
+<?php namespace App;
 
 /**
  * User basic class
@@ -131,8 +130,6 @@ class User
 		return $this->privileges[$key];
 	}
 
-	protected static $userExistsCache = [];
-
 	/**
 	 * Function checks if user exists
 	 * @param int $id - User ID
@@ -151,10 +148,9 @@ class User
 			}
 		} else {
 			$isExists = (new \App\Db\Query())
-					->from('vtiger_users')
-					->where(['status' => 'Active'])
-					->where(['deleted' => 0])
-					->andWhere(['id' => $id])->exists();
+				->from('vtiger_users')
+				->where(['status' => 'Active', 'deleted' => 0, 'id' => $id])
+				->exists();
 		}
 		Cache::save('UserIsExists', $id, $isExists);
 		return $isExists;
