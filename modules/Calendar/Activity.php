@@ -163,7 +163,7 @@ class Activity extends CRMEntity
 					], 'reminderid = ?', [$reminderid]
 				);
 			} else {
-				$adb->insert('vtiger_activity_reminder_popup', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_activity_reminder_popup', [
 					'recordid' => $cbrecord,
 					'semodule' => $cbmodule,
 					'date_start' => $cbdate,
