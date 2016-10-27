@@ -379,7 +379,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$seType = null;
 		if ($this->objectName === 'Users') {
-			if (\App\User::isExists($recordId)) {
+			if (\App\User::isExists($id)) {
 				$seType = $this->objectName;
 			}
 		} else {
