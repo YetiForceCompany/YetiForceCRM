@@ -28,11 +28,11 @@ class Campaigns_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param <String> $sourceModule Parent module
-	 * @param <String> $field parent fieldname
-	 * @param <Integer> $record parent id
-	 * @param <String> $listQuery
-	 * @return <String> Listview Query
+	 * @param string $sourceModule Parent module
+	 * @param string $field parent fieldname
+	 * @param integer $record parent id
+	 * @param string $listQuery
+	 * @return string Listview Query
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
 	{
@@ -41,7 +41,7 @@ class Campaigns_Module_Model extends Vtiger_Module_Model
 			$pos = stripos($listQuery, 'where');
 
 			if ($pos) {
-				$overRideQuery = $listQuery . ' && ' . $condition;
+				$overRideQuery = $listQuery . ' AND ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}
