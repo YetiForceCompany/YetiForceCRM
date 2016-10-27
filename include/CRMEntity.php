@@ -1542,15 +1542,14 @@ class CRMEntity
 		$db = PearDatabase::getInstance();
 		foreach ($withCrmid as $relcrmid) {
 			if ($withModule == 'Documents') {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? && notesid = ?', [$crmid, $relcrmid]);
+				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?', [$crmid, $relcrmid]);
 				// Relation already exists? No need to add again
 				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
-
-				$db->insert('vtiger_senotesrel', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_senotesrel', [
 					'crmid' => $crmid,
 					'notesid' => $relcrmid
-				]);
+				])->execute();
 			} else {
 				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
 				);
