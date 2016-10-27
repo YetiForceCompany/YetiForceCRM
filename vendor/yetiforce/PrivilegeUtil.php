@@ -153,6 +153,24 @@ class PrivilegeUtil
 		return $users;
 	}
 
+	protected static $roleByUsersCache = [];
+
+	/**
+	 * Function to get the role related user ids
+	 * @param int $userId RoleId :: Type varchar
+	 */
+	public static function getRoleByUsers($userId)
+	{
+		if (isset(static::$roleByUsersCache[$userId])) {
+			return static::$roleByUsersCache[$userId];
+		}
+		$roleId = (new \App\Db\Query())->select('roleid')
+			->from('vtiger_user2role')->where(['userid' => $userId])
+			->scalar();
+		static::$roleByUsersCache[$userId] = $roleId;
+		return $roleId;
+	}
+
 	/**
 	 * Function to get user groups
 	 * @param int $userId

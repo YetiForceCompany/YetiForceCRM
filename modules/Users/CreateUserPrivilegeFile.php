@@ -46,9 +46,7 @@ function createUserPrivilegesfile($userid)
 			$globalPermissionArr = getCombinedUserGlobalPermissions($userid);
 			$tabsPermissionArr = getCombinedUserTabsPermissions($userid);
 			$actionPermissionArr = getCombinedUserActionPermissions($userid);
-			$user_role = $userInfo['roleid'];
-			var_dump($userid, $userInfo);
-			var_dump($user_focus);
+			$user_role = \App\PrivilegeUtil::getRoleByUsers($userid);
 			$user_role_info = \App\PrivilegeUtil::getRoleDetail($user_role);
 			$user_role_parent = $user_role_info['parentrole'];
 			$subRoles = getRoleSubordinates($user_role);
@@ -57,9 +55,7 @@ function createUserPrivilegesfile($userid)
 			$parentRoles = \App\PrivilegeUtil::getParentRole($user_role);
 			$newbuf .= "\$current_user_roles='" . $user_role . "';\n";
 			$newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
-			var_dump(\App\PrivilegeUtil::getProfilesByRole($user_role));
 			$newbuf .= "\$current_user_profiles=" . constructSingleArray(\App\PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
-			var_dump($globalPermissionArr);
 			$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
 			$newbuf .= "\$profileTabsPermission=" . constructArray($tabsPermissionArr) . ";\n";
 			$newbuf .= "\$profileActionPermission=" . constructTwoDimensionalArray($actionPermissionArr) . ";\n";

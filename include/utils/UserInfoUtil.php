@@ -15,22 +15,6 @@ require_once 'include/events/include.inc';
 require_once 'include/runtime/Globals.php';
 require_once 'include/runtime/Cache.php';
 
-/** To get the Role of the specified user
- * @param $userid -- The user Id:: Type integer
- * @returns  vtiger_roleid :: Type String
- */
-function fetchUserRole($userid)
-{
-
-	\App\Log::trace("Entering fetchUserRole(" . $userid . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$sql = "select roleid from vtiger_user2role where userid=?";
-	$result = $adb->pquery($sql, array($userid));
-	$roleid = $adb->query_result($result, 0, "roleid");
-	\App\Log::trace("Exiting fetchUserRole method ...");
-	return $roleid;
-}
-
 /** Function to get the lists of groupids releated with an user
  * This function accepts the user id as arguments and
  * returns the groupids related with the user id
@@ -1150,14 +1134,14 @@ function getDSTableNameForType($typeString)
  */
 function getUserProfile($userId)
 {
-
 	\App\Log::trace("Entering getUserProfile(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$roleId = fetchUserRole($userId);
+	$roleId = \App\PrivilegeUtil::getRoleByUsers($userId);
 	$profArr = [];
 	$sql1 = "select profileid from vtiger_role2profile where roleid=?";
 	$result1 = $adb->pquery($sql1, array($roleId));
 	$num_rows = $adb->num_rows($result1);
+
 	for ($i = 0; $i < $num_rows; $i++) {
 
 		$profileid = $adb->query_result($result1, $i, "profileid");
