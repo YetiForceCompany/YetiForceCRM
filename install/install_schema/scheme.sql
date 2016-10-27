@@ -8862,7 +8862,7 @@ CREATE TABLE `vtiger_users_last_import` (
   `id` int(36) NOT NULL AUTO_INCREMENT,
   `assigned_user_id` varchar(36) DEFAULT NULL,
   `bean_type` varchar(36) DEFAULT NULL,
-  `bean_id` varchar(36) DEFAULT NULL,
+  `bean_id` int(11) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`assigned_user_id`)
