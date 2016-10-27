@@ -113,7 +113,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	/**
 	 * Function that generates Export Query based on the mode
 	 * @param Vtiger_Request $request
-	 * @return String export query
+	 * @return string export query
 	 */
 	public function getExportQuery(Vtiger_Request $request)
 	{
