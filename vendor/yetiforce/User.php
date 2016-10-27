@@ -144,7 +144,7 @@ class User
 			return Cache::get('UserIsExists', $id);
 		}
 		$isExists = false;
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = PrivilegeFile::getUser('id');
 			if (isset($users[$id]) && !$users[$id]['deleted']) {
 				$isExists = true;
