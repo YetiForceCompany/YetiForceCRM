@@ -1085,9 +1085,6 @@ class CRMEntity
 	public function trash($module, $id)
 	{
 		$adb = PearDatabase::getInstance();
-
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$recordType = vtlib\Functions::getCRMRecordType($id);
 		if ($recordType != $module) {
 			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
@@ -1105,8 +1102,7 @@ class CRMEntity
 		}
 		$this->mark_deleted($id);
 		$this->unlinkDependencies($module, $id);
-
-		$this->db->delete('vtiger_tracker', 'user_id = ? && item_id = ?', [$current_user->id, $id]);
+		\App\Db::getInstance()->createCommand()->delete('vtiger_tracker', ['user_id' => \App\User::getCurrentUserId(), 'item_id' => $id])->execute();
 
 		if ($em) {
 			$em->triggerEvent("vtiger.entity.afterdelete", $entityData);
@@ -1151,7 +1147,7 @@ class CRMEntity
 					'ref_column' => $focusObj->table_index,
 					'related_crm_ids' => implode(",", $recordIdsList)
 				];
-				$this->db->insert('vtiger_relatedlists_rb', $params);
+				\App\Db::getInstance()->createCommand()->insert('vtiger_relatedlists_rb', $params)->execute();
 			}
 		}
 	}
