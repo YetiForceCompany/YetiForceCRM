@@ -3514,7 +3514,7 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_currency_info' => [
 				'columns' => ['id', 'currency_name', 'currency_code', 'currency_symbol', 'conversion_rate', 'currency_status', 'defaultid', 'deleted'],
 				'values' => [
-					[1, 'Poland, Zlotych', 'PLN', 'zł‚', '1.00000', 'Active', '-11', 0],
+					[1, 'Poland, Zlotych', 'PLN', 'zł', '1.00000', 'Active', '-11', 0],
 				]
 			],
 			'vtiger_currency_info_seq' => [
