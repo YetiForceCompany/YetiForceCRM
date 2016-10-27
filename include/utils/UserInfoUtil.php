@@ -143,30 +143,6 @@ function getDefaultSharingAction()
 	return $copy;
 }
 
-/** Function to update user to vtiger_role mapping based on the userid
- * @param $roleid -- Role Id:: Type varchar
- * @param $userid User Id:: Type integer
- *
- */
-function updateUser2RoleMapping($roleid, $userid)
-{
-
-	\App\Log::trace("Entering updateUser2RoleMapping(" . $roleid . "," . $userid . ") method ...");
-	$adb = PearDatabase::getInstance();
-	//Check if row already exists
-	$sqlcheck = "select * from vtiger_user2role where userid=?";
-	$resultcheck = $adb->pquery($sqlcheck, array($userid));
-	if ($adb->num_rows($resultcheck) == 1) {
-		$sqldelete = "delete from vtiger_user2role where userid=?";
-		$delparams = array($userid);
-		$result_delete = $adb->pquery($sqldelete, $delparams);
-	}
-	$sql = "insert into vtiger_user2role(userid,roleid) values(?,?)";
-	$params = array($userid, $roleid);
-	$result = $adb->pquery($sql, $params);
-	\App\Log::trace("Exiting updateUser2RoleMapping method ...");
-}
-
 /** Function to check if the currently logged in user is permitted to perform the specified action
  * @param $module -- Module Name:: Type varchar
  * @param $actionname -- Action Name:: Type varchar
