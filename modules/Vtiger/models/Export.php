@@ -113,7 +113,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	/**
 	 * Function that generates Export Query based on the mode
 	 * @param Vtiger_Request $request
-	 * @return <String> export query
+	 * @return String export query
 	 */
 	public function getExportQuery(Vtiger_Request $request)
 	{
@@ -168,10 +168,10 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				if (!empty($idList)) {
 					if (!empty($baseTable) && !empty($baseTableColumnId)) {
 						$idList = implode(',', $idList);
-						$query .= ' && ' . $baseTable . '.' . $baseTableColumnId . ' IN (' . $idList . ')';
+						$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' IN (' . $idList . ')';
 					}
 				} else {
-					$query .= ' && ' . $baseTable . '.' . $baseTableColumnId . ' NOT IN (' . implode(',', $request->get('excluded_ids')) . ')';
+					$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' NOT IN (' . implode(',', $request->get('excluded_ids')) . ')';
 				}
 				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				return $query;
