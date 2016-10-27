@@ -16,18 +16,13 @@ class HelpDeskHandler extends VTEventHandler
 
 	public function handleEvent($eventName, $entityData)
 	{
-		$adb = PearDatabase::getInstance();
-		
-
-		if ($eventName == 'vtiger.entity.aftersave.final') {
+		if ($eventName === 'vtiger.entity.aftersave.final') {
 			$moduleName = $entityData->getModuleName();
-			if ($moduleName == 'HelpDesk') {
-				$ticketId = $entityData->getId();
-				$sql = 'UPDATE `vtiger_troubletickets` SET `from_portal` = 0 WHERE `ticketid` = ?';
-				$adb->pquery($sql, [$ticketId]);
+			if ($moduleName === 'HelpDesk') {
+				\App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['from_portal' => 0], ['ticketid' =>$entityData->getId()])->execute();
 				HelpDesk_Record_Model::updateTicketRangeTimeField($entityData);
 			}
-		} else if ($eventName == 'vtiger.entity.link.after') {
+		} else if ($eventName === 'vtiger.entity.link.after') {
 			if (in_array($entityData['destinationModule'], ['Calendar', 'Events', 'Activity', 'ModComments']) && $entityData['sourceModule'] == 'HelpDesk') {
 				HelpDesk_Record_Model::updateTicketRangeTimeField($entityData['entityData'], true);
 			}
