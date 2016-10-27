@@ -56,7 +56,9 @@ function createUserPrivilegesfile($userid)
 			$newbuf .= "\$current_user_roles='" . $user_role . "';\n";
 			$newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
 			$newbuf .= "\$current_user_profiles=" . constructSingleArray(\App\PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
-			$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
+			if ($globalPermissionArr) {
+				$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
+			}
 			$newbuf .= "\$profileTabsPermission=" . constructArray($tabsPermissionArr) . ";\n";
 			$newbuf .= "\$profileActionPermission=" . constructTwoDimensionalArray($actionPermissionArr) . ";\n";
 			$newbuf .= "\$current_user_groups=" . constructSingleArray(\App\PrivilegeUtil::getUserGroups($userId)) . ";\n";
