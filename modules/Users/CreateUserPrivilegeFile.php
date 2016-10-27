@@ -48,6 +48,7 @@ function createUserPrivilegesfile($userid)
 			$actionPermissionArr = getCombinedUserActionPermissions($userid);
 			$user_role = $userInfo['roleid'];
 			var_dump($userid, $userInfo);
+			var_dump($user_focus);
 			$user_role_info = \App\PrivilegeUtil::getRoleDetail($user_role);
 			$user_role_parent = $user_role_info['parentrole'];
 			$subRoles = getRoleSubordinates($user_role);
