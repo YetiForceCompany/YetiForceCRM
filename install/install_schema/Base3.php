@@ -2073,7 +2073,7 @@ class Base3 extends \App\Db\Importers\Base
 					'username' => $this->stringType(100)->notNull(),
 					'password' => $this->binary(200)->notNull(),
 					'link_adres' => $this->stringType(),
-					'linkto' => $this->stringType(100),
+					'linkto' => $this->integer(),
 				],
 				'index' => [
 				],
@@ -2413,7 +2413,7 @@ class Base3 extends \App\Db\Importers\Base
 					'recordingurl' => $this->stringType(200),
 					'sourceuuid' => $this->stringType(100),
 					'gateway' => $this->stringType(20),
-					'customer' => $this->stringType(100),
+					'customer' => $this->integer(),
 					'user' => $this->stringType(100),
 					'customernumber' => $this->stringType(100),
 					'customertype' => $this->stringType(100),
@@ -3165,17 +3165,17 @@ class Base3 extends \App\Db\Importers\Base
 	{
 		$this->data = [
 			'vtiger_glacct' => [
-				'columns' => ['glacct', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['glacctid', 'glacct', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['300-Sales-Software', 1, 51, 0],
-					['301-Sales-Hardware', 1, 52, 1],
-					['302-Rental-Income', 1, 53, 2],
-					['303-Interest-Income', 1, 54, 3],
-					['304-Sales-Software-Support', 1, 55, 4],
-					['305-Sales Other', 1, 56, 5],
-					['306-Internet Sales', 1, 57, 6],
-					['307-Service-Hardware Labor', 1, 58, 7],
-					['308-Sales-Books', 1, 59, 8],
+					[1, '300-Sales-Software', 1, 51, 0],
+					[2, '301-Sales-Hardware', 1, 52, 1],
+					[3, '302-Rental-Income', 1, 53, 2],
+					[4, '303-Interest-Income', 1, 54, 3],
+					[5, '304-Sales-Software-Support', 1, 55, 4],
+					[6, '305-Sales Other', 1, 56, 5],
+					[7, '306-Internet Sales', 1, 57, 6],
+					[8, '307-Service-Hardware Labor', 1, 58, 7],
+					[9, '308-Sales-Books', 1, 59, 8],
 				]
 			],
 			'vtiger_glacct_seq' => [
@@ -3207,19 +3207,19 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_holidaysentitlement_year' => [
-				'columns' => ['holidaysentitlement_year', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['holidaysentitlement_yearid', 'holidaysentitlement_year', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['2020', 1, 576, 1],
-					['2019', 1, 577, 2],
-					['2018', 1, 578, 3],
-					['2017', 1, 579, 4],
-					['2016', 1, 580, 5],
-					['2015', 1, 581, 6],
-					['2014', 1, 582, 7],
-					['2013', 1, 583, 8],
-					['2012', 1, 584, 9],
-					['2011', 1, 585, 10],
-					['2010', 1, 586, 11],
+					[1, '2020', 1, 576, 1],
+					[2, '2019', 1, 577, 2],
+					[3, '2018', 1, 578, 3],
+					[4, '2017', 1, 579, 4],
+					[5, '2016', 1, 580, 5],
+					[6, '2015', 1, 581, 6],
+					[7, '2014', 1, 582, 7],
+					[8, '2013', 1, 583, 8],
+					[9, '2012', 1, 584, 9],
+					[10, '2011', 1, 585, 10],
+					[11, '2010', 1, 586, 11],
 				]
 			],
 			'vtiger_holidaysentitlement_year_seq' => [
@@ -3263,10 +3263,10 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_hour_format' => [
-				'columns' => ['hour_format', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['hour_formatid', 'hour_format', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['12', 1, 295, 1],
-					['24', 1, 296, 2],
+					[1, '12', 1, 295, 1],
+					[2, '24', 1, 296, 2],
 				]
 			],
 			'vtiger_hour_format_seq' => [
@@ -3276,10 +3276,10 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_ideasstatus' => [
-				'columns' => ['ideasstatus', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['ideasstatusid', 'ideasstatus', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['Draft', 1, 564, 1],
-					['Proposition', 1, 565, 2],
+					[1, 'Draft', 1, 564, 1],
+					[2, 'Proposition', 1, 565, 2],
 				]
 			],
 			'vtiger_ideasstatus_seq' => [
@@ -3289,86 +3289,86 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_igdn_status' => [
-				'columns' => ['igdn_status', 'sortorderid', 'presence'],
+				'columns' => ['igdn_statusid', 'igdn_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 0],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 0],
 				]
 			],
 			'vtiger_igdnc_status' => [
-				'columns' => ['igdnc_status', 'sortorderid', 'presence'],
+				'columns' => ['igdnc_statusid', 'igdnc_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 1],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 1],
 				]
 			],
 			'vtiger_igin_status' => [
-				'columns' => ['igin_status', 'sortorderid', 'presence'],
+				'columns' => ['igin_statusid', 'igin_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 0],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 0],
 				]
 			],
 			'vtiger_igrn_status' => [
-				'columns' => ['igrn_status', 'sortorderid', 'presence'],
+				'columns' => ['igrn_statusid', 'igrn_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 0],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 0],
 				]
 			],
 			'vtiger_igrnc_status' => [
-				'columns' => ['igrnc_status', 'sortorderid', 'presence'],
+				'columns' => ['igrnc_statusid', 'igrnc_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 1],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 1],
 				]
 			],
 			'vtiger_iidn_status' => [
-				'columns' => ['iidn_status', 'sortorderid', 'presence'],
+				'columns' => ['iidn_statusid', 'iidn_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 0],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 0],
 				]
 			],
 			'vtiger_industry' => [
-				'columns' => ['industry', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['industryid', 'industry', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['Administration', 1, 61, 1],
-					['Construction Industry', 1, 455, 2],
-					['Education', 1, 456, 3],
-					['Power Industry', 1, 457, 4],
-					['Finance', 1, 458, 5],
-					['Trade', 1, 459, 6],
-					['Hotels and Restaurants', 1, 460, 7],
-					['Health Care', 1, 461, 8],
-					['Industry / Manufacturing', 1, 462, 9],
-					['Uniformed Services', 1, 463, 10],
-					['Transport & Logistics', 1, 464, 11],
-					['Technologies', 1, 465, 12],
+					[2, 'Administration', 1, 61, 1],
+					[33, 'Construction Industry', 1, 455, 2],
+					[34, 'Education', 1, 456, 3],
+					[35, 'Power Industry', 1, 457, 4],
+					[36, 'Finance', 1, 458, 5],
+					[37, 'Trade', 1, 459, 6],
+					[38, 'Hotels and Restaurants', 1, 460, 7],
+					[39, 'Health Care', 1, 461, 8],
+					[40, 'Industry / Manufacturing', 1, 462, 9],
+					[41, 'Uniformed Services', 1, 463, 10],
+					[42, 'Transport & Logistics', 1, 464, 11],
+					[43, 'Technologies', 1, 465, 12],
 				]
 			],
 			'vtiger_industry_seq' => [
@@ -3410,84 +3410,84 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_ipreorder_status' => [
-				'columns' => ['ipreorder_status', 'sortorderid', 'presence'],
+				'columns' => ['ipreorder_statusid', 'ipreorder_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 0],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 0],
 				]
 			],
 			'vtiger_istdn_status' => [
-				'columns' => ['istdn_status', 'sortorderid', 'presence'],
+				'columns' => ['istdn_statusid', 'istdn_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 0],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 0],
 				]
 			],
 			'vtiger_istn_status' => [
-				'columns' => ['istn_status', 'sortorderid', 'presence'],
+				'columns' => ['istn_statusid', 'istn_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 0],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 0],
 				]
 			],
 			'vtiger_istn_type' => [
-				'columns' => ['istn_type', 'sortorderid', 'presence'],
+				'columns' => ['istn_typeid', 'istn_type', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_RECEIVED', 1, 0],
-					['PLL_TRANSFER', 2, 0],
-					['PLL_DISPATCHED', 3, 0],
+					[1, 'PLL_RECEIVED', 1, 0],
+					[2, 'PLL_TRANSFER', 2, 0],
+					[3, 'PLL_DISPATCHED', 3, 0],
 				]
 			],
 			'vtiger_istrn_status' => [
-				'columns' => ['istrn_status', 'sortorderid', 'presence'],
+				'columns' => ['istrn_statusid', 'istrn_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 1],
-					['PLL_ACCEPTED', 6, 0],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 1],
+					[6, 'PLL_ACCEPTED', 6, 0],
 				]
 			],
 			'vtiger_knowledgebase_status' => [
-				'columns' => ['knowledgebase_status', 'sortorderid', 'presence'],
+				'columns' => ['knowledgebase_statusid', 'knowledgebase_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_DRAFT', 1, 1],
-					['PLL_IN_REALIZATION', 2, 1],
-					['PLL_OBJECTIONS', 3, 1],
-					['PLL_FOR_APPROVAL', 4, 1],
-					['PLL_CANCELLED', 5, 0],
-					['PLL_ACCEPTED', 6, 0],
-					['PLL_ARCHIVES', 7, 0],
+					[1, 'PLL_DRAFT', 1, 1],
+					[2, 'PLL_IN_REALIZATION', 2, 1],
+					[3, 'PLL_OBJECTIONS', 3, 1],
+					[4, 'PLL_FOR_APPROVAL', 4, 1],
+					[5, 'PLL_CANCELLED', 5, 0],
+					[6, 'PLL_ACCEPTED', 6, 0],
+					[7, 'PLL_ARCHIVES', 7, 0],
 				]
 			],
 			'vtiger_knowledgebase_view' => [
-				'columns' => ['knowledgebase_view', 'sortorderid', 'presence'],
+				'columns' => ['knowledgebase_viewid', 'knowledgebase_view', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_PAGE', 1, 0],
-					['PLL_PRESENTATION', 2, 0],
+					[1, 'PLL_PAGE', 1, 0],
+					[2, 'PLL_PRESENTATION', 2, 0],
 				]
 			],
 			'vtiger_language' => [
-				'columns' => ['name', 'prefix', 'label', 'lastupdated', 'sequence', 'isdefault', 'active'],
+				'columns' => ['id', 'name', 'prefix', 'label', 'lastupdated', 'sequence', 'isdefault', 'active'],
 				'values' => [
-					['English', 'en_us', 'US English', '2014-07-16 11:20:12', NULL, 1, 1],
-					['Język Polski', 'pl_pl', 'Język Polski', '2014-07-16 11:20:40', NULL, 0, 1],
-					['Deutsch', 'de_de', 'DE Deutsch', '2014-11-21 11:20:40', NULL, 0, 1],
-					['Russian', 'ru_ru', 'Russian', '2015-01-13 15:12:39', NULL, 0, 1],
-					['French', 'fr_fr', 'French', '2016-04-29 12:20:00', NULL, 0, 1],
+					[1, 'English', 'en_us', 'US English', '2014-07-16 11:20:12', NULL, 1, 1],
+					[2, 'Język Polski', 'pl_pl', 'Język Polski', '2014-07-16 11:20:40', NULL, 0, 1],
+					[3, 'Deutsch', 'de_de', 'DE Deutsch', '2014-11-21 11:20:40', NULL, 0, 1],
+					[5, 'Russian', 'ru_ru', 'Russian', '2015-01-13 15:12:39', NULL, 0, 1],
+					[6, 'French', 'fr_fr', 'French', '2016-04-29 12:20:00', NULL, 0, 1],
 				]
 			],
 			'vtiger_language_seq' => [
@@ -3497,11 +3497,11 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_lead_view' => [
-				'columns' => ['lead_view', 'sortorderid', 'presence'],
+				'columns' => ['lead_viewid', 'lead_view', 'sortorderid', 'presence'],
 				'values' => [
-					['Today', 0, 1],
-					['Last 2 Days', 1, 1],
-					['Last Week', 2, 1],
+					[1, 'Today', 0, 1],
+					[2, 'Last 2 Days', 1, 1],
+					[3, 'Last Week', 2, 1],
 				]
 			],
 			'vtiger_lead_view_seq' => [
@@ -3511,10 +3511,10 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_leads_relation' => [
-				'columns' => ['leads_relation', 'sortorderid', 'presence'],
+				'columns' => ['leads_relationid', 'leads_relation', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_B2C', 1, 1],
-					['PLL_B2B', 2, 1],
+					[1, 'PLL_B2C', 1, 1],
+					[2, 'PLL_B2B', 2, 1],
 				]
 			],
 			'vtiger_leads_relation_seq' => [
@@ -3524,15 +3524,15 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_leadsource' => [
-				'columns' => ['leadsource', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['leadsourceid', 'leadsource', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['Cold Call', 1, 99, 1],
-					['Self Generated', 1, 101, 3],
-					['Conference', 1, 106, 8],
-					['Trade Show', 1, 107, 9],
-					['Web Site', 1, 108, 10],
-					['Word of mouth', 1, 109, 11],
-					['Other', 1, 110, 12],
+					[2, 'Cold Call', 1, 99, 1],
+					[4, 'Self Generated', 1, 101, 3],
+					[9, 'Conference', 1, 106, 8],
+					[10, 'Trade Show', 1, 107, 9],
+					[11, 'Web Site', 1, 108, 10],
+					[12, 'Word of mouth', 1, 109, 11],
+					[13, 'Other', 1, 110, 12],
 				]
 			],
 			'vtiger_leadsource_seq' => [
@@ -3542,46 +3542,45 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_leadstatus' => [
-				'columns' => ['leadstatus', 'presence', 'picklist_valueid', 'sortorderid', 'color'],
+				'columns' => ['leadstatusid', 'leadstatus', 'presence', 'picklist_valueid', 'sortorderid', 'color'],
 				'values' => [
-					['LBL_TO_REALIZE', 1, 446, 12, '#E6FAD8'],
-					['LBL_REQUIRES_VERIFICATION', 1, 447, 13, '#E6FAD8'],
-					['LBL_PRELIMINARY_ANALYSIS_OF', 1, 448, 14, '#E6FAD8'],
-					['LBL_ADVANCED_ANALYSIS', 1, 449, 15, '#E6FAD8'],
-					['LBL_INITIAL_ACQUISITION', 1, 450, 16, '#E6FAD8'],
-					['LBL_CONTACTS_IN_THE_FUTURE', 1, 451, 17, '#E6FAD8'],
-					['LBL_LEAD_UNTAPPED', 1, 452, 18, '#E6FAD8'],
-					['LBL_LEAD_ACQUIRED', 1, 453, 19, '#E6FAD8'],
+					[13, 'PLL_TO_REALIZE', 1, 446, 2, '#E6FAD8'],
+					[18, 'PLL_CONTACTS_IN_THE_FUTURE', 1, 451, 4, '#E6FAD8'],
+					[19, 'PLL_LEAD_UNTAPPED', 1, 452, 6, '#E6FAD8'],
+					[20, 'PLL_LEAD_ACQUIRED', 1, 453, 7, '#E6FAD8'],
+					[21, 'PLL_PENDING', 0, 720, 1, '#E6FAD8'],
+					[22, 'PLL_IN_REALIZATION', 1, 721, 3, '#E6FAD8'],
+					[23, 'PLL_INCORRECT', 1, 722, 5, '#E6FAD8'],
 				]
 			],
 			'vtiger_leadstatus_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[20],
+					[23],
 				]
 			],
 			'vtiger_legal_form' => [
-				'columns' => ['legal_form', 'sortorderid', 'presence'],
+				'columns' => ['legal_formid', 'legal_form', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_NATURAL_PERSON', 1, 1],
-					['PLL_BUSINESS_ACTIVITY', 2, 1],
-					['PLL_GENERAL_PARTNERSHIP', 3, 1],
-					['PLL_PROFESSIONAL_PARTNERSHIP', 4, 1],
-					['PLL_LIMITED_PARTNERSHIP', 5, 1],
-					['PLL_JOINT_STOCK_PARTNERSHIP', 6, 1],
-					['PLL_LIMITED_LIABILITY_COMPANY', 7, 1],
-					['PLL_STOCK_OFFERING_COMPANY', 8, 1],
-					['PLL_GOVERMENT_ENTERPRISE', 9, 1],
-					['PLL_ASSOCIATION', 10, 1],
-					['PLL_COOPERATIVE', 11, 1],
-					['PLL_FOUNDATION', 12, 1],
-					['PLL_EUROPEAN_PARTNERSHIP', 13, 1],
-					['PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING', 14, 1],
-					['PLL_EUROPEAN_COOPERATIVE', 15, 1],
-					['PLL_EUROPEAN_PRIVATE_PARTNERSHIP', 16, 1],
-					['PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP', 17, 1],
-					['PLL_EUROPEAN_ASSOCIATION', 18, 1],
-					['PLL_UFCIITS', 19, 1],
+					[1, 'PLL_NATURAL_PERSON', 1, 1],
+					[2, 'PLL_BUSINESS_ACTIVITY', 2, 1],
+					[3, 'PLL_GENERAL_PARTNERSHIP', 3, 1],
+					[4, 'PLL_PROFESSIONAL_PARTNERSHIP', 4, 1],
+					[5, 'PLL_LIMITED_PARTNERSHIP', 5, 1],
+					[6, 'PLL_JOINT_STOCK_PARTNERSHIP', 6, 1],
+					[7, 'PLL_LIMITED_LIABILITY_COMPANY', 7, 1],
+					[8, 'PLL_STOCK_OFFERING_COMPANY', 8, 1],
+					[9, 'PLL_GOVERMENT_ENTERPRISE', 9, 1],
+					[10, 'PLL_ASSOCIATION', 10, 1],
+					[11, 'PLL_COOPERATIVE', 11, 1],
+					[12, 'PLL_FOUNDATION', 12, 1],
+					[13, 'PLL_EUROPEAN_PARTNERSHIP', 13, 1],
+					[14, 'PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING', 14, 1],
+					[15, 'PLL_EUROPEAN_COOPERATIVE', 15, 1],
+					[16, 'PLL_EUROPEAN_PRIVATE_PARTNERSHIP', 16, 1],
+					[17, 'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP', 17, 1],
+					[18, 'PLL_EUROPEAN_ASSOCIATION', 18, 1],
+					[19, 'PLL_UFCIITS', 19, 1],
 				]
 			],
 			'vtiger_legal_form_seq' => [
@@ -3591,10 +3590,10 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_lin_dimensions' => [
-				'columns' => ['lin_dimensions', 'sortorderid', 'presence'],
+				'columns' => ['lin_dimensionsid', 'lin_dimensions', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_A', 1, 1],
-					['PLL_B', 2, 1],
+					[1, 'PLL_A', 1, 1],
+					[2, 'PLL_B', 2, 1],
 				]
 			],
 			'vtiger_lin_dimensions_seq' => [
@@ -3604,10 +3603,10 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_lin_status' => [
-				'columns' => ['lin_status', 'sortorderid', 'presence'],
+				'columns' => ['lin_statusid', 'lin_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_NEW', 1, 1],
-					['PLL_SETTLED', 2, 1],
+					[1, 'PLL_NEW', 1, 1],
+					[2, 'PLL_SETTLED', 2, 1],
 				]
 			],
 			'vtiger_lin_status_seq' => [
@@ -3617,23 +3616,23 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_lin_type_doc' => [
-				'columns' => ['lin_type_doc', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['lin_type_docid', 'lin_type_doc', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['PLL_DEMAND_PAYMENT', 1, 593, 1],
-					['PLL_BANK_STATEMENTS', 1, 594, 2],
-					['PLL_ORDER', 1, 595, 3],
-					['PLL_ENQUIRY', 1, 596, 4],
-					['PLL_CONTRACT', 1, 597, 5],
-					['PLL_RECLAMATION', 1, 598, 6],
-					['PLL_ADVERTISEMENT', 1, 599, 7],
-					['PLL_MESSAGE', 1, 600, 8],
-					['PLL_RECEIPT', 1, 601, 9],
-					['PLL_APPLICATION', 1, 602, 10],
-					['PLL_OFFER', 1, 603, 11],
-					['PLL_PERSONAL_LETTER', 1, 604, 12],
-					['PLL_PROFORMA', 1, 605, 13],
-					['PLL_CORRECTION', 1, 606, 14],
-					['PLL_INVOICE', 1, 607, 15],
+					[1, 'PLL_DEMAND_PAYMENT', 1, 593, 1],
+					[2, 'PLL_BANK_STATEMENTS', 1, 594, 2],
+					[3, 'PLL_ORDER', 1, 595, 3],
+					[4, 'PLL_ENQUIRY', 1, 596, 4],
+					[5, 'PLL_CONTRACT', 1, 597, 5],
+					[6, 'PLL_RECLAMATION', 1, 598, 6],
+					[7, 'PLL_ADVERTISEMENT', 1, 599, 7],
+					[8, 'PLL_MESSAGE', 1, 600, 8],
+					[9, 'PLL_RECEIPT', 1, 601, 9],
+					[10, 'PLL_APPLICATION', 1, 602, 10],
+					[11, 'PLL_OFFER', 1, 603, 11],
+					[12, 'PLL_PERSONAL_LETTER', 1, 604, 12],
+					[13, 'PLL_PROFORMA', 1, 605, 13],
+					[14, 'PLL_CORRECTION', 1, 606, 14],
+					[15, 'PLL_INVOICE', 1, 607, 15],
 				]
 			],
 			'vtiger_lin_type_doc_seq' => [
@@ -3643,22 +3642,22 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_lin_type_ship' => [
-				'columns' => ['lin_type_ship', 'sortorderid', 'presence'],
+				'columns' => ['lin_type_shipid', 'lin_type_ship', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_LOCAL_PICKUP', 1, 1],
-					['PLL_POST_OFFICE_PL', 2, 1],
-					['PLL_POST_OFFICE', 3, 1],
-					['PLL_COURIER', 4, 1],
-					['PLL_TELEX', 5, 1],
-					['PLL_EMAIL', 6, 1],
-					['PLL_POCZTEX', 7, 1],
-					['PLL_TNT', 8, 1],
-					['PLL_COURIER_POCZTEX', 9, 1],
-					['PLL_COURIER_7', 10, 1],
-					['PLL_COURIER_DPD', 11, 1],
-					['PLL_COURIER_DHL', 12, 1],
-					['PLL_COURIER_UPS', 13, 1],
-					['PLL_COURIER_GLS', 14, 1],
+					[1, 'PLL_LOCAL_PICKUP', 1, 1],
+					[2, 'PLL_POST_OFFICE_PL', 2, 1],
+					[3, 'PLL_POST_OFFICE', 3, 1],
+					[4, 'PLL_COURIER', 4, 1],
+					[5, 'PLL_TELEX', 5, 1],
+					[6, 'PLL_EMAIL', 6, 1],
+					[7, 'PLL_POCZTEX', 7, 1],
+					[8, 'PLL_TNT', 8, 1],
+					[9, 'PLL_COURIER_POCZTEX', 9, 1],
+					[10, 'PLL_COURIER_7', 10, 1],
+					[11, 'PLL_COURIER_DPD', 11, 1],
+					[12, 'PLL_COURIER_DHL', 12, 1],
+					[13, 'PLL_COURIER_UPS', 13, 1],
+					[14, 'PLL_COURIER_GLS', 14, 1],
 				]
 			],
 			'vtiger_lin_type_ship_seq' => [
@@ -3801,10 +3800,10 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_lout_dimensions' => [
-				'columns' => ['lout_dimensions', 'sortorderid', 'presence'],
+				'columns' => ['lout_dimensionsid', 'lout_dimensions', 'sortorderid', 'presence'],
 				'values' => [
-					['A', 1, 1],
-					['B', 2, 1],
+					[1, 'A', 1, 1],
+					[2, 'B', 2, 1],
 				]
 			],
 			'vtiger_lout_dimensions_seq' => [
@@ -3814,10 +3813,10 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_lout_status' => [
-				'columns' => ['lout_status', 'sortorderid', 'presence'],
+				'columns' => ['lout_statusid', 'lout_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_NEW', 1, 1],
-					['PLL_SETTLED', 2, 1],
+					[1, 'PLL_NEW', 1, 1],
+					[2, 'PLL_SETTLED', 2, 1],
 				]
 			],
 			'vtiger_lout_status_seq' => [
@@ -3827,23 +3826,23 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_lout_type_doc' => [
-				'columns' => ['lout_type_doc', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['lout_type_docid', 'lout_type_doc', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['PLL_DEMAND_PAYMENT', 1, 608, 1],
-					['PLL_BANK_STATEMENTS', 1, 609, 2],
-					['PLL_ORDER', 1, 610, 3],
-					['PLL_ENQUIRY', 1, 611, 4],
-					['PLL_CONTRACT', 1, 612, 5],
-					['PLL_RECLAMATION', 1, 613, 6],
-					['PLL_ADVERTISEMENT', 1, 614, 7],
-					['PLL_MESSAGE', 1, 615, 8],
-					['PLL_RECEIPT', 1, 616, 9],
-					['PLL_APPLICATION', 1, 617, 10],
-					['PLL_OFFER', 1, 618, 11],
-					['PLL_PERSONAL_LETTER', 1, 619, 12],
-					['PLL_PROFORMA', 1, 620, 13],
-					['PLL_CORRECTION', 1, 621, 14],
-					['PLL_INVOICE', 1, 622, 15],
+					[1, 'PLL_DEMAND_PAYMENT', 1, 608, 1],
+					[2, 'PLL_BANK_STATEMENTS', 1, 609, 2],
+					[3, 'PLL_ORDER', 1, 610, 3],
+					[4, 'PLL_ENQUIRY', 1, 611, 4],
+					[5, 'PLL_CONTRACT', 1, 612, 5],
+					[6, 'PLL_RECLAMATION', 1, 613, 6],
+					[7, 'PLL_ADVERTISEMENT', 1, 614, 7],
+					[8, 'PLL_MESSAGE', 1, 615, 8],
+					[9, 'PLL_RECEIPT', 1, 616, 9],
+					[10, 'PLL_APPLICATION', 1, 617, 10],
+					[11, 'PLL_OFFER', 1, 618, 11],
+					[12, 'PLL_PERSONAL_LETTER', 1, 619, 12],
+					[13, 'PLL_PROFORMA', 1, 620, 13],
+					[14, 'PLL_CORRECTION', 1, 621, 14],
+					[15, 'PLL_INVOICE', 1, 622, 15],
 				]
 			],
 			'vtiger_lout_type_doc_seq' => [
@@ -3853,22 +3852,22 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_lout_type_ship' => [
-				'columns' => ['lout_type_ship', 'sortorderid', 'presence'],
+				'columns' => ['lout_type_shipid', 'lout_type_ship', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_LOCAL_PICKUP', 1, 1],
-					['PLL_POST_OFFICE_PL', 2, 1],
-					['PLL_POST_OFFICE', 3, 1],
-					['PLL_COURIER', 4, 1],
-					['PLL_TELEX', 5, 1],
-					['PLL_EMAIL', 6, 1],
-					['PLL_POCZTEX', 7, 1],
-					['PLL_TNT', 8, 1],
-					['PLL_COURIER_POCZTEX', 9, 1],
-					['PLL_COURIER_7', 10, 1],
-					['PLL_COURIER_DPD', 11, 1],
-					['PLL_COURIER_DHL', 12, 1],
-					['PLL_COURIER_UPS', 13, 1],
-					['PLL_COURIER_GLS', 14, 1],
+					[1, 'PLL_LOCAL_PICKUP', 1, 1],
+					[2, 'PLL_POST_OFFICE_PL', 2, 1],
+					[3, 'PLL_POST_OFFICE', 3, 1],
+					[4, 'PLL_COURIER', 4, 1],
+					[5, 'PLL_TELEX', 5, 1],
+					[6, 'PLL_EMAIL', 6, 1],
+					[7, 'PLL_POCZTEX', 7, 1],
+					[8, 'PLL_TNT', 8, 1],
+					[9, 'PLL_COURIER_POCZTEX', 9, 1],
+					[10, 'PLL_COURIER_7', 10, 1],
+					[11, 'PLL_COURIER_DPD', 11, 1],
+					[12, 'PLL_COURIER_DHL', 12, 1],
+					[13, 'PLL_COURIER_UPS', 13, 1],
+					[14, 'PLL_COURIER_GLS', 14, 1],
 				]
 			],
 			'vtiger_lout_type_ship_seq' => [
@@ -3878,11 +3877,11 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_manufacturer' => [
-				'columns' => ['manufacturer', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['manufacturerid', 'manufacturer', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['AltvetPet Inc.', 1, 124, 1],
-					['LexPon Inc.', 1, 125, 2],
-					['MetBeat Corp', 1, 126, 3],
+					[2, 'AltvetPet Inc.', 1, 124, 1],
+					[3, 'LexPon Inc.', 1, 125, 2],
+					[4, 'MetBeat Corp', 1, 126, 3],
 				]
 			],
 			'vtiger_manufacturer_seq' => [
@@ -3892,65 +3891,65 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_modentity_num' => [
-				'columns' => ['tabid', 'prefix', 'postfix', 'start_id', 'cur_id'],
+				'columns' => ['id', 'tabid', 'prefix', 'postfix', 'start_id', 'cur_id'],
 				'values' => [
-					[7, 'L', '', 1, 1],
-					[6, 'O', '', 1, 1],
-					[26, 'CAM', '', 1, 1],
-					[4, 'C', '', 1, 1],
-					[13, 'H', '', 1, 1],
-					[14, 'PRO', '', 1, 1],
-					[18, 'V', '', 1, 1],
-					[19, 'PB', '', 1, 1],
-					[15, 'FAQ', '', 1, 1],
-					[8, 'DOC', '', 1, 1],
-					[34, 'U', '', 1, 1],
-					[35, 'SER', '', 1, 1],
-					[37, 'A', '', 1, 1],
-					[41, 'PM', '', 1, 1],
-					[42, 'PT', '', 1, 1],
-					[43, 'PROJ', '', 1, 1],
-					[51, 'TC', '', 1, 1],
-					[54, 'M_', '', 1, 1],
-					[57, 'UO', '', 1, 1],
-					[58, 'US', '', 1, 1],
-					[59, 'UP', '', 1, 1],
-					[60, 'PASS', '', 1, 1],
-					[61, 'P', '', 1, 1],
-					[75, 'ID', '', 1, 1],
-					[78, 'HE', '', 1, 1],
-					[79, '', '', 1, 1],
-					[80, '', '', 1, 1],
-					[81, 'LI', '', 1, 1],
-					[82, 'LI', '', 1, 1],
-					[83, 'NO', '', 1, 1],
-					[84, 'RES', '', 1, 1],
-					[85, 'S-QE', '', 1, 1],
-					[86, 'S-SP', '', 1, 1],
-					[87, 'S-RC', '', 1, 1],
-					[88, 'S-C', '', 1, 1],
-					[89, 'S-Q', '', 1, 1],
-					[90, 'S-SO', '', 1, 1],
-					[91, 'S-RO', '', 1, 1],
-					[92, 'PR', '', 1, 1],
-					[93, 'CMP', '', 1, 1],
-					[94, 'F-B', '', 1, 1],
-					[98, 'I-GRN', '', 1, 1],
-					[99, 'F-IP', '', 1, 1],
-					[100, 'I-GDN', '', 1, 1],
-					[97, 'I-S', '', 1, 1],
-					[101, 'I-IDN', '', 1, 1],
-					[102, 'I-GIN', '', 1, 1],
-					[103, 'I-PO', '', 1, 1],
-					[95, 'F-I', '', 1, 1],
-					[96, 'KB', '', 1, 1],
-					[104, 'I-TD', '', 1, 1],
-					[105, 'I-SN', '', 1, 1],
-					[106, 'I-TR', '', 1, 1],
-					[107, 'F-CI', '', 1, 1],
-					[108, 'I-IGRNC', '', 1, 1],
-					[109, 'I-IGDNC', '', 1, 1],
-					[111, 'NT', '', 1, 1],
+					[1, 7, 'L', '', 1, 1],
+					[2, 6, 'O', '', 1, 1],
+					[3, 26, 'CAM', '', 1, 1],
+					[4, 4, 'C', '', 1, 1],
+					[5, 13, 'H', '', 1, 1],
+					[6, 14, 'PRO', '', 1, 1],
+					[7, 18, 'V', '', 1, 1],
+					[8, 19, 'PB', '', 1, 1],
+					[9, 15, 'FAQ', '', 1, 1],
+					[10, 8, 'DOC', '', 1, 1],
+					[11, 34, 'U', '', 1, 1],
+					[12, 35, 'SER', '', 1, 1],
+					[13, 37, 'A', '', 1, 1],
+					[14, 41, 'PM', '', 1, 1],
+					[15, 42, 'PT', '', 1, 1],
+					[16, 43, 'PROJ', '', 1, 1],
+					[17, 51, 'TC', '', 1, 1],
+					[18, 54, 'M_', '', 1, 1],
+					[19, 57, 'UO', '', 1, 1],
+					[20, 58, 'US', '', 1, 1],
+					[21, 59, 'UP', '', 1, 1],
+					[22, 60, 'PASS', '', 1, 1],
+					[23, 61, 'P', '', 1, 1],
+					[24, 75, 'ID', '', 1, 1],
+					[25, 78, 'HE', '', 1, 1],
+					[26, 79, '', '', 1, 1],
+					[27, 80, '', '', 1, 1],
+					[28, 81, 'LI', '', 1, 1],
+					[29, 82, 'LI', '', 1, 1],
+					[30, 83, 'NO', '', 1, 1],
+					[31, 84, 'RES', '', 1, 1],
+					[32, 85, 'S-QE', '', 1, 1],
+					[33, 86, 'S-SP', '', 1, 1],
+					[34, 87, 'S-RC', '', 1, 1],
+					[35, 88, 'S-C', '', 1, 1],
+					[36, 89, 'S-Q', '', 1, 1],
+					[37, 90, 'S-SO', '', 1, 1],
+					[38, 91, 'S-RO', '', 1, 1],
+					[39, 92, 'PR', '', 1, 1],
+					[40, 93, 'CMP', '', 1, 1],
+					[41, 94, 'F-B', '', 1, 1],
+					[42, 98, 'I-GRN', '', 1, 1],
+					[43, 99, 'F-IP', '', 1, 1],
+					[44, 100, 'I-GDN', '', 1, 1],
+					[45, 97, 'I-S', '', 1, 1],
+					[46, 101, 'I-IDN', '', 1, 1],
+					[47, 102, 'I-GIN', '', 1, 1],
+					[48, 103, 'I-PO', '', 1, 1],
+					[49, 95, 'F-I', '', 1, 1],
+					[50, 96, 'KB', '', 1, 1],
+					[51, 104, 'I-TD', '', 1, 1],
+					[52, 105, 'I-SN', '', 1, 1],
+					[53, 106, 'I-TR', '', 1, 1],
+					[54, 107, 'F-CI', '', 1, 1],
+					[55, 108, 'I-IGRNC', '', 1, 1],
+					[56, 109, 'I-IGDNC', '', 1, 1],
+					[57, 111, 'NT', '', 1, 1],
 				]
 			],
 			'vtiger_modtracker_tabs' => [
@@ -4024,14 +4023,14 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_no_of_currency_decimals' => [
-				'columns' => ['no_of_currency_decimals', 'sortorderid', 'presence'],
+				'columns' => ['no_of_currency_decimalsid', 'no_of_currency_decimals', 'sortorderid', 'presence'],
 				'values' => [
-					['0', 0, 1],
-					['1', 1, 1],
-					['2', 2, 1],
-					['3', 3, 1],
-					['4', 4, 1],
-					['5', 5, 1],
+					[1, '0', 0, 1],
+					[2, '1', 1, 1],
+					[3, '2', 2, 1],
+					[4, '3', 3, 1],
+					[5, '4', 4, 1],
+					[6, '5', 5, 1],
 				]
 			],
 			'vtiger_no_of_currency_decimals_seq' => [
@@ -4041,24 +4040,24 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_notification_status' => [
-				'columns' => ['notification_status', 'sortorderid', 'presence'],
+				'columns' => ['notification_statusid', 'notification_status', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_UNREAD', 1, 1],
-					['PLL_READ', 2, 1],
+					[1, 'PLL_UNREAD', 1, 1],
+					[2, 'PLL_READ', 2, 1],
 				]
 			],
 			'vtiger_notification_type' => [
-				'columns' => ['notification_type', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['notification_typeid', 'notification_type', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['PLL_USERS', 1, 703, 1],
-					['PLL_SYSTEM', 1, 704, 2],
+					[1, 'PLL_USERS', 1, 703, 1],
+					[2, 'PLL_SYSTEM', 1, 704, 2],
 				]
 			],
 			'vtiger_oproductstatus' => [
-				'columns' => ['oproductstatus', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['oproductstatusid', 'oproductstatus', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['Active', 1, 419, 1],
-					['Inactive', 1, 420, 2],
+					[1, 'Active', 1, 419, 1],
+					[2, 'Inactive', 1, 420, 2],
 				]
 			],
 			'vtiger_oproductstatus_seq' => [
@@ -4362,10 +4361,10 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_ossdc_status' => [
-				'columns' => ['ossdc_status', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['ossdc_statusid', 'ossdc_status', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['None', 1, 401, 1],
-					['Checked', 1, 402, 2],
+					[1, 'None', 1, 401, 1],
+					[2, 'Checked', 1, 402, 2],
 				]
 			],
 			'vtiger_ossdc_status_seq' => [
@@ -4375,10 +4374,10 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_osservicesstatus' => [
-				'columns' => ['osservicesstatus', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['osservicesstatusid', 'osservicesstatus', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['Active', 1, 403, 1],
-					['Inactive', 1, 404, 2],
+					[1, 'Active', 1, 403, 1],
+					[2, 'Inactive', 1, 404, 2],
 				]
 			],
 			'vtiger_osservicesstatus_seq' => [
@@ -4405,222 +4404,407 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => ['ossmailtemplatesid', 'name', 'sysname', 'oss_module_list', 'subject', 'content', 'ossmailtemplates_type'],
 				'values' => [
 					[35, 'Notify Owner On Ticket Change', '', 'HelpDesk', '#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
+
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
+
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_UPDATED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
+
+
 
 <hr /><h1><a href="%23s%23LinkToCRMRecord%23sEnd%23">#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
+
+
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
+
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
+
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
+
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
+
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
+
 <hr /> #b#171#bEnd#: #a#171#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[36, 'Notify Account On Ticket Change', '', 'HelpDesk', '#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
+
 <h3><span>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></span></h3>
+
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_UPDATED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
+
+
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
+
+
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
+
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
+
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
+
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
+
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
+
 <hr /> #b#171#bEnd#: #a#171#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[37, 'Notify Contact On Ticket Closed', 'NotifyContactOnTicketClosed', 'HelpDesk', '#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
+
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
+
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CLOSED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
+
+
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
+
+
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
+
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
+
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
+
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
+
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
+
 <hr /> #b#171#bEnd#: #a#171#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[38, 'Notify Account On Ticket Closed', '', 'HelpDesk', '#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
+
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
+
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CLOSED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
+
+
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
+
+
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
+
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
+
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
+
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
+
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
+
 <hr /> #b#171#bEnd#: #a#171#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[39, 'Notify Contact On Ticket Create', 'NotifyContactOnTicketCreate', 'HelpDesk', '#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
+
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
+
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# (#t#LBL_NOTICE_CREATED#tEnd# #a#168#aEnd#).
 
+
+
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
+
+
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
+
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
+
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
+
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
+
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[40, 'Notify Account On Ticket Create', '', 'HelpDesk', '#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
+
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
+
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CREATED#tEnd# #a#168#aEnd#).
+
+
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
+
+
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
+
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
+
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
+
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
+
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[41, 'Notify Contact On Ticket Change', 'NotifyContactOnTicketChange', 'HelpDesk', '#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
+
 <h3><span>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></span></h3>
+
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_UPDATED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
+
+
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
+
+
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
+
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
+
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
+
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
+
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
+
 <hr /> #b#171#bEnd#: #a#171#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[42, 'Notify Owner On Ticket Closed', '', 'HelpDesk', '#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
+
 <h3><span>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></span></h3>
+
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CLOSED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
+
+
 
 <hr /><h1><a href="%23s%23LinkToCRMRecord%23sEnd%23">#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
+
+
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
+
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
+
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
+
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
+
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
+
 <hr /> #b#171#bEnd#: #a#171#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[43, 'Notify Owner On Ticket Create', '', 'HelpDesk', '#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
+
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
+
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CREATED#tEnd# #a#168#aEnd#).
+
+
 
 <hr /><h1><a href="%23s%23LinkToCRMRecord%23sEnd%23">#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
+
+
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
+
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
+
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
+
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
+
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[44, 'Customer Portal Login Details', '', 'Contacts', 'Customer Portal Login Details', '<p>#s#LogoImage#sEnd# </p><p>Dear #a#67#aEnd#  #a#70#aEnd#</p><p>Created for your account in the customer portal, below sending data access.</p><p>Login: #a#80#aEnd#<br />Password: #s#ContactsPortalPass#sEnd#</p><p>Regards</p>', 'PLL_RECORD'],
 					[45, 'Send invitations', '', 'Events', '#a#267#aEnd#:  #a#255#aEnd#', '<table border="0" cellpadding="8" cellspacing="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;" summary=""><tbody><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>#a#255#aEnd#</span></h3>
+
 			</td>
+
 		</tr><tr><td>
+
 			<div style="padding:2px;">
+
 			<table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#257#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#257#aEnd# #a#258#aEnd#</td>
+
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#259#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#259#aEnd# #a#260#aEnd#</td>
+
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#264#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#264#aEnd#</td>
+
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#277#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#277#aEnd#</td>
+
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#267#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#267#aEnd#</td>
+
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#271#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#271#aEnd#</td>
+
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#268#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top"><span><span>#a#268#aEnd#</span><span dir="ltr"> (<a href="https://maps.google.pl/maps?q=%23a%23268%23aEnd%23" style="color:#20c;white-space:nowrap;">mapa</a>)</span></span></td>
+
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#265#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#265#aEnd#</td>
+
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#275#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#275#aEnd#</td>
+
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+
 						<div><i style="font-style:normal;">#b#256#bEnd#</i></div>
+
 						</td>
+
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#256#aEnd#</td>
+
 					</tr></tbody></table></div>
+
 			</td>
+
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+
 			<p>YetiForce CRM - Notification activities on the calendar</p>
+
 			</td>
+
 		</tr></tbody></table>', 'PLL_RECORD'],
 					[46, 'Send Notification Email to Record Owner', '', 'Calendar', 'Task :  #a#231#aEnd#', '#a#232#aEnd#<br /><br />Activity Notification Details:<br />Subject : #a#231#aEnd#<br />Start date and time : #a#233#aEnd# #a#234#aEnd#<br />End date and time : #a#235#aEnd# #a#236#aEnd#<br />Status : #a#239#aEnd#<br />Priority : #a#241#aEnd#<br />Related To : #a#237#aEnd#<br />Contacts List : #a#238#aEnd#<br />Location : #a#250#aEnd#<br />Description : #a#247#aEnd#', 'PLL_RECORD'],
 					[93, 'Activity Reminder Notification', 'ActivityReminderNotificationTask', 'Calendar', 'Reminder:  #a#231#aEnd#', 'This is a reminder notification for the Activity:<br />Subject: #a#231#aEnd#<br />Date & Time: #a#233#aEnd# #a#234#aEnd#<br /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Contact Name: </span>#a#238#aEnd#<br style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Related To: </span>#a#237#aEnd#<br style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Description: </span>#a#247#aEnd#', 'PLL_RECORD'],
 					[94, 'Activity Reminder Notification', 'ActivityReminderNotificationEvents', 'Events', 'Reminder: #a#255#aEnd#', '<span style="line-height:20.7999992370605px;">This is a reminder notification for the Activity:</span><br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Subject:</span>#a#255#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Date & Time: </span>#a#257#aEnd# #a#258#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Contact Name: </span>#a#277#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Related To: </span>#a#264#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Description: </span>#a#275#aEnd#', 'PLL_RECORD'],
 					[95, 'Test mail about the mail server configuration.', 'TestMailAboutTheMailServerConfiguration', 'Users', 'Test mail about the mail server configuration.', '<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Dear </span>#a#478#aEnd#&nbsp;#a#479#aEnd#<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">,&nbsp;</span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
+
 <br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
+
 <b style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured.&nbsp;</b><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
+
 <span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Feel free to delete this mail.&nbsp;<br />
+
 CRM&nbsp;</span>address:&nbsp;#s#LinkToCRMRecord#sEnd#<br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
+
 <br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
+
 <span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Thanks and Regards,</span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
+
 <span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Team YetiForce</span>', 'PLL_RECORD'],
 					[103, 'ForgotPassword', 'UsersForgotPassword', 'Users', 'Request: ForgotPassword', 'Dear user,<br /><br />\\r\\nYou recently requested a password reset for your YetiForce CRM.<br />\\r\\nTo create a new password, click on the link #s#LinkToForgotPassword#sEnd#.<br /><br />\\r\\nThis request was made on #s#CurrentDateTime#sEnd# and will expire in next 24 hours.<br /><br />\\r\\nRegards,<br />\\r\\nYetiForce CRM Support Team.', 'PLL_RECORD'],
 					[104, 'Customer Portal - ForgotPassword', 'YetiPortalForgotPassword', 'Contacts', 'Request: ForgotPassword', 'Dear #a#67#aEnd# #a#70#aEnd#,<br /><br />
+
 You recently requested a reminder of your access data for the YetiForce Portal.<br /><br />
+
 You can login by entering the following data:<br /><br />
+
 Your username: #a#80#aEnd#<br />
+
 Your password: #s#ContactsPortalPass#sEnd#<br /><br /><br />
+
 Regards,<br />
+
 YetiForce CRM Support Team.', 'PLL_RECORD'],
 					[105, 'Notify Owner On new comment added to ticket from portal', 'NewCommentAddedToTicketOwner', 'ModComments', '#t#LBL_ADDED_COMMENT_TO_TICKET#tEnd#', '<div>
+
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
+
 #t#LBL_NEW_COMMENT_FOR_TICKET#tEnd# (#t#LBL_NOTICE_CREATED#tEnd# #a#691#aEnd#).
 
+
+
 <hr /> #b#597#bEnd#: #a#597#aEnd#
+
 </div>', 'PLL_RECORD'],
 					[106, 'Notify Contact On New comment added to ticket', 'NewCommentAddedToTicketContact', 'ModComments', '#t#LBL_ADDED_COMMENT_TO_TICKET#tEnd#', '<div>
+
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
+
 #t#LBL_NEW_COMMENT_FOR_TICKET#tEnd# (#t#LBL_NOTICE_CREATED#tEnd# #a#745#aEnd#).
 
+
+
 <hr /> #b#597#bEnd#: #a#597#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[107, 'Security risk has been detected - Brute Force', 'BruteForceSecurityRiskHasBeenDetected', 'Contacts', 'Security risk has been detected', '<span class="value">Dear user,<br />
+
 Failed login attempts have been detected. </span>', 'PLL_MODULE'],
 					[108, 'Backup has been made', 'BackupHasBeenMade', 'Contacts', 'Backup has been made notification', 'Dear User,<br />
+
 Backup has been made.', 'PLL_MODULE'],
 					[109, 'Notify Account On New comment added to ticket', 'NewCommentAddedToTicketAccount', 'ModComments', '#t#LBL_ADDED_COMMENT_TO_TICKET#tEnd#', '<div>
+
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
+
 #t#LBL_NEW_COMMENT_FOR_TICKET#tEnd# (#t#LBL_NOTICE_CREATED#tEnd# #a#745#aEnd#).
 
+
+
 <hr /> #b#597#bEnd#: #a#597#aEnd#
+
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[110, 'Send notifications', 'SendNotificationsViaMail', 'System', 'Notifications #s#CurrentDate#sEnd#', '#s#Notifications#sEnd#', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_ossmailtemplates_type' => [
-				'columns' => ['ossmailtemplates_type', 'sortorderid', 'presence'],
+				'columns' => ['ossmailtemplates_typeid', 'ossmailtemplates_type', 'sortorderid', 'presence'],
 				'values' => [
-					['PLL_MODULE', 1, 0],
-					['PLL_RECORD', 2, 0],
-					['PLL_MAIL', 3, 0],
-					['PLL_LIST', 4, 1],
+					[1, 'PLL_MODULE', 1, 0],
+					[2, 'PLL_RECORD', 2, 0],
+					[3, 'PLL_MAIL', 3, 0],
+					[4, 'PLL_LIST', 4, 1],
 				]
 			],
 			'vtiger_ossmailtemplates_type_seq' => [
@@ -4658,11 +4842,11 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_ossmailview_sendtype' => [
-				'columns' => ['ossmailview_sendtype', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['ossmailview_sendtypeid', 'ossmailview_sendtype', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['Sent', 1, 388, 1],
-					['Received', 1, 389, 2],
-					['Internal', 1, 700, 3],
+					[1, 'Sent', 1, 388, 1],
+					[2, 'Received', 1, 389, 2],
+					[3, 'Internal', 1, 700, 3],
 				]
 			],
 			'vtiger_ossmailview_sendtype_seq' => [
@@ -4672,23 +4856,23 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_osssoldservices_renew' => [
-				'columns' => ['osssoldservices_renew', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['osssoldservices_renewid', 'osssoldservices_renew', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['PLL_PLANNED', 0, 675, 1],
-					['PLL_WAITING_FOR_RENEWAL', 0, 676, 2],
-					['PLL_RENEWED_VERIFICATION', 0, 677, 3],
-					['PLL_NOT_RENEWED_VERIFICATION', 0, 678, 4],
-					['PLL_RENEWED', 0, 679, 6],
-					['PLL_NOT_RENEWED', 0, 680, 7],
-					['PLL_NOT_APPLICABLE', 0, 681, 8],
-					['PLL_NOT_APPLICABLE_VERIFICATION', 0, 701, 5],
+					[1, 'PLL_PLANNED', 0, 675, 1],
+					[2, 'PLL_WAITING_FOR_RENEWAL', 0, 676, 2],
+					[3, 'PLL_RENEWED_VERIFICATION', 0, 677, 3],
+					[4, 'PLL_NOT_RENEWED_VERIFICATION', 0, 678, 4],
+					[5, 'PLL_RENEWED', 0, 679, 6],
+					[6, 'PLL_NOT_RENEWED', 0, 680, 7],
+					[7, 'PLL_NOT_APPLICABLE', 0, 681, 8],
+					[8, 'PLL_NOT_APPLICABLE_VERIFICATION', 0, 701, 5],
 				]
 			],
 			'vtiger_osstimecontrol_status' => [
-				'columns' => ['osstimecontrol_status', 'sortorderid', 'presence'],
+				'columns' => ['osstimecontrol_statusid', 'osstimecontrol_status', 'sortorderid', 'presence'],
 				'values' => [
-					['Accepted', 1, 0],
-					['To approval', 2, 1],
+					[8, 'Accepted', 1, 0],
+					[13, 'To approval', 2, 1],
 				]
 			],
 			'vtiger_osstimecontrol_status_seq' => [
@@ -4698,13 +4882,13 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_othereventduration' => [
-				'columns' => ['othereventduration', 'sortorderid', 'presence'],
+				'columns' => ['othereventdurationid', 'othereventduration', 'sortorderid', 'presence'],
 				'values' => [
-					['5', 1, 1],
-					['10', 2, 1],
-					['30', 3, 1],
-					['60', 4, 1],
-					['120', 5, 1],
+					[1, '5', 1, 1],
+					[2, '10', 2, 1],
+					[3, '30', 3, 1],
+					[4, '60', 4, 1],
+					[5, '120', 5, 1],
 				]
 			],
 			'vtiger_othereventduration_seq' => [
@@ -4731,11 +4915,11 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_paymentsin_status' => [
-				'columns' => ['paymentsin_status', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['paymentsin_statusid', 'paymentsin_status', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['Created', 1, 587, 1],
-					['Denied', 1, 588, 2],
-					['Paid', 1, 589, 3],
+					[1, 'Created', 1, 587, 1],
+					[2, 'Denied', 1, 588, 2],
+					[3, 'Paid', 1, 589, 3],
 				]
 			],
 			'vtiger_paymentsin_status_seq' => [
@@ -4745,11 +4929,11 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_paymentsout_status' => [
-				'columns' => ['paymentsout_status', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['paymentsout_statusid', 'paymentsout_status', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['Created', 1, 590, 1],
-					['Denied', 1, 591, 2],
-					['Paid', 1, 592, 3],
+					[1, 'Created', 1, 590, 1],
+					[2, 'Denied', 1, 591, 2],
+					[3, 'Paid', 1, 592, 3],
 				]
 			],
 			'vtiger_paymentsout_status_seq' => [
@@ -4759,77 +4943,77 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_picklist' => [
-				'columns' => ['name'],
+				'columns' => ['picklistid', 'name'],
 				'values' => [
-					['accounts_status'],
-					['accounttype'],
-					['activitystatus'],
-					['activitytype'],
-					['announcementstatus'],
-					['assetstatus'],
-					['assets_renew'],
-					['campaignstatus'],
-					['campaigntype'],
-					['contactstatus'],
-					['contract_priority'],
-					['contract_status'],
-					['contract_type'],
-					['defaultactivitytype'],
-					['defaulteventstatus'],
-					['employee_education'],
-					['employee_status'],
-					['eventstatus'],
-					['expectedresponse'],
-					['faqcategories'],
-					['faqstatus'],
-					['fcorectinginvoice_formpayment'],
-					['fcorectinginvoice_status'],
-					['finvoiceproforma_formpayment'],
-					['finvoiceproforma_status'],
-					['finvoice_formpayment'],
-					['finvoice_paymentstatus'],
-					['finvoice_status'],
-					['finvoice_type'],
-					['glacct'],
-					['holidaysentitlement_year'],
-					['hour_format'],
-					['ideasstatus'],
-					['industry'],
-					['leadsource'],
-					['leadstatus'],
-					['lin_type_doc'],
-					['lout_type_doc'],
-					['manufacturer'],
-					['notification_type'],
-					['oproductstatus'],
-					['ossdc_status'],
-					['osservicesstatus'],
-					['ossmailview_sendtype'],
-					['osssoldservices_renew'],
-					['paymentsin_status'],
-					['paymentsout_status'],
-					['progress'],
-					['projectmilestonetype'],
-					['projectmilestone_priority'],
-					['projectpriority'],
-					['projectstatus'],
-					['projecttaskpriority'],
-					['projecttaskprogress'],
-					['projecttaskstatus'],
-					['projecttasktype'],
-					['projecttype'],
-					['rel_mod'],
-					['salutationtype'],
-					['service_usageunit'],
-					['ssservicesstatus'],
-					['start_hour'],
-					['taskpriority'],
-					['ticketpriorities'],
-					['ticketseverities'],
-					['ticketstatus'],
-					['tracking_unit'],
-					['usageunit'],
-					['verification'],
+					[96, 'accounts_status'],
+					[1, 'accounttype'],
+					[25, 'activitystatus'],
+					[2, 'activitytype'],
+					[94, 'announcementstatus'],
+					[37, 'assetstatus'],
+					[91, 'assets_renew'],
+					[3, 'campaignstatus'],
+					[4, 'campaigntype'],
+					[70, 'contactstatus'],
+					[33, 'contract_priority'],
+					[32, 'contract_status'],
+					[34, 'contract_type'],
+					[50, 'defaultactivitytype'],
+					[49, 'defaulteventstatus'],
+					[66, 'employee_education'],
+					[65, 'employee_status'],
+					[6, 'eventstatus'],
+					[7, 'expectedresponse'],
+					[8, 'faqcategories'],
+					[9, 'faqstatus'],
+					[92, 'fcorectinginvoice_formpayment'],
+					[93, 'fcorectinginvoice_status'],
+					[88, 'finvoiceproforma_formpayment'],
+					[89, 'finvoiceproforma_status'],
+					[86, 'finvoice_formpayment'],
+					[97, 'finvoice_paymentstatus'],
+					[87, 'finvoice_status'],
+					[98, 'finvoice_type'],
+					[10, 'glacct'],
+					[74, 'holidaysentitlement_year'],
+					[47, 'hour_format'],
+					[71, 'ideasstatus'],
+					[11, 'industry'],
+					[13, 'leadsource'],
+					[14, 'leadstatus'],
+					[77, 'lin_type_doc'],
+					[78, 'lout_type_doc'],
+					[15, 'manufacturer'],
+					[95, 'notification_type'],
+					[64, 'oproductstatus'],
+					[59, 'ossdc_status'],
+					[60, 'osservicesstatus'],
+					[57, 'ossmailview_sendtype'],
+					[90, 'osssoldservices_renew'],
+					[75, 'paymentsin_status'],
+					[76, 'paymentsout_status'],
+					[45, 'progress'],
+					[38, 'projectmilestonetype'],
+					[85, 'projectmilestone_priority'],
+					[44, 'projectpriority'],
+					[42, 'projectstatus'],
+					[40, 'projecttaskpriority'],
+					[41, 'projecttaskprogress'],
+					[46, 'projecttaskstatus'],
+					[39, 'projecttasktype'],
+					[43, 'projecttype'],
+					[58, 'rel_mod'],
+					[22, 'salutationtype'],
+					[35, 'service_usageunit'],
+					[63, 'ssservicesstatus'],
+					[48, 'start_hour'],
+					[24, 'taskpriority'],
+					[27, 'ticketpriorities'],
+					[28, 'ticketseverities'],
+					[29, 'ticketstatus'],
+					[31, 'tracking_unit'],
+					[30, 'usageunit'],
+					[68, 'verification'],
 				]
 			],
 			'vtiger_picklist_dependency' => [
@@ -4869,16 +5053,16 @@ Backup has been made.', 'PLL_MODULE'],
 			'vtiger_picklistvalues_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[719],
+					[722],
 				]
 			],
 			'vtiger_profile' => [
-				'columns' => ['profilename', 'description', 'directly_related_to_role'],
+				'columns' => ['profileid', 'profilename', 'description', 'directly_related_to_role'],
 				'values' => [
-					['Administrator', 'Admin Profile', 0],
-					['Sales Profile', 'Profile Related to Sales', 0],
-					['Support Profile', 'Profile Related to Support', 0],
-					['Guest Profile', 'Guest Profile for Test Users', 0],
+					[1, 'Administrator', 'Admin Profile', 0],
+					[2, 'Sales Profile', 'Profile Related to Sales', 0],
+					[3, 'Support Profile', 'Profile Related to Support', 0],
+					[4, 'Guest Profile', 'Guest Profile for Test Users', 0],
 				]
 			],
 			'vtiger_profile2field' => [
@@ -18065,18 +18249,18 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_progress' => [
-				'columns' => ['progress', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['progressid', 'progress', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['10%', 1, 278, 2],
-					['20%', 1, 279, 3],
-					['30%', 1, 280, 4],
-					['40%', 1, 281, 5],
-					['50%', 1, 282, 6],
-					['60%', 1, 283, 7],
-					['70%', 1, 284, 8],
-					['80%', 1, 285, 9],
-					['90%', 1, 286, 10],
-					['100%', 1, 287, 11],
+					[2, '10%', 1, 278, 2],
+					[3, '20%', 1, 279, 3],
+					[4, '30%', 1, 280, 4],
+					[5, '40%', 1, 281, 5],
+					[6, '50%', 1, 282, 6],
+					[7, '60%', 1, 283, 7],
+					[8, '70%', 1, 284, 8],
+					[9, '80%', 1, 285, 9],
+					[10, '90%', 1, 286, 10],
+					[11, '100%', 1, 287, 11],
 				]
 			],
 			'vtiger_progress_seq' => [
@@ -18086,11 +18270,11 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_projectmilestone_priority' => [
-				'columns' => ['projectmilestone_priority', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['projectmilestone_priorityid', 'projectmilestone_priority', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['PLL_LOW', 1, 659, 1],
-					['PLL_NORMAL', 1, 660, 2],
-					['PLL_HIGH', 1, 661, 3],
+					[1, 'PLL_LOW', 1, 659, 1],
+					[2, 'PLL_NORMAL', 1, 660, 2],
+					[3, 'PLL_HIGH', 1, 661, 3],
 				]
 			],
 			'vtiger_projectmilestone_priority_seq' => [
@@ -18100,11 +18284,11 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_projectmilestonetype' => [
-				'columns' => ['projectmilestonetype', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['projectmilestonetypeid', 'projectmilestonetype', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['PLL_INTERNAL', 1, 238, 2],
-					['PLL_EXTERNAL', 1, 239, 3],
-					['PLL_SHARED', 1, 240, 4],
+					[2, 'PLL_INTERNAL', 1, 238, 2],
+					[3, 'PLL_EXTERNAL', 1, 239, 3],
+					[4, 'PLL_SHARED', 1, 240, 4],
 				]
 			],
 			'vtiger_projectmilestonetype_seq' => [
@@ -18114,11 +18298,11 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_projectpriority' => [
-				'columns' => ['projectpriority', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['projectpriorityid', 'projectpriority', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['low', 1, 274, 2],
-					['normal', 1, 275, 3],
-					['high', 1, 276, 4],
+					[2, 'low', 1, 274, 2],
+					[3, 'normal', 1, 275, 3],
+					[4, 'high', 1, 276, 4],
 				]
 			],
 			'vtiger_projectpriority_seq' => [
@@ -18128,16 +18312,16 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_projectstatus' => [
-				'columns' => ['projectstatus', 'presence', 'picklist_valueid', 'sortorderid', 'color'],
+				'columns' => ['projectstatusid', 'projectstatus', 'presence', 'picklist_valueid', 'sortorderid', 'color'],
 				'values' => [
-					['prospecting', 1, 261, 2, '#E6FAD8'],
-					['initiated', 1, 262, 3, '#E6FAD8'],
-					['in progress', 1, 263, 4, '#E6FAD8'],
-					['waiting for feedback', 1, 264, 5, '#E6FAD8'],
-					['on hold', 1, 265, 6, '#E6FAD8'],
-					['completed', 1, 266, 7, '#E6FAD8'],
-					['delivered', 1, 267, 8, '#E6FAD8'],
-					['archived', 1, 268, 9, '#E6FAD8'],
+					[2, 'prospecting', 1, 261, 2, '#E6FAD8'],
+					[3, 'initiated', 1, 262, 3, '#E6FAD8'],
+					[4, 'in progress', 1, 263, 4, '#E6FAD8'],
+					[5, 'waiting for feedback', 1, 264, 5, '#E6FAD8'],
+					[6, 'on hold', 1, 265, 6, '#E6FAD8'],
+					[7, 'completed', 1, 266, 7, '#E6FAD8'],
+					[8, 'delivered', 1, 267, 8, '#E6FAD8'],
+					[9, 'archived', 1, 268, 9, '#E6FAD8'],
 				]
 			],
 			'vtiger_projectstatus_seq' => [
@@ -18147,11 +18331,11 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_projecttaskpriority' => [
-				'columns' => ['projecttaskpriority', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['projecttaskpriorityid', 'projecttaskpriority', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['low', 1, 246, 2],
-					['normal', 1, 247, 3],
-					['high', 1, 248, 4],
+					[2, 'low', 1, 246, 2],
+					[3, 'normal', 1, 247, 3],
+					[4, 'high', 1, 248, 4],
 				]
 			],
 			'vtiger_projecttaskpriority_seq' => [
@@ -18161,18 +18345,18 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_projecttaskprogress' => [
-				'columns' => ['projecttaskprogress', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['projecttaskprogressid', 'projecttaskprogress', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['10%', 1, 250, 2],
-					['20%', 1, 251, 3],
-					['30%', 1, 252, 4],
-					['40%', 1, 253, 5],
-					['50%', 1, 254, 6],
-					['60%', 1, 255, 7],
-					['70%', 1, 256, 8],
-					['80%', 1, 257, 9],
-					['90%', 1, 258, 10],
-					['100%', 1, 259, 11],
+					[2, '10%', 1, 250, 2],
+					[3, '20%', 1, 251, 3],
+					[4, '30%', 1, 252, 4],
+					[5, '40%', 1, 253, 5],
+					[6, '50%', 1, 254, 6],
+					[7, '60%', 1, 255, 7],
+					[8, '70%', 1, 256, 8],
+					[9, '80%', 1, 257, 9],
+					[10, '90%', 1, 258, 10],
+					[11, '100%', 1, 259, 11],
 				]
 			],
 			'vtiger_projecttaskprogress_seq' => [
@@ -18182,13 +18366,13 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_projecttaskstatus' => [
-				'columns' => ['projecttaskstatus', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['projecttaskstatusid', 'projecttaskstatus', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['Open', 0, 290, 2],
-					['In Progress', 0, 291, 3],
-					['Completed', 0, 292, 4],
-					['Deferred', 0, 293, 5],
-					['Cancelled', 0, 294, 6],
+					[2, 'Open', 0, 290, 2],
+					[3, 'In Progress', 0, 291, 3],
+					[4, 'Completed', 0, 292, 4],
+					[5, 'Deferred', 0, 293, 5],
+					[6, 'Cancelled', 0, 294, 6],
 				]
 			],
 			'vtiger_projecttaskstatus_seq' => [
@@ -18198,11 +18382,11 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_projecttasktype' => [
-				'columns' => ['projecttasktype', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['projecttasktypeid', 'projecttasktype', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['administrative', 1, 242, 2],
-					['operative', 1, 243, 3],
-					['other', 1, 244, 4],
+					[2, 'administrative', 1, 242, 2],
+					[3, 'operative', 1, 243, 3],
+					[4, 'other', 1, 244, 4],
 				]
 			],
 			'vtiger_projecttasktype_seq' => [
@@ -18212,11 +18396,11 @@ Backup has been made.', 'PLL_MODULE'],
 				]
 			],
 			'vtiger_projecttype' => [
-				'columns' => ['projecttype', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['projecttypeid', 'projecttype', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					['PLL_INTERNAL', 1, 270, 2],
-					['PLL_EXTERNAL', 1, 271, 3],
-					['PLL_COMMON', 1, 272, 4],
+					[2, 'PLL_INTERNAL', 1, 270, 2],
+					[3, 'PLL_EXTERNAL', 1, 271, 3],
+					[4, 'PLL_COMMON', 1, 272, 4],
 				]
 			],
 			'vtiger_projecttype_seq' => [
