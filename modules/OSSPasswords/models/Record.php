@@ -86,13 +86,13 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT * FROM `vtiger_passwords_config` WHERE 1;';
+		$sql = 'SELECT * FROM vtiger_passwords_config;';
 
 		$result = $db->query($sql, true);
 
-		if ($db->num_rows($result) == 1)
+		if ($db->num_rows($result) === 1)
 			return $db->fetch_array($result);
-		else if ($db->num_rows($result) == 0)
+		else if ($db->num_rows($result) === 0)
 			return false;
 	}
 	/*
