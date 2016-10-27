@@ -1,11 +1,11 @@
-<?php
-namespace App;
+<?php namespace App;
 
 /**
  * User basic class
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class User
 {
@@ -128,5 +128,24 @@ class User
 	public function get($key)
 	{
 		return $this->privileges[$key];
+	}
+
+	protected static $userExistsCache = [];
+
+	/**
+	 * Function checks if user exists
+	 * @param int $id - User ID
+	 * @return boolean
+	 */
+	public static function isExists($id)
+	{
+		if (isset(self::$userExistsCache[$id])) {
+			return self::$userExistsCache[$id];
+		}
+		return self::$userExistsCache[$id] = (new \App\Db\Query())
+				->from('vtiger_users')
+				->where(['status' => 'Active'])
+				->where(['deleted' => 0])
+				->andWhere(['id' => $id])->exists();
 	}
 }

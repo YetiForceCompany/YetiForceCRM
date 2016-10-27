@@ -303,9 +303,13 @@ class Functions
 	// MODULE RECORD
 	protected static $crmRecordIdMetadataCache = [];
 
+	/**
+	 * Function gets record metadata
+	 * @param int|array $mixedid
+	 * @return array
+	 */
 	public static function getCRMRecordMetadata($mixedid)
 	{
-		$adb = \PearDatabase::getInstance();
 		$multimode = is_array($mixedid);
 
 		$ids = $multimode ? $mixedid : array($mixedid);
@@ -316,10 +320,12 @@ class Functions
 			}
 		}
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, deleted, smcreatorid, smownerid, createdtime 
-				FROM vtiger_crmentity WHERE %s ", implode(' || ', array_fill(0, count($missing), 'vtiger_crmentity.crmid=?')));
-			$result = $adb->pquery($sql, $missing);
-			while ($row = $adb->getRow($result)) {
+			$query = (new \App\Db\Query())
+				->select(['crmid', 'setype', 'deleted', 'smcreatorid', 'smownerid', 'createdtime'])
+				->from('vtiger_crmentity')
+				->where(['in', 'crmid', $missing]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
 			}
 		}

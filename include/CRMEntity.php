@@ -653,30 +653,24 @@ class CRMEntity
 
 	/**
 	 * Retrieve record information of the module
-	 * @param <Integer> $record - crmid of record
-	 * @param <String> $module - module name
+	 * @param integer $record - crmid of record
+	 * @param string $module - module name
 	 */
 	public function retrieve_entity_info($record, $module)
 	{
-		$adb = PearDatabase::getInstance();
-
 		if (!isset($record)) {
 			throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 		}
-		// INNER JOIN is desirable if all dependent table has entries for the record.
-		// LEFT JOIN is desired if the dependent tables does not have entry.
-		$join_type = 'LEFT JOIN';
 
 		// Tables which has multiple rows for the same record
 		// will be skipped in record retrieve - need to be taken care separately.
-		$multirow_tables = NULL;
+		$multiRowTables = NULL;
 		if (isset($this->multirow_tables)) {
-			$multirow_tables = $this->multirow_tables;
+			$multiRowTables = $this->multirow_tables;
 		} else {
-			$multirow_tables = array(
+			$multiRowTables = array(
 				'vtiger_campaignrelstatus',
 				'vtiger_attachments',
-				//'vtiger_inventoryproductrel',
 				'vtiger_email_track'
 			);
 		}
@@ -697,15 +691,16 @@ class CRMEntity
 		if ($cachedModuleFields === false) {
 			// Pull fields and cache for further use
 			$tabid = \App\Module::getModuleId($module);
-
-			$sql0 = "SELECT fieldname, fieldid, fieldlabel, columnname, tablename, uitype, typeofdata,presence FROM vtiger_field WHERE tabid=?";
-			// NOTE: Need to skip in-active fields which we will be done later.
-			$result0 = $adb->pquery($sql0, array($tabid));
-			if ($adb->num_rows($result0)) {
-				while ($resultrow = $adb->fetch_array($result0)) {
+			$query = (new \App\Db\Query())
+				->select(['fieldname', 'fieldid', 'fieldlabel', 'columnname', 'tablename', 'uitype', 'typeofdata', 'presence'])
+				->from('vtiger_field')
+				->where(['tabid' => $tabid]);
+			$dataReader = $query->createCommand()->query();
+			if ($dataReader->count()) {
+				while ($row = $dataReader->read()) {
 					// Update cache
 					VTCacheUtils::updateFieldInfo(
-						$tabid, $resultrow['fieldname'], $resultrow['fieldid'], $resultrow['fieldlabel'], $resultrow['columnname'], $resultrow['tablename'], $resultrow['uitype'], $resultrow['typeofdata'], $resultrow['presence']
+						$tabid, $row['fieldname'], $row['fieldid'], $row['fieldlabel'], $row['columnname'], $row['tablename'], $row['uitype'], $row['typeofdata'], $row['presence']
 					);
 				}
 				// Get only active field information
@@ -714,73 +709,61 @@ class CRMEntity
 		}
 
 		if ($cachedModuleFields) {
-			$column_clause = '';
-			$from_clause = '';
-			$where_clause = '';
-			$limit_clause = ' LIMIT 1'; // to eliminate multi-records due to table joins.
+			$query = new \App\Db\Query();
+			$columnClause = [];
+			$requiredTables = $this->tab_name_index; // copies-on-write
 
-			$params = [];
-			$required_tables = $this->tab_name_index; // copies-on-write
-
-			foreach ($cachedModuleFields as $fieldinfo) {
-				if (in_array($fieldinfo['tablename'], $multirow_tables)) {
+			foreach ($cachedModuleFields as $fieldInfo) {
+				if (in_array($fieldInfo['tablename'], $multiRowTables)) {
 					continue;
 				}
-
 				// Alias prefixed with tablename+fieldname to avoid duplicate column name across tables
 				// fieldname are always assumed to be unique for a module
-				$column_clause .= $fieldinfo['tablename'] . '.' . $fieldinfo['columnname'] . ' AS ' . $this->createColumnAliasForField($fieldinfo) . ',';
+				$columnClause[] = $fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] . ' AS ' . $this->createColumnAliasForField($fieldInfo);
 			}
-			$column_clause .= 'vtiger_crmentity.deleted';
-
-			if (isset($required_tables['vtiger_crmentity'])) {
-				$from_clause = ' vtiger_crmentity';
-				unset($required_tables['vtiger_crmentity']);
-				foreach ($required_tables as $tablename => $tableindex) {
-					if (in_array($tablename, $multirow_tables)) {
+			$columnClause[] = 'vtiger_crmentity.deleted';
+			$query->select($columnClause);
+			if (isset($requiredTables['vtiger_crmentity'])) {
+				$query->from('vtiger_crmentity');
+				unset($requiredTables['vtiger_crmentity']);
+				foreach ($requiredTables as $tableName => $tableIndex) {
+					if (in_array($tableName, $multiRowTables)) {
 						// Avoid multirow table joins.
 						continue;
 					}
-					$from_clause .= sprintf(' %s %s ON %s.%s=%s.%s', $join_type, $tablename, $tablename, $tableindex, 'vtiger_crmentity', 'crmid');
+					$query->leftJoin($tableName, "vtiger_crmentity.crmid = $tableName.$tableIndex");
 				}
 			}
 
-			$where_clause .= ' vtiger_crmentity.crmid = ? ';
-			$params[] = $record;
+			$query->where(['vtiger_crmentity.crmid' => $record]);
 			if ($module != '') {
-				$where_clause .= ' AND vtiger_crmentity.setype = ?';
-				$params[] = $module;
+				$query->andWhere(['vtiger_crmentity.setype' => $module]);
 			}
-
-			$sql = sprintf('SELECT %s FROM %s WHERE %s %s', $column_clause, $from_clause, $where_clause, $limit_clause);
-
-			$result = $adb->pquery($sql, $params);
-
-			if (!$result || $adb->num_rows($result) < 1) {
+			$resultRow = $query->one();
+			if (empty($resultRow)) {
 				throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 			} else {
-				$resultrow = $adb->getRow($result);
-				if (!empty($resultrow['deleted'])) {
+				if (!empty($resultRow['deleted'])) {
 					throw new \Exception\NoPermittedToRecord('LBL_RECORD_DELETE');
 				}
 				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
-				foreach ($cachedModuleFields as $fieldinfo) {
+				foreach ($cachedModuleFields as $fieldInfo) {
 					$fieldvalue = '';
-					$fieldkey = $this->createColumnAliasForField($fieldinfo);
+					$fieldkey = $this->createColumnAliasForField($fieldInfo);
 					//Note : value is retrieved with a tablename+fieldname as we are using alias while building query
-					if (isset($resultrow[$fieldkey])) {
-						$fieldvalue = $resultrow[$fieldkey];
+					if (isset($resultRow[$fieldkey])) {
+						$fieldvalue = $resultRow[$fieldkey];
 					}
-					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [10, 51, 73])) {
-						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = vtlib\Functions::getCRMRecordLabel($fieldvalue);
+					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [10, 51, 73])) {
+						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = vtlib\Functions::getCRMRecordLabel($fieldvalue);
 					}
-					if ($showsAdditionalLabels && in_array($fieldinfo['uitype'], [52, 53])) {
-						$this->column_fields[$fieldinfo['fieldname'] . '_label'] = vtlib\Functions::getOwnerRecordLabel($fieldvalue);
+					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [52, 53])) {
+						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = vtlib\Functions::getOwnerRecordLabel($fieldvalue);
 					}
-					if ($fieldinfo['uitype'] === 71) {
+					if ($fieldInfo['uitype'] === 71) {
 						$fieldvalue = CurrencyField::convertToUserFormat($fieldvalue, null, true);
 					}
-					$this->column_fields[$fieldinfo['fieldname']] = $fieldvalue;
+					$this->column_fields[$fieldInfo['fieldname']] = $fieldvalue;
 				}
 			}
 		}

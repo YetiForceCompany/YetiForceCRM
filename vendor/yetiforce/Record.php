@@ -226,7 +226,7 @@ class Record
 	public static function isExists($recordId)
 	{
 		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
-		return (isset($recordMetaData) && $recordMetaData['deleted'] == 0 ) ? true : false;
+		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 ) ? true : false;
 	}
 
 	public static function getType($recordId)
