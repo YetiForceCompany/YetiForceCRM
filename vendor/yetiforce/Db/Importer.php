@@ -12,6 +12,7 @@ use App\Db\Importers\Base;
 class Importer
 {
 
+	public $logs = "\n";
 	public $path = 'install/install_schema';
 	private $importers = [];
 
@@ -41,9 +42,6 @@ class Importer
 		foreach ($this->importers as &$importer) {
 			$this->addTables($importer);
 		}
-		foreach ($this->importers as &$importer) {
-			$this->addForeignKey($importer);
-		}
 	}
 
 	/**
@@ -57,26 +55,56 @@ class Importer
 	}
 
 	/**
+	 * Post Process action
+	 */
+	public function postProcess()
+	{
+		foreach ($this->importers as &$importer) {
+			$this->addForeignKey($importer);
+		}
+	}
+
+	/**
 	 * Creating tables
 	 * @param Base $importer
 	 */
 	public function addTables(Base $importer)
 	{
+		$this->logs .= "> start add tables\n";
 		foreach ($importer->tables as $tableName => $table) {
-			$importer->db->createCommand()->createTable(
-				$tableName, $table['columns'], $this->getOptions($importer->db->type, $table)
-			)->execute();
+			$this->logs .= "  > add table: $tableName ... ";
+			try {
+				$importer->db->createCommand()->createTable(
+					$tableName, $table['columns'], $this->getOptions($importer->db->type, $table)
+				)->execute();
+				$this->logs .= "done\n";
+			} catch (\Exception $e) {
+				$this->logs .= "error (" . $e->getMessage() . ")\n";
+			}
 			if (isset($table['index'])) {
 				foreach ($table['index'] as $index) {
-					$importer->db->createCommand()->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false )->execute();
+					$this->logs .= "  > create index: {$index[0]} ... ";
+					try {
+						$importer->db->createCommand()->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false )->execute();
+						$this->logs .= "done\n";
+					} catch (\Exception $e) {
+						$this->logs .= "error (" . $e->getMessage() . ")\n";
+					}
 				}
 			}
 			if (isset($table['primaryKeys'])) {
 				foreach ($table['primaryKeys'] as $primaryKey) {
-					$importer->db->createCommand()->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
+					$this->logs .= "  > add primary key: {$primaryKey[0]} ... ";
+					try {
+						$importer->db->createCommand()->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
+						$this->logs .= "done\n";
+					} catch (\Exception $e) {
+						$this->logs .= "error (" . $e->getMessage() . ")\n";
+					}
 				}
 			}
 		}
+		$this->logs .= "# end add tables\n";
 	}
 
 	/**
@@ -105,11 +133,19 @@ class Importer
 		if (!isset($importer->foreignKey)) {
 			return;
 		}
+		$this->logs .= "> start add foreign key\n";
 		foreach ($importer->foreignKey as $key) {
-			$importer->db->createCommand()->addForeignKey(
-				$key[0], $key[1], $key[2], $key[3], $key[4], $key[5], $key[6]
-			)->execute();
+			$this->logs .= "  > add: {$key[0]}, {$key[1]} ... ";
+			try {
+				$importer->db->createCommand()->addForeignKey(
+					$key[0], $key[1], $key[2], $key[3], $key[4], $key[5], $key[6]
+				)->execute();
+				$this->logs .= "done\n";
+			} catch (\Exception $e) {
+				$this->logs .= "error (" . $e->getMessage() . ")\n";
+			}
 		}
+		$this->logs .= "# end add foreign key\n";
 	}
 
 	/**
@@ -121,11 +157,28 @@ class Importer
 		if (!isset($importer->data)) {
 			return;
 		}
+		$this->logs .= "> start add data rows\n";
 		foreach ($importer->data as $tableName => $table) {
-			$keys = $table['columns'];
-			foreach ($table['values'] as $values) {
-				$importer->db->createCommand()->insert($tableName, array_combine($keys, $values))->execute();
+			$this->logs .= "  > add data to table: $tableName ... ";
+			try {
+				$keys = $table['columns'];
+				foreach ($table['values'] as $values) {
+					$importer->db->createCommand()->insert($tableName, array_combine($keys, $values))->execute();
+				}
+				$this->logs .= "done\n";
+			} catch (\Exception $e) {
+				$this->logs .= "error (" . $e->getMessage() . ")\n";
 			}
+		}
+		$this->logs .= "# end add data rows\n";
+	}
+
+	public function logs($show = true)
+	{
+		if ($show) {
+			echo $this->logs;
+		} else {
+			file_put_contents('cache/logs/Importer.log', $this->logs);
 		}
 	}
 }
