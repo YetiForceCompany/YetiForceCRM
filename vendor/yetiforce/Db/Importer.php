@@ -14,6 +14,7 @@ class Importer
 
 	public $logs = "\n";
 	public $path = 'install/install_schema';
+	public $dieOnError = false;
 	private $importers = [];
 
 	/**
@@ -80,6 +81,9 @@ class Importer
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
 				$this->logs .= "error (" . $e->getMessage() . ")\n";
+				if ($this->dieOnError) {
+					throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+				}
 			}
 			if ($indexes = $this->getIndexes($importer, $table)) {
 				foreach ($indexes as $index) {
@@ -89,6 +93,9 @@ class Importer
 						$this->logs .= "done\n";
 					} catch (\Exception $e) {
 						$this->logs .= "error (" . $e->getMessage() . ")\n";
+						if ($this->dieOnError) {
+							throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+						}
 					}
 				}
 			}
@@ -100,6 +107,9 @@ class Importer
 						$this->logs .= "done\n";
 					} catch (\Exception $e) {
 						$this->logs .= "error (" . $e->getMessage() . ")\n";
+						if ($this->dieOnError) {
+							throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+						}
 					}
 				}
 			}
@@ -188,6 +198,9 @@ class Importer
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
 				$this->logs .= "error (" . $e->getMessage() . ")\n";
+				if ($this->dieOnError) {
+					throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+				}
 			}
 		}
 		$this->logs .= "# end add foreign key\n";
@@ -213,6 +226,9 @@ class Importer
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
 				$this->logs .= "error (" . $e->getMessage() . ")\n";
+				if ($this->dieOnError) {
+					throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+				}
 			}
 		}
 		$this->logs .= "# end add data rows\n";
