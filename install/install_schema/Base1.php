@@ -90,7 +90,7 @@ class Base1 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['chat_online_pk', ['workflow_id', 'entity_id']]
+					['workflow_activatedonce_pk', ['workflow_id', 'entity_id']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -304,6 +304,9 @@ class Base1 extends \App\Db\Importers\Base
 					'uid' => 'varbinary(200) DEFAULT NULL'
 				],
 				'index' => [
+					['dav_calendarobjects_cal_idx', ['calendarid', 'uri'], true],
+				],
+				'index_mysql' => [
 					['dav_calendarobjects_cal_idx', ['calendarid', 'uri(100)'], true],
 				],
 				'engine' => 'InnoDB',
@@ -407,11 +410,14 @@ class Base1 extends \App\Db\Importers\Base
 					'displayname' => $this->stringType(80),
 					'userid' => $this->integer(),
 				],
-				'columns' => [
+				'columns_mysql' => [
 					'uri' => 'varbinary(200) NOT NULL',
 					'email' => 'varbinary(80)',
 				],
 				'index' => [
+					['dav_principals_uri_idx', 'uri', true],
+				],
+				'index_mysql' => [
 					['dav_principals_uri_idx', 'uri(100)', true],
 				],
 				'engine' => 'InnoDB',
@@ -1414,7 +1420,7 @@ class Base1 extends \App\Db\Importers\Base
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
-					'presence' => $this->boolean()->unsigned()->notNull()->defaultValue(0),
+					'presence' => $this->boolean()->unsigned()->notNull()->defaultValue(false),
 					'defaultvalue' => $this->stringType(),
 					'sequence' => $this->integer(10)->unsigned()->notNull(),
 					'block' => $this->smallInteger(1)->unsigned()->notNull(),
@@ -2079,7 +2085,7 @@ class Base1 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['istn_pk', 'istnid']
+					['istncf_pk', 'istnid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3190,7 +3196,7 @@ class Base1 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['ssingleorders_invmap_pk', 'ssingleordersid']
+					['ssingleorderscf_pk', 'ssingleordersid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

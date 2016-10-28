@@ -84,10 +84,10 @@ class Base3 extends \App\Db\Importers\Base
 					'roleandsubid' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['group2role_idx', 'roleandsubid'],
+					['group2rs_idx', 'roleandsubid'],
 				],
 				'primaryKeys' => [
-					['group2role_pk', ['groupid', 'roleandsubid']]
+					['group2rs_pk', ['groupid', 'roleandsubid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -227,7 +227,7 @@ class Base3 extends \App\Db\Importers\Base
 					'fieldname' => $this->stringType(100),
 				],
 				'index' => [
-					['homemodule_idx', 'stuffid'],
+					['homemoduleflds_idx', 'stuffid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -458,7 +458,7 @@ class Base3 extends \App\Db\Importers\Base
 					'has_header' => $this->integer(1)->notNull()->defaultValue(1),
 					'deleted' => $this->integer(1)->notNull()->defaultValue(0),
 					'date_entered' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-					'date_modified' => $this->timestamp()->notNull()->defaultValue('0000-00-00 00:00:00'),
+					'date_modified' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
 					'assigned_user_id' => $this->stringType(36),
 					'is_published' => $this->stringType(3)->notNull()->defaultValue('no'),
 				],
@@ -1643,7 +1643,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['oproductstatus_pk', 'share_action_id']
+					['share_action_mapping_pk', 'share_action_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2253,7 +2253,7 @@ class Base3 extends \App\Db\Importers\Base
 					['ssalesprocessesid', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-					['osstimecontrolcf_pk', 'outsourcedproductsid']
+					['outsourcedproducts_pk', 'outsourcedproductsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

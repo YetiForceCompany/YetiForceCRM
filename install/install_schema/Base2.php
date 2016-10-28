@@ -2400,7 +2400,7 @@ class Base2 extends \App\Db\Importers\Base
 					'fieldname' => $this->stringType(50)->notNull(),
 					'fieldlabel' => $this->stringType(50)->notNull(),
 					'readonly' => $this->boolean()->unsigned()->notNull(),
-					'presence' => $this->boolean()->unsigned()->notNull()->defaultValue(1),
+					'presence' => $this->boolean()->unsigned()->notNull()->defaultValue(true),
 					'defaultvalue' => $this->text(),
 					'maximumlength' => $this->smallInteger(5)->unsigned()->notNull(),
 					'sequence' => $this->smallInteger(5)->unsigned()->notNull(),
