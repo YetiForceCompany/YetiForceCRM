@@ -203,7 +203,7 @@ class PearDatabase
 			return $this->hasActiveTransaction;
 		} else {
 			$this->autoCommit = false;
-			$this->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
+			//$this->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
 			$this->hasActiveTransaction = $this->database->beginTransaction();
 			return $this->hasActiveTransaction;
 		}
@@ -216,7 +216,7 @@ class PearDatabase
 		if ($this->transCnt == 0) {
 			$this->database->commit();
 			$this->autoCommit = false;
-			$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
+			//$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
 			$this->hasActiveTransaction = false;
 		}
 	}
@@ -232,7 +232,7 @@ class PearDatabase
 			$this->hasFailedTransaction = true;
 			$result = $this->database->rollback();
 			$this->autoCommit = false;
-			$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
+			//$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
 			$this->transCnt -= 1;
 			return $result;
 		}
