@@ -2,6 +2,7 @@
 namespace App\Db;
 
 use App\Db\Importers\Base;
+use App\Exceptions;
 
 /**
  * Class that imports structure and data to database
@@ -82,7 +83,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= "error (" . $e->getMessage() . ")\n";
 				if ($this->dieOnError) {
-					throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 			if ($indexes = $this->getIndexes($importer, $table)) {
@@ -94,7 +95,7 @@ class Importer
 					} catch (\Exception $e) {
 						$this->logs .= "error (" . $e->getMessage() . ")\n";
 						if ($this->dieOnError) {
-							throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
 					}
 				}
@@ -108,7 +109,7 @@ class Importer
 					} catch (\Exception $e) {
 						$this->logs .= "error (" . $e->getMessage() . ")\n";
 						if ($this->dieOnError) {
-							throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
 					}
 				}
@@ -199,7 +200,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= "error (" . $e->getMessage() . ")\n";
 				if ($this->dieOnError) {
-					throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 		}
@@ -227,7 +228,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= "error (" . $e->getMessage() . ")\n";
 				if ($this->dieOnError) {
-					throw new APIException('Importer error: ' . $e->getMessage(), $e->errorInfo, (int) $e->getCode(), $e);
+					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 		}
