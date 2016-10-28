@@ -2,7 +2,8 @@
 SQLyog Community v12.09 (64 bit)
 MySQL - 5.7.9 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -4037,7 +4038,7 @@ CREATE TABLE `vtiger_customerportal_tabs` (
 /*Table structure for table `vtiger_customview` */
 
 CREATE TABLE `vtiger_customview` (
-  `cvid` int(19) NOT NULL,
+  `cvid` int(19) NOT NULL AUTO_INCREMENT,
   `viewname` varchar(100) NOT NULL,
   `setdefault` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `setmetrics` tinyint(1) NOT NULL DEFAULT '0',
@@ -4055,13 +4056,8 @@ CREATE TABLE `vtiger_customview` (
   KEY `customview_entitytype_idx` (`entitytype`),
   KEY `setdefault` (`setdefault`,`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_customview_seq` */
-
-CREATE TABLE `vtiger_customview_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvadvfilter` */
 

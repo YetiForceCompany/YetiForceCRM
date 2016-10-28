@@ -334,8 +334,6 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		}
 		$db->startTransaction();
 		if (!$cvId) {
-			$cvId = $db->getUniqueID('vtiger_customview');
-			$this->set('cvid', $cvId);
 			$this->addCustomView();
 		} else {
 			$this->updateCustomView();
@@ -529,12 +527,11 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function addCustomView()
 	{
-		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $this->getModule()->get('name');
 		$seq = $this->getNextSeq($moduleName);
-		$db->insert('vtiger_customview', [
-			'cvid' => $this->getId(),
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('vtiger_customview', [
 			'viewname' => $this->get('viewname'),
 			'setmetrics' => $this->get('setmetrics'),
 			'entitytype' => $moduleName,
@@ -544,7 +541,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			'featured' => null,
 			'color' => $this->get('color'),
 			'description' => $this->get('description')
-		]);
+		])->execute();
+		$this->set('cvid', $db->getLastInsertID());
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 	}

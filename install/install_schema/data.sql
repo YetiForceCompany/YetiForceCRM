@@ -2,7 +2,8 @@
 SQLyog Community v12.09 (64 bit)
 MySQL - 5.7.9 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1856,10 +1857,6 @@ insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`en
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (102,'All',1,0,'IGRNC',0,1,1,0,NULL,0,NULL,'','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (103,'All',1,0,'IGDNC',0,1,1,0,NULL,0,NULL,'','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (104,'All',1,0,'Notification',0,1,1,0,1,0,NULL,NULL,'');
-
-/*Data for the table `vtiger_customview_seq` */
-
-insert  into `vtiger_customview_seq`(`id`) values (104);
 
 /*Data for the table `vtiger_cvadvfilter` */
 
