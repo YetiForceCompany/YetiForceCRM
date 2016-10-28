@@ -17,7 +17,7 @@ class ModTrackerHandler extends VTEventHandler
 	public function handleEvent($eventName, $data)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 
 		if (!is_object($data)) {
 			$extendedData = $data;
@@ -32,7 +32,6 @@ class ModTrackerHandler extends VTEventHandler
 			$db = \App\Db::getInstance();
 			switch ($eventName) {
 				case 'vtiger.entity.aftersave.final':
-
 					$recordId = $data->getId();
 					$columnFields = $data->getData();
 					$vtEntityDelta = new VTEntityDelta();
@@ -57,15 +56,16 @@ class ModTrackerHandler extends VTEventHandler
 										$watchdogTitle = 'LBL_UPDATED';
 										$watchdogMessage = '(recordChanges: listOfAllChanges)';
 									}
-									$adb->insert('vtiger_modtracker_basic', [
-										'crmid' => $recordId,
-										'module' => $moduleName,
-										'whodid' => $currentUser->getRealId(),
-										'changedon' => $newerColumnFields['modifiedtime'],
-										'status' => $status,
-										'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
-									]);
-									$this->id = $adb->getLastInsertID();
+									$db->createCommand()
+										->insert('vtiger_modtracker_basic', [
+											'crmid' => $recordId,
+											'module' => $moduleName,
+											'whodid' => $currentUser->getRealId(),
+											'changedon' => $newerColumnFields['modifiedtime'],
+											'status' => $status,
+											'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
+										])->execute();
+									$this->id = $db->getLastInsertID();
 									if ($status != ModTracker::$CREATED) {
 										ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $this->id);
 									}
@@ -75,9 +75,9 @@ class ModTrackerHandler extends VTEventHandler
 							}
 						}
 					}
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $recordId));
-					if ($adb->num_rows($isMyRecord) > 0) {
-						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
+					$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', $currentUser->getRealId()])->exists();
+					if ($isExists) {
+						$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0,], ['crmid' => $recordId])->execute();
 					}
 
 					break;
@@ -161,8 +161,6 @@ class ModTrackerHandler extends VTEventHandler
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$DISPLAYED
 					])->execute();
-				
-
 					break;
 			}
 			if (AppConfig::module('ModTracker', 'WATCHDOG') && $watchdogTitle != '') {
@@ -172,7 +170,7 @@ class ModTrackerHandler extends VTEventHandler
 				$users = $watchdog->getWatchingUsers();
 				if (!empty($users)) {
 					$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
-					if($relatedField !== false) {
+					if ($relatedField !== false) {
 						$notification = Vtiger_Record_Model::getCleanInstance('Notification');
 						$notification->set('shownerid', $users);
 						$notification->set($relatedField, $recordId);
