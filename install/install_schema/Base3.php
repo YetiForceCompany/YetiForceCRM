@@ -43,11 +43,11 @@ class Base3 extends \App\Db\Importers\Base
 					'containsgroupid' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-					['containsgroupid', 'containsgroupid'],
-					['groupid', 'groupid'],
+					['group2grouprel_containsgroupid_idx', 'containsgroupid'],
+					['group2grouprel_groupid_idx', 'groupid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['groupid', 'containsgroupid']]
+					['group2grouprel_pk', ['groupid', 'containsgroupid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -58,8 +58,8 @@ class Base3 extends \App\Db\Importers\Base
 					'tabid' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['groupid', 'groupid'],
-					['tabid', 'tabid'],
+					['group2modules_groupid_idx', 'groupid'],
+					['group2modules_tabid_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -70,10 +70,10 @@ class Base3 extends \App\Db\Importers\Base
 					'roleid' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['fk_2_vtiger_group2role', 'roleid'],
+					['group2role_idx', 'roleid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['groupid', 'roleid']]
+					['group2role_pk', ['groupid', 'roleid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -84,10 +84,10 @@ class Base3 extends \App\Db\Importers\Base
 					'roleandsubid' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['fk_2_vtiger_group2rs', 'roleandsubid'],
+					['group2role_idx', 'roleandsubid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['groupid', 'roleandsubid']]
+					['group2role_pk', ['groupid', 'roleandsubid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -104,7 +104,7 @@ class Base3 extends \App\Db\Importers\Base
 					['groups_groupname_idx', 'groupname', true],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'groupid']
+					['groups_pk', 'groupid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -118,10 +118,10 @@ class Base3 extends \App\Db\Importers\Base
 					'ossemployeesid' => $this->integer(),
 				],
 				'index' => [
-					['ossemployeesid', 'ossemployeesid'],
+					['holidaysentitlement_idx', 'ossemployeesid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'holidaysentitlementid']
+					['holidaysentitlement_pk', 'holidaysentitlementid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -155,7 +155,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'holidaysentitlementid']
+					['holidaysentitlementcf_pk', 'holidaysentitlementid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -168,7 +168,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'userid']
+					['home_layout_pk', 'userid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -180,10 +180,10 @@ class Base3 extends \App\Db\Importers\Base
 					'dashbdtype' => $this->stringType(100),
 				],
 				'index' => [
-					['stuff_stuffid_idx', 'stuffid'],
+					['homedashbd_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'stuffid']
+					['homedashbd_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -196,10 +196,10 @@ class Base3 extends \App\Db\Importers\Base
 					'setype' => $this->stringType(30),
 				],
 				'index' => [
-					['stuff_stuffid_idx', 'stuffid'],
+					['homedefault_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'stuffid']
+					['homedefault_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -213,10 +213,10 @@ class Base3 extends \App\Db\Importers\Base
 					'setype' => $this->stringType(30)->notNull(),
 				],
 				'index' => [
-					['stuff_stuffid_idx', 'stuffid'],
+					['homemodule_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'stuffid']
+					['homemodule_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -227,7 +227,7 @@ class Base3 extends \App\Db\Importers\Base
 					'fieldname' => $this->stringType(100),
 				],
 				'index' => [
-					['stuff_stuffid_idx', 'stuffid'],
+					['homemodule_idx', 'stuffid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -241,7 +241,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'stuffid']
+					['homereportchart_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -253,10 +253,10 @@ class Base3 extends \App\Db\Importers\Base
 					'maxentries' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['stuff_stuffid_idx', 'stuffid'],
+					['homerss_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'stuffid']
+					['homerss_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -271,11 +271,11 @@ class Base3 extends \App\Db\Importers\Base
 					'stufftitle' => $this->stringType(100),
 				],
 				'index' => [
-					['stuff_stuffid_idx', 'stuffid'],
-					['fk_1_vtiger_homestuff', 'userid'],
+					['homestuff_idx', 'stuffid'],
+					['homestuff_user_idx', 'userid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'stuffid']
+					['homestuff_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -322,7 +322,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'ideasid']
+					['ideas_pk', 'ideasid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -334,7 +334,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'ideasid']
+					['ideascf_pk', 'ideasid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -444,7 +444,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'vtiger_import_lock_id']
+					['import_locks_pk', 'vtiger_import_lock_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -463,7 +463,7 @@ class Base3 extends \App\Db\Importers\Base
 					'is_published' => $this->stringType(3)->notNull()->defaultValue('no'),
 				],
 				'index' => [
-					['import_maps_assigned_user_id_module_name_deleted_idx', ['assigned_user_id', 'module', 'name', 'deleted']],
+					['import_maps_idx', ['assigned_user_id', 'module', 'name', 'deleted']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -483,7 +483,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'importid']
+					['import_queue_pk', 'importid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -520,7 +520,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'id']
+					['inventory_tandc_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -594,7 +594,7 @@ class Base3 extends \App\Db\Importers\Base
 					['inventorytaxinfo_taxname_idx', 'taxname'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'taxid']
+					['inventorytaxinfo_pk', 'taxid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -704,7 +704,7 @@ class Base3 extends \App\Db\Importers\Base
 					'active' => $this->boolean()->notNull()->defaultValue(true),
 				],
 				'index' => [
-					['prefix', 'prefix'],
+					['language_prefix', 'prefix'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -730,7 +730,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'id']
+					['layout_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -777,7 +777,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'leadaddressid']
+					['leadaddress_pk', 'leadaddressid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -831,12 +831,12 @@ class Base3 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['leaddetails_converted_leadstatus_idx', ['converted', 'leadstatus']],
-					['email_idx', 'email'],
-					['lastname', 'lastname'],
-					['converted', 'converted'],
+					['leaddetails_email_idx', 'email'],
+					['leaddetails_lastname_idx', 'lastname'],
+					['leaddetails_converted_idx', 'converted'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'leadid']
+					['leaddetails_pk', 'leadid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -869,7 +869,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'leadid']
+					['leadscf_pk', 'leadid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -904,7 +904,7 @@ class Base3 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
-					['leadstage_stage_idx', 'stage', true],
+					['leadstage_idx', 'stage', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -943,7 +943,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'leadsubscriptionid']
+					['leadsubdetails_pk', 'leadsubscriptionid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -989,7 +989,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'lettersinid']
+					['lettersin_pk', 'lettersinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1001,7 +1001,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'lettersinid']
+					['lettersincf_pk', 'lettersinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1026,7 +1026,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'lettersoutid']
+					['lettersout_pk', 'lettersoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1038,7 +1038,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'lettersoutid']
+					['lettersoutcf_pk', 'lettersoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1143,13 +1143,13 @@ class Base3 extends \App\Db\Importers\Base
 					'params' => $this->stringType(),
 				],
 				'index' => [
-					['link_tabidtype_idx', ['tabid', 'linktype']],
-					['linklabel', 'linklabel'],
-					['linkid', ['linkid', 'tabid', 'linktype', 'linklabel']],
-					['linktype', 'linktype'],
+					['links_tabidtype_idx', ['tabid', 'linktype']],
+					['links_linklabel_idx', 'linklabel'],
+					['links_linkid_idx', ['linkid', 'tabid', 'linktype', 'linklabel']],
+					['links_linktype_idx', 'linktype'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'linkid']
+					['links_idx', 'linkid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1174,8 +1174,8 @@ class Base3 extends \App\Db\Importers\Base
 					'browser' => $this->stringType(25),
 				],
 				'index' => [
-					['user_name', 'user_name'],
-					['user_ip', ['user_ip', 'login_time', 'status']],
+					['loginhistory_user_name_idx', 'user_name'],
+					['loginhistory_user_idx', ['user_ip', 'login_time', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1288,7 +1288,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'account_id']
+					['mail_accounts_pk', 'account_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1327,14 +1327,14 @@ class Base3 extends \App\Db\Importers\Base
 					'reasontoedit' => $this->stringType(100),
 				],
 				'index' => [
-					['relatedto_idx', 'related_to'],
-					['modcommentsid', 'modcommentsid'],
-					['parent_comments', 'parent_comments'],
-					['userid', 'userid'],
-					['related_to', ['related_to', 'parent_comments']],
+					['modcomments_relatedto_idx', 'related_to'],
+					['modcomments_modcommentsid_idx', 'modcommentsid'],
+					['modcomments_comments_idx', 'parent_comments'],
+					['modcomments_userid_idx', 'userid'],
+					['modcomments_related_to_idx', ['related_to', 'parent_comments']],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'modcommentsid']
+					['modcomments_pk', 'modcommentsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1346,7 +1346,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'modcommentsid']
+					['modcommentscf_pk', 'modcommentsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1361,10 +1361,10 @@ class Base3 extends \App\Db\Importers\Base
 					'cur_id' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-					['semodule', 'cur_id'],
-					['prefix', ['prefix', 'postfix', 'cur_id']],
-					['tabid', 'tabid'],
-					['tabid_2', ['tabid', 'cur_id']],
+					['modentity_num_semodule_idx', 'cur_id'],
+					['modentity_num_prefix_idx', ['prefix', 'postfix', 'cur_id']],
+					['modentity_num_tabid_idx', 'tabid'],
+					['modentity_num_tabid_cur_idx', ['tabid', 'cur_id']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1380,10 +1380,10 @@ class Base3 extends \App\Db\Importers\Base
 					'last_reviewed_users' => $this->stringType()->defaultValue(''),
 				],
 				'index' => [
-					['crmidx', 'crmid'],
-					['idx', 'id'],
-					['id', ['id', 'module', 'changedon']],
-					['crmid', ['crmid', 'changedon']],
+					['modtracker_basic_crmid_idx', 'crmid'],
+					['modtracker_basic_id_idx', 'id'],
+					['modtracker_basic_change_mod_idx', ['id', 'module', 'changedon']],
+					['modtracker_basic_change_idx', ['crmid', 'changedon']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1396,7 +1396,7 @@ class Base3 extends \App\Db\Importers\Base
 					'postvalue' => $this->text(),
 				],
 				'index' => [
-					['idx', 'id'],
+					['modtracker_detail_idx', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1411,7 +1411,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'id']
+					['modtracker_relations_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1422,10 +1422,10 @@ class Base3 extends \App\Db\Importers\Base
 					'visible' => $this->boolean()->unsigned()->notNull()->defaultValue(false),
 				],
 				'index' => [
-					['tabid', ['tabid', 'visible']],
+					['modtracker_tabs_tabid_idx', ['tabid', 'visible']],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'tabid']
+					['modtracker_tabs_pk', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1446,7 +1446,7 @@ class Base3 extends \App\Db\Importers\Base
 					'date' => $this->stringType(20),
 				],
 				'index' => [
-					['vtiger_module_dashboard_ibfk_1', 'blockid'],
+					['module_dashboard_idx', 'blockid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1458,8 +1458,8 @@ class Base3 extends \App\Db\Importers\Base
 					'tabid' => $this->smallInteger(11)->unsigned()->notNull(),
 				],
 				'index' => [
-					['authorized', ['authorized', 'tabid']],
-					['tabid', 'tabid'],
+					['module_dashboard_blocks_authorized_idx', ['authorized', 'tabid']],
+					['module_dashboard_blocks_tabid_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1484,8 +1484,8 @@ class Base3 extends \App\Db\Importers\Base
 					'date' => $this->stringType(20),
 				],
 				'index' => [
-					['vtiger_module_dashboard_widgets_ibfk_1', 'templateid'],
-					['userid', ['userid', 'active', 'module']],
+					['module_dashboard_widgets_temp_idx', 'templateid'],
+					['module_dashboard_widgets_idx', ['userid', 'active', 'module']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1543,7 +1543,7 @@ class Base3 extends \App\Db\Importers\Base
 					['notes_notesid_idx', 'notesid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'notesid']
+					['notes_pk', 'notesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1555,7 +1555,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'notesid']
+					['notescf_pk', 'notesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1594,7 +1594,7 @@ class Base3 extends \App\Db\Importers\Base
 					'probability' => $this->decimal('3,2')->defaultValue(0),
 				],
 				'index' => [
-					['opportunitystage_stage_idx', 'stage', true],
+					['opportunitystage_idx', 'stage', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1627,10 +1627,10 @@ class Base3 extends \App\Db\Importers\Base
 					'tabid' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['fk_2_vtiger_org_share_action2tab', 'tabid'],
+					['oproductstatus_idx', 'tabid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['share_action_id', 'tabid']]
+					['oproductstatus_pk', ['share_action_id', 'tabid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1643,7 +1643,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'share_action_id']
+					['oproductstatus_pk', 'share_action_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1673,7 +1673,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'organization_id']
+					['organizationdetails_pk', 'organization_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1734,7 +1734,7 @@ class Base3 extends \App\Db\Importers\Base
 					'doc_order' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['ossdocumentcontrolid', 'ossdocumentcontrolid'],
+					['ossdocumentcontrol_idx', 'ossdocumentcontrolid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1789,7 +1789,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'ossemployeesid']
+					['ossemployees_pk', 'ossemployeesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1801,7 +1801,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'ossemployeesid']
+					['ossemployeescf_pk', 'ossemployeesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1891,8 +1891,8 @@ class Base3 extends \App\Db\Importers\Base
 					'ossmailtemplates_type' => $this->stringType(),
 				],
 				'index' => [
-					['ossmailtemplatesid', 'ossmailtemplatesid'],
-					['oss_module_list', 'oss_module_list'],
+					['ossmailtemplates_temp_idx', 'ossmailtemplatesid'],
+					['ossmailtemplates_mod_idx', 'oss_module_list'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1925,7 +1925,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'ossmailtemplatesid']
+					['ossmailtemplatescf_pk', 'ossmailtemplatesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1956,11 +1956,11 @@ class Base3 extends \App\Db\Importers\Base
 					'date' => $this->dateTime(),
 				],
 				'index' => [
-					['id', 'id'],
-					['message_id', 'uid'],
+					['ossmailview_id_idx', 'id'],
+					['ossmailview_message_idx', 'uid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'ossmailviewid']
+					['ossmailview_pk', 'ossmailviewid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1972,8 +1972,8 @@ class Base3 extends \App\Db\Importers\Base
 					'attachmentsid' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['fk_1_vtiger_ossmailview_files', 'ossmailviewid'],
-					['documentsid', 'documentsid'],
+					['ossmailview_files_id_idx', 'ossmailviewid'],
+					['ossmailview_files_doc_idx', 'documentsid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1986,12 +1986,12 @@ class Base3 extends \App\Db\Importers\Base
 					'deleted' => $this->boolean()->defaultValue(false),
 				],
 				'index' => [
-					['ossmailviewid_2', ['ossmailviewid', 'crmid'], true],
-					['ossmailviewid', 'ossmailviewid'],
-					['crmid', ['crmid', 'deleted']],
+					['ossmailview_relation_idx', ['ossmailviewid', 'crmid'], true],
+					['ossmailview_relation_id_idx', 'ossmailviewid'],
+					['ossmailview_relation_crm_idx', ['crmid', 'deleted']],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['ossmailviewid', 'crmid']]
+					['ossmailview_relation_pk', ['ossmailviewid', 'crmid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2025,7 +2025,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'ossmailviewid']
+					['ossmailviewcf_pk', 'ossmailviewid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2044,11 +2044,11 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(),
 				],
 				'index' => [
-					['parent_id', 'parent_id'],
-					['ssalesprocessesid', 'ssalesprocessesid'],
+					['ossoutsourcedservices_id_idx', 'parent_id'],
+					['ossoutsourcedservices_process_idx', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'ossoutsourcedservicesid']
+					['ossoutsourcedservices_pk', 'ossoutsourcedservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2060,7 +2060,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'ossoutsourcedservicesid']
+					['ossoutsourcedservicescf_pk', 'ossoutsourcedservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2078,7 +2078,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'osspasswordsid']
+					['osspasswords_pk', 'osspasswordsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2090,7 +2090,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'osspasswordsid']
+					['osspasswordscf_pk', 'osspasswordsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2113,13 +2113,13 @@ class Base3 extends \App\Db\Importers\Base
 					'renewalinvoice' => $this->integer(),
 				],
 				'index' => [
-					['parent_id', 'parent_id'],
-					['serviceid', 'serviceid'],
-					['ssalesprocessesid', 'ssalesprocessesid'],
-					['renewalinvoice', 'renewalinvoice'],
+					['osssoldservices_parent_idx', 'parent_id'],
+					['osssoldservices_service_idx', 'serviceid'],
+					['osssoldservices_sales_idx', 'ssalesprocessesid'],
+					['osssoldservices_renew_idx', 'renewalinvoice'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'osssoldservicesid']
+					['osssoldservices_pk', 'osssoldservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2144,7 +2144,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'osssoldservicesid']
+					['osssoldservicescf_pk', 'osssoldservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2167,15 +2167,15 @@ class Base3 extends \App\Db\Importers\Base
 					'subprocess' => $this->integer(),
 				],
 				'index' => [
-					['on_update_cascade', 'deleted'],
-					['osstimecontrol_status_9', ['osstimecontrol_status', 'deleted']],
-					['osstimecontrol_status_6', 'osstimecontrol_status'],
-					['subprocess', 'subprocess'],
-					['link', 'link'],
-					['process', 'process'],
+					['osstimecontrol_del_idx', 'deleted'],
+					['osstimecontrol_idx', ['osstimecontrol_status', 'deleted']],
+					['osstimecontrol_status_idx', 'osstimecontrol_status'],
+					['osstimecontrol_sub_idx', 'subprocess'],
+					['osstimecontrol_link_idx', 'link'],
+					['osstimecontrol_proc_idx', 'process'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'osstimecontrolid']
+					['osstimecontrol_pk', 'osstimecontrolid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2208,7 +2208,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'osstimecontrolid']
+					['osstimecontrolcf_pk', 'osstimecontrolid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2253,7 +2253,7 @@ class Base3 extends \App\Db\Importers\Base
 					['ssalesprocessesid', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'outsourcedproductsid']
+					['osstimecontrolcf_pk', 'outsourcedproductsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2265,7 +2265,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'outsourcedproductsid']
+					['outsourcedproductscf_pk', 'outsourcedproductsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2307,7 +2307,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'paymentsinid']
+					['paymentsin_pk', 'paymentsinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2341,7 +2341,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'paymentsinid']
+					['paymentsincf_pk', 'paymentsinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2362,7 +2362,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'paymentsoutid']
+					['paymentsout_pk', 'paymentsoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2396,7 +2396,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'paymentsoutid']
+					['paymentsoutcf_pk', 'paymentsoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2419,8 +2419,8 @@ class Base3 extends \App\Db\Importers\Base
 					'customertype' => $this->stringType(100),
 				],
 				'index' => [
-					['index_sourceuuid', 'sourceuuid'],
-					['index_pbxmanager_id', 'pbxmanagerid'],
+					['pbxmanager_sourceuuid_idx', 'sourceuuid'],
+					['pbxmanager_id_idx', 'pbxmanagerid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2445,8 +2445,8 @@ class Base3 extends \App\Db\Importers\Base
 					'fieldname' => $this->stringType(50),
 				],
 				'index' => [
-					['unique_key', ['crmid', 'setype', 'fieldname'], true],
-					['index_phone_number', ['fnumber', 'rnumber']],
+					['pbxmanager_phonelookup_unique_key_idx', ['crmid', 'setype', 'fieldname'], true],
+					['pbxmanager_phonelookup_phone_idx', ['fnumber', 'rnumber']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2458,7 +2458,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'pbxmanagerid']
+					['pbxmanagercf_pk', 'pbxmanagerid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2487,7 +2487,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'id']
+					['picklist_dependency_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2532,7 +2532,7 @@ class Base3 extends \App\Db\Importers\Base
 					['portal_portalname_idx', 'portalname'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'portalid']
+					['portal_pk', 'portalid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2553,7 +2553,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'id']
+					['portalinfo_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2569,7 +2569,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'pricebookid']
+					['pricebook_pk', 'pricebookid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2581,7 +2581,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'pricebookid']
+					['pricebookcf_pk', 'pricebookid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2598,7 +2598,7 @@ class Base3 extends \App\Db\Importers\Base
 					['pricebookproductrel_productid_idx', 'productid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['pricebookid', 'productid']]
+					['pricebookproductrel_pk', ['pricebookid', 'productid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2623,7 +2623,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'productid']
+					['productcf_pk', 'productid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2636,7 +2636,7 @@ class Base3 extends \App\Db\Importers\Base
 					'actual_price' => $this->decimal('28,8'),
 				],
 				'index' => [
-					['productid', 'productid'],
+					['productcurrencyrel_idx', 'productid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2685,7 +2685,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'productid']
+					['products_pk', 'productid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2729,7 +2729,7 @@ class Base3 extends \App\Db\Importers\Base
 					['profile2field_visible_profileid_idx', ['visible', 'profileid']],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['profileid', 'fieldid']]
+					['profile2field_pk', ['profileid', 'fieldid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2741,10 +2741,10 @@ class Base3 extends \App\Db\Importers\Base
 					'globalactionpermission' => $this->integer(),
 				],
 				'index' => [
-					['idx_profile2globalpermissions', ['profileid', 'globalactionid']],
+					['profile2globalpermissions_idx', ['profileid', 'globalactionid']],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['profileid', 'globalactionid']]
+					['profile2globalpermissions_pk', ['profileid', 'globalactionid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2757,11 +2757,11 @@ class Base3 extends \App\Db\Importers\Base
 					'permissions' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'index' => [
-					['profile2standardpermissions_profileid_tabid_operation_idx', ['profileid', 'tabid', 'operation']],
-					['profileid', ['profileid', 'tabid']],
+					['profile2standardpermissions_profileid_tabid_idx', ['profileid', 'tabid', 'operation']],
+					['profile2standardpermissions_profileid_idx', ['profileid', 'tabid']],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['profileid', 'tabid', 'operation']]
+					['profile2standardpermissions_pk', ['profileid', 'tabid', 'operation']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2773,7 +2773,7 @@ class Base3 extends \App\Db\Importers\Base
 					'permissions' => $this->integer(10)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['profile2tab_profileid_tabid_idx', ['profileid', 'tabid']],
+					['profile2tab_tabid_idx', ['profileid', 'tabid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2786,11 +2786,11 @@ class Base3 extends \App\Db\Importers\Base
 					'permission' => $this->integer(1),
 				],
 				'index' => [
-					['profile2utility_tabid_activityid_idx', ['tabid', 'activityid']],
-					['profile2utility_profileid', 'profileid'],
+					['profile2utility_tabid_idx', ['tabid', 'activityid']],
+					['profile2utility_profileid_idx', 'profileid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['profileid', 'tabid', 'activityid']]
+					['profile2utility_pk', ['profileid', 'tabid', 'activityid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2846,13 +2846,13 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(),
 				],
 				'index' => [
-					['servicecontractsid', 'servicecontractsid'],
-					['linktoaccountscontacts', 'linktoaccountscontacts'],
-					['projectname', 'projectname'],
-					['ssalesprocessesid', 'ssalesprocessesid'],
+					['project_service_idx', 'servicecontractsid'],
+					['project_link_idx', 'linktoaccountscontacts'],
+					['project_name_idx', 'projectname'],
+					['project_sales_idx', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'projectid']
+					['project_pk', 'projectid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2864,7 +2864,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'projectid']
+					['projectcf_pk', 'projectid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2885,7 +2885,7 @@ class Base3 extends \App\Db\Importers\Base
 					['projectid', 'projectid'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'projectmilestoneid']
+					['projectmilestone_pk', 'projectmilestoneid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2919,7 +2919,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'projectmilestoneid']
+					['projectmilestonecf_pk', 'projectmilestoneid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3011,13 +3011,13 @@ class Base3 extends \App\Db\Importers\Base
 					'estimated_work_time' => $this->decimal('8,2'),
 				],
 				'index' => [
-					['parentid', 'parentid'],
-					['projectmilestoneid', 'projectmilestoneid'],
-					['projectid', 'projectid'],
-					['projecttaskname', 'projecttaskname'],
+					['projecttask_parentid_idx', 'parentid'],
+					['projecttask_projectmilestoneid_idx', 'projectmilestoneid'],
+					['projecttask_projectid_idx', 'projectid'],
+					['projecttask_projecttaskname_idx', 'projecttaskname'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'projecttaskid']
+					['projecttask_pk', 'projecttaskid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3029,7 +3029,7 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'projecttaskid']
+					['projecttaskcf_pk', 'projecttaskid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
