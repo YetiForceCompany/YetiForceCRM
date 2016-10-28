@@ -45,11 +45,6 @@ class Db extends \yii\db\Connection
 	public $port;
 
 	/**
-	 * @var Type of database
-	 */
-	public $type;
-
-	/**
 	 * @var string the class used to create new database [[Command]] objects. If you want to extend the [[Command]] class,
 	 * you may configure this property to use your extended version of the class.
 	 */

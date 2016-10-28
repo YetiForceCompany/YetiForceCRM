@@ -18,7 +18,6 @@
   'username' => '',
   'password' => '',
   'name' => '',
-  'type' => '',
   'charset' => 'utf8'
   ],
   'log' => [
@@ -27,7 +26,6 @@
   'username' => '',
   'password' => '',
   'name' => '',
-  'type' => '',
   'charset' => 'utf8'
   ],
   'portal' => [
@@ -36,7 +34,6 @@
   'username' => '',
   'password' => '',
   'name' => '',
-  'type' => '',
   'charset' => 'utf8'
   ],
  */
@@ -49,7 +46,6 @@ return [
 		'username' => $dbconfig['db_username'],
 		'password' => $dbconfig['db_password'],
 		'dbName' => $dbconfig['db_name'],
-		'type' => $dbconfig['db_type'],
 		'tablePrefix' => 'yf_',
 		'charset' => 'utf8'
 	]

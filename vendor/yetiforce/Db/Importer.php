@@ -75,14 +75,14 @@ class Importer
 			$this->logs .= "  > add table: $tableName ... ";
 			try {
 				$importer->db->createCommand()->createTable(
-					$tableName, $table['columns'], $this->getOptions($importer->db->type, $table)
+					$tableName, $this->getColumns($importer, $table), $this->getOptions($importer, $table)
 				)->execute();
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
 				$this->logs .= "error (" . $e->getMessage() . ")\n";
 			}
-			if (isset($table['index'])) {
-				foreach ($table['index'] as $index) {
+			if ($indexes = $this->getIndexes($importer, $table)) {
+				foreach ($indexes as $index) {
 					$this->logs .= "  > create index: {$index[0]} ... ";
 					try {
 						$importer->db->createCommand()->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false )->execute();
@@ -113,15 +113,60 @@ class Importer
 	 * @param array $table
 	 * @return string
 	 */
-	public function getOptions($type, $table)
+	public function getOptions(Base $importer, $table)
 	{
 		$options = null;
-		switch ($type) {
+		switch ($importer->db->getDriverName()) {
 			case 'mysql':
 				$options = "ENGINE={$table['engine']} DEFAULT CHARSET={$table['charset']}";
 				break;
 		}
 		return $options;
+	}
+
+	/**
+	 * Get columns to create
+	 * @param Base $importer
+	 * @param array $table
+	 * @return array
+	 */
+	public function getColumns(Base $importer, $table)
+	{
+		$type = $importer->db->getDriverName();
+		$columns = $table['columns'];
+		if (isset($table['columns_' . $type])) {
+			foreach ($table['columns_' . $type] as $column => $customType) {
+				$this->logs .= "    > custom column type,  driver: $type, type: $customType";
+				$columns[$column] = $customType;
+			}
+		}
+		return $columns;
+	}
+
+	/**
+	 * Get index to create
+	 * @param Base $importer
+	 * @param array $table
+	 * @return array
+	 */
+	public function getIndexes(Base $importer, $table)
+	{
+		if (!isset($table['index'])) {
+			return false;
+		}
+		$type = $importer->db->getDriverName();
+		$indexes = $table['index'];
+		if (isset($table['index_' . $type])) {
+			foreach ($table['index_' . $type] as $customIndex) {
+				foreach ($indexes as $key => $index) {
+					if ($customIndex[0] === $index[0]) {
+						$this->logs .= "    > custom index,  driver: $type, type: {$customIndex['0']}";
+						$indexes[$key] = $customIndex;
+					}
+				}
+			}
+		}
+		return $indexes;
 	}
 
 	/**
