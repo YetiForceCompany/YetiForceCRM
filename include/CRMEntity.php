@@ -373,11 +373,12 @@ class CRMEntity
 
 		$tablekey = $this->tab_name_index[$table_name];
 		//Checkin whether an entry is already is present in the vtiger_table to update
+
 		if ($insertiontMode === 'edit') {
 			$isExists = (new \App\Db\Query())->from($table_name)
 				->where([$tablekey => $this->id])
 				->exists();
-			if ($isExists) {
+			if (!$isExists) {
 				$insertiontMode = '';
 			}
 		}
