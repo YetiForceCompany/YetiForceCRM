@@ -19,9 +19,8 @@ class Field
 	public static function getFieldsPermissions($tabId, $readOnly = true)
 	{
 		Log::trace('Entering ' . __METHOD__ . ": $tabId");
-		$currentUser = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (Cache::has(__METHOD__ . $currentUser->getId(), $tabId)) {
-			$fields = Cache::get(__METHOD__ . $currentUser->getId(), $tabId);
+		if (Cache::has(__METHOD__ . User::getCurrentUserId(), $tabId)) {
+			$fields = Cache::get(__METHOD__ . User::getCurrentUserId(), $tabId);
 		} else {
 			$query = (new \App\Db\Query())
 				->select('vtiger_field.*, vtiger_profile2field.readonly,vtiger_profile2field.visible')
@@ -34,12 +33,12 @@ class Field
 					'vtiger_def_org_field.visible' => 0,
 					'vtiger_field.presence' => [0, 2]])
 				->groupBy('vtiger_field.fieldid,vtiger_profile2field.readonly,vtiger_profile2field.visible');
-			$profileList = $currentUser->getProfiles();
+			$profileList = \App\User::getCurrentUserModel()->get('profiles');
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
 			$fields = $query->all();
-			Cache::save(__METHOD__ . $currentUser->getId(), $tabId, $fields, Cache::SHORT);
+			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields, Cache::SHORT);
 		}
 		if (!$readOnly) {
 			return $fields;
