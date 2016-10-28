@@ -17,6 +17,7 @@ class API_Base_GetRecordDetail extends BaseAction
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId());
 		vglobal('current_user', $currentUser);
+		App\User::setCurrentUserId(Users::getActiveAdminId());
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$rawData = $recordModel->getData();
 		$moduleModel = $recordModel->getModule();

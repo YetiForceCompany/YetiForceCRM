@@ -107,8 +107,8 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		if (count($users)) {
 			require_once('modules/Emails/mail.php');
 			foreach ($users as $user) {
-				if (key_exists($user, $accessibleUsers)) {
-					$email = Vtiger_Util_Helper::getUserDetail($user, 'email1');
+				if (isset($accessibleUsers[$user])) {
+					$email = \App\User::getUserModel($user)->getDetail('email1');
 					$name = vtlib\Functions::getOwnerRecordLabel($user);
 					$status = send_mail('Users', $email, $name, $from_email, $subject, $content);
 					if (!$status) {

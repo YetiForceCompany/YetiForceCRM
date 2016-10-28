@@ -27,7 +27,7 @@ class Privilege
 			$currentUser = vglobal('current_user');
 			$userId = $currentUser->id;
 		}
-		$userPrivileges = \Vtiger_Util_Helper::getUserPrivilegesFile($userId);
+		$userPrivileges = \App\User::getPrivilegesFile($userId);
 		$permission = false;
 		if (($moduleName == 'Users' || $moduleName == 'Home' || $moduleName == 'uploads') && \AppRequest::get('parenttab') != 'Settings') {
 			//These modules dont have security right now
@@ -242,7 +242,7 @@ class Privilege
 
 	public static function isPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
-		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
+		$sharingPrivileges = \App\User::getSharingFile($userId);
 		//Retreiving the default Organisation sharing Access
 		$othersPermissionId = $sharingPrivileges['defOrgShare'][$tabId];
 		//Checking for Default Org Sharing permission
@@ -288,7 +288,7 @@ class Privilege
 	public static function isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
 		\App\Log::trace("Entering isReadPermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
-		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
+		$sharingPrivileges = \App\User::getSharingFile($userId);
 
 		if (!isset($sharingPrivileges['permission'][$moduleName])) {
 			return false;
@@ -377,7 +377,7 @@ class Privilege
 	public static function isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
 		\App\Log::trace("Entering isReadWritePermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
-		$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
+		$sharingPrivileges = \App\User::getSharingFile($userId);
 		if (!isset($sharingPrivileges['permission'][$moduleName])) {
 			return false;
 		}

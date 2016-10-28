@@ -423,16 +423,13 @@ class CurrencyField
 
 	/**
 	 * Function to get the default CRM currency
-	 * @return Integer Default system currency id
+	 * @return integer Default system currency id
 	 */
 	public static function getDBCurrencyId()
 	{
-		$adb = PearDatabase::getInstance();
-
-		$result = $adb->pquery('SELECT id FROM vtiger_currency_info WHERE defaultid < 0', []);
-		$noOfRows = $adb->num_rows($result);
-		if ($noOfRows > 0) {
-			return $adb->query_result($result, 0, 'id');
+		$id = (new \App\Db\Query())->select('id')->from('vtiger_currency_info')->where(['<', 'defaultid', 0])->scalar();
+		if ($id) {
+			return $id;
 		}
 		return null;
 	}

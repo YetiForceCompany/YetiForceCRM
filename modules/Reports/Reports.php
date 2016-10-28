@@ -604,30 +604,19 @@ class Reports extends CRMEntity
 		}
 		$params = array($tabid, $block);
 
-		$profileGlobalPermission = $currentUser->get('profile_global_permission');
-		if ($currentUser->isAdminUser() || $profileGlobalPermission[1] === 0 || $profileGlobalPermission[2] === 0) {
-			$sql = sprintf("select * from vtiger_field where vtiger_field.tabid in (%s) and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_field.presence in (0,2) && tablename NOT IN (%s) ", generateQuestionMarks($tabid), generateQuestionMarks($block), generateQuestionMarks($skipTalbes));
-
-			//fix for Ticket #4016
-			if ($module == "Calendar")
-				$sql .= " group by vtiger_field.fieldlabel order by sequence";
-			else
-				$sql .= " order by sequence";
-		} else {
-			$profileList = $currentUser->getProfiles();
-			$sql = sprintf("select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (%s)  and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)", generateQuestionMarks($tabid), generateQuestionMarks($block));
-			if (count($profileList) > 0) {
-				$sql .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
-				array_push($params, $profileList);
-			}
-			$sql .= ' and tablename NOT IN (' . generateQuestionMarks($skipTalbes) . ') ';
-
-			//fix for Ticket #4016
-			if ($module == "Calendar")
-				$sql .= " group by vtiger_field.fieldlabel order by sequence";
-			else
-				$sql .= " group by vtiger_field.fieldid order by sequence";
+		$profileList = $currentUser->getProfiles();
+		$sql = sprintf("select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (%s)  and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)", generateQuestionMarks($tabid), generateQuestionMarks($block));
+		if (count($profileList) > 0) {
+			$sql .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
+			array_push($params, $profileList);
 		}
+		$sql .= ' and tablename NOT IN (' . generateQuestionMarks($skipTalbes) . ') ';
+
+		//fix for Ticket #4016
+		if ($module == "Calendar")
+			$sql .= " group by vtiger_field.fieldlabel order by sequence";
+		else
+			$sql .= " group by vtiger_field.fieldid order by sequence";
 		array_push($params, $skipTalbes);
 
 		$result = $adb->pquery($sql, $params);
@@ -1071,17 +1060,13 @@ class Reports extends CRMEntity
 		$tabid = \App\Module::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
 		$sparams = array($tabid);
-		$profileGlobalPermission = $currentUser->get('profile_global_permission');
-		if ($currentUser->isAdminUser() || $profileGlobalPermission[1] === 0 || $profileGlobalPermission[2] === 0) {
-			$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2) ";
-		} else {
-			$profileList = $currentUser->getProfiles();
-			$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid  where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_def_org_field.visible=0 and vtiger_profile2field.visible=0 and vtiger_field.presence in (0,2)";
-			if (count($profileList) > 0) {
-				$ssql .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
-				array_push($sparams, $profileList);
-			}
+		$profileList = $currentUser->getProfiles();
+		$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid  where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_def_org_field.visible=0 and vtiger_profile2field.visible=0 and vtiger_field.presence in (0,2)";
+		if (count($profileList) > 0) {
+			$ssql .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
+			array_push($sparams, $profileList);
 		}
+
 
 		//Added to avoid display the Related fields (Account name,Vandor name,product name, etc) in Report Calculations(SUM,AVG..)
 		switch ($tabid) {

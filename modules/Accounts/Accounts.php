@@ -129,7 +129,7 @@ class Accounts extends CRMEntity
 				LEFT JOIN vtiger_campaign_records ON vtiger_campaign_records.campaignid=vtiger_campaign.campaignid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted=0 && vtiger_campaign_records.crmid IN (" . $entityIds . ")";
+				WHERE vtiger_crmentity.deleted=0 AND vtiger_campaign_records.crmid IN (" . $entityIds . ")";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -166,7 +166,7 @@ class Accounts extends CRMEntity
 
 		$button = '';
 		$current_user = vglobal('current_user');
-		if ($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'account_id', 'readwrite') == '0') {
+		if ($actions && \App\Field::getFieldPermission($related_module, 'account_id', false)) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
@@ -233,7 +233,7 @@ class Accounts extends CRMEntity
 
 		$button = '';
 		$current_user = vglobal('current_user');
-		if ($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'parent_id', 'readwrite') == '0') {
+		if ($actions && \App\Field::getFieldPermission($related_module, 'parent_id', false)) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
@@ -484,7 +484,7 @@ class Accounts extends CRMEntity
 
 		$hierarchyFields = [];
 		foreach ($listColumns as $fieldLabel => $fieldName) {
-			if (getFieldVisibilityPermission('Accounts', $current_user->id, $fieldName) == '0') {
+			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
 				$listview_header[] = $fieldLabel;
 			}
 			$field = vtlib\Functions::getModuleFieldInfo('Accounts', $fieldName);
@@ -531,7 +531,7 @@ class Accounts extends CRMEntity
 			$fieldName = $field['fieldname'];
 			$rawData = '';
 			// Permission to view account is restricted, avoid showing field values (except account name)
-			if (getFieldVisibilityPermission('Accounts', $currentUser->id, $fieldName) == '0') {
+			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
 				$data = $accountInfoBase[$fieldName];
 				if ($fieldName == 'accountname') {
 					if ($accountId != $id) {
@@ -744,8 +744,6 @@ class Accounts extends CRMEntity
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
 		if (!in_array($with_module, ['Products', 'Campaigns'])) {
@@ -757,7 +755,7 @@ class Accounts extends CRMEntity
 						'crmid' => $crmid,
 						'productid' => $with_crmid,
 						'setype' => $module,
-						'rel_created_user' => $currentUser->getId(),
+						'rel_created_user' => \App\User::getCurrentUserId(),
 						'rel_created_time' => date('Y-m-d H:i:s')
 					]);
 				} elseif ($with_module == 'Campaigns') {

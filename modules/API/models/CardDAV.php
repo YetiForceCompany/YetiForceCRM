@@ -51,6 +51,8 @@ class API_CardDAV_Model
 		while ($record = $db->getRow($result)) {
 			foreach ($this->davUsers as $key => $user) {
 				$this->addressBookId = $user->get('addressbooksid');
+				$orgUserId = App\User::getCurrentUserId();
+				App\User::setCurrentUserId($user->get('id'));
 				$currentUser = vglobal('current_user');
 				vglobal('current_user', $user);
 
@@ -67,6 +69,7 @@ class API_CardDAV_Model
 					}
 				}
 				vglobal('current_user', $currentUser);
+				App\User::setCurrentUserId($orgUserId);
 			}
 			$this->markComplete($moduleName, $record['crmid']);
 		}
@@ -124,7 +127,7 @@ class API_CardDAV_Model
 		$vcard->PRODID = self::PRODID;
 		if ($moduleName == 'Contacts') {
 			$name = $record['firstname'] . ' ' . $record['lastname'];
-			$vcard->N = [ $record['lastname'], $record['firstname']];
+			$vcard->N = [$record['lastname'], $record['firstname']];
 			$org = vtlib\Functions::getCRMRecordLabel($record['parentid']);
 			if ($org != '') {
 				$vcard->ORG = $org;
@@ -134,7 +137,7 @@ class API_CardDAV_Model
 			}
 		} else if ($moduleName == 'OSSEmployees') {
 			$name = $record['name'] . ' ' . $record['last_name'];
-			$vcard->N = [ $record['last_name'], $record['name']];
+			$vcard->N = [$record['last_name'], $record['name']];
 			$vcard->ORG = Vtiger_CompanyDetails_Model::getInstanceById()->get('organizationname');
 		}
 		$vcard->add('FN', trim($name));
@@ -182,7 +185,7 @@ class API_CardDAV_Model
 
 		if ($moduleName == 'Contacts') {
 			$name = $record['firstname'] . ' ' . $record['lastname'];
-			$vcard->N = [ $record['lastname'], $record['firstname']];
+			$vcard->N = [$record['lastname'], $record['firstname']];
 			$org = vtlib\Functions::getCRMRecordLabel($record['parentid']);
 			if (!empty($org))
 				$vcard->ORG = $org;
@@ -192,7 +195,7 @@ class API_CardDAV_Model
 		}
 		if ($moduleName == 'OSSEmployees') {
 			$name = $record['name'] . ' ' . $record['last_name'];
-			$vcard->N = [ $record['last_name'], $record['name']];
+			$vcard->N = [$record['last_name'], $record['name']];
 			$vcard->ORG = Vtiger_CompanyDetails_Model::getInstanceById()->get('organizationname');
 		}
 		$vcard->FN = $name;
@@ -247,7 +250,7 @@ class API_CardDAV_Model
 			$lead->set('assigned_user_id', $this->user->get('id'));
 			$lead->set('company', (string) $vcard->ORG);
 			$lead->set('lastname', (string) $vcard->ORG);
-			$lead->set('leadstatus', 'LBL_REQUIRES_VERIFICATION');
+			$lead->set('leadstatus', 'PLL_PENDING');
 			$lead->set('vat_id', '');
 			$lead->save();
 			$leadId = $lead->getId();
@@ -449,7 +452,7 @@ class API_CardDAV_Model
 		if (!$query)
 			return;
 		$stmt = $this->pdo->prepare($query);
-		$stmt->execute([ 0, $crmid]);
+		$stmt->execute([0, $crmid]);
 	}
 
 	public function setCardAddres($vcard, $moduleName, $record)

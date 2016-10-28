@@ -39,4 +39,22 @@ class PrivilegeFile
 		}
 		return isset(static::$usersFileCache[$type]) ? static::$usersFileCache[$type] : false;
 	}
+
+	/**
+	 * Creates a file with all the user, user-role,user-profile, user-groups informations 
+	 * @param $userId -- user id:: Type integer
+	 */
+	public static function createUserPrivilegesFile($userId)
+	{
+		$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges' . DIRECTORY_SEPARATOR . "user_privileges_$userId.php";
+		$user = [];
+		$userInstance = \CRMEntity::getInstance('Users');
+		$userInstance->retrieve_entity_info($userId, 'Users');
+		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
+		$user['details'] = $userInstance->column_fields;
+		$user['role'] = $userInstance->column_fields['roleid'];
+		$user['profiles'] = PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
+		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
+		file_put_contents($file, "\n return " . \vtlib\Functions::varExportMin($user) . ';', FILE_APPEND);
+	}
 }

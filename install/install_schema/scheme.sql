@@ -1,3 +1,9 @@
+/*
+SQLyog Community v12.09 (64 bit)
+MySQL - 5.7.9 : Database - yetiforce
+*********************************************************************
+*/
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -74,17 +80,6 @@ CREATE TABLE `a_yf_discounts_global` (
 CREATE TABLE `a_yf_encryption` (
   `method` varchar(40) NOT NULL,
   `pass` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `a_yf_featured_filter` */
-
-CREATE TABLE `a_yf_featured_filter` (
-  `user` varchar(30) NOT NULL,
-  `cvid` int(19) NOT NULL,
-  PRIMARY KEY (`user`,`cvid`),
-  KEY `cvid` (`cvid`),
-  KEY `user` (`user`),
-  CONSTRAINT `a_yf_featured_filter_ibfk_1` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_inventory_limits` */
@@ -1184,6 +1179,17 @@ CREATE TABLE `u_yf_fcorectinginvoicecf` (
   `fcorectinginvoiceid` int(19) NOT NULL,
   PRIMARY KEY (`fcorectinginvoiceid`),
   CONSTRAINT `fk_1_u_yf_fcorectinginvoicecf` FOREIGN KEY (`fcorectinginvoiceid`) REFERENCES `u_yf_fcorectinginvoice` (`fcorectinginvoiceid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_featured_filter` */
+
+CREATE TABLE `u_yf_featured_filter` (
+  `user` varchar(30) NOT NULL,
+  `cvid` int(19) NOT NULL,
+  PRIMARY KEY (`user`,`cvid`),
+  KEY `cvid` (`cvid`),
+  KEY `user` (`user`),
+  CONSTRAINT `u_yf_featured_filter_ibfk_1` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoice` */
@@ -4031,7 +4037,7 @@ CREATE TABLE `vtiger_customerportal_tabs` (
 /*Table structure for table `vtiger_customview` */
 
 CREATE TABLE `vtiger_customview` (
-  `cvid` int(19) NOT NULL,
+  `cvid` int(19) NOT NULL AUTO_INCREMENT,
   `viewname` varchar(100) NOT NULL,
   `setdefault` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `setmetrics` tinyint(1) NOT NULL DEFAULT '0',
@@ -4049,13 +4055,8 @@ CREATE TABLE `vtiger_customview` (
   KEY `customview_entitytype_idx` (`entitytype`),
   KEY `setdefault` (`setdefault`,`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_customview_seq` */
-
-CREATE TABLE `vtiger_customview_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvadvfilter` */
 
@@ -5625,7 +5626,7 @@ CREATE TABLE `vtiger_leadstatus` (
   `sortorderid` int(11) DEFAULT NULL,
   `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`leadstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leadstatus_seq` */
 
@@ -6543,7 +6544,7 @@ CREATE TABLE `vtiger_osspasswords` (
   `username` varchar(100) NOT NULL,
   `password` varbinary(200) NOT NULL,
   `link_adres` varchar(255) DEFAULT NULL,
-  `linkto` varchar(100) DEFAULT NULL,
+  `linkto` int(11) DEFAULT NULL,
   PRIMARY KEY (`osspasswordsid`),
   CONSTRAINT `fk_1_vtiger_osspasswords` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6807,7 +6808,7 @@ CREATE TABLE `vtiger_pbxmanager` (
   `recordingurl` varchar(200) DEFAULT NULL,
   `sourceuuid` varchar(100) DEFAULT NULL,
   `gateway` varchar(20) DEFAULT NULL,
-  `customer` varchar(100) DEFAULT NULL,
+  `customer` int(11) DEFAULT NULL,
   `user` varchar(100) DEFAULT NULL,
   `customernumber` varchar(100) DEFAULT NULL,
   `customertype` varchar(100) DEFAULT NULL,
@@ -8862,7 +8863,7 @@ CREATE TABLE `vtiger_users_last_import` (
   `id` int(36) NOT NULL AUTO_INCREMENT,
   `assigned_user_id` varchar(36) DEFAULT NULL,
   `bean_type` varchar(36) DEFAULT NULL,
-  `bean_id` varchar(36) DEFAULT NULL,
+  `bean_id` int(11) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`assigned_user_id`)

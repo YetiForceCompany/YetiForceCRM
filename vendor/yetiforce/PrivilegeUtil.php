@@ -153,6 +153,62 @@ class PrivilegeUtil
 		return $users;
 	}
 
+	protected static $roleByUsersCache = [];
+
+	/**
+	 * Function to get the role related user ids
+	 * @param int $userId RoleId :: Type varchar
+	 */
+	public static function getRoleByUsers($userId)
+	{
+		if (isset(static::$roleByUsersCache[$userId])) {
+			return static::$roleByUsersCache[$userId];
+		}
+		$roleId = (new \App\Db\Query())->select('roleid')
+			->from('vtiger_user2role')->where(['userid' => $userId])
+			->scalar();
+		static::$roleByUsersCache[$userId] = $roleId;
+		return $roleId;
+	}
+
+	/**
+	 * Function to get user groups
+	 * @param int $userId
+	 * @return array - groupId's
+	 */
+	public static function getUserGroups($userId)
+	{
+		if (Cache::staticHas('getUserGroups', $userId)) {
+			return Cache::staticGet('getUserGroups', $userId);
+		}
+		$groupIds = (new \App\Db\Query())->select('groupid')
+			->from('vtiger_users2group')
+			->where(['userid' => $userId])
+			->column();
+		Cache::staticSave('getUserGroups', $userId, $groupIds);
+		return $groupIds;
+	}
+
+	/**
+	 * This function is to retreive the vtiger_profiles associated with the  the specified role
+	 * @param string $roleId
+	 * @return array
+	 */
+	public static function getProfilesByRole($roleId)
+	{
+		$profiles = Cache::staticGet('getProfilesByRole', $roleId);
+		if ($profiles) {
+			return $profiles;
+		}
+		$profiles = (new \App\Db\Query())
+			->select('profileid')
+			->from('vtiger_role2profile')
+			->where(['roleid' => $roleId])
+			->column();
+		Cache::staticSave('getProfilesByRole', $roleId, $profiles);
+		return $profiles;
+	}
+
 	const MEMBER_TYPE_USERS = 'Users';
 	const MEMBER_TYPE_GROUPS = 'Groups';
 	const MEMBER_TYPE_ROLES = 'Roles';

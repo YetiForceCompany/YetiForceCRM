@@ -121,9 +121,9 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 
 	$header = [];
 	$header[] = \App\Language::translate('LBL_LIST_PRODUCT_NAME');
-	if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
+	if (\App\Field::getFieldPermission('Products', 'productcode'))
 		$header[] = \App\Language::translate('LBL_PRODUCT_CODE');
-	if (getFieldVisibilityPermission('Products', $current_user->id, 'unit_price') == '0')
+	if (\App\Field::getFieldPermission('Products', 'unit_price'))
 		$header[] = \App\Language::translate('LBL_PRODUCT_UNIT_PRICE');
 	$header[] = \App\Language::translate('LBL_PB_LIST_PRICE');
 	if (isPermitted("PriceBooks", "EditView", "") == 'yes' || isPermitted("PriceBooks", "Delete", "") == 'yes')
@@ -142,10 +142,10 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 		$field_name = $entity_id . "_listprice";
 
 		$entries = [];
-		$entries[] = \vtlib\Functions::textLength($adb->query_result($list_result, $i, "productname"));
-		if (getFieldVisibilityPermission('Products', $current_user->id, 'productcode') == '0')
-			$entries[] = $adb->query_result($list_result, $i, "productcode");
-		if (getFieldVisibilityPermission('Products', $current_user->id, 'unit_price') == '0')
+		$entries[] = \vtlib\Functions::textLength($adb->query_result($list_result, $i, 'productname'));
+		if (\App\Field::getFieldPermission('Products', 'productcode'))
+			$entries[] = $adb->query_result($list_result, $i, 'productcode');
+		if (\App\Field::getFieldPermission('Products', 'unit_price'))
 			$entries[] = CurrencyField::convertToUserFormat($unit_price, null, true);
 
 		$entries[] = CurrencyField::convertToUserFormat($listprice, null, true);
@@ -174,30 +174,19 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 
 function CheckFieldPermission($fieldname, $module)
 {
-	$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-	require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 	if ($fieldname == '' || $module == '') {
-		return "false";
+		return 'false';
 	}
-
-	if (getFieldVisibilityPermission($module, $currentUser->id, $fieldname) == '0') {
-		return "true";
+	if (\App\Field::getFieldPermission($module, $fieldname)) {
+		return 'true';
 	}
-	return "false";
+	return 'false';
 }
 
 function CheckColumnPermission($tablename, $columnname, $module)
 {
-	$adb = PearDatabase::getInstance();
-
-	static $cache = [];
-
-	$cachekey = $module . ":" . $tablename . ":" . $columnname;
-	if (!array_key_exists($cachekey, $cache)) {
-		$res = $adb->pquery("select fieldname from vtiger_field where tablename=? and columnname=? and vtiger_field.presence in (0,2)", array($tablename, $columnname));
-		$fieldname = $adb->query_result($res, 0, 'fieldname');
-		$cache[$cachekey] = CheckFieldPermission($fieldname, $module);
+	if (\App\Field::getColumnPermission($module, $columnname)) {
+		return 'true';
 	}
-
-	return $cache[$cachekey];
+	return 'false';
 }

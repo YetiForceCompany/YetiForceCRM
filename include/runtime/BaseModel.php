@@ -43,7 +43,7 @@ class Vtiger_Base_Model
 	 */
 	public function getForSql($key, $skipEmtpy = true)
 	{
-		return Vtiger_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
+		return \App\Purifier::purifySql($this->get($key), $skipEmtpy);
 	}
 
 	/**

@@ -376,8 +376,7 @@ class DateTimeField
 		$time = $date->format("H:i");
 
 		//Convert time to user preferred value
-		$userModel = Users_Privileges_Model::getCurrentUserModel();
-		if ($userModel->get('hour_format') == '12') {
+		if (\App\User::getCurrentUserModel()->getDetail('hour_format') === '12') {
 			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
 		}
 		\App\Log::trace('End ' . __METHOD__);

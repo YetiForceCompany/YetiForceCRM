@@ -1300,7 +1300,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function getSpecificRelationQuery($relatedModule)
 	{
 		if ($relatedModule == 'Documents') {
-			return ' && vtiger_notes.filestatus = 1 ';
+			return ' AND vtiger_notes.filestatus = 1 ';
 		}
 		return;
 	}

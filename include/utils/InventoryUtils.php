@@ -645,7 +645,7 @@ function getPricesForProducts($currencyid, $product_ids, $module = 'Products')
 		$countResult = $adb->num_rows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$product_id = $adb->query_result($result, $i, 'productid');
-			if (getFieldVisibilityPermission($module, $current_user->id, 'unit_price') == '0') {
+			if (\App\Field::getFieldPermission($module, 'unit_price')) {
 				$actual_price = (float) $adb->query_result($result, $i, 'actual_price');
 
 				if ($actual_price === null || $actual_price == '') {

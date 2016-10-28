@@ -22,7 +22,7 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
 	{
-		return $listQuery . " && vtiger_ossemployees.employee_status = 'Employee'";
+		return $listQuery . " AND vtiger_ossemployees.employee_status = 'Employee'";
 	}
 
 	public function getWorkingDays($startDate, $endDate)

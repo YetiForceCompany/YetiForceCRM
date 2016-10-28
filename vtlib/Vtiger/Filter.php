@@ -32,16 +32,6 @@ class Filter
 	public $module;
 
 	/**
-	 * Get unique id for this instance
-	 * @access private
-	 */
-	public function __getUniqueId()
-	{
-		$adb = \PearDatabase::getInstance();
-		return $adb->getUniqueID('vtiger_customview');
-	}
-
-	/**
 	 * Initialize this filter instance
 	 * @param Module Instance of the module to which this filter is associated.
 	 * @access private
@@ -63,7 +53,6 @@ class Filter
 		$db = \PearDatabase::getInstance();
 		$this->module = $moduleInstance;
 
-		$this->id = $this->__getUniqueId();
 		$this->isdefault = ($this->isdefault === true || $this->isdefault == 'true') ? 1 : 0;
 		$this->inmetrics = ($this->inmetrics === true || $this->inmetrics == 'true') ? 1 : 0;
 		if (!isset($this->sequence)) {
@@ -76,9 +65,8 @@ class Filter
 			else
 				$this->status = '3'; // Public
 		}
-
-		$db->insert('vtiger_customview', [
-			'cvid' => $this->id,
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('vtiger_customview', [
 			'viewname' => $this->name,
 			'setdefault' => $this->isdefault,
 			'setmetrics' => $this->inmetrics,
@@ -90,7 +78,8 @@ class Filter
 			'presence' => $this->presence,
 			'description' => $this->description,
 			'sort' => $this->sort,
-		]);
+		])->execute();
+		$this->id = $db->getLastInsertID();
 		self::log("Creating Filter $this->name ... DONE");
 	}
 

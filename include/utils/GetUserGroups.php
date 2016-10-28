@@ -43,7 +43,7 @@ class GetUserGroups
 		}
 
 		//Setting the User Role
-		$userRole = fetchUserRole($userid);
+		$userRole = \App\PrivilegeUtil::getRoleByUsers($userid);
 		//Retreiving from the vtiger_user2role
 		$query = "select * from vtiger_group2role where roleid=?";
 		$result = $adb->pquery($query, array($userRole));

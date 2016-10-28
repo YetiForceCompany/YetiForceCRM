@@ -32,6 +32,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 
 	$cronStart = microtime(true);
 	//set global current user permissions
+	App\User::setCurrentUserId(Users::getActiveAdminId());
 	$current_user = Users::getActiveAdminUser();
 	vglobal('current_user', $current_user);
 	if ($user) {

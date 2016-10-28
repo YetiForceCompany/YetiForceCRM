@@ -585,7 +585,7 @@ class Users extends CRMEntity
 	 */
 	public function retrieveCurrentUserInfoFromFile($userid)
 	{
-		$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($userid);
+		$userPrivileges = App\User::getPrivilegesFile($userid);
 		$userInfo = $userPrivileges['user_info'];
 		foreach ($this->column_fields as $field => $value_iter) {
 			if (isset($userInfo[$field])) {
@@ -650,7 +650,6 @@ class Users extends CRMEntity
 			$this->column_fields['currency_grouping_separator'] = ' ';
 		}
 
-		$db->startTransaction();
 		foreach ($this->tab_name as $table_name) {
 			if ($table_name == 'vtiger_attachments') {
 				$this->insertIntoAttachment($this->id, $module);
@@ -671,7 +670,7 @@ class Users extends CRMEntity
 		if ($insertion_mode != 'edit') {
 			$this->createAccessKey();
 		}
-		$db->completeTransaction();
+
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 		createUserPrivilegesfile($this->id);
 		unset($_SESSION['next_reminder_interval']);
@@ -702,10 +701,11 @@ class Users extends CRMEntity
 
 		\App\Log::trace("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$current_user = vglobal('current_user');
 		$insertion_mode = $this->mode;
 		//Checkin whether an entry is already is present in the vtiger_table to update
-		if ($insertion_mode == 'edit') {
+		if ($insertion_mode === 'edit') {
 			$check_query = "SELECT * FROM %s WHERE %s = ?";
 			$check_query = sprintf($check_query, $table_name, $this->tab_name_index[$table_name]);
 			$check_result = $this->db->pquery($check_query, array($this->id));
@@ -720,27 +720,24 @@ class Users extends CRMEntity
 		// We will set the crypt_type based on the insertion_mode
 		$crypt_type = '';
 
-		if ($insertion_mode == 'edit') {
-			$update = '';
-			$update_params = [];
+		$params = [];
+		if ($insertion_mode === 'edit') {
 			$tabid = \App\Module::getModuleId($module);
 			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,5) and vtiger_field.presence in (0,2)";
-			$params = array($tabid, $table_name);
+			$paramsField = array($tabid, $table_name);
 		} else {
 			$column = $this->tab_name_index[$table_name];
-			if ($column == 'id' && $table_name == 'vtiger_users') {
-				$currentuser_id = $this->db->getUniqueID("vtiger_users");
-				$this->id = $currentuser_id;
+			if ($column === 'id' && $table_name === 'vtiger_users') {
+				$this->id = $db->getUniqueID("vtiger_users");
 			}
-			$qparams = array($this->id);
+			$params[$column] = $this->id;
 			$tabid = \App\Module::getModuleId($module);
 			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,4,5) and vtiger_field.presence in (0,2)";
-			$params = array($tabid, $table_name);
-
+			$paramsField = array($tabid, $table_name);
 			$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
 		}
 
-		$result = $this->db->pquery($sql, $params);
+		$result = $this->db->pquery($sql, $paramsField);
 		$noofrows = $this->db->num_rows($result);
 		for ($i = 0; $i < $noofrows; $i++) {
 			$fieldname = $this->db->query_result($result, $i, "fieldname");
@@ -821,47 +818,30 @@ class Users extends CRMEntity
 					}
 				}
 				if ($current_user->id == $this->id) {
-					$_SESSION['authenticated_user_language'] = $fldvalue;
+					Vtiger_Session::set('language', $fldvalue);
 				}
 			}
 			if ($fldvalue == '') {
 				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
 			}
-			if ($insertion_mode == 'edit') {
-				if ($i == 0) {
-					$update = $columname . "=?";
-				} else {
-					$update .= ', ' . $columname . "=?";
-				}
-				array_push($update_params, $fldvalue);
-			} else {
-				$column .= ", " . $columname;
-				array_push($qparams, $fldvalue);
-			}
+			$params[$columname] = $fldvalue;
 		}
-
 		if ($insertion_mode == 'edit') {
 			//Check done by Don. If update is empty the the query fails
-			if (trim($update) != '') {
-				$sql1 = "update $table_name set $update where " . $this->tab_name_index[$table_name] . "=?";
-				array_push($update_params, $this->id);
-				$this->db->pquery($sql1, $update_params);
+			if ($params) {
+				$db->createCommand()
+					->update($table_name, $params, [$this->tab_name_index[$table_name] => $this->id])->execute();
 			}
 		} else {
-			// Set the crypt_type being used, to override the DB default constraint as it is not in vtiger_field
-			if ($table_name == 'vtiger_users' && strpos('crypt_type', $column) === false) {
-				$column .= ', crypt_type';
-				$qparams[] = $crypt_type;
+			if ($table_name === 'vtiger_users') {
+				if (!isset($params['crypt_type'])) {
+					$params['crypt_type'] = $crypt_type;
+				}
+				if (!isset($params['user_hash'])) {
+					$params['user_hash'] = $this->column_fields['user_hash'];
+				}
 			}
-			// END
-
-			if ($table_name == 'vtiger_users' && strpos('user_hash', $column) === false) {
-				$column .= ', user_hash';
-				$qparams[] = $this->column_fields['user_hash'];
-			}
-
-			$sql1 = "insert into $table_name ($column) values(" . generateQuestionMarks($qparams) . ")";
-			$this->db->pquery($sql1, $qparams);
+			$db->createCommand()->insert($table_name, $params)->execute();
 		}
 	}
 
@@ -1035,8 +1015,8 @@ class Users extends CRMEntity
 			$em->triggerEvent('vtiger.entity.beforesave.final', $entityData);
 		}
 
-		if ($this->mode != 'edit') {
-			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? || email1 = ?';
+		if ($this->mode !== 'edit') {
+			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
 			$result = $adb->pquery($sql, array($this->column_fields['user_name'], $this->column_fields['email1']));
 			if ($adb->num_rows($result) > 0) {
 				vtlib\Functions::throwNewException('LBL_USER_EXISTS');
@@ -1078,8 +1058,8 @@ class Users extends CRMEntity
 		// Added for Reminder Popup support
 		$this->resetReminderInterval($prev_reminder_interval);
 		//Creating the Privileges Flat File
-		if (isset($this->column_fields['roleid'])) {
-			updateUser2RoleMapping($this->column_fields['roleid'], $this->id);
+		if (isset($this->column_fields['roleid']) && $this->mode === 'edit') {
+			$this->updateUser2RoleMapping();
 		}
 		//After adding new user, set the default activity types for new user
 		Vtiger_Util_Helper::setCalendarDefaultActivityTypesForUser($this->id);
@@ -1087,6 +1067,18 @@ class Users extends CRMEntity
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 		createUserPrivilegesfile($this->id);
 		createUserSharingPrivilegesfile($this->id);
+	}
+
+	/**
+	 * Function to update user to vtiger_role mapping based on the userid
+	 * @param $roleid -- Role Id:: Type varchar
+	 * @param $userid User Id:: Type integer
+	 */
+	public function updateUser2RoleMapping()
+	{
+		$db = \App\Db::getInstance()->createCommand()
+			->update('vtiger_user2role', ['roleid' => $this->column_fields['roleid']], ['userid' => $this->id])
+			->execute();
 	}
 
 	/**

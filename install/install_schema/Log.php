@@ -25,8 +25,8 @@ class Log extends \App\Db\Importers\Base
 					'duration' => $this->decimal('3,3')->notNull(),
 				],
 				'index' => [
-					['id', 'id'],
-					['category', 'category'],
+					['profile_id_idx', 'id'],
+					['profile_category_idx', 'category'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -54,7 +54,7 @@ class Log extends \App\Db\Importers\Base
 					'field' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['id', 'id'],
+					['settings_tracker_detail_idx', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -69,9 +69,9 @@ class Log extends \App\Db\Importers\Base
 					'group' => $this->integer(),
 				],
 				'index' => [
-					['id', 'id'],
-					['type', 'type'],
-					['group', 'group'],
+					['sqltime_id_idx', 'id'],
+					['sqltime_type_idx', 'type'],
+					['sqltime_group_idx', 'group'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -89,8 +89,8 @@ class Log extends \App\Db\Importers\Base
 					'agent' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['baseid', 'baseid'],
-					['destid', 'destid'],
+					['switch_users_baseid_idx', 'baseid'],
+					['switch_users_destid_idx', 'destid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

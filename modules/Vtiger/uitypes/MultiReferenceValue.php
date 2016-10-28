@@ -207,6 +207,8 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function reloadValue($sourceModule, $sourceRecord)
 	{
+		$orgUserId = App\User::getCurrentUserId();
+		App\User::setCurrentUserId(Users::getActiveAdminId());
 		$currentUser = vglobal('current_user');
 		$user = new Users();
 		vglobal('current_user', $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId()));
@@ -222,6 +224,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$relationQuery = sprintf("SELECT DISTINCT %s FROM %s && %s <> ''", $fieldInfo['columnname'], $explodedQuery[1], $fieldInfo['columnname']);
 
 		vglobal('current_user', $currentUser);
+		App\User::setCurrentUserId($orgUserId);
 		$result = $db->query($relationQuery);
 		$currentValue = self::COMMA;
 		while ($value = $db->getSingleValue($result)) {

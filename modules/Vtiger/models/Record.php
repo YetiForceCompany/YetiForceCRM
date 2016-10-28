@@ -282,7 +282,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		//Disabled generating record ID in transaction  in order to maintain data integrity
 		if ($this->get('mode') != 'edit') {
-			$recordId = $db->getUniqueID('vtiger_crmentity');
+			$recordId = \App\Db::getInstance()->getUniqueID('vtiger_crmentity');
 			$this->set('newRecord', $recordId);
 		}
 
@@ -583,7 +583,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function trackView()
 	{
-
 		$db = PearDatabase::getInstance();
 		$id = $this->getId();
 		\App\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
@@ -612,7 +611,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			if ($params['autofill']) {
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
 				foreach ($commonFields as $fieldName) {
-					if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $fieldName) == 0) {
+					if (\App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldName)) {
 						if ($fieldName == 'shownerid') {
 							$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $parentRecordModel->getModule());
 							$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
@@ -644,7 +643,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 							}
 						}
 					}
-				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $mapp['source']->getName()) == 0 && in_array($mapp['source']->getName(), $parentFieldsList)) {
+				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $mapp['source']->getName()) && in_array($mapp['source']->getName(), $parentFieldsList)) {
 					$parentMapName = $parentRecordModel->get($mapp['source']->getName());
 					if ($mapp['source']->getName() == 'shownerid' && empty($parentMapName)) {
 						$fieldInstance = Vtiger_Field_Model::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());

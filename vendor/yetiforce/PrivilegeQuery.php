@@ -45,7 +45,7 @@ class PrivilegeQuery
 				$query[] = "vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
 			}
 			if (\AppConfig::security('PERMITTED_BY_SHARING')) {
-				$sharingPrivileges = \Vtiger_Util_Helper::getUserSharingFile($userId);
+				$sharingPrivileges = \App\User::getSharingFile($userId);
 				if (isset($sharingPrivileges['permission'][$moduleName])) {
 					$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 					$sharingRuleInfo = $sharingPrivilegesModule['read'];

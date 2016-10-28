@@ -352,7 +352,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$this->computeAccess();
 
-		$fields = \App\Field::getFieldsPermission($this->getTabId());
+		$fields = \App\Field::getFieldsPermissions($this->getTabId());
 		foreach ($fields as &$field) {
 			$webserviceField = new WebserviceField($field);
 			$this->moduleFields[$webserviceField->getFieldName()] = $webserviceField;
@@ -378,13 +378,9 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$id = $idComponents[1];
 
 		$seType = null;
-		if ($this->objectName == 'Users') {
-			$sql = "select user_name from vtiger_users where id=? and deleted=0";
-			$result = $adb->pquery($sql, array($id));
-			if ($result != null && isset($result)) {
-				if ($adb->num_rows($result) > 0) {
-					$seType = 'Users';
-				}
+		if ($this->objectName === 'Users') {
+			if (\App\User::isExists($id)) {
+				$seType = $this->objectName;
 			}
 		} else {
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($id);
@@ -400,49 +396,22 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	protected static $userExistsCache = [];
 
+	/**
+	 * Function checks if record exists
+	 * @param int $recordId - Rekord ID
+	 * @return boolean
+	 */
 	public function exists($recordId)
 	{
-		$adb = PearDatabase::getInstance();
-
 		// Caching user existence value for optimizing repeated reads.
 		// 
 		// NOTE: We are not caching the record existence 
 		// to ensure only latest state from DB is sent.
-
-
 		$exists = false;
-		$sql = '';
-		$params = [$recordId];
 		if ($this->objectName == 'Users') {
-			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$users = \App\PrivilegeFile::getUser('id');
-				if (isset($users[$recordId]) && $users[$recordId]['deleted'] == '0') {
-					self::$userExistsCache[$recordId] = true;
-					return true;
-				}
-			}
-			if (isset(self::$userExistsCache[$recordId])) {
-				$exists = true;
-			} else {
-				$sql = "select 1 from vtiger_users where id = ? and deleted = 0 and status = ?";
-				$params [] = 'Active';
-			}
+			$exists = \App\User::isExists($recordId);
 		} else {
-			$sql = "select 1 from vtiger_crmentity where crmid = ? and deleted = 0 and setype = ?";
-			$params [] = $this->getTabName();
-		}
-
-		if ($sql) {
-			$result = $adb->pquery($sql, $params);
-			if ($result != null && isset($result)) {
-				if ($adb->num_rows($result) > 0) {
-					$exists = true;
-				}
-			}
-			// Cache the value for further lookup.
-			if ($this->objectName == 'Users') {
-				self::$userExistsCache[$recordId] = $exists;
-			}
+			$exists = \App\Record::isExists($recordId);
 		}
 		return $exists;
 	}

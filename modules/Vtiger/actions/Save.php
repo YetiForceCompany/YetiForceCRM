@@ -39,6 +39,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			$user = new Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
 			vglobal('current_user', $currentUser);
+			App\User::setCurrentUserId($baseUserId);
 		}
 	}
 
@@ -50,6 +51,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			$user = new Users();
 			$currentUser = $user->retrieveCurrentUserInfoFromFile($baseUserId);
 			vglobal('current_user', $currentUser);
+			App\User::setCurrentUserId($baseUserId);
 		}
 	}
 

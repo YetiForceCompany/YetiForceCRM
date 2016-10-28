@@ -339,7 +339,7 @@ function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
 function vtws_getName($id, $user)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
@@ -431,7 +431,7 @@ function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, 
 function vtws_getModuleHandlerFromName($name, $user)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $name);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -445,7 +445,7 @@ function vtws_getModuleHandlerFromName($name, $user)
 function vtws_getModuleHandlerFromId($id, $user)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -562,7 +562,7 @@ function vtws_getConvertLeadFieldMapping()
 function vtws_getRelatedNotesAttachments($id, $relatedId)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 
 	$sql = 'SELECT notesid FROM vtiger_senotesrel WHERE crmid=?';
 	$result = $adb->pquery($sql, [$id]);
@@ -592,7 +592,6 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
 function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 {
 	$db = PearDatabase::getInstance();
-	$currentUser = Users_Record_Model::getCurrentUserModel();
 
 	$result = $db->pquery('select productid from vtiger_seproductsrel where crmid=?', [$leadId]);
 	if ($db->getRowCount($result) == 0) {
@@ -603,7 +602,7 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 			'crmid' => $relatedId,
 			'productid' => $productId,
 			'setype' => $setype,
-			'rel_created_user' => $currentUser->getId(),
+			'rel_created_user' => \App\User::getCurrentUserId(),
 			'rel_created_time' => date('Y-m-d H:i:s')
 		]);
 		if ($resultNew['rowCount'] == 0) {

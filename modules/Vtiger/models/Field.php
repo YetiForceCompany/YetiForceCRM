@@ -1090,33 +1090,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getPermissions($readOnly = true)
 	{
-		$modulePermission = static::preFetchModuleFieldPermission($this->getModuleId(), $readOnly);
-		if (isset($modulePermission[$this->getId()])) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Function to Preinitialize the module Field Permissions
-	 * @param <Integer> $tabid
-	 * @param <String> $accessmode
-	 * @return <Array>
-	 */
-	public static function preFetchModuleFieldPermission($tabid, $readOnly = true)
-	{
-		$cache = \App\Cache::staticGet(__METHOD__ . $readOnly, $tabid);
-		if ($cache) {
-			return $cache;
-		}
-		$fields = \App\Field::getFieldsPermission($tabid, $readOnly);
-		$modulePermission = [];
-		foreach ($fields as &$field) {
-			$modulePermission[$field['fieldid']] = $field['visible'];
-		}
-		\App\Cache::staticSave(__METHOD__ . $readOnly, $tabid, $modulePermission);
-		return $modulePermission;
+		return \App\Field::getFieldPermission($this->getModuleId(), $this->getName(), $readOnly);
 	}
 
 	public function __update()

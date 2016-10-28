@@ -47,8 +47,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	{
 		$user = parent::getLogin();
 		if (!$user && Vtiger_Session::has('authenticated_user_id')) {
-			$userid = Vtiger_Session::get('AUTHUSERID', Vtiger_Session::get('authenticated_user_id'));
+			$userid = Vtiger_Session::get('authenticated_user_id');
 			if ($userid && AppConfig::main('application_unique_key') === Vtiger_Session::get('app_unique_key')) {
+				\App\User::getCurrentUserModel();
 				$user = CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				$this->setLogin($user);
@@ -107,7 +108,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
-		if ($this->isInstalled() === false) {
+		if (!$this->isInstalled()) {
 			header('Location:install/Install.php');
 		}
 		if (AppConfig::main('forceRedirect')) {

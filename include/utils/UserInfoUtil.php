@@ -15,22 +15,6 @@ require_once 'include/events/include.inc';
 require_once 'include/runtime/Globals.php';
 require_once 'include/runtime/Cache.php';
 
-/** To get the Role of the specified user
- * @param $userid -- The user Id:: Type integer
- * @returns  vtiger_roleid :: Type String
- */
-function fetchUserRole($userid)
-{
-
-	\App\Log::trace("Entering fetchUserRole(" . $userid . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$sql = "select roleid from vtiger_user2role where userid=?";
-	$result = $adb->pquery($sql, array($userid));
-	$roleid = $adb->query_result($result, 0, "roleid");
-	\App\Log::trace("Exiting fetchUserRole method ...");
-	return $roleid;
-}
-
 /** Function to get the lists of groupids releated with an user
  * This function accepts the user id as arguments and
  * returns the groupids related with the user id
@@ -143,30 +127,6 @@ function getDefaultSharingAction()
 	return $copy;
 }
 
-/** Function to update user to vtiger_role mapping based on the userid
- * @param $roleid -- Role Id:: Type varchar
- * @param $userid User Id:: Type integer
- *
- */
-function updateUser2RoleMapping($roleid, $userid)
-{
-
-	\App\Log::trace("Entering updateUser2RoleMapping(" . $roleid . "," . $userid . ") method ...");
-	$adb = PearDatabase::getInstance();
-	//Check if row already exists
-	$sqlcheck = "select * from vtiger_user2role where userid=?";
-	$resultcheck = $adb->pquery($sqlcheck, array($userid));
-	if ($adb->num_rows($resultcheck) == 1) {
-		$sqldelete = "delete from vtiger_user2role where userid=?";
-		$delparams = array($userid);
-		$result_delete = $adb->pquery($sqldelete, $delparams);
-	}
-	$sql = "insert into vtiger_user2role(userid,roleid) values(?,?)";
-	$params = array($userid, $roleid);
-	$result = $adb->pquery($sql, $params);
-	\App\Log::trace("Exiting updateUser2RoleMapping method ...");
-}
-
 /** Function to check if the currently logged in user is permitted to perform the specified action
  * @param $module -- Module Name:: Type varchar
  * @param $actionname -- Action Name:: Type varchar
@@ -180,7 +140,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	\App\Log::trace("Entering isPermitted($module,$actionname,$record_id) method ...");
 
 	$current_user = vglobal('current_user');
-	$userPrivileges = Vtiger_Util_Helper::getUserPrivilegesFile($current_user->id);
+	$userPrivileges = App\User::getPrivilegesFile($current_user->id);
 
 	$permission = 'no';
 	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && AppRequest::get('parenttab') != 'Settings') {
@@ -1174,14 +1134,14 @@ function getDSTableNameForType($typeString)
  */
 function getUserProfile($userId)
 {
-
 	\App\Log::trace("Entering getUserProfile(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$roleId = fetchUserRole($userId);
+	$roleId = \App\PrivilegeUtil::getRoleByUsers($userId);
 	$profArr = [];
 	$sql1 = "select profileid from vtiger_role2profile where roleid=?";
 	$result1 = $adb->pquery($sql1, array($roleId));
 	$num_rows = $adb->num_rows($result1);
+
 	for ($i = 0; $i < $num_rows; $i++) {
 
 		$profileid = $adb->query_result($result1, $i, "profileid");
@@ -1553,86 +1513,6 @@ function getGrpId($groupname)
 	}
 	\App\Log::trace("Exiting getGrpId method ...");
 	return $groupid;
-}
-
-/** Function to check permission to access a vtiger_field for a given user
- * @param $fld_module -- Module :: Type String
- * @param $userid -- User Id :: Type integer
- * @param $fieldname -- Field Name :: Type varchar
- * @returns $rolename -- Role Name :: Type varchar
- *
- */
-function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessmode = 'readonly')
-{
-	\App\Log::trace('Entering getFieldVisibilityPermission(' . $fld_module . ',' . $userid . ',' . $fieldname . ') method ...');
-	$adb = PearDatabase::getInstance();
-
-	// Check if field is in-active
-	$fieldActive = isFieldActive($fld_module, $fieldname);
-	if ($fieldActive === false) {
-		return '1';
-	}
-	$currentUser = Users_Privileges_Model::getInstanceById($userid);
-	$profileGlobalPermission = $currentUser->get('profile_global_permission');
-	if ($currentUser->isAdminUser() || $profileGlobalPermission[1] === 0 || $profileGlobalPermission[2] === 0) {
-		\App\Log::trace("Exiting getFieldVisibilityPermission method ...");
-		return '0';
-	} else {
-		//get vtiger_profile list using userid
-		$profileList = $currentUser->getProfiles();
-		//get tabid
-		$tabid = \App\Module::getModuleId($fld_module);
-
-		if (count($profileList) > 0) {
-			if ($accessmode == 'readonly') {
-				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profileList));
-			} else {
-				$query = sprintf("SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_profile2field.readonly=0 && vtiger_def_org_field.visible=0  && vtiger_profile2field.profileid in (%s) && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid", generateQuestionMarks($profileList));
-			}
-			$params = array($tabid, $profileList, $fieldname);
-		} else {
-			if ($accessmode == 'readonly') {
-				$query = "SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0  && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
-			} else {
-				$query = "SELECT vtiger_profile2field.visible FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=? && vtiger_profile2field.visible=0 && vtiger_profile2field.readonly=0 && vtiger_def_org_field.visible=0  && vtiger_field.fieldname= ? and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid";
-			}
-			$params = array($tabid, $fieldname);
-		}
-		$result = $adb->pquery($query, $params);
-
-		\App\Log::trace('Exiting getFieldVisibilityPermission method ...');
-
-		// Returns value as a string
-		if ($adb->num_rows($result) == 0)
-			return '1';
-		return ($adb->query_result($result, '0', 'visible') . '');
-	}
-}
-
-/** Function to check permission to access the column for a given user
- * @param $userid -- User Id :: Type integer
- * @param $tablename -- tablename :: Type String
- * @param $columnname -- columnname :: Type String
- * @param $module -- Module Name :: Type varchar
- */
-function getColumnVisibilityPermission($userid, $columnname, $module, $accessmode = 'readonly')
-{
-	$adb = PearDatabase::getInstance();
-
-	\App\Log::trace("in function getcolumnvisibilitypermission $columnname -$userid");
-	$tabid = \App\Module::getModuleId($module);
-
-	// Look at cache if information is available.
-	$cacheFieldInfo = VTCacheUtils::lookupFieldInfoByColumn($tabid, $columnname);
-	$fieldname = false;
-	if ($cacheFieldInfo === false) {
-		$res = $adb->pquery("select fieldname from vtiger_field where tabid=? and columnname=? and vtiger_field.presence in (0,2)", array($tabid, $columnname));
-		$fieldname = $adb->query_result($res, 0, 'fieldname');
-	} else {
-		$fieldname = $cacheFieldInfo['fieldname'];
-	}
-
-	return getFieldVisibilityPermission($module, $userid, $fieldname, $accessmode);
 }
 
 /** Function to get the permitted module name Array with presence as 0

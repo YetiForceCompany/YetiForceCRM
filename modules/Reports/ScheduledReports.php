@@ -110,7 +110,7 @@ class VTScheduledReport extends Reports
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
 				$userName = \includes\fields\Owner::getUserLabel($userId);
-				$userEmail = getUserEmail($userId);
+				$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
 				if (!in_array($userEmail, $recipientsEmails)) {
 					$recipientsEmails[$userName] = $userEmail;
 				}

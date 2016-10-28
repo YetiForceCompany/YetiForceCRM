@@ -14,7 +14,7 @@ class API_DAV_Model
 
 	public $davUsers = [];
 
-	public function runCronCardDav()
+	public static function runCronCardDav()
 	{
 		$dav = new self();
 		\App\Log::trace(__METHOD__ . ' | Start CardDAV Sync ');
@@ -38,7 +38,7 @@ class API_DAV_Model
 		\App\Log::trace(__METHOD__ . ' | End CardDAV Sync ');
 	}
 
-	public function runCronCalDav()
+	public static function runCronCalDav()
 	{
 		$dav = new self();
 		\App\Log::trace(__METHOD__ . ' | Start CalDAV Sync ');
@@ -82,20 +82,20 @@ class API_DAV_Model
 				->leftJoin('dav_calendars', 'dav_calendars.principaluri = dav_principals.uri');
 		} elseif ($type == 1) {
 			$db->select([
-				'david' => 'dav_users.id',
-				'userid' => 'dav_users.userid',
-				'addressbooksid' => 'dav_addressbooks.id'
-			])->from('dav_users')
+					'david' => 'dav_users.id',
+					'userid' => 'dav_users.userid',
+					'addressbooksid' => 'dav_addressbooks.id'
+				])->from('dav_users')
 				->innerJoin('vtiger_users', 'vtiger_users.id = dav_users.userid')
 				->innerJoin('dav_principals', 'dav_principals.userid = dav_users.userid')
 				->innerJoin('dav_addressbooks', 'dav_addressbooks.principaluri = dav_principals.uri')
 				->where(['vtiger_users.status' => 'Active']);
 		} elseif ($type == 2) {
 			$db->select([
-				'david' => 'dav_users.id',
-				'userid' => 'dav_users.userid',
-				'calendarsid' => 'dav_calendars.id'
-			])->from('dav_users')
+					'david' => 'dav_users.id',
+					'userid' => 'dav_users.userid',
+					'calendarsid' => 'dav_calendars.id'
+				])->from('dav_users')
 				->innerJoin('vtiger_users', 'vtiger_users.id = dav_users.userid')
 				->innerJoin('dav_principals', 'dav_principals.userid = dav_users.userid')
 				->innerJoin('dav_calendars', 'dav_calendars.principaluri = dav_principals.uri')

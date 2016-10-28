@@ -249,12 +249,12 @@ class iCalendar_component
 			if (!is_array($component)) {
 				if ($type != 'user') {
 					if (isset($this->field_mapping_arr[$component])) {
-						if (getFieldVisibilityPermission($modtype, $current_user->id, $this->field_mapping_arr[$component]) == '0')
+						if (\App\Field::getFieldPermission($modtype, $this->field_mapping_arr[$component]))
 							$activity[$this->field_mapping_arr[$component]] = $ical_activity[$key];
 						else
 							$activity[$this->field_mapping_arr[$component]] = '';
 					} else {
-						if (getFieldVisibilityPermission($modtype, $current_user->id, $component) == '0')
+						if (\App\Field::getFieldPermission($modtype, $component))
 							$activity[$component] = $ical_activity[$key];
 						else
 							$activity[$component] = '';
@@ -271,12 +271,12 @@ class iCalendar_component
 				foreach ($component as $index) {
 					if (!isset($activity[$index])) {
 						if (isset($this->field_mapping_arr[$index])) {
-							if (getFieldVisibilityPermission($modtype, $current_user->id, $this->field_mapping_arr[$index]) == '0')
+							if (\App\Field::getFieldPermission($modtype, $this->field_mapping_arr[$index]))
 								$activity[$this->field_mapping_arr[$index]] = $values[$count];
 							else
 								$activity[$this->field_mapping_arr[$index]] = '';
 						} else {
-							if (getFieldVisibilityPermission($modtype, $current_user->id, $index) == '0')
+							if (\App\Field::getFieldPermission($modtype, $index))
 								$activity[$index] = $values[$count];
 							else
 								$activity[$index] = '';
@@ -635,12 +635,12 @@ class iCalendar_todo extends iCalendar_component
 
 class iCalendar_journal extends iCalendar_component
 {
-
+	
 }
 
 class iCalendar_freebusy extends iCalendar_component
 {
-
+	
 }
 
 class iCalendar_alarm extends iCalendar_component

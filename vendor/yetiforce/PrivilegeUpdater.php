@@ -20,11 +20,10 @@ class PrivilegeUpdater
 	 */
 	public static function checkGlobalSearchPermissions($moduleName, $userId = false)
 	{
-		if ($userId === false) {
-			$user = \Users_Record_Model::getCurrentUserModel();
-			$userId = $user->getId();
+		if (!$userId) {
+			$userId = User::getCurrentUserId();
 		}
-		if (isset(static::$globalSearchPermissionsCache[$userId][$moduleName])) {
+		if (!isset(static::$globalSearchPermissionsCache[$userId][$moduleName])) {
 			$users = static::getGlobalSearchUsers();
 			$return = false;
 			if (isset($users[$userId]) && in_array($moduleName, $users[$userId])) {
@@ -43,7 +42,7 @@ class PrivilegeUpdater
 	 */
 	public static function getGlobalSearchUsers()
 	{
-		if (static::$globalSearchUsersCache === false) {
+		if (!static::$globalSearchUsersCache) {
 			static::$globalSearchUsersCache = [];
 			$adb = \PearDatabase::getInstance();
 			$query = 'SELECT `userid`,`searchunpriv` FROM `vtiger_user2role` LEFT JOIN `vtiger_role` ON vtiger_role.roleid = vtiger_user2role.roleid WHERE vtiger_role.`searchunpriv` <> \'\'';

@@ -455,11 +455,11 @@ class ServiceContracts extends CRMEntity
 
 		$contractTicketsResult = $this->db->pquery("SELECT relcrmid FROM vtiger_crmentityrel
 														WHERE module = 'ServiceContracts'
-														AND relmodule = 'HelpDesk' && crmid = ?
+														AND relmodule = 'HelpDesk' AND crmid = ?
 													UNION
 														SELECT crmid FROM vtiger_crmentityrel
 														WHERE relmodule = 'ServiceContracts'
-														AND module = 'HelpDesk' && relcrmid = ?", array($focusId, $focusId));
+														AND module = 'HelpDesk' AND relcrmid = ?", array($focusId, $focusId));
 
 		$noOfTickets = $this->db->num_rows($contractTicketsResult);
 		$ticketFocus = CRMEntity::getInstance('HelpDesk');

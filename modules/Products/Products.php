@@ -259,8 +259,7 @@ class Products extends CRMEntity
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
@@ -320,8 +319,7 @@ class Products extends CRMEntity
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
@@ -380,8 +378,7 @@ class Products extends CRMEntity
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
@@ -443,8 +440,7 @@ class Products extends CRMEntity
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
@@ -455,7 +451,7 @@ class Products extends CRMEntity
 
 		$button = '';
 
-		if ($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'product_id', 'readwrite') == '0') {
+		if ($actions && \App\Field::getFieldPermission($related_module, 'product_id', false)) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
@@ -592,8 +588,7 @@ class Products extends CRMEntity
 		$this_module = $currentModule;
 
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
+		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 

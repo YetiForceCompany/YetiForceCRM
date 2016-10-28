@@ -660,11 +660,3 @@ function pdfAttach($obj, $module, $file_name, $id)
 		return false;
 	}
 }
-
-//this function check email fields profile permission as well as field access permission
-function emails_checkFieldVisiblityPermission($fieldname, $mode = 'readonly')
-{
-	$current_user = vglobal('current_user');
-	$ret = getFieldVisibilityPermission('Emails', $current_user->id, $fieldname, $mode);
-	return $ret;
-}

@@ -44,12 +44,12 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			$customViewModel = CustomView_Record_Model::getCleanInstance();
 			$customViewModel->setModule($request->get('source_module'));
 		}
-
+		$setmetrics = empty($request->get('setmetrics')) ? 0 : $request->get('setmetrics');
 		$customViewData = array(
 			'cvid' => $cvId,
 			'viewname' => $request->get('viewname'),
 			'setdefault' => $request->get('setdefault'),
-			'setmetrics' => $request->get('setmetrics'),
+			'setmetrics' => $setmetrics,
 			'status' => $request->get('status'),
 			'featured' => $request->get('featured'),
 			'color' => $request->get('color'),

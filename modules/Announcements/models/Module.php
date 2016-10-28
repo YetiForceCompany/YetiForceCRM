@@ -23,7 +23,6 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function loadAnnouncements()
 	{
 		$db = PearDatabase::getInstance();
-		$userModel = Users_Record_Model::getCurrentUserModel();
 		$listView = Vtiger_ListView_Model::getInstance($this->getName());
 		$queryGenerator = $listView->get('query_generator');
 		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime']);
@@ -34,7 +33,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		while ($row = $db->getRow($result)) {
 			$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
-				->where(['announcementid' => $row['announcementid'], 'userid' => $userModel->getId()]);
+				->where(['announcementid' => $row['announcementid'], 'userid' => \App\User::getCurrentUserId()]);
 			if (!empty($row['interval'])) {
 				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
 				$query->andWhere(['status' => 0]);
@@ -60,16 +59,15 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function setMark($record, $state)
 	{
 		$db = \App\Db::getInstance();
-		$userModel = Users_Record_Model::getCurrentUserModel();
 
 		$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
-				->where(['announcementid' => $record, 'userid' => $userModel->getId()])->limit(1);
+				->where(['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])->limit(1);
 		if ($query->scalar() !== false) {
 			$db->createCommand()
 				->insert('u_#__announcement_mark', [
 					'announcementid' => $record,
-					'userid' => $userModel->getId(),
+					'userid' => \App\User::getCurrentUserId(),
 					'date' => date('Y-m-d H:i:s'),
 					'status' => $state
 				])->execute();
@@ -78,7 +76,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 				->update('u_#__announcement_mark', [
 					'date' => date('Y-m-d H:i:s'),
 					'status' => $state
-					], ['announcementid' => $record, 'userid' => $userModel->getId()])
+					], ['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])
 				->execute();
 		}
 		$this->checkStatus($record);

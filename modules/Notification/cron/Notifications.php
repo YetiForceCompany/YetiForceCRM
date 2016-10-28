@@ -27,7 +27,7 @@ class Cron_Notification
 			if ($this->existNotifications($row['userid'], $row['last_execution'], $endDate) && Users_Privileges_Model::isPermittedByUserId($row['userid'], 'Notification', 'ReceivingMailNotifications')) {
 				$data = [
 					'sysname' => 'SendNotificationsViaMail',
-					'to_email' => getUserEmail($row['userid']),
+					'to_email' => \App\User::getUserModel($row['userid'])->getDetail('email1'),
 					'module' => 'System',
 					'startDate' => $row['last_execution'],
 					'endDate' => $endDate,

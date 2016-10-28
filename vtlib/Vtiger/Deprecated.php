@@ -53,7 +53,7 @@ class Deprecated
 		} else {
 			$accessibleFieldNames = [];
 			foreach (explode(',', $fieldsName) as $field) {
-				if ($module == 'Users' || getColumnVisibilityPermission($current_user->id, $field, $module) == '0') {
+				if ($module === 'Users' || \App\Field::getColumnPermission($module, $field)) {
 					$accessibleFieldNames[] = $fieldValues[$field];
 				}
 			}
@@ -172,7 +172,6 @@ class Deprecated
 		}
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
-
 
 	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
 	{

@@ -64,7 +64,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		if (!preg_match('/^[0-2]\d(:[0-5]\d){1,2}$/', $schtime) || substr($schtime, 0, 2) > 23) {  // invalid time format
 			$schtime = '00:00';
 		}
-		$schtime .=':00';
+		$schtime .= ':00';
 
 		$schdate = null;
 		$schdayoftheweek = null;
@@ -175,7 +175,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 			foreach ($recipientsList as $userId) {
 				if (!Vtiger_Util_Helper::isUserDeleted($userId)) {
 					$userName = \includes\fields\Owner::getUserLabel($userId);
-					$userEmail = getUserEmail($userId);
+					$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
 					if (!in_array($userEmail, $recipientsEmails)) {
 						$recipientsEmails[$userName] = $userEmail;
 					}
@@ -239,7 +239,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		}
 		//Added cc to account owner
 		$accountOwnerId = Users::getActiveAdminId();
-		$vtigerMailer->AddCC(getUserEmail($accountOwnerId), \includes\fields\Owner::getUserLabel($accountOwnerId));
+		$vtigerMailer->AddCC(\App\User::getUserModel($accountOwnerId)->getDetail('email1'), \includes\fields\Owner::getUserLabel($accountOwnerId));
 		$status = $vtigerMailer->Send(true);
 
 		foreach ($attachments as $attachmentName => $path) {
@@ -329,7 +329,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		$current_language = vglobal('current_language');
 		if (empty($currentModule)) {
 			vglobal('currentModule', 'Reports');
-		}	
+		}
 		if (empty($current_language))
 			vglobal('current_language', 'en_us');
 

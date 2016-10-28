@@ -120,7 +120,7 @@ class Activity extends CRMEntity
 		$this->insertIntoInviteeTable($module);
 
 		//Inserting into sales man activity rel
-		$adb->pquery('UPDATE vtiger_activity SET smownerid = ? WHERE `activityid` = ?;', array($this->column_fields['assigned_user_id'], $recordId));
+		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['smownerid' =>$this->column_fields['assigned_user_id']], ['activityid' => $recordId])->execute();
 		$this->insertIntoActivityReminderPopup($module);
 	}
 
@@ -163,7 +163,7 @@ class Activity extends CRMEntity
 					], 'reminderid = ?', [$reminderid]
 				);
 			} else {
-				$adb->insert('vtiger_activity_reminder_popup', [
+				\App\Db::getInstance()->createCommand()->insert('vtiger_activity_reminder_popup', [
 					'recordid' => $cbrecord,
 					'semodule' => $cbmodule,
 					'date_start' => $cbdate,

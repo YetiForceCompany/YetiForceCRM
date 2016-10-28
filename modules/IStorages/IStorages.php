@@ -80,15 +80,15 @@ class IStorages extends Vtiger_CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		if ($eventType == 'module.postinstall') {
-
+			
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -100,7 +100,7 @@ class IStorages extends Vtiger_CRMEntity
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		$current_user = vglobal('current_user');
 		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
 
@@ -112,7 +112,7 @@ class IStorages extends Vtiger_CRMEntity
 			$listColumns = $this->list_fields_name;
 		}
 		foreach ($listColumns as $fieldname => $colname) {
-			if (getFieldVisibilityPermission('IStorages', $current_user->id, $colname) == '0') {
+			if (\App\Field::getFieldPermission('IStorages', $colname)) {
 				$listviewHeader[] = vtranslate($fieldname);
 			}
 		}
@@ -146,7 +146,7 @@ class IStorages extends Vtiger_CRMEntity
 	 */
 	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false, $getLinks = true)
 	{
-		
+
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
 		$currentUser = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
@@ -160,7 +160,7 @@ class IStorages extends Vtiger_CRMEntity
 
 		foreach ($listColumns as $fieldname => $colname) {
 			// Permission to view storage is restricted, avoid showing field values (except storage name)
-			if (getFieldVisibilityPermission('IStorages', $currentUser->id, $colname) == '0') {
+			if (\App\Field::getFieldPermission('IStorages', $colname)) {
 				$data = $iStorageInfoBase[$colname];
 				if ($getRawData === false) {
 					if ($colname == 'subject') {
@@ -205,7 +205,7 @@ class IStorages extends Vtiger_CRMEntity
 	public function getParentIStorages($id, &$parentIStorages, &$encounteredIStorages, $depthBase = 0)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		\App\Log::trace('Entering getParentIStorages(' . $id . ') method ...');
 
 		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
@@ -272,7 +272,7 @@ class IStorages extends Vtiger_CRMEntity
 	public function getChildIStorages($id, &$childIStorages, $depthBase)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		\App\Log::trace('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
 
 		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {

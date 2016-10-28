@@ -29,12 +29,13 @@ class API_SSingleOrders_SetSSingleOrders extends BaseAction
 	public function post($orders)
 	{
 		vglobal('current_user', Users_Privileges_Model::getInstanceById($this->user['user_id']));
+		App\User::setCurrentUserId($this->user['user_id']);
 		$idsToReturn = [];
 		foreach ($orders as $offer) {
 			if ($this->hasPermissionToStorage($offer['storage'])) {
 				$moduleName = 'SSingleOrders';
 				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-				$recordModel->set('subject', $offer['date'] . ' - ' .  $offer['brutto']);
+				$recordModel->set('subject', $offer['date'] . ' - ' . $offer['brutto']);
 				$recordModel->set('ssingleorders_status', $offer['status']);
 				$recordModel->set('date_start', $offer['date']);
 				$recordModel->set('pos', $this->api->app['id']);

@@ -53,8 +53,7 @@ function getPermittedFieldsQuery($module, $disp_view)
 	$tabid = \App\Module::getModuleId($module);
 
 	$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-	$profileGlobalPermission = $currentUser->get('profile_global_permission');
-	if ($currentUser->isAdminUser() || $profileGlobalPermission[1] === 0 || $profileGlobalPermission[2] === 0 || $module == "Users") {
+	if ($module === 'Users') {
 		$sql = sprintf("SELECT vtiger_field.columnname, vtiger_field.fieldlabel, vtiger_field.tablename FROM vtiger_field WHERE vtiger_field.tabid=%d && vtiger_field.block IN %s && vtiger_field.displaytype IN (1,2,4,5) and vtiger_field.presence in (0,2) ORDER BY block,sequence", $tabid, $blockid_list);
 	} else {
 		$profileList = $currentUser->getProfiles();

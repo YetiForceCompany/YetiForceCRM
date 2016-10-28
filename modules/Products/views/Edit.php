@@ -46,7 +46,7 @@ Class Products_Edit_View extends Vtiger_Edit_View
 		foreach ($mandatoryFieldModels as $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$fieldName = $fieldModel->get('name');
-				if (Vtiger_Util_Helper::checkRecordExistance($recordModel->get($fieldName))) {
+				if (!\App\Record::isExists($recordModel->get($fieldName))) {
 					$recordModel->set($fieldName, '');
 				}
 			}
