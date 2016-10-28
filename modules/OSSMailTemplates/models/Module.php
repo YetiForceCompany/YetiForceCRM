@@ -12,69 +12,74 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 
 	public function getListFiledOfModule($moduleName, $relID = false)
 	{
-		$db = PearDatabase::getInstance();
-		$tabid = \App\Module::getModuleId($moduleName);
-		$sql = "select `fieldid`, `fieldlabel`, `uitype`, `block` from vtiger_field where tabid = ? && presence <> ? && typeofdata <> ? && `block` NOT IN (?)";
-		$result = $db->pquery($sql, array($tabid, 1, 'P~M', 0));
-		$output = array();
-		$block = ['blockId' => '', 'blockLabel' => ''];
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$blockid = $db->query_result($result, $i, 'block');
-			if ($block['blockId'] != $blockid) {
-				$block['blockId'] = $blockid;
-				$block['blockLabel'] = getBlockName($blockid);
+		$tabId = \App\Module::getModuleId($moduleName);
+		$output = [];
+		if ($tabId) {
+			$db = PearDatabase::getInstance();
+			$sql = "select fieldid, fieldlabel, uitype, block from vtiger_field where tabid = ? AND presence <> ? AND typeofdata <> ? AND block NOT IN (?)";
+			$result = $db->pquery($sql, [$tabId, 1, 'P~M', 0]);
+
+			$block = ['blockId' => '', 'blockLabel' => ''];
+			for ($i = 0; $i < $db->num_rows($result); $i++) {
+				$blockid = $db->query_result($result, $i, 'block');
+				if ($block['blockId'] != $blockid) {
+					$block['blockId'] = $blockid;
+					$block['blockLabel'] = getBlockName($blockid);
+				}
+				if ($relID) {
+					$id = $db->query_result($result, $i, 'fieldid') . '||' . $relID;
+				} else {
+					$id = $db->query_result($result, $i, 'fieldid');
+				}
+				$output[$blockid][$i]['label'] = vtranslate($db->query_result($result, $i, 'fieldlabel'), $moduleName);
+				$output[$blockid][$i]['id'] = $id;
+				$output[$blockid][$i]['uitype'] = $db->query_result($result, $i, 'uitype');
+				$output[$blockid]['blockLabel'] = vtranslate($block['blockLabel'], $moduleName);
 			}
-			if ($relID) {
-				$id = $db->query_result($result, $i, 'fieldid') . '||' . $relID;
-			} else {
-				$id = $db->query_result($result, $i, 'fieldid');
-			}
-			$output[$blockid][$i]['label'] = vtranslate($db->query_result($result, $i, 'fieldlabel'), $moduleName);
-			$output[$blockid][$i]['id'] = $id;
-			$output[$blockid][$i]['uitype'] = $db->query_result($result, $i, 'uitype');
-			$output[$blockid]['blockLabel'] = vtranslate($block['blockLabel'], $moduleName);
 		}
 		return $output;
 	}
 
 	public function getListFiledOfRelatedModule($moduleName)
 	{
-		$db = PearDatabase::getInstance();
-		$tabid = \App\Module::getModuleId($moduleName);
-		$sourceModule = $moduleName;
-		$params = $referenceUitype = [10, 59, 53, 51, 66, 67, 68];
-		$params[] = $tabid;
-		$sql = sprintf('SELECT vtiger_field.fieldid, fieldlabel, uitype, vtiger_fieldmodulerel.relmodule FROM vtiger_field 
-				LEFT JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid 
-				WHERE uitype IN (%s) && tabid = ? ', $db->generateQuestionMarks($referenceUitype));
-
-		$resultModuleList = $db->pquery($sql, $params);
+		$tabId = \App\Module::getModuleId($moduleName);
 		$moduleList = [];
-		$modulesNameList = [];
-		while ($row = $db->getRow($resultModuleList)) {
-			switch ($row['uitype']) {
-				case 10:
-					$modulesName = [$row['relmodule']];
-					break;
-				case 51:
-					$modulesName = ['Accounts'];
-					break;
-				case 59:
-					$modulesName = ['Products'];
-					break;
-				case 53:
-					$modulesName = ['Users'];
-					break;
-				default:
-					$fieldInstance = Vtiger_Field_Model::getInstanceFromFieldId($row['fieldid']);
-					$modulesName = $fieldInstance->getUITypeModel()->getReferenceList();
-					break;
-			}
-			foreach ($modulesName as $moduleName) {
-				$moduleTrLabal = vtranslate($moduleName, $moduleName);
-				if (!in_array($moduleName, $modulesNameList)) {
-					$modulesNameList[] = $moduleName;
-					$moduleList[][$moduleTrLabal] = $this->getListFiledOfModule($moduleName, $row['fieldid']);
+		if ($tabId) {
+			$db = PearDatabase::getInstance();
+			$sourceModule = $moduleName;
+			$params = $referenceUitype = [10, 59, 53, 51, 66, 67, 68];
+			$params[] = $tabId;
+			$sql = sprintf('SELECT vtiger_field.fieldid, fieldlabel, uitype, vtiger_fieldmodulerel.relmodule FROM vtiger_field 
+				LEFT JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid 
+				WHERE uitype IN (%s) AND tabid = ? ', $db->generateQuestionMarks($referenceUitype));
+			$resultModuleList = $db->pquery($sql, $params);
+
+			$modulesNameList = [];
+			while ($row = $db->getRow($resultModuleList)) {
+				switch ($row['uitype']) {
+					case 10:
+						$modulesName = [$row['relmodule']];
+						break;
+					case 51:
+						$modulesName = ['Accounts'];
+						break;
+					case 59:
+						$modulesName = ['Products'];
+						break;
+					case 53:
+						$modulesName = ['Users'];
+						break;
+					default:
+						$fieldInstance = Vtiger_Field_Model::getInstanceFromFieldId($row['fieldid']);
+						$modulesName = $fieldInstance->getUITypeModel()->getReferenceList();
+						break;
+				}
+				foreach ($modulesName as $moduleName) {
+					$moduleTrLabal = vtranslate($moduleName, $moduleName);
+					if (!in_array($moduleName, $modulesNameList)) {
+						$modulesNameList[] = $moduleName;
+						$moduleList[][$moduleTrLabal] = $this->getListFiledOfModule($moduleName, $row['fieldid']);
+					}
 				}
 			}
 		}
