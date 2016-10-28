@@ -227,10 +227,13 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_addressbookchanges' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'uri' => $this->binary(200)->notNull(),
+					'uri' => $this->stringType(200)->notNull(),
 					'synctoken' => $this->integer()->unsigned()->notNull(),
 					'addressbookid' => $this->integer()->unsigned()->notNull(),
-					'operation' => $this->boolean()->notNull(),
+					'operation' => $this->smallInteger(1)->notNull(),
+				],
+				'columns_mysql' => [
+					'uri' => 'varbinary(200) DEFAULT NULL'
 				],
 				'index' => [
 					['dav_addressbookchanges_idx', ['addressbookid', 'synctoken']],
@@ -241,13 +244,21 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_addressbooks' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'principaluri' => $this->binary(255),
+					'principaluri' => $this->stringType(),
 					'displayname' => $this->stringType(),
-					'uri' => $this->binary(200),
+					'uri' => $this->stringType(),
 					'description' => $this->text(),
 					'synctoken' => $this->integer()->unsigned()->notNull()->defaultValue(1),
 				],
+				'columns_mysql' => [
+					'principaluri' => 'varbinary(255) DEFAULT NULL',
+					'uri' => 'varbinary(255) DEFAULT NULL'
+				],
 				'index' => [
+					['dav_addressbooks_uri_idx', ['principaluri', 'uri'], true],
+					['dav_addressbooks_pri_idx', 'principaluri'],
+				],
+				'index_mysql' => [
 					['dav_addressbooks_uri_idx', ['principaluri(100)', 'uri(100)'], true],
 					['dav_addressbooks_pri_idx', 'principaluri(100)'],
 				],
@@ -260,7 +271,10 @@ class Base1 extends \App\Db\Importers\Base
 					'uri' => $this->binary(200)->notNull(),
 					'synctoken' => $this->integer()->unsigned()->notNull(),
 					'calendarid' => $this->integer()->unsigned()->notNull(),
-					'operation' => $this->boolean()->notNull(),
+					'operation' => $this->smallInteger(1)->notNull(),
+				],
+				'columns_mysql' => [
+					'uri' => 'varbinary(200) DEFAULT NULL',
 				],
 				'index' => [
 					['dav_calendarchanges_idx', ['calendarid', 'synctoken']],
@@ -272,16 +286,22 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
 					'calendardata' => $this->binary(),
-					'uri' => $this->binary(200),
+					'uri' => $this->stringType(200),
 					'calendarid' => $this->integer(10)->unsigned()->notNull(),
 					'lastmodified' => $this->integer()->unsigned(),
-					'etag' => $this->binary(32),
+					'etag' => $this->stringType(32),
 					'size' => $this->integer()->unsigned()->notNull(),
-					'componenttype' => $this->binary(8),
+					'componenttype' => $this->stringType(8),
 					'firstoccurence' => $this->integer()->unsigned(),
 					'lastoccurence' => $this->integer()->unsigned(),
-					'uid' => $this->binary(200),
+					'uid' => $this->stringType(200),
 					'crmid' => $this->integer(19),
+				],
+				'columns_mysql' => [
+					'uri' => 'varbinary(200) DEFAULT NULL',
+					'etag' => 'varbinary(32) DEFAULT NULL',
+					'componenttype' => 'varbinary(8) DEFAULT NULL',
+					'uid' => 'varbinary(200) DEFAULT NULL'
 				],
 				'index' => [
 					['dav_calendarobjects_cal_idx', ['calendarid', 'uri(100)'], true],
@@ -292,18 +312,26 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_calendars' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'principaluri' => $this->binary(100),
+					'principaluri' => $this->stringType(100),
 					'displayname' => $this->stringType(100),
-					'uri' => $this->binary(200),
+					'uri' => $this->stringType(200),
 					'synctoken' => $this->integer(10)->unsigned()->notNull()->defaultValue(1),
 					'description' => $this->text(),
 					'calendarorder' => $this->integer()->unsigned()->notNull()->defaultValue(0),
-					'calendarcolor' => $this->binary(10),
+					'calendarcolor' => $this->stringType(10),
 					'timezone' => $this->text(),
-					'components' => $this->binary(21),
+					'components' => $this->stringType(21),
 					'transparent' => $this->boolean()->notNull()->defaultValue(false),
 				],
+				'columns_mysql' => [
+					'principaluri' => 'varbinary(100) DEFAULT NULL',
+					'uri' => 'varbinary(200) DEFAULT NULL',
+					'components' => 'varbinary(21) DEFAULT NULL',
+				],
 				'index' => [
+					['dav_calendars_uri_idx', ['principaluri', 'uri']],
+				],
+				'index_mysql' => [
 					['dav_calendars_uri_idx', ['principaluri(100)', 'uri(100)']],
 				],
 				'engine' => 'InnoDB',
@@ -312,19 +340,27 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_calendarsubscriptions' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'uri' => $this->binary(200)->notNull(),
-					'principaluri' => $this->binary(100)->notNull(),
+					'uri' => $this->stringType(200)->notNull(),
+					'principaluri' => $this->stringType(100)->notNull(),
 					'source' => $this->text(),
 					'displayname' => $this->stringType(100),
 					'refreshrate' => $this->stringType(10),
 					'calendarorder' => $this->integer()->unsigned()->notNull()->defaultValue(0),
-					'calendarcolor' => $this->binary(10),
-					'striptodos' => $this->boolean(),
-					'stripalarms' => $this->boolean(),
-					'stripattachments' => $this->boolean(),
+					'calendarcolor' => $this->stringType(10),
+					'striptodos' => $this->smallInteger(1),
+					'stripalarms' => $this->smallInteger(1),
+					'stripattachments' => $this->smallInteger(1),
 					'lastmodified' => $this->integer()->unsigned(),
 				],
+				'columns_mysql' => [
+					'uri' => 'varbinary(200) DEFAULT NULL',
+					'principaluri' => 'varbinary(100) DEFAULT NULL',
+					'calendarcolor' => 'varbinary(10) DEFAULT NULL',
+				],
 				'index' => [
+					['dav_calendarsubscriptions_uri_idx', ['principaluri', 'uri'], true],
+				],
+				'index_mysql' => [
 					['dav_calendarsubscriptions_uri_idx', ['principaluri(100)', 'uri(100)'], true],
 				],
 				'engine' => 'InnoDB',
@@ -335,11 +371,15 @@ class Base1 extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'addressbookid' => $this->integer()->unsigned()->notNull(),
 					'carddata' => $this->binary(),
-					'uri' => $this->binary(200),
+					'uri' => $this->stringType(200),
 					'lastmodified' => $this->integer()->unsigned(),
-					'etag' => $this->binary(32),
+					'etag' => $this->stringType(32),
 					'size' => $this->integer()->unsigned()->notNull(),
 					'crmid' => $this->integer(19)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'uri' => 'varbinary(255) DEFAULT NULL',
+					'etag' => 'varbinary(32) DEFAULT NULL'
 				],
 				'index' => [
 					['dav_cards_address_idx', ['addressbookid', 'crmid']],
@@ -362,10 +402,14 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_principals' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'uri' => $this->binary(200)->notNull(),
-					'email' => $this->binary(80),
+					'uri' => $this->stringType(200)->notNull(),
+					'email' => $this->stringType(80),
 					'displayname' => $this->stringType(80),
-					'userid' => $this->integer(19),
+					'userid' => $this->integer(),
+				],
+				'columns' => [
+					'uri' => 'varbinary(200) NOT NULL',
+					'email' => 'varbinary(80)',
 				],
 				'index' => [
 					['dav_principals_uri_idx', 'uri(100)', true],
@@ -376,12 +420,19 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_propertystorage' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'path' => $this->binary(1024)->notNull(),
-					'name' => $this->binary(100)->notNull(),
+					'path' => $this->stringType(1024)->notNull(),
+					'name' => $this->stringType(100)->notNull(),
 					'valuetype' => $this->integer(10)->unsigned(),
 					'value' => $this->binary(),
 				],
+				'columns_mysql' => [
+					'path' => 'varbinary(1024) NOT NULL',
+					'name' => 'varbinary(100) NOT NULL',
+				],
 				'index' => [
+					['dav_propertystorage_path_idx', ['path', 'name'], true],
+				],
+				'index_mysql' => [
 					['dav_propertystorage_path_idx', ['path(600)', 'name(100)'], true],
 				],
 				'engine' => 'InnoDB',
@@ -390,12 +441,16 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_schedulingobjects' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'principaluri' => $this->binary(255),
+					'principaluri' => $this->stringType(),
 					'calendardata' => $this->binary(),
-					'uri' => $this->binary(200),
+					'uri' => $this->stringType(200),
 					'lastmodified' => $this->integer()->unsigned(),
-					'etag' => $this->binary(32),
+					'etag' => $this->stringType(32),
 					'size' => $this->integer()->unsigned()->notNull(),
+				],
+				'columns_mysql' => [
+					'uri' => 'varbinary(255) DEFAULT NULL',
+					'etag' => 'varbinary(32) DEFAULT NULL'
 				],
 				'index' => [
 				],
@@ -405,14 +460,21 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_users' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'username' => $this->binary(50),
-					'digesta1' => $this->binary(32),
-					'userid' => $this->integer(19)->unsigned(),
+					'username' => $this->stringType(50),
+					'digesta1' => $this->stringType(32),
+					'userid' => $this->integer(11)->unsigned(),
 					'key' => $this->stringType(50),
 				],
+				'columns_mysql' => [
+					'username' => 'varbinary(50) DEFAULT NULL',
+					'digesta1' => 'varbinary(32) DEFAULT NULL',
+				],
 				'index' => [
-					['dav_users_name_idx', 'username(50)', true],
+					['dav_users_name_idx', 'username', true],
 					['dav_users_user_id_idx', 'userid', true],
+				],
+				'index_mysql' => [
+					['dav_users_name_idx', 'username(50)', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
