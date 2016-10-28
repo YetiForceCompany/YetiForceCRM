@@ -26,7 +26,7 @@ class Admin extends \App\Db\Importers\Base
 					'priority' => $this->smallInteger(1)->unsigned()->notNull(),
 				],
 				'index' => [
-					['tabid', 'tabid']
+					['adv_permission_idx', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -53,7 +53,7 @@ class Admin extends \App\Db\Importers\Base
 					'userid' => $this->integer(),
 				],
 				'index' => [
-					['bf1_mixed', ['ip', 'time', 'blocked']],
+					['bruteforce_blocked_idx', ['ip', 'time', 'blocked']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -65,7 +65,7 @@ class Admin extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'id']
+					['bruteforce_users_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -78,7 +78,7 @@ class Admin extends \App\Db\Importers\Base
 				'index' => [
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'param']
+					['discounts_config_pk', 'param']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -111,11 +111,11 @@ class Admin extends \App\Db\Importers\Base
 					'cvid' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['cvid', 'cvid'],
-					['user', 'user'],
+					['featured_filter_cvid_idx', 'cvid'],
+					['featured_filter_user_idx', 'user'],
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', ['user', 'cvid']]
+					['featured_filter_pk', ['user', 'cvid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -128,7 +128,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->integer(10)->unsigned()->notNull(),
 				],
 				'index' => [
-					['status', 'status'],
+					['inventory_limits_idx', 'status'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -144,9 +144,9 @@ class Admin extends \App\Db\Importers\Base
 					'params' => $this->stringType(),
 				],
 				'index' => [
-					['tabid', 'tabid'],
-					['reltabid', 'reltabid'],
-					['tabid_2', ['tabid', 'status']],
+					['mapped_config_tabid_idx', 'tabid'],
+					['mapped_config_reltabid_idx', 'reltabid'],
+					['mapped_config_status_idx', ['tabid', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -161,7 +161,7 @@ class Admin extends \App\Db\Importers\Base
 					'default' => $this->stringType(),
 				],
 				'index' => [
-					['a_#__mapped_fields_ibfk_1', 'mappedid'],
+					['mapped_fields_idx', 'mappedid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -205,8 +205,8 @@ class Admin extends \App\Db\Importers\Base
 					'one_pdf' => $this->boolean(),
 				],
 				'index' => [
-					['module_name', ['module_name', 'status']],
-					['module_name_2', 'module_name'],
+					['pdf_module_status_idx', ['module_name', 'status']],
+					['pdf_module_idx', 'module_name'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -218,7 +218,7 @@ class Admin extends \App\Db\Importers\Base
 					'sequence' => $this->smallInteger(1),
 				],
 				'index' => [
-					['relation_id', 'relation_id'],
+					['relatedlists_inv_fields_id_idx', 'relation_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -229,7 +229,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->stringType()->notNull(),
 				],
 				'primaryKeys' => [
-					['PRIMARY KEY', 'param']
+					['taxes_config_pk', 'param']
 				],
 				'index' => [
 				],
@@ -254,7 +254,7 @@ class Admin extends \App\Db\Importers\Base
 					'crmid' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-					['tabid', 'tabid'],
+					['mail_updater_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -267,7 +267,7 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['source_module', ['source_module', 'dest_module']],
+					['multireference_idx', ['source_module', 'dest_module']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -280,8 +280,8 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['module', ['module', 'crmid', 'type'], true],
-					['crmid', 'crmid'],
+					['privileges_updater_module_idx', ['module', 'crmid', 'type'], true],
+					['privileges_updater_crmid_idx', 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
