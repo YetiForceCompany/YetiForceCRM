@@ -1405,7 +1405,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_customview' => [
 				'columns' => [
-					'cvid' => $this->integer()->notNull(),
+					'cvid' => $this->primaryKey()->notNull(),
 					'viewname' => $this->stringType(100)->notNull(),
 					'setdefault' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'setmetrics' => $this->smallInteger(1)->notNull()->defaultValue(0),
@@ -1423,18 +1423,6 @@ class Base2 extends \App\Db\Importers\Base
 				'index' => [
 					['customview_entitytype_idx', 'entitytype'],
 					['customview_setdefault_idx', ['setdefault', 'entitytype']],
-				],
-				'primaryKeys' => [
-					['customview_pk', 'cvid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_customview_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3642,12 +3630,6 @@ class Base2 extends \App\Db\Importers\Base
 					[102, 'All', 1, 0, 'IGRNC', 0, 1, 1, 0, NULL, 0, NULL, '', ''],
 					[103, 'All', 1, 0, 'IGDNC', 0, 1, 1, 0, NULL, 0, NULL, '', ''],
 					[104, 'All', 1, 0, 'Notification', 0, 1, 1, 0, 1, 0, NULL, NULL, ''],
-				]
-			],
-			'vtiger_customview_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[104],
 				]
 			],
 			'vtiger_cvcolumnlist' => [
