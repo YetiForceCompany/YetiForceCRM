@@ -65,8 +65,8 @@ class Filter
 			else
 				$this->status = '3'; // Public
 		}
-
-		$db->insert('vtiger_customview', [
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('vtiger_customview', [
 			'viewname' => $this->name,
 			'setdefault' => $this->isdefault,
 			'setmetrics' => $this->inmetrics,
@@ -78,7 +78,8 @@ class Filter
 			'presence' => $this->presence,
 			'description' => $this->description,
 			'sort' => $this->sort,
-		]);
+		])->execute();
+		$this->id = $db->getLastInsertID();
 		self::log("Creating Filter $this->name ... DONE");
 	}
 
