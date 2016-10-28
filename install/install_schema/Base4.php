@@ -3296,12 +3296,22 @@ class Base4 extends \App\Db\Importers\Base
 					[512, 58, 13, 'get_related_list', 2, 'HelpDesk', 0, 'ADD,SELECT', 0, 0, 0],
 					[513, 26, 86, 'get_dependents_list', 10, 'SSalesProcesses', 0, 'ADD', 0, 0, 0],
 					[514, 86, 43, 'get_dependents_list', 19, 'Project', 0, 'ADD', 0, 0, 0],
+					[515, 92, 86, 'get_related_list', 13, 'SSalesProcesses', 0, 'SELECT,ADD', 0, 0, 0],
+					[516, 18, 86, 'get_related_list', 17, 'SSalesProcesses', 0, 'SELECT,ADD', 0, 0, 0],
+					[517, 93, 86, 'get_related_list', 13, 'SSalesProcesses', 0, 'SELECT,ADD', 0, 0, 0],
+					[518, 86, 92, 'get_related_list', 20, 'Partners', 0, 'SELECT,ADD', 0, 0, 0],
+					[519, 86, 18, 'get_related_list', 21, 'Vendors', 0, 'SELECT,ADD', 0, 0, 0],
+					[520, 86, 93, 'get_related_list', 22, 'Competition', 0, 'SELECT,ADD', 0, 0, 0],
+					[521, 92, 43, 'get_related_list', 14, 'Project', 0, 'SELECT,ADD', 0, 0, 0],
+					[522, 18, 43, 'get_related_list', 18, 'Project', 0, 'SELECT,ADD', 0, 0, 0],
+					[523, 43, 92, 'get_related_list', 11, 'Vendors', 0, 'SELECT,ADD', 0, 0, 0],
+					[524, 43, 18, 'get_related_list', 12, 'Competition', 0, 'SELECT,ADD', 0, 0, 0],
 				]
 			],
 			'vtiger_relatedlists_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[514],
+					[524],
 				]
 			],
 			'vtiger_reminder_interval' => [

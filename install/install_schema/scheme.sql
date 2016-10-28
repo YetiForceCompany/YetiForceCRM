@@ -1,3 +1,9 @@
+/*
+SQLyog Community v12.09 (64 bit)
+MySQL - 5.7.9 : Database - yetiforce
+*********************************************************************
+*/
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
