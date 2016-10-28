@@ -35,8 +35,8 @@ class Admin extends \App\Db\Importers\Base
 				'columns' => [
 					'attempsnumber' => $this->smallInteger(2)->notNull(),
 					'timelock' => $this->smallInteger(5)->notNull(),
-					'active' => $this->boolean()->defaultValue(0),
-					'sent' => $this->boolean()->defaultValue(0),
+					'active' => $this->boolean()->defaultValue(false),
+					'sent' => $this->boolean()->defaultValue(false),
 				],
 				'index' => [
 				],
@@ -49,7 +49,7 @@ class Admin extends \App\Db\Importers\Base
 					'ip' => $this->stringType(50)->notNull(),
 					'time' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP')->null(),
 					'attempts' => $this->smallInteger(2)->defaultValue(0),
-					'blocked' => $this->boolean()->defaultValue(0),
+					'blocked' => $this->boolean()->defaultValue(false),
 					'userid' => $this->integer(),
 				],
 				'index' => [
@@ -88,7 +88,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->defaultValue(0)->unsigned()->notNull(),
-					'status' => $this->boolean()->defaultValue(1)->notNull(),
+					'status' => $this->boolean()->defaultValue(true)->notNull(),
 				],
 				'index' => [
 				],
@@ -123,7 +123,7 @@ class Admin extends \App\Db\Importers\Base
 			'a_#__inventory_limits' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'status' => $this->boolean()->defaultValue(0)->notNull(),
+					'status' => $this->boolean()->defaultValue(false)->notNull(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->integer(10)->unsigned()->notNull(),
 				],
@@ -138,7 +138,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->primaryKey(),
 					'tabid' => $this->smallInteger()->unsigned()->notNull(),
 					'reltabid' => $this->smallInteger()->unsigned()->notNull(),
-					'status' => $this->boolean()->unsigned()->defaultValue(0),
+					'status' => $this->boolean()->unsigned()->defaultValue(false),
 					'conditions' => $this->text(),
 					'permissions' => $this->stringType(),
 					'params' => $this->stringType(),
@@ -173,7 +173,7 @@ class Admin extends \App\Db\Importers\Base
 					'header_content' => $this->text()->notNull(),
 					'body_content' => $this->text()->notNull(),
 					'footer_content' => $this->text()->notNull(),
-					'status' => $this->boolean()->notNull()->defaultValue(0),
+					'status' => $this->boolean()->notNull()->defaultValue(false),
 					'primary_name' => $this->stringType()->notNull(),
 					'secondary_name' => $this->stringType()->notNull(),
 					'meta_author' => $this->stringType()->notNull(),
@@ -196,7 +196,7 @@ class Admin extends \App\Db\Importers\Base
 					'visibility' => $this->stringType(200)->notNull(),
 					'default' => $this->boolean(),
 					'conditions' => $this->text()->notNull(),
-					'watermark_type' => $this->boolean()->notNull()->defaultValue(0),
+					'watermark_type' => $this->boolean()->notNull()->defaultValue(false),
 					'watermark_text' => $this->stringType()->notNull(),
 					'watermark_size' => $this->smallInteger(2)->notNull()->unsigned(),
 					'watermark_angle' => $this->smallInteger(3)->notNull()->unsigned(),
@@ -241,7 +241,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->defaultValue(0)->notNull()->unsigned(),
-					'status' => $this->boolean()->defaultValue(1)->notNull(),
+					'status' => $this->boolean()->defaultValue(true)->notNull(),
 				],
 				'index' => [
 				],
