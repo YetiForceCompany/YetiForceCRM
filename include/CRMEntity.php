@@ -366,105 +366,44 @@ class CRMEntity
 	 */
 	public function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
-
 		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		\App\Log::trace("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
-		$insertion_mode = $this->mode;
+		$insertiontMode = $this->mode;
 
+		$tablekey = $this->tab_name_index[$table_name];
 		//Checkin whether an entry is already is present in the vtiger_table to update
-		if ($insertion_mode === 'edit') {
-			$tablekey = $this->tab_name_index[$table_name];
-			// Make selection on the primary key of the module table to check.
-			$check_query = "select $tablekey from $table_name where $tablekey=?";
-			$check_result = $adb->pquery($check_query, array($this->id));
-
-			$num_rows = $adb->num_rows($check_result);
-
-			if ($num_rows <= 0) {
-				$insertion_mode = '';
+		if ($insertiontMode === 'edit') {
+			$isExists = (new \App\Db\Query())->from($table_name)
+				->where([$tablekey => $this->id])
+				->exists();
+			if ($isExists) {
+				$insertiontMode = '';
 			}
 		}
-
 		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar' && $this->column_fields['activitytype'] != null && $this->column_fields['activitytype'] != 'Task') {
 			$tabid = \App\Module::getModuleId('Events');
 		}
-		if ($insertion_mode == 'edit') {
-			$updateColumns = [];
-			$profileList = $currentUser->getProfiles();
-			if ($profileList) {
-				$sql = sprintf('SELECT *
-			  			FROM vtiger_field
-			  			INNER JOIN vtiger_profile2field
-			  			ON vtiger_profile2field.fieldid = vtiger_field.fieldid
-			  			INNER JOIN vtiger_def_org_field
-			  			ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
-			  			WHERE vtiger_field.tabid = ?
-			  			AND vtiger_profile2field.visible = 0 && vtiger_profile2field.readonly = 0
-			  			AND vtiger_profile2field.profileid IN (%s)
-			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname', generateQuestionMarks($profileList));
-				$params = array($tabid, $profileList, $table_name);
-			} else {
-				$sql = 'SELECT *
-			  			FROM vtiger_field
-			  			INNER JOIN vtiger_profile2field
-			  			ON vtiger_profile2field.fieldid = vtiger_field.fieldid
-			  			INNER JOIN vtiger_def_org_field
-			  			ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
-			  			WHERE vtiger_field.tabid = ?
-			  			AND vtiger_profile2field.visible = 0 && vtiger_profile2field.readonly = 0
-			  			AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename=? and vtiger_field.presence in (0,2) group by columnname';
-
-				$params = array($tabid, $table_name);
+		$fields = \App\Field::getFieldsPermissions($tabid);
+		foreach ($fields as $key => &$field) {
+			if ($table_name !== $field['tablename']) {
+				unset($fields[$key]);
 			}
-		} else {
-			$table_index_column = $this->tab_name_index[$table_name];
-			if ($table_index_column == 'id' && $table_name == 'vtiger_users') {
-				$currentuser_id = $adb->getUniqueID("vtiger_users");
-				$this->id = $currentuser_id;
-			}
-			$column = array($table_index_column);
-			$value = array($this->id);
-			$sql = 'select * from vtiger_field where tabid=? and tablename=? and vtiger_field.presence in (0,2)';
-			$params = array($tabid, $table_name);
 		}
-
-		$cachekey = "{$insertion_mode}-" . implode(',', $params);
-		$insertField = Vtiger_Cache::get('getInsertField', $cachekey);
-		if ($insertField === false) {
-			$result = $adb->pquery($sql, $params);
-			$noofrows = $adb->num_rows($result);
-
-			if (CRMEntity::isBulkSaveMode()) {
-				$cacheresult = [];
-				for ($i = 0; $i < $noofrows; ++$i) {
-					$cacheresult[] = $adb->raw_query_result_rowdata($result, $i);
-				}
-				Vtiger_Cache::set('getInsertField', $cachekey, $cacheresult);
-			}
-		} else { // Useful when doing bulk save
-			$result = $insertField;
-			$noofrows = count($result);
+		if ($insertiontMode !== 'edit') {
+			$params[$tablekey] = $this->id;
 		}
-
-		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldname = $this->resolve_query_result_value($result, $i, 'fieldname');
-			$columname = $this->resolve_query_result_value($result, $i, 'columnname');
-			$uitype = $this->resolve_query_result_value($result, $i, 'uitype');
-			$generatedtype = $this->resolve_query_result_value($result, $i, 'generatedtype');
-			$typeofdata = $this->resolve_query_result_value($result, $i, 'typeofdata');
-
-			$typeofdata_array = explode("~", $typeofdata);
-			$datatype = $typeofdata_array[0];
-
+		foreach ($fields as $key => &$field) {
+			$fieldname = $field['fieldname'];
+			$columname = $field['columnname'];
+			$uitype = $field['uitype'];
+			$typeofdata = $field['typeofdata'];
 			$ajaxSave = false;
 			if ((AppRequest::get('file') == 'DetailViewAjax' && AppRequest::get('ajxaction') == 'DETAILVIEW' && AppRequest::has('fldName') && AppRequest::get('fldName') != $fieldname) || (AppRequest::get('action') == 'MassEditSave' && !AppRequest::get($fieldname . '_mass_edit_check'))) {
 				$ajaxSave = true;
 			}
-
-			if ($uitype === 4 && $insertion_mode !== 'edit') {
-				$fldvalue = '';
+			if ($uitype === 4 && $insertiontMode !== 'edit') {
 				// Bulk Save Mode: Avoid generation of module sequence number, take care later.
 				if (!CRMEntity::isBulkSaveMode()) {
 					$fldvalue = \includes\fields\RecordNumber::incrementNumber($tabid);
@@ -479,11 +418,9 @@ class CRMEntity
 						$fldvalue = '0';
 					}
 				} elseif ($uitype === 15 || $uitype === 16) {
-
 					if ($this->column_fields[$fieldname] === \App\Language::translate('LBL_NOT_ACCESSIBLE')) {
-
 						//If the value in the request is Not Accessible for a picklist, the existing value will be replaced instead of Not Accessible value.
-						$sql = "select $columname from  $table_name where " . $this->tab_name_index[$table_name] . "=?";
+						$sql = "select $columname from  $table_name where " . $tablekey . "=?";
 						$res = $adb->pquery($sql, array($this->id));
 						$pick_val = $adb->query_result($res, 0, $columname);
 						$fldvalue = $pick_val;
@@ -549,10 +486,8 @@ class CRMEntity
 					$ids = explode(',', $this->column_fields[$fieldname]);
 					$fldvalue = \includes\utils\Json::encode($ids);
 				} elseif ($uitype === 12) {
-
 					// Bulk Sae Mode: Consider the FROM email address as specified, if not lookup
 					$fldvalue = $this->column_fields[$fieldname];
-
 					if (empty($fldvalue)) {
 						$query = "SELECT email1 FROM vtiger_users WHERE id = ?";
 						$res = $adb->pquery($query, array($currentUser->getId()));
@@ -570,34 +505,28 @@ class CRMEntity
 				} else {
 					$fldvalue = $this->column_fields[$fieldname];
 				}
-				if ($uitype !== 33 && $uitype !== 8)
-					$fldvalue = \vtlib\Functions::fromHTML($fldvalue, ($insertion_mode == 'edit') ? true : false);
-			}
-			else {
-				$fldvalue = '';
-			}
-
-			if ($fldvalue == '') {
-				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
-			}
-
-			if ($insertion_mode === 'edit') {
-				if ($uitype !== '4') {
-					$updateColumns[$columname] = $fldvalue;
+				if ($uitype !== 33 && $uitype !== 8) {
+					$fldvalue = \vtlib\Functions::fromHTML($fldvalue, ($insertiontMode == 'edit') ? true : false);
 				}
 			} else {
-				array_push($column, $columname);
-				array_push($value, $fldvalue);
+				$fldvalue = '';
+			}
+			if ($fldvalue == '') {
+				$typeofdata_array = explode("~", $typeofdata);
+				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $typeofdata_array[0]);
+			}
+			if (!($insertiontMode === 'edit' && $uitype === 4)) {
+				$params[$columname] = $fldvalue;
 			}
 		}
-
-		if ($insertion_mode === 'edit') {
+		if ($insertiontMode === 'edit') {
 			//Check done by Don. If update is empty the the query fails
-			if (count($updateColumns) > 0) {
-				$adb->update($table_name, $updateColumns, $this->tab_name_index[$table_name] . ' = ?', [$this->id]);
+			if ($params) {
+				\App\Db::getInstance()->createCommand()
+					->update($table_name, $params, [$tablekey => $this->id])
+					->execute();
 			}
 		} else {
-			$params = array_combine($column, $value);
 			\App\Db::getInstance()->createCommand()->insert($table_name, $params)->execute();
 		}
 	}
