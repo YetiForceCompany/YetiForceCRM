@@ -2,8 +2,7 @@
 SQLyog Community v12.09 (64 bit)
 MySQL - 5.7.9 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -81,17 +80,6 @@ CREATE TABLE `a_yf_discounts_global` (
 CREATE TABLE `a_yf_encryption` (
   `method` varchar(40) NOT NULL,
   `pass` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `a_yf_featured_filter` */
-
-CREATE TABLE `a_yf_featured_filter` (
-  `user` varchar(30) NOT NULL,
-  `cvid` int(19) NOT NULL,
-  PRIMARY KEY (`user`,`cvid`),
-  KEY `cvid` (`cvid`),
-  KEY `user` (`user`),
-  CONSTRAINT `a_yf_featured_filter_ibfk_1` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_inventory_limits` */
@@ -1191,6 +1179,17 @@ CREATE TABLE `u_yf_fcorectinginvoicecf` (
   `fcorectinginvoiceid` int(19) NOT NULL,
   PRIMARY KEY (`fcorectinginvoiceid`),
   CONSTRAINT `fk_1_u_yf_fcorectinginvoicecf` FOREIGN KEY (`fcorectinginvoiceid`) REFERENCES `u_yf_fcorectinginvoice` (`fcorectinginvoiceid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_featured_filter` */
+
+CREATE TABLE `u_yf_featured_filter` (
+  `user` varchar(30) NOT NULL,
+  `cvid` int(19) NOT NULL,
+  PRIMARY KEY (`user`,`cvid`),
+  KEY `cvid` (`cvid`),
+  KEY `user` (`user`),
+  CONSTRAINT `u_yf_featured_filter_ibfk_1` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_finvoice` */

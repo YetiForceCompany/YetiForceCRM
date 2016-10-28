@@ -2650,6 +2650,7 @@ class Base4 extends \App\Db\Importers\Base
 
 		$this->foreignKey = [
 			//['dav_addressbooks_ibfk_1', 'dav_addressbooks', 'principaluri', 'dav_principals', 'uri', 'CASCADE', 'RESTRICT'],
+				['u_#__featured_filter_ibfk_1', 'u_#__featured_filter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
 				['dav_calendarobjects_ibfk_1', 'dav_calendarobjects', 'calendarid', 'dav_calendars', 'id', 'CASCADE', 'RESTRICT'],
 				['dav_cards_ibfk_1', 'dav_cards', 'addressbookid', 'dav_addressbooks', 'id', 'CASCADE', 'RESTRICT'],
 				['roundcube_user_id_fk_cache', 'roundcube_cache', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],

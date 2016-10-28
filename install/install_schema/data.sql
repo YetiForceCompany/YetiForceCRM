@@ -2,8 +2,7 @@
 SQLyog Community v12.09 (64 bit)
 MySQL - 5.7.9 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -32,8 +31,6 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 /*Data for the table `a_yf_discounts_global` */
 
 /*Data for the table `a_yf_encryption` */
-
-/*Data for the table `a_yf_featured_filter` */
 
 /*Data for the table `a_yf_inventory_limits` */
 
@@ -342,6 +339,8 @@ insert  into `u_yf_fcorectinginvoice_invmap`(`module`,`field`,`tofield`) values 
 insert  into `u_yf_fcorectinginvoice_invmap`(`module`,`field`,`tofield`) values ('Products','usageunit','unit');
 
 /*Data for the table `u_yf_fcorectinginvoicecf` */
+
+/*Data for the table `u_yf_featured_filter` */
 
 /*Data for the table `u_yf_finvoice` */
 

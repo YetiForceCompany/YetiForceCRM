@@ -194,7 +194,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$cvId = $this->getId();
 		if(!$cvId)
 			return false;
-		return (new App\Db\Query())->from('a_#__featured_filter')
+		return (new App\Db\Query())->from('u_#__featured_filter')
 			->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
 			->exists($db);
 	}
@@ -202,7 +202,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function checkPermissionToFeatured($editView = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$query = (new \App\Db\Query())->from('a_#__featured_filter');
+		$query = (new \App\Db\Query())->from('u_#__featured_filter');
 		if ($currentUser->isAdminUser()) {
 			$userGroups = $currentUser->getUserGroups($currentUser->getId());
 			$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
@@ -345,7 +345,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		} elseif (empty($featured) && !empty($cvIdOrg)) {
 			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'remove');
 		} elseif (!empty($featured)) {
-			$result = $db->pquery('SELECT 1 FROM a_yf_featured_filter WHERE a_yf_featured_filter.cvid = ? && a_yf_featured_filter.user = ?;', [$cvId, $userId]);
+			$result = $db->pquery('SELECT 1 FROM u_yf_featured_filter WHERE u_yf_featured_filter.cvid = ? && u_yf_featured_filter.user = ?;', [$cvId, $userId]);
 			if (empty($result->rowCount())) {
 				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
 			}

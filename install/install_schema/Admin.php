@@ -105,21 +105,6 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'a_#__featured_filter' => [
-				'columns' => [
-					'user' => $this->stringType(30)->notNull(),
-					'cvid' => $this->integer()->notNull(),
-				],
-				'index' => [
-					['featured_filter_cvid_idx', 'cvid'],
-					['featured_filter_user_idx', 'user'],
-				],
-				'primaryKeys' => [
-					['featured_filter_pk', ['user', 'cvid']]
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'a_#__inventory_limits' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),

@@ -1017,6 +1017,21 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__featured_filter' => [
+				'columns' => [
+					'user' => $this->stringType(30)->notNull(),
+					'cvid' => $this->integer()->notNull(),
+				],
+				'index' => [
+					['featured_filter_cvid_idx', 'cvid'],
+					['featured_filter_user_idx', 'user'],
+				],
+				'primaryKeys' => [
+					['featured_filter_pk', ['user', 'cvid']]
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__finvoice' => [
 				'columns' => [
 					'finvoiceid' => $this->integer()->notNull(),
