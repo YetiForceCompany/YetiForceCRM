@@ -134,7 +134,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
-			$sql .= ' && actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);
@@ -153,7 +153,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
-			$sql .= ' && actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);
