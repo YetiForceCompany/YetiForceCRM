@@ -28,6 +28,7 @@ before_script:
 - sudo chmod +x phpunit.phar
 - sudo mv phpunit.phar /usr/local/bin/phpunit
 - phpunit --version
+- sudo wget https://scrutinizer-ci.com/ocular.phar
 - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'"
 - mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
 - cp tests/copy/config.inc.php config/config.inc.php
@@ -43,8 +44,8 @@ after_success:
 - cat DetailView.txt
 - cat ListView.txt
 - cat EditView.txt
+- php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 - bash <(curl -s https://codecov.io/bash) 
-- codecov
 
 branches:
   only:
