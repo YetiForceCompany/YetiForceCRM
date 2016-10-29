@@ -28,7 +28,6 @@ require_once 'include/utils/VTCacheUtils.php';
  */
 function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $contents, $cc = '', $bcc = '', $attachment = '', $emailid = '', $logo = '', $useGivenFromEmailAddress = false, $attachmentSrc = [])
 {
-
 	$adb = PearDatabase::getInstance();
 
 
@@ -92,10 +91,9 @@ function send_mail($module, $to_email, $fromName, $fromEmail, $subject, $content
 			}
 		}
 	}
-
 	$sendStatus = MailSend($mail);
 	if ($sendStatus != 1) {
-		$mailError = getMailError($mail, $sendStatus, $mailto);
+		$mailError = getMailError($mail, $sendStatus);
 	} else {
 		$mailError = $sendStatus;
 	}
@@ -187,7 +185,11 @@ function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, 
 	setMailServerProperties($mail);
 
 	//Handle the from name and email for HelpDesk
-	$mail->From = $fromEmail;
+	if ($fromEmail) {
+		$mail->From = $fromEmail;
+	} elseif (AppRequest::has('from_email_field')) {
+		$mail->From = AppRequest::get('from_email_field');
+	}
 	$userFullName = trim(VTCacheUtils::getUserFullName($fromName));
 	if (empty($userFullName)) {
 		$adb = PearDatabase::getInstance();
@@ -200,7 +202,7 @@ function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, 
 	} else {
 		$fromName = $userFullName;
 	}
-	$mail->FromName = decode_html($fromName);
+		$mail->FromName = decode_html($fromName);
 
 	if ($to_email != '') {
 		if (is_array($to_email)) {
@@ -428,7 +430,7 @@ function getParentMailId($parentmodule, $parentid)
  * 	$to -- the email address to whom we sent the mail and failes
  * 	return -- Mail error occured during the mail sending process
  */
-function getMailError($mail, $mail_status, $to)
+function getMailError($mail, $mail_status)
 {
 	//Error types in class.phpmailer.php
 	/*
@@ -439,8 +441,8 @@ function getMailError($mail, $mail_status, $to)
 	\App\Log::trace('Inside the function getMailError');
 
 	$msg = array_search($mail_status, $mail->language);
+	$msg .= " | $mail_status | From mail: {$mail->From}";
 	\App\Log::trace("Error message ==> $msg");
-
 	if ($msg == 'connect_host') {
 		$error_msg = $msg;
 	} elseif (strstr($msg, 'from_failed')) {

@@ -62,10 +62,11 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$sysname = key_exists('sysname', $data) ? $data['sysname'] : false;
 		$output = self::getTemplete($id, $sysname);
 		$logo = 0;
-		$request = array();
+		$request = [];
 		$entityId = $data['record'];
 		$module = $data['module'];
 		$toEmail = $data['to_email'];
+		$fromEmail = '';
 		if ($entityId && $module) {
 			$data['Model'] = Vtiger_Record_Model::getInstanceById($entityId, $module);
 		} elseif ($data['request']) {
@@ -81,7 +82,9 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 			$attachment = 'all';
 			$emailid = $data['attachment'];
 		}
-
+		if (isset($data['fromEmail'])) {
+			$fromEmail = $data['fromEmail'];
+		}
 		if (@strpos($output['content'], '#s#LogoImage#sEnd#') !== false)
 			$logo = 1;
 
@@ -105,7 +108,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$this->findVar($output['subject'], 0, $entityId, $module, 't', $data);
 
 		vglobal('translated_language', $translatedLanguage);
-		$mailStatus = send_mail($module, $toEmail, '', '', $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
+		$mailStatus = send_mail($module, $toEmail, '', $fromEmail, $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
 		return $mailStatus;
 	}
 

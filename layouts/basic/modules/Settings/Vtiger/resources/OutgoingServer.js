@@ -46,6 +46,7 @@ jQuery.Class("Settings_Vtiger_OutgoingServer_Js",{},{
 				} else {
 					progressIndicatorElement.progressIndicator({'mode':'hide'});
 					jQuery('.errorMessage', form).removeClass('hide');
+					jQuery('.errorMessage .alert', form).append('<br>').append(data.error.message );
 				}
 			},
 			function(error, errorThrown){
