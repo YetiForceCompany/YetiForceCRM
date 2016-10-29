@@ -750,7 +750,7 @@ class QueryGenerator
 			$field = $moduleFieldList[$fieldName];
 			if ($fieldName == 'id') {
 				$sqlOperator = $this->getSqlOperator($conditionInfo['operator']);
-				$fieldSqlList[$index] = $baseTable . '.' . $baseTableIndex . $sqlOperator . $conditionInfo['value']  ;
+				$fieldSqlList[$index] = $baseTable . '.' . $baseTableIndex . $sqlOperator . $conditionInfo['value'];
 				continue;
 			}
 			if (empty($field) || $conditionInfo['operator'] == 'None') {
@@ -899,7 +899,7 @@ class QueryGenerator
 						$startDateValue = explode(' ', $values[0]);
 						$endDateValue = explode(' ', $values[1]);
 						if ($startDateValue[1] == '00:00:00' && ($endDateValue[1] == '00:00:00' || $endDateValue[1] == '23:59:59')) {
-							$fieldSql .= "$fieldGlue CAST(" . $field->getTableName() . '.' . $field->getColumnName() . " AS DATE) $valueSql";
+							$fieldSql .= "$fieldGlue CAST(" . $field->getTableName() . '.' . $field->getColumnName() . " AS DATETIME) $valueSql";
 						} else {
 							$fieldSql .= "$fieldGlue " . $field->getTableName() . '.' . $field->getColumnName() . ' ' . $valueSql;
 						}

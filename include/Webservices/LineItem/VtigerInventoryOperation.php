@@ -94,6 +94,7 @@ class VtigerInventoryOperation extends VtigerModuleOperation
 
 			$parent = parent::revise($element);
 			AppRequest::set('action', $prevAction);
+			$parent['LineItems'] = $handler->getAllLineItemForParent($parentId);
 		}
 		return array_merge($element, $parent);
 	}
@@ -111,6 +112,7 @@ class VtigerInventoryOperation extends VtigerModuleOperation
 		$idComponents = vtws_getIdComponents($id);
 		$lineItems = $handler->getAllLineItemForParent($idComponents[1]);
 		$element['LineItems'] = $lineItems;
+		$element['productid'] = $lineItems[0]['productid'];
 		return $element;
 	}
 

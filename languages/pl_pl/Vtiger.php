@@ -1541,4 +1541,5 @@ $jsLanguageStrings = [
 	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domena jest zastrzeżona, należy wprowadzić inną.',
 	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Czy jesteś pewien, że chcesz ponownie zresetować powiązane maile?',
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Czy jesteś pewien, że chcesz zapoznać się ze zmianami wybranych rekordów?',
+	'JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY' => 'Waluta bazowa musi być zmieniona na wyłączony',
 ];

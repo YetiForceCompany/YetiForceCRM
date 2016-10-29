@@ -67,7 +67,7 @@
                             <div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} marginBottom10px border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}" style="border-radius: 4px;background: white;">
                                 <div class="row layoutBlockHeader no-margin">
                                     <div class="blockLabel col-md-6 col-sm-6 padding10 marginLeftZero">
-                                        <img class="alignMiddle" src="{vimage_path('drag.png')}" alt=""/>&nbsp;&nbsp;
+                                        {if $IS_BLOCK_SORTABLE}<img class="alignMiddle" src="{vimage_path('drag.png')}" alt=""/>&nbsp;&nbsp;{/if}
                                         <strong>{vtranslate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
                                     <div class="col-md-6 col-sm-6 marginLeftZero " ><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
@@ -104,8 +104,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="blockFieldsList {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}blockFieldsSortable {/if} row no-margin" style="padding:5px;min-height: 27px">
-                                    <ul name="sortable1" class="sortTableUl connectedSortable col-md-6">
+                                <div class="blockFieldsList blockFieldsSortable row no-margin" style="padding:5px;min-height: 27px">
+                                    <ul name="{if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}sortable1{/if}" class="sortTableUl connectedSortable col-md-6">
                                         {foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
                                             {assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
                                             {if $smarty.foreach.fieldlist.index % 2 eq 0}

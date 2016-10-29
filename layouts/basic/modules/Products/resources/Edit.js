@@ -179,13 +179,21 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 				var calculatedPrice = price.toString().replace('.',unitPriceFieldData.decimalSeparator);
 				jQuery('input.convertedPrice',parentRow).val(calculatedPrice)
 			}else{
+				var baseCurrency = jQuery('.baseCurrency', parentRow);
+				if (baseCurrency.is(':checked')) {
+					var currencyName = jQuery('.currencyName', parentRow).text();
+					var params = {
+									'type' : 'error',
+									'title': app.vtranslate('JS_ERROR'),
+									'text' : app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY') + '"' + currencyName + '"'
+								};
+					Vtiger_Helper_Js.showPnotify(params);
+					elem.prop('checked', true);
+					return;
+				}
 				jQuery('input',parentRow).attr('disabled', true);
 				jQuery('input.enableCurrency',parentRow).removeAttr('disabled');
 				jQuery('button.currencyReset', parentRow).attr('disabled', 'disabled');
-				var baseCurrency = jQuery('.baseCurrency', parentRow);
-				if(baseCurrency.is(':checked')){
-					baseCurrency.removeAttr('checked');
-				}
 			}
 		})
 		return this;
@@ -256,8 +264,10 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 						var multiCurrencyEditUI = jQuery('.multiCurrencyEditUI');
 						thisInstance.multiCurrencyContainer = multiCurrencyEditUI;
                         thisInstance.calculateConversionRate();
-						thisInstance.registerEventForEnableCurrency().registerEventForEnableBaseCurrency()
-											.registerEventForResetCurrency().triggerForBaseCurrencyCalc();
+						thisInstance.registerEventForEnableCurrency();
+						thisInstance.registerEventForEnableBaseCurrency();
+						thisInstance.registerEventForResetCurrency();
+						thisInstance.triggerForBaseCurrencyCalc();
 					}
                     var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
 					var contentInsideForm = moreCurrenciesUi.find('.multiCurrencyContainer').html();
