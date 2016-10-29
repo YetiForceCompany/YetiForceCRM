@@ -37,7 +37,7 @@ Class Settings_DataAccess_Step3_View extends Settings_Vtiger_Index_View
 				Settings_DataAccess_Module_Model::updateConditions($conditionOption, $tplId, false);
 			} else {
 				$db->createCommand()
-					->update('vtiger_dataaccess', ['module_name' => $baseModule, 'summary' => $summary])
+					->insert('vtiger_dataaccess', ['module_name' => $baseModule, 'summary' => $summary])
 					->execute();
 				$tplId = $db->getLastInsertID();
 				Settings_DataAccess_Module_Model::addConditions($conditionAll, $tplId);
