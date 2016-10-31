@@ -2580,7 +2580,7 @@ class CRMEntity
 
 		if ($ignoreEmpty) {
 			foreach ($tableColumns as $tableColumn) {
-				$whereClause .= " && ($tableColumn IS NOT NULL && $tableColumn != '') ";
+				$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
 			}
 		}
 
@@ -2601,7 +2601,7 @@ class CRMEntity
 			$tableInfo = explode('.', $tableColumn);
 			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
 			if (count($tableColumns) != $i++)
-				$duplicateCheckClause .= ' && ';
+				$duplicateCheckClause .= ' AND ';
 		}
 
 		$query = $selectClause . $fromClause .
