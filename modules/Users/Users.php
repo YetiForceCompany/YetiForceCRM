@@ -295,15 +295,18 @@ class Users extends CRMEntity
 
 	/**
 	 * Checks the config.php AUTHCFG value for login type and forks off to the proper module
-	 *
-	 * @param string $user_password - The password of the user to authenticate
-	 * @return true if the user is authenticated, false otherwise
+	 * @param string $userPassword - The password of the user to authenticate
+	 * @return bool true if the user is authenticated, false otherwise
 	 */
 	public function doLogin($userPassword)
 	{
-		$userName = $this->column_fields["user_name"];
-		$userid = $this->retrieve_user_id($userName);
-		\App\Log::trace("Start of authentication for user: $userName");
+		$userName = $this->column_fields['user_name'];
+		$userId = $this->retrieve_user_id($userName);
+		if (!$userId) {
+			\App\Log::error('User not found: ' . $userName);
+			return false;
+		}
+		\App\Log::trace('Start of authentication for user: ' . $userName);
 		$result = $this->db->pquery('SELECT * FROM yetiforce_auth');
 		$auth = [];
 		while ($row = $this->db->getRow($result)) {
@@ -312,7 +315,7 @@ class Users extends CRMEntity
 		if ($auth['ldap']['active'] == 'true') {
 			\App\Log::trace('Start LDAP authentication');
 			$users = explode(',', $auth['ldap']['users']);
-			if (in_array($userid, $users)) {
+			if (in_array($userId, $users)) {
 				$bind = false;
 				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
 				$ds = @ldap_connect($auth['ldap']['server'], $port);
@@ -330,7 +333,7 @@ class Users extends CRMEntity
 				}
 				return $bind;
 			} else {
-				\App\Log::error("$userName user does not belong to the LDAP");
+				\App\Log::error($userName . ' user does not belong to the LDAP');
 			}
 			\App\Log::trace('End LDAP authentication');
 		}
@@ -338,9 +341,9 @@ class Users extends CRMEntity
 		//Default authentication
 		\App\Log::trace('Using integrated/SQL authentication');
 		$query = new \App\Db\Query();
-		$cryptType = $query->select('crypt_type')->from($this->table_name)->where(['id' => $userid])->scalar();
+		$cryptType = $query->select('crypt_type')->from($this->table_name)->where(['id' => $userId])->scalar();
 		if ($cryptType === false) {
-			\App\Log::error("User not found: $userName");
+			\App\Log::error('User not found: ' . $userName);
 			return false;
 		}
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
