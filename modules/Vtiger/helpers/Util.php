@@ -278,15 +278,14 @@ class Vtiger_Util_Helper
 	 */
 	public static function getBaseCurrency()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE defaultid < 0', []);
-		if ($db->num_rows($result))
-			return $db->query_result_rowdata($result, 0);
+		$baseCurrency = (new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid' , '0'])->one();
+		if ($baseCurrency)
+			return $baseCurrency;
 	}
 
 	/**
 	 * Function to get maximum upload size
-	 * @return <Float> maximum upload size
+	 * @return float maximum upload size
 	 */
 	public static function getMaxUploadSize()
 	{
@@ -296,8 +295,8 @@ class Vtiger_Util_Helper
 
 	/**
 	 * Function to get Owner name for ownerId
-	 * @param <Integer> $ownerId
-	 * @return <String> $ownerName
+	 * @param integer $ownerId
+	 * @return string $ownerName
 	 */
 	public static function getOwnerName($ownerId)
 	{
