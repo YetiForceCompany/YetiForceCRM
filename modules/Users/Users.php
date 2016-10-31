@@ -1076,7 +1076,7 @@ class Users extends CRMEntity
 	 */
 	public function updateUser2RoleMapping()
 	{
-		$db = \App\Db::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('vtiger_user2role', ['roleid' => $this->column_fields['roleid']], ['userid' => $this->id])
 			->execute();
 	}
