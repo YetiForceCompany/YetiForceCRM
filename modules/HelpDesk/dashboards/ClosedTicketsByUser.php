@@ -92,8 +92,8 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
-			$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
-			$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
+			$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
+			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
 		}
 		$data = $this->getTicketsByUser($time);
 		$viewer->assign('WIDGET', $widget);

@@ -18,52 +18,6 @@ class Functions
 		return (isset($user->is_admin) && $user->is_admin == 'on');
 	}
 
-	public static function currentUserJSDateFormat($localformat)
-	{
-		switch (\App\User::getCurrentUserModel()->getDetail('date_format')) {
-			case 'dd-mm-yyyy': $dt_popup_fmt = "%d-%m-%Y";
-				break;
-			case 'mm-dd-yyyy': $dt_popup_fmt = "%m-%d-%Y";
-				break;
-			case 'yyyy-mm-dd': $dt_popup_fmt = "%Y-%m-%d";
-				break;
-			case 'dd.mm.yyyy': $dt_popup_fmt = "%d.%m.%Y";
-				break;
-			case 'mm.dd.yyyy': $dt_popup_fmt = "%m.%d.%Y";
-				break;
-			case 'yyyy.mm.dd': $dt_popup_fmt = "%Y.%m.%d";
-				break;
-			case 'dd/mm/yyyy': $dt_popup_fmt = "%d/%m/%Y";
-				break;
-			case 'mm/dd/yyyy': $dt_popup_fmt = "%m/%d/%Y";
-				break;
-			case 'yyyy/mm/dd': $dt_popup_fmt = "%Y/%m/%d";
-				break;
-		}
-		return $dt_popup_fmt;
-	}
-
-	/**
-	 * This function returns the date in user specified format.
-	 * limitation is that mm-dd-yyyy and dd-mm-yyyy will be considered same by this API.
-	 * As in the date value is on mm-dd-yyyy and user date format is dd-mm-yyyy then the mm-dd-yyyy
-	 * value will be return as the API will be considered as considered as in same format.
-	 * this due to the fact that this API tries to consider the where given date is in user date
-	 * format. we need a better gauge for this case.
-	 * @global Users $current_user
-	 * @param Date $cur_date_val the date which should a changed to user date format.
-	 * @return Date
-	 */
-	public static function currentUserDisplayDate($value)
-	{
-		$dat_fmt = \App\User::getCurrentUserModel()->getDetail('date_format');
-		if ($dat_fmt === '') {
-			$dat_fmt = 'yyyy-mm-dd';
-		}
-		$date = new \DateTimeField($value);
-		return $date->getDisplayDate();
-	}
-
 	public static function currentUserDisplayDateNew()
 	{
 		$current_user = vglobal('current_user');

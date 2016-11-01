@@ -25,8 +25,8 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		// date parameters passed, convert them to YYYY-mm-dd
-		$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
-		$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
+		$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
+		$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		
