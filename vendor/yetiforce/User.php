@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 /**
  * User basic class
@@ -123,6 +124,25 @@ class User
 	public function getDetail($key)
 	{
 		return $this->privileges['details'][$key];
+	}
+
+	public function getProfiles()
+	{
+		return $this->privileges['profiles'];
+	}
+
+	public function getGroups()
+	{
+		return $this->privileges['groups'];
+	}
+
+	/**
+	 * Function to check whether the user is an Admin user
+	 * @return <Boolean> true/false
+	 */
+	public function isAdmin()
+	{
+		return $this->privileges['details']['is_admin'];
 	}
 
 	public function get($key)

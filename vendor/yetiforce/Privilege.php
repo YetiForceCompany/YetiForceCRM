@@ -24,8 +24,7 @@ class Privilege
 	{
 		\App\Log::trace("Entering isPermitted($moduleName,$actionName,$record,$userId) method ...");
 		if (!$userId) {
-			$currentUser = vglobal('current_user');
-			$userId = $currentUser->id;
+			$userId = \App\User::getCurrentUserId();
 		}
 		$userPrivileges = \App\User::getPrivilegesFile($userId);
 		$permission = false;

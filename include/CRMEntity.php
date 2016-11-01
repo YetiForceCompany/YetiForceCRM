@@ -283,7 +283,7 @@ class CRMEntity
 			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
 
-			$profileList = \App\User::getCurrentUserModel()->get('profiles');
+			$profileList = \App\User::getCurrentUserModel()->getProfiles();
 			$columname = (new \App\Db\Query())->select('columnname')->from('vtiger_field')
 					->innerJoin('vtiger_profile2field', 'vtiger_field.fieldid = vtiger_profile2field.fieldid')
 					->innerJoin('vtiger_def_org_field', 'vtiger_field.fieldid = vtiger_def_org_field.fieldid')

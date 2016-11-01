@@ -47,7 +47,6 @@ class Deprecated
 	 */
 	public static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
 	{
-		$current_user = vglobal('current_user');
 		if (strpos($fieldsName, ',') === false) {
 			return $fieldValues[$fieldsName];
 		} else {

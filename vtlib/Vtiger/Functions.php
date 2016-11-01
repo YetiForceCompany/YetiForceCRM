@@ -20,8 +20,7 @@ class Functions
 
 	public static function currentUserJSDateFormat($localformat)
 	{
-		$current_user = vglobal('current_user');
-		switch ($current_user->date_format) {
+		switch (\App\User::getCurrentUserModel()->getDetail('date_format')) {
 			case 'dd-mm-yyyy': $dt_popup_fmt = "%d-%m-%Y";
 				break;
 			case 'mm-dd-yyyy': $dt_popup_fmt = "%m-%d-%Y";
@@ -57,9 +56,8 @@ class Functions
 	 */
 	public static function currentUserDisplayDate($value)
 	{
-		$current_user = vglobal('current_user');
-		$dat_fmt = $current_user->date_format;
-		if ($dat_fmt == '') {
+		$dat_fmt = \App\User::getCurrentUserModel()->getDetail('date_format');
+		if ($dat_fmt === '') {
 			$dat_fmt = 'yyyy-mm-dd';
 		}
 		$date = new \DateTimeField($value);

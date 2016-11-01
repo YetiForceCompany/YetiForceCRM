@@ -52,7 +52,6 @@ class PrivilegeFile
 		$userInstance->retrieve_entity_info($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
 		$user['details'] = $userInstance->column_fields;
-		$user['role'] = $userInstance->column_fields['roleid'];
 		$user['profiles'] = PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
 		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
 		file_put_contents($file, "\n return " . \vtlib\Functions::varExportMin($user) . ';', FILE_APPEND);

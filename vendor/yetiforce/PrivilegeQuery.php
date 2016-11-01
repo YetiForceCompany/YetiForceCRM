@@ -13,8 +13,7 @@ class PrivilegeQuery
 	public static function getAccessConditions($moduleName, $userId = false, $relatedRecord = false)
 	{
 		if ($userId === false) {
-			$currentUser = vglobal('current_user');
-			$userId = $currentUser->id;
+			$userId = \App\User::getCurrentUserId();
 		}
 		$userModel = \Users_Privileges_Model::getInstanceById($userId);
 		if ($relatedRecord !== false && \AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {

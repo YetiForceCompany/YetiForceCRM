@@ -33,7 +33,7 @@ class Field
 					'vtiger_def_org_field.visible' => 0,
 					'vtiger_field.presence' => [0, 2]])
 				->groupBy('vtiger_field.fieldid,vtiger_profile2field.readonly,vtiger_profile2field.visible');
-			$profileList = \App\User::getCurrentUserModel()->get('profiles');
+			$profileList = \App\User::getCurrentUserModel()->getProfiles();
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
