@@ -145,14 +145,18 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 				$fieldMapping = \includes\utils\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
-						$userRecordModel = Users_Record_Model::getInstanceById($mappingInfo['value'], 'Users');
-						$ownerName = $userRecordModel->get('user_name');
+						if ($mappingInfo['value'] == 'assigned_user_id') {
+							$fieldMapping[$key]['valuetype'] = 'fieldname';
+						} else {
+							$userRecordModel = Users_Record_Model::getInstanceById($mappingInfo['value'], 'Users');
+							$ownerName = $userRecordModel->get('user_name');
 
-						if (!$ownerName) {
-							$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
-							$ownerName = $groupRecordModel->getName();
+							if (!$ownerName) {
+								$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
+								$ownerName = $groupRecordModel->getName();
+							}
+							$fieldMapping[$key]['value'] = $ownerName;
 						}
-						$fieldMapping[$key]['value'] = $ownerName;
 					}
 				}
 				$taskObject->field_value_mapping = \includes\utils\Json::encode($fieldMapping);

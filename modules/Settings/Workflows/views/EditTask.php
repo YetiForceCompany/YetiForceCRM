@@ -59,16 +59,18 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$fieldMapping = \includes\utils\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
-						$userRecordModel = Users_Record_Model::getInstanceByName($mappingInfo['value']);
-
-						if ($userRecordModel) {
-							$ownerName = $userRecordModel->getId();
+						if ($mappingInfo['value'] == 'assigned_user_id') {
+							$fieldMapping[$key]['valuetype'] = 'fieldname';
 						} else {
-							$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
-							$ownerName = $groupRecordModel->getId();
+							$userRecordModel = Users_Record_Model::getInstanceByName($mappingInfo['value']);
+							if ($userRecordModel) {
+								$ownerName = $userRecordModel->getId();
+							} else {
+								$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
+								$ownerName = $groupRecordModel->getId();
+							}
+							$fieldMapping[$key]['value'] = $ownerName;
 						}
-
-						$fieldMapping[$key]['value'] = $ownerName;
 					}
 				}
 				$taskObject->field_value_mapping = \includes\utils\Json::encode($fieldMapping);

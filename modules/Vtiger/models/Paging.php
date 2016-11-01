@@ -144,6 +144,7 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 		$rangeInfo = [];
 		$recordCount = count($recordList);
 		$pageLimit = $this->getPageLimit();
+		$this->set('prevPageExists', true);
 		if ($recordCount > 0) {
 			//specifies what sequencce number of last record in prev page
 			$prevPageLastRecordSequence = (($this->getCurrentPage() - 1) * $pageLimit);

@@ -49,9 +49,10 @@ var AppConnector = {
 		if(typeof params.data == 'undefined') {
 			if(typeof params == 'string') {
 				var callerParams = params;
-				if(callerParams.indexOf('?')!== -1) {
-					var callerParamsParts = callerParams.split('?')
-					callerParams = callerParamsParts[1];
+				var index = callerParams.indexOf('?');
+				if (index !== -1) {
+					var subStr = callerParams.substr(0, index+1);//need to replace only "index.php?" or "?"
+					callerParams = callerParams.replace(subStr,'');
 				}
 			}else{
 				callerParams = jQuery.extend({}, params);
@@ -61,6 +62,7 @@ var AppConnector = {
 		}
 		//Make the request as post by default
 		if(typeof params.type == 'undefined') params.type = 'POST';
+		if(typeof params.jsonp == 'undefined') params.jsonp = false;
 
 		//By default we expect json from the server
 		if(typeof params.dataType == 'undefined'){
