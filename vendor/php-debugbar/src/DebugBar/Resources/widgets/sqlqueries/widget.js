@@ -44,7 +44,7 @@
 						$('<span title="Prepared statement ID" />').addClass(csscls('stmt-id')).text(stmt.stmt_id).appendTo(li);
 					}
 					if (stmt.connection) {
-						$('<span title="Connection" />').addClass(csscls('database')).text(stmt.connection).appendTo(li);
+						$('<span title="Connect type: '+stmt.connectType+' | Database name: '+stmt.dbName+' | Driver name: '+stmt.driverName+'" />').addClass(csscls('database')).text(stmt.connection).appendTo(li);
 						li.attr("connection", stmt.connection);
 						if ($.inArray(stmt.connection, filters) == -1) {
 							filters.push(stmt.connection);
@@ -97,7 +97,9 @@
 			this.bindAttr('data', function (data) {
 				this.$list.set('data', data.statements);
 				this.$status.empty();
-
+				if(data.length === 0){
+					return;
+				}
 				// Search for duplicate statements.
 				for (var sql = {}, duplicate = 0, i = 0; i < data.statements.length; i++) {
 					var stmt = data.statements[i].sql;

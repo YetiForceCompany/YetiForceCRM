@@ -35,6 +35,11 @@ class Db extends \yii\db\Connection
 	public $dbName;
 
 	/**
+	 * @var Database type
+	 */
+	public $dbType;
+
+	/**
 	 * @var Host database server
 	 */
 	public $host;
@@ -69,6 +74,7 @@ class Db extends \yii\db\Connection
 		}
 		$config = static::getConfig($type);
 		$db = new self($config);
+		$db->dbType = $type;
 		static::$cache[$type] = $db;
 		return $db;
 	}
@@ -124,7 +130,7 @@ class Db extends \yii\db\Connection
 	{
 		if (\App\Debuger::isDebugBar()) {
 			$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO(parent::createPdoInstance());
-			\App\Debuger::getDebugBar()->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null, $this->dbName));
+			\App\Debuger::getDebugBar()->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null, $this->dbType));
 			return $pdo;
 		}
 		return parent::createPdoInstance();
