@@ -594,7 +594,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public static function getCalendarTypes()
 	{
 		$calendarConfig = ['Task'];
-		$eventConfig = Vtiger_Util_Helper::getPickListValues('activitytype');
+		$eventConfig = App\Fields\Picklist::getPickListValues('activitytype');
 		if (is_array($eventConfig)) {
 			$calendarConfig = array_merge($calendarConfig, $eventConfig);
 		}
@@ -641,7 +641,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getComponentActivityStateLabel($key = '')
 	{
-		$pickListValues = Vtiger_Util_Helper::getPickListValues('activitystatus');
+		$pickListValues = App\Fields\Picklist::getPickListValues('activitystatus');
 		if (!is_array($pickListValues)) {
 			return [];
 		}

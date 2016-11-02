@@ -305,9 +305,9 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist') {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
 				$userModel = Users_Record_Model::getCurrentUserModel();
-				$picklistValues = \App\Fields::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
+				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
 			} else {
-				$picklistValues = Vtiger_Util_Helper::getPickListValues($this->getName());
+				$picklistValues = App\Fields\Picklist::getPickListValues($this->getName());
 			}
 
 			// Protection against deleting a value that does not exist on the list

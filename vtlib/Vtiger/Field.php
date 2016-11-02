@@ -31,14 +31,7 @@ class Field extends FieldBasic
 	 */
 	public function getPicklistValues()
 	{
-		$adb = \PearDatabase::getInstance();
-		$picklist_table = 'vtiger_' . $this->name;
-		$picklistValues = [];
-		$picklistResult = $adb->query(sprintf("SELECT %s FROM %s", $this->name, $picklist_table));
-		while ($row = $adb->getRow($picklistResult)) {
-			$picklistValues[] = $row[$this->name];
-		}
-		return $picklistValues;
+		return \App\Fields\Picklist::getPickListValues($this->name);
 	}
 
 	/**

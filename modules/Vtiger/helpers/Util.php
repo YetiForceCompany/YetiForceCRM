@@ -223,62 +223,12 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function to get picklist key for a picklist
-	 */
-	public static function getPickListId($fieldName)
-	{
-		$pickListIds = array('opportunity_type' => 'opptypeid',
-			'sales_stage' => 'sales_stage_id',
-			'rating' => 'rating_id',
-			'ticketpriorities' => 'ticketpriorities_id',
-			'ticketseverities' => 'ticketseverities_id',
-			'ticketstatus' => 'ticketstatus_id',
-			'salutationtype' => 'salutationid',
-			'faqstatus' => 'faqstatus_id',
-			'faqcategories' => 'faqcategories_id',
-			'recurring_frequency' => 'recurring_frequency_id',
-			'payment_duration' => 'payment_duration_id',
-			'language' => 'id',
-			'recurringtype' => 'recurringeventid',
-			'duration_minutes' => 'minutesid'
-		);
-		if (array_key_exists($fieldName, $pickListIds)) {
-			return $pickListIds[$fieldName];
-		}
-		return $fieldName . 'id';
-	}
-
-	/**
-	 * Function which will give the picklist values for a field
-	 * @param type $fieldName -- string
-	 * @return type -- array of values
-	 */
-	public static function getPickListValues($fieldName)
-	{
-		$cache = Vtiger_Cache::getInstance();
-		if ($cache->getPicklistValues($fieldName)) {
-			return $cache->getPicklistValues($fieldName);
-		}
-		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
-				->from("vtiger_$fieldName")
-				->orderBy('sortorderid')
-				->createCommand()->query();
-		$values = [];
-		while ($row = $dataReader->read()) {
-			$values[$row[$primaryKey]] = decode_html(decode_html($row[$fieldName]));
-		}
-		$cache->setPicklistValues($fieldName, $values);
-		return $values;
-	}
-
-	/**
 	 * Function gets the CRM's base Currency information
 	 * @return Array
 	 */
 	public static function getBaseCurrency()
 	{
-		$baseCurrency = (new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid' , '0'])->one();
+		$baseCurrency = (new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid', '0'])->one();
 		if ($baseCurrency)
 			return $baseCurrency;
 	}

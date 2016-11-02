@@ -155,7 +155,7 @@
 						<td><label>{vtranslate('LBL_LEAD_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="status">
-								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('leadstatus')}
+								{foreach  item=ITEM from=App\Fields\Picklist::getPickListValues('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}  >{vtranslate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>
@@ -165,7 +165,7 @@
 						<td><label>{vtranslate('LBL_LEAD_CONVERT_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="convert_status">
-								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('leadstatus')}
+								{foreach  item=ITEM from=App\Fields\Picklist::getPickListValues('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{vtranslate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>

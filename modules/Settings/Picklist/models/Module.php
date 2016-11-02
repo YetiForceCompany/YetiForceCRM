@@ -98,7 +98,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
 		//so we are checking for both the values
-		$primaryKey = Vtiger_Util_Helper::getPickListId($pickListFieldName);
+		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 
 		$db->update($this->getPickListTableName($pickListFieldName), [$pickListFieldName => $newValue], $primaryKey . ' = ?', [$id]);
 		for ($i = 0; $i < $num_rows; $i++) {
@@ -132,7 +132,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		if (!is_array($valueToDeleteId)) {
 			$valueToDeleteId = array($valueToDeleteId);
 		}
-		$primaryKey = Vtiger_Util_Helper::getPickListId($pickListFieldName);
+		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 
 		$pickListValues = array();
 		$valuesOfDeleteIds = "SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($valueToDeleteId) . ")";
@@ -212,7 +212,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($sql, array($picklistFieldName));
 		$picklistid = $db->query_result($result, 0, "picklistid");
 
-		$primaryKey = Vtiger_Util_Helper::getPickListId($picklistFieldName);
+		$primaryKey = App\Fields\Picklist::getPickListId($picklistFieldName);
 
 		$pickListValueList = array_merge($valuesToEnables, $valuesToDisable);
 		$pickListValueDetails = array();
@@ -265,7 +265,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$primaryKey = Vtiger_Util_Helper::getPickListId($pickListFieldName);
+		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 
 		$query = sprintf('UPDATE %s SET sortorderid = CASE ', $this->getPickListTableName($pickListFieldName));
 		foreach ($picklistValues as $values => $sequence) {

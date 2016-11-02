@@ -874,7 +874,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		
+
 		self::preModuleInitialize2();
 		$query = new \App\Db\Query();
 		$query->select('vtiger_tab.*')->from('vtiger_field')
@@ -883,7 +883,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			->andWhere(['<>', 'vtiger_tab.presence', 1])
 			->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
 		if ($restrictList) {
-			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments','PriceBooks','Events']]);
+			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'Events']]);
 		}
 		$quickCreateModules = [];
 		$dataReader = $query->createCommand()->query();
@@ -945,8 +945,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	public static function getPicklistSupportedModules()
 	{
-		vimport('~modules/PickList/PickListUtils.php');
-		$modules = getPickListModules();
+		$modules = App\Fields\Picklist::getPickListModules();
 		$modulesModelsList = [];
 		foreach ($modules as $moduleLabel => $moduleName) {
 			$instance = new self();
@@ -976,7 +975,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -1208,7 +1207,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 		$query .= \App\PrivilegeQuery::getAccessConditions($moduleName, $currentUser->getId(), $recordId);
 		$query .= sprintf(" ORDER BY date_start, time_start LIMIT %d OFFSET %d", $pagingModel->getStartIndex(), ($pagingModel->getPageLimit() + 1));
-			
+
 		$result = $db->pquery($query, $params);
 		$numOfRows = $db->num_rows($result);
 

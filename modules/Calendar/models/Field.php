@@ -113,9 +113,9 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		$fieldModel = Vtiger_Field_Model::getInstance('recurringtype', Vtiger_Module_Model::getInstance('Events'));
 		if ($fieldModel->isRoleBased() && !$currentUser->isAdminUser()) {
 			$userModel = Users_Record_Model::getCurrentUserModel();
-			$picklistValues = \App\Fields::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
+			$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
 		} else {
-			$picklistValues = Vtiger_Util_Helper::getPickListValues('recurringtype');
+			$picklistValues = App\Fields\Picklist::getPickListValues('recurringtype');
 		}
 		foreach ($picklistValues as $value) {
 			$fieldPickListValues[$value] = vtranslate($value, 'Events');
