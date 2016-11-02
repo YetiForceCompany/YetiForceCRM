@@ -70,8 +70,8 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$row = $query->createCommand($db)->queryOne();
 		$instance = false;
 		if ($row !== false) {
-			$row['conditions'] = \includes\utils\Json::decode($row['conditions']);
-			$row['members'] = \includes\utils\Json::decode($row['members']);
+			$row['conditions'] = \App\Json::decode($row['conditions']);
+			$row['members'] = \App\Json::decode($row['members']);
 			$instance = new self();
 			$instance->setData($row);
 		}
@@ -93,10 +93,10 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			}
 		}
 		if (isset($params['conditions'])) {
-			$params['conditions'] = \includes\utils\Json::encode($params['conditions']);
+			$params['conditions'] = \App\Json::encode($params['conditions']);
 		}
 		if (isset($params['members'])) {
-			$params['members'] = \includes\utils\Json::encode($params['members']);
+			$params['members'] = \App\Json::encode($params['members']);
 		}
 		if ($recordId === false) {
 			$db->createCommand()->insert('a_#__adv_permission', $params)->execute();

@@ -91,9 +91,9 @@ class Webform_Capture
 	{
 		if (empty($url)) {
 			if ($success)
-				$response = \includes\utils\Json::encode(array('success' => true, 'result' => $success));
+				$response = \App\Json::encode(array('success' => true, 'result' => $success));
 			else
-				$response = \includes\utils\Json::encode(array('success' => false, 'error' => array('message' => $failure)));
+				$response = \App\Json::encode(array('success' => false, 'error' => array('message' => $failure)));
 
 			// Support JSONP
 			if (!AppRequest::isEmpty('callback')) {

@@ -1202,7 +1202,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function getFieldParams()
 	{
-		return \includes\utils\Json::decode($this->get('fieldparams'));
+		return \App\Json::decode($this->get('fieldparams'));
 	}
 
 	public function isActiveSearchView()

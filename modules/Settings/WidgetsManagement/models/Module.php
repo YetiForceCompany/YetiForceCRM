@@ -72,7 +72,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 			$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		}
-		$owners = \includes\utils\Json::decode(html_entity_decode($widgetModel->get('owners')));
+		$owners = \App\Json::decode(html_entity_decode($widgetModel->get('owners')));
 		$defaultSelected = $owners['default'];
 
 		if (!is_array($owners['available']))
@@ -217,7 +217,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$params = [$data['id']];
 		$result = $adb->pquery($query, $params);
 		if ($adb->num_rows($result) > 0) {
-			$size = \includes\utils\Json::encode(['width' => $data['width'], 'height' => $data['height']]);
+			$size = \App\Json::encode(['width' => $data['width'], 'height' => $data['height']]);
 			$insert = [
 				'isdefault' => $data['isdefault'],
 				'size' => $size,
@@ -226,13 +226,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'date' => $data['default_date']
 			];
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
-				$insert['owners'] = \includes\utils\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
+				$insert['owners'] = \App\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
 			if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
-				$insert['data'] = \includes\utils\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
+				$insert['data'] = \App\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
 			}
 			if ($data['type'] == 'DW_SUMMATION_BY_USER') {
-				$insert['data'] = \includes\utils\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
+				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
 			}
 			$adb->update('vtiger_module_dashboard', $insert, '`id` = ?', [$data['id']]);
 
@@ -270,11 +270,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$data['limit'] = 10;
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1')
 			$data['isdefault'] = 0;
-		$size = \includes\utils\Json::encode([
+		$size = \App\Json::encode([
 				'width' => $data['width'],
 				'height' => $data['height']
 		]);
-		$owners = \includes\utils\Json::encode([
+		$owners = \App\Json::encode([
 				'default' => $data['default_owner'],
 				'available' => $data['owners_all']
 		]);

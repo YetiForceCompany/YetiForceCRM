@@ -44,7 +44,7 @@ class OSSMail_index_View extends Vtiger_Index_View
 					'key' => $key,
 					'ruid' => $rcUser['rcuser_id'],
 					'cuid' => $userId,
-					'params' => \includes\utils\Json::encode($params)
+					'params' => \App\Json::encode($params)
 				]);
 			}
 		}

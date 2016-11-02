@@ -43,7 +43,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		if ($err) {
 			return false;
 		} else {
-			return \includes\utils\Json::decode($response);
+			return \App\Json::decode($response);
 		}
 	}
 

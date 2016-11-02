@@ -27,7 +27,7 @@ class VTUpdateWorkTime extends VTTask
 				$referenceIds[$parts[1]] = $name;
 			}
 		}
-		$delta = \includes\utils\Json::decode($this->getContents($entity));
+		$delta = \App\Json::decode($this->getContents($entity));
 		if (is_array($delta)) {
 			foreach ($delta as $fieldName => $values) {
 				if (!empty($values) && !is_array($values)) {
@@ -71,7 +71,7 @@ class VTUpdateWorkTime extends VTTask
 				$delta = $entity->getData();
 			}
 			$delta = array_intersect_key($delta, array_flip(OSSTimeControl_Record_Model::$referenceFieldsToTime));
-			$this->contents = \includes\utils\Json::encode($delta);
+			$this->contents = \App\Json::encode($delta);
 		}
 		return $this->contents;
 	}

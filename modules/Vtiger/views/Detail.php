@@ -176,7 +176,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
-		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 
 		if ($display) {
 			$this->preProcessDisplay($request);

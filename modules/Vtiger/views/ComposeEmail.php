@@ -307,9 +307,9 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View
 		$recordModel = $this->record->getRecord();
 
 		$viewer = $this->getViewer($request);
-		$TO = \includes\utils\Json::decode(html_entity_decode($recordModel->get('saved_toid')));
-		$CC = \includes\utils\Json::decode(html_entity_decode($recordModel->get('ccmail')));
-		$BCC = \includes\utils\Json::decode(html_entity_decode($recordModel->get('bccmail')));
+		$TO = \App\Json::decode(html_entity_decode($recordModel->get('saved_toid')));
+		$CC = \App\Json::decode(html_entity_decode($recordModel->get('ccmail')));
+		$BCC = \App\Json::decode(html_entity_decode($recordModel->get('bccmail')));
 
 		$parentId = $request->get('parentId');
 		if (empty($parentId)) {
@@ -348,9 +348,9 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View
 		}
 		$recordModel = $this->record->getRecord();
 
-		$TO = \includes\utils\Json::decode(html_entity_decode($recordModel->get('saved_toid')));
-		$CC = \includes\utils\Json::decode(html_entity_decode($recordModel->get('ccmail')));
-		$BCC = \includes\utils\Json::decode(html_entity_decode($recordModel->get('bccmail')));
+		$TO = \App\Json::decode(html_entity_decode($recordModel->get('saved_toid')));
+		$CC = \App\Json::decode(html_entity_decode($recordModel->get('ccmail')));
+		$BCC = \App\Json::decode(html_entity_decode($recordModel->get('bccmail')));
 
 		$parentIds = explode('|', $recordModel->get('parent_id'));
 

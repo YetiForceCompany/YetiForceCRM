@@ -448,7 +448,7 @@ class ListViewController
 				} elseif ($field->getUIType() == 8) {
 					if (!empty($value)) {
 						$temp_val = html_entity_decode($value, ENT_QUOTES, $default_charset);
-						$value = vtlib\Functions::suppressHTMLTags(implode(',', \includes\utils\Json::decode($temp_val)));
+						$value = vtlib\Functions::suppressHTMLTags(implode(',', \App\Json::decode($temp_val)));
 					}
 				} elseif ($field->getFieldDataType() == 'taxes') {
 					if (!empty($value)) {

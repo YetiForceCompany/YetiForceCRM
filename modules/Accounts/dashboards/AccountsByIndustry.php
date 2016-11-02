@@ -26,7 +26,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59'));
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . includes\utils\Json::encode($listSearchParams);
+		return '&search_params=' . App\Json::encode($listSearchParams);
 	}
 
 	/**

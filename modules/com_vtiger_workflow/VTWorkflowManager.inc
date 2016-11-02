@@ -237,7 +237,7 @@ class VTWorkflowManager
 			unset($task->workflowId);
 			$exp['tasks'][] = serialize($task);
 		}
-		return \includes\utils\Json::encode($exp);
+		return \App\Json::encode($exp);
 	}
 
 	/**
@@ -247,7 +247,7 @@ class VTWorkflowManager
 	 */
 	public function deserializeWorkflow($str)
 	{
-		$data = \includes\utils\Json::decode($str);
+		$data = \App\Json::decode($str);
 		$workflow = $this->newWorkflow($data['moduleName']);
 		$workflow->description = $data['description'];
 		$workflow->test = $data['test'];
@@ -303,12 +303,12 @@ class VTWorkflowManager
 
 		$commentSupportedWorkflowModels = array();
 		foreach ($workflowModels as $workflowId => $workflowModel) {
-			$conditions = \includes\utils\Json::decode($workflowModel->test);
+			$conditions = \App\Json::decode($workflowModel->test);
 			if (is_array($conditions)) {
 				foreach ($conditions as $key => $conditionInfo) {
 					if ($conditionInfo['fieldname'] === '_VT_add_comment') {
 						unset($conditions[$key]);
-						$workflowModel->test = \includes\utils\Json::encode($conditions);
+						$workflowModel->test = \App\Json::encode($conditions);
 						$commentSupportedWorkflowModels[$workflowId] = $workflowModel;
 					}
 				}
@@ -549,7 +549,7 @@ class Workflow
 		$currentTime = time();
 		$currentWeekDay = date('N', $currentTime);
 		if ($scheduledDaysOfWeek) {
-			$scheduledDaysOfWeek = \includes\utils\Json::decode($scheduledDaysOfWeek);
+			$scheduledDaysOfWeek = \App\Json::decode($scheduledDaysOfWeek);
 			if (is_array($scheduledDaysOfWeek)) {
 				// algorithm :
 				//1. First sort all the weekdays(stored as 0,1,2,3 etc in db) and find the closest weekday which is greater than currentWeekDay
@@ -603,7 +603,7 @@ class Workflow
 	{
 		$currentDayOfMonth = date('j', time());
 		if ($scheduledDayOfMonth) {
-			$scheduledDaysOfMonth = \includes\utils\Json::decode($scheduledDayOfMonth);
+			$scheduledDaysOfMonth = \App\Json::decode($scheduledDayOfMonth);
 			if (is_array($scheduledDaysOfMonth)) {
 				// algorithm :
 				//1. First sort all the days in ascending order and find the closest day which is greater than currentDayOfMonth
@@ -673,7 +673,7 @@ class Workflow
 	{
 		if ($annualDates) {
 			$today = date('Y-m-d');
-			$annualDates = \includes\utils\Json::decode($annualDates);
+			$annualDates = \App\Json::decode($annualDates);
 			$nextTriggerDay = null;
 			// sort the dates
 			sort($annualDates);

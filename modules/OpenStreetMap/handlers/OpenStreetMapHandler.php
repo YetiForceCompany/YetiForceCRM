@@ -43,12 +43,12 @@ class OpenStreetMapHandler extends VTEventHandler
 						[
 						'crmid' => $data->getId(),
 						'type' => $typeAddress,
-						'address' => \includes\utils\Json::encode($address)
+						'address' => \App\Json::encode($address)
 					])->execute();
 				} else {
 					App\Db::getInstance()->createCommand()
 						->update('u_#__openstreetmap_record_updater',
-							['address' => \includes\utils\Json::encode($address)],
+							['address' => \App\Json::encode($address)],
 							['crmid' => $data->getId(), 'type' => $typeAddress])
 						->execute();
 				}

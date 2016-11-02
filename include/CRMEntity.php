@@ -485,7 +485,7 @@ class CRMEntity
 				} elseif ($uitype === 8) {
 					$this->column_fields[$fieldname] = rtrim($this->column_fields[$fieldname], ',');
 					$ids = explode(',', $this->column_fields[$fieldname]);
-					$fldvalue = \includes\utils\Json::encode($ids);
+					$fldvalue = \App\Json::encode($ids);
 				} elseif ($uitype === 12) {
 					// Bulk Sae Mode: Consider the FROM email address as specified, if not lookup
 					$fldvalue = $this->column_fields[$fieldname];

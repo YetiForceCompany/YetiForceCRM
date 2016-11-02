@@ -161,7 +161,7 @@ class VTWorkflowTemplateManager
 			);
 			$arr[] = $el;
 		}
-		return \includes\utils\Json::encode($arr);
+		return \App\Json::encode($arr);
 	}
 
 	/**
@@ -171,7 +171,7 @@ class VTWorkflowTemplateManager
 	 */
 	public function loadTemplates($str)
 	{
-		$arr = \includes\utils\Json::decode($str);
+		$arr = \App\Json::decode($str);
 		foreach ($arr as $el) {
 			$template = new VTWorkflowTemplate();
 			$template->moduleName = $el['moduleName'];

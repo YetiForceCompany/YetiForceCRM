@@ -39,7 +39,7 @@ class Notification_NotificationsList_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$notification = Notification_Notification_Model::getInstance();
 		$viewer->assign('LEFT_PANEL_HIDE', $userModel->get('leftpanelhide'));
-		$viewer->assign('NOTIFICATION_TYPES', \includes\utils\Json::encode($notification->getTypesForTree()));
+		$viewer->assign('NOTIFICATION_TYPES', \App\Json::encode($notification->getTypesForTree()));
 		$viewer->view('NotificationsListPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}

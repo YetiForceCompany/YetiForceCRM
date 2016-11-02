@@ -217,7 +217,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		if (isset($fields)) {
 			foreach ($fields as $field) {
 				if ($field->getName() == 'Name') {
-					$params = \includes\utils\Json::decode($field->get('params'));
+					$params = \App\Json::decode($field->get('params'));
 				}
 			}
 		}

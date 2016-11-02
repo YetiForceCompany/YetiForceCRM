@@ -264,7 +264,7 @@ class VTTaskType
 						sourcemodule varchar(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8", true);
 		}
 
-		$modules = \includes\utils\Json::encode($taskType['modules']);
+		$modules = \App\Json::encode($taskType['modules']);
 
 		$taskTypeId = $adb->getUniqueID("com_vtiger_workflow_tasktypes");
 		$taskType['id'] = $taskTypeId;
@@ -285,7 +285,7 @@ class VTTaskType
 			$taskName = $rawData['tasktypename'];
 			$moduleslist = $rawData['modules'];
 			$sourceModule = $rawData['sourcemodule'];
-			$modules = \includes\utils\Json::decode($moduleslist);
+			$modules = \App\Json::decode($moduleslist);
 			$includeModules = $modules['include'];
 			$excludeModules = $modules['exclude'];
 

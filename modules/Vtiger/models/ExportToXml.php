@@ -113,7 +113,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 						$data['value'] = $currencyName;
 						$valueNewData[$currencyName] = $data;
 					}
-					$value = \includes\utils\Json::encode($valueNewData);
+					$value = \App\Json::encode($valueNewData);
 					break;
 				default:
 					break;

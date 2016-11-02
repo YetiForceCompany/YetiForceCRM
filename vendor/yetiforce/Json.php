@@ -1,4 +1,5 @@
-<?php namespace includes\utils;
+<?php
+namespace App;
 
 /**
  * Json class

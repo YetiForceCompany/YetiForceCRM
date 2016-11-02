@@ -32,7 +32,7 @@ class VTEmailTask extends VTTask
 		$admin = $util->adminUser();
 		$module = $entity->getModuleName();
 
-		$taskContents = \includes\utils\Json::decode($this->getContents($entity));
+		$taskContents = \App\Json::decode($this->getContents($entity));
 		$from_email = $taskContents['fromEmail'];
 		$from_name = $taskContents['fromName'];
 		$to_email = $taskContents['toEmail'];
@@ -152,7 +152,7 @@ class VTEmailTask extends VTTask
 			$utils->revertUser();
 		}
 		if (is_array($this->contents)) {
-			$this->contents = \includes\utils\Json::encode($this->contents);
+			$this->contents = \App\Json::encode($this->contents);
 		}
 		return $this->contents;
 	}

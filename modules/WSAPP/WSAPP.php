@@ -138,7 +138,7 @@ class WSAPP
 		$db = PearDatabase::getInstance();
 		$em = new VTEventsManager($db);
 		$dependentEventHandlers = array('VTEntityDelta');
-		$dependentEventHandlersJson = \includes\utils\Json::encode($dependentEventHandlers);
+		$dependentEventHandlersJson = \App\Json::encode($dependentEventHandlers);
 		$em->registerHandler('vtiger.entity.aftersave', 'modules/WSAPP/WorkFlowHandlers/WSAPPAssignToTracker.php', 'WSAPPAssignToTracker', '', $dependentEventHandlersJson);
 	}
 

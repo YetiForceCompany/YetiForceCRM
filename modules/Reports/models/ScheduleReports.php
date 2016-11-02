@@ -80,20 +80,20 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 			} else {
 				$this->set('next_trigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 			}
-			$schdate = \includes\utils\Json::encode(array($dateDBFormat));
+			$schdate = \App\Json::encode(array($dateDBFormat));
 		} else if ($scheduleid == self::$SCHEDULED_WEEKLY) {
-			$schdayoftheweek = \includes\utils\Json::encode($this->get('schdayoftheweek'));
+			$schdayoftheweek = \App\Json::encode($this->get('schdayoftheweek'));
 			$this->set('schdayoftheweek', $schdayoftheweek);
 		} else if ($scheduleid == self::$SCHEDULED_MONTHLY_BY_DATE) {
-			$schdayofthemonth = \includes\utils\Json::encode($this->get('schdayofthemonth'));
+			$schdayofthemonth = \App\Json::encode($this->get('schdayofthemonth'));
 			$this->set('schdayofthemonth', $schdayofthemonth);
 		} else if ($scheduleid == self::$SCHEDULED_ANNUALLY) {
-			$schannualdates = \includes\utils\Json::encode($this->get('schannualdates'));
+			$schannualdates = \App\Json::encode($this->get('schannualdates'));
 			$this->set('schannualdates', $schannualdates);
 		}
 
-		$recipients = \includes\utils\Json::encode($this->get('recipients'));
-		$specificemails = \includes\utils\Json::encode($this->get('specificemails'));
+		$recipients = \App\Json::encode($this->get('recipients'));
+		$specificemails = \App\Json::encode($this->get('specificemails'));
 		$isReportScheduled = $this->get('isReportScheduled');
 
 		if ($scheduleid != self::$SCHEDULED_ON_SPECIFIC_DATE) {
@@ -131,7 +131,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 		if (!empty($recipientsInfo)) {
 			$recipients = [];
-			$recipientsInfo = \includes\utils\Json::decode($recipientsInfo);
+			$recipientsInfo = \App\Json::decode($recipientsInfo);
 			foreach ($recipientsInfo as $key => $recipient) {
 				if (strpos($recipient, 'USER') !== false) {
 					$id = explode('::', $recipient);
@@ -183,7 +183,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 			}
 		}
 		//Added for specific email address.
-		$specificemails = explode(',', \includes\utils\Json::decode($this->get('specificemails')));
+		$specificemails = explode(',', \App\Json::decode($this->get('specificemails')));
 		if (!empty($specificemails)) {
 			$recipientsEmails = array_merge($recipientsEmails, $specificemails);
 		}

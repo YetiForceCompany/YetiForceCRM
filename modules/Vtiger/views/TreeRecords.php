@@ -27,7 +27,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 
 		$treeList = $treeViewModel->getTreeList();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('TREE_LIST', \includes\utils\Json::encode($treeList));
+		$viewer->assign('TREE_LIST', \App\Json::encode($treeList));
 		$viewer->assign('SELECTABLE_CATEGORY', 0);
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}

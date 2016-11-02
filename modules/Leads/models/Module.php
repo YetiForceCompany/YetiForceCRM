@@ -200,7 +200,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$params = [];
 			$db = PearDatabase::getInstance();
 			$mappingFields = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'mapping');
-			$mappingFields = \includes\utils\Json::decode($mappingFields);
+			$mappingFields = \App\Json::decode($mappingFields);
 			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "
 				. "INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_account.accountid "
 				. "INNER JOIN `vtiger_accountaddress` ON vtiger_accountaddress.accountaddressid=vtiger_account.accountid "

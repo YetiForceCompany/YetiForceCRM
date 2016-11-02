@@ -16,14 +16,14 @@ function vtJsonFields($adb, Vtiger_Request $request)
 {
 	$mem = new VTExpressionsManager($adb);
 	$fields = $mem->fields($request->getModule());
-	echo \includes\utils\Json::encode(array('moduleFields' => $fields));
+	echo \App\Json::encode(array('moduleFields' => $fields));
 }
 
 function vtJsonFunctions($adb)
 {
 	$mem = new VTExpressionsManager($adb);
 	$functions = $mem->expressionFunctions();
-	echo \includes\utils\Json::encode($functions);
+	echo \App\Json::encode($functions);
 }
 
 function vtJsonDependentModules($adb, Vtiger_Request $request)
@@ -70,7 +70,7 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 
 	$returnValue = array('count' => count($dependentFields), 'entities' => $dependentFields);
 
-	echo \includes\utils\Json::encode($returnValue);
+	echo \App\Json::encode($returnValue);
 }
 
 function vtJsonOwnersList($adb)
@@ -86,7 +86,7 @@ function vtJsonOwnersList($adb)
 		$ownersList[] = array('label' => $groupName, 'value' => $groupName);
 	}
 
-	echo \includes\utils\Json::encode($ownersList);
+	echo \App\Json::encode($ownersList);
 }
 $adb = PearDatabase::getInstance();
 $request = AppRequest::init();

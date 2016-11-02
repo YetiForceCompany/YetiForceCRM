@@ -35,9 +35,9 @@
 			</div>
 		</div>
         <div class="reportsDetailHeader">
-			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATE_FILTERS))}' />
+			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
             <form id="detailView" onSubmit="return false;">
-				<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATE_FILTERS))}' />
+				<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
 				<div class="reportHeader row">
 					<div class="col-md-8">
 						<h3 class="noSpaces" >{$REPORT_MODEL->getName()}</h3>

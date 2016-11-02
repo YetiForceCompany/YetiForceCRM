@@ -118,14 +118,14 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 			foreach ($fieldNames as $fieldName) {
 				if ($fieldName == 'field_value_mapping' || $fieldName == 'content') {
-					$values = \includes\utils\Json::decode($request->getRaw($fieldName));
+					$values = \App\Json::decode($request->getRaw($fieldName));
 
 					if ($values) {
 						foreach ($values as $index => $value) {
 							$values[$index]['value'] = htmlspecialchars($value['value']);
 						}
 
-						$taskObject->$fieldName = \includes\utils\Json::encode($values);
+						$taskObject->$fieldName = \App\Json::encode($values);
 					} else {
 						$taskObject->$fieldName = $request->getRaw($fieldName);
 					}
@@ -142,7 +142,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
-				$fieldMapping = \includes\utils\Json::decode($taskObject->field_value_mapping);
+				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
 						if ($mappingInfo['value'] == 'assigned_user_id') {
@@ -159,7 +159,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 						}
 					}
 				}
-				$taskObject->field_value_mapping = \includes\utils\Json::encode($fieldMapping);
+				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
 			}
 
 			$taskRecordModel->save();

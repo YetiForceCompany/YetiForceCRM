@@ -56,7 +56,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
-				$fieldMapping = \includes\utils\Json::decode($taskObject->field_value_mapping);
+				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
 						if ($mappingInfo['value'] == 'assigned_user_id') {
@@ -73,7 +73,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 						}
 					}
 				}
-				$taskObject->field_value_mapping = \includes\utils\Json::encode($fieldMapping);
+				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
 			}
 		}
 		if ($taskType === 'VTUpdateFieldsTask') {

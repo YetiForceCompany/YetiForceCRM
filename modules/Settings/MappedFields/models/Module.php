@@ -274,7 +274,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		foreach ($fields as $field) {
 			$value = $this->record->get($field);
 			if (in_array($field, ['conditions', 'params'])) {
-				$params[$field] = \includes\utils\Json::encode($value);
+				$params[$field] = \App\Json::encode($value);
 			} elseif (is_array($value)) {
 				$params[$field] = implode(',', $value);
 			} else {

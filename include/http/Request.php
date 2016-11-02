@@ -63,7 +63,7 @@ class Vtiger_Request
 			}
 		}
 		if ($isJSON) {
-			$decodeValue = \includes\utils\Json::decode($value);
+			$decodeValue = \App\Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
 			}
@@ -115,7 +115,7 @@ class Vtiger_Request
 			}
 		}
 		if ($isJSON) {
-			$decodeValue = \includes\utils\Json::decode($value);
+			$decodeValue = \App\Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
 			}

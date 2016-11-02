@@ -130,7 +130,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 
-		$conditions = \includes\utils\Json::encode($wfCondition);
+		$conditions = \App\Json::encode($wfCondition);
 		$views = $this->get('views');
 		$params = [
 			'blockid' => $this->get('blockid'),

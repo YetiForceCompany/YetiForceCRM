@@ -62,7 +62,7 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 				CURLOPT_CUSTOMREQUEST => "GET",
 			]);
 			$json = curl_exec($curl);
-			$json = \includes\utils\Json::decode($json);
+			$json = \App\Json::decode($json);
 			$coordinates = array_merge($coordinates, $json['coordinates']);
 			$description .= $json['properties']['description'];
 			$travel = $travel + $json['properties']['traveltime'];

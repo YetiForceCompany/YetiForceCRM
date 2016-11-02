@@ -28,7 +28,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$result = $db->pquery($sql, $params, true);
 		$widgets = array(1 => array(), 2 => array(), 3 => array());
 		while ($row = $db->getRow($result)) {
-			$row['data'] = \includes\utils\Json::decode($row['data']);
+			$row['data'] = \App\Json::decode($row['data']);
 			$widgets[$row["wcol"]][$row["id"]] = $row;
 		}
 		return $widgets;
@@ -177,7 +177,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		unset($data['wid']);
 		$nomargin = isset($data['nomargin']) ? $data['nomargin'] : 0;
 		unset($data['nomargin']);
-		$serializeData = \includes\utils\Json::encode($data);
+		$serializeData = \App\Json::encode($data);
 		$sequence = self::getLastSequence($tabid) + 1;
 		if ($wid) {
 			$sql = "UPDATE vtiger_widgets SET label = ?, nomargin = ?, `data` = ? WHERE id = ?;";
@@ -200,7 +200,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$sql = 'SELECT * FROM vtiger_widgets WHERE id = ?';
 		$result = $adb->pquery($sql, array($wid));
 		$resultrow = $adb->raw_query_result_rowdata($result);
-		$resultrow['data'] = \includes\utils\Json::decode($resultrow['data']);
+		$resultrow['data'] = \App\Json::decode($resultrow['data']);
 		return $resultrow;
 	}
 

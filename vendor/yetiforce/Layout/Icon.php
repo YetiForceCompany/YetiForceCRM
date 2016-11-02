@@ -1,10 +1,12 @@
-<?php namespace includes\utils;
+<?php
+namespace App\Layout;
 
 /**
  * Icon class
- * @package YetiForce.Include
+ * @package YetiForce.App
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Icon
 {
@@ -45,7 +47,7 @@ class Icon
 
 	public static function getIconByFileType($exntension)
 	{
-		$explodeExtension = reset(explode("/", $exntension));
+		$explodeExtension = reset(explode('/', $exntension));
 		if (isset(self::$extensionIcon[$explodeExtension]))
 			$fileIcon = self::$extensionIcon[$explodeExtension];
 		if (isset(self::$extensionIcon[$exntension]))

@@ -13,7 +13,7 @@ class VTJsonCondition
 
 	function evaluate($condition, $entityCache, $id)
 	{
-		$expr = \includes\utils\Json::decode($condition);
+		$expr = \App\Json::decode($condition);
 		$finalResult = TRUE;
 		if (is_array($expr)) {
 			$entityData = $entityCache->forId($id);

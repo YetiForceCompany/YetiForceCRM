@@ -139,7 +139,7 @@ class VTEventTrigger
 
 						$dependentEventsNotCompleted = false;
 						$dependentOn = $eventInfo['dependent_on'];
-						$dependentEvents = \includes\utils\Json::decode($dependentOn);
+						$dependentEvents = \App\Json::decode($dependentOn);
 						foreach ($dependentEvents as $eventHandlerClass) {
 							if (!in_array($eventHandlerClass, $completedEvents)) {
 								$dependentEventsNotCompleted = true;
