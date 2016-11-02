@@ -96,7 +96,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 
 	public function createMail(Vtiger_Request $request)
 	{
-		$accessibleUsers = \includes\fields\Owner::getInstance()->getAccessibleUsers();
+		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$content = $request->get('message');
 		$subject = $request->get('title');
 		$users = $request->get('users');

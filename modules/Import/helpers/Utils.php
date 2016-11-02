@@ -154,7 +154,7 @@ class Import_Utils_Helper
 
 		$errorMessage = vtranslate('ERR_MODULE_IMPORT_LOCKED', 'Import');
 		$errorDetails = array(vtranslate('LBL_MODULE_NAME', 'Import') => \App\Module::getModuleName($lockInfo['tabid']),
-			vtranslate('LBL_USER_NAME', 'Import') => \includes\fields\Owner::getUserLabel($lockInfo['userid']),
+			vtranslate('LBL_USER_NAME', 'Import') => \App\Fields\Owner::getUserLabel($lockInfo['userid']),
 			vtranslate('LBL_LOCKED_TIME', 'Import') => $lockInfo['locked_since']);
 
 		self::showErrorPage($errorMessage, $errorDetails);
@@ -202,7 +202,7 @@ class Import_Utils_Helper
 		if ($cache->getUserList($module, $current_user->id)) {
 			return $cache->getUserList($module, $current_user->id);
 		} else {
-			$userList = \includes\fields\Owner::getInstance()->getUsers(false, 'Active', $current_user->id);
+			$userList = \App\Fields\Owner::getInstance()->getUsers(false, 'Active', $current_user->id);
 			$cache->setUserList($module, $userList, $current_user->id);
 			return $userList;
 		}
@@ -214,7 +214,7 @@ class Import_Utils_Helper
 		if ($cache->getGroupList($module, $current_user->id)) {
 			return $cache->getGroupList($module, $current_user->id);
 		} else {
-			$groupList = \includes\fields\Owner::getInstance()->getGroups(false);
+			$groupList = \App\Fields\Owner::getInstance()->getGroups(false);
 			$cache->setGroupList($module, $groupList, $current_user->id);
 			return $groupList;
 		}

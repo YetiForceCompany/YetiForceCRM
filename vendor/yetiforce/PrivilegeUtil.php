@@ -28,7 +28,7 @@ class PrivilegeUtil
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($entId);
 			if ($recordMetaData) {
 				$ownerId = $recordMetaData['smownerid'];
-				$type = \includes\fields\Owner::getType($ownerId);
+				$type = \App\Fields\Owner::getType($ownerId);
 				$parentRecOwner[$type] = $ownerId;
 			}
 		}
@@ -224,7 +224,7 @@ class PrivilegeUtil
 	{
 		if (static::$membersCache === false) {
 			$members = [];
-			$owner = new \includes\fields\Owner();
+			$owner = new \App\Fields\Owner();
 			foreach ($owner->initUsers() as $id => $user) {
 				$members[static::MEMBER_TYPE_USERS][static::MEMBER_TYPE_USERS . ':' . $id] = ['name' => $user['fullName'], 'id' => $id, 'type' => static::MEMBER_TYPE_USERS];
 			}

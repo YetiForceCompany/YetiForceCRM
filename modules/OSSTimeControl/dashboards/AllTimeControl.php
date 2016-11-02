@@ -31,7 +31,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$timeDatabase['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if ($user == 'all') {
-			$accessibleUsers = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
+			$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 			$user = array_keys($accessibleUsers);
 		}
 		if (!is_array($user)) {
@@ -127,8 +127,8 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
-		$accessibleUsers = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
-		$accessibleGroups = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
+		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
+		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
 		$viewer->assign('DTIME', $time);

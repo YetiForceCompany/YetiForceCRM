@@ -1,8 +1,9 @@
-<?php namespace includes\fields;
+<?php
+namespace App\Fields;
 
 /**
  * Owner class
- * @package YetiForce.Include
+ * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -21,12 +22,12 @@ class Owner
 			$currentUser = \Users_Record_Model::getCurrentUserModel();
 		}
 		$cacheKey = $moduleName . $currentUser->getId();
-		$instance = \Vtiger_Cache::get('includes\fields\Owner', $cacheKey);
+		$instance = \Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
 		if ($instance === false) {
 			$instance = new self();
 			$instance->moduleName = $moduleName != false ? $moduleName : \AppRequest::get('module');
 			$instance->currentUser = $currentUser;
-			\Vtiger_Cache::set('includes\fields\Owner', $cacheKey, $instance);
+			\Vtiger_Cache::set('App\Fields\Owner', $cacheKey, $instance);
 		}
 		return $instance;
 	}
@@ -451,7 +452,7 @@ class Owner
 
 	protected static $usersIdsCache = [];
 
-	public static function &getUsersIds($status = 'Active')
+	public static function getUsersIds($status = 'Active')
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
 			$rows = [];

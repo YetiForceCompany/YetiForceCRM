@@ -32,7 +32,7 @@
 									data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 								{/if}>
 								{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-									{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+									{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 										<option value="{$OWNER_ID}" {if $USER_MODEL->getId() eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
 									{/foreach}

@@ -37,9 +37,9 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		if ($assignedto != 'all') {
 			$ownerType = vtws_getOwnerType($assignedto);
 			if ($ownerType == 'Users')
-				array_push($conditions, array("assigned_user_id", "e", \includes\fields\Owner::getUserLabel($assignedto)));
+				array_push($conditions, array("assigned_user_id", "e", \App\Fields\Owner::getUserLabel($assignedto)));
 			else {
-				$groupName = \includes\fields\Owner::getGroupName($assignedto);
+				$groupName = \App\Fields\Owner::getGroupName($assignedto);
 				array_push($conditions, array("assigned_user_id", "e", $groupName));
 			}
 		}

@@ -102,7 +102,7 @@ class VTUpdateFieldsTask extends VTTask
 							if (!empty($rightOperandFieldInstance)) {
 								$referenceList = $rightOperandFieldInstance->getReferenceList();
 								if ((count($referenceList) == 1) && $referenceList[0] == 'Users') {
-									$fieldValue = \includes\fields\Owner::getLabel($fieldValue);
+									$fieldValue = \App\Fields\Owner::getLabel($fieldValue);
 								} elseif ((count($referenceList) == 1) && $referenceList[0] == 'Currency') {
 									$fieldValue = vtlib\Functions::getCurrencyName($fieldValue);
 								} elseif ($rightOperandFieldInstance->getFieldName() == 'roleid') {

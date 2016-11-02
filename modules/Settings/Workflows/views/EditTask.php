@@ -167,8 +167,8 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			}
 		}
 
-		$userList = \includes\fields\Owner::getInstance()->getAccessibleUsers();
-		$groupList = \includes\fields\Owner::getInstance()->getAccessibleGroups();
+		$userList = \App\Fields\Owner::getInstance()->getAccessibleUsers();
+		$groupList = \App\Fields\Owner::getInstance()->getAccessibleGroups();
 		$assignedToValues = array();
 		$assignedToValues[vtranslate('LBL_USERS', 'Vtiger')] = $userList;
 		$assignedToValues[vtranslate('LBL_GROUPS', 'Vtiger')] = $groupList;

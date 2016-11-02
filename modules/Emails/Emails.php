@@ -170,7 +170,7 @@ class Emails extends CRMEntity
 		$mailbox = $_REQUEST["mailbox"];
 		$MailBox = new MailBox($mailbox);
 		$mail = $MailBox->mbox;
-		$binFile = \includes\fields\File::sanitizeUploadFileName($file_details['name']);
+		$binFile = \App\Fields\File::sanitizeUploadFileName($file_details['name']);
 		$filename = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
 		$filetype = $file_details['type'];
 		$filesize = $file_details['size'];

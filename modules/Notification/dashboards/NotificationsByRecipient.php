@@ -36,7 +36,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 	 */
 	private function getNotificationByRecipient($time)
 	{
-		$accessibleUsers = \includes\fields\Owner::getInstance()->getAccessibleUsers();
+		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
 		$listView = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$db = PearDatabase::getInstance();

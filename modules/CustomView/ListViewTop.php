@@ -149,7 +149,7 @@ function getMetricList($filters = [])
 					'id' => $row['cvid'],
 					'name' => $row['viewname'],
 					'module' => $row['entitytype'],
-					'user' => \includes\fields\Owner::getUserLabel($row['userid']),
+					'user' => \App\Fields\Owner::getUserLabel($row['userid']),
 					'count' => '',
 				];
 			}

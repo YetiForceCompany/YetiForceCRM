@@ -58,8 +58,8 @@ class Settings_Webforms_ModuleField_Model extends Vtiger_Field_Model
 		}
 
 		if ($this->getFieldDataType() == 'owner') {
-			$userList = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
-			$groupList = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
+			$userList = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
+			$groupList = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 			$pickListValues = array();
 			$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 			$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;

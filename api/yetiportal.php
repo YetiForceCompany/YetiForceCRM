@@ -305,7 +305,7 @@ function _getTicketModComments($ticketId)
 			$emailResult = $adb->pquery('SELECT * FROM vtiger_portalinfo WHERE id = ?', array($customer));
 			$output[$i]['owner'] = $adb->query_result($emailResult, 0, 'user_name');
 		} else {
-			$output[$i]['owner'] = \includes\fields\Owner::getLabel($owner);
+			$output[$i]['owner'] = \App\Fields\Owner::getLabel($owner);
 		}
 
 		$output[$i]['comments'] = decode_html(nl2br($adb->query_result($result, $i, 'commentcontent')));
@@ -646,7 +646,7 @@ function get_tickets_list($input_array)
 				}
 			}
 			if ($fieldname == 'smownerid') {
-				$fieldvalue = \includes\fields\Owner::getLabel($fieldvalue);
+				$fieldvalue = \App\Fields\Owner::getLabel($fieldvalue);
 			}
 			if (in_array($fieldname, array('priority', 'status'))) {
 				$fieldvalue = Vtiger_Language_Handler::getTranslatedString($fieldvalue, 'HelpDesk', vglobal('default_language'));
@@ -1209,7 +1209,7 @@ function add_ticket_attachment($input_array)
 	$attachmentid = $adb->getUniqueID("vtiger_crmentity");
 
 	//fix for space in file name
-	$filename = \includes\fields\File::sanitizeUploadFileName($filename);
+	$filename = \App\Fields\File::sanitizeUploadFileName($filename);
 	$new_filename = $attachmentid . '_' . $filename;
 
 	$data = base64_decode($filecontents);
@@ -1624,7 +1624,7 @@ function get_list_values($id, $module, $sessionid, $only_mine = 'true')
 				$fieldvalue = '<a href="index.php?module=Products&action=index&id=' . $crmid . '">' . $productname . '</a>';
 			}
 			if ($fieldname == 'smownerid') {
-				$fieldvalue = \includes\fields\Owner::getLabel($fieldvalue);
+				$fieldvalue = \App\Fields\Owner::getLabel($fieldvalue);
 			}
 			if (in_array($fieldlabelOrg, array('Status'))) {
 				$fieldvalue = Vtiger_Language_Handler::getTranslatedString($fieldvalue, $module, vglobal('default_language'));
@@ -2465,7 +2465,7 @@ function get_project_components($id, $module, $customerid, $sessionid)
 				$fieldvalue = '<a href="index.php?module=ProjectMilestone&action=index&id=' . $projectmilestoneid . '">' . $fieldvalue . '</a>';
 			}
 			if ($fieldname == 'smownerid') {
-				$fieldvalue = \includes\fields\Owner::getLabel($fieldvalue);
+				$fieldvalue = \App\Fields\Owner::getLabel($fieldvalue);
 			}
 			$output[1][$module]['data'][$j][$i]['fielddata'] = $fieldvalue;
 			$i++;
@@ -2545,7 +2545,7 @@ function get_project_tickets($id, $module, $customerid, $sessionid)
 				}
 			}
 			if ($fieldname == 'smownerid') {
-				$fieldvalue = \includes\fields\Owner::getLabel($fieldvalue);
+				$fieldvalue = \App\Fields\Owner::getLabel($fieldvalue);
 			}
 			if ($fieldlabel == 'Status') {
 				$fieldvalue = Vtiger_Language_Handler::getTranslatedString($fieldvalue, 'HelpDesk', vglobal('default_language'));

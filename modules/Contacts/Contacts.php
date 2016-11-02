@@ -504,7 +504,7 @@ class Contacts extends CRMEntity
 		$old_attachmentid = $adb->query_result($adb->pquery("select vtiger_crmentity.crmid from vtiger_seattachmentsrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.attachmentsid where  vtiger_seattachmentsrel.crmid=?", array($id)), 0, 'crmid');
 		if ($_FILES) {
 			foreach ($_FILES as $fileindex => $files) {
-				$fileInstance = \includes\fields\File::loadFromRequest($files);
+				$fileInstance = \App\Fields\File::loadFromRequest($files);
 				if ($fileInstance->validate('image')) {
 					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
 					$file_saved = $this->uploadAndSaveFile($id, $module, $files);

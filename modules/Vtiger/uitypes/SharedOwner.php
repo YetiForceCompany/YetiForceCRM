@@ -37,17 +37,17 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 
 		$result = $db->pquery('SELECT DISTINCT userid FROM u_yf_crmentity_showners WHERE crmid = ?', [$record]);
 		while (($shownerid = $db->getSingleValue($result)) !== false) {
-			if (\includes\fields\Owner::getType($shownerid) === 'Users') {
+			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
 				if ($currentUser->isAdminUser() && !$rawText) {
-					$displayValue .= '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(\includes\fields\Owner::getLabel($shownerid)) . '</a>,';
+					$displayValue .= '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(\App\Fields\Owner::getLabel($shownerid)) . '</a>,';
 				} else {
-					$displayValue .= rtrim(\includes\fields\Owner::getLabel($shownerid)) . ',';
+					$displayValue .= rtrim(\App\Fields\Owner::getLabel($shownerid)) . ',';
 				}
 			} else {
 				if ($currentUser->isAdminUser() && !$rawText) {
-					$displayValue .= '<a href="index.php?module=Groups&parent=Settings&view=Detail&record=' . $shownerid . '">' . rtrim(\includes\fields\Owner::getLabel($shownerid)) . '</a>,';
+					$displayValue .= '<a href="index.php?module=Groups&parent=Settings&view=Detail&record=' . $shownerid . '">' . rtrim(\App\Fields\Owner::getLabel($shownerid)) . '</a>,';
 				} else {
-					$displayValue .= rtrim(\includes\fields\Owner::getLabel($shownerid)) . ',';
+					$displayValue .= rtrim(\App\Fields\Owner::getLabel($shownerid)) . ',';
 				}
 			}
 		}
@@ -120,12 +120,12 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 
 		$users = $group = [];
 		while ($id = $db->getSingleValue($result)) {
-			$name = \includes\fields\Owner::getUserLabel($id);
+			$name = \App\Fields\Owner::getUserLabel($id);
 			if (!empty($name)) {
 				$users[$id] = $name;
 				continue;
 			}
-			$name = \includes\fields\Owner::getGroupName($id);
+			$name = \App\Fields\Owner::getGroupName($id);
 			if ($name !== false) {
 				$group[$id] = $name;
 				continue;

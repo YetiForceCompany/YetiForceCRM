@@ -11,7 +11,7 @@
 	{assign var=SOURCE_MODULE value=$MODULE_NAME}
 {/if}
 {if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
-	{assign var=USERS_GROUP_LIST value=\includes\fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
+	{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 	{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
 	{assign var=ACCESSIBLE_GROUPS value=$USERS_GROUP_LIST['group']}
 {/if}

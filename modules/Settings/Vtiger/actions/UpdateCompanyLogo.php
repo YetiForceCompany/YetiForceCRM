@@ -21,13 +21,13 @@ class Settings_Vtiger_UpdateCompanyLogo_Action extends Settings_Vtiger_Basic_Act
 		$fileType = explode('/', $logoDetails['type']);
 		$fileType = $fileType[1];
 
-		$fileInstance = \includes\fields\File::loadFromRequest($logoDetails);
+		$fileInstance = \App\Fields\File::loadFromRequest($logoDetails);
 		if ($fileInstance->validate('image') && in_array($fileType, Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
 			$saveLogo = true;
 		}
 		if ($saveLogo) {
 			$moduleModel->saveLogo();
-			$moduleModel->set('logoname', ltrim(basename(' ' . \includes\fields\File::sanitizeUploadFileName($logoDetails['name']))));
+			$moduleModel->set('logoname', ltrim(basename(' ' . \App\Fields\File::sanitizeUploadFileName($logoDetails['name']))));
 			$moduleModel->save();
 		}
 

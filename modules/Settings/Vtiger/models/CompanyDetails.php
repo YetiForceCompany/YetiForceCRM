@@ -114,7 +114,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	public function saveLogo($name)
 	{
 		$uploadDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $this->logoPath;
-		$logoName = $uploadDir . \includes\fields\File::sanitizeUploadFileName($_FILES[$name]['name']);
+		$logoName = $uploadDir . \App\Fields\File::sanitizeUploadFileName($_FILES[$name]['name']);
 		move_uploaded_file($_FILES[$name]['tmp_name'], $logoName);
 		copy($logoName, $uploadDir . 'application.ico');
 	}

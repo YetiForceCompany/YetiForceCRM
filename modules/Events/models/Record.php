@@ -101,7 +101,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$mail_data['contact_name'] = $cont_name;
 		$mail_data['description'] = $this->get('description');
 		$mail_data['assign_type'] = $this->get('assigntype');
-		$mail_data['group_name'] = \includes\fields\Owner::getGroupName($this->get('assigned_user_id'));
+		$mail_data['group_name'] = \App\Fields\Owner::getGroupName($this->get('assigned_user_id'));
 		$mail_data['mode'] = $this->get('mode');
 
 		$value = getaddEventPopupTime(AppRequest::get('time_start'), AppRequest::get('time_end'), '24');

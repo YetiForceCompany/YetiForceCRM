@@ -1,9 +1,9 @@
 <?php
-namespace includes\fields;
+namespace App\Fields;
 
 /**
  * File class
- * @package YetiForce.Include
+ * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */

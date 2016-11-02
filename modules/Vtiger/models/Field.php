@@ -687,8 +687,8 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'sharedOwner':
 				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || AppRequest::get('module') == 'CustomView') {
 					if ($fieldDataType == 'owner') {
-						$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
-						$groupList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
+						$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
+						$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 						$pickListValues = [];
 						$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
 						$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
@@ -698,7 +698,7 @@ class Vtiger_Field_Model extends vtlib\Field
 						}
 					}
 					if ($fieldDataType == 'sharedOwner') {
-						$userList = \includes\fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
+						$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 						$pickListValues = [];
 						$this->fieldInfo['picklistvalues'] = $userList;
 					}

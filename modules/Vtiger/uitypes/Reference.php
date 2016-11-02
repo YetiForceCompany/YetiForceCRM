@@ -50,7 +50,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if ($referenceModule && !empty($value)) {
 			$referenceModuleName = $referenceModule->get('name');
 			if ($referenceModuleName == 'Users' || $referenceModuleName == 'Groups') {
-				$name = \includes\fields\Owner::getLabel($value);
+				$name = \App\Fields\Owner::getLabel($value);
 			} else {
 				$name = \App\Record::getLabel($value);
 			}

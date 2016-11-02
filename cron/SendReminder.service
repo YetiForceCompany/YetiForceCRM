@@ -55,7 +55,7 @@ if ($adb->getRowCount($result) >= 1) {
 
 		if (($differenceOfActivityTimeAndCurrentTime > 0) && (($differenceOfActivityTimeAndCurrentTime <= $reminder_time) || ($differenceOfActivityTimeAndCurrentTime <= $reminderFrequency))) {
 			\App\Log::trace('Start Send SendReminder');
-			$toEmail = includes\fields\Email::getUserMail($row['smownerid']);
+			$toEmail = App\Fields\Email::getUserMail($row['smownerid']);
 			$invitees = [];
 
 			if ($row['activitytype'] == 'Task') {

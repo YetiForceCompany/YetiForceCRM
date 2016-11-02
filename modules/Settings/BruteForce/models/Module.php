@@ -193,7 +193,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getAdminUsers()
 	{
-		return \includes\fields\Owner::getInstance()->getUsers(false, 'Active', false, false, true);
+		return \App\Fields\Owner::getInstance()->getUsers(false, 'Active', false, false, true);
 	}
 
 	/**

@@ -1,8 +1,9 @@
-<?php namespace includes\fields;
+<?php
+namespace App\Fields;
 
 /**
  * Tools for email class
- * @package YetiForce.Include
+ * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -11,7 +12,7 @@ class Email
 
 	public static function findRecordNumber($value, $moduleName)
 	{
-		$moduleData = \App\Fields\RecordNumber::getNumber($moduleName);
+		$moduleData = RecordNumber::getNumber($moduleName);
 		$redex = '/\[' . $moduleData['prefix'] . '([0-9]*)' . $moduleData['postfix'] . '\]/';
 		preg_match($redex, $value, $match);
 		if (!empty($match)) {
@@ -78,7 +79,7 @@ class Email
 
 	public static function getUserMail($userId)
 	{
-		$userModel = \Users_Privileges_Model::getInstanceById($userId, 'Users');
-		return $userModel->get('email1');
+		$userModel = \App\User::getUserModel($userId);
+		return $userModel->getDetail('email1');
 	}
 }

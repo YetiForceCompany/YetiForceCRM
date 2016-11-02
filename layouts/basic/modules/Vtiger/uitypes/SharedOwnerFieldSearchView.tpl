@@ -10,8 +10,8 @@
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
 		{else}
-			{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
-			{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
+			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
+			{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 		{/if}
 		<select id="{$ASSIGNED_USER_ID}" class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}' 
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}

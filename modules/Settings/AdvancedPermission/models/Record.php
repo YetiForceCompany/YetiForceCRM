@@ -144,10 +144,10 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 						list($type, $id) = explode(':', $member);
 						switch ($type) {
 							case 'Users' :
-								$name = \includes\fields\Owner::getUserLabel($id);
+								$name = \App\Fields\Owner::getUserLabel($id);
 								break;
 							case 'Groups' :
-								$name = \App\Language::translate(\includes\fields\Owner::getGroupName($id));
+								$name = \App\Language::translate(\App\Fields\Owner::getGroupName($id));
 								break;
 							case 'Roles' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
@@ -226,7 +226,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		}
 		$users = array_flip($users);
 		foreach ($users as $id => &$user) {
-			$user = \includes\fields\Owner::getUserLabel($id);
+			$user = \App\Fields\Owner::getUserLabel($id);
 		}
 		return $users;
 	}

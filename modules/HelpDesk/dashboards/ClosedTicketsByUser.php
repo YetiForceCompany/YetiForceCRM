@@ -67,7 +67,7 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 		while ($row = $db->getRow($result)) {
 			$response[] = [
 				$row['count'],
-				\includes\fields\Owner::getLabel($row['smownerid']),
+				\App\Fields\Owner::getLabel($row['smownerid']),
 				$listViewUrl . $this->getSearchParams($row['smownerid'], $time),
 			];
 		}

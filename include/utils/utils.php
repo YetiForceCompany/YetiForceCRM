@@ -323,7 +323,7 @@ function getRecordOwnerId($record)
 	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
 	if ($recordMetaData) {
 		$ownerId = $recordMetaData['smownerid'];
-		$type = \includes\fields\Owner::getType($ownerId);
+		$type = \App\Fields\Owner::getType($ownerId);
 		$ownerArr[$type] = $ownerId;
 	}
 	\App\Log::trace('Exiting getRecordOwnerId method ...');
@@ -1004,7 +1004,7 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 		$result = $adb->pquery($sql, array($callfrom));
 		if ($adb->num_rows($result) > 0) {
 			$userid = $adb->query_result($result, 0, "userid");
-			$callerName = \includes\fields\Owner::getUserLabel($userid);
+			$callerName = \App\Fields\Owner::getUserLabel($userid);
 		}
 
 		$receiver = $useCallerInfo;
@@ -1019,7 +1019,7 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 		$result = $adb->pquery($sql, array($callto));
 		if ($adb->num_rows($result) > 0) {
 			$userid = $adb->query_result($result, 0, "userid");
-			$receiver = \includes\fields\Owner::getUserLabel($userid);
+			$receiver = \App\Fields\Owner::getUserLabel($userid);
 		}
 		$callerName = $useCallerInfo;
 		if (empty($callerName)) {

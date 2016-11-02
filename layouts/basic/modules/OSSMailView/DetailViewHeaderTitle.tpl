@@ -31,7 +31,7 @@
 					<span><small><em>&nbsp;{$RECORD->get('createdtime')}</em></small></span>
 				</span>
 				<div>
-					<strong>{vtranslate('LBL_OWNER','Emails')} : {\includes\fields\Owner::getLabel($RECORD->get('assigned_user_id'))}</strong>
+					<strong>{vtranslate('LBL_OWNER','Emails')} : {\App\Fields\Owner::getLabel($RECORD->get('assigned_user_id'))}</strong>
 				</div>
 			</div>
 		</div>

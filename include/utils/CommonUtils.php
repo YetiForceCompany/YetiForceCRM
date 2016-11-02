@@ -29,7 +29,7 @@ require_once 'include/runtime/Cache.php';
 function getEntityName($module, $ids, $compute = true)
 {
 	if ($module == 'Users' || $module == 'Groups') {
-		return \includes\fields\Owner::getLabel($ids);
+		return \App\Fields\Owner::getLabel($ids);
 	} elseif ($compute) {
 		return \App\Record::computeLabels($module, $ids);
 	} else {

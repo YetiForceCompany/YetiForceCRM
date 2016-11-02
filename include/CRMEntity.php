@@ -176,11 +176,11 @@ class CRMEntity
 			$file_name = $file_details['name'];
 		}
 
-		$fileInstance = \includes\fields\File::loadFromRequest($file_details);
+		$fileInstance = \App\Fields\File::loadFromRequest($file_details);
 		if (!$fileInstance->validate()) {
 			return false;
 		}
-		$binFile = \includes\fields\File::sanitizeUploadFileName($file_name);
+		$binFile = \App\Fields\File::sanitizeUploadFileName($file_name);
 
 		$current_id = $adb->getUniqueID('vtiger_crmentity');
 

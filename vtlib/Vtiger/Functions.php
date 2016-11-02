@@ -308,7 +308,7 @@ class Functions
 
 	public static function getOwnerRecordLabel($id)
 	{
-		return \includes\fields\Owner::getLabel($id);
+		return \App\Fields\Owner::getLabel($id);
 	}
 
 	protected static $userIdNameCache = [];

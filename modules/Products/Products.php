@@ -203,7 +203,7 @@ class Products extends CRMEntity
 
 		$file_saved = false;
 		foreach ($_FILES as $fileindex => $files) {
-			$fileInstance = \includes\fields\File::loadFromRequest($files);
+			$fileInstance = \App\Fields\File::loadFromRequest($files);
 			if ($fileInstance->validate('image')) {
 				if (AppRequest::get($fileindex . '_hidden') != '')
 					$files['original_name'] = AppRequest::get($fileindex . '_hidden');

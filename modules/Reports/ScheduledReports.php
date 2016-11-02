@@ -109,7 +109,7 @@ class VTScheduledReport extends Reports
 		$recipientsEmails = array();
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
-				$userName = \includes\fields\Owner::getUserLabel($userId);
+				$userName = \App\Fields\Owner::getUserLabel($userId);
 				$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
 				if (!in_array($userEmail, $recipientsEmails)) {
 					$recipientsEmails[$userName] = $userEmail;
@@ -259,12 +259,12 @@ class VTScheduledReport extends Reports
 	{
 		switch ($type) {
 			case 'users' : if (empty($name))
-					$name = \includes\fields\Owner::getUserLabel($value);
+					$name = \App\Fields\Owner::getUserLabel($value);
 				$optionName = 'User::' . addslashes(decode_html($name));
 				$optionValue = 'users::' . $value;
 				break;
 			case 'groups' : if (empty($name)) {
-					$name = \includes\fields\Owner::getGroupName($value);
+					$name = \App\Fields\Owner::getGroupName($value);
 				}
 				$optionName = 'Group::' . addslashes(decode_html($name));
 				$optionValue = 'groups::' . $value;

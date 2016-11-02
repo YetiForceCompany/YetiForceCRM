@@ -157,7 +157,7 @@ class Privilege
 			//Retreiving the RecordOwnerId
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
 			$recOwnId = $recordMetaData['smownerid'];
-			$recOwnType = \includes\fields\Owner::getType($recOwnId);
+			$recOwnType = \App\Fields\Owner::getType($recOwnId);
 
 			if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 				$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
@@ -296,7 +296,7 @@ class Privilege
 
 		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
 		$ownerId = $recordMetaData['smownerid'];
-		$ownerType = \includes\fields\Owner::getType($ownerId);
+		$ownerType = \App\Fields\Owner::getType($ownerId);
 
 		$read = $sharingPrivilegesModule['read'];
 		if ($ownerType == 'Users') {
@@ -384,7 +384,7 @@ class Privilege
 
 		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
 		$ownerId = $recordMetaData['smownerid'];
-		$ownerType = \includes\fields\Owner::getType($ownerId);
+		$ownerType = \App\Fields\Owner::getType($ownerId);
 
 		$write = $sharingPrivilegesModule['write'];
 		if ($ownerType == 'Users') {

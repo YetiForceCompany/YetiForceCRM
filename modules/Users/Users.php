@@ -953,7 +953,7 @@ class Users extends CRMEntity
 		if (!isset($ownerid) || $ownerid == '')
 			$ownerid = $current_user->id;
 
-		$fileInstance = \includes\fields\File::loadFromRequest($file_details);
+		$fileInstance = \App\Fields\File::loadFromRequest($file_details);
 		if (!$fileInstance->validate('image')) {
 			\App\Log::trace('Skip the save attachment process.');
 			return false;

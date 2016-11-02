@@ -166,7 +166,7 @@
 					<div class="row">
 						<span class="col-md-3">&nbsp;</span>
 						<span class="col-md-5 textAlignCenter">
-							<span><strong> {vtranslate('LBL_OWNER',$MODULE)} : {\includes\fields\Owner::getLabel($RECORD->get('assigned_user_id'))}</strong></span>
+							<span><strong> {vtranslate('LBL_OWNER',$MODULE)} : {\App\Fields\Owner::getLabel($RECORD->get('assigned_user_id'))}</strong></span>
 						</span>
 					</div>
 				</form>

@@ -246,9 +246,9 @@ class HelpDesk extends CRMEntity
 			if (!empty($assigned_group_name) && $assigntype == 'T') {
 				$updatelog .= " group " . (is_array($assigned_group_name) ? $assigned_group_name[0] : $assigned_group_name);
 			} elseif ($focus->column_fields['assigned_user_id'] != '') {
-				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
+				$updatelog .= " user " . \App\Fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
 			} else {
-				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($currentUser->getId());
+				$updatelog .= " user " . \App\Fields\Owner::getUserLabel($currentUser->getId());
 			}
 
 			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $currentUser->getName();
@@ -270,7 +270,7 @@ class HelpDesk extends CRMEntity
 
 			//Assigned to change log
 			if ($focus->column_fields['assigned_user_id'] != $old_owner_id) {
-				$ownerName = \includes\fields\Owner::getLabel($focus->column_fields['assigned_user_id']);
+				$ownerName = \App\Fields\Owner::getLabel($focus->column_fields['assigned_user_id']);
 				if ($assigntype == 'T')
 					$updatelog .= ' Transferred to group ' . $ownerName . '\.';
 				else

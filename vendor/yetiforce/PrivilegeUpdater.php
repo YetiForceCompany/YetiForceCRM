@@ -62,7 +62,7 @@ class PrivilegeUpdater
 	public static function update($record, $moduleName)
 	{
 		$searchUsers = $recordAccessUsers = '';
-		$users = \includes\fields\Owner::getUsersIds();
+		$users = \App\Fields\Owner::getUsersIds();
 		foreach ($users as &$userId) {
 			if (Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$recordAccessUsers .= ',' . $userId;
@@ -98,7 +98,7 @@ class PrivilegeUpdater
 	public static function updateSearch($record, $moduleName)
 	{
 		$searchUsers = '';
-		$users = \includes\fields\Owner::getUsersIds();
+		$users = \App\Fields\Owner::getUsersIds();
 		foreach ($users as &$userId) {
 			if (static::checkGlobalSearchPermissions($moduleName, $userId) || Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$searchUsers .= ',' . $userId;
@@ -122,7 +122,7 @@ class PrivilegeUpdater
 	public static function updateRecordAccess($record, $moduleName)
 	{
 		$recordAccessUsers = '';
-		$users = \includes\fields\Owner::getUsersIds();
+		$users = \App\Fields\Owner::getUsersIds();
 		foreach ($users as &$userId) {
 			if (Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$recordAccessUsers .= ',' . $userId;

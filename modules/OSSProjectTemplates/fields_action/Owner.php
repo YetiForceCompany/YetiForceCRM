@@ -17,7 +17,7 @@ class Field_Model_Owner extends Field_Model_Base
 
 	public function getOptions()
 	{
-		$owner = \includes\fields\Owner::getInstance();
+		$owner = \App\Fields\Owner::getInstance();
 		return array('User' => $owner->getUsers(true), 'Group' => $owner->getGroups(true));
 	}
 

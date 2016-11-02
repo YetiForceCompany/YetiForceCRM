@@ -31,7 +31,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		if (!empty($returnIds)) {
 			return $returnIds;
 		}
-		$this->prefix = \includes\fields\Email::findRecordNumber($this->mail->get('subject'), $this->moduleName);
+		$this->prefix = \App\Fields\Email::findRecordNumber($this->mail->get('subject'), $this->moduleName);
 		if (!$this->prefix) {
 			return false;
 		}

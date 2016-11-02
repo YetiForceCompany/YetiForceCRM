@@ -172,7 +172,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
 			$userName = $currenUserModel->getName();
 		} else if ($user && $user !== 'all') {
-			$userName = \includes\fields\Owner::getUserLabel($user);
+			$userName = \App\Fields\Owner::getUserLabel($user);
 		}
 		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
 	}
@@ -184,7 +184,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
 			$userName = $currenUserModel->getName();
 		} else if ($user && $user !== 'all') {
-			$userName = \includes\fields\Owner::getUserLabel($user);
+			$userName = \App\Fields\Owner::getUserLabel($user);
 		}
 		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
 	}

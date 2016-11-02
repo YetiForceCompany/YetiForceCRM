@@ -244,7 +244,7 @@ class Assets extends CRMEntity
 	public function transform_export_value($key, $value)
 	{
 		if ($key == 'owner')
-			return \includes\fields\Owner::getLabel($value);
+			return \App\Fields\Owner::getLabel($value);
 		return parent::transform_export_value($key, $value);
 	}
 

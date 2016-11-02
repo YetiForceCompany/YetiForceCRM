@@ -76,11 +76,11 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 function vtJsonOwnersList($adb)
 {
 	$ownersList = [];
-	$owner = \includes\fields\Owner::getInstance();
+	$owner = \App\Fields\Owner::getInstance();
 	$activeUsersList = $owner->getUsers();
 	$allGroupsList = $owner->getGroups();
 	foreach ($activeUsersList as $userId => $userName) {
-		$ownersList[] = array('label' => $userName, 'value' => \includes\fields\Owner::getLabel($userId));
+		$ownersList[] = array('label' => $userName, 'value' => \App\Fields\Owner::getLabel($userId));
 	}
 	foreach ($allGroupsList as $groupId => $groupName) {
 		$ownersList[] = array('label' => $groupName, 'value' => $groupName);

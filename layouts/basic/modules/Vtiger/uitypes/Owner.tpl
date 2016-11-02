@@ -14,8 +14,8 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->get('uitype') eq '53'}
 		{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}
-		{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance($MODULE)->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
-		{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance($MODULE)->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}
+		{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
+		{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
@@ -45,7 +45,7 @@
 					{/foreach}
 				</optgroup>
 				{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0 && !($ROLE_RECORD_MODEL->get('allowassignedrecordsto') == 5 && count($ALL_ACTIVEGROUP_LIST) != 0 && $FIELD_MODEL->get('fieldvalue') == '')}
-					{assign var=OWNER_NAME value=\includes\fields\Owner::getLabel($FIELD_VALUE)}
+					{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($FIELD_VALUE)}
 					<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected data-userId="{$CURRENT_USER_ID}">
 						{$OWNER_NAME}
 					</option>

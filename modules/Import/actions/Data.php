@@ -252,7 +252,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 						$fieldInstance = $moduleFields[$mergeField];
 						if ($fieldInstance->getFieldDataType() == 'owner') {
 							$userId = getUserId_Ol($comparisonValue);
-							$comparisonValue = \includes\fields\Owner::getUserLabel($userId);
+							$comparisonValue = \App\Fields\Owner::getUserLabel($userId);
 						}
 						if ($fieldInstance->getFieldDataType() == 'reference') {
 							if (strpos($comparisonValue, '::::') > 0) {

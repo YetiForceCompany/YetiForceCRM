@@ -27,11 +27,11 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$ownerName = \includes\fields\Owner::getLabel($value);
+		$ownerName = \App\Fields\Owner::getLabel($value);
 		if ($rawText) {
 			return $ownerName;
 		}
-		if (\includes\fields\Owner::getType($value) === 'Users') {
+		if (\App\Fields\Owner::getType($value) === 'Users') {
 			$userModel = Users_Privileges_Model::getInstanceById($value);
 			$userModel->setModule('Users');
 			$ownerName = $userModel->getName();
@@ -63,11 +63,11 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$maxLengthText = $this->get('field')->get('maxlengthtext');
-		$ownerName = \includes\fields\Owner::getLabel($value);
+		$ownerName = \App\Fields\Owner::getLabel($value);
 		if ($rawText) {
 			return \vtlib\Functions::textLength($ownerName, $maxLengthText);
 		}
-		if (\includes\fields\Owner::getType($value) === 'Users') {
+		if (\App\Fields\Owner::getType($value) === 'Users') {
 			$userModel = Users_Privileges_Model::getInstanceById($value);
 			$userModel->setModule('Users');
 			$ownerName = vtlib\Functions::textLength($userModel->getName(), $maxLengthText);

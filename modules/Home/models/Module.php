@@ -124,8 +124,8 @@ class Home_Module_Model extends Vtiger_Module_Model
 			array_push($params, $paramsMore['status'], $paramsMore['user'], $paramsMore['user']);
 		}
 
-		$accessibleUsers = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
-		$accessibleGroups = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
+		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
+		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
 			$query .= ' && vtiger_crmentity.smownerid = ?';
 			$params[] = $user;
@@ -223,8 +223,8 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 		$params[] = $currentDate;
 
-		$accessibleUsers = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
-		$accessibleGroups = \includes\fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
+		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
+		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
 			$query .= " && vtiger_crmentity.smownerid = ?";
 			$params[] = $user;

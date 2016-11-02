@@ -28,7 +28,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if ($value) {
-			$userName = \includes\fields\Owner::getLabel($value);
+			$userName = \App\Fields\Owner::getLabel($value);
 			return $userName;
 		}
 	}

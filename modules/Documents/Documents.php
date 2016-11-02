@@ -79,7 +79,7 @@ class Documents extends CRMEntity
 				$errCode = $_FILES[$filename_fieldname]['error'];
 				if ($errCode == 0) {
 					foreach ($_FILES as $fileindex => $files) {
-						$fileInstance = \includes\fields\File::loadFromRequest($files);
+						$fileInstance = \App\Fields\File::loadFromRequest($files);
 						if ($fileInstance->validate()) {
 							$filename = $_FILES[$filename_fieldname]['name'];
 							$filename = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $filename));

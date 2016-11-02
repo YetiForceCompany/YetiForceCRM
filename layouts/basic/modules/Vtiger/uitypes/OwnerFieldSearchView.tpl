@@ -20,13 +20,13 @@
     {assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUE)}
 	{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 		{if $VIEWID && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
-			{assign var=USERS_GROUP_LIST value=\includes\fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID)}
+			{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID)}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
 		{else}
-			{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 			{if $ASSIGNED_USER_ID neq 'modifiedby'}
-				{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
+				{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 			{else}
 				{assign var=ALL_ACTIVEGROUP_LIST value=array()}
 			{/if}
@@ -40,7 +40,7 @@
 				data-fieldinfo='{$FIELD_INFO|escape}'>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				{foreach from=$SEARCH_VALUES item=OWNER_ID}
-					<option value="{$OWNER_ID}" selected>{\includes\fields\Owner::getLabel($OWNER_ID)}</option>
+					<option value="{$OWNER_ID}" selected>{\App\Fields\Owner::getLabel($OWNER_ID)}</option>
 				{/foreach}
 			{else}
 				{if count($ALL_ACTIVEUSER_LIST) gt 0}

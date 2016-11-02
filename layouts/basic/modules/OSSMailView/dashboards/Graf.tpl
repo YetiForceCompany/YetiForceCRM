@@ -94,7 +94,7 @@
 						<select class="widgetFilter owner" name="owner" style='width:70px;margin-bottom:0px'>
 							<option value="{$CURRENTUSER->getId()}" >{vtranslate('LBL_MINE')}</option>
 							<option value="all">{vtranslate('LBL_ALL')}</option>
-							{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+							{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 							{if count($ALL_ACTIVEUSER_LIST) gt 1}
 								<optgroup label="{vtranslate('LBL_USERS')}">
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -104,7 +104,7 @@
 									{/foreach}
 								</optgroup>
 							{/if}
-							{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
+							{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 							{if !empty($ALL_ACTIVEGROUP_LIST)}
 								<optgroup label="{vtranslate('LBL_GROUPS')}">
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}

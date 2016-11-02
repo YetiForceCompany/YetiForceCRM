@@ -46,7 +46,7 @@ function vtws_getUsersInTheSameGroup($id)
 		$usersInGroup = $groupUsers->group_users;
 		foreach ($usersInGroup as $user) {
 			if ($user != $id) {
-				$allUsers[$user] = \includes\fields\Owner::getUserLabel($user);
+				$allUsers[$user] = \App\Fields\Owner::getUserLabel($user);
 			}
 		}
 	}
@@ -229,7 +229,7 @@ function vtws_getModuleInstance($webserviceObject)
 
 function vtws_getOwnerType($ownerId)
 {
-	return \includes\fields\Owner::getType($ownerId);
+	return \App\Fields\Owner::getType($ownerId);
 }
 
 function vtws_runQueryAsTransaction($query, $params, &$result)
@@ -468,7 +468,7 @@ function vtws_CreateCompanyLogoFile($fieldname)
 	if ($fileTypeValue == '') {
 		$fileTypeValue = substr($binFile, strrpos($binFile, '.') + 1);
 	}
-	$fileInstance = \includes\fields\File::loadFromRequest($_FILES[$fieldname]);
+	$fileInstance = \App\Fields\File::loadFromRequest($_FILES[$fieldname]);
 	if ($fileInstance->validate()) {
 		if (in_array($fileTypeValue, $allowedFileTypes)) {
 			$fileInstance->moveFile($uploaddir . $_FILES[$fieldname]['name']);
