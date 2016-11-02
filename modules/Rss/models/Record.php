@@ -7,13 +7,11 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-require_once('libraries/magpierss/rss_fetch.inc');
-require_once('include/simplehtmldom/simple_html_dom.php');
+vimport('~libraries/RSSFeeds/Feed.php');
+vimport('~include/simplehtmldom/simple_html_dom.php');
 
-// for rss caching 
-define('MAGPIE_CACHE_DIR', '/tmp/magpie_cache');
-define('MAGPIE_CACHE_ON', 1);
-define('MAGPIE_CACHE_AGE', 1800);
+// for rss caching
+Feed::$cacheDir = '/cache/rss_cache';
 
 class Rss_Record_Model extends Vtiger_Record_Model
 {
@@ -61,7 +59,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function setRssObject($rss)
 	{
-		return $this->set('rss', $rss->items);
+		return $this->set('rss', $rss->item);
 	}
 
 	/**
@@ -70,8 +68,8 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function setRssValues($rss)
 	{
-		$this->set('rsstitle', $rss->channel["title"]);
-		$this->set('url', $rss->channel["link"]);
+		$this->set('rsstitle', $rss->title);
+		$this->set('url', $rss->link);
 	}
 
 	/**
@@ -144,8 +142,8 @@ class Rss_Record_Model extends Vtiger_Record_Model
 			$recordModel = new self();
 			$recordModel->setData($rowData);
 			$recordModel->setModule($qualifiedModuleName);
-			$rss = fetch_rss(decode_html($recordModel->get('rssurl')));
-			$rss->items = $recordModel->setSenderInfo($rss->items);
+			$rss = Feed::loadRss($recordModel->get('rssurl'));
+			$recordModel->setSenderInfo($rss->item);
 			$recordModel->setRssValues($rss);
 			$recordModel->setRssObject($rss);
 
@@ -160,15 +158,11 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 * @param <array> $rssItems
 	 * @return <array> $items
 	 */
-	public function setSenderInfo($rssItems)
+	public function setSenderInfo(&$rssItems)
 	{
-		$items = array();
 		foreach ($rssItems as $item) {
-			$item['sender'] = $this->getName();
-			$items[] = $item;
+			$item->sender = $this->getName();
 		}
-
-		return $items;
 	}
 
 	/**
@@ -189,12 +183,15 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function validateRssUrl($url)
 	{
-		$rss = fetch_rss($url);
-
-		if ($rss) {
-			$this->setRssValues($rss);
-			return true;
-		} else {
+		try {
+			$rss = Feed::loadRss($url);
+			if ($rss) {
+				$this->setRssValues($rss);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (FeedException $ex) {
 			return false;
 		}
 	}

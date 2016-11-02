@@ -26,13 +26,13 @@
         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
             {assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
             <td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" nowrap>
-                <a class='feedLink' href="javascript:;" data-url="{$LISTVIEW_ENTRY['link']}">{$LISTVIEW_ENTRY[$LISTVIEW_HEADERNAME]}</a>
+                <a class='feedLink' href="javascript:;" data-url="{$LISTVIEW_ENTRY->link}">{$LISTVIEW_ENTRY->$LISTVIEW_HEADERNAME}</a>
             {if $LISTVIEW_HEADER@last}
             </td>
                 <td nowrap class="{$WIDTHTYPE}">
                     <span class="actions">
                         <span class="actionImages pull-right">
-                            <a href="{$LISTVIEW_ENTRY['link']}" target="_BLANK"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></i></a>&nbsp;
+                            <a href="{$LISTVIEW_ENTRY->link}" target="_BLANK"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></i></a>&nbsp;
                         </span>
                     </span>
                 </td>
