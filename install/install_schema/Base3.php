@@ -700,8 +700,8 @@ class Base3 extends \App\Db\Importers\Base
 					'label' => $this->stringType(30)->notNull(),
 					'lastupdated' => $this->dateTime(),
 					'sequence' => $this->integer(),
-					'isdefault' => $this->boolean()->notNull()->defaultValue(false),
-					'active' => $this->boolean()->notNull()->defaultValue(true),
+					'isdefault' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'active' => $this->smallInteger(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
 					['language_prefix', 'prefix'],
@@ -724,8 +724,8 @@ class Base3 extends \App\Db\Importers\Base
 					'name' => $this->stringType(50),
 					'label' => $this->stringType(30),
 					'lastupdated' => $this->dateTime(),
-					'isdefault' => $this->boolean(),
-					'active' => $this->boolean(),
+					'isdefault' => $this->smallInteger(1),
+					'active' => $this->smallInteger(1),
 				],
 				'index' => [
 				],
@@ -740,7 +740,7 @@ class Base3 extends \App\Db\Importers\Base
 					'lead_viewid' => $this->primaryKey(),
 					'lead_view' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
-					'presence' => $this->boolean()->notNull()->defaultValue(true),
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
 				],
@@ -797,7 +797,7 @@ class Base3 extends \App\Db\Importers\Base
 					'campaign' => $this->stringType(30),
 					'leadstatus' => $this->stringType(50),
 					'leadsource' => $this->stringType(200),
-					'converted' => $this->boolean()->unsigned()->notNull()->defaultValue(false),
+					'converted' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'licencekeystatus' => $this->stringType(50),
 					'space' => $this->stringType(250),
 					'comments' => $this->text(),
@@ -827,7 +827,7 @@ class Base3 extends \App\Db\Importers\Base
 					'leads_relation' => $this->stringType(),
 					'legal_form' => $this->stringType(),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
-					'active' => $this->boolean()->defaultValue(false),
+					'active' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'index' => [
 					['leaddetails_converted_leadstatus_idx', ['converted', 'leadstatus']],
@@ -1419,7 +1419,7 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_modtracker_tabs' => [
 				'columns' => [
 					'tabid' => $this->smallInteger(11)->unsigned()->notNull(),
-					'visible' => $this->boolean()->unsigned()->notNull()->defaultValue(false),
+					'visible' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
 					['modtracker_tabs_tabid_idx', ['tabid', 'visible']],
@@ -1440,9 +1440,9 @@ class Base3 extends \App\Db\Importers\Base
 					'data' => $this->text(),
 					'size' => $this->stringType(50),
 					'limit' => $this->smallInteger(2),
-					'isdefault' => $this->boolean()->notNull()->defaultValue(false),
+					'isdefault' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'owners' => $this->stringType(100),
-					'cache' => $this->boolean()->defaultValue(false),
+					'cache' => $this->smallInteger(1)->defaultValue(0),
 					'date' => $this->stringType(20),
 				],
 				'index' => [
@@ -1476,11 +1476,11 @@ class Base3 extends \App\Db\Importers\Base
 					'size' => $this->stringType(50),
 					'limit' => $this->smallInteger(2),
 					'position' => $this->stringType(50),
-					'isdefault' => $this->boolean()->defaultValue(false),
-					'active' => $this->boolean()->defaultValue(false),
+					'isdefault' => $this->smallInteger(1)->defaultValue(0),
+					'active' => $this->smallInteger(1)->defaultValue(0),
 					'owners' => $this->stringType(100),
 					'module' => $this->integer(10)->defaultValue(0),
-					'cache' => $this->boolean()->defaultValue(false),
+					'cache' => $this->smallInteger(1)->defaultValue(0),
 					'date' => $this->stringType(20),
 				],
 				'index' => [
@@ -1730,7 +1730,7 @@ class Base3 extends \App\Db\Importers\Base
 					'summary' => $this->stringType()->notNull(),
 					'doc_folder' => $this->integer(),
 					'doc_name' => $this->stringType()->notNull(),
-					'doc_request' => $this->boolean()->notNull(),
+					'doc_request' => $this->smallInteger(1)->notNull(),
 					'doc_order' => $this->integer()->notNull(),
 				],
 				'index' => [
@@ -1986,7 +1986,7 @@ class Base3 extends \App\Db\Importers\Base
 					'ossmailviewid' => $this->integer()->notNull(),
 					'crmid' => $this->integer()->notNull(),
 					'date' => $this->dateTime(),
-					'deleted' => $this->boolean()->defaultValue(false),
+					'deleted' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'index' => [
 					['ossmailview_relation_idx', ['ossmailviewid', 'crmid'], true],
