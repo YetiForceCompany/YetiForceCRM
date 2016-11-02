@@ -106,7 +106,7 @@ class OSSSoldServices extends Vtiger_CRMEntity
 	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
-			\includes\fields\RecordNumber::setNumber($modulename, 'US', '1');
+			\App\Fields\RecordNumber::setNumber($modulename, 'US', '1');
 		} else if ($event_type == 'module.disabled') {
 
 		} else if ($event_type == 'module.enabled') {

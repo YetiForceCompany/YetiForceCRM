@@ -46,7 +46,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	public function getModuleCustomNumberingData(Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-		$moduleData = \includes\fields\RecordNumber::getNumber($sourceModule);
+		$moduleData = \App\Fields\RecordNumber::getNumber($sourceModule);
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);

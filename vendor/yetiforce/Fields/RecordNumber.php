@@ -1,10 +1,12 @@
-<?php namespace includes\fields;
+<?php
+namespace App\Fields;
 
 /**
  * Record number class
- * @package YetiForce.Include
+ * @package YetiForce.App
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordNumber
 {

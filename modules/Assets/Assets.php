@@ -371,7 +371,7 @@ class Assets extends CRMEntity
 			$productInstance = vtlib\Module::getInstance('Products');
 			$productInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
 
-			\includes\fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.enabled') {
@@ -382,7 +382,7 @@ class Assets extends CRMEntity
 			
 		} else if ($eventType == 'module.postupdate') {
 			$this->addModuleToCustomerPortal();
-			\includes\fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		}
 	}
 

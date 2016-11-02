@@ -70,7 +70,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		$sequenceNumber = $this->get('sequenceNumber');
 
 		$tabId = \App\Module::getModuleId($moduleName);
-		$status = \includes\fields\RecordNumber::setNumber($tabId, $prefix, $sequenceNumber, $postfix);
+		$status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $sequenceNumber, $postfix);
 
 		$success = array('success' => $status);
 		if (!$status) {

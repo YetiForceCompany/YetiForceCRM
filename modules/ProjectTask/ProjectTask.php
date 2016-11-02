@@ -354,7 +354,7 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(array('ProjectTask'));
 			}
 
-			\includes\fields\RecordNumber::setNumber($modulename, 'PT', 1);
+			\App\Fields\RecordNumber::setNumber($modulename, 'PT', 1);
 		} else if ($event_type == 'module.disabled') {
 			
 		} else if ($event_type == 'module.enabled') {
@@ -372,7 +372,7 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(array('ProjectTask'));
 			}
 
-			\includes\fields\RecordNumber::setNumber($modulename, 'PT', 1);
+			\App\Fields\RecordNumber::setNumber($modulename, 'PT', 1);
 		}
 	}
 

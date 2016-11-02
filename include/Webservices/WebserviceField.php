@@ -426,7 +426,7 @@ class WebserviceField
 			}
 		}else {
 			$user = VTWS_PreserveGlobal::getGlobal('current_user');
-			$details = \includes\fields\Picklist::getRoleBasedPicklistValues($fieldName, $user->roleid);
+			$details = \App\Fields::getRoleBasedPicklistValues($fieldName, $user->roleid);
 			for ($i = 0; $i < sizeof($details); ++$i) {
 				$elem = [];
 				$picklistValue = decode_html($details[$i]);

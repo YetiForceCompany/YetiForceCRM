@@ -118,7 +118,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			\includes\fields\RecordNumber::setNumber($moduleName, 'UP', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'UP', 1);
 		} else if ($eventType == 'module.disabled') {
 
 		} else if ($eventType == 'module.enabled') {

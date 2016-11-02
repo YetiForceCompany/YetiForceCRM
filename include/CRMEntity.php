@@ -407,7 +407,7 @@ class CRMEntity
 			if ($uitype === 4 && $insertiontMode !== 'edit') {
 				// Bulk Save Mode: Avoid generation of module sequence number, take care later.
 				if (!CRMEntity::isBulkSaveMode()) {
-					$fldvalue = \includes\fields\RecordNumber::incrementNumber($tabid);
+					$fldvalue = \App\Fields\RecordNumber::incrementNumber($tabid);
 				}
 				$this->column_fields[$fieldname] = $fldvalue;
 			}
@@ -1267,7 +1267,7 @@ class CRMEntity
 
 		vtlib_setup_modulevars($module, $this);
 		$tabid = \App\Module::getModuleId($module);
-		if (!\includes\fields\RecordNumber::isModuleSequenceConfigured($tabid))
+		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
 		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? && uitype = 4", Array($tabid));
 
@@ -1284,19 +1284,19 @@ class CRMEntity
 				if ($records && $adb->num_rows($records)) {
 					$returninfo['totalrecords'] = $adb->num_rows($records);
 					$returninfo['updatedrecords'] = 0;
-					$moduleData = \includes\fields\RecordNumber::getNumber($tabid);
+					$moduleData = \App\Fields\RecordNumber::getNumber($tabid);
 					$sequenceNumber = $moduleData['sequenceNumber'];
 					$prefix = $moduleData['prefix'];
 					$postfix = $moduleData['postfix'];
 					$oldNumber = $sequenceNumber;
 					while ($recordinfo = $adb->getRow($records)) {
-						$recordNumber = \includes\fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
+						$recordNumber = \App\Fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
 						$adb->update($fld_table, [$fld_column => $recordNumber], $this->table_index . ' = ?', [$recordinfo['recordid']]);
 						$sequenceNumber += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}
 					if ($oldNumber != $sequenceNumber) {
-						\includes\fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
+						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
 					}
 				}
 			} else {

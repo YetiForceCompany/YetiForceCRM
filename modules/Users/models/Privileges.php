@@ -154,9 +154,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function getCurrentUserPrivilegesModel()
 	{
-		$currentUser = vglobal('current_user');
-		$currentUserId = $currentUser->id;
-		return self::getInstanceById($currentUserId);
+		return self::getInstanceById(App\User::getCurrentUserId());
 	}
 
 	/**
