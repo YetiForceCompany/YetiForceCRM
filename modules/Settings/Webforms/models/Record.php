@@ -311,7 +311,7 @@ class Settings_Webforms_Record_Model extends Settings_Vtiger_Record_Model
 		$selectedFieldsData = $this->get('selectedFieldsData');
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($this->get('targetmodule'));
 
-		$fieldInsertQuery = "INSERT INTO vtiger_webforms_field(webformid, fieldname, neutralizedfield, defaultvalue, required, sequence, hidden) VALUES(?, ?, ?, ?, ?, ?, ?)";
+		$fieldInsertQuery = "INSERT INTO vtiger_webforms_field(webformid, fieldname, fieldid, neutralizedfield, defaultvalue, required, sequence, hidden) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 		foreach ($selectedFieldsData as $fieldName => $fieldDetails) {
 			$params = array($this->getId());
 			$neutralizedField = $fieldName;
@@ -361,7 +361,7 @@ class Settings_Webforms_Record_Model extends Settings_Vtiger_Record_Model
 				$fieldDefaultValue = str_replace($groupSeparator, '', $fieldDefaultValue);
 			}
 
-			array_push($params, $fieldName, $neutralizedField, $fieldDefaultValue, $fieldDetails['required'], $fieldDetails['sequence'], $fieldDetails['hidden']);
+			array_push($params, $fieldName, $fieldModel->getId(), $neutralizedField, $fieldDefaultValue, $fieldDetails['required'], $fieldDetails['sequence'], $fieldDetails['hidden']);
 			$db->pquery($fieldInsertQuery, $params);
 		}
 	}

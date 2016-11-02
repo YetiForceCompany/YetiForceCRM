@@ -2,8 +2,7 @@
 SQLyog Community v12.09 (64 bit)
 MySQL - 5.7.9 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -9043,6 +9042,7 @@ CREATE TABLE `vtiger_webforms_field` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `webformid` int(19) NOT NULL,
   `fieldname` varchar(50) NOT NULL,
+  `fieldid` int(11) DEFAULT NULL,
   `neutralizedfield` varchar(50) NOT NULL,
   `defaultvalue` varchar(200) DEFAULT NULL,
   `required` int(10) NOT NULL DEFAULT '0',
@@ -9052,8 +9052,9 @@ CREATE TABLE `vtiger_webforms_field` (
   KEY `webforms_webforms_field_idx` (`id`),
   KEY `fk_1_vtiger_webforms_field` (`webformid`),
   KEY `fk_2_vtiger_webforms_field` (`fieldname`),
+  KEY `fk_3_vtiger_webforms_field` (`fieldid`),
   CONSTRAINT `fk_1_vtiger_webforms_field` FOREIGN KEY (`webformid`) REFERENCES `vtiger_webforms` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_3_vtiger_webforms_field` FOREIGN KEY (`fieldname`) REFERENCES `vtiger_field` (`fieldname`) ON DELETE CASCADE
+  CONSTRAINT `fk_3_vtiger_webforms_field` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_widgets` */

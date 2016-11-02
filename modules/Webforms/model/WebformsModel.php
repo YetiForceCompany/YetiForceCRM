@@ -227,11 +227,12 @@ class Webforms_Model
 
 		// Delete fields and re-add enabled once
 		$adb->pquery("DELETE FROM vtiger_webforms_field WHERE webformid=?", array($this->getId()));
-		$fieldInsertSQL = "INSERT INTO vtiger_webforms_field(webformid, fieldname, neutralizedfield, defaultvalue,required) VALUES(?,?,?,?,?)";
+		$fieldInsertSQL = "INSERT INTO vtiger_webforms_field(webformid, fieldname, fieldid, neutralizedfield, defaultvalue,required) VALUES(?,?,?,?,?,?)";
 		foreach ($this->fields as $field) {
 			$params = array();
 			$params[] = $this->getId();
 			$params[] = $field->getFieldName();
+			$params[] = $field->getId();
 			$params[] = $field->getNeutralizedField();
 			$params[] = $field->getDefaultValue();
 			$params[] = $field->getRequired();
