@@ -1894,6 +1894,9 @@ class Base3 extends \App\Db\Importers\Base
 					['ossmailtemplates_temp_idx', 'ossmailtemplatesid'],
 					['ossmailtemplates_mod_idx', 'oss_module_list'],
 				],
+				'primaryKeys' => [
+					['vtiger_ossmailtemplates_pk', 'ossmailtemplatesid']
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],

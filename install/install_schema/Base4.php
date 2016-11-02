@@ -183,7 +183,7 @@ class Base4 extends \App\Db\Importers\Base
 						['relcriteria_queryid_idx', 'queryid'],
 				],
 				'primaryKeys' => [
-						['relcriteria_pk', ['queryid', 'columnindex']]
+						['relcriteria_pk', 'queryid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -199,7 +199,7 @@ class Base4 extends \App\Db\Importers\Base
 						['relcriteria_grouping_idx', 'queryid'],
 				],
 				'primaryKeys' => [
-						['relcriteria_grouping_pk', ['groupid', 'queryid']]
+						['relcriteria_grouping_pk', 'queryid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
