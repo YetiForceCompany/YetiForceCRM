@@ -542,7 +542,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			'color' => $this->get('color'),
 			'description' => $this->get('description')
 		])->execute();
-		$this->set('cvid', $db->getLastInsertID());
+		$this->set('cvid', $db->getLastInsertID('vtiger_customview_cvid_seq'));
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 	}

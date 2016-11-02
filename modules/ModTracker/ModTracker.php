@@ -398,29 +398,34 @@ class ModTracker
 
 	static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentTime = date('Y-m-d H:i:s');
-		$adb->insert('vtiger_modtracker_basic', [
+		$db->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $sourceId,
 			'module' => $sourceModule,
 			'whodid' => $currentUser->getRealId(),
 			'changedon' => $currentTime,
 			'status' => $type,
 			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
-		]);
-		$id = $adb->getLastInsertID();
+		])->execute();
+		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 		ModTracker_Record_Model::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
-		$adb->insert('vtiger_modtracker_relations', [
+		$db->createCommand()->insert('vtiger_modtracker_relations', [
 			'id' => $id,
 			'targetmodule' => $targetModule,
 			'targetid' => $targetId,
 			'changedon' => $currentTime,
-		]);
-		$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $sourceId));
-
-		if ($adb->num_rows($isMyRecord) > 0)
-			$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($sourceId));
+		])->execute();
+		$isMyRecord = (new App\Db\Query())->from('vtiger_crmentity')
+			->where(['<>', 'smownerid', $currentUser->getRealId()])
+			->andWhere(['crmid' => $sourceId])
+			->exists();
+		if ($isMyRecord) {
+			$db->createCommand()
+				->update ('vtiger_crmentity', ['was_read' => 0], ['crmid' => $sourceId])
+				->execute ();
+		}
 	}
 
 	static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)

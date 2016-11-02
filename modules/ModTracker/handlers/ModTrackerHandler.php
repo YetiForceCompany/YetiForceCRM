@@ -65,13 +65,18 @@ class ModTrackerHandler extends VTEventHandler
 											'status' => $status,
 											'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
 										])->execute();
-									$this->id = $db->getLastInsertID();
+									$this->id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 									if ($status != ModTracker::$CREATED) {
 										ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $this->id);
 									}
 									$inserted = true;
 								}
-								$adb->pquery('INSERT INTO vtiger_modtracker_detail(id,fieldname,prevalue,postvalue) VALUES(?,?,?,?)', Array($this->id, $fieldName, $values['oldValue'], $values['currentValue']));
+								$db->createCommand()->insert('vtiger_modtracker_detail', [
+									'id' => $this->id,
+									'fieldname' => $fieldName,
+									'prevalue' => $values['oldValue'],
+									'postvalue' => $values['currentValue']
+								])->execute();
 							}
 						}
 					}

@@ -72,7 +72,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	public static function unsetReviewed($recordId, $userId = false, $exception = false)
 	{
-		$db = PearDatabase::getInstance();
 		if (!$userId) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getRealId();
@@ -90,7 +89,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$key = array_search($userId, $lastReviewedUsers);
 			unset($lastReviewedUsers[$key]);
 			$value = empty($lastReviewedUsers) ? '' : '#' . implode('#', array_filter($lastReviewedUsers)) . '#';
-			return $db->update('vtiger_modtracker_basic', ['last_reviewed_users' => $value], ' `id` = ?', [$row['id']]);
+			return App\Db::getInstance()->createCommand()->update('vtiger_modtracker_basic', ['last_reviewed_users' => $value], ['id' => $row['id']])->execute();
 		}
 		return false;
 	}
