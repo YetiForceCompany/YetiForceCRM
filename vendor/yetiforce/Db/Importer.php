@@ -147,7 +147,7 @@ class Importer
 		$columns = $table['columns'];
 		if (isset($table['columns_' . $type])) {
 			foreach ($table['columns_' . $type] as $column => $customType) {
-				$this->logs .= "    > custom column type,  driver: $type, type: $customType";
+				$this->logs .= "\n    > custom column type,  driver: $type, type: $customType";
 				$columns[$column] = $customType;
 			}
 		}
@@ -171,7 +171,7 @@ class Importer
 			foreach ($table['index_' . $type] as $customIndex) {
 				foreach ($indexes as $key => $index) {
 					if ($customIndex[0] === $index[0]) {
-						$this->logs .= "    > custom index,  driver: $type, type: {$customIndex['0']}";
+						$this->logs .= "\n    > custom index,  driver: $type, type: {$customIndex['0']}";
 						$indexes[$key] = $customIndex;
 					}
 				}
