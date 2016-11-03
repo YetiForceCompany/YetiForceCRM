@@ -81,7 +81,7 @@ class Importer
 				)->execute();
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
-				$this->logs .= "error (" . $e->getMessage() . ")\n";
+				$this->logs .= "error ({$e->getMessage()}) !!!\n";
 				if ($this->dieOnError) {
 					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
@@ -93,7 +93,7 @@ class Importer
 						$importer->db->createCommand()->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false )->execute();
 						$this->logs .= "done\n";
 					} catch (\Exception $e) {
-						$this->logs .= "error (" . $e->getMessage() . ")\n";
+						$this->logs .= "error ({$e->getMessage()}) !!!\n";
 						if ($this->dieOnError) {
 							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
@@ -107,7 +107,7 @@ class Importer
 						$importer->db->createCommand()->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
 						$this->logs .= "done\n";
 					} catch (\Exception $e) {
-						$this->logs .= "error (" . $e->getMessage() . ")\n";
+						$this->logs .= "error ({$e->getMessage()}) !!!\n";
 						if ($this->dieOnError) {
 							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
@@ -146,7 +146,7 @@ class Importer
 		$type = $importer->db->getDriverName();
 		$columns = $table['columns'];
 		if (isset($table['columns_' . $type])) {
-			foreach ($table['columns_' . $type] as $column => $customType) {
+			foreach ($table['columns_' . $type] as $column => &$customType) {
 				$this->logs .= "\n    > custom column type,  driver: $type, type: $customType";
 				$columns[$column] = $customType;
 			}
@@ -168,8 +168,8 @@ class Importer
 		$type = $importer->db->getDriverName();
 		$indexes = $table['index'];
 		if (isset($table['index_' . $type])) {
-			foreach ($table['index_' . $type] as $customIndex) {
-				foreach ($indexes as $key => $index) {
+			foreach ($table['index_' . $type] as &$customIndex) {
+				foreach ($indexes as $key => &$index) {
 					if ($customIndex[0] === $index[0]) {
 						$this->logs .= "\n    > custom index,  driver: $type, type: {$customIndex['0']}";
 						$indexes[$key] = $customIndex;
@@ -190,7 +190,7 @@ class Importer
 			return;
 		}
 		$this->logs .= "> start add foreign key\n";
-		foreach ($importer->foreignKey as $key) {
+		foreach ($importer->foreignKey as &$key) {
 			$this->logs .= "  > add: {$key[0]}, {$key[1]} ... ";
 			try {
 				$importer->db->createCommand()->addForeignKey(
@@ -198,7 +198,7 @@ class Importer
 				)->execute();
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
-				$this->logs .= "error (" . $e->getMessage() . ")\n";
+				$this->logs .= "error ({$e->getMessage()}) !!!\n";
 				if ($this->dieOnError) {
 					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
@@ -217,7 +217,7 @@ class Importer
 			return;
 		}
 		$this->logs .= "> start add data rows\n";
-		foreach ($importer->data as $tableName => $table) {
+		foreach ($importer->data as $tableName => &$table) {
 			$this->logs .= "  > add data to table: $tableName ... ";
 			try {
 				$keys = $table['columns'];
@@ -226,13 +226,43 @@ class Importer
 				}
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
-				$this->logs .= "error (" . $e->getMessage() . ")\n";
+				$this->logs .= "error ({$e->getMessage()}) !!!\n";
 				if ($this->dieOnError) {
 					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 		}
 		$this->logs .= "# end add data rows\n";
+		$this->logs .= "> start reset sequence\n";
+		foreach ($importer->data as $tableName => &$table) {
+			$tableSchema = $importer->db->getTableSchema($tableName);
+			$isAutoIncrement = false;
+			foreach ($tableSchema->columns as &$column) {
+				if ($column->autoIncrement) {
+					$isAutoIncrement = true;
+					break;
+				}
+			}
+			if ($isAutoIncrement) {
+				$this->logs .= "  > reset sequence: $tableName ... ";
+				try {
+					$importer->db->createCommand()->resetSequence($tableName)->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= "error ({$e->getMessage()}) !!!\n";
+					if ($this->dieOnError) {
+						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					}
+				}
+				if (isset($importer->data[$tableName . '_seq'])) {
+					$this->logs .= "   > error: redundant table {$tableName}_seq !!!\n";
+					if ($this->dieOnError) {
+						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					}
+				}
+			}
+		}
+		$this->logs .= "# end reset sequence\n";
 	}
 
 	public function logs($show = true)
