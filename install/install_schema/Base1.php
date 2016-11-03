@@ -88,8 +88,6 @@ class Base1 extends \App\Db\Importers\Base
 					'workflow_id' => $this->integer()->notNull(),
 					'entity_id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['workflow_activatedonce_pk', ['workflow_id', 'entity_id']]
 				],
@@ -107,16 +105,12 @@ class Base1 extends \App\Db\Importers\Base
 					'modules' => $this->stringType(500),
 					'sourcemodule' => $this->stringType(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'com_vtiger_workflow_tasktypes_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -148,8 +142,6 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -159,8 +151,6 @@ class Base1 extends \App\Db\Importers\Base
 					'entity_id' => $this->stringType(100),
 					'do_after' => $this->integer(),
 					'task_contents' => $this->text(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -199,16 +189,12 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'com_vtiger_workflowtasks_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -219,8 +205,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module_name' => $this->stringType(100),
 					'title' => $this->stringType(400),
 					'template' => $this->text(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -459,8 +443,6 @@ class Base1 extends \App\Db\Importers\Base
 					'uri' => 'varbinary(255) DEFAULT NULL',
 					'etag' => 'varbinary(32) DEFAULT NULL'
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
@@ -684,8 +666,6 @@ class Base1 extends \App\Db\Importers\Base
 					'name' => $this->stringType(64)->notNull(),
 					'value' => $this->text(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['roundcube_system_pk', 'name']
 				],
@@ -777,8 +757,6 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'announcementid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['announcementcf_pk', 'announcementid']
 				],
@@ -794,8 +772,6 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 					'email' => $this->stringType(50)->defaultValue(''),
 					'active' => $this->smallInteger(1)->defaultValue(0),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['competition_pk', 'competitionid']
@@ -818,8 +794,6 @@ class Base1 extends \App\Db\Importers\Base
 					'localnumbera' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['competition_address_pk', 'competitionaddressid']
 				],
@@ -829,8 +803,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__competitioncf' => [
 				'columns' => [
 					'competitionid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['competitioncf_pk', 'competitionid']
@@ -842,8 +814,6 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'crmid' => $this->integer()->unsigned()->notNull(),
 					'label' => $this->stringType(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['crmentity_label_pk', 'crmid']
@@ -873,8 +843,6 @@ class Base1 extends \App\Db\Importers\Base
 					'rel_created_user' => $this->integer()->notNull(),
 					'rel_created_time' => $this->dateTime()->notNull(),
 					'rel_comment' => $this->stringType(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -946,8 +914,6 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'fbookkeepingid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['fbookkeepingcf_pk', 'fbookkeepingid']
 				],
@@ -1004,8 +970,6 @@ class Base1 extends \App\Db\Importers\Base
 					'localnumberc' => $this->stringType(),
 					'poboxc' => $this->stringType(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['fcorectinginvoice_address_pk', 'fcorectinginvoiceaddressid']
 				],
@@ -1055,8 +1019,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1065,8 +1027,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['fcorectinginvoice_invmap_pk', ['module', 'field', 'tofield']]
@@ -1077,8 +1037,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__fcorectinginvoicecf' => [
 				'columns' => [
 					'fcorectinginvoiceid' => $this->integer(19)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['fcorectinginvoicecf_pk', 'fcorectinginvoiceid']
@@ -1151,8 +1109,6 @@ class Base1 extends \App\Db\Importers\Base
 					'localnumberc' => $this->stringType(),
 					'poboxc' => $this->stringType(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['finvoice_address_pk', 'finvoiceaddressid']
 				],
@@ -1202,8 +1158,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1212,8 +1166,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['finvoice_invmap_pk', ['module', 'field', 'tofield']]
@@ -1224,8 +1176,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__finvoicecf' => [
 				'columns' => [
 					'finvoiceid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['finvoicecf_pk', 'finvoiceid']
@@ -1281,8 +1231,6 @@ class Base1 extends \App\Db\Importers\Base
 					'localnumberc' => $this->stringType(),
 					'poboxc' => $this->stringType(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['finvoiceproforma_address_pk', 'finvoiceproformaaddressid']
 				],
@@ -1332,8 +1280,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1342,8 +1288,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['finvoiceproforma_invfield_pk', ['module', 'field', 'tofield']]
@@ -1354,8 +1298,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__finvoiceproformacf' => [
 				'columns' => [
 					'finvoiceproformaid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['finvoiceproformacf_pk', 'finvoiceproformaid']
@@ -1429,8 +1371,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1439,8 +1379,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['igdn_invmap_pk', ['module', 'field', 'tofield']]
@@ -1504,8 +1442,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1514,8 +1450,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['igdnc_invfield_pk', ['module', 'field', 'tofield']]
@@ -1527,8 +1461,6 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'igdncid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['igdnccf_pk', 'igdncid']
 				],
@@ -1538,8 +1470,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__igdncf' => [
 				'columns' => [
 					'igdnid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['igdncf_pk', 'igdnid']
@@ -1599,8 +1529,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1609,8 +1537,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['igin_invmap_pk', ['module', 'field', 'tofield']]
@@ -1621,8 +1547,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__igincf' => [
 				'columns' => [
 					'iginid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['igincf_pk', 'iginid']
@@ -1685,8 +1609,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1695,8 +1617,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['igrn_invmap_pk', ['module', 'field', 'tofield']]
@@ -1761,8 +1681,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1771,8 +1689,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['igrnc_invmap_pk', ['module', 'field', 'tofield']]
@@ -1784,8 +1700,6 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'igrncid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['igrnccf_pk', 'igrncid']
 				],
@@ -1795,8 +1709,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__igrncf' => [
 				'columns' => [
 					'igrnid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['igrncf_pk', 'igrnid']
@@ -1856,8 +1768,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1866,8 +1776,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['iidn_invmap_pk', ['module', 'field', 'tofield']]
@@ -1878,8 +1786,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__iidncf' => [
 				'columns' => [
 					'iidnid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['iidncf_pk', 'iidnid']
@@ -1941,8 +1847,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1951,8 +1855,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['ipreorder_invmap_pk', ['module', 'field', 'tofield']]
@@ -1963,8 +1865,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__ipreordercf' => [
 				'columns' => [
 					'ipreorderid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['ipreordercf_pk', 'ipreorderid']
@@ -2031,8 +1931,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2041,8 +1939,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['istdn_invmap_pk', ['module', 'field', 'tofield']]
@@ -2053,8 +1949,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__istdncf' => [
 				'columns' => [
 					'istdnid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['istdncf_pk', 'istdnid']
@@ -2071,8 +1965,6 @@ class Base1 extends \App\Db\Importers\Base
 					'estimated_date' => $this->date(),
 					'istn_type' => $this->stringType(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['istn_pk', 'istnid']
 				],
@@ -2082,8 +1974,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__istncf' => [
 				'columns' => [
 					'istnid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['istncf_pk', 'istnid']
@@ -2125,8 +2015,6 @@ class Base1 extends \App\Db\Importers\Base
 					'localnumbera' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['istorages_address_pk', 'istorageaddressid']
 				],
@@ -2149,8 +2037,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__istoragescf' => [
 				'columns' => [
 					'istorageid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['istoragescf_idx', 'istorageid']
@@ -2217,8 +2103,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2227,8 +2111,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['istrn_invmap_pk', ['module', 'field', 'tofield']]
@@ -2239,8 +2121,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__istrncf' => [
 				'columns' => [
 					'istrnid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['istrncf_pk', 'istrnid']
@@ -2258,8 +2138,6 @@ class Base1 extends \App\Db\Importers\Base
 					'knowledgebase_view' => $this->stringType(),
 					'knowledgebase_status' => $this->stringType()->defaultValue(''),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['knowledgebase_pk', 'knowledgebaseid']
 				],
@@ -2269,8 +2147,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__knowledgebasecf' => [
 				'columns' => [
 					'knowledgebaseid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['knowledgebasecf_pk', 'knowledgebaseid']
@@ -2357,8 +2233,6 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'crmid' => $this->integer(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2397,8 +2271,6 @@ class Base1 extends \App\Db\Importers\Base
 					'active' => $this->smallInteger(1)->defaultValue(0),
 					'category' => $this->stringType()->defaultValue(''),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['partners_pk', 'partnersid']
 				],
@@ -2420,8 +2292,6 @@ class Base1 extends \App\Db\Importers\Base
 					'localnumbera' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['partners_address_pk', 'partneraddressid']
 				],
@@ -2431,8 +2301,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__partnerscf' => [
 				'columns' => [
 					'partnersid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['partnerscf_pk', 'partnersid']
@@ -2450,8 +2318,6 @@ class Base1 extends \App\Db\Importers\Base
 					'date_start' => $this->date(),
 					'date_end' => $this->date(),
 					'last_recurring_date' => $this->date(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['recurring_info_pk', 'srecurringordersid']
@@ -2539,8 +2405,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2549,8 +2413,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['scalculations_invmap_pk', ['module', 'field', 'tofield']]
@@ -2561,8 +2423,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__scalculationscf' => [
 				'columns' => [
 					'scalculationsid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['scalculationscf_pk', 'scalculationsid']
@@ -2623,8 +2483,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2633,8 +2491,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['squoteenquiries_invmap_pk', ['module', 'field', 'tofield']]
@@ -2645,8 +2501,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__squoteenquiriescf' => [
 				'columns' => [
 					'squoteenquiriesid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['squoteenquiriescf_pk', 'squoteenquiriesid']
@@ -2711,8 +2565,6 @@ class Base1 extends \App\Db\Importers\Base
 					'poboxa' => $this->stringType(50),
 					'poboxc' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['squotes_address_pk', 'squotesaddressid']
 				],
@@ -2765,8 +2617,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2775,8 +2625,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['squotes_invmap_pk', ['module', 'field', 'tofield']]
@@ -2787,8 +2635,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__squotescf' => [
 				'columns' => [
 					'squotesid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['squotescf_pk', 'squotesid']
@@ -2850,8 +2696,6 @@ class Base1 extends \App\Db\Importers\Base
 					'poboxa' => $this->stringType(50),
 					'poboxc' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['srecurringorders_address_pk', 'srecurringordersaddressid']
 				],
@@ -2895,8 +2739,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2905,8 +2747,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['srecurringorders_invmap_pk', ['module', 'field', 'tofield']]
@@ -2917,8 +2757,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__srecurringorderscf' => [
 				'columns' => [
 					'srecurringordersid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['srecurringorderscf_pk', 'srecurringordersid']
@@ -2981,8 +2819,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2991,8 +2827,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['srequirementscards_invmap_pk', ['module', 'field', 'tofield']]
@@ -3003,8 +2837,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__srequirementscardscf' => [
 				'columns' => [
 					'srequirementscardsid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['srequirementscardscf_pk', 'srequirementscardsid']
@@ -3043,8 +2875,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__ssalesprocessescf' => [
 				'columns' => [
 					'ssalesprocessesid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['ssalesprocessescf_pk', 'ssalesprocessesid']
@@ -3117,8 +2947,6 @@ class Base1 extends \App\Db\Importers\Base
 					'poboxa' => $this->stringType(50),
 					'poboxc' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['ssingleorders_address_pk', 'ssingleordersaddressid']
 				],
@@ -3171,8 +2999,6 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -3181,8 +3007,6 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
 					'tofield' => $this->stringType(50)->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['ssingleorders_invmap_pk', ['module', 'field', 'tofield']]
@@ -3193,8 +3017,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__ssingleorderscf' => [
 				'columns' => [
 					'ssingleordersid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['ssingleorderscf_pk', 'ssingleordersid']
@@ -3238,8 +3060,6 @@ class Base1 extends \App\Db\Importers\Base
 					'userid' => $this->integer()->notNull(),
 					'frequency' => $this->smallInteger()->notNull(),
 					'last_execution' => $this->dateTime(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['watchdog_schedule_pk', 'userid']

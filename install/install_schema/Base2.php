@@ -102,8 +102,6 @@ class Base2 extends \App\Db\Importers\Base
 					'poboxb' => $this->stringType(50),
 					'poboxc' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['accountaddress_pk', 'accountaddressid']
 				],
@@ -118,16 +116,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_accountscf' => [
 				'columns' => [
 					'accountid' => $this->integer()->notNull()->defaultValue(0),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['accountscf_pk', 'accountid']
@@ -152,8 +146,6 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_accounttype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -229,8 +221,6 @@ class Base2 extends \App\Db\Importers\Base
 					'reminder_sent' => $this->integer(2)->notNull(),
 					'recurringid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['activity_reminder_pk', ['activity_id', 'recurringid']]
 				],
@@ -275,8 +265,6 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -284,16 +272,12 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_activitycf' => [
 				'columns' => [
 					'activityid' => $this->integer()->notNull()->defaultValue(0),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['activitycf_pk', 'activityid']
@@ -324,16 +308,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->smallInteger(2),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_activitystatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -357,8 +337,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -370,8 +348,6 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -381,8 +357,6 @@ class Base2 extends \App\Db\Importers\Base
 					'name' => $this->stringType()->notNull(),
 					'val' => $this->stringType()->notNull(),
 					'type' => $this->stringType()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['apiaddress_pk', 'id']
@@ -428,16 +402,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_assetscf' => [
 				'columns' => [
 					'assetsid' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['assetscf_pk', 'assetsid']
@@ -453,16 +423,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_assetstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -475,8 +441,6 @@ class Base2 extends \App\Db\Importers\Base
 					'password' => $this->stringType(50),
 					'version' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -485,8 +449,6 @@ class Base2 extends \App\Db\Importers\Base
 					'userid' => $this->smallInteger(11)->unsigned()->notNull(),
 					'asterisk_extension' => $this->stringType(50),
 					'use_asterisk' => $this->stringType(3),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['asteriskextensions_pk', 'userid']
@@ -504,8 +466,6 @@ class Base2 extends \App\Db\Importers\Base
 					'timer' => $this->integer(),
 					'refuid' => $this->stringType(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -522,8 +482,6 @@ class Base2 extends \App\Db\Importers\Base
 					'pbxrecordid' => $this->integer(),
 					'relcrmid' => $this->integer(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['asteriskincomingevents_pk', 'uid']
 				],
@@ -539,8 +497,6 @@ class Base2 extends \App\Db\Importers\Base
 					'path' => $this->text(),
 					'subject' => $this->stringType(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['attachments_pk', 'attachmentsid']
 				],
@@ -555,8 +511,6 @@ class Base2 extends \App\Db\Importers\Base
 					'action' => $this->stringType(),
 					'recordid' => $this->stringType(20),
 					'actiondate' => $this->dateTime(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['audit_trial_pk', 'auditid']
@@ -607,8 +561,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -618,8 +570,6 @@ class Base2 extends \App\Db\Importers\Base
 					'name' => $this->stringType(20),
 					'label' => $this->stringType(20),
 					'value' => $this->stringType(100),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -632,8 +582,6 @@ class Base2 extends \App\Db\Importers\Base
 					'defaultcolor' => $this->stringType(50),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['calendar_default_activitytypes_pk', 'id']
 				],
@@ -643,8 +591,6 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_calendar_default_activitytypes_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -673,16 +619,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_calendarsharedtype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -694,16 +636,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_callduration_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -741,8 +679,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'callhistoryid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['callhistorycf_pk', 'callhistoryid']
 				],
@@ -756,16 +692,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_callhistorytype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -828,8 +760,6 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -837,16 +767,12 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_campaignscf' => [
 				'columns' => [
 					'campaignid' => $this->integer()->notNull()->defaultValue(0),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['campaignscf_pk', 'campaignid']
@@ -872,8 +798,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -894,8 +818,6 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_campaigntype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -925,8 +847,6 @@ class Base2 extends \App\Db\Importers\Base
 					'localnumberb' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
 					'poboxb' => $this->stringType(50),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['contactaddress', 'contactaddressid']
@@ -979,8 +899,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'contactid' => $this->integer()->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['contactscf_pk', 'contactid']
 				],
@@ -995,16 +913,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_contactstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1016,8 +930,6 @@ class Base2 extends \App\Db\Importers\Base
 					'laststayintouchrequest' => $this->integer()->defaultValue(0),
 					'laststayintouchsavedate' => $this->integer()->defaultValue(0),
 					'leadsource' => $this->stringType(200),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['contactsubdetails_pk', 'contactsubscriptionid']
@@ -1033,16 +945,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_contract_priority_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1055,16 +963,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_contract_status_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1077,16 +981,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_contract_type_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1097,8 +997,6 @@ class Base2 extends \App\Db\Importers\Base
 					'leadfid' => $this->integer()->notNull(),
 					'accountfid' => $this->integer(),
 					'editable' => $this->integer()->defaultValue(1),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1143,8 +1041,6 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_crmentity_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1193,16 +1089,12 @@ class Base2 extends \App\Db\Importers\Base
 					'currency_code' => $this->stringType(50),
 					'currency_symbol' => $this->stringType(11),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_currencies_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1227,16 +1119,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_currency_decimal_separator_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1248,16 +1136,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_currency_grouping_pattern_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1269,16 +1153,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_currency_grouping_separator_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1294,16 +1174,12 @@ class Base2 extends \App\Db\Importers\Base
 					'defaultid' => $this->stringType(10)->notNull()->defaultValue(0),
 					'deleted' => $this->integer(1)->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_currency_info_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1315,16 +1191,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_currency_symbol_placement_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1349,8 +1221,6 @@ class Base2 extends \App\Db\Importers\Base
 					'support_start_date' => $this->date(),
 					'support_end_date' => $this->date(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['customerdetails_pk', 'customerid']
 				],
@@ -1363,8 +1233,6 @@ class Base2 extends \App\Db\Importers\Base
 					'fieldid' => $this->integer(),
 					'visible' => $this->integer(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1373,8 +1241,6 @@ class Base2 extends \App\Db\Importers\Base
 					'tabid' => $this->integer()->notNull(),
 					'prefkey' => $this->stringType(100)->notNull(),
 					'prefvalue' => $this->integer(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['customerportal_prefs_pk', ['tabid', 'prefkey']]
@@ -1387,8 +1253,6 @@ class Base2 extends \App\Db\Importers\Base
 					'tabid' => $this->integer()->notNull(),
 					'visible' => $this->integer(1)->defaultValue(1),
 					'sequence' => $this->integer(1),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['customerportal_tabs_pk', 'tabid']
@@ -1512,8 +1376,6 @@ class Base2 extends \App\Db\Importers\Base
 					'required' => $this->smallInteger(2)->notNull(),
 					'field_type' => $this->stringType(100)->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1634,8 +1496,6 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_datashare_relatedmodules_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1851,16 +1711,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->smallInteger(3)->notNull()->defaultValue(0),
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_date_format_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1872,16 +1728,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_dayoftheweek_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1921,8 +1773,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1933,16 +1783,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_default_record_view_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1955,16 +1801,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_defaultactivitytype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1974,8 +1816,6 @@ class Base2 extends \App\Db\Importers\Base
 					'tabid' => $this->integer()->notNull(),
 					'defaultviewname' => $this->stringType(50)->notNull(),
 					'query' => $this->text(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['defaultcv_pk', 'tabid']
@@ -1991,16 +1831,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_defaulteventstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2012,16 +1848,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_duration_minutes_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2033,8 +1865,6 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2044,8 +1874,6 @@ class Base2 extends \App\Db\Importers\Base
 					'mins' => $this->stringType(50),
 					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2061,8 +1889,6 @@ class Base2 extends \App\Db\Importers\Base
 					'idlists' => $this->text(),
 					'email_flag' => $this->stringType(50)->notNull()->defaultValue(''),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
 						['emaildetails_pk', 'emailid']
 				],
@@ -2077,16 +1903,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_employee_education_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2099,16 +1921,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_employee_status_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2120,16 +1938,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_end_hour_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2138,8 +1952,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'crmid' => $this->integer()->notNull(),
 					'crmactivity' => $this->smallInteger(),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['entity_stats_pk', 'crmid']
@@ -2174,16 +1986,12 @@ class Base2 extends \App\Db\Importers\Base
 					'module_name' => $this->stringType(100),
 					'handler_class' => $this->stringType(100),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_eventhandler_module_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2211,8 +2019,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2224,16 +2030,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_eventstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2255,8 +2057,6 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_expectedresponse_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2285,8 +2085,6 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2294,16 +2092,12 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_faqcf' => [
 				'columns' => [
 					'faqid' => $this->integer()->notNull()->defaultValue(0),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 						['faqcf_pk', 'faqid']
@@ -2332,16 +2126,12 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_faqstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2354,8 +2144,6 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2367,8 +2155,6 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2376,8 +2162,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'userid' => $this->integer(),
 					'dontshow' => $this->stringType(19)->defaultValue('false'),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2429,8 +2213,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2456,8 +2238,6 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2468,8 +2248,6 @@ class Base2 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2482,8 +2260,6 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2494,8 +2270,6 @@ class Base2 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2508,8 +2282,6 @@ class Base2 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2520,8 +2292,6 @@ class Base2 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
