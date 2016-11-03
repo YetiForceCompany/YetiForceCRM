@@ -407,7 +407,7 @@ function isReadPermittedBySharing($module, $tabid, $actionid, $record_id)
 	$ownerid = '';
 	$sharePer = 'no';
 
-	$sharingModuleList = getSharingModuleList();
+	$sharingModuleList = \App\Module::getSharingModuleList();
 	if (!in_array($module, $sharingModuleList)) {
 		$sharePer = 'no';
 		return $sharePer;
@@ -517,7 +517,7 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 	$ownerid = '';
 	$sharePer = 'no';
 
-	$sharingModuleList = getSharingModuleList();
+	$sharingModuleList = \App\Module::getSharingModuleList();
 	if (!in_array($module, $sharingModuleList)) {
 		$sharePer = 'no';
 		return $sharePer;
@@ -1597,29 +1597,6 @@ function RecalculateSharingRules()
 		createUserSharingPrivilegesfile($id);
 	}
 	\App\Log::trace("Exiting RecalculateSharingRules method ...");
-}
-
-/** Function to get the list of module for which the user defined sharing rules can be defined
- * @returns Array:: Type array
- *
- */
-function getSharingModuleList($eliminateModules = false)
-{
-
-	$adb = PearDatabase::getInstance();
-	$sharingModuleArray = [];
-
-	if (empty($eliminateModules))
-		$eliminateModules = [];
-
-	$query = 'SELECT name FROM vtiger_tab WHERE presence=0 && ownedby = 0 && isentitytype = 1';
-	$query .= " && name NOT IN('" . implode("','", $eliminateModules) . "')";
-
-	$result = $adb->query($query);
-	while ($resrow = $adb->fetch_array($result)) {
-		$sharingModuleArray[] = $resrow['name'];
-	}
-	return $sharingModuleArray;
 }
 
 /** Function to check if the field is Active

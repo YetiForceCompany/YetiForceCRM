@@ -47,7 +47,7 @@ function vtlib_getModuleNameForSharing()
 {
 	$std_modules = array('Calendar', 'Leads', 'Accounts', 'Contacts',
 		'HelpDesk', 'Campaigns', 'Events');
-	$modulesList = getSharingModuleList($std_modules);
+	$modulesList = \App\Module::getSharingModuleList($std_modules);
 	return $modulesList;
 }
 

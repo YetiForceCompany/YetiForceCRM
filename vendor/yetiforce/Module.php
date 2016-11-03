@@ -98,4 +98,21 @@ class Module
 	{
 		return \vtlib\Functions::getModuleName($tabId);
 	}
+
+	/**
+	 * Function to get the list of module for which the user defined sharing rules can be defined
+	 * @param array $eliminateModules
+	 * @return array
+	 */
+	public static function getSharingModuleList($eliminateModules = false)
+	{
+		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
+		$sharingModules = [];
+		foreach ($modules as $tabId => $row) {
+			if (!$eliminateModules || !in_array($row['name'], $eliminateModules)) {
+				$sharingModules[] = $row['name'];
+			}
+		}
+		return $sharingModules;
+	}
 }
