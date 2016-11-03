@@ -356,7 +356,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'module' => \App\Module::getModuleId($moduleName),
 				'cache' => $data['cache'],
 				'date' => $data['default_date'],
-				'dashboardid' => $data['dashboardId']
+				'dashboardid' => empty($data['dashboardId']) ? self::getDefaultDashboard() : $data['dashboardId']
 			])->execute();
 			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets_id_seq');
 		}
