@@ -120,6 +120,17 @@ class Db extends \yii\db\Connection
 	}
 
 	/**
+	 * Returns the ID of the last inserted row or sequence value.
+	 * @param string $sequenceName name of the sequence object (required by some DBMS)
+	 * @return string the row ID of the last row inserted, or the last value retrieved from the sequence object
+	 * @see http://www.php.net/manual/en/function.PDO-lastInsertId.php
+	 */
+	public function getLastInsertID($sequenceName = '')
+	{
+		return parent::getLastInsertID(str_replace('#__', $this->tablePrefix, $sequenceName));
+	}
+
+	/**
 	 * Creates the PDO instance.
 	 * This method is called by [[open]] to establish a DB connection.
 	 * The default implementation will create a PHP PDO instance.
