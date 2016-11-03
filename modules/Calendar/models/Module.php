@@ -123,7 +123,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = [
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
@@ -136,7 +136,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			  'linkurl' => $this->getSharedCalendarViewUrl(),
 			  'linkicon' => '',
 			  ), */
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -493,29 +493,28 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail');
 		if ($activityReminder != '') {
 			$currentTime = time();
-			$date = date('Y-m-d', strtotime("+$activityReminder seconds", $currentTime));
-			$time = date('H:i', strtotime("+$activityReminder seconds", $currentTime));
-			$reminderActivitiesResult = 'SELECT DISTINCT recordid FROM vtiger_activity_reminder_popup 
-				INNER JOIN vtiger_activity on vtiger_activity.activityid = vtiger_activity_reminder_popup.recordid 
-				INNER JOIN vtiger_crmentity ON vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid';
+			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
 
+			$query = (new \App\Db\Query())
+				->select('recordid')
+				->from('vtiger_activity_reminder_popup')
+				->innerJoin('vtiger_activity', 'vtiger_activity_reminder_popup.recordid = vtiger_activity.activityid')
+				->innerJoin('vtiger_crmentity', 'vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid')
+				->distinct()
+				->limit(20);
 			if ($allReminder) {
-				$reminderActivitiesResult .= ' WHERE (vtiger_activity_reminder_popup.status = 0 || vtiger_activity_reminder_popup.status = 2) ';
+				$query->where(['or', ['vtiger_activity_reminder_popup.status' => 0], ['vtiger_activity_reminder_popup.status' => 2]]);
 			} else {
-				$reminderActivitiesResult .= ' WHERE vtiger_activity_reminder_popup.status = 0 ';
+				$query->where(['vtiger_activity_reminder_popup.status' => 0]);
 			}
+			$query->andWhere(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);
+			$query->andWhere(['<=', 'vtiger_activity_reminder_popup.datetime', $time]);
 
-			$reminderActivitiesResult .= " && vtiger_crmentity.smownerid = ? && vtiger_crmentity.deleted = 0 
-				AND ((DATE_FORMAT(vtiger_activity_reminder_popup.date_start,'%Y-%m-%d') <= ?)
-				AND (TIME_FORMAT(vtiger_activity_reminder_popup.time_start,'%H:%i') <= ?))
-				AND vtiger_activity.status IN ('" . implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current')) . "') LIMIT 20";
-
-
-			$result = $db->pquery($reminderActivitiesResult, [$currentUserModel->getId(), $date, $time]);
-			while (($recordId = $db->getSingleValue($result)) !== false) {
+			$dataReader = $query->createCommand()->query();
+			while ($recordId = $dataReader->readColumn(0)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
-				if ($link != '' && $link != 0 && $permissionToSendEmail) {
+				if ($link && $permissionToSendEmail) {
 					$url = "index.php?module=OSSMail&view=compose&mod=" . vtlib\Functions::getCRMRecordType($link) . "&record=$link";
 					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . vtranslate('LBL_SEND_MAIL') . "</a>");
 				}

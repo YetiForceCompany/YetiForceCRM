@@ -186,8 +186,11 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateReminderStatus($status = 1)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_activity_reminder_popup set status = ? WHERE recordid = ?", array($status, $this->getId()));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_activity_reminder_popup', [
+				'status' => $status,
+				], ['recordid' => $this->getId()])
+			->execute();
 	}
 
 	public function updateReminderPostpone($time)
@@ -216,7 +219,12 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		$datatimeSTR = strtotime($datatime);
 		$time_start = date('H:i:s', $datatimeSTR);
 		$date_start = date('Y-m-d', $datatimeSTR);
-		$db->pquery('UPDATE vtiger_activity_reminder_popup set status = ?, date_start = ?, time_start = ? WHERE recordid = ?', array(0, $date_start, $time_start, $this->getId()));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_activity_reminder_popup', [
+				'status' => 0,
+				'datetime' => date('Y-m-d H:i:s', $datatimeSTR),
+				], ['recordid' => $this->getId()])
+			->execute();
 
 		$result = $db->pquery('SELECT value FROM vtiger_calendar_config WHERE type = ? && name = ? && value = ?', array('reminder', 'update_event', 1));
 		if ($db->num_rows($result) > 0) {
@@ -250,6 +258,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function getActivityStateModalUrl()
 	{
 		$module = $this->getModule();
-		return 'index.php?module=Calendar&view=ActivityStateModal&record=' . $this->getId();
+		return 'index.php?module = Calendar&view = ActivityStateModal&record = ' . $this->getId();
 	}
 }

@@ -106,5 +106,3 @@ class PBXManagerBatchHandler extends VTEventHandler
 		}
 	}
 }
-
-?>

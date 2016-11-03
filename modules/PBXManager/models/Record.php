@@ -158,17 +158,15 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	 */
 	public function receivePhoneLookUpRecord($fieldName, $details, $new)
 	{
-		$recordid = $details['crmid'];
 		$fnumber = preg_replace('/[-()\s+]/', '', $details[$fieldName]);
-		$rnumber = strrev($fnumber);
-		$db = PearDatabase::getInstance();
-
-		$params = array($recordid, $details['setype'], $fnumber, $rnumber, $fieldName);
-		$db->pquery('INSERT INTO ' . self::lookuptableName .
-			'(crmid, setype, fnumber, rnumber, fieldname) 
-                    VALUES(?,?,?,?,?) 
-                    ON DUPLICATE KEY 
-                    UPDATE fnumber=VALUES(fnumber), rnumber=VALUES(rnumber)', $params);
+		\App\Db::getInstance()->createCommand()
+			->insert(self::lookuptableName, [
+				'crmid' => $details['crmid'],
+				'setype' => $details['setype'],
+				'fnumber' => $fnumber,
+				'rnumber' => strrev($fnumber),
+				'fieldname' => $fieldName
+			])->execute();
 		return true;
 	}
 
@@ -263,7 +261,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$query .= " FROM vtiger_users";
 
 		if (!empty($lookupcolumns)) {
-			$query .=" WHERE deleted=0 && ";
+			$query .= " WHERE deleted=0 && ";
 			$i = 0;
 			$columnCount = count($lookupcolumns);
 			foreach ($lookupcolumns as $columnname) {

@@ -120,7 +120,7 @@ class Activity extends CRMEntity
 		$this->insertIntoInviteeTable($module);
 
 		//Inserting into sales man activity rel
-		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['smownerid' =>$this->column_fields['assigned_user_id']], ['activityid' => $recordId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['smownerid' => $this->column_fields['assigned_user_id']], ['activityid' => $recordId])->execute();
 		$this->insertIntoActivityReminderPopup($module);
 	}
 
@@ -157,8 +157,7 @@ class Activity extends CRMEntity
 
 			if (isset($reminderid)) {
 				$adb->update('vtiger_activity_reminder_popup', [
-					'date_start' => $cbdate,
-					'time_start' => $cbtime,
+					'datetime' => "$cbdate $cbtime",
 					'status' => $status,
 					], 'reminderid = ?', [$reminderid]
 				);
@@ -166,8 +165,7 @@ class Activity extends CRMEntity
 				\App\Db::getInstance()->createCommand()->insert('vtiger_activity_reminder_popup', [
 					'recordid' => $cbrecord,
 					'semodule' => $cbmodule,
-					'date_start' => $cbdate,
-					'time_start' => $cbtime,
+					'datetime' => "$cbdate $cbtime",
 					'status' => $status,
 				]);
 			}
@@ -675,8 +673,11 @@ class Activity extends CRMEntity
 		} else {
 			return false;
 		}
-		$sql = "update vtiger_activity_reminder_popup set status=1 where recordid=?";
-		$adb->pquery($sql, array($this->id));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_activity_reminder_popup', [
+				'status' => 1
+				], ['recordid' => $this->id])
+			->execute();
 		return true;
 	}
 	/*
