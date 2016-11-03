@@ -59,7 +59,7 @@ class Vtiger_DependencyPicklist
 	static function getAvailablePicklists($module)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		$tabId = \App\Module::getModuleId($module);
 
 		$query = "select vtiger_field.fieldlabel,vtiger_field.fieldname" .
@@ -188,7 +188,7 @@ class Vtiger_DependencyPicklist
 				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
 			}
 			if (empty($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
-				foreach (getAllPicklistValues($targetField) as $picklistValue) {
+				foreach (App\Fields\Picklist::getPickListValues($targetField) as $picklistValue) {
 					$pickArray[] = decode_html($picklistValue);
 				}
 				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
