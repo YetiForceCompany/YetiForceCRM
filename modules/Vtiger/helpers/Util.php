@@ -474,20 +474,17 @@ class Vtiger_Util_Helper
 				$row = $db->query_result_rowdata($queryResult, $i);
 				$activityIds[$row['id']] = $row['defaultcolor'];
 			}
-
+			$db = \App\Db::getInstance();
 			foreach ($activityIds as $activityId => $color) {
-				$insertActivityTypesSql = '';
-				$insertActivityTypesParams = [];
-
+				$columns = [
+					'defaultid' => $activityId,
+					'userid' => $userId,
+					'color' => $color,
+				];
 				if (in_array($activityId, array(1, 2))) {
-					$insertActivityTypesSql = 'INSERT INTO vtiger_calendar_user_activitytypes (id, defaultid, userid, color, visible) VALUES (?,?,?,?,?)';
-					$insertActivityTypesParams = array($db->getUniqueID('vtiger_calendar_user_activitytypes'), $activityId, $userId, $color, 1);
-				} else {
-					$insertActivityTypesSql = 'INSERT INTO vtiger_calendar_user_activitytypes (id, defaultid, userid, color) VALUES (?,?,?,?)';
-					$insertActivityTypesParams = array($db->getUniqueID('vtiger_calendar_user_activitytypes'), $activityId, $userId, $color);
+					$columns['visible'] = 1;
 				}
-
-				$db->pquery($insertActivityTypesSql, $insertActivityTypesParams);
+				$db->createCommand()->insert('vtiger_calendar_user_activitytypes', $columns)->execute();
 			}
 		}
 	}

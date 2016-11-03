@@ -1056,8 +1056,7 @@ class Users extends CRMEntity
 		$query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?", array($this->id));
 		$prev_reminder_interval = $adb->query_result($query_prev_interval, 0, 'reminder_interval');
 
-		$this->saveHomeStuffOrder($this->id);
-
+		//$this->saveHomeStuffOrder($this->id);
 		// Added for Reminder Popup support
 		$this->resetReminderInterval($prev_reminder_interval);
 		//Creating the Privileges Flat File

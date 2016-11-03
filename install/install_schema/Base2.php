@@ -651,25 +651,17 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_calendar_user_activitytypes' => [
 				'columns' => [
-					'id' => $this->integer()->notNull(),
+					'id' => $this->primaryKey()->unsigned(),
 					'defaultid' => $this->integer(),
 					'userid' => $this->integer(),
 					'color' => $this->stringType(50),
 					'visible' => $this->integer()->defaultValue(0),
 				],
 				'index' => [
+						['userid_idx', 'userid'],
 				],
 				'primaryKeys' => [
 						['calendar_user_activitytypes_pk', 'id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_calendar_user_activitytypes_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

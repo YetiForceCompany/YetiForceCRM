@@ -1,9 +1,3 @@
-/*
-SQLyog Community v12.09 (64 bit)
-MySQL - 5.7.9 : Database - yetiforce
-*********************************************************************
-*/
-
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -1017,7 +1011,7 @@ CREATE TABLE `u_yf_crmentity_search_label` (
   `crmid` int(19) unsigned NOT NULL,
   `searchlabel` varchar(255) NOT NULL,
   `setype` varchar(30) NOT NULL,
-  `userid` text DEFAULT NULL,
+  `userid` text,
   PRIMARY KEY (`crmid`),
   KEY `searchlabel` (`searchlabel`),
   KEY `searchlabel_2` (`searchlabel`,`setype`)
@@ -3444,19 +3438,14 @@ CREATE TABLE `vtiger_calendar_default_activitytypes_seq` (
 /*Table structure for table `vtiger_calendar_user_activitytypes` */
 
 CREATE TABLE `vtiger_calendar_user_activitytypes` (
-  `id` int(19) NOT NULL,
+  `id` int(19) NOT NULL AUTO_INCREMENT,
   `defaultid` int(19) DEFAULT NULL,
   `userid` int(19) DEFAULT NULL,
   `color` varchar(50) DEFAULT NULL,
   `visible` int(19) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_calendar_user_activitytypes_seq` */
-
-CREATE TABLE `vtiger_calendar_user_activitytypes_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `userid` (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calendarsharedtype` */
 
@@ -4056,7 +4045,6 @@ CREATE TABLE `vtiger_customview` (
   KEY `setdefault` (`setdefault`,`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
-
 
 /*Table structure for table `vtiger_cvadvfilter` */
 
