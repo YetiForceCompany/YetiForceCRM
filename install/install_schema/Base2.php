@@ -232,8 +232,7 @@ class Base2 extends \App\Db\Importers\Base
 					'reminderid' => $this->primaryKey(),
 					'semodule' => $this->stringType(100)->notNull(),
 					'recordid' => $this->integer()->notNull(),
-					'date_start' => $this->date()->notNull(),
-					'time_start' => $this->stringType(100)->notNull(),
+					'datetime' => $this->dateTime()->notNull(),
 					'status' => $this->integer(2)->notNull(),
 				],
 				'index' => [
