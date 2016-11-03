@@ -5619,6 +5619,7 @@ select.form-control {
 	width: 500px;
 	margin-bottom: 2px;
 }
+.selectDashboard::after,
 .selectDashboradView::after{
 	height: 3px;
 	width: 100%;

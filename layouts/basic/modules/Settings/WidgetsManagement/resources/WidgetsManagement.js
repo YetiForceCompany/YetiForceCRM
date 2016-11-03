@@ -57,6 +57,81 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		});
 		return fields;
 	},
+	getCurrentDashboardId: function () {
+		return $('.selectDashboard li.active').data('id');
+	},
+	registerAddedDashboard: function () {
+		var thisInstance = this;
+		$('.addDashboard').on('click', function () {
+			var data = {
+				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType',
+				sendByAjaxCb: function () {
+					var contentsDiv = $('.contentsDiv');
+					thisInstance.getModuleLayoutEditor('Home').then(
+							function (data) {
+								contentsDiv.html(data);
+								thisInstance.registerEvents();
+							}
+					);
+				},
+			};
+			app.showModalWindow(data);
+		});
+	},
+	registerSelectDashboard: function () {
+		var thisInstance = this;
+		$('.selectDashboard li').on('click', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var dashboardId = currentTarget.data('id');
+			var contentsDiv = $('.contentsDiv');
+			thisInstance.getModuleLayoutEditor('Home', dashboardId).then(
+					function (data) {
+						contentsDiv.html(data);
+						thisInstance.registerEvents();
+					}
+			);
+		});
+	},
+	registerDashboardAction: function () {
+		var thisInstance = this;
+		$('.editDashboard').on('click', function (e) {
+			var currentTarget = $(e.currentTarget);
+			e.stopPropagation();
+			var data = {
+				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType&dashboardId=' + currentTarget.closest('li').data('id'),
+				sendByAjaxCb: function () {
+					var contentsDiv = $('.contentsDiv');
+					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).then(
+							function (data) {
+								contentsDiv.html(data);
+								thisInstance.registerEvents();
+							}
+					);
+				},
+			};
+			app.showModalWindow(data);
+		});
+		$('.deleteDashboard').on('click', function (e) {
+			var currentTarget = $(e.currentTarget);
+			e.stopPropagation();
+			var params = {
+				parent: 'Settings',
+				module: app.getModuleName(),
+				action: 'Dashboard',
+				mode: 'delete',
+				dashboardId: currentTarget.closest('li').data('id')
+			};
+			AppConnector.request(params).then(function () {
+				var contentsDiv = $('.contentsDiv');
+				thisInstance.getModuleLayoutEditor('Home', 1).then(
+						function (data) {
+							contentsDiv.html(data);
+							thisInstance.registerEvents();
+						}
+				);
+			});
+		});
+	},
 	/**
 	 * Function to register click event for add custom block button
 	 */
@@ -304,7 +379,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
 		fieldContainer.addClass('opacity editFieldsWidget').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
-		if(result['title']){
+		if (result['title']) {
 			fieldContainer.find('.fieldLabel').html(result['title']);
 		} else {
 			fieldContainer.find('.fieldLabel').html(result['label']);
@@ -613,8 +688,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			filteridSelectDOM.closest('tr').hide();
 			fieldsSelectDOM.closest('tr').hide();
 			footer.hide();
-			chartType.on('change', function(e) {
-				var currentTarget= $(e.currentTarget);
+			chartType.on('change', function (e) {
+				var currentTarget = $(e.currentTarget);
 				var value = currentTarget.val();
 				if (value == 'Barchat' || value == 'Horizontal') {
 					form.find('.isColorContainer').removeClass('hide');
@@ -676,7 +751,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var fieldLabel = fieldsSelect2.find(':selected').text();
 				var isColorValue = 0;
 				var isColor = form.find('.isColor');
-				if(!isColor.hasClass('hide') && isColor.is(':checked')){
+				if (!isColor.hasClass('hide') && isColor.is(':checked')) {
 					isColorValue = 1;
 				}
 				var data = {
@@ -1025,7 +1100,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		container.on('change', '[name="widgetsManagementEditorModules"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var selectedModule = currentTarget.val();
-			thisInstance.getModuleLayoutEditor(selectedModule).then(
+			thisInstance.getModuleLayoutEditor(selectedModule, thisInstance.getCurrentDashboardId()).then(
 					function (data) {
 						contentsDiv.html(data);
 						thisInstance.registerEvents();
@@ -1037,7 +1112,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	/**
 	 * Function to get the respective module layout editor through pjax
 	 */
-	getModuleLayoutEditor: function (selectedModule) {
+	getModuleLayoutEditor: function (selectedModule, selectedDashboard) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
@@ -1052,7 +1127,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		params['parent'] = app.getParentModuleName();
 		params['view'] = 'Configuration';
 		params['sourceModule'] = selectedModule;
-
+		params['dashboardId'] = selectedDashboard;
 		AppConnector.requestPjax(params).then(
 				function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -1081,6 +1156,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		thisInstance.setWidgetWithFilterUsers();
 		thisInstance.setRestrictFilter();
 		thisInstance.setWidgetWithFilterDate();
+		thisInstance.registerAddedDashboard();
+		thisInstance.registerSelectDashboard();
+		thisInstance.registerDashboardAction();
 	}
 
 });

@@ -25,7 +25,22 @@
 			</div>
 		</div>
 	</div>
-
+	<ul class="nav nav-tabs massEditTabs selectDashboard marginBottom10px">
+		{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
+			<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
+				<a data-toggle="tab">
+					<strong>{vtranslate($DASHBOARD['name'])}</strong>					
+					<button class="btn btn-primary btn-xs glyphicon glyphicon-pencil marginLeft10 editDashboard"></button>
+					{if $DASHBOARD['system'] neq 1}
+						<button class="btn btn-danger btn-xs glyphicon glyphicon-trash marginLeft10 deleteDashboard"></button>
+					{/if}
+				</a>
+			</li>
+		{/foreach}
+		<li class="addDashboard">
+			<a><strong><span class="glyphicon glyphicon-plus"></span></strong></a>
+		</li>
+	</ul>
 	<div class="contents tabbable">
 
 		<div class="tab-content paddingNoTop10 themeTableColor overflowVisible">
@@ -133,6 +148,7 @@
 								<h3 class="modal-title">{vtranslate('LBL_ADD_DASHBOARD_BLOCK', $QUALIFIED_MODULE)}</h3>
 							</div>
 							<form class="form-horizontal addBlockDashBoardForm">
+								<input type="hidden" name="dashboardId" value="{$CURRENT_DASHBOARD}">
 								<div class="modal-body">
 									<div class="form-group">
 										<div class="col-sm-4 control-label">

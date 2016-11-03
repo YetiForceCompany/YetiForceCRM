@@ -58,7 +58,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 					mdw.id AS widgetid, mdw.position, vtiger_links.linkid AS id, mdw.limit, mdw.cache, mdw.owners, mdw.isdefault')
 			->from('vtiger_links')
 			->leftJoin('vtiger_module_dashboard_widgets mdw', 'vtiger_links.linkid = mdw.linkid')
-			->where(['mdw.userid' => $currentUser->getId(), 'vtiger_links.linktype' => 'DASHBOARDWIDGET', 'mdw.module' => $moduleModel->getId(), 'active' => $action]);
+			->where(['mdw.userid' => $currentUser->getId(), 'vtiger_links.linktype' => 'DASHBOARDWIDGET', 'mdw.module' => $moduleModel->getId(), 'active' => $action, 'mdw.dashboardid' => $this->get('dashboardId')]);
 		$dataReader = $query->createCommand()->query();
 		$widgets = [];
 
@@ -134,9 +134,8 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	public function verifyDashboard($moduleName)
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
-		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole());
+		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
 		if (count($blockId) == 0) {
 			\App\Log::trace('Exiting ' . __METHOD__);
 			return;
@@ -154,7 +153,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 					->where(['userid' => $currentUser->getId(), 'templateid' => $row['id']])
 					->exists()) {
 				$active = $row['isdefault'] ? 1 : 0;
-				$db->insert('vtiger_module_dashboard_widgets', [
+				App\Db::getInstance()->insert('vtiger_module_dashboard_widgets', [
 					'linkid' => $row['linkid'],
 					'userid' => $currentUser->getId(),
 					'templateid' => $row['id'],
@@ -168,8 +167,9 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 					'active' => $active,
 					'module' => $row['tabid'],
 					'cache' => $row['cache'],
-					'date' => $row['date']
-				]);
+					'date' => $row['date'],
+					'dashboardid' => $this->get('dashboardId')
+				])->execute();
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
@@ -193,7 +193,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 * @param <String> $moduleName - module name
 	 * @return <Array> $modules
 	 */
-	public static function getModulesWithWidgets($moduleName = false)
+	public static function getModulesWithWidgets($moduleName = false, $dashboard)
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 
@@ -201,7 +201,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 			->from('vtiger_module_dashboard')
 			->leftJoin('vtiger_module_dashboard_blocks', 'vtiger_module_dashboard_blocks.id = vtiger_module_dashboard.blockid')
 			->leftJoin('vtiger_module_dashboard_widgets', 'vtiger_module_dashboard_widgets.templateid = vtiger_module_dashboard.id')
-			->where(['userid' => $currentUser->getId()])
+			->where(['userid' => $currentUser->getId(), 'vtiger_module_dashboard_widgets.dashboardid' => $dashboard])
 			->orWhere(['authorized' => $currentUser->getRole()])
 			->groupBy('module, tabid');
 		$dataReader = $query->createCommand()->query();

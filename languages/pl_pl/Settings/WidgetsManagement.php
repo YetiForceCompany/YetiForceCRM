@@ -50,6 +50,8 @@ $languageStrings = [
 	'PLL_CURRENT_WEEK' => 'Bieżący tydzień',
 	'PLL_CURRENT_MONTH' => 'Bieżący miesiąc',
 	'PLL_CURRENT_YEAR' => 'Bieżący rok',
+	'LBL_SAVE_DASHBOARD' => 'Zapisz pulpit',
+	'LBL_NAME_DASHBOARD' => 'Nazwa pulpitu',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',
