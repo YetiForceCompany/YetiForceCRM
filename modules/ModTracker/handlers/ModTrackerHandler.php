@@ -90,19 +90,20 @@ class ModTrackerHandler extends VTEventHandler
 
 					$recordId = $data->getId();
 					$columnFields = $data->getData();
-					$adb->insert('vtiger_modtracker_basic', [
+					$db->createCommand()->insert('vtiger_modtracker_basic', [
 						'crmid' => $recordId,
 						'module' => $moduleName,
 						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$DELETED,
 						'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
-					]);
-					$id = $adb->getLastInsertID();
+					])->execute();
+					$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 					ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $id);
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $recordId));
-					if ($adb->num_rows($isMyRecord) > 0) {
-						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
+					
+					$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', $currentUser->getRealId()])->exists();
+					if ($isExists) {
+						$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0,], ['crmid' => $recordId])->execute();
 					}
 					$watchdogTitle = 'LBL_REMOVED';
 					$watchdogMessage = '(recordChanges: listOfAllChanges)';
@@ -111,19 +112,19 @@ class ModTrackerHandler extends VTEventHandler
 				case 'vtiger.entity.afterrestore':
 					$recordId = $data->getId();
 					$columnFields = $data->getData();
-					$adb->insert('vtiger_modtracker_basic', [
+					$db->createCommand()->insert('vtiger_modtracker_basic', [
 						'crmid' => $recordId,
 						'module' => $moduleName,
 						'whodid' => $currentUser->getRealId(),
 						'changedon' => date('Y-m-d H:i:s', time()),
 						'status' => ModTracker::$RESTORED,
 						'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
-					]);
-					$id = $adb->getLastInsertID();
+					])->execute();
+					$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 					ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $id);
-					$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $recordId));
-					if ($adb->num_rows($isMyRecord) > 0) {
-						$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($recordId));
+					$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', $currentUser->getRealId()])->exists();
+					if ($isExists) {
+						$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0,], ['crmid' => $recordId])->execute();
 					}
 					$watchdogTitle = 'LBL_RESTORED';
 

@@ -39,7 +39,7 @@ Class Settings_DataAccess_Step3_View extends Settings_Vtiger_Index_View
 				$db->createCommand()
 					->insert('vtiger_dataaccess', ['module_name' => $baseModule, 'summary' => $summary])
 					->execute();
-				$tplId = $db->getLastInsertID();
+				$tplId = $db->getLastInsertID('vtiger_dataaccess_dataaccessid_seq');
 				Settings_DataAccess_Module_Model::addConditions($conditionAll, $tplId);
 				Settings_DataAccess_Module_Model::addConditions($conditionOption, $tplId, false);
 			}

@@ -93,7 +93,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 					'whodid' => $currentUser->id,
 					'changedon' => date('Y-m-d H:i:s', time())
 				])->execute();
-				$id = $db->getLastInsertID();
+				$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 				$db->createCommand()->insert('vtiger_modtracker_detail', [
 					'id' => $id,
 					'fieldname' => 'assigned_user_id',
