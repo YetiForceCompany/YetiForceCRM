@@ -391,13 +391,13 @@ class PrivilegeUtil
 	 * Gives an array which contains the information for what all roles, groups and user data is to be shared with the spcified user for the specified module
 	 * @param string $module module name
 	 * @param int $userid user id
-	 * @param array $def_org_share default organization sharing permission array
-	 * @param string $current_user_roles roleid
-	 * @param string $parent_roles parent roles
-	 * @param int $current_user_groups user id
+	 * @param array $defOrgShare default organization sharing permission array
+	 * @param string $currentUserRoles roleid
+	 * @param string $parentRoles parent roles
+	 * @param int $currentUserGroups user id
 	 * @return array array which contains the id of roles,group and users data shared with specifed user for the specified module
 	 */
-	public static function getUserModuleSharingObjects($module, $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups)
+	public static function getUserModuleSharingObjects($module, $userid, $defOrgShare, $currentUserRoles, $parentRoles, $currentUserGroups)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -410,9 +410,8 @@ class PrivilegeUtil
 		$mod_share_write_permission['GROUP'] = [];
 
 		$share_id_members = [];
-		$share_id_groupmembers = [];
 		//If Sharing of leads is Private
-		if ($def_org_share[$mod_tabid] == 3 || $def_org_share[$mod_tabid] == 0) {
+		if ($defOrgShare[$mod_tabid] == 3 || $defOrgShare[$mod_tabid] == 0) {
 			$role_read_per = [];
 			$role_write_per = [];
 			$rs_read_per = [];
@@ -421,7 +420,7 @@ class PrivilegeUtil
 			$grp_write_per = [];
 			//Retreiving from vtiger_role to vtiger_role
 			$query = "select vtiger_datashare_role2role.* from vtiger_datashare_role2role inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_role2role.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_role2role.to_roleid=?";
-			$result = $adb->pquery($query, array($mod_tabid, $current_user_roles));
+			$result = $adb->pquery($query, array($mod_tabid, $currentUserRoles));
 			$num_rows = $adb->num_rows($result);
 			for ($i = 0; $i < $num_rows; $i++) {
 				$share_roleid = $adb->query_result($result, $i, 'share_roleid');
@@ -435,7 +434,7 @@ class PrivilegeUtil
 
 				$share_permission = $adb->query_result($result, $i, 'permission');
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!isset($role_read_per[$share_roleid])) {
 							$role_read_per[$share_roleid] = getRoleUserIds($share_roleid);
 						}
@@ -443,7 +442,7 @@ class PrivilegeUtil
 					if (!isset($role_write_per[$share_roleid])) {
 						$role_write_per[$share_roleid] = getRoleUserIds($share_roleid);
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!isset($role_read_per[$share_roleid])) {
 						$role_read_per[$share_roleid] = getRoleUserIds($share_roleid);
 					}
@@ -452,10 +451,10 @@ class PrivilegeUtil
 
 			//Retreiving from role to rs
 			$parRoleList = array();
-			foreach ($parent_roles as $par_role_id) {
+			foreach ($parentRoles as $par_role_id) {
 				array_push($parRoleList, $par_role_id);
 			}
-			array_push($parRoleList, $current_user_roles);
+			array_push($parRoleList, $currentUserRoles);
 			$query = "select vtiger_datashare_role2rs.* from vtiger_datashare_role2rs inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_role2rs.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_role2rs.to_roleandsubid in (%s)";
 			$query = sprintf($query, generateQuestionMarks($parRoleList));
 			$result = $adb->pquery($query, array($mod_tabid, $parRoleList));
@@ -472,7 +471,7 @@ class PrivilegeUtil
 
 				$share_permission = $adb->query_result($result, $i, 'permission');
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!isset($role_read_per[$share_roleid])) {
 							$role_read_per[$share_roleid] = getRoleUserIds($share_roleid);
 						}
@@ -480,7 +479,7 @@ class PrivilegeUtil
 					if (!isset($role_write_per[$share_roleid])) {
 						$role_write_per[$share_roleid] = getRoleUserIds($share_roleid);
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!isset($role_read_per[$share_roleid])) {
 						$role_read_per[$share_roleid] = getRoleUserIds($share_roleid);
 					}
@@ -488,7 +487,7 @@ class PrivilegeUtil
 			}
 
 			//Get roles from Role2Grp
-			$groupList = $current_user_groups;
+			$groupList = $currentUserGroups;
 			if (empty($groupList))
 				$groupList = array(0);
 
@@ -513,7 +512,7 @@ class PrivilegeUtil
 
 					$share_permission = $adb->query_result($result, $i, 'permission');
 					if ($share_permission == 1) {
-						if ($def_org_share[$mod_tabid] == 3) {
+						if ($defOrgShare[$mod_tabid] == 3) {
 							if (!array_key_exists($share_roleid, $role_read_per)) {
 
 								$share_role_users = getRoleUserIds($share_roleid);
@@ -525,7 +524,7 @@ class PrivilegeUtil
 							$share_role_users = getRoleUserIds($share_roleid);
 							$role_write_per[$share_roleid] = $share_role_users;
 						}
-					} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+					} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_roleid, $role_read_per)) {
 
 							$share_role_users = getRoleUserIds($share_roleid);
@@ -553,7 +552,7 @@ class PrivilegeUtil
 
 					$share_permission = $adb->query_result($result, $i, 'permission');
 					if ($share_permission == 1) {
-						if ($def_org_share[$mod_tabid] == 3) {
+						if ($defOrgShare[$mod_tabid] == 3) {
 							if (!array_key_exists($share_roleid, $role_read_per)) {
 
 								$share_role_users = getRoleUserIds($share_roleid);
@@ -565,7 +564,7 @@ class PrivilegeUtil
 							$share_role_users = getRoleUserIds($share_roleid);
 							$role_write_per[$share_roleid] = $share_role_users;
 						}
-					} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+					} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_roleid, $role_read_per)) {
 
 							$share_role_users = getRoleUserIds($share_roleid);
@@ -577,7 +576,7 @@ class PrivilegeUtil
 
 			//Retreiving from rs to vtiger_role
 			$query = "select vtiger_datashare_rs2role.* from vtiger_datashare_rs2role inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_rs2role.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_rs2role.to_roleid=?";
-			$result = $adb->pquery($query, array($mod_tabid, $current_user_roles));
+			$result = $adb->pquery($query, array($mod_tabid, $currentUserRoles));
 			$num_rows = $adb->num_rows($result);
 			for ($i = 0; $i < $num_rows; $i++) {
 				$share_rsid = $adb->query_result($result, $i, 'share_roleandsubid');
@@ -592,7 +591,7 @@ class PrivilegeUtil
 
 
 					if ($share_permission == 1) {
-						if ($def_org_share[$mod_tabid] == 3) {
+						if ($defOrgShare[$mod_tabid] == 3) {
 							if (!array_key_exists($share_roleid, $role_read_per)) {
 
 								$share_role_users = getRoleUserIds($share_roleid);
@@ -604,7 +603,7 @@ class PrivilegeUtil
 							$share_role_users = getRoleUserIds($share_roleid);
 							$role_write_per[$share_roleid] = $share_role_users;
 						}
-					} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+					} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_roleid, $role_read_per)) {
 
 							$share_role_users = getRoleUserIds($share_roleid);
@@ -619,10 +618,10 @@ class PrivilegeUtil
 
 			//Retreiving from rs to rs
 			$parRoleList = array();
-			foreach ($parent_roles as $par_role_id) {
+			foreach ($parentRoles as $par_role_id) {
 				array_push($parRoleList, $par_role_id);
 			}
-			array_push($parRoleList, $current_user_roles);
+			array_push($parRoleList, $currentUserRoles);
 			$query = "select vtiger_datashare_rs2rs.* from vtiger_datashare_rs2rs inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_rs2rs.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_rs2rs.to_roleandsubid in (%s)";
 			$query = sprintf($query, generateQuestionMarks($parRoleList));
 			$result = $adb->pquery($query, array($mod_tabid, $parRoleList));
@@ -640,7 +639,7 @@ class PrivilegeUtil
 					$share_id_roles[] = $share_roleid;
 
 					if ($share_permission == 1) {
-						if ($def_org_share[$mod_tabid] == 3) {
+						if ($defOrgShare[$mod_tabid] == 3) {
 							if (!array_key_exists($share_roleid, $role_read_per)) {
 
 								$share_role_users = getRoleUserIds($share_roleid);
@@ -652,7 +651,7 @@ class PrivilegeUtil
 							$share_role_users = getRoleUserIds($share_roleid);
 							$role_write_per[$share_roleid] = $share_role_users;
 						}
-					} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+					} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_roleid, $role_read_per)) {
 
 							$share_role_users = getRoleUserIds($share_roleid);
@@ -687,7 +686,7 @@ class PrivilegeUtil
 					$share_id_roles[] = $share_roleid;
 
 					if ($share_permission == 1) {
-						if ($def_org_share[$mod_tabid] == 3) {
+						if ($defOrgShare[$mod_tabid] == 3) {
 							if (!array_key_exists($share_roleid, $role_read_per)) {
 
 								$share_role_users = getRoleUserIds($share_roleid);
@@ -699,7 +698,7 @@ class PrivilegeUtil
 							$share_role_users = getRoleUserIds($share_roleid);
 							$role_write_per[$share_roleid] = $share_role_users;
 						}
-					} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+					} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_roleid, $role_read_per)) {
 
 							$share_role_users = getRoleUserIds($share_roleid);
@@ -730,7 +729,7 @@ class PrivilegeUtil
 					$share_id_roles[] = $share_roleid;
 
 					if ($share_permission == 1) {
-						if ($def_org_share[$mod_tabid] == 3) {
+						if ($defOrgShare[$mod_tabid] == 3) {
 							if (!array_key_exists($share_roleid, $role_read_per)) {
 								$share_role_users = getRoleUserIds($share_roleid);
 								$role_read_per[$share_roleid] = $share_role_users;
@@ -740,7 +739,7 @@ class PrivilegeUtil
 							$share_role_users = getRoleUserIds($share_roleid);
 							$role_write_per[$share_roleid] = $share_role_users;
 						}
-					} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+					} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_roleid, $role_read_per)) {
 							$share_role_users = getRoleUserIds($share_roleid);
 							$role_read_per[$share_roleid] = $share_role_users;
@@ -755,7 +754,7 @@ class PrivilegeUtil
 
 			//Retreiving from the grp2role sharing
 			$query = "select vtiger_datashare_grp2role.* from vtiger_datashare_grp2role inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_grp2role.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_grp2role.to_roleid=?";
-			$result = $adb->pquery($query, array($mod_tabid, $current_user_roles));
+			$result = $adb->pquery($query, array($mod_tabid, $currentUserRoles));
 			$num_rows = $adb->num_rows($result);
 			for ($i = 0; $i < $num_rows; $i++) {
 				$share_grpid = $adb->query_result($result, $i, 'share_groupid');
@@ -768,7 +767,7 @@ class PrivilegeUtil
 
 
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_grpid, $grp_read_per)) {
 							$focusGrpUsers = new GetGroupUsers();
 							$focusGrpUsers->getAllUsersInGroup($share_grpid);
@@ -799,7 +798,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!array_key_exists($share_grpid, $grp_read_per)) {
 						$focusGrpUsers = new GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($share_grpid);
@@ -834,7 +833,7 @@ class PrivilegeUtil
 				$share_id_grps[] = $share_grpid;
 
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_grpid, $grp_read_per)) {
 							$focusGrpUsers = new GetGroupUsers();
 							$focusGrpUsers->getAllUsersInGroup($share_grpid);
@@ -865,7 +864,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!array_key_exists($share_grpid, $grp_read_per)) {
 						$focusGrpUsers = new GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($share_grpid);
@@ -899,7 +898,7 @@ class PrivilegeUtil
 				$share_id_grps[] = $share_grpid;
 
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_grpid, $grp_read_per)) {
 							$focusGrpUsers = new GetGroupUsers();
 							$focusGrpUsers->getAllUsersInGroup($share_grpid);
@@ -930,7 +929,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!array_key_exists($share_grpid, $grp_read_per)) {
 						$focusGrpUsers = new GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($share_grpid);
@@ -969,7 +968,7 @@ class PrivilegeUtil
 				$share_id_grps[] = $share_grpid;
 
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_grpid, $grp_read_per)) {
 							$focusGrpUsers = new GetGroupUsers();
 							$focusGrpUsers->getAllUsersInGroup($share_grpid);
@@ -999,7 +998,7 @@ class PrivilegeUtil
 							}
 						}
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!array_key_exists($share_grpid, $grp_read_per)) {
 						$focusGrpUsers = new GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($share_grpid);
@@ -1036,7 +1035,7 @@ class PrivilegeUtil
 
 				$share_permission = $adb->query_result($result, $i, 'permission');
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_userid, $grp_read_per)) {
 							$grp_read_per[$share_userid] = [$share_userid];
 						}
@@ -1044,7 +1043,7 @@ class PrivilegeUtil
 					if (!array_key_exists($share_userid, $grp_write_per)) {
 						$grp_write_per[$share_userid] = [$share_userid];
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!array_key_exists($share_userid, $grp_read_per)) {
 						$grp_read_per[$share_userid] = [$share_userid];
 					}
@@ -1074,7 +1073,7 @@ class PrivilegeUtil
 
 				$share_permission = $adb->query_result($result, $i, 'permission');
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_userid, $grp_read_per)) {
 							$grp_read_per[$share_userid] = [$share_userid];
 						}
@@ -1082,7 +1081,7 @@ class PrivilegeUtil
 					if (!array_key_exists($share_userid, $grp_write_per)) {
 						$grp_write_per[$share_userid] = [$share_userid];
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!array_key_exists($share_userid, $grp_read_per)) {
 						$grp_read_per[$share_userid] = [$share_userid];
 					}
@@ -1093,7 +1092,7 @@ class PrivilegeUtil
 
 			//Get roles from Us2role
 			$query = 'select vtiger_datashare_us2role.* from vtiger_datashare_us2role inner join vtiger_datashare_module_rel on vtiger_datashare_module_rel.shareid=vtiger_datashare_us2role.shareid where vtiger_datashare_module_rel.tabid=? and vtiger_datashare_us2role.to_roleid=?';
-			$qparams = array($mod_tabid, $current_user_roles);
+			$qparams = array($mod_tabid, $currentUserRoles);
 
 			$result = $adb->pquery($query, $qparams);
 			$num_rows = $adb->num_rows($result);
@@ -1108,7 +1107,7 @@ class PrivilegeUtil
 
 				$share_permission = $adb->query_result($result, $i, 'permission');
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_userid, $grp_read_per)) {
 							$grp_read_per[$share_userid] = [$share_userid];
 						}
@@ -1116,7 +1115,7 @@ class PrivilegeUtil
 					if (!array_key_exists($share_userid, $grp_write_per)) {
 						$grp_write_per[$share_userid] = [$share_userid];
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!array_key_exists($share_userid, $grp_read_per)) {
 						$grp_read_per[$share_userid] = [$share_userid];
 					}
@@ -1143,7 +1142,7 @@ class PrivilegeUtil
 
 				$share_permission = $adb->query_result($result, $i, 'permission');
 				if ($share_permission == 1) {
-					if ($def_org_share[$mod_tabid] == 3) {
+					if ($defOrgShare[$mod_tabid] == 3) {
 						if (!array_key_exists($share_userid, $grp_read_per)) {
 							$grp_read_per[$share_userid] = [$share_userid];
 						}
@@ -1151,7 +1150,7 @@ class PrivilegeUtil
 					if (!array_key_exists($share_userid, $grp_write_per)) {
 						$grp_write_per[$share_userid] = [$share_userid];
 					}
-				} elseif ($share_permission == 0 && $def_org_share[$mod_tabid] == 3) {
+				} elseif ($share_permission == 0 && $defOrgShare[$mod_tabid] == 3) {
 					if (!array_key_exists($share_userid, $grp_read_per)) {
 						$grp_read_per[$share_userid] = [$share_userid];
 					}

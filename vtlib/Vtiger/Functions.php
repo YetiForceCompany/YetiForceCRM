@@ -155,13 +155,13 @@ class Functions
 			if ($isEntityType && $module['isentitytype'] == 0) {
 				unset($moduleList[$id]);
 			}
-			if ($presence !== false && $module['presence'] != $presence) {
+			if ($presence !== false && $module['presence'] !== $presence) {
 				unset($moduleList[$id]);
 			}
-			if ($colorActive !== false && $module['coloractive'] != 1) {
+			if ($colorActive !== false && $module['coloractive'] !== 1) {
 				unset($moduleList[$id]);
 			}
-			if ($ownedby !== false && $module['ownedby'] != $ownedby) {
+			if ($ownedby !== false && $module['ownedby'] !== $ownedby) {
 				unset($moduleList[$id]);
 			}
 		}
