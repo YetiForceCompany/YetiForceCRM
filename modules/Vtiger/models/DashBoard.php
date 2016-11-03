@@ -153,7 +153,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 					->where(['userid' => $currentUser->getId(), 'templateid' => $row['id']])
 					->exists()) {
 				$active = $row['isdefault'] ? 1 : 0;
-				App\Db::getInstance()->insert('vtiger_module_dashboard_widgets', [
+				App\Db::getInstance()->createCommand()->insert('vtiger_module_dashboard_widgets', [
 					'linkid' => $row['linkid'],
 					'userid' => $currentUser->getId(),
 					'templateid' => $row['id'],
