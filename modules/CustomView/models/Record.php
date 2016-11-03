@@ -335,6 +335,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$db->startTransaction();
 		if (!$cvId) {
 			$this->addCustomView();
+			$cvId = $this->getId();
 		} else {
 			$this->updateCustomView();
 		}
@@ -345,13 +346,15 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		} elseif (empty($featured) && !empty($cvIdOrg)) {
 			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'remove');
 		} elseif (!empty($featured)) {
-			$result = $db->pquery('SELECT 1 FROM u_yf_featured_filter WHERE u_yf_featured_filter.cvid = ? && u_yf_featured_filter.user = ?;', [$cvId, $userId]);
-			if (empty($result->rowCount())) {
+			$isExists = (new App\Db\Query())->from('u_yf_featured_filter')->where(['cvid' => $cvId, 'user' => $userId])->exists();
+			if (!$isExists) {
 				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
 			}
 		}
 		if (empty($setDefault) && !empty($cvIdOrg)) {
-			$db->delete('vtiger_user_module_preferences', 'userid = ? && tabid = ? && default_cvid = ?', [$userId, $this->getModule()->getId(), $cvId]);
+			App\Db::getInstance()->createCommand()
+					->delete('vtiger_user_module_preferences', ['userid' => $userId, 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
+					->execute();
 		} elseif (!empty($setDefault)) {
 			$this->setDefaultFilter();
 		}
@@ -382,16 +385,16 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function setDefaultFilter()
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = 'Users:' . $currentUser->getId();
 		$tabId = $this->getModule()->getId();
-		$db->delete('vtiger_user_module_preferences', 'userid = ? && tabid = ?', [$userId, $tabId]);
-		$db->insert('vtiger_user_module_preferences', [
+		$db->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $userId, 'tabid' => $tabId])->execute();
+		$db->createCommand()->insert('vtiger_user_module_preferences', [
 			'userid' => $userId,
 			'tabid' => $tabId,
 			'default_cvid' => $this->getId()
-		]);
+		])->execute();
 	}
 
 	public function setConditionsForFilter()
@@ -511,14 +514,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function setColumnlist()
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$cvId = $this->getId();
 		foreach ($this->get('columnslist') as $index => $columnName) {
-			$db->insert('vtiger_cvcolumnlist', [
+			$db->createCommand()->insert('vtiger_cvcolumnlist', [
 				'cvid' => $cvId,
 				'columnindex' => $index,
 				'columnname' => $columnName
-			]);
+			])->execute();
 		}
 	}
 
@@ -560,20 +563,20 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function updateCustomView()
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$cvId = $this->getId();
-		$db->update('vtiger_customview', [
+		$db->createCommand()->update('vtiger_customview', [
 			'viewname' => $this->get('viewname'),
 			'setmetrics' => $this->get('setmetrics'),
 			'status' => $this->get('status'),
 			'color' => $this->get('color'),
 			'description' => $this->get('description')
-			], 'cvid = ?', [$cvId]
-		);
-		$db->delete('vtiger_cvcolumnlist', 'cvid = ?', [$cvId]);
-		$db->delete('vtiger_cvstdfilter', 'cvid = ?', [$cvId]);
-		$db->delete('vtiger_cvadvfilter', 'cvid = ?', [$cvId]);
-		$db->delete('vtiger_cvadvfilter_grouping', 'cvid = ?', [$cvId]);
+			], ['cvid' => $cvId]
+		)->execute();
+		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
+		$db->createCommand()->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
+		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
+		$db->createCommand()->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 	}
@@ -1165,7 +1168,6 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if (self::$moduleViewIdCache) {
 			return self::$moduleViewIdCache;
 		}
-
 		$moduleName = $request->getModule();
 		$viewName = $request->get('viewname');
 		if (empty($viewName)) {
@@ -1174,9 +1176,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$customView = new CustomView();
 			$viewName = $customView->getViewId($moduleName);
 		} elseif ($viewName == 'All') {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT cvid FROM vtiger_customview WHERE presence = 0 && entitytype=?', [$moduleName]);
-			$viewName = $db->getSingleValue($result);
+			$viewName = (new App\Db\Query())->select('cvid')->from('vtiger_customview')->where(['presence' => 0, 'entitytype' => $moduleName])->scalar();
 		}
 		self::$moduleViewIdCache = $viewName;
 		return $viewName;

@@ -132,7 +132,7 @@ class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
 	private function getSelectedTreeList()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tree FROM u_yf_crmentity_rel_tree WHERE crmid = ? && relmodule = ?', [$this->get('srcRecord'), $this->get('module')->getId()]);
+		$result = $db->pquery('SELECT tree FROM u_yf_crmentity_rel_tree WHERE crmid = ? AND relmodule = ?', [$this->get('srcRecord'), $this->get('module')->getId()]);
 		return $db->getArrayColumn($result);
 	}
 
