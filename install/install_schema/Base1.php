@@ -877,6 +877,15 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__dashboard_type' => [
+				'columns' => [
+					'dashboard_id' => $this->primaryKey(),
+					'name' => $this->stringType()->notNull(),
+					'system' => $this->smallInteger(1)->defaultValue(0)
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__favorites' => [
 				'columns' => [
 					'crmid' => $this->integer(),
@@ -3190,6 +3199,12 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => ['name', 'value'],
 				'values' => [
 						['roundcube-version', '2016011900'],
+				]
+			],
+			'u_#__dashboard_type' => [
+				'columns' => ['dashboard_id', 'name', 'system'],
+				'values' => [
+					[1, 'LBL_MAIN_PAGE', 1],
 				]
 			],
 			'u_yf_fcorectinginvoice_invfield' => [

@@ -1309,6 +1309,7 @@ class Base3 extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'authorized' => $this->stringType(10)->notNull(),
 					'tabid' => $this->smallInteger(11)->unsigned()->notNull(),
+					'dashboard_id' => $this->integer(),
 				],
 				'index' => [
 						['module_dashboard_blocks_authorized_idx', ['authorized', 'tabid']],
@@ -1335,6 +1336,7 @@ class Base3 extends \App\Db\Importers\Base
 					'module' => $this->integer(10)->defaultValue(0),
 					'cache' => $this->smallInteger(1)->defaultValue(0),
 					'date' => $this->stringType(20),
+					'dashboardid' => $this->integer(),
 				],
 				'index' => [
 						['module_dashboard_widgets_temp_idx', 'templateid'],
