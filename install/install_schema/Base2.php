@@ -606,9 +606,6 @@ class Base2 extends \App\Db\Importers\Base
 				'index' => [
 						['userid_idx', 'userid'],
 				],
-				'primaryKeys' => [
-						['calendar_user_activitytypes_pk', 'id']
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2809,12 +2806,6 @@ class Base2 extends \App\Db\Importers\Base
 						[5, 5, 1, '#545252', 0],
 						[7, 7, 1, '#C71585', 0],
 						[8, 8, 1, '#006400', 0],
-				]
-			],
-			'vtiger_calendar_user_activitytypes_seq' => [
-				'columns' => ['id'],
-				'values' => [
-						[8],
 				]
 			],
 			'vtiger_calendarsharedtype' => [
