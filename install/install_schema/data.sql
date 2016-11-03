@@ -298,6 +298,10 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `u_yf_crmentity_showners` */
 
+/*Data for the table `u_yf_dashboard_type` */
+
+insert  into `u_yf_dashboard_type`(`dashboard_id`,`name`,`system`) values (1,'LBL_MAIN_PAGE',1);
+
 /*Data for the table `u_yf_favorites` */
 
 /*Data for the table `u_yf_fbookkeeping` */

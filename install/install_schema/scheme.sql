@@ -1028,6 +1028,15 @@ CREATE TABLE `u_yf_crmentity_showners` (
   CONSTRAINT `fk_u_yf_crmentity_showners` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_dashboard_type` */
+
+CREATE TABLE `u_yf_dashboard_type` (
+  `dashboard_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `system` smallint(1) DEFAULT '0',
+  PRIMARY KEY (`dashboard_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_favorites` */
 
 CREATE TABLE `u_yf_favorites` (
@@ -6035,6 +6044,7 @@ CREATE TABLE `vtiger_module_dashboard_blocks` (
   `id` int(100) unsigned NOT NULL AUTO_INCREMENT,
   `authorized` varchar(10) NOT NULL,
   `tabid` smallint(11) unsigned NOT NULL,
+  `dashboard_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `authorized` (`authorized`,`tabid`),
   KEY `tabid` (`tabid`)
@@ -6059,6 +6069,7 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   `module` int(10) DEFAULT '0',
   `cache` tinyint(1) DEFAULT '0',
   `date` varchar(20) DEFAULT NULL,
+  `dashboardid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
   KEY `userid` (`userid`,`active`,`module`),
