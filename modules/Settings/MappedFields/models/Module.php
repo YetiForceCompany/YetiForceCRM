@@ -283,7 +283,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if (!$this->getRecordId()) {
 			$db->createCommand()->insert($this->baseTable, $params)->execute();
-			$this->record->set('id', $db->getLastInsertID());
+			$this->record->set('id', $db->getLastInsertID($this->baseTable . '_id_seq'));
 		} else {
 			$db->createCommand()->update($this->baseTable, $params, [$this->baseIndex => $this->getRecordId()])->execute();
 		}

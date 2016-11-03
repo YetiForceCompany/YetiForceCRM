@@ -99,7 +99,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 					'value' => $this->get('value'),
 					'name' => $this->getName()
 				])->execute();
-			return $db->getLastInsertID();
+			return $db->getLastInsertID($tableName . '_id_seq');
 		}
 		throw new Error('Error occurred while adding value');
 	}

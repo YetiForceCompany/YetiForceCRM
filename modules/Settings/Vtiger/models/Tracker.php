@@ -36,7 +36,7 @@ class Settings_Vtiger_Tracker_Model
 				'action' => _PROCESS_NAME
 			])->execute();
 		if ($insertedInfo === 1) {
-			self::$id = $db->getLastInsertID();
+			self::$id = $db->getLastInsertID('l_#__settings_tracker_basic_id_seq');
 		}
 	}
 
