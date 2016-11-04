@@ -89,7 +89,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db = App\Db::getInstance();
 		$db->createCommand()->delete('u_#__dashboard_type', ['dashboard_id' => $dashboardId])->execute();
 		$blocks = (new App\Db\Query())->select('id')->from('vtiger_module_dashboard_blocks')
-			->where(['dashboard_id' => $dashboardId])->createCommand()->queryColumn();
+				->where(['dashboard_id' => $dashboardId])->createCommand()->queryColumn();
 		$db->createCommand()->delete('vtiger_module_dashboard_blocks', ['dashboard_id' => $dashboardId])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard', ['blockid' => $blocks])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['dashboardid' => $dashboardId])->execute();
@@ -215,25 +215,15 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
-		$sql = 'SELECT * FROM vtiger_links
-				INNER JOIN `vtiger_tab`
-					ON vtiger_links.`tabid` = vtiger_tab.`tabid`
-				WHERE linktype = ? && vtiger_tab.`presence` = 0';
-
-		$params = ['DASHBOARDWIDGET'];
-
-		$result = $db->pquery($sql, $params);
-
+		$dataReader = (new \App\Db\Query())->from('vtiger_links')
+				->innerJoin('vtiger_tab', 'vtiger_links.tabid = vtiger_tab.tabid')
+				->where(['linktype' => 'DASHBOARDWIDGET', 'vtiger_tab.presence' => 0])
+				->createCommand()->query();
 		$widgets = [];
-		$numRows = $db->getRowCount($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
+		while ($row = $dataReader->read()) {
+			$moduleName = \App\Module::getModuleName($row['tabid']);
 			if ($row['linklabel'] == 'Tag Cloud') {
-				$isTagCloudExists = \vtlib\Functions::getTagCloudView($currentUser->getId());
+				$isTagCloudExists = \vtlib\Functions::getTagCloudView(\App\User::getCurrentUserId());
 				if ($isTagCloudExists == 'false') {
 					continue;
 				}
@@ -425,14 +415,10 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * */
 	public function getDashboardForModule($moduleName)
 	{
-
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getDashboardForModule(" . $moduleName . ") method ...");
-		$adb = PearDatabase::getInstance();
 		$tabId = \App\Module::getModuleId($moduleName);
-		$data = array();
-
-		$query = 'SELECT 
-				  mdw.blockid,
+		$data = [];
+		$dataReader = (new \App\Db\Query())->select('mdw.blockid,
 				  mdw.data,
 				  mdw.title,
 				  mdw.filterid,
@@ -443,22 +429,16 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				  mdw.owners,
 				  mdw.cache,
 				  mdw.date,
-				  `vtiger_links`.*,
-				  `mdb`.`authorized`
-				FROM
-				  `vtiger_module_dashboard` AS mdw 
-				  INNER JOIN `vtiger_links` 
-					ON `mdw`.`linkid` = `vtiger_links`.`linkid` 
-				  INNER JOIN `vtiger_module_dashboard_blocks` AS mdb 
-					ON (`mdw`.`blockid` = `mdb`.`id` && `vtiger_links`.`tabid` = `mdb`.`tabid`)
-				WHERE `vtiger_links`.`tabid` = ?';
-		$params = array($tabId);
-		$result = $adb->pquery($query, $params);
-		$num = $adb->num_rows($result);
+				  vtiger_links.*,
+				  mdb.authorized')
+				->from('vtiger_module_dashboard AS mdw')
+				->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
+				->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
+				->where(['vtiger_links.tabid' => $tabId])
+				->createCommand()->query();
 		$userId = '';
 		$blockId = '';
-		for ($i = 0; $i < $num; $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
+		while ($row = $dataReader->read()) {
 			if ($row['linklabel'] == 'Mini List') {
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();

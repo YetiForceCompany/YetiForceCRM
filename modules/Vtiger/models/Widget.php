@@ -147,14 +147,12 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 
 	public static function getInstanceWithWidgetId($widgetId, $userId)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets
-			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid
-			WHERE linktype = ? && vtiger_module_dashboard_widgets.id = ? && userid = ?', array('DASHBOARDWIDGET', $widgetId, $userId));
-
+		$row = (new \App\Db\Query())->from('vtiger_module_dashboard_widgets')
+			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid')
+			->where(['linktype' => 'DASHBOARDWIDGET', 'vtiger_module_dashboard_widgets.id' => $widgetId, 'userid' => $userId])
+			->one();
 		$self = new self();
-		if ($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result, 0);
+		if ($row) {
 			if ($row['linklabel'] == 'Mini List') {
 				if (!$row['isdeafult'])
 					$row['deleteFromList'] = true;
@@ -180,27 +178,30 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	 */
 	public function show()
 	{
-		$db = PearDatabase::getInstance();
 		if (0 == $this->get('active')) {
-			$query = 'UPDATE vtiger_module_dashboard_widgets SET `active` = ? WHERE id = ?';
-			$params = array(1, $this->get('widgetid'));
-			$db->pquery($query, $params);
+			App\Db::getInstance()->createCommand()
+				->update('vtiger_module_dashboard_widgets', ['active' => 1], ['id' => $this->get('widgetid')])
+				->execute();
 		}
 		$this->set('id', $this->get('widgetid'));
 	}
 
 	/**
 	 * Function to remove the widget from the Users Dashboard
+	 * @param string $action
 	 */
 	public function remove($action = 'hide')
 	{
-		$db = PearDatabase::getInstance();
-		if ($action == 'delete')
-			$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE id = ? && blockid = ?', array($this->get('id'), $this->get('blockid')));
+		$db = App\Db::getInstance();
+		if ($action == 'delete'){
+			$db->createCommand()->delete('vtiger_module_dashboard_widgets',
+				['id' => $this->get('id'), 'blockid' => $this->get('blockid')])
+				->execute();
+		}
 		else if ($action == 'hide') {
-			$query = 'UPDATE vtiger_module_dashboard_widgets SET `active` = ? WHERE id = ?';
-			$params = array(0, $this->get('id'));
-			$db->pquery($query, $params);
+			$db->createCommand()->update('vtiger_module_dashboard_widgets',
+				['active' => 0], ['id' => $this->get('id')])
+				->execute();
 			$this->set('active', 0);
 		}
 	}

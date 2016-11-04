@@ -146,7 +146,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			} else if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
 				$query .= sprintf(' ORDER BY %s %s', $targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
 			}
-			$query .= sprintf(' LIMIT 0,%d', $this->getRecordLimit());
+			$query .= sprintf(' LIMIT %d', $this->getRecordLimit());
 			$query = substr($query, 6);
 			$query = sprintf('SELECT vtiger_crmentity.crmid as id, %s', $query);
 			$result = $db->pquery($query, $params);
