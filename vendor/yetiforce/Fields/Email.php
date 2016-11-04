@@ -58,9 +58,9 @@ class Email
 			$whereQuery .= ' (';
 			$or = '';
 			foreach ($where as $columnName) {
-				$or .= sprintf(' || %s = ?', $columnName);
+				$or .= sprintf(' OR %s = ?', $columnName);
 			}
-			$query .= $whereQuery . ltrim($or, ' || ') . '))';
+			$query .= $whereQuery . ltrim($or, ' OR ') . '))';
 		}
 		for ($index = 0; $index < $countWhere; $index++) {
 			$params[] = $value;

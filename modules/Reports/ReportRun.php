@@ -728,7 +728,7 @@ class ReportRun extends CRMEntity
 				$rtvalue = ' is NOT NULL';
 			} elseif (trim($value) != '') {
 				if ($columnName)
-					$rtvalue = ' <> ' . $adb->quote($value) . ' || ' . $columnName . " IS NULL ";
+					$rtvalue = ' <> ' . $adb->quote($value) . ' OR ' . $columnName . " IS NULL ";
 				else
 					$rtvalue = ' <> ' . $adb->quote($value);
 			}elseif (trim($value) == '' && $datatype == 'V') {
@@ -1235,7 +1235,7 @@ class ReportRun extends CRMEntity
 							foreach ($fieldSqlColumns as $columnSql) {
 								$fieldSqls[] = $columnSql . $comparatorValue;
 							}
-							$fieldvalue = ' (' . implode(' || ', $fieldSqls) . ') ';
+							$fieldvalue = ' (' . implode(' OR ', $fieldSqls) . ') ';
 						} else {
 							$fieldvalue = $selectedfields[0] . "." . $selectedfields[1] . $this->getAdvComparator($comparator, trim($value), $datatype);
 						}

@@ -222,7 +222,7 @@ class Owner
 			$query = str_replace('%s', implode(',', $entityData['fieldnameArr']), $query);
 			if (!empty($assignedUser)) {
 				if (is_array($assignedUser)) {
-					$where .= sprintf(' && id IN (%s)', generateQuestionMarks($assignedUser));
+					$where .= sprintf(' AND id IN (%s)', generateQuestionMarks($assignedUser));
 					foreach ($assignedUser as $id) {
 						array_push($params, $id);
 					}

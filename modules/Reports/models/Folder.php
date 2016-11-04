@@ -405,7 +405,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 		$listQuery = $this->getListViewQuery($folderId);
 
 		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
-			$listQuery .= ' && ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
+			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
 		}
 		$result = $db->query($listQuery);
 		$noOfRecords = $db->num_rows($result);

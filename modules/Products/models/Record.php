@@ -246,7 +246,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			if ($moduleName !== false) {
 				$multiMode = is_array($moduleName);
 				if ($multiMode) {
-					$queryWhere .= sprintf(' && u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+					$queryWhere .= sprintf(' AND u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 					$params = array_merge($params, $moduleName);
 				} else {
 					$queryWhere .= ' && `setype` = ?';

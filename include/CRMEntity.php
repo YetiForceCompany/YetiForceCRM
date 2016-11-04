@@ -1220,7 +1220,7 @@ class CRMEntity
 			$tabid = array('9', '16');
 		}
 		$sql = "SELECT columnname FROM vtiger_field " .
-			" WHERE (fieldname not like '%\_id' || fieldname in ('assigned_user_id'))" .
+			" WHERE (fieldname not like '%\_id' OR fieldname in ('assigned_user_id'))" .
 			" && tabid in (" . generateQuestionMarks($tabid) . ") and vtiger_field.presence in (0,2)";
 		$params = array($tabid);
 		if (count($exclude_columns) > 0) {
@@ -1279,7 +1279,7 @@ class CRMEntity
 
 			if ($fld_table == $this->table_name) {
 				$records = $adb->query("SELECT $this->table_index AS recordid FROM $this->table_name " .
-					"WHERE $fld_column = '' || $fld_column is NULL");
+					"WHERE $fld_column = '' OR $fld_column is NULL");
 
 				if ($records && $adb->num_rows($records)) {
 					$returninfo['totalrecords'] = $adb->num_rows($records);

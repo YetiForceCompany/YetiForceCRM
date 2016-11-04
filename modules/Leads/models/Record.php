@@ -40,7 +40,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		if ($moduleName !== false) {
 			$multiMode = is_array($moduleName);
 			if ($multiMode) {
-				$queryWhere .= sprintf(' && `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+				$queryWhere .= sprintf(' AND `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 				$params = array_merge($params, $moduleName);
 			} else {
 				$queryWhere .= ' && `setype` = ?';

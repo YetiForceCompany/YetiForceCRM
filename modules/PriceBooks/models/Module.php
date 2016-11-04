@@ -78,7 +78,7 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 								AND vtiger_pricebook.active = 1";
 			}
 			if ($pos) {
-				$overRideQuery = $listQuery . ' && ' . $condition;
+				$overRideQuery = $listQuery . ' AND ' . $condition;
 			} else {
 				$overRideQuery = $listQuery . ' WHERE ' . $condition;
 			}

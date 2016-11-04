@@ -59,7 +59,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		$listViewRecordModels = array();
 		if (count($importedRecordIds) != 0) {
 			$moduleModel = $this->get('module');
-			$listQuery .= ' && ' . $moduleModel->basetable . '.' . $moduleModel->basetableid . ' IN (' . implode(',', $importedRecordIds) . ')';
+			$listQuery .= ' AND ' . $moduleModel->basetable . '.' . $moduleModel->basetableid . ' IN (' . implode(',', $importedRecordIds) . ')';
 
 			$listQuery .= " LIMIT $startIndex, $pageLimit";
 
@@ -91,7 +91,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		$importedRecordIds = $this->getLastImportedRecord();
 		if (count($importedRecordIds) != 0) {
 			$moduleModel = $this->get('module');
-			$listQuery .= ' && ' . $moduleModel->basetable . '.' . $moduleModel->basetableid . ' IN (' . implode(',', $importedRecordIds) . ')';
+			$listQuery .= ' AND ' . $moduleModel->basetable . '.' . $moduleModel->basetableid . ' IN (' . implode(',', $importedRecordIds) . ')';
 		}
 
 		$listResult = $db->pquery($listQuery, array());

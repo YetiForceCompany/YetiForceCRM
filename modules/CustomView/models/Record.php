@@ -293,14 +293,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		}
 
 		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
-			$listQuery .= ' && ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
+			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
 		}
 		if ($lockRecords) {
 			$crmEntityModel = Vtiger_CRMEntity::getInstance($moduleName);
 			$lockFields = $crmEntityModel->getLockFields();
 			if (is_array($lockFields)) {
 				foreach ($lockFields as $fieldName => $fieldValues) {
-					$listQuery .= ' && ' . $baseTableName . '.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')';
+					$listQuery .= ' AND ' . $baseTableName . '.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')';
 					$params = array_merge($params, $fieldValues);
 				}
 			}
