@@ -13,16 +13,13 @@ class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View
 
 	public function process(Vtiger_Request $request)
 	{
-
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
-
 		$data = $request->getAll();
 		$moduleName = $request->getModule();
 		$type = $request->get('type');
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 		$limit = (int) $widget->get('limit');
 
 		if (empty($limit)) {

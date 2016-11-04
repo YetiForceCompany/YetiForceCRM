@@ -28,21 +28,20 @@ class Home_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getComments($pagingModel)
 	{
-		$db = PearDatabase::getInstance();
-		$userAccessConditions = \App\PrivilegeQuery::getAccessConditions('ModComments');
-		$sql = 'SELECT *, vtiger_crmentity.createdtime AS createdtime, vtiger_crmentity.smownerid AS smownerid,
-			crmentity2.crmid AS parentId, crmentity2.setype AS parentModule 
-			FROM vtiger_modcomments
-			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
-			INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
-			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 %s
-			ORDER BY vtiger_modcomments.modcommentsid DESC LIMIT ?, ?';
-		$sql = sprintf($sql, $userAccessConditions);
-		$result = $db->pquery($sql, array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
-
-		$comments = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$query = new \App\Db\Query();
+		$query->select(['*', 'createdtime' => 'vtiger_crmentity.createdtime', 'smownerid' => 'vtiger_crmentity.smownerid',
+				'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype'])
+			->from('vtiger_modcomments')
+			->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'crmentity2.deleted' => 0]);
+		\App\PrivilegeQuery::getConditions($query, 'ModComments');
+		$query->orderBy(['vtiger_modcomments.modcommentsid' => SORT_DESC])
+			->limit($pagingModel->getPageLimit())
+			->offset($pagingModel->getStartIndex());
+		$dataReader = $query->createCommand()->query();
+		$comments = [];
+		while ($row = $dataReader->read()) {
 			if (Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['related_to'])) {
 				$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
 				$commentModel->setData($row);
@@ -55,14 +54,13 @@ class Home_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns part of the query to  fetch only  activity
-	 * @param <String> $type - comments, updates or all
-	 * @return <String> $query 
+	 * @param \App\Db\Query $query
+	 * @param string $type
 	 */
-	public function getActivityQuery($type)
+	public function getActivityQuery(\App\Db\Query $query, $type)
 	{
 		if ($type == 'updates') {
-			$query = ' && module != "ModComments" ';
-			return $query;
+			$query->andWhere(['<>', 'module', 'ModComments']);
 		}
 	}
 
@@ -289,18 +287,19 @@ class Home_Module_Model extends Vtiger_Module_Model
 		//comment information again,so avoiding from modtracker
 		//updateActivityQuery api is used to update a query to fetch a only activity
 		if ($type == 'updates' || $type == 'all') {
-			$db = PearDatabase::getInstance();
-			$queryforActivity = $this->getActivityQuery($type);
-			$query = sprintf('SELECT vtiger_modtracker_basic.*
-					FROM vtiger_modtracker_basic
-					INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-					AND deleted = 0 %s
-					ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', $queryforActivity);
-			$result = $db->pquery($query, [$pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
+			$query = new \App\Db\Query();
+			$query->select('vtiger_modtracker_basic.*')
+				->from('vtiger_modtracker_basic')
+				->innerJoin('vtiger_crmentity', 'vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid')
+				->where(['vtiger_crmentity.deleted' => 0]);
 
-			$activites = array();
-			for ($i = 0; $i < $db->num_rows($result); $i++) {
-				$row = $db->query_result_rowdata($result, $i);
+			$this->getActivityQuery($query, $type);
+			$query->orderBy(['vtiger_modtracker_basic' => SORT_DESC])
+				->limit($pagingModel->getPageLimit())
+				->offset($pagingModel->getStartIndex());
+			$dataReader = $query->createCommand()->query();
+			$activites = [];
+			while ($row = $dataReader->read()) {
 				$moduleName = $row['module'];
 				$recordId = $row['crmid'];
 				if (Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId)) {

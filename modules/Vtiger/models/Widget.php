@@ -114,14 +114,12 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 
 	public static function getInstance($linkId, $userId)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets
-			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid
-			WHERE linktype = ? && vtiger_links.linkid = ? && userid = ?', array('DASHBOARDWIDGET', $linkId, $userId));
-
+		$row = (new \App\Db\Query())->from('vtiger_module_dashboard_widgets')
+			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid')
+			->where(['linktype' => 'DASHBOARDWIDGET', 'vtiger_links.linkid' => $linkId, 'userid' => $userId])
+			->one();
 		$self = new self();
-		if ($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result, 0);
+		if ($row) {
 			$self->setData($row);
 		}
 		return $self;
@@ -193,14 +191,11 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	public function remove($action = 'hide')
 	{
 		$db = App\Db::getInstance();
-		if ($action == 'delete'){
-			$db->createCommand()->delete('vtiger_module_dashboard_widgets',
-				['id' => $this->get('id'), 'blockid' => $this->get('blockid')])
+		if ($action == 'delete') {
+			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['id' => $this->get('id'), 'blockid' => $this->get('blockid')])
 				->execute();
-		}
-		else if ($action == 'hide') {
-			$db->createCommand()->update('vtiger_module_dashboard_widgets',
-				['active' => 0], ['id' => $this->get('id')])
+		} else if ($action == 'hide') {
+			$db->createCommand()->update('vtiger_module_dashboard_widgets', ['active' => 0], ['id' => $this->get('id')])
 				->execute();
 			$this->set('active', 0);
 		}
