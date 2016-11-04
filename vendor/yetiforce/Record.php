@@ -185,20 +185,19 @@ class Record
 	{
 		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
-			$adb = \PearDatabase::getInstance();
 			$db = \App\Db::getInstance();
 			$label = decode_html($labelInfo[$id]['name']);
 			$search = decode_html($labelInfo[$id]['search']);
 			$insertMode = $mode != 'edit';
 			$rowCount = 0;
 			if (empty($label)) {
-				$adb->delete('u_yf_crmentity_label', 'crmid = ?', [$id]);
+				$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $id])->execute();
 			} else {
 				if (!$insertMode) {
-					$rowCount = $adb->update('u_yf_crmentity_label', ['label' => $label], 'crmid = ?', [$id]);
+					$rowCount = $db->createCommand()->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])->execute();
 					if ($rowCount == 0) {
-						$result = $adb->pquery('SELECT 1 FROM `u_yf_crmentity_label` WHERE `crmid` = ?', [$id]);
-						$rowCount = $adb->getRowCount($result);
+						$rowCount = (new Db\Query())->from('u_#__crmentity_label')
+								->where(['crmid' => $id])->count();
 					}
 				}
 				if (($insertMode || $rowCount == 0) && $updater != 'searchlabel') {
@@ -206,13 +205,15 @@ class Record
 				}
 			}
 			if (empty($search)) {
-				$adb->delete('u_yf_crmentity_search_label', 'crmid = ?', [$id]);
+				$db->createCommand()->delete('u_#__crmentity_search_label', ['crmid' => $id])->execute();
 			} else {
 				if (!$insertMode) {
-					$rowCount = $adb->update('u_yf_crmentity_search_label', ['searchlabel' => $search], 'crmid = ?', [$id]);
+					$rowCount = $db->createCommand()
+						->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])
+						->execute();
 					if ($rowCount == 0) {
-						$result = $adb->pquery('SELECT 1 FROM `u_yf_crmentity_search_label` WHERE `crmid` = ?', [$id]);
-						$rowCount = $adb->getRowCount($result);
+						$rowCount = (new Db\Query())->from('u_#__crmentity_search_label')
+								->where(['crmid' => $id])->count();
 					}
 				}
 				if (($insertMode || $rowCount == 0) && $updater != 'label') {
