@@ -21,7 +21,7 @@
 							<thead>
 								<tr>
 									<th>
-										<strong>{vtranslate('LBL_USERS_AND_GROUPS',$QUALIFIED_MODULE)}</strong>
+										<strong>{vtranslate('LBL_MODULES', $MODULE)}</strong>
 										<div class="pull-right">
 											{if $CRON_ACTIVE && $IS_PERMITTED}
 												<span title="{vtranslate('LBL_SELECT_ALL')}" class="fa {if $IS_ALL_EMAIL_NOTICE}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg marginTB3 cursorPointer sentNotice"></span>
@@ -42,7 +42,7 @@
 												<input type="checkbox" {if in_array($MODULE_ID, $WATCHING_MODULES)}checked {/if} name="modules" class="watchingModule" {if $WATCHING_MODEL->isLock($MODULE_ID)}disabled{/if} value="{$MODULE_ID}">
 											</span>
 											{if $CRON_ACTIVE && $IS_PERMITTED}
-												<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="fa {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg pull-right marginTB3 cursorPointer" data-val=""></span>
+												<span title="{vtranslate('LBL_SENT_NOTIFICATIONS', $MODULE)}" class="fa {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg pull-right marginTB3 cursorPointer" data-val=""></span>
 											{/if}
 										</td>
 									</tr>
@@ -69,7 +69,7 @@
 				</select>
 			</div>
 			<div class="pull-left col-xs-1 paddingLRZero">
-				<a href="#" class="infoPopover pull-left" title="" data-placement="top" data-original-title="{vtranslate('LBL_CRON', $MODULE)}" data-content="{Vtiger_Util_Helper::toSafeHTML($POPOVER_CONTENT)}">&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a>
+				<a href="#" class="infoPopover pull-left" title="" data-placement="top" data-original-title="{vtranslate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{Vtiger_Util_Helper::toSafeHTML($POPOVER_CONTENT)}">&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a>
 			</div>
 		{/if}
 		<div class="col-md-6 col-sm-6 pull-right">

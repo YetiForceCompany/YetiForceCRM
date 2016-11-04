@@ -153,6 +153,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($modules !== false) {
 			return $modules;
 		}
+		$modules = [];
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
