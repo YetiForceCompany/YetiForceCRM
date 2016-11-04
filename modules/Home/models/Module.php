@@ -75,8 +75,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false, $paramsMore = [])
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
+		$query = new \App\Db\Query();
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
@@ -92,51 +91,39 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$orderBy .= ' ' . $sortOrder;
 		}
-
-		$params = [];
-		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*
-			FROM vtiger_activity
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-			WHERE vtiger_crmentity.deleted=0 ';
-		$query .= \App\PrivilegeQuery::getAccessConditions('Calendar', $currentUser->getId());
+		$query->select('vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*')
+			->from('vtiger_activity')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+			->where(['vtiger_crmentity.deleted' => 0]);
+		\App\PrivilegeQuery::getConditions($query, 'Calendar');
 		if ($mode === 'upcoming') {
-			if (!is_array($paramsMore['status'])) {
-				$paramsMore['status'] = [$paramsMore['status']];
-			}
-			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-			AND (vtiger_activity.status is NULL || vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . "))";
-			$params = array_merge($params, $paramsMore['status']);
+			$query->andWhere(['<>', 'vtiger_activity.activitytype' ,'Emails']);
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ($mode === 'overdue') {
-			$query .= "AND (vtiger_activity.activitytype NOT IN ('Emails'))
-			AND (vtiger_activity.status is NULL || vtiger_activity.status IN (?))";
-			array_push($params, $paramsMore);
+			$query->andWhere(['<>', 'vtiger_activity.activitytype' ,'Emails']);
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ($mode === 'assigned_upcoming') {
-			$query .= "AND (vtiger_activity.status is NULL || vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ?";
-			$params = array_merge($params, $paramsMore);
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
+			$query->andWhere(['vtiger_crmentity.smcreatorid' => $paramsMore['user']]);
 		} elseif ($mode === 'assigned_over') {
-			$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
-			$query .= "AND (vtiger_activity.status is NULL || vtiger_activity.status IN (?)) && vtiger_crmentity.smcreatorid = ?";
-			array_push($params, $paramsMore['status'], $paramsMore['user']);
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
+			$query->andWhere(['vtiger_crmentity.smcreatorid' => $paramsMore['user']]);
 		} elseif ($mode === 'createdByMeButNotMine') {
-			$query .= "AND (vtiger_activity.status is NULL || vtiger_activity.status IN (" . generateQuestionMarks($paramsMore['status']) . ")) && vtiger_crmentity.smcreatorid = ? && vtiger_crmentity.smownerid NOT IN (?) ";
-			array_push($params, $paramsMore['status'], $paramsMore['user'], $paramsMore['user']);
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
+			$query->andWhere(['and',['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
 		}
 
 		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
-			$query .= ' && vtiger_crmentity.smownerid = ?';
-			$params[] = $user;
+			$query->andWhere(['vtiger_crmentity.smownerid' => $user]);
 		}
-
-		$query .= sprintf(' ORDER BY %s LIMIT ?, ?', $orderBy);
-		$params[] = $pagingModel->getStartIndex();
-		$params[] = $pagingModel->getPageLimit() + 1;
-
-		$result = $db->pquery($query, $params);
-
+		$query->orderBy($orderBy)
+			->limit($pagingModel->getPageLimit() + 1)
+			->offset($pagingModel->getStartIndex());
 		$activities = [];
-		while ($row = $db->fetch_array($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$model->setData($row);
 			$model->setId($row['crmid']);
@@ -176,7 +163,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 
 		$pagingModel->calculatePageRange($activities);
-		if ($result->rowCount() > $pagingModel->getPageLimit()) {
+		if ($dataReader->count() > $pagingModel->getPageLimit()) {
 			array_pop($activities);
 			$pagingModel->set('nextPageExists', true);
 		} else {
