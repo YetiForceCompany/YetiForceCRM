@@ -2,7 +2,7 @@
 
 /**
  * Action to save dashboard
- * @package YetiForce.actions
+ * @package YetiForce.Actions
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */

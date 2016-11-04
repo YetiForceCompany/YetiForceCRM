@@ -346,7 +346,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		} elseif (empty($featured) && !empty($cvIdOrg)) {
 			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'remove');
 		} elseif (!empty($featured)) {
-			$isExists = (new App\Db\Query())->from('u_yf_featured_filter')->where(['cvid' => $cvId, 'user' => $userId])->exists();
+			$isExists = (new App\Db\Query())->from('u_#__featured_filter')->where(['cvid' => $cvId, 'user' => $userId])->exists();
 			if (!$isExists) {
 				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
 			}
