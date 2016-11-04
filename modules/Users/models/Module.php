@@ -232,12 +232,11 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	public function checkMailExist($email, $id)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = "SELECT COUNT(*) as num FROM vtiger_users WHERE email1 = ? && id != ?";
-		$result = $db->pquery($sql, array($email, $id), true);
-
-		return !!$db->query_result($result, 0, 'num');
+		$query = (new \App\Db\Query())->from('vtiger_users')->where(['email1' => $email]);
+		if ($id) {
+			$query->andWhere(['<>', 'id', $id]);
+		}
+		return $query->exists();
 	}
 
 	/**
