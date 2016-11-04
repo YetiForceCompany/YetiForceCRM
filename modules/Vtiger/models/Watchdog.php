@@ -170,13 +170,27 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 	 * @param int $ownerId - User ID
 	 * @return array - List of modules
 	 */
-	public static function getWatchingModulesSchedule($ownerId = false)
+	public static function getWatchingModulesSchedule($ownerId = false, $isName = false)
 	{
 		if ($ownerId === false) {
 			$ownerId = \App\User::getCurrentUserId();
 		}
-		$data = (new \App\Db\Query())->from('u_#__watchdog_schedule')->where(['userid' => $ownerId])->one();
+		$cacheName = $ownerId . intval($isName);
+		$data = \App\Cache::get('getWatchingModulesSchedule', $cacheName);
+		if ($data !== false) {
+			return $data;
+		}
+		$data = (new \App\Db\Query())
+			->from('u_#__watchdog_schedule')
+			->where(['userid' => $ownerId])
+			->one();
 		$data['modules'] = explode(',', $data['modules']);
+		if ($isName) {
+			foreach ($data['modules'] as $key => &$moduleId) {
+				$moduleId = \App\Module::getModuleName($moduleId);
+			}
+		}
+		\App\Cache::save('getWatchingModulesSchedule', $cacheName, $data);
 		return $data;
 	}
 
