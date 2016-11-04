@@ -3035,11 +3035,13 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__watchdog_module' => [
 				'columns' => [
-					'userid' => $this->integer()->unsigned()->notNull(),
+					'member' => $this->stringType()->notNull(),
 					'module' => $this->integer()->unsigned()->notNull(),
+					'lock' => $this->smallInteger(1)->defaultValue(0),
+					'exceptions' => $this->text(),
 				],
 				'index' => [
-						['watchdog_module_idx', 'userid'],
+						['watchdog_module_idx', 'member'],
 				],
 				'primaryKeys' => [
 						['watchdog_module_pk', ['userid', 'module']]
@@ -3069,6 +3071,7 @@ class Base1 extends \App\Db\Importers\Base
 					'userid' => $this->integer()->notNull(),
 					'frequency' => $this->smallInteger()->notNull(),
 					'last_execution' => $this->dateTime(),
+					'modules' => $this->text(),
 				],
 				'primaryKeys' => [
 						['watchdog_schedule_pk', 'userid']
