@@ -18,7 +18,7 @@ class Notifications
 		$conditions = '';
 		$modules = [];
 		if ($data['module'] == 'System') {
-			$watchingModules = Vtiger_Watchdog_Model::getWatchingModules(false, $data['userId']);
+			$watchingModules = Vtiger_Watchdog_Model::getWatchingModules($data['userId']);
 			foreach ($watchingModules as $moduleId) {
 				$modules[] = vtlib\Functions::getModuleName($moduleId);
 			}

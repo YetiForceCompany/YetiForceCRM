@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /**
@@ -40,6 +41,15 @@ class Vtiger_Link_Model extends vtlib\Link
 	{
 		$this->$propertyName = $propertyValue;
 		return $this;
+	}
+
+	/**
+	 * Function to check whether link is active
+	 * @return boolean
+	 */
+	public function isActive()
+	{
+		return isset($this->active) ? $this->active : true;
 	}
 
 	/**

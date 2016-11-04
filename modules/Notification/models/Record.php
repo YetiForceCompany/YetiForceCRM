@@ -168,6 +168,9 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		}
 		$usersCollection = array_unique($usersCollection);
 		foreach ($usersCollection as $userId) {
+			if($relatedId && $notificationType === 'PLL_SYSTEM' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId, $userId)){
+				continue;
+			}
 			$this->set('assigned_user_id', $userId);
 			parent::save();
 		}

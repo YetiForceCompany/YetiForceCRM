@@ -2906,10 +2906,12 @@ CREATE TABLE `u_yf_ssingleorderscf` (
 /*Table structure for table `u_yf_watchdog_module` */
 
 CREATE TABLE `u_yf_watchdog_module` (
-  `userid` int(11) unsigned NOT NULL,
+  `member` varchar(50) NOT NULL,
   `module` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`userid`,`module`),
-  KEY `userid` (`userid`)
+  `lock` tinyint(1) DEFAULT '0',
+  `exceptions` text,
+  PRIMARY KEY (`member`,`module`),
+  KEY `userid` (`member`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_watchdog_record` */
@@ -2931,6 +2933,7 @@ CREATE TABLE `u_yf_watchdog_schedule` (
   `userid` int(11) NOT NULL,
   `frequency` smallint(6) NOT NULL,
   `last_execution` datetime DEFAULT NULL,
+  `modules` text,
   PRIMARY KEY (`userid`),
   CONSTRAINT `u_yf_watchdog_schedule_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -5747,3 +5747,6 @@ select.form-control {
 .modalContainer + .ui-autocomplete {
 	z-index: 100000;
 }
+.marginIcon {
+	margin-left: .3em;
+}

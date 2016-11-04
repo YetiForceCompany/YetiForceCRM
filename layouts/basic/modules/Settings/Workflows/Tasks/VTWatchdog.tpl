@@ -4,8 +4,8 @@
 		<span class="col-md-3">{vtranslate('LBL_SELECT_ACTION_TYPE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
 			<select class="chzn-select form-control" name="type" data-validation-engine="validate[required]">
-				{foreach from=$TASK_OBJECT->getAllTypes() key=KEY item=ITEM}
-					<option {if $TASK_OBJECT->type eq $ITEM['notification_type']}selected{/if} value="{$ITEM['notification_type']}">{vtranslate($ITEM['notification_type'], $QUALIFIED_MODULE)}</option>
+				{foreach from=\App\Fields\Picklist::getPickListValues('notification_type') key=KEY item=ITEM}
+					<option {if $TASK_OBJECT->type eq $ITEM}selected{/if} value="{$ITEM}">{vtranslate($ITEM, $TASK_OBJECT->srcWatchdogModule)}</option>
 				{/foreach}
 			</select>
 		</div>

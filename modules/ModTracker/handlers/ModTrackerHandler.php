@@ -173,7 +173,7 @@ class ModTrackerHandler extends VTEventHandler
 				$watchdogTitle = '(translate: [' . $watchdogTitle . '|||ModTracker]) (general: RecordLabel)';
 				$watchdogTitle = $currentUser->getName() . ' ' . $watchdogTitle;
 				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
-				$users = $watchdog->getWatchingUsers();
+				$users = $watchdog->getWatchingUsers([$currentUser->getRealId()]);
 				if (!empty($users)) {
 					$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 					if ($relatedField !== false) {
@@ -182,7 +182,7 @@ class ModTrackerHandler extends VTEventHandler
 						$notification->set($relatedField, $recordId);
 						$notification->set('title', $watchdogTitle);
 						$notification->set('description', $watchdogMessage);
-						$notification->set('notification_type', $watchdog->notificationDefaultType);
+						$notification->set('notification_type', $watchdog->noticeDefaultType);
 						$notification->set('notification_status', 'PLL_UNREAD');
 						$notification->save();
 					}

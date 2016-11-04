@@ -198,6 +198,9 @@ class PrivilegeUpdater
 			static::setUpdater($module['name']);
 		}
 		PrivilegeAdvanced::reloadCache();
+		if (\AppConfig::module('ModTracker', 'WATCHDOG')) {
+			\Vtiger_Watchdog_Model::reloadCache();
+		}
 	}
 
 	/**

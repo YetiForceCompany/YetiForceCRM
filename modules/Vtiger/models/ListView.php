@@ -26,8 +26,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Quick Links for the List view of the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
+	 * @param array $linkParams
+	 * @return array List of Vtiger_Link_Model instances
 	 */
 	public function getHederLinks($linkParams)
 	{
@@ -48,6 +48,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				'linkclass' => $class,
 				'linkicon' => 'glyphicon glyphicon-eye-open',
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
+				'active' => !$watchdog->isLock()
 			];
 		}
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

@@ -78,20 +78,20 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
 		Vtiger_Watchdog_Model::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
 		if (!empty($selectedModules)) {
-			foreach ($selectedModules as $moduleName) {
-				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
+			foreach ($selectedModules as $moduleId) {
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleId);
 				$watchdogModel->changeModuleState(1);
 			}
 		} else {
 			$selectedModules = [];
 		}
 		foreach ($watchingModules as $moduleId) {
-			$moduleName = vtlib\Functions::getModuleName($moduleId);
-			if (!in_array($moduleName, $selectedModules)) {
-				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
+			if (!in_array($moduleId, $selectedModules)) {
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleId);
 				$watchdogModel->changeModuleState(0);
 			}
 		}
+		Vtiger_Watchdog_Model::reloadCache();
 	}
 
 	public function createMail(Vtiger_Request $request)

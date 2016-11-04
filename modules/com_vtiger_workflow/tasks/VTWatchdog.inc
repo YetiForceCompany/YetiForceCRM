@@ -4,6 +4,7 @@
  * @package YetiForce.WorkflowTask
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
@@ -12,6 +13,7 @@ class VTWatchdog extends VTTask
 {
 
 	public $executeImmediately = true;
+	public $srcWatchdogModule = 'Notification';
 
 	public function getFieldNames()
 	{
@@ -34,7 +36,7 @@ class VTWatchdog extends VTTask
 		if (empty($users)) {
 			return false;
 		}
-		if ($this->skipCurrentUser == 1 && ($key = array_search(Users_Privileges_Model::getCurrentUserPrivilegesModel()->getId(), $users)) !== false) {
+		if ($this->skipCurrentUser == 1 && ($key = array_search(\App\User::getCurrentUserId(), $users)) !== false) {
 			unset($users[$key]);
 		}
 		$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
@@ -46,16 +48,5 @@ class VTWatchdog extends VTTask
 		$notification->set('notification_type', $this->type);
 		$notification->set('notification_status', 'PLL_UNREAD');
 		$notification->save();
-	}
-
-	public function getAllTypes()
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT * FROM vtiger_notification_type WHERE presence = 1');
-		$types = [];
-		while ($row = $db->getRow($result)) {
-			$types[] = $row;
-		}
-		return $types;
 	}
 }
