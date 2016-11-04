@@ -18,19 +18,20 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$sql = 'SELECT vtiger_crmentity.crmid ,vtiger_account.accountname, vtiger_crmentity.smownerid,	vtiger_crmentity.createdtime 
 			FROM vtiger_account
 			INNER JOIN vtiger_crmentity ON vtiger_account.accountid = vtiger_crmentity.crmid
-			WHERE vtiger_crmentity.setype = ? && vtiger_crmentity.createdtime >= ? && vtiger_crmentity.createdtime <= ? && vtiger_crmentity.deleted = ?';
+			WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.createdtime >= ? AND vtiger_crmentity.createdtime <= ? AND vtiger_crmentity.deleted = ?';
 		$params = [$moduleName, $time['start'], $time['end'], 0];
 		if (is_array($user)) {
-			$sql .= ' && vtiger_crmentity.smownerid IN (' . generateQuestionMarks($user) . ') ';
+			$sql .= ' AND vtiger_crmentity.smownerid IN (' . generateQuestionMarks($user) . ') ';
 			$params = array_merge($params, $user);
 		} else {
-			$sql .= ' && vtiger_crmentity.smownerid = ? ';
+			$sql .= ' AND vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
 		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
-		$sql .= ' ORDER BY  vtiger_crmentity.createdtime DESC LIMIT ?, ?';
-		$params[] = $pagingModel->getStartIndex();
+		$sql .= ' ORDER BY  vtiger_crmentity.createdtime DESC LIMIT ? OFFSET ?';
+	
 		$params[] = $pagingModel->getPageLimit();
+		$params[] = $pagingModel->getStartIndex();
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery($sql, $params);
 		$newAccounts = [];
