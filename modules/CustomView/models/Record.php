@@ -97,7 +97,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if ($this->isDefault === false) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$cvId = $this->getId();
-			if(!$cvId) {
+			if (!$cvId) {
 				$this->isDefault = false;
 				return false;
 			}
@@ -192,11 +192,11 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	{
 		$db = App\Db::getInstance('admin');
 		$cvId = $this->getId();
-		if(!$cvId)
+		if (!$cvId)
 			return false;
 		return (new App\Db\Query())->from('u_#__featured_filter')
-			->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
-			->exists($db);
+				->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
+				->exists($db);
 	}
 
 	public function checkPermissionToFeatured($editView = false)
@@ -211,14 +211,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$parentRoles = $currentUser->getParentRoleSequence();
 			$userGroups = $currentUser->get('privileges')->get('groups');
 		}
-		$where = ['or' , ['user' => 'Users:' . $currentUser->getId()], ['user' => 'Roles:' . $currentUser->getRole()]];
+		$where = ['or', ['user' => 'Users:' . $currentUser->getId()], ['user' => 'Roles:' . $currentUser->getRole()]];
 		foreach ($userGroups as $groupId) {
-			$where []= ['user' => "Groups:$groupId"];
+			$where [] = ['user' => "Groups:$groupId"];
 		}
 		foreach (explode('::', $parentRoles) as $role) {
-			$where []= ['user' => "RoleAndSubordinates:$role"];
+			$where [] = ['user' => "RoleAndSubordinates:$role"];
 		}
-		$query->where(['cvid' =>  $this->getId()]);
+		$query->where(['cvid' => $this->getId()]);
 		$query->andWhere($where);
 		return $query->exists();
 	}
@@ -353,8 +353,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		}
 		if (empty($setDefault) && !empty($cvIdOrg)) {
 			App\Db::getInstance()->createCommand()
-					->delete('vtiger_user_module_preferences', ['userid' => $userId, 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
-					->execute();
+				->delete('vtiger_user_module_preferences', ['userid' => $userId, 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
+				->execute();
 		} elseif (!empty($setDefault)) {
 			$this->setDefaultFilter();
 		}
@@ -400,18 +400,20 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function setConditionsForFilter()
 	{
 		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$moduleModel = $this->getModule();
 		$cvId = $this->getId();
 
 		$stdFilterList = $this->get('stdfilterlist');
 		if (!empty($stdFilterList) && !empty($stdFilterList['columnname'])) {
-			$db->insert('vtiger_cvstdfilter', [
-				'cvid' => $cvId,
-				'columnname' => $stdFilterList['columnname'],
-				'stdfilter' => $stdFilterList['stdfilter'],
-				'startdate' => $db->formatDate($stdFilterList['startdate'], true),
-				'enddate' => $db->formatDate($stdFilterList['enddate'], true)
-			]);
+			$db->createCommand()
+				->insert('vtiger_cvstdfilter', [
+					'cvid' => $cvId,
+					'columnname' => $stdFilterList['columnname'],
+					'stdfilter' => $stdFilterList['stdfilter'],
+					'startdate' => trim($stdFilterList['startdate'], "'"),
+					'enddate' => trim($stdFilterList['enddate'], "'")
+				])->execute();
 		}
 
 		$advFilterList = $this->get('advfilterlist');
@@ -479,15 +481,16 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 					if (in_array($advFilterComparator, ['om', 'wr', 'nwr'])) {
 						$advFitlerValue = '';
 					}
-					$db->insert('vtiger_cvadvfilter', [
-						'cvid' => $cvId,
-						'columnindex' => $columnIndex,
-						'columnname' => $advFilterColumn,
-						'comparator' => $advFilterComparator,
-						'value' => $advFitlerValue,
-						'groupid' => $groupIndex,
-						'column_condition' => $advFilterColumnCondition
-					]);
+					$db->createCommand()
+						->insert('vtiger_cvadvfilter', [
+							'cvid' => $cvId,
+							'columnindex' => $columnIndex,
+							'columnname' => $advFilterColumn,
+							'comparator' => $advFilterComparator,
+							'value' => $advFitlerValue,
+							'groupid' => $groupIndex,
+							'column_condition' => $advFilterColumnCondition
+						])->execute();
 
 					// Update the condition expression for the group to which the condition column belongs
 					$groupConditionExpression = '';
@@ -501,13 +504,13 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				$groupConditionExpression = $advFilterList[$groupIndex]["conditionexpression"];
 				if (empty($groupConditionExpression))
 					continue; // Case when the group doesn't have any column criteria
-
-				$db->insert('vtiger_cvadvfilter_grouping', [
-					'groupid' => $groupIndex,
-					'cvid' => $cvId,
-					'group_condition' => $groupCondition,
-					'condition_expression' => $groupConditionExpression
-				]);
+				$db->createCommand()
+					->insert('vtiger_cvadvfilter_grouping', [
+						'groupid' => $groupIndex,
+						'cvid' => $cvId,
+						'group_condition' => $groupCondition,
+						'condition_expression' => $groupConditionExpression
+					])->execute();
 			}
 		}
 	}
@@ -588,14 +591,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function getSelectedFields()
 	{
 		$cvId = $this->getId();
-		if(!$cvId) {
+		if (!$cvId) {
 			return [];
 		}
 		return (new App\Db\Query())->select('vtiger_cvcolumnlist.columnindex, vtiger_cvcolumnlist.columnname')
-			->from('vtiger_cvcolumnlist')
-			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-			->createCommand()->queryAllByGroup();
+				->from('vtiger_cvcolumnlist')
+				->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+				->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+				->createCommand()->queryAllByGroup();
 	}
 
 	/**

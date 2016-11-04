@@ -441,27 +441,26 @@ class CustomView extends CRMEntity
 		$i = 1;
 		$j = 0;
 		while ($relcriteriagroup = $dataReader->read()) {
-			$groupId = $relcriteriagroup["groupid"];
-			$groupCondition = $relcriteriagroup["group_condition"];
+			$groupId = $relcriteriagroup['groupid'];
+			$groupCondition = $relcriteriagroup['group_condition'];
 
-			$ssql = 'select vtiger_cvadvfilter.* from vtiger_customview
-						inner join vtiger_cvadvfilter on vtiger_cvadvfilter.cvid = vtiger_customview.cvid
-						left join vtiger_cvadvfilter_grouping on vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid
-								and vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid';
-			$ssql .= " where vtiger_customview.cvid = ? && vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
-
-			$result = $adb->pquery($ssql, array($cvid, $groupId));
-			$noOfColumns = $adb->num_rows($result);
-			if ($noOfColumns <= 0)
+			$query = (new \App\Db\Query())
+				->select('vtiger_cvadvfilter.*')->from('vtiger_customview')
+				->innerJoin('vtiger_cvadvfilter', 'vtiger_customview.cvid = vtiger_cvadvfilter.cvid')
+				->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid')
+				->where(['vtiger_customview.cvid' => $cvid, 'vtiger_cvadvfilter.groupid' => $groupId])
+				->andWhere('vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid')
+				->orderBy('vtiger_cvadvfilter.columnindex');
+			$dataReader = $query->createCommand()->query();
+			if (!$dataReader->count()) {
 				continue;
-
-			while ($relcriteriarow = $adb->fetch_array($result)) {
-				$criteria = $this->getAdvftCriteria($relcriteriarow);
+			}
+			while ($row = $dataReader->read()) {
+				$criteria = $this->getAdvftCriteria($row);
 				$advft_criteria[$i]['columns'][$j] = $criteria;
 				$advft_criteria[$i]['condition'] = $groupCondition;
 				$j++;
 			}
-
 			if (!empty($advft_criteria[$i]['columns'][$j - 1]['column_condition'])) {
 				$advft_criteria[$i]['columns'][$j - 1]['column_condition'] = '';
 			}
