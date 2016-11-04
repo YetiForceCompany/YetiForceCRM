@@ -441,26 +441,25 @@ class CustomView extends CRMEntity
 		$i = 1;
 		$j = 0;
 		while ($relcriteriagroup = $dataReader->read()) {
-			$groupId = $relcriteriagroup['groupid'];
-			$groupCondition = $relcriteriagroup['group_condition'];
-
-			$query = (new \App\Db\Query())
-				->select('vtiger_cvadvfilter.*')->from('vtiger_customview')
-				->innerJoin('vtiger_cvadvfilter', 'vtiger_customview.cvid = vtiger_cvadvfilter.cvid')
-				->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid')
-				->where(['vtiger_customview.cvid' => $cvid, 'vtiger_cvadvfilter.groupid' => $groupId])
-				->andWhere('vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid')
-				->orderBy('vtiger_cvadvfilter.columnindex');
-			$dataReader = $query->createCommand()->query();
+			$groupId = $relcriteriagroup["groupid"];
+			$groupCondition = $relcriteriagroup["group_condition"];
+			$dataReader = (new \App\Db\Query())->select('vtiger_cvadvfilter.*')
+					->from('vtiger_customview')
+					->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')
+					->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid AND vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid')
+					->where(['vtiger_customview.cvid' => $cvid, 'vtiger_cvadvfilter.groupid' => $groupId])
+					->orderBy('vtiger_cvadvfilter.columnindex')
+					->createCommand()->query();
 			if (!$dataReader->count()) {
 				continue;
 			}
-			while ($row = $dataReader->read()) {
-				$criteria = $this->getAdvftCriteria($row);
+			while ($relcriteriarow = $dataReader->read()) {
+				$criteria = $this->getAdvftCriteria($relcriteriarow);
 				$advft_criteria[$i]['columns'][$j] = $criteria;
 				$advft_criteria[$i]['condition'] = $groupCondition;
 				$j++;
 			}
+
 			if (!empty($advft_criteria[$i]['columns'][$j - 1]['column_condition'])) {
 				$advft_criteria[$i]['columns'][$j - 1]['column_condition'] = '';
 			}
