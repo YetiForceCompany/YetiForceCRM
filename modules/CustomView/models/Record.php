@@ -399,19 +399,20 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function setConditionsForFilter()
 	{
-		$db = PearDatabase::getInstance();
+		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$moduleModel = $this->getModule();
 		$cvId = $this->getId();
 
 		$stdFilterList = $this->get('stdfilterlist');
 		if (!empty($stdFilterList) && !empty($stdFilterList['columnname'])) {
-			$db->insert('vtiger_cvstdfilter', [
+			$db->createCommand()->insert('vtiger_cvstdfilter', [
 				'cvid' => $cvId,
 				'columnname' => $stdFilterList['columnname'],
 				'stdfilter' => $stdFilterList['stdfilter'],
-				'startdate' => $db->formatDate($stdFilterList['startdate'], true),
-				'enddate' => $db->formatDate($stdFilterList['enddate'], true)
-			]);
+				'startdate' => $adb->formatDate($stdFilterList['startdate'], true),
+				'enddate' => $adb->formatDate($stdFilterList['enddate'], true)
+			])->execute();
 		}
 
 		$advFilterList = $this->get('advfilterlist');
@@ -479,7 +480,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 					if (in_array($advFilterComparator, ['om', 'wr', 'nwr'])) {
 						$advFitlerValue = '';
 					}
-					$db->insert('vtiger_cvadvfilter', [
+					$db->createCommand()->insert('vtiger_cvadvfilter', [
 						'cvid' => $cvId,
 						'columnindex' => $columnIndex,
 						'columnname' => $advFilterColumn,
@@ -487,7 +488,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 						'value' => $advFitlerValue,
 						'groupid' => $groupIndex,
 						'column_condition' => $advFilterColumnCondition
-					]);
+					])->execute();
 
 					// Update the condition expression for the group to which the condition column belongs
 					$groupConditionExpression = '';
@@ -502,12 +503,12 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				if (empty($groupConditionExpression))
 					continue; // Case when the group doesn't have any column criteria
 
-				$db->insert('vtiger_cvadvfilter_grouping', [
+				$db->createCommand()->insert('vtiger_cvadvfilter_grouping', [
 					'groupid' => $groupIndex,
 					'cvid' => $cvId,
 					'group_condition' => $groupCondition,
 					'condition_expression' => $groupConditionExpression
-				]);
+				])->execute();
 			}
 		}
 	}
@@ -666,18 +667,16 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$groupId = $relcriteriagroup["groupid"];
 			$groupCondition = $relcriteriagroup["group_condition"];
 
-			$ssql = 'select vtiger_cvadvfilter.* from vtiger_customview
-						inner join vtiger_cvadvfilter on vtiger_cvadvfilter.cvid = vtiger_customview.cvid
-						left join vtiger_cvadvfilter_grouping on vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid
-								and vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid';
-			$ssql .= " where vtiger_customview.cvid = ? && vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
-
-			$result = $db->pquery($ssql, array($this->getId(), $groupId));
-			$noOfColumns = $db->num_rows($result);
-			if ($noOfColumns <= 0)
+			$dataReader = (new \App\Db\Query())->select('vtiger_cvadvfilter.*')
+				->from('vtiger_customview')
+				->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')
+				->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid AND vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid')
+				->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId])
+				->orderBy('vtiger_cvadvfilter.columnindex')
+				->createCommand()->query();
+			if ($dataReader->count() <= 0)
 				continue;
-
-			while ($relcriteriarow = $db->fetch_array($result)) {
+			while ($relcriteriarow = $dataReader->read()) {
 				$criteria = [];
 				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
 				$criteria['comparator'] = $relcriteriarow["comparator"];
