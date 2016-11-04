@@ -18,8 +18,10 @@ class Vtiger_WorkflowTrigger_Model
 		vimport('~~include/Webservices/Utils.php');
 		vimport('~~include/Webservices/Retrieve.php');
 
+		
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$wsId = vtws_getWebserviceEntityId($moduleName, $record);
+//		echo '<pre>', print_r(['Vtiger_WorkflowTrigger_Model_ execute',$record,$moduleName,$wsId]); echo '</pre>';
 		$adb = PearDatabase::getInstance();
 		$wfs = new VTWorkflowManager($adb);
 		$entityCache = new VTEntityCache($currentUser);

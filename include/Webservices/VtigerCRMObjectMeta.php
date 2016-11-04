@@ -411,7 +411,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		if ($this->objectName == 'Users') {
 			$exists = \App\User::isExists($recordId);
 		} else {
-			$exists = \App\Record::isExists($recordId);
+			$exists = \App\Record::isExists($recordId, $this->objectName);
 		}
 		return $exists;
 	}

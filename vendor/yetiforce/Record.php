@@ -1,5 +1,4 @@
-<?php
-namespace App;
+<?php namespace App;
 
 use vtlib\Functions;
 
@@ -8,6 +7,7 @@ use vtlib\Functions;
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Record
 {
@@ -224,10 +224,16 @@ class Record
 		}
 	}
 
-	public static function isExists($recordId)
+	/**
+	 * Function checks if record exists
+	 * @param int $recordId - Rekord ID
+	 * @param string $moduleName
+	 * @return boolean
+	 */
+	public static function isExists($recordId, $moduleName = false)
 	{
 		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
-		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 ) ? true : false;
+		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 && ($moduleName ? $recordMetaData['setype'] === $moduleName : true)) ? true : false;
 	}
 
 	public static function getType($recordId)
