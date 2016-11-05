@@ -875,7 +875,8 @@ class Products extends CRMEntity
 		$cmp_res = $this->db->pquery($cmp_q, array($id));
 		if ($this->db->num_rows($cmp_res) > 0) {
 			$cmp_ids_list = array();
-			for ($k = 0; $k < $this->db->num_rows($cmp_res); $k++) {
+			$numRowsCmp = $this->db->num_rows($cmp_res);
+			for ($k = 0; $k < $numRowsCmp; $k++) {
 				$cmp_ids_list[] = $this->db->query_result($cmp_res, $k, "campaignid");
 			}
 			$params = array($id, RB_RECORD_UPDATED, 'vtiger_campaign', 'product_id', 'campaignid', implode(",", $cmp_ids_list));

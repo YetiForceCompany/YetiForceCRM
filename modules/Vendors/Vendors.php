@@ -418,7 +418,8 @@ class Vendors extends CRMEntity
 		$pro_res = $this->db->pquery($pro_q, array($id));
 		if ($this->db->num_rows($pro_res) > 0) {
 			$pro_ids_list = array();
-			for ($k = 0; $k < $this->db->num_rows($pro_res); $k++) {
+			$numRowsPro = $this->db->num_rows($pro_res);
+			for ($k = 0; $k < $numRowsPro; $k++) {
 				$pro_ids_list[] = $this->db->query_result($pro_res, $k, "productid");
 			}
 			$params = array($id, RB_RECORD_UPDATED, 'vtiger_products', 'vendor_id', 'productid', implode(",", $pro_ids_list));
@@ -427,21 +428,6 @@ class Vendors extends CRMEntity
 		//Deleting Product-Vendor Relation.
 		$pro_q = 'UPDATE vtiger_products SET vendor_id = 0 WHERE vendor_id = ?';
 		$this->db->pquery($pro_q, array($id));
-
-		/* //Backup Contact-Vendor Relaton
-		  $con_q = 'SELECT contactid FROM vtiger_vendorcontactrel WHERE vendorid = ?';
-		  $con_res = $this->db->pquery($con_q, array($id));
-		  if ($this->db->num_rows($con_res) > 0) {
-		  for($k=0;$k < $this->db->num_rows($con_res);$k++)
-		  {
-		  $con_id = $this->db->query_result($con_res,$k,"contactid");
-		  $params = array($id, RB_RECORD_DELETED, 'vtiger_vendorcontactrel', 'vendorid', 'contactid', $con_id);
-		  $this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
-		  }
-		  }
-		  //Deleting Contact-Vendor Relaton
-		  $vc_sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=?';
-		  $this->db->pquery($vc_sql, array($id)); */
 
 		parent::unlinkDependencies($module, $id);
 	}

@@ -371,21 +371,6 @@ class Documents extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-
-		/* //Backup Documents Related Records
-		  $se_q = 'SELECT crmid FROM vtiger_senotesrel WHERE notesid = ?';
-		  $se_res = $this->db->pquery($se_q, array($id));
-		  if ($this->db->num_rows($se_res) > 0) {
-		  for($k=0;$k < $this->db->num_rows($se_res);$k++)
-		  {
-		  $se_id = $this->db->query_result($se_res,$k,"crmid");
-		  $params = array($id, RB_RECORD_DELETED, 'vtiger_senotesrel', 'notesid', 'crmid', $se_id);
-		  $this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
-		  }
-		  }
-		  $sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ?';
-		  $this->db->pquery($sql, array($id)); */
-
 		parent::unlinkDependencies($module, $id);
 	}
 

@@ -661,24 +661,6 @@ class Contacts extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-
-
-		//Backup Contact-Trouble Tickets Relation
-		/* $tkt_q = 'SELECT ticketid FROM vtiger_troubletickets WHERE contact_id=?';
-		  $tkt_res = $this->db->pquery($tkt_q, array($id));
-		  if ($this->db->num_rows($tkt_res) > 0) {
-		  $tkt_ids_list = array();
-		  for($k=0;$k < $this->db->num_rows($tkt_res);$k++)
-		  {
-		  $tkt_ids_list[] = $this->db->query_result($tkt_res,$k,"ticketid");
-		  }
-		  $params = array($id, RB_RECORD_UPDATED, 'vtiger_troubletickets', 'contact_id', 'ticketid', implode(",", $tkt_ids_list));
-		  $this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
-		  }
-		  //removing the relationship of contacts with Trouble Tickets
-		  $this->db->pquery('UPDATE vtiger_troubletickets SET contact_id=0 WHERE contact_id=?', array($id));
-		 */
-		//remove the portal info the contact
 		$this->db->pquery('DELETE FROM vtiger_portalinfo WHERE id = ?', array($id));
 		$this->db->pquery('UPDATE vtiger_customerdetails SET portal=0,support_start_date=NULL,support_end_date=NULl WHERE customerid=?', array($id));
 		parent::unlinkDependencies($module, $id);

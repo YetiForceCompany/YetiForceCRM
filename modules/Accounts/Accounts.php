@@ -696,7 +696,8 @@ class Accounts extends CRMEntity
 		$con_res = $this->db->pquery($con_q, array($id));
 		if ($this->db->num_rows($con_res) > 0) {
 			$con_ids_list = [];
-			for ($k = 0; $k < $this->db->num_rows($con_res); $k++) {
+			$numRowsConRes = $this->db->num_rows($con_res);
+			for ($k = 0; $k < numRowsConRes; $k++) {
 				$con_ids_list[] = $this->db->query_result($con_res, $k, "contactid");
 			}
 			$params = array($id, RB_RECORD_UPDATED, 'vtiger_contactdetails', 'parentid', 'contactid', implode(",", $con_ids_list));
@@ -711,7 +712,8 @@ class Accounts extends CRMEntity
 		$tkt_res = $this->db->pquery($tkt_q, array($id));
 		if ($this->db->num_rows($tkt_res) > 0) {
 			$tkt_ids_list = [];
-			for ($k = 0; $k < $this->db->num_rows($tkt_res); $k++) {
+			$numRowsTktRes = $this->db->num_rows($tkt_res);
+			for ($k = 0; $k < $numRowsTktRes; $k++) {
 				$tkt_ids_list[] = $this->db->query_result($tkt_res, $k, "ticketid");
 			}
 			$params = array($id, RB_RECORD_UPDATED, 'vtiger_troubletickets', 'parent_id', 'ticketid', implode(",", $tkt_ids_list));
