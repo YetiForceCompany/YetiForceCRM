@@ -462,7 +462,7 @@ class CRMEntity
 						$fldvalue = $this->column_fields[$fieldname];
 				} elseif ($uitype === 7) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
-					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); //trim($this->column_fields[$fieldname],",");
+					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); 
 				} elseif ($uitype === 26) {
 					if (empty($this->column_fields[$fieldname])) {
 						$fldvalue = 1; //the documents will stored in default folder
@@ -939,10 +939,6 @@ class CRMEntity
 				$reset_value = true;
 			if ($fieldname == 'record_id' || $fieldname == 'record_module')
 				$reset_value = false;
-			/*
-			  if (isset($this->additional_column_fields) && in_array($fieldname, $this->additional_column_fields) === true)
-			  $reset_value = false;
-			 */
 			if ($reset_value === true)
 				$this->column_fields[$fieldname] = '';
 		}
