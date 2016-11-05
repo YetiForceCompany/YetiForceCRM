@@ -76,15 +76,10 @@ class mt940_WBK extends mt940
 			'contAccount' => ''
 		);
 		$delimiter = substr($value, 0, 1);
-		//echo '<pre>';print_r($delimiter . '   delimiter');echo '</pre>';
-		//echo '<pre>';print_r($value);echo '</pre>';
 		$tab = explode($delimiter, substr($value, 1));
-		//echo '<pre>';print_r($tab);echo '</pre>';
 		foreach ($tab as $line) {
 			$subTag = substr($line, 0, 2);
 			$subVal = substr($line, 2);
-			//echo '<pre>';print_r($subTag . ' subTag');echo '</pre>';
-			//echo '<pre>';print_r($subVal . ' subVal');echo '</pre>';
 			switch ($subTag) {
 				case '00':
 					$transaction['typeCode'] = $subVal;

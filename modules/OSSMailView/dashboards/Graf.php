@@ -92,12 +92,7 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 			$dateFilter['start'] = $today;
 			$dateFilter['end'] = $today;
 		}
-		//Date conversion from user to database format
-		/* if(!empty($dateFilter)) {
-		  $dateFilter['start'] = Vtiger_Date_UIType::getDBInsertedValue($dateFilter['start']);
-		  $dateFilter['end'] = Vtiger_Date_UIType::getDBInsertedValue($dateFilter['end']);
-		  }
-		 */
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getMailCount($owner, $dateFilter);
 		$listViewUrl = $moduleModel->getListViewUrl();

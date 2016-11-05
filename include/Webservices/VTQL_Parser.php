@@ -1027,7 +1027,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 */
 	public function yy_find_reduce_action($stateno, $iLookAhead)
 	{
-		/* $stateno = $this->yystack[$this->yyidx]->stateno; */
 
 		if (!isset(self::$yy_reduce_ofst[$stateno])) {
 			return self::$yy_default[$stateno];
@@ -1609,7 +1608,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 		/* (re)initialize the parser, if necessary */
 		if ($this->yyidx === null || $this->yyidx < 0) {
-			/* if ($yymajor == 0) return; // not sure why this was here... */
 			$this->yyidx = 0;
 			$this->yyerrcnt = -1;
 			$x = new VTQL_ParseryyStackEntry;

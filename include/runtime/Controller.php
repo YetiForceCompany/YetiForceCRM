@@ -240,12 +240,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$viewer = $this->getViewer($request);
 		$displayed = $viewer->view($this->preProcessTplName($request), $request->getModule());
-		/* if(!$displayed) {
-		  $tplName = $this->preProcessParentTplName($request);
-		  if($tplName) {
-		  $viewer->view($tplName, $request->getModule());
-		  }
-		  } */
 	}
 
 	public function postProcess(Vtiger_Request $request)

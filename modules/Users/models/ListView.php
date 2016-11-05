@@ -170,12 +170,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$advancedLinks = array();
 		$importPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
-			/* $advancedLinks[] = array(
-			  'linktype' => 'LISTVIEW',
-			  'linklabel' => 'LBL_BASIC_EXPORT',
-			  'linkurl' => 'javascript:Settings_Users_List_Js.triggerExportAction()',
-			  'linkicon' => ''
-			  ); */
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',

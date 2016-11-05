@@ -422,9 +422,6 @@ class SMTP
 					$line = substr($line, $pos + 1);
 				}
 
-				/* if processing headers add a LWSP-char to the front of new line
-				 * rfc 822 on long msg headers
-				 */
 				if ($in_headers) {
 					$line = "\t" . $line;
 				}

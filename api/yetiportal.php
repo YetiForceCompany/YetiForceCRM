@@ -796,7 +796,6 @@ function close_current_ticket($input_array)
 	$adb->println("Inside customer portal function close_current_ticket");
 	$adb->println($input_array);
 
-	//foreach($input_array as $fieldname => $fieldvalue)$input_array[$fieldname] = mysql_real_escape_string($fieldvalue);
 	$userid = getPortalUserid();
 
 	$current_user->id = $userid;
@@ -2370,7 +2369,7 @@ function get_documents($id, $module, $customerid, $sessionid)
 	for ($j = 0; $j < $noofdata; $j++) {
 		$i = 0;
 		foreach ($fields_list as $fieldname => $fieldlabel) {
-			$output[0][$module]['head'][0][$i]['fielddata'] = $fieldlabel; //$adb->query_result($fieldres,$i,'fieldlabel');
+			$output[0][$module]['head'][0][$i]['fielddata'] = $fieldlabel;
 			$fieldvalue = $adb->query_result($res, $j, $fieldname);
 			if ($fieldname == 'title') {
 				$fieldid = $adb->query_result($res, $j, 'notesid');

@@ -804,11 +804,6 @@ class ReportRun extends CRMEntity
 		$typeofdata = $adb->query_result($field_query, 0, 'typeofdata');
 		$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $typeofdata[0]);
 		$uitype = $adb->query_result($field_query, 0, 'uitype');
-		/* if($tr[0]==$ogReport->primodule)
-		  $value = $adb->query_result($field_query,0,'tablename').".".$adb->query_result($field_query,0,'columnname');
-		  else
-		  $value = $adb->query_result($field_query,0,'tablename').$tr[0].".".$adb->query_result($field_query,0,'columnname');
-		 */
 		if ($uitype == 68 || $uitype == 59) {
 			$fieldtypeofdata = 'V';
 		}
@@ -3656,10 +3651,7 @@ class ReportRun extends CRMEntity
 				} else {
 					$columnSql = implode('', $columnList);
 				}
-				/* if ($referenceModule == 'DocumentFolders' && $fieldInstance->getFieldName() == 'folderid') {
-				  $columnSql = 'vtiger_attachmentsfolder.foldername';
-				  $this->queryPlanner->addTable("vtiger_attachmentsfolder");
-				  } */
+
 				if ($referenceModule == 'Currency' && $fieldInstance->getFieldName() == 'currency_id') {
 					$columnSql = "vtiger_currency_info$moduleName.currency_name";
 					$this->queryPlanner->addTable("vtiger_currency_info$moduleName");

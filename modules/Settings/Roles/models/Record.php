@@ -207,9 +207,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		return 'index.php?module=Roles&parent=Settings&view=Edit&record=' . $this->getId();
 	}
-//	public function getListViewEditUrl() {
-//		return '?module=Roles&parent=Settings&view=Edit&record='.$this->getId();
-//	}
 
 	/**
 	 * Function to get the Create Child Role Url for the current role

@@ -61,8 +61,6 @@ class OSSDocumentControl_CheckDoc_Action extends Vtiger_Action_Controller
 			}
 		}
 
-		//var_dump($notAttachDoc, $pasCondition);
-
 		$output = array(
 			'condition_allow' => $passAttach && $passCondition,
 			'not_attach_doc_list' => $notAttachDoc,

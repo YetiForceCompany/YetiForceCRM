@@ -202,9 +202,6 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
                 continue;
             }
 
-            //echo '<br>'; printZipper($zipper, $token);//printTokens($this->stack);
-            //flush();
-
             // quick-check: if it's not a tag, no need to process
             if (empty($token->is_tag)) {
                 if ($token instanceof HTMLPurifier_Token_Text) {

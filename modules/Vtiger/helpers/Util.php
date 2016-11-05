@@ -151,7 +151,7 @@ class Vtiger_Util_Helper
 		$today = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
 		$tomorrow = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s', strtotime('tomorrow')));
 		$userDate = DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
-		//var_dump($userDate);
+
 		if ($dateInUserFormat == $today) {
 			$todayInfo = vtranslate('LBL_TODAY');
 			if ($time) {

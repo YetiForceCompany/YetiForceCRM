@@ -49,7 +49,6 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		}
 		$viewer->assign('MANDATORY_FIELDS', $mandatoryFields);
 
-		//var_dump($structuredValues);
 		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
 		foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);

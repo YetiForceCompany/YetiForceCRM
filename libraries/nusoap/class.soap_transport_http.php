@@ -229,7 +229,6 @@ class soap_transport_http extends nusoap_base {
 		return true;
 	  } else if ($this->io_method() == 'curl') {
 		if (!extension_loaded('curl')) {
-//			$this->setError('cURL Extension, or OpenSSL extension w/ PHP version >= 4.3 is required for HTTPS');
 			$this->setError('The PHP cURL Extension is required for HTTPS or NLTM.  You will need to re-build or update your PHP to include cURL or change php.ini to load the PHP cURL extension.');
 			return false;
 		}
@@ -281,11 +280,6 @@ class soap_transport_http extends nusoap_base {
 		$this->setCurlOption(CURLOPT_HEADER, 1);
 		// ask for the response output as the return value
 		$this->setCurlOption(CURLOPT_RETURNTRANSFER, 1);
-		// encode
-		// We manage this ourselves through headers and encoding
-//		if(function_exists('gzuncompress')){
-//			$this->setCurlOption(CURLOPT_ENCODING, 'deflate');
-//		}
 		// persistent connection
 		if ($this->persistentConnection) {
 			// I believe the following comment is now bogus, having applied to
@@ -543,8 +537,6 @@ class soap_transport_http extends nusoap_base {
 				$this->setHeader('Connection', 'close');
 				$this->persistentConnection = false;
 			}
-			// deprecated as of PHP 5.3.0
-			//set_magic_quotes_runtime(0);
 			$this->encoding = $enc;
 		}
 	}
@@ -929,17 +921,6 @@ class soap_transport_http extends nusoap_base {
 			$this->setError('no response from server');
 			return false;
 		}
-		
-		// decode transfer-encoding
-//		if(isset($this->incoming_headers['transfer-encoding']) && strtolower($this->incoming_headers['transfer-encoding']) == 'chunked'){
-//			if(!$data = $this->decodeChunked($data, $lb)){
-//				$this->setError('Decoding of chunked data failed');
-//				return false;
-//			}
-			//print "<pre>\nde-chunked:\n---------------\n$data\n\n---------------\n</pre>";
-			// set decoded payload
-//			$this->incoming_payload = $header_data.$lb.$lb.$data;
-//		}
 	
 	  } else if ($this->io_method() == 'curl') {
 		// send and receive
@@ -957,10 +938,6 @@ class soap_transport_http extends nusoap_base {
 			$this->setError($err);
 			curl_close($this->ch);
 	    	return false;
-		} else {
-			//echo '<pre>';
-			//var_dump(curl_getinfo($this->ch));
-			//echo '</pre>';
 		}
 		// close curl
 		$this->debug('No cURL error, closing cURL');
@@ -1118,7 +1095,7 @@ class soap_transport_http extends nusoap_base {
 							$this->setError('Error using gzinflate to un-gzip the payload');
 	    				}
 					}
-					//print "<xmp>\nde-inflated:\n---------------\n$data\n-------------\n</xmp>";
+
 					// set decoded payload
 					$this->incoming_payload = $header_data.$lb.$lb.$data;
     			} else {

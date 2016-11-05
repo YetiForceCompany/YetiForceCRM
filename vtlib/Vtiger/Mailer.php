@@ -69,7 +69,6 @@ class Mailer extends \PHPMailer
 			$this->ConfigSenderInfo($adb->query_result($result, 0, 'from_email_field'));
 
 			$this->_serverConfigured = true;
-//			$this->Sender= getReturnPath($this->Host);
 		}
 	}
 

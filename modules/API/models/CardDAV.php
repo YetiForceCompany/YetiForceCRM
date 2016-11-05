@@ -423,13 +423,6 @@ class API_CardDAV_Model
 	 */
 	protected function addChange($objectUri, $operation)
 	{
-		/*
-		  $stmt = $this->pdo->prepare('DELETE FROM dav_addressbookchanges WHERE uri = ? && addressbookid = ?;');
-		  $stmt->execute([
-		  $objectUri,
-		  $this->addressBookId
-		  ]);
-		 */
 		$stmt = $this->pdo->prepare('INSERT INTO dav_addressbookchanges  (uri, synctoken, addressbookid, operation) SELECT ?, synctoken, ?, ? FROM dav_addressbooks WHERE id = ?');
 		$stmt->execute([
 			$objectUri,

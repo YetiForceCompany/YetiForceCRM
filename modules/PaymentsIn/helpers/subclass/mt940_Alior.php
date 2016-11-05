@@ -78,14 +78,10 @@ class mt940_Alior extends mt940
 			'countAddress' => ''
 		);
 		$delimiter = substr($value, 4, 1);
-		//echo '<pre>';print_r($delimiter . '   delimiter');echo '</pre>';
 		$tab = explode($delimiter, substr($value, 4));
-		//echo '<pre>';print_r($tab);echo '</pre>';
 		foreach ($tab as $line) {
 			$subTag = substr($line, 0, 2);
 			$subVal = substr($line, 2);
-			//echo '<pre>';print_r($subTag . ' subTag');echo '</pre>';
-			//echo '<pre>';print_r($subVal . ' subVal');echo '</pre>';
 			switch ($subTag) {
 				case '00':
 					$transaction['typeCode'] = $subVal;

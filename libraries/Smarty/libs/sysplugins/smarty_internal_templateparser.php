@@ -1250,7 +1250,6 @@ class Smarty_Internal_Templateparser
     {
         $stateno = $this->yystack[ $this->yyidx ]->stateno;
 
-        /* if ($this->yyidx < 0) return self::YY_NO_ACTION;  */
         if (!isset(self::$yy_shift_ofst[ $stateno ])) {
             // no shift actions
             return self::$yy_default[ $stateno ];
@@ -1285,7 +1284,6 @@ class Smarty_Internal_Templateparser
 
     public function yy_find_reduce_action($stateno, $iLookAhead)
     {
-        /* $stateno = $this->yystack[$this->yyidx]->stateno; */
 
         if (!isset(self::$yy_reduce_ofst[ $stateno ])) {
             return self::$yy_default[ $stateno ];

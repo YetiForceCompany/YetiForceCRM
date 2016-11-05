@@ -29,15 +29,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function get($key)
 	{
-//		if($key == 'execution_condition') {
-//			$executionCondition = parent::get($key);
-//			$executionConditionAsLabel = Settings_Workflows_Module_Model::$triggerTypes[$executionCondition];
-//			return Vtiger_Language_Handler::getTranslatedString($executionConditionAsLabel, 'Settings:Workflows');
-//		}
-//		if($key == 'module_name') {
-//			$moduleName = parent::get($key);
-//			return Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName);
-//		}
 		return parent::get($key);
 	}
 

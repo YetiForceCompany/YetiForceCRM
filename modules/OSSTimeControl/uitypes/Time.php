@@ -41,12 +41,6 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$date = new DateTime($value);
 
-		//No need to set the time zone as DateTimeField::getDisplayTime API is already doing this
-		/* if(empty($value)) {
-		  $timeZone = $userModel->get('time_zone');
-		  $targetTimeZone = new DateTimeZone($timeZone);
-		  $date->setTimezone($targetTimeZone);
-		  } */
 		if ($fieldName == 'time_end' && empty($value)) {
 			$date->modify("+15 minutes");
 		}

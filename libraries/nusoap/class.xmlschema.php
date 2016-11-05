@@ -665,10 +665,8 @@ class nusoap_xmlschema extends nusoap_base  {
     */
 	public function getPHPType($type,$ns){
 		if(isset($this->typemap[$ns][$type])){
-			//print "found type '$type' and ns $ns in typemap<br>";
 			return $this->typemap[$ns][$type];
 		} elseif(isset($this->complexTypes[$type])){
-			//print "getting type '$type' and ns $ns from complexTypes array<br>";
 			return $this->complexTypes[$type]['phpType'];
 		}
 		return false;
@@ -773,7 +771,7 @@ class nusoap_xmlschema extends nusoap_base  {
     * @deprecated
     */
     public function serializeTypeDef($type){
-    	//print "in sTD() for type $type<br>";
+
 	if($typeDef = $this->getTypeDef($type)){
 		$str .= '<'.$type;
 	    if(is_array($typeDef['attrs'])){

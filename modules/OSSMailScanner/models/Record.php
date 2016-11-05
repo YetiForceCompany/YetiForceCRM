@@ -66,7 +66,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		//var_dump($return);
 		return $return;
 	}
 
@@ -494,10 +493,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			if ($row['status'] == 1) {
 				$config = self::getConfig('cron');
 				$time = strtotime($row['start_time']) + ( $config['time'] * 60);
-				//var_dump(strtotime("now") > $time, strtotime("now"), $time, date('Y-m-d H:i:s'));
 				if (strtotime("now") > $time) {
 					$return = $row['start_time'];
-					//return array( date("Y-m-d H:i:s"), date("Y-m-d H:i:s", $time) , $config['time'] );
 				}
 			}
 		}

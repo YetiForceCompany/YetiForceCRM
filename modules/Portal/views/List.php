@@ -36,19 +36,6 @@ class Portal_List_View extends Vtiger_Index_View
 		$sortOrder = $request->get('sortorder');
 		$searchValue = $request->get('search_value');
 
-		/* if(empty($orderBy) && empty($searchValue) && empty($pageNumber)) {
-		  $orderParams = Vtiger_ListView_Model::getSortParamsSession($moduleName);
-		  if($orderParams) {
-		  $pageNumber = $orderParams['page'];
-		  $orderBy = $orderParams['orderby'];
-		  $sortOrder = $orderParams['sortorder'];
-		  $searchValue = $orderParams['search_value'];
-		  }
-		  } else {
-		  $params = array('page' => $pageNumber, 'orderby' => $orderBy, 'sortorder' => $sortOrder, 'search_value' => $searchValue);
-		  Vtiger_ListView_Model::setSortParamsSession($moduleName, $params);
-		  } */
-
 		if ($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
 			$sortImage = "glyphicon glyphicon-chevron-down";
