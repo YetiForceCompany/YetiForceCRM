@@ -406,7 +406,6 @@ class CustomView extends CRMEntity
 		$stdfilterlist = [];
 		$stdfilterlist['columnname'] = $dateFilterRow['columnname'];
 		$stdfilterlist['stdfilter'] = $dateFilterRow['stdfilter'];
-
 		if ($dateFilterRow['stdfilter'] == 'custom' || $dateFilterRow['stdfilter'] == '' || $dateFilterRow['stdfilter'] == 'e' || $dateFilterRow['stdfilter'] == 'n') {
 			if ($dateFilterRow['startdate'] != '0000-00-00' && $dateFilterRow['startdate'] != '') {
 				$startDateTime = new DateTimeField($dateFilterRow['startdate'] . ' ' . date('H:i:s'));
@@ -434,13 +433,13 @@ class CustomView extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$advft_criteria = [];
-		$dataReader = (new \App\Db\Query())->from('vtiger_cvadvfilter_grouping')
+		$dataReaderGroup = (new \App\Db\Query())->from('vtiger_cvadvfilter_grouping')
 				->where(['cvid' => $cvid])
 				->orderBy('groupid')
 				->createCommand()->query();
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $dataReader->read()) {
+		while ($relcriteriagroup = $dataReaderGroup->read()) {
 			$groupId = $relcriteriagroup["groupid"];
 			$groupCondition = $relcriteriagroup["group_condition"];
 			$dataReader = (new \App\Db\Query())->select('vtiger_cvadvfilter.*')
@@ -459,13 +458,11 @@ class CustomView extends CRMEntity
 				$advft_criteria[$i]['condition'] = $groupCondition;
 				$j++;
 			}
-
 			if (!empty($advft_criteria[$i]['columns'][$j - 1]['column_condition'])) {
 				$advft_criteria[$i]['columns'][$j - 1]['column_condition'] = '';
 			}
 			$i++;
 		}
-
 		if (!is_numeric($cvid)) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
