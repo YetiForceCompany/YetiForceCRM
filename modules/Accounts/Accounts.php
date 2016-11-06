@@ -697,7 +697,7 @@ class Accounts extends CRMEntity
 		if ($this->db->num_rows($con_res) > 0) {
 			$con_ids_list = [];
 			$numRowsConRes = $this->db->num_rows($con_res);
-			for ($k = 0; $k < numRowsConRes; $k++) {
+			for ($k = 0; $k < $numRowsConRes; $k++) {
 				$con_ids_list[] = $this->db->query_result($con_res, $k, "contactid");
 			}
 			$params = array($id, RB_RECORD_UPDATED, 'vtiger_contactdetails', 'parentid', 'contactid', implode(",", $con_ids_list));
