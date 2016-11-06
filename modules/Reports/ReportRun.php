@@ -2151,6 +2151,13 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable("vtiger_ossemployees")) {
 				$query .= " LEFT JOIN vtiger_ossemployees ON vtiger_ossemployees.ossemployeesid = vtiger_osstimecontrol.link";
 			}
+			if ($this->queryPlanner->requireTable("vtiger_usersOSSTimeControl")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_usersOSSTimeControl ON vtiger_usersOSSTimeControl.id = vtiger_crmentity.smownerid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_groupsOSSTimeControl")) {
+				$query .= " LEFT JOIN vtiger_groups AS vtiger_groupsOSSTimeControl ON vtiger_groupsOSSTimeControl.groupid = vtiger_crmentity.smownerid";
+			}
+			
 		} else {
 			if ($module != '') {
 				$focus = CRMEntity::getInstance($module);
