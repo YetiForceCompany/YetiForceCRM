@@ -85,16 +85,16 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getChildren()
 	{
-		$db = PearDatabase::getInstance();
 		if (!isset($this->children)) {
 			$parentRoleString = $this->getParentRoleString();
 			$currentRoleDepth = $this->getDepth();
 
-			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? && depth = ?';
-			$params = array($parentRoleString . '::%', $currentRoleDepth + 1);
-			$result = $db->pquery($sql, $params);
+			$dataReader = (new \App\Db\Query())->from('vtiger_role')
+					->where(['like', 'parentrole', $parentRoleString . '::%', false])
+					->andWhere(['depth' => $currentRoleDepth + 1])
+					->createCommand()->query();
 			$roles = [];
-			while ($row = $db->getRow($result)) {
+			while ($row = $dataReader->read()) {
 				$role = new self();
 				$role->setData($row);
 				$roles[$role->getId()] = $role;
@@ -106,7 +106,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getSameLevelRoles()
 	{
-		$db = PearDatabase::getInstance();
 		if (!isset($this->children)) {
 			$parentRoles = \App\PrivilegeUtil::getParentRole($this->getId());
 			$currentRoleDepth = $this->getDepth();
@@ -117,11 +116,13 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				else
 					$parentRoleString = $parentRoleString . '::' . $role;
 			}
-			$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ? && depth = ?';
-			$params = array($parentRoleString . '::%', $currentRoleDepth);
-			$result = $db->pquery($sql, $params);
+			$dataReader = (new \App\Db\Query())->from('vtiger_role')
+					->where(['like', 'parentrole', $parentRoleString . '::%', false])
+					->andWhere(['depth' => $currentRoleDepth])
+					->createCommand()->query();
+
 			$roles = [];
-			while ($row = $db->getRow($result)) {
+			while ($row = $dataReader->read()) {
 				$role = new self();
 				$role->setData($row);
 				$roles[$role->getId()] = $role;

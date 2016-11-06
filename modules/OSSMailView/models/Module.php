@@ -17,7 +17,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		$settingsLinks = parent::getSettingLinks();
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMailView' && description =  'OSSMailView'", true);
+		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMailView' AND description =  'OSSMailView'", true);
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',

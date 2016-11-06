@@ -472,14 +472,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function removeBlock($data)
 	{
-
+		$db = App\Db::getInstance();
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::removeBlock(" . $data . ") method ...");
-		$adb = PearDatabase::getInstance();
-
-		$adb->pquery('DELETE FROM `vtiger_module_dashboard_blocks` WHERE id = ?;', [$data['blockid']]);
-		$adb->pquery('DELETE FROM `vtiger_module_dashboard` WHERE blockid = ?;', [$data['blockid']]);
-
+		$db->createCommand()->delete('vtiger_module_dashboard_blocks', ['id' => $data['blockid']])->execute();
+		$db->createCommand()->delete('vtiger_module_dashboard', ['blockid' => $data['blockid']])->execute();
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::removeBlock() method ...");
-		return array('success' => true);
+		return ['success' => true];
 	}
 }

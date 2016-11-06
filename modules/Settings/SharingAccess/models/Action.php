@@ -34,16 +34,9 @@ class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
 
 	public function isModuleEnabled($module)
 	{
-		$db = PearDatabase::getInstance();
-		$tabId = $module->getId();
-
-		$sql = 'SELECT 1 FROM vtiger_org_share_action2tab WHERE tabid = ? && share_action_id = ?';
-		$params = array($tabId, $this->getId());
-		$result = $db->pquery($sql, $params);
-		if ($result && $db->num_rows($result) > 0) {
-			return true;
-		}
-		return false;
+		return (new \App\Db\Query())->from('vtiger_org_share_action2tab')
+				->where(['tabid' => $module->getId(), 'share_action_id' => $this->getId()])
+				->exists();
 	}
 
 	public static function getInstanceFromQResult($result, $rowNo = 0)

@@ -134,17 +134,10 @@ class VTWorkflowUtils
 
 	public static function checkModuleWorkflow($modulename)
 	{
-		$adb = PearDatabase::getInstance();
-		$tabid = \App\Module::getModuleId($modulename);
-		$modules_not_supported = ['Calendar', 'Emails', 'Faq', 'Events', 'Users'];
-		$query = sprintf('SELECT name FROM vtiger_tab WHERE name not in (%s) && isentitytype=1 && presence = 0 && tabid = ?', generateQuestionMarks($modules_not_supported));
-		$result = $adb->pquery($query, [$modules_not_supported, $tabid]);
-		$rows = $adb->num_rows($result);
-		if ($rows > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return (new \App\Db\Query())->from('vtiger_tab')
+				->where(['NOT IN', 'name', ['Calendar', 'Emails', 'Faq', 'Events', 'Users']])
+				->andWhere(['isentitytype' => 1, 'presence' => 0, 'tabid' => \App\Module::getModuleId($modulename)])
+				->exists();
 	}
 
 	public function vtGetModules($adb)

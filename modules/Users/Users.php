@@ -1028,10 +1028,10 @@ class Users extends CRMEntity
 			}
 			\App\Privilege::setAllUpdater();
 		} else {// update dashboard widgets when changing users role
-			$query = 'SELECT `roleid` FROM `vtiger_user2role` WHERE `userid` = ? LIMIT 1;';
-			$oldRoleResult = $adb->pquery($query, [$this->id]);
-			$oldRole = $adb->query_result($oldRoleResult, 0, 'roleid');
-
+			$oldRole = (new App\Db\Query())->select('roleid')
+					->from('vtiger_user2role')
+					->where(['userid' => $this->id])
+					->scalar();
 			$privilegesModel = Users_Privileges_Model::getInstanceById($this->id);
 			if ($this->column_fields['is_admin'] != $privilegesModel->get('is_admin')) {
 				\App\Privilege::setAllUpdater();

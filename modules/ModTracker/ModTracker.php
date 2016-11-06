@@ -102,7 +102,7 @@ class ModTracker
 	}
 
 	// cache variable
-	static $__cache_modtracker = array();
+	public static $__cache_modtracker = array();
 
 	/**
 	 * Invoked to disable tracking for the module.
@@ -112,17 +112,17 @@ class ModTracker
 	{
 		$adb = PearDatabase::getInstance();
 		if (!self::isModulePresent($tabid)) {
-			$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 0));
+			$adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 0));
 			self::updateCache($tabid, 0);
 		} else {
-			$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 0 WHERE tabid = ?", array($tabid));
+			$adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 0 WHERE tabid = ?", array($tabid));
 			self::updateCache($tabid, 0);
 		}
 		if (self::isModtrackerLinkPresent($tabid)) {
 			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAILVIEWBASIC', 'View History');
 		}
-		$adb->pquery("UPDATE vtiger_field SET presence = 1 WHERE tabid = ? && fieldname = ?", array($tabid, 'was_read'));
+		$adb->pquery("UPDATE vtiger_field SET presence = 1 WHERE tabid = ? AND fieldname = ?", array($tabid, 'was_read'));
 	}
 
 	/**
@@ -205,14 +205,9 @@ class ModTracker
 	 */
 	static function isModtrackerLinkPresent($tabid)
 	{
-		$adb = PearDatabase::getInstance();
-		$query1 = $adb->pquery("SELECT * FROM vtiger_links WHERE linktype='DETAILVIEWBASIC' AND
-							  linklabel = 'View History' && tabid = ?", array($tabid));
-		$row = $adb->num_rows($query1);
-		if ($row >= 1)
-			return true;
-		else
-			return false;
+		return (new \App\Db\Query())->from('vtiger_links')
+				->where(['linktype' => 'DETAILVIEWBASIC', 'linklabel' => 'View History', 'tabid' => $tabid])
+				->exists();
 	}
 
 	/**

@@ -23,7 +23,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$settingsLinks = [];
 
 		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' && description =  'OSSMail'", true);
+		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
 
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',

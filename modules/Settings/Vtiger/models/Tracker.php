@@ -42,8 +42,9 @@ class Settings_Vtiger_Tracker_Model
 
 	static function changeType($type)
 	{
-		$db = PearDatabase::getInstance('log');
-		$db->update('l_yf_settings_tracker_basic', ['type' => self::$types[$type]], ' id = ?', [self::$id]);
+		App\Db::getInstance('log')->createCommand()
+				->update('l_#__settings_tracker_basic', ['type' => self::$types[$type]], ['id' => [self::$id]])
+				->execute();
 	}
 
 	static function addDetail($prev, $post)
@@ -54,18 +55,17 @@ class Settings_Vtiger_Tracker_Model
 		if (self::$id != false) {
 			self::addBasic('save');
 		}
-		$db = PearDatabase::getInstance('log');
+		$db = App\Db::getInstance('log');
 		foreach ($post as $key => $value) {
 			if ($value == $prev[$key]) {
 				continue;
 			}
-			$paramsToSave = [
+			$db->createCommand()->insert('l_#__settings_tracker_detail', [
 				'id' => self::$id,
 				'prev_value' => isset($prev[$key]) ? $prev[$key] : '',
 				'post_value' => is_null($value) ? '' : $value,
 				'field' => $key,
-			];
-			$db->insert('l_yf_settings_tracker_detail', $paramsToSave);
+			])->execute();
 		}
 	}
 
