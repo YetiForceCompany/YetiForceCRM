@@ -70,9 +70,10 @@ class Picklist
 	 */
 	public static function getEditablePicklistValues($fieldName)
 	{
-		$values = static::getNonEditablePicklistValues($fieldName);
+		$values = static::getPickListValues($fieldName);
+		$nonEditableValues = static::getNonEditablePicklistValues($fieldName);
 		foreach ($values as $key => &$value) {
-			if ($value === '--None--') {
+			if ($value === '--None--' || isset($nonEditableValues[$key])) {
 				unset($values[$key]);
 			}
 		}
