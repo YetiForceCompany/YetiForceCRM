@@ -23,6 +23,7 @@ class PickListHandler extends VTEventHandler
 	{
 
 		$db = PearDatabase::getInstance();
+		$adb = App\Db::getInstance();
 		$pickListFieldName = $entityData['fieldname'];
 		$oldValue = $entityData['oldvalue'];
 		$newValue = $entityData['newvalue'];
@@ -85,11 +86,16 @@ class PickListHandler extends VTEventHandler
 		}
 
 		//update Workflows values
-		$query = 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? && test != "" && test IS NOT NULL && test !="null" && test LIKE ?';
-		$result = $db->pquery($query, [$moduleName, "%$oldValue%"]);
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$dataReader = (new \App\Db\Query())->select(['workflow_id', 'test'])->from('com_vtiger_workflows')->where([
+			'and',
+			['module_name' => $moduleName],
+			['<>', 'test', ''],
+			['not', ['test' => null]],
+			['<>', 'test', 'null'],
+			['like', 'test', $oldValue]
+		])->createCommand()->query();
+
+		while ($row = $dataReader->read()) {
 			$condition = decode_html($row['test']);
 			$decodedArrayConditions = \App\Json::decode($condition);
 			if (!empty($decodedArrayConditions)) {
@@ -107,8 +113,8 @@ class PickListHandler extends VTEventHandler
 					$decodedArrayConditions[$key] = $condition;
 				}
 				$condtion = \App\Json::encode($decodedArrayConditions);
-				$query = 'UPDATE com_vtiger_workflows SET test=? where workflow_id=?';
-				$db->pquery($query, array($condtion, $row['workflow_id']));
+				$adb->createCommand()->update('com_vtiger_workflows', ['test' => $condtion], ['workflow_id' => $row['workflow_id']])
+						->execute();
 			}
 		}
 
@@ -237,11 +243,15 @@ class PickListHandler extends VTEventHandler
 
 		foreach ($valueToDelete as $value) {
 			//update Workflows values
-			$query = 'SELECT workflow_id,test FROM com_vtiger_workflows where module_name=? && test != "" && test IS NOT NULL && test !="null" && test LIKE ?';
-			$result = $db->pquery($query, [$moduleName, "%$value%"]);
-			$num_rows = $db->num_rows($result);
-			for ($i = 0; $i < $num_rows; $i++) {
-				$row = $db->query_result_rowdata($result, $i);
+			$dataReader = (new \App\Db\Query())->select(['workflow_id', 'test'])->from('com_vtiger_workflows')->where([
+				'and',
+				['module_name' => $moduleName],
+				['<>', 'test', ''],
+				['not', ['test' => null]],
+				['<>', 'test', 'null'],
+				['like', 'test', $value]
+			])->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$condition = decode_html($row['test']);
 				$decodedArrayConditions = \App\Json::decode($condition);
 				if (!empty($decodedArrayConditions)) {
@@ -270,12 +280,9 @@ class PickListHandler extends VTEventHandler
 
 		foreach ($valueToDelete as $value) {
 			//update workflow task
-			$query = 'SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE ?';
-			$result = $db->pquery($query, ["%$value%"]);
-			$num_rows = $db->num_rows($result);
-
-			for ($i = 0; $i < $num_rows; $i++) {
-				$row = $db->raw_query_result_rowdata($result, $i);
+			$dataReader = (new \App\Db\Query())->select(['task', 'workflow_id', 'task_id'])->from('com_vtiger_workflowtasks')->where(['like', 'task', $value])
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$task = $row['task'];
 				$taskComponents = explode(':', $task);
 				$classNameWithDoubleQuotes = $taskComponents[2];
