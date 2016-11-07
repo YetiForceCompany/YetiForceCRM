@@ -447,23 +447,28 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public function get_scan_history($startNumber = 0)
 	{
-		$adb = PearDatabase::getInstance();
 		$limit = 30;
 		$endNumber = $startNumber + $limit;
-		$result = $adb->query("SELECT * FROM vtiger_ossmails_logs ORDER BY id DESC LIMIT $startNumber , $endNumber");
+		$dataReader = (new App\Db\Query())->from('vtiger_ossmails_logs')
+				->orderBy(['id' => SORT_DESC])
+				->limit($endNumber)
+				->offset($startNumber)
+				->createCommand()->query();
 		$output = [];
-		for ($i = 0; $i < $adb->getRowCount($result); $i++) {
-			$startTime = new DateTimeField($adb->query_result($result, $i, 'start_time'));
-			$endTime = new DateTimeField($adb->query_result($result, $i, 'end_time'));
-			$output[$i]['id'] = $adb->query_result($result, $i, 'id');
-			$output[$i]['start_time'] = $startTime->getDisplayDateTimeValue();
-			$output[$i]['end_time'] = $endTime->getDisplayDateTimeValue();
-			$output[$i]['status'] = self::getHistoryStatus($adb->query_result($result, $i, 'status'));
-			$output[$i]['user'] = $adb->query_result($result, $i, 'user');
-			$output[$i]['stop_user'] = $adb->query_result($result, $i, 'stop_user');
-			$output[$i]['count'] = $adb->query_result($result, $i, 'count');
-			$output[$i]['action'] = vtranslate($adb->query_result($result, $i, 'action'), 'OSSMailScanner');
-			$output[$i]['info'] = $adb->query_result($result, $i, 'info');
+		while ($row = $dataReader->read()) {
+			$startTime = new DateTimeField($row['start_time']);
+			$endTime = new DateTimeField($row['end_time']);
+			$output [] = [
+				'id' => $row['id'],
+				'start_time' => $startTime->getDisplayDateTimeValue(),
+				'end_time' => $endTime->getDisplayDateTimeValue(),
+				'status' => self::getHistoryStatus($row['status']),
+				'user' => $row['user'],
+				'stop_user' => $row['stop_user'],
+				'count' => $row['count'],
+				'action' => $row['count'],
+				'info' => $row['info'],
+			];
 		}
 		return $output;
 	}

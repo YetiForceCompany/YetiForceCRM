@@ -65,14 +65,18 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function Save($params)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$name = $params['name'];
 
 		if ($name == 'searchcolumn' || $name == 'fieldname') {
 			$value = implode(',', $params['value']);
-			$adb->update('vtiger_entityname', [$name => $value], 'tabid = ?', [(int) $params['tabid']]);
+			$db->createCommand()
+				->update('vtiger_entityname', [$name => $value], ['tabid' => (int) $params['tabid']])
+				->execute();
 		} elseif ($name == 'turn_off') {
-			$adb->update('vtiger_entityname', ['turn_off' => $params['value']], 'tabid = ?', [(int) $params['tabid']]);
+			$db->createCommand()
+				->update('vtiger_entityname', ['turn_off' => $params['value']], ['tabid' => (int) $params['tabid']])
+				->execute();
 		}
 	}
 

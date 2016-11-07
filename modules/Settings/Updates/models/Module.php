@@ -14,19 +14,7 @@ class Settings_Updates_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getUpdates()
 	{
-
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT * FROM `yetiforce_updates` yup';
-		$result = $db->pquery($query);
-		$noOfRows = $db->num_rows($result);
-
-		$matchingRecords = array();
-		$updates = array();
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
-			$updates[] = $row;
-		}
-		return $updates;
+		return (new App\Db\Query())->from('yetiforce_updates')
+				->all();
 	}
 }

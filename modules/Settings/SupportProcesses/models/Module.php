@@ -24,17 +24,16 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 */
 	public static function getTicketStatus()
 	{
-		
-		$adb = PearDatabase::getInstance();
 		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
-		$sql = 'SELECT * FROM `vtiger_ticketstatus`;';
-		$result = $adb->query($sql);
-		$rowsNum = $adb->num_rows($result);
-
-		for ($i = 0; $i < $rowsNum; $i++) {
-			$return[$i]['id'] = $adb->query_result($result, $i, 'ticketstatus_id');
-			$return[$i]['statusTranslate'] = vtranslate($adb->query_result($result, $i, 'ticketstatus'), 'HelpDesk');
-			$return[$i]['status'] = $adb->query_result($result, $i, 'ticketstatus');
+		$dataReader = (new App\Db\Query())->from('vtiger_ticketstatus')
+				->createCommand()->query();
+		$return = [];
+		while ($row = $dataReader->read()) {
+			$return [] = [
+				'id' => $row['ticketstatus_id'],
+				'statusTranslate' => App\Language::translate($row['ticketstatus'], 'HelpDesk'),
+				'status' => $row['ticketstatus']
+			];
 		}
 		\App\Log::trace("Exiting Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
 		return $return;
@@ -51,11 +50,10 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		if (self::$ticketStatusNotModify) {
 			return self::$ticketStatusNotModify;
 		}
-		$db = PearDatabase::getInstance();
-		$result = $db->query('SELECT ticket_status_indicate_closing FROM `vtiger_support_processes`');
-
+		$ticketStatus = (new App\Db\Query())->select('ticket_status_indicate_closing')
+			->from('vtiger_support_processes')
+			->scalar();
 		$return = [];
-		$ticketStatus = $db->getSingleValue($result);
 		if (!empty($ticketStatus)) {
 			$return = explode(',', $ticketStatus);
 		}
@@ -69,15 +67,15 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 */
 	public function updateTicketStatusNotModify($data)
 	{
-		
-		$adb = PearDatabase::getInstance();
 		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
-		$deleteQuery = "UPDATE `vtiger_support_processes` SET `ticket_status_indicate_closing` = NULL WHERE `id` = 1";
-		$adb->query($deleteQuery);
-		if ('null' != $data['val']) {
-			$insertQuery = "UPDATE `vtiger_support_processes` SET `ticket_status_indicate_closing` = ? WHERE `id` = 1";
+		\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
+				'ticket_status_indicate_closing' => ''
+			], ['id' => 1])->execute();
+		if (!empty($data['val'])) {
 			$data = implode(',', $data['val']);
-			$adb->pquery($insertQuery, [$data]);
+			\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
+				'ticket_status_indicate_closing' => $data
+			], ['id' => 1])->execute();
 		}
 		\App\Log::trace("Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		return true;
@@ -86,7 +84,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	public function getAllTicketStatus()
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getAllTicketStatus() method ...");
 		$sql = 'SELECT `ticketstatus` FROM `vtiger_ticketstatus`';
 		$result = $adb->query($sql);
@@ -99,7 +97,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 
 	public static function getOpenTicketStatus()
 	{
-		
+
 		$getTicketStatusClosed = self::getTicketStatusNotModify();
 		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getOpenTicketStatus() method ...");
 		if (empty($getTicketStatusClosed)) {

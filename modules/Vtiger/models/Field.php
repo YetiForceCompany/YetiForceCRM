@@ -336,17 +336,19 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getModulesListValues($onlyActive = true)
 	{
-		$adb = PearDatabase::getInstance();
 		$modules = [];
-		$params = [];
+		$query = (new App\Db\Query())
+			->select('tabid, name, ownedby')
+			->from('vtiger_tab');
 		if ($onlyActive) {
-			$where .= ' WHERE presence = ? && isentitytype = ?';
-			array_push($params, 0);
-			array_push($params, 1);
+			$query->where(['presence' => 0, 'isentitytype' => 1]);
 		}
-		$result = $adb->pquery(sprintf('SELECT tabid, name, ownedby FROM vtiger_tab %s', $where), $params);
-		while ($row = $adb->fetch_array($result)) {
-			$modules[$row['tabid']] = array('name' => $row['name'], 'label' => vtranslate($row['name'], $row['name']));
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$modules[$row['tabid']] = [
+				'name' => $row['name'],
+				'label' => App\Language::translate($row['name'], $row['name'])
+			];
 		}
 		return $modules;
 	}

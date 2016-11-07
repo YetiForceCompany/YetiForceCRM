@@ -177,10 +177,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	 * Function to save the record
 	 */
 	public function save()
-	{	
-		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', 
-			['frequency' => $this->get('frequency'), 'status' => $this->get('status')],
-			['id' => $this->getId()])
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['frequency' => $this->get('frequency'), 'status' => $this->get('status')], ['id' => $this->getId()])
 			->execute();
 	}
 
@@ -192,10 +190,12 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
-		$query = (new \App\Db\Query())
+		if(empty($recordId))
+			return false;
+		$row = (new \App\Db\Query())
 			->from('vtiger_cron_task')
-			->where(['id' => $recordId]);
-		$row = $query->createCommand()->queryOne();
+			->where(['id' => $recordId])
+			->one();
 		if ($row) {
 			$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
