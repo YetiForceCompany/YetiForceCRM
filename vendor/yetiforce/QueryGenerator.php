@@ -27,6 +27,9 @@ class QueryGenerator
 	private $m2mRelModConditions = [];
 	private $referenceModuleField = [];
 	private $fromClauseCustom = [];
+	private $whereOperator = [];
+	private $whereFields = [];
+	private $whereClauseCustom = [];
 
 	/**
 	 * @var \Vtiger_Module_Model 
@@ -65,9 +68,22 @@ class QueryGenerator
 		return $this->moduleName;
 	}
 
+	/**
+	 * Get CRMEntity Model
+	 * @return \CRMEntity
+	 */
 	public function getEntityModel()
 	{
 		return $this->entityModel;
+	}
+
+	/**
+	 * Set custom condition
+	 * @param array $where
+	 */
+	public function setCustomCondition($where)
+	{
+		$this->whereClauseCustom[] = $where;
 	}
 
 	/**
@@ -90,7 +106,7 @@ class QueryGenerator
 				$this->referenceFields[$fieldName] = $fieldModel->getReferenceList();
 			}
 			if ($dataType === 'owner') {
-				$this->ownerFields = $fieldName;
+				$this->ownerFields[] = $fieldName;
 			}
 		}
 		return $this->fieldsModel = $moduleFields;
@@ -115,7 +131,7 @@ class QueryGenerator
 	 * Fix date time value
 	 * @param string $fieldName
 	 * @param string $value
-	 * @param bool $first
+	 * @param boolean $first
 	 * @return string
 	 */
 	public function fixDateTimeValue($fieldName, $value, $first = true)
@@ -305,6 +321,7 @@ class QueryGenerator
 
 	/**
 	 * Create query
+	 * @return \App\Db\Query
 	 */
 	public function createQuery()
 	{
@@ -312,6 +329,7 @@ class QueryGenerator
 		$this->loadFrom();
 		$this->loadJoin();
 		$this->loadWhere();
+		return $this->getQuery();
 	}
 
 	/**
@@ -372,6 +390,8 @@ class QueryGenerator
 	{
 		$tableList = $tableJoinCondition = $tableJoin = [];
 		$moduleTableIndexList = $this->entityModel->tab_name_index;
+		$baseTable = $this->entityModel->table_name;
+		$baseTableIndex = $moduleTableIndexList[$baseTable];
 		foreach ($this->fields as &$fieldName) {
 			if ($fieldName === 'id') {
 				continue;
@@ -398,80 +418,62 @@ class QueryGenerator
 				$tableJoin[$field->getTableName()] = $this->entityModel->getJoinClause($field->getTableName());
 			}
 		}
-		$baseTable = $this->meta->getEntityBaseTable();
-		$baseTableIndex = $moduleTableIndexList[$baseTable];
-		/*
-		  $current_user = vglobal('current_user');
-		  if (!empty($this->query) || !empty($this->fromClause)) {
-		  return $this->fromClause;
-		  }
-		  $baseModule = $this->getModule();
-		  $moduleFields = $this->getModuleFields();
-		  $tableList = [];
-		  $tableJoinMapping = [];
-		  $tableJoinSql = '';
-		  $i = 1;
+		foreach ($this->whereFields as &$fieldName) {
+			if (empty($fieldName)) {
+				continue;
+			}
+			$field = $this->getModuleField($fieldName);
+			if (empty($field)) {
+				continue;
+			}
+			$tableName = $field->getTableName();
+			// When a field is included in Where Clause, but not is Select Clause, and the field table is not base table,
+			// The table will not be present in tablesList and hence needs to be added to the list.
+			if (!isset($tableList[$tableName])) {
+				$tableList[$tableName] = $tableName;
+				$tableJoin[$tableName] = $this->entityModel->getJoinClause($tableName);
+			}
+			if (in_array($field->getFieldDataType(), \Vtiger_Field_Model::$REFERENCE_TYPES)) {
+				if (!(\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX') && isset($this->whereOperator[$fieldName]) && $this->whereOperator[$fieldName] === 'e')) {
+					// This is special condition as the data is not stored in the base table,
+					$tableJoin[$field->getTableName()] = 'INNER JOIN';
+					foreach ($this->referenceFields[$fieldName] as &$moduleName) {
+						$referenceModuleModel = \Vtiger_Module_Model::getInstance($moduleName);
+						$referenceEntityModel = \CRMEntity::getInstance($moduleName);
+						$tableIndexList = $referenceEntityModel->tab_name_index;
+						$entityInfo = Module::getEntityInfo($moduleName);
+						foreach ($entityInfo['fieldnameArr'] as &$fieldName) {
+							$referenceField = \Vtiger_Field_Model::getInstance($fieldName, $referenceModuleModel);
+							$referenceTable = $referenceField->getTableName();
+							$referenceTableIndex = $tableIndexList[$referenceTable];
 
-		  foreach ($this->whereFields as $fieldName) {
-		  if (empty($fieldName)) {
-		  continue;
-		  }
-		  $field = $moduleFields[$fieldName];
-		  if (empty($field)) {
-		  // not accessible field.
-		  continue;
-		  }
-		  $baseTable = $field->getTableName();
-		  // When a field is included in Where Clause, but not is Select Clause, and the field table is not base table,
-		  // The table will not be present in tablesList and hence needs to be added to the list.
-		  if (empty($tableList[$baseTable])) {
-		  $tableList[$baseTable] = $field->getTableName();
-		  $tableJoinMapping[$baseTable] = $this->meta->getJoinClause($field->getTableName());
-		  }
-		  if (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
-		  if (!(AppConfig::performance('SEARCH_REFERENCE_BY_AJAX') && isset($this->whereOperator[$fieldName]) && $this->whereOperator[$fieldName] == 'e')) {
-		  $moduleList = $this->referenceFieldInfoList[$fieldName];
-		  // This is special condition as the data is not stored in the base table,
-		  $tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
-		  foreach ($moduleList as $module) {
-		  $meta = $this->getMeta($module);
-		  $nameFields = $this->moduleNameFields[$module];
-		  $nameFieldList = explode(',', $nameFields);
-		  foreach ($nameFieldList as $index => $column) {
-		  $referenceField = $meta->getFieldByColumnName($column);
-		  $referenceTable = $referenceField->getTableName();
-		  $tableIndexList = $meta->getEntityTableIndexList();
-		  $referenceTableIndex = $tableIndexList[$referenceTable];
-
-		  $referenceTableName = "$referenceTable $referenceTable$fieldName";
-		  $referenceTable = "$referenceTable$fieldName";
-		  //should always be left join for cases where we are checking for null
-		  //reference field values.
-		  if (!array_key_exists($referenceTable, $tableJoinMapping)) {  // table already added in from clause
-		  $tableJoinMapping[$referenceTableName] = 'LEFT JOIN';
-		  $tableJoinCondition[$fieldName][$referenceTableName] = $baseTable . '.' .
-		  $field->getColumnName() . ' = ' . $referenceTable . '.' . $referenceTableIndex;
-		  }
-		  }
-		  }
-		  }
-		  } elseif ($field->getFieldDataType() == 'owner') {
-		  $add = true;
-		  if (isset($this->whereOperator[$fieldName]) && ($this->whereOperator[$fieldName] == 'om' || $this->whereOperator[$fieldName] == 'e')) {
-		  $add = false;
-		  }
-		  if ($add) {
-		  $tableList['vtiger_users'] = 'vtiger_users';
-		  $tableList['vtiger_groups'] = 'vtiger_groups';
-		  $tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
-		  $tableJoinMapping['vtiger_groups'] = 'LEFT JOIN';
-		  }
-		  } else {
-		  $tableList[$field->getTableName()] = $field->getTableName();
-		  $tableJoinMapping[$field->getTableName()] = $this->meta->getJoinClause($field->getTableName());
-		  }
-		  }
-		 */
+							$referenceTableName = "$referenceTable $referenceTable$fieldName";
+							$referenceTable = "$referenceTable$fieldName";
+							//should always be left join for cases where we are checking for null
+							//reference field values.
+							if (!isset($tableJoin[$referenceTable])) {  // table already added in from clause
+								$tableJoin[$referenceTableName] = 'LEFT JOIN';
+								$tableJoinCondition[$fieldName][$referenceTableName] = "$tableName.{$field->getColumnName()} = $referenceTable.$referenceTableIndex";
+							}
+						}
+					}
+				}
+			} elseif ($field->getFieldDataType() === 'owner') {
+				$add = true;
+				if (isset($this->whereOperator[$fieldName]) && ($this->whereOperator[$fieldName] === 'om' || $this->whereOperator[$fieldName] === 'e')) {
+					$add = false;
+				}
+				if ($add) {
+					$tableList['vtiger_users'] = 'vtiger_users';
+					$tableList['vtiger_groups'] = 'vtiger_groups';
+					$tableJoin['vtiger_users'] = 'LEFT JOIN';
+					$tableJoin['vtiger_groups'] = 'LEFT JOIN';
+				}
+			} else {
+				$tableList[$field->getTableName()] = $field->getTableName();
+				$tableJoin[$field->getTableName()] = $this->entityModel->getJoinClause($field->getTableName());
+			}
+		}
 		foreach ($this->getEntityDefaultTableList() as &$table) {
 			if (!isset($tableList[$table])) {
 				$tableList[$table] = $table;
@@ -489,30 +491,28 @@ class QueryGenerator
 		foreach ($this->customTable as &$table) {
 			$tableName = $table['name'];
 			$tableList[$tableName] = $tableName;
-			$tableJoinMapping[$tableName] = $table['join'];
+			$tableJoin[$tableName] = $table['join'];
 		}
-		/*
-		  foreach ($this->whereClauseCustom as $where) {
-		  if (isset($where['tablename']) && ($baseTable != $where['tablename'] && !in_array($where['tablename'], $tableList))) {
-		  $tableList[] = $where['tablename'];
-		  $tableJoinMapping[$where['tablename']] = 'LEFT JOIN';
-		  }
-		  }
-		 */
+		foreach ($this->whereClauseCustom as &$where) {
+			if (isset($where['tablename']) && ($baseTable !== $where['tablename'] && !isset($tableList[$where['tablename']]))) {
+				$tableList[$where['tablename']] = $where['tablename'];
+				$tableJoin[$where['tablename']] = 'LEFT JOIN';
+			}
+		}
 		foreach ($this->getEntityDefaultTableList() as &$tableName) {
-			$this->query->join($tableJoinMapping[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.{$moduleTableIndexList[$tableName]}");
+			$this->query->join($tableJoin[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.{$moduleTableIndexList[$tableName]}");
 			unset($tableList[$tableName]);
 		}
 		unset($tableList[$baseTable]);
 		foreach ($tableList as &$tableName) {
 			if ($tableName === 'vtiger_users') {
 				$field = $this->getModuleField($ownerField);
-				$this->query->join($tableJoinMapping[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.id");
+				$this->query->join($tableJoin[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.id");
 			} elseif ($tableName == 'vtiger_groups') {
 				$field = $this->getModuleField($ownerField);
-				$this->query->join($tableJoinMapping[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.groupid");
+				$this->query->join($tableJoin[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.groupid");
 			} else {
-				$this->query->join($tableJoinMapping[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]");
+				$this->query->join($tableJoin[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]");
 			}
 		}
 		foreach ($tableJoinCondition as $fieldName => &$conditionInfo) {
@@ -523,7 +523,7 @@ class QueryGenerator
 				} else {
 					$tableNameAlias = '';
 				}
-				$this->query->join($tableJoinMapping[$tableName], "$tableName $tableNameAlias", $condition);
+				$this->query->join($tableJoin[$tableName], "$tableName $tableNameAlias", $condition);
 			}
 		}
 		foreach ($this->m2mRelModConditions as &$conditionInfo) {
@@ -532,41 +532,45 @@ class QueryGenerator
 			$this->query->innerJoin($relationInfo['relationTable'], "{$relationInfo['relationTable']}.{$relationInfo[$this->moduleName]} = $baseTable.$baseTableIndex");
 		}
 		// Adding support for conditions on reference module fields
-		/*
-		  if (!empty($this->referenceModuleField)) {
-		  $referenceFieldTableList = [];
-		  foreach ($this->referenceModuleField as $index => &$conditionInfo) {
-		  $handler = vtws_getModuleHandlerFromName($conditionInfo['relatedModule'], $current_user);
-		  $meta = $handler->getMeta();
-		  $tableList = $meta->getEntityTableIndexList();
-		  $fieldName = $conditionInfo['fieldName'];
-		  $referenceFieldObject = $moduleFields[$conditionInfo['referenceField']];
-		  $fields = $meta->getModuleFields();
-		  $fieldObject = $fields[$fieldName];
-
-		  if (empty($fieldObject))
-		  continue;
-
-		  $tableName = $fieldObject->getTableName();
-		  if (!in_array($tableName, $referenceFieldTableList)) {
-		  $sql .= " LEFT JOIN " . $tableName . ' AS ' . $tableName . $conditionInfo['referenceField'] . ' ON
-		  ' . $tableName . $conditionInfo['referenceField'] . '.' . $tableList[$tableName] . '=' .
-		  $referenceFieldObject->getTableName() . '.' . $referenceFieldObject->getColumnName();
-		  $referenceFieldTableList[] = $tableName;
-		  }
-		  }
-		  }
-		 */
+		if ($this->referenceModuleField) {
+			$referenceFieldTableList = [];
+			foreach ($this->referenceModuleField as &$conditionInfo) {
+				$relatedEntityModel = \CRMEntity::getInstance($conditionInfo['relatedModule']);
+				$tabIndex = $relatedEntityModel->tab_name_index;
+				$referenceField = $this->getModuleField($conditionInfo['referenceField']);
+				$fieldModel = \Vtiger_Field_Model::getInstance($conditionInfo['fieldName'], \Vtiger_Module_Model::getInstance($conditionInfo['relatedModule']));
+				if (empty($fieldModel)) {
+					continue;
+				}
+				$tableName = $fieldModel->getTableName();
+				if (!isset($referenceFieldTableList[$tableName])) {
+					$this->query->leftJoin("$tableName $tableName{$conditionInfo['referenceField']}", "$tableName{$conditionInfo['referenceField']}.{$tabIndex[$tableName]} = {$referenceField->getTableName()}.{$referenceField->getColumnName()}");
+					$referenceFieldTableList[$tableName] = $tableName;
+				}
+			}
+		}
 		foreach ($this->fromClauseCustom as $where) {
 			$this->query->join($where['joinType'], $where['relatedTable'], "{$where['relatedTable']}.{$where['relatedIndex']} = {$where['baseTable']}.{$where['baseIndex']}");
 		}
 	}
 
+	/**
+	 * Get entity default table list
+	 * @return type
+	 */
 	public function getEntityDefaultTableList()
 	{
 		if (isset($this->entityModel->tab_name_index['vtiger_crmentity'])) {
 			return ['vtiger_crmentity'];
 		}
 		return [];
+	}
+
+	/**
+	 * Sets the WHERE part of the query.
+	 */
+	public function loadWhere()
+	{
+		
 	}
 }

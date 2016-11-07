@@ -32,7 +32,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @return <Object>
 	 * @throws Exception
 	 */
@@ -46,7 +46,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function which sets value for given name
-	 * @param <String> $name - name for which value need to be assinged
+	 * @param string $name - name for which value need to be assinged
 	 * @param <type> $value - values that need to be assigned
 	 * @return Vtiger_Field_Model
 	 */
@@ -58,26 +58,56 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get the Field Id
-	 * @return <Number>
+	 * @return int
 	 */
 	public function getId()
 	{
 		return $this->id;
 	}
 
+	/**
+	 * Get name
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
 	}
 
+	/**
+	 * Get field name
+	 * @return string
+	 */
 	public function getFieldName()
 	{
 		return $this->name;
 	}
 
+	/**
+	 * Get field label
+	 * @return string
+	 */
 	public function getFieldLabel()
 	{
 		return $this->label;
+	}
+
+	/**
+	 * Get table name
+	 * @return string
+	 */
+	public function getTableName()
+	{
+		return $this->table;
+	}
+
+	/**
+	 * Get column label
+	 * @return string
+	 */
+	public function getColumnName()
+	{
+		return $this->column;
 	}
 
 	/**
@@ -109,8 +139,8 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to retieve display value for a value
-	 * @param <String> $value - value which need to be converted to display value
-	 * @return <String> - converted display value
+	 * @param string $value - value which need to be converted to display value
+	 * @return string - converted display value
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -119,7 +149,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to retrieve display type of a field
-	 * @return <String> - display type of the field
+	 * @return string - display type of the field
 	 */
 	public function getDisplayType()
 	{
@@ -158,7 +188,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get the Webservice Field data type
-	 * @return <String> Data type of the field
+	 * @return string Data type of the field
 	 */
 	public function getFieldDataType()
 	{
@@ -378,7 +408,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get the field type
-	 * @return <String> type of the field
+	 * @return string type of the field
 	 */
 	public function getFieldType()
 	{
@@ -534,7 +564,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get the custom view column name transformation of the field for a date field used in date filters
-	 * @return <String> - tablename:columnname:fieldname:module_fieldlabel
+	 * @return string - tablename:columnname:fieldname:module_fieldlabel
 	 */
 	public function getCVDateFilterColumnName()
 	{
@@ -552,7 +582,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get the custom view column name transformation of the field
-	 * @return <String> - tablename:columnname:fieldname:module_fieldlabel:fieldtype
+	 * @return string - tablename:columnname:fieldname:module_fieldlabel:fieldtype
 	 */
 	public function getCustomViewColumnName()
 	{
@@ -581,7 +611,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get the Report column name transformation of the field
-	 * @return <String> - tablename:columnname:module_fieldlabel:fieldname:fieldtype
+	 * @return string - tablename:columnname:module_fieldlabel:fieldname:fieldtype
 	 */
 	public function getReportFilterColumnName()
 	{
@@ -616,7 +646,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * This is set from Workflow Record Structure, since workflow expects the field name
 	 * in a different format in its filter. Eg: for module field its fieldname and for reference
 	 * fields its reference_field_name : (reference_module_name) field - salesorder_id: (SalesOrder) subject
-	 * @return <String>
+	 * @return string
 	 */
 	public function getWorkFlowFilterColumnName()
 	{
@@ -753,7 +783,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get the date values for the given type of Standard filter
-	 * @param <String> $type
+	 * @param string $type
 	 * @return <Array> - 2 date values representing the range for the given type of Standard filter
 	 */
 	protected static function getDateForStdFilterBytype($type)
@@ -882,7 +912,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get instance
-	 * @param <String> $value - fieldname or fieldid
+	 * @param string $value - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
 	 * @return <Vtiger_Field_Model>
 	 */
@@ -1025,8 +1055,8 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to retrieve display value in edit view
-	 * @param <String> $value - value which need to be converted to display value
-	 * @return <String> - converted display value
+	 * @param string $value - value which need to be converted to display value
+	 * @return string - converted display value
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
@@ -1058,8 +1088,8 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get Display value for RelatedList
-	 * @param <String> $value
-	 * @return <String>
+	 * @param string $value
+	 * @return string
 	 */
 	public function getRelatedListDisplayValue($value)
 	{
@@ -1068,7 +1098,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get Default Field Value
-	 * @return <String> defaultvalue
+	 * @return string defaultvalue
 	 */
 	public function getDefaultFieldValue()
 	{
