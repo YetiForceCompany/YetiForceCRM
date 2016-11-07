@@ -27,16 +27,24 @@ class VTWatchdog extends VTTask
 		$parts = explode('x', $wsId);
 		$recordId = $parts[1];
 		$users = [];
-		$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
-		if ($this->recipients == 'watchdog') {
-			$users = $watchdog->getWatchingUsers();
-		} else {
-			$users = [$this->recipients];
+
+		switch ($this->recipients) {
+			case 'watchdog':
+				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
+				$users = $watchdog->getWatchingUsers();
+				break;
+			case 'owner':
+				$owner = explode('x', $entity->get('assigned_user_id'));
+				$users = [$owner[1]];
+				break;
+			default:
+				$users = \App\PrivilegeUtil::getUserByMember($this->recipients);
+				break;
 		}
 		if (empty($users)) {
 			return false;
 		}
-		if ($this->skipCurrentUser == 1 && ($key = array_search(\App\User::getCurrentUserId(), $users)) !== false) {
+		if (!empty($this->skipCurrentUser) && ($key = array_search(\App\User::getCurrentUserId(), $users)) !== false) {
 			unset($users[$key]);
 		}
 		$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);

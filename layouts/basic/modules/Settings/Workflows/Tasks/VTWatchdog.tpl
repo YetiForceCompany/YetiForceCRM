@@ -17,13 +17,16 @@
 				<option {if $TASK_OBJECT->recipients eq 'watchdog'}selected{/if} value="watchdog">
 					{vtranslate('LBL_WATCHING_USERS', $QUALIFIED_MODULE)}
 				</option>
-				<optgroup label="{vtranslate('LBL_USERS')}">
-					{foreach key=OWNER_ID item=OWNER_NAME from=$ASSIGNED_TO[vtranslate('LBL_USERS')]}
-						<option value="{$OWNER_ID}" {if $TASK_OBJECT->recipients eq $OWNER_ID}selected{/if}>
-							{$OWNER_NAME}
-						</option>
-					{/foreach}
-				</optgroup>
+				<option {if $TASK_OBJECT->recipients eq 'owner'}selected{/if} value="owner">
+					{vtranslate('LBL_OWNER_REKORD', $QUALIFIED_MODULE)}
+				</option>
+				{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
+					<optgroup label="{vtranslate($GROUP_LABEL)}">
+						{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}
+								<option class="{$MEMBER['type']}" value="{$MEMBER_ID}" {if $TASK_OBJECT->recipients eq $MEMBER_ID}selected{/if}>{vtranslate($MEMBER['name'])}</option>
+						{/foreach}
+					</optgroup>
+				{/foreach}
 			</select>
 		</div>
 	</div>
