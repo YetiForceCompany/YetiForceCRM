@@ -9,22 +9,21 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class OSSMailScanner_ImportMail_Action extends Vtiger_Action_Controller
+class OSSMail_ImportMail_Action extends Vtiger_Action_Controller
 {
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	public function process(Vtiger_Request $request)
 	{
-		$params = $request->get('params');
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$mailScanMail = $scannerModel->manualScanMail($params);
+		$mailScanMail = $scannerModel->manualScanMail($request->get('params'));
+		$return = false;
 		if ($mailScanMail['CreatedEmail']) {
 			$return = $mailScanMail['CreatedEmail'];
 		}
