@@ -54,6 +54,6 @@ class PrivilegeFile
 		$user['details'] = $userInstance->column_fields;
 		$user['profiles'] = PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
 		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
-		file_put_contents($file, "\n return " . \vtlib\Functions::varExportMin($user) . ';', FILE_APPEND);
+		file_put_contents($file, 'return ' . \vtlib\Functions::varExportMin($user) . ';', FILE_APPEND);
 	}
 }

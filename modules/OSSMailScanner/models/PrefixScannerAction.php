@@ -55,7 +55,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 				->where(['vtiger_crmentity.deleted' => 0, $this->tableName . '.' . $this->tableColumn => $this->prefix])
 				->one();
 			if ($crmId) {
-				\App\Cache::get('getRecordByPrefix', $this->prefix, $crmId, \App\Cache::LONG);
+				\App\Cache::save('getRecordByPrefix', $this->prefix, $crmId, \App\Cache::LONG);
 			}
 		}
 		if ($crmId) {
