@@ -45,7 +45,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public function ComposeEmail($params, $ModuleName)
 	{
-		header('Location: ' . self::GetSite_URL() . 'index.php?module=OSSMail&view=compose');
+		header('Location: ' . self::getSiteUrl() . 'index.php?module=OSSMail&view=compose');
 	}
 
 	public static function load_roundcube_config()
@@ -253,12 +253,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$return = '';
 		foreach ($text as $row) {
 			if ($return != '') {
-				$return.= ',';
+				$return .= ',';
 			}
 			if ($row->personal == '') {
-				$return.= $row->mailbox . '@' . $row->host;
+				$return .= $row->mailbox . '@' . $row->host;
 			} else {
-				$return.= self::_decode_text($row->personal) . ' - ' . $row->mailbox . '@' . $row->host;
+				$return .= self::_decode_text($row->personal) . ' - ' . $row->mailbox . '@' . $row->host;
 			}
 		}
 		return $return;
@@ -625,7 +625,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		);
 	}
 
-	public function GetSite_URL()
+	public static function getSiteUrl()
 	{
 		$site_URL = AppConfig::main('site_URL');
 		if (substr($site_URL, -1) != '/') {

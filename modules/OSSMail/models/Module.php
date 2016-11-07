@@ -35,7 +35,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $settingsLinks;
 	}
 
-	public function getDefaultMailAccount($accounts)
+	public static function getDefaultMailAccount($accounts)
 	{
 		$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
 		return $rcUser;

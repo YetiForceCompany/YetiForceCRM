@@ -137,7 +137,7 @@
 				{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 					<div class="pull-right">
 						{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
-						{if $CONFIG['showMailIcon']=='true'}
+						{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}
 							{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 							{if count($AUTOLOGINUSERS) > 0}
 								{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}

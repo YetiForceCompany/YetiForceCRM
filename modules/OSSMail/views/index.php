@@ -17,7 +17,7 @@ class OSSMail_index_View extends Vtiger_Index_View
 	public function __construct()
 	{
 		parent::__construct();
-		$this->mainUrl = OSSMail_Record_Model::GetSite_URL() . $this->mainUrl;
+		$this->mainUrl = OSSMail_Record_Model::getSiteUrl() . $this->mainUrl;
 	}
 
 	public function initAutologin()
