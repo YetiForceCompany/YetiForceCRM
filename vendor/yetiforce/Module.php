@@ -115,4 +115,26 @@ class Module
 		}
 		return $sharingModules;
 	}
+
+	/**
+	 * Get sql for name in display format
+	 * @param string $moduleName
+	 * @return string
+	 */
+	public static function getSqlForNameInDisplayFormat($moduleName)
+	{
+		$entityFieldInfo = static::getEntityInfo($moduleName);
+		$fieldsName = $entityFieldInfo['fieldnameArr'];
+		if (count($fieldsName) > 1) {
+			$sqlString = 'CONCAT(';
+			foreach ($fieldsName as &$value) {
+				$sqlString .= "{$entityFieldInfo['tablename']}.{$value},' ',";
+			}
+			$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
+		} else {
+			$fieldsName = array_pop($fieldsName);
+			$formattedName = "{$entityFieldInfo['tablename']}.$fieldsName";
+		}
+		return $formattedName;
+	}
 }
