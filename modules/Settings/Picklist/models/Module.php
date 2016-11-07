@@ -277,27 +277,21 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 
 	public static function getPicklistSupportedModules()
 	{
-		$db = PearDatabase::getInstance();
-
-		// vtlib customization: Ignore disabled modules.
-		$query = "SELECT DISTINCT 
-					vtiger_tab.tablabel,
-					vtiger_tab.name AS tabname 
-				  FROM
-					vtiger_tab 
-					INNER JOIN vtiger_field 
-					  ON vtiger_tab.tabid = vtiger_field.tabid 
-				  WHERE uitype IN (15, 33, 16) 
-					AND vtiger_field.tabid NOT IN (29, 10) 
-					AND vtiger_tab.presence != 1 
-					AND vtiger_field.presence IN (0, 2) 
-					AND vtiger_field.`columnname` !=  'taxtype'
-				  ORDER BY vtiger_tab.tabid ASC ";
-		// END
-		$result = $db->pquery($query, array());
-
-		$modulesModelsList = array();
-		while ($row = $db->fetch_array($result)) {
+		$dataReader = (new App\Db\Query())->select('vtiger_tab.tablabel, vtiger_tab.name AS tabname')
+			->from('vtiger_tab')
+			->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
+			->where([
+				'and',
+				['uitype' => [15, 33, 16]],
+				['NOT IN', 'vtiger_field.tabid', [29, 10]],
+				['<>', 'vtiger_tab.presence', 1],
+				['vtiger_field.presence' => [0, 2]],
+				['<>', 'vtiger_field.columnname', 'taxtype']
+		])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
+			->distinct()
+			->createCommand()->query();
+		$modulesModelsList = [];
+		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];
 			$moduleName = $row['tabname'];
 			$instance = new self();

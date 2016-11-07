@@ -100,9 +100,10 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 	public static function updateColor($params)
 	{
-		$adb = PearDatabase::getInstance();
 		$primaryKey = App\Fields\Picklist::getPickListId($params['field']);
-		$adb->update($params['table'], ['color' => $params['color']], $primaryKey . ' = ?', [$params['id']]);
+		App\Db::getInstance()->createCommand()
+			->update($params['table'], ['color' => $params['color']], [$primaryKey => $params['id']])
+			->execute();
 	}
 
 	public static function getValuesFromField($fieldName)

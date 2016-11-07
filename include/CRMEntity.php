@@ -1257,37 +1257,38 @@ class CRMEntity
 
 	public function updateMissingSeqNumber($module)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace("Entered updateMissingSeqNumber function");
-
 		vtlib_setup_modulevars($module, $this);
 		$tabid = \App\Module::getModuleId($module);
 		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
-		$fieldinfo = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? && uitype = 4", Array($tabid));
-
+		
+		$fieldinfo = (new App\Db\Query())->from('vtiger_field')
+			->where(['tabid' => $tabid, 'uitype' => 4])->one();
 		$returninfo = [];
 
-		if ($fieldinfo && $adb->num_rows($fieldinfo)) {
-			$fld_table = $adb->query_result($fieldinfo, 0, 'tablename');
-			$fld_column = $adb->query_result($fieldinfo, 0, 'columnname');
-
-			if ($fld_table == $this->table_name) {
-				$records = $adb->query("SELECT $this->table_index AS recordid FROM $this->table_name " .
-					"WHERE $fld_column = '' OR $fld_column is NULL");
-
-				if ($records && $adb->num_rows($records)) {
-					$returninfo['totalrecords'] = $adb->num_rows($records);
+		if ($fieldinfo) {
+			$fieldTable = $fieldinfo['tablename'];
+			$fieldColumn = $fieldinfo['columnname'];
+			if ($fieldTable == $this->table_name) {
+				$dataReader = (new App\Db\Query())->select(['recordid' => $this->table_index])
+					->from($this->table_name)
+					->where(['or' ,[$fieldColumn => ''], [$fieldColumn => null]])
+					->createCommand()->query();
+				$totalCount = $dataReader->count();
+				if ($totalCount) {
+					$returninfo['totalrecords'] = $totalCount;
 					$returninfo['updatedrecords'] = 0;
 					$moduleData = \App\Fields\RecordNumber::getNumber($tabid);
 					$sequenceNumber = $moduleData['sequenceNumber'];
 					$prefix = $moduleData['prefix'];
 					$postfix = $moduleData['postfix'];
 					$oldNumber = $sequenceNumber;
-					while ($recordinfo = $adb->getRow($records)) {
+					while ($recordinfo = $dataReader->read()) {
 						$recordNumber = \App\Fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
-						$adb->update($fld_table, [$fld_column => $recordNumber], $this->table_index . ' = ?', [$recordinfo['recordid']]);
+						App\Db::getInstance()->createCommand()
+							->update($fieldTable, [$fieldColumn => $recordNumber], [$this->table_index => $recordinfo['recordid']])
+							->execute();
 						$sequenceNumber += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}

@@ -40,27 +40,29 @@ class RecordNumber
 	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '')
 	{
 		if ($no != '') {
-			$db = \PearDatabase::getInstance();
+			$db = \App\Db::getInstance();
 			if (!is_numeric($tabId)) {
 				$tabId = \App\Module::getModuleId($tabId);
 			}
-			$query = 'SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ?';
-			$check = $db->pquery($query, [$tabId]);
-			$numRows = $db->getRowCount($check);
-			if ($numRows == 0) {
-				$db->insert('vtiger_modentity_num', [
+			$currentId = (new \App\Db\Query())->select('cur_id')->from('vtiger_modentity_num')
+				->where(['tabid' => $tabId])
+				->scalar();
+			if ($currentId === false) {
+				$db->createCommand()->insert('vtiger_modentity_num', [
 					'tabid' => $tabId,
 					'prefix' => $prefix,
 					'postfix' => $postfix,
 					'start_id' => $no,
 					'cur_id' => $no,
-				]);
+				])->execute();
 				return true;
 			} else {
-				if ($no < $db->getSingleValue($check)) {
+				if ($no < $currentId) {
 					return false;
 				} else {
-					$db->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix], 'tabid = ?', [$tabId]);
+					$db->createCommand()
+						->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix], ['tabid' => $tabId])
+						->execute();
 					return true;
 				}
 			}
@@ -111,8 +113,9 @@ class RecordNumber
 
 	public static function updateNumber($curId, $tabId)
 	{
-		$db = \PearDatabase::getInstance();
-		$db->update('vtiger_modentity_num', ['cur_id' => $curId], 'tabid = ?', [$tabId]);
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_modentity_num', ['cur_id' => $curId], ['tabid' => $tabId])
+			->execute();
 	}
 
 	protected static $numberCache = [];
