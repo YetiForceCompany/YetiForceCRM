@@ -712,14 +712,14 @@ class Reports extends CRMEntity
 
 		$datefiltervalue = Array("custom", "prevfy", "thisfy", "nextfy", "prevfq", "thisfq", "nextfq",
 			"yesterday", "today", "tomorrow", "lastweek", "thisweek", "nextweek", "lastmonth", "thismonth",
-			"nextmonth", "last7days", "last30days", "last60days", "last90days", "last120days",
-			"next30days", "next60days", "next90days", "next120days"
+			"nextmonth", "last7days", "last15days", "last30days", "last60days", "last90days", "last120days",
+			"next15days", "next30days", "next60days", "next90days", "next120days"
 		);
 
 		$datefilterdisplay = Array("Custom", "Previous FY", "Current FY", "Next FY", "Previous FQ", "Current FQ", "Next FQ", "Yesterday",
 			"Today", "Tomorrow", "Last Week", "Current Week", "Next Week", "Last Month", "Current Month",
-			"Next Month", "Last 7 Days", "Last 30 Days", "Last 60 Days", "Last 90 Days", "Last 120 Days",
-			"Next 7 Days", "Next 30 Days", "Next 60 Days", "Next 90 Days", "Next 120 Days"
+			"Next Month", "Last 7 Days", "Last 15 Days", "Last 30 Days", "Last 60 Days", "Last 90 Days", "Last 120 Days",
+			"Next 7 Days", "Next 15 Days", "Next 30 Days", "Next 60 Days", "Next 90 Days", "Next 120 Days"
 		);
 
 		$countDateFilterValue = count($datefiltervalue);
