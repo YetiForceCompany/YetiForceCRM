@@ -301,12 +301,15 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$return = [];
 		$queryParams = ['Users'];
+		$query = (new App\Db\Query())->from('vtiger_field')
+			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
+			->where(['and', ['or', ['uitype' => 13], ['uitype' => 14]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
 		if ($module) {
-			$ifwhere = 'AND vtiger_tab.name = ? ';
-			$queryParams[] = $module;
+			$query->andWhere(['vtiger_tab.name' => $module]);
 		}
-		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' || uitype = '104') && vtiger_field.presence <> '1' AND vtiger_tab.name <> ? $ifwhere ORDER BY name", $queryParams);
-		while ($row = $db->getRow($result)) {
+		$query->orderBy('name');
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$return[] = [
 				'key' => $row['tablename'] . '=' . $row['columnname'] . '=' . $row['name'],
 				'fieldlabel' => $row['fieldlabel'],
@@ -327,29 +330,38 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			return $cache;
 		}
 		$return = [];
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT value FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
-		if ($result->rowCount()) {
-			$value = $db->getSingleValue($result);
-			if (!empty($value)) {
-				$return = explode(',', $value);
-			}
+		$value = (new \App\Db\Query())->select('value')->from('vtiger_ossmailscanner_config')
+			->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])
+			->scalar();
+		if (!empty($value)) {
+			$return = explode(',', $value);
 		}
 		Vtiger_Cache::set('Mail', 'EmailSearchList', $return);
 		return $return;
 	}
 
-	public static function setEmailSearchList($vale)
+	public static function setEmailSearchList($value)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
-		if ($vale === null || $vale == 'null') {
-			$adb->query("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
+		$db = App\Db::getInstance();
+		if ($value === null || $value == 'null') {
+			$db->createCommand()
+				->update('vtiger_ossmailscanner_config', ['value' => ''], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])
+				->execute();
 		} else {
-			if ($adb->getRowCount($result) == 0) {
-				$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'fields', $vale));
+			$isExists = (new App\Db\Query())
+				->from('vtiger_ossmailscanner_config')
+				->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])
+				->exists();
+			if (!$isExists) {
+				$db->createCommand()->insert('vtiger_ossmailscanner_config', [
+					'conf_type' => 'emailsearch',
+					'parameter' => 'fields',
+					'value' => $value
+				])->execute();
 			} else {
-				$adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = 'emailsearch' && parameter = 'fields'", array($vale), true);
+				$db->createCommand()
+					->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])
+					->execute();
 			}
 		}
 	}

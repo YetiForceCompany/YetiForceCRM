@@ -41,12 +41,13 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function setConfig($param)
 	{
-		$db = PearDatabase::getInstance();
 		$value = $param['val'];
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		$db->pquery('UPDATE yetiforce_auth SET value = ? WHERE type = ? && param = ?;', [$value, $param['type'], $param['param']]);
+		App\Db::getInstance()->createCommand()
+			->update('yetiforce_auth', ['value' => $value], ['type' =>  $param['type'], 'param' => $param['param']])
+			->execute();
 		return true;
 	}
 

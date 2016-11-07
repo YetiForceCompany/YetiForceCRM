@@ -277,7 +277,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 
 	public static function getPicklistSupportedModules()
 	{
-		$dataReader = (new App\Db\Query())->select('vtiger_tab.tablabel, vtiger_tab.name AS tabname')
+		$dataReader = (new App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])
 			->from('vtiger_tab')
 			->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where([
