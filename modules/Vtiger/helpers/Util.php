@@ -228,9 +228,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function getBaseCurrency()
 	{
-		$baseCurrency = (new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid', '0'])->one();
-		if ($baseCurrency)
-			return $baseCurrency;
+		return(new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid', '0'])->one();
 	}
 
 	/**
