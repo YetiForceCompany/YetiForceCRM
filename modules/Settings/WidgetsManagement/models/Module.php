@@ -222,9 +222,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$widgets = [];
 		while ($row = $dataReader->read()) {
 			$moduleName = \App\Module::getModuleName($row['tabid']);
-			if ($row['linklabel'] == 'Tag Cloud') {
+			if ($row['linklabel'] === 'Tag Cloud') {
 				$isTagCloudExists = \vtlib\Functions::getTagCloudView(\App\User::getCurrentUserId());
-				if ($isTagCloudExists == 'false') {
+				if ($isTagCloudExists === 'false') {
 					continue;
 				}
 			}
@@ -418,19 +418,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getDashboardForModule(" . $moduleName . ") method ...");
 		$tabId = \App\Module::getModuleId($moduleName);
 		$data = [];
-		$dataReader = (new \App\Db\Query())->select('mdw.blockid,
-				  mdw.data,
-				  mdw.title,
-				  mdw.filterid,
-				  mdw.id,
-				  mdw.size,
-				  mdw.limit,
-				  mdw.isdefault,
-				  mdw.owners,
-				  mdw.cache,
-				  mdw.date,
-				  vtiger_links.*,
-				  mdb.authorized')
+		$dataReader = (new \App\Db\Query())->select([
+					'mdw.blockid', 'mdw.data', 'mdw.title', 'mdw.filterid', 'mdw.id',
+					'mdw.size', 'mdw.limit', 'mdw.isdefault', 'mdw.owners', 'mdw.cache', 'mdw.date',
+					'vtiger_links.*', 'mdb.authorized'
+				])
 				->from('vtiger_module_dashboard AS mdw')
 				->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
 				->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
@@ -463,7 +455,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::removeWidget(" . $data . ") method ...");
 		$adb = PearDatabase::getInstance();
-		$query = 'DELETE FROM vtiger_module_dashboard WHERE vtiger_module_dashboard.id = ?;';
+		$query = 'DELETE FROM vtiger_module_dashboard WHERE vtiger_module_dashboard.id = ?';
 		$params = array($data['id']);
 		$adb->pquery($query, $params);
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::removeWidget() method ...");

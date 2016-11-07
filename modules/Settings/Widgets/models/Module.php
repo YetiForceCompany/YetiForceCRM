@@ -36,15 +36,12 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getModulesList()
 	{
-		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier'];
-		$dataReader = (new \App\Db\Query())->from('vtiger_tab')
-				->where(['and', ['isentitytype' => 1], ['NOT IN', 'name', $restrictedModules]])
-				->createCommand()->query();
-		$modules = [];
-		while ($row = $dataReader->read()) {
-			$moduleModel = Vtiger_Module_Model::getInstance($row['name']);
-			if ($moduleModel->isSummaryViewSupported())
-				$modules[$row['tabid']] = $row;
+		$modules = \vtlib\Functions::getAllModules();
+		foreach ($modules as $id => $module) {
+			$moduleModel = Vtiger_Module_Model::getInstance($module['name']);
+			if (!$moduleModel->isSummaryViewSupported()) {
+				unset($modules[$id]);
+			}
 		}
 		return $modules;
 	}
@@ -123,7 +120,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				$dataReader = (new \App\Db\Query())->select('columnname,tablename,fieldlabel,fieldname')
 						->from('vtiger_field')
 						->where(['tabid' => $value['related_tabid'], 'uitype' => [56]])
-						->andWhere(['NOT IN', 'columnname', 'was_read'])
+						->andWhere(['<>', 'columnname', 'was_read'])
 						->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = vtranslate($row['fieldlabel'], $value['name']);

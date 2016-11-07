@@ -74,11 +74,11 @@ class ModTracker
 			$em = new VTEventsManager($adb);
 			$em->setHandlerActive('ModTrackerHandler');
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -110,19 +110,25 @@ class ModTracker
 	 */
 	static function disableTrackingForModule($tabid)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		if (!self::isModulePresent($tabid)) {
-			$adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 0));
+			$db->createCommand()
+				->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 0])
+				->execute();
 			self::updateCache($tabid, 0);
 		} else {
-			$adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 0 WHERE tabid = ?", array($tabid));
+			$db->createCommand()
+				->update('vtiger_modtracker_tabs', ['visible' => 0], ['tabid' => $tabid])
+				->execute();
 			self::updateCache($tabid, 0);
 		}
 		if (self::isModtrackerLinkPresent($tabid)) {
 			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAILVIEWBASIC', 'View History');
 		}
-		$adb->pquery("UPDATE vtiger_field SET presence = 1 WHERE tabid = ? AND fieldname = ?", array($tabid, 'was_read'));
+		$db->createCommand()
+			->update('vtiger_field', ['presence' => 1], ['tabid' => $tabid, 'fieldname' => 'was_read'])
+			->execute();
 	}
 
 	/**
@@ -150,7 +156,7 @@ class ModTracker
 	 */
 	static function isTrackingEnabledForModule($moduleName)
 	{
-		
+
 		$tracking = Vtiger_Cache::get('isTrackingEnabledForModule', $moduleName);
 		if ($tracking !== false) {
 			return $tracking ? true : false;
@@ -418,8 +424,8 @@ class ModTracker
 			->exists();
 		if ($isMyRecord) {
 			$db->createCommand()
-				->update ('vtiger_crmentity', ['was_read' => 0], ['crmid' => $sourceId])
-				->execute ();
+				->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $sourceId])
+				->execute();
 		}
 	}
 

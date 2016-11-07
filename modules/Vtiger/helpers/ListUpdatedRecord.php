@@ -33,7 +33,7 @@ class ListUpdatedRecord
 			$limit = 200;
 		}
 		$select = array_values($columnList);
-		$select['smownerid'] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$select['smownerid'] = \App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new \App\Db\Query())->select($select)->from('vtiger_crmentity')
 			->leftJoin('u_#__crmentity_label', 'u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')

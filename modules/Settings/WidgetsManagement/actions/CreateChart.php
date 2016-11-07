@@ -2,7 +2,7 @@
 
 /**
  * Action to create widget
- * @package YetiForce.Actions
+ * @package YetiForce.Action
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
