@@ -19,6 +19,9 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 		$ids = $this->findAndBind();
 		if ($ids) {
 			$id = array_shift($ids);
+			if (!\App\Record::isExists($id, $this->moduleName)) {
+				return false;
+			}
 			$conf = OSSMailScanner_Record_Model::getConfig('emailsearch');
 			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->moduleName);
 			if ($recordModel->get('ticketstatus') == 'Wait For Response' && !empty(AppConfig::module('Email', 'HELPDESK_WAIT_FOR_RESPONSE_STATUS'))) {
