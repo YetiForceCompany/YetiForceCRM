@@ -1270,7 +1270,7 @@ class CRMEntity
 		if ($fieldinfo) {
 			$fieldTable = $fieldinfo['tablename'];
 			$fieldColumn = $fieldinfo['columnname'];
-			if ($fieldTable == $this->table_name) {
+			if ($fieldTable === $this->table_name) {
 				$dataReader = (new App\Db\Query())->select(['recordid' => $this->table_index])
 					->from($this->table_name)
 					->where(['or' ,[$fieldColumn => ''], [$fieldColumn => null]])

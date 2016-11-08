@@ -44,10 +44,10 @@ class RecordNumber
 			if (!is_numeric($tabId)) {
 				$tabId = \App\Module::getModuleId($tabId);
 			}
-			$currentId = (new \App\Db\Query())->select('cur_id')->from('vtiger_modentity_num')
+			$currentId = (new \App\Db\Query())->select(['cur_id'])->from('vtiger_modentity_num')
 				->where(['tabid' => $tabId])
 				->scalar();
-			if ($currentId === false) {
+			if (!$currentId) {
 				$db->createCommand()->insert('vtiger_modentity_num', [
 					'tabid' => $tabId,
 					'prefix' => $prefix,

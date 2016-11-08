@@ -25,16 +25,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	public static function getTicketStatus()
 	{
 		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
-		$dataReader = (new App\Db\Query())->from('vtiger_ticketstatus')
-				->createCommand()->query();
-		$return = [];
-		while ($row = $dataReader->read()) {
-			$return [] = [
-				'id' => $row['ticketstatus_id'],
-				'statusTranslate' => App\Language::translate($row['ticketstatus'], 'HelpDesk'),
-				'status' => $row['ticketstatus']
-			];
-		}
+		$return = App\Fields\Picklist::getPickListValues('ticketstatus');
 		\App\Log::trace("Exiting Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
 		return $return;
 	}

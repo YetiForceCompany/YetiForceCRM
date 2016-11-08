@@ -18,19 +18,9 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	 */
 	public static function getProjectStatus()
 	{
-		\App\Log::trace("Entering Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
-		
-		$dataReader = (new App\Db\Query())->from('vtiger_projectstatus')
-				->createCommand()->query();
-		$return = [];
-		while ($row = $dataReader->read()) {
-			$return [] = [
-				'id' => $row['projectstatusid'],
-				'statusTranslate' => App\Language::translate($row['projectstatus'], 'Project'),
-				'status' => $row['projectstatus']
-			];
-		}
-		\App\Log::trace("Exiting Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
+		\App\Log::trace('Entering Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...');
+		$return = \App\Fields\Picklist::getPickListValues('projectstatus');
+		\App\Log::trace('Exiting Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...');
 		return $return;
 	}
 
@@ -40,7 +30,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	 */
 	public static function getStatusNotModify()
 	{
-		\App\Log::trace("Entering Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
+		\App\Log::trace('Entering Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...');
 		$dataReader = (new App\Db\Query())->from('vtiger_realization_process')
 			->createCommand()->query();
 		while($row = $dataReader->read()) {
@@ -54,7 +44,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 			$return[$moduleName]['status'] = $status;
 		}
 
-		\App\Log::trace("Exiting Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
+		\App\Log::trace('Exiting Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...');
 		return $return;
 	}
 
@@ -64,14 +54,11 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	 */
 	public function updateStatusNotModify($moduleId, $status)
 	{
-		$adb = PearDatabase::getInstance();
-		
-		\App\Log::trace("Entering Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
-		$data = \App\Json::encode($status);
+		\App\Log::trace('Entering Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...');
 		\App\Db::getInstance()->createCommand()->update('vtiger_realization_process', [
-			'status_indicate_closing' => $data
+			'status_indicate_closing' => \App\Json::encode($status)
 		], ['module_id' => $moduleId])->execute();
-		\App\Log::trace("Exiting Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
+		\App\Log::trace('Exiting Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...');
 		return true;
 	}
 }

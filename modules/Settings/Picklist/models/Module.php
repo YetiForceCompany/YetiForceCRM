@@ -55,7 +55,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		if ($fieldModel->isRoleBased() && !empty($rolesSelected)) {
-			$picklistid = (new \App\Db\Query())->select('picklistid')
+			$picklistid = (new \App\Db\Query())->select(['picklistid'])
 					->from('vtiger_picklist')
 					->where(['name' => $pickListFieldName])
 					->scalar();
@@ -89,9 +89,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db->createCommand()->update($this->getPickListTableName($pickListFieldName), [$pickListFieldName => $newValue], [$primaryKey => $id])
 				->execute();
 		while ($row = $dataReader->read()) {
-			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
-			$db->createCommand()->update($tableName, [$columnName => $newValue], [$columnName => $oldValue])->execute();
+			$db->createCommand()->update($row['tablename'], [$columnName => $newValue], [$columnName => $oldValue])->execute();
 		}
 		$db->createCommand()->update('vtiger_field', ['defaultvalue' => $newValue], ['defaultvalue' => $oldValue, 'columnname' => $columnName])->execute();
 		vimport('include/utils/CommonUtils.php');

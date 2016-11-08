@@ -60,7 +60,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 			->delete('vtiger_publicholiday', ['publicholidayid' => $id])
 			->execute();
 		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::delete() method ...");
-		if ($deleted == 1)
+		if ($deleted === 1)
 			return true;
 		else
 			return false;
@@ -83,7 +83,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 				'holidaytype' => $type
 			])->execute();
 		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::save() method ...");
-		if ($saved == 1)
+		if ($saved === 1)
 			return true;
 		else
 			return false;
@@ -108,7 +108,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 			], ['publicholidayid' => $id])
 			->execute();
 		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::edit() method ...");
-		if ($saved == 1)
+		if ($saved === 1)
 			return true;
 		else
 			return false;
