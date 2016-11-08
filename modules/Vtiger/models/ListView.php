@@ -268,9 +268,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel, $searchResult = false)
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
