@@ -92,7 +92,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 
 		//For Pricebooks popup in Products and Services Related list
 		if ($sourceField !== 'productsRelatedList') {
-			$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
+			$listQuery .= ' LIMIT ' . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		}
 
 		$listResult = $db->pquery($listQuery);
