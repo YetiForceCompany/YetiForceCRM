@@ -195,7 +195,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 		$_SESSION['lvs'][$moduleName][$viewid]['start'] = $pagingModel->get('page');
 		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
 
-		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
+		$listQuery .= ' LIMIT ' . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 
 		$listResult = $db->query($listQuery);
 
