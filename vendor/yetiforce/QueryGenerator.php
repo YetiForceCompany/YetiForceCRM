@@ -30,6 +30,12 @@ class QueryGenerator
 	private $whereOperator = [];
 	private $whereFields = [];
 	private $whereClauseCustom = [];
+	private $deletedCondition = true;
+
+	/**
+	 * @var boolean 
+	 */
+	private $ignoreComma = false;
 
 	/**
 	 * @var array Required conditions
@@ -115,6 +121,24 @@ class QueryGenerator
 	}
 
 	/**
+	 * Set ignore comma
+	 * @param boolean $val
+	 */
+	public function setIgnoreComma($val)
+	{
+		$this->ignoreComma = $val;
+	}
+
+	/**
+	 * Get ignore comma
+	 * @return boolean
+	 */
+	public function getIgnoreComma()
+	{
+		return $this->ignoreComma;
+	}
+
+	/**
 	 * Get fields module
 	 * @return array
 	 */
@@ -129,11 +153,10 @@ class QueryGenerator
 			$moduleFields = array_merge($moduleFields, $eventModuleFieldList);
 		}
 		foreach ($moduleFields as $fieldName => &$fieldModel) {
-			$dataType = $fieldModel->getFieldDataType();
-			if (in_array($dataType, \Vtiger_Field_Model::$REFERENCE_TYPES)) {
+			if ($fieldModel->isReferenceField()) {
 				$this->referenceFields[$fieldName] = $fieldModel->getReferenceList();
 			}
-			if ($dataType === 'owner') {
+			if ($fieldModel->getFieldDataType() === 'owner') {
 				$this->ownerFields[] = $fieldName;
 			}
 		}
@@ -142,7 +165,7 @@ class QueryGenerator
 
 	/**
 	 * Get field module
-	 * @return type
+	 * @return \Vtiger_Field_Model
 	 */
 	public function getModuleField($fieldName)
 	{
@@ -448,7 +471,7 @@ class QueryGenerator
 				$tableList[$tableName] = $tableName;
 				$tableJoin[$tableName] = $this->entityModel->getJoinClause($tableName);
 			}
-			if (in_array($field->getFieldDataType(), \Vtiger_Field_Model::$REFERENCE_TYPES)) {
+			if ($field->isReferenceField()) {
 				if (!(\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX') && isset($this->whereOperator[$fieldName]) && $this->whereOperator[$fieldName] === 'e')) {
 					// This is special condition as the data is not stored in the base table,
 					$tableJoin[$field->getTableName()] = 'INNER JOIN';
@@ -586,16 +609,53 @@ class QueryGenerator
 	 */
 	public function loadWhere()
 	{
+		if ($this->deletedCondition) {
+			$this->query->andWhere($this->getDeletedCondition());
+		}
 		$this->query->andWhere(['or', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
+	}
+
+	/**
+	 * Get conditions for non-deleted records
+	 * @return string|array
+	 */
+	public function getDeletedCondition()
+	{
+		switch ($this->moduleName) {
+			case 'Leads':
+				$condition = ['vtiger_crmentity.deleted' => 0, 'vtiger_leaddetails.converted' => 0];
+				break;
+			case 'Users':
+				$condition = ['vtiger_users.status' => 'Active'];
+				break;
+			default:
+				$condition = 'vtiger_crmentity.deleted=0';
+				break;
+		}
+		return $condition;
 	}
 
 	public function addAndCondition($fieldname, $value, $operator)
 	{
-		
+		$this->parseCondition($fieldname, $value, $operator);
 	}
 
 	public function addOrCondition($fieldname, $value, $operator)
 	{
-		
+		$this->parseCondition($fieldname, $value, $operator);
+	}
+
+	public function parseCondition($fieldName, $value, $operator)
+	{
+		if ($fieldName === 'id') {
+			
+		}
+		$field = $this->getModuleField($fieldName);
+		if (empty($field) || $operator === 'None') {
+			Log::error('Not found field model or operator');
+			return false;
+		}
+		$conditionParser = new QueryConditionParser($this, $field, $value, $operator);
+		$condition = $conditionParser->getNativeCondition();
 	}
 }

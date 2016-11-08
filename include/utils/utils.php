@@ -1754,30 +1754,6 @@ function getExportRecordIds($moduleName, $viewid, $input)
 	return $idstring . '#@@#' . $export_data;
 }
 
-/**
- * Function to get combinations of string from Array
- * @param <Array> $array
- * @param <String> $tempString
- * @return <Array>
- */
-function getCombinations($array, $tempString = '')
-{
-	$countArray = count($array);
-	for ($i = 0; $i < $countArray; $i++) {
-		$splicedArray = $array;
-		$element = array_splice($splicedArray, $i, 1); // removes and returns the i'th element
-		if (count($splicedArray) > 0) {
-			if (!is_array($result)) {
-				$result = [];
-			}
-			$result = array_merge($result, getCombinations($splicedArray, $tempString . ' |##| ' . $element[0]));
-		} else {
-			return array($tempString . ' |##| ' . $element[0]);
-		}
-	}
-	return $result;
-}
-
 function getCompanyDetails()
 {
 	return (new \App\Db\Query())->from('vtiger_organizationdetails')->one();

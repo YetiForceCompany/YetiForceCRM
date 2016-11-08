@@ -569,7 +569,7 @@ class QueryGenerator
 				$tableList[$baseTable] = $field->getTableName();
 				$tableJoinMapping[$baseTable] = $this->meta->getJoinClause($field->getTableName());
 			}
-			if (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
+			if (in_array($field->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {
 				if (!(AppConfig::performance('SEARCH_REFERENCE_BY_AJAX') && isset($this->whereOperator[$fieldName]) && $this->whereOperator[$fieldName] == 'e')) {
 					$moduleList = $this->referenceFieldInfoList[$fieldName];
 					// This is special condition as the data is not stored in the base table, 
@@ -746,6 +746,7 @@ class QueryGenerator
 		foreach ($this->conditionals as $index => $conditionInfo) {
 			$fieldName = $conditionInfo['name'];
 			$field = $moduleFieldList[$fieldName];
+
 			if ($fieldName == 'id') {
 				$sqlOperator = $this->getSqlOperator($conditionInfo['operator']);
 				$fieldSqlList[$index] = $baseTable . '.' . $baseTableIndex . $sqlOperator . $conditionInfo['value'];
@@ -1034,7 +1035,7 @@ class QueryGenerator
 			if (in_array($field->getFieldDataType(), $commaSeparatedFieldTypes)) {
 				$valueArray = explode(',', $value);
 				if ($field->getFieldDataType() == 'multipicklist' && in_array($operator, ['e', 'n'])) {
-					$valueArray = getCombinations($valueArray);
+					$valueArray = \App\QueryConditionParser::getCombinations($valueArray);
 					foreach ($valueArray as $key => $value) {
 						$valueArray[$key] = ltrim($value, ' |##| ');
 					}
@@ -1052,7 +1053,7 @@ class QueryGenerator
 		} else {
 			$valueArray = [$value];
 		}
-		if ($operator == 'e' && in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if ($operator == 'e' && in_array($field->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$valueArray = explode(',', $value);
 		}
 		$sql = [];

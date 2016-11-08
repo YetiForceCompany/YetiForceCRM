@@ -416,7 +416,7 @@ class ListViewController
 					} else {
 						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 					}
-				} elseif (in_array($field->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
+				} elseif (in_array($field->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {
 					$referenceFieldInfoList = $this->queryGenerator->getReferenceFieldInfoList();
 					$moduleList = $referenceFieldInfoList[$fieldName];
 					if (count($moduleList) == 1) {
