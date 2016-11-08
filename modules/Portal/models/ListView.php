@@ -20,7 +20,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		$db = PearDatabase::getInstance();
 		$moduleModel = Vtiger_Module_Model::getInstance('Portal');
 
-		$listQuery = $this->getQuery();
+		$query = $this->getQuery();
 
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
@@ -28,15 +28,19 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		$orderBy = $this->get('orderby');
 		$sortOrder = $this->get('sortorder');
 
-		if (!empty($orderBy))
-			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
-		$listQuery .= " LIMIT " . $pageLimit . ' OFFSET ' . $startIndex;
-
-		$listResult = $db->query($listQuery);
+		if (!empty($orderBy)) {
+			if ($sortOrder === 'ASC') {
+				$query->orderBy([$orderBy => SORT_ASC]);
+			} else {
+				$query->orderBy([$orderBy => SORT_DESC]);
+			}
+		}
+		$query->limit($pageLimit);
+		$query->offset($startIndex);
+		$dataReader = $query->createCommand()->query();
 
 		$listViewEntries = [];
-
-		while ($row = $db->fetchByAssoc($listResult)) {
+		while ($row = $dataReader->read()) {
 			$listViewEntries[$row['portalid']] = array();
 			$listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
 			$listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
@@ -54,11 +58,13 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 
 	public function getQuery()
 	{
-		$query = 'SELECT portalid, portalname, portalurl, createdtime FROM vtiger_portal';
+		$query = (new \App\Db\Query())
+			->select(['portalid', 'portalname', 'portalurl', 'createdtime'])
+			->from('vtiger_portal');
 		$searchValue = $this->getForSql('search_value');
-		if (!empty($searchValue))
-			$query .= sprintf(" WHERE portalname LIKE '%s%'", $searchValue);
-
+		if (!empty($searchValue)) {
+			$query->where(['like', 'portalname', $searchValue]);
+		}
 		return $query;
 	}
 
@@ -95,12 +101,6 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 
 	public function getRecordCount()
 	{
-		$db = PearDatabase::getInstance();
-		$listQuery = $this->getQuery();
-		$queryParts = explode('FROM', $listQuery);
-		$query = sprintf('SELECT COUNT(*) AS count FROM %s', $queryParts[1]);
-		$result = $db->query($query);
-
-		return $db->query_result($result, 0, 'count');
+		return $this->getQuery()->count();
 	}
 }
