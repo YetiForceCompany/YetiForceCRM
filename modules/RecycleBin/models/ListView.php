@@ -101,10 +101,10 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 				$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
 			}
 		}
-		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
+		$listQuery .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 
-		$listResult = $db->pquery($listQuery, array());
-		$listViewRecordModels = array();
+		$listResult = $db->query($listQuery);
+		$listViewRecordModels = [];
 		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
 		$pagingModel->calculatePageRange($listViewEntries);
 

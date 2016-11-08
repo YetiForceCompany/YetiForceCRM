@@ -1156,7 +1156,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public static function getAllFilterByModule($module)
 	{
 		$db = PearDatabase::getInstance();
-		$query = "SELECT cvid FROM vtiger_customview WHERE viewname='All' && entitytype = ?";
+		$query = "SELECT cvid FROM vtiger_customview WHERE viewname='All' AND entitytype = ?";
 		$result = $db->pquery($query, array($module));
 		$viewId = $db->query_result($result, 0, 'cvid');
 		if (!$viewId) {
