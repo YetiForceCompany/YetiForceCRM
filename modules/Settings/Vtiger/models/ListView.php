@@ -50,7 +50,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getBasicListQuery()
 	{
 		$module = $this->getModule();
-		return sprintf('SELECT * FROM %s', $module->getBaseTable());
+		return (new App\Db\Query())->from($module->getBaseTable());
 	}
 
 	/**
@@ -60,8 +60,6 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public function getListViewEntries($pagingModel)
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getModule();
 		$moduleName = $module->getName();
 		$parentModuleName = $module->getParentName();
@@ -79,23 +77,21 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(' . App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
 		}
 		if (!empty($orderBy)) {
-			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $this->getForSql('sortorder'));
+			$listQuery->orderBy(sprintf('%s %s', $orderBy, $this->getForSql('sortorder')));
 		}
 		if ($module->isPagingSupported()) {
-			$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
-			$listQuery .= " LIMIT $startIndex, $pageLimit";
+			$listQuery->limit($pageLimit + 1)->offset($startIndex);
 		}
 
-		$listResult = $db->query($listQuery);
+		$dataReader = $listQuery->createCommand()->query();
 		$listViewRecordModels = [];
-		while ($row = $db->getRow($listResult)) {
+		while ($row = $dataReader->read()) {
 			$record = new $recordModelClass();
 			$record->setData($row);
-
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
 				$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 				$record->setModule($moduleModel);
@@ -104,11 +100,9 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 		if ($module->isPagingSupported()) {
 			$pagingModel->calculatePageRange($listViewRecordModels);
-
-			$nextPageResult = $db->query($nextListQuery);
-			$nextPageNumRows = $db->num_rows($nextPageResult);
-
-			if ($nextPageNumRows <= 0) {
+			if ($dataReader->count() > $pageLimit) {
+				$pagingModel->set('nextPageExists', true);
+			} else {
 				$pagingModel->set('nextPageExists', false);
 			}
 		}
@@ -151,21 +145,8 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 
 	public function getListViewCount()
 	{
-		$db = PearDatabase::getInstance();
 		$listQuery = $this->getBasicListQuery();
-
-		$position = stripos($listQuery, ' from ');
-		if ($position) {
-			$split = preg_split('/ from /i', $listQuery, 2);
-			$listQuery = 'SELECT count(*) AS count ';
-			$countSplit = count($split);
-			for ($i = 1; $i < $countSplit; $i++) {
-				$listQuery .= sprintf(' FROM %s', $split[$i]);
-			}
-		}
-
-		$listResult = $db->query($listQuery);
-		return $db->getSingleValue($listResult);
+		return $listQuery->count();
 	}
 
 	/**

@@ -15,7 +15,8 @@ class Settings_HideBlocks_ListView_Model extends Settings_Vtiger_ListView_Model
 	public function getBasicListQuery()
 	{
 		$query = parent::getBasicListQuery();
-		$query .= ' INNER JOIN vtiger_blocks ON vtiger_blocks.blockid = vtiger_blocks_hide.blockid INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_blocks.tabid';
+		$query->innerJoin('vtiger_blocks', 'vtiger_blocks.blockid = vtiger_blocks_hide.blockid');
+		$query->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_blocks.tabid');
 		return $query;
 	}
 }

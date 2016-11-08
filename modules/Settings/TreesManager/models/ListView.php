@@ -19,8 +19,6 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 	 */
 	public function getListViewEntries($pagingModel)
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getModule();
 		$moduleName = $module->getName();
 		$parentModuleName = $module->getParentName();
@@ -41,29 +39,23 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
 		}
-
 		if (!empty($orderBy)) {
-			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $this->getForSql('sortorder'));
+			$listQuery->orderBy(sprintf('%s %s', $orderBy, $this->getForSql('sortorder')));
 		}
 
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
-			$tabId = vtlib\Functions::getModuleId($sourceModule);
-			$listQuery .= " WHERE `module` = '$tabId' ";
+			$listQuery->where(['module' => \App\Module::getModuleId($sourceModule)]);
 		}
 
 
 		if ($module->isPagingSupported()) {
-			$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
-			$listQuery .= " LIMIT $startIndex, $pageLimit";
+			$listQuery->limit($pageLimit + 1)->offset($startIndex);
 		}
 
-		$listResult = $db->pquery($listQuery, array());
-		$noOfRecords = $db->num_rows($listResult);
-
-		$listViewRecordModels = array();
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$row = $db->query_result_rowdata($listResult, $i);
+		$dataReader = $listQuery->createCommand()->query();
+		$listViewRecordModels = [];
+		while ($row = $dataReader->read()) {
 			$record = new $recordModelClass();
 			$record->setData($row);
 
@@ -74,16 +66,13 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 				$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 				$record->setModule($moduleModel);
 			}
-
 			$listViewRecordModels[$record->getId()] = $record;
 		}
 		if ($module->isPagingSupported()) {
 			$pagingModel->calculatePageRange($listViewRecordModels);
-
-			$nextPageResult = $db->pquery($nextListQuery, array());
-			$nextPageNumRows = $db->num_rows($nextPageResult);
-
-			if ($nextPageNumRows <= 0) {
+			if ($dataReader->count() > $pageLimit) {
+				$pagingModel->set('nextPageExists', true);
+			} else {
 				$pagingModel->set('nextPageExists', false);
 			}
 		}
