@@ -100,7 +100,7 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 	public static function getCalendarTypes()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT fieldparams FROM vtiger_field WHERE columnname = ? && tablename = ?;", ['type', 'vtiger_reservations']);
+		$result = $db->pquery("SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?;", ['type', 'vtiger_reservations']);
 		$templateId = $db->query_result($result, 0, 'fieldparams');
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', [$templateId]);
 		$calendarConfig = [];
