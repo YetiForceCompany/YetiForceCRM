@@ -376,18 +376,18 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public static function getBlocksFromModule($moduleName, $authorized = '', $dashboard)
 	{
-
 		\App\Log::trace('getBlocksFromModule(' . $moduleName . ', ' . $authorized . ') method ...');
-		$adb = PearDatabase::getInstance();
 		$tabId = \App\Module::getModuleId($moduleName);
 		$data = [];
+		if($dashboard === false)
+			$dashboard = null;
 		$query = (new \App\Db\Query())
 			->from('vtiger_module_dashboard_blocks')
 			->where(['tabid' => $tabId, 'dashboard_id' => $dashboard]);
 		if ($authorized) {
 			$query->andWhere(['authorized' => $authorized]);
 		}
-		$dataReader = $query->createCommand($db)->query();
+		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$data[$row['authorized']] = $row['id'];
 		}
