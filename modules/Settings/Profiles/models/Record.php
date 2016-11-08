@@ -858,7 +858,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					WHERE vtiger_users.deleted = ?';
 
 		if ($profileId) {
-			$query .= ' && vtiger_role2profile.profileid = ?';
+			$query .= ' AND vtiger_role2profile.profileid = ?';
 			$params[] = $profileId;
 		}
 		$result = $db->pquery($query, $params);

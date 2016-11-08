@@ -299,7 +299,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$roleId = $this->getId();
 		$mode = 'edit';
 
@@ -323,23 +323,28 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'depth' => $this->getDepth(),
 			'allowassignedrecordsto' => $this->get('allowassignedrecordsto'),
 			'assignedmultiowner' => $this->get('assignedmultiowner'),
-			'changeowner' => $this->get('change_owner'),
+			'changeowner' => (int) $this->get('change_owner'),
 			'searchunpriv' => $searchunpriv,
 			'clendarallorecords' => $this->get('clendarallorecords'),
 			'listrelatedrecord' => $this->get('listrelatedrecord'),
 			'previewrelatedrecord' => $this->get('previewrelatedrecord'),
-			'editrelatedrecord' => $this->get('editrelatedrecord'),
+			'editrelatedrecord' => (int) $this->get('editrelatedrecord'),
 			'permissionsrelatedfield' => $permissionsRelatedField,
-			'globalsearchadv' => $this->get('globalsearchadv')
+			'globalsearchadv' => (int) $this->get('globalsearchadv')
 		];
 		if ($mode == 'edit') {
-			$db->update('vtiger_role', $values, 'roleid = ?', [$roleId]);
+			$db->createCommand()->update('vtiger_role', $values, ['roleid' => $roleId])
+				->execute();
 		} else {
 			$values['roleid'] = $roleId;
-			$db->insert('vtiger_role', $values);
-			$picklist2RoleSQL = "INSERT INTO vtiger_role2picklist SELECT '" . $roleId . "',picklistvalueid,picklistid,sortid
-				FROM vtiger_role2picklist WHERE roleid = ?";
-			$db->pquery($picklist2RoleSQL, array($parentRole->getId()));
+			$db->createCommand()->insert('vtiger_role', $values)->execute();
+			$insertedData = (new App\Db\Query())
+				->select([new \yii\db\Expression($db->quoteValue($roleId)), 'picklistvalueid', 'picklistid', 'sortid'])
+				->from('vtiger_role2picklist')
+				->where(['roleid' => $parentRole->getId()])
+				->all();
+
+			$db->createCommand()->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)->execute();
 		}
 		$profileIds = $this->get('profileIds');
 		$oldRole = Vtiger_Cache::get('RolesArray', $roleId);
@@ -363,12 +368,10 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($profileIds)) {
 			$noOfProfiles = count($profileIds);
 			if ($noOfProfiles > 0) {
-				$db->pquery('DELETE FROM vtiger_role2profile WHERE roleid=?', array($roleId));
-
-				$sql = 'INSERT INTO vtiger_role2profile(roleid, profileid) VALUES (?,?)';
+				$db->createCommand()->delete('vtiger_role2profile', ['roleid' => $roleId])->execute();
 				for ($i = 0; $i < $noOfProfiles; ++$i) {
-					$params = array($roleId, $profileIds[$i]);
-					$db->pquery($sql, $params);
+					$db->createCommand()->insert('vtiger_role2profile', ['roleid' => $roleId, 'profileid' => $profileIds[$i]])
+						->execute();
 				}
 			}
 		}
@@ -529,17 +532,14 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getInstanceByName($name, $excludedRecordId = [])
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_role WHERE rolename=?';
-		$params = array($name);
+		$query = (new App\Db\Query())->from('vtiger_role')->where(['rolename' => $name]);
 		if (!empty($excludedRecordId)) {
-			$sql.= ' && roleid NOT IN (' . generateQuestionMarks($excludedRecordId) . ')';
-			$params = array_merge($params, $excludedRecordId);
+			$query->andWhere(['NOT IN', 'roleid', $excludedRecordId]);
 		}
-		$result = $db->pquery($sql, $params);
-		if ($db->getRowCount($result) > 0) {
+		$row = $query->one();
+		if ($row) {
 			$instance = new self();
-			$instance->setData($db->getRow($result));
+			$instance->setData($row);
 			return $instance;
 		}
 		return null;

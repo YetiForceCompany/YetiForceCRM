@@ -914,17 +914,14 @@ function deleteRoleRelatedSharingRules($roleId)
 
 	foreach ($dataShareTableColArr as $tablename => $colname) {
 		$colNameArr = explode('::', $colname);
-		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
-		$params = array($roleId);
+		$query = (new App\Db\Query())->select('shareid')
+			->from($tablename)
+			->where([$colNameArr[0] => $roleId]);
 		if (sizeof($colNameArr) > 1) {
-			$query .= sprintf(" || %s = ?", $colNameArr[1]);
-			array_push($params, $roleId);
+			$query->orWhere([$colNameArr[1] => $roleId]);
 		}
-
-		$result = $adb->pquery($query, $params);
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$shareid = $adb->query_result($result, $i, 'shareid');
+		$dataReader = $query->createCommand()->query();
+		while($shareid = $dataReader->readColumn(0)) {
 			deleteSharingRule($shareid);
 		}
 	}
