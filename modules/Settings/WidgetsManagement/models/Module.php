@@ -228,7 +228,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 					continue;
 				}
 			}
-			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
 			$widgets[$moduleName][] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
@@ -243,17 +242,17 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 * */
 	public function saveDetails($data, $moduleName)
 	{
-
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::saveDetails($moduleName) method ...");
 
-		$adb = PearDatabase::getInstance();
-		$query = 'SELECT * FROM `vtiger_module_dashboard` WHERE `id` = ? LIMIT 1; ';
-		$params = [$data['id']];
-		$result = $adb->pquery($query, $params);
-		if ($adb->num_rows($result) > 0) {
+		$db = \App\Db::getInstance();
+		$isWidgetExists = (new \App\Db\Query())
+				->from('vtiger_module_dashboard')
+				->where(['id' => $data['id']])
+				->exists();
+		if ($isWidgetExists) {
 			$size = \App\Json::encode(['width' => $data['width'], 'height' => $data['height']]);
 			$insert = [
-				'isdefault' => $data['isdefault'],
+				'isdefault' => (int) $data['isdefault'],
 				'size' => $size,
 				'limit' => $data['limit'],
 				'cache' => $data['cache'],
@@ -268,10 +267,12 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			if ($data['type'] == 'DW_SUMMATION_BY_USER') {
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
 			}
-			$adb->update('vtiger_module_dashboard', $insert, '`id` = ?', [$data['id']]);
+			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
+					->execute();
 
 			$insert['active'] = isset($data['isdefault']) ? 1 : 0;
-			$adb->update('vtiger_module_dashboard_widgets', $insert, '`templateid` = ?', [$data['id']]);
+			$db->createCommand()->update('vtiger_module_dashboard_widgets', $insert, ['templateid' => $data['id']])
+					->execute();
 		}
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::saveData() method ...");
 		return ['success' => true];
