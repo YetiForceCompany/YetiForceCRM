@@ -87,11 +87,11 @@ class Reports extends CRMEntity
 				$userGroups->getAllUserGroups($current_user->id);
 				$user_groups = $userGroups->user_groups;
 				if (!empty($user_groups) && $is_admin === false) {
-					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") && setype='groups') OR";
+					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
 					array_push($params, $user_groups);
 				}
 
-				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? && setype='users'))";
+				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
 				if ($is_admin === false) {
 					$ssql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 					array_push($params, $current_user->id);
@@ -352,7 +352,7 @@ class Reports extends CRMEntity
 			if ($orderBy) {
 				$sql .= " ORDER BY $orderBy $sortBy";
 			}
-			$sql .= " LIMIT $startIndex," . ($pageLimit + 1);
+			$sql .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		}
 		$result = $adb->pquery($sql, $params);
 		$report = $adb->fetch_array($result);
@@ -414,11 +414,11 @@ class Reports extends CRMEntity
 		$userGroups->getAllUserGroups($currentUser->getId());
 		$user_groups = $userGroups->user_groups;
 		if (!empty($user_groups) && $is_admin === false) {
-			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") && setype='groups') OR";
+			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
 			array_push($params, $user_groups);
 		}
 
-		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? && setype='users'))";
+		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
 		if ($is_admin === false) {
 			$sql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 			array_push($params, $currentUser->getId());
@@ -432,7 +432,7 @@ class Reports extends CRMEntity
 			if ($orderBy) {
 				$sql .= " ORDER BY $orderBy $sortBy";
 			}
-			$sql .= " LIMIT $startIndex," . ($pageLimit + 1);
+			$sql .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		}
 		$query = $adb->pquery('select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?', [$current_user_parent_role_seq . '::%']);
 		$subordinate_users = [];

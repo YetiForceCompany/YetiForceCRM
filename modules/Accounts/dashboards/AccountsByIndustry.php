@@ -37,43 +37,44 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getAccountsByIndustry($owner, $dateFilter)
 	{
-		$db = PearDatabase::getInstance();
 		$module = 'Accounts';
-		$dateFilterSql = $ownerSql = '';
-		$params = [];
 		if (!empty($owner)) {
 			$ownerSql = ' AND smownerid = ' . $owner;
 		}
-		$securityParameterSql = \App\PrivilegeQuery::getAccessConditions($module);
+
+		$query = new \App\Db\Query();
+		$query->select([
+				'count' => new \yii\db\Expression('COUNT(*)'),
+				'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' 
+						ELSE vtiger_account.industry END")])
+			->from('vtiger_account')
+			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+			->innerJOin('vtiger_industry', 'vtiger_account.industry = vtiger_industry.industry')
+			->where(['deleted' => 0]);
+		if (!empty($owner)) {
+			$query->andWhere(['smownerid' => $owner]);
+		}
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
-			//client is not giving time frame so we are appending it
-			$params[] = $dateFilter['start'] . ' 00:00:00';
-			$params[] = $dateFilter['end'] . ' 23:59:59';
+			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-		$query = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_account.industry IS NULL || vtiger_account.industry = "" THEN "" 
-						ELSE vtiger_account.industry END AS industryvalue FROM vtiger_account 
-						INNER JOIN vtiger_crmentity ON vtiger_account.accountid = vtiger_crmentity.crmid
-						AND deleted=0 %s %s %s
-						INNER JOIN vtiger_industry ON vtiger_account.industry = vtiger_industry.industry 
-						GROUP BY industryvalue ORDER BY vtiger_industry.sortorderid', $ownerSql, $dateFilterSql, $securityParameterSql);
-		$result = $db->pquery($query, $params);
+		\App\PrivilegeQuery::getConditions($query, $module);
+		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue'])->orderBy('vtiger_industry.sortorderid');
+		$dataReader = $query->createCommand()->query();
 		$response = [];
-		if ($db->num_rows($result) > 0) {
-			$i = 0;
-			while ($row = $db->getRow($result)) {
-				$data[$i]['label'] = vtranslate($row['industryvalue'], 'Leads');
-				$ticks[$i][0] = $i;
-				$ticks[$i][1] = vtranslate($row['industryvalue'], 'Leads');
-				$data[$i]['data'][0][0] = $i;
-				$data[$i]['data'][0][1] = $row['count'];
-				$name[] = $row['industryvalue'];
-				$i++;
-			}
-			$response['chart'] = $data;
-			$response['ticks'] = $ticks;
-			$response['name'] = $name;
+		$i = 0;
+		while ($row = $dataReader->read()) {
+			$data[$i]['label'] = \App\Language::translate($row['industryvalue'], 'Leads');
+			$ticks[$i][0] = $i;
+			$ticks[$i][1] = \App\Language::translate($row['industryvalue'], 'Leads');
+			$data[$i]['data'][0][0] = $i;
+			$data[$i]['data'][0][1] = $row['count'];
+			$name[] = $row['industryvalue'];
+			$i++;
 		}
+		$response['chart'] = $data;
+		$response['ticks'] = $ticks;
+		$response['name'] = $name;
+
 		return $response;
 	}
 
