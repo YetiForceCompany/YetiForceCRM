@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /**
@@ -29,13 +30,11 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 
 		if (!empty($orderBy))
 			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
+		$listQuery .= " LIMIT " . $pageLimit . ' OFFSET ' . $startIndex;
 
+		$listResult = $db->query($listQuery);
 
-		$listQuery .= " LIMIT $startIndex," . ($pageLimit);
-
-		$listResult = $db->pquery($listQuery, array());
-
-		$listViewEntries = array();
+		$listViewEntries = [];
 
 		while ($row = $db->fetchByAssoc($listResult)) {
 			$listViewEntries[$row['portalid']] = array();
