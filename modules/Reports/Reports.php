@@ -235,7 +235,7 @@ class Reports extends CRMEntity
 					INNER JOIN vtiger_relatedlists on vtiger_tab.tabid=vtiger_relatedlists.related_tabid
 					WHERE vtiger_tab.isentitytype=1
 					AND vtiger_tab.name NOT IN(%s)
-					AND vtiger_tab.presence = 0 && vtiger_relatedlists.label!='Activity History'
+					AND vtiger_tab.presence = 0 AND vtiger_relatedlists.label!='Activity History'
 					UNION
 					SELECT relmodule, vtiger_tab.tabid FROM vtiger_fieldmodulerel
 					INNER JOIN vtiger_tab on vtiger_tab.name = vtiger_fieldmodulerel.module
