@@ -38,9 +38,6 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	public function getAccountsByIndustry($owner, $dateFilter)
 	{
 		$module = 'Accounts';
-		if (!empty($owner)) {
-			$ownerSql = ' AND smownerid = ' . $owner;
-		}
 
 		$query = new \App\Db\Query();
 		$query->select([
