@@ -257,7 +257,17 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getActivityStateModalUrl()
 	{
-		$module = $this->getModule();
 		return 'index.php?module = Calendar&view = ActivityStateModal&record = ' . $this->getId();
+	}
+	
+	/**
+	 * Function to remove record
+	 */
+	public function delete()
+	{
+		parent::delete();
+		App\Db::getInstance()->createCommand()
+			->update('vtiger_activity', ['deleted' => 1], ['activityid' => $this->getId()])
+			->execute();
 	}
 }

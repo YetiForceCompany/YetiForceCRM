@@ -28,13 +28,13 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	public function getQuery()
 	{
 		$query = (new \App\Db\Query())
-			->select('vtiger_activity.*, relcrm.setype AS linkmod, procrm.setype AS processmod, subprocrm.setype AS subprocessmod')
+			->select(['vtiger_activity.*', 'linkmod' => 'relcrm.setype', 'processmod' => 'procrm.setype', 'subprocessmod' => 'subprocrm.setype'])
 			->from('vtiger_activity')
 			->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_activitycf', 'vtiger_activity.activityid = vtiger_activitycf.activityid')
-			->innerJoin('vtiger_crmentity relcrm', 'vtiger_activity.link = relcrm.crmid')
-			->innerJoin('vtiger_crmentity procrm', 'vtiger_activity.process = procrm.crmid')
-			->innerJoin('vtiger_crmentity subprocrm', 'vtiger_activity.subprocess = subprocrm.crmid')
+			->leftJoin('vtiger_crmentity relcrm', 'vtiger_activity.link = relcrm.crmid')
+			->leftJoin('vtiger_crmentity procrm', 'vtiger_activity.process = procrm.crmid')
+			->leftJoin('vtiger_crmentity subprocrm', 'vtiger_activity.subprocess = subprocrm.crmid')
 			->where(['vtiger_activity.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, $this->getModuleName());
 		if ($this->get('start') && $this->get('end')) {
@@ -44,21 +44,22 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query->andWhere(['or',
-					[
+			$query->andWhere([
+				'or',
+				[
 					'and',
-						['>=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbStartDateTime],
-						['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
+					['>=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
 				],
-					[
+				[
 					'and',
-						['>=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbStartDateTime],
-						['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
+					['>=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
 				],
-					[
+				[
 					'and',
-						['<', 'date_start', $dbStartDate],
-						['>', 'due_date', $dbEndDate]
+					['<', 'date_start', $dbStartDate],
+					['>', 'due_date', $dbEndDate]
 				]
 			]);
 		}
@@ -80,12 +81,12 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		}
 		$restrict = $this->get('restrict');
 		if (!empty($restrict)) {
-			$query->innerJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
-				->innerJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid');
+			//$query->innerJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			//	->innerJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid');
 
-			$sql .= ' LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id '
-				. 'LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid = vtiger_groups.groupid';
-			$queryWhere .= $restrict;
+			/*$sql .= ' LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id '
+				. 'LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid = vtiger_groups.groupid';*/
+			//$queryWhere .= $restrict;
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
@@ -118,7 +119,6 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	public function getEntity()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$return = $records = $ids = [];
 		while ($record = $dataReader->read()) {

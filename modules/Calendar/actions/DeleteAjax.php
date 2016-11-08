@@ -18,8 +18,6 @@ class Calendar_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->delete();
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_activity SET deleted = ? WHERE `activityid` = ?;', array(1, $recordId));
 
 		$cvId = $request->get('viewname');
 		$response = new Vtiger_Response();
