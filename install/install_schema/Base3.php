@@ -713,7 +713,7 @@ class Base3 extends \App\Db\Importers\Base
 					'interest' => $this->stringType(50),
 					'firstname' => $this->stringType(40),
 					'salutation' => $this->stringType(200),
-					'lastname' => $this->stringType(80)->notNull(),
+					'lastname' => $this->stringType(80),
 					'company' => $this->stringType(100)->notNull(),
 					'annualrevenue' => $this->decimal('25,8'),
 					'industry' => $this->stringType(200),

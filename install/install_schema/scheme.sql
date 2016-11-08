@@ -5517,7 +5517,7 @@ CREATE TABLE `vtiger_leaddetails` (
   `interest` varchar(50) DEFAULT NULL,
   `firstname` varchar(40) DEFAULT NULL,
   `salutation` varchar(200) DEFAULT NULL,
-  `lastname` varchar(80) NOT NULL,
+  `lastname` varchar(80),
   `company` varchar(100) NOT NULL,
   `annualrevenue` decimal(25,8) DEFAULT NULL,
   `industry` varchar(200) DEFAULT NULL,
