@@ -273,19 +273,16 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getProfileTabFieldPermissions($tabId)
 	{
-		$db = PearDatabase::getInstance();
-
 		if (!isset($this->profile_tab_field_permissions[$tabId])) {
 			$profile2TabFieldPermissions = [];
 			if ($this->getId()) {
-				$sql = 'SELECT * FROM vtiger_profile2field WHERE profileid=? && tabid=?';
-				$params = array($this->getId(), $tabId);
-				$result = $db->pquery($sql, $params);
-				$noOfRows = $db->num_rows($result);
-				for ($i = 0; $i < $noOfRows; ++$i) {
-					$fieldId = $db->query_result($result, $i, 'fieldid');
-					$visible = $db->query_result($result, $i, 'visible');
-					$readOnly = $db->query_result($result, $i, 'readonly');
+				$dataReader = (new App\Db\Query())->from('vtiger_profile2field')
+						->where(['profileid' => $this->getId(), 'tabid' => $tabId])
+						->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					$fieldId = $row['fieldid'];
+					$visible = $row['visible'];
+					$readOnly = $row['readonly'];
 					$profile2TabFieldPermissions[$fieldId]['visible'] = $visible;
 					$profile2TabFieldPermissions[$fieldId]['readonly'] = $readOnly;
 				}
