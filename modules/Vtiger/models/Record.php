@@ -570,6 +570,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				if (file_exists($fullPath)) {
 					require_once $fullPath;
 					$blockObiect = new $tmp[0];
+					if (isset($blockObiect->reference) && !\App\Module::isModuleActive($blockObiect->reference)) {
+						continue;
+					}
 					$summaryBlocks[intval($blockCount / $this->summaryRowCount)][$blockObiect->sequence] = array('name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference);
 					$blockCount++;
 				}

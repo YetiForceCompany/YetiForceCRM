@@ -325,12 +325,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (is_callable($moduleName . "_Record_Model", 'getStructure')) {
 			$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
 		}
-		if (is_callable($moduleName . "_Record_Model", 'getSummaryInfo')) {
-			$viewer->assign('SUMMARY_INFORMATION', $recordModel->getSummaryInfo());
-			return $viewer->view('ModuleSummaryBlockView.tpl', $moduleName, true);
-		} else {
-			return $viewer->view('ModuleSummaryView.tpl', $moduleName, true);
-		}
+		return $viewer->view('ModuleSummaryBlockView.tpl', $moduleName, true);
 	}
 
 	/**
