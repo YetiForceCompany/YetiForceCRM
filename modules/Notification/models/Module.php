@@ -24,6 +24,42 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		return $count > $max ? $max : $count;
 	}
 
+	public function getEntries($limit = false, $conditions = false, $userId = false, $groupBy = false)
+	{
+		$queryGenerator = new QueryGenerator($this->getName());
+		$queryGenerator->setFields(['description', 'smwonerid', 'id', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
+		if (empty($userId)) {
+			$userId = Users_Privileges_Model::getCurrentUserModel()->getId();
+		}
+		$queryGenerator->setCustomCondition([
+			'glue' => 'AND',
+			'tablename' => 'vtiger_crmentity',
+			'column' => 'vtiger_crmentity.smownerid',
+			'operator' => '=',
+			'value' => $userId,
+		]);
+		$query = $queryGenerator->getQuery();
+		if (!empty($conditions)) {
+			$query .= $conditions;
+		}
+		$query .= ' AND u_yf_notification.notification_status = \'PLL_UNREAD\' ';
+		if (!empty($limit)) {
+			$query .= sprintf(' LIMIT %d', $limit);
+		}
+		$db = PearDatabase::getInstance();
+		$result = $db->query($query);
+		$entries = [];
+		while ($row = $db->getRow($result)) {
+			$recordModel = Vtiger_Record_Model::getCleanInstance('Notification');
+			$recordModel->setData($row);
+			if ($groupBy) {
+				$entries[$row['type']][$row['id']] = $recordModel;
+			} else {
+				$entries[$row['id']] = $recordModel;
+			}
+		}
+		return $entries;
+	}
 	/**
 	 * Function gets notifications to be sent
 	 * @param int $userId

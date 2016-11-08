@@ -147,24 +147,21 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		
 		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::getHolidayGroupType method ...");
-		$db = PearDatabase::getInstance();
-		$params = [];
-		$sql = 'SELECT COUNT(`publicholidayid`) AS count, `holidaytype` FROM `vtiger_publicholiday` ';
+		$query = (new App\Db\Query())
+			->select(['count' => new \yii\db\Expression('COUNT(publicholidayid)'), 'holidaytype'])
+			->from('vtiger_publicholiday');
+
 		if ($date) {
-			$sql .= ' WHERE holidaydate BETWEEN ? AND ?';
-			$params[] = $date[0];
-			$params[] = $date[1];
+			$query->where(['between', 'holidaydate', $date[0], $date[1]]);
 		}
-		$sql .= ' GROUP BY `holidaytype`';
-		$result = $db->pquery($sql, $params);
-		$numRows = $db->num_rows($result);
-		if (0 == $numRows)
+		$query->groupBy('holidaytype');
+		$dataReader = $query->createCommand()->query();
+
+		if (0 == $dataReader->count())
 			$return = false;
 		else {
-			for ($i = 0; $i < $numRows; $i++) {
-				$count = $db->query_result($result, $i, 'count');
-				$type = $db->query_result($result, $i, 'holidaytype');
-				$return[$type] = $count;
+			while ($row = $dataReader->read()) {
+				$return[$row['holidaytype']] = $row['count'];
 			}
 		}
 		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::getHolidayGroupType() method ...");

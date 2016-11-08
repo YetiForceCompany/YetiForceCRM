@@ -184,47 +184,34 @@ class Home_Module_Model extends Vtiger_Module_Model
 	public function getAssignedProjectsTasks($mode, $pagingModel, $user, $recordId = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
-
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
-
-		$params = array();
-		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_projecttask.*
-			FROM vtiger_projecttask
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid
-			WHERE vtiger_crmentity.deleted=0 && vtiger_crmentity.smcreatorid = ?";
-		$params[] = $currentUser->getId();
-		$query .= \App\PrivilegeQuery::getAccessConditions('ProjectTask', $currentUser->getId());
+		$query = (new App\Db\Query())
+			->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_projecttask.*'])
+			->from('vtiger_projecttask')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smcreatorid' => $currentUser->getId()]);
+		\App\PrivilegeQuery::getConditions($query, 'ProjectTask');
 		if ($mode === 'upcoming') {
-			$query .= " && targetenddate >= ?";
+			$query->andWhere(['>=', 'targetenddate', $currentDate]);
 		} elseif ($mode === 'overdue') {
-			$query .= " && targetenddate < ?";
+			$query->andWhere(['<', 'targetenddate', $currentDate]);
 		}
-		$params[] = $currentDate;
-
 		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
-			$query .= " && vtiger_crmentity.smownerid = ?";
-			$params[] = $user;
+			$query->andWhere(['vtiger_crmentity.smownerid' => $user]);
 		}
-
-		$query .= " ORDER BY targetenddate LIMIT ?, ?";
-		$params[] = $pagingModel->getStartIndex();
-		$params[] = $pagingModel->getPageLimit() + 1;
-
-		$result = $db->pquery($query, $params);
-		$numOfRows = $db->num_rows($result);
-
-		$projecttasks = array();
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$query->orderBy('targetenddate')
+			->limit($pagingModel->getPageLimit() + 1)
+			->offset($pagingModel->getStartIndex());
+		$dataReader = $query->createCommand()->query();
+		$projecttasks = [];
+		while ($row = $dataReader->read()) {
 			$model = Vtiger_Record_Model::getCleanInstance('ProjectTask');
 			$model->setData($row);
 			$model->setId($row['crmid']);
@@ -239,7 +226,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$projecttasks[] = $model;
 		}
 		$pagingModel->calculatePageRange($projecttasks);
-		if ($numOfRows > $pagingModel->getPageLimit()) {
+		if ($dataReader->count() > $pagingModel->getPageLimit()) {
 			array_pop($projecttasks);
 			$pagingModel->set('nextPageExists', true);
 		} else {
