@@ -897,10 +897,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 
-		$advfiltersql = "";
-		$customView = new CustomView();
-		$dateSpecificConditions = $customView->getStdFilterConditions();
-
+		$advfiltersql = '';
 		foreach ($advfilterlist as $groupindex => $groupinfo) {
 			$groupcondition = $groupinfo['condition'];
 			$groupcolumns = $groupinfo['columns'];
@@ -916,7 +913,7 @@ class ReportRun extends CRMEntity
 					$advcolsql = array();
 
 					if ($fieldcolname != "" && $comparator != "") {
-						if (in_array($comparator, $dateSpecificConditions)) {
+						if (in_array($comparator, \App\CustomView::STD_FILTER_CONDITIONS)) {
 							if ($fieldcolname != 'none') {
 								$selectedFields = explode(':', $fieldcolname);
 								if ($selectedFields[0] == 'vtiger_crmentity' . $this->primarymodule) {
@@ -1059,8 +1056,7 @@ class ReportRun extends CRMEntity
 							if (strcasecmp(trim($value), "no") == 0)
 								$value = "0";
 						}
-						if (in_array($comparator, $dateSpecificConditions)) {
-							$customView = new CustomView($moduleName);
+						if (in_array($comparator, \App\CustomView::STD_FILTER_CONDITIONS)) {
 							$columninfo['stdfilter'] = $columninfo['comparator'];
 							$valueComponents = explode(',', $columninfo['value']);
 							if ($comparator == 'custom') {
@@ -1074,7 +1070,7 @@ class ReportRun extends CRMEntity
 									$columninfo['enddate'] = DateTimeField::convertToDBFormat($valueComponents[1]);
 								}
 							}
-							$dateFilterResolvedList = $customView->resolveDateFilterValue($columninfo);
+							$dateFilterResolvedList = \App\CustomView::resolveDateFilterValue($columninfo);
 							$startDate = DateTimeField::convertToDBFormat($dateFilterResolvedList['startdate']);
 							$endDate = DateTimeField::convertToDBFormat($dateFilterResolvedList['enddate']);
 							$columninfo['value'] = $value = implode(',', array($startDate, $endDate));
@@ -2157,7 +2153,6 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable("vtiger_groupsOSSTimeControl")) {
 				$query .= " LEFT JOIN vtiger_groups AS vtiger_groupsOSSTimeControl ON vtiger_groupsOSSTimeControl.groupid = vtiger_crmentity.smownerid";
 			}
-			
 		} else {
 			if ($module != '') {
 				$focus = CRMEntity::getInstance($module);

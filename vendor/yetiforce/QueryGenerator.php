@@ -32,6 +32,16 @@ class QueryGenerator
 	private $whereClauseCustom = [];
 
 	/**
+	 * @var array Required conditions
+	 */
+	private $conditionsAnd = [];
+
+	/**
+	 * @var array Optional conditions
+	 */
+	private $conditionsOr = [];
+
+	/**
 	 * @var \Vtiger_Module_Model 
 	 */
 	private $moduleModel;
@@ -84,6 +94,24 @@ class QueryGenerator
 	public function setCustomCondition($where)
 	{
 		$this->whereClauseCustom[] = $where;
+	}
+
+	/**
+	 * Add a mandatory condition
+	 * @param array $condition
+	 */
+	public function addAndConditionNative($condition)
+	{
+		$this->conditionsAnd[] = $condition;
+	}
+
+	/**
+	 * Add a optional condition
+	 * @param array $condition
+	 */
+	public function addOrConditionNative($condition)
+	{
+		$this->conditionsOr[] = $condition;
 	}
 
 	/**
@@ -161,12 +189,12 @@ class QueryGenerator
 		$this->cvColumns = $customView->getColumnsListByCvid($viewId);
 		if ($this->cvColumns) {
 			foreach ($this->cvColumns as &$cvColumn) {
-				$details = explode(':', $cvColumn);
-				if (empty($details[2]) && $details[1] === 'crmid' && $details[0] === 'vtiger_crmentity') {
+				list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $cvColumn);
+				if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
 					$this->customViewFields[] = 'id';
 				} else {
-					$this->fields[] = $details[2];
-					$this->customViewFields[] = $details[2];
+					$this->fields[] = $fieldName;
+					$this->customViewFields[] = $fieldName;
 				}
 			}
 		}
@@ -186,138 +214,125 @@ class QueryGenerator
 		$this->stdFilterList = $customView->getStdFilterByCvid($viewId);
 		$this->advFilterList = $customView->getAdvFilterByCvid($viewId);
 		if (is_array($this->stdFilterList)) {
-			$value = [];
 			if (!empty($this->stdFilterList['columnname'])) {
-				//$this->startGroup('');
-				$name = explode(':', $this->stdFilterList['columnname']);
-				$name = $name[2];
-				$value[] = $this->fixDateTimeValue($name, $this->stdFilterList['startdate']);
-				$value[] = $this->fixDateTimeValue($name, $this->stdFilterList['enddate'], false);
-				//$this->addCondition($name, $value, 'BETWEEN');
+				list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $this->stdFilterList['columnname']);
+				$this->addRequiredCondition([
+					'between',
+					$fieldName,
+					$this->fixDateTimeValue($fieldName, $this->stdFilterList['startdate']),
+					$this->fixDateTimeValue($fieldName, $this->stdFilterList['enddate'], false)
+				]);
 			}
 		}
-		if ($this->conditionInstanceCount <= 0 && is_array($this->advFilterList) && count($this->advFilterList) > 0) {
-			//$this->startGroup('');
-		} elseif ($this->conditionInstanceCount > 0 && is_array($this->advFilterList) && count($this->advFilterList) > 0) {
-			//$this->addConditionGlue(self::$AND);
+		$this->parseAdvFilter();
+	}
+
+	/**
+	 * Parsing advanced filters conditions
+	 * @return boolean
+	 */
+	public function parseAdvFilter()
+	{
+		if (!$this->advFilterList) {
+			return false;
 		}
-		//$this->parseAdvFilterList();
-		if ($this->conditionInstanceCount > 0) {
-			//$this->endGroup();
+		foreach ($this->advFilterList as $group => &$filters) {
+			$functionName = ($group === 1 ? 'addAndCondition' : 'addOrCondition');
+			$nativeFunctionName = $functionName . 'Native';
+			foreach ($filters as &$filter) {
+				list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $filter['columnname']);
+				// For Events "End Date & Time" field datatype should be DT. But, db will give D for due_date field
+				if ($fieldName === 'due_date' && $moduleFieldLabel === 'Events_End_Date_&_Time') {
+					$fieldType = 'DT';
+				}
+				if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
+					$columnName = $this->getColumnName('id');
+				}
+				if (($fieldType === 'D' || $fieldType === 'DT') && in_array($filter['comparator'], CustomView::STD_FILTER_CONDITIONS)) {
+					$filter['stdfilter'] = $filter['comparator'];
+					$valueComponents = explode(',', $filter['value']);
+					if ($filter['comparator'] === 'custom') {
+						if ($fieldType === 'DT') {
+							$startDateTimeComponents = explode(' ', $valueComponents[0]);
+							$endDateTimeComponents = explode(' ', $valueComponents[1]);
+							$filter['startdate'] = DateTimeField::convertToDBFormat($startDateTimeComponents[0]);
+							$filter['enddate'] = DateTimeField::convertToDBFormat($endDateTimeComponents[0]);
+						} else {
+							$filter['startdate'] = DateTimeField::convertToDBFormat($valueComponents[0]);
+							$filter['enddate'] = DateTimeField::convertToDBFormat($valueComponents[1]);
+						}
+					}
+					$dateFilterResolvedList = CustomView::resolveDateFilterValue($filter);
+					// If datatype is DT then we should append time also
+					if ($fieldType === 'DT') {
+						list ($startDate, $startTime) = explode(' ', $dateFilterResolvedList['startdate']);
+						if (empty($startTime)) {
+							$startTime = '00:00:00';
+						}
+						$dateFilterResolvedList['startdate'] = "$startDate $startTime";
+						list ($endDate, $endTime) = explode(' ', $dateFilterResolvedList['enddate']);
+						if (empty($endTime)) {
+							$endTime = '23:59:59';
+						}
+						$dateFilterResolvedList['enddate'] = "$endDate $endTime";
+					}
+					$this->$nativeFunctionName([
+						'between',
+						"$tableName.$columnName",
+						$this->fixDateTimeValue($columnName, $dateFilterResolvedList['startdate']),
+						$this->fixDateTimeValue($columnName, $dateFilterResolvedList['enddate'], false)
+					]);
+				} elseif ($fieldType === 'DT' && ($filter['comparator'] === 'e' || $filter['comparator'] === 'n')) {
+					$filter['stdfilter'] = $filter['comparator'];
+					$dateTimeComponents = explode(' ', $filter['value']);
+					$filter['startdate'] = DateTimeField::convertToDBFormat($dateTimeComponents[0]);
+					$filter['enddate'] = DateTimeField::convertToDBFormat($dateTimeComponents[0]);
+					$startDate = $this->fixDateTimeValue($columnName, $filter['startdate']);
+					$endDate = $this->fixDateTimeValue($columnName, $filter['enddate'], false);
+					$start = explode(' ', $startDate);
+					if (empty($start[1])) {
+						$startDate = "$start[0] 00:00:00";
+					}
+					$end = explode(' ', $endDate);
+					if (empty($end[1])) {
+						$endDate = "$end[0] 23:59:59";
+					}
+					if ($filter['comparator'] === 'n') {
+						$this->$nativeFunctionName([
+							'not between',
+							$columnName,
+							$startDate,
+							$endDate
+						]);
+					} else {
+						$this->$nativeFunctionName([
+							'between',
+							"$tableName.$columnName",
+							$this->fixDateTimeValue($columnName, $startDate),
+							$this->fixDateTimeValue($columnName, $endDate)
+						]);
+					}
+				} elseif ($fieldType === 'DT' && ($filter['comparator'] === 'a' || $filter['comparator'] === 'b')) {
+					$dateTime = explode(' ', $filter['value']);
+					$date = DateTimeField::convertToDBFormat($dateTime[0]);
+					$value = [];
+					$value[] = $this->fixDateTimeValue($columnName, $date, false);
+					// Still fixDateTimeValue returns only date value, we need to append time because it is DT type
+					$countValue = count($value);
+					for ($i = 0; $i < $countValue; $i++) {
+						$values = explode(' ', $value[$i]);
+						if ($values[1] == '') {
+							$values[1] = '00:00:00';
+						}
+						$value[$i] = $values[0] . ' ' . $values[1];
+					}
+					$this->$functionName($columnName, $value, $filter['comparator']);
+				} else {
+					$this->$functionName($columnName, $filter['value'], $filter['comparator']);
+				}
+			}
 		}
 	}
-	/**
-	  public function parseAdvFilterList()
-	  {
-	  if (!$this->advFilterList) {
-	  return false;
-	  }
-	  if (!empty($glue))
-	  $this->addConditionGlue($glue);
-
-	  $customView = new CustomView($this->module);
-	  $dateSpecificConditions = $customView->getStdFilterConditions();
-	  foreach ($this->advFilterList as $groupindex => $groupcolumns) {
-	  $filtercolumns = $groupcolumns['columns'];
-	  if (count($filtercolumns) > 0) {
-	  $this->startGroup('');
-	  foreach ($filtercolumns as $index => $filter) {
-	  $nameComponents = explode(':', $filter['columnname']);
-	  // For Events "End Date & Time" field datatype should be DT. But, db will give D for due_date field
-	  if ($nameComponents[2] == 'due_date' && $nameComponents[3] == 'Events_End_Date_&_Time')
-	  $nameComponents[4] = 'DT';
-	  if (empty($nameComponents[2]) && $nameComponents[1] == 'crmid' && $nameComponents[0] == 'vtiger_crmentity') {
-	  $name = $this->getSQLColumn('id');
-	  } else {
-	  $name = $nameComponents[2];
-	  }
-	  if (($nameComponents[4] == 'D' || $nameComponents[4] == 'DT') && in_array($filter['comparator'], $dateSpecificConditions)) {
-	  $filter['stdfilter'] = $filter['comparator'];
-	  $valueComponents = explode(',', $filter['value']);
-	  if ($filter['comparator'] == 'custom') {
-	  if ($nameComponents[4] == 'DT') {
-	  $startDateTimeComponents = explode(' ', $valueComponents[0]);
-	  $endDateTimeComponents = explode(' ', $valueComponents[1]);
-	  $filter['startdate'] = DateTimeField::convertToDBFormat($startDateTimeComponents[0]);
-	  $filter['enddate'] = DateTimeField::convertToDBFormat($endDateTimeComponents[0]);
-	  } else {
-	  $filter['startdate'] = DateTimeField::convertToDBFormat($valueComponents[0]);
-	  $filter['enddate'] = DateTimeField::convertToDBFormat($valueComponents[1]);
-	  }
-	  }
-	  $dateFilterResolvedList = $customView->resolveDateFilterValue($filter);
-	  // If datatype is DT then we should append time also
-	  if ($nameComponents[4] == 'DT') {
-	  $startdate = explode(' ', $dateFilterResolvedList['startdate']);
-	  if ($startdate[1] == '')
-	  $startdate[1] = '00:00:00';
-	  $dateFilterResolvedList['startdate'] = $startdate[0] . ' ' . $startdate[1];
-
-	  $enddate = explode(' ', $dateFilterResolvedList['enddate']);
-	  if ($enddate[1] == '')
-	  $enddate[1] = '23:59:59';
-	  $dateFilterResolvedList['enddate'] = $enddate[0] . ' ' . $enddate[1];
-	  }
-	  $value = [];
-	  $value[] = $this->fixDateTimeValue($name, $dateFilterResolvedList['startdate']);
-	  $value[] = $this->fixDateTimeValue($name, $dateFilterResolvedList['enddate'], false);
-	  $this->addCondition($name, $value, 'BETWEEN');
-	  } elseif ($nameComponents[4] == 'DT' && ($filter['comparator'] == 'e' || $filter['comparator'] == 'n')) {
-	  $filter['stdfilter'] = $filter['comparator'];
-	  $dateTimeComponents = explode(' ', $filter['value']);
-	  $filter['startdate'] = DateTimeField::convertToDBFormat($dateTimeComponents[0]);
-	  $filter['enddate'] = DateTimeField::convertToDBFormat($dateTimeComponents[0]);
-
-	  $startDate = $this->fixDateTimeValue($name, $filter['startdate']);
-	  $endDate = $this->fixDateTimeValue($name, $filter['enddate'], false);
-
-	  $value = [];
-	  $start = explode(' ', $startDate);
-	  if ($start[1] == "")
-	  $startDate = $start[0] . ' ' . '00:00:00';
-
-	  $end = explode(' ', $endDate);
-	  if ($end[1] == "")
-	  $endDate = $end[0] . ' ' . '23:59:59';
-
-	  $value[] = $startDate;
-	  $value[] = $endDate;
-	  if ($filter['comparator'] == 'n') {
-	  $this->addCondition($name, $value, 'NOTEQUAL');
-	  } else {
-	  $this->addCondition($name, $value, 'BETWEEN');
-	  }
-	  } elseif ($nameComponents[4] == 'DT' && ($filter['comparator'] == 'a' || $filter['comparator'] == 'b')) {
-	  $dateTime = explode(' ', $filter['value']);
-	  $date = DateTimeField::convertToDBFormat($dateTime[0]);
-	  $value = [];
-	  $value[] = $this->fixDateTimeValue($name, $date, false);
-	  // Still fixDateTimeValue returns only date value, we need to append time because it is DT type
-	  $countValue = count($value);
-	  for ($i = 0; $i < $countValue; $i++) {
-	  $values = explode(' ', $value[$i]);
-	  if ($values[1] == '') {
-	  $values[1] = '00:00:00';
-	  }
-	  $value[$i] = $values[0] . ' ' . $values[1];
-	  }
-	  $this->addCondition($name, $value, $filter['comparator']);
-	  } else {
-	  $this->addCondition($name, $filter['value'], $filter['comparator']);
-	  }
-	  $columncondition = $filter['column_condition'];
-	  if (!empty($columncondition)) {
-	  $this->addConditionGlue($columncondition);
-	  }
-	  }
-	  $this->endGroup();
-	  $groupConditionGlue = $groupcolumns['condition'];
-	  if (!empty($groupConditionGlue))
-	  $this->addConditionGlue($groupConditionGlue);
-	  }
-	  }
-	  }
-	 */
 
 	/**
 	 * Create query
@@ -570,6 +585,16 @@ class QueryGenerator
 	 * Sets the WHERE part of the query.
 	 */
 	public function loadWhere()
+	{
+		$this->query->andWhere(['or', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
+	}
+
+	public function addAndCondition($fieldname, $value, $operator)
+	{
+		
+	}
+
+	public function addOrCondition($fieldname, $value, $operator)
 	{
 		
 	}

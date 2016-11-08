@@ -10,6 +10,13 @@ namespace App;
 class CustomView
 {
 
+	/**
+	 * Standard filter conditions for date fields
+	 */
+	const STD_FILTER_CONDITIONS = ['custom', 'prevfy', 'thisfy', 'nextfy', 'prevfq', 'thisfq', 'nextfq', 'yesterday', 'today', 'tomorrow',
+		'lastweek', 'thisweek', 'nextweek', 'lastmonth', 'thismonth', 'nextmonth',
+		'last7days', 'last15days', 'last30days', 'last60days', 'last90days', 'last120days', 'next15days', 'next30days', 'next60days', 'next90days', 'next120days'];
+
 	private $moduleName;
 
 	public function __construct($moduleName)
@@ -86,7 +93,7 @@ class CustomView
 			$stdFilter = $this->getCustomViewFromFile($cvId)->getStdCriteria();
 		}
 		if ($stdFilter) {
-			$stdFilter = $this->resolveDateFilterValue($stdFilter);
+			$stdFilter = static::resolveDateFilterValue($stdFilter);
 		}
 		Cache::save('getCustomViewFile', $cvId, $stdFilter);
 		return $stdFilter;
@@ -97,7 +104,7 @@ class CustomView
 	 * @param array $dateFilterRow
 	 * @return array
 	 */
-	public function resolveDateFilterValue($dateFilterRow)
+	public static function resolveDateFilterValue($dateFilterRow)
 	{
 		$stdfilterlist = ['columnname' => $dateFilterRow['columnname'], 'stdfilter' => $dateFilterRow['stdfilter']];
 		if ($dateFilterRow['stdfilter'] === 'custom' || $dateFilterRow['stdfilter'] === '' || $dateFilterRow['stdfilter'] === 'e' || $dateFilterRow['stdfilter'] === 'n') {
@@ -110,7 +117,7 @@ class CustomView
 				$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
 			}
 		} else { //if it is not custom get the date according to the selected duration
-			$datefilter = $this->getDateforStdFilterBytype($dateFilterRow['stdfilter']);
+			$datefilter = static::getDateforStdFilterBytype($dateFilterRow['stdfilter']);
 			$startDateTime = new \DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
 			$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
 			$endDateTime = new \DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
@@ -124,7 +131,7 @@ class CustomView
 	 * @param string $type
 	 * @return array
 	 */
-	public function getDateforStdFilterBytype($type)
+	public static function getDateforStdFilterBytype($type)
 	{
 		return \DateTimeRange::getDateRangeByType($type);
 	}
@@ -145,8 +152,6 @@ class CustomView
 					->where(['cvid' => $cvId])
 					->orderBy('groupid')
 					->createCommand()->query();
-			$i = 1;
-			$j = 0;
 			while ($relCriteriaGroup = $dataReaderGroup->read()) {
 				$dataReader = (new \App\Db\Query())->select('vtiger_cvadvfilter.*')
 						->from('vtiger_customview')
@@ -158,26 +163,14 @@ class CustomView
 				if (!$dataReader->count()) {
 					continue;
 				}
+				$key = $relCriteriaGroup['groupid'] === 1 ? 'and' : 'or';
 				while ($relCriteriaRow = $dataReader->read()) {
-					$criteria = $this->getAdvftCriteria($relCriteriaRow);
-					$advftCriteria[$i]['columns'][$j] = $criteria;
-					$advftCriteria[$i]['condition'] = $relCriteriaGroup['group_condition'];
-					$j++;
+					$advftCriteria[$key][] = $this->getAdvftCriteria($relCriteriaRow);
 				}
-				if (!empty($advftCriteria[$i]['columns'][$j - 1]['column_condition'])) {
-					$advftCriteria[$i]['columns'][$j - 1]['column_condition'] = '';
-				}
-				$i++;
 			}
 		} else {
 			$fromFile = $this->getCustomViewFromFile($cvId)->getAdvftCriteria($this);
-			$i = $fromFile[0];
-			$j = $fromFile[1];
-			$advftCriteria = $fromFile[2];
-		}
-		// Clear the condition (and/or) for last group, if any.
-		if (!empty($advftCriteria[$i - 1]['condition'])) {
-			$advftCriteria[$i - 1]['condition'] = '';
+			$advftCriteria = $fromFile;
 		}
 		Cache::save('getAdvFilterByCvid', $cvId, $advftCriteria);
 		return $advftCriteria;
@@ -192,22 +185,22 @@ class CustomView
 	{
 		$comparator = $relCriteriaRow['comparator'];
 		$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, \AppConfig::main('default_charset'));
-		$col = explode(':', $relCriteriaRow['columnname']);
+		list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $relCriteriaRow['columnname']);
 		$tempVal = explode(',', $relCriteriaRow['value']);
-		if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] !== 'time_start' && $col[1] !== 'time_end') || ($col[4] === 'DT')) {
+		if ($fieldType === 'D' || ($fieldType === 'T' && $columnName !== 'time_start' && $columnName !== 'time_end') || ($fieldType === 'DT')) {
 			$val = [];
 			foreach ($tempVal as $key => $value) {
-				if ($col[4] === 'D') {
+				if ($fieldType === 'D') {
 					/**
 					 * while inserting in db for due_date it was taking date and time values also as it is
 					 * date time field. We only need to take date from that value
 					 */
-					if ($col[0] === 'vtiger_activity' && $col[1] === 'due_date') {
+					if ($tableName === 'vtiger_activity' && $columnName === 'due_date') {
 						$values = explode(' ', $value);
 						$value = $values[0];
 					}
 					$val[$key] = (new \DateTimeField(trim($value)))->getDisplayDate();
-				} elseif ($col[4] === 'DT') {
+				} elseif ($fieldType === 'DT') {
 					if (in_array($comparator, ['e', 'n', 'b', 'a'])) {
 						$dateTime = explode(' ', $value);
 						$value = $dateTime[0];
@@ -222,8 +215,7 @@ class CustomView
 		return [
 			'columnname' => html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, \AppConfig::main('default_charset')),
 			'comparator' => $comparator,
-			'value' => $advFilterVal,
-			'column_condition' => $relCriteriaRow['column_condition']
+			'value' => $advFilterVal
 		];
 	}
 }

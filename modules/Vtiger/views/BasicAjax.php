@@ -124,10 +124,6 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$queryGenerator = new QueryGenerator($moduleName, $user);
 			$queryGenerator->setFields(['id']);
 
-			vimport('~modules/CustomView/CustomView.php');
-			$customView = new CustomView($moduleName);
-			$dateSpecificConditions = $customView->getStdFilterConditions();
-
 			foreach ($advFilterList as $groupindex => $groupcolumns) {
 				$filtercolumns = $groupcolumns['columns'];
 				if (count($filtercolumns) > 0) {
@@ -139,14 +135,14 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 						} else {
 							$name = $nameComponents[2];
 						}
-						if (($nameComponents[4] == 'D' || $nameComponents[4] == 'DT') && in_array($filter['comparator'], $dateSpecificConditions)) {
+						if (($nameComponents[4] == 'D' || $nameComponents[4] == 'DT') && in_array($filter['comparator'], \App\CustomView::STD_FILTER_CONDITIONS)) {
 							$filter['stdfilter'] = $filter['comparator'];
 							$valueComponents = explode(',', $filter['value']);
 							if ($filter['comparator'] == 'custom') {
 								$filter['startdate'] = DateTimeField::convertToDBFormat($valueComponents[0]);
 								$filter['enddate'] = DateTimeField::convertToDBFormat($valueComponents[1]);
 							}
-							$dateFilterResolvedList = $customView->resolveDateFilterValue($filter);
+							$dateFilterResolvedList = \App\CustomView::resolveDateFilterValue($filter);
 							$value[] = $queryGenerator->fixDateTimeValue($name, $dateFilterResolvedList['startdate']);
 							$value[] = $queryGenerator->fixDateTimeValue($name, $dateFilterResolvedList['enddate'], false);
 							$queryGenerator->addCondition($name, $value, 'BETWEEN');
@@ -213,9 +209,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			foreach ($matchingRecords as $module => $modules) {
 				foreach ($modules as $recordID => $recordModel) {
 					$label = decode_html($recordModel->getName());
-					$label.= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
+					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
-						$label.= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
+						$label .= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
 					}
 					$recordsList[] = [
 						'id' => $recordID,

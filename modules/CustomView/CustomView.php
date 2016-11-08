@@ -354,20 +354,6 @@ class CustomView extends CRMEntity
 		return $columnlist;
 	}
 
-	/**
-	 *  Function which will give condition list for date fields
-	 * @return array of std filter conditions
-	 */
-	public function getStdFilterConditions()
-	{
-		return Array("custom", "prevfy", "thisfy", "nextfy", "prevfq",
-			"thisfq", "nextfq", "yesterday", "today", "tomorrow",
-			"lastweek", "thisweek", "nextweek", "lastmonth", "thismonth",
-			"nextmonth", "last7days", "last15days", "last30days", "last60days", "last90days",
-			"last120days", "next15days", "next30days", "next60days", "next90days", "next120days",
-		);
-	}
-
 	/** to get the standard filter for the given customview Id
 	 * @param $cvid :: Type Integer
 	 * @returns  $stdfilterlist Array in the following format
@@ -396,33 +382,9 @@ class CustomView extends CRMEntity
 				}
 			}
 		}
-		$stdFilter = $this->resolveDateFilterValue($stdfilterrow);
+		$stdFilter = \App\CustomView::resolveDateFilterValue($stdfilterrow);
 		Vtiger_Cache::set('getStdFilterByCvid', $cvid, $stdFilter);
 		return $stdFilter;
-	}
-
-	public function resolveDateFilterValue($dateFilterRow)
-	{
-		$stdfilterlist = [];
-		$stdfilterlist['columnname'] = $dateFilterRow['columnname'];
-		$stdfilterlist['stdfilter'] = $dateFilterRow['stdfilter'];
-		if ($dateFilterRow['stdfilter'] == 'custom' || $dateFilterRow['stdfilter'] == '' || $dateFilterRow['stdfilter'] == 'e' || $dateFilterRow['stdfilter'] == 'n') {
-			if ($dateFilterRow['startdate'] != '0000-00-00' && $dateFilterRow['startdate'] != '') {
-				$startDateTime = new DateTimeField($dateFilterRow['startdate'] . ' ' . date('H:i:s'));
-				$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
-			}
-			if ($dateFilterRow['enddate'] != '0000-00-00' && $dateFilterRow['enddate'] != '') {
-				$endDateTime = new DateTimeField($dateFilterRow['enddate'] . ' ' . date('H:i:s'));
-				$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
-			}
-		} else { //if it is not custom get the date according to the selected duration
-			$datefilter = $this->getDateforStdFilterBytype($dateFilterRow['stdfilter']);
-			$startDateTime = new DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
-			$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
-			$endDateTime = new DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
-			$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
-		}
-		return $stdfilterlist;
 	}
 
 	/** to get the Advanced filter for the given customview Id

@@ -309,8 +309,6 @@ class QueryGenerator
 		if (!empty($glue))
 			$this->addConditionGlue($glue);
 
-		$customView = new CustomView($this->module);
-		$dateSpecificConditions = $customView->getStdFilterConditions();
 		foreach ($advFilterList as $groupindex => $groupcolumns) {
 			$filtercolumns = $groupcolumns['columns'];
 			if (count($filtercolumns) > 0) {
@@ -325,7 +323,7 @@ class QueryGenerator
 					} else {
 						$name = $nameComponents[2];
 					}
-					if (($nameComponents[4] == 'D' || $nameComponents[4] == 'DT') && in_array($filter['comparator'], $dateSpecificConditions)) {
+					if (($nameComponents[4] == 'D' || $nameComponents[4] == 'DT') && in_array($filter['comparator'], \App\CustomView::STD_FILTER_CONDITIONS)) {
 						$filter['stdfilter'] = $filter['comparator'];
 						$valueComponents = explode(',', $filter['value']);
 						if ($filter['comparator'] == 'custom') {
@@ -339,7 +337,7 @@ class QueryGenerator
 								$filter['enddate'] = DateTimeField::convertToDBFormat($valueComponents[1]);
 							}
 						}
-						$dateFilterResolvedList = $customView->resolveDateFilterValue($filter);
+						$dateFilterResolvedList = \App\CustomView::resolveDateFilterValue($filter);
 						// If datatype is DT then we should append time also
 						if ($nameComponents[4] == 'DT') {
 							$startdate = explode(' ', $dateFilterResolvedList['startdate']);
