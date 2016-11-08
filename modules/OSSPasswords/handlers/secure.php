@@ -24,7 +24,7 @@ class SECURE extends VTEventHandler
 				$result = (new \App\Db\Query())->select(['basic.id'])->from('vtiger_modtracker_basic basic')
 						->leftJoin('vtiger_modtracker_detail detail', 'basic.id = detail.id')
 						->where(['basic.module' => 'OSSPasswords', 'basic.whodid' => \App\User::getCurrentUserId(), 'detail.fieldname' => 'password'])
-						->andWhere(['>', 'changedon', $currentDate])
+						->andWhere(['>', 'changedon', date('Y-m-d H:i:s')])
 						->orderBy(['basic.id' => SORT_DESC])->limit(1)->one();
 				
 				if ($result) {
