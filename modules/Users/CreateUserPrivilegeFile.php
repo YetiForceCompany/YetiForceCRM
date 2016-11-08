@@ -49,7 +49,7 @@ function createUserPrivilegesfile($userid)
 			$user_role = \App\PrivilegeUtil::getRoleByUsers($userid);
 			$user_role_info = \App\PrivilegeUtil::getRoleDetail($user_role);
 			$user_role_parent = $user_role_info['parentrole'];
-			$subRoles = getRoleSubordinates($user_role);
+			$subRoles = \App\PrivilegeUtil::getRoleSubordinates($user_role);
 			$subRoleAndUsers = getSubordinateRoleAndUsers($user_role);
 			$def_org_share = getDefaultSharingAction();
 			$parentRoles = \App\PrivilegeUtil::getParentRole($user_role);

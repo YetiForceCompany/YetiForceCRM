@@ -750,7 +750,7 @@ function getAccessPickListValues($module)
 	$result = $adb->pquery($query, array($id));
 
 	$roleid = $current_user->roleid;
-	$subrole = getRoleSubordinates($roleid);
+	$subrole = \App\PrivilegeUtil::getRoleSubordinates($roleid);
 
 	if (count($subrole) > 0) {
 		$roleids = $subrole;

@@ -209,6 +209,17 @@ class PrivilegeUtil
 		return $profiles;
 	}
 
+	/**
+	 *  This function is to retreive the vtiger_profiles associated with the  the specified user
+	 * @param int $userId
+	 * @return array
+	 */
+	public static function getProfilesByUser($userId)
+	{
+		$roleId = \App\PrivilegeUtil::getRoleByUsers($userId);
+		return static::getProfilesByRole($roleId);
+	}
+
 	const MEMBER_TYPE_USERS = 'Users';
 	const MEMBER_TYPE_GROUPS = 'Groups';
 	const MEMBER_TYPE_ROLES = 'Roles';
@@ -385,6 +396,27 @@ class PrivilegeUtil
 	{
 		$roleInfo = static::getRoleDetail($roleId);
 		return $roleInfo['parentRoles'];
+	}
+
+	/**
+	 * To retreive the subordinate vtiger_roles of the specified parent vtiger_role
+	 * @param int $roleId
+	 * @return array
+	 */
+	public static function getRoleSubordinates($roleId)
+	{
+		if (\App\Cache::has('getRoleSubordinates', $roleId)) {
+			return \App\Cache::get('getRoleSubordinates', $roleId);
+		}
+		$roleDetails = static::getRoleDetail($roleId);
+		$roleSubordinates = (new \App\Db\Query())
+			->select(['roleid'])
+			->from('vtiger_role')
+			->where(['like', 'parentrole', $roleDetails['parentrole'] . '::%', false])
+			->column();
+
+		\App\Cache::save('getRoleSubordinates', $roleId, $roleSubordinates, \App\Cache::LONG);
+		return $roleSubordinates;
 	}
 
 	/**

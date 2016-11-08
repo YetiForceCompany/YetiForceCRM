@@ -109,6 +109,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Get ui type
+	 * @return int
+	 */
+	public function getUIType()
+	{
+		return $this->uitype;
+	}
+
+	/**
 	 * Function to retrieve full data
 	 * @return <array>
 	 */

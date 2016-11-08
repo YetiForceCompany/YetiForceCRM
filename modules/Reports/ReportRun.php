@@ -3277,7 +3277,7 @@ class ReportRun extends CRMEntity
 		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
 		$roleid = $current_user->roleid;
-		$subrole = getRoleSubordinates($roleid);
+		$subrole = \App\PrivilegeUtil::getRoleSubordinates($roleid);
 		if (count($subrole) > 0) {
 			$roleids = $subrole;
 			array_push($roleids, $roleid);

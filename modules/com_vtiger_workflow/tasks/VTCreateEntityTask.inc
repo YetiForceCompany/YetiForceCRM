@@ -93,7 +93,7 @@ class VTCreateEntityTask extends VTTask
 
 				if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
 					$userId = getUserId_Ol($fieldValue);
-					$groupId = getGrpId($fieldValue);
+					$groupId = \App\Fields\Owner::getGroupId($fieldValue);
 
 					if ($userId == 0 && $groupId == 0) {
 						$fieldValue = $focus->column_fields[$fieldName];
@@ -177,7 +177,7 @@ class VTCreateEntityTask extends VTTask
 			}
 			if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
 				$userId = getUserId_Ol($fieldValue);
-				$groupId = getGrpId($fieldValue);
+				$groupId = \App\Fields\Owner::getGroupId($fieldValue);
 
 				if ($userId == 0 && $groupId == 0) {
 					$fieldValue = $parentRecordModel->get($fieldName);

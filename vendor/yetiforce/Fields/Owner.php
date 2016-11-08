@@ -470,6 +470,7 @@ class Owner
 	protected static $ownerLabelCache = [];
 	protected static $userLabelCache = [];
 	protected static $groupLabelCache = [];
+	protected static $groupIdCache = [];
 
 	public static function getLabel($mixedId)
 	{
@@ -513,10 +514,29 @@ class Owner
 		$groups = $instance->getGroups(false);
 		if (isset($groups[$id])) {
 			$label = $groups[$id];
-			self::$groupLabelCache[$id] = $label;
-			self::$ownerLabelCache[$id] = $label;
+			self::$groupLabelCache[$id] = self::$ownerLabelCache[$id] = $label;
+			self::$groupIdCache[$label] = $id;
 		}
 		return $label;
+	}
+
+	/**
+	 * Function to get the Group Id for a given group groupname
+	 * @param string $name
+	 * @return int
+	 */
+	public static function getGroupId($name)
+	{
+		if (isset(self::$groupIdCache[$name])) {
+			return self::$groupIdCache[$name];
+		}
+		$id = false;
+		$instance = new self();
+		$groups = array_flip($instance->getGroups(false));
+		if (isset($groups[$name])) {
+			$id = self::$groupIdCache[$name] = $groups[$name];
+		}
+		return $id;
 	}
 
 	public static function getUserLabel($id, $single = false)

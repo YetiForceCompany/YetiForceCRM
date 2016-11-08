@@ -476,7 +476,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		$ownerId = getUserId_Ol(trim($fieldValue));
 		if (empty($ownerId)) {
-			$ownerId = getGrpId($fieldValue);
+			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
 		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
 			$ownerId = $defaultFieldValues[$fieldName];
@@ -495,7 +495,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		foreach ($owners as $owner) {
 			$ownerId = getUserId_Ol(trim($owner));
 			if (empty($ownerId)) {
-				$ownerId = getGrpId($owner);
+				$ownerId = \App\Fields\Owner::getGroupId($owner);
 			}
 			if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
 				$ownerId = $defaultFieldValues[$fieldName];

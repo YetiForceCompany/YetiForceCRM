@@ -153,7 +153,7 @@ class VTUpdateFieldsTask extends VTTask
 					if (!is_numeric($fieldValue)) {
 						//If name is given
 						$userId = getUserId_Ol($fieldValue);
-						$groupId = getGrpId($fieldValue);
+						$groupId = \App\Fields\Owner::getGroupId($fieldValue);
 
 						if ($userId == 0 && $groupId == 0) {
 							$fieldValue = $focus->column_fields[$fieldName];

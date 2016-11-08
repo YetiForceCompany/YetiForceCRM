@@ -921,7 +921,7 @@ function deleteRoleRelatedSharingRules($roleId)
 			$query->orWhere([$colNameArr[1] => $roleId]);
 		}
 		$dataReader = $query->createCommand()->query();
-		while($shareid = $dataReader->readColumn(0)) {
+		while ($shareid = $dataReader->readColumn(0)) {
 			deleteSharingRule($shareid);
 		}
 	}
@@ -1123,31 +1123,6 @@ function getDSTableNameForType($typeString)
 	return $tableName;
 }
 
-/** This function is to retreive the vtiger_profiles associated with the  the specified user
- * It takes the following input parameters:
- *     $userid -- The User Id:: Type Integer
- * This function will return the vtiger_profiles associated to the specified vtiger_users in an Array in the following format:
- *     $userProfileArray=(profileid1,profileid2,profileid3,...,profileidn);
- */
-function getUserProfile($userId)
-{
-	\App\Log::trace("Entering getUserProfile(" . $userId . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$roleId = \App\PrivilegeUtil::getRoleByUsers($userId);
-	$profArr = [];
-	$sql1 = "select profileid from vtiger_role2profile where roleid=?";
-	$result1 = $adb->pquery($sql1, array($roleId));
-	$num_rows = $adb->num_rows($result1);
-
-	for ($i = 0; $i < $num_rows; $i++) {
-
-		$profileid = $adb->query_result($result1, $i, "profileid");
-		$profArr[] = $profileid;
-	}
-	\App\Log::trace("Exiting getUserProfile method ...");
-	return $profArr;
-}
-
 /** To retreive the global permission of the specifed user from the various vtiger_profiles associated with the user
  * @param $userid -- The User Id:: Type Integer
  * @returns  user global permission  array in the following format:
@@ -1159,7 +1134,7 @@ function getCombinedUserGlobalPermissions($userId)
 
 	\App\Log::trace("Entering getCombinedUserGlobalPermissions(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$profArr = getUserProfile($userId);
+	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$userGlobalPerrArr = [];
 
@@ -1194,7 +1169,7 @@ function getCombinedUserTabsPermissions($userId)
 
 	\App\Log::trace("Entering getCombinedUserTabsPermissions(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$profArr = getUserProfile($userId);
+	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$userTabPerrArr = [];
 
@@ -1233,7 +1208,7 @@ function getCombinedUserActionPermissions($userId)
 
 	\App\Log::trace("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$profArr = getUserProfile($userId);
+	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$actionPerrArr = [];
 
@@ -1258,41 +1233,6 @@ function getCombinedUserActionPermissions($userId)
 	return $actionPerrArr;
 }
 
-/** To retreive the subordinate vtiger_roles of the specified parent vtiger_role
- * @param $roleid -- The Role Id:: Type varchar
- * @returns  subordinate vtiger_role array in the following format:
- *     $subordinateRoleArray=(roleid1,roleid2,.......,roleidn);
- */
-function getRoleSubordinates($roleId)
-{
-
-	\App\Log::trace("Entering getRoleSubordinates(" . $roleId . ") method ...");
-
-	// Look at cache first for information
-	$roleSubordinates = VTCacheUtils::lookupRoleSubordinates($roleId);
-
-	if ($roleSubordinates === false) {
-		$adb = PearDatabase::getInstance();
-		$roleDetails = \App\PrivilegeUtil::getRoleDetail($roleId);
-		$roleParentSeq = $roleDetails['parentrole'];
-
-		$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
-		$result = $adb->pquery($query, array($roleParentSeq . "::%"));
-		$num_rows = $adb->num_rows($result);
-		$roleSubordinates = [];
-		for ($i = 0; $i < $num_rows; $i++) {
-			$roleid = $adb->query_result($result, $i, 'roleid');
-
-			$roleSubordinates[] = $roleid;
-		}
-		// Update cache for re-use
-		VTCacheUtils::updateRoleSubordinates($roleId, $roleSubordinates);
-	}
-
-	\App\Log::trace("Exiting getRoleSubordinates method ...");
-	return $roleSubordinates;
-}
-
 /** To retreive the subordinate vtiger_roles and vtiger_users of the specified parent vtiger_role
  * @param $roleid -- The Role Id:: Type varchar
  * @returns  subordinate vtiger_role array in the following format:
@@ -1308,7 +1248,7 @@ function getSubordinateRoleAndUsers($roleId)
 	\App\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$subRoleAndUsers = [];
-	$subordinateRoles = getRoleSubordinates($roleId);
+	$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($roleId);
 	foreach ($subordinateRoles as $subRoleId) {
 		$userArray = getRoleUsers($subRoleId);
 		$subRoleAndUsers[$subRoleId] = $userArray;
@@ -1493,25 +1433,6 @@ function get_current_user_access_groups($module)
 	return $result;
 }
 
-/** Function to get the Group Id for a given group groupname
- *  @param $groupname -- Groupname
- *  @returns Group Id -- Type Integer
- */
-function getGrpId($groupname)
-{
-
-	\App\Log::trace("Entering getGrpId(" . $groupname . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$groupid = Vtiger_Cache::get('group', $groupname);
-	if (!$groupid && $groupid !== 0) {
-		$result = $adb->pquery("select groupid from vtiger_groups where groupname=?", array($groupname));
-		$groupid = ($adb->num_rows($result) > 0) ? $adb->query_result($result, 0, 'groupid') : 0;
-		Vtiger_Cache::set('group', $groupname, $groupid);
-	}
-	\App\Log::trace("Exiting getGrpId method ...");
-	return $groupid;
-}
-
 /** Function to get the permitted module name Array with presence as 0
  * @returns permitted module name Array :: Type Array
  *
@@ -1594,16 +1515,6 @@ function RecalculateSharingRules()
 		createUserSharingPrivilegesfile($id);
 	}
 	\App\Log::trace("Exiting RecalculateSharingRules method ...");
-}
-
-/** Function to check if the field is Active
- *  @params  $modulename -- Module Name :: String Type
- *   		 $fieldname  -- Field Name  :: String Type
- */
-function isFieldActive($modulename, $fieldname)
-{
-	$fieldid = \vtlib\Functions::getModuleFieldId(\App\Module::getModuleId($modulename), $fieldname, true);
-	return ($fieldid !== false);
 }
 
 /**
