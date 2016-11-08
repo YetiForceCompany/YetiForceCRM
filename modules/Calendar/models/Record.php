@@ -170,13 +170,13 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getRecurringObject()
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_recurringevents.*, vtiger_activity.date_start, vtiger_activity.time_start, vtiger_activity.due_date, vtiger_activity.time_end FROM vtiger_recurringevents
-					INNER JOIN vtiger_activity ON vtiger_activity.activityid = vtiger_recurringevents.activityid
-					WHERE vtiger_recurringevents.activityid = ?';
-		$result = $db->pquery($query, array($this->getId()));
-		if ($db->num_rows($result)) {
-			return RecurringType::fromDBRequest($db->query_result_rowdata($result, 0));
+		$result = (new \App\Db\Query())->select(['vtiger_recurringevents.*', 'vtiger_activity.time_start', 'vtiger_activity.due_date', 'vtiger_activity.time_end'])
+			->from('vtiger_recurringevents')
+			->innerJoin('vtiger_activity', 'vtiger_recurringevents.activityid = vtiger_activity.activityid')
+			->where(['vtiger_recurringevents.activityid' => (int) $this->getId()])->one();
+
+		if ($result) {
+			return RecurringType::fromDBRequest($result);
 		}
 		return false;
 	}
