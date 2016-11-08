@@ -263,6 +263,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				$query = sprintf($query, implode(',', $referenceNameFieldOrderBy));
 			} else if ($orderBy === 'smownerid') {
 				$this->get('query_generator')->setConditionField($orderByFieldName);
+				$this->get('query_generator')->addUserTable = true;
 				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 				if ($fieldModel->getFieldDataType() == 'owner') {
 					$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';

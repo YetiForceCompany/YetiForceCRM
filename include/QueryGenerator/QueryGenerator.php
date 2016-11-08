@@ -603,7 +603,7 @@ class QueryGenerator
 				if (isset($this->whereOperator[$fieldName]) && ($this->whereOperator[$fieldName] == 'om' || $this->whereOperator[$fieldName] == 'e')) {
 					$add = false;
 				}
-				if ($add) {
+				if ($add || (isset($this->addUserTable) && $this->addUserTable)) {
 					$tableList['vtiger_users'] = 'vtiger_users';
 					$tableList['vtiger_groups'] = 'vtiger_groups';
 					$tableJoinMapping['vtiger_users'] = 'LEFT JOIN';
