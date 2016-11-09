@@ -1,4 +1,5 @@
 <?php
+
 namespace App\QueryFieldCondition;
 
 /**
@@ -16,7 +17,7 @@ class OperatorString extends BaseFieldParser
 	 */
 	public function operatorS()
 	{
-		return ['like', $this->getColumnName(), '%' . $this->value, false];
+		return ['like', $this->getColumnName(), $this->value . '%', false];
 	}
 
 	/**
@@ -25,7 +26,7 @@ class OperatorString extends BaseFieldParser
 	 */
 	public function operatorEw()
 	{
-		return ['like', $this->getColumnName(), $this->value . '%', false];
+		return ['like', $this->getColumnName(), '%' . $this->value, false];
 	}
 
 	/**
