@@ -15,7 +15,8 @@
 class Vtiger_Field_Model extends vtlib\Field
 {
 
-	protected $fieldDataType;
+	protected $fieldType;
+	protected $fieldDataTypeShort;
 	protected $uitype_instance;
 	public $webserviceField = false;
 
@@ -419,8 +420,16 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getFieldType()
 	{
-		$webserviceField = $this->getWebserviceFieldObject();
-		return $webserviceField->getFieldType();
+		if (isset($this->fieldType)) {
+			return $this->fieldType;
+		}
+		$fieldType = array_shift(explode('~', $this->get('typeofdata')));
+		if ($this->getFieldDataType() === 'reference') {
+			$fieldType = 'V';
+		} else {
+			$fieldType = \vtlib\Functions::transformFieldTypeOfData($this->get('table'), $this->get('column'), $fieldType);
+		}
+		return $this->fieldType = $fieldType;
 	}
 
 	/**
