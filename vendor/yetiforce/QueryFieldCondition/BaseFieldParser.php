@@ -15,27 +15,27 @@ class BaseFieldParser
 	/**
 	 * @var QueryGenerator 
 	 */
-	private $queryGenerator;
+	protected $queryGenerator;
 
 	/**
 	 * @var \Vtiger_Field_Model 
 	 */
-	private $fieldModel;
+	protected $fieldModel;
 
 	/**
 	 * @var string
 	 */
-	private $fullColumnName;
+	protected $fullColumnName;
 
 	/**
 	 * @var string|array 
 	 */
-	private $value;
+	protected $value;
 
 	/**
 	 * @var string 
 	 */
-	private $operator;
+	protected $operator;
 
 	const STRING_TYPE = ['string', 'text', 'email', 'reference'];
 	const NUMERIC_TYPE = ['integer', 'double', 'currency'];
@@ -108,6 +108,10 @@ class BaseFieldParser
 		return $this->fullColumnName = $this->fieldModel->getTableName() . '.' . $this->fieldModel->getColumnName();
 	}
 
+	/**
+	 * Get condition
+	 * @return boolean|array
+	 */
 	public function getCondition()
 	{
 		$fn = 'get' . ucfirst($this->operator);
@@ -117,5 +121,14 @@ class BaseFieldParser
 		}
 		Log::error("Not found operator: $fn in  " . __CLASS__);
 		return false;
+	}
+
+	/**
+	 * Equals operator
+	 * @return array
+	 */
+	public function getE()
+	{
+		return [$this->getColumnName() => $this->value];
 	}
 }

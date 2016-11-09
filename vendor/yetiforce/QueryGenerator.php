@@ -637,18 +637,26 @@ class QueryGenerator
 
 	public function addAndCondition($fieldname, $value, $operator)
 	{
-		$this->parseCondition($fieldname, $value, $operator);
+		$condition = $this->parseCondition($fieldname, $value, $operator);
+		if ($condition) {
+			$this->conditionsAnd[] = $condition;
+		}
+		Log::error('Wrong condition');
 	}
 
 	public function addOrCondition($fieldname, $value, $operator)
 	{
-		$this->parseCondition($fieldname, $value, $operator);
+		$condition = $this->parseCondition($fieldname, $value, $operator);
+		if ($condition) {
+			$this->conditionsOr[] = $condition;
+		}
+		Log::error('Wrong condition');
 	}
 
 	public function parseCondition($fieldName, $value, $operator)
 	{
 		if ($fieldName === 'id') {
-			die('nie działa');
+			
 		}
 		$field = $this->getModuleField($fieldName);
 		if (empty($field) || $operator === 'None') {
@@ -661,6 +669,6 @@ class QueryGenerator
 			return false;
 		}
 		$conditionParser = new $className($this, $field, $value, $operator);
-		$condition = $conditionParser->getCondition();
+		return $conditionParser->getCondition();
 	}
 }
