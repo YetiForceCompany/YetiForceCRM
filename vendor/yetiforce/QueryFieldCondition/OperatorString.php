@@ -16,7 +16,7 @@ class OperatorString extends BaseFieldParser
 	 */
 	public function operatorS()
 	{
-		return ['like', $this->getColumnName(), '%' . $this->value, false];
+		return ['like', $this->getColumnName(), $this->value . '%', false];
 	}
 
 	/**
@@ -25,11 +25,11 @@ class OperatorString extends BaseFieldParser
 	 */
 	public function operatorEw()
 	{
-		return ['like', $this->getColumnName(), $this->value . '%', false];
+		return ['like', $this->getColumnName(), '%' . $this->value, false];
 	}
 
 	/**
-	 * Ends with operator
+	 * Contains operator
 	 * @return array
 	 */
 	public function operatorC()
@@ -38,7 +38,7 @@ class OperatorString extends BaseFieldParser
 	}
 
 	/**
-	 * Ends with operator
+	 * Does not contain operator
 	 * @return array
 	 */
 	public function operatorK()
