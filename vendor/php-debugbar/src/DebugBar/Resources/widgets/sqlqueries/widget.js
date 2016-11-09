@@ -67,27 +67,34 @@
 						li.append($('<span />').addClass(csscls('error')).text("[" + stmt.error_code + "] " + stmt.error_message));
 					}
 					var moreInfo = false;
+					var tableP = $('<table><tr><th colspan="2">Params</th></tr></table>');
+					var tableB = $('<table><tr><th>BackTrace</th></tr></table>');
 					if (stmt.params && !$.isEmptyObject(stmt.params)) {
-						var table = $('<table><tr><th colspan="2">Params</th></tr></table>').addClass(csscls('params')).appendTo(li);
+						tableP.addClass(csscls('params')).appendTo(li);
 						for (var key in stmt.params) {
 							if (typeof stmt.params[key] !== 'function') {
-								table.append('<tr><td class="' + csscls('name') + '">' + key + '</td><td class="' + csscls('value') +
+								tableP.append('<tr><td class="' + csscls('name') + '">' + key + '</td><td class="' + csscls('value') +
 										'">' + stmt.params[key] + '</td></tr>');
 							}
 						}
 						moreInfo = true;
 					}
 					if (stmt.backtrace && !$.isEmptyObject(stmt.backtrace)) {
-						var table = $('<table><tr><th>BackTrace</th></tr></table>').addClass(csscls('params')).appendTo(li);
-						table.append('<tr><td class="' + csscls('name') + '">' + stmt.backtrace + '</td></tr>');
+						tableB.addClass(csscls('params')).appendTo(li);
+						tableB.append('<tr><td class="' + csscls('name') + '">' + stmt.backtrace + '</td></tr>');
 						moreInfo = true;
 					}
 					if (moreInfo) {
 						li.css('cursor', 'pointer').click(function () {
-							if (table.is(':visible')) {
-								table.hide();
+							if (tableP.is(':visible')) {
+								tableP.hide();
 							} else {
-								table.show();
+								tableP.show();
+							}
+							if (tableB.is(':visible')) {
+								tableB.hide();
+							} else {
+								tableB.show();
 							}
 						});
 					}
