@@ -3080,7 +3080,7 @@ class Base4 extends \App\Db\Importers\Base
 						[521, 92, 43, 'get_related_list', 14, 'Project', 0, 'SELECT,ADD', 0, 0, 0],
 						[522, 18, 43, 'get_related_list', 18, 'Project', 0, 'SELECT,ADD', 0, 0, 0],
 						[523, 43, 92, 'get_related_list', 11, 'Vendors', 0, 'SELECT,ADD', 0, 0, 0],
-						[524, 43, 18, 'get_related_list', 12, 'Competition', 0, 'SELECT,ADD', 0, 0, 0],
+						[524, 43, 92, 'get_related_list', 12, 'Partners', 0, 'SELECT,ADD', 0, 0, 0],
 				]
 			],
 			'vtiger_relatedlists_seq' => [
