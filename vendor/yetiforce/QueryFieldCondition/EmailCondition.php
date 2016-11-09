@@ -7,7 +7,7 @@ namespace App\QueryFieldCondition;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class EmailCondition extends OperatorString
+class EmailCondition extends StringCondition
 {
 	
 }
