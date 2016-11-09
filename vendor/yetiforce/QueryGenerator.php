@@ -663,7 +663,7 @@ class QueryGenerator
 			Log::error('Not found field model or operator');
 			return false;
 		}
-		$className = '\App\QueryFieldCondition\\' . ucfirst($field->getFieldDataType());
+		$className = '\App\QueryFieldCondition\Operator' . ucfirst($field->getFieldDataType());
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition');
 			return false;

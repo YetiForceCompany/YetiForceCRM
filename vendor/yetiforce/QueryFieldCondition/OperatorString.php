@@ -7,7 +7,7 @@ namespace App\QueryFieldCondition;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class String extends BaseFieldParser
+class OperatorString extends BaseFieldParser
 {
 
 	/**
