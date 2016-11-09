@@ -61,15 +61,15 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
-		if (empty($record) ) {
+		if (empty($record)) {
 			return [];
 		}
-		
+
 		$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
 		$values = $query->column();
-		if(empty($values))
+		if (empty($values))
 			$values = [];
-		
+
 		return $values;
 	}
 
@@ -88,13 +88,13 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 
 		$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
 		$values = $query->column();
-		if(empty($values))
+		if (empty($values))
 			$values = [];
 		Vtiger_Cache::set('SharedOwner', $record, $values);
 		return $values;
 	}
 
-	public function getSearchViewList($module, $view)
+	public static function getSearchViewList($module, $view)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
@@ -133,6 +133,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		}
 		asort($users);
 		asort($group);
-		return [ 'users' => $users, 'group' => $group];
+		return ['users' => $users, 'group' => $group];
 	}
 }
