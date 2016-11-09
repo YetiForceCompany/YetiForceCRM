@@ -2760,9 +2760,11 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   `ssalesprocesses_type` varchar(255) DEFAULT NULL,
   `ssalesprocesses_status` varchar(255) DEFAULT NULL,
   `campaignid` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT '0',
   PRIMARY KEY (`ssalesprocessesid`),
   KEY `related_to` (`related_to`),
   KEY `campaignid` (`campaignid`),
+  KEY `parentid` (`parentid`),
   CONSTRAINT `fk_1_u_yf_ssalesprocesses` FOREIGN KEY (`ssalesprocessesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4830,7 +4832,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2404 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2405 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5517,7 +5519,7 @@ CREATE TABLE `vtiger_leaddetails` (
   `interest` varchar(50) DEFAULT NULL,
   `firstname` varchar(40) DEFAULT NULL,
   `salutation` varchar(200) DEFAULT NULL,
-  `lastname` varchar(80),
+  `lastname` varchar(80) DEFAULT NULL,
   `company` varchar(100) NOT NULL,
   `annualrevenue` decimal(25,8) DEFAULT NULL,
   `industry` varchar(200) DEFAULT NULL,

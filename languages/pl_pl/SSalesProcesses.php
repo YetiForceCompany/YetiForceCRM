@@ -22,6 +22,7 @@ $languageStrings = [
 	'FL_TYPE' => 'Rodzaj',
 	'FL_STATUS' => 'Status',
 	'FL_CAMPAIGN' => 'Kampania marketingowa',
+	'FL_MEMBER_OF' => 'Szansa sprzedaży nadrzędna',
 	//Picklist
 	'PLL_WEBSITE' => 'Strona WWW',
 	'PLL_PHONE' => 'Telefon',
