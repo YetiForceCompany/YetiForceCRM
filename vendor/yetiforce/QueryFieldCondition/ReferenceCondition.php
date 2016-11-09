@@ -47,15 +47,6 @@ class ReferenceCondition extends BaseFieldParser
 	}
 
 	/**
-	 * 
-	 * @return array
-	 */
-	public function operatorY()
-	{
-		return [$this->getColumnName() => $this->value];
-	}
-
-	/**
 	 * Equals operator
 	 * @return array
 	 */
@@ -87,5 +78,67 @@ class ReferenceCondition extends BaseFieldParser
 			return $condition;
 		}
 		return ['<>', $this->getRelatedTableName(), $this->value];
+	}
+
+	/**
+	 * Starts with operator
+	 * @return array
+	 */
+	public function operatorS()
+	{
+		return ['like', $this->getRelatedTableName(), $this->value . '%', false];
+	}
+
+	/**
+	 * Ends with operator
+	 * @return array
+	 */
+	public function operatorEw()
+	{
+		return ['like', $this->getRelatedTableName(), '%' . $this->value, false];
+	}
+
+	/**
+	 * Contains operator
+	 * @return array
+	 */
+	public function operatorC()
+	{
+		return ['like', $this->getRelatedTableName(), $this->value];
+	}
+
+	/**
+	 * Does not contain operator
+	 * @return array
+	 */
+	public function operatorK()
+	{
+		return ['not like', $this->getRelatedTableName(), $this->value];
+	}
+
+	/**
+	 * Is empty operator
+	 * @return array
+	 */
+	public function operatorY()
+	{
+		return ['or',
+				[$this->getColumnName() => null],
+				['=', $this->getColumnName(), ''],
+				['=', $this->getColumnName(), 0]
+		];
+	}
+
+	/**
+	 * Is not empty operator
+	 * @return array
+	 */
+	public function operatorNy()
+	{
+		return ['and',
+				['not', [$this->getColumnName() => null]],
+				['<>', $this->getColumnName(), ''],
+				['<>', $this->getColumnName(), 0]
+		];
 	}
 }

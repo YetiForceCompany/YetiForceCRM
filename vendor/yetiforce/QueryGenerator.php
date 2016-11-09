@@ -28,9 +28,10 @@ class QueryGenerator
 	private $referenceModuleField = [];
 	private $fromClauseCustom = [];
 	private $whereOperator = [];
-	private $whereFields = [];
+	private $whereFields = []; //????
 	private $whereClauseCustom = [];
 	private $deletedCondition = true;
+	private $joins = [];
 
 	/**
 	 * @var boolean 
@@ -93,6 +94,11 @@ class QueryGenerator
 		return $this->entityModel;
 	}
 
+	public function getReference($fieldName)
+	{
+		return $this->referenceFields[$fieldName];
+	}
+
 	/**
 	 * Set custom condition
 	 * @param array $where
@@ -118,6 +124,18 @@ class QueryGenerator
 	public function addOrConditionNative($condition)
 	{
 		$this->conditionsOr[] = $condition;
+	}
+
+	/**
+	 * Appends a JOIN part to the query.
+	 * @param array $join
+	 */
+	public function addJoin($join)
+	{
+		if (isset($this->joins[$join[1]])) {
+			return false;
+		}
+		$this->joins[$join[1]] = $join;
 	}
 
 	/**
@@ -365,8 +383,8 @@ class QueryGenerator
 	{
 		$this->loadSelect();
 		$this->loadFrom();
-		$this->loadJoin();
 		$this->loadWhere();
+		$this->loadJoin();
 		return $this->getQuery();
 	}
 
@@ -546,12 +564,12 @@ class QueryGenerator
 		foreach ($tableList as &$tableName) {
 			if ($tableName === 'vtiger_users') {
 				$field = $this->getModuleField($ownerField);
-				$this->query->join($tableJoin[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.id");
+				$this->addJoin([$tableJoin[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.id"]);
 			} elseif ($tableName == 'vtiger_groups') {
 				$field = $this->getModuleField($ownerField);
-				$this->query->join($tableJoin[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.groupid");
+				$this->addJoin([$tableJoin[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.groupid"]);
 			} else {
-				$this->query->join($tableJoin[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]");
+				$this->addJoin([$tableJoin[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]"]);
 			}
 		}
 		foreach ($tableJoinCondition as $fieldName => &$conditionInfo) {
@@ -562,8 +580,13 @@ class QueryGenerator
 				} else {
 					$tableNameAlias = '';
 				}
-				$this->query->join($tableJoin[$tableName], "$tableName $tableNameAlias", $condition);
+				$this->addJoin([$tableJoin[$tableName], "$tableName $tableNameAlias", $condition]);
 			}
+		}
+		foreach ($this->joins as &$join) {
+			$on = isset($join[2]) ? $join[2] : '';
+			$params = isset($join[3]) ? $join[3] : [];
+			$this->query->join($join[0], $join[1], $on, $params);
 		}
 		foreach ($this->m2mRelModConditions as &$conditionInfo) {
 			$relatedModuleMeta = \RelatedModuleMeta::getInstance($this->moduleName, $conditionInfo['relatedModule']);
