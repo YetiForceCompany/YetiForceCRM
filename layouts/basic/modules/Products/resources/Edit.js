@@ -5,189 +5,178 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-Vtiger_Edit_Js("Products_Edit_Js",{
-	
-},{
-	baseCurrency : '',
-	
-	baseCurrencyName : '',
+Vtiger_Edit_Js("Products_Edit_Js", {
+}, {
+	baseCurrency: '',
+	baseCurrencyName: '',
 	//Container which stores the multi currency element
-	multiCurrencyContainer : false,
-	
+	multiCurrencyContainer: false,
 	//Container which stores unit price
-	unitPrice : false,
-	
+	unitPrice: false,
 	/**
 	 * Function to get unit price
 	 */
-	getUnitPrice : function(){
-		if(this.unitPrice == false) {
-			this.unitPrice = jQuery('input.unitPrice',this.getForm());
+	getUnitPrice: function () {
+		if (this.unitPrice == false) {
+			this.unitPrice = jQuery('input.unitPrice', this.getForm());
 		}
 		return this.unitPrice;
 	},
-	
 	/**
 	 * Function to get more currencies container
 	 */
-	getMoreCurrenciesContainer : function(){
-		if(this.multiCurrencyContainer == false) {
+	getMoreCurrenciesContainer: function () {
+		if (this.multiCurrencyContainer == false) {
 			this.multiCurrencyContainer = jQuery('.multiCurrencyEditUI');
 		}
 		return this.multiCurrencyContainer;
 	},
-	
 	/**
 	 * Function which aligns data just below global search element
 	 */
-	alignBelowUnitPrice : function(dataToAlign) {
-		var parentElem = jQuery('input[name="unit_price"]',this.getForm());
+	alignBelowUnitPrice: function (dataToAlign) {
+		var parentElem = jQuery('input[name="unit_price"]', this.getForm());
 		dataToAlign.position({
-			'of' : parentElem,
+			'of': parentElem,
 			'my': "left top",
 			'at': "left bottom",
-			'collision' : 'flip'
+			'collision': 'flip'
 		});
 		return this;
 	},
-	
 	/**
 	 * Function to get current Element
 	 */
-	getCurrentElem : function(e){
+	getCurrentElem: function (e) {
 		return jQuery(e.currentTarget);
 	},
 	/**
 	 *Function to register events for taxes
 	 */
-	registerEventForTaxes : function(){
+	registerEventForTaxes: function () {
 		var thisInstance = this;
 		var formElem = this.getForm();
-		jQuery('.taxes').on('change',function(e){
+		jQuery('.taxes').on('change', function (e) {
 			var elem = thisInstance.getCurrentElem(e);
-			var taxBox  = elem.data('taxName');
-			if(elem.is(':checked')) {
-				jQuery('input[name='+taxBox+']',formElem).removeAttr('readonly');
-			}else{
-				jQuery('input[name='+taxBox+']',formElem).attr('readonly','readonly');
+			var taxBox = elem.data('taxName');
+			if (elem.is(':checked')) {
+				jQuery('input[name=' + taxBox + ']', formElem).removeAttr('readonly');
+			} else {
+				jQuery('input[name=' + taxBox + ']', formElem).attr('readonly', 'readonly');
 			}
 
 		});
 		return this;
 	},
-	
 	/**
 	 * Function to register event for enabling base currency on radio button clicked
 	 */
-	registerEventForEnableBaseCurrency : function(){
+	registerEventForEnableBaseCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
 		var thisInstance = this;
-		jQuery(container).on('change','.baseCurrency',function(e){
+		jQuery(container).on('change', '.baseCurrency', function (e) {
 			var elem = thisInstance.getCurrentElem(e);
 			var parentElem = elem.closest('tr');
-			if(elem.is(':checked')) {
-				var convertedPrice = jQuery('.convertedPrice',parentElem).val();
+			if (elem.is(':checked')) {
+				var convertedPrice = jQuery('.convertedPrice', parentElem).val();
 				thisInstance.baseCurrencyName = parentElem.data('currencyId');
 				thisInstance.baseCurrency = convertedPrice;
 			}
 		});
 		return this;
 	},
-	
 	/**
 	 * Function to register event for reseting the currencies
 	 */
-	registerEventForResetCurrency : function(){
+	registerEventForResetCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
 		var thisInstance = this;
-		jQuery(container).on('click','.currencyReset',function(e){
+		jQuery(container).on('click', '.currencyReset', function (e) {
 			var parentElem = thisInstance.getCurrentElem(e).closest('tr');
 			var unitPriceFieldData = thisInstance.getUnitPrice().data();
-			var unitPrice = thisInstance.getDataBaseFormatUnitPrice(); 
-			var conversionRate = jQuery('.conversionRate',parentElem).val();
+			var unitPrice = thisInstance.getDataBaseFormatUnitPrice();
+			var conversionRate = jQuery('.conversionRate', parentElem).val();
 			var price = parseFloat(unitPrice) * parseFloat(conversionRate);
 			var calculatedPrice = app.parseNumberToShow(price);
-			jQuery('.convertedPrice',parentElem).val(calculatedPrice);
+			jQuery('.convertedPrice', parentElem).val(calculatedPrice);
 		});
 		return this;
 	},
-	
 	/**
 	 *  Function to return stripped unit price
 	 */
-		getDataBaseFormatUnitPrice : function(){
-			var field = this.getUnitPrice();
-			var unitPrice = field.getNumberFromValue();
-			return unitPrice;
-		},
-        
-    calculateConversionRate : function() {
-        var container = this.getMoreCurrenciesContainer();
-        var baseCurrencyRow = container.find('.baseCurrency').filter(':checked').closest('tr');
-        var baseCurrencyConvestationRate = baseCurrencyRow.find('.conversionRate');
-        //if basecurrency has conversation rate as 1 then you dont have caliculate conversation rate
-        if(baseCurrencyConvestationRate.val() == "1") {
-            return;
-        }
-        var baseCurrencyRatePrevValue = baseCurrencyConvestationRate.val();
-        
-        container.find('.conversionRate').each(function(key,domElement) {
-            var element = jQuery(domElement);
-            if(!element.is(baseCurrencyConvestationRate)){
-                var prevValue = element.val();
-                element.val((prevValue/baseCurrencyRatePrevValue));
-            }
-        });
-        baseCurrencyConvestationRate.val("1");
-    },
+	getDataBaseFormatUnitPrice: function () {
+		var field = this.getUnitPrice();
+		var unitPrice = field.getNumberFromValue();
+		return unitPrice;
+	},
+	calculateConversionRate: function () {
+		var container = this.getMoreCurrenciesContainer();
+		var baseCurrencyRow = container.find('.baseCurrency').filter(':checked').closest('tr');
+		var baseCurrencyConvestationRate = baseCurrencyRow.find('.conversionRate');
+		//if basecurrency has conversation rate as 1 then you dont have caliculate conversation rate
+		if (baseCurrencyConvestationRate.val() == "1") {
+			return;
+		}
+		var baseCurrencyRatePrevValue = baseCurrencyConvestationRate.val();
+
+		container.find('.conversionRate').each(function (key, domElement) {
+			var element = jQuery(domElement);
+			if (!element.is(baseCurrencyConvestationRate)) {
+				var prevValue = element.val();
+				element.val((prevValue / baseCurrencyRatePrevValue));
+			}
+		});
+		baseCurrencyConvestationRate.val("1");
+	},
 	/**
 	 * Function to register event for enabling currency on checkbox checked
 	 */
-	
-	registerEventForEnableCurrency : function(){
+
+	registerEventForEnableCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
 		var thisInstance = this;
-		jQuery(container).on('change','.enableCurrency',function(e){
+		jQuery(container).on('change', '.enableCurrency', function (e) {
 			var elem = thisInstance.getCurrentElem(e);
 			var parentRow = elem.closest('tr');
-			
-			if(elem.is(':checked')) {
-				elem.attr('checked',"checked");
-				var conversionRate = jQuery('.conversionRate',parentRow).val();
+
+			if (elem.is(':checked')) {
+				elem.attr('checked', "checked");
+				var conversionRate = jQuery('.conversionRate', parentRow).val();
 				var unitPriceFieldData = thisInstance.getUnitPrice().data();
 				var unitPrice = thisInstance.getDataBaseFormatUnitPrice();
-				var price = parseFloat(unitPrice)*parseFloat(conversionRate);
-				jQuery('input',parentRow).attr('disabled', true).removeAttr('disabled');
+				var price = parseFloat(unitPrice) * parseFloat(conversionRate);
+				jQuery('input', parentRow).attr('disabled', true).removeAttr('disabled');
 				jQuery('button.currencyReset', parentRow).attr('disabled', true).removeAttr('disabled');
 				var calculatedPrice = app.parseNumberToShow(price);
-				jQuery('input.convertedPrice',parentRow).val(calculatedPrice)
-			}else{
+				jQuery('input.convertedPrice', parentRow).val(calculatedPrice)
+			} else {
 				var baseCurrency = jQuery('.baseCurrency', parentRow);
 				if (baseCurrency.is(':checked')) {
 					var currencyName = jQuery('.currencyName', parentRow).text();
 					var params = {
-									'type' : 'error',
-									'title': app.vtranslate('JS_ERROR'),
-									'text' : app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY') + '"' + currencyName + '"'
-								};
+						'type': 'error',
+						'title': app.vtranslate('JS_ERROR'),
+						'text': app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY') + '"' + currencyName + '"'
+					};
 					Vtiger_Helper_Js.showPnotify(params);
 					elem.prop('checked', true);
 					return;
 				}
-				jQuery('input',parentRow).attr('disabled', true);
-				jQuery('input.enableCurrency',parentRow).removeAttr('disabled');
+				jQuery('input', parentRow).attr('disabled', true);
+				jQuery('input.enableCurrency', parentRow).removeAttr('disabled');
 				jQuery('button.currencyReset', parentRow).attr('disabled', 'disabled');
 			}
 		})
 		return this;
 	},
-	
 	/**
 	 * Function to get more currencies UI
 	 */
-	getMoreCurrenciesUI : function(){
+	getMoreCurrenciesUI: function () {
 		var aDeferred = jQuery.Deferred();
 		var moduleName = app.getModuleName();
 		var baseCurrency = jQuery('input[name="base_currency"]').val();
@@ -195,80 +184,79 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 		var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer');
 		moreCurrenciesUi = moreCurrenciesContainer.find('.multiCurrencyEditUI');
 		var moreCurrenciesUi;
-			
-		if(moreCurrenciesUi.length == 0){
+
+		if (moreCurrenciesUi.length == 0) {
 			var moreCurrenciesParams = {
-				'module' : moduleName,
-				'view' : "MoreCurrenciesList",
-				'currency' : baseCurrency,
-				'record' : recordId
+				'module': moduleName,
+				'view': "MoreCurrenciesList",
+				'currency': baseCurrency,
+				'record': recordId
 			}
 
 			AppConnector.request(moreCurrenciesParams).then(
-				function(data){
-					moreCurrenciesContainer.html(data);
-					aDeferred.resolve(data);
-				},
-				function(textStatus, errorThrown){
-					aDeferred.reject(textStatus, errorThrown);
-				}
+					function (data) {
+						moreCurrenciesContainer.html(data);
+						aDeferred.resolve(data);
+					},
+					function (textStatus, errorThrown) {
+						aDeferred.reject(textStatus, errorThrown);
+					}
 			);
-		} else{
+		} else {
 			aDeferred.resolve();
 		}
 		return aDeferred.promise();
 	},
-	
 	/*
 	 * function to register events for more currencies link
 	 */
-	registerEventForMoreCurrencies : function(){
+	registerEventForMoreCurrencies: function () {
 		var thisInstance = this;
 		var form = this.getForm();
-		jQuery('#moreCurrencies').on('click',function(e){
+		jQuery('#moreCurrencies').on('click', function (e) {
 			var progressInstance = jQuery.progressIndicator();
-			thisInstance.getMoreCurrenciesUI().then(function(data){
+			thisInstance.getMoreCurrenciesUI().then(function (data) {
 				var moreCurrenciesUi;
 				moreCurrenciesUi = jQuery('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
-				if(moreCurrenciesUi.length > 0){
-					moreCurrenciesUi = moreCurrenciesUi.clone(true,true);
+				if (moreCurrenciesUi.length > 0) {
+					moreCurrenciesUi = moreCurrenciesUi.clone(true, true);
 					progressInstance.hide();
-					var css = {'text-align' : 'left','width':'65%'};
-					var callback = function(data){
+					var css = {'text-align': 'left', 'width': '65%'};
+					var callback = function (data) {
 						var params = app.validationEngineOptionsForRecord;
 						var form = data.find('#currencyContainer');
-						params.onValidationComplete = function(form, valid){
-							if(valid) {
+						params.onValidationComplete = function (form, valid) {
+							if (valid) {
 								thisInstance.saveCurrencies();
 							}
 							return false;
 						}
 						form.validationEngine(params);
-						app.showScrollBar(data.find('.currencyContent'), {'height':'400px'});
+						app.showScrollBar(data.find('.currencyContent'), {'height': '400px'});
 						thisInstance.baseCurrency = thisInstance.getUnitPrice().val();
 						var multiCurrencyEditUI = jQuery('.multiCurrencyEditUI');
 						thisInstance.multiCurrencyContainer = multiCurrencyEditUI;
-                        thisInstance.calculateConversionRate();
+						thisInstance.calculateConversionRate();
 						thisInstance.registerEventForEnableCurrency();
 						thisInstance.registerEventForEnableBaseCurrency();
 						thisInstance.registerEventForResetCurrency();
 						thisInstance.triggerForBaseCurrencyCalc();
 					}
-                    var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
+					var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
 					var contentInsideForm = moreCurrenciesUi.find('.multiCurrencyContainer').html();
 					moreCurrenciesUi.find('.multiCurrencyContainer').remove();
 					var form = '<form id="currencyContainer"></form>'
 					jQuery(form).insertAfter(moreCurrenciesUi.find('.modal-header'));
 					moreCurrenciesUi.find('form').html(contentInsideForm);
-                    moreCurrenciesContainer.find('input[name^=curname]').each(function(index,element){
-                    	var dataValue = jQuery(element).val();
-                        var dataId = jQuery(element).attr('id');
-                        moreCurrenciesUi.find('#'+dataId).val(dataValue);
-                    });
+					moreCurrenciesContainer.find('input[name^=curname]').each(function (index, element) {
+						var dataValue = jQuery(element).val();
+						var dataId = jQuery(element).attr('id');
+						moreCurrenciesUi.find('#' + dataId).val(dataValue);
+					});
 					var modalWindowParams = {
-						data : moreCurrenciesUi,
-						css : css,
-						cb : callback
+						data: moreCurrenciesUi,
+						css: css,
+						cb: callback
 					}
 					app.showModalWindow(modalWindowParams)
 				}
@@ -279,142 +267,137 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 	 * Function to calculate base currency price value if unit
 	 * present on click of more currencies
 	 */
-	triggerForBaseCurrencyCalc : function(){
+	triggerForBaseCurrencyCalc: function () {
 		var multiCurrencyEditUI = this.getMoreCurrenciesContainer();
 		var baseCurrency = multiCurrencyEditUI.find('.enableCurrency');
-		jQuery.each(baseCurrency,function(key,val){
-			if(jQuery(val).is(':checked')){
+		jQuery.each(baseCurrency, function (key, val) {
+			if (jQuery(val).is(':checked')) {
 				var baseCurrencyRow = jQuery(val).closest('tr');
-                if(parseFloat(baseCurrencyRow.find('.convertedPrice').val()) == 0) {
-                	baseCurrencyRow.find('.currencyReset').trigger('click');
-                }
+				if (parseFloat(baseCurrencyRow.find('.convertedPrice').val()) == 0) {
+					baseCurrencyRow.find('.currencyReset').trigger('click');
+				}
 			} else {
 				var baseCurrencyRow = jQuery(val).closest('tr');
-                baseCurrencyRow.find('.convertedPrice').val('');
-            }
+				baseCurrencyRow.find('.convertedPrice').val('');
+			}
 		})
 	},
-	
 	/**
 	 * Function to register onchange event for unit price
 	 */
-	registerEventForUnitPrice : function(){
+	registerEventForUnitPrice: function () {
 		var thisInstance = this;
 		var unitPrice = this.getUnitPrice();
-		unitPrice.on('change',function(){
+		unitPrice.on('change', function () {
 			thisInstance.triggerForBaseCurrencyCalc();
 		})
 	},
-
-	registerRecordPreSaveEvent : function(form) {
+	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
-		if(typeof form == 'undefined') {
+		if (typeof form == 'undefined') {
 			form = this.getForm();
 		}
 
-		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
+		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
 			var multiCurrencyContent = jQuery('#moreCurrenciesContainer').find('.currencyContent');
 			var unitPrice = thisInstance.getUnitPrice();
-			if((multiCurrencyContent.length < 1) && (unitPrice.length > 0)){
+			if ((multiCurrencyContent.length < 1) && (unitPrice.length > 0)) {
 				e.preventDefault();
-				thisInstance.getMoreCurrenciesUI().then(function(data){
+				thisInstance.getMoreCurrenciesUI().then(function (data) {
 					thisInstance.preSaveConfigOfForm(form);
 					InitialFormData = form.serialize();
 					form.submit();
 				})
-			}else if(multiCurrencyContent.length > 0){
+			} else if (multiCurrencyContent.length > 0) {
 				thisInstance.preSaveConfigOfForm(form);
 			}
 		})
 	},
-	
 	/**
 	 * Function to handle settings before save of record
 	 */
-	preSaveConfigOfForm : function(form) {
+	preSaveConfigOfForm: function (form) {
 		var unitPrice = this.getUnitPrice();
-		if(unitPrice.length > 0){
+		if (unitPrice.length > 0) {
 			var unitPriceValue = unitPrice.val();
 			var baseCurrencyName = form.find('[name="base_currency"]').val();
-			form.find('[name="'+ baseCurrencyName +'"]').val(unitPriceValue);
-			form.find('#requstedUnitPrice').attr('name',baseCurrencyName).val(unitPriceValue);
+			form.find('[name="' + baseCurrencyName + '"]').val(unitPriceValue);
+			form.find('#requstedUnitPrice').attr('name', baseCurrencyName).val(unitPriceValue);
 		}
 	},
-	
-	saveCurrencies : function(){
+	saveCurrencies: function () {
 		var thisInstance = this;
-		var errorMessage,params;
+		var errorMessage, params;
 		var form = jQuery('#currencyContainer');
 		var editViewForm = thisInstance.getForm();
 		var modalContainer = jQuery('#globalmodal');
 		var enabledBaseCurrency = modalContainer.find('.enableCurrency').filter(':checked');
-		if(enabledBaseCurrency.length < 1){
+		if (enabledBaseCurrency.length < 1) {
 			errorMessage = app.vtranslate('JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT');
 			params = {
 				text: errorMessage,
-				'type':'error'
+				'type': 'error'
 			};
 			Vtiger_Helper_Js.showMessage(params);
 			form.removeData('submit');
 			return;
 		}
-		enabledBaseCurrency.attr('checked',"checked");
+		enabledBaseCurrency.attr('checked', "checked");
 		modalContainer.find('.enableCurrency').filter(":not(:checked)").removeAttr('checked');
 		var selectedBaseCurrency = modalContainer.find('.baseCurrency').filter(':checked');
-		if(selectedBaseCurrency.length < 1){
+		if (selectedBaseCurrency.length < 1) {
 			errorMessage = app.vtranslate('JS_PLEASE_ENABLE_BASE_CURRENCY_FOR_PRODUCT');
 			params = {
 				text: errorMessage,
-				'type':'error'
+				'type': 'error'
 			};
 			Vtiger_Helper_Js.showMessage(params);
 			form.removeData('submit');
 			return;
 		}
-		selectedBaseCurrency.attr('checked',"checked");
+		selectedBaseCurrency.attr('checked', "checked");
 		modalContainer.find('.baseCurrency').filter(":not(:checked)").removeAttr('checked');
 		var parentElem = selectedBaseCurrency.closest('tr');
-		var convertedPrice = jQuery('.convertedPrice',parentElem).val();
+		var convertedPrice = jQuery('.convertedPrice', parentElem).val();
 		thisInstance.baseCurrencyName = parentElem.data('currencyId');
 		thisInstance.baseCurrency = convertedPrice;
-		
+
 		thisInstance.getUnitPrice().val(thisInstance.baseCurrency);
-		jQuery('input[name="base_currency"]',editViewForm).val(thisInstance.baseCurrencyName);
-		
+		jQuery('input[name="base_currency"]', editViewForm).val(thisInstance.baseCurrencyName);
+
 		var savedValuesOfMultiCurrency = modalContainer.find('.currencyContent').html();
 		var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer');
 		moreCurrenciesContainer.find('.currencyContent').html(savedValuesOfMultiCurrency);
-        modalContainer.find('input[name^=curname]').each(function(index,element){
-        	var dataValue = jQuery(element).val();
-            var dataId = jQuery(element).attr('id');
-            moreCurrenciesContainer.find('.currencyContent').find('#'+dataId).val(dataValue);
-        });
+		modalContainer.find('input[name^=curname]').each(function (index, element) {
+			var dataValue = jQuery(element).val();
+			var dataId = jQuery(element).attr('id');
+			moreCurrenciesContainer.find('.currencyContent').find('#' + dataId).val(dataValue);
+		});
 		app.hideModalWindow();
 	},
-	
-	registerSubmitEvent: function() {
+	registerSubmitEvent: function () {
 		var editViewForm = this.getForm();
 
-		editViewForm.submit(function(e){
-			if((editViewForm.find('[name="existingImages"]').length >= 1) || (editViewForm.find('[name="imagename[]"]').length > 1)){
+		editViewForm.submit(function (e) {
+			if ((editViewForm.find('[name="existingImages"]').length >= 1) || (editViewForm.find('[name="imagename[]"]').length > 1)) {
 				jQuery.fn.MultiFile.disableEmpty(); // before submiting the form - See more at: http://www.fyneworks.com/jquery/multiple-file-upload/#sthash.UTGHmNv3.dpuf
 			}
 			//Form should submit only once for multiple clicks also
-			if(typeof editViewForm.data('submit') != "undefined") {
+			if (typeof editViewForm.data('submit') != "undefined") {
 				return false;
 			} else {
 				var module = jQuery(e.currentTarget).find('[name="module"]').val();
-				if(editViewForm.validationEngine('validate')) {
+				if (editViewForm.validationEngine('validate')) {
 					//Once the form is submiting add data attribute to that form element
 					editViewForm.data('submit', 'true');
-						//on submit form trigger the recordPreSave event
-						var recordPreSaveEvent = jQuery.Event(Vtiger_Edit_Js.recordPreSave);
-						editViewForm.trigger(recordPreSaveEvent, {'value' : 'edit'});
-						if(recordPreSaveEvent.isDefaultPrevented()) {
-							//If duplicate record validation fails, form should submit again
-							editViewForm.removeData('submit');
-							e.preventDefault();
-						}
+					//on submit form trigger the recordPreSave event
+					var recordPreSaveEvent = jQuery.Event(Vtiger_Edit_Js.recordPreSave);
+					editViewForm.trigger(recordPreSaveEvent, {'value': 'edit'});
+					if (recordPreSaveEvent.isDefaultPrevented()) {
+						//If duplicate record validation fails, form should submit again
+						editViewForm.removeData('submit');
+						e.preventDefault();
+					}
 				} else {
 					//If validation fails, form should submit again
 					editViewForm.removeData('submit');
@@ -423,12 +406,10 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 			}
 		});
 	},
-	
 	registerEventForUsageunit: function () {
 		this.checkUsageUnit();
 		$('select[name="usageunit"]').on('change', this.checkUsageUnit);
 	},
-	
 	checkUsageUnit: function () {
 		var selectUsageunit = $('select[name="usageunit"]');
 		var inputQtyPerUnit = $('input[name="qty_per_unit"]');
@@ -439,8 +420,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 			inputQtyPerUnit.prop('disabled', true);
 		}
 	},
-	
-	registerEvents : function(){
+	registerEvents: function () {
 		this._super();
 		this.registerEventForMoreCurrencies();
 		this.registerEventForTaxes();
