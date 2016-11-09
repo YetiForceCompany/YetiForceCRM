@@ -127,8 +127,8 @@ class Module
 		$fieldsName = $entityFieldInfo['fieldnameArr'];
 		if (count($fieldsName) > 1) {
 			$sqlString = 'CONCAT(';
-			foreach ($fieldsName as &$value) {
-				$sqlString .= "{$entityFieldInfo['tablename']}.{$value},' ',";
+			foreach ($fieldsName as &$column) {
+				$sqlString .= "{$entityFieldInfo['tablename']}.$column,' ',";
 			}
 			$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
 		} else {
