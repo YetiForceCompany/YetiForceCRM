@@ -40,9 +40,12 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 			}
 		}
 		if (!empty($orderBy)) {
-			$listQuery->orderBy(sprintf('%s %s', $orderBy, $this->getForSql('sortorder')));
+			if ($this->getForSql('sortorder') === 'ASC') {
+				$listQuery->orderBy([$orderBy => SORT_ASC]);
+			} else {
+				$listQuery->orderBy([$orderBy => SORT_DESC]);
+			}
 		}
-
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
 			$listQuery->where(['module' => \App\Module::getModuleId($sourceModule)]);

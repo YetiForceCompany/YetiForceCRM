@@ -81,7 +81,11 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 			}
 		}
 		if (!empty($orderBy)) {
-			$listQuery->orderBy(sprintf('%s %s', $orderBy, $this->getForSql('sortorder')));
+			if ($this->getForSql('sortorder') === 'ASC') {
+				$listQuery->orderBy([$orderBy => SORT_ASC]);
+			} else {
+				$listQuery->orderBy([$orderBy => SORT_DESC]);
+			}
 		}
 		if ($module->isPagingSupported()) {
 			$listQuery->limit($pageLimit + 1)->offset($startIndex);
