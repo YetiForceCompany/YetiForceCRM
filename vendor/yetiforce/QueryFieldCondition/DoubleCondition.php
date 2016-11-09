@@ -2,7 +2,7 @@
 namespace App\QueryFieldCondition;
 
 /**
- * String Query Condition Parser Class
+ * Double Query Condition Parser Class
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>

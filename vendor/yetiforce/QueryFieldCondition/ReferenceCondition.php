@@ -5,7 +5,7 @@ namespace App\QueryFieldCondition;
  * Reference Query Condition Parser Class
  * @package YetiForce.App
  * @license licenses/License.html
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ReferenceCondition extends BaseFieldParser
 {
@@ -14,7 +14,11 @@ class ReferenceCondition extends BaseFieldParser
 	 * @var Related modules 
 	 */
 	protected $relatedModules;
-	protected $formattedName;
+
+	/**
+	 * @var Related table name 
+	 */
+	protected $relatedTableName;
 
 	public function getTables()
 	{
@@ -24,10 +28,14 @@ class ReferenceCondition extends BaseFieldParser
 		return $this->relatedModules = $this->queryGenerator->getReference($this->fieldModel->getName());
 	}
 
+	/**
+	 * Get related column name
+	 * @return string
+	 */
 	public function getRelatedTableName()
 	{
-		if ($this->formattedName) {
-			return $this->formattedName;
+		if ($this->relatedTableName) {
+			return $this->relatedTableName;
 		}
 		foreach ($this->getTables() as &$moduleName) {
 			$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
@@ -43,7 +51,7 @@ class ReferenceCondition extends BaseFieldParser
 			}
 			$this->queryGenerator->addJoin(['LEFT JOIN', $entityFieldInfo['tablename'] . ' ' . $referenceTable, $this->getColumnName() . " = $referenceTable.{$entityFieldInfo['entityidfield']}"]);
 		}
-		return $this->formattedName = $formattedName;
+		return $this->relatedTableName = $formattedName;
 	}
 
 	/**
@@ -60,7 +68,7 @@ class ReferenceCondition extends BaseFieldParser
 			}
 			return $condition;
 		}
-		return [$this->getRelatedTableName() => $this->value];
+		return ['=', $this->getRelatedTableName(), $this->value];
 	}
 
 	/**
