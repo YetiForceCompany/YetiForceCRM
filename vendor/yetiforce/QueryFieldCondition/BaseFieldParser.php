@@ -43,7 +43,7 @@ class BaseFieldParser
 	const EQUALITY_TYPES = ['currency', 'percentage', 'double', 'integer', 'number'];
 	const COMMA_TYPES = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
 
-	public function __construct(QueryGenerator $queryGenerator, \Vtiger_Field_Model $fieldModel, $value, $operator)
+	public function __construct(\App\QueryGenerator $queryGenerator, \Vtiger_Field_Model $fieldModel, $value, $operator)
 	{
 		$this->queryGenerator = $queryGenerator;
 		$this->fieldModel = $fieldModel;
