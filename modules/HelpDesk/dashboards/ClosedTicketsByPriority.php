@@ -38,39 +38,39 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getTicketsByPriority($time, $owner)
 	{
-		$db = PearDatabase::getInstance();
 		$moduleName = 'HelpDesk';
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();
-		$paramsQuery = [];
-		$sql = 'SELECT COUNT(*) AS `count` , priority, vtiger_ticketpriorities.color 
-				FROM vtiger_troubletickets 
-				INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted=0 
-				INNER JOIN vtiger_ticketstatus ON vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus 
-				INNER JOIN vtiger_ticketpriorities ON vtiger_ticketpriorities.`ticketpriorities` = vtiger_troubletickets.`priority` 
-				WHERE vtiger_crmentity.`deleted` = 0 ';
+		$query = (new App\Db\Query())->select([
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'priority',
+			'vtiger_ticketpriorities.color'
+		])->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
+			->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
+			->where(['vtiger_crmentity.deleted' => 0]);
 		if (!empty($ticketStatus)) {
-			$paramsQuery = $ticketStatus;
-			$sql .= ' AND vtiger_troubletickets.status IN (' . generateQuestionMarks($ticketStatus) . ')';
+			$query->andWhere(['vtiger_troubletickets.status' => $ticketStatus]);
 		}
 		if (!empty($time)) {
-			$sql .= ' AND vtiger_crmentity.closedtime >= ? AND vtiger_crmentity.closedtime <= ?';
-			$paramsQuery [] = $time['start'];
-			$paramsQuery [] = $time['end'];
+			$query->andWhere([
+				'and',
+				['>=', 'vtiger_crmentity.closedtime', $time['start']],
+				['<=', 'vtiger_crmentity.closedtime', $time['end']]
+			]);
 		}
 		if (!empty($owner) && $owner != 'all') {
-			$sql .= ' AND vtiger_crmentity.smownerid = ?';
-			$paramsQuery [] = $owner;
+			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
 		}
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
-		$sql .= ' GROUP BY priority';
-		$result = $db->pquery($sql, $paramsQuery);
-
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
+		$query->groupBy(['priority', 'vtiger_ticketpriorities.color']);
+		$dataReader = $query->createCommand()->query();
 		$response = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$response[] = [
 				'name' => \App\Language::translate($row['priority'], $moduleName),
 				'count' => $row['count'],

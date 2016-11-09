@@ -7531,10 +7531,10 @@ class Base4 extends \App\Db\Importers\Base
 			'vtiger_ticketpriorities' => [
 				'columns' => ['ticketpriorities_id', 'ticketpriorities', 'presence', 'picklist_valueid', 'sortorderid', 'color'],
 				'values' => [
-						[1, 'Low', 1, 182, 0, '	#E6FAD8'],
-						[2, 'Normal', 1, 183, 1, '	#E6FAD8'],
-						[3, 'High', 1, 184, 2, '	#E6FAD8'],
-						[4, 'Urgent', 1, 185, 3, '	#E6FAD8'],
+						[1, 'Low', 1, 182, 0, '#E6FAD8'],
+						[2, 'Normal', 1, 183, 1, '#E6FAD8'],
+						[3, 'High', 1, 184, 2, '#E6FAD8'],
+						[4, 'Urgent', 1, 185, 3, '#E6FAD8'],
 				]
 			],
 			'vtiger_ticketpriorities_seq' => [
