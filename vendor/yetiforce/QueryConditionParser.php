@@ -21,6 +21,11 @@ class QueryConditionParser
 	private $fieldModel;
 
 	/**
+	 * @var string
+	 */
+	private $fullColumnName;
+
+	/**
 	 * @var string|array 
 	 */
 	private $value;
@@ -89,6 +94,18 @@ class QueryConditionParser
 		return in_array($this->fieldModel->getFieldDataType(), [static::COMMA_TYPES]);
 	}
 
+	/**
+	 * Get column name
+	 * @return string
+	 */
+	public function getColumnName()
+	{
+		if ($this->fullColumnName) {
+			return $this->fullColumnName;
+		}
+		return $this->fullColumnName = $this->fieldModel->getTableName() . '.' . $this->fieldModel->getColumnName();
+	}
+
 	public function getNativeCondition()
 	{
 		if ($this->operator === 'between' && $this->isDateType()) {
@@ -111,13 +128,13 @@ class QueryConditionParser
 				}
 			}
 		}
-		return $this->parseConditionValue();
+		$valueSqlList = $this->parseConditionValue();
 	}
 
 	private function parseConditionValue()
 	{
 		if (is_string($this->value) && !$this->queryGenerator->getIgnoreComma()) {
-			$this->parseValue();
+			$this->parseListValue();
 		} elseif ($this->operator === 'e' && $this->fieldModel->isReferenceField() && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$this->value = explode(',', $value);
 		} elseif (!is_array($this->value)) {
@@ -126,9 +143,11 @@ class QueryConditionParser
 		if ($this->operator === 'between' || $this->operator === 'bw' || $this->operator === 'notequal') {
 			return $this->parseBetweenValue();
 		}
+		return $this->getByFieldType();
+		//return $this->parseValues();
 	}
 
-	private function parseValue()
+	private function parseListValue()
 	{
 		if ($this->isCommaSeparatedType()) {
 			$valueArray = explode(',', $this->value);
@@ -147,6 +166,154 @@ class QueryConditionParser
 			$valueArray = [$this->value];
 		}
 		$this->value = $valueArray;
+	}
+
+	private function parseValues()
+	{
+		$condition = [];
+		foreach ($this->value as &$value) {
+			if (!$this->isStringType()) {
+				$value = trim($value);
+			}
+			if ($this->operator === 'empty' || $this->operator === 'y') {
+				$condition[] = ['or', [$this->getColumnName() => null], [$this->getColumnName() => '']];
+				//$condition[] = sprintf("IS NULL || %s = ''", $this->getColumnName());
+				continue;
+			}
+			if ($this->operator === 'ny') {
+				$condition[] = ['or', [$this->getColumnName() => null], [$this->getColumnName() => '']];
+				$sql[] = sprintf("IS NOT NULL && %s != ''", $this->getSQLColumn($this->fieldModel->getFieldName()));
+				continue;
+			}
+			if ((strtolower(trim($value)) === 'null') || (trim($value) === '' && !$this->isStringType()) && ($this->operator === 'e' || $this->operator === 'n')) {
+				if ($this->operator === 'e') {
+					$sql[] = "IS NULL";
+					continue;
+				}
+				$sql[] = "IS NOT NULL";
+				continue;
+			} elseif ($this->fieldModel->getFieldDataType() == 'boolean') {
+				$value = strtolower($value);
+				if ($value == 'yes') {
+					$value = 1;
+				} elseif ($value == 'no') {
+					$value = 0;
+				}
+			} elseif ($this->isDateType($this->fieldModel->getFieldDataType())) {
+				// For "after" and "before" conditions
+				$values = explode(' ', $value);
+				if (($this->operator == 'a' || $this->operator == 'b') && count($values) == 2) {
+					if ($this->operator == 'a') {
+						// for after comparator we should check the date after the given
+						$dateTime = new DateTime($value);
+						$modifiedDate = $dateTime->modify('+1 days');
+						$nextday = $modifiedDate->format('Y-m-d H:i:s');
+						$temp = strtotime($nextday) - 1;
+						$date = date('Y-m-d H:i:s', $temp);
+						$value = getValidDBInsertDateTimeValue($date);
+					} else {
+						$dateTime = new DateTime($value);
+						$prevday = $dateTime->format('Y-m-d H:i:s');
+						$temp = strtotime($prevday) - 1;
+						$date = date('Y-m-d H:i:s', $temp);
+						$value = getValidDBInsertDateTimeValue($date);
+					}
+				} else {
+					$value = getValidDBInsertDateTimeValue($value);
+					$dateTime = explode(' ', $value);
+					if ($dateTime[1] == '00:00:00') {
+						$value = $dateTime[0];
+					}
+				}
+			} elseif ($this->isEqualityType()) {
+				$table = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, vglobal('default_charset'));
+				$chars = implode('', array_keys($table));
+				if (preg_match("/[{$chars}]+/", $value) === 1) {
+					if ($this->operator == 'g' || $this->operator == 'l') {
+						$value = substr($value, 4);
+					} elseif ($this->operator == 'h' || $this->operator == 'm') {
+						$value = substr($value, 5);
+					}
+				}
+			} elseif ($this->fieldModel->getFieldDataType() === 'currency') {
+				$uiType = $this->fieldModel->getUIType();
+				if ($uiType == 72) {
+					$value = CurrencyField::convertToDBFormat($value, null, true);
+				} elseif ($uiType == 71) {
+					$value = CurrencyField::convertToDBFormat($value);
+				}
+			}
+
+			if ($this->fieldModel->getFieldName() === 'birthday' && !$this->isRelativeSearchOperators($this->operator)) {
+				$value = "DATE_FORMAT(" . $db->quote($value) . ", '%m%d')";
+			} else {
+				//$value = $db->sql_escape_string($value, true);
+			}
+
+			if ($this->fieldModel->getFieldDataType() === 'multiReferenceValue' && in_array($this->operator, ['e', 's', 'ew', 'c'])) {
+				$sql[] = "LIKE '%$value%'";
+				continue;
+			} elseif ($this->fieldModel->getFieldDataType() === 'multiReferenceValue' && in_array($this->operator, ['n', 'k'])) {
+				$sql[] = "NOT LIKE '%$value%'";
+				continue;
+			}
+
+			if (trim($value) === '' && ($this->operator === 's' || $this->operator === 'ew' || $this->operator === 'c') && ($this->isStringType() ||
+				$this->fieldModel->getFieldDataType() === 'picklist' ||
+				$this->fieldModel->getFieldDataType() === 'multipicklist')) {
+				$sql[] = "LIKE ''";
+				continue;
+			}
+			if (trim($value) === '' && ($this->operator == 'om') && in_array($this->fieldModel->getFieldName(), $this->ownerFields)) {
+				$sql[] = " = '" . $this->user->id . "'";
+				continue;
+			}
+			if (trim($value) === '' && in_array($this->operator, ['wr', 'nwr']) && in_array($this->fieldModel->getFieldName(), $this->ownerFields)) {
+				$userId = $this->user->id;
+				$watchingSql = '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' && module = ' . vtlib\Functions::getModuleId($this->module) . ') > 0 && ';
+				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' && record = vtiger_crmentity.crmid && state = 0) = 0) || ';
+				$watchingSql .= '((SELECT COUNT(*) FROM u_yf_watchdog_module WHERE userid = ' . $userId . ' && module = ' . vtlib\Functions::getModuleId($this->module) . ') = 0 && ';
+				$watchingSql .= '(SELECT COUNT(*) FROM u_yf_watchdog_record WHERE userid = ' . $userId . ' && record = vtiger_crmentity.crmid && state = 1) > 0)';
+				$sql[] = $watchingSql;
+				continue;
+			}
+			if ($this->fieldModel->getUIType() === 120) {
+				if ($this->operator == 'om') {
+					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $this->user->id . ')';
+				} elseif (in_array($this->operator, ['e', 's', 'ew', 'c'])) {
+					$sql[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $value . ')';
+				} elseif (in_array($this->operator, ['n', 'k'])) {
+					$sql[] = 'vtiger_crmentity.crmid NOT IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ' . $value . ')';
+				}
+				continue;
+			}
+			if ($this->fieldModel->getUIType() === 307) {
+				if ($value == '-') {
+					$sql[] = 'IS NULL';
+					continue;
+				} elseif (!in_array(substr($value, 0, 1), ['>', '<']) && !in_array(substr($value, 0, 2), ['>=', '<=']) && !is_numeric($value)) {
+					$value = "'$value'";
+				}
+			}
+			if (trim($value) == '' && ($this->operator == 'k') &&
+				$this->isStringType($this->fieldModel->getFieldDataType())) {
+				$sql[] = "NOT LIKE ''";
+				continue;
+			}
+			//$sqlOperatorData = $this->getSqlOperator($this->operator, $value);
+			//$sqlOperator = $sqlOperatorData[0];
+			//$value = $sqlOperatorData[1];
+
+			if (!$this->isNumericType($this->fieldModel->getFieldDataType()) &&
+				($this->fieldModel->getFieldName() != 'birthday' || ($this->fieldModel->getFieldName() == 'birthday' && $this->isRelativeSearchOperators($this->operator)))) {
+				$value = "'$value'";
+			}
+			if ($this->isNumericType($this->fieldModel->getFieldDataType()) && empty($value)) {
+				$value = '0';
+			}
+			$sql[] = "$sqlOperator $value";
+		}
+		return $condition;
 	}
 
 	/**
@@ -219,5 +386,29 @@ class QueryConditionParser
 			}
 		}
 		return $condition;
+	}
+
+	private function getByFieldType()
+	{
+		$type = 'get' . ucfirst($this->fieldModel->getFieldDataType()) . 'Type';
+		return $this->$type();
+	}
+
+	private function getPicklistType()
+	{
+		var_dump($this->value);
+	}
+
+	private function getStringType()
+	{
+		switch ($variable) {
+			case $value:
+
+
+				break;
+
+			default:
+				break;
+		}
 	}
 }

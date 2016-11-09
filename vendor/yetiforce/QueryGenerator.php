@@ -648,14 +648,19 @@ class QueryGenerator
 	public function parseCondition($fieldName, $value, $operator)
 	{
 		if ($fieldName === 'id') {
-			
+			die('nie działa');
 		}
 		$field = $this->getModuleField($fieldName);
 		if (empty($field) || $operator === 'None') {
 			Log::error('Not found field model or operator');
 			return false;
 		}
-		$conditionParser = new QueryConditionParser($this, $field, $value, $operator);
-		$condition = $conditionParser->getNativeCondition();
+		$className = '\App\QueryFieldCondition\\' . ucfirst($field->getFieldDataType());
+		if (!class_exists($className)) {
+			Log::error('Not found query field condition');
+			return false;
+		}
+		$conditionParser = new $className($this, $field, $value, $operator);
+		$condition = $conditionParser->getCondition();
 	}
 }
