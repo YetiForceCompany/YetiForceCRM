@@ -2870,10 +2870,12 @@ class Base1 extends \App\Db\Importers\Base
 					'ssalesprocesses_type' => $this->stringType(),
 					'ssalesprocesses_status' => $this->stringType(),
 					'campaignid' => $this->integer(),
+					'parentid' => $this->integer(),
 				],
 				'index' => [
 						['ssalesprocesses_rel_idx', 'related_to'],
 						['ssalesprocesses_cam_idx', 'campaignid'],
+						['ssalesprocesses_cam_idx', 'parentid'],
 				],
 				'primaryKeys' => [
 						['ssalesprocesses_pk', 'ssalesprocessesid']
