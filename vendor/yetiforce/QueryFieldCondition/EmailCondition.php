@@ -2,12 +2,12 @@
 namespace App\QueryFieldCondition;
 
 /**
- * Url Query Condition Parser Class
+ * Email Query Condition Parser Class
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OperatorUrl extends OperatorString
+class EmailCondition extends OperatorString
 {
 	
 }

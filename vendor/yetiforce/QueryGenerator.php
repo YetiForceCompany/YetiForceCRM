@@ -349,9 +349,9 @@ class QueryGenerator
 						}
 						$value[$i] = $values[0] . ' ' . $values[1];
 					}
-					$this->$functionName($columnName, $value, $filter['comparator']);
+					$this->$functionName($fieldName, $value, $filter['comparator']);
 				} else {
-					$this->$functionName($columnName, $filter['value'], $filter['comparator']);
+					$this->$functionName($fieldName, $filter['value'], $filter['comparator']);
 				}
 			}
 		}
@@ -424,7 +424,7 @@ class QueryGenerator
 	/**
 	 * Sets the JOINs part of the query.
 	 */
-	public function loadJoin($onlyTableJoin = false)
+	public function loadJoin()
 	{
 		$tableList = $tableJoinCondition = $tableJoin = [];
 		$moduleTableIndexList = $this->entityModel->tab_name_index;
@@ -456,6 +456,7 @@ class QueryGenerator
 				$tableJoin[$field->getTableName()] = $this->entityModel->getJoinClause($field->getTableName());
 			}
 		}
+
 		foreach ($this->whereFields as &$fieldName) {
 			if (empty($fieldName)) {
 				continue;
@@ -635,18 +636,18 @@ class QueryGenerator
 		return $condition;
 	}
 
-	public function addAndCondition($fieldname, $value, $operator)
+	public function addAndCondition($fieldName, $value, $operator)
 	{
-		$condition = $this->parseCondition($fieldname, $value, $operator);
+		$condition = $this->parseCondition($fieldName, $value, $operator);
 		if ($condition) {
 			$this->conditionsAnd[] = $condition;
 		}
 		Log::error('Wrong condition');
 	}
 
-	public function addOrCondition($fieldname, $value, $operator)
+	public function addOrCondition($fieldName, $value, $operator)
 	{
-		$condition = $this->parseCondition($fieldname, $value, $operator);
+		$condition = $this->parseCondition($fieldName, $value, $operator);
 		if ($condition) {
 			$this->conditionsOr[] = $condition;
 		}
@@ -663,7 +664,7 @@ class QueryGenerator
 			Log::error('Not found field model or operator');
 			return false;
 		}
-		$className = '\App\QueryFieldCondition\Operator' . ucfirst($field->getFieldDataType());
+		$className = '\App\QueryFieldCondition\\' . ucfirst($field->getFieldDataType()) . 'Condition';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition');
 			return false;

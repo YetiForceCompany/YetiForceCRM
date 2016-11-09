@@ -1,5 +1,4 @@
 <?php
-
 namespace App\QueryFieldCondition;
 
 /**
@@ -8,7 +7,7 @@ namespace App\QueryFieldCondition;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OperatorString extends BaseFieldParser
+class StringCondition extends BaseFieldParser
 {
 
 	/**
