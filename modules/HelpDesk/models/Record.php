@@ -62,22 +62,19 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		if (!empty($closedTime) && array_key_exists('report_time', $entityData->getData())) {
 			$timeMinutesRange = round(vtlib\Functions::getDateTimeMinutesDiff($entityData->get('createdtime'), $closedTime));
 			if (!empty($timeMinutesRange)) {
-				$db->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], 'ticketid = ?', [$ticketId]);
+				App\Db::getInstance()->createCommand()
+					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $ticketId])
+					->execute();
 			}
 		}
 	}
 
 	public function getActiveServiceContracts()
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_servicecontracts INNER JOIN vtiger_crmentity ON vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid WHERE deleted = ? && contract_status = ? && sc_related_to = ?';
-		$sql .= \App\PrivilegeQuery::getAccessConditions('ServiceContracts');
-
-		$result = $db->pquery($sql, [0, 'In Progress', $this->get('parent_id')]);
-		$rows = [];
-		while ($row = $db->getRow($result)) {
-			$rows[] = $row;
-		}
-		return $rows;
+		$query = (new \App\Db\Query())->from('vtiger_servicecontracts')
+			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')
+			->where(['deleted' => 0, 'contract_status' => 'In Progress', 'sc_related_to' => $this->get('parent_id')]);
+		\App\PrivilegeQuery::getConditions($query, 'ServiceContracts');
+		return $query->all();
 	}
 }

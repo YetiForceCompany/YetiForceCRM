@@ -153,18 +153,20 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
-		
-		$rowData = (new \App\Db\Query())
-			->from('vtiger_blocks_hide')
-			->where(['id' => $recordId])
-			->createCommand()->queryOne();
-		if ($rowData !== false) {
+		$rowData = [];
+		if (!empty($recordId)) {
 			$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$recordModel = new $recordModelClass();
-			$recordModel->setData($rowData);
+			$rowData = (new \App\Db\Query())
+				->from('vtiger_blocks_hide')
+				->where(['id' => $recordId])
+				->one();
+			if ($rowData) {
+				$recordModel->setData($rowData);
+			}
 			return $recordModel;
 		}
-		return $rowData;
+		return false;
 	}
 
 	static public function getCleanInstance($qualifiedModuleName)
@@ -210,8 +212,8 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModuleInstanceByBlockId($blockId)
 	{
 		$tabid = (new \App\Db\Query())->select('tabid')
-			->from('vtiger_blocks')
-			->where(['blockid' => $blockId])->scalar();
+				->from('vtiger_blocks')
+				->where(['blockid' => $blockId])->scalar();
 		if (!empty($tabid)) {
 			return Vtiger_Module_Model::getInstance($tabid);
 		}

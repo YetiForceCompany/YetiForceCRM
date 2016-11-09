@@ -99,10 +99,14 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModules()
 	{
 		if (!isset($this->modules)) {
+			$groupId = $this->getId();
+			if (empty($groupId)){
+				return [];
+			}
 			$dataReader = (new App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.name'])
 				->from('vtiger_group2modules')
 				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_group2modules.tabid')
-				->where(['vtiger_group2modules.groupid' => $this->getId()])
+				->where(['vtiger_group2modules.groupid' => $groupId])
 				->createCommand()->query();
 			$modules = [];
 			while ($row = $dataReader->read()) {
@@ -125,8 +129,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 		if (empty($groupId)) {
 			$mode = '';
-			$adb = PearDatabase::getInstance();
-			$groupId = $adb->getUniqueId('vtiger_users');
+			$groupId = $db->getUniqueId('vtiger_users');
 			$this->setId($groupId);
 		}
 
