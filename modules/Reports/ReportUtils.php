@@ -253,7 +253,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		switch ($fieldType) {
 			case 'double':
 			case 'currency':
-				return (double) $fieldvalue;
+				return $fieldvalue;
 			case 'boolean':
 				return (bool) $fieldvalue;
 		}

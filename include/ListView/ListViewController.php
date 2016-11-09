@@ -325,27 +325,8 @@ class ListViewController
 						}
 					}
 				} elseif ($field->getFieldDataType() == 'currency') {
-					if ($value != '') {
-						if ($field->getUIType() == 72) {
-							if ($fieldName == 'unit_price') {
-								$currencyId = getProductBaseCurrency($recordId, $module);
-								$cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($currencyId);
-								$currencySymbol = $cursym_convrate['symbol'];
-							} else {
-								$currencyInfo = getInventoryCurrencyInfo($module, $recordId);
-								$currencySymbol = $currencyInfo['currency_symbol'];
-							}
-							$value = CurrencyField::convertToUserFormat($value, null, true);
-							$row['currencySymbol'] = $currencySymbol;
-							$value = CurrencyField::appendCurrencySymbol($value, $currencySymbol);
-						} else {
-							if (!empty($value)) {
-								$value = CurrencyField::convertToUserFormat($value);
-								$currencyModal = new CurrencyField($value);
-								$currencyModal->initialize();
-								$value = $currencyModal->appendCurrencySymbol($value, $currencyModal->currencySymbol);
-							}
-						}
+					if(!empty($value)){
+						$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value, $recordId);
 					}
 				} elseif ($field->getFieldDataType() == 'url') {
 					$matchPattern = "^[\w]+:\/\/^";

@@ -68,7 +68,7 @@ class Products extends CRMEntity
 		//Inserting into product_taxrel table
 		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
 			$this->insertTaxInformation('vtiger_producttaxrel', 'Products');
-			$this->insertPriceInformation('vtiger_productcurrencyrel', 'Products');
+			$this->insertPriceInformation();
 		}
 
 		// Update unit price value in vtiger_productcurrencyrel
@@ -122,66 +122,52 @@ class Products extends CRMEntity
 		\App\Log::trace("Exiting from insertTaxInformation($tablename, $module) method ...");
 	}
 
-	/** 	function to save the product price information in vtiger_productcurrencyrel table
-	 * 	@param string $tablename - vtiger_tablename to save the product currency relationship (productcurrencyrel)
-	 * 	@param string $module	 - current module name
-	 * 	$return void
+	/**
+	 * Function to save the product price information in vtiger_productcurrencyrel table
 	 */
-	public function insertPriceInformation($tablename, $module)
+	public function insertPriceInformation()
 	{
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
-		\App\Log::trace("Entering into insertPriceInformation($tablename, $module) method ...");
-		//removed the update of currency_id based on the logged in user's preference : fix 6490
-
-		$currency_details = getAllCurrencies('all');
-
-		//Delete the existing currency relationship if any
-		if ($this->mode == 'edit' && AppRequest::get('action') !== 'MassEditSave') {
-			$countCurrencyDetails = count($currency_details);
-			for ($i = 0; $i < $countCurrencyDetails; $i++) {
-				$curid = $currency_details[$i]['curid'];
-				$sql = "delete from vtiger_productcurrencyrel where productid=? and currencyid=?";
-				$adb->pquery($sql, array($this->id, $curid));
-			}
+		\App\Log::trace('Entering ' . __METHOD__);
+		$db = \App\Db::getInstance();
+		$productBaseConvRate = getBaseConversionRateForProduct($this->id, $this->mode);
+		$currencySet = false;
+		$currencyDetails = vtlib\Functions::getAllCurrency(true);
+		if ($this->mode == 'edit' && AppRequest::get('action') !== 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
+			$db->createCommand()->delete('vtiger_productcurrencyrel', ['productid' => $this->id])->execute();
 		}
-
-		$product_base_conv_rate = getBaseConversionRateForProduct($this->id, $this->mode);
-		$currencySet = 0;
-		//Save the Product - Currency relationship if corresponding currency check box is enabled
-		$countCurrencyDetails = count($currency_details);
-		for ($i = 0; $i < $countCurrencyDetails; $i++) {
-			$curid = $currency_details[$i]['curid'];
-			$curname = $currency_details[$i]['currencylabel'];
-			$cur_checkname = 'cur_' . $curid . '_check';
-			$cur_valuename = 'curname' . $curid;
-
-			$requestPrice = CurrencyField::convertToDBFormat(AppRequest::get('unit_price'), null, true);
-			$actualPrice = CurrencyField::convertToDBFormat(AppRequest::get($cur_valuename), null, true);
-			if (AppRequest::get($cur_valuename) == 'on' || AppRequest::get($cur_valuename) == 1) {
-				$conversion_rate = $currency_details[$i]['conversionrate'];
-				$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
-				$converted_price = $actual_conversion_rate * $requestPrice;
-
-				\App\Log::trace("Going to save the Product - $curname currency relationship");
-
-				$query = "insert into vtiger_productcurrencyrel values(?,?,?,?)";
-				$adb->pquery($query, array($this->id, $curid, $converted_price, $actualPrice));
-
-				// Update the Product information with Base Currency choosen by the User.
-				if (AppRequest::get('base_currency') == $cur_valuename) {
-					$currencySet = 1;
-					$adb->pquery("update vtiger_products set currency_id=?, unit_price=? where productid=?", array($curid, $actualPrice, $this->id));
+		foreach ($currencyDetails as $curid => $currency) {
+			$curName = $currency['currency_name'];
+			$curCheckName = 'cur_' . $curid . '_check';
+			$curValue = 'curname' . $curid;
+			if (AppRequest::get($curCheckName) === 'on' || AppRequest::get($curCheckName) === 1) {
+				$requestPrice = CurrencyField::convertToDBFormat(AppRequest::get('unit_price'), null, true);
+				$actualPrice = CurrencyField::convertToDBFormat(AppRequest::get($curValue), null, true);
+				$conversionRate = $currency['conversion_rate'];
+				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
+				$convertedPrice = $actualConversionRate * $requestPrice;
+				\App\Log::trace("Going to save the Product - $curName currency relationship");
+				\App\Db::getInstance()->createCommand()->insert('vtiger_productcurrencyrel', [
+					'productid' => $this->id,
+					'currencyid' => $curid,
+					'converted_price' => $convertedPrice,
+					'actual_price' => $actualPrice
+				])->execute();
+				if (AppRequest::get('base_currency') === $curValue) {
+					$currencySet = true;
+					$db->createCommand()
+						->update($this->table_name, ['currency_id' => $curid, 'unit_price' => $actualPrice], [$this->table_index => $this->id])
+						->execute();
 				}
 			}
-			if (!$currencySet) {
-				$curid = \vtlib\Functions::userCurrencyId($current_user->id);
-				$adb->pquery("update vtiger_products set currency_id=? where productid=?", array($curid, $this->id));
-			}
 		}
-
-		\App\Log::trace("Exiting from insertPriceInformation($tablename, $module) method ...");
+		if (!$currencySet) {
+			reset($currencyDetails);
+			$curid = key($currencyDetails);
+			$db->createCommand()
+				->update($this->table_name, ['currency_id' => $curid], [$this->table_index => $this->id])
+				->execute();
+		}
+		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	public function updateUnitPrice()

@@ -105,12 +105,10 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 		jQuery(container).on('click','.currencyReset',function(e){
 			var parentElem = thisInstance.getCurrentElem(e).closest('tr');
 			var unitPriceFieldData = thisInstance.getUnitPrice().data();
-			var unitPrice = thisInstance.getDataBaseFormatUnitPrice();
+			var unitPrice = thisInstance.getDataBaseFormatUnitPrice(); 
 			var conversionRate = jQuery('.conversionRate',parentElem).val();
 			var price = parseFloat(unitPrice) * parseFloat(conversionRate);
-			var userPreferredDecimalPlaces = unitPriceFieldData.numberOfDecimalPlaces;
-			price = price.toFixed(userPreferredDecimalPlaces);
-			var calculatedPrice = price.toString().replace('.',unitPriceFieldData.decimalSeparator);
+			var calculatedPrice = app.parseNumberToShow(price);
 			jQuery('.convertedPrice',parentElem).val(calculatedPrice);
 		});
 		return this;
@@ -121,18 +119,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 	 */
 		getDataBaseFormatUnitPrice : function(){
 			var field = this.getUnitPrice();
-			var unitPrice = field.val();
-			if(unitPrice == ''){
-				unitPrice = 0;
-			}else{
-				var fieldData = field.data();
-				//As replace is doing replace of single occurence and using regex 
-				//replace has a problem with meta characters  like (.,$),so using split and join
-				var strippedValue = unitPrice.split(fieldData.groupSeparator);
-				strippedValue = strippedValue.join("");
-				strippedValue = strippedValue.replace(fieldData.decimalSeparator, '.');
-				unitPrice = strippedValue;
-			}
+			var unitPrice = field.getNumberFromValue();
 			return unitPrice;
 		},
         
@@ -174,9 +161,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 				var price = parseFloat(unitPrice)*parseFloat(conversionRate);
 				jQuery('input',parentRow).attr('disabled', true).removeAttr('disabled');
 				jQuery('button.currencyReset', parentRow).attr('disabled', true).removeAttr('disabled');
-				var userPreferredDecimalPlaces = unitPriceFieldData.numberOfDecimalPlaces;
-				price = price.toFixed(userPreferredDecimalPlaces);
-				var calculatedPrice = price.toString().replace('.',unitPriceFieldData.decimalSeparator);
+				var calculatedPrice = app.parseNumberToShow(price);
 				jQuery('input.convertedPrice',parentRow).val(calculatedPrice)
 			}else{
 				var baseCurrency = jQuery('.baseCurrency', parentRow);
@@ -280,7 +265,6 @@ Vtiger_Edit_Js("Products_Edit_Js",{
                         var dataId = jQuery(element).attr('id');
                         moreCurrenciesUi.find('#'+dataId).val(dataValue);
                     });
-
 					var modalWindowParams = {
 						data : moreCurrenciesUi,
 						css : css,

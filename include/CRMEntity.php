@@ -689,9 +689,6 @@ class CRMEntity
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [52, 53])) {
 						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = vtlib\Functions::getOwnerRecordLabel($fieldvalue);
 					}
-					if ($fieldInfo['uitype'] === 71) {
-						$fieldvalue = CurrencyField::convertToUserFormat($fieldvalue, null, true);
-					}
 					$this->column_fields[$fieldInfo['fieldname']] = $fieldvalue;
 				}
 			}
