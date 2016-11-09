@@ -114,7 +114,8 @@ class BaseFieldParser
 	 */
 	public function getCondition()
 	{
-		$fn = 'get' . ucfirst($this->operator);
+		$fn = 'operator' . ucfirst($this->operator);
+		var_dump($fn);
 		if (method_exists($this, $fn)) {
 			Log::trace("Entering to $fn in " . __CLASS__);
 			return $this->$fn();
@@ -127,8 +128,41 @@ class BaseFieldParser
 	 * Equals operator
 	 * @return array
 	 */
-	public function getE()
+	public function operatorE()
 	{
 		return [$this->getColumnName() => $this->value];
+	}
+
+	/**
+	 * Not equal operator
+	 * @return array
+	 */
+	public function operatorN()
+	{
+		return ['<>', $this->getColumnName(), $this->value];
+	}
+
+	/**
+	 * Is empty operator
+	 * @return array
+	 */
+	public function operatorY()
+	{
+		return ['or',
+				[$this->getColumnName() => null],
+				['=', $this->getColumnName(), '']
+		];
+	}
+
+	/**
+	 * Is not empty operator
+	 * @return array
+	 */
+	public function operatorNy()
+	{
+		return ['and',
+				['not', [$this->getColumnName() => null]],
+				['<>', $this->getColumnName(), '']
+		];
 	}
 }
