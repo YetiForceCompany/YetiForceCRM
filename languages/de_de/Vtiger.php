@@ -1270,7 +1270,8 @@ $languageStrings = [
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Organisationen nach Industrie',
 	'LBL_RELATION_COMMENT' => 'Anmerkung',
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Estimated Opportunity value',
-	];
+	'LBL_UPDATE_DATE_FIELD' => 'Update %s field with current time',
+];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
 	'JS_LOADING_PLEASE_WAIT' => 'Laden, bitte warten.',

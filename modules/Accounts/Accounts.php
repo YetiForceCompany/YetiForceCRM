@@ -70,6 +70,9 @@ class Accounts extends CRMEntity
 	public $default_sort_order = 'ASC';
 	// For Alphabetical search
 	public $def_basicsearch_col = 'accountname';
+	// List of date and time fields that can be updated by current system time, via button visible in record preview.
+	// [Label => Name] 
+	public $fieldsDateUpdate = [];
 
 	/** Function to handle module specific operations when saving a entity
 	 */

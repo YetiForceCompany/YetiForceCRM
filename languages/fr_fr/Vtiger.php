@@ -1255,6 +1255,7 @@ $languageStrings = [
 	'LBL_REVIEW_CHANGES' => 'Review changes in records',
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Accounts by industry',
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Estimated Opportunity value',
+	'LBL_UPDATE_DATE_FIELD' => 'Update %s field with current time',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Résumé',

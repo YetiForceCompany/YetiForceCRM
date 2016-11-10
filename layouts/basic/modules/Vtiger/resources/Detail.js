@@ -273,6 +273,22 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
+	updateDateField: function (fieldName) {
+		var params = {
+			module: app.getModuleName(),
+			action: 'UpdateDateField',
+			record: app.getRecordId(),
+			fieldName: fieldName,
+		};
+		AppConnector.request(params).then(
+				function (response) {
+					Vtiger_Detail_Js.getInstance().updateField(fieldName, response.result[fieldName]);
+				},
+				function (error, err) {
+					console.error(error, err);
+				}
+		);
+	}
 }, {
 	targetPicklistChange: false,
 	targetPicklist: false,
@@ -1560,6 +1576,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 			widget.data('url', url);
 			thisInstance.loadWidget($(widget));
 		});
+	},
+	updateField: function(fieldName, value) {
+		$('.' + fieldName + 'Field').html(value);
 	},
 	/**
 	 * Function to register all the events related to summary view widgets
