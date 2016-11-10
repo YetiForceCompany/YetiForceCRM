@@ -129,18 +129,12 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 	{
 		if (!$linkId && !$widgetId)
 			return;
-
-		$db = PearDatabase::getInstance();
-		$sql = 'UPDATE vtiger_module_dashboard_widgets SET position=? WHERE userid=?';
-		$params = array($position, $userId);
 		if ($linkId) {
-			$sql .= ' && linkid = ?';
-			$params[] = $linkId;
+			$where = ['userid' => $userId, 'linkid' => $linkId];
 		} else if ($widgetId) {
-			$sql .= ' && id = ?';
-			$params[] = $widgetId;
+			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
-		$db->pquery($sql, $params);
+		\App\Db::getInstance()->createCommand()->update(('vtiger_module_dashboard_widgets'), ['position' => $position], $where)->execute();
 	}
 
 	public static function getInstanceWithWidgetId($widgetId, $userId)
