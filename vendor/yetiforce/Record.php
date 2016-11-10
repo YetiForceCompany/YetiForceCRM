@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 use vtlib\Functions;
 
@@ -94,7 +95,7 @@ class Record
 		$adb = \PearDatabase::getInstance();
 		if (!is_array($ids))
 			$ids = [$ids];
-		if ($moduleName == 'Events') {
+		if ($moduleName === 'Events') {
 			$moduleName = 'Calendar';
 		}
 		if ($moduleName) {
@@ -188,37 +189,33 @@ class Record
 			$db = \App\Db::getInstance();
 			$label = decode_html($labelInfo[$id]['name']);
 			$search = decode_html($labelInfo[$id]['search']);
-			$insertMode = $mode != 'edit';
+			$insertMode = $mode !== 'edit';
 			$rowCount = 0;
 			if (empty($label)) {
-				$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $id])->execute();
-			} else {
-				if (!$insertMode) {
-					$rowCount = $db->createCommand()->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])->execute();
-					if ($rowCount == 0) {
-						$rowCount = (new Db\Query())->from('u_#__crmentity_label')
-								->where(['crmid' => $id])->count();
-					}
-				}
-				if (($insertMode || $rowCount == 0) && $updater != 'searchlabel') {
-					$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
-				}
+				$label = '';
 			}
 			if (empty($search)) {
-				$db->createCommand()->delete('u_#__crmentity_search_label', ['crmid' => $id])->execute();
-			} else {
-				if (!$insertMode) {
-					$rowCount = $db->createCommand()
-						->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])
-						->execute();
-					if ($rowCount == 0) {
-						$rowCount = (new Db\Query())->from('u_#__crmentity_search_label')
-								->where(['crmid' => $id])->count();
-					}
+				$search = '';
+			}
+			if (!$insertMode) {
+				$labelRowCount = $db->createCommand()
+					->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])
+					->execute();
+				if (!$labelRowCount) {
+					$labelRowCount = (new Db\Query())->from('u_#__crmentity_label')->where(['crmid' => $id])->count();
 				}
-				if (($insertMode || $rowCount == 0) && $updater != 'label') {
-					$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
+				$searchRowCount = $db->createCommand()
+					->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])
+					->execute();
+				if (!$searchRowCount) {
+					$searchRowCount = (new Db\Query())->from('u_#__crmentity_search_label')->where(['crmid' => $id])->count();
 				}
+			}
+			if (($insertMode || !$labelRowCount) && $updater !== 'searchlabel') {
+				$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
+			}
+			if (($insertMode || !$searchRowCount) && $updater !== 'label') {
+				$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
 			}
 			static::$recordLabelCache[$id] = $labelInfo[$id]['name'];
 		}
