@@ -400,8 +400,7 @@ class CurrencyField
 			$decimalSeparator = ' ';
 		$value = str_replace($currencySeparator, '', $value);
 		$value = str_replace($decimalSeparator, '.', $value);
-		$value = str_replace($this->currencySymbol, '', $value);
-		$value = preg_replace('/\s+/u', '', $value);
+		$value = preg_replace('/[^0-9\.]/', '', $value);
 		if ($skipConversion === false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}

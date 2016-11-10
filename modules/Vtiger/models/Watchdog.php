@@ -364,10 +364,10 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 						$name = \App\Fields\Owner::getUserLabel($data[1]);
 						break;
 					case 'Groups':
-						$name = vtranslate(\App\Fields\Owner::getGroupName($data[1]), $this->get('module'));
+						$name = \App\Language::translate(\App\Fields\Owner::getGroupName($data[1]), $this->get('module'));
 						break;
 					default:
-						$name = vtranslate(\App\PrivilegeUtil::getRoleName($data[1]), $this->get('module'));
+						$name = \App\Language::translate(\App\PrivilegeUtil::getRoleName($data[1]), $this->get('module'));
 						break;
 				}
 				$row['type'] = $data[0];
