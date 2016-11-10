@@ -19,7 +19,8 @@ class Accounts_ServiceContracts_HeaderField
 			return [
 				'class' => 'btn-success',
 				'title' => vtranslate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
-				'badge' => DateTimeField::convertToUserFormat($row['date'])
+				'badge' => DateTimeField::convertToUserFormat($row['date']),
+				'action' => 'Accounts_Detail_Js.showServiceContracts()'
 			];
 		}
 		return false;
