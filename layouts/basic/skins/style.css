@@ -5750,3 +5750,8 @@ select.form-control {
 .marginIcon {
 	margin-left: .3em;
 }
+.addReletedRecordBtn {
+    top: 20px;
+    right: 30px;
+    position: absolute;
+}

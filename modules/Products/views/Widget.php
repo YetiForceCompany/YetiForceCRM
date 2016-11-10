@@ -34,10 +34,9 @@ class Products_Widget_View extends Vtiger_Index_View
 		$mod = $request->get('mod');
 		$viewer = $this->getViewer($request);
 		$moduleModel = Products_SummaryWidget_Model::getCleanInstance();
-		$data = $moduleModel->getProductsServices($request);
+		$moduleModel->getProductsServices($request, $viewer);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DATA', $data['data']);
-		$viewer->assign('SHOWMORE', $data['showMore']);
+		$viewer->assign('RECORDID', $request->get('record'));
 		$viewer->assign('SOURCE_MODULE', $fromModule);
 		$viewer->assign('RELATED_MODULE', $mod);
 		$viewer->view('widgets/ProductsServices.tpl', $moduleName);

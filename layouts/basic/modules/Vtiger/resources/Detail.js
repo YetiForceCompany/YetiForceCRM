@@ -1521,6 +1521,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				} else {
 					value = element.data('off-val');
 				}
+			} else if (element.attr('type') == 'radio') {
+				if (element.is(':checked')) {
+					urlNewParams[element.attr('name')] = element.val();
+				}
 			} else {
 				var selectedFilter = element.find('option:selected').val();
 				var fieldlable = element.data('fieldlable');
@@ -1532,10 +1536,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 					return;
 				}
 			}
-			if (name in urlNewParams) {
-				urlNewParams[name].push(value);
-			} else {
-				urlNewParams[name] = [value];
+			if (name) {
+				if (name in urlNewParams) {
+					urlNewParams[name].push(value);
+				} else {
+					urlNewParams[name] = [value];
+				}
 			}
 		});
 		if (params != undefined) {
