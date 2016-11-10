@@ -725,6 +725,7 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 				labels: data['data_labels']
 			}
 		});
+		this.registerSectionClick();
 	}
 });
 Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
