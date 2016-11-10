@@ -635,7 +635,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 					$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
 				}
 			} else { //if it is not custom get the date according to the selected duration
-				$datefilter = DateTimeRange::getDateRangeByType($type)($stdfilterrow["stdfilter"]);
+				$datefilter = DateTimeRange::getDateRangeByType($stdfilterrow['stdfilter']);
 				$startDateTime = new DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
 				$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
 				$endDateTime = new DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
