@@ -133,15 +133,17 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		}
 		if ($recordModel->isEditable() && !empty($recordModel->getEntity()->fieldsDateUpdate)) {
 			foreach ($recordModel->getEntity()->fieldsDateUpdate as $fieldLabel => $fieldName) {
-				$editViewLinks = [
-					'linktype' => 'DETAILVIEW',
-					'linklabel' => '',
-					'linkurl' => 'javascript:Vtiger_Detail_Js.updateDateField(\'' . $fieldName . '\')',
-					'linkicon' => 'glyphicon glyphicon-time',
-					'linkhint' => App\Language::translateArgs('LBL_UPDATE_DATE_FIELD', $moduleName, App\Language::translate($fieldLabel, $moduleName)),
-					'linkclass' => 'btn-warning',
-				];
-				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
+				if (App\Field::getFieldPermission($moduleName, $fieldName)) {
+					$editViewLinks = [
+						'linktype' => 'DETAILVIEW',
+						'linklabel' => '',
+						'linkurl' => 'javascript:Vtiger_Detail_Js.updateDateField(\'' . $fieldName . '\')',
+						'linkicon' => 'glyphicon glyphicon-time',
+						'linkhint' => App\Language::translateArgs('LBL_UPDATE_DATE_FIELD', $moduleName, App\Language::translate($fieldLabel, $moduleName)),
+						'linkclass' => 'btn-warning',
+					];
+					$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
+				}
 			}
 		}
 		if ($recordModel->isEditable()) {

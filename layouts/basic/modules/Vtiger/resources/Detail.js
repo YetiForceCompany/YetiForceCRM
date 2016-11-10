@@ -283,6 +283,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(
 				function (response) {
 					Vtiger_Detail_Js.getInstance().updateField(fieldName, response.result[fieldName]);
+					Vtiger_Helper_Js.showMessage({
+						title: app.vtranslate('JS_LBL_PERMISSION'),
+						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+						type: 'success',
+						animation: 'show'
+					});
 				},
 				function (error, err) {
 					console.error(error, err);
@@ -1577,7 +1583,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			thisInstance.loadWidget($(widget));
 		});
 	},
-	updateField: function(fieldName, value) {
+	updateField: function (fieldName, value) {
 		$('.' + fieldName + 'Field').html(value);
 	},
 	/**
