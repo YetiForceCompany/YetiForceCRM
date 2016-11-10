@@ -36,8 +36,6 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$module = 'Leads';
 		$leadsClosed = Settings_MarketingProcesses_Module_Model::getConfig('lead');
-
-
 		$query = new \App\Db\Query();
 		$query->select([
 				'count' => new \yii\db\Expression('COUNT(*)'),
@@ -66,9 +64,9 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$i = 0;
 
 		while ($row = $dataReader->read()) {
-			$data[$i]['label'] = vtranslate($row['leadstatusvalue'], 'Leads');
+			$data[$i]['label'] = \App\Language::translate($row['leadstatusvalue'], 'Leads');
 			$ticks[$i][0] = $i;
-			$ticks[$i][1] = vtranslate($row['leadstatusvalue'], 'Leads');
+			$ticks[$i][1] = \App\Language::translate($row['leadstatusvalue'], 'Leads');
 			$data[$i]['data'][0][0] = $i;
 			$data[$i]['data'][0][1] = $row['count'];
 			$name[] = $row['leadstatusvalue'];

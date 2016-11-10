@@ -28,50 +28,45 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Function returns Leads grouped by Source
 	 * @param type $data
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getLeadsBySource($owner, $dateFilter)
 	{
-		$db = PearDatabase::getInstance();
 		$module = 'Leads';
-		$dateFilterSql = $ownerSql = '';
+		$query = new \App\Db\Query();
+		$query->select([
+				'count' => new \yii\db\Expression('COUNT(*)'),
+				'leadsourcevalue' => new \yii\db\Expression("CASE WHEN vtiger_leaddetails.leadsource IS NULL || vtiger_leaddetails.leadsource = '' THEN '' 
+						ELSE vtiger_leaddetails.leadsource END")])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->innerJOin('vtiger_leadsource', 'vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource')
+			->where(['deleted' => 0, 'converted' => 0]);
 		if (!empty($owner)) {
-			$ownerSql = ' && smownerid = ' . $owner;
+			$query->andWhere(['smownerid' => $owner]);
 		}
-		$securityParameterSql = \App\PrivilegeQuery::getAccessConditions($module);
-
-		$params = [];
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' && createdtime BETWEEN ? AND ? ';
-			//client is not giving time frame so we are appending it
-			$params[] = $dateFilter['start'] . ' 00:00:00';
-			$params[] = $dateFilter['end'] . ' 23:59:59';
+			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-
-		$query = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leaddetails.leadsource IS NULL || vtiger_leaddetails.leadsource = "" THEN "" 
-						ELSE vtiger_leaddetails.leadsource END AS leadsourcevalue FROM vtiger_leaddetails 
-						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-						AND deleted=0 && converted = 0 %s %s %s
-			INNER JOIN vtiger_leadsource ON vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource 
-						GROUP BY leadsourcevalue ORDER BY vtiger_leadsource.sortorderid', $ownerSql, $dateFilterSql, $securityParameterSql);
-		$result = $db->pquery($query, $params);
-
+		\App\PrivilegeQuery::getConditions($query, $module);
+		$query->groupBy(['vtiger_leaddetails.leadsource']);
+		
+		$dataReader = $query->createCommand()->query();
 		$response = [];
 		$i = 0;
-		if ($db->getRowCount($result) > 0) {
-			while ($row = $db->getRow($result)) {
-				$data[$i]['label'] = vtranslate($row['leadsourcevalue'], 'Leads');
-				$ticks[$i][0] = $i;
-				$ticks[$i][1] = vtranslate($row['leadsourcevalue'], 'Leads');
-				$data[$i]['data'][0][0] = $i;
-				$data[$i]['data'][0][1] = $row['count'];
-				$name[] = $row['leadsourcevalue'];
-				$i++;
-			}
-			$response['chart'] = $data;
-			$response['ticks'] = $ticks;
-			$response['name'] = $name;
+		while ($row = $dataReader->read()) {
+			$data[$i]['label'] = \App\Language::translate($row['leadsourcevalue'], 'Leads');
+			$ticks[$i][0] = $i;
+			$ticks[$i][1] = \App\Language::translate($row['leadsourcevalue'], 'Leads');
+			$data[$i]['data'][0][0] = $i;
+			$data[$i]['data'][0][1] = $row['count'];
+			$name[] = $row['leadsourcevalue'];
+			$i++;
 		}
+		$response['chart'] = $data;
+		$response['ticks'] = $ticks;
+		$response['name'] = $name;
+
 		return $response;
 	}
 
