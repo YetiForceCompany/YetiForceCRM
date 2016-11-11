@@ -23,21 +23,55 @@ class MultipicklistCondition extends BaseFieldParser
 		return $valueArray;
 	}
 
+	/**
+	 * Equals operator
+	 * @return array
+	 */
 	public function operatorE()
 	{
 		return [$this->getColumnName() => $this->getValue()];
 	}
 
+	/**
+	 * Not equal operator
+	 * @return array
+	 */
 	public function operatorN()
 	{
-		return [$this->getColumnName() => $this->getValue()];
+		return ['not', [$this->getColumnName() => $this->getValue()]];
 	}
 
+	/**
+	 * Starts with operator
+	 * @return array
+	 */
+	public function operatorS()
+	{
+		return ['like', $this->getColumnName(), implode(' |##| ', $this->getValue()) . '%', false];
+	}
+
+	/**
+	 * Ends with operator
+	 * @return array
+	 */
+	public function operatorEw()
+	{
+		return ['like', $this->getColumnName(), '%' . implode(' |##| ', $this->getValue()), false];
+	}
+
+	/**
+	 * Contains operator
+	 * @return array
+	 */
 	public function operatorC()
 	{
 		return ['or like', $this->getColumnName(), $this->getValue()];
 	}
 
+	/**
+	 * Does not contain operator
+	 * @return array
+	 */
 	public function operatorK()
 	{
 		return ['or not like', $this->getColumnName(), $this->getValue()];
