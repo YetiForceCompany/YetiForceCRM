@@ -267,7 +267,7 @@ class QueryGenerator
 			return false;
 		}
 		foreach ($this->advFilterList as $group => &$filters) {
-			$functionName = ($group === 1 ? 'addAndCondition' : 'addOrCondition');
+			$functionName = ($group === 'and' ? 'addAndCondition' : 'addOrCondition');
 			$nativeFunctionName = $functionName . 'Native';
 			foreach ($filters as &$filter) {
 				list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $filter['columnname']);

@@ -10,22 +10,9 @@ namespace App\QueryFieldCondition;
 class ReferenceCondition extends BaseFieldParser
 {
 
-	/**
-	 * @var Related modules 
-	 */
-	protected $relatedModules;
-
-	/**
-	 * @var Related table name 
-	 */
-	protected $relatedTableName;
-
 	public function getTables()
 	{
-		if ($this->relatedModules) {
-			return $this->relatedModules;
-		}
-		return $this->relatedModules = $this->queryGenerator->getReference($this->fieldModel->getName());
+		return $this->queryGenerator->getReference($this->fieldModel->getName());
 	}
 
 	/**
@@ -34,9 +21,7 @@ class ReferenceCondition extends BaseFieldParser
 	 */
 	public function getRelatedTableName()
 	{
-		if ($this->relatedTableName) {
-			return $this->relatedTableName;
-		}
+		$relatedTableName = [];
 		foreach ($this->getTables() as &$moduleName) {
 			$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
 			$referenceTable = $entityFieldInfo['tablename'] . $this->fieldModel->getFieldName();
@@ -49,9 +34,10 @@ class ReferenceCondition extends BaseFieldParser
 			} else {
 				$formattedName = "$referenceTable.{$entityFieldInfo['fieldname']}";
 			}
+			$relatedTableName[$moduleName] = $formattedName;
 			$this->queryGenerator->addJoin(['LEFT JOIN', $entityFieldInfo['tablename'] . ' ' . $referenceTable, $this->getColumnName() . " = $referenceTable.{$entityFieldInfo['entityidfield']}"]);
 		}
-		return $this->relatedTableName = $formattedName;
+		return $relatedTableName;
 	}
 
 	/**
@@ -60,15 +46,11 @@ class ReferenceCondition extends BaseFieldParser
 	 */
 	public function operatorE()
 	{
-		if (\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			$values = explode(',', $this->value);
-			$condition = ['or'];
-			foreach ($values as $value) {
-				$condition[] = [$this->getColumnName() => ltrim($value)];
-			}
-			return $condition;
+		$condition = ['or'];
+		foreach ($this->getRelatedTableName() as &$formattedName) {
+			$condition[] = ['=', $formattedName, $this->value];
 		}
-		return ['=', $this->getRelatedTableName(), $this->value];
+		return $condition;
 	}
 
 	/**
@@ -77,15 +59,11 @@ class ReferenceCondition extends BaseFieldParser
 	 */
 	public function operatorN()
 	{
-		if (\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			$values = explode(',', $this->value);
-			$condition = ['and'];
-			foreach ($values as $value) {
-				$condition[] = ['<>', $this->getColumnName(), ltrim($value)];
-			}
-			return $condition;
+		$condition = ['and'];
+		foreach ($this->getRelatedTableName() as &$formattedName) {
+			$condition[] = ['<>', $formattedName, $this->value];
 		}
-		return ['<>', $this->getRelatedTableName(), $this->value];
+		return $condition;
 	}
 
 	/**
@@ -94,7 +72,11 @@ class ReferenceCondition extends BaseFieldParser
 	 */
 	public function operatorS()
 	{
-		return ['like', $this->getRelatedTableName(), $this->value . '%', false];
+		$condition = ['or'];
+		foreach ($this->getRelatedTableName() as &$formattedName) {
+			$condition[] = ['like', $formattedName, $this->value . '%', false];
+		}
+		return $condition;
 	}
 
 	/**
@@ -103,7 +85,11 @@ class ReferenceCondition extends BaseFieldParser
 	 */
 	public function operatorEw()
 	{
-		return ['like', $this->getRelatedTableName(), '%' . $this->value, false];
+		$condition = ['or'];
+		foreach ($this->getRelatedTableName() as &$formattedName) {
+			$condition[] = ['like', $formattedName, '%' . $this->value, false];
+		}
+		return $condition;
 	}
 
 	/**
@@ -112,7 +98,11 @@ class ReferenceCondition extends BaseFieldParser
 	 */
 	public function operatorC()
 	{
-		return ['like', $this->getRelatedTableName(), $this->value];
+		$condition = ['or'];
+		foreach ($this->getRelatedTableName() as &$formattedName) {
+			$condition[] = ['like', $formattedName, $this->value];
+		}
+		return $condition;
 	}
 
 	/**
@@ -121,7 +111,11 @@ class ReferenceCondition extends BaseFieldParser
 	 */
 	public function operatorK()
 	{
-		return ['not like', $this->getRelatedTableName(), $this->value];
+		$condition = ['or'];
+		foreach ($this->getRelatedTableName() as &$formattedName) {
+			$condition[] = ['not like', $formattedName, $this->value];
+		}
+		return $condition;
 	}
 
 	/**
