@@ -16,7 +16,7 @@ class StringCondition extends BaseFieldParser
 	 */
 	public function operatorS()
 	{
-		return ['like', $this->getColumnName(), $this->value . '%', false];
+		return ['like', $this->getColumnName(), $this->getValue() . '%', false];
 	}
 
 	/**
@@ -25,7 +25,7 @@ class StringCondition extends BaseFieldParser
 	 */
 	public function operatorEw()
 	{
-		return ['like', $this->getColumnName(), '%' . $this->value, false];
+		return ['like', $this->getColumnName(), '%' . $this->getValue(), false];
 	}
 
 	/**
@@ -34,7 +34,7 @@ class StringCondition extends BaseFieldParser
 	 */
 	public function operatorC()
 	{
-		return ['like', $this->getColumnName(), $this->value];
+		return ['like', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**
@@ -43,6 +43,6 @@ class StringCondition extends BaseFieldParser
 	 */
 	public function operatorK()
 	{
-		return ['not like', $this->getColumnName(), $this->value];
+		return ['not like', $this->getColumnName(), $this->getValue()];
 	}
 }

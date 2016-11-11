@@ -16,7 +16,7 @@ class IntegerCondition extends BaseFieldParser
 	 */
 	public function operatorL()
 	{
-		return ['<', $this->getColumnName(), $this->value];
+		return ['<', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**
@@ -25,7 +25,7 @@ class IntegerCondition extends BaseFieldParser
 	 */
 	public function operatorG()
 	{
-		return ['>', $this->getColumnName(), $this->value];
+		return ['>', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**
@@ -34,7 +34,7 @@ class IntegerCondition extends BaseFieldParser
 	 */
 	public function operatorM()
 	{
-		return ['<=', $this->getColumnName(), $this->value];
+		return ['<=', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**
@@ -43,6 +43,6 @@ class IntegerCondition extends BaseFieldParser
 	 */
 	public function operatorH()
 	{
-		return ['>=', $this->getColumnName(), $this->value];
+		return ['>=', $this->getColumnName(), $this->getValue()];
 	}
 }

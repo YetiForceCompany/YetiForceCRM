@@ -10,26 +10,20 @@ namespace App\QueryFieldCondition;
 class MultipicklistCondition extends BaseFieldParser
 {
 
+	/**
+	 * Get value
+	 * @return mixed
+	 */
 	public function getValue()
 	{
 		$value = $this->value;
 		$valueArray = explode(',', $value);
 		if (in_array($this->operator, ['e', 'n'])) {
-			$valueArray = \App\QueryConditionParser::getCombinations($valueArray);
-			foreach ($valueArray as $key => $value) {
+			foreach (\App\QueryConditionParser::getCombinations($valueArray) as $key => $value) {
 				$valueArray[$key] = ltrim($value, ' |##| ');
 			}
 		}
 		return $valueArray;
-	}
-
-	/**
-	 * Equals operator
-	 * @return array
-	 */
-	public function operatorE()
-	{
-		return [$this->getColumnName() => $this->getValue()];
 	}
 
 	/**

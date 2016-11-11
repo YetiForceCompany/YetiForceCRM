@@ -43,12 +43,28 @@ class BaseFieldParser
 	const EQUALITY_TYPES = ['currency', 'percentage', 'double', 'integer', 'number'];
 	const COMMA_TYPES = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
 
+	/**
+	 * Constructor
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param string|array $value
+	 * @param string $operator
+	 */
 	public function __construct(\App\QueryGenerator $queryGenerator, \Vtiger_Field_Model $fieldModel, $value, $operator)
 	{
 		$this->queryGenerator = $queryGenerator;
 		$this->fieldModel = $fieldModel;
 		$this->value = $value;
 		$this->operator = strtolower($operator);
+	}
+
+	/**
+	 * Get value
+	 * @return mixed
+	 */
+	public function getValue()
+	{
+		return $this->value;
 	}
 
 	/**
@@ -130,7 +146,7 @@ class BaseFieldParser
 	 */
 	public function operatorE()
 	{
-		return [$this->getColumnName() => $this->value];
+		return [$this->getColumnName() => $this->getValue()];
 	}
 
 	/**
@@ -139,7 +155,7 @@ class BaseFieldParser
 	 */
 	public function operatorN()
 	{
-		return ['<>', $this->getColumnName(), $this->value];
+		return ['<>', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**

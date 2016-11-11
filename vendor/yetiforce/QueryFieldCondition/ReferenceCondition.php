@@ -27,7 +27,7 @@ class ReferenceCondition extends BaseFieldParser
 			$referenceTable = $entityFieldInfo['tablename'] . $this->fieldModel->getFieldName();
 			if (count($entityFieldInfo['fieldnameArr']) > 1) {
 				$sqlString = 'CONCAT(';
-				foreach ($entityFieldInfo['fieldnameArr'] as $column) {
+				foreach ($entityFieldInfo['fieldnameArr'] as &$column) {
 					$sqlString .= "$referenceTable.$column,' ',";
 				}
 				$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
@@ -48,7 +48,7 @@ class ReferenceCondition extends BaseFieldParser
 	{
 		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as &$formattedName) {
-			$condition[] = ['=', $formattedName, $this->value];
+			$condition[] = ['=', $formattedName, $this->getValue()];
 		}
 		return $condition;
 	}
@@ -61,7 +61,7 @@ class ReferenceCondition extends BaseFieldParser
 	{
 		$condition = ['and'];
 		foreach ($this->getRelatedTableName() as &$formattedName) {
-			$condition[] = ['<>', $formattedName, $this->value];
+			$condition[] = ['<>', $formattedName, $this->getValue()];
 		}
 		return $condition;
 	}
@@ -74,7 +74,7 @@ class ReferenceCondition extends BaseFieldParser
 	{
 		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as &$formattedName) {
-			$condition[] = ['like', $formattedName, $this->value . '%', false];
+			$condition[] = ['like', $formattedName, $this->getValue() . '%', false];
 		}
 		return $condition;
 	}
@@ -87,7 +87,7 @@ class ReferenceCondition extends BaseFieldParser
 	{
 		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as &$formattedName) {
-			$condition[] = ['like', $formattedName, '%' . $this->value, false];
+			$condition[] = ['like', $formattedName, '%' . $this->getValue(), false];
 		}
 		return $condition;
 	}
@@ -100,7 +100,7 @@ class ReferenceCondition extends BaseFieldParser
 	{
 		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as &$formattedName) {
-			$condition[] = ['like', $formattedName, $this->value];
+			$condition[] = ['like', $formattedName, $this->getValue()];
 		}
 		return $condition;
 	}
@@ -113,7 +113,7 @@ class ReferenceCondition extends BaseFieldParser
 	{
 		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as &$formattedName) {
-			$condition[] = ['not like', $formattedName, $this->value];
+			$condition[] = ['not like', $formattedName, $this->getValue()];
 		}
 		return $condition;
 	}
