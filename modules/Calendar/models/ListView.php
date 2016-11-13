@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /**
@@ -87,8 +88,8 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 
 	/**
 	 * Function to get the list of Mass actions for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @param array $linkParams
+	 * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
@@ -97,20 +98,20 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 
 		$massActionLinks = [];
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
-			$massActionLinks[] = array(
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_CHANGE_OWNER',
-				'linkurl' => 'javascript:Calendar_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
+				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => ''
-			);
+			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
-			$massActionLinks[] = array(
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
 				'linkicon' => ''
-			);
+			];
 		}
 
 		foreach ($massActionLinks as $massActionLink) {

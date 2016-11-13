@@ -41,14 +41,14 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @return array - List of Vtiger_Record_Model instances
 	 */
 	public function getRecordModelsFromRequest(Vtiger_Request $request)
 	{
 
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$recordIds = $this->getRecordsListFromRequest($request);
+		$recordIds = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		$recordModels = [];
 
 		$fieldModelList = $moduleModel->getFields();
@@ -62,13 +62,13 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
 				$fieldValue = $request->get($fieldName, null);
-				$fieldDataType = $fieldModel->getFieldDataType();
-				if ($fieldDataType == 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-				}
-				if (isset($fieldValue) && $fieldValue != null) {
+				if (isset($fieldValue)) {
+					$fieldDataType = $fieldModel->getFieldDataType();
 					if (!is_array($fieldValue)) {
 						$fieldValue = trim($fieldValue);
+					}
+					if ($fieldDataType === 'time') {
+						$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 					}
 					$recordModel->set($fieldName, $fieldValue);
 				} else {

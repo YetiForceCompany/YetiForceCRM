@@ -5,22 +5,10 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-
 Vtiger_List_Js("Calendar_List_Js",{
-
-	triggerMassEdit : function(massEditUrl) {
-		Vtiger_List_Js.triggerMassAction(massEditUrl, function(container){
-			var massEditForm = container.find('#massEdit');
-			massEditForm.validationEngine(app.validationEngineOptions);
-			var listInstance = Vtiger_List_Js.getInstance();
-			var editInstance = Vtiger_Edit_Js.getInstance();
-			editInstance.registerBasicEvents(jQuery(container));
-			listInstance.postMassEdit(container);
-		});
-	},
-
 	triggerImportAction : function (importUrl) {
 		var progressIndicatorElement = jQuery.progressIndicator();
 		AppConnector.request(importUrl).then(

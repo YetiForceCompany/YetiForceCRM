@@ -94,7 +94,7 @@ class Services extends CRMEntity
 	public function save_module($module)
 	{
 		//Inserting into service_taxrel table
-		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
+		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassSave' && AppRequest::get('action') != 'ProcessDuplicates') {
 			$this->insertTaxInformation('vtiger_producttaxrel', 'Services');
 			$this->insertPriceInformation();
 		}
@@ -157,7 +157,7 @@ class Services extends CRMEntity
 		$productBaseConvRate = getBaseConversionRateForProduct($this->id, $this->mode);
 		$currencySet = false;
 		$currencyDetails = vtlib\Functions::getAllCurrency(true);
-		if ($this->mode == 'edit' && AppRequest::get('action') !== 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
+		if ($this->mode === 'edit') {
 			$db->createCommand()->delete('vtiger_productcurrencyrel', ['productid' => $this->id])->execute();
 		}
 		foreach ($currencyDetails as $curid => $currency) {

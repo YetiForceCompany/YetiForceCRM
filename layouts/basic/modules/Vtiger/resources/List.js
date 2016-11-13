@@ -451,16 +451,11 @@ jQuery.Class("Vtiger_List_Js", {
 			var massEditForm = container.find('#massEdit');
 			massEditForm.validationEngine(app.validationEngineOptions);
 			var listInstance = Vtiger_List_Js.getInstance();
-			listInstance.inactiveFieldValidation(massEditForm);
-			listInstance.registerReferenceFieldsForValidation(massEditForm);
-			listInstance.registerFieldsForValidation(massEditForm);
+			listInstance.inactiveFieldsValidation(massEditForm);
 			listInstance.registerEventForTabClick(massEditForm);
 			var editInstance = Vtiger_Edit_Js.getInstance();
 			editInstance.registerBasicEvents(massEditForm);
-			//To remove the change happended for select elements due to picklist dependency
-			container.find('select').trigger('change', {'forceDeSelect': true});
 			listInstance.postMassEdit(container);
-
 			listInstance.registerSlimScrollMassEdit();
 		}, {'width': '65%'});
 	},
@@ -860,46 +855,7 @@ jQuery.Class("Vtiger_List_Js", {
 			isMassEdit = false;
 		}
 		var aDeferred = jQuery.Deferred();
-		var massActionUrl = form.serializeFormData();
 		if (isMassEdit) {
-			var fieldsChanged = false;
-			var massEditFieldList = jQuery('#massEditFieldsNameList').data('value');
-			for (var fieldName in massEditFieldList) {
-				var fieldInfo = massEditFieldList[fieldName];
-				var fieldElement = form.find('[name="' + fieldInfo.name + '"]');
-				if (fieldInfo.type == "reference" || fieldInfo.type == "tree") {
-					//get the element which will be shown which has "_display" appended to actual field name
-					fieldElement = form.find('[name="' + fieldInfo.name + '_display"]');
-				} else if (fieldInfo.type == "multipicklist" || fieldInfo.type == "sharedOwner") {
-					fieldElement = form.find('[name="' + fieldInfo.name + '[]"]');
-				}
-
-				//Not all fields will be enabled for mass edit
-				if (fieldElement.length == 0) {
-					continue;
-				}
-
-				var validationElement = fieldElement.filter('[data-validation-engine]');
-				//check if you have element enabled has changed
-				if (validationElement.length == 0) {
-					if (fieldInfo.type == "multipicklist" || fieldInfo.type == "sharedOwner") {
-						fieldName = fieldName + "[]";
-					}
-					delete massActionUrl[fieldName];
-					if (fieldsChanged != true) {
-						fieldsChanged = false;
-					}
-				} else {
-					fieldsChanged = true;
-				}
-			}
-			if (fieldsChanged == false) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'));
-				form.find('[name="saveButton"]').removeAttr('disabled');
-				aDeferred.reject();
-				return aDeferred.promise();
-			}
-			//on submit form trigger the massEditPreSave event
 			var massEditPreSaveEvent = jQuery.Event(Vtiger_List_Js.massEditPreSave);
 			form.trigger(massEditPreSaveEvent);
 			if (massEditPreSaveEvent.isDefaultPrevented()) {
@@ -907,7 +863,18 @@ jQuery.Class("Vtiger_List_Js", {
 				aDeferred.reject();
 				return aDeferred.promise();
 			}
+			form.find('[id^="selectRow"]').each(function (index, checkbox) {
+				checkbox = jQuery(checkbox);
+				if (!checkbox.prop('checked')) {
+					var field = checkbox.closest('.rowElements').find('fieldValue [name]');
+					checkbox.closest('.rowElements').find('.fieldValue [name]').each(function (index, element) {
+						element = jQuery(element);
+						element.attr('data-element-name', element.attr('name')).removeAttr('name');
+					});
+				}
+			});
 		}
+		var massActionUrl = form.serializeFormData();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
@@ -931,6 +898,7 @@ jQuery.Class("Vtiger_List_Js", {
 				},
 				function (error, err) {
 					app.hideModalWindow();
+					app.errorLog(error, err);
 					aDeferred.reject(error, err);
 				}
 		);
@@ -1067,17 +1035,69 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		return false;
 	},
+	inactiveFieldValidation: function (field) {
+		field.validationEngine('hide');
+		var form = field.closest('form');
+		var invalidFields = form.data('jqv').InvalidFields;
+		var fields = [field.get(0)];
+
+		var validationVal = field.attr('data-validation-engine');
+		field.attr('data-invalid-validation-engine', validationVal ? validationVal : 'validate[]');
+		field.removeAttr('data-validation-engine');
+
+		if (field.is('select') && field.hasClass('chzn-select')) {
+			var chosenElement = app.getChosenElementFromSelect(field);
+			chosenElement.validationEngine('hide');
+			fields.push(chosenElement.get(0));
+		}
+		for (var i in fields) {
+			var response = jQuery.inArray(fields[i], invalidFields);
+			if (response != '-1') {
+				invalidFields.splice(response, 1);
+			}
+		}
+	},
+	activeFieldValidation: function (field) {
+		var validationVal = field.attr('data-invalid-validation-engine');
+		field.attr('data-validation-engine', validationVal ? validationVal : 'validate[]');
+		field.removeAttr('data-invalid-validation-engine');
+	},
 	postMassEdit: function (massEditContainer) {
 		var thisInstance = this;
+		var editInstance = Vtiger_Edit_Js.getInstance();
+		massEditContainer.find('.selectRow').on('change', function (e) {
+			var element = jQuery(e.currentTarget);
+			var blockElement = element.closest('.rowElements').find('.fieldValue');
+			var fieldElement = blockElement.find('[data-validation-engine],[data-invalid-validation-engine]');
+			var fieldInfo = fieldElement.data('fieldinfo');
+			if (element.prop('checked')) {
+				thisInstance.activeFieldValidation(fieldElement);
+			} else {
+				thisInstance.inactiveFieldValidation(fieldElement);
+			}
+			if (fieldInfo !== undefined && fieldInfo.type === 'reference') {
+				var mapFields = editInstance.getMappingRelatedField(fieldInfo.name, editInstance.getReferencedModuleName(blockElement), massEditContainer);
+				$.each(mapFields, function (key, value) {
+					var checkboxElement = massEditContainer.find('[id="selectRow' + key + '"]');
+					if (checkboxElement.length && checkboxElement.prop('disabled')) {
+						checkboxElement.prop('disabled', false);
+						checkboxElement.trigger('click');
+						checkboxElement.prop('disabled', true);
+					}
+				});
+			}
+		})
 		massEditContainer.find('form').on('submit', function (e) {
 			e.preventDefault();
 			var form = jQuery(e.currentTarget);
-			var invalidFields = form.data('jqv').InvalidFields;
-			if (invalidFields.length == 0) {
-				form.find('[name="saveButton"]').attr('disabled', "disabled");
+			if (!form.find('input[id^="selectRow"]:checked').length) {
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'));
+				return;
 			}
 			var invalidFields = form.data('jqv').InvalidFields;
-			if (invalidFields.length > 0) {
+			if (invalidFields.length == 0) {
+				form.find('[name="saveButton"]').prop('disabled', true);
+			} else {
 				return;
 			}
 			thisInstance.massActionSave(form, true).then(
@@ -1086,6 +1106,7 @@ jQuery.Class("Vtiger_List_Js", {
 						Vtiger_List_Js.clearList();
 					},
 					function (error, err) {
+						app.errorLog(error, err);
 					}
 			)
 		});
@@ -1758,7 +1779,7 @@ jQuery.Class("Vtiger_List_Js", {
 	 * this will remove data-validation-engine attr of all the elements
 	 * @param Accepts form as a parameter
 	 */
-	inactiveFieldValidation: function (form) {
+	inactiveFieldsValidation: function (form) {
 		var massEditFieldList = jQuery('#massEditFieldsNameList').data('value');
 		for (var fieldName in massEditFieldList) {
 			var fieldInfo = massEditFieldList[fieldName];
@@ -1784,44 +1805,9 @@ jQuery.Class("Vtiger_List_Js", {
 				validationVal = elemData.validationEngine;
 				delete elemData.validationEngine;
 			}
-			fieldElement.data('invalidValidationEngine', validationVal);
+			fieldElement.attr('data-invalid-validation-engine', validationVal);
 			fieldElement.removeAttr('data-validation-engine');
 		}
-	},
-	/**
-	 * function to register field for validation
-	 * this will add the data-validation-engine attr of all the elements
-	 * make the field available for validation
-	 * @param Accepts form as a parameter
-	 */
-	registerFieldsForValidation: function (form) {
-		form.find('.fieldValue').on('change', 'input,select,textarea', function (e, params) {
-			if (typeof params == 'undefined') {
-				params = {};
-			}
-
-			if (typeof params.forceDeSelect == 'undefined') {
-				params.forceDeSelect = false;
-			}
-			var element = jQuery(e.currentTarget);
-			var fieldValue = element.val();
-			var parentTd = element.closest('td');
-			if (((fieldValue == "" || fieldValue == null) && (typeof (element.attr('data-validation-engine')) != "undefined")) || params.forceDeSelect) {
-				if (parentTd.hasClass('massEditActiveField')) {
-					parentTd.removeClass('massEditActiveField');
-				}
-				element.removeAttr('data-validation-engine');
-				element.validationEngine('hide');
-				var invalidFields = form.data('jqv').InvalidFields;
-				var response = jQuery.inArray(element.get(0), invalidFields);
-				if (response != '-1') {
-					invalidFields.splice(response, 1);
-				}
-			} else if ((fieldValue != "") && (typeof (element.attr('data-validation-engine')) == "undefined")) {
-				element.attr('data-validation-engine', element.data('invalidValidationEngine'));
-				parentTd.addClass('massEditActiveField');
-			}
-		})
 	},
 	registerEventForTabClick: function (form) {
 		var ulContainer = form.find('.massEditTabs');
@@ -1832,33 +1818,6 @@ jQuery.Class("Vtiger_List_Js", {
 				e.stopPropagation();
 			}
 		});
-	},
-	registerReferenceFieldsForValidation: function (form) {
-		var referenceField = form.find('.sourceField');
-		form.find('.sourceField').on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, params) {
-			var element = jQuery(e.currentTarget);
-			var elementName = element.attr('name');
-			var fieldDisplayName = elementName + "_display";
-			var fieldDisplayElement = form.find('input[name="' + fieldDisplayName + '"]');
-			if (params.selectedName == "") {
-				return;
-			}
-			fieldDisplayElement.attr('data-validation-engine', fieldDisplayElement.data('invalidValidationEngine'));
-			var parentTd = fieldDisplayElement.closest('td');
-			if (!parentTd.hasClass('massEditActiveField')) {
-				parentTd.addClass('massEditActiveField');
-			}
-		})
-		form.find('.clearReferenceSelection').on(Vtiger_Edit_Js.referenceDeSelectionEvent, function (e) {
-			var sourceField = form.find('.sourceField');
-			var sourceFieldName = sourceField.attr('name');
-			var fieldDisplayName = sourceFieldName + "_display";
-			var fieldDisplayElement = form.find('input[name="' + fieldDisplayName + '"]').removeAttr('data-validation-engine');
-			var parentTd = fieldDisplayElement.closest('td');
-			if (parentTd.hasClass('massEditActiveField')) {
-				parentTd.removeClass('massEditActiveField');
-			}
-		})
 	},
 	registerSlimScrollMassEdit: function () {
 		app.showScrollBar(jQuery('div[name="massEditContent"]'), {'height': '100%'});

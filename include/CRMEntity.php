@@ -401,7 +401,7 @@ class CRMEntity
 			$uitype = $field['uitype'];
 			$typeofdata = $field['typeofdata'];
 			$ajaxSave = false;
-			if ((AppRequest::get('file') == 'DetailViewAjax' && AppRequest::get('ajxaction') == 'DETAILVIEW' && AppRequest::has('fldName') && AppRequest::get('fldName') != $fieldname) || (AppRequest::get('action') == 'MassEditSave' && !AppRequest::get($fieldname . '_mass_edit_check'))) {
+			if (AppRequest::get('file') == 'DetailViewAjax' && AppRequest::get('ajxaction') == 'DETAILVIEW' && AppRequest::has('fldName') && AppRequest::get('fldName') != $fieldname) {
 				$ajaxSave = true;
 			}
 			if ($uitype === 4 && $insertiontMode !== 'edit') {
@@ -462,7 +462,7 @@ class CRMEntity
 						$fldvalue = $this->column_fields[$fieldname];
 				} elseif ($uitype === 7) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
-					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); 
+					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]);
 				} elseif ($uitype === 26) {
 					if (empty($this->column_fields[$fieldname])) {
 						$fldvalue = 1; //the documents will stored in default folder
@@ -1259,9 +1259,9 @@ class CRMEntity
 		$tabid = \App\Module::getModuleId($module);
 		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
-		
+
 		$fieldinfo = (new App\Db\Query())->from('vtiger_field')
-			->where(['tabid' => $tabid, 'uitype' => 4])->one();
+				->where(['tabid' => $tabid, 'uitype' => 4])->one();
 		$returninfo = [];
 
 		if ($fieldinfo) {
@@ -1269,9 +1269,9 @@ class CRMEntity
 			$fieldColumn = $fieldinfo['columnname'];
 			if ($fieldTable === $this->table_name) {
 				$dataReader = (new App\Db\Query())->select(['recordid' => $this->table_index])
-					->from($this->table_name)
-					->where(['or' ,[$fieldColumn => ''], [$fieldColumn => null]])
-					->createCommand()->query();
+						->from($this->table_name)
+						->where(['or', [$fieldColumn => ''], [$fieldColumn => null]])
+						->createCommand()->query();
 				$totalCount = $dataReader->count();
 				if ($totalCount) {
 					$returninfo['totalrecords'] = $totalCount;
