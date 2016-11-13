@@ -218,7 +218,7 @@ class Base1 extends \App\Db\Importers\Base
 					'operation' => $this->smallInteger(1)->notNull(),
 				],
 				'columns_mysql' => [
-					'uri' => 'varbinary(200) DEFAULT NULL'
+					'uri' => 'varbinary(200) NOT NULL'
 				],
 				'index' => [
 						['dav_addressbookchanges_idx', ['addressbookid', 'synctoken']],
@@ -259,7 +259,7 @@ class Base1 extends \App\Db\Importers\Base
 					'operation' => $this->smallInteger(1)->notNull(),
 				],
 				'columns_mysql' => [
-					'uri' => 'varbinary(200) DEFAULT NULL',
+					'uri' => 'varbinary(200) NOT NULL',
 				],
 				'index' => [
 						['dav_calendarchanges_idx', ['calendarid', 'synctoken']],
@@ -291,9 +291,6 @@ class Base1 extends \App\Db\Importers\Base
 				'index' => [
 						['dav_calendarobjects_cal_idx', ['calendarid', 'uri'], true],
 				],
-				'index_mysql' => [
-						['dav_calendarobjects_cal_idx', ['calendarid', 'uri(100)'], true],
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
@@ -314,13 +311,11 @@ class Base1 extends \App\Db\Importers\Base
 				'columns_mysql' => [
 					'principaluri' => 'varbinary(100) DEFAULT NULL',
 					'uri' => 'varbinary(200) DEFAULT NULL',
+					'calendarcolor' => 'varbinary(10) DEFAULT NULL',
 					'components' => 'varbinary(21) DEFAULT NULL',
 				],
 				'index' => [
-						['dav_calendars_uri_idx', ['principaluri', 'uri']],
-				],
-				'index_mysql' => [
-						['dav_calendars_uri_idx', ['principaluri(100)', 'uri(100)']],
+						['dav_calendars_uri_idx', ['principaluri', 'uri'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
@@ -341,15 +336,12 @@ class Base1 extends \App\Db\Importers\Base
 					'lastmodified' => $this->integer()->unsigned(),
 				],
 				'columns_mysql' => [
-					'uri' => 'varbinary(200) DEFAULT NULL',
-					'principaluri' => 'varbinary(100) DEFAULT NULL',
+					'uri' => 'varbinary(200) NOT NULL',
+					'principaluri' => 'varbinary(100) NOT NULL',
 					'calendarcolor' => 'varbinary(10) DEFAULT NULL',
 				],
 				'index' => [
 						['dav_calendarsubscriptions_uri_idx', ['principaluri', 'uri'], true],
-				],
-				'index_mysql' => [
-						['dav_calendarsubscriptions_uri_idx', ['principaluri(100)', 'uri(100)'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
@@ -402,9 +394,6 @@ class Base1 extends \App\Db\Importers\Base
 				'index' => [
 						['dav_principals_uri_idx', 'uri', true],
 				],
-				'index_mysql' => [
-						['dav_principals_uri_idx', 'uri(100)', true],
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
@@ -440,6 +429,7 @@ class Base1 extends \App\Db\Importers\Base
 					'size' => $this->integer()->unsigned()->notNull(),
 				],
 				'columns_mysql' => [
+					'principaluri' => 'varbinary(255) DEFAULT NULL',
 					'uri' => 'varbinary(255) DEFAULT NULL',
 					'etag' => 'varbinary(32) DEFAULT NULL'
 				],
@@ -2875,7 +2865,7 @@ class Base1 extends \App\Db\Importers\Base
 				'index' => [
 						['ssalesprocesses_rel_idx', 'related_to'],
 						['ssalesprocesses_cam_idx', 'campaignid'],
-						['ssalesprocesses_cam_idx', 'parentid'],
+						['ssalesprocesses_parent_idx', 'parentid'],
 				],
 				'primaryKeys' => [
 						['ssalesprocesses_pk', 'ssalesprocessesid']
@@ -3046,7 +3036,7 @@ class Base1 extends \App\Db\Importers\Base
 						['watchdog_module_idx', 'member'],
 				],
 				'primaryKeys' => [
-						['watchdog_module_pk', ['userid', 'module']]
+						['watchdog_module_pk', ['member', 'module']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
