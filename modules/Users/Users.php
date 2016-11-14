@@ -884,24 +884,19 @@ class Users extends CRMEntity
 			\App\Log::error('record is empty. returning null');
 			return null;
 		}
-
 		$result = [];
-		foreach ($this->tab_name_index as $table_name => $index) {
-			$query = 'SELECT * FROM %s WHERE %s = ?';
-			$query = sprintf($query, $table_name, $index);
-			$result[$table_name] = $adb->pquery($query, [$record]);
+		foreach ($this->tab_name_index as $tableName => $index) {
+			$result[$tableName] = (new \App\Db\Query())
+					->from($tableName)
+					->where([$index => $record])->one();
 		}
-		$tabid = \App\Module::getModuleId($module);
-		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
-		$result1 = $adb->pquery($sql1, array($tabid));
-		while ($row = $adb->getRow($result1)) {
-			$fieldcolname = $row['columnname'];
-			$tablename = $row['tablename'];
-			$fieldname = $row['fieldname'];
-
-			$fld_value = $adb->query_result($result[$tablename], 0, $fieldcolname);
-			$this->column_fields[$fieldname] = $fld_value;
-			$this->$fieldname = $fld_value;
+		$fields = vtlib\Functions::getModuleFieldInfos($module);
+		foreach ($fields as $fieldName => &$fieldRow) {
+			if (isset($result[$fieldRow['tablename']][$fieldRow['columnname']])) {
+				$value = $result[$fieldRow['tablename']][$fieldRow['columnname']];
+				$this->column_fields[$fieldName] = $value;
+				$this->$fieldName = $value;
+			}
 		}
 		$this->column_fields['record_id'] = $record;
 		$this->column_fields['record_module'] = $module;
