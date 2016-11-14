@@ -4823,6 +4823,8 @@ CREATE TABLE `vtiger_field` (
   `header_field` varchar(15) DEFAULT NULL,
   `maxlengthtext` smallint(3) unsigned DEFAULT '0',
   `maxwidthcolumn` smallint(3) unsigned DEFAULT '0',
+  `user_permissions` varchar(255) DEFAULT NULL,
+  `role_permissions` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),
