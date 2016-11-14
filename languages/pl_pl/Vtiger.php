@@ -1264,7 +1264,7 @@ $languageStrings = [
 	'LBL_REVIEW_CHANGES' => 'Zapoznanie się ze zmianami',
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Kontrahenci według branży',
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Szacowana wartość szans sprzedaży',
-	'LBL_UPDATE_DATE_FIELD' => 'Aktualizuj pole %s aktualnym czasem',
+	'LBL_UPDATE_FIELD' => 'Aktualizuj pole:',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

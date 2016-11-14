@@ -273,10 +273,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
-	updateDateField: function (fieldName) {
+	updateField: function (fieldName) {
 		var params = {
 			module: app.getModuleName(),
-			action: 'UpdateDateField',
+			action: 'UpdateField',
 			record: app.getRecordId(),
 			fieldName: fieldName,
 		};
