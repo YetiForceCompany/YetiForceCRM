@@ -11,6 +11,24 @@ class DateCondition extends BaseFieldParser
 {
 
 	/**
+	 * Get condition
+	 * @return boolean|array
+	 */
+	public function getCondition()
+	{
+		$fn = 'operator' . ucfirst($this->operator);
+		if (in_array($this->operator, \App\CustomView::STD_FILTER_CONDITIONS)) {
+			\App\Log::trace('Entering to getStdOperator in ' . __CLASS__);
+			return $this->getStdOperator();
+		} elseif (method_exists($this, $fn)) {
+			\App\Log::trace("Entering to $fn in " . __CLASS__);
+			return $this->$fn();
+		}
+		\App\Log::error("Not found operator: $fn in  " . __CLASS__);
+		return false;
+	}
+
+	/**
 	 * Get value
 	 * @return mixed
 	 */
@@ -27,6 +45,31 @@ class DateCondition extends BaseFieldParser
 	{
 		$value = explode(',', $this->value);
 		return array_map('\DateTimeField::convertToDBFormat', $value);
+	}
+
+	/**
+	 * Get value
+	 * @return mixed
+	 */
+	public function getStdValue()
+	{
+		$date = \DateTimeRange::getDateRangeByType($this->operator);
+		$startDateTime = new \DateTimeField($date[0] . ' ' . date('H:i:s'));
+		$endDateTime = new \DateTimeField($date[1] . ' ' . date('H:i:s'));
+		return [
+			\DateTimeField::convertToDBFormat($startDateTime->getDisplayDate()),
+			\DateTimeField::convertToDBFormat($endDateTime->getDisplayDate()),
+		];
+	}
+
+	/**
+	 * Get value
+	 * @return mixed
+	 */
+	public function getStdOperator()
+	{
+		$value = $this->getStdValue();
+		return ['between', $this->getColumnName(), $value[0], $value[1]];
 	}
 
 	/**
