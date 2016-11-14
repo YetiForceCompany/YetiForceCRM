@@ -322,10 +322,13 @@ class Users extends CRMEntity
 				if (!$ds) {
 					\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.');
 				}
-				@ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
-				@ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+				ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
+				ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+				ldap_set_option($ds, LDAP_OPT_TIMELIMIT, 5);
+				ldap_set_option($ds, LDAP_OPT_TIMEOUT, 5);
+				ldap_set_option($ds, LDAP_OPT_NETWORK_TIMEOUT, 5);
 				if ($port != 636) {
-					@ldap_start_tls($ds);
+					ldap_start_tls($ds);
 				}
 				$bind = @ldap_bind($ds, $userName . $auth['ldap']['domain'], $userPassword);
 				if (!$bind) {
@@ -1029,9 +1032,9 @@ class Users extends CRMEntity
 			\App\Privilege::setAllUpdater();
 		} else {// update dashboard widgets when changing users role
 			$oldRole = (new App\Db\Query())->select('roleid')
-					->from('vtiger_user2role')
-					->where(['userid' => $this->id])
-					->scalar();
+				->from('vtiger_user2role')
+				->where(['userid' => $this->id])
+				->scalar();
 			$privilegesModel = Users_Privileges_Model::getInstanceById($this->id);
 			if ($this->column_fields['is_admin'] != $privilegesModel->get('is_admin')) {
 				\App\Privilege::setAllUpdater();
