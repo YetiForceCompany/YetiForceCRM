@@ -20,7 +20,7 @@ class Accounts_ServiceContracts_HeaderField
 				'class' => 'btn-success',
 				'title' => vtranslate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
 				'badge' => DateTimeField::convertToUserFormat($row['date']),
-				'action' => 'Accounts_Detail_Js.showServiceContracts()'
+				'action' => 'Vtiger_Detail_Js.getInstance().getTabContainer().find(\'[data-reference="ServiceContracts"]:not(.hide)\').trigger("click");'
 			];
 		}
 		return false;

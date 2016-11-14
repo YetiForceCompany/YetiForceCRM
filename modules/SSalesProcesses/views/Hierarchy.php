@@ -11,10 +11,7 @@ class SSalesProcesses_Hierarchy_View extends Vtiger_View_Controller
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-
+		$permission = App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->get('record'));
 		if (!$permission) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}

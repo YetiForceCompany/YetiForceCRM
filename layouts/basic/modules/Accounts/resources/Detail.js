@@ -7,11 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-Vtiger_Detail_Js("Accounts_Detail_Js", {
-	showServiceContracts: function() {
-		Vtiger_Detail_Js.getInstance().getTabContainer().find('[data-reference="ServiceContracts"]:not(.hide)').trigger('click');
-	}
-}, {
+Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 	//It stores the Account Hierarchy response data
 	accountHierarchyResponseCache: {},
 	/*
