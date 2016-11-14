@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class PBXManager_Record_Model extends Vtiger_Record_Model
@@ -154,20 +155,31 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to save/update contact/account/lead record in Phonelookup table on every save
-	 * @param <array> $details
+	 * @param string $fieldName
+	 * @param array $details
+	 * @param boolean $new
+	 * @return int
 	 */
 	public function receivePhoneLookUpRecord($fieldName, $details, $new)
 	{
+		$db = \App\Db::getInstance();
 		$fnumber = preg_replace('/[-()\s+]/', '', $details[$fieldName]);
-		\App\Db::getInstance()->createCommand()
-			->insert(self::lookuptableName, [
-				'crmid' => $details['crmid'],
-				'setype' => $details['setype'],
-				'fnumber' => $fnumber,
-				'rnumber' => strrev($fnumber),
-				'fieldname' => $fieldName
-			])->execute();
-		return true;
+		$isExists = (new \App\Db\Query())
+			->from(self::lookuptableName)
+			->where(['crmid' => $details['crmid'], 'setype' => $details['setype'], 'fieldname' => $fieldName])
+			->exists();
+		if ($isExists) {
+			return $db->createCommand()->update(self::lookuptableName, ['fnumber' => $fnumber, 'rnumber' => strrev($fnumber)], ['crmid' => $details['crmid'], 'setype' => $details['setype'], 'fieldname' => $fieldName])->execute();
+		} else {
+			return $db->createCommand()
+					->insert(self::lookuptableName, [
+						'crmid' => $details['crmid'],
+						'setype' => $details['setype'],
+						'fnumber' => $fnumber,
+						'rnumber' => strrev($fnumber),
+						'fieldname' => $fieldName
+					])->execute();
+		}
 	}
 
 	/**
