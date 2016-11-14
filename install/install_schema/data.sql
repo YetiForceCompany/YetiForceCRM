@@ -24992,6 +24992,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (52,15,'LBL_DATAACCESS','adminIcon-recording-control','LBL_DATAACCESS_DESCRIPTION','index.php?module=DataAccess&parent=Settings&view=Index',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (53,4,'LangManagement','adminIcon-languages-and-translations','LBL_LANGMANAGEMENT_DESCRIPTION','index.php?module=LangManagement&parent=Settings&view=Index',1,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (54,1,'GlobalPermission','adminIcon-special-access','LBL_GLOBALPERMISSION_DESCRIPTION','index.php?module=GlobalPermission&parent=Settings&view=Index',7,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (103,1,'GlobalFieldAccess','adminIcon-special-access','LBL_GLOBALPERMISSION_FIELDACCESS','index.php?module=GlobalPermission&parent=Settings&view=FieldPermissions',7,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (56,13,'Search Setup','adminIcon-search-configuration','LBL_SEARCH_SETUP_DESCRIPTION','index.php?module=Search&parent=Settings&view=Index',1,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (57,13,'CustomView','adminIcon-filters-configuration','LBL_CUSTOMVIEW_DESCRIPTION','index.php?module=CustomView&parent=Settings&view=Index',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (58,2,'Widgets','adminIcon-modules-widgets','LBL_WIDGETS_DESCRIPTION','index.php?module=Widgets&parent=Settings&view=Index',3,0,1);
@@ -25038,7 +25039,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (102);
+insert  into `vtiger_settings_field_seq`(`id`) values (103);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

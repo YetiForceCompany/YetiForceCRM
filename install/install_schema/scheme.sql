@@ -3828,6 +3828,8 @@ CREATE TABLE `vtiger_crmentity` (
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `was_read` tinyint(1) DEFAULT '0',
   `users` text,
+  `user_permissions` varchar(255) DEFAULT NULL,
+  `role_permissions` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
   KEY `crmentity_modifiedby_idx` (`modifiedby`),

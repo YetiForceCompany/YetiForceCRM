@@ -1180,4 +1180,124 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		return $this->getUITypeModel()->isActiveSearchView();
 	}
+
+	
+    protected function getAccessRestrictions($recordId = null, $asArray = true) {
+	    $db = PearDatabase::getInstance();
+        if($recordId === false) {
+            $asArray = false;
+        }
+	    $query = 'SELECT role_permissions, user_permissions FROM vtiger_field WHERE fieldid = ?';
+        $r = $db->pquery($query, [$this->id]);
+        $row = $db->fetch_array($r);
+        if($recordId) {
+            $query = 'SELECT role_permissions, user_permissions FROM vtiger_crmentity WHERE crmid = ?';
+            $r = $db->pquery($query, [$recordId]);
+            $row = array_merge($row, $db->fetch_array($r));
+        }
+        if(!$asArray) {
+            return $row;
+        }
+        $return = [];
+        foreach($row as $type => $ids) {
+            if($ids == null) {
+                $return[$type] = [];
+            } else {
+                $return[$type] = json_decode($ids, true);
+            }
+        }
+        return $return;
+    }
+
+    public function hasAccessRights($recordId = null) {
+        $row = $this->getAccessRestrictions($recordId);
+        return ($row['user_permissions'] !== null && $row['role_permissions'] !== null);
+    }
+
+    public function getAllowedUsers() {
+        $row = $this->getAccessRestrictions();
+    }
+
+    public function hasUserPermission($userId) {
+        $data = $this->getAccessRestrictions();
+        if(isset($data['user_permissions'][$userId])) {
+           return $data['user_permissions'][$userId] == Users::FIELD_ACCESS_ALLOWED;
+        }
+        return false;
+    }
+
+
+    public function hasRolePermission($roleId) {
+        $data = $this->getAccessRestrictions();
+        if(isset($data['role_permissions'][$roleId])) {
+           return $data['role_permissions'][$roleId] == Users::FIELD_ACCESS_ALLOWED;
+        }
+        return false;
+    }
+
+    public function wipeAccessRestrictionsForUsers($recordId = null) {
+        $db = PearDatabase::getInstance();
+        if($recordId) {
+            $db->pquery('UPDATE vtiger_crmentity SET user_permissions = NULL WHERE crmid = ?', $recordId);
+        } else {
+            $db->pquery('UPDATE vtiger_field SET user_permissions = NULL WHERE fieldid = ?', $this->id);
+        }
+    }
+
+    public function wipeAccessRestriction($recordId = null) {
+        $this->wipeAccessRestrictionsForUsers($recordId);
+        $this->wipeAccessRestrictionsForRoles($recordId);
+    }
+
+    public function wipeAccessRestrictionsForRoles($recordId = null) {
+        $db = PearDatabase::getInstance();
+        if($recordId) {
+            $db->pquery('UPDATE vtiger_crmentity SET role_permissions = NULL WHERE crmid = ?', $recordId);
+        } else {
+            $db->pquery('UPDATE vtiger_field SET role_permissions = NULL WHERE fieldid = ?', $this->id);
+        }
+    }
+
+    public function allowUsers($userIds, $recordId = null) {
+
+        $data = [];
+        foreach($userIds as $userId) {
+            $data[$userId] = Users::FIELD_ACCESS_ALLOWED;
+        }
+        $data = json_encode($data);
+        $db = PearDatabase::getInstance();
+        if($recordId) {
+            $query = 'UPDATE  vtiger_crmentity SET user_permissions = ? WHERE crmid = ?';
+            $db->pquery($query, [$data, $recordId]);
+        } else {
+            $query = 'UPDATE  vtiger_field SET user_permissions = ? WHERE fieldid = ?';
+            $db->pquery($query, [$data, $this->id]);
+        }
+    }
+
+    public function allowRoles($roleIds, $recordId = null) {
+        $saveRoleIds = [];
+        $data = [];
+        foreach($roleIds as $roleId) {
+            $model = Settings_Roles_Record_Model::getInstanceById($roleId);
+            $saveRoleIds[] = $model->getId();
+            while($model = $model->getParent()) {
+                $saveRoleIds[] = $model->getId();
+            }
+        }
+        $saveRoleIds = array_unique($saveRoleIds);
+        foreach($saveRoleIds as $roleId) {
+            $data[$roleId] = Users::FIELD_ACCESS_ALLOWED;
+        }
+        $data = json_encode($data);
+        $db = PearDatabase::getInstance();
+        if($recordId) {
+            $query = 'UPDATE vtiger_crmentity SET role_permissions = ? WHERE crmid = ?';
+            $db->pquery($query, [$data, $recordId]);
+        } else {
+            $query = 'UPDATE  vtiger_field SET role_permissions = ? WHERE fieldid = ?';
+            $db->pquery($query, [$data, $this->id]);
+        }
+    }
+
 }
