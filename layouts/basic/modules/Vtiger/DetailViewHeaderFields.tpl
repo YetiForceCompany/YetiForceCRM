@@ -29,7 +29,7 @@
 									{vtranslate($LABEL, $MODULE_NAME)} 
 								</div>
 								<div class="detailViewHeaderFieldsValue">
-									<span class="badge {$VALUE['fieldName']}Field">
+									<span class="badge">
 										{$VALUE['value']}
 									</span>
 								</div>
