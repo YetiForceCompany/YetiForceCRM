@@ -45,22 +45,25 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			$moduleId = $moduleName;
 			$moduleName = \App\Module::getModuleName($moduleName);
 		}
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserId();
+		}
 		$cacheName = $moduleName . $userId;
-		if ($instance = \App\Cache::get('WatchdogModel', $cacheName)) {
-			return $instance;
+		if (\App\Cache::staticHas('WatchdogModel', $cacheName)) {
+			return \App\Cache::staticGet('WatchdogModel', $cacheName);
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleName);
 		$instance->set('moduleId', $moduleId ? $moduleId : \App\Module::getModuleId($moduleName));
-		$instance->set('userId', $userId ? $userId : \App\User::getCurrentUserId());
+		$instance->set('userId', $userId);
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
 		if (AppConfig::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->isActive = false;
 		}
-		\App\Cache::save('WatchdogModel', $cacheName, $instance);
+		\App\Cache::staticSave('WatchdogModel', $cacheName, $instance);
 		return $instance;
 	}
 
@@ -122,9 +125,9 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			return false;
 		}
 		$userId = $this->get('userId');
-		$isWatching = \App\Cache::get('isWatchingRecord', $userId . $this->get('record'));
-		if ($isWatching !== false) {
-			return (bool) $isWatching;
+		$cacheName = $userId . '_' . $this->get('record');
+		if (\App\Cache::staticHas('isWatchingRecord', $cacheName)) {
+			return (bool) \App\Cache::staticGet('isWatchingRecord', $cacheName);
 		}
 		$return = $this->isWatchingModule($userId);
 
@@ -135,7 +138,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 			$return = $state;
 		}
 		$return = intval($return);
-		\App\Cache::save('isWatchingRecord', $userId . $this->get('record'), $return);
+		\App\Cache::staticSave('isWatchingRecord', $cacheName, $return);
 		return $return;
 	}
 
@@ -149,9 +152,8 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($userId === false) {
 			$userId = \App\User::getCurrentUserId();
 		}
-		$modules = \App\Cache::get('getWatchingModules', $userId);
-		if ($modules !== false) {
-			return $modules;
+		if (\App\Cache::staticHas('getWatchingModules', $userId)) {
+			return \App\Cache::staticGet('getWatchingModules', $userId);
 		}
 		$modules = [];
 		if (static::$cache === false) {
@@ -162,7 +164,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 				$modules[] = $moduleId;
 			}
 		}
-		\App\Cache::save('getWatchingModules', $userId, $modules);
+		\App\Cache::staticSave('getWatchingModules', $userId, $modules);
 		return $modules;
 	}
 
@@ -176,10 +178,9 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		if ($ownerId === false) {
 			$ownerId = \App\User::getCurrentUserId();
 		}
-		$cacheName = $ownerId . intval($isName);
-		$data = \App\Cache::get('getWatchingModulesSchedule', $cacheName);
-		if ($data !== false) {
-			return $data;
+		$cacheName = $ownerId . '_' . intval($isName);
+		if (\App\Cache::staticHas('getWatchingModulesSchedule', $cacheName)) {
+			return \App\Cache::staticGet('getWatchingModulesSchedule', $cacheName);
 		}
 		$data = (new \App\Db\Query())
 			->from('u_#__watchdog_schedule')
@@ -191,7 +192,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 				$moduleId = \App\Module::getModuleName($moduleId);
 			}
 		}
-		\App\Cache::save('getWatchingModulesSchedule', $cacheName, $data);
+		\App\Cache::staticSave('getWatchingModulesSchedule', $cacheName, $data);
 		return $data;
 	}
 

@@ -3027,7 +3027,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__watchdog_module' => [
 				'columns' => [
-					'member' => $this->stringType()->notNull(),
+					'member' => $this->stringType(50)->notNull(),
 					'module' => $this->integer()->unsigned()->notNull(),
 					'lock' => $this->smallInteger(1)->defaultValue(0),
 					'exceptions' => $this->text(),
@@ -3199,7 +3199,7 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__dashboard_type' => [
 				'columns' => ['dashboard_id', 'name', 'system'],
 				'values' => [
-					[1, 'LBL_MAIN_PAGE', 1],
+						[1, 'LBL_MAIN_PAGE', 1],
 				]
 			],
 			'u_yf_fcorectinginvoice_invfield' => [

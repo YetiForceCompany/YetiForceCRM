@@ -866,7 +866,6 @@ jQuery.Class("Vtiger_List_Js", {
 			form.find('[id^="selectRow"]').each(function (index, checkbox) {
 				checkbox = jQuery(checkbox);
 				if (!checkbox.prop('checked')) {
-					var field = checkbox.closest('.rowElements').find('fieldValue [name]');
 					checkbox.closest('.rowElements').find('.fieldValue [name]').each(function (index, element) {
 						element = jQuery(element);
 						element.attr('data-element-name', element.attr('name')).removeAttr('name');
