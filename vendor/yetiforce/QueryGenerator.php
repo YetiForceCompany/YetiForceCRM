@@ -285,11 +285,11 @@ class QueryGenerator
 						if ($fieldType === 'DT') {
 							$startDateTimeComponents = explode(' ', $valueComponents[0]);
 							$endDateTimeComponents = explode(' ', $valueComponents[1]);
-							$filter['startdate'] = DateTimeField::convertToDBFormat($startDateTimeComponents[0]);
-							$filter['enddate'] = DateTimeField::convertToDBFormat($endDateTimeComponents[0]);
+							$filter['startdate'] = \DateTimeField::convertToDBFormat($startDateTimeComponents[0]);
+							$filter['enddate'] = \DateTimeField::convertToDBFormat($endDateTimeComponents[0]);
 						} else {
-							$filter['startdate'] = DateTimeField::convertToDBFormat($valueComponents[0]);
-							$filter['enddate'] = DateTimeField::convertToDBFormat($valueComponents[1]);
+							$filter['startdate'] = \DateTimeField::convertToDBFormat($valueComponents[0]);
+							$filter['enddate'] = \DateTimeField::convertToDBFormat($valueComponents[1]);
 						}
 					}
 					$dateFilterResolvedList = CustomView::resolveDateFilterValue($filter);
@@ -315,8 +315,8 @@ class QueryGenerator
 				} elseif ($fieldType === 'DT' && ($filter['comparator'] === 'e' || $filter['comparator'] === 'n')) {
 					$filter['stdfilter'] = $filter['comparator'];
 					$dateTimeComponents = explode(' ', $filter['value']);
-					$filter['startdate'] = DateTimeField::convertToDBFormat($dateTimeComponents[0]);
-					$filter['enddate'] = DateTimeField::convertToDBFormat($dateTimeComponents[0]);
+					$filter['startdate'] = \DateTimeField::convertToDBFormat($dateTimeComponents[0]);
+					$filter['enddate'] = \DateTimeField::convertToDBFormat($dateTimeComponents[0]);
 					$startDate = $this->fixDateTimeValue($columnName, $filter['startdate']);
 					$endDate = $this->fixDateTimeValue($columnName, $filter['enddate'], false);
 					$start = explode(' ', $startDate);
@@ -344,7 +344,7 @@ class QueryGenerator
 					}
 				} elseif ($fieldType === 'DT' && ($filter['comparator'] === 'a' || $filter['comparator'] === 'b')) {
 					$dateTime = explode(' ', $filter['value']);
-					$date = DateTimeField::convertToDBFormat($dateTime[0]);
+					$date = \DateTimeField::convertToDBFormat($dateTime[0]);
 					$value = [];
 					$value[] = $this->fixDateTimeValue($columnName, $date, false);
 					// Still fixDateTimeValue returns only date value, we need to append time because it is DT type
