@@ -14,13 +14,11 @@ class Field_Model_Base
 
 	public function getFieldInfo($fieldName, $moduleName, $column)
 	{
-		$moduleTabId = \App\Module::getModuleId($moduleName);
-		$db = PearDatabase::getInstance();
-
-		$sql = "SELECT * FROM vtiger_field WHERE tabid = $moduleTabId && fieldname = '$fieldName'";
-		$result = $db->query($sql, true);
-
-		return $db->query_result($result, 0, $column);
+		return (new App\Db\Query())
+				->select([$column])
+				->from('vtiger_field')
+				->where(['tabid' => \App\Module::getModuleId($moduleName), 'fieldname' => $fieldName])
+				->scalar();
 	}
 
 	public function getFieldLabel($fieldName, $moduleName)

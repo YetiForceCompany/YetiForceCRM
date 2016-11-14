@@ -105,7 +105,6 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
-		$db = PearDatabase::getInstance();
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$selectedBank = $moduleModel->getActiveBankId();
 		$yesterday = date('Y-m-d', strtotime('-1 day'));

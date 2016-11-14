@@ -46,13 +46,10 @@ class Settings_Vtiger_TermsAndConditions_Model extends Vtiger_Base_Model
 
 	public static function getInstance()
 	{
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT tandc FROM %s', self::tableName);
-		$result = $db->pquery($query, array());
+		$row = (new App\Db\Query())->select(['tandc'])->from(self::tableName)->scalar();
 		$instance = new self();
-		if ($db->num_rows($result) > 0) {
-			$text = $db->query_result($result, 0, 'tandc');
-			$instance->setText($text);
+		if ($row) {
+			$instance->setText($row);
 		}
 		return $instance;
 	}
