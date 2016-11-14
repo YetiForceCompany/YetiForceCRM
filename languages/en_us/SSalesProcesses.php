@@ -56,4 +56,5 @@ $languageStrings = [
 	'LBL_SWITCHHEADER_ON_0' => 'Open',
 	'LBL_SWITCHHEADER_OFF_0' => 'Closed',
 	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'Open/Closed',
+	'LBL_SHOW_HIERARCHY' => 'Hierarchy',
 ];
