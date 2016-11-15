@@ -11,7 +11,7 @@ class DateTimeRange
 	 * @returns  $dateValue array in the following format
 	 *           $dateValue = Array(0=>$startdate,1=>$enddate)
 	 */
-	public static function getDateRangeByType($type, &$dateObject = null)
+	public static function getDateRangeByType($type, $dateObject = null)
 	{
 		$currentUser = \App\User::getCurrentUserModel();
 		$weekStartDay = $currentUser->getDetail('dayoftheweek');
@@ -116,7 +116,7 @@ class DateTimeRange
 				$dateValue[0] = $today;
 				$dateValue[1] = $next7days;
 				break;
-				
+
 			case 'next15days':
 				$dateObject->modify('+14 days');
 				$next15days = $dateObject->format('Y-m-d');
@@ -158,7 +158,7 @@ class DateTimeRange
 				$dateValue[0] = $last7days;
 				$dateValue[1] = $today;
 				break;
-				
+
 			case 'last15days':
 				$dateObject->modify('-14 days');
 				$last15days = $dateObject->format('Y-m-d');
