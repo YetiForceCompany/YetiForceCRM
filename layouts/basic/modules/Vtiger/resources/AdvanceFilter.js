@@ -452,28 +452,17 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 					for (var key in fieldList) {
 						var field = fieldList[key];
 						if (field == 'value' && valueSelectElement.is('select')) {
-							var selectedOptions = valueSelectElement.find('option:selected');
-							var newvaluesArr = [];
-							jQuery.each(selectedOptions, function (i, e) {
-								var comparator = jQuery('[name="comparator"]', rowElement).val();
-								if ((comparator != 'n' && searchOperator) || comparator == 'e') {
-									newvaluesArr.push(jQuery.trim(jQuery(e).val()));
-								} else {
-									newvaluesArr.push(jQuery.trim(jQuery(e).text()));
-								}
-							});
-							if (selectedOptions.length == 0) {
+							var newValuesArr = valueSelectElement.val();
+							if (!newValuesArr) {
 								rowValues[field] = '';
 							} else {
-								rowValues[field] = newvaluesArr.join(',');
+								rowValues[field] = newValuesArr.join(',');
 							}
-
 						} else if (field == 'value' && valueSelectElement.is('input')) {
 							rowValues[field] = valueSelectElement.val();
 						} else {
 							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
 						}
-
 					}
 				} else if ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue']) > -1) {
 					for (var key in fieldList) {
@@ -654,15 +643,13 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 				var optionGroupValues = pickListValues[optGroup];
 				for (var option in optionGroupValues) {
 					html += '<option value="' + option + '" ';
-					//comparing with the value instead of key , because saved value is giving username instead of id.
-					if ((comparatorSelectedOptionVal == 'e' && jQuery.inArray(option, selectedOptionsArray) != -1) || (comparatorSelectedOptionVal == 'n' && jQuery.inArray(jQuery.trim(optionGroupValues[option]), selectedOptionsArray) != -1)) {
+					if (jQuery.inArray(option, selectedOptionsArray) != -1) {
 						html += ' selected ';
 					}
 					html += '>' + optionGroupValues[option] + '</option>';
 				}
 				html += '</optgroup>'
 			}
-
 			html += '</select>';
 			var selectContainer = jQuery(html);
 			this.addValidationToElement(selectContainer);

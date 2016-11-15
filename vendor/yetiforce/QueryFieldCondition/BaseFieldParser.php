@@ -59,6 +59,15 @@ class BaseFieldParser
 	}
 
 	/**
+	 * Get module name
+	 * @return string
+	 */
+	public function getModuleName()
+	{
+		return $this->queryGenerator->getModule();
+	}
+
+	/**
 	 * Get value
 	 * @return mixed
 	 */
