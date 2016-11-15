@@ -67,11 +67,11 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = CustomView_Record_Model::getViewId($request);
-		if (ListViewSession::hasViewChanged($moduleName, $this->viewName)) {
+		if (App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
 			if ($customViewModel) {
-				ListViewSession::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
-				ListViewSession::setCurrentView($moduleName, $this->viewName, false);
+				App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
+				App\CustomView::setCurrentView($moduleName, $this->viewName, false);
 			}
 		}
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
@@ -107,9 +107,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 		if ($request->isAjax()) {
 			$this->viewName = CustomView_Record_Model::getViewId($request);
-			if (ListViewSession::hasViewChanged($moduleName)) {
-				ListViewSession::setDefaultSortOrderBy($moduleName);
-				ListViewSession::setCurrentView($moduleName, $this->viewName);
+			if (App\CustomView::hasViewChanged($moduleName)) {
+				App\CustomView::setDefaultSortOrderBy($moduleName);
+				App\CustomView::setCurrentView($moduleName, $this->viewName);
 			}
 			$this->initializeListViewContents($request, $viewer);
 			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
@@ -185,8 +185,8 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$sortOrder = $request->get('sortorder');
 		$searchResult = $request->get('searchResult');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$orderBy = ListViewSession::getSortby($moduleName);
-			$sortOrder = ListViewSession::getSorder($moduleName);
+			$orderBy = App\CustomView::getSortby($moduleName);
+			$sortOrder = App\CustomView::getSorder($moduleName);
 			if (empty($orderBy)) {
 				$moduleInstance = CRMEntity::getInstance($moduleName);
 				$orderBy = $moduleInstance->default_order_by;

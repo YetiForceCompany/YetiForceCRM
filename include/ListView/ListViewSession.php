@@ -36,14 +36,6 @@ class ListViewSession
 		$this->start = 1;
 	}
 
-	public function getCurrentPage($currentModule, $viewId)
-	{
-		if (!empty($_SESSION['lvs'][$currentModule][$viewId]['start'])) {
-			return $_SESSION['lvs'][$currentModule][$viewId]['start'];
-		}
-		return 1;
-	}
-
 	public function getRequestStartPage()
 	{
 		$start = AppRequest::get('start');
@@ -223,82 +215,5 @@ class ListViewSession
 			}
 		}
 		Vtiger_Session::set($currentModule . '_listquery', $query);
-	}
-
-	public static function hasViewChanged($currentModule, $viewId = false)
-	{
-		if (empty($_SESSION['lvs'][$currentModule]['viewname']))
-			return true;
-		if (!AppRequest::isEmpty('viewname') && (AppRequest::get('viewname') != $_SESSION['lvs'][$currentModule]['viewname']))
-			return true;
-		if (!empty($viewId) && ($viewId != $_SESSION['lvs'][$currentModule]['viewname']))
-			return true;
-		return false;
-	}
-
-	/**
-	 * Function that sets the module filter in session
-	 * @param <String> $module - module name
-	 * @param <Integer> $viewId - filter id
-	 */
-	public static function setCurrentView($module, $viewId, $pjax = true)
-	{
-		if ($pjax && AppRequest::has('_pjax')) {
-			$_SESSION['lvs'][$module]['viewname'] = $viewId;
-		} elseif (empty($pjax)) {
-			$_SESSION['lvs'][$module]['viewname'] = $viewId;
-		}
-	}
-
-	/**
-	 * Function that reads current module filter
-	 * @param <String> $module - module name
-	 * @return <Integer>
-	 */
-	public static function getCurrentView($module)
-	{
-		if (!empty($_SESSION['lvs'][$module]['viewname'])) {
-			return $_SESSION['lvs'][$module]['viewname'];
-		}
-	}
-
-	public static function getSorder($module)
-	{
-		if (!empty($_SESSION['lvs'][$module]['sorder'])) {
-			return $_SESSION['lvs'][$module]['sorder'];
-		}
-	}
-
-	public static function setSorder($module, $order)
-	{
-		$_SESSION['lvs'][$module]['sorder'] = $order;
-	}
-
-	public static function getSortby($module)
-	{
-		if (!empty($_SESSION['lvs'][$module]['sortby'])) {
-			return $_SESSION['lvs'][$module]['sortby'];
-		}
-	}
-
-	public static function setSortby($module, $order)
-	{
-		$_SESSION['lvs'][$module]['sortby'] = $order;
-	}
-
-	public static function setDefaultSortOrderBy($module, $defaultSortOrderBy = [])
-	{
-		if (AppRequest::has('orderby')) {
-			$_SESSION['lvs'][$module]['sortby'] = AppRequest::get('orderby');
-		}
-		if (AppRequest::has('sortorder')) {
-			$_SESSION['lvs'][$module]['sorder'] = AppRequest::get('sortorder');
-		}
-		if (isset($defaultSortOrderBy['orderBy'])) {
-			$_SESSION['lvs'][$module]['sortby'] = $defaultSortOrderBy['orderBy'];
-		}
-		if (isset($defaultSortOrderBy['sortOrder'])) {
-			$_SESSION['lvs'][$module]['sorder'] = $defaultSortOrderBy['sortOrder'];
-		}
 	}
 }

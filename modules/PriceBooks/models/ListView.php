@@ -83,7 +83,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
-		$viewid = ListViewSession::getCurrentView($moduleName);
+		$viewid = App\CustomView::getCurrentView($moduleName);
 		if (empty($viewid)) {
 			$viewid = $pagingModel->get('viewid');
 		}

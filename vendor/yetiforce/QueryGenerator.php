@@ -57,12 +57,18 @@ class QueryGenerator
 	 */
 	private $entityModel;
 
+	/**
+	 * QueryGenerator construct
+	 * @param string $moduleName
+	 * @param mixed $userId
+	 */
 	public function __construct($moduleName, $userId = false)
 	{
 		$this->moduleName = $moduleName;
 		$this->query = new \App\Db\Query();
 		$this->moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$this->entityModel = \CRMEntity::getInstance($moduleName);
+		$this->user = User::getUserModel($userId ? $userId : User::getCurrentUserId());
 	}
 
 	/**
@@ -84,6 +90,15 @@ class QueryGenerator
 	}
 
 	/**
+	 * Get query fields
+	 * @return array
+	 */
+	public function getFields()
+	{
+		return $this->fields;
+	}
+
+	/**
 	 * Get CRMEntity Model
 	 * @return \CRMEntity
 	 */
@@ -92,6 +107,11 @@ class QueryGenerator
 		return $this->entityModel;
 	}
 
+	/**
+	 * Get reference fields
+	 * @param string $fieldName
+	 * @return array
+	 */
 	public function getReference($fieldName)
 	{
 		return $this->referenceFields[$fieldName];
@@ -186,6 +206,36 @@ class QueryGenerator
 	}
 
 	/**
+	 * Get default custom view query
+	 * @return \App\Db\Query
+	 */
+	public function getDefaultCustomViewQuery()
+	{
+		$customView = new CustomView($this->moduleName, $this->user);
+		return $this->getCustomViewQueryById($customView->getViewId());
+	}
+
+	/**
+	 * Init function for default custom view
+	 */
+	public function initForDefaultCustomView()
+	{
+		$customView = new CustomView($this->moduleName, $this->user);
+		$this->initForCustomViewById($customView->getViewId());
+	}
+
+	/**
+	 * Get custom view query by id
+	 * @param string|int $viewId
+	 * @return \App\Db\Query
+	 */
+	public function getCustomViewQueryById($viewId)
+	{
+		$this->initForCustomViewById($viewId);
+		return $this->createQuery();
+	}
+
+	/**
 	 * Fix date time value
 	 * @param string $fieldName
 	 * @param string $value
@@ -215,7 +265,7 @@ class QueryGenerator
 	public function initForCustomViewById($viewId)
 	{
 		$this->fields[] = 'id';
-		$customView = new CustomView($this->moduleName);
+		$customView = new CustomView($this->moduleName, $this->user);
 		$this->cvColumns = $customView->getColumnsListByCvid($viewId);
 		if ($this->cvColumns) {
 			foreach ($this->cvColumns as &$cvColumn) {

@@ -308,7 +308,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$pageLimit = $pagingModel->getPageLimit();
 		$startIndex = $pagingModel->getStartIndex();
 
-		$viewid = ListViewSession::getCurrentView($moduleName);
+		$viewid = App\CustomView::getCurrentView($moduleName);
 		if (empty($viewid)) {
 			$viewid = $pagingModel->get('viewid');
 		}

@@ -15,13 +15,6 @@
 class CustomView_Record_Model extends Vtiger_Base_Model
 {
 
-	// Constants to identify different status of the custom view
-	const CV_STATUS_DEFAULT = 0;
-	const CV_STATUS_PRIVATE = 1;
-	const CV_STATUS_PENDING = 2;
-	const CV_STATUS_PUBLIC = 3;
-	const CV_STATUS_SYSTEM = 4;
-
 	protected $isFeatured = false;
 	protected $isDefault = false;
 	protected $sortOrderBy = false;
@@ -111,7 +104,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	public function isSystem()
 	{
-		return $this->get('status') == self::CV_STATUS_SYSTEM;
+		return $this->get('status') == App\CustomView::CV_STATUS_SYSTEM;
 	}
 
 	/**
@@ -121,7 +114,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function isMine()
 	{
 		$userPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		return ($this->get('status') == self::CV_STATUS_DEFAULT || $this->get('userid') == $userPrivilegeModel->getId());
+		return ($this->get('status') == App\CustomView::CV_STATUS_DEFAULT || $this->get('userid') == $userPrivilegeModel->getId());
 	}
 
 	/**
@@ -130,7 +123,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isPublic()
 	{
-		return (!$this->isMine() && $this->get('status') == self::CV_STATUS_PUBLIC);
+		return (!$this->isMine() && $this->get('status') == App\CustomView::CV_STATUS_PUBLIC);
 	}
 
 	/**
@@ -139,7 +132,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isPrivate()
 	{
-		return ($this->get('status') == self::CV_STATUS_PRIVATE);
+		return ($this->get('status') == App\CustomView::CV_STATUS_PRIVATE);
 	}
 
 	/**
@@ -148,7 +141,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isPending()
 	{
-		return (!$this->isMine() && $this->get('status') == self::CV_STATUS_PENDING);
+		return (!$this->isMine() && $this->get('status') == App\CustomView::CV_STATUS_PENDING);
 	}
 
 	/**
@@ -157,7 +150,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isOthers()
 	{
-		return (!$this->isMine() && $this->get('status') != self::CV_STATUS_PUBLIC);
+		return (!$this->isMine() && $this->get('status') != App\CustomView::CV_STATUS_PUBLIC);
 	}
 
 	/**
@@ -166,7 +159,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isSetPublic()
 	{
-		return ($this->get('status') == self::CV_STATUS_PUBLIC || $this->get('status') == self::CV_STATUS_PENDING);
+		return ($this->get('status') == App\CustomView::CV_STATUS_PUBLIC || $this->get('status') == App\CustomView::CV_STATUS_PENDING);
 	}
 
 	public function isFeatured($editView = false)
@@ -326,9 +319,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
-		if ($status == self::CV_STATUS_PENDING) {
+		if ($status == App\CustomView::CV_STATUS_PENDING) {
 			if ($currentUserModel->isAdminUser()) {
-				$status = self::CV_STATUS_PUBLIC;
+				$status = App\CustomView::CV_STATUS_PUBLIC;
 				$this->set('status', $status);
 			}
 		}
@@ -814,13 +807,13 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	public function approve()
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(self::CV_STATUS_PUBLIC, $this->getId()));
+		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(App\CustomView::CV_STATUS_PUBLIC, $this->getId()));
 	}
 
 	public function deny()
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(self::CV_STATUS_PRIVATE, $this->getId()));
+		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(App\CustomView::CV_STATUS_PRIVATE, $this->getId()));
 	}
 
 	/**
@@ -900,7 +893,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 					$handler = new $handlerClass();
 					$view['viewname'] = $handler->getViewName();
 					$view['cvid'] = $name;
-					$view['status'] = self::CV_STATUS_SYSTEM;
+					$view['status'] = App\CustomView::CV_STATUS_SYSTEM;
 					$customView = new self();
 					$customViews[$name] = $customView->setData($view)->setModule($moduleName);
 				}

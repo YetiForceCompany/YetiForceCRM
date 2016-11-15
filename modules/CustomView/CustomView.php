@@ -113,7 +113,7 @@ class CustomView extends CRMEntity
 			if ($this->isPermittedCustomView($viewid, $nowAction, $module) != 'yes')
 				$viewid = 0;
 		}
-		ListViewSession::setCurrentView($module, $viewid);
+		App\CustomView::setCurrentView($module, $viewid);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $viewid;
 	}
@@ -267,7 +267,7 @@ class CustomView extends CRMEntity
 
 			$option = '';
 			$viewname = $cvrow['viewname'];
-			if ($cvrow['status'] == CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
+			if ($cvrow['status'] == App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
 				$disp_viewname = $viewname;
 			} else {
 				$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $cvrow);
@@ -287,13 +287,13 @@ class CustomView extends CRMEntity
 
 			// Add the option to combo box at appropriate section
 			if ($option != '') {
-				if ($cvrow['status'] == CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
+				if ($cvrow['status'] == App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $current_user->id) {
 					$shtml_user .= $option;
-				} elseif ($cvrow['status'] == CV_STATUS_PUBLIC) {
+				} elseif ($cvrow['status'] == App\CustomView::CV_STATUS_PUBLIC) {
 					if ($shtml_public == '')
 						$shtml_public = "<option disabled>--- " . \App\Language::translate('LBL_PUBLIC') . " ---</option>";
 					$shtml_public .= $option;
-				} elseif ($cvrow['status'] == CV_STATUS_PENDING) {
+				} elseif ($cvrow['status'] == App\CustomView::CV_STATUS_PENDING) {
 					if ($shtml_pending == '')
 						$shtml_pending = "<option disabled>--- " . \App\Language::translate('LBL_PENDING') . " ---</option>";
 					$shtml_pending .= $option;
@@ -1150,7 +1150,7 @@ class CustomView extends CRMEntity
 				$status = $status_userid_info['status'];
 				$userid = $status_userid_info['userid'];
 
-				if ($status == CV_STATUS_DEFAULT) {
+				if ($status == App\CustomView::CV_STATUS_DEFAULT) {
 					\App\Log::trace('Entering when status=0');
 					$permission = 'yes';
 				} elseif ($is_admin) {
@@ -1159,10 +1159,10 @@ class CustomView extends CRMEntity
 					if ($userid == $current_user->id) {
 						\App\Log::trace("Entering when $userid=$current_user->id");
 						$permission = 'yes';
-					} elseif ($status == CV_STATUS_PUBLIC) {
+					} elseif ($status == App\CustomView::CV_STATUS_PUBLIC) {
 						\App\Log::trace('Entering when status=3');
 						$permission = 'yes';
-					} elseif ($status == CV_STATUS_PRIVATE || $status == CV_STATUS_PENDING) {
+					} elseif ($status == App\CustomView::CV_STATUS_PRIVATE || $status == App\CustomView::CV_STATUS_PENDING) {
 						\App\Log::trace('Entering when status=1 or 2');
 						if ($userid == $current_user->id)
 							$permission = "yes";
@@ -1225,11 +1225,11 @@ class CustomView extends CRMEntity
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 		$status_details = [];
 		if ($is_admin) {
-			if ($status == CV_STATUS_PENDING) {
-				$changed_status = CV_STATUS_PUBLIC;
+			if ($status == App\CustomView::CV_STATUS_PENDING) {
+				$changed_status = App\CustomView::CV_STATUS_PUBLIC;
 				$status_label = $custom_strings['LBL_STATUS_PUBLIC_APPROVE'];
-			} elseif ($status == CV_STATUS_PUBLIC) {
-				$changed_status = CV_STATUS_PENDING;
+			} elseif ($status == App\CustomView::CV_STATUS_PUBLIC) {
+				$changed_status = App\CustomView::CV_STATUS_PENDING;
 				$status_label = $custom_strings['LBL_STATUS_PUBLIC_DENY'];
 			}
 			$status_details = Array('Status' => $status, 'ChangedStatus' => $changed_status, 'Label' => $status_label);

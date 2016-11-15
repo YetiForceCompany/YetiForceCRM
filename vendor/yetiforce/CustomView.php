@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use \App\Db;
+
 /**
  * Custom view class
  * @package YetiForce.App
@@ -9,6 +11,12 @@ namespace App;
  */
 class CustomView
 {
+
+	const CV_STATUS_DEFAULT = 0;
+	const CV_STATUS_PRIVATE = 1;
+	const CV_STATUS_PENDING = 2;
+	const CV_STATUS_PUBLIC = 3;
+	const CV_STATUS_SYSTEM = 4;
 
 	/**
 	 * Standard filter conditions for date fields
@@ -83,11 +91,159 @@ class CustomView
 		return $dateFilters;
 	}
 
-	private $moduleName;
+	/**
+	 * Get current page
+	 * @param string $moduleName
+	 * @param int|string $viewId
+	 * @return int
+	 */
+	public static function getCurrentPage($moduleName, $viewId)
+	{
+		if (!empty($_SESSION['lvs'][$moduleName][$viewId]['start'])) {
+			return $_SESSION['lvs'][$moduleName][$viewId]['start'];
+		}
+		return 1;
+	}
 
-	public function __construct($moduleName)
+	/**
+	 * Set current page
+	 * @param string $moduleName
+	 * @param int|string $viewId
+	 * @param int $start
+	 */
+	public static function setCurrentPage($moduleName, $viewId, $start)
+	{
+		$_SESSION['lvs'][$moduleName][$viewId]['start'] = $start;
+	}
+
+	/**
+	 * Function that sets the module filter in session
+	 * @param string $moduleName - module name
+	 * @param int|string $viewId - filter id
+	 */
+	public static function setCurrentView($moduleName, $viewId)
+	{
+		$_SESSION['lvs'][$moduleName]['viewname'] = $viewId;
+	}
+
+	/**
+	 * Function that reads current module filter
+	 * @param string $moduleName - module name
+	 * @return int|string
+	 */
+	public static function getCurrentView($moduleName)
+	{
+		if (!empty($_SESSION['lvs'][$moduleName]['viewname'])) {
+			return $_SESSION['lvs'][$moduleName]['viewname'];
+		}
+	}
+
+	/**
+	 * Get sort directions
+	 * @param string $moduleName
+	 * @return string
+	 */
+	public static function getSorder($moduleName)
+	{
+		if (!empty($_SESSION['lvs'][$moduleName]['sorder'])) {
+			return $_SESSION['lvs'][$moduleName]['sorder'];
+		}
+	}
+
+	/**
+	 * Set sort directions
+	 * @param string $moduleName
+	 * @param string $order
+	 */
+	public static function setSorder($moduleName, $order)
+	{
+		$_SESSION['lvs'][$moduleName]['sorder'] = $order;
+	}
+
+	/**
+	 * Get sorted by
+	 * @param string $moduleName
+	 * @return string
+	 */
+	public static function getSortby($moduleName)
+	{
+		if (!empty($_SESSION['lvs'][$moduleName]['sortby'])) {
+			return $_SESSION['lvs'][$moduleName]['sortby'];
+		}
+	}
+
+	/**
+	 * Set sorted by
+	 * @param string $moduleName
+	 * @param string $order
+	 */
+	public static function setSortby($moduleName, $order)
+	{
+		$_SESSION['lvs'][$moduleName]['sortby'] = $order;
+	}
+
+	/**
+	 * Set default sort order by
+	 * @param string $moduleName
+	 * @param string $defaultSortOrderBy
+	 */
+	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
+	{
+		if (\AppRequest::has('orderby')) {
+			$_SESSION['lvs'][$moduleName]['sortby'] = \AppRequest::get('orderby');
+		}
+		if (\AppRequest::has('sortorder')) {
+			$_SESSION['lvs'][$moduleName]['sorder'] = \AppRequest::get('sortorder');
+		}
+		if (isset($defaultSortOrderBy['orderBy'])) {
+			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
+		}
+		if (isset($defaultSortOrderBy['sortOrder'])) {
+			$_SESSION['lvs'][$moduleName]['sorder'] = $defaultSortOrderBy['sortOrder'];
+		}
+	}
+
+	/**
+	 * Has view changed
+	 * @param string $moduleName
+	 * @param int|string $viewId
+	 * @return boolean
+	 */
+	public static function hasViewChanged($moduleName, $viewId = false)
+	{
+		if (empty($_SESSION['lvs'][$moduleName]['viewname'])) {
+			return true;
+		}
+		if (!\AppRequest::isEmpty('viewname') && (\AppRequest::get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
+			return true;
+		}
+		if (!empty($viewId) && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
+			return true;
+		}
+		return false;
+	}
+
+	private $moduleName;
+	private $user;
+	private $defaultViewId;
+	private $cvStatus;
+	private $cvUserId;
+
+	/**
+	 * CustomView construct
+	 * @param string $moduleName
+	 * @param mixed $user
+	 */
+	public function __construct($moduleName, $user = false)
 	{
 		$this->moduleName = $moduleName;
+		if (!$user) {
+			$user = User::getCurrentUserId();
+		}
+		if (is_numeric($user)) {
+			$user = User::getUserModel($user);
+		}
+		$this->user = $user;
 	}
 
 	/**
@@ -124,7 +280,7 @@ class CustomView
 			return Cache::get('getColumnsListByCvid', $cvId);
 		}
 		if (is_numeric($cvId)) {
-			$query = (new \App\Db\Query())->select(['columnindex', 'columnname'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
+			$query = (new Db\Query())->select(['columnindex', 'columnname'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
 			$columnList = $query->createCommand()->queryAllByGroup();
 			if ($columnList) {
 				Cache::save('getCustomViewFile', $cvId, $columnList);
@@ -150,7 +306,7 @@ class CustomView
 			return Cache::get('getStdFilterByCvid', $cvId);
 		}
 		if (is_numeric($cvId)) {
-			$stdFilter = (new \App\Db\Query())->select('vtiger_cvstdfilter.*')
+			$stdFilter = (new Db\Query())->select('vtiger_cvstdfilter.*')
 				->from('vtiger_cvstdfilter')
 				->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')
 				->where(['vtiger_cvstdfilter.cvid' => $cvId])
@@ -214,12 +370,12 @@ class CustomView
 		}
 		$advftCriteria = [];
 		if (is_numeric($cvId)) {
-			$dataReaderGroup = (new \App\Db\Query())->from('vtiger_cvadvfilter_grouping')
+			$dataReaderGroup = (new Db\Query())->from('vtiger_cvadvfilter_grouping')
 					->where(['cvid' => $cvId])
 					->orderBy('groupid')
 					->createCommand()->query();
 			while ($relCriteriaGroup = $dataReaderGroup->read()) {
-				$dataReader = (new \App\Db\Query())->select('vtiger_cvadvfilter.*')
+				$dataReader = (new Db\Query())->select('vtiger_cvadvfilter.*')
 						->from('vtiger_customview')
 						->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')
 						->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid AND vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid')
@@ -283,5 +439,178 @@ class CustomView
 			'comparator' => $comparator,
 			'value' => $advFilterVal
 		];
+	}
+
+	/**
+	 * To get the customViewId of the specified module
+	 * @return int|string
+	 */
+	public function getViewId()
+	{
+		\App\Log::trace(__METHOD__);
+		if (\AppRequest::isEmpty('viewname')) {
+			if (self::getCurrentView($this->moduleName)) {
+				$viewId = self::getCurrentView($this->moduleName);
+			} elseif (isset($this->defaultViewId)) {
+				$viewId = $this->defaultViewId;
+			} else {
+				$viewId = $this->getDefaultCvId();
+			}
+			if (empty($viewId) || !$this->isPermittedCustomView($viewId)) {
+				$viewId = $this->getMandatoryFilter();
+			}
+		} else {
+			$viewId = \AppRequest::get('viewname');
+			if (!is_numeric($viewId)) {
+				$viewId = $this->getViewIdByName($viewId);
+				if (!$viewId) {
+					$viewId = $this->getDefaultCvId($this->moduleName);
+				}
+			}
+			if (!$this->isPermittedCustomView($viewId)) {
+				$viewId = 0;
+			}
+		}
+		return $viewId;
+	}
+
+	/**
+	 * Get default cvId
+	 * @return int|string
+	 */
+	public function getDefaultCvId()
+	{
+		Log::trace(__METHOD__);
+
+		$query = (new Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => Module::getModuleId($this->moduleName)]);
+		$data = $query->createCommand()->queryAllByGroup();
+		$user = 'Users:' . $this->user->getUserId();
+		if (isset($data[$user])) {
+			return $data[$user];
+		}
+		foreach ($this->user->getGroups() as $groupId) {
+			$group = 'Groups:' . $groupId;
+			if (isset($data[$group])) {
+				return $data[$group];
+			}
+		}
+		$role = 'Roles:' . $this->user->getRole();
+		if (isset($data[$role])) {
+			return $data[$role];
+		}
+		foreach ($this->user->getParentRoles() as $roleId) {
+			$role = 'RoleAndSubordinates:' . $roleId;
+			if (isset($data[$role])) {
+				return $data[$role];
+			}
+		}
+		return $query->select('cvid')->from('vtiger_customview')->where(['setdefault' => 1, 'entitytype' => $this->moduleName])->scalar();
+	}
+
+	/**
+	 * Function to check if the current user is able to see the customView
+	 * @param int|string $viewId
+	 * @return boolean
+	 */
+	public function isPermittedCustomView($viewId)
+	{
+		Log::trace(__METHOD__);
+		$permission = true;
+		if (!empty($viewId)) {
+			$statusUseridInfo = $this->getStatusAndUserid($viewId);
+			if ($statusUseridInfo) {
+				$status = $statusUseridInfo['status'];
+				$userId = $statusUseridInfo['userid'];
+				if ($status === self::CV_STATUS_DEFAULT || $this->user->isAdmin()) {
+					$permission = true;
+				} elseif (\AppRequest::get('view') !== 'ChangeStatus') {
+					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getUserId()) {
+						$permission = true;
+					} elseif ($status === self::CV_STATUS_PRIVATE || $status === self::CV_STATUS_PENDING) {
+						$subQuery = (new Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
+							->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
+							->innerJoin('vtiger_role', 'vtiger_user2role.userid = vtiger_role.roleid')
+							->where(['like', 'vtiger_role.parentrole', $this->user->getParentRolesSeq() . '::']);
+						$query = (new Db\Query())
+							->select(['vtiger_users.id'])
+							->from('vtiger_customview')
+							->innerJoin('vtiger_users')
+							->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
+						$userArray = $query->column();
+						if ($userArray) {
+							if (!in_array($this->user->getUserId(), $userArray)) {
+								$permission = false;
+							} else {
+								$permission = true;
+							}
+						} else {
+							$permission = false;
+						}
+					} else {
+						$permission = true;
+					}
+				} else {
+					$permission = false;
+				}
+			} else {
+				$permission = false;
+			}
+		}
+		return $permission;
+	}
+
+	/**
+	 * Get the userid, status information of this custom view.
+	 * @param int|string $viewId
+	 * @return array
+	 */
+	public function getStatusAndUserid($viewId)
+	{
+		Log::trace(__METHOD__);
+		if (empty($this->cvStatus) || empty($this->cvUserId)) {
+			$row = (new Db\Query())->select(['status', 'userid'])
+				->from('vtiger_customview')
+				->where(['cvid' => $viewId])
+				->one();
+			if (!$row) {
+				$this->cvStatus = $row['status'];
+				$this->cvUserId = $row['userid'];
+			} else {
+				return false;
+			}
+		}
+		return ['status' => $this->cvStatus, 'userid' => $this->cvUserId];
+	}
+
+	/**
+	 * Get mandatory filter by module
+	 * @return int
+	 */
+	public function getMandatoryFilter()
+	{
+		Log::trace(__METHOD__);
+		return (new Db\Query())
+				->select(['cvid'])
+				->from('vtiger_customview')
+				->where(['presence' => 0, 'entitytype' => $this->moduleName])
+				->scalar();
+	}
+
+	/**
+	 * Get viewId by name
+	 * @param int|string $viewName
+	 * @return int
+	 */
+	public function getViewIdByName($viewName)
+	{
+		Log::trace(__METHOD__);
+		if (!empty($viewName)) {
+			return (new Db\Query())
+					->select(['cvid'])
+					->from('vtiger_customview')
+					->where(['viewname' => $viewName, 'entitytype' => $this->moduleName])
+					->scalar();
+		}
+		return 0;
 	}
 }

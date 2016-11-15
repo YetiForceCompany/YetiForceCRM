@@ -42,12 +42,6 @@ define("MIG_CHARSET_PHP_NONUTF8_DB_NONUTF8", 2);
 define("MIG_CHARSET_PHP_NONUTF8_DB_UTF8", 3);
 define("MIG_CHARSET_PHP_UTF8_DB_NONUTF8", 4);
 
-// For Customview status.
-define("CV_STATUS_DEFAULT", 0);
-define("CV_STATUS_PRIVATE", 1);
-define("CV_STATUS_PENDING", 2);
-define("CV_STATUS_PUBLIC", 3);
-
 // For Restoration.
 define("RB_RECORD_DELETED", 'delete');
 define("RB_RECORD_INSERTED", 'insert');

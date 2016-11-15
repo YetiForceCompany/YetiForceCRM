@@ -140,7 +140,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 		}
 
 
-		$viewid = ListViewSession::getCurrentView($moduleName);
+		$viewid = App\CustomView::getCurrentView($moduleName);
 		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
 
 		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);

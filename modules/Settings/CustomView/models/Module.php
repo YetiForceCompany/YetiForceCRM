@@ -119,9 +119,9 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public static function upadteSequences($params)
 	{
 		$db = App\Db::getInstance();
-		$caseSequence= 'CASE ';
+		$caseSequence = 'CASE ';
 		foreach ($params as $sequence => $cvId) {
-			$caseSequence .= ' WHEN ' . $db->quoteColumnName('cvid'). ' = ' . $db->quoteValue($cvId) . ' THEN ' . $db->quoteValue($sequence);
+			$caseSequence .= ' WHEN ' . $db->quoteColumnName('cvid') . ' = ' . $db->quoteValue($cvId) . ' THEN ' . $db->quoteValue($sequence);
 		}
 		$caseSequence .= ' END';
 		return $db->createCommand()->update('vtiger_customview', ['sequence' => new yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
@@ -170,11 +170,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($params['cvid']);
 		$moduleName = $customViewModel->get('entitytype');
-		$curretView = ListViewSession::getCurrentView($moduleName);
+		$curretView = App\CustomView::getCurrentView($moduleName);
 		if ($curretView == $params['cvid']) {
 			$sortOrder = explode(',', $params['value']);
-			ListViewSession::setSorder($moduleName, $sortOrder[1]);
-			ListViewSession::setSortby($moduleName, $sortOrder[0]);
+			App\CustomView::setSorder($moduleName, $sortOrder[1]);
+			App\CustomView::setSortby($moduleName, $sortOrder[0]);
 		}
 	}
 }

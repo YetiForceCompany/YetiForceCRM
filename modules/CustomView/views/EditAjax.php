@@ -71,12 +71,12 @@ Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SOURCE_MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		if ($customViewModel->get('viewname') == 'All') {
-			$viewer->assign('CV_PRIVATE_VALUE', CustomView_Record_Model::CV_STATUS_DEFAULT);
+			$viewer->assign('CV_PRIVATE_VALUE', App\CustomView::CV_STATUS_DEFAULT);
 		} else {
-			$viewer->assign('CV_PRIVATE_VALUE', CustomView_Record_Model::CV_STATUS_PRIVATE);
+			$viewer->assign('CV_PRIVATE_VALUE', App\CustomView::CV_STATUS_PRIVATE);
 		}
-		$viewer->assign('CV_PENDING_VALUE', CustomView_Record_Model::CV_STATUS_PENDING);
-		$viewer->assign('CV_PUBLIC_VALUE', CustomView_Record_Model::CV_STATUS_PUBLIC);
+		$viewer->assign('CV_PENDING_VALUE', App\CustomView::CV_STATUS_PENDING);
+		$viewer->assign('CV_PUBLIC_VALUE', App\CustomView::CV_STATUS_PUBLIC);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 
 		echo $viewer->view('EditView.tpl', $module, true);
