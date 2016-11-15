@@ -755,6 +755,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				}
 				$this->fieldInfo['picklistvalues'] = $modulesList;
 				break;
+			case 'categoryMultipicklist':
 			case 'tree':
 				$tree = $this->getUITypeModel()->getAllValue();
 				$pickListValues = [];
