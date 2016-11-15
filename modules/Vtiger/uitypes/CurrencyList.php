@@ -22,11 +22,12 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Base_UIType
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$db = PearDatabase::getInstance();
-		
-		$result = $db->pquery('SELECT currency_name FROM vtiger_currency_info WHERE currency_status = ? AND id = ?', ['Active', $value]);
-		if ($db->num_rows($result)) {
-			return $db->query_result($result, 0, 'currency_name');
+		$currencyName = (new App\Db\Query())->select(['currency_name'])
+			->from('vtiger_currency_info')
+			->where(['currency_status' => 'Active', 'id' => $value])
+			->scalar();
+		if ($currencyName) {
+			return $currencyName;
 		}
 		return $value;
 	}

@@ -68,15 +68,14 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Base_UIType
 	{
 		$limits = Vtiger_Cache::get('Inventory', 'limits');
 		if (!$limits) {
-			$db = PearDatabase::getInstance();
 			$limits = [];
-			$result = $db->pquery('SELECT * FROM a_yf_inventory_limits WHERE status = ?', [0]);
-			while ($row = $db->fetch_array($result)) {
+			$dataReader = (new App\Db\Query())->from('a_#__inventory_limits')->where(['status' => 0])
+					->createCommand(App\Db::getInstance('admin'))->query();
+			while ($row = $dataReader->read()) {
 				$limits[$row['id']] = $row;
 			}
 			Vtiger_Cache::set('Inventory', 'limits', $limits);
 		}
-
 		return $limits;
 	}
 }

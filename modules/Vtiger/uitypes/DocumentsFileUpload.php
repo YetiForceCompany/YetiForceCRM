@@ -34,9 +34,10 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 			$fileStatus = $recordInstance->get('filestatus');
 			if (!empty($value) && $fileStatus) {
 				if ($fileLocationType == 'I') {
-					$db = PearDatabase::getInstance();
-					$fileIdRes = $db->pquery('SELECT attachmentsid FROM vtiger_seattachmentsrel WHERE crmid = ?', array($record));
-					$fileId = $db->query_result($fileIdRes, 0, 'attachmentsid');
+					$fileId = (new App\Db\Query())->select(['attachmentsid'])
+						->from('vtiger_seattachmentsrel')
+						->where(['crmid' => $record])
+						->scalar();
 					if ($fileId) {
 						$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
 							' title="' . vtranslate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
