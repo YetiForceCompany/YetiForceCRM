@@ -273,7 +273,7 @@ class Functions
 		}
 		if ($missing) {
 			$query = (new \App\Db\Query())
-				->select(['crmid', 'setype', 'deleted', 'smcreatorid', 'smownerid', 'createdtime'])
+				->select(['crmid', 'setype', 'deleted', 'smcreatorid', 'smownerid', 'createdtime', 'private'])
 				->from('vtiger_crmentity')
 				->where(['in', 'crmid', $missing]);
 			$dataReader = $query->createCommand()->query();

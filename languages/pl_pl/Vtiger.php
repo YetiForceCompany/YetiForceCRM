@@ -1265,6 +1265,7 @@ $languageStrings = [
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Kontrahenci według branży',
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Szacowana wartość szans sprzedaży',
 	'LBL_UPDATE_FIELD' => 'Aktualizuj pole:',
+	'FL_IS_PRIVATE' => 'Prywatny',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

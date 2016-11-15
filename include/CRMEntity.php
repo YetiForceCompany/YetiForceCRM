@@ -253,101 +253,94 @@ class CRMEntity
 	}
 
 	/** Function to insert values in the vtiger_crmentity for the specified module
-	 * @param $module -- module:: Type varchar
+	 * @param string $module - Module name
+	 * @param int $fileid
 	 */
-	public function insertIntoCrmEntity($module, $fileid = '')
+	public function insertIntoCrmEntity($module, $fileid = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$userId = \App\User::getCurrentUserId();
-
-		if ($fileid != '') {
+		if (!empty($fileid)) {
 			$this->id = $fileid;
 			$this->mode = 'edit';
 		}
-
-		$date_var = date('Y-m-d H:i:s');
-		$insertion_mode = $this->mode;
-
-		$ownerid = $this->column_fields['assigned_user_id'];
-		if (empty($ownerid)) {
-			$ownerid = $userId;
-		}
-
-
 		if ($module == 'Events') {
 			$module = 'Calendar';
 		}
 
-		if ($this->mode == 'edit') {
-			$description_val = \vtlib\Functions::fromHTML($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
-			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
-			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
-
+		if ($this->mode === 'edit') {
 			$profileList = \App\User::getCurrentUserModel()->getProfiles();
-			$columname = (new \App\Db\Query())->select('columnname')->from('vtiger_field')
+			$columNames = (new \App\Db\Query())->select('columnname')->from('vtiger_field')
 					->innerJoin('vtiger_profile2field', 'vtiger_field.fieldid = vtiger_profile2field.fieldid')
 					->innerJoin('vtiger_def_org_field', 'vtiger_field.fieldid = vtiger_def_org_field.fieldid')
 					->where(['vtiger_profile2field.profileid' => $profileList, 'vtiger_field.tabid' => \App\Module::getModuleId($module),
 						'vtiger_profile2field.visible' => 0, 'vtiger_profile2field.readonly' => 0, 'vtiger_def_org_field.visible' => 0,
 						'vtiger_field.tablename' => 'vtiger_crmentity', 'vtiger_field.presence' => [0, 2]])->column();
-			if (is_array($columname) && in_array('description', $columname)) {
-				$columns = [
-					'smownerid' => $ownerid,
-					'modifiedby' => $userId,
-					'description' => $description_val,
-					'attention' => $attention_val,
-					'modifiedtime' => $adb->formatDate($date_var, true),
-					'was_read' => $was_read
-				];
-			} else {
-				$columns = [
-					'smownerid' => $ownerid,
-					'modifiedby' => $userId,
-					'modifiedtime' => $adb->formatDate($date_var, true)
-				];
+			$columNames = array_unique(array_merge($columNames, ['smownerid', 'modifiedby', 'modifiedtime']));
+			$columNames = array_diff($columNames, ['closedtime', 'shownerid']);
+			foreach ($columNames as $columName) {
+				$columns[$columName] = $this->getValueToSave($columName);
 			}
-
 			\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', $columns, ['crmid' => $this->id])->execute();
-			$this->column_fields['modifiedtime'] = $adb->formatDate($date_var, true);
-			$this->column_fields['modifiedby'] = $userId;
+			$this->column_fields['modifiedtime'] = $columns['modifiedtime'];
+			$this->column_fields['modifiedby'] = $columns['modifiedby'];
 		} else {
-			//if this is the create mode and the group allocation is chosen, then do the following
 			if (empty($this->newRecord)) {
-				$this->id = $adb->getUniqueID('vtiger_crmentity');
+				$this->id = \App\Db::getInstance()->getUniqueID('vtiger_crmentity');
 			} else {
 				$this->id = $this->newRecord;
 			}
-
-			// Customization
-			$created_date_var = $adb->formatDate($date_var, true);
-			$modified_date_var = $adb->formatDate($date_var, true);
-			// Preserve the timestamp
-			if (self::isBulkSaveMode()) {
-				if (!empty($this->column_fields['createdtime']))
-					$created_date_var = $adb->formatDate($this->column_fields['createdtime'], true);
-				//NOTE : modifiedtime ignored to support vtws_sync API track changes.
-			}
-			// END
-
-			$description_val = \vtlib\Functions::fromHTML($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
-			$attention_val = \vtlib\Functions::fromHTML($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$params = [
 				'crmid' => $this->id,
-				'smcreatorid' => $userId,
-				'smownerid' => $ownerid,
+				'smcreatorid' => $this->getValueToSave('smcreatorid'),
+				'smownerid' => $this->getValueToSave('smownerid'),
 				'setype' => $module,
-				'description' => $description_val,
-				'attention' => $attention_val,
-				'modifiedby' => $userId,
-				'createdtime' => $created_date_var,
-				'modifiedtime' => $modified_date_var,
-				'users' => ",$ownerid,",
+				'description' => $this->getValueToSave('description'),
+				'attention' => $this->getValueToSave('attention'),
+				'modifiedby' => $this->getValueToSave('modifiedby'),
+				'createdtime' => $this->getValueToSave('createdtime'),
+				'modifiedtime' => $this->getValueToSave('modifiedtime'),
+				'private' => $this->getValueToSave('private'),
+				'users' => ',' . $this->getValueToSave('smownerid') . ',',
 			];
 			\App\Db::getInstance()->createCommand()->insert('vtiger_crmentity', $params)->execute();
-			$this->column_fields['createdtime'] = $created_date_var;
-			$this->column_fields['modifiedtime'] = $modified_date_var;
-			$this->column_fields['modifiedby'] = $userId;
+			$this->column_fields['createdtime'] = $params['createdtime'];
+			$this->column_fields['modifiedtime'] = $params['modifiedtime'];
+			$this->column_fields['modifiedby'] = $params['modifiedby'];
 		}
+	}
+
+	/** Function gets value to save
+	 * @param string $columName
+	 * @return mixed
+	 */
+	public function getValueToSave($columName)
+	{
+		switch ($columName) {
+			case 'was_read':
+				return $this->column_fields['was_read'] === 'on' ? 1 : 0;
+			case 'private':
+				return $this->column_fields['private'] === 'on' ? 1 : 0;
+			case 'description':
+				return \vtlib\Functions::fromHTML($this->column_fields['description'], true);
+			case 'attention':
+				return \vtlib\Functions::fromHTML($this->column_fields['attention'], true);
+			case 'createdtime':
+				if (self::isBulkSaveMode() && !empty($this->column_fields['createdtime'])) {
+					return $this->column_fields['createdtime'];
+				}
+			case 'modifiedtime':
+				return date('Y-m-d H:i:s');
+			case 'smownerid':
+				$ownerId = $this->column_fields['assigned_user_id'];
+				return empty($ownerId) ? \App\User::getCurrentUserId() : $ownerId;
+			case 'smcreatorid':
+			case 'modifiedby':
+				return \App\User::getCurrentUserId();
+			case 'shownerid':
+				return 0;
+			default:
+				break;
+		}
+		return $this->column_fields[$columName];
 	}
 
 	// Function which returns the value based on result type (array / ADODB ResultSet)

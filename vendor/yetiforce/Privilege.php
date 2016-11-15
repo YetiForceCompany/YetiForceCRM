@@ -119,18 +119,50 @@ class Privilege
 				}
 			}
 			//Checking and returning true if recorid is null
-			if ($record == '') {
+			if (empty($record)) {
 				static::$isPermittedLevel = 'SEC_RECORID_IS_NULL';
 				\App\Log::trace('Exiting isPermitted method ...');
 				return true;
-			}
-			//If modules is Products,Vendors,Faq,PriceBook then no sharing
-			if ($record != '') {
+			} else {
+				//If modules is Products,Vendors,Faq,PriceBook then no sharing
 				if (\vtlib\Functions::getModuleOwner($moduleName) == 1) {
 					static::$isPermittedLevel = 'SEC_MODULE_IS_OWNEDBY';
 					\App\Log::trace('Exiting isPermitted method ...');
 					return true;
 				}
+			}
+			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
+			if (!isset($recordMetaData) || $recordMetaData['deleted'] === 1) {
+				static::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
+				\App\Log::trace('Exiting isPermitted method ... - no');
+				return false;
+			}
+			if (\AppConfig::security('PERMITTED_BY_PRIVATE_FIELD') && $recordMetaData['private']) {
+				$level = 'SEC_PRIVATE_RECORD_NO';
+				$isPermittedPrivateRecord = false;
+				$recOwnId = $recordMetaData['smownerid'];
+				$recOwnType = \App\Fields\Owner::getType($recOwnId);
+				if ($recOwnType === 'Users') {
+					if ($userId === $recOwnId) {
+						$level = 'SEC_PRIVATE_RECORD_OWNER_CURRENT_USER';
+						$isPermittedPrivateRecord = true;
+					}
+				} elseif ($recOwnType === 'Groups') {
+					if (in_array($recOwnId, $userPrivileges['groups'])) {
+						$level = 'SEC_PRIVATE_RECORD_OWNER_CURRENT_GROUP';
+						$isPermittedPrivateRecord = true;
+					}
+				}
+				if (!$isPermittedPrivateRecord) {
+					$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
+					if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
+						$level = 'SEC_PRIVATE_RECORD_SHARED_OWNER';
+						$isPermittedPrivateRecord = true;
+					}
+				}
+				static::$isPermittedLevel = $level;
+				\App\Log::trace('Exiting isPermitted method ... - Private');
+				return $isPermittedPrivateRecord;
 			}
 			// Check advanced permissions
 			if (\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION')) {
@@ -147,18 +179,6 @@ class Privilege
 					}
 				}
 			}
-			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
-			if (!isset($recordMetaData) || $recordMetaData['deleted'] == 1) {
-				static::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
-				\App\Log::trace('Exiting isPermitted method ... - no');
-				return false;
-			}
-
-			//Retreiving the RecordOwnerId
-			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
-			$recOwnId = $recordMetaData['smownerid'];
-			$recOwnType = \App\Fields\Owner::getType($recOwnId);
-
 			if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 				$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
 				if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
@@ -167,6 +187,10 @@ class Privilege
 					return true;
 				}
 			}
+			//Retreiving the RecordOwnerId
+			$recOwnId = $recordMetaData['smownerid'];
+			$recOwnType = \App\Fields\Owner::getType($recOwnId);
+
 			if ($recOwnType == 'Users') {
 				//Checking if the Record Owner is the current User
 				if ($userId == $recOwnId) {
