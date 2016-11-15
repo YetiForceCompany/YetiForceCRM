@@ -12,7 +12,7 @@ class Vtiger_PosList_UIType extends Vtiger_Base_UIType
 	private function getServers()
 	{
 		$dataReader = (new \App\Db\Query())->select(['id', 'name'])
-				->from('w_yf_servers')
+				->from('w_#__servers')
 				->where(['type' => 'POS', 'status' => 1])
 				->createCommand()->query();
 		$listServers = [];
