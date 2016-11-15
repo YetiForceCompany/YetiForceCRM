@@ -579,7 +579,7 @@ class QueryGenerator
 	 * Added required condition
 	 * @param string $fieldName
 	 * @param mixed $value
-	 * @param string $operator
+	 * @param string $operator {@see CustomView::ADVANCED_FILTER_OPTIONS} and {@see CustomView::STD_FILTER_CONDITIONS}
 	 */
 	public function addAndCondition($fieldName, $value, $operator)
 	{
@@ -594,7 +594,7 @@ class QueryGenerator
 	 * Added optional condition
 	 * @param string $fieldName
 	 * @param mixed $value
-	 * @param string $operator
+	 * @param string $operator {@see CustomView::ADVANCED_FILTER_OPTIONS} and {@see CustomView::STD_FILTER_CONDITIONS}
 	 */
 	public function addOrCondition($fieldName, $value, $operator)
 	{
@@ -609,7 +609,7 @@ class QueryGenerator
 	 * Parsing conditions to Yii2 query format
 	 * @param string $fieldName
 	 * @param mixed $value
-	 * @param string $operator
+	 * @param string $operator {@see CustomView::ADVANCED_FILTER_OPTIONS} and {@see CustomView::STD_FILTER_CONDITIONS}
 	 * @return boolean
 	 */
 	private function parseCondition($fieldName, $value, $operator)
