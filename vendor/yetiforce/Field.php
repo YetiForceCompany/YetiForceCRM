@@ -40,7 +40,7 @@ class Field
 			$fields = $query->all();
 			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields, Cache::SHORT);
 		}
-		if (!$readOnly) {
+		if ($readOnly) {
 			return $fields;
 		}
 		foreach ($fields as $key => &$field) {
