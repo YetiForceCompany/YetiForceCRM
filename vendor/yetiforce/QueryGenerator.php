@@ -99,6 +99,15 @@ class QueryGenerator
 	}
 
 	/**
+	 * Set query fields
+	 * @param type $fields
+	 */
+	public function setFields($fields)
+	{
+		$this->fields = $fields;
+	}
+
+	/**
 	 * Get CRMEntity Model
 	 * @return \CRMEntity
 	 */
