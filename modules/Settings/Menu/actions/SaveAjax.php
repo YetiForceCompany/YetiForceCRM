@@ -83,7 +83,6 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	 */
 	public function copyMenu(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
 		$fromRole = filter_var($request->get('fromRole'), FILTER_SANITIZE_NUMBER_INT);
 		$toRole = filter_var($request->get('toRole'), FILTER_SANITIZE_NUMBER_INT);
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();

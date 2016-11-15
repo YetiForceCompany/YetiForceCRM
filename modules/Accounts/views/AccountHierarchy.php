@@ -30,13 +30,9 @@ class Accounts_AccountHierarchy_View extends Vtiger_View_Controller
 
 	private function getLastModified($id)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM u_yf_crmentity_last_changes WHERE crmid = ? && fieldname = ?', [$id, 'active']);
-		if ($lastModified = $db->getRow($result)) {
-			return $lastModified;
-		} else {
-			return false;
-		}
+		return (new \App\Db\Query())->from('u_#__crmentity_last_changes')
+				->where(['crmid' => $id, 'fieldname' => 'active'])
+				->one();
 	}
 
 	public function process(Vtiger_Request $request)

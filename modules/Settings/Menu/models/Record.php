@@ -277,7 +277,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getRolesContainMenu()
 	{
-		$db = PearDatabase::getInstance();
 		$allRoles = Settings_Roles_Record_Model::getAll();
 		$menu = [];
 		$counter = 0;
