@@ -473,11 +473,13 @@ class QueryGenerator
 				$ownerField = $this->ownerFields[0];
 			}
 		}
-		foreach ($this->customTable as &$table) {
-			$tableName = $table['name'];
-			$tableList[$tableName] = $tableName;
-			$tableJoin[$tableName] = $table['join'];
-		}
+		/*
+		  foreach ($this->customTable as &$table) {
+		  $tableName = $table['name'];
+		  $tableList[$tableName] = $tableName;
+		  $tableJoin[$tableName] = $table['join'];
+		  }
+		 */
 		foreach ($this->getEntityDefaultTableList() as &$tableName) {
 			$this->query->join($tableJoin[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.{$moduleTableIndexList[$tableName]}");
 			unset($tableList[$tableName]);
@@ -573,6 +575,12 @@ class QueryGenerator
 		return $condition;
 	}
 
+	/**
+	 * Added required condition
+	 * @param string $fieldName
+	 * @param mixed $value
+	 * @param string $operator
+	 */
 	public function addAndCondition($fieldName, $value, $operator)
 	{
 		$condition = $this->parseCondition($fieldName, $value, $operator);
@@ -582,6 +590,12 @@ class QueryGenerator
 		Log::error('Wrong condition');
 	}
 
+	/**
+	 * Added optional condition
+	 * @param string $fieldName
+	 * @param mixed $value
+	 * @param string $operator
+	 */
 	public function addOrCondition($fieldName, $value, $operator)
 	{
 		$condition = $this->parseCondition($fieldName, $value, $operator);
@@ -591,10 +605,18 @@ class QueryGenerator
 		Log::error('Wrong condition');
 	}
 
-	public function parseCondition($fieldName, $value, $operator)
+	/**
+	 * Parsing conditions to Yii2 query format
+	 * @param string $fieldName
+	 * @param mixed $value
+	 * @param string $operator
+	 * @return boolean
+	 */
+	private function parseCondition($fieldName, $value, $operator)
 	{
 		if ($fieldName === 'id') {
-			
+			$conditionParser = new \App\QueryFieldCondition\IdCondition($this, '', $value, $operator);
+			return $conditionParser->getCondition();
 		}
 		$field = $this->getModuleField($fieldName);
 		if (empty($field) || $operator === 'None') {

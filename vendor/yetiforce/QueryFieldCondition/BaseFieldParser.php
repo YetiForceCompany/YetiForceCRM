@@ -50,7 +50,7 @@ class BaseFieldParser
 	 * @param string|array $value
 	 * @param string $operator
 	 */
-	public function __construct(\App\QueryGenerator $queryGenerator, \Vtiger_Field_Model $fieldModel, $value, $operator)
+	public function __construct(\App\QueryGenerator $queryGenerator, $fieldModel = false, $value, $operator)
 	{
 		$this->queryGenerator = $queryGenerator;
 		$this->fieldModel = $fieldModel;
