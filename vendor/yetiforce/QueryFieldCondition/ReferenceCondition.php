@@ -59,7 +59,7 @@ class ReferenceCondition extends BaseFieldParser
 	 */
 	public function operatorN()
 	{
-		$condition = ['and'];
+		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as &$formattedName) {
 			$condition[] = ['<>', $formattedName, $this->getValue()];
 		}
