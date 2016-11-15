@@ -325,7 +325,7 @@ class ListViewController
 						}
 					}
 				} elseif ($field->getFieldDataType() == 'currency') {
-					if(!empty($value)){
+					if (!empty($value)) {
 						$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value, $recordId);
 					}
 				} elseif ($field->getFieldDataType() == 'url') {
@@ -411,7 +411,7 @@ class ListViewController
 						if ($parentMeta->isModuleEntity() && $parentModule != 'Users' && Users_Privileges_Model::isPermitted($parentModule, 'DetailView', $ID)) {
 							$className = $fieldModel->getModule()->getName() . '_' . ucwords($fieldModel->get('name')) . '_Field';
 							if (class_exists($className)) {
-								$customField = new $className();
+								$customField = new $className ();
 								$value = $customField->getListViewDisplayValue($rawValue, $fieldModel);
 							} else {
 								$value = vtlib\Functions::textLength($this->nameList[$fieldName][$ID], $fieldModel->get('maxlengthtext'));
@@ -445,20 +445,6 @@ class ListViewController
 						$value = implode(', ', $tmpArray);
 						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 					}
-				} elseif ($field->getFieldDataType() == 'inventoryLimit') {
-					if (!empty($value)) {
-						$valueArray = ($value != "") ? explode(',', $value) : [];
-						$tmp = '';
-						$tmpArray = [];
-						$limits = Vtiger_InventoryLimit_UIType::getLimits();
-						foreach ($valueArray as $index => $limit) {
-							if (isset($limits[$limit])) {
-								$tmpArray[] = $limits[$limit]['value'] . ' - ' . $limits[$limit]['name'];
-							}
-						}
-						$value = implode(', ', $tmpArray);
-						$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
-					}
 				} elseif ($field->getFieldDataType() == 'multiReferenceValue') {
 					$valueTmp = trim($value, '|#|');
 					$valueTmp = ($valueTmp != "") ? explode('|#|', $valueTmp) : [];
@@ -467,7 +453,7 @@ class ListViewController
 					}
 					$value = implode(', ', $valueTmp);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
-				} elseif ($field->getFieldDataType() == 'posList') {
+				} elseif (in_array($field->getFieldDataType(), ['posList', 'inventoryLimit'])) {
 					$value = vtlib\Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value), $fieldModel->get('maxlengthtext'));
 				} elseif (in_array($uitype, array(7, 9, 90))) {
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));

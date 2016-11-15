@@ -64,6 +64,11 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		return static::$tableName[$type];
 	}
 
+	public function clearCache()
+	{
+		\App\Cache::delete('Inventory', $this->getType());
+	}
+
 	public function save()
 	{
 		$tablename = self::getTableNameFromType($this->getType());
@@ -79,6 +84,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		} else {
 			$id = $this->add();
 		}
+		$this->clearCache();
 		return $id;
 	}
 
@@ -111,6 +117,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 			\App\Db::getInstance()->createCommand()
 				->delete($tableName, ['id' => $this->getId()])
 				->execute();
+			$this->clearCache();
 			return true;
 		}
 		throw new Error('Error occurred while deleting value');
