@@ -339,23 +339,13 @@ class CustomView
 				$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
 			}
 		} else { //if it is not custom get the date according to the selected duration
-			$datefilter = static::getDateforStdFilterBytype($dateFilterRow['stdfilter']);
+			$datefilter = \DateTimeRange::getDateRangeByType($dateFilterRow['stdfilter']);
 			$startDateTime = new \DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
 			$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
 			$endDateTime = new \DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
 			$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
 		}
 		return $stdfilterlist;
-	}
-
-	/**
-	 * Get the date value for the given type
-	 * @param string $type
-	 * @return array
-	 */
-	public static function getDateforStdFilterBytype($type)
-	{
-		return \DateTimeRange::getDateRangeByType($type);
 	}
 
 	/**

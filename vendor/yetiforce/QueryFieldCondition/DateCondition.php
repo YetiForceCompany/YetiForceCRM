@@ -53,13 +53,12 @@ class DateCondition extends BaseFieldParser
 	 */
 	public function getStdValue()
 	{
-		$date = \DateTimeRange::getDateRangeByType($this->operator);
-		$startDateTime = new \DateTimeField($date[0] . ' ' . date('H:i:s'));
-		$endDateTime = new \DateTimeField($date[1] . ' ' . date('H:i:s'));
-		return [
-			\DateTimeField::convertToDBFormat($startDateTime->getDisplayDate()),
-			\DateTimeField::convertToDBFormat($endDateTime->getDisplayDate()),
-		];
+		if ($this->operator === 'custom') {
+			$date = $this->getArrayValue();
+		} else {
+			$date = \DateTimeRange::getDateRangeByType($this->operator);
+		}
+		return $date;
 	}
 
 	/**

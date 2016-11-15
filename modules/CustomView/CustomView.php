@@ -613,7 +613,7 @@ class CustomView extends CRMEntity
 				$stdfilterlist["enddate"] = $stdfilterrow["enddate"];
 			}
 		} else { //if it is not custom get the date according to the selected duration
-			$datefilter = $this->getDateforStdFilterBytype($stdfilterrow["stdfilter"]);
+			$datefilter = \DateTimeRange::getDateRangeByType($stdfilterrow["stdfilter"]);
 			$stdfilterlist["startdate"] = $datefilter[0];
 			$stdfilterlist["enddate"] = $datefilter[1];
 		}
@@ -1003,16 +1003,6 @@ class CustomView extends CRMEntity
 		}
 
 		return $rtvalue;
-	}
-
-	/** to get the date value for the given type
-	 * @param $type :: type string
-	 * @returns  $datevalue array in the following format
-	 *             $datevalue = Array(0=>$startdate,1=>$enddate)
-	 */
-	public function getDateforStdFilterBytype($type)
-	{
-		return DateTimeRange::getDateRangeByType($type);
 	}
 
 	/** to get the customview query for the given customview
