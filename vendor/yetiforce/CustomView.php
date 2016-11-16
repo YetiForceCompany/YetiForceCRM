@@ -435,11 +435,11 @@ class CustomView
 	 * To get the customViewId of the specified module
 	 * @return int|string
 	 */
-	public function getViewId()
+	public function getViewId($noCache = false)
 	{
 		\App\Log::trace(__METHOD__);
-		if (\AppRequest::isEmpty('viewname')) {
-			if (self::getCurrentView($this->moduleName)) {
+		if ($noCache || \AppRequest::isEmpty('viewname')) {
+			if (!$noCache && self::getCurrentView($this->moduleName)) {
 				$viewId = self::getCurrentView($this->moduleName);
 			} elseif (isset($this->defaultViewId)) {
 				$viewId = $this->defaultViewId;

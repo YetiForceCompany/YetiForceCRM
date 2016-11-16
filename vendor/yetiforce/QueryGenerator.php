@@ -127,7 +127,7 @@ class QueryGenerator
 	}
 
 	/**
-	 * 
+	 * Set custom column
 	 * @param type $columns
 	 */
 	public function setCustomColumn($columns)
@@ -259,10 +259,10 @@ class QueryGenerator
 	/**
 	 * Init function for default custom view
 	 */
-	public function initForDefaultCustomView()
+	public function initForDefaultCustomView($noCache = false)
 	{
 		$customView = new CustomView($this->moduleName, $this->user);
-		$viewId = $customView->getViewId();
+		$viewId = $customView->getViewId($noCache);
 		if (empty($viewId) || $viewId === 0) {
 			return false;
 		}
