@@ -399,7 +399,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$type = is_array($whereCondition) ? current($whereCondition) : $whereCondition;
 		}
 		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel, $type);
-		$pagingModel->calculatePageRange($recentActivities);
+		$pagingModel->calculatePageRange(count($recentActivities));
 
 		if ($pagingModel->getCurrentPage() == ceil(ModTracker_Record_Model::getTotalRecordCount($parentRecordId, $type) / $pagingModel->getPageLimit())) {
 			$pagingModel->set('nextPageExists', false);
@@ -453,7 +453,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 
 		$recentComments = ModComments_Record_Model::getRecentComments($parentId, $pagingModel);
-		$pagingModel->calculatePageRange($recentComments);
+		$pagingModel->calculatePageRange(count($recentComments));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 

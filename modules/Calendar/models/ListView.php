@@ -176,10 +176,10 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 
 		$listViewRecordModels = [];
 		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
+		$count = $db->num_rows($listResult);
+		$pagingModel->calculatePageRange($count);
 
-		$pagingModel->calculatePageRange($listViewEntries);
-
-		if ($db->num_rows($listResult) > $pageLimit) {
+		if ($count > $pageLimit) {
 			array_pop($listViewEntries);
 			$pagingModel->set('nextPageExists', true);
 		} else {

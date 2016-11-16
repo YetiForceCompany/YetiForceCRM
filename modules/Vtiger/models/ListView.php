@@ -256,32 +256,13 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				]
 			);
 		}
-	}
-
-	/**
-	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
-	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
-	{
-		$db = PearDatabase::getInstance();
-		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->get('name');
-		$moduleFocus = CRMEntity::getInstance($moduleName);
-
-		$listViewContoller = $this->get('listview_controller');
-
-		$this->loadListViewCondition($moduleName);
-		$listOrder = $this->getListViewOrderBy();
-
-		$queryGenerator = $this->get('query_generator');
+		$searchResult = $this->get('searchResult');
 		if (!empty($searchResult) && is_array($searchResult)) {
 			$queryGenerator->addAndConditionNative(['vtiger_crmentity.crmid' => $searchResult]);
 		}
-		unset($searchResult);
 		$sourceModule = $this->get('src_module');
 		if (!empty($sourceModule)) {
+			$moduleModel = $this->getModule();
 			if (method_exists($moduleModel, 'getQueryByModuleField')) {
 				$moduleModel->getQueryByModuleField($sourceModule, $this->get('src_field'), $this->get('src_record'), $queryGenerator);
 			}
@@ -289,7 +270,26 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				$moduleModel->getQueryByRelatedField($this, $queryGenerator);
 			}
 		}
-		$listQuery .= $listOrder;
+	}
+
+	/**
+	 * Function to get the list view entries
+	 * @param Vtiger_Paging_Model $pagingModel
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 */
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
+	{
+		$db = PearDatabase::getInstance();
+		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->get('name');
+		$tableIndex = CRMEntity::getInstance($moduleName)->table_index;
+
+		$listViewContoller = $this->get('listview_controller');
+		$queryGenerator = $this->get('query_generator');
+
+		$this->loadListViewCondition($moduleName);
+		$this->getListViewOrderBy();
+
 		$pageLimit = $pagingModel->getPageLimit();
 		$startIndex = $pagingModel->getStartIndex();
 
@@ -297,38 +297,22 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if (empty($viewid)) {
 			$viewid = $pagingModel->get('viewid');
 		}
-		$_SESSION['lvs'][$moduleName][$viewid]['start'] = $pagingModel->get('page');
-
-//		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
-
-		$listViewRecordModels = [];
-
-		$rows = $listViewContoller->queryGenerator->createQuery()->all();
-		$data = [];
-		$pagingModel->calculatePageRange($rows);
-
-		if (count($rows) > $pageLimit) {
+		$rows = $queryGenerator->createQuery()->all();
+		$count = count($rows);
+		$pagingModel->calculatePageRange($count);
+		if ($count > $pageLimit) {
 			array_pop($rows);
 			$pagingModel->set('nextPageExists', true);
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-		foreach ($rows as &$row) {
-			$recordId = $row[$moduleFocus->table_index];
-			$data = ['id' => $recordId];
-			foreach ($row as $key => $value) {
-				if ($key !== $moduleFocus->table_index) {
-					if ($key === 'smownerid') {
-						$key = 'assigned_user_id';
-					}
-					$fieldModel = $listViewContoller->queryGenerator->getModuleField($key);
-					$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value);
-					$data[$key] = $value;
-				}
-			}
-			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($data);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($row));
+		$listViewRecordModels = [];
+		foreach ($rows as $recordId => $row) {
+			$recordModel = $moduleModel->getRecordFromArray($row);
+			$recordModel->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $recordModel);
+			$listViewRecordModels[$recordId] = $recordModel;
 		}
+		unset($rows);
 		return $listViewRecordModels;
 	}
 

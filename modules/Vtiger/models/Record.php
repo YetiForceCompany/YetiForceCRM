@@ -18,6 +18,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	protected $module = false;
 	protected $inventoryData = false;
 	protected $privileges = [];
+	protected $fullForm = true;
 	public $summaryRowCount = 4;
 
 	/**
@@ -50,6 +51,15 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$displayName = $this->getDisplayName();
 		}
 		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+	}
+
+	/**
+	 * Set full form
+	 * @param boolean $value
+	 */
+	public function setFullForm($value)
+	{
+		$this->fullForm = $value;
 	}
 
 	public function getSearchName()

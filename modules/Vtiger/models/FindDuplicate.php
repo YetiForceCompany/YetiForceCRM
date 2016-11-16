@@ -77,7 +77,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 			$entries[] = $db->query_result_rowdata($result, $i);
 		}
 
-		$paging->calculatePageRange($entries);
+		$paging->calculatePageRange($rows);
 
 		if ($rows > $pageLimit) {
 			array_pop($entries);

@@ -69,11 +69,11 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
 			$record = Vtiger_Record_Model::getCleanInstance($relationModule->get('name'));
 			$relatedRecordList[$recordId] = $record->setData($newRow)->setModuleFromInstance($relationModule);
 		}
-		$pagingModel->calculatePageRange($relatedRecordList);
-
 		$nextLimitQuery = $query . ' LIMIT ' . ($startIndex + $pageLimit) . ' , 1';
 		$nextPageLimitResult = $db->pquery($nextLimitQuery, array());
-		if ($db->num_rows($nextPageLimitResult) > 0) {
+		$count = $db->num_rows($nextPageLimitResult);
+		$pagingModel->calculatePageRange($count);
+		if ($count > 0) {
 			$pagingModel->set('nextPageExists', true);
 		} else {
 			$pagingModel->set('nextPageExists', false);

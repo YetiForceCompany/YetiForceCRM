@@ -422,6 +422,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
+		$recordInstance->setFullForm(false);
 		return $recordInstance->setData($valueArray)->setModuleFromInstance($this)->setRawData($rawData);
 	}
 
@@ -1247,7 +1248,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$activities[] = $model;
 		}
 
-		$pagingModel->calculatePageRange($activities);
+		$pagingModel->calculatePageRange($numOfRows);
 		if ($numOfRows > $pagingModel->getPageLimit()) {
 			array_pop($activities);
 			$pagingModel->set('nextPageExists', true);

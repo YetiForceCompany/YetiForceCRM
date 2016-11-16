@@ -66,7 +66,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 			$listResult = $db->pquery($listQuery, array());
 
 			$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
-			$pagingModel->calculatePageRange($listViewEntries);
+			$pagingModel->calculatePageRange(count($listViewEntries));
 			foreach ($listViewEntries as $recordId => $record) {
 				$record['id'] = $recordId;
 				$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record);

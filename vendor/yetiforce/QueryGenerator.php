@@ -421,6 +421,7 @@ class QueryGenerator
 		$this->loadWhere();
 		$this->loadOrder();
 		$this->loadJoin();
+		$this->loadIndex();
 		return $this->getQuery();
 	}
 
@@ -434,15 +435,15 @@ class QueryGenerator
 		$this->fields = array_intersect($this->fields, $allFields);
 		$columns = [];
 		foreach ($this->fields as &$fieldName) {
-			$columns[] = $this->getColumnName($fieldName);
+			$columns[$fieldName] = $this->getColumnName($fieldName);
 			//To merge date and time fields
 			if ($this->moduleName === 'Calendar' && ($fieldName === 'date_start' || $fieldName === 'due_date')) {
 				if ($fieldName === 'date_start') {
 					$timeField = 'time_start';
-					$columns[] = $this->getColumnName($timeField);
+					$columns[$fieldName] = $this->getColumnName($timeField);
 				} elseif ($fieldName === 'due_date') {
 					$timeField = 'time_end';
-					$columns[] = $this->getColumnName($timeField);
+					$columns[$fieldName] = $this->getColumnName($timeField);
 				}
 			}
 		}
@@ -723,5 +724,14 @@ class QueryGenerator
 		if ($this->order) {
 			$this->query->orderBy($this->order);
 		}
+	}
+
+	/**
+	 * Load index
+	 */
+	public function loadIndex()
+	{
+		$baseTable = $this->entityModel->table_name;
+		$this->query->indexBy($this->entityModel->tab_name_index[$baseTable]);
 	}
 }

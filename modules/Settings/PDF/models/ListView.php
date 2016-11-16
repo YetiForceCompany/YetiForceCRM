@@ -24,7 +24,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		}
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
-		$listFields []= $module->baseIndex;
+		$listFields [] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
@@ -58,7 +58,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 			$listViewRecordModels[$record->getId()] = $record;
 		}
 
-		$pagingModel->calculatePageRange($listViewRecordModels);
+		$pagingModel->calculatePageRange($dataReader->count());
 
 		if ($dataReader->count() > $pageLimit) {
 			array_pop($listViewRecordModels);

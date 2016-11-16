@@ -99,11 +99,11 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 
 		$listViewRecordModels = [];
 		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
-
-		$pagingModel->calculatePageRange($listViewEntries);
+		$count = $db->num_rows($listResult);
+		$pagingModel->calculatePageRange($count);
 
 		//To check if next page
-		if ($db->num_rows($listResult) > $pageLimit && $sourceField !== 'productsRelatedList') {
+		if ($count > $pageLimit && $sourceField !== 'productsRelatedList') {
 			array_pop($listViewEntries);
 			$pagingModel->set('nextPageExists', true);
 		} else {

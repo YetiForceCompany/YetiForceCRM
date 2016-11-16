@@ -103,7 +103,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 			$listViewRecordModels[$record->getId()] = $record;
 		}
 		if ($module->isPagingSupported()) {
-			$pagingModel->calculatePageRange($listViewRecordModels);
+			$pagingModel->calculatePageRange($dataReader->count());
 			if ($dataReader->count() > $pageLimit) {
 				$pagingModel->set('nextPageExists', true);
 			} else {

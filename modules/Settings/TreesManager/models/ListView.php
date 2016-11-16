@@ -72,7 +72,7 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 			$listViewRecordModels[$record->getId()] = $record;
 		}
 		if ($module->isPagingSupported()) {
-			$pagingModel->calculatePageRange($listViewRecordModels);
+			$pagingModel->calculatePageRange($dataReader->count());
 			if ($dataReader->count() > $pageLimit) {
 				$pagingModel->set('nextPageExists', true);
 			} else {

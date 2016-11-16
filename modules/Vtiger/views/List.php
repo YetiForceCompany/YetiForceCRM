@@ -208,6 +208,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		}
+		if (!empty($searchResult)) {
+			$this->listViewModel->set('searchResult', $searchResult);
+		}
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $this->viewName);
@@ -256,7 +259,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewHeaders = $this->listViewModel->getListViewHeaders();
 		}
 		if (!$this->listViewEntries) {
-			$this->listViewEntries = $this->listViewModel->getListViewEntries($pagingModel, $searchResult);
+			$this->listViewEntries = $this->listViewModel->getListViewEntries($pagingModel);
 		}
 		$noOfEntries = count($this->listViewEntries);
 

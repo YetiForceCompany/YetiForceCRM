@@ -156,9 +156,10 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 
 		$listViewRecordModels = [];
 		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
-		$pagingModel->calculatePageRange($listViewEntries);
+		$count = $db->num_rows($listResult);
+		$pagingModel->calculatePageRange($count);
 
-		if ($db->num_rows($listResult) > $pageLimit && $sourceModule !== 'PriceBooks' && $sourceField !== 'priceBookRelatedList') {
+		if ($count > $pageLimit && $sourceModule !== 'PriceBooks' && $sourceField !== 'priceBookRelatedList') {
 			array_pop($listViewEntries);
 			$pagingModel->set('nextPageExists', true);
 		} else {

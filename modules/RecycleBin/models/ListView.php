@@ -106,9 +106,10 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		$listResult = $db->query($listQuery);
 		$listViewRecordModels = [];
 		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
-		$pagingModel->calculatePageRange($listViewEntries);
+		$count = $db->num_rows($listResult);
+		$pagingModel->calculatePageRange($count);
 
-		if ($db->num_rows($listResult) > $pageLimit) {
+		if ($count > $pageLimit) {
 			array_pop($listViewEntries);
 			$pagingModel->set('nextPageExists', true);
 		} else {

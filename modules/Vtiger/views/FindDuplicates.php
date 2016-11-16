@@ -111,7 +111,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		//for calculating the page range
 		for ($i = 0; $i < $rowCount; $i++)
 			$dummyListEntries[] = $i;
-		$pagingModel->calculatePageRange($dummyListEntries);
+		$pagingModel->calculatePageRange($rowCount);
 
 		$totalCount = $this->rows;
 		$pagingModel->set('totalCount', (int) $totalCount);

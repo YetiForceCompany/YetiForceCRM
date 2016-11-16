@@ -97,10 +97,10 @@ class Home_Module_Model extends Vtiger_Module_Model
 			->where(['vtiger_crmentity.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, 'Calendar');
 		if ($mode === 'upcoming') {
-			$query->andWhere(['<>', 'vtiger_activity.activitytype' ,'Emails']);
+			$query->andWhere(['<>', 'vtiger_activity.activitytype', 'Emails']);
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ($mode === 'overdue') {
-			$query->andWhere(['<>', 'vtiger_activity.activitytype' ,'Emails']);
+			$query->andWhere(['<>', 'vtiger_activity.activitytype', 'Emails']);
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ($mode === 'assigned_upcoming') {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
@@ -110,7 +110,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$query->andWhere(['vtiger_crmentity.smcreatorid' => $paramsMore['user']]);
 		} elseif ($mode === 'createdByMeButNotMine') {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-			$query->andWhere(['and',['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
+			$query->andWhere(['and', ['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
 		}
 
 		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
@@ -162,7 +162,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$activities[] = $model;
 		}
 
-		$pagingModel->calculatePageRange($activities);
+		$pagingModel->calculatePageRange($dataReader->count());
 		if ($dataReader->count() > $pagingModel->getPageLimit()) {
 			array_pop($activities);
 			$pagingModel->set('nextPageExists', true);
@@ -225,7 +225,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			}
 			$projecttasks[] = $model;
 		}
-		$pagingModel->calculatePageRange($projecttasks);
+		$pagingModel->calculatePageRange($dataReader->count());
 		if ($dataReader->count() > $pagingModel->getPageLimit()) {
 			array_pop($projecttasks);
 			$pagingModel->set('nextPageExists', true);

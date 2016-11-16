@@ -94,7 +94,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 			$listViewRecordModels[$row['templateid']] = $recordModel->setData($row);
 		}
 
-		$pagingModel->calculatePageRange($listViewRecordModels);
+		$pagingModel->calculatePageRange($num_rows);
 
 		if ($num_rows > $pageLimit) {
 			array_pop($listViewRecordModels);

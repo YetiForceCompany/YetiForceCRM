@@ -136,13 +136,12 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 
 	/**
 	 * calculates page range
-	 * @param <type> $recordList - list of records which is show in current page
-	 * @return Vtiger_Paging_Model  -
+	 * @param int $recordCount
+	 * @return Vtiger_Paging_Model
 	 */
-	public function calculatePageRange($recordList)
+	public function calculatePageRange($recordCount)
 	{
 		$rangeInfo = [];
-		$recordCount = count($recordList);
 		$pageLimit = $this->getPageLimit();
 		$this->set('prevPageExists', true);
 		if ($recordCount > 0) {
@@ -150,7 +149,7 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 			$prevPageLastRecordSequence = (($this->getCurrentPage() - 1) * $pageLimit);
 
 			$rangeInfo['start'] = $prevPageLastRecordSequence + 1;
-			if ($rangeInfo['start'] == 1) {
+			if ($rangeInfo['start'] === 1) {
 				$this->set('prevPageExists', false);
 			}
 			//Have less number of records than the page limit
@@ -163,7 +162,7 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 			$this->set('range', $rangeInfo);
 		} else {
 			//Disable previous page only if page is first page and no records exists
-			if ($this->getCurrentPage() == 1) {
+			if ($this->getCurrentPage() === 1) {
 				$this->set('prevPageExists', false);
 			}
 			$this->set('nextPageExists', false);

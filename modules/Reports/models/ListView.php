@@ -136,7 +136,7 @@ class Reports_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		$reportRecordModels = $reportFolderModel->getReports($pagingModel);
-		$pagingModel->calculatePageRange($reportRecordModels);
+		$pagingModel->calculatePageRange(count($reportRecordModels));
 		return $reportRecordModels;
 	}
 
