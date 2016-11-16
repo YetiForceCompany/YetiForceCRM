@@ -42,11 +42,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$recordModel = Vtiger_Record_Model::getCleanInstance('Notification');
 			$recordModel->setData($row);
-			if ($groupBy) {
-				$entries[$row['type']][$row['id']] = $recordModel;
-			} else {
-				$entries[$row['id']] = $recordModel;
-			}
+			$entries[$row['id']] = $recordModel;
 		}
 		return $entries;
 	}

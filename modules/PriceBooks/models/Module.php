@@ -59,30 +59,29 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param <String> $sourceModule Parent module
-	 * @param <String> $field parent fieldname
-	 * @param <Integer> $record parent id
-	 * @param <String> $listQuery
-	 * @return <String> Listview Query
+	 * @param string $sourceModule Parent module
+	 * @param string $field parent fieldname
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param integer $currencyId
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery, $currencyId = false)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator, $currencyId = false)
 	{
 		$relatedModulesList = array('Products', 'Services');
 		if (in_array($sourceModule, $relatedModulesList)) {
-			$pos = stripos($listQuery, ' where ');
+			$condition = [];
 			if ($currencyId && in_array($field, array('productid', 'serviceid'))) {
-				$condition = " vtiger_pricebook.pricebookid IN (SELECT pricebookid FROM vtiger_pricebookproductrel WHERE productid = $record)
-								AND vtiger_pricebook.currency_id = $currencyId && vtiger_pricebook.active = 1";
+				$subQuery = (new App\Db\Query())->select(['pricebookid'])
+					->from('vtiger_pricebookproductrel')
+					->where(['productid' => $record]);
+				$condition = ['and', ['not in', 'vtiger_pricebook.pricebookid', $subQuery], ['vtiger_pricebook.currency_id' => $currencyId], ['vtiger_pricebook.active' => 1]];
 			} else if ($field == 'productsRelatedList') {
-				$condition = "vtiger_pricebook.pricebookid NOT IN (SELECT pricebookid FROM vtiger_pricebookproductrel WHERE productid = $record)
-								AND vtiger_pricebook.active = 1";
+				$subQuery = (new App\Db\Query())->select(['pricebookid'])
+					->from('vtiger_pricebookproductrel')
+					->where(['productid' => $record]);
+				$condition = ['and', ['not in', 'vtiger_pricebook.pricebookid', $subQuery], ['vtiger_pricebook.active' => 1]];
 			}
-			if ($pos) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
-			} else {
-				$overRideQuery = $listQuery . ' WHERE ' . $condition;
-			}
-			return $overRideQuery;
+			$queryGenerator->addAndConditionNative($condition);
 		}
 	}
 

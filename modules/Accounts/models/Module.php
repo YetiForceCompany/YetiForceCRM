@@ -30,8 +30,8 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 				$queryGenerator->addAndConditionNative(['not in', 'vtiger_account.accountid', $subQuery]);
 			} elseif ($sourceModule === 'Services') {
 				$subQuery = (new \App\Db\Query())->select(['relcrmid'])->from('vtiger_crmentityrel')->where(['crmid' => $record]);
-				$subQuery->union((new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['relcrmid' => $record]));
-				$queryGenerator->addAndConditionNative(['not in', 'vtiger_account.accountid', $subQuery]);
+				$secondSubQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['relcrmid' => $record]);
+				$queryGenerator->addAndConditionNative(['and', ['not in', 'vtiger_account.accountid', $subQuery], ['not in', 'vtiger_account.accountid', $secondSubQuery]]);
 			} elseif ($sourceModule === 'Emails') {
 				$queryGenerator->addAndConditionNative(['vtiger_account.emailoptout' => 0]);
 			} else {

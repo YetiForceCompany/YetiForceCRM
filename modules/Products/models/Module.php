@@ -14,35 +14,45 @@ class Products_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param <String> $sourceModule Parent module
-	 * @param <String> $field parent fieldname
-	 * @param <Integer> $record parent id
-	 * @param <String> $listQuery
-	 * @return <String> Listview Query
+	 * @param string $sourceModule Parent module
+	 * @param string $field parent fieldname
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param boolean $skipSelected
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery, $skipSelected = false)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator, $skipSelected = false)
 	{
 		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts', 'Contacts');
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || in_array($sourceModule, getInventoryModules())) {
-
-			$condition = " vtiger_products.discontinued = 1 ";
+			$condition = ['and', ['vtiger_products.discontinued' => 1]];
 			if ($sourceModule === $this->getName()) {
-				$condition .= " && vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_seproductsrel WHERE productid = '$record') && vtiger_products.productid <> '$record' ";
+				$subQuery = (new App\Db\Query())
+					->select(['productid'])
+					->from('vtiger_seproductsrel')
+					->where(['crmid' => $record]);
+				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
+				$subQuery = (new App\Db\Query())
+					->select(['crmid'])
+					->from('vtiger_seproductsrel')
+					->where(['productid' => $record]);
+				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
+				$condition [] = ['<>', 'vtiger_products.productid', $record];
 			} elseif ($sourceModule === 'PriceBooks') {
-				$condition .= " && vtiger_products.productid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
+				$subQuery = (new App\Db\Query())
+					->select(['productid'])
+					->from('vtiger_pricebookproductrel')
+					->where(['pricebookid' => $record]);
+				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
 			} elseif ($sourceModule === 'Vendors') {
-				$condition .= " && vtiger_products.vendor_id != '$record' ";
+				$condition [] = ['<>', 'vtiger_products.vendor_id', $record];
 			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
-				$condition .= " && vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record')";
+				$subQuery = (new App\Db\Query())
+					->select(['productid'])
+					->from('vtiger_seproductsrel')
+					->where(['crmid' => $record]);
+				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
 			}
-
-			$pos = stripos($listQuery, 'where');
-			if ($pos) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
-			} else {
-				$overRideQuery = $listQuery . ' WHERE ' . $condition;
-			}
-			return $overRideQuery;
+			$queryGenerator->addAndConditionNative($condition);
 		}
 	}
 

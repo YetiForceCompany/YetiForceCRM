@@ -15,30 +15,34 @@ class Services_Module_Model extends Products_Module_Model
 	 * Function to get list view query for popup window
 	 * @param string $sourceModule Parent module
 	 * @param string $field parent fieldname
-	 * @param integer $record parent id
-	 * @param string $listQuery
-	 * @return string Listview Query
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param boolean $skipSelected
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery, $skipSelected = false)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator, $skipSelected = false)
 	{
 		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk');
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || in_array($sourceModule, getInventoryModules())) {
-
-			$condition = " vtiger_service.discontinued = 1 ";
-
+			$condition = ['and', ['vtiger_products.discontinued' => 1]];
 			if ($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') {
-				$condition .= " AND vtiger_service.serviceid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
+				$subQuery = (new App\Db\Query())
+					->select(['productid'])
+					->from('vtiger_pricebookproductrel')
+					->where(['pricebookid' => $record]);
+				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
 			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
-				$condition .= " AND vtiger_service.serviceid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
+				$subQuery = (new App\Db\Query())
+					->select(['relcrmid'])
+					->from('vtiger_crmentityrel')
+					->where(['crmid' => $record]);
+				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
+				$subQuery = (new App\Db\Query())
+					->select(['crmid'])
+					->from('vtiger_crmentityrel')
+					->where(['relcrmid' => $record]);
+				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
 			}
-
-			$pos = stripos($listQuery, 'where');
-			if ($pos) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
-			} else {
-				$overRideQuery = $listQuery . ' WHERE ' . $condition;
-			}
-			return $overRideQuery;
+			$queryGenerator->addAndConditionNative($condition);
 		}
 	}
 

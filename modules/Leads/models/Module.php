@@ -145,41 +145,43 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param <String> $sourceModule Parent module
-	 * @param <String> $field parent fieldname
-	 * @param <Integer> $record parent id
-	 * @param <String> $listQuery
-	 * @return <String> Listview Query
+	 * @param string $sourceModule Parent module
+	 * @param string $field parent fieldname
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if (in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails'))) {
 			switch ($sourceModule) {
-				case 'Campaigns' : $tableName = 'vtiger_campaign_records';
+				case 'Campaigns' :
+					$tableName = 'vtiger_campaign_records';
 					$fieldName = 'crmid';
 					$relatedFieldName = 'campaignid';
 					break;
-				case 'Products' : $tableName = 'vtiger_seproductsrel';
+				case 'Products' :
+					$tableName = 'vtiger_seproductsrel';
 					$fieldName = 'crmid';
 					$relatedFieldName = 'productid';
 					break;
 			}
 
 			if ($sourceModule === 'Services') {
-				$condition = " vtiger_leaddetails.leadid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
+				$subQuery = (new App\Db\Query())
+					->select(['relcrmid'])
+					->from('vtiger_crmentityrel')
+					->where(['crmid' => $record]);
+				$secondSubQuery = (new App\Db\Query())
+					->select(['crmid'])
+					->from('vtiger_crmentityrel')
+					->where(['relcrmid' => $record]);
+				$condition = ['and', ['not in', 'vtiger_leaddetails.leadid', $subQuery], ['not in', 'vtiger_contactdetails.contactid', $secondSubQuery]];
 			} elseif ($sourceModule === 'Emails') {
-				$condition = ' vtiger_leaddetails.emailoptout = 0';
+				$condition = ['vtiger_leaddetails.emailoptout' => 0];
 			} else {
-				$condition = " vtiger_leaddetails.leadid NOT IN (SELECT $fieldName FROM $tableName WHERE $relatedFieldName = '$record')";
+				$condition = ['not in', 'vtiger_contactdetails.contactid', (new App\Db\Query())->select([$fieldName])->from($tableName)->where([$relatedFieldName => $record])];
 			}
-
-			$position = stripos($listQuery, 'where');
-			if ($position) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
-			} else {
-				$overRideQuery = $listQuery . ' WHERE ' . $condition;
-			}
-			return $overRideQuery;
+			$queryGenerator->addAndConditionNative($condition);
 		}
 	}
 
@@ -190,7 +192,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 	public function searchAccountsToConvert($recordModel)
 	{
-		
+
 		\App\Log::trace('Start ' . __METHOD__);
 		if ($recordModel) {
 			$params = [];

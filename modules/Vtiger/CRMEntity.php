@@ -35,15 +35,6 @@ class Vtiger_CRMEntity extends CRMEntity
 	}
 
 	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
-	}
-
-	/**
 	 * Get list view query.
 	 */
 	public function getListQuery($module, $where = '')
