@@ -53,24 +53,6 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to get the list view header
-	 * @return <Array> - List of Vtiger_Field_Model instances
-	 */
-	public function getListViewHeaders()
-	{
-		$fieldObjects = array();
-		$listViewHeaders = array('Template Name' => 'templatename', 'Subject' => 'subject');
-		foreach ($listViewHeaders as $key => $fieldName) {
-			$fieldModel = new EmailTemplates_Field_Model();
-			$fieldModel->set('name', $fieldName);
-			$fieldModel->set('label', $key);
-			$fieldModel->set('column', $fieldName);
-			$fieldObjects[] = $fieldModel;
-		}
-		return $fieldObjects;
-	}
-
-	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.

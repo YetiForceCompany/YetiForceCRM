@@ -18,8 +18,7 @@ class ListViewController
 {
 
 	/**
-	 *
-	 * @var QueryGenerator
+	 * @var \App\QueryGenerator
 	 */
 	private $queryGenerator;
 
@@ -37,9 +36,9 @@ class ListViewController
 	private $headerSortingEnabled;
 	public $rawData;
 
-	public function __construct($db, $user, $generator)
+	public function __construct($db, $user, \App\QueryGenerator $queryGenerator)
 	{
-		$this->queryGenerator = $generator;
+		$this->queryGenerator = $queryGenerator;
 		$this->db = $db;
 		$this->user = $user;
 		$this->nameList = [];
@@ -113,10 +112,12 @@ class ListViewController
 			}
 		}
 	}
+	/*
+	 * To remove
+	 */
 
 	public function getListViewHeaderFields()
 	{
-		$meta = $this->queryGenerator->getMeta($this->queryGenerator->getModule());
 		$moduleFields = $this->queryGenerator->getModuleFields();
 		$fields = $this->queryGenerator->getFields();
 		$headerFields = [];

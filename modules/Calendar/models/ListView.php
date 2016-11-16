@@ -122,32 +122,6 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to get the list view header
-	 * @return <Array> - List of Vtiger_Field_Model instances
-	 */
-	public function getListViewHeaders()
-	{
-		$listViewContoller = $this->get('listview_controller');
-		$module = $this->getModule();
-		$moduleName = $module->get('name');
-		$headerFieldModels = [];
-		$headerFields = $listViewContoller->getListViewHeaderFields();
-		foreach ($headerFields as $fieldName => $webserviceField) {
-			if ($webserviceField && !in_array($webserviceField->getPresence(), array(0, 2)))
-				continue;
-			$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $module);
-			if (!$fieldInstance) {
-				if ($moduleName == 'Calendar') {
-					$eventmodule = Vtiger_Module_Model::getInstance('Events');
-					$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $eventmodule);
-				}
-			}
-			$headerFieldModels[$fieldName] = $fieldInstance;
-		}
-		return $headerFieldModels;
-	}
-
-	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.

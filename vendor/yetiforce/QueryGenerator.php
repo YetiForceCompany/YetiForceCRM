@@ -99,6 +99,21 @@ class QueryGenerator
 	}
 
 	/**
+	 * Get list view query fields
+	 * @return array
+	 */
+	public function getListViewFields()
+	{
+		$headerFields = [];
+		foreach ($this->getFields() as $fieldName) {
+			if ($model = $this->getModuleField($fieldName)) {
+				$headerFields[$fieldName] = $model;
+			}
+		}
+		return $headerFields;
+	}
+
+	/**
 	 * Set query fields
 	 * @param type $fields
 	 */
@@ -357,12 +372,15 @@ class QueryGenerator
 	 * Parsing advanced filters conditions
 	 * @return boolean
 	 */
-	public function parseAdvFilter()
+	public function parseAdvFilter($advFilterList = false)
 	{
-		if (!$this->advFilterList) {
+		if (!$advFilterList) {
+			$advFilterList = $this->advFilterList;
+		}
+		if (!$advFilterList) {
 			return false;
 		}
-		foreach ($this->advFilterList as $group => &$filters) {
+		foreach ($advFilterList as $group => &$filters) {
 			$functionName = ($group === 'and' ? 'addAndCondition' : 'addOrCondition');
 			foreach ($filters as &$filter) {
 				list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $filter['columnname']);

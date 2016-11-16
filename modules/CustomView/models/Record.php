@@ -1095,8 +1095,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if (empty($viewName)) {
 			//If not view name exits then get it from custom view
 			//This can return default view id or view id present in session
-			$customView = new CustomView();
-			$viewName = $customView->getViewId($moduleName);
+			$customView = new App\CustomView($moduleName);
+			$viewName = $customView->getViewId();
 		} elseif ($viewName == 'All') {
 			$viewName = (new App\Db\Query())->select('cvid')->from('vtiger_customview')->where(['presence' => 0, 'entitytype' => $moduleName])->scalar();
 		}
