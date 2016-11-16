@@ -643,7 +643,7 @@ class QueryGenerator
 	private function parseCondition($fieldName, $value, $operator)
 	{
 		if ($fieldName === 'id') {
-			$conditionParser = new \App\QueryFieldCondition\IdCondition($this, '', $value, $operator);
+			$conditionParser = new \App\QueryField\IdField($this, '', $value, $operator);
 			return $conditionParser->getCondition();
 		}
 		$field = $this->getModuleField($fieldName);
@@ -651,7 +651,7 @@ class QueryGenerator
 			Log::error('Not found field model or operator');
 			return false;
 		}
-		$className = '\App\QueryFieldCondition\\' . ucfirst($field->getFieldDataType()) . 'Condition';
+		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition');
 			return false;
