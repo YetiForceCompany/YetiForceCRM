@@ -36,19 +36,16 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			return $picklistValues;
 		}
 		$params = $this->get('field')->getFieldParams();
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
-		$queryGenerator = new QueryGenerator($params['module'], $currentUser);
-		$queryGenerator->setFields([$fieldInfo['columnname']]);
+		$queryGenerator = new \App\QueryGenerator($params['module']);
 		if ($params['filterField'] != '-') {
-			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
+			$queryGenerator->addAndCondition($params['filterField'], $params['filterValue'], 'e');
 		}
-		$query = $queryGenerator->getQuery();
-		$result = $db->query($query);
-
+		$queryGenerator->setFields([$fieldInfo['fieldname']]);
+		$query = $queryGenerator->createQuery();
+		$dataReader = $query->createCommand()->query();
 		$values = [];
-		while ($value = $db->getSingleValue($result)) {
+		while ($value = $dataReader->readColumn(0)) {
 			$values[$value] = $value;
 		}
 		$this->set('picklistValues', $values);
@@ -242,17 +239,14 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValuesForModuleList($module, $view)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
-		$queryGenerator = new QueryGenerator($module, $currentUser);
+		//  TODO Dodac funkcje setFields zamiast select
+		$queryGenerator = new \App\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields([$this->get('field')->get('name')]);
-		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
-		$result = $db->query($listQuery);
-
+		$query = $queryGenerator->createQuery();
+		$dataReader = $query->distinct()->createCommand()->query();
 		$values = [];
-		while (($value = $db->getSingleValue($result)) !== false) {
+		while (($value = $dataReader->readColumn(0)) !== false) {
 			$value = explode(self::COMMA, trim($value, self::COMMA));
 			$values = array_merge($values, $value);
 		}
