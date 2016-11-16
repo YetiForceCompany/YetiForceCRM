@@ -290,7 +290,7 @@ class ListViewController
 					$textParser->setContent($value);
 					$value = $textParser->parseTranslations();
 					$value = $value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
-				} elseif ($field->getFieldDataType() == 'picklist') {
+				} elseif ($fieldModel->getFieldDataType() === 'picklist') {
 					$value = \App\Language::translate($value, $module);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
 				} elseif ($field->getFieldDataType() == 'date' || $field->getFieldDataType() == 'datetime') {
