@@ -12,17 +12,16 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 {
 
 	/**
-	 * Add condition to sql query
-	 * @param <Vtiger_ListView_Model> $listviewModel
-	 * @param string $listQuery
-	 * @return string
+	 * Function to get list view query for popup window
+	 * @param Vtiger_ListView_Model $listviewModel
+	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, $listQuery)
+	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, \App\QueryGenerator $queryGenerator)
 	{
 		if ($listviewModel->get('src_module') === 'Project' && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');
 			if (!empty($filterFields['projectid'])) {
-				return $listQuery . ' AND projectid = ' . $filterFields['projectid'];
+				$queryGenerator->addAndConditionNative(['projectid' => $filterFields['projectid']]);
 			}
 		}
 	}
