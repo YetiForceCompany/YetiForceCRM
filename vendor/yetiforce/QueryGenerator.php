@@ -646,7 +646,8 @@ class QueryGenerator
 	private function parseCondition($fieldName, $value, $operator)
 	{
 		$queryField = $this->getQueryField($fieldName);
-		$queryField->setValue($value)->setOperator($operator);
+		$queryField->setValue($value);
+		$queryField->setOperator($operator);
 		return $queryField->getCondition();
 	}
 
