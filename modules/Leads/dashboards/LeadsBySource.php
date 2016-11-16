@@ -40,7 +40,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 						ELSE vtiger_leaddetails.leadsource END")])
 			->from('vtiger_leaddetails')
 			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-			->innerJOin('vtiger_leadsource', 'vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource')
+			->innerJoin('vtiger_leadsource', 'vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource')
 			->where(['deleted' => 0, 'converted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);

@@ -66,11 +66,11 @@ class Home_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the Calendar Events for the module
-	 * @param <String> $mode - upcoming/overdue mode
-	 * @param <Vtiger_Paging_Model> $pagingModel - $pagingModel
-	 * @param <String> $user - all/userid
-	 * @param <String> $recordId - record id
-	 * @return <Array>
+	 * @param string $mode - upcoming/overdue mode
+	 * @param Vtiger_Paging_Model $pagingModel - $pagingModel
+	 * @param string $user - all/userid
+	 * @param string $recordId - record id
+	 * @return array
 	 */
 	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false, $paramsMore = [])
 	{
