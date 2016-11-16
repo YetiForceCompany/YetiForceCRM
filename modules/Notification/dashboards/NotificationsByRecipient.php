@@ -39,19 +39,18 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
 		$listView = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-		$db = PearDatabase::getInstance();
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
-		$query = 'SELECT COUNT(*) AS `count`, smownerid
-			FROM vtiger_crmentity 
-			WHERE setype = ? AND deleted = ? AND createdtime BETWEEN ? AND ? AND smownerid IN (%s) ' .
-			\App\PrivilegeQuery::getAccessConditions($moduleName) .
-			' GROUP BY smownerid';
-		$query = sprintf($query, generateQuestionMarks($accessibleUsers));
-		$params = array_merge([$moduleName, 0, $time['start'], $time['end']], array_keys($accessibleUsers));
-		$result = $db->pquery($query, $params);
+		$query = new \App\Db\Query();
+		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'smownerid'])
+			->from('vtiger_crmentity')
+			->where(['setype' => $moduleName, 'deleted' => 0, 'smcreatorid' => array_keys($accessibleUsers)])
+			->andWhere(['between', 'createdtime', $time['start'], $time['end']]);
+		\App\PrivilegeQuery::getConditions($query, $module);
+		$query->groupBy(['smownerid']);
+		$dataReader = $query->createCommand()->query();
 		$data = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$data [] = [
 				$row['count'],
 				$accessibleUsers[$row['smownerid']],
