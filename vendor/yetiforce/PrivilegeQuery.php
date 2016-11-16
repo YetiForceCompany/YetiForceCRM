@@ -68,9 +68,11 @@ class PrivilegeQuery
 		return '';
 	}
 
-	public static function getConditions(\App\Db\Query $query, $moduleName, $userId = false, $relatedRecord = false)
+	public static function getConditions(\App\Db\Query $query, $moduleName, $user = false, $relatedRecord = false)
 	{
-		if (!$userId) {
+		if ($user && $user instanceof User) {
+			$userId = $user->getUserId();
+		} elseif (!$user) {
 			$userId = \App\User::getCurrentUserId();
 		}
 		$userModel = \Users_Privileges_Model::getInstanceById($userId);

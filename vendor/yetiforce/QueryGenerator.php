@@ -29,9 +29,11 @@ class QueryGenerator
 	private $fromClauseCustom = [];
 	private $whereOperator = [];
 	private $deletedCondition = true;
+	public $permissions = true;
 	private $joins = [];
 	private $queryFields = [];
 	private $order = [];
+	private $sourceRecord;
 
 	/**
 	 * @var boolean 
@@ -60,6 +62,11 @@ class QueryGenerator
 	private $entityModel;
 
 	/**
+	 * @var User 
+	 */
+	private $user;
+
+	/**
 	 * QueryGenerator construct
 	 * @param string $moduleName
 	 * @param mixed $userId
@@ -67,7 +74,7 @@ class QueryGenerator
 	public function __construct($moduleName, $userId = false)
 	{
 		$this->moduleName = $moduleName;
-		$this->query = new \App\Db\Query();
+		$this->query = new Db\Query();
 		$this->moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$this->entityModel = \CRMEntity::getInstance($moduleName);
 		$this->user = User::getUserModel($userId ? $userId : User::getCurrentUserId());
@@ -187,6 +194,15 @@ class QueryGenerator
 	public function addOrConditionNative($condition)
 	{
 		$this->conditionsOr[] = $condition;
+	}
+
+	/**
+	 * Set source record
+	 * @param int $sourceRecord
+	 */
+	public function setSourceRecord($sourceRecord)
+	{
+		$this->sourceRecord = $sourceRecord;
 	}
 
 	/**
@@ -584,6 +600,14 @@ class QueryGenerator
 			$this->query->andWhere($this->getDeletedCondition());
 		}
 		$this->query->andWhere(['or', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
+		if ($this->permissions) {
+			if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
+				$userId = $this->user->getUserId();
+				$this->query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
+			} else {
+				PrivilegeQuery::getConditions($this->query, $this->moduleName, $this->user, $this->sourceRecord);
+			}
+		}
 	}
 
 	/**
