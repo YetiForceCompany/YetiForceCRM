@@ -87,43 +87,39 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function returns Leads grouped by Status
 	 * @param type $data
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getLeadsByStatusConverted($owner, $dateFilter)
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getName();
-		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
+		$query = new \App\Db\Query();
+		$query->select([
+				'count' => new \yii\db\Expression('COUNT(*)'),
+				'leadstatusvalue' => new \yii\db\Expression("CASE WHEN vtiger_leadstatus.leadstatus IS NULL || vtiger_leadstatus.leadstatus = '' THEN '' ELSE vtiger_leadstatus.leadstatus END")])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
+			->where(['deleted' => 0]);
 		if (!empty($owner)) {
-			$ownerSql = ' && smownerid = ' . $owner;
+			$query->andWhere(['smownerid' => $owner]);
 		}
-
-		$params = [];
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' && createdtime BETWEEN ? AND ?';
-			//client is not giving time frame so we are appending it
-			$params[] = $dateFilter['start'] . ' 00:00:00';
-			$params[] = $dateFilter['end'] . ' 23:59:59';
+			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-
-		$sql = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL || vtiger_leadstatus.leadstatus = "" THEN "" ELSE vtiger_leadstatus.leadstatus END AS leadstatusvalue 
-		FROM vtiger_leaddetails 
-		INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-		INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus
-		WHERE deleted = 0 %s %s %s', $ownerSql, $dateFilterSql, $securityParameter);
-		$sql .= ' GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid';
-		$result = $db->pquery($sql, $params);
-
+		\App\PrivilegeQuery::getConditions($query, $module);
+		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
+		$dataReader = $query->createCommand()->query();
+		$i = 0;
 		$response = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$response[$i][0] = $row['count'];
 			$leadStatusVal = $row['leadstatusvalue'];
 			if ($leadStatusVal == '') {
 				$leadStatusVal = 'LBL_BLANK';
 			}
-			$response[$i][1] = vtranslate($leadStatusVal, $module);
+			$response[$i][1] = \App\Language::translate($leadStatusVal, $module);
 			$response[$i][2] = $leadStatusVal;
+			$i++;
 		}
 		return $response;
 	}
