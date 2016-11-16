@@ -19,7 +19,7 @@ class MultipicklistCondition extends BaseFieldParser
 		$value = $this->value;
 		$valueArray = explode(',', $value);
 		if (in_array($this->operator, ['e', 'n'])) {
-			foreach (\App\QueryConditionParser::getCombinations($valueArray) as $key => $value) {
+			foreach (self::getCombinations($valueArray) as $key => $value) {
 				$valueArray[$key] = ltrim($value, ' |##| ');
 			}
 		}

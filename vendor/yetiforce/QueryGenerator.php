@@ -456,13 +456,13 @@ class QueryGenerator
 				$tableJoin[$field->getTableName()] = 'INNER JOIN';
 				foreach ($this->referenceFields[$fieldName] as &$moduleName) {
 					if ($moduleName === 'Users' && $this->moduleName !== 'Users') {
-						$this->addJoin(['LEFT JOIN', 'vtiger_users' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_users{$fieldName}.id"]);
-						$this->addJoin(['LEFT JOIN', 'vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
+						$this->addJoin(['LEFT JOIN', 'vtiger_users vtiger_users' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_users{$fieldName}.id"]);
+						$this->addJoin(['LEFT JOIN', 'vtiger_groups vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
 					}
 				}
 			} elseif ($field->getFieldDataType() === 'owner' && $fieldName === 'created_user_id') {
-				$this->addJoin(['LEFT JOIN', 'vtiger_users' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_users{$fieldName}.id"]);
-				$this->addJoin(['LEFT JOIN', 'vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
+				$this->addJoin(['LEFT JOIN', 'vtiger_users vtiger_users' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_users{$fieldName}.id"]);
+				$this->addJoin(['LEFT JOIN', 'vtiger_groups vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
 			}
 			if (!isset($tableList[$field->getTableName()])) {
 				$tableList[$field->getTableName()] = $field->getTableName();

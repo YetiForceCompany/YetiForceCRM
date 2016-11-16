@@ -1035,7 +1035,7 @@ class QueryGenerator
 			if (in_array($field->getFieldDataType(), $commaSeparatedFieldTypes)) {
 				$valueArray = explode(',', $value);
 				if ($field->getFieldDataType() == 'multipicklist' && in_array($operator, ['e', 'n'])) {
-					$valueArray = \App\QueryConditionParser::getCombinations($valueArray);
+					$valueArray = \App\QueryFieldCondition\BaseFieldParser::getCombinations($valueArray);
 					foreach ($valueArray as $key => $value) {
 						$valueArray[$key] = ltrim($value, ' |##| ');
 					}
