@@ -21,25 +21,14 @@ class Pdf_OverdueDeadlines extends Vtiger_SpecialFunction_Pdf
 		if (!$currentUserModel->isAdminUser()) {
 			$adminUser = Users::getActiveAdminUser();
 		}
-		$db = PearDatabase::getInstance();
-		$queryGenerator = new QueryGenerator($moduleName, $adminUser);
+		$queryGenerator = new App\QueryGenerator($moduleName, $adminUser->getId());
 		$queryGenerator->setFields([]);
-		$queryGenerator->setCustomColumn('activityid');
-		$queryGenerator->setCustomCondition([
-			'column' => 'vtiger_activity.status',
-			'operator' => '=',
-			'value' => "'PLL_OVERDUE'",
-			'glue' => 'AND'
-		]);
-		$queryGenerator->setCustomCondition([
-			'column' => 'vtiger_crmentity.smownerid',
-			'operator' => '=',
-			'value' => $currentUserModel->getId(),
-			'glue' => 'AND'
-		]);
-		$listQuery = $queryGenerator->getQuery('SELECT');
-		$listQuery .= ' LIMIT 500;';
-		$result = $db->query($listQuery);
+		$queryGenerator->setCustomColumn(['activityid']);
+		$queryGenerator->addAndConditionNative(['vtiger_activity.status' => 'PLL_OVERDUE']);
+		$queryGenerator->addAndConditionNative(['vtiger_crmentity.smownerid' => $currentUserModel->getId()]);
+		$query = $queryGenerator->createQuery();
+		$query->limit(500);
+		$dataReader = $query->createCommand()->query();
 		$html = '<br><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .
@@ -54,7 +43,7 @@ class Pdf_OverdueDeadlines extends Vtiger_SpecialFunction_Pdf
 			$html .= '<th><span>' . vtranslate($fieldModel->get('label'), $moduleName) . '</span>&nbsp;</th>';
 		}
 		$html .= '</tr></thead><tbody>';
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$html .= '<tr>';
 			foreach ($this->columnNames as $column) {
 				$recordId = $row['activityid'];

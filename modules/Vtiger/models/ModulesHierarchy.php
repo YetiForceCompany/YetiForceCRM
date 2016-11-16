@@ -250,22 +250,12 @@ WHERE vtiger_tab.presence = ? && vtiger_ws_referencetype.`type` = ?';
 
 	protected static function getRelatedRecordsByField($record, $field)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-		$queryGenerator = new QueryGenerator($field['name'], $currentUserModel);
+		$queryGenerator = new \App\QueryGenerator($field['name']);
 		$queryGenerator->setFields(['id']);
-		$queryGenerator->setCustomCondition([
-			'glue' => 'AND',
-			'tablename' => $field['tablename'],
-			'column' => $field['columnname'],
-			'operator' => '=',
-			'value' => $record
-		]);
-		$query = $queryGenerator->getQuery();
-		$result = $db->query($query);
-
+		$queryGenerator->addAndConditionNative([$field['tablename'] . '.' . $field['columnname'] => $record]);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$ids = [];
-		while (($id = $db->getSingleValue($result)) !== false) {
+		while (($id = $dataReader->readColumn(0)) !== false) {
 			$ids[] = $id;
 		}
 		return $ids;
