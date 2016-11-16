@@ -30,6 +30,8 @@ class QueryGenerator
 	private $whereOperator = [];
 	private $deletedCondition = true;
 	private $joins = [];
+	private $queryFields = [];
+	private $order = [];
 
 	/**
 	 * @var boolean 
@@ -401,6 +403,7 @@ class QueryGenerator
 		$this->loadSelect();
 		$this->loadFrom();
 		$this->loadWhere();
+		$this->loadOrder();
 		$this->loadJoin();
 		return $this->getQuery();
 	}
@@ -642,21 +645,58 @@ class QueryGenerator
 	 */
 	private function parseCondition($fieldName, $value, $operator)
 	{
+		$queryField = $this->getQueryField($fieldName);
+		$queryField->setValue($value)->setOperator($operator);
+		return $queryField->getCondition();
+	}
+
+	/**
+	 * Get query field instance
+	 * @param string $fieldName
+	 * @return QueryField\BaseField
+	 * @throws \Exception\AppException
+	 */
+	private function getQueryField($fieldName)
+	{
+		if (isset($this->queryFields[$fieldName])) {
+			return $this->queryFields[$fieldName];
+		}
 		if ($fieldName === 'id') {
-			$conditionParser = new \App\QueryField\IdField($this, '', $value, $operator);
-			return $conditionParser->getCondition();
+			$queryField = new \App\QueryField\IdField($this, '');
+			return $this->queryFields[$fieldName] = $queryField;
 		}
 		$field = $this->getModuleField($fieldName);
-		if (empty($field) || $operator === 'None') {
-			Log::error('Not found field model or operator');
-			return false;
+		if (empty($field)) {
+			Log::error('Not found field model');
+			throw new \Exception\AppException('LBL_NOT_FOUND_FIELD_MODEL');
 		}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition');
-			return false;
+			throw new \Exception\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
 		}
-		$conditionParser = new $className($this, $field, $value, $operator);
-		return $conditionParser->getCondition();
+		$queryField = new $className($this, $field);
+		return $this->queryFields[$fieldName] = $queryField;
+	}
+
+	/**
+	 * Set order
+	 * @param string $fieldName
+	 * @param string $order ASC/DESC
+	 */
+	public function setOrder($fieldName, $order = false)
+	{
+		$queryField = $this->getQueryField($fieldName);
+		$this->order = array_merge($this->order, $queryField->getOrderBy($order));
+	}
+
+	/**
+	 * Sets the ORDER BY part of the query.
+	 */
+	public function loadOrder()
+	{
+		if ($this->order) {
+			$this->query->orderBy($this->order);
+		}
 	}
 }

@@ -50,12 +50,10 @@ class BaseField
 	 * @param string|array $value
 	 * @param string $operator
 	 */
-	public function __construct(\App\QueryGenerator $queryGenerator, $fieldModel = false, $value, $operator)
+	public function __construct(\App\QueryGenerator $queryGenerator, $fieldModel = false)
 	{
 		$this->queryGenerator = $queryGenerator;
 		$this->fieldModel = $fieldModel;
-		$this->value = $value;
-		$this->operator = strtolower($operator);
 	}
 
 	/**
@@ -98,6 +96,24 @@ class BaseField
 	public function getValue()
 	{
 		return $this->value;
+	}
+
+	/**
+	 * Set value
+	 * @param string $value
+	 */
+	public function setValue($value)
+	{
+		$this->value = $value;
+	}
+
+	/**
+	 * Set operator
+	 * @param string $operator
+	 */
+	public function setOperator($operator)
+	{
+		$this->operator = strtolower($operator);
 	}
 
 	/**
@@ -155,6 +171,19 @@ class BaseField
 			return $this->fullColumnName;
 		}
 		return $this->fullColumnName = $this->fieldModel->getTableName() . '.' . $this->fieldModel->getColumnName();
+	}
+
+	/**
+	 * Get order by
+	 * @return array
+	 */
+	public function getOrderBy($order = false)
+	{
+		if ($order && strtolower($order) === 'desc') {
+			return [$this->getColumnName() => SORT_DESC];
+		} else {
+			return [$this->getColumnName() => SORT_ASC];
+		}
 	}
 
 	/**
