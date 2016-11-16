@@ -65,18 +65,10 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 
 	public function getAllRecords()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$queryGenerator = new QueryGenerator($this->getModuleName(), $currentUser);
+		$queryGenerator = new App\QueryGenerator($this->getModuleName());
 		$queryGenerator->setFields(['category', 'knowledgebase_view', 'subject']);
 		$queryGenerator->setCustomColumn('knowledgebaseid');
-		$listQuery = $queryGenerator->getQuery('SELECT');
-		$db = PearDatabase::getInstance();
-		$result = $db->query($listQuery);
-		$records = [];
-		while ($row = $db->getRow($result)) {
-			$records[] = $row;
-		}
-		return $records;
+		return $queryGenerator->createQuery()->all();
 	}
 
 	public function getDocuments()
