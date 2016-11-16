@@ -696,6 +696,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'multiowner':
 			case 'multiReferenceValue':
 			case 'inventoryLimit':
+			case 'languages':
 			case 'posList':
 				$pickListValues = $this->getPicklistValues();
 				if (!empty($pickListValues)) {

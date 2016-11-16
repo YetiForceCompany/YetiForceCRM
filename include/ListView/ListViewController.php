@@ -453,7 +453,7 @@ class ListViewController
 					}
 					$value = implode(', ', $valueTmp);
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
-				} elseif (in_array($field->getFieldDataType(), ['posList', 'inventoryLimit'])) {
+				} elseif (in_array($fieldModel->getFieldDataType(), ['posList', 'inventoryLimit', 'languages'])) {
 					$value = vtlib\Functions::textLength($fieldModel->getUITypeModel()->getDisplayValue($value), $fieldModel->get('maxlengthtext'));
 				} elseif (in_array($uitype, array(7, 9, 90))) {
 					$value = vtlib\Functions::textLength($value, $fieldModel->get('maxlengthtext'));
