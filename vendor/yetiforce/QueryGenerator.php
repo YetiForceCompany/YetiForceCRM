@@ -108,6 +108,34 @@ class QueryGenerator
 	}
 
 	/**
+	 * Set query field
+	 * @param type $fields
+	 */
+	public function setField($fields)
+	{
+		$this->fields[] = $fields;
+	}
+
+	/**
+	 * Load base module list fields
+	 */
+	public function loadListFields()
+	{
+		$listFields = $this->entityModel->list_fields_name;
+		$listFields[] = 'id';
+		$this->fields = $listFields;
+	}
+
+	/**
+	 * 
+	 * @param type $columns
+	 */
+	public function setCustomColumn($columns)
+	{
+		$this->customColumns[] = $columns;
+	}
+
+	/**
 	 * Get CRMEntity Model
 	 * @return \CRMEntity
 	 */
@@ -221,7 +249,11 @@ class QueryGenerator
 	public function getDefaultCustomViewQuery()
 	{
 		$customView = new CustomView($this->moduleName, $this->user);
-		return $this->getCustomViewQueryById($customView->getViewId());
+		$viewId = $customView->getViewId();
+		if (empty($viewId) || $viewId === 0) {
+			return false;
+		}
+		return $this->getCustomViewQueryById($viewId);
 	}
 
 	/**
@@ -230,7 +262,12 @@ class QueryGenerator
 	public function initForDefaultCustomView()
 	{
 		$customView = new CustomView($this->moduleName, $this->user);
-		$this->initForCustomViewById($customView->getViewId());
+		$viewId = $customView->getViewId();
+		if (empty($viewId) || $viewId === 0) {
+			return false;
+		}
+		$this->initForCustomViewById($viewId);
+		return true;
 	}
 
 	/**
