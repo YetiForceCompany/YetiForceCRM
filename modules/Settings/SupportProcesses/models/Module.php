@@ -77,7 +77,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		$adb = PearDatabase::getInstance();
 
 		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getAllTicketStatus() method ...");
-		$sql = 'SELECT `ticketstatus` FROM `vtiger_ticketstatus`';
+		$sql = 'SELECT ticketstatus FROM vtiger_ticketstatus';
 		$result = $adb->query($sql);
 		$rowsNum = $adb->num_rows($result);
 		for ($i = 0; $i < $rowsNum; $i++) {

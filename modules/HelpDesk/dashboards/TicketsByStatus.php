@@ -36,7 +36,6 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = 'HelpDesk';
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$query = new \App\Db\Query();
-
 		$query->select(['priority', 'vtiger_ticketpriorities.color',
 				'count' => new \yii\db\Expression('COUNT(*)'),
 				'statusvalue' => new \yii\db\Expression("CASE WHEN vtiger_troubletickets.status IS NULL || vtiger_troubletickets.status = '' THEN '' ELSE vtiger_troubletickets.status END")])
@@ -76,7 +75,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			foreach ($tickets as $ticketKey => $ticketValue) {
 				foreach ($priorities as $priorityKey => $priorityValue) {
 					$result[$priorityValue]['data'][$counter][0] = $counter;
-					$result[$priorityValue]['label'] = vtranslate($priorityKey, 'HelpDesk');
+					$result[$priorityValue]['label'] = \App\Language::translate($priorityKey, 'HelpDesk');
 					$result[$priorityValue]['color'] = $colors[$priorityKey];
 					if ($ticketValue[$priorityKey]) {
 						$result[$priorityValue]['data'][$counter][1] = $ticketValue[$priorityKey];

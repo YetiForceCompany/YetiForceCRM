@@ -17,37 +17,36 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Function returns Tickets grouped by Status
 	 * @param type $data
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getOpenTickets()
 	{
-		$db = PearDatabase::getInstance();
+
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$moduleName = 'HelpDesk';
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-
-		$sql = sprintf('SELECT count(*) AS count, case when (%s not like "") then
-			%s else vtiger_groups.groupname end as name, 
-			case when (%s not like "") then
-			vtiger_users.cal_color else vtiger_groups.color end as color, smownerid as id
-			FROM vtiger_troubletickets
-			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
-			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0', $usersSqlFullName, $usersSqlFullName, $usersSqlFullName);
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
+		$query = new \App\Db\Query();
+		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
+				'name' => new \yii\db\Expression("CASE WHEN (CONCAT(vtiger_users.last_name,' ',vtiger_users.first_name) NOT LIKE '') THEN CONCAT(vtiger_users.last_name,' ',vtiger_users.first_name) ELSE vtiger_groups.groupname END"),
+				'color' => new \yii\db\Expression("CASE WHEN (CONCAT(vtiger_users.last_name,' ',vtiger_users.first_name) NOT LIKE '') THEN
+					vtiger_users.cal_color ELSE vtiger_groups.color END")])
+			->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->where(['vtiger_crmentity.deleted' => 0]);
+		\App\PrivilegeQuery::getConditions($query, $module);
 		if (!empty($ticketStatus)) {
+			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
 			$ticketStatusSearch = implode("','", $ticketStatus);
-			$sql .= " && vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
-
-		$sql .= ' GROUP BY smownerid';
-		$result = $db->query($sql);
+		$query->groupBy(['smownerid', 'vtiger_users.last_name', 'vtiger_users.last_name', 'vtiger_users.first_name', 'vtiger_groups.groupname', 'vtiger_users.cal_color'
+			, 'vtiger_groups.color']);
+		$dataReader = $query->createCommand()->query();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$chartData = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$data['id'] = $row['id'];
 			$data['label'] = trim($row['name']);
 			$data['data'] = $row['count'];
