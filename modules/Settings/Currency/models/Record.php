@@ -65,13 +65,13 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		$tableName = Settings_Currency_Module_Model::tableName;
 		if (!empty($id)) {
 			$db->createCommand()->update($tableName, [
-					'currency_name' => $this->get('currency_name'),
-					'currency_code' => $this->get('currency_code'),
-					'currency_status' => $this->get('currency_status'),
-					'currency_symbol' => $this->get('currency_symbol'),
-					'conversion_rate' => $this->get('conversion_rate'),
-					'deleted' => $this->getDeleteStatus()
-					], ['id' => $id])->execute();
+				'currency_name' => $this->get('currency_name'),
+				'currency_code' => $this->get('currency_code'),
+				'currency_status' => $this->get('currency_status'),
+				'currency_symbol' => $this->get('currency_symbol'),
+				'conversion_rate' => $this->get('conversion_rate'),
+				'deleted' => $this->getDeleteStatus()
+				], ['id' => $id])->execute();
 		} else {
 			$id = $db->getUniqueID($tableName);
 			$db->createCommand()
@@ -86,7 +86,16 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 					'deleted' => 0
 				])->execute();
 		}
+		self::clearCache();
 		return $id;
+	}
+
+	/**
+	 * Function clears cache
+	 */
+	public static function clearCache()
+	{
+		\App\Cache::delete('Currency', 'List');
 	}
 
 	public static function getInstance($id)
@@ -144,7 +153,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($excludedIds)) {
 			$query->andWhere(['<>', 'id', $excludedIds]);
 		}
-		$dataReader =  $query->createCommand()->query();
+		$dataReader = $query->createCommand()->query();
 		$instanceList = [];
 		while ($row = $dataReader->read()) {
 			$instanceList[$row['id']] = new Settings_Currency_Record_Model($row);

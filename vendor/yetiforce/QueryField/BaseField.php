@@ -193,7 +193,6 @@ class BaseField
 	public function getCondition()
 	{
 		$fn = 'operator' . ucfirst($this->operator);
-		var_dump($fn);
 		if (method_exists($this, $fn)) {
 			Log::trace("Entering to $fn in " . __CLASS__);
 			return $this->$fn();

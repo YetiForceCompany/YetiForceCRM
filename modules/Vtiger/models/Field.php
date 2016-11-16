@@ -697,6 +697,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'multiReferenceValue':
 			case 'inventoryLimit':
 			case 'languages':
+			case 'currencyList':
 			case 'posList':
 				$pickListValues = $this->getPicklistValues();
 				if (!empty($pickListValues)) {
@@ -1005,15 +1006,19 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function returns list of Currencies available in the system
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getCurrencyList()
 	{
+		if (\App\Cache::has('Currency', 'List')) {
+			return \App\Cache::get('Currency', 'List');
+		}
 		$currencies = (new \App\Db\Query())->select('id, currency_name')
 				->from('vtiger_currency_info')
 				->where(['currency_status' => 'Active', 'deleted' => 0])
 				->createCommand()->queryAllByGroup();
 		asort($currencies);
+		\App\Cache::save('Currency', 'List', $currencies, \App\Cache::LONG);
 		return $currencies;
 	}
 
@@ -1124,9 +1129,13 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function which will check if empty piclist option should be given
+	 * @return boolean
 	 */
 	public function isEmptyPicklistOptionAllowed()
 	{
+		if (method_exists($this->getUITypeModel(), 'isEmptyPicklistOptionAllowed')) {
+			return $this->getUITypeModel()->isEmptyPicklistOptionAllowed();
+		}
 		return true;
 	}
 

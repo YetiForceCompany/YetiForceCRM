@@ -64,6 +64,9 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 		return static::$tableName[$type];
 	}
 
+	/**
+	 * Function clears cache
+	 */
 	public function clearCache()
 	{
 		\App\Cache::delete('Inventory', $this->getType());
