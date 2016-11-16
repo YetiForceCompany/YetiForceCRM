@@ -698,18 +698,11 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'inventoryLimit':
 			case 'languages':
 			case 'currencyList':
+			case 'taxes':
 			case 'posList':
 				$pickListValues = $this->getPicklistValues();
 				if (!empty($pickListValues)) {
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
-				} else {
-					$this->fieldInfo['picklistvalues'] = [];
-				}
-				break;
-			case 'taxes':
-				$taxs = $this->getUITypeModel()->getTaxes();
-				if (!empty($taxs)) {
-					$this->fieldInfo['picklistvalues'] = $taxs;
 				} else {
 					$this->fieldInfo['picklistvalues'] = [];
 				}

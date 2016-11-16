@@ -13,7 +13,7 @@
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-{assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('fieldvalue'))}
+{assign var="FIELD_VALUE_LIST" value=$FIELD_MODEL->getUITypeModel()->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 {if !empty($FIELD_MODEL->get('fieldvalue'))}
 	{assign var=NOT_DISPLAY_LIST_VALUES value=array_diff_key(array_flip($FIELD_VALUE_LIST), $PICKLIST_VALUES)}
 {else}

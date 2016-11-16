@@ -6,9 +6,9 @@
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
     <div class="row">
         <select class="select2noactive listSearchContributor col-md-9" name="{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" multiple style="width:150px;" data-fieldinfo='{$FIELD_INFO|escape}'>
-            {foreach item=VALUE key=KEY from=$PICKLIST_VALUES}
-                <option value="{$KEY}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "")} selected{/if}>{$VALUE['value']}% - {$VALUE['name']}</option>
-            {/foreach}
+           {foreach item=PICKLIST_NAME key=PICKLIST_VALUE from=$PICKLIST_VALUES}
+			<option value="{$PICKLIST_VALUE}" {if isset($SEARCH_VALUES[$PICKLIST_VALUE])} selected {/if}>{$PICKLIST_NAME}</option>
+		{/foreach}
         </select>
     </div>
 {/strip}

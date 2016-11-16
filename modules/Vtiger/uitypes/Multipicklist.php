@@ -45,6 +45,17 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		return str_ireplace(' |##| ', ', ', $trValue);
 	}
 
+	/**
+	 * Function to get the display value in edit view
+	 * @param string $value
+	 * @param int $record - Record ID
+	 * @return array
+	 */
+	public function getEditViewDisplayValue($value, $record = false)
+	{
+		return explode(' |##| ', $value);
+	}
+
 	public function getDBInsertValue($value)
 	{
 		if (is_array($value)) {
