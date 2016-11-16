@@ -44,13 +44,10 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 
 	public static function getUserInstance($widgetId)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$db = PearDatabase::getInstance();
-
 		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets 
 			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid 
-			WHERE linktype = ? && vtiger_module_dashboard_widgets.id = ? && vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, $currentUser->getId()]);
+			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, \App\User::getCurrentUserId()]);
 		$self = new self();
 		if ($db->num_rows($result)) {
 			$row = $db->query_result_rowdata($result, 0);
