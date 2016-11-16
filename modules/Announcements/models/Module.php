@@ -22,15 +22,12 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 
 	public function loadAnnouncements()
 	{
-		$db = PearDatabase::getInstance();
-		$listView = Vtiger_ListView_Model::getInstance($this->getName());
-		$queryGenerator = $listView->get('query_generator');
+		$queryGenerator = new \App\QueryGenerator($this->getName());
 		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime']);
-		$query = $queryGenerator->getQuery();
-		$query .= ' AND ' . \App\Db::getInstance()->quoteTableName('announcementstatus') . ' = ?';
-
-		$result = $db->pquery($query, ['PLL_PUBLISHED']);
-		while ($row = $db->getRow($result)) {
+		$query = $queryGenerator->createQuery();
+		$query->andWhere(['announcementstatus' => 'PLL_PUBLISHED']);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
 				->where(['announcementid' => $row['announcementid'], 'userid' => \App\User::getCurrentUserId()]);
