@@ -268,7 +268,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 				->where(['vtiger_crmentity.deleted' => 0]);
 
 			$this->getActivityQuery($query, $type);
-			$query->orderBy(['vtiger_modtracker_basic' => SORT_DESC])
+			$query->orderBy(['vtiger_modtracker_basic.id' => SORT_DESC])
 				->limit($pagingModel->getPageLimit())
 				->offset($pagingModel->getStartIndex());
 			$dataReader = $query->createCommand()->query();
