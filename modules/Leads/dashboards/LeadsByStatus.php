@@ -43,7 +43,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 						vtiger_leadstatus.leadstatus END")])
 			->from('vtiger_leaddetails')
 			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-			->innerJOin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
+			->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
 			->where(['deleted' => 0, 'converted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);

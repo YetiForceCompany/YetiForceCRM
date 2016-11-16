@@ -40,7 +40,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 						ELSE vtiger_leaddetails.industry END")])
 			->from('vtiger_leaddetails')
 			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-			->innerJOin('vtiger_industry', 'vtiger_leaddetails.industry = vtiger_industry.industry')
+			->innerJoin('vtiger_industry', 'vtiger_leaddetails.industry = vtiger_industry.industry')
 			->where(['deleted' => 0, 'converted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
