@@ -20,7 +20,7 @@ class ListViewController
 	/**
 	 * @var \App\QueryGenerator
 	 */
-	private $queryGenerator;
+	public $queryGenerator;
 
 	/**
 	 *

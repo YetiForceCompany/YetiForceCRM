@@ -299,28 +299,35 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 		$_SESSION['lvs'][$moduleName][$viewid]['start'] = $pagingModel->get('page');
 
-		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
-
-		$listQuery .= ' LIMIT ' . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
-		$listResult = $db->query($listQuery);
+//		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
 
 		$listViewRecordModels = [];
-		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
 
-		$pagingModel->calculatePageRange($listViewEntries);
+		$rows = $listViewContoller->queryGenerator->createQuery()->all();
+		$data = [];
+		$pagingModel->calculatePageRange($rows);
 
-		if ($db->num_rows($listResult) > $pageLimit) {
-			array_pop($listViewEntries);
+		if (count($rows) > $pageLimit) {
+			array_pop($rows);
 			$pagingModel->set('nextPageExists', true);
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-
-		$index = 0;
-		foreach ($listViewEntries as $recordId => $record) {
-			$record['id'] = $recordId;
-			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
+		foreach ($rows as &$row) {
+			$recordId = $row[$moduleFocus->table_index];
+			$data = ['id' => $recordId];
+			foreach ($row as $key => $value) {
+				if ($key !== $moduleFocus->table_index) {
+					if ($key === 'smownerid') {
+						$key = 'assigned_user_id';
+					}
+					$fieldModel = $listViewContoller->queryGenerator->getModuleField($key);
+					$value = $fieldModel->getUITypeModel()->getListViewDisplayValue($value);
+					$data[$key] = $value;
+				}
+			}
+			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($data);
+			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($row));
 		}
 		return $listViewRecordModels;
 	}
