@@ -832,7 +832,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					var noteBookParams = {
 						'module': 'Vtiger',
 						'action': 'NoteBook',
-						'mode': 'NoteBookCreate',
+						'mode': 'noteBookCreate',
 						'notePadName': notePadName,
 						'notePadContent': notePadContent,
 						'blockid': blockId,
