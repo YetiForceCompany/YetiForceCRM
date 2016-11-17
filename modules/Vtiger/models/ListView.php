@@ -185,51 +185,17 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		return $headerFieldModels;
 	}
 
-	public function getListViewOrderBy()
+	/**
+	 * Set list view order by
+	 */
+	public function loadListViewOrderBy()
 	{
-		$moduleModel = $this->getModule();
-		$query = '';
 		$orderBy = $this->getForSql('orderby');
-		$sortOrder = $this->getForSql('sortorder');
 		if (!empty($orderBy)) {
-			$columnFieldMapping = $moduleModel->getColumnFieldMapping();
+			$columnFieldMapping = $this->getModule()->getColumnFieldMapping();
 			$orderByFieldName = $columnFieldMapping[$orderBy];
-			$orderByFieldModel = $moduleModel->getField($orderByFieldName);
-			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
-				//IF it is reference add it in the where fields so that from clause will be having join of the table
-				$this->get('query_generator')->setConditionField($orderByFieldName);
-
-				$referenceModules = $orderByFieldModel->getReferenceList();
-				$referenceNameFieldOrderBy = [];
-				foreach ($referenceModules as $referenceModuleName) {
-					$referenceModuleModel = Vtiger_Module_Model::getInstance($referenceModuleName);
-					$referenceNameFields = $referenceModuleModel->getNameFields();
-
-					$columnList = [];
-					foreach ($referenceNameFields as $nameField) {
-						$fieldModel = $referenceModuleModel->getField($nameField);
-						$columnList[] = $fieldModel->get('table') . $orderByFieldModel->getName() . '.' . $fieldModel->get('column');
-					}
-					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users', '') . ' ' . $sortOrder;
-					} else {
-						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
-					}
-				}
-				$query = sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
-			} else if ($orderBy === 'smownerid') {
-				$this->get('query_generator')->setConditionField($orderByFieldName);
-				$this->get('query_generator')->addUserTable = true;
-				$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
-				if ($fieldModel->getFieldDataType() == 'owner') {
-					$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
-				}
-				$query = sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
-			} else {
-				$query = sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
-			}
+			$this->get('query_generator')->setOrder($orderByFieldName, $this->getForSql('sortorder'));
 		}
-		return $query;
 	}
 
 	/**
@@ -280,7 +246,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$moduleName = $moduleModel->get('name');
 
 		$this->loadListViewCondition($moduleName);
-		$this->getListViewOrderBy();
+		$this->loadListViewOrderBy();
 
 		$pageLimit = $pagingModel->getPageLimit();
 		$queryGenerator = $this->get('query_generator');
