@@ -11,6 +11,30 @@ class MultipicklistField extends BaseField
 {
 
 	/**
+	 * Function to get combinations of string from Array
+	 * @param array $array
+	 * @param string $tempString
+	 * @return array
+	 */
+	public static function getCombinations($array, $tempString = '')
+	{
+		$countArray = count($array);
+		for ($i = 0; $i < $countArray; $i++) {
+			$splicedArray = $array;
+			$element = array_splice($splicedArray, $i, 1); // removes and returns the i'th element
+			if (count($splicedArray) > 0) {
+				if (!is_array($result)) {
+					$result = [];
+				}
+				$result = array_merge($result, static::getCombinations($splicedArray, $tempString . ' |##| ' . $element[0]));
+			} else {
+				return [$tempString . ' |##| ' . $element[0]];
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Get value
 	 * @return mixed
 	 */
@@ -19,7 +43,7 @@ class MultipicklistField extends BaseField
 		$value = $this->value;
 		$valueArray = explode(',', $value);
 		if (in_array($this->operator, ['e', 'n'])) {
-			foreach (self::getCombinations($valueArray) as $key => $value) {
+			foreach (static::getCombinations($valueArray) as $key => $value) {
 				$valueArray[$key] = ltrim($value, ' |##| ');
 			}
 		}

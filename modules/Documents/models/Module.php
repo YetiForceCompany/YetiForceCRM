@@ -48,7 +48,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if ($sourceModule === 'Emails' && $field === 'composeEmail') {
-			$condition = ['and', ['like', 'vtiger_notes.filelocationtype', 'I'], ['<>', 'vtiger_notes.filename', ''], ['vtiger_notes.filestatus' => 1]];
+			$condition = ['and', ['vtiger_notes.filelocationtype' => 'I'], ['<>', 'vtiger_notes.filename', ''], ['vtiger_notes.filestatus' => 1]];
 		} else {
 			$condition = ['and',
 				['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],

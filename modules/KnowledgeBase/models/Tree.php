@@ -66,8 +66,7 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 	public function getAllRecords()
 	{
 		$queryGenerator = new App\QueryGenerator($this->getModuleName());
-		$queryGenerator->setFields(['category', 'knowledgebase_view', 'subject']);
-		$queryGenerator->setCustomColumn('knowledgebaseid');
+		$queryGenerator->setFields(['id', 'category', 'knowledgebase_view', 'subject']);
 		return $queryGenerator->createQuery()->all();
 	}
 
@@ -81,7 +80,7 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 			$tree[] = [
 				'id' => $this->lastIdinTree,
 				'type' => $item['knowledgebase_view'],
-				'record_id' => $item['knowledgebaseid'],
+				'record_id' => $item['id'],
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item['subject'],
 				'icon' => 'glyphicon glyphicon-file'

@@ -22,8 +22,7 @@ class Pdf_OverdueDeadlines extends Vtiger_SpecialFunction_Pdf
 			$adminUser = Users::getActiveAdminUser();
 		}
 		$queryGenerator = new App\QueryGenerator($moduleName, $adminUser->getId());
-		$queryGenerator->setFields([]);
-		$queryGenerator->setCustomColumn(['activityid']);
+		$queryGenerator->setFields(['id']);
 		$queryGenerator->addAndConditionNative(['vtiger_activity.status' => 'PLL_OVERDUE']);
 		$queryGenerator->addAndConditionNative(['vtiger_crmentity.smownerid' => $currentUserModel->getId()]);
 		$query = $queryGenerator->createQuery();
@@ -46,7 +45,7 @@ class Pdf_OverdueDeadlines extends Vtiger_SpecialFunction_Pdf
 		while ($row = $dataReader->read()) {
 			$html .= '<tr>';
 			foreach ($this->columnNames as $column) {
-				$recordId = $row['activityid'];
+				$recordId = $row['id'];
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 				$class = '';
 				if (in_array($column, ['activitytype', 'date_start', 'link'])) {
