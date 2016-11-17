@@ -37,12 +37,6 @@ class BaseField
 	 */
 	protected $operator;
 
-	const STRING_TYPE = ['string', 'text', 'email', 'reference'];
-	const NUMERIC_TYPE = ['integer', 'double', 'currency'];
-	const DATE_TYPE = ['date', 'datetime'];
-	const EQUALITY_TYPES = ['currency', 'percentage', 'double', 'integer', 'number'];
-	const COMMA_TYPES = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
-
 	/**
 	 * Constructor
 	 * @param \App\QueryGenerator $queryGenerator
@@ -90,51 +84,6 @@ class BaseField
 	public function setOperator($operator)
 	{
 		$this->operator = strtolower($operator);
-	}
-
-	/**
-	 * Is the field date type
-	 * @return boolean
-	 */
-	private function isDateType()
-	{
-		return in_array($this->fieldModel->getFieldDataType(), [static::DATE_TYPE]);
-	}
-
-	/**
-	 * Is the field numeric type
-	 * @return boolean
-	 */
-	private function isNumericType()
-	{
-		return in_array($this->fieldModel->getFieldDataType(), [static::NUMERIC_TYPE]);
-	}
-
-	/**
-	 * Is the field string type
-	 * @return boolean
-	 */
-	private function isStringType()
-	{
-		return in_array($this->fieldModel->getFieldDataType(), [static::STRING_TYPE]);
-	}
-
-	/**
-	 * Is the field equality type
-	 * @return boolean
-	 */
-	private function isEqualityType()
-	{
-		return in_array($this->fieldModel->getFieldDataType(), [static::EQUALITY_TYPES]);
-	}
-
-	/**
-	 * Is the field comma separated type
-	 * @return boolean
-	 */
-	private function isCommaSeparatedType()
-	{
-		return in_array($this->fieldModel->getFieldDataType(), [static::COMMA_TYPES]);
 	}
 
 	/**
@@ -217,5 +166,23 @@ class BaseField
 				['not', [$this->getColumnName() => null]],
 				['<>', $this->getColumnName(), '']
 		];
+	}
+
+	/**
+	 * Contains operator
+	 * @return array
+	 */
+	public function operatorC()
+	{
+		return ['like', $this->getColumnName(), $this->getValue()];
+	}
+
+	/**
+	 * Does not contain operator
+	 * @return array
+	 */
+	public function operatorK()
+	{
+		return ['not like', $this->getColumnName(), $this->getValue()];
 	}
 }

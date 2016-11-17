@@ -430,8 +430,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		]);
 
 		if (!empty($searchValue)) {
-			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue,
-				'operator' => $operator));
+			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {

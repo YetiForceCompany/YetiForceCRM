@@ -266,7 +266,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$searchValue = $this->get('search_value');
 		$operator = $this->get('operator');
 		if (!empty($searchValue)) {
-			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
+			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
 
 		$searchParams = $this->get('search_params');

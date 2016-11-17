@@ -10,6 +10,12 @@ namespace App;
 class QueryGenerator
 {
 
+	const STRING_TYPE = ['string', 'text', 'email', 'reference'];
+	const NUMERIC_TYPE = ['integer', 'double', 'currency'];
+	const DATE_TYPE = ['date', 'datetime'];
+	const EQUALITY_TYPES = ['currency', 'percentage', 'double', 'integer', 'number'];
+	const COMMA_TYPES = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
+
 	private $moduleName;
 
 	/**
@@ -722,5 +728,86 @@ class QueryGenerator
 		if ($this->order) {
 			$this->query->orderBy($this->order);
 		}
+	}
+
+	public function addBaseSearchConditions($fieldName, $value, $operator = 'e')
+	{
+		if (empty($fieldName)) {
+			return;
+		}
+		$field = $this->getModuleField($fieldName);
+		$type = $field->getFieldDataType();
+
+		if ($value !== '') {
+			$value = function_exists('iconv') ? iconv('UTF-8', \AppConfig::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
+			if ($type === 'currency') {
+				// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
+				if ($field->getUIType() === 72) {
+					$value = \CurrencyField::convertToDBFormat($value, null, true);
+				} else {
+					$value = \CurrencyField::convertToDBFormat($value);
+				}
+			}
+		}
+		if (trim(strtolower($value)) === 'null') {
+			$operator = 'e';
+		} else {
+			if (!static::isNumericType($type) && !static::isDateType($type)) {
+				$operator = 'c';
+			} else {
+				$operator = 'h';
+			}
+		}
+		$this->addAndCondition($fieldName, $value, $operator);
+	}
+
+	/**
+	 * Is the field date type
+	 * @param string $type
+	 * @return boolean
+	 */
+	public function isDateType($type)
+	{
+		return in_array($type, [static::DATE_TYPE]);
+	}
+
+	/**
+	 * Is the field numeric type
+	 * @param string $type
+	 * @return boolean
+	 */
+	public function isNumericType($type)
+	{
+		return in_array($type, [static::NUMERIC_TYPE]);
+	}
+
+	/**
+	 * Is the field string type
+	 * @param string $type
+	 * @return boolean
+	 */
+	public function isStringType($type)
+	{
+		return in_array($type, [static::STRING_TYPE]);
+	}
+
+	/**
+	 * Is the field equality type
+	 * @param string $type
+	 * @return boolean
+	 */
+	public function isEqualityType($type)
+	{
+		return in_array($type, [static::EQUALITY_TYPES]);
+	}
+
+	/**
+	 * Is the field comma separated type
+	 * @param string $type
+	 * @return boolean
+	 */
+	public function isCommaSeparatedType($type)
+	{
+		return in_array($type, [static::COMMA_TYPES]);
 	}
 }

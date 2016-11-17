@@ -244,21 +244,14 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
 		$searchParams = $this->get('search_params');
-		if (empty($searchParams)) {
-			$searchParams = [];
+		if (!empty($searchParams)) {
+			$queryGenerator->parseAdvFilter($searchParams);
 		}
-		$queryGenerator->parseAdvFilter($searchParams);
 		$searchKey = $this->get('search_key');
 		$searchValue = $this->get('search_value');
 		$operator = $this->get('operator');
 		if (!empty($searchKey)) {
-			$queryGenerator->addUserSearchConditions(
-				[
-					'search_field' => $searchKey,
-					'search_text' => $searchValue,
-					'operator' => $operator
-				]
-			);
+			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
 		$searchResult = $this->get('searchResult');
 		if (!empty($searchResult) && is_array($searchResult)) {
