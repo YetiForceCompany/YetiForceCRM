@@ -56,7 +56,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		}
 		$listViewModel->set('query_generator', $queryGenerator);
 
-		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		if (count($listEntries) === 0) {
 			return;
 		}

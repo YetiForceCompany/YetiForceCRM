@@ -19,7 +19,7 @@ class Services_TreeView_Model extends Vtiger_TreeView_Model
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$listViewModel = Vtiger_ListView_Model::getInstance($this->getModuleName());
-		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		$tree = [];
 		foreach ($listEntries as $item) {
 			$this->lastTreeId++;

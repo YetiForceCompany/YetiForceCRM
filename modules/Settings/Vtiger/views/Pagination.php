@@ -50,9 +50,11 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		}
 		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule());
 		$listViewModel->set('search_params', $transformedSearchParams);
-
+		if (!empty($searchResult) && is_array($searchResult)) {
+			$listViewModel->get('query_generator')->addAndConditionNative(['vtiger_crmentity.crmid' => $searchResult]);
+		}
 		if (!$this->listViewEntries) {
-			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel, $searchResult);
+			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 		if (!$this->listViewCount) {
 			$this->listViewCount = $listViewModel->getListViewCount();
