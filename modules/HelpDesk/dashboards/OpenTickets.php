@@ -24,9 +24,10 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = 'HelpDesk';
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$query = new \App\Db\Query();
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
-				'name' => new \yii\db\Expression("CASE WHEN (CONCAT(vtiger_users.last_name,' ',vtiger_users.first_name) NOT LIKE '') THEN CONCAT(vtiger_users.last_name,' ',vtiger_users.first_name) ELSE vtiger_groups.groupname END"),
-				'color' => new \yii\db\Expression("CASE WHEN (CONCAT(vtiger_users.last_name,' ',vtiger_users.first_name) NOT LIKE '') THEN
+				'name' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END"),
+				'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN
 					vtiger_users.cal_color ELSE vtiger_groups.color END")])
 			->from('vtiger_troubletickets')
 			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
@@ -36,7 +37,6 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, $module);
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
-			$ticketStatusSearch = implode("','", $ticketStatus);
 		}
 		$query->groupBy(['smownerid', 'vtiger_users.last_name', 'vtiger_users.last_name', 'vtiger_users.first_name', 'vtiger_groups.groupname', 'vtiger_users.cal_color'
 			, 'vtiger_groups.color']);

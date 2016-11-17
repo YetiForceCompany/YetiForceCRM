@@ -95,7 +95,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$query = new \App\Db\Query();
 		$query->select([
 				'count' => new \yii\db\Expression('COUNT(*)'),
-				'leadstatusvalue' => new \yii\db\Expression("CASE WHEN vtiger_leadstatus.leadstatus IS NULL || vtiger_leadstatus.leadstatus = '' THEN '' ELSE vtiger_leadstatus.leadstatus END")])
+				'leadstatusvalue' => 'vtiger_leadstatus.leadstatus'])
 			->from('vtiger_leaddetails')
 			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')

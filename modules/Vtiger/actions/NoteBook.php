@@ -30,7 +30,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$dataValue['contents'] = $request->get('notePadContent');
-		$dataValue['lastSavedOn'] = date("Y-m-d H:i:s");
+		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 
 		$data = \App\Json::encode((object) $dataValue);
 		$size = \App\Json::encode(['width' => $request->get('width'), 'height' => $request->get('height')]);
