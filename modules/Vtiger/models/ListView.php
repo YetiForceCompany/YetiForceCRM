@@ -290,10 +290,12 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$this->getListViewOrderBy();
 
 		$pageLimit = $pagingModel->getPageLimit();
-		$startIndex = $pagingModel->getStartIndex();
 		$queryGenerator = $this->get('query_generator');
-		$rows = $queryGenerator->createQuery()->limit($pageLimit + 1)->offset($startIndex)->all();
-
+		$query = $queryGenerator->createQuery();
+		if ($pagingModel->get('limit') !== 'no_limit') {
+			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex())->all();
+		}
+		$rows = $queryGenerator->all();
 		$count = count($rows);
 		$pagingModel->calculatePageRange($count);
 		if ($count > $pageLimit) {
