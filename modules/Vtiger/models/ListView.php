@@ -317,70 +317,12 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
 	public function getListViewCount()
 	{
-		$db = PearDatabase::getInstance();
-
 		$queryGenerator = $this->get('query_generator');
-		$searchParams = $this->get('search_params');
-		if (empty($searchParams)) {
-			$searchParams = [];
-		}
-
-		$glue = '';
-		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
-			$glue = QueryGenerator::$AND;
-		}
-		$queryGenerator->parseAdvFilterList($searchParams, $glue);
-
-		$searchKey = $this->get('search_key');
-		$searchValue = $this->get('search_value');
-		$operator = $this->get('operator');
-		if (!empty($searchKey)) {
-			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
-		}
-		$moduleName = $this->getModule()->get('name');
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-		$listQuery = $this->getQuery();
-
-		$sourceModule = $this->get('src_module');
-		if (!empty($sourceModule)) {
-			$moduleModel = $this->getModule();
-			if (method_exists($moduleModel, 'getQueryByModuleField')) {
-				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $this->get('src_field'), $this->get('src_record'), $listQuery);
-				if (!empty($overrideQuery)) {
-					$listQuery = $overrideQuery;
-				}
-			}
-		}
-		$position = stripos($listQuery, ' from ');
-		if ($position) {
-			$split = preg_split('/ from /i', $listQuery, 2);
-			$listQuery = 'SELECT count(*) AS count ';
-			$countSplit = count($split);
-			for ($i = 1; $i < $countSplit; $i++) {
-				$listQuery .= sprintf(' FROM %s', $split[$i]);
-			}
-		}
-
-		if ($this->getModule()->get('name') == 'Calendar') {
-			$listQuery .= ' && activitytype <> "Emails"';
-		}
-
-		$listResult = $db->query($listQuery);
-		return $db->getSingleValue($listResult);
-	}
-
-	/**
-	 * Create query
-	 * @return \App\Db\Query
-	 */
-	public function getQuery()
-	{
-		return $this->get('query_generator')->createQuery();
+		return $queryGenerator->createQuery()->count();
 	}
 
 	/**
