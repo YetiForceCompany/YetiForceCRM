@@ -295,7 +295,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if ($pagingModel->get('limit') !== 'no_limit') {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex())->all();
 		}
-		$rows = $queryGenerator->all();
+		$rows = $query->all();
 		$count = count($rows);
 		$pagingModel->calculatePageRange($count);
 		if ($count > $pageLimit) {
