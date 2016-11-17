@@ -232,6 +232,10 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		return $query;
 	}
 
+	/**
+	 * Load list view conditions
+	 * @param string $moduleName
+	 */
 	public function loadListViewCondition($moduleName)
 	{
 		$queryGenerator = $this->get('query_generator');
