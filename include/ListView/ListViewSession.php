@@ -66,7 +66,7 @@ class ListViewSession
 			$result = $adb->pquery($sql, $params);
 			$folderId = $adb->query_result($result, 0, 'folderid');
 		}
-		$viewId = (new App\CustomView($currentModule))->getViewId();
+		$viewId = App\CustomView::getInstance($currentModule)->getViewId();
 		if (!empty($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId])) {
 			$recordNavigationInfo = \App\Json::decode($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId]);
 			$pageNumber = 0;

@@ -228,7 +228,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			} else {
 				if (!empty($mergeType) && $mergeType != Import_Utils_Helper::$AUTO_MERGE_NONE) {
 					$queryGenerator = new QueryGenerator($moduleName, $this->user);
-					$viewId = (new App\CustomView($moduleName))->getViewIdByName('All');
+					$viewId = App\CustomView::getInstance($moduleName)->getViewIdByName('All');
 					if (!empty($viewId)) {
 						$queryGenerator->initForCustomViewById($viewId);
 					} else {

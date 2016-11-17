@@ -1077,7 +1077,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$result = $db->pquery($query, array($module));
 		$viewId = $db->query_result($result, 0, 'cvid');
 		if (!$viewId) {
-			$viewId = (new App\CustomView($module))->getViewId();
+			$viewId = App\CustomView::getInstance($module)->getViewId();
 		}
 		return self::getInstanceById($viewId);
 	}

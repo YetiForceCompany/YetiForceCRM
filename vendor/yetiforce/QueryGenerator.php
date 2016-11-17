@@ -281,7 +281,7 @@ class QueryGenerator
 	 */
 	public function getDefaultCustomViewQuery()
 	{
-		$customView = new CustomView($this->moduleName, $this->user);
+		$customView = CustomView::getInstance($this->moduleName, $this->user);
 		$viewId = $customView->getViewId();
 		if (empty($viewId) || $viewId === 0) {
 			return false;
@@ -294,7 +294,7 @@ class QueryGenerator
 	 */
 	public function initForDefaultCustomView($noCache = false)
 	{
-		$customView = new CustomView($this->moduleName, $this->user);
+		$customView = CustomView::getInstance($this->moduleName, $this->user);
 		$viewId = $customView->getViewId($noCache);
 		if (empty($viewId) || $viewId === 0) {
 			return false;
@@ -344,7 +344,7 @@ class QueryGenerator
 	public function initForCustomViewById($viewId)
 	{
 		$this->fields[] = 'id';
-		$customView = new CustomView($this->moduleName, $this->user);
+		$customView = CustomView::getInstance($this->moduleName, $this->user);
 		$this->cvColumns = $customView->getColumnsListByCvid($viewId);
 		if ($this->cvColumns) {
 			foreach ($this->cvColumns as &$cvColumn) {

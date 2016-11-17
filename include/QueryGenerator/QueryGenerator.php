@@ -233,19 +233,19 @@ class QueryGenerator
 
 	public function getDefaultCustomViewQuery()
 	{
-		$viewId = (new App\CustomView($this->module))->getViewId();
+		$viewId = App\CustomView::getInstance($this->module)->getViewId();
 		return $this->getCustomViewQueryById($viewId);
 	}
 
 	public function initForDefaultCustomView()
 	{
-		$viewId = (new App\CustomView($this->module))->getViewId();
+		$viewId = App\CustomView::getInstance($this->module)->getViewId();
 		$this->initForCustomViewById($viewId);
 	}
 
 	public function initForCustomViewById($viewId)
 	{
-		$customView = new \App\CustomView($this->moduleName);
+		$customView = App\CustomView::getInstance($this->module);
 		$this->customViewColumnList = $customView->getColumnsListByCvid($viewId);
 		if ($this->customViewColumnList) {
 			foreach ($this->customViewColumnList as $customViewColumnInfo) {
