@@ -1631,7 +1631,7 @@ function getExportRecordIds($moduleName, $viewid, $input)
 
 		$queryGenerator->setFields(array('id'));
 		$query = $queryGenerator->getQuery();
-		$current_page = ListViewSession::getCurrentPage($moduleName, $viewid);
+		$current_page = App\CustomView::getCurrentPage($moduleName, $viewid);
 		$limit_start_rec = ($current_page - 1) * $list_max_entries_per_page;
 		if ($limit_start_rec < 0)
 			$limit_start_rec = 0;

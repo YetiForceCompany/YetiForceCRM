@@ -452,13 +452,14 @@ class CustomView
 		} else {
 			$viewId = \AppRequest::get('viewname');
 			if (!is_numeric($viewId)) {
-				$viewId = $this->getViewIdByName($viewId);
-				if (!$viewId) {
-					$viewId = $this->getDefaultCvId($this->moduleName);
+				if ($viewId === 'All') {
+					$viewId = (new App\Db\Query())->select('cvid')->from('vtiger_customview')->where(['presence' => 0, 'entitytype' => $this->moduleName])->scalar();
+				} else {
+					$viewId = $this->getViewIdByName($viewId);
 				}
-			}
-			if (!$this->isPermittedCustomView($viewId)) {
-				$viewId = 0;
+				if (!$viewId) {
+					$viewId = $this->getDefaultCvId();
+				}
 			}
 		}
 		return $viewId;

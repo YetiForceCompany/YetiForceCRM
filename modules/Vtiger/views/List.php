@@ -67,7 +67,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
-		$this->viewName = CustomView_Record_Model::getViewId($request);
+		$this->viewName = (new App\CustomView($moduleName))->getViewId();
 		if (App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
 			if ($customViewModel) {
@@ -107,7 +107,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		if ($request->isAjax()) {
-			$this->viewName = CustomView_Record_Model::getViewId($request);
+			$this->viewName = (new App\CustomView($moduleName))->getViewId();
 			if (App\CustomView::hasViewChanged($moduleName)) {
 				App\CustomView::setDefaultSortOrderBy($moduleName);
 				App\CustomView::setCurrentView($moduleName, $this->viewName);
@@ -311,7 +311,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	public function getRecordsCount(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = CustomView_Record_Model::getViewId($request);
+		$cvId = (new App\CustomView($moduleName))->getViewId();
 		$count = $this->getListViewCount($request);
 
 		$result = [];
@@ -337,9 +337,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$searchParmams = $request->get('search_params');
 		$operator = $request->get('operator');
 		if (!$this->listViewModel) {
-			$cvId = CustomView_Record_Model::getViewId($request);
+			$cvId = (new App\CustomView($moduleName))->getViewId();
 			if (!$cvId) {
-				$cvId = '0';
+				$cvId = 0;
 			}
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		}

@@ -227,10 +227,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$entityInfo = $focus->importRecord($this, $fieldData);
 			} else {
 				if (!empty($mergeType) && $mergeType != Import_Utils_Helper::$AUTO_MERGE_NONE) {
-
 					$queryGenerator = new QueryGenerator($moduleName, $this->user);
-					$customView = new CustomView($moduleName);
-					$viewId = $customView->getViewIdByName('All', $moduleName);
+					$viewId = (new App\CustomView($moduleName))->getViewIdByName('All');
 					if (!empty($viewId)) {
 						$queryGenerator->initForCustomViewById($viewId);
 					} else {

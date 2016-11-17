@@ -115,8 +115,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$queryGenerator = new QueryGenerator($moduleModel->get('name'), $currentUser);
 
-		$customView = new CustomView();
-		$viewId = $customView->getViewIdByName('All', $moduleName);
+		$viewId = (new App\CustomView($moduleName))->getViewIdByName('All');
 		$queryGenerator->initForCustomViewById($viewId);
 
 		$controller = new ListViewController($db, $currentUser, $queryGenerator);

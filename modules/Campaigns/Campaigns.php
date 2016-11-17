@@ -111,7 +111,7 @@ class Campaigns extends CRMEntity
 		require_once('modules/CustomView/CustomView.php');
 		$lhtml = "<select id='" . $related_module . "_cv_list' class='small'><option value='None'>-- " . \App\Language::translate('Select One') . " --</option>";
 		$oCustomView = new CustomView($related_module);
-		$viewid = $oCustomView->getViewId($related_module);
+		$viewid = (new App\CustomView($related_module))->getViewId();
 		$customviewcombo_html = $oCustomView->getCustomViewCombo($viewid, false);
 		$lhtml .= $customviewcombo_html;
 		$lhtml .= "</select>";

@@ -1077,31 +1077,9 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$result = $db->pquery($query, array($module));
 		$viewId = $db->query_result($result, 0, 'cvid');
 		if (!$viewId) {
-			$customView = new CustomView($module);
-			$viewId = $customView->getViewId($module);
+			$viewId = (new App\CustomView($module))->getViewId();
 		}
 		return self::getInstanceById($viewId);
-	}
-
-	protected static $moduleViewIdCache = false;
-
-	public static function getViewId(Vtiger_Request $request)
-	{
-		if (self::$moduleViewIdCache) {
-			return self::$moduleViewIdCache;
-		}
-		$moduleName = $request->getModule();
-		$viewName = $request->get('viewname');
-		if (empty($viewName)) {
-			//If not view name exits then get it from custom view
-			//This can return default view id or view id present in session
-			$customView = new App\CustomView($moduleName);
-			$viewName = $customView->getViewId();
-		} elseif ($viewName == 'All') {
-			$viewName = (new App\Db\Query())->select('cvid')->from('vtiger_customview')->where(['presence' => 0, 'entitytype' => $moduleName])->scalar();
-		}
-		self::$moduleViewIdCache = $viewName;
-		return $viewName;
 	}
 
 	public function getSortOrderBy($name = '')

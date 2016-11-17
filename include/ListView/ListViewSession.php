@@ -66,8 +66,7 @@ class ListViewSession
 			$result = $adb->pquery($sql, $params);
 			$folderId = $adb->query_result($result, 0, 'folderid');
 		}
-		$cv = new CustomView();
-		$viewId = $cv->getViewId($currentModule);
+		$viewId = (new App\CustomView($currentModule))->getViewId();
 		if (!empty($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId])) {
 			$recordNavigationInfo = \App\Json::decode($_SESSION[$currentModule . '_DetailView_Navigation' . $viewId]);
 			$pageNumber = 0;
@@ -104,7 +103,7 @@ class ListViewSession
 			if (!AppRequest::isEmpty('start')) {
 				$start = ListViewSession::getRequestStartPage();
 			} else {
-				$start = ListViewSession::getCurrentPage($currentModule, $viewId);
+				$start = App\CustomView::getCurrentPage($currentModule, $viewId);
 			}
 			$startRecord = (($start - 1) * $listMaxEntriesPerPage) - $bufferRecordCount;
 			if ($startRecord < 0) {
