@@ -167,17 +167,14 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$searchKey = $request->get('value');
 			$limit = $request->get('limit') != 'false' ? $request->get('limit') : false;
 			$searchModule = false;
-
 			if ($request->get('searchModule')) {
 				$searchModule = $request->get('searchModule');
 			}
-
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
 			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit);
 		}
-
-		if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 1) {
+		if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
 			$matchingRecordsList = [];
 			foreach (\App\Module::getAllEntityModuleInfo(true) as $module) {
 				if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
