@@ -279,25 +279,17 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
-		$tableIndex = CRMEntity::getInstance($moduleName)->table_index;
-
-		$listViewContoller = $this->get('listview_controller');
-		$queryGenerator = $this->get('query_generator');
 
 		$this->loadListViewCondition($moduleName);
 		$this->getListViewOrderBy();
 
 		$pageLimit = $pagingModel->getPageLimit();
 		$startIndex = $pagingModel->getStartIndex();
+		$queryGenerator = $this->get('query_generator');
+		$rows = $queryGenerator->createQuery()->limit($pageLimit + 1)->offset($startIndex)->all();
 
-		$viewid = App\CustomView::getCurrentView($moduleName);
-		if (empty($viewid)) {
-			$viewid = $pagingModel->get('viewid');
-		}
-		$rows = $queryGenerator->createQuery()->all();
 		$count = count($rows);
 		$pagingModel->calculatePageRange($count);
 		if ($count > $pageLimit) {
@@ -307,10 +299,10 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			$pagingModel->set('nextPageExists', false);
 		}
 		$listViewRecordModels = [];
-		foreach ($rows as $recordId => $row) {
+		foreach ($rows as &$row) {
 			$recordModel = $moduleModel->getRecordFromArray($row);
-			$recordModel->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $recordModel);
-			$listViewRecordModels[$recordId] = $recordModel;
+			$recordModel->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $row['id'], $recordModel);
+			$listViewRecordModels[$row['id']] = $recordModel;
 		}
 		unset($rows);
 		return $listViewRecordModels;
@@ -428,7 +420,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($value);
-	
+
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
 		if (!$sourceModule && !empty($sourceModule)) {
 			$moduleModel->set('sourceModule', $sourceModule);

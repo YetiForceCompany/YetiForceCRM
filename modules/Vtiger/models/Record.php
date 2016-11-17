@@ -237,22 +237,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$recordId = $this->getId();
 		}
 		$fieldModel = $this->getModule()->getField($fieldName);
-
-		// For showing the "Date Sent" and "Time Sent" in email related list in user time zone
-		if ($fieldName == "time_start" && $this->getModule()->getName() == "Emails") {
-			$date = new DateTime();
-			$dateTime = new DateTimeField($date->format('Y-m-d') . ' ' . $this->get($fieldName));
-			$value = $dateTime->getDisplayTime();
-			$this->set($fieldName, $value);
-			return $value;
-		} else if ($fieldName == "date_start" && $this->getModule()->getName() == "Emails") {
-			$dateTime = new DateTimeField($this->get($fieldName) . ' ' . $this->get('time_start'));
-			$value = $dateTime->getDisplayDate();
-			$this->set($fieldName, $value);
-			return $value;
-		}
-		// End
-
 		if ($fieldModel) {
 			return $fieldModel->getDisplayValue($this->get($fieldName), $recordId, $this, $rawText);
 		}
@@ -310,12 +294,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$recordId = \App\Db::getInstance()->getUniqueID('vtiger_crmentity');
 			$this->set('newRecord', $recordId);
 		}
-
 		$db->startTransaction();
 		if ($this->getModule()->isInventory()) {
 			$this->initInventoryData();
 		}
-
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
 
