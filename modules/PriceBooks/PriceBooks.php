@@ -56,27 +56,21 @@ class PriceBooks extends CRMEntity
 
 	public function updateListPrices()
 	{
-		$adb = PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function updateListPrices...");
-		$pricebook_currency = $this->column_fields['currency_id'];
-		$prod_res = $adb->pquery("select * from vtiger_pricebookproductrel where pricebookid=? && usedcurrency != ?", array($this->id, $pricebook_currency));
-		$numRows = $adb->num_rows($prod_res);
-
-		for ($i = 0; $i < $numRows; $i++) {
-			$product_id = $adb->query_result($prod_res, $i, 'productid');
-			$list_price = $adb->query_result($prod_res, $i, 'listprice');
-			$used_currency = $adb->query_result($prod_res, $i, 'usedcurrency');
-			$product_currency_info = \vtlib\Functions::getCurrencySymbolandRate($used_currency);
-			$product_conv_rate = $product_currency_info['rate'];
-			$pricebook_currency_info = \vtlib\Functions::getCurrencySymbolandRate($pricebook_currency);
-			$pb_conv_rate = $pricebook_currency_info['rate'];
-			$conversion_rate = $pb_conv_rate / $product_conv_rate;
-			$computed_list_price = $list_price * $conversion_rate;
-
-			$query = "update vtiger_pricebookproductrel set listprice=?, usedcurrency=? where pricebookid=? and productid=?";
-			$params = array($computed_list_price, $pricebook_currency, $this->id, $product_id);
-			$adb->pquery($query, $params);
+		$pricebookCurrency = $this->column_fields['currency_id'];
+		$dataReader = (new App\Db\Query())->from('vtiger_pricebookproductrel')
+				->where(['and', ['pricebookid' => $this->id], ['<>', 'usedcurrency', $pricebookCurrency]])
+				->createCommand()->query();
+		while($row = $dataReader->read()) {
+			$productCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($row['usedcurrency']);
+			$pricebookCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($pricebookCurrency);
+			$conversion_rate = $pricebookCurrencyInfo['rate'] / $productCurrencyInfo['rate'];
+			$computedListPrice = $row['listprice'] * $conversion_rate;
+			App\Db::getInstance()->createCommand()
+					->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency],
+					['pricebookid' => $this->id, 'productid' => $row['productid']])
+					->execute();
 		}
 		\App\Log::trace("Exiting function updateListPrices...");
 	}

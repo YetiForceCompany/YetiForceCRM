@@ -142,15 +142,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
-	public function setConfigWidget($conf_type, $type, $vale)
+	public function setConfigWidget($confType, $type, $value)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($vale === null || $vale == 'null') {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = ? && parameter = ?", [$conf_type, $type]);
-		} else {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = ? && parameter = ?", [$vale, $conf_type, $type]);
+		if ($value === null || $value == 'null') {
+			$value = null;
 		}
-		return vtranslate('LBL_SAVE', 'OSSMailScanner');
+		App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
+		return App\Language::translate('LBL_SAVE', 'OSSMailScanner');
 	}
 
 	public static function getTypeFolder($folder)
