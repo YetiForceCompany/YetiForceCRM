@@ -258,13 +258,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$searchValue = $this->get('search_value');
 		$operator = $this->get('operator');
 		if (!empty($searchKey)) {
-			$queryGenerator->addUserSearchConditions(
-				[
-					'search_field' => $searchKey,
-					'search_text' => $searchValue,
-					'operator' => $operator
-				]
-			);
+			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
 		$this->set('query_generator', $queryGenerator);
 	}

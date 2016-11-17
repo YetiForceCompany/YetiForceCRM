@@ -242,7 +242,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $this->listViewModel->getModule());
+		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$this->listViewModel->set('search_params', $transformedSearchParams);
 
 		//To make smarty to get the details easily accesible

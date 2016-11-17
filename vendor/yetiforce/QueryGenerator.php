@@ -730,6 +730,12 @@ class QueryGenerator
 		}
 	}
 
+	/**
+	 * Set base search condition (search_key,search_value in url)
+	 * @param string $fieldName
+	 * @param mixed $value
+	 * @param string $operator
+	 */
 	public function addBaseSearchConditions($fieldName, $value, $operator = 'e')
 	{
 		if (empty($fieldName)) {
@@ -759,6 +765,64 @@ class QueryGenerator
 			}
 		}
 		$this->addAndCondition($fieldName, $value, $operator);
+	}
+
+	/**
+	 * Parse base search condition to db condition 
+	 * @param array $searchParams
+	 * @return array
+	 */
+	public function parseBaseSearchParamsToCondition($searchParams)
+	{
+		if (empty($searchParams)) {
+			return [];
+		}
+		$advFilterConditionFormat = [];
+		$glueOrder = ['and', 'or'];
+		$groupIterator = 0;
+		foreach ($searchParams as &$groupInfo) {
+			if (empty($groupInfo)) {
+				continue;
+			}
+			$groupColumnsInfo = $groupConditionInfo = [];
+			foreach ($groupInfo as &$fieldSearchInfo) {
+				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
+				$field = $this->getModuleField($fieldName);
+				if ($field->getFieldDataType() === 'tree' && $specialOption) {
+					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
+				}
+				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
+				if ($field->getFieldDataType() === 'time') {
+					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+				}
+				if ($field->getFieldDataType() === 'currency') {
+					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
+				}
+				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
+					$dateValues = explode(',', $fieldValue);
+					//Indicate whether it is fist date in the between condition
+					$isFirstDate = true;
+					foreach ($dateValues as $key => $dateValue) {
+						$dateTimeCompoenents = explode(' ', $dateValue);
+						if (empty($dateTimeCompoenents[1])) {
+							if ($isFirstDate) {
+								$dateTimeCompoenents[1] = '00:00:00';
+							} else {
+								$dateTimeCompoenents[1] = '23:59:59';
+							}
+						}
+						$dateValue = implode(' ', $dateTimeCompoenents);
+						$dateValues[$key] = $dateValue;
+						$isFirstDate = false;
+					}
+					$fieldValue = implode(',', $dateValues);
+				}
+				$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
+			}
+			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
+			$groupIterator++;
+		}
+		return $advFilterConditionFormat;
 	}
 
 	/**

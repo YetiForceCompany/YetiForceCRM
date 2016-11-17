@@ -608,21 +608,17 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldName = $this->get('name');
 		$fieldLabel = $this->get('label');
 		$typeOfData = $this->get('typeofdata');
-
 		$fieldTypeOfData = explode('~', $typeOfData);
 		$fieldType = $fieldTypeOfData[0];
-
 		//Special condition need for reference field as they should be treated as string field
-		if ($this->getFieldDataType() == 'reference') {
+		if ($this->getFieldDataType() === 'reference') {
 			$fieldType = 'V';
 		} else {
 			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
 		}
-
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
-		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;
-
-		return $tableName . ':' . $columnName . ':' . $fieldName . ':' . $moduleFieldLabel . ':' . $fieldType;
+		$moduleFieldLabel = "{$moduleName}_{$escapedFieldLabel}";
+		return "$tableName:$columnName:$fieldName:$moduleFieldLabel:$fieldType";
 	}
 
 	/**

@@ -382,53 +382,44 @@ class Vtiger_Util_Helper
 		return $userGroupInstance->user_groups;
 	}
 
-	public static function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
+	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)
 	{
-		if (empty($listSearchParams)) {
-			$listSearchParams = [];
+		if (empty($searchParams)) {
+			return [];
 		}
 		$advFilterConditionFormat = [];
-		$glueOrder = array('and', 'or');
+		$glueOrder = ['and', 'or'];
 		$groupIterator = 0;
-		foreach ($listSearchParams as $groupInfo) {
+		foreach ($searchParams as &$groupInfo) {
 			if (empty($groupInfo)) {
 				continue;
 			}
-			$groupConditionInfo = [];
-			$groupColumnsInfo = [];
-			$groupConditionGlue = $glueOrder[$groupIterator];
-			foreach ($groupInfo as $fieldSearchInfo) {
-				$advFilterFieldInfoFormat = [];
-				$fieldName = $fieldSearchInfo[0];
-				$operator = $fieldSearchInfo[1];
-				$fieldValue = $fieldSearchInfo[2];
-				$specialOption = $fieldSearchInfo[3];
+			$groupColumnsInfo = $groupConditionInfo = [];
+			foreach ($groupInfo as &$fieldSearchInfo) {
+				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
 				$fieldInfo = $moduleModel->getField($fieldName);
-
-				if ($fieldInfo->getFieldDataType() == "tree" && $specialOption) {
+				if ($field->getFieldDataType() === 'tree' && $specialOption) {
 					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-				//Database format
-
-				if ($fieldInfo->getFieldDataType() == "time") {
+				if ($field->getFieldDataType() === 'time') {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
-				if ($fieldInfo->getFieldDataType() == 'currency') {
+				if ($field->getFieldDataType() === 'currency') {
 					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
 				}
-
-				if ($fieldName == 'date_start' || $fieldName == 'due_date' || $fieldInfo->getFieldDataType() == "datetime") {
+				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
 					$dateValues = explode(',', $fieldValue);
 					//Indicate whether it is fist date in the between condition
 					$isFirstDate = true;
 					foreach ($dateValues as $key => $dateValue) {
 						$dateTimeCompoenents = explode(' ', $dateValue);
 						if (empty($dateTimeCompoenents[1])) {
-							if ($isFirstDate)
+							if ($isFirstDate) {
 								$dateTimeCompoenents[1] = '00:00:00';
-							else
+							} else {
 								$dateTimeCompoenents[1] = '23:59:59';
+							}
 						}
 						$dateValue = implode(' ', $dateTimeCompoenents);
 						$dateValues[$key] = $dateValue;
@@ -436,23 +427,11 @@ class Vtiger_Util_Helper
 					}
 					$fieldValue = implode(',', $dateValues);
 				}
-
-				$advFilterFieldInfoFormat['columnname'] = $fieldInfo->getCustomViewColumnName();
-				$advFilterFieldInfoFormat['comparator'] = $operator;
-				$advFilterFieldInfoFormat['value'] = $fieldValue;
-				$advFilterFieldInfoFormat['column_condition'] = $groupConditionGlue;
-				$groupColumnsInfo[] = $advFilterFieldInfoFormat;
+				$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
 			}
-			$noOfConditions = count($groupColumnsInfo);
-			//to remove the last column condition
-			$groupColumnsInfo[$noOfConditions - 1]['column_condition'] = '';
-			$groupConditionInfo['columns'] = $groupColumnsInfo;
-			$groupConditionInfo['condition'] = 'and';
-			$advFilterConditionFormat[] = $groupConditionInfo;
+			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
 			$groupIterator++;
 		}
-		//We aer removing last condition since this condition if there is next group and this is the last group
-		unset($advFilterConditionFormat[count($advFilterConditionFormat) - 1]['condition']);
 		return $advFilterConditionFormat;
 	}
 	/*	 * *
