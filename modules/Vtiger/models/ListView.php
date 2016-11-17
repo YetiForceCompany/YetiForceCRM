@@ -417,20 +417,19 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
-	 * @param <String> $value - Module Name
+	 * @param string $value - Module Name
 	 * @return Vtiger_ListView_Model instance
 	 */
 	public static function getInstanceForPopup($value, $sourceModule = false)
 	{
 		$db = PearDatabase::getInstance();
-		$currentUser = vglobal('current_user');
+		$currentUser = \App\User::getCurrentUserModel();
 
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($value);
-
-		$queryGenerator = new QueryGenerator($moduleModel->get('name'), $currentUser);
-
+	
+		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
 		if (!$sourceModule && !empty($sourceModule)) {
 			$moduleModel->set('sourceModule', $sourceModule);
 		}
