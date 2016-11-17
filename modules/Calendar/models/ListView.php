@@ -73,20 +73,6 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to get query to get List of records in the current page
-	 * @return <String> query
-	 */
-	public function getQuery()
-	{
-		$queryGenerator = $this->get('query_generator');
-		// Added to remove emails from the calendar list
-		$queryGenerator->addCondition('activitytype', 'Emails', 'n', 'AND');
-
-		$listQuery = $queryGenerator->getQuery();
-		return $listQuery;
-	}
-
-	/**
 	 * Function to get the list of Mass actions for the module
 	 * @param array $linkParams
 	 * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
@@ -126,74 +112,11 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$db = PearDatabase::getInstance();
-		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->get('name');
-		$moduleFocus = CRMEntity::getInstance($moduleName);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$queryGenerator = $this->get('query_generator');
-		$listViewContoller = $this->get('listview_controller');
-
-		$listViewFields = ['visibility', 'assigned_user_id', 'activitystatus'];
-		$queryGenerator->setFields(array_unique(array_merge($queryGenerator->getFields(), $listViewFields)));
-
-		$this->loadListViewCondition($moduleName);
-		$listOrder = $this->getListViewOrderBy();
-
-		$listQuery = $this->getQuery();
-		if ($searchResult && $searchResult != '' && is_array($searchResult)) {
-			$listQuery .= ' && vtiger_crmentity.crmid IN (' . implode(',', $searchResult) . ') ';
-		}
-		unset($searchResult);
-
-		$sourceModule = $this->get('src_module');
-		if (!empty($sourceModule)) {
-			if (method_exists($moduleModel, 'getQueryByModuleField')) {
-				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $this->get('src_field'), $this->get('src_record'), $listQuery);
-				if (!empty($overrideQuery)) {
-					$listQuery = $overrideQuery;
-				}
-			}
-		}
-
-		$listQuery .= $listOrder;
-		$startIndex = $pagingModel->getStartIndex();
-		$pageLimit = $pagingModel->getPageLimit();
-
-		$viewid = App\CustomView::getCurrentView($moduleName);
-		if (empty($viewid)) {
-			$viewid = $pagingModel->get('viewid');
-		}
-		$_SESSION['lvs'][$moduleName][$viewid]['start'] = $pagingModel->get('page');
-		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
-
-		$listQuery .= ' LIMIT ' . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
-
-		$listResult = $db->query($listQuery);
-
-		$listViewRecordModels = [];
-		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
-		$count = $db->num_rows($listResult);
-		$pagingModel->calculatePageRange($count);
-
-		if ($count > $pageLimit) {
-			array_pop($listViewEntries);
-			$pagingModel->set('nextPageExists', true);
-		} else {
-			$pagingModel->set('nextPageExists', false);
-		}
-
-		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
-		foreach ($listViewEntries as $recordId => $record) {
-			$rawData = $db->getRow($listResult);
-			$record['id'] = $recordId;
-			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
-		}
-		return $listViewRecordModels;
+		$queryGenerator->setField(['visibility', 'assigned_user_id', 'activitystatus']);
+		return parent::getListViewEntries($pagingModel);
 	}
 
 	public function getListViewOrderBy()

@@ -137,7 +137,11 @@ class QueryGenerator
 	 */
 	public function setField($fields)
 	{
-		$this->fields[] = $fields;
+		if (is_array($fields))
+			foreach ($fields as $field)
+				$this->fields[] = $field;
+		else
+			$this->fields[] = $fields;
 	}
 
 	/**
