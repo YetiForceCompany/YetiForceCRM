@@ -144,7 +144,7 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		$searchValue = $this->customViewModel->get('search_value');
 		$operator = $this->customViewModel->get('operator');
 		if (!empty($searchValue)) {
-			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
+			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
 
 		$searchParams = $this->customViewModel->get('search_params');

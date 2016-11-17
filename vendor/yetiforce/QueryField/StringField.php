@@ -27,22 +27,4 @@ class StringField extends BaseField
 	{
 		return ['like', $this->getColumnName(), '%' . $this->getValue(), false];
 	}
-
-	/**
-	 * Contains operator
-	 * @return array
-	 */
-	public function operatorC()
-	{
-		return ['like', $this->getColumnName(), $this->getValue()];
-	}
-
-	/**
-	 * Does not contain operator
-	 * @return array
-	 */
-	public function operatorK()
-	{
-		return ['not like', $this->getColumnName(), $this->getValue()];
-	}
 }
