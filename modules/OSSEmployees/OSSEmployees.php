@@ -313,7 +313,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid
 				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE  vtiger_crmentity.deleted = 0 && vtiger_crmentity.`smownerid`= " . $userId;
+				WHERE  vtiger_crmentity.deleted = 0 AND vtiger_crmentity.smownerid= " . $userId;
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 		if ($return_value === null)
