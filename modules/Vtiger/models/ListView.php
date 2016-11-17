@@ -417,25 +417,17 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceForPopup($value, $sourceModule = false)
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = \App\User::getCurrentUserModel();
-
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($value);
-
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
 		if (!$sourceModule && !empty($sourceModule)) {
 			$moduleModel->set('sourceModule', $sourceModule);
 		}
-
 		$listFields = $moduleModel->getPopupViewFieldsList($sourceModule);
 		$listFields[] = 'id';
 		$queryGenerator->setFields($listFields);
-
-		$controller = new ListViewController($db, $currentUser, $queryGenerator);
-
-		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator)->set('listview_controller', $controller);
+		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 	/*
 	 * Function to give advance links of a module

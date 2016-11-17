@@ -98,7 +98,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	protected function initListViewController()
 	{
 		if (!$this->queryGenerator) {
-			$this->queryGenerator = new QueryGenerator($this->getTargetModule());
+			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 			$this->queryGenerator->setFields($this->getTargetFields());
 			$this->listviewHeaders = $this->listviewRecords = NULL;
 		}
