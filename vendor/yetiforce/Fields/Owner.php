@@ -403,28 +403,20 @@ class Owner
 
 	public function getUsersAndGroupForModuleList($view = false, $conditions = false)
 	{
-		$db = \PearDatabase::getInstance();
-		$queryGenerator = new \QueryGenerator($this->moduleName, $this->currentUser);
+		$queryGenerator = new \App\QueryGenerator($this->moduleName, $this->currentUser->getId());
 		if ($view) {
 			$queryGenerator->initForCustomViewById($view);
 		}
 		if ($conditions) {
-			if (!is_array(current($conditions))) {
-				$conditions = [$conditions];
-			}
-			foreach ($conditions as $condition) {
-				$conditionParam = ['column' => $condition[0], 'value' => $condition[1], 'operator' => $condition[2], 'glue' => $condition[3]];
-				if (isset($condition['tablename'])) {
-					$conditionParam['tablename'] = $condition['tablename'];
+			$queryGenerator->addAndConditionNative($conditions['condition']);
+			if (!empty($conditions['join'])) {
+				foreach ($conditions['join'] as $join) {
+					$queryGenerator->addJoin($join);
 				}
-				$queryGenerator->setCustomCondition($conditionParam);
 			}
 		}
-		$queryGenerator->setFields(['assigned_user_id']);
-		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
-		$result = $db->query($listQuery);
-		$ids = $db->getArrayColumn($result);
-
+		$queryGenerator->setField('assigned_user_id');
+		$ids = $queryGenerator->createQuery()->distinct()->createCommand()->queryColumn();
 		$users = $groups = [];
 		foreach ($ids as &$id) {
 			$name = self::getUserLabel($id);

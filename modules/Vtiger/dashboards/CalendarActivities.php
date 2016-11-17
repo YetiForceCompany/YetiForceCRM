@@ -12,8 +12,6 @@
 class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	private $conditions = false;
-
 	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -33,8 +31,11 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 				$stateActivityLabels['in_realization']
 			]
 		];
-		$this->conditions = ['vtiger_activity.status', "'" . implode("','", $params['status']) . "'", 'in', QueryGenerator::$AND];
-
+		$conditions = [
+			'condition' => [
+				'vtiger_activity.status' => $params['status']
+			]
+		];
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
@@ -70,7 +71,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('USER_CONDITIONS', $this->conditions);
+		$viewer->assign('USER_CONDITIONS', $conditions);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

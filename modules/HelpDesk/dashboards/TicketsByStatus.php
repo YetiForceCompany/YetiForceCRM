@@ -50,8 +50,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		}
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
-			$ticketStatusSearch = implode("','", $ticketStatus);
-			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
+			$this->conditions = ['condition' => ['not in', 'vtiger_troubletickets.status', $ticketStatus]];
 		}
 		\App\PrivilegeQuery::getConditions($query, $module);
 		$query->groupBy(['statusvalue', 'priority', 'vtiger_ticketpriorities.color', 'vtiger_ticketstatus.sortorderid'])->orderBy('vtiger_ticketstatus.sortorderid');

@@ -12,8 +12,6 @@
 class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	private $conditions = false;
-
 	/**
 	 * Function returns Tickets grouped by Status
 	 * @param type $data
@@ -39,7 +37,6 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
 			$ticketStatusSearch = implode("','", $ticketStatus);
-			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
 		}
 		$query->groupBy(['smownerid', 'vtiger_users.last_name', 'vtiger_users.last_name', 'vtiger_users.first_name', 'vtiger_groups.groupname', 'vtiger_users.cal_color'
 			, 'vtiger_groups.color']);
@@ -68,6 +65,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		}
 
 		$listSearchParams = [];
+
 		$conditions = array(array('assigned_user_id', 'e', $value));
 		array_push($conditions, array('ticketstatus', 'e', "$openTicketsStatus"));
 		$listSearchParams[] = $conditions;
@@ -85,7 +83,6 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		//Include special script and css needed for this widget
 		$viewer->assign('CURRENTUSER', $currentUser);
 

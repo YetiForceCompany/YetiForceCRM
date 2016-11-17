@@ -40,11 +40,7 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$params = [];
 		$params['status'] = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 		$params['user'] = $currentUser->getId();
-		$conditions = [
-			['vtiger_activity.status', "'" . $params['status'] . "'", 'in', QueryGenerator::$AND],
-			['vtiger_crmentity.smcreatorid', $params['user'], 'e', QueryGenerator::$AND]
-		];
-
+		$conditions = ['condition' => ['vtiger_activity.status' => $params['status'], 'vtiger_crmentity.smcreatorid' => $params['user']]];
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_over', $pagingModel, $owner, false, $params);
 

@@ -38,8 +38,10 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['smownerid']);
 			$accounts[$row['crmid']] = $row;
 		}
-		$this->conditions[] = ['vtiger_entity_stats.crmactivity', 'IS NULL', '', QueryGenerator::$AND, 'tablename' => 'vtiger_entity_stats'];
-		$this->conditions[] = ['vtiger_entity_stats.crmactivity', 0, 'm', QueryGenerator::$OR];
+		$this->conditions = [
+			'condition' => ['or', ['vtiger_entity_stats.crmactivity' => null], ['<', 'vtiger_entity_stats.crmactivity', 0]],
+			'join' => [['LEFT JOIN', 'vtiger_entity_stats', 'vtiger_entity_stats.crmid = vtiger_crmentity.crmid']]
+		];
 		return $accounts;
 	}
 

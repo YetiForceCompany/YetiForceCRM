@@ -61,8 +61,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$param[] = $owner;
 		}
 		$sql .= ' GROUP BY YEAR(`saledate`), MONTH(`saledate`)';
-		$this->conditions = ['saledate', "'$date'", 'g', QueryGenerator::$AND];
-
+		$this->conditions = ['condition' => ['>', 'saledate', $date]];
 		$result = $db->pquery($sql, $param);
 		while ($row = $db->getRow($result)) {
 			$rawData[$row['y']][] = [$row['m'], (int) $row['s']];

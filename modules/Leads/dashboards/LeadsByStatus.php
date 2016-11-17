@@ -54,8 +54,9 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, $module);
 		if (!empty($leadsClosed['status'])) {
 			$query->andWhere(['not in', 'vtiger_leaddetails.leadstatus', $leadsClosed['status']]);
-			$leadStatusSearch = implode("','", $leadsClosed['status']);
-			$this->conditions = ['vtiger_leaddetails.leadstatus', "'$leadStatusSearch'", 'nin', QueryGenerator::$AND];
+			$this->conditions = [
+				'condition' => ['not in', 'vtiger_leaddetails.leadstatus', $leadsClosed['status']]
+			];
 		}
 
 		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
@@ -101,12 +102,12 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 		$dates = [];
 		//Date conversion from user to database format
-		if (!empty($createdTime)) {			
+		if (!empty($createdTime)) {
 			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
 		} else {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time !== false){
+			if ($time !== false) {
 				$dates = $time;
 			}
 		}
