@@ -421,7 +421,6 @@ class QueryGenerator
 		$this->loadWhere();
 		$this->loadOrder();
 		$this->loadJoin();
-		$this->loadIndex();
 		return $this->getQuery();
 	}
 
@@ -724,14 +723,5 @@ class QueryGenerator
 		if ($this->order) {
 			$this->query->orderBy($this->order);
 		}
-	}
-
-	/**
-	 * Load index
-	 */
-	public function loadIndex()
-	{
-		$baseTable = $this->entityModel->table_name;
-		$this->query->indexBy($this->entityModel->tab_name_index[$baseTable]);
 	}
 }
