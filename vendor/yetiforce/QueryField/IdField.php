@@ -57,4 +57,13 @@ class IdField extends StringField
 	{
 		return ['not like', $this->getColumnName(), $this->getValue()];
 	}
+
+	/**
+	 * Greater operator
+	 * @return array
+	 */
+	public function operatorA()
+	{
+		return ['>', $this->getColumnName(), $this->getValue()];
+	}
 }
