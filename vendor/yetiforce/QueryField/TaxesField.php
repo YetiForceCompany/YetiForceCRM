@@ -66,7 +66,7 @@ class TaxesField extends BaseField
 	{
 		$condition = ['and'];
 		foreach ($this->getValue() as $value) {
-			array_push($condition, ['<>', $this->getColumnName(), [$value]], ['not', ['or like', $this->getColumnName(),
+			array_push($condition, ['<>', $this->getColumnName(), $value], ['not', ['or like', $this->getColumnName(),
 						[
 						'%' . self::SEPARATOR . $value . self::SEPARATOR . '%',
 						'%' . $value . self::SEPARATOR,
