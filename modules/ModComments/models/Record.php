@@ -76,7 +76,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT 
 					comm.*,
-					crm.smownerid,
+					crm.smownerid AS assigned_user_id,
 					crm.createdtime,
 					crm.modifiedtime 
 				FROM
@@ -130,7 +130,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (!empty($customer)) {
 			return Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
 		} else {
-			$commentedBy = $this->get('smownerid');
+			$commentedBy = $this->get('assigned_user_id');
 			if ($commentedBy) {
 				$commentedByModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
 				if (empty($commentedByModel->entity->column_fields['user_name'])) {
@@ -196,35 +196,26 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getAllParentComments($parentId, $hierarchy = false)
 	{
-		$db = PearDatabase::getInstance();
-
 		$listView = Vtiger_ListView_Model::getInstance('ModComments');
 		$queryGenerator = $listView->get('query_generator');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid']);
 		$queryGenerator->setSourceRecord($parentId);
-		$query = $queryGenerator->getQuery();
-
-		$params = [];
 		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
-			$params[] = $parentId;
-			$query .= ' AND related_to = ?';
+			$queryGenerator->addAndConditionNative(['related_to' => $parentId]);
 		} else {
 			$recordIds = Vtiger_ModulesHierarchy_Model::getRelatedRecords($parentId, $hierarchy);
 			if (empty($recordIds)) {
 				return [];
 			}
-			$params = $recordIds;
-			$query .= ' AND related_to IN (' . $db->generateQuestionMarks($recordIds) . ')';
+			$queryGenerator->addAndConditionNative(['related_to' => $recordIds]);
 		}
-
-		//Condition are directly added as query_generator transforms the
-		//reference field and searches their entity names
-		$query .= ' AND parent_comments = 0 ORDER BY vtiger_crmentity.createdtime DESC';
-		$result = $db->pquery($query, $params);
-
+		$queryGenerator->addAndConditionNative(['parent_comments' => 0]);
+		$dataReader =$queryGenerator->createQuery()
+				->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC])
+				->createCommand()->query();
 		$recordInstances = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
 			$recordInstance->setData($row);
 			$recordInstances[] = $recordInstance;
@@ -277,27 +268,20 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getChildComments()
 	{
-		$db = PearDatabase::getInstance();
-		$parentCommentId = $this->get('modcommentsid');
-
+		$parentCommentId = $this->getId();
 		if (empty($parentCommentId))
 			return;
-
 		$parentRecordId = $this->get('related_to');
-
 		$listView = Vtiger_ListView_Model::getInstance('ModComments');
 		$queryGenerator = $listView->get('query_generator');
 		$queryGenerator->setFields(array('parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid'));
-		$query = $queryGenerator->getQuery();
-
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
-		$query = $query . ' AND parent_comments = ? AND related_to = ?';
-
+		$queryGenerator->addAndConditionNative(['parent_comments' => $parentCommentId, 'related_to' => $parentRecordId]);
+		$datareader = $queryGenerator->createQuery()->createCommand()->query();
 		$recordInstances = [];
-		$result = $db->pquery($query, [$parentCommentId, $parentRecordId]);
-		while ($row = $db->getRow($result)) {
+		while ($row = $datareader->read()) {
 			$recordInstance = new self();
 			$recordInstance->setData($row);
 			$recordInstances[] = $recordInstance;
