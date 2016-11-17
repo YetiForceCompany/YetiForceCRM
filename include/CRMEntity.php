@@ -126,6 +126,9 @@ class CRMEntity
 			}
 		}
 
+		if (isset($columnFields['shownerid'])) {
+			Users_Privileges_Model::setSharedOwner($this->column_fields['shownerid'], $this->id);
+		}
 		if ($this->isInventory === true && !empty($this->inventoryData)) {
 			$this->saveInventoryData($module);
 		}
@@ -681,6 +684,13 @@ class CRMEntity
 					}
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [52, 53])) {
 						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = vtlib\Functions::getOwnerRecordLabel($fieldvalue);
+					}
+					if ($fieldInfo['uitype'] === 120) {
+						$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
+						$fieldvalue = $query->column();
+						if (is_array($fieldvalue)) {
+							$fieldvalue = implode(',', $fieldvalue);
+						}
 					}
 					$this->column_fields[$fieldInfo['fieldname']] = $fieldvalue;
 				}

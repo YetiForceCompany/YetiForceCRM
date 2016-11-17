@@ -26,17 +26,24 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param string $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return string
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$displayValue = '';
+		if (empty($values)) {
+			return $displayValue;
+		} elseif (!is_array($values)) {
+			$values = explode(',', $values);
+		}
 
-		$result = $db->pquery('SELECT DISTINCT userid FROM u_yf_crmentity_showners WHERE crmid = ?', [$record]);
-		while (($shownerid = $db->getSingleValue($result)) !== false) {
+		foreach ($values as $shownerid) {
 			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
 				if ($currentUser->isAdminUser() && !$rawText) {
 					$displayValue .= '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(\App\Fields\Owner::getLabel($shownerid)) . '</a>,';

@@ -114,9 +114,8 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			$mappingFields = $recordModel->get('mappingFields');
 			if (isset($mappingFields['Accounts']['shownerid'])) {
 				$leadShownerField = Vtiger_Field_Model::getInstance('shownerid', $recordModel->getModule());
-				$accRecordModel = Vtiger_Record_Model::getInstanceById($accountId, 'Accounts');
-				$accRecordModel->set('shownerid', $leadShownerField->getUITypeModel()->getEditViewDisplayValue('', $recordId));
-				Users_Privileges_Model::setSharedOwner($accRecordModel);
+				$shownerId = $leadShownerField->getUITypeModel()->getEditViewDisplayValue('', $recordId);
+				Users_Privileges_Model::setSharedOwner($shownerId, $recordId);
 			}
 			ModTracker_Record_Model::addConvertToAccountRelation('Accounts', $accountId, $assignId);
 			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
