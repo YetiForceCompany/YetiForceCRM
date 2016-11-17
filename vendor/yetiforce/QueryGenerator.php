@@ -16,6 +16,7 @@ class QueryGenerator
 	 * @var \App\Db\Query 
 	 */
 	private $query;
+	private $buildedQuery;
 	private $fields = [];
 	private $referenceFields = [];
 	private $ownerFields = [];
@@ -74,19 +75,9 @@ class QueryGenerator
 	public function __construct($moduleName, $userId = false)
 	{
 		$this->moduleName = $moduleName;
-		$this->query = new Db\Query();
 		$this->moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$this->entityModel = \CRMEntity::getInstance($moduleName);
 		$this->user = User::getUserModel($userId ? $userId : User::getCurrentUserId());
-	}
-
-	/**
-	 * Get query instance
-	 * @return \App\Db\Query
-	 */
-	public function getQuery()
-	{
-		return $this->query;
 	}
 
 	/**
@@ -418,14 +409,18 @@ class QueryGenerator
 	 * Create query
 	 * @return \App\Db\Query
 	 */
-	public function createQuery()
+	public function createQuery($reBuild = false)
 	{
-		$this->loadSelect();
-		$this->loadFrom();
-		$this->loadWhere();
-		$this->loadOrder();
-		$this->loadJoin();
-		return $this->getQuery();
+		if (!$this->buildedQuery || $reBuild) {
+			$this->query = new Db\Query();
+			$this->loadSelect();
+			$this->loadFrom();
+			$this->loadWhere();
+			$this->loadOrder();
+			$this->loadJoin();
+			$this->buildedQuery = $this->query;
+		}
+		return $this->buildedQuery;
 	}
 
 	/**
