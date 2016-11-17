@@ -11,6 +11,32 @@ class DateField extends BaseField
 {
 
 	/**
+	 * Get order by
+	 * @return array
+	 */
+	public function getOrderBy($order = false)
+	{
+		if ($order && strtolower($order) === 'desc') {
+			$sort = SORT_DESC;
+		} else {
+			$sort = SORT_ASC;
+		}
+		$orderBy = [$this->getColumnName() => $sort];
+		if ($this->fieldModel->getColumnName() === 'date_start') {
+			$field = $this->queryGenerator->getModuleField('time_start');
+			if ($field) {
+				$orderBy[$field->getTableName() . '.' . $field->getColumnName()] = $sort;
+			}
+		} else if ($this->fieldModel->getColumnName() === 'due_date') {
+			$field = $this->queryGenerator->getModuleField('time_end');
+			if ($field) {
+				$orderBy[$field->getTableName() . '.' . $field->getColumnName()] = $sort;
+			}
+		}
+		return $orderBy;
+	}
+
+	/**
 	 * Get condition
 	 * @return boolean|array
 	 */
