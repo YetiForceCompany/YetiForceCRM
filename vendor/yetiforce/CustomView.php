@@ -461,7 +461,7 @@ class CustomView
 			$viewId = \AppRequest::get('viewname');
 			if (!is_numeric($viewId)) {
 				if ($viewId === 'All') {
-					$viewId = (new App\Db\Query())->select('cvid')->from('vtiger_customview')->where(['presence' => 0, 'entitytype' => $this->moduleName])->scalar();
+					$viewId = (new Db\Query())->select('cvid')->from('vtiger_customview')->where(['presence' => 0, 'entitytype' => $this->moduleName])->scalar();
 				} else {
 					$viewId = $this->getViewIdByName($viewId);
 				}
