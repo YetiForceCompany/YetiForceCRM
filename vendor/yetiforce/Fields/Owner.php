@@ -415,7 +415,7 @@ class Owner
 				}
 			}
 		}
-		$queryGenerator->setField('assigned_user_id');
+		$queryGenerator->setFields(['assigned_user_id']);
 		$ids = $queryGenerator->createQuery()->distinct()->createCommand()->queryColumn();
 		$users = $groups = [];
 		foreach ($ids as &$id) {
