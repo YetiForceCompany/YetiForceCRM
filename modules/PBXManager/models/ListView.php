@@ -54,115 +54,17 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 	/**
 	 * Overrided to add HTML content for callstatus irrespective of the filters
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$db = PearDatabase::getInstance();
-
-		$moduleName = $this->getModule()->get('name');
-		$moduleFocus = CRMEntity::getInstance($moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-		//Add the direction field to the query irrespective of filter
 		$queryGenerator = $this->get('query_generator');
-		$fields = $queryGenerator->getFields();
-		array_push($fields, 'direction');
-		$queryGenerator->setFields($fields);
-		$this->set('query_generator', $queryGenerator);
-		//END
-
-		$listViewContoller = $this->get('listview_controller');
-
-		$searchKey = $this->get('search_key');
-		$searchValue = $this->get('search_value');
-		$operator = $this->get('operator');
-		if (!empty($searchKey)) {
-			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
-		}
-
+		$queryGenerator->setField('direction');
 		$orderBy = $this->getForSql('orderby');
 		$sortOrder = $this->getForSql('sortorder');
-
-		//List view will be displayed on recently created/modified records
-		if (empty($orderBy) && empty($sortOrder) && $moduleName != "Users") {
-			$orderBy = 'modifiedtime';
-			$sortOrder = 'DESC';
+		if (empty($orderBy) && empty($sortOrder) && $this->getModule()->getName() != "Users") {
+			$this->set('orderby', 'modifiedtime');
+			$this->set('sortorder', 'DESC');
 		}
-
-		if (!empty($orderBy)) {
-			$columnFieldMapping = $moduleModel->getColumnFieldMapping();
-			$orderByFieldName = $columnFieldMapping[$orderBy];
-			$orderByFieldModel = $moduleModel->getField($orderByFieldName);
-
-			if ($orderByFieldModel && $orderByFieldModel->isReferenceField()) {
-				//IF it is reference add it in the where fields so that from clause will be having join of the table
-				$queryGenerator = $this->get('query_generator');
-				$queryGenerator->setConditionField($orderByFieldName);
-			}
-		}
-		$listQuery = $this->getQuery();
-
-		$sourceModule = $this->get('src_module');
-		if (!empty($sourceModule)) {
-			if (method_exists($moduleModel, 'getQueryByModuleField')) {
-				$overrideQuery = $moduleModel->getQueryByModuleField($sourceModule, $this->get('src_field'), $this->get('src_record'), $listQuery);
-				if (!empty($overrideQuery)) {
-					$listQuery = $overrideQuery;
-				}
-			}
-		}
-
-		$startIndex = $pagingModel->getStartIndex();
-		$pageLimit = $pagingModel->getPageLimit();
-
-		if (!empty($orderBy)) {
-			if ($orderByFieldModel->isReferenceField()) {
-				$referenceModules = $orderByFieldModel->getReferenceList();
-
-				$referenceNameFieldOrderBy = array();
-				foreach ($referenceModules as $referenceModuleName) {
-					$referenceModuleModel = Vtiger_Module_Model::getInstance($referenceModuleName);
-					$referenceNameFields = $referenceModuleModel->getNameFields();
-					$columnList = array();
-					foreach ($referenceNameFields as $nameField) {
-						$fieldModel = $referenceModuleModel->getField($nameField);
-						$columnList[] = $fieldModel->get('table') . $orderByFieldModel->getName() . '.' . $fieldModel->get('column');
-					}
-					if (count($columnList) > 1) {
-						$referenceNameFieldOrderBy[] = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $columnList[0], 'last_name' => $columnList[1]), 'Users') . ' ' . $sortOrder;
-					} else {
-						$referenceNameFieldOrderBy[] = implode('', $columnList) . ' ' . $sortOrder;
-					}
-				}
-				$listQuery .= sprintf(' ORDER BY %s', implode(',', $referenceNameFieldOrderBy));
-			} else {
-				$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
-			}
-		}
-
-
-		$viewid = App\CustomView::getCurrentView($moduleName);
-		ListViewSession::setSessionQuery($moduleName, $listQuery, $viewid);
-
-		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
-
-
-
-		$listResult = $db->pquery($listQuery, array());
-
-
-		$listViewRecordModels = array();
-		$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
-		$count = $db->num_rows($listResult);
-		$pagingModel->calculatePageRange($count);
-
-		if ($count > $pageLimit) {
-			array_pop($listViewEntries);
-			$pagingModel->set('nextPageExists', true);
-		} else {
-			$pagingModel->set('nextPageExists', false);
-		}
-
-		//Adding the HTML content based on the callstatus and direction to the records
+		/*/Adding the HTML content based on the callstatus and direction to the records
 		foreach ($listViewEntries as $recordId => $record) {
 			//To Replace RecordingUrl by Icon
 			$recordingUrl = explode('>', $listViewEntries[$recordId]['recordingurl']);
@@ -204,16 +106,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 				}
 			}
 		}
-		//END
-
-		$index = 0;
-		foreach ($listViewEntries as $recordId => $record) {
-			$rawData = $db->query_result_rowdata($listResult, $index++);
-			$record['id'] = $recordId;
-			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
-			$listViewRecordModels[$recordId]->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $moduleModel->getRecordFromArray($listViewContoller->rawData[$recordId]));
-		}
-
-		return $listViewRecordModels;
+		/*/
+		return parent::getListViewEntries($pagingModel);
 	}
 }
