@@ -405,8 +405,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 				$queryGenerator->loadListFields();
 			}
 		}
-		$controller = new ListViewController($db, vglobal('current_user'), $queryGenerator);
-		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator)->set('listview_controller', $controller);
+		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 		\App\Cache::staticGet('ListView_Model', $cacheName, $instance);
 		return $instance;
 	}

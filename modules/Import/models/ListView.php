@@ -100,27 +100,18 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
-	 * @param <String> $moduleName - Module Name
-	 * @param <Number> $viewId - Custom View Id
+	 * @param string $moduleName - Module Name
+	 * @param int $viewId - Custom View Id
 	 * @return Vtiger_ListView_Model instance
 	 */
 	public static function getInstance($moduleName, $viewId = '0')
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', 'Import');
 		$instance = new $modelClassName();
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$queryGenerator = new QueryGenerator($moduleModel->get('name'), $currentUser);
-
-		$viewId = (new App\CustomView($moduleName))->getViewIdByName('All');
-		$queryGenerator->initForCustomViewById($viewId);
-
-		$controller = new ListViewController($db, $currentUser, $queryGenerator);
-
-		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator)->set('listview_controller', $controller);
+		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
+		$queryGenerator->initForDefaultCustomView(true);
+		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 
 	public function getLastImportedRecord()

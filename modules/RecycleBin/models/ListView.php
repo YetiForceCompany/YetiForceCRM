@@ -13,27 +13,21 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
-	 * @param <String> $moduleName - Module Name
-	 * @param <Number> $viewId - Custom View Id
+	 * @param string $moduleName - Module Name
+	 * @param string $sourceModule - Source Module Name
 	 * @return Vtiger_ListView_Model instance
 	 */
 	public static function getInstance($moduleName, $sourceModule)
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = vglobal('current_user');
-
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
 
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$queryGenerator = new QueryGenerator($sourceModuleModel->get('name'), $currentUser);
+		$queryGenerator = new \App\QueryGenerator($sourceModuleModel->get('name'));
 		$cvidObj = CustomView_Record_Model::getAllFilterByModule($sourceModuleModel->get('name'));
-		$cvid = $cvidObj->getId('cvid');
-		$queryGenerator->initForCustomViewById($cvid);
-
-		$controller = new ListViewController($db, $currentUser, $queryGenerator);
-
-		return $instance->set('module', $sourceModuleModel)->set('query_generator', $queryGenerator)->set('listview_controller', $controller);
+		$viewId = $cvidObj->getId('cvid');
+		$queryGenerator->initForCustomViewById($viewId);
+		return $instance->set('module', $sourceModuleModel)->set('query_generator', $queryGenerator);
 	}
 
 	/**
