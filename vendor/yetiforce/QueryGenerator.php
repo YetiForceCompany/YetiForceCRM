@@ -743,7 +743,6 @@ class QueryGenerator
 		}
 		$field = $this->getModuleField($fieldName);
 		$type = $field->getFieldDataType();
-
 		if ($value !== '') {
 			$value = function_exists('iconv') ? iconv('UTF-8', \AppConfig::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
 			if ($type === 'currency') {
@@ -757,12 +756,6 @@ class QueryGenerator
 		}
 		if (trim(strtolower($value)) === 'null') {
 			$operator = 'e';
-		} else {
-			if (!static::isNumericType($type) && !static::isDateType($type)) {
-				$operator = 'c';
-			} else {
-				$operator = 'h';
-			}
 		}
 		$this->addAndCondition($fieldName, $value, $operator);
 	}
