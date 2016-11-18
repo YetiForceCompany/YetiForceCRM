@@ -12,6 +12,10 @@
 class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 {
 
+	/**
+	 * Function process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
@@ -22,9 +26,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			$recordFieldValue = $recordModel->get($fieldName);
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
-			} elseif (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'sharedOwner') {
-				$recordFieldValue = implode(',', $recordFieldValue);
-			} elseif (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'taxes') {
+			} elseif (is_array($recordFieldValue) && in_array($fieldModel->getFieldDataType(), ['sharedOwner', 'taxes', 'posList'])) {
 				$recordFieldValue = implode(',', $recordFieldValue);
 			}
 			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
@@ -35,11 +37,11 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel);
 			}
 
-			$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);
+			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
 
 		//Handling salutation type
-		if ($request->get('field') === 'firstname' && in_array($request->getModule(), array('Contacts'))) {
+		if ($request->get('field') === 'firstname' && in_array($request->getModule(), ['Contacts'])) {
 			$salutationType = $recordModel->getDisplayValue('salutationtype');
 			$firstNameDetails = $result['firstname'];
 			$firstNameDetails['display_value'] = $salutationType . " " . $firstNameDetails['display_value'];

@@ -250,6 +250,8 @@ class Vtiger_Field_Model extends vtlib\Field
 					break;
 				case 309: $fieldDataType = 'categoryMultipicklist';
 					break;
+				case 122: $fieldDataType = 'posList';
+					break;
 				default:
 					$webserviceField = $this->getWebserviceFieldObject();
 					$fieldDataType = $webserviceField->getFieldDataType();

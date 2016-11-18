@@ -1123,7 +1123,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		jQuery(fieldElement).each(function (index, element) {
 			var fieldName = jQuery(element).val();
 			var elementTarget = jQuery(element);
-			var elementName = jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist']) != -1 ? fieldName + '[]' : fieldName;
+			var elementName = jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist', 'posList']) != -1 ? fieldName + '[]' : fieldName;
 			var fieldElement = jQuery('[name="' + elementName + '"]', editElement);
 			if (fieldElement.attr('disabled') == 'disabled') {
 				return;
@@ -1239,11 +1239,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					currentTdElement.progressIndicator();
 					editElement.addClass('hide');
 					var fieldNameValueMap = {};
-					//The same values must be in the file SummaryViewContents.tpl
-					if (fieldInfo.getType() == 'multipicklist' || fieldInfo.getType() == 'sharedOwner' || fieldInfo.getType() == 'taxes') {
-						var multiPicklistFieldName = fieldName.split('[]');
-						fieldName = multiPicklistFieldName[0];
-					}
 
 					fieldNameValueMap["value"] = fieldValue;
 					fieldNameValueMap["field"] = fieldName;

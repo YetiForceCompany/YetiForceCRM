@@ -206,13 +206,13 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			if (jQuery.inArray(fieldInfo.type, ['rangeTime', 'image']) != -1 && jQuery.inArray(conditionList[key], ['y', 'ny']) == -1) {
 				continue;
 			}
-			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree', 'inventoryLimit', 'categoryMultipicklist', 'posList', 'languages', 'currencyList']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
+			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree', 'inventoryLimit', 'categoryMultipicklist', 'languages', 'currencyList']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
 				continue;
 			}
 			if (jQuery.inArray(conditionList[key], ['om', 'wr', 'nwr']) != -1 && jQuery.inArray(fieldInfo.type, ['owner', 'sharedOwner']) == -1) {
 				continue;
 			}
-			if (jQuery.inArray(conditionList[key], ['s', 'ew']) != -1 && jQuery.inArray(fieldInfo.type, ['taxes']) != -1) {
+			if (jQuery.inArray(conditionList[key], ['s', 'ew']) != -1 && jQuery.inArray(fieldInfo.type, ['taxes', 'posList', 'multipicklist']) != -1) {
 				continue;
 			}
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
@@ -288,9 +288,9 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		// Both filter and find is used since we dont know whether the element is enclosed in some conainer like currency
 		var fieldName = fieldModel.getName();
 
-		if ($.inArray(fieldModel.getType(), ['multipicklist', 'sharedOwner', 'multiReferenceValue', 'taxes']) > -1) {
+		if ($.inArray(fieldModel.getType(), ['multipicklist', 'sharedOwner', 'multiReferenceValue', 'taxes', 'posList']) > -1) {
 			fieldName = fieldName + "[]";
-		} else if (($.inArray(fieldModel.getType(), ['picklist', 'owner', 'languages','modules', 'inventoryLimit', 'posList', 'currencyList']) > -1)
+		} else if (($.inArray(fieldModel.getType(), ['picklist', 'owner', 'languages', 'modules', 'inventoryLimit', 'currencyList']) > -1)
 				&& fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
 			fieldName = fieldName + "[]";
 		}
@@ -636,7 +636,7 @@ AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Inventorylimit_Field_Js', {}, {
 Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js', {}, {
 });
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Poslist_Field_Js', {}, {
+AdvanceFilter_Multipicklist_Field_Js('AdvanceFilter_Poslist_Field_Js', {}, {
 });
 
 AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Languages_Field_Js', {}, {
