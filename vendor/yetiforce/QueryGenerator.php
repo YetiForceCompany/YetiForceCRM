@@ -16,12 +16,18 @@ class QueryGenerator
 	const EQUALITY_TYPES = ['currency', 'percentage', 'double', 'integer', 'number'];
 	const COMMA_TYPES = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
 
+	public $deletedCondition = true;
+	public $permissions = true;
 	private $moduleName;
 
 	/**
 	 * @var \App\Db\Query 
 	 */
 	private $query;
+
+	/**
+	 * @var \App\Db\Query 
+	 */
 	private $buildedQuery;
 	private $fields = [];
 	private $referenceFields = [];
@@ -30,13 +36,6 @@ class QueryGenerator
 	private $cvColumns;
 	private $stdFilterList;
 	private $advFilterList;
-	private $customTable = [];
-	private $m2mRelModConditions = [];
-	private $referenceModuleField = [];
-	private $fromClauseCustom = [];
-	private $whereOperator = [];
-	public $deletedCondition = true;
-	public $permissions = true;
 	private $joins = [];
 	private $queryFields = [];
 	private $order = [];
@@ -61,6 +60,10 @@ class QueryGenerator
 	 * @var \Vtiger_Module_Model 
 	 */
 	private $moduleModel;
+
+	/**
+	 * @var array \Vtiger_Field_Model 
+	 */
 	private $fieldsModel;
 
 	/**
@@ -525,13 +528,6 @@ class QueryGenerator
 				$ownerField = $this->ownerFields[0];
 			}
 		}
-		/*
-		  foreach ($this->customTable as &$table) {
-		  $tableName = $table['name'];
-		  $tableList[$tableName] = $tableName;
-		  $tableJoin[$tableName] = $table['join'];
-		  }
-		 */
 		foreach ($this->getEntityDefaultTableList() as &$tableName) {
 			$this->query->join($tableJoin[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.{$moduleTableIndexList[$tableName]}");
 			unset($tableList[$tableName]);
@@ -553,35 +549,6 @@ class QueryGenerator
 			$params = isset($join[3]) ? $join[3] : [];
 			$this->query->join($join[0], $join[1], $on, $params);
 		}
-		/*
-		  foreach ($this->m2mRelModConditions as &$conditionInfo) {
-		  $relatedModuleMeta = \RelatedModuleMeta::getInstance($this->moduleName, $conditionInfo['relatedModule']);
-		  $relationInfo = $relatedModuleMeta->getRelationMeta();
-		  $this->query->innerJoin($relationInfo['relationTable'], "{$relationInfo['relationTable']}.{$relationInfo[$this->moduleName]} = $baseTable.$baseTableIndex");
-		  }
-		  // Adding support for conditions on reference module fields
-		  if ($this->referenceModuleField) {
-		  $referenceFieldTableList = [];
-		  foreach ($this->referenceModuleField as &$conditionInfo) {
-		  $relatedEntityModel = \CRMEntity::getInstance($conditionInfo['relatedModule']);
-		  $tabIndex = $relatedEntityModel->tab_name_index;
-		  $referenceField = $this->getModuleField($conditionInfo['referenceField']);
-		  $fieldModel = \Vtiger_Field_Model::getInstance($conditionInfo['fieldName'], \Vtiger_Module_Model::getInstance($conditionInfo['relatedModule']));
-		  if (empty($fieldModel)) {
-		  continue;
-		  }
-		  $tableName = $fieldModel->getTableName();
-		  if (!isset($referenceFieldTableList[$tableName])) {
-		  $this->query->leftJoin("$tableName $tableName{$conditionInfo['referenceField']}", "$tableName{$conditionInfo['referenceField']}.{$tabIndex[$tableName]} = {$referenceField->getTableName()}.{$referenceField->getColumnName()}");
-		  $referenceFieldTableList[$tableName] = $tableName;
-		  }
-		  }
-		  }
-
-		  foreach ($this->fromClauseCustom as $where) {
-		  $this->query->join($where['joinType'], $where['relatedTable'], "{$where['relatedTable']}.{$where['relatedIndex']} = {$where['baseTable']}.{$where['baseIndex']}");
-		  }
-		 */
 	}
 
 	/**
