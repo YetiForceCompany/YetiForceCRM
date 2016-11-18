@@ -6,9 +6,16 @@ namespace App\QueryField;
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class MultipicklistField extends BaseField
 {
+
+	/**
+	 * Separator
+	 * @var string
+	 */
+	protected $separator = ' |##| ';
 
 	/**
 	 * Function to get combinations of string from Array
@@ -16,7 +23,7 @@ class MultipicklistField extends BaseField
 	 * @param string $tempString
 	 * @return array
 	 */
-	public static function getCombinations($array, $tempString = '')
+	public function getCombinations($array, $tempString = '')
 	{
 		$countArray = count($array);
 		for ($i = 0; $i < $countArray; $i++) {
@@ -26,9 +33,9 @@ class MultipicklistField extends BaseField
 				if (!is_array($result)) {
 					$result = [];
 				}
-				$result = array_merge($result, static::getCombinations($splicedArray, $tempString . ' |##| ' . $element[0]));
+				$result = array_merge($result, $this->getCombinations($splicedArray, $tempString . $this->separator . $element[0]));
 			} else {
-				return [$tempString . ' |##| ' . $element[0]];
+				return [$tempString . $this->separator . $element[0]];
 			}
 		}
 		return $result;
@@ -43,8 +50,8 @@ class MultipicklistField extends BaseField
 		$value = $this->value;
 		$valueArray = explode(',', $value);
 		if (in_array($this->operator, ['e', 'n'])) {
-			foreach (static::getCombinations($valueArray) as $key => $value) {
-				$valueArray[$key] = ltrim($value, ' |##| ');
+			foreach ($this->getCombinations($valueArray) as $key => $value) {
+				$valueArray[$key] = ltrim($value, $this->separator);
 			}
 		}
 		return $valueArray;
@@ -60,30 +67,22 @@ class MultipicklistField extends BaseField
 	}
 
 	/**
-	 * Starts with operator
-	 * @return array
-	 */
-	public function operatorS()
-	{
-		return ['like', $this->getColumnName(), implode(' |##| ', $this->getValue()) . '%', false];
-	}
-
-	/**
-	 * Ends with operator
-	 * @return array
-	 */
-	public function operatorEw()
-	{
-		return ['like', $this->getColumnName(), '%' . implode(' |##| ', $this->getValue()), false];
-	}
-
-	/**
 	 * Contains operator
 	 * @return array
 	 */
 	public function operatorC()
 	{
-		return ['or like', $this->getColumnName(), $this->getValue()];
+		$condition = ['or'];
+		foreach ($this->getValue() as $value) {
+			array_push($condition, [$this->getColumnName() => $value], ['or like', $this->getColumnName(),
+					[
+					'%' . $this->separator . $value . $this->separator . '%',
+					'%' . $value . $this->separator,
+					$value . $this->separator . '%'
+				], false
+			]);
+		}
+		return $condition;
 	}
 
 	/**
@@ -92,6 +91,16 @@ class MultipicklistField extends BaseField
 	 */
 	public function operatorK()
 	{
-		return ['or not like', $this->getColumnName(), $this->getValue()];
+		$condition = ['and'];
+		foreach ($this->getValue() as $value) {
+			array_push($condition, ['<>', $this->getColumnName(), $value], ['not', ['or like', $this->getColumnName(),
+						[
+						'%' . $this->separator . $value . $this->separator . '%',
+						'%' . $value . $this->separator,
+						$value . $this->separator . '%'
+					], false
+			]]);
+		}
+		return $condition;
 	}
 }
