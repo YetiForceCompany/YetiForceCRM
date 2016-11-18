@@ -207,7 +207,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$queryGenerator = $this->get('query_generator');
 		$srcRecord = $this->get('src_record');
 		if ($moduleName === $this->get('src_module') && !empty($srcRecord)) {
-			$queryGenerator->addCondition('id', $srcRecord, 'n');
+			$queryGenerator->addAndCondition('id', $srcRecord, 'n');
 		}
 		$searchParams = $this->get('search_params');
 		if (!empty($searchParams)) {

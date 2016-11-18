@@ -43,11 +43,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		}
 		$queryGenerator->setFields([$fieldInfo['fieldname']]);
 		$query = $queryGenerator->createQuery();
-		$dataReader = $query->createCommand()->query();
-		$values = [];
-		while ($value = $dataReader->readColumn(0)) {
-			$values[$value] = $value;
-		}
+		$values = $query->indexBy($fieldInfo['fieldname'])->column();
 		$this->set('picklistValues', $values);
 		return $values;
 	}
