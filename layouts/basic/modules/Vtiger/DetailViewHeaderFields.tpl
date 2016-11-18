@@ -5,7 +5,7 @@
 			{foreach from=$CUSTOM_FIELDS_HEADER item=ROW}
 				<div class="col-xs-12 marginTB3 paddingLRZero">
 					<div class="row col-lg-9 col-md-10 col-xs-12 pull-right paddingLRZero detailViewHeaderFieldsContent">
-						<div class="btn btn-default {$ROW['class']} btn-xs col-xs-12" {if $ROW['action']}onclick="{$ROW['action']}"{/if}>
+						<div class="btn btn-default {$ROW['class']} btn-xs col-xs-12" {if $ROW['action']}onclick="{Vtiger_Util_Helper::toSafeHTML($ROW['action'])}"{/if}>
 							<div class="detailViewHeaderFieldsName">
 								{$ROW['title']}
 							</div>

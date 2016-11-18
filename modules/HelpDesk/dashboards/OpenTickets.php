@@ -28,7 +28,8 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
 				'name' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END"),
 				'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN
-					vtiger_users.cal_color ELSE vtiger_groups.color END")])
+					vtiger_users.cal_color ELSE vtiger_groups.color END"),
+				'id' => 'smownerid'])
 			->from('vtiger_troubletickets')
 			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
 			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')

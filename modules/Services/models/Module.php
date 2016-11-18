@@ -23,7 +23,7 @@ class Services_Module_Model extends Products_Module_Model
 	{
 		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk');
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || in_array($sourceModule, getInventoryModules())) {
-			$condition = ['and', ['vtiger_products.discontinued' => 1]];
+			$condition = ['and', ['vtiger_service.discontinued' => 1]];
 			if ($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') {
 				$subQuery = (new App\Db\Query())
 					->select(['productid'])

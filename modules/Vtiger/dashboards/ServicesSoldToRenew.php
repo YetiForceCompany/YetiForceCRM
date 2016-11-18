@@ -35,8 +35,6 @@ class Vtiger_ServicesSoldToRenew_Dashboard extends Vtiger_ProductsSoldToRenew_Da
 
 	public function getConditions()
 	{
-		$where = ' AND ssservicesstatus = ? AND osssoldservices_renew = ?';
-		$params = ['PLL_ACCEPTED', 'PLL_WAITING_FOR_RENEWAL'];
-		return ['where' => $where, 'params' => $params];
+		return ['ssservicesstatus' => 'PLL_ACCEPTED', 'osssoldservices_renew' => 'PLL_WAITING_FOR_RENEWAL'];
 	}
 }

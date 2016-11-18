@@ -131,7 +131,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 		$this->initListViewController();
 		if (!$this->listviewRecords) {
-			$this->queryGenerator->addAndConditionNative(['assetstatus' => 'PLL_ACCEPTED', 'assets_renew' => 'PLL_WAITING_FOR_RENEWAL']);
+			$this->queryGenerator->addAndConditionNative($this->getConditions());
 			$query = $this->queryGenerator->createQuery();
 			$query->limit($this->getRecordLimit());
 			if (strtoupper($this->getFromData('sortorder')) === 'ASC') {
@@ -151,5 +151,10 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	public function getFieldNameToSecondButton()
 	{
 		return 'assets_renew';
+	}
+	
+	public function getConditions()
+	{
+		return ['assetstatus' => 'PLL_ACCEPTED', 'assets_renew' => 'PLL_WAITING_FOR_RENEWAL'];
 	}
 }
