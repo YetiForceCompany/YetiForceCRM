@@ -74,42 +74,43 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (empty($status))
 			$status = 'Active';
 
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		if (!$this->listViewModel) {
+			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		}
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
-		$linkModels = $listViewModel->getListViewMassActions($linkParams);
-		$listViewModel->set('status', $status);
+		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
+		$this->listViewModel->set('status', $status);
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
 
 		if (!empty($orderBy)) {
-			$listViewModel->set('orderby', $orderBy);
-			$listViewModel->set('sortorder', $sortOrder);
+			$this->listViewModel->set('orderby', $orderBy);
+			$this->listViewModel->set('sortorder', $sortOrder);
 		}
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$operator = $request->get('operator');
 		if (!empty($operator)) {
-			$listViewModel->set('operator', $operator);
+			$this->listViewModel->set('operator', $operator);
 		}
 		$viewer->assign('OPERATOR', $operator);
 		if ('status' != $searchKey)
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		if (!empty($searchKey) && !empty($searchValue)) {
-			$listViewModel->set('search_key', $searchKey);
-			$listViewModel->set('search_value', $searchValue);
+			$this->listViewModel->set('search_key', $searchKey);
+			$this->listViewModel->set('search_value', $searchValue);
 		}
 
 		$searchParmams = $request->get('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = array();
 		}
-
-		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule());
-		$listViewModel->set('search_params', $transformedSearchParams);
+		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+		$this->listViewModel->set('search_params', $transformedSearchParams);
 
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
@@ -121,20 +122,20 @@ class Users_List_View extends Settings_Vtiger_List_View
 			}
 		}
 		if (!empty($searchResult) && is_array($searchResult)) {
-			$listViewModel->get('query_generator')->addAndConditionNative(['vtiger_crmentity.crmid' => $searchResult]);
+			$this->listViewModel->get('query_generator')->addAndConditionNative(['vtiger_crmentity.crmid' => $searchResult]);
 		}
 		if (!$this->listViewHeaders) {
-			$this->listViewHeaders = $listViewModel->getListViewHeaders();
+			$this->listViewHeaders = $this->listViewModel->getListViewHeaders();
 		}
 		if (!$this->listViewEntries) {
-			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
+			$this->listViewEntries = $this->listViewModel->getListViewEntries($pagingModel);
 		}
 		$noOfEntries = count($this->listViewEntries);
 
 		$viewer->assign('MODULE', $moduleName);
 
 		if (!isset($this->listViewLinks)) {
-			$this->listViewLinks = $listViewModel->getListViewLinks($linkParams);
+			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION']);
@@ -152,7 +153,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
-				$this->listViewCount = $listViewModel->getListViewCount();
+				$this->listViewCount = $this->listViewModel->getListViewCount();
 			}
 			$pagingModel->set('totalCount', (int) $this->listViewCount);
 			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
@@ -162,9 +163,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
-		$viewer->assign('MODULE_MODEL', $listViewModel->getModule());
-		$viewer->assign('IS_MODULE_EDITABLE', $listViewModel->getModule()->isPermitted('EditView'));
-		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
+		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
+		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
+		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	}
@@ -211,8 +212,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-
-		$listViewModel->set('search_params', $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule()));
+		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+		$this->listViewModel->set('search_params', $transformedSearchParams);
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
 		}
@@ -244,10 +245,5 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
-	{
-		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 }

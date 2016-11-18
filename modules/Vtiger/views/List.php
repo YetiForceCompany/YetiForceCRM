@@ -349,8 +349,8 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-
-		$this->listViewModel->set('search_params', $this->transferListSearchParamsToFilterCondition($searchParmams, $this->listViewModel->getModule()));
+		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+		$this->listViewModel->set('search_params', $transformedSearchParams);
 		if (!empty($operator)) {
 			$this->listViewModel->set('operator', $operator);
 		}
@@ -382,10 +382,5 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
-	{
-		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
 }

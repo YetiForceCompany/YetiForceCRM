@@ -93,7 +93,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	 * @param Vtiger_Paging_Model $pagingModel, $status (Active or Inactive User). Default false
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel, $searchResult = false)
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
 		$queryGenerator = $this->get('query_generator');
 
@@ -147,7 +147,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		}
 		$this->set('search_params', $userFieldsFix);
 
-		return parent::getListViewEntries($pagingModel, $searchResult);
+		return parent::getListViewEntries($pagingModel);
 	}
 
 	public function getListViewCount()
