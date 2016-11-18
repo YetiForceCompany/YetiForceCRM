@@ -93,7 +93,6 @@ class PrivilegeQuery
 			}
 		}
 		$tabId = Module::getModuleId($moduleName);
-		$userModel->defaultOrgSharingPermission[$tabId] = 3;
 		if (!$userModel->isAdminUser() && $userModel->profile_global_permission[1] == 1 && $userModel->profile_global_permission[2] == 1 && $userModel->defaultOrgSharingPermission[$tabId] === 3) {
 			$conditions = ['or'];
 			$conditions[] = ['vtiger_crmentity.smownerid' => $userId];
