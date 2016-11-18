@@ -35,7 +35,7 @@ class QueryGenerator
 	private $referenceModuleField = [];
 	private $fromClauseCustom = [];
 	private $whereOperator = [];
-	private $deletedCondition = true;
+	public $deletedCondition = true;
 	public $permissions = true;
 	private $joins = [];
 	private $queryFields = [];
