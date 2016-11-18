@@ -8,9 +8,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-require_once('include/ListView/ListViewSession.php');
 
-/* * initializes Related ListViewSession
+/*
  * Portions created by vtigerCRM are Copyright (C) vtigerCRM.
  * All Rights Reserved.
  */

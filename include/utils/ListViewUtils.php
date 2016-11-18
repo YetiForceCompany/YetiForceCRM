@@ -318,53 +318,6 @@ function getListQuery($module, $where = '')
 	\App\Log::trace("Exiting getListQuery method ...");
 	return $query;
 }
-/* * This function stores the variables in session sent in list view url string.
- * Param $lv_array - list view session array
- * Param $noofrows - no of rows
- * Param $max_ent - maximum entires
- * Param $module - module name
- * Param $related - related module
- * Return type void.
- */
-
-function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = '')
-{
-	$start = '';
-	if ($noofrows >= 1) {
-		$lv_array['start'] = 1;
-		$start = 1;
-	} elseif ($related != '' && $noofrows == 0) {
-		$lv_array['start'] = 1;
-		$start = 1;
-	} else {
-		$lv_array['start'] = 0;
-		$start = 0;
-	}
-
-	if (AppRequest::has('start') && AppRequest::get('start') != '') {
-		$lv_array['start'] = ListViewSession::getRequestStartPage();
-		$start = ListViewSession::getRequestStartPage();
-	} elseif ($_SESSION['rlvs'][$module][$related]['start'] != '') {
-
-		if ($related != '') {
-			$lv_array['start'] = $_SESSION['rlvs'][$module][$related]['start'];
-			$start = $_SESSION['rlvs'][$module][$related]['start'];
-		}
-	}
-	if (AppRequest::has('viewname') && AppRequest::get('viewname') != '')
-		$lv_array['viewname'] = AppRequest::get('viewname');
-
-	if ($related == '')
-		$_SESSION['lvs'][AppRequest::get('module')] = $lv_array;
-	else
-		$_SESSION['rlvs'][$module][$related] = $lv_array;
-
-	if ($start < ceil($noofrows / $max_ent) && $start != '') {
-		$start = ceil($noofrows / $max_ent);
-		if ($related == '')
-			$_SESSION['lvs'][$currentModule]['start'] = $start;
-	}
-}
 /* * Function to get the table headers for related listview
  * Param $navigation_arrray - navigation values in array
  * Param $url_qry - url string

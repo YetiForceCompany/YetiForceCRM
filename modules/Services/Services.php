@@ -480,18 +480,6 @@ class Services extends CRMEntity
 		}
 		$module = 'PriceBooks';
 		$relatedmodule = 'Services';
-		if (!$_SESSION['rlvs'][$module][$relatedmodule]) {
-			$modObj = new ListViewSession();
-			$modObj->sortby = $focus->default_order_by;
-			$modObj->sorder = $focus->default_sort_order;
-			$_SESSION['rlvs'][$module][$relatedmodule] = get_object_vars($modObj);
-		}
-		if (AppRequest::get('relmodule') == $relatedmodule) {
-			$relmodule = AppRequest::get('relmodule');
-			if ($_SESSION['rlvs'][$module][$relmodule]) {
-				setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $listMaxEntriesPerPage, $module, $relmodule);
-			}
-		}
 		global $relationId;
 		$start = RelatedListViewSession::getRequestCurrentPage($relationId, $query);
 		$navigation_array = VT_getSimpleNavigationValues($start, $listMaxEntriesPerPage, $noofrows);

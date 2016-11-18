@@ -12,7 +12,6 @@
 
 require_once('include/utils/UserInfoUtil.php');
 require_once("include/utils/utils.php");
-require_once("include/ListView/ListViewSession.php");
 require_once("include/ListView/RelatedListViewSession.php");
 
 if (!function_exists('GetRelatedList')) {
@@ -91,20 +90,6 @@ function getPriceBookRelatedProducts($query, $focus, $returnset = '')
 
 	$module = 'PriceBooks';
 	$relatedmodule = 'Products';
-	if (!$_SESSION['rlvs'][$module][$relatedmodule]) {
-		$modObj = new ListViewSession();
-		$modObj->sortby = $focus->default_order_by;
-		$modObj->sorder = $focus->default_sort_order;
-		$_SESSION['rlvs'][$module][$relatedmodule] = get_object_vars($modObj);
-	}
-
-
-	if (AppRequest::has('relmodule') && AppRequest::get('relmodule') == $relatedmodule) {
-		$relmodule = AppRequest::get('relmodule');
-		if ($_SESSION['rlvs'][$module][$relmodule]) {
-			setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $listMaxEntriesPerPage, $module, $relmodule);
-		}
-	}
 	global $relationId;
 	$start = RelatedListViewSession::getRequestCurrentPage($relationId, $query);
 	$navigation_array = VT_getSimpleNavigationValues($start, $listMaxEntriesPerPage, $noofrows);
