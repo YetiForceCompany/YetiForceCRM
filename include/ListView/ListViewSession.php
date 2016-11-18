@@ -95,9 +95,6 @@ class ListViewSession
 				}
 			}
 		}
-
-		$list_query = $_SESSION[$currentModule . '_listquery'];
-
 		if ($reUseData === false && !empty($list_query)) {
 			$recordNavigationInfo = [];
 			if (!AppRequest::isEmpty('start')) {
@@ -204,15 +201,5 @@ class ListViewSession
 			$_SESSION['lvs'][$currentModule][$viewid]['start'] = intval($start);
 		}
 		return $start;
-	}
-
-	public static function setSessionQuery($currentModule, $query, $viewid)
-	{
-		if (Vtiger_Session::has($currentModule . '_listquery')) {
-			if (Vtiger_Session::get($currentModule . '_listquery') != $query) {
-				Vtiger_Session::remove($currentModule . '_DetailView_Navigation' . $viewid);
-			}
-		}
-		Vtiger_Session::set($currentModule . '_listquery', $query);
 	}
 }
