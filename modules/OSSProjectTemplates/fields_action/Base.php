@@ -14,11 +14,8 @@ class Field_Model_Base
 
 	public function getFieldInfo($fieldName, $moduleName, $column)
 	{
-		return (new App\Db\Query())
-				->select([$column])
-				->from('vtiger_field')
-				->where(['tabid' => \App\Module::getModuleId($moduleName), 'fieldname' => $fieldName])
-				->scalar();
+		$fieldInfo = vtlib\Functions::getModuleFieldInfo(\App\Module::getModuleId($moduleName), $fieldName);
+		return $fieldInfo[$column];
 	}
 
 	public function getFieldLabel($fieldName, $moduleName)

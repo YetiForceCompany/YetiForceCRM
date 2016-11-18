@@ -131,7 +131,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					}
 				}
 			}
-			foreach ($sectors as $sectorId => $sectorValue) {
+			foreach ($sectors as $sectorId => &$sectorValue) {
 				$moduleModel = $this->getTargetModuleModel();
 				$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
 				$displayValue .= ' - (' . (int) $count[$sectorId] . ')';

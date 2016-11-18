@@ -31,16 +31,14 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * Load list view conditions
+	 * @param string $moduleName
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
-	{
+	public function loadListViewCondition($moduleName) {
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->deletedCondition = false;
 		$queryGenerator->addAndConditionNative(['vtiger_crmentity.deleted' => 1]);
-		return parent::getListViewEntries($pagingModel);
+		parent::loadListViewCondition($moduleName);
 	}
 
 	/**
@@ -50,7 +48,6 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewCount()
 	{
-
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->deletedCondition = false;
 		$queryGenerator->addAndConditionNative(['vtiger_crmentity.deleted' => 1]);
