@@ -19,8 +19,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getBasicLinks()
 	{
-		$basicLinks = array();
-		return $basicLinks;
+		return [];
 	}
 
 	/**
