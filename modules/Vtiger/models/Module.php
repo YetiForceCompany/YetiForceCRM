@@ -262,13 +262,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns the All filter for the module
-	 * @return <Int> custom filter id
+	 * @return int custom filter id
 	 */
 	public function getAllFilterCvidForModule()
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE viewname = 'All' && entitytype = ?", [$this->getName()]);
+		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE viewname = 'All' AND entitytype = ?", [$this->getName()]);
 		if ($result->rowCount()) {
 			return $db->getSingleValue($result);
 		}
