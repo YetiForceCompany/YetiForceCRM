@@ -40,6 +40,7 @@ class QueryGenerator
 	private $queryFields = [];
 	private $order = [];
 	private $sourceRecord;
+	private $concatColumn = [];
 
 	/**
 	 * @var boolean 
@@ -161,6 +162,15 @@ class QueryGenerator
 	public function setCustomColumn($columns)
 	{
 		$this->customColumns[] = $columns;
+	}
+
+	/**
+	 * Set concat column
+	 * @param type $columns
+	 */
+	public function setConcatColumn($fieldName, $concat)
+	{
+		$this->concatColumn[$fieldName] = $concat;
 	}
 
 	/**
@@ -442,16 +452,10 @@ class QueryGenerator
 		$this->fields = array_intersect($this->fields, $allFields);
 		$columns = [];
 		foreach ($this->fields as &$fieldName) {
-			$columns[$fieldName] = $this->getColumnName($fieldName);
-			//To merge date and time fields
-			if ($this->moduleName === 'Calendar' && ($fieldName === 'date_start' || $fieldName === 'due_date')) {
-				if ($fieldName === 'date_start') {
-					$timeField = 'time_start';
-					$columns[$fieldName] = $this->getColumnName($timeField);
-				} elseif ($fieldName === 'due_date') {
-					$timeField = 'time_end';
-					$columns[$fieldName] = $this->getColumnName($timeField);
-				}
+			if (isset($this->concatColumn[$fieldName])) {
+				$columns[$fieldName] = new \yii\db\Expression($this->concatColumn[$fieldName]);
+			} else {
+				$columns[$fieldName] = $this->getColumnName($fieldName);
 			}
 		}
 		foreach ($this->customColumns as $customColumn) {
