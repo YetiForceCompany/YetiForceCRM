@@ -17,6 +17,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	protected $listViewLinks = false;
 	protected $listViewHeaders = false;
 	protected $listViewModel;
+	protected $viewName;
 
 	public function __construct()
 	{
@@ -68,13 +69,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
-		if (App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
-			$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
-			if ($customViewModel) {
-				App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
-				App\CustomView::setCurrentView($moduleName, $this->viewName, false);
-			}
-		}
 		$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$this->initializeListViewContents($request, $viewer);
@@ -107,10 +101,20 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		if ($request->isAjax()) {
-			$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
-			if (App\CustomView::hasViewChanged($moduleName)) {
-				App\CustomView::setDefaultSortOrderBy($moduleName);
+			if (!isset($this->viewName)) {
+				$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
+			}
+			if (App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
+				$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
+				if ($customViewModel) {
+					App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
+				}
 				App\CustomView::setCurrentView($moduleName, $this->viewName);
+			} else {
+				App\CustomView::setDefaultSortOrderBy($moduleName);
+				if ($request->has('page')) {
+					App\CustomView::setCurrentPage($moduleName, $this->viewName, $request->get('page'));
+				}
 			}
 			$this->initializeListViewContents($request, $viewer);
 			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
@@ -201,9 +205,8 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$nextSortOrder = 'ASC';
 			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
-
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = App\CustomView::getCurrentPage($moduleName, $this->viewName);
 		}
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);

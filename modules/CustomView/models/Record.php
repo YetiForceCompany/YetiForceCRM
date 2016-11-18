@@ -906,18 +906,18 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance of Custom View module, given custom view id
-	 * @param <Integer> $cvId
+	 * @param int $cvId
 	 * @return CustomView_Record_Model instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($cvId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT * FROM vtiger_customview WHERE cvid = ?';
-		$params = array($cvId);
-		$result = $db->pquery($sql, $params);
-		if ($db->num_rows($result) > 0) {
-			$row = $db->query_result_rowdata($result, 0);
+		if (\App\Cache::has('CustomView_Record_ModelgetInstanceById', $cvId)) {
+			$row = \App\Cache::get('CustomView_Record_ModelgetInstanceById', $cvId);
+		} else {
+			$row = (new \App\Db\Query())->from('vtiger_customview')->where(['cvid' => $cvId])->one();
+			\App\Cache::save('CustomView_Record_ModelgetInstanceById', $cvId, $row, \App\Cache::LONG);
+		}
+		if ($row) {
 			$customView = new self();
 			return $customView->setData($row)->setModule($row['entitytype']);
 		}

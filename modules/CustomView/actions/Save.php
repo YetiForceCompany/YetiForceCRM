@@ -21,6 +21,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 		if (!$customViewModel->checkDuplicate()) {
 			$customViewModel->save();
 			$cvId = $customViewModel->getId();
+			\App\Cache::delete('CustomView_Record_ModelgetInstanceById', $cvId);
 			$response->setResult(array('id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId));
 		} else {
 			$response->setError(vtranslate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));

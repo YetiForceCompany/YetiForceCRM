@@ -223,7 +223,7 @@ class CustomView
 		if (!\AppRequest::isEmpty('viewname') && (\AppRequest::get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
-		if (!empty($viewId) && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
+		if ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
 		return false;
@@ -456,6 +456,7 @@ class CustomView
 			return $this->defaultViewId;
 		}
 		if ($noCache || \AppRequest::isEmpty('viewname')) {
+
 			if (!$noCache && self::getCurrentView($this->moduleName)) {
 				$viewId = self::getCurrentView($this->moduleName);
 			} else {
@@ -579,7 +580,7 @@ class CustomView
 				->from('vtiger_customview')
 				->where(['cvid' => $viewId])
 				->one();
-			if (!$row) {
+			if ($row) {
 				$this->cvStatus = $row['status'];
 				$this->cvUserId = $row['userid'];
 			} else {
