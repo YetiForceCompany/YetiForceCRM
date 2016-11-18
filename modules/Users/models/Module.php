@@ -22,7 +22,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		if ($sourceModule == 'Users' && $field == 'reports_to_id') {
 			if (!empty($record)) {
-				$queryGenerator->addAndConditionNative(['vtiger_users.id' => $record]);
+				$queryGenerator->addAndConditionNative(['<>', 'vtiger_users.id', $record]);
 			}
 		}
 	}

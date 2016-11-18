@@ -34,11 +34,11 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	 * Load list view conditions
 	 * @param string $moduleName
 	 */
-	public function loadListViewCondition($moduleName) {
+	public function loadListViewCondition() {
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->deletedCondition = false;
 		$queryGenerator->addAndConditionNative(['vtiger_crmentity.deleted' => 1]);
-		parent::loadListViewCondition($moduleName);
+		parent::loadListViewCondition();
 	}
 
 	/**

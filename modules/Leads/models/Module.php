@@ -175,11 +175,11 @@ class Leads_Module_Model extends Vtiger_Module_Model
 					->select(['crmid'])
 					->from('vtiger_crmentityrel')
 					->where(['relcrmid' => $record]);
-				$condition = ['and', ['not in', 'vtiger_leaddetails.leadid', $subQuery], ['not in', 'vtiger_contactdetails.contactid', $secondSubQuery]];
+				$condition = ['and', ['not in', 'vtiger_leaddetails.leadid', $subQuery], ['not in', 'vtiger_leaddetails.leadid', $secondSubQuery]];
 			} elseif ($sourceModule === 'Emails') {
 				$condition = ['vtiger_leaddetails.emailoptout' => 0];
 			} else {
-				$condition = ['not in', 'vtiger_contactdetails.contactid', (new App\Db\Query())->select([$fieldName])->from($tableName)->where([$relatedFieldName => $record])];
+				$condition = ['not in', 'vtiger_leaddetails.leadid', (new App\Db\Query())->select([$fieldName])->from($tableName)->where([$relatedFieldName => $record])];
 			}
 			$queryGenerator->addAndConditionNative($condition);
 		}

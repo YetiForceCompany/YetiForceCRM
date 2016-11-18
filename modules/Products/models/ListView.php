@@ -32,7 +32,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	{
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
-		$this->loadListViewCondition($moduleName);
+		$this->loadListViewCondition();
 		$this->loadListViewOrderBy();
 		$queryGenerator = $this->get('query_generator');
 		$query = $queryGenerator->createQuery();

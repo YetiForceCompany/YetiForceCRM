@@ -117,7 +117,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		return $links;
 	}
 
-	public function loadListViewCondition($moduleName)
+	public function loadListViewCondition()
 	{
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->setField('filetype');
@@ -125,6 +125,6 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		if (!empty($folderValue)) {
 			$queryGenerator->addAndCondition($this->get('folder_id'), $folderValue, 'e');
 		}
-		parent::loadListViewCondition($moduleName);
+		parent::loadListViewCondition();
 	}
 }
