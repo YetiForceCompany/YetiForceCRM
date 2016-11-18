@@ -104,7 +104,7 @@ class BaseField
 	 */
 	public function getOrderBy($order = false)
 	{
-		if ($order && strtolower($order) === 'desc') {
+		if ($order && strtoupper($order) === 'DESC') {
 			return [$this->getColumnName() => SORT_DESC];
 		} else {
 			return [$this->getColumnName() => SORT_ASC];
