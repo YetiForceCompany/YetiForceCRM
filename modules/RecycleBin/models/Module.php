@@ -137,7 +137,6 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 			$this->deleteFiles($recordIds);
 		}
 		$db->query('DELETE FROM vtiger_crmentity WHERE deleted = 1');
-		$db->query('DELETE FROM vtiger_relatedlists_rb');
 		return true;
 	}
 
@@ -147,17 +146,12 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 */
 	public function deleteRecords($recordIds)
 	{
-		$db = PearDatabase::getInstance();
 		//Delete the records in vtiger crmentity and relatedlists.
-		$where = sprintf('deleted = ? and crmid in(%s)', generateQuestionMarks($recordIds));
-		$db->delete('vtiger_crmentity', $where, [1, $recordIds]);
-
-		$where = sprintf('entityid in(%s)', generateQuestionMarks($recordIds));
-		$db->delete('vtiger_relatedlists_rb', $where, [$recordIds]);
-
+		\App\Db::getInstance()->createCommand()
+			->delete('vtiger_crmentity', ['deleted' => 1, 'crmid' => $recordIds])
+			->execute();
 		// Delete entries of attachments from vtiger_attachments and vtiger_seattachmentsrel
 		$this->deleteFiles($recordIds);
-
 	}
 	/*	 * Function to delete files from CRM.
 	 * @param type $recordIds

@@ -690,39 +690,12 @@ class Accounts extends CRMEntity
 	// Function to unlink the dependent records of the given record by id
 	public function unlinkDependencies($module, $id)
 	{
-
-		//Backup Contact-Account Relation
-		$con_q = 'SELECT contactid FROM vtiger_contactdetails WHERE parentid = ?';
-		$con_res = $this->db->pquery($con_q, array($id));
-		if ($this->db->num_rows($con_res) > 0) {
-			$con_ids_list = [];
-			$numRowsConRes = $this->db->num_rows($con_res);
-			for ($k = 0; $k < $numRowsConRes; $k++) {
-				$con_ids_list[] = $this->db->query_result($con_res, $k, "contactid");
-			}
-			$params = array($id, RB_RECORD_UPDATED, 'vtiger_contactdetails', 'parentid', 'contactid', implode(",", $con_ids_list));
-			$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES(?,?,?,?,?,?)', $params);
-		}
 		//Deleting Contact-Account Relation.
 		$con_q = 'UPDATE vtiger_contactdetails SET parentid = 0 WHERE parentid = ?';
 		$this->db->pquery($con_q, array($id));
-
-		//Backup Trouble Tickets-Account Relation
-		$tkt_q = 'SELECT ticketid FROM vtiger_troubletickets WHERE parent_id = ?';
-		$tkt_res = $this->db->pquery($tkt_q, array($id));
-		if ($this->db->num_rows($tkt_res) > 0) {
-			$tkt_ids_list = [];
-			$numRowsTktRes = $this->db->num_rows($tkt_res);
-			for ($k = 0; $k < $numRowsTktRes; $k++) {
-				$tkt_ids_list[] = $this->db->query_result($tkt_res, $k, "ticketid");
-			}
-			$params = array($id, RB_RECORD_UPDATED, 'vtiger_troubletickets', 'parent_id', 'ticketid', implode(",", $tkt_ids_list));
-			$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES(?,?,?,?,?,?)', $params);
-		}
 		//Deleting Trouble Tickets-Account Relation.
 		$tt_q = 'UPDATE vtiger_troubletickets SET parent_id = 0 WHERE parent_id = ?';
 		$this->db->pquery($tt_q, array($id));
-
 		parent::unlinkDependencies($module, $id);
 	}
 

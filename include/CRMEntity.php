@@ -1039,44 +1039,7 @@ class CRMEntity
 	/** Function to unlink all the dependent entities of the given Entity by Id */
 	public function unlinkDependencies($module, $id)
 	{
-
-
-		$result = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
-			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', [$module]);
-
-		while ($row = $this->db->fetch_array($result)) {
-			$tabId = $row['tabid'];
-			$tableName = $row['tablename'];
-			$columnName = $row['columnname'];
-
-			$relatedModule = vtlib\Functions::getModuleName($tabId);
-			$focusObj = CRMEntity::getInstance($relatedModule);
-
-			//Backup Field Relations for the deleted entity
-			$targetTableColumn = $focusObj->tab_name_index[$tableName];
-			//While deleting product record the $targetTableColumn should 'id'.
-			if ($tableName == 'vtiger_inventoryproductrel') {
-				$targetTableColumn = 'id';
-			}
-			$relQuery = "SELECT $targetTableColumn FROM $tableName WHERE $columnName=?";
-			$relResult = $this->db->pquery($relQuery, array($id));
-			$numOfRelRecords = $this->db->num_rows($relResult);
-			if ($numOfRelRecords > 0) {
-				$recordIdsList = [];
-				for ($k = 0; $k < $numOfRelRecords; $k++) {
-					$recordIdsList[] = $this->db->query_result($relResult, $k, $focusObj->table_index);
-				}
-				$params = [
-					'entityid' => $id,
-					'action' => RB_RECORD_UPDATED,
-					'rel_table' => $tableName,
-					'rel_column' => $columnName,
-					'ref_column' => $focusObj->table_index,
-					'related_crm_ids' => implode(",", $recordIdsList)
-				];
-				\App\Db::getInstance()->createCommand()->insert('vtiger_relatedlists_rb', $params)->execute();
-			}
-		}
+		
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
@@ -1146,9 +1109,6 @@ class CRMEntity
 			], 'crmid = ?', [$id]
 		);
 
-		//Restore related entities/records
-		$this->restoreRelatedRecords($module, $id);
-
 		//Event triggering code
 		require_once('include/events/include.inc');
 		$em = new VTEventsManager($db);
@@ -1163,41 +1123,6 @@ class CRMEntity
 		//Event triggering code ends
 
 		$db->completeTransaction();
-	}
-
-	/** Function to restore all the related records of a given record by id */
-	public function restoreRelatedRecords($module, $record)
-	{
-
-		$result = $this->db->pquery('SELECT * FROM vtiger_relatedlists_rb WHERE entityid = ?', array($record));
-		$numRows = $this->db->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$action = $this->db->query_result($result, $i, "action");
-			$rel_table = $this->db->query_result($result, $i, "rel_table");
-			$rel_column = $this->db->query_result($result, $i, "rel_column");
-			$ref_column = $this->db->query_result($result, $i, "ref_column");
-			$related_crm_ids = $this->db->query_result($result, $i, "related_crm_ids");
-
-			if (strtoupper($action) == RB_RECORD_UPDATED) {
-				$related_ids = explode(",", $related_crm_ids);
-				if ($rel_table == 'vtiger_crmentity' && $rel_column == 'deleted') {
-					$this->db->update($rel_table, [$rel_column => 0], "$ref_column IN (" . generateQuestionMarks($related_ids) . ")", [$related_ids]);
-				} else {
-					$this->db->update($rel_table, [$rel_column => $record], "$rel_column = 0 && $ref_column IN (" . generateQuestionMarks($related_ids) . ")", [$related_ids]);
-				}
-			} elseif (strtoupper($action) == RB_RECORD_DELETED) {
-				if ($rel_table == 'vtiger_seproductrel') {
-					$params = [$rel_column => $record, $ref_column => $related_crm_ids, 'setype' => $module];
-					$this->db->insert($rel_table, $params);
-				} else {
-					$params = [$rel_column => $record, $ref_column => $related_crm_ids];
-					$this->db->insert($rel_table, $params);
-				}
-			}
-		}
-
-		//Clean up the the backup data also after restoring
-		$this->db->delete('vtiger_relatedlists_rb', 'entityid = ?', [$record]);
 	}
 
 	/**

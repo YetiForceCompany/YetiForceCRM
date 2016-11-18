@@ -7495,23 +7495,6 @@ CREATE TABLE `vtiger_relatedlists_fields` (
   KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_relatedlists_rb` */
-
-CREATE TABLE `vtiger_relatedlists_rb` (
-  `entityid` int(19) DEFAULT NULL,
-  `action` varchar(50) DEFAULT NULL,
-  `rel_table` varchar(200) DEFAULT NULL,
-  `rel_column` varchar(200) DEFAULT NULL,
-  `ref_column` varchar(200) DEFAULT NULL,
-  `related_crm_ids` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_relatedlists_seq` */
-
-CREATE TABLE `vtiger_relatedlists_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_relcriteria` */
 
 CREATE TABLE `vtiger_relcriteria` (

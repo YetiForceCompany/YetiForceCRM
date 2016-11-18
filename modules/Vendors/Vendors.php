@@ -371,19 +371,19 @@ class Vendors extends CRMEntity
 		}
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_vendor", "vendorid", $queryplanner);
 		if ($queryplanner->requireTable("vtiger_crmentityVendors", $matrix)) {
-			$query .=" left join vtiger_crmentity as vtiger_crmentityVendors on vtiger_crmentityVendors.crmid=vtiger_vendor.vendorid and vtiger_crmentityVendors.deleted=0";
+			$query .= " left join vtiger_crmentity as vtiger_crmentityVendors on vtiger_crmentityVendors.crmid=vtiger_vendor.vendorid and vtiger_crmentityVendors.deleted=0";
 		}
 		if ($queryplanner->requireTable("vtiger_vendorcf")) {
-			$query .=" left join vtiger_vendorcf on vtiger_vendorcf.vendorid = vtiger_crmentityVendors.crmid";
+			$query .= " left join vtiger_vendorcf on vtiger_vendorcf.vendorid = vtiger_crmentityVendors.crmid";
 		}
 		if ($queryplanner->requireTable("vtiger_email_trackVendors")) {
-			$query .=" LEFT JOIN vtiger_email_track AS vtiger_email_trackVendors ON vtiger_email_trackVendors.crmid = vtiger_vendor.vendorid";
+			$query .= " LEFT JOIN vtiger_email_track AS vtiger_email_trackVendors ON vtiger_email_trackVendors.crmid = vtiger_vendor.vendorid";
 		}
 		if ($queryplanner->requireTable("vtiger_usersVendors")) {
-			$query .=" left join vtiger_users as vtiger_usersVendors on vtiger_usersVendors.id = vtiger_crmentityVendors.smownerid";
+			$query .= " left join vtiger_users as vtiger_usersVendors on vtiger_usersVendors.id = vtiger_crmentityVendors.smownerid";
 		}
 		if ($queryplanner->requireTable("vtiger_lastModifiedByVendors")) {
-			$query .=" left join vtiger_users as vtiger_lastModifiedByVendors on vtiger_lastModifiedByVendors.id = vtiger_crmentityVendors.modifiedby ";
+			$query .= " left join vtiger_users as vtiger_lastModifiedByVendors on vtiger_lastModifiedByVendors.id = vtiger_crmentityVendors.modifiedby ";
 		}
 		if ($queryplanner->requireTable("vtiger_createdbyVendors")) {
 			$query .= " left join vtiger_users as vtiger_createdbyVendors on vtiger_createdbyVendors.id = vtiger_crmentityVendors.smcreatorid ";
@@ -412,19 +412,6 @@ class Vendors extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-
-		//Backup Product-Vendor Relation
-		$pro_q = 'SELECT productid FROM vtiger_products WHERE vendor_id=?';
-		$pro_res = $this->db->pquery($pro_q, array($id));
-		if ($this->db->num_rows($pro_res) > 0) {
-			$pro_ids_list = array();
-			$numRowsPro = $this->db->num_rows($pro_res);
-			for ($k = 0; $k < $numRowsPro; $k++) {
-				$pro_ids_list[] = $this->db->query_result($pro_res, $k, "productid");
-			}
-			$params = array($id, RB_RECORD_UPDATED, 'vtiger_products', 'vendor_id', 'productid', implode(",", $pro_ids_list));
-			$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
-		}
 		//Deleting Product-Vendor Relation.
 		$pro_q = 'UPDATE vtiger_products SET vendor_id = 0 WHERE vendor_id = ?';
 		$this->db->pquery($pro_q, array($id));

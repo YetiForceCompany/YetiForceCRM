@@ -21437,10 +21437,6 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
-/*Data for the table `vtiger_relatedlists_rb` */
-
-/*Data for the table `vtiger_relatedlists_seq` */
-
 insert  into `vtiger_relatedlists_seq`(`id`) values (524);
 
 /*Data for the table `vtiger_relcriteria` */

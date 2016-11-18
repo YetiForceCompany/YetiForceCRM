@@ -855,22 +855,8 @@ class Products extends CRMEntity
 	// Function to unlink all the dependent entities of the given Entity by Id
 	public function unlinkDependencies($module, $id)
 	{
-
-		//Backup Campaigns-Product Relation
-		$cmp_q = 'SELECT campaignid FROM vtiger_campaign WHERE product_id = ?';
-		$cmp_res = $this->db->pquery($cmp_q, array($id));
-		if ($this->db->num_rows($cmp_res) > 0) {
-			$cmp_ids_list = array();
-			$numRowsCmp = $this->db->num_rows($cmp_res);
-			for ($k = 0; $k < $numRowsCmp; $k++) {
-				$cmp_ids_list[] = $this->db->query_result($cmp_res, $k, "campaignid");
-			}
-			$params = array($id, RB_RECORD_UPDATED, 'vtiger_campaign', 'product_id', 'campaignid', implode(",", $cmp_ids_list));
-			$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
-		}
 		//we have to update the product_id as null for the campaigns which are related to this product
 		$this->db->pquery('UPDATE vtiger_campaign SET product_id=0 WHERE product_id = ?', array($id));
-
 		$this->db->pquery('DELETE from vtiger_seproductsrel WHERE productid=? or crmid=?', array($id, $id));
 
 		parent::unlinkDependencies($module, $id);

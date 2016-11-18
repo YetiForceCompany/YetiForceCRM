@@ -134,25 +134,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_relatedlists_rb' => [
-				'columns' => [
-					'entityid' => $this->integer(),
-					'action' => $this->stringType(50),
-					'rel_table' => $this->stringType(200),
-					'rel_column' => $this->stringType(200),
-					'ref_column' => $this->stringType(200),
-					'related_crm_ids' => $this->text(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_relatedlists_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_relcriteria' => [
 				'columns' => [
 					'queryid' => $this->integer()->notNull(),
