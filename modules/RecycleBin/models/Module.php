@@ -126,17 +126,14 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 */
 	public function emptyRecycleBin()
 	{
-		$db = PearDatabase::getInstance();
-		$getIdsQuery = 'SELECT crmid from vtiger_crmentity WHERE deleted=?';
-		$result = $db->pquery($getIdsQuery, [1]);
-		$recordIds = [];
-		while (($crmid = $db->getSingleValue($result)) !== false) {
-			$recordIds[] = $crmid;
-		}
-		if (count($recordIds)) {
+		$recordIds = (new \App\Db\Query())->select('crmid')->from('vtiger_crmentity')->where(['deleted' => 1])->column();
+		if ($recordIds) {
+			$this->deletePerminently($recordIds);
 			$this->deleteFiles($recordIds);
 		}
-		$db->query('DELETE FROM vtiger_crmentity WHERE deleted = 1');
+		\App\Db::getInstance()->createCommand()
+			->delete('vtiger_crmentity', ['deleted' => 1, 'crmid' => $recordIds])
+			->execute();
 		return true;
 	}
 
@@ -146,6 +143,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 */
 	public function deleteRecords($recordIds)
 	{
+		$this->deletePerminently($recordIds);
 		//Delete the records in vtiger crmentity and relatedlists.
 		\App\Db::getInstance()->createCommand()
 			->delete('vtiger_crmentity', ['deleted' => 1, 'crmid' => $recordIds])
@@ -156,6 +154,15 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	/*	 * Function to delete files from CRM.
 	 * @param type $recordIds
 	 */
+
+	public function deletePerminently($recordIds)
+	{
+		foreach ($recordIds as &$recordId) {
+			$moduleName = App\Record::getType($recordId);
+			$entity = CRMEntity::getInstance($moduleName);
+			$entity->deletePerminently($moduleName, $recordId);
+		}
+	}
 
 	public function deleteFiles($recordIds)
 	{

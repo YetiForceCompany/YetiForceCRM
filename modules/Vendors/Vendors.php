@@ -409,14 +409,15 @@ class Vendors extends CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	// Function to unlink all the dependent entities of the given Entity by Id
-	public function unlinkDependencies($module, $id)
+	/**
+	 * Function to unlink all the dependent entities of the given Entity by Id
+	 * @param string $moduleName
+	 * @param int $recordId
+	 */
+	public function deletePerminently($moduleName, $recordId)
 	{
-		//Deleting Product-Vendor Relation.
-		$pro_q = 'UPDATE vtiger_products SET vendor_id = 0 WHERE vendor_id = ?';
-		$this->db->pquery($pro_q, array($id));
-
-		parent::unlinkDependencies($module, $id);
+		\App\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => 0], ['vendor_id' => $recordId])->execute();
+		parent::deletePerminently($moduleName, $recordId);
 	}
 
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)

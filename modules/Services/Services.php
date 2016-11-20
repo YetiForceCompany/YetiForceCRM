@@ -699,13 +699,15 @@ class Services extends CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	// Function to unlink all the dependent entities of the given Entity by Id
-	public function unlinkDependencies($module, $id)
+	/**
+	 * Function to unlink all the dependent entities of the given Entity by Id
+	 * @param string $moduleName
+	 * @param int $recordId
+	 */
+	public function deletePerminently($moduleName, $recordId)
 	{
-
-		$this->db->pquery('DELETE from vtiger_seproductsrel WHERE productid=? or crmid=?', array($id, $id));
-
-		parent::unlinkDependencies($module, $id);
+		\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $recordId], ['crmid' => $recordId]])->execute();
+		parent::deletePerminently($moduleName, $recordId);
 	}
 
 	/**

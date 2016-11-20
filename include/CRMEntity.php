@@ -1028,7 +1028,6 @@ class CRMEntity
 			$em->triggerEvent("vtiger.entity.beforedelete", $entityData);
 		}
 		$this->mark_deleted($id);
-		$this->unlinkDependencies($module, $id);
 		\App\Db::getInstance()->createCommand()->delete('vtiger_tracker', ['user_id' => \App\User::getCurrentUserId(), 'item_id' => $id])->execute();
 
 		if ($em) {
@@ -1036,8 +1035,12 @@ class CRMEntity
 		}
 	}
 
-	/** Function to unlink all the dependent entities of the given Entity by Id */
-	public function unlinkDependencies($module, $id)
+	/**
+	 * Function to unlink all the dependent entities of the given Entity by Id
+	 * @param string $moduleName
+	 * @param int $recordId
+	 */
+	public function deletePerminently($moduleName, $recordId)
 	{
 		
 	}

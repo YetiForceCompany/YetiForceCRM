@@ -687,16 +687,17 @@ class Accounts extends CRMEntity
 		return $child_accounts;
 	}
 
-	// Function to unlink the dependent records of the given record by id
-	public function unlinkDependencies($module, $id)
+	/**
+	 * Function to unlink all the dependent entities of the given Entity by Id
+	 * @param string $moduleName
+	 * @param int $recordId
+	 */
+	public function deletePerminently($moduleName, $recordId)
 	{
-		//Deleting Contact-Account Relation.
-		$con_q = 'UPDATE vtiger_contactdetails SET parentid = 0 WHERE parentid = ?';
-		$this->db->pquery($con_q, array($id));
-		//Deleting Trouble Tickets-Account Relation.
-		$tt_q = 'UPDATE vtiger_troubletickets SET parent_id = 0 WHERE parent_id = ?';
-		$this->db->pquery($tt_q, array($id));
-		parent::unlinkDependencies($module, $id);
+		$db = \App\Db::getInstance();
+		$db->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['parentid' => $recordId])->execute();
+		$db->createCommand()->update('vtiger_troubletickets', ['parent_id' => 0], ['parent_id' => $recordId])->execute();
+		parent::deletePerminently($moduleName, $recordId);
 	}
 
 	// Function to unlink an entity with given Id from another entity
