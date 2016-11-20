@@ -221,21 +221,4 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
 	}
-
-	/**
-	 * Function to check whether the lead is converted or not
-	 * @return True if the Lead is Converted false otherwise.
-	 */
-	public function isLeadConverted()
-	{
-		$db = PearDatabase::getInstance();
-		$id = $this->getId();
-		$sql = "select converted from vtiger_leaddetails where converted = 1 and leadid=?";
-		$result = $db->pquery($sql, array($id));
-		$rowCount = $db->num_rows($result);
-		if ($rowCount > 0) {
-			return true;
-		}
-		return false;
-	}
 }

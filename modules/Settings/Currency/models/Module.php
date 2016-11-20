@@ -32,11 +32,6 @@ class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 		return self::tableName;
 	}
 
-	public static function tranformCurrency($oldCurrencyId, $newCurrencyId)
-	{
-		return transferCurrency($oldCurrencyId, $newCurrencyId);
-	}
-
 	public static function delete($recordId)
 	{
 		\App\Db::getInstance()->createCommand()->update(self::tableName, ['deleted' => 1], ['id' => $recordId])->execute();

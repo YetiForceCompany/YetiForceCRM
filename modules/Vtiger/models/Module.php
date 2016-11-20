@@ -1532,20 +1532,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get Non admin access control query
-	 * @param <String> $relatedModuleName
-	 * @return <String>
-	 */
-	public function getNonAdminAccessControlQueryForRelation($relatedModuleName)
-	{
-		$modulesList = array('Faq', 'PriceBook', 'Users');
-
-		if (!in_array($relatedModuleName, $modulesList)) {
-			return Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleName);
-		}
-	}
-
-	/**
 	 * Function returns the default column for Alphabetic search
 	 * @return <String> columnname
 	 */

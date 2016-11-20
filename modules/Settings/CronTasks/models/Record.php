@@ -190,7 +190,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
-		if(empty($recordId))
+		if (empty($recordId))
 			return false;
 		$row = (new \App\Db\Query())
 			->from('vtiger_cron_task')
@@ -248,6 +248,10 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getMinimumFrequency()
 	{
-		return getMinimumCronFrequency() * 60;
+		$frequency = AppConfig::main('MINIMUM_CRON_FREQUENCY');
+		if (!empty($frequency)) {
+			return $frequency * 60;
+		}
+		return 60;
 	}
 }
