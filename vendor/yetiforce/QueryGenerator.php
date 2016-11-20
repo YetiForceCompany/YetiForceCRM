@@ -663,7 +663,7 @@ class QueryGenerator
 			return $this->queryFields[$fieldName];
 		}
 		if ($fieldName === 'id') {
-			$queryField = new \App\QueryField\IdField($this, '');
+			$queryField = new QueryField\IdField($this, '');
 			return $this->queryFields[$fieldName] = $queryField;
 		}
 		$field = $this->getModuleField($fieldName);
@@ -753,14 +753,14 @@ class QueryGenerator
 				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
 				$field = $this->getModuleField($fieldName);
 				if ($field->getFieldDataType() === 'tree' && $specialOption) {
-					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
+					$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
 				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					$fieldValue = \Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
 				if ($field->getFieldDataType() === 'currency') {
-					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
+					$fieldValue = \CurrencyField::convertToDBFormat($fieldValue);
 				}
 				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
 					$dateValues = explode(',', $fieldValue);
