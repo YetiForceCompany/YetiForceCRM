@@ -8025,8 +8025,6 @@ class Base4 extends \App\Db\Importers\Base
 						[30, 'ProjectTask', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 						[31, 'Project', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 						[32, 'SMSNotifier', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
-						[34, 'Tax', 'include/Webservices/LineItem/VtigerTaxOperation.php', 'VtigerTaxOperation', 0],
-						[35, 'ProductTaxes', 'include/Webservices/LineItem/VtigerProductTaxesOperation.php', 'VtigerProductTaxesOperation', 0],
 						[37, 'OSSMailTemplates', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 						[38, 'OSSTimeControl', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 						[39, 'OSSMailView', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
