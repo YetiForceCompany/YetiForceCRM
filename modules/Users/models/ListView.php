@@ -73,6 +73,18 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
+	 * Load list view conditions
+	 */
+	public function loadListViewCondition()
+	{
+		$searchKey = $this->get('search_key');
+		if (!empty($searchKey) && $searchKey === 'status') {
+			$this->get('query_generator')->deletedCondition = false;
+		}
+		parent::loadListViewCondition();
+	}
+	
+	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel, $status (Active or Inactive User). Default false
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
