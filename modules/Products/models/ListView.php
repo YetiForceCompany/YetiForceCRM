@@ -23,6 +23,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		}
 		parent::loadListViewOrderBy();
 	}
+
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
@@ -49,8 +50,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			}
 			if (in_array($moduleName, ['Products', 'Services'])) {
 				$query->andWhere(['or',
-					['vtiger_crmentityrel.crmid' => $salesProcessId, 'module' => 'SSalesProcesses'],
-					['vtiger_crmentityrel.relcrmid' => $salesProcessId, 'relmodule' => 'SSalesProcesses']
+						['vtiger_crmentityrel.crmid' => $salesProcessId, 'module' => 'SSalesProcesses'],
+						['vtiger_crmentityrel.relcrmid' => $salesProcessId, 'relmodule' => 'SSalesProcesses']
 				]);
 			}
 		}
@@ -64,6 +65,9 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		if ($sourceModule !== 'PriceBooks' && $sourceField !== 'priceBookRelatedList') {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
+		echo '<pre>', print_r($query->createCommand()->getRawSql());
+		echo '</pre>';
+		exit;
 		$rows = $query->all();
 		$count = count($rows);
 		$pagingModel->calculatePageRange($count);

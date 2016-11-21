@@ -175,7 +175,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to save the role
+	 * Function to save the tree
 	 */
 	public function save()
 	{
@@ -185,7 +185,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()
 				->insert('vtiger_trees_templates', ['name' => $this->get('name'), 'module' => $this->get('module')])
 				->execute();
-			$this->set('templateid', $db->getLastInsertID('vtiger_trees_templates_templateid_seq'));
+			$this->set('templateid', $db->getLastInsertID('vtiger_trees_templates'));
 			foreach ($this->get('tree') as $tree) {
 				$this->insertData($tree, 0, '');
 			}
@@ -202,6 +202,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('replace')) {
 			$this->replaceValue($this->get('replace'), $this->get('module'), $templateId);
 		}
+		$this->clearCache();
 	}
 
 	/**
@@ -245,6 +246,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$db->createCommand()
 			->delete('vtiger_trees_templates_data', ['templateid' => $templateId])
 			->execute();
+		$this->clearCache();
 	}
 
 	public function getChildren($fieldValue, $fieldName, $moduleModel)
@@ -290,5 +292,13 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			return $instance;
 		}
 		return null;
+	}
+
+	/**
+	 * Function clears cache
+	 */
+	public function clearCache()
+	{
+		\App\Cache::delete('TreeData', $this->getId());
 	}
 }
