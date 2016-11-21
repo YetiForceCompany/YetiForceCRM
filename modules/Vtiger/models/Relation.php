@@ -24,7 +24,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns the relation id
-	 * @return <Integer>
+	 * @return int
 	 */
 	public function getId()
 	{
@@ -33,7 +33,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function sets the relation's parent module model
-	 * @param <Vtiger_Module_Model> $moduleModel
+	 * @param Vtiger_Module_Model $moduleModel
 	 * @return Vtiger_Relation_Model
 	 */
 	public function setParentModuleModel($moduleModel)
@@ -44,7 +44,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function that returns the relation's parent module model
-	 * @return <Vtiger_Module_Model>
+	 * @return Vtiger_Module_Model
 	 */
 	public function getParentModuleModel()
 	{
@@ -54,12 +54,21 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->parentModule;
 	}
 
+	/**
+	 * Set relation's parent module model
+	 * @param Vtiger_Module_Model $relationModel
+	 * @return $this
+	 */
 	public function setRelationModuleModel($relationModel)
 	{
 		$this->relatedModule = $relationModel;
 		return $this;
 	}
 
+	/**
+	 * Function that returns the relation's related module model
+	 * @return Vtiger_Module_Model
+	 */
 	public function getRelationModuleModel()
 	{
 		if (empty($this->relatedModule)) {
@@ -68,6 +77,10 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->relatedModule;
 	}
 
+	/**
+	 * Get relation module name
+	 * @return string
+	 */
 	public function getRelationModuleName()
 	{
 		$relationModuleName = $this->get('relatedModuleName');
@@ -85,6 +98,39 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function isAddActionSupported()
 	{
 		return $this->isActionSupported('add');
+	}
+
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function showCreatorDetail()
+	{
+		if ($this->getRelationType() !== self::RELATION_INDIRECT) {
+			return false;
+		}
+		return $this->get('creator_detail');
+	}
+
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public function showComment()
+	{
+		if ($this->getRelationType() !== self::RELATION_INDIRECT) {
+			return false;
+		}
+		return $this->get('relation_comment');
+	}
+
+	/**
+	 * Get query generator instance
+	 * @return \App\QueryGenerator
+	 */
+	public function getQueryGenerator()
+	{
+		return $this->get('query_generator');
 	}
 
 	/**
@@ -138,12 +184,8 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$relatedModuleName = $relatedModuleModel->getName();
 		$functionName = $this->get('name');
 		if ($this->get('newQG')) {
-			switch ($functionName) {
-				case 'get_dependents_list':
-					$this->getOneToMeny();
-
-					break;
-			}
+			$queryGenerator = $this->getQueryGenerator();
+			$queryGenerator->setSourceRecord($this->get('parentRecord')->getId());
 			/*
 			  if (method_exists($this, $functionName)) {
 			  $this->$functionName();
@@ -152,7 +194,39 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			  throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION');
 			  }
 			 */
+			switch ($functionName) {
+				case 'get_dependents_list':
+					$this->getDependentsList();
 
+					break;
+			}
+			/**
+			 * Get fields from panel
+			 */
+			$relatedListFields = App\Field::getFieldsFromRelation($this->getId());
+			if (!$relatedListFields) {
+				/**
+				 * Get fields from summary
+				 */
+				$relatedListFields = array_keys($relatedModuleModel->getSummaryViewFieldsList());
+				if ($relatedModuleName === 'Documents') {
+					$relatedListFields[] = 'filelocationtype';
+					$relatedListFields[] = 'filestatus';
+					$relatedListFields[] = 'filetype';
+				}
+			}
+			if (!$relatedListFields) {
+				//????????
+				if ($this->showCreatorDetail()) {
+					$queryGenerator->setCustomColumn('rel_created_user');
+					$queryGenerator->setCustomColumn('rel_created_time');
+				}
+				if ($this->showComment()) {
+					$queryGenerator->setCustomColumn('rel_comment');
+				}
+			}
+			$relatedListFields[] = 'id';
+			$queryGenerator->setFields($relatedListFields);
 			return '';
 		}
 
@@ -171,26 +245,55 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $query;
 	}
 
-	public function getOneToMeny()
+	/**
+	 * Get dependents record list
+	 */
+	public function getDependentsList()
 	{
-		$parentModuleModel = $this->getParentModuleModel();
-		$relatedModuleModel = $this->getRelationModuleModel();
-		$parentModuleName = $parentModuleModel->getName();
-		$relatedModuleName = $relatedModuleModel->getName();
-
-		$fieldRel = App\Field::getFieldModuleRel($relatedModuleName, $parentModuleName);
-		if (!$fieldRel) {
-			App\Log::error("Not Found relationships field: RelatedModuleName: $relatedModuleName | ParentModuleName: $parentModuleName  in " . __METHOD__);
-			throw new \Exception\AppException('LBL_INVALID_RELATION');
-		}
-		$fields = vtlib\Functions::getModuleFieldInfos($relatedModuleName);
-		foreach ($fields as &$field) {
-			if ($field['fieldid'] === $fieldRel['fieldid'] && $field['uitype'] === 10) {
-				//var_dump($field);
-			}
-		}
+		$fieldModel = $this->getRelationField(true);
+		$this->getQueryGenerator()->addAndConditionNative([
+			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId()
+		]);
 	}
 
+	/**
+	 * Function to get relation field for relation module and parent module
+	 * @return Vtiger_Field_Model
+	 */
+	public function getRelationField()
+	{
+		$relationField = $this->get('relationField');
+		if (!$relationField) {
+			$relatedModuleModel = $this->getRelationModuleModel();
+			$parentModuleName = $this->getParentModuleModel()->getName();
+			$relatedModuleName = $relatedModuleModel->getName();
+			$fieldRel = App\Field::getFieldModuleRel($relatedModuleName, $parentModuleName);
+			$relatedModelFields = $relatedModuleModel->getFields();
+			foreach ($relatedModelFields as &$fieldModel) {
+				if ($fieldModel->getId() === $fieldRel['fieldid'] && $fieldModel->getUIType() === 10) {
+					$relationField = $fieldModel;
+					break;
+				}
+			}
+			if (!$relationField) {
+				foreach ($relatedModelFields as &$fieldModel) {
+					if ($fieldModel->isReferenceField()) {
+						$referenceList = $fieldModel->getReferenceList();
+						if (!empty($referenceList) && in_array($parentModuleName, $referenceList)) {
+							$relationField = $fieldModel;
+							break;
+						}
+					}
+				}
+			}
+			if (!$relationField) {
+				App\Log::error("Not Found relationships field: RelatedModuleName: $relatedModuleName | ParentModuleName: $parentModuleName  in " . __METHOD__);
+				throw new \Exception\AppException('LBL_INVALID_RELATION');
+			}
+			$this->set('relationField', $relationField);
+		}
+		return $relationField;
+	}
 	/**
 	 * 
 	 * 
@@ -200,6 +303,25 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	 * 
 	 * 
 	 */
+
+	/**
+	 * Function which will specify whether the relation is editable
+	 * @return <Boolean>
+	 */
+	public function isEditable()
+	{
+		return $this->getRelationModuleModel()->isPermitted('EditView');
+	}
+
+	/**
+	 * Function which will specify whether the relation is deletable
+	 * @return <Boolean>
+	 */
+	public function isDeletable()
+	{
+		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
+	}
+
 	public function getActions()
 	{
 		$actionString = $this->get('actions');
@@ -318,40 +440,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->relationType;
 	}
 
-	/**
-	 * Function which will specify whether the relation is editable
-	 * @return <Boolean>
-	 */
-	public function isEditable()
-	{
-		return $this->getRelationModuleModel()->isPermitted('EditView');
-	}
-
-	/**
-	 * Function which will specify whether the relation is deletable
-	 * @return <Boolean>
-	 */
-	public function isDeletable()
-	{
-		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
-	}
-
-	public function showCreatorDetail()
-	{
-		if ($this->getRelationType() != 2) {
-			return false;
-		}
-		return $this->get('creator_detail');
-	}
-
-	public function showComment()
-	{
-		if ($this->getRelationType() != 2) {
-			return false;
-		}
-		return $this->get('relation_comment');
-	}
-
 	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
 		$query = new \App\Db\Query();
@@ -383,33 +471,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$relationModels[] = $relationModel;
 		}
 		return $relationModels;
-	}
-
-	/**
-	 * Function to get relation field for relation module and parent module
-	 * @return Vtiger_Field_Model
-	 */
-	public function getRelationField()
-	{
-		$relationField = $this->get('relationField');
-		if (!$relationField) {
-			$relationField = false;
-			$relatedModel = $this->getRelationModuleModel();
-			$parentModule = $this->getParentModuleModel();
-			$relatedModelFields = $relatedModel->getFields();
-
-			foreach ($relatedModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
-					$referenceList = $fieldModel->getReferenceList();
-					if (!empty($referenceList) && in_array($parentModule->getName(), $referenceList)) {
-						$this->set('relationField', $fieldModel);
-						$relationField = $fieldModel;
-						break;
-					}
-				}
-			}
-		}
-		return $relationField;
 	}
 
 	public function getAutoCompleteField($recordModel)
@@ -559,6 +620,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 	}
 
+	/**
+	 * @todo To remove after rebuilding relations
+	 */
 	public function getRelationFields($onlyFields = false, $association = false)
 	{
 		$query = (new \App\Db\Query())->select('vtiger_field.columnname, vtiger_field.fieldname')

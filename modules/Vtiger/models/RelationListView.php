@@ -55,6 +55,49 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		return $this->relatedModuleModel;
 	}
 
+	/**
+	 * Get relation list view model instance
+	 * @param Vtiger_Module_Model $parentRecordModel
+	 * @param Vtiger_Module_Model $relationModuleName
+	 * @param string|boolean $label
+	 * @return self
+	 */
+	public static function getInstance($parentRecordModel, $relationModuleName, $label = false)
+	{
+		$parentModuleName = $parentRecordModel->getModule()->get('name');
+		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
+		$instance = new $className();
+
+		$parentModuleModel = $parentRecordModel->getModule();
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($relationModuleName);
+		$instance->setRelatedModuleModel($relatedModuleModel);
+
+		$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel, $label);
+		$instance->setParentRecordModel($parentRecordModel);
+
+		if (!$relationModel) {
+			$relatedModuleName = $relatedModuleModel->getName();
+			$parentModuleModel = $instance->getParentRecordModel()->getModule();
+			$referenceFieldOfParentModule = $parentModuleModel->getFieldsByType('reference');
+			foreach ($referenceFieldOfParentModule as $fieldName => $fieldModel) {
+				$refredModulesOfReferenceField = $fieldModel->getReferenceList();
+				if (in_array($relatedModuleName, $refredModulesOfReferenceField)) {
+					$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
+					$relationModel = new $relationModelClassName();
+					$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+					$parentModuleModel->set('directRelatedFieldName', $fieldModel->get('column'));
+				}
+			}
+		}
+		if (!$relationModel) {
+			$relationModel = false;
+		} else {
+			$queryGenerator = new QueryGenerator($relatedModuleModel->getName(), Users_Record_Model::getCurrentUserModel());
+		}
+		$instance->setRelationModel($relationModel)->set('query_generator', $queryGenerator);
+		return $instance;
+	}
+
 	public function getCreateViewUrl()
 	{
 		$relationModel = $this->getRelationModel();
@@ -443,12 +486,17 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relationModel = $this->getRelationModel();
 		$relatedModuleModel = $this->getRelatedModuleModel();
 		$relatedModuleName = $relatedModuleModel->getName();
-		$this->loadCondition($relationModuleName);
+		//$this->loadCondition($relationModuleName);
+		$queryGenerator = $this->get('query_generator');
 		if (!empty($relationModel) && $relationModel->get('name') != NULL) {
 			$recordModel = $this->getParentRecordModel();
+
 			if ($this->get('newQG')) {
+				$relationModel->set('query_generator', $queryGenerator);
 				$relationModel->set('parentRecord', $recordModel);
 				$relationModel->set('newQG', true);
+				$relationModel->getQuery($recordModel, false, $this);
+				return $queryGenerator;
 			}
 			$this->query = $relationModel->getQuery($recordModel, false, $this);
 			return $this->query;
@@ -464,7 +512,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$parentModuleDirectRelatedField = $parentModuleModel->get('directRelatedFieldName');
 
 		$relatedModuleFields = array_keys($this->getHeaders());
-		$queryGenerator = $this->get('query_generator');
+
 		$queryGenerator->setFields($relatedModuleFields);
 
 		$joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
@@ -489,49 +537,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 		$this->query = trim($query, ' WHERE ');
 		return $this->query;
-	}
-
-	/**
-	 * Get relation list view model instance
-	 * @param Vtiger_Module_Model $parentRecordModel
-	 * @param Vtiger_Module_Model $relationModuleName
-	 * @param string|boolean $label
-	 * @return self
-	 */
-	public static function getInstance($parentRecordModel, $relationModuleName, $label = false)
-	{
-		$parentModuleName = $parentRecordModel->getModule()->get('name');
-		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
-		$instance = new $className();
-
-		$parentModuleModel = $parentRecordModel->getModule();
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relationModuleName);
-		$instance->setRelatedModuleModel($relatedModuleModel);
-
-		$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel, $label);
-		$instance->setParentRecordModel($parentRecordModel);
-
-		if (!$relationModel) {
-			$relatedModuleName = $relatedModuleModel->getName();
-			$parentModuleModel = $instance->getParentRecordModel()->getModule();
-			$referenceFieldOfParentModule = $parentModuleModel->getFieldsByType('reference');
-			foreach ($referenceFieldOfParentModule as $fieldName => $fieldModel) {
-				$refredModulesOfReferenceField = $fieldModel->getReferenceList();
-				if (in_array($relatedModuleName, $refredModulesOfReferenceField)) {
-					$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
-					$relationModel = new $relationModelClassName();
-					$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
-					$parentModuleModel->set('directRelatedFieldName', $fieldModel->get('column'));
-				}
-			}
-		}
-		if (!$relationModel) {
-			$relationModel = false;
-		} else {
-			$queryGenerator = new QueryGenerator($relatedModuleModel->getName(), Users_Record_Model::getCurrentUserModel());
-		}
-		$instance->setRelationModel($relationModel)->set('query_generator', $queryGenerator);
-		return $instance;
 	}
 
 	/**

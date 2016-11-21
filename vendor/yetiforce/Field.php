@@ -163,4 +163,21 @@ class Field
 		}
 		return $filedsRel;
 	}
+
+	/**
+	 * Get fields from relation by relation Id
+	 * @param int $relationId
+	 * @return string[]
+	 */
+	public static function getFieldsFromRelation($relationId)
+	{
+		if (Cache::has('getFieldsFromRelation', $relationId)) {
+			$fields = Cache::get('getFieldsFromRelation', $relationId);
+		} else {
+			$fields = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_relatedlists_fields')
+					->where(['relation_id' => $relationId])->column();
+			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
+		}
+		return $fields;
+	}
 }
