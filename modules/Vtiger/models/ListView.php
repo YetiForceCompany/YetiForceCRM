@@ -25,6 +25,54 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
+	 * @param string $moduleName - Module Name
+	 * @param int $viewId - Custom View Id
+	 * @return Vtiger_ListView_Model instance
+	 */
+	public static function getInstance($moduleName, $viewId = 0)
+	{
+		$cacheName = $viewId . ':' . $moduleName;
+		if (\App\Cache::staticHas('ListView_Model', $cacheName)) {
+			return \App\Cache::staticGet('ListView_Model', $cacheName);
+		}
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
+		$instance = new $modelClassName();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
+		if (!empty($viewId) && $viewId != 0) {
+			$queryGenerator->initForCustomViewById($viewId);
+		} else {
+			if (!$queryGenerator->initForDefaultCustomView()) {
+				$queryGenerator->loadListFields();
+			}
+		}
+		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
+		\App\Cache::staticGet('ListView_Model', $cacheName, $instance);
+		return $instance;
+	}
+
+	/**
+	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
+	 * @param string $value - Module Name
+	 * @return Vtiger_ListView_Model instance
+	 */
+	public static function getInstanceForPopup($value, $sourceModule = false)
+	{
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
+		$instance = new $modelClassName();
+		$moduleModel = Vtiger_Module_Model::getInstance($value);
+		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
+		if (!$sourceModule && !empty($sourceModule)) {
+			$moduleModel->set('sourceModule', $sourceModule);
+		}
+		$listFields = $moduleModel->getPopupViewFieldsList($sourceModule);
+		$listFields[] = 'id';
+		$queryGenerator->setFields($listFields);
+		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
+	}
+
+	/**
 	 * Function to get the Quick Links for the List view of the module
 	 * @param array $linkParams
 	 * @return array List of Vtiger_Link_Model instances
@@ -278,57 +326,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
-	 * @param string $moduleName - Module Name
-	 * @param int $viewId - Custom View Id
-	 * @return Vtiger_ListView_Model instance
-	 */
-	public static function getInstance($moduleName, $viewId = 0)
-	{
-		$cacheName = $viewId . ':' . $moduleName;
-		if (\App\Cache::staticHas('ListView_Model', $cacheName)) {
-			return \App\Cache::staticGet('ListView_Model', $cacheName);
-		}
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
-		$instance = new $modelClassName();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
-		if (!empty($viewId) && $viewId != 0) {
-			$queryGenerator->initForCustomViewById($viewId);
-		} else {
-			if (!$queryGenerator->initForDefaultCustomView()) {
-				$queryGenerator->loadListFields();
-			}
-		}
-		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
-		\App\Cache::staticGet('ListView_Model', $cacheName, $instance);
-		return $instance;
-	}
-
-	/**
-	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
-	 * @param string $value - Module Name
-	 * @return Vtiger_ListView_Model instance
-	 */
-	public static function getInstanceForPopup($value, $sourceModule = false)
-	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
-		$instance = new $modelClassName();
-		$moduleModel = Vtiger_Module_Model::getInstance($value);
-		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
-		if (!$sourceModule && !empty($sourceModule)) {
-			$moduleModel->set('sourceModule', $sourceModule);
-		}
-		$listFields = $moduleModel->getPopupViewFieldsList($sourceModule);
-		$listFields[] = 'id';
-		$queryGenerator->setFields($listFields);
-		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
-	}
-	/*
 	 * Function to give advance links of a module
-	 * 	@RETURN array of advanced links
+	 * @return array of advanced links
 	 */
-
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
@@ -395,11 +395,11 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 		return $advancedLinks;
 	}
-	/*
+
+	/**
 	 * Function to get Basic links
 	 * @return array of Basic links
 	 */
-
 	public function getBasicLinks()
 	{
 		$basicLinks = [];
