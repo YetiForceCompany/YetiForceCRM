@@ -94,7 +94,7 @@ class Accounts extends CRMEntity
 		$related_module = \App\Module::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
@@ -157,7 +157,7 @@ class Accounts extends CRMEntity
 		$related_module = \App\Module::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
@@ -224,7 +224,7 @@ class Accounts extends CRMEntity
 		$related_module = \App\Module::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
@@ -284,7 +284,7 @@ class Accounts extends CRMEntity
 		$related_module = \App\Module::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
@@ -762,7 +762,7 @@ class Accounts extends CRMEntity
 		// that are used in the query, they are defined in this generic API
 		vtlib_setup_modulevars($related_module, $other);
 
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 		$button = '';
 		if ($actions) {
 			if (is_string($actions))

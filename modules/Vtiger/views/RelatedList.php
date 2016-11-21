@@ -26,7 +26,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		if ($request->get('limit')) {
+		if ($request->has('limit')) {
 			$pagingModel->set('limit', $request->get('limit'));
 		}
 

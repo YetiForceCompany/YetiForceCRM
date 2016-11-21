@@ -366,7 +366,7 @@ class OSSMailView extends CRMEntity
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 		$button = '';
 		if ($actions) {
 			if (is_string($actions))

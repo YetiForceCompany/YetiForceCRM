@@ -94,7 +94,7 @@ class Campaigns extends CRMEntity
 		}
 
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;

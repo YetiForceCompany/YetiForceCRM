@@ -1245,7 +1245,7 @@ class CRMEntity
 		// that are used in the query, they are defined in this generic API
 		vtlib_setup_modulevars($related_module, $other);
 
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 		$button = '';
 		if ($actions) {
 			if (is_string($actions))

@@ -38,4 +38,14 @@ class Language
 		}
 		return $formattedString;
 	}
+
+	/**
+	 * Get singular module name
+	 * @param string $moduleName
+	 * @return string
+	 */
+	public static function getSingularModuleName($moduleName)
+	{
+		return "SINGLE_$moduleName";
+	}
 }

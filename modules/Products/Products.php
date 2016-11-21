@@ -247,7 +247,7 @@ class Products extends CRMEntity
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
@@ -307,7 +307,7 @@ class Products extends CRMEntity
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
@@ -366,7 +366,7 @@ class Products extends CRMEntity
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
@@ -428,7 +428,7 @@ class Products extends CRMEntity
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
@@ -498,7 +498,7 @@ class Products extends CRMEntity
 		\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 		require_once("modules/$related_module/$related_module.php");
 		$focus = new $related_module();
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		$button = '';
 		if ($actions) {
@@ -576,7 +576,7 @@ class Products extends CRMEntity
 		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
+		$singular_modname = \App\Language::getSingularModuleName($related_module);
 
 		if ($singlepane_view == 'true')
 			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
