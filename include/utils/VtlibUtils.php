@@ -40,18 +40,6 @@ function vtiger_imageurl($imagename, $themename)
 }
 
 /**
- * Get module names for which sharing access can be controlled.
- * NOTE: Ignore the standard modules which is already handled.
- */
-function vtlib_getModuleNameForSharing()
-{
-	$std_modules = array('Calendar', 'Leads', 'Accounts', 'Contacts',
-		'HelpDesk', 'Campaigns', 'Events');
-	$modulesList = \App\Module::getSharingModuleList($std_modules);
-	return $modulesList;
-}
-
-/**
  * Fetch module active information at one shot, but return all the information fetched.
  */
 function vtlib_prefetchModuleActiveInfo($force = true)
@@ -89,95 +77,6 @@ function vtlib_RecreateUserPrivilegeFiles()
 		}
 	}
 }
-
-/**
- * Get list of module with current status which can be controlled.
- */
-function vtlib_getToggleModuleInfo()
-{
-	$adb = PearDatabase::getInstance();
-
-	$modinfo = [];
-
-	$sqlresult = $adb->query("SELECT name, presence, customized, isentitytype FROM vtiger_tab WHERE name NOT IN ('Users','Home') && presence IN (0,1) ORDER BY name");
-	$num_rows = $adb->num_rows($sqlresult);
-	for ($idx = 0; $idx < $num_rows; ++$idx) {
-		$module = $adb->query_result($sqlresult, $idx, 'name');
-		$presence = $adb->query_result($sqlresult, $idx, 'presence');
-		$customized = $adb->query_result($sqlresult, $idx, 'customized');
-		$isentitytype = $adb->query_result($sqlresult, $idx, 'isentitytype');
-		$hassettings = file_exists("modules/$module/Settings.php");
-
-		$modinfo[$module] = Array('customized' => $customized, 'presence' => $presence, 'hassettings' => $hassettings, 'isentitytype' => $isentitytype);
-	}
-	return $modinfo;
-}
-
-/**
- * Get list of language and its current status.
- */
-function vtlib_getToggleLanguageInfo()
-{
-	$adb = PearDatabase::getInstance();
-
-	// The table might not exists!
-	$old_dieOnError = $adb->dieOnError;
-	$adb->dieOnError = false;
-
-	$langinfo = [];
-	$sqlresult = $adb->query("SELECT * FROM vtiger_language");
-	if ($sqlresult) {
-		$countResult = $adb->num_rows($sqlresult);
-		for ($idx = 0; $idx < $countResult; ++$idx) {
-			$row = $adb->fetch_array($sqlresult);
-			$langinfo[$row['prefix']] = Array('label' => $row['label'], 'active' => $row['active']);
-		}
-	}
-	$adb->dieOnError = $old_dieOnError;
-	return $langinfo;
-}
-
-/**
- * Toggle the language (enable/disable)
- */
-function vtlib_toggleLanguageAccess($langprefix, $enable_disable)
-{
-	$adb = PearDatabase::getInstance();
-
-	// The table might not exists!
-	$old_dieOnError = $adb->dieOnError;
-	$adb->dieOnError = false;
-
-	if ($enable_disable === true)
-		$enable_disable = 1;
-	else if ($enable_disable === false)
-		$enable_disable = 0;
-
-	$adb->pquery('UPDATE vtiger_language set active = ? WHERE prefix = ?', Array($enable_disable, $langprefix));
-
-	$adb->dieOnError = $old_dieOnError;
-}
-/**
- * Get help information set for the module fields.
- */
-/*
-  function vtlib_getFieldHelpInfo($module) {
-  $adb = PearDatabase::getInstance();
-  $fieldhelpinfo = [];
-  if(in_array('helpinfo', $adb->getColumnNames('vtiger_field'))) {
-  $result = $adb->pquery('SELECT fieldname,helpinfo FROM vtiger_field WHERE tabid=?', Array(getTabid($module)));
-  if($result && $adb->num_rows($result)) {
-  while($fieldrow = $adb->fetch_array($result)) {
-  $helpinfo = decode_html($fieldrow['helpinfo']);
-  if(!empty($helpinfo)) {
-  $fieldhelpinfo[$fieldrow['fieldname']] = getTranslatedString($helpinfo, $module);
-  }
-  }
-  }
-  }
-  return $fieldhelpinfo;
-  }
- */
 
 /**
  * Setup mandatory (requried) module variable values in the module class.
@@ -343,17 +242,6 @@ function __vtlib_get_modulevar_value($module, $varname)
 }
 
 /**
- * Convert given text input to singular.
- */
-function vtlib_tosingular($text)
-{
-	$lastpos = strripos($text, 's');
-	if ($lastpos == strlen($text) - 1)
-		return substr($text, 0, -1);
-	return $text;
-}
-
-/**
  * Get picklist values that is accessible by all roles.
  */
 function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
@@ -424,31 +312,6 @@ function vtlib_getPicklistValues($columnname)
 }
 
 /**
- * Check for custom module by its name.
- */
-function vtlib_isCustomModule($moduleName)
-{
-	$moduleFile = "modules/$moduleName/$moduleName.php";
-	if (file_exists($moduleFile)) {
-		if (method_exists('\vtlib\Deprecated', 'checkFileAccessForInclusion')) {
-			\vtlib\Deprecated::checkFileAccessForInclusion($moduleFile);
-		}
-		include_once($moduleFile);
-		$focus = new $moduleName();
-		return (isset($focus->IsCustomModule) && $focus->IsCustomModule);
-	}
-	return false;
-}
-
-/**
- * Get module specific smarty template path.
- */
-function vtlib_getModuleTemplate($module, $templateName)
-{
-	return ("modules/$module/$templateName");
-}
-
-/**
  * Check if give path is writeable.
  */
 function vtlib_isWriteable($path)
@@ -482,15 +345,4 @@ function vtlib_isDirWriteable($dirpath)
 		}
 	}
 	return false;
-}
-
-function vtlib_module_icon($modulename)
-{
-	if ($modulename == 'Events') {
-		return "modules/Calendar/Events.png";
-	}
-	if (file_exists("modules/$modulename/$modulename.png")) {
-		return "modules/$modulename/$modulename.png";
-	}
-	return "modules/Vtiger/Vtiger.png";
 }
