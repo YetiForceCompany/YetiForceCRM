@@ -137,7 +137,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$parentModuleName = $parentModuleModel->getName();
 		$relatedModuleName = $relatedModuleModel->getName();
 		$functionName = $this->get('name');
-		var_dump($relatedModuleName);
 		if ($this->get('newQG')) {
 			switch ($functionName) {
 				case 'get_dependents_list':
