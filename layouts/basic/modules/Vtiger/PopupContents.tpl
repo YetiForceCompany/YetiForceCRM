@@ -77,39 +77,29 @@
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 								<td class="listViewEntryValue {$WIDTHTYPE}">
-									{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
-										<a>{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-											{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-										{else}
-											{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-										{/if}</a>
-											{else if $LISTVIEW_HEADERNAME eq 'listprice'}
-												{CurrencyField::convertToUserFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), null, true, true)}
-												{else}
-													{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
-														{\vtlib\Functions::formatDecimal($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
-													{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-														{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-													{else}
-														{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-													{/if}
-													{/if}
-												</td>
-												{/foreach}
-													{if $POPUPTYPE == 2}
-														<td class="{$WIDTHTYPE}"></td>
-													{/if}
-												</tr>
-												{/foreach}
-												</tbody>
-											</table>
-										</div>
+									{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4')}
+										<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+											{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+										</a>
+									{else}
+										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+									{/if}
+								</td>
+							{/foreach}
+							{if $POPUPTYPE == 2}
+								<td class="{$WIDTHTYPE}"></td>
+							{/if}
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+		</div>
 
-										<!--added this div for Temporarily -->
-										{if $LISTVIEW_ENTRIES_COUNT eq '0'}
-											<div class="">
-												<div class="emptyRecordsDiv">{vtranslate('LBL_NO_RELATED_RECORDS_FOUND', $MODULE)}.</div>
-											</div>
-										{/if}
+		<!--added this div for Temporarily -->
+		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
+			<div class="">
+				<div class="emptyRecordsDiv">{vtranslate('LBL_NO_RELATED_RECORDS_FOUND', $MODULE)}.</div>
+			</div>
+		{/if}
 	</div>
 {/strip}
