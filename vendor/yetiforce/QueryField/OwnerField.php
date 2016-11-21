@@ -101,4 +101,19 @@ class OwnerField extends BaseField
 		}
 		return $condition;
 	}
+
+	/**
+	 * Get order by
+	 * @return array
+	 */
+	public function getOrderBy($order = false)
+	{
+		$this->queryGenerator->addJoin(['LEFT JOIN', 'vtiger_users', 'vtiger_users.id = ' . $this->getColumnName()]);
+		$this->queryGenerator->addJoin(['LEFT JOIN', 'vtiger_groups', 'vtiger_groups.groupid = ' . $this->getColumnName()]);
+		if ($order && strtoupper($order) === 'DESC') {
+			return ['vtiger_users.last_name' => SORT_DESC, 'vtiger_users.first_name' => SORT_DESC, 'vtiger_groups.groupname' => SORT_DESC];
+		} else {
+			return ['vtiger_users.last_name' => SORT_ASC, 'vtiger_users.first_name' => SORT_ASC, 'vtiger_groups.groupname' => SORT_ASC];
+		}
+	}
 }
