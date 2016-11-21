@@ -152,7 +152,7 @@ class Vtiger_Request
 	 */
 	public function has($key)
 	{
-		return isset($this->rawValueMap[$key]);
+		return isset($this->rawValueMap[$key]) || isset($this->valueMap[$key]);
 	}
 
 	/**
