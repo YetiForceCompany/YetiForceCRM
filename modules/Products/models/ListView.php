@@ -65,9 +65,6 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		if ($sourceModule !== 'PriceBooks' && $sourceField !== 'priceBookRelatedList') {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
-		echo '<pre>', print_r($query->createCommand()->getRawSql());
-		echo '</pre>';
-		exit;
 		$rows = $query->all();
 		$count = count($rows);
 		$pagingModel->calculatePageRange($count);
