@@ -26,7 +26,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Parent tabdata file' => 'config/parent_tabdata.php',
 		'Cache directory' => 'cache/',
 		'Address book directory' => 'cache/addressBook/',
-		'Cache backup directory' => 'cache/backup/',
 		'Image cache directory' => 'cache/images/',
 		'Import cache directory' => 'cache/import/',
 		'Logs directory' => 'cache/logs/',
