@@ -54,6 +54,12 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->parentModule;
 	}
 
+	public function setRelationModuleModel($relationModel)
+	{
+		$this->relatedModule = $relationModel;
+		return $this;
+	}
+
 	public function getRelationModuleModel()
 	{
 		if (empty($this->relatedModule)) {
@@ -71,34 +77,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->getRelationModuleModel()->getName();
 	}
 
-	public function getListUrl($parentRecordModel)
-	{
-		$url = 'module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
-			'&view=Detail&record=' . $parentRecordModel->getId() . '&mode=showRelatedList';
-		if ($this->get('modulename') == 'Calendar') {
-			$url .= '&time=current';
-		}
-		return $url;
-	}
-
-	public function setRelationModuleModel($relationModel)
-	{
-		$this->relatedModule = $relationModel;
-		return $this;
-	}
-
-	public function isActionSupported($actionName)
-	{
-		$actionName = strtolower($actionName);
-		$actions = $this->getActions();
-		foreach ($actions as $action) {
-			if (strcmp(strtolower($action), $actionName) == 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public function isSelectActionSupported()
 	{
 		return $this->isActionSupported('select');
@@ -109,6 +87,120 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->isActionSupported('add');
 	}
 
+	/**
+	 * Get relation list model instance
+	 * @param Vtiger_Module_Model $parentModuleModel
+	 * @param Vtiger_Module_Model $relatedModuleModel
+	 * @param string|boolean $label
+	 * @return \self|boolean
+	 */
+	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
+	{
+		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . ($label ? 1 : 0);
+		if (key_exists($relKey, self::$_cached_instance)) {
+			return self::$_cached_instance[$relKey];
+		}
+		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
+			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModel = new $relationModelClassName();
+			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			if (method_exists($relationModel, 'setExceptionData')) {
+				$relationModel->setExceptionData();
+			}
+			self::$_cached_instance[$relKey] = $relationModel;
+			return $relationModel;
+		}
+		$query = (new \App\Db\Query())->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
+			->from('vtiger_relatedlists')
+			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
+			->andWhere(['<>', 'vtiger_tab.presence', 1]);
+
+		if (!empty($label)) {
+			$query->andWhere(['label' => $label]);
+		}
+		$row = $query->one();
+		if ($row) {
+			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModel = new $relationModelClassName();
+			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			self::$_cached_instance[$relKey] = $relationModel;
+			return $relationModel;
+		}
+		return false;
+	}
+
+	public function getQuery($parentRecord, $actions = false, $relationListView_Model = false)
+	{
+		$parentModuleModel = $this->getParentModuleModel();
+		$relatedModuleModel = $this->getRelationModuleModel();
+		$parentModuleName = $parentModuleModel->getName();
+		$relatedModuleName = $relatedModuleModel->getName();
+		$functionName = $this->get('name');
+		var_dump($relatedModuleName);
+		if ($this->get('newQG')) {
+			switch ($functionName) {
+				case 'get_dependents_list':
+					$this->getOneToMeny();
+
+					break;
+			}
+			/*
+			  if (method_exists($this, $functionName)) {
+			  $this->$functionName();
+			  } else {
+			  App\Log::error("Not exist relation: $functionName in " . __METHOD__);
+			  throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION');
+			  }
+			 */
+
+			return '';
+		}
+
+
+		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
+		if ($relationListView_Model) {
+			$queryGenerator = $relationListView_Model->get('query_generator');
+			$joinTable = $queryGenerator->getFromClause(true);
+			if ($joinTable) {
+				$queryComponents = preg_split('/WHERE/i', $query);
+				$query = $queryComponents[0] . $joinTable . ' WHERE ' . $queryComponents[1];
+			}
+			$where = $queryGenerator->getWhereClause(true);
+			$query .= $where;
+		}
+		return $query;
+	}
+
+	public function getOneToMeny()
+	{
+		$parentModuleModel = $this->getParentModuleModel();
+		$relatedModuleModel = $this->getRelationModuleModel();
+		$parentModuleName = $parentModuleModel->getName();
+		$relatedModuleName = $relatedModuleModel->getName();
+
+		$fieldRel = App\Field::getFieldModuleRel($relatedModuleName, $parentModuleName);
+		if (!$fieldRel) {
+			App\Log::error("Not Found relationships field: RelatedModuleName: $relatedModuleName | ParentModuleName: $parentModuleName  in " . __METHOD__);
+			throw new \Exception\AppException('LBL_INVALID_RELATION');
+		}
+		$fields = vtlib\Functions::getModuleFieldInfos($relatedModuleName);
+		foreach ($fields as &$field) {
+			if ($field['fieldid'] === $fieldRel['fieldid'] && $field['uitype'] === 10) {
+				//var_dump($field);
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 	public function getActions()
 	{
 		$actionString = $this->get('actions');
@@ -122,25 +214,26 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return explode(',', $actionString);
 	}
 
-	public function getQuery($parentRecord, $actions = false, $relationListView_Model = false)
+	public function getListUrl($parentRecordModel)
 	{
-		$parentModuleModel = $this->getParentModuleModel();
-		$relatedModuleModel = $this->getRelationModuleModel();
-		$parentModuleName = $parentModuleModel->getName();
-		$relatedModuleName = $relatedModuleModel->getName();
-		$functionName = $this->get('name');
-		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
-		if ($relationListView_Model) {
-			$queryGenerator = $relationListView_Model->get('query_generator');
-			$joinTable = $queryGenerator->getFromClause(true);
-			if ($joinTable) {
-				$queryComponents = preg_split('/WHERE/i', $query);
-				$query = $queryComponents[0] . $joinTable . ' WHERE ' . $queryComponents[1];
-			}
-			$where = $queryGenerator->getWhereClause(true);
-			$query .= $where;
+		$url = 'module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
+			'&view=Detail&record=' . $parentRecordModel->getId() . '&mode=showRelatedList';
+		if ($this->get('modulename') == 'Calendar') {
+			$url .= '&time=current';
 		}
-		return $query;
+		return $url;
+	}
+
+	public function isActionSupported($actionName)
+	{
+		$actionName = strtolower($actionName);
+		$actions = $this->getActions();
+		foreach ($actions as $action) {
+			if (strcmp(strtolower($action), $actionName) == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public function addRelation($sourceRecordId, $destinationRecordId)
@@ -260,42 +353,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->get('relation_comment');
 	}
 
-	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
-	{
-		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . ($label ? 1 : 0);
-		if (key_exists($relKey, self::$_cached_instance)) {
-			return self::$_cached_instance[$relKey];
-		}
-		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
-			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
-			$relationModel = new $relationModelClassName();
-			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
-			if (method_exists($relationModel, 'setExceptionData')) {
-				$relationModel->setExceptionData();
-			}
-			self::$_cached_instance[$relKey] = $relationModel;
-			return $relationModel;
-		}
-		$query = (new \App\Db\Query())->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
-			->from('vtiger_relatedlists')
-			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
-			->andWhere(['<>', 'vtiger_tab.presence', 1]);
-
-		if (!empty($label)) {
-			$query->andWhere(['label' => $label]);
-		}
-		$row = $query->one();
-		if ($row) {
-			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
-			$relationModel = new $relationModelClassName();
-			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
-			self::$_cached_instance[$relKey] = $relationModel;
-			return $relationModel;
-		}
-		return false;
-	}
-
 	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
 		$query = new \App\Db\Query();
@@ -303,13 +360,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			->from('vtiger_relatedlists')
 			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
 			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId()])
-			->andWhere(['<>' , 'related_tabid', 0]);
+			->andWhere(['<>', 'related_tabid', 0]);
 
 		if ($selected) {
 			$query->andWhere(['<>', 'vtiger_relatedlists.presence', 1]);
 		}
 		if ($onlyActive) {
-			$query->andWhere(['<>', 'vtiger_tab.presence', 1 ]);
+			$query->andWhere(['<>', 'vtiger_tab.presence', 1]);
 		}
 		$query->orderBy('sequence');
 		$dataReader = $query->createCommand()->query();
@@ -428,8 +485,8 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$presence = $relatedInfo['presence'];
 			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $sequence;
 		}
-		$query.= ' END , ';
-		$query.= ' presence = CASE ';
+		$query .= ' END , ';
+		$query .= ' presence = CASE ';
 		foreach ($relatedInfoList as $relatedInfo) {
 			$relation_id = $relatedInfo['relation_id'];
 			$relation_ids[] = $relation_id;

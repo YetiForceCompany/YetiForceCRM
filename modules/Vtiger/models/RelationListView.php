@@ -446,6 +446,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$this->loadCondition($relationModuleName);
 		if (!empty($relationModel) && $relationModel->get('name') != NULL) {
 			$recordModel = $this->getParentRecordModel();
+			if ($this->get('newQG')) {
+				$relationModel->set('parentRecord', $recordModel);
+				$relationModel->set('newQG', true);
+			}
 			$this->query = $relationModel->getQuery($recordModel, false, $this);
 			return $this->query;
 		}
@@ -487,6 +491,13 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		return $this->query;
 	}
 
+	/**
+	 * Get relation list view model instance
+	 * @param Vtiger_Module_Model $parentRecordModel
+	 * @param Vtiger_Module_Model $relationModuleName
+	 * @param string|boolean $label
+	 * @return self
+	 */
 	public static function getInstance($parentRecordModel, $relationModuleName, $label = false)
 	{
 		$parentModuleName = $parentRecordModel->getModule()->get('name');

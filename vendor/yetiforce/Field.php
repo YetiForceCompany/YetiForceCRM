@@ -139,4 +139,28 @@ class Field
 		}
 		return false;
 	}
+
+	/**
+	 * Get field module relation
+	 * @param string $moduleName
+	 * @param string|boolean $relatedModule
+	 * @return array
+	 */
+	public static function getFieldModuleRel($moduleName, $relatedModule = false)
+	{
+		if (Cache::has('getFieldModuleRelByModule', $moduleName)) {
+			$filedsRel = Cache::get('getFieldModuleRelByModule', $moduleName);
+		} else {
+			$filedsRel = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['module' => $moduleName])->all();
+			Cache::save('getFieldModuleRelByModule', $moduleName, $filedsRel, Cache::LONG);
+		}
+		if ($relatedModule) {
+			foreach ($filedsRel as &$filedRel) {
+				if ($filedRel['relmodule'] === $relatedModule) {
+					return $filedRel;
+				}
+			}
+		}
+		return $filedsRel;
+	}
 }
