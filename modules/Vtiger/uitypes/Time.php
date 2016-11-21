@@ -122,7 +122,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		return 'uitypes/TimeFieldSearchView.tpl';
 	}
 
-	public function getDBTimeFromUserValue($value)
+	public static function getDBTimeFromUserValue($value)
 	{
 		$time = DateTimeField::convertToDBTimeZone(date(DateTimeField::getPHPDateFormat()) . ' ' . $value);
 		$value = $time->format('H:i:s');

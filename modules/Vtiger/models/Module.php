@@ -15,10 +15,10 @@
 class Vtiger_Module_Model extends \vtlib\Module
 {
 
-	protected $blocks = false;
-	protected $nameFields = false;
-	protected $moduleMeta = false;
-	protected $fields = false;
+	protected $blocks;
+	protected $nameFields;
+	protected $moduleMeta;
+	protected $fields;
 	protected $relations = null;
 	protected $moduleType = '0';
 
@@ -442,7 +442,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function that returns all the fields for the module
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -463,18 +463,33 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
+	 * Get field by field name
+	 * @param string $fieldName
+	 * @return Vtiger_Field_Model
+	 */
+	public function getFieldByName($fieldName)
+	{
+		if (!$this->fields) {
+			$this->getFields();
+		}
+		if (isset($this->fields[$fieldName])) {
+			return $this->fields[$fieldName];
+		}
+		return false;
+	}
+
+	/**
 	 * Function gives fields based on the type
 	 * @param <String> $type - field type
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFieldsByType($type)
 	{
 		if (!is_array($type)) {
 			$type = array($type);
 		}
-		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as $field) {
+		foreach ($this->getFields() as &$field) {
 			$fieldType = $field->getFieldDataType();
 			if (in_array($fieldType, $type)) {
 				$fieldList[$field->getName()] = $field;
@@ -483,11 +498,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $fieldList;
 	}
 
-	public function getFieldsByUiType($type)
+	/**
+	 * Function gives fields based on the uitype
+	 * @return Vtiger_Field_Model[] with field id as key
+	 */
+	public function getFieldsByUiType($uitype)
 	{
 		$fieldList = [];
-		foreach ($this->getFields() as $field) {
-			if ($field->get('uitype') == $type) {
+		foreach ($this->getFields() as &$field) {
+			if ($field->get('uitype') === $uitype) {
 				$fieldList[$field->getName()] = $field;
 			}
 		}
@@ -496,45 +515,62 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function gives fields based on the type
-	 * @return <Vtiger_Field_Model> with field label as key
+	 * @return Vtiger_Field_Model[] with field label as key
 	 */
 	public function getFieldsByLabel()
 	{
-		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as $field) {
-			$fieldLabel = $field->get('label');
-			$fieldList[$fieldLabel] = $field;
+		foreach ($this->getFields() as &$field) {
+			$fieldList[$field->get('label')] = $field;
 		}
 		return $fieldList;
 	}
 
 	/**
 	 * Function gives fields based on the fieldid
-	 * @return <Vtiger_Field_Model> with field id as key
+	 * @return Vtiger_Field_Model[] with field id as key
 	 */
 	public function getFieldsById()
 	{
 		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as $field) {
-			$fieldId = $field->getId();
-			$fieldList[$fieldId] = $field;
+		foreach ($fields as &$field) {
+			$fieldList[$field->getId()] = $field;
 		}
 		return $fieldList;
 	}
 
+	/**
+	 * Function gives fields based on the type
+	 * @return Vtiger_Field_Model[] with field id as key
+	 */
 	public function getFieldsByDisplayType($type)
 	{
-		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as $field) {
-			$displayType = $field->get('displaytype');
-			if ($displayType == $type) {
+		foreach ($this->getFields() as &$field) {
+			if ($field->get('displaytype') === $type) {
 				$fieldList[$field->getName()] = $field;
 			}
 		}
 		return $fieldList;
+	}
+
+	/**
+	 * Function to get list of field for summary view
+	 * @return Vtiger_Field_Model[] list of field models
+	 */
+	public function getSummaryViewFieldsList()
+	{
+		if (!isset($this->summaryFields)) {
+			$summaryFields = [];
+			foreach ($this->getFields() as $fieldName => &$fieldModel) {
+				if ($fieldModel->isSummaryField() && $fieldModel->isActiveField()) {
+					$summaryFields[$fieldName] = $fieldModel;
+				}
+			}
+			$this->summaryFields = $summaryFields;
+		}
+		return $this->summaryFields;
 	}
 
 	/**
@@ -701,6 +737,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $relatedListFields;
 	}
 
+	/**
+	 * @todo To remove after rebuilding relations
+	 */
 	public function getConfigureRelatedListFields()
 	{
 		$showRelatedFieldModel = $this->getSummaryViewFieldsList();
@@ -1401,25 +1440,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function isExportable()
 	{
 		return $this->isCustomizable() ? true : false;
-	}
-
-	/**
-	 * Function to get list of field for summary view
-	 * @return <Array> list of field models <Vtiger_Field_Model>
-	 */
-	public function getSummaryViewFieldsList()
-	{
-		if (!isset($this->summaryFields)) {
-			$summaryFields = [];
-			$fields = $this->getFields();
-			foreach ($fields as $fieldName => $fieldModel) {
-				if ($fieldModel->isSummaryField() && $fieldModel->isActiveField()) {
-					$summaryFields[$fieldName] = $fieldModel;
-				}
-			}
-			$this->summaryFields = $summaryFields;
-		}
-		return $this->summaryFields;
 	}
 
 	/**
