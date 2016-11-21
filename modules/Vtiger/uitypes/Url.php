@@ -31,4 +31,16 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		}
 		return $value;
 	}
+
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		$matchPattern = "^[\w]+:\/\/^";
+		preg_match($matchPattern, $value, $matches);
+		if (!empty($matches[0])) {
+			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')) . '</a>';
+		} else {
+			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')) . '</a>';
+		}
+		return $value;
+	}
 }

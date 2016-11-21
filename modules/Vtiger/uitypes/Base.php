@@ -99,7 +99,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return $this->getDisplayValue($value, $record, $recordInstance, $rawText);
+		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordInstance, $rawText), $this->get('field')->get('maxlengthtext'));
 	}
 
 	/**
