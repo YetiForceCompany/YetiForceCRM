@@ -988,15 +988,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function to retieve types of file locations in Documents Edit
-	 * @return <array> - List of file location types
-	 */
-	public function getFileLocationType()
-	{
-		return array('I' => 'LBL_INTERNAL', 'E' => 'LBL_EXTERNAL');
-	}
-
-	/**
 	 * Function returns list of Currencies available in the system
 	 * @return array
 	 */
