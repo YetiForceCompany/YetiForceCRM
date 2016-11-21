@@ -150,13 +150,14 @@ class ReferenceField extends BaseField
 	 */
 	public function getOrderBy($order = false)
 	{
+		$condition = [];
 		if ($order && strtoupper($order) === 'DESC') {
 			foreach ($this->getRelatedTableName() as $formattedName) {
-				$condition[$formattedName] = SORT_DESC;
+				$condition[(string) $formattedName] = SORT_DESC;
 			}
 		} else {
 			foreach ($this->getRelatedTableName() as $formattedName) {
-				$condition[$formattedName] = SORT_ASC;
+				$condition[(string) $formattedName] = SORT_ASC;
 			}
 		}
 		return $condition;

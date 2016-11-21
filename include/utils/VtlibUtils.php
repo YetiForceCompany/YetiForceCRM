@@ -39,14 +39,6 @@ function vtiger_imageurl($imagename, $themename)
 	return $imagepath;
 }
 
-function vtlib_tosingular($text)
-{
-	$lastpos = strripos($text, 's');
-	if ($lastpos == strlen($text) - 1)
-		return substr($text, 0, -1);
-	return $text;
-}
-
 /**
  * Fetch module active information at one shot, but return all the information fetched.
  */
