@@ -250,8 +250,6 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
-		$params = [];
-		$db = PearDatabase::getInstance();
 		$cvId = $this->getId();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
@@ -268,42 +266,28 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		if (!empty($searchValue)) {
 			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
-
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
 			$searchParams = [];
 		}
-		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
-		$glue = '';
-		if (count($queryGenerator->getWhereFields()) > 0 && (count($transformedSearchParams)) > 0) {
-			$glue = QueryGenerator::$AND;
+		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
+		$queryGenerator->parseAdvFilter($transformedSearchParams);
+		if ($module === 'RecycleBin') {
+			$queryGenerator->deletedCondition = false;
+			$queryGenerator->addAndConditionNative(['vtiger_crmentity.deleted = 1']);
 		}
-		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
-
-		$listQuery = $queryGenerator->getQuery();
-		if ($module == 'RecycleBin') {
-			$listQuery = preg_replace("/vtiger_crmentity.deleted\s*=\s*0/i", 'vtiger_crmentity.deleted = 1', $listQuery);
-		}
-
 		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
-			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
+			$queryGenerator->addAndConditionNative(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
 		if ($lockRecords) {
-			$crmEntityModel = Vtiger_CRMEntity::getInstance($moduleName);
-			$lockFields = $crmEntityModel->getLockFields();
+			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
 			if (is_array($lockFields)) {
 				foreach ($lockFields as $fieldName => $fieldValues) {
-					$listQuery .= ' AND ' . $baseTableName . '.' . $fieldName . ' NOT IN (' . generateQuestionMarks($fieldValues) . ')';
-					$params = array_merge($params, $fieldValues);
+					$queryGenerator->addAndConditionNative(['not in', "$baseTableName.$fieldName", $fieldValues]);
 				}
 			}
 		}
-		$result = $db->pquery($listQuery, $params);
-		$recordIds = [];
-		while ($row = $db->getRow($result)) {
-			$recordIds[] = $row[$baseTableId];
-		}
-		return $recordIds;
+		return $queryGenerator->createQuery()->column();
 	}
 
 	/**

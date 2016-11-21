@@ -253,7 +253,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$recordId = $this->getId();
 		$fieldModel = $this->getModule()->getField($fieldName);
 		if ($fieldModel) {
-			return $fieldModel->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $recordId);
+			return $fieldModel->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $recordId, $this);
 		}
 		return '';
 	}

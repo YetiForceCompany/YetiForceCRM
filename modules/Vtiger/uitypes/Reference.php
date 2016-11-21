@@ -49,16 +49,16 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$referenceModule = $this->getReferenceModule($value);
 		if ($referenceModule && !empty($value)) {
 			$referenceModuleName = $referenceModule->get('name');
-			if ($referenceModuleName == 'Users' || $referenceModuleName == 'Groups') {
+			if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
 				$name = \App\Fields\Owner::getLabel($value);
 			} else {
 				$name = \App\Record::getLabel($value);
 			}
-			if ($rawText || $referenceModuleName == 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
+			if ($rawText || $referenceModuleName === 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
 			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
-			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . vtranslate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
 		return '';
@@ -83,7 +83,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 				return $name;
 			}
 			$name = vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));
-			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . vtranslate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
+			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
 		return '';
