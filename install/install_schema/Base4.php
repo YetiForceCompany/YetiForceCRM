@@ -8025,7 +8025,6 @@ class Base4 extends \App\Db\Importers\Base
 						[30, 'ProjectTask', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 						[31, 'Project', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 						[32, 'SMSNotifier', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
-						[33, 'LineItem', 'include/Webservices/LineItem/VtigerLineItemOperation.php', 'VtigerLineItemOperation', 0],
 						[34, 'Tax', 'include/Webservices/LineItem/VtigerTaxOperation.php', 'VtigerTaxOperation', 0],
 						[35, 'ProductTaxes', 'include/Webservices/LineItem/VtigerProductTaxesOperation.php', 'VtigerProductTaxesOperation', 0],
 						[37, 'OSSMailTemplates', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
@@ -8214,7 +8213,6 @@ class Base4 extends \App\Db\Importers\Base
 						[30, 'wsapp_get', 'modules/WSAPP/api/ws/Get.php', 'wsapp_get', 'POST', 0],
 						[31, 'wsapp_put', 'modules/WSAPP/api/ws/Put.php', 'wsapp_put', 'POST', 0],
 						[32, 'wsapp_map', 'modules/WSAPP/api/ws/Map.php', 'wsapp_map', 'POST', 0],
-						[33, 'retrieve_inventory', 'include/Webservices/LineItem/RetrieveInventory.php', 'vtws_retrieve_inventory', 'GET', 0],
 				]
 			],
 			'vtiger_ws_operation_parameters' => [
