@@ -99,8 +99,6 @@ function getFieldsListFromQuery($query)
 			$fields .= " concat(vtiger_contactdetails.lastname,' ',vtiger_contactdetails.firstname) as 'Contact Name',";
 		} elseif ($tablename == 'vtiger_products' && $columnName == 'vendor_id') {//Product - Vendor Name
 			$fields .= "vtiger_vendor.vendorname as '" . $fieldlabel . "',";
-		} elseif ($tablename == 'vtiger_producttaxrel' && $columnName == 'taxclass') {//avoid product - taxclass
-			$fields .= "";
 		} elseif ($tablename == 'vtiger_attachments' && $columnName == 'name') {//Emails filename
 			$fields .= $tablename . ".name as '" . $fieldlabel . "',";
 		}

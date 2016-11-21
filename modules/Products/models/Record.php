@@ -22,28 +22,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get available taxes for this record
-	 * @return <Array> List of available taxes
-	 */
-	public function getTaxes()
-	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM vtiger_producttaxrel
-					INNER JOIN vtiger_inventorytaxinfo ON vtiger_inventorytaxinfo.taxid = vtiger_producttaxrel.taxid
-					INNER JOIN vtiger_crmentity ON vtiger_producttaxrel.productid = vtiger_crmentity.crmid && vtiger_crmentity.deleted = 0
-					WHERE vtiger_producttaxrel.productid = ?', [$this->getId()]);
-		$taxes = [];
-		while ($row = $db->fetch_array($result)) {
-			$taxName = $row['taxname'];
-			$tabLabel = $row['taxlabel'];
-			$taxPercentage = $row['taxpercentage'];
-			$taxes[$taxName] = ['percentage' => $taxPercentage, 'label' => $tabLabel];
-		}
-		return $taxes;
-	}
-
-	/**
 	 * Function to get values of more currencies listprice
 	 * @return <Array> of listprice values
 	 */
@@ -80,64 +58,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 
 		return $subProductList;
-	}
-
-	/**
-	 * Function to get Tax Class Details for this record(Product)
-	 * @return <Array> List of Taxes
-	 */
-	public function getTaxClassDetails()
-	{
-		$taxClassDetails = $this->get('taxClassDetails');
-		if (!empty($taxClassDetails)) {
-			return $taxClassDetails;
-		}
-
-		$record = $this->getId();
-		if (empty($record)) {
-			return $this->getAllTaxes();
-		}
-
-		$taxClassDetails = getTaxDetailsForProduct($record, 'available_associated');
-		$noOfTaxes = count($taxClassDetails);
-
-		for ($i = 0; $i < $noOfTaxes; $i++) {
-			$taxValue = getProductTaxPercentage($taxClassDetails[$i]['taxname'], $this->getId());
-			$taxClassDetails[$i]['percentage'] = $taxValue;
-			$taxClassDetails[$i]['check_name'] = $taxClassDetails[$i]['taxname'] . '_check';
-			$taxClassDetails[$i]['check_value'] = 1;
-			//if the tax is not associated with the product then we should get the default value and unchecked
-			if ($taxValue == '') {
-				$taxClassDetails[$i]['check_value'] = 0;
-				$taxClassDetails[$i]['percentage'] = getTaxPercentage($taxClassDetails[$i]['taxname']);
-			}
-		}
-
-		$this->set('taxClassDetails', $taxClassDetails);
-		return $taxClassDetails;
-	}
-
-	/**
-	 * Function to get all taxes
-	 * @return <Array> List of taxes
-	 */
-	public function getAllTaxes()
-	{
-		$allTaxesList = $this->get('alltaxes');
-		if (!empty($allTaxesList)) {
-			return $allTaxesList;
-		}
-
-		$allTaxesList = getAllTaxes('available');
-		$noOfTaxes = count($allTaxesList);
-
-		for ($i = 0; $i < $noOfTaxes; $i++) {
-			$allTaxesList[$i]['check_name'] = $allTaxesList[$i]['taxname'] . '_check';
-			$allTaxesList[$i]['check_value'] = 0;
-		}
-
-		$this->set('alltaxes', $allTaxesList);
-		return $allTaxesList;
 	}
 
 	/**

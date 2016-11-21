@@ -21,7 +21,7 @@ class Products extends CRMEntity
 	 */
 	public $customFieldTable = Array('vtiger_productcf', 'productid');
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_products', 'vtiger_productcf');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_products' => 'productid', 'vtiger_productcf' => 'productid', 'vtiger_seproductsrel' => 'productid', 'vtiger_producttaxrel' => 'productid');
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_products' => 'productid', 'vtiger_productcf' => 'productid', 'vtiger_seproductsrel' => 'productid'];
 	// This is the list of vtiger_fields that are in the lists.
 	public $list_fields = Array(
 		'Product Name' => Array('products' => 'productname'),
@@ -63,11 +63,14 @@ class Products extends CRMEntity
 	// Josh added for importing and exporting -added in patch2
 	public $unit_price;
 
+	/**
+	 * Custom Save for Module
+	 * @param string $module
+	 */
 	public function save_module($module)
 	{
 		//Inserting into product_taxrel table
 		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassSave' && AppRequest::get('action') != 'ProcessDuplicates') {
-			$this->insertTaxInformation('vtiger_producttaxrel', 'Products');
 			$this->insertPriceInformation();
 		}
 
@@ -75,51 +78,6 @@ class Products extends CRMEntity
 		$this->updateUnitPrice();
 		//Inserting into attachments
 		$this->insertIntoAttachment($this->id, 'Products');
-	}
-
-	/** 	function to save the product tax information in vtiger_producttaxrel table
-	 * 	@param string $tablename - vtiger_tablename to save the product tax relationship (producttaxrel)
-	 * 	@param string $module	 - current module name
-	 * 	$return void
-	 */
-	public function insertTaxInformation($tablename, $module)
-	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering into insertTaxInformation($tablename, $module) method ...");
-		$tax_details = getAllTaxes();
-
-		$tax_per = '';
-		//Save the Product - tax relationship if corresponding tax check box is enabled
-		//Delete the existing tax if any
-		if ($this->mode == 'edit') {
-			$countTaxDetails = count($tax_details);
-			for ($i = 0; $i < $countTaxDetails; $i++) {
-				$taxid = getTaxId($tax_details[$i]['taxname']);
-				$sql = "delete from vtiger_producttaxrel where productid=? and taxid=?";
-				$adb->pquery($sql, array($this->id, $taxid));
-			}
-		}
-		$countTaxDetails = count($tax_details);
-		for ($i = 0; $i < $countTaxDetails; $i++) {
-			$tax_name = $tax_details[$i]['taxname'];
-			$tax_checkname = $tax_details[$i]['taxname'] . "_check";
-			if (AppRequest::get($tax_checkname) == 'on' || AppRequest::get($tax_checkname) == 1) {
-				$taxid = getTaxId($tax_name);
-				$tax_per = AppRequest::get($tax_name);
-				if ($tax_per == '') {
-					\App\Log::trace('Tax selected but value not given so default value will be saved.');
-					$tax_per = getTaxPercentage($tax_name);
-				}
-
-				\App\Log::trace("Going to save the Product - $tax_name tax relationship");
-
-				$query = 'insert into vtiger_producttaxrel values(?,?,?)';
-				$adb->pquery($query, array($this->id, $taxid, $tax_per));
-			}
-		}
-
-		\App\Log::trace("Exiting from insertTaxInformation($tablename, $module) method ...");
 	}
 
 	/**

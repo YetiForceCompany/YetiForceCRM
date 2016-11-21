@@ -1993,9 +1993,6 @@ function get_details($id, $module, $customerid, $sessionid)
 		if ($blocklabel == 'LBL_COMMENTS' || $blocklabel == 'LBL_IMAGE_INFORMATION') { // the comments block of tickets is hardcoded in customer portal,get_ticket_comments is used for it
 			continue;
 		}
-		if ($uitype == 83) { //for taxclass in products and services
-			continue;
-		}
 		$fieldPer = \App\Field::getFieldPermission($module, $fieldname);
 		if (!$fieldPer) {
 			continue;

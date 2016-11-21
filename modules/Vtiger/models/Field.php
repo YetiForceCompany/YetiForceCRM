@@ -230,8 +230,6 @@ class Vtiger_Field_Model extends vtlib\Field
 					break;
 				case 69: $fieldDataType = 'image';
 					break;
-				case 83: $fieldDataType = 'productTax';
-					break;
 				case 117: $fieldDataType = 'currencyList';
 					break;
 				case 120: $fieldDataType = 'sharedOwner';

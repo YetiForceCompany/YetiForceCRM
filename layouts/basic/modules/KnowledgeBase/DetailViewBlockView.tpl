@@ -30,27 +30,6 @@
 									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 								</span>
 							</div>
-						{else if $FIELD_MODEL->get('uitype') eq "83"}
-							{foreach item=tax key=count from=$TAXCLASS_DETAILS}
-								{if $tax.check_value eq 1}
-									{if $COUNTER eq 2}
-									</div><div class="col-xs-12 paddingLRZero fieldRow">
-										{assign var="COUNTER" value=1}
-									{else}
-										{assign var="COUNTER" value=$COUNTER+1}
-									{/if}
-									<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
-										<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-											<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{vtranslate($tax.taxlabel, $MODULE)}&nbsp;(%)</label>
-										</div>
-										<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
-											<span class="value">
-												{$tax.percentage}
-											</span>
-										</div>
-									</div>
-								{/if}
-							{/foreach}
 						{else if $FIELD_MODEL->get('uitype') eq "69" || $FIELD_MODEL->get('uitype') eq "105"}
 							{if $COUNTER neq 0}
 								{if $COUNTER eq 2}

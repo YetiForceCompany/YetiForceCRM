@@ -5352,24 +5352,6 @@ CREATE TABLE `vtiger_inventorysubproductrel` (
   `productid` int(19) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_inventorytaxinfo` */
-
-CREATE TABLE `vtiger_inventorytaxinfo` (
-  `taxid` int(3) NOT NULL,
-  `taxname` varchar(50) DEFAULT NULL,
-  `taxlabel` varchar(50) DEFAULT NULL,
-  `percentage` decimal(7,3) DEFAULT NULL,
-  `deleted` int(1) DEFAULT NULL,
-  PRIMARY KEY (`taxid`),
-  KEY `inventorytaxinfo_taxname_idx` (`taxname`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_inventorytaxinfo_seq` */
-
-CREATE TABLE `vtiger_inventorytaxinfo_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ipreorder_status` */
 
 CREATE TABLE `vtiger_ipreorder_status` (
@@ -7008,7 +6990,6 @@ CREATE TABLE `vtiger_products` (
   `usageunit` varchar(200) DEFAULT NULL,
   `reorderlevel` int(11) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
-  `taxclass` varchar(200) DEFAULT NULL,
   `mfr_part_no` varchar(200) DEFAULT NULL,
   `vendor_part_no` varchar(200) DEFAULT NULL,
   `serialno` varchar(200) DEFAULT NULL,
@@ -7027,16 +7008,6 @@ CREATE TABLE `vtiger_products` (
   `category_multipicklist` text,
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_producttaxrel` */
-
-CREATE TABLE `vtiger_producttaxrel` (
-  `productid` int(11) NOT NULL,
-  `taxid` int(3) NOT NULL,
-  `taxpercentage` decimal(7,3) DEFAULT NULL,
-  KEY `producttaxrel_productid_idx` (`productid`),
-  KEY `producttaxrel_taxid_idx` (`taxid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_profile` */
@@ -7944,7 +7915,6 @@ CREATE TABLE `vtiger_service` (
   `discontinued` tinyint(1) NOT NULL DEFAULT '0',
   `service_usageunit` varchar(200) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
-  `taxclass` varchar(200) DEFAULT NULL,
   `currency_id` int(19) NOT NULL DEFAULT '1',
   `commissionrate` decimal(7,3) DEFAULT NULL,
   `renewable` tinyint(1) DEFAULT '0',
