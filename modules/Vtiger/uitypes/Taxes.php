@@ -10,12 +10,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Separator
-	 * @var string
-	 */
-	protected static $separator = ',';
-
-	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return string - Template Name
 	 */

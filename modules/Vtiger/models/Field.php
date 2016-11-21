@@ -696,6 +696,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'inventoryLimit':
 			case 'languages':
 			case 'currencyList':
+			case 'fileLocationType':
 			case 'taxes':
 			case 'posList':
 				$pickListValues = $this->getPicklistValues();

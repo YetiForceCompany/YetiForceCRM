@@ -7,7 +7,7 @@ namespace App\QueryField;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class FileLocationTypeField extends StringField
+class FileLocationTypeField extends PicklistField
 {
 	
 }
