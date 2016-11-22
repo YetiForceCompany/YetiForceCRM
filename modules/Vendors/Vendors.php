@@ -234,9 +234,8 @@ class Vendors extends CRMEntity
 		return $return_value;
 	}
 
-	/** Returns a list of the associated Campaigns
-	 * @param $id -- campaign id :: Type Integer
-	 * @returns list of campaigns in array format
+	/**
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{

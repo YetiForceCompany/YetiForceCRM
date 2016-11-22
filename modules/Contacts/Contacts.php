@@ -190,9 +190,7 @@ class Contacts extends CRMEntity
 	}
 
 	/**
-	 * Function to get Contact related Tickets.
-	 * @param  integer   $id      - contactid
-	 * returns related Ticket records in array format
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{

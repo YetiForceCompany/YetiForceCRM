@@ -370,9 +370,8 @@ class Products extends CRMEntity
 		return $return_value;
 	}
 
-	/** 	function used to get the list of tickets which are related to the product
-	 * 	@param int $id - product id
-	 * 	@return array - array which will be returned from the function GetRelatedList
+	/**
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{

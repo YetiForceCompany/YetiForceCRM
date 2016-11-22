@@ -78,10 +78,8 @@ class Accounts extends CRMEntity
 		
 	}
 
-	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
-	/** Returns a list of the associated Campaigns
-	 * @param $id -- campaign id :: Type Integer
-	 * @returns list of campaigns in array format
+	/**
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
@@ -209,9 +207,7 @@ class Accounts extends CRMEntity
 	}
 
 	/**
-	 * Function to get Account related Tickets
-	 * @param  integer   $id      - accountid
-	 * returns related Ticket record in array format
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
@@ -748,8 +744,10 @@ class Accounts extends CRMEntity
 			}
 		}
 	}
-	/* Function to get attachments in the related list of accounts module */
 
+	/**
+	 * @todo To remove after rebuilding relations
+	 */
 	public function get_attachments($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 
