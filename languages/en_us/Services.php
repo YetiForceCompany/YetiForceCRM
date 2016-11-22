@@ -30,6 +30,7 @@ $languageStrings = [
 	'Tax Class' => 'Tax class',
 	'Website' => 'Website',
 	'FL_RENEWABLE' => 'Renewable',
+	'FL_TAXES' => 'Taxes',
 	// YetiForce
 	'LBL_SUMMARY' => 'Work time summary',
 	'Hours' => 'Hours',

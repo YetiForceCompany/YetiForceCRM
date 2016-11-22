@@ -677,10 +677,10 @@ class Base4 extends \App\Db\Importers\Base
 					'discontinued' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'service_usageunit' => $this->stringType(200),
 					'website' => $this->stringType(100),
-					'taxclass' => $this->stringType(200),
 					'currency_id' => $this->integer()->notNull()->defaultValue(1),
 					'commissionrate' => $this->decimal('7,3'),
 					'renewable' => $this->smallInteger(1)->defaultValue(0),
+					'taxes' => $this->stringType(50),
 				],
 				'primaryKeys' => [
 						['service_pk', 'serviceid']

@@ -4833,7 +4833,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2467 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2468 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7918,6 +7918,7 @@ CREATE TABLE `vtiger_service` (
   `currency_id` int(19) NOT NULL DEFAULT '1',
   `commissionrate` decimal(7,3) DEFAULT NULL,
   `renewable` tinyint(1) DEFAULT '0',
+  `taxes` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`serviceid`),
   CONSTRAINT `fk_1_vtiger_service` FOREIGN KEY (`serviceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

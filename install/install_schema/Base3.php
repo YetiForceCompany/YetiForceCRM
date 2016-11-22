@@ -2378,7 +2378,6 @@ class Base3 extends \App\Db\Importers\Base
 					'usageunit' => $this->stringType(200),
 					'reorderlevel' => $this->integer(),
 					'website' => $this->stringType(100),
-					'taxclass' => $this->stringType(200),
 					'mfr_part_no' => $this->stringType(200),
 					'vendor_part_no' => $this->stringType(200),
 					'serialno' => $this->stringType(200),
