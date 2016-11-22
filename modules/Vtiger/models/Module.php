@@ -674,29 +674,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 		return $quickCreateSortedList;
 	}
-	/**
-	 * Function that returns related list header fields that will be showed in the Related List View
-	 * @return <Array> returns related fields list.
-	 */
-
-	/**
-	 * @todo To remove after rebuilding relations
-	 */
-	public function getRelatedListFields()
-	{
-		$entityInstance = CRMEntity::getInstance($this->getName());
-		$list_fields_name = $entityInstance->list_fields_name;
-		$list_fields = $entityInstance->list_fields;
-		$relatedListFields = [];
-		foreach ($list_fields as $key => $fieldInfo) {
-			foreach ($fieldInfo as $columnName) {
-				if (array_key_exists($key, $list_fields_name)) {
-					$relatedListFields[$columnName] = $list_fields_name[$key];
-				}
-			}
-		}
-		return $relatedListFields;
-	}
 
 	/**
 	 * Function returns all the relation models

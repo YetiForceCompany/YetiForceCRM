@@ -327,28 +327,9 @@ class Services extends CRMEntity
 
 		return $query;
 	}
-	/**
-	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	// function save_related_module($module, $crmid, $with_module, $with_crmid) { }
 
 	/**
-	 * Handle deleting related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function delete_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
-
-	/** 	function used to get the list of pricebooks which are related to the service
+	 * function used to get the list of pricebooks which are related to the service
 	 * 	@param int $id - service id
 	 * 	@return array - array which will be returned from the function GetRelatedList
 	 */
@@ -739,70 +720,5 @@ class Services extends CRMEntity
 			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
 			$this->db->delete('vtiger_crmentityrel', $where, $params);
 		}
-	}
-
-	/**
-	 * Function to get Product's related Products
-	 * @param  integer   $id      - productid
-	 * returns related Products record in array format
-	 */
-	public function get_services($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_products(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = \App\Language::getSingularModuleName($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions && $this->ismember_check() === 0) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \App\Language::translate('LBL_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\";' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$query = "SELECT vtiger_service.serviceid, vtiger_service.servicename,
-			vtiger_service.service_no, vtiger_service.commissionrate,
-			vtiger_service.service_usageunit, vtiger_service.unit_price,
-			vtiger_crmentity.crmid, vtiger_crmentity.smownerid
-			FROM vtiger_service
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_service.serviceid
-			INNER JOIN vtiger_servicecf
-				ON vtiger_service.serviceid = vtiger_servicecf.serviceid
-			LEFT JOIN vtiger_crmentityrel ON vtiger_crmentityrel.relcrmid = vtiger_service.serviceid && vtiger_crmentityrel.module='Services'
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 && vtiger_crmentityrel.crmid = $id ";
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_products method ...");
-		return $return_value;
 	}
 }

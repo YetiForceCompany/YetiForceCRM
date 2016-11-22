@@ -315,10 +315,10 @@ class Assets extends CRMEntity
 			$assetLabel = 'Assets';
 
 			$accountInstance = vtlib\Module::getInstance('Accounts');
-			$accountInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
+			$accountInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'getDependentsList');
 
 			$productInstance = vtlib\Module::getInstance('Products');
-			$productInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
+			$productInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'getDependentsList');
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		} else if ($eventType == 'module.disabled') {

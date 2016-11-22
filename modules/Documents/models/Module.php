@@ -51,8 +51,8 @@ class Documents_Module_Model extends Vtiger_Module_Model
 			$condition = ['and', ['vtiger_notes.filelocationtype' => 'I'], ['<>', 'vtiger_notes.filename', ''], ['vtiger_notes.filestatus' => 1]];
 		} else {
 			$condition = ['and',
-				['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
-				['vtiger_notes.filestatus' => 1]
+					['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
+					['vtiger_notes.filestatus' => 1]
 			];
 		}
 		$queryGenerator->addAndConditionNative($condition);
@@ -99,21 +99,6 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	public function getAlphabetSearchField()
 	{
 		return 'notes_title';
-	}
-
-	/**
-	 * Function that returns related list header fields that will be showed in the Related List View
-	 * @return <Array> returns related fields list.
-	 */
-	public function getRelatedListFields()
-	{
-		$relatedListFields = parent::getRelatedListFields();
-
-		//Adding filestatus, filelocationtype in the related list to be used for file download
-		$relatedListFields['filestatus'] = 'filestatus';
-		$relatedListFields['filelocationtype'] = 'filelocationtype';
-
-		return $relatedListFields;
 	}
 
 	public function getSettingLinks()

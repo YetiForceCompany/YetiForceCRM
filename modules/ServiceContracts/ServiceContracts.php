@@ -358,10 +358,10 @@ class ServiceContracts extends CRMEntity
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 
 			$accModuleInstance = vtlib\Module::getInstance('Accounts');
-			$accModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'get_dependents_list');
+			$accModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'getDependentsList');
 
 			$conModuleInstance = vtlib\Module::getInstance('Contacts');
-			$conModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'get_dependents_list');
+			$conModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'getDependentsList');
 
 			$helpDeskInstance = vtlib\Module::getInstance("HelpDesk");
 			$helpDeskInstance->setRelatedList($moduleInstance, "Service Contracts", Array('ADD', 'SELECT'));
@@ -576,12 +576,6 @@ class ServiceContracts extends CRMEntity
 			$this->updateServiceContractState($crmid);
 		}
 	}
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)

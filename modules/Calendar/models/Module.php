@@ -70,31 +70,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function that returns related list header fields that will be showed in the Related List View
-	 * @return <Array> returns related fields list.
-	 */
-	public function getRelatedListFields()
-	{
-		$entityInstance = CRMEntity::getInstance($this->getName());
-		$list_fields = $entityInstance->list_fields;
-		$list_fields_name = $entityInstance->list_fields_name;
-		$relatedListFields = [];
-		foreach ($list_fields as $key => $fieldInfo) {
-			foreach ($fieldInfo as $columnName) {
-				if (array_key_exists($key, $list_fields_name)) {
-					if ($columnName == 'lastname' || $columnName == 'activity' || $columnName == 'due_date' || $columnName == 'time_end')
-						continue;
-					if ($columnName == 'status')
-						$relatedListFields[$columnName] = 'activitystatus';
-					else
-						$relatedListFields[$columnName] = $list_fields_name[$key];
-				}
-			}
-		}
-		return $relatedListFields;
-	}
-
-	/**
 	 * Function to get list of field for related list
 	 * @return <Array> empty array
 	 */

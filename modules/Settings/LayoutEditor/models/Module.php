@@ -175,9 +175,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldparams['field'] = $params['MRVField'];
 			$fieldparams['filterField'] = $params['MRVFilterField'];
 			$fieldparams['filterValue'] = $params['MRVFilterValue'];
-			\App\Db::getInstance()->createCommand()->insert('s_yf_multireference',
-				['source_module' => $moduleName, 'dest_module' =>$params['MRVModule']])->execute();
-	
+			\App\Db::getInstance()->createCommand()->insert('s_yf_multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
@@ -217,7 +215,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
 				$targetModule = vtlib\Module::getInstance($module);
-				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'get_dependents_list');
+				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'getDependentsList');
 			}
 		}
 		return $fieldModel;
@@ -537,8 +535,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public static function getRelationsTypes()
 	{
 		$typesList = array(
-			'get_related_list' => 'PLL_RELATED_LIST',
-			'get_dependents_list' => 'PLL_DEPENDENTS_LIST',
+			'getRelatedList' => 'PLL_RELATED_LIST',
+			'getDependentsList' => 'PLL_DEPENDENTS_LIST',
 			'get_many_to_many' => 'PLL_SPLITED_RELATED_LIST',
 			'get_attachments' => 'PLL_ATTACHMENTS',
 		);

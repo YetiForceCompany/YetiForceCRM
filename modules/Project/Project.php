@@ -351,15 +351,15 @@ class Project extends CRMEntity
 
 			// Add Project module to the related list of Accounts module
 			$accountsModuleInstance = vtlib\Module::getInstance('Accounts');
-			$accountsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'get_dependents_list');
+			$accountsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'getDependentsList');
 
 			// Add Project module to the related list of Accounts module
 			$contactsModuleInstance = vtlib\Module::getInstance('Contacts');
-			$contactsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'get_dependents_list');
+			$contactsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'getDependentsList');
 
 			// Add Project module to the related list of HelpDesk module
 			$helpDeskModuleInstance = vtlib\Module::getInstance('HelpDesk');
-			$helpDeskModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('SELECT'), 'get_related_list');
+			$helpDeskModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('SELECT'), 'getRelatedList');
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -442,101 +442,6 @@ class Project extends CRMEntity
 			$child->column_fields['projectid'] = '';
 			$child->save($destinationModule, $relcrmid);
 		}
-	}
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
-
-	/**
-	 * Handle getting dependents list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
-
-	/**
-	 * @todo To remove after rebuilding relations
-	 */
-	public function get_gantt_chart($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		require_once("BURAK_Gantt.class.php");
-
-		$headers = array();
-		$headers[0] = \App\Language::translate('LBL_PROGRESS_CHART');
-
-		$entries = array();
-
-		global $tmp_dir;
-		$default_charset = AppConfig::main('default_charset');
-		$adb = PearDatabase::getInstance();
-		$record = $id;
-		$g = new BURAK_Gantt();
-		// set grid type
-		$g->setGrid(1);
-		// set Gantt colors
-		$g->setColor("group", "000000");
-		$g->setColor("progress", "660000");
-
-		$related_projecttasks = $adb->pquery("SELECT pt.* FROM vtiger_projecttask AS pt
-												INNER JOIN vtiger_crmentity AS crment ON pt.projecttaskid=crment.crmid
-												WHERE projectid=? && crment.deleted=0 && pt.startdate IS NOT NULL && pt.enddate IS NOT NULL", array($record));
-
-		while ($rec_related_projecttasks = $adb->fetchByAssoc($related_projecttasks)) {
-
-			if ($rec_related_projecttasks['projecttaskprogress'] == "--none--") {
-				$percentage = 0;
-			} else {
-				$percentage = str_replace("%", "", $rec_related_projecttasks['projecttaskprogress']);
-			}
-
-			$rec_related_projecttasks['projecttaskname'] = iconv($default_charset, "ISO-8859-2//TRANSLIT", $rec_related_projecttasks['projecttaskname']);
-			$g->addTask($rec_related_projecttasks['projecttaskid'], $rec_related_projecttasks['startdate'], $rec_related_projecttasks['enddate'], $percentage, $rec_related_projecttasks['projecttaskname']);
-		}
-
-
-		$related_projectmilestones = $adb->pquery("SELECT pm.* FROM vtiger_projectmilestone AS pm
-													INNER JOIN vtiger_crmentity AS crment on pm.projectmilestoneid=crment.crmid
-													WHERE projectid=? and crment.deleted=0", array($record));
-
-		while ($rec_related_projectmilestones = $adb->fetchByAssoc($related_projectmilestones)) {
-			$rec_related_projectmilestones['projectmilestonename'] = iconv($default_charset, "ISO-8859-2//TRANSLIT", $rec_related_projectmilestones['projectmilestonename']);
-			$g->addMilestone($rec_related_projectmilestones['projectmilestoneid'], $rec_related_projectmilestones['projectmilestonedate'], $rec_related_projectmilestones['projectmilestonename']);
-		}
-
-		$g->outputGantt($tmp_dir . "diagram_" . $record . ".jpg", "100");
-
-		$origin = $tmp_dir . "diagram_" . $record . ".jpg";
-		$destination = $tmp_dir . "pic_diagram_" . $record . ".jpg";
-
-		$imagesize = getimagesize($origin);
-		$actualWidth = $imagesize[0];
-		$actualHeight = $imagesize[1];
-
-		$size = 1000;
-		if ($actualWidth > $size) {
-			$width = $size;
-			$height = ($actualHeight * $size) / $actualWidth;
-			copy($origin, $destination);
-			$id_origin = imagecreatefromjpeg($destination);
-			$id_destination = imagecreate($width, $height);
-			imagecopyresized($id_destination, $id_origin, 0, 0, 0, 0, $width, $height, $actualWidth, $actualHeight);
-			imagejpeg($id_destination, $destination);
-			imagedestroy($id_origin);
-			imagedestroy($id_destination);
-
-			$image = $destination;
-		} else {
-			$image = $origin;
-		}
-
-		$fullGanttChartImageUrl = $tmp_dir . "diagram_" . $record . ".jpg";
-		$thumbGanttChartImageUrl = $image;
-		$entries[0] = array("<a href='$fullGanttChartImageUrl' border='0' target='_blank'><img src='$thumbGanttChartImageUrl' border='0'></a>");
-
-		return array('header' => $headers, 'entries' => $entries);
 	}
 
 	/** Function to unlink an entity with given Id from another entity */

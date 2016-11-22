@@ -94,30 +94,30 @@ class Reservations extends Vtiger_CRMEntity
 	{
 		$registerLink = false;
 		$adb = PearDatabase::getInstance();
-		
+
 		if ($event_type == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Reservations');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'RES', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Reservations'));
 			$moduleInstance = vtlib\Module::getInstance($modulename);
 			$targetModule = vtlib\Module::getInstance('Accounts');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 			$targetModule = vtlib\Module::getInstance('HelpDesk');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 			$targetModule = vtlib\Module::getInstance('Leads');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 			$targetModule = vtlib\Module::getInstance('Project');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 			$targetModule = vtlib\Module::getInstance('Vendors');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 			
 		}

@@ -49,7 +49,7 @@ class Module extends ModuleBasic
 	 *
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
-	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'get_related_list')
+	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList')
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -104,7 +104,7 @@ class Module extends ModuleBasic
 	 * @param String Label to display in related list (default is target module name)
 	 * @param String Callback function name of this module to use as handler
 	 */
-	public function unsetRelatedList($moduleInstance, $label = '', $function_name = 'get_related_list')
+	public function unsetRelatedList($moduleInstance, $label = '', $function_name = 'getRelatedList')
 	{
 		$adb = \PearDatabase::getInstance();
 

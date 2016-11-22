@@ -141,34 +141,6 @@ class HelpDesk extends CRMEntity
 		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
-	/**     Function to get the Ticket History information as in array format
-	 * 	@param int $ticketid - ticket id
-	 * 	@return array - return an array with title and the ticket history informations in the following format
-	  array(
-	  header=>array('0'=>'title'),
-	  entries=>array('0'=>'info1','1'=>'info2',etc.,)
-	  )
-	 * @todo To remove after rebuilding relations
-	 */
-	public function get_ticket_history($ticketid)
-	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering into get_ticket_history($ticketid) method ...");
-
-		$query = 'select title,update_log from vtiger_troubletickets where ticketid=?';
-		$result = $adb->pquery($query, array($ticketid));
-		$row = $adb->getRow($result);
-		$updateLog = $row['update_log'];
-		$header[] = $row['title'];
-		$splitval = explode('--//--', trim($updateLog, '--//--'));
-
-		$return_value = ['header' => $header, 'entries' => $splitval];
-
-		\App\Log::trace("Exiting from get_ticket_history($ticketid) method ...");
-		return $return_value;
-	}
-
 	/**     Function to get the Customer Name who has made comment to the ticket from the customer portal
 	 *      @param  int    $id   - Ticket id
 	 *      @return string $customername - The contact name
