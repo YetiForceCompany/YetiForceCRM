@@ -180,10 +180,15 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 	}
 
-	public function getEntries($pagingModel)
+	/**
+	 * Function to get the related list view entries
+	 * @param Vtiger_Paging_Model $pagingModel
+	 * @return Vtiger_Record_Model[]
+	 */
+	public function getEntries(Vtiger_Paging_Model $pagingModel)
 	{
 		$relationModel = $this->getRelationModel();
-		$relationModule = $relationModel->getRelationModuleModel();
+		$relationModuleModel = $relationModel->getRelationModuleModel();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getRelationQuery();
 		if ($pagingModel->get('limit') !== 'no_limit') {
@@ -200,7 +205,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 		$relatedRecordList = [];
 		foreach ($rows as &$row) {
-			$relatedRecordList[$row['id']] = $relationModule->getRecordFromArray($row);
+			$relatedRecordList[$row['id']] = $relationModuleModel->getRecordFromArray($row);
 		}
 		$sql = $query->createCommand()->getRawSql();
 		echo "<code>";

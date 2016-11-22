@@ -282,7 +282,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return Vtiger_Record_Model[] - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
