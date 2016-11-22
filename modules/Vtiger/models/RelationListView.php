@@ -181,7 +181,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
 		$searchParams = $this->get('search_params');
-		if (!$searchParams) {
+		if ($searchParams) {
 			$queryGenerator->parseAdvFilter($searchParams);
 		}
 		$searchKey = $this->get('search_key');
@@ -247,7 +247,18 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	 */
 	public function getHeaders()
 	{
-		return $this->getRelationModel()->getQueryFields();
+		$fields = $this->getRelationModel()->getQueryFields();
+		unset($fields['id']);
+		return $fields;
+	}
+
+	/**
+	 * Function to get Total number of record in this relation
+	 * @return int
+	 */
+	public function getRelatedEntriesCount()
+	{
+		return $this->getRelationQuery()->count();
 	}
 
 	public function getCreateViewUrl()
@@ -394,32 +405,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($addLink);
 		}
 		return $addLinkModel;
-	}
-
-	/**
-	 * Function to get Total number of record in this relation
-	 * @return <Integer>
-	 */
-	public function getRelatedEntriesCount()
-	{
-		$db = PearDatabase::getInstance();
-		$relationQuery = $this->getRelationQuery();
-		$relationQuery = preg_replace("/[ \t\n\r]+/", ' ', $relationQuery);
-		$position = stripos($relationQuery, ' FROM ');
-		if ($position) {
-			$split = preg_split('/FROM/i', $relationQuery, 2);
-			$splitCount = count($split);
-			$relationQuery = 'SELECT COUNT(DISTINCT vtiger_crmentity.crmid) AS count';
-			for ($i = 1; $i < $splitCount; $i++) {
-				$relationQuery = $relationQuery . ' FROM ' . $split[$i];
-			}
-		}
-		if (strpos($relationQuery, ' GROUP BY ') !== false) {
-			$parts = explode(' GROUP BY ', $relationQuery);
-			$relationQuery = $parts[0];
-		}
-		$result = $db->query($relationQuery);
-		return $db->getSingleValue($result);
 	}
 
 	/**

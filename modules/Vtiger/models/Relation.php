@@ -278,14 +278,19 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$queryGenerator = $this->getQueryGenerator();
 		$entity = $queryGenerator->getEntityModel();
 		if (!empty($entity->relationFields)) {
+			// Get fields from entity model
 			foreach ($entity->relationFields as &$fieldName) {
 				$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 			}
 		} else {
+			// Get fields from default CustomView
 			$queryGenerator->initForDefaultCustomView(true, true);
 			foreach ($queryGenerator->getFields() as &$fieldName) {
-				$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
+				if ($fieldName !== 'id') {
+					$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
+				}
 			}
+			$relatedListFields['id'] = true;
 		}
 		if ($relatedListFields) {
 			$this->set('QueryFields', $relatedListFields);

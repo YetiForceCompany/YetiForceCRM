@@ -69,7 +69,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$transformedSearchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$relationListView->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
-		foreach ($searchParmams as &$fieldListGroup) {
+		foreach ($searchParmams as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
