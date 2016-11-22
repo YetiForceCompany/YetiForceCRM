@@ -328,6 +328,7 @@ class Emails extends CRMEntity
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_users($id)
 	{

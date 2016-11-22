@@ -453,6 +453,7 @@ class Activity extends CRMEntity
 	 * Function to get Activity related Users
 	 * @param  integer   $id      - activityid
 	 * returns related Users record in array format
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_users($id)
 	{

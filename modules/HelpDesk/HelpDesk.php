@@ -148,6 +148,7 @@ class HelpDesk extends CRMEntity
 	  header=>array('0'=>'title'),
 	  entries=>array('0'=>'info1','1'=>'info2',etc.,)
 	  )
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_ticket_history($ticketid)
 	{
