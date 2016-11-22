@@ -12,7 +12,7 @@
 class Vtiger_Relation_Model extends Vtiger_Base_Model
 {
 
-	static $_cached_instance = [];
+	protected static $cachedInstances = [];
 	protected $parentModule = false;
 	protected $relatedModule = false;
 
@@ -71,7 +71,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	 */
 	public function getRelationModuleModel()
 	{
-		if (empty($this->relatedModule)) {
+		if (!$this->relatedModule) {
 			$this->relatedModule = Vtiger_Module_Model::getInstance($this->get('related_tabid'));
 		}
 		return $this->relatedModule;
@@ -90,11 +90,47 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->getRelationModuleModel()->getName();
 	}
 
+	/**
+	 * Get actions
+	 * @return string[]
+	 */
+	public function getActions()
+	{
+		if (is_array($this->get('actions'))) {
+			return $this->get('actions');
+		}
+		// No actions for Activity history
+		if ($this->get('c') === 'Activity History') {
+			return [];
+		}
+		$actions = explode(',', strtolower($this->get('actions')));
+		$this->set('actions', $actions);
+		return $actions;
+	}
+
+	/**
+	 * Check if action is supported
+	 * @param string $actionName
+	 * @return boolean
+	 */
+	public function isActionSupported($actionName)
+	{
+		return in_array(strtolower($actionName), $this->getActions());
+	}
+
+	/**
+	 * Is record selection action available
+	 * @return boolean
+	 */
 	public function isSelectActionSupported()
 	{
 		return $this->isActionSupported('select');
 	}
 
+	/**
+	 * Is record add action available
+	 * @return boolean
+	 */
 	public function isAddActionSupported()
 	{
 		return $this->isActionSupported('add');
@@ -159,8 +195,8 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
 	{
 		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . ($label ? 1 : 0);
-		if (key_exists($relKey, self::$_cached_instance)) {
-			return self::$_cached_instance[$relKey];
+		if (isset(self::$cachedInstances[$relKey])) {
+			return self::$cachedInstances[$relKey];
 		}
 		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
@@ -169,7 +205,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			if (method_exists($relationModel, 'setExceptionData')) {
 				$relationModel->setExceptionData();
 			}
-			self::$_cached_instance[$relKey] = $relationModel;
+			self::$cachedInstances[$relKey] = $relationModel;
 			return $relationModel;
 		}
 		$query = (new \App\Db\Query())->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
@@ -177,7 +213,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
 			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
 			->andWhere(['<>', 'vtiger_tab.presence', 1]);
-
 		if (!empty($label)) {
 			$query->andWhere(['label' => $label]);
 		}
@@ -186,12 +221,17 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
-			self::$_cached_instance[$relKey] = $relationModel;
+			self::$cachedInstances[$relKey] = $relationModel;
 			return $relationModel;
 		}
 		return false;
 	}
 
+	/**
+	 * Get query form relation
+	 * @return \App\Db\Query
+	 * @throws \Exception\NotAllowedMethod
+	 */
 	public function getQuery()
 	{
 		$queryGenerator = $this->getQueryGenerator();
@@ -346,19 +386,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
 	}
 
-	public function getActions()
-	{
-		$actionString = $this->get('actions');
-
-		$label = $this->get('label');
-		// No actions for Activity history
-		if ($label == 'Activity History') {
-			return [];
-		}
-
-		return explode(',', $actionString);
-	}
-
 	public function getListUrl($parentRecordModel)
 	{
 		$url = 'module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
@@ -367,18 +394,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$url .= '&time=current';
 		}
 		return $url;
-	}
-
-	public function isActionSupported($actionName)
-	{
-		$actionName = strtolower($actionName);
-		$actions = $this->getActions();
-		foreach ($actions as $action) {
-			if (strcmp(strtolower($action), $actionName) == 0) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public function addRelation($sourceRecordId, $destinationRecordId)
