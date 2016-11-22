@@ -37,7 +37,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 				->select(['tree', 'name', 'parenttrre', 'depth', 'label'])
 				->from('vtiger_trees_templates_data')
 				->where(['templateid' => $template])
-				->createCommand(App\Db::getInstance('admin'))
+				->createCommand()
 				->queryAllByGroup(1);
 			\App\Cache::save('TreeData', $template, $treeData, \App\Cache::LONG);
 		}

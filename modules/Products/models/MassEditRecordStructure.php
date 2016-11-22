@@ -23,7 +23,7 @@ class Products_MassEditRecordStructure_Model extends Vtiger_MassEditRecordStruct
 	public function isFieldRestricted($fieldModel)
 	{
 		$restricted = parent::isFieldRestricted($fieldModel);
-		if ($restricted && $fieldModel->getName() == 'unit_price') {
+		if ($restricted && $fieldModel->getName() === 'unit_price') {
 			return false;
 		} else {
 			return $restricted;

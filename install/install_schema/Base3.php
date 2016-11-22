@@ -3042,20 +3042,6 @@ class Base3 extends \App\Db\Importers\Base
 						[0],
 				]
 			],
-			'vtiger_inventorytaxinfo' => [
-				'columns' => ['taxid', 'taxname', 'taxlabel', 'percentage', 'deleted'],
-				'values' => [
-						[1, 'tax1', 'VAT', '23.000', 0],
-						[2, 'tax2', 'Sales', '8.000', 0],
-						[3, 'tax3', 'Service', '5.000', 0],
-				]
-			],
-			'vtiger_inventorytaxinfo_seq' => [
-				'columns' => ['id'],
-				'values' => [
-						[3],
-				]
-			],
 			'vtiger_ipreorder_status' => [
 				'columns' => ['ipreorder_statusid', 'ipreorder_status', 'sortorderid', 'presence'],
 				'values' => [
