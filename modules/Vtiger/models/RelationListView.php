@@ -23,6 +23,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		return $this;
 	}
 
+	/**
+	 * Get relation model
+	 * @return Vtiger_Relation_Model
+	 */
 	public function getRelationModel()
 	{
 		return $this->relationModel;
@@ -34,6 +38,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		return $this;
 	}
 
+	/**
+	 * Get parent record model
+	 * @return Vtiger_Record_Model
+	 */
 	public function getParentRecordModel()
 	{
 		return $this->parentRecordModel;
@@ -45,6 +53,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		return $this;
 	}
 
+	/**
+	 * Function that returns the relation's related module model
+	 * @return Vtiger_Module_Model
+	 */
 	public function getRelatedModuleModel()
 	{
 		return $this->relatedModuleModel;
@@ -229,6 +241,15 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 	}
 
+	/**
+	 * Get header fields
+	 * @return Vtiger_Field_Model[]
+	 */
+	public function getHeaders()
+	{
+		return $this->getRelationModel()->getQueryFields();
+	}
+
 	public function getCreateViewUrl()
 	{
 		$relationModel = $this->getRelationModel();
@@ -373,33 +394,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($addLink);
 		}
 		return $addLinkModel;
-	}
-
-	public function getHeaders()
-	{
-		$relationModel = $this->getRelationModel();
-		$relatedModuleModel = $relationModel->getRelationModuleModel();
-		$relationFields = $relationModel->getRelationFields(true);
-
-		$headerFields = [];
-		if (count($relationFields) > 0) {
-			foreach ($relationFields as $fieldName) {
-				$headerFields[$fieldName] = $relatedModuleModel->getField($fieldName);
-			}
-			return $headerFields;
-		}
-		$summaryFieldsList = $relatedModuleModel->getSummaryViewFieldsList();
-		if (count($summaryFieldsList) > 0) {
-			foreach ($summaryFieldsList as $fieldName => $fieldModel) {
-				$headerFields[$fieldName] = $fieldModel;
-			}
-		} else {
-			$headerFieldNames = $relatedModuleModel->getRelatedListFields();
-			foreach ($headerFieldNames as $fieldName) {
-				$headerFields[$fieldName] = $relatedModuleModel->getField($fieldName);
-			}
-		}
-		return $headerFields;
 	}
 
 	/**

@@ -277,8 +277,8 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 		$queryGenerator = $this->getQueryGenerator();
 		$entity = $queryGenerator->getEntityModel();
-		if (!empty($entity->list_fields_name)) {
-			foreach ($entity->list_fields_name as &$fieldName) {
+		if (!empty($entity->relationFields)) {
+			foreach ($entity->relationFields as &$fieldName) {
 				$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 			}
 		} else {
