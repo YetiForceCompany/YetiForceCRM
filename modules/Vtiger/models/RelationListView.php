@@ -92,7 +92,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if (!$relationModel) {
 			$relationModel = false;
 		} else {
-			$queryGenerator = new QueryGenerator($relatedModuleModel->getName(), Users_Record_Model::getCurrentUserModel());
+			$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
 		}
 		$instance->setRelationModel($relationModel)->set('query_generator', $queryGenerator);
 		return $instance;
@@ -327,8 +327,13 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$relatedColumnFields[$col] = $name;
 			}
 		}
-		$query = $this->getRelationQuery();
-
+		$queryGenerator = $this->getRelationQuery();
+		$query = $queryGenerator->createQuery();
+		$sql = $query->createCommand()->getRawSql();
+		echo "<code>";
+		var_dump($sql);
+		echo "</code>";
+		exit;
 		if ($this->get('whereCondition')) {
 			$query = $this->updateQueryWithWhereCondition($query);
 		}
@@ -491,7 +496,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if (!empty($relationModel) && $relationModel->get('name') != NULL) {
 			$recordModel = $this->getParentRecordModel();
 
-			if ($this->get('newQG')) {
+			if (!$this->get('newQG')) {
 				$relationModel->set('query_generator', $queryGenerator);
 				$relationModel->set('parentRecord', $recordModel);
 				$relationModel->set('newQG', true);
