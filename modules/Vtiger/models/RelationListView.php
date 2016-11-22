@@ -327,8 +327,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				$relatedColumnFields[$col] = $name;
 			}
 		}
-		$queryGenerator = $this->getRelationQuery();
-		$query = $queryGenerator->createQuery();
+		$query = $this->getRelationQuery();
 		$sql = $query->createCommand()->getRawSql();
 		echo "<code>";
 		var_dump($sql);
@@ -489,59 +488,53 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			return $this->query;
 		}
 		$relationModel = $this->getRelationModel();
-		$relatedModuleModel = $this->getRelatedModuleModel();
-		$relatedModuleName = $relatedModuleModel->getName();
 		//$this->loadCondition($relationModuleName);
 		$queryGenerator = $this->get('query_generator');
-		if (!empty($relationModel) && $relationModel->get('name') != NULL) {
-			$recordModel = $this->getParentRecordModel();
-
-			if (!$this->get('newQG')) {
-				$relationModel->set('query_generator', $queryGenerator);
-				$relationModel->set('parentRecord', $recordModel);
-				$relationModel->set('newQG', true);
-				$relationModel->getQuery($recordModel, false, $this);
-				return $queryGenerator;
-			}
-			$this->query = $relationModel->getQuery($recordModel, false, $this);
-			return $this->query;
+		if (!empty($relationModel) && $relationModel->get('name')) {
+			$relationModel->set('query_generator', $queryGenerator);
+			$relationModel->set('parentRecord', $this->getParentRecordModel());
+			return $relationModel->getQuery();
 		}
+		die(">>> No relationModel instance, requires verification <<<");
+		/*
+		  $relatedModuleModel = $this->getRelatedModuleModel();
 
-		$relatedModuleBaseTable = $relatedModuleModel->basetable;
-		$relatedModuleEntityIdField = $relatedModuleModel->basetableid;
+		  $relatedModuleBaseTable = $relatedModuleModel->basetable;
+		  $relatedModuleEntityIdField = $relatedModuleModel->basetableid;
 
-		$parentModuleModel = $relationModel->getParentModuleModel();
-		$parentModuleBaseTable = $parentModuleModel->basetable;
-		$parentModuleEntityIdField = $parentModuleModel->basetableid;
-		$parentRecordId = $this->getParentRecordModel()->getId();
-		$parentModuleDirectRelatedField = $parentModuleModel->get('directRelatedFieldName');
+		  $parentModuleModel = $relationModel->getParentModuleModel();
+		  $parentModuleBaseTable = $parentModuleModel->basetable;
+		  $parentModuleEntityIdField = $parentModuleModel->basetableid;
+		  $parentRecordId = $this->getParentRecordModel()->getId();
+		  $parentModuleDirectRelatedField = $parentModuleModel->get('directRelatedFieldName');
 
-		$relatedModuleFields = array_keys($this->getHeaders());
+		  $relatedModuleFields = array_keys($this->getHeaders());
 
-		$queryGenerator->setFields($relatedModuleFields);
+		  $queryGenerator->setFields($relatedModuleFields);
 
-		$joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
+		  $joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
 
-		$query = $queryGenerator->getQuery();
-		$queryComponents = preg_split('/FROM/i', $query);
-		foreach ($queryComponents as $key => $val) {
-			if ($key == 0) {
-				$query = sprintf('%s ,vtiger_crmentity.crmid', $queryComponents[0]);
-			} else {
-				$query .= sprintf('FROM %s', $val);
-			}
-		}
-		$whereSplitQueryComponents = preg_split('/WHERE/i', $query);
-		$query = $whereSplitQueryComponents[0] . $joinQuery;
-		foreach ($whereSplitQueryComponents as $key => $val) {
-			if ($key == 0) {
-				$query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId && ";
-			} else {
-				$query .= $val . ' WHERE ';
-			}
-		}
-		$this->query = trim($query, ' WHERE ');
-		return $this->query;
+		  $query = $queryGenerator->getQuery();
+		  $queryComponents = preg_split('/FROM/i', $query);
+		  foreach ($queryComponents as $key => $val) {
+		  if ($key == 0) {
+		  $query = sprintf('%s ,vtiger_crmentity.crmid', $queryComponents[0]);
+		  } else {
+		  $query .= sprintf('FROM %s', $val);
+		  }
+		  }
+		  $whereSplitQueryComponents = preg_split('/WHERE/i', $query);
+		  $query = $whereSplitQueryComponents[0] . $joinQuery;
+		  foreach ($whereSplitQueryComponents as $key => $val) {
+		  if ($key == 0) {
+		  $query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId && ";
+		  } else {
+		  $query .= $val . ' WHERE ';
+		  }
+		  }
+		  $this->query = trim($query, ' WHERE ');
+		  return $this->query;
+		 */
 	}
 
 	/**

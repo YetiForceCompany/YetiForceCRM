@@ -192,36 +192,28 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return false;
 	}
 
-	public function getQuery($parentRecord, $actions = false, $relationListView_Model = false)
+	public function getQuery()
 	{
-		$parentModuleModel = $this->getParentModuleModel();
-		$relatedModuleModel = $this->getRelationModuleModel();
-		$parentModuleName = $parentModuleModel->getName();
-		$relatedModuleName = $relatedModuleModel->getName();
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->setSourceRecord($this->get('parentRecord')->getId());
 		$functionName = $this->get('name');
-		if ($this->get('newQG')) {
-			$queryGenerator = $this->getQueryGenerator();
-			$queryGenerator->setSourceRecord($this->get('parentRecord')->getId());
-
-			if (method_exists($this, $functionName)) {
-				$this->$functionName();
-			} else {
-				//App\Log::error("Not exist relation: $functionName in " . __METHOD__);
-				//throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION');
-			}
-			if ($this->showCreatorDetail()) {
-				$queryGenerator->setCustomColumn('rel_created_user');
-				$queryGenerator->setCustomColumn('rel_created_time');
-			}
-			if ($this->showComment()) {
-				$queryGenerator->setCustomColumn('rel_comment');
-			}
-			$fields = array_keys($this->getQueryFields());
-			$fields[] = 'id';
-			$queryGenerator->setFields($fields);
-			return '';
+		if (method_exists($this, $functionName)) {
+			$this->$functionName();
+		} else {
+			App\Log::error("Not exist relation: $functionName in " . __METHOD__);
+			throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
 		}
-		return $query;
+		if ($this->showCreatorDetail()) {
+			$queryGenerator->setCustomColumn('rel_created_user');
+			$queryGenerator->setCustomColumn('rel_created_time');
+		}
+		if ($this->showComment()) {
+			$queryGenerator->setCustomColumn('rel_comment');
+		}
+		$fields = array_keys($this->getQueryFields());
+		$fields[] = 'id';
+		$queryGenerator->setFields($fields);
+		return $queryGenerator->createQuery();
 	}
 
 	/**
@@ -300,10 +292,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 					}
 				}
 			}
-			if (!$relationField) {
-				$relationField = false;
-			}
-			$this->set('relationField', $relationField);
+			$this->set('relationField', $relationField ? $relationField : false);
 		}
 		return $relationField;
 	}
