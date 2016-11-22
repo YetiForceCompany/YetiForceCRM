@@ -209,12 +209,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				//App\Log::error("Not exist relation: $functionName in " . __METHOD__);
 				//throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION');
 			}
-			switch ($functionName) {
-				case 'get_dependents_list':
-					$this->getDependentsList();
-
-					break;
-			}
 			if ($this->showCreatorDetail()) {
 				$queryGenerator->setCustomColumn('rel_created_user');
 				$queryGenerator->setCustomColumn('rel_created_time');
@@ -226,17 +220,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$fields[] = 'id';
 			$queryGenerator->setFields($fields);
 			return '';
-		}
-		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
-		if ($relationListView_Model) {
-			$queryGenerator = $relationListView_Model->get('query_generator');
-			$joinTable = $queryGenerator->getFromClause(true);
-			if ($joinTable) {
-				$queryComponents = preg_split('/WHERE/i', $query);
-				$query = $queryComponents[0] . $joinTable . ' WHERE ' . $queryComponents[1];
-			}
-			$where = $queryGenerator->getWhereClause(true);
-			$query .= $where;
 		}
 		return $query;
 	}
@@ -288,17 +271,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Get dependents record list
-	 */
-	public function getDependentsList()
-	{
-		$fieldModel = $this->getRelationField(true);
-		$this->getQueryGenerator()->addAndConditionNative([
-			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId()
-		]);
-	}
-
-	/**
 	 * Function to get relation field for relation module and parent module
 	 * @return Vtiger_Field_Model
 	 */
@@ -334,6 +306,28 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$this->set('relationField', $relationField);
 		}
 		return $relationField;
+	}
+
+	/**
+	 * Get dependents record list
+	 */
+	public function getDependentsList()
+	{
+		$fieldModel = $this->getRelationField(true);
+		$this->getQueryGenerator()->addAndConditionNative([
+			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId()
+		]);
+	}
+
+	/**
+	 * Get related record list
+	 */
+	public function getRelatedList()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$record = $this->get('parentRecord')->getId();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentityrel', '(vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)']);
+		$queryGenerator->addAndConditionNative(['or', ['vtiger_crmentityrel.crmid' => $record], ['vtiger_crmentityrel.relcrmid' => $record]]);
 	}
 	/**
 	 * 
