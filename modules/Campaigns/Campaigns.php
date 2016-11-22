@@ -69,9 +69,7 @@ class Campaigns extends CRMEntity
 	}
 
 	/**
-	 * Function to get Campaign related Contacts
-	 * @param  integer   $id      - campaignid
-	 * returns related Contacts record in array format
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_campaigns_records($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
@@ -182,6 +180,7 @@ class Campaigns extends CRMEntity
 	 * @param - $related_list return value from GetRelatedList
 	 * @param - $status_column index of the status column in the list.
 	 * returns true on success
+	 * @todo To remove after rebuilding relations
 	 */
 
 	public function add_status_popup($related_list, $status_column = 7, $related_module)
