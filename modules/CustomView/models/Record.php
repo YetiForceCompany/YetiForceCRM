@@ -246,7 +246,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	/**
 	 * Function which provides the records for the current view
 	 * @param <Boolean> $skipRecords - List of the RecordIds to be skipped
-	 * @return <Array> List of RecordsIds
+	 * @return int[] List of RecordsIds
 	 */
 	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
@@ -255,9 +255,12 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$moduleName = $moduleModel->get('name');
 		$baseTableName = $moduleModel->get('basetable');
 		$baseTableId = $moduleModel->get('basetableid');
-
-		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-		$queryGenerator = $listViewModel->get('query_generator');
+		$queryGenerator = new App\QueryGenerator($moduleName);
+		if (!empty($cvId) && $cvId != 0) {
+			$queryGenerator->initForCustomViewById($cvId);
+		} else {
+			$queryGenerator->initForDefaultCustomView();
+		}
 		$queryGenerator->setFields(['id']);
 
 		$searchKey = $this->get('search_key');
@@ -276,7 +279,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$queryGenerator->deletedCondition = false;
 			$queryGenerator->addAndConditionNative(['vtiger_crmentity.deleted = 1']);
 		}
-		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
+		if (!empty($skipRecords) && count($skipRecords) > 0) {
 			$queryGenerator->addAndConditionNative(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
 		if ($lockRecords) {
