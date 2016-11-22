@@ -15,12 +15,12 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	static $_cached_instance = [];
 	protected $parentModule = false;
 	protected $relatedModule = false;
-	protected $relationType = false;
 
 	//one to many
-	const RELATION_DIRECT = 1;
+	const RELATION_O2M = 1;
 	//Many to many and many to one
-	const RELATION_INDIRECT = 2;
+	const RELATION_M2M = 2;
+	const RELATIONS_O2M = ['get_dependents_list', 'getDependentsList'];
 
 	/**
 	 * Function returns the relation id
@@ -101,27 +101,27 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * 
+	 * Show user who created relation
 	 * @return boolean
 	 */
 	public function showCreatorDetail()
 	{
-		if ($this->getRelationType() !== self::RELATION_INDIRECT) {
+		if ($this->get('creator_detail') === 0 && $this->getRelationType() !== self::RELATION_M2M) {
 			return false;
 		}
-		return $this->get('creator_detail');
+		return (bool) $this->get('creator_detail');
 	}
 
 	/**
-	 * 
+	 * Show comments in related module
 	 * @return boolean
 	 */
 	public function showComment()
 	{
-		if ($this->getRelationType() !== self::RELATION_INDIRECT) {
+		if ($this->get('relation_comment') === 0 && $this->getRelationType() !== self::RELATION_M2M) {
 			return false;
 		}
-		return $this->get('relation_comment');
+		return (bool) $this->get('relation_comment');
 	}
 
 	/**
@@ -131,6 +131,22 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function getQueryGenerator()
 	{
 		return $this->get('query_generator');
+	}
+
+	/**
+	 * Get relation type
+	 * @return self::RELATION_O2M|self::RELATION_M2M
+	 */
+	public function getRelationType()
+	{
+		if (!$this->get('relationType')) {
+			if (in_array($this->get('name'), self::RELATIONS_O2M) || $this->getRelationField()) {
+				$this->set('relationType', self::RELATION_O2M);
+			} else {
+				$this->set('relationType', self::RELATION_M2M);
+			}
+		}
+		return $this->get('relationType');
 	}
 
 	/**
@@ -245,6 +261,12 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $query;
 	}
 
+	public function getQueryFields()
+	{
+
+		return $relationField;
+	}
+
 	/**
 	 * Get dependents record list
 	 */
@@ -287,8 +309,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				}
 			}
 			if (!$relationField) {
-				App\Log::error("Not Found relationships field: RelatedModuleName: $relatedModuleName | ParentModuleName: $parentModuleName  in " . __METHOD__);
-				throw new \Exception\AppException('LBL_INVALID_RELATION');
+				$relationField = false;
 			}
 			$this->set('relationField', $relationField);
 		}
@@ -426,18 +447,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function isDirectRelation()
 	{
-		return ($this->getRelationType() == self::RELATION_DIRECT);
-	}
-
-	public function getRelationType()
-	{
-		if (empty($this->relationType)) {
-			$this->relationType = self::RELATION_INDIRECT;
-			if ($this->getRelationField()) {
-				$this->relationType = self::RELATION_DIRECT;
-			}
-		}
-		return $this->relationType;
+		return ($this->getRelationType() == self::RELATION_O2M);
 	}
 
 	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
