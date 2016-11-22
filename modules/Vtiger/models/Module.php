@@ -155,6 +155,55 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
+	 * Static Function to get the instance of Vtiger Module Model for the given id or name
+	 * @param int|string $mixed id or name of the module
+	 * @return self
+	 */
+	public static function getInstance($mixed)
+	{
+		$instance = Vtiger_Cache::get('module', $mixed);
+		if (!$instance) {
+			$instance = false;
+			$moduleObject = parent::getInstance($mixed);
+			if ($moduleObject) {
+				$instance = self::getInstanceFromModuleObject($moduleObject);
+				Vtiger_Cache::set('module', $moduleObject->id, $instance);
+				Vtiger_Cache::set('module', $moduleObject->name, $instance);
+			}
+		}
+		return $instance;
+	}
+
+	/**
+	 * Function to get the instance of Vtiger Module Model from a given vtlib\Module object
+	 * @param vtlib\Module $moduleObj
+	 * @return self
+	 */
+	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
+	{
+		$objectProperties = get_object_vars($moduleObj);
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $objectProperties['name']);
+		$moduleModel = new $modelClassName();
+		foreach ($objectProperties as $properName => $propertyValue) {
+			$moduleModel->$properName = $propertyValue;
+		}
+		return $moduleModel;
+	}
+
+	/**
+	 * Function to get the instance of Vtiger Module Model from a given list of key-value mapping
+	 * @param array $valueArray
+	 * @return self
+	 */
+	public static function getInstanceFromArray($valueArray)
+	{
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $valueArray['name']);
+		$instance = new $modelClassName();
+		$instance->initialize($valueArray);
+		return $instance;
+	}
+
+	/**
 	 * Function to save a given record model of the current module
 	 * @param Vtiger_Record_Model $recordModel
 	 */
@@ -781,54 +830,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			return $db->num_rows($result) > 0 ? true : false;
 		}
 		return false;
-	}
-
-	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name
-	 * @param mixed id or name of the module
-	 */
-	public static function getInstance($mixed)
-	{
-		$instance = Vtiger_Cache::get('module', $mixed);
-		if (!$instance) {
-			$instance = false;
-			$moduleObject = parent::getInstance($mixed);
-			if ($moduleObject) {
-				$instance = self::getInstanceFromModuleObject($moduleObject);
-				Vtiger_Cache::set('module', $moduleObject->id, $instance);
-				Vtiger_Cache::set('module', $moduleObject->name, $instance);
-			}
-		}
-		return $instance;
-	}
-
-	/**
-	 * Function to get the instance of Vtiger Module Model from a given vtlib\Module object
-	 * @param vtlib\Module $moduleObj
-	 * @return Vtiger_Module_Model instance
-	 */
-	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
-	{
-		$objectProperties = get_object_vars($moduleObj);
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $objectProperties['name']);
-		$moduleModel = new $modelClassName();
-		foreach ($objectProperties as $properName => $propertyValue) {
-			$moduleModel->$properName = $propertyValue;
-		}
-		return $moduleModel;
-	}
-
-	/**
-	 * Function to get the instance of Vtiger Module Model from a given list of key-value mapping
-	 * @param <Array> $valueArray
-	 * @return Vtiger_Module_Model instance
-	 */
-	public static function getInstanceFromArray($valueArray)
-	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $valueArray['name']);
-		$instance = new $modelClassName();
-		$instance->initialize($valueArray);
-		return $instance;
 	}
 
 	/**

@@ -202,51 +202,31 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		if ($this->get('newQG')) {
 			$queryGenerator = $this->getQueryGenerator();
 			$queryGenerator->setSourceRecord($this->get('parentRecord')->getId());
-			/*
-			  if (method_exists($this, $functionName)) {
-			  $this->$functionName();
-			  } else {
-			  App\Log::error("Not exist relation: $functionName in " . __METHOD__);
-			  throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION');
-			  }
-			 */
+
+			if (method_exists($this, $functionName)) {
+				$this->$functionName();
+			} else {
+				//App\Log::error("Not exist relation: $functionName in " . __METHOD__);
+				//throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION');
+			}
 			switch ($functionName) {
 				case 'get_dependents_list':
 					$this->getDependentsList();
 
 					break;
 			}
-			/**
-			 * Get fields from panel
-			 */
-			$relatedListFields = App\Field::getFieldsFromRelation($this->getId());
-			if (!$relatedListFields) {
-				/**
-				 * Get fields from summary
-				 */
-				$relatedListFields = array_keys($relatedModuleModel->getSummaryViewFieldsList());
-				if ($relatedModuleName === 'Documents') {
-					$relatedListFields[] = 'filelocationtype';
-					$relatedListFields[] = 'filestatus';
-					$relatedListFields[] = 'filetype';
-				}
+			if ($this->showCreatorDetail()) {
+				$queryGenerator->setCustomColumn('rel_created_user');
+				$queryGenerator->setCustomColumn('rel_created_time');
 			}
-			if (!$relatedListFields) {
-				//????????
-				if ($this->showCreatorDetail()) {
-					$queryGenerator->setCustomColumn('rel_created_user');
-					$queryGenerator->setCustomColumn('rel_created_time');
-				}
-				if ($this->showComment()) {
-					$queryGenerator->setCustomColumn('rel_comment');
-				}
+			if ($this->showComment()) {
+				$queryGenerator->setCustomColumn('rel_comment');
 			}
-			$relatedListFields[] = 'id';
-			$queryGenerator->setFields($relatedListFields);
+			$fields = array_keys($this->getQueryFields());
+			$fields[] = 'id';
+			$queryGenerator->setFields($fields);
 			return '';
 		}
-
-
 		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
 		if ($relationListView_Model) {
 			$queryGenerator = $relationListView_Model->get('query_generator');
@@ -261,10 +241,50 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $query;
 	}
 
+	/**
+	 * Get query fields
+	 * @return Vtiger_Field_Model[] with field name as key
+	 */
 	public function getQueryFields()
 	{
-
-		return $relationField;
+		if ($this->has('QueryFields')) {
+			return $this->get('QueryFields');
+		}
+		$relatedListFields = [];
+		$relatedModuleModel = $this->getRelationModuleModel();
+		// Get fields from panel
+		foreach (App\Field::getFieldsFromRelation($this->getId()) as &$fieldName) {
+			$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
+		}
+		if ($relatedListFields) {
+			$this->set('QueryFields', $relatedListFields);
+			return $relatedListFields;
+		}
+		// Get fields from summary
+		$relatedListFields = $relatedModuleModel->getSummaryViewFieldsList();
+		if ($relatedListFields) {
+			$this->set('QueryFields', $relatedListFields);
+			return $relatedListFields;
+		}
+		$entity = $this->getQueryGenerator()->getEntityModel();
+		if ($entity->list_fields_name) {
+			foreach ($entity->list_fields_name as &$fieldName) {
+				$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
+			}
+		}
+		if ($relatedListFields) {
+			$this->set('QueryFields', $relatedListFields);
+			return $relatedListFields;
+		}
+		/*
+		  if ($relatedModuleName === 'Documents') {
+		  //$relatedListFields[] = 'filelocationtype';
+		  //$relatedListFields[] = 'filestatus';
+		  //$relatedListFields[] = 'filetype';
+		  }
+		 */
+		$this->set('QueryFields', $relatedListFields);
+		return [];
 	}
 
 	/**
