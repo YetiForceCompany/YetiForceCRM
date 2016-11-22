@@ -220,9 +220,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$relatedRecordList[$row['id']] = $relationModuleModel->getRecordFromArray($row);
 		}
 		$sql = $query->createCommand()->getRawSql();
-		echo "<code>";
-		var_dump($sql);
-		echo "</code>";
+		//echo "<code>";
+		//var_dump($sql);
+		//echo "</code>";
 		return $relatedRecordList;
 	}
 
