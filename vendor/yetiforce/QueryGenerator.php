@@ -305,15 +305,18 @@ class QueryGenerator
 
 	/**
 	 * Init function for default custom view
+	 * @param boolean $noCache
+	 * @param boolean $onlyFields
+	 * @return boolean
 	 */
-	public function initForDefaultCustomView($noCache = false)
+	public function initForDefaultCustomView($noCache = false, $onlyFields = false)
 	{
 		$customView = CustomView::getInstance($this->moduleName, $this->user);
 		$viewId = $customView->getViewId($noCache);
 		if (empty($viewId) || $viewId === 0) {
 			return false;
 		}
-		$this->initForCustomViewById($viewId);
+		$this->initForCustomViewById($viewId, $onlyFields);
 		return true;
 	}
 
@@ -354,8 +357,9 @@ class QueryGenerator
 	/**
 	 * Get custom view by id
 	 * @param mixed $viewId
+	 * @param boolean $onlyFields
 	 */
-	public function initForCustomViewById($viewId)
+	public function initForCustomViewById($viewId, $onlyFields = false)
 	{
 		$this->fields[] = 'id';
 		$customView = CustomView::getInstance($this->moduleName, $this->user);
@@ -384,20 +388,22 @@ class QueryGenerator
 				}
 			}
 		}
-		$this->stdFilterList = $customView->getStdFilterByCvid($viewId);
-		$this->advFilterList = $customView->getAdvFilterByCvid($viewId);
-		if (is_array($this->stdFilterList)) {
-			if (!empty($this->stdFilterList['columnname'])) {
-				list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $this->stdFilterList['columnname']);
-				$this->addRequiredCondition([
-					'between',
-					$fieldName,
-					$this->fixDateTimeValue($fieldName, $this->stdFilterList['startdate']),
-					$this->fixDateTimeValue($fieldName, $this->stdFilterList['enddate'], false)
-				]);
+		if (!$onlyFields) {
+			$this->stdFilterList = $customView->getStdFilterByCvid($viewId);
+			$this->advFilterList = $customView->getAdvFilterByCvid($viewId);
+			if (is_array($this->stdFilterList)) {
+				if (!empty($this->stdFilterList['columnname'])) {
+					list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $this->stdFilterList['columnname']);
+					$this->addRequiredCondition([
+						'between',
+						$fieldName,
+						$this->fixDateTimeValue($fieldName, $this->stdFilterList['startdate']),
+						$this->fixDateTimeValue($fieldName, $this->stdFilterList['enddate'], false)
+					]);
+				}
 			}
+			$this->parseAdvFilter();
 		}
-		$this->parseAdvFilter();
 	}
 
 	/**

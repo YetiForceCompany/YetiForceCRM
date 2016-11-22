@@ -229,7 +229,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	/**
 	 * Get query form relation
-	 * @return \App\Db\Query
+	 * @return \App\QueryGenerator
 	 * @throws \Exception\NotAllowedMethod
 	 */
 	public function getQuery()
@@ -253,7 +253,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$fields = array_keys($this->getQueryFields());
 		$fields[] = 'id';
 		$queryGenerator->setFields($fields);
-		return $queryGenerator->createQuery();
+		return $queryGenerator;
 	}
 
 	/**
@@ -275,15 +275,15 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$this->set('QueryFields', $relatedListFields);
 			return $relatedListFields;
 		}
-		// Get fields from summary
-		$relatedListFields = $relatedModuleModel->getSummaryViewFieldsList();
-		if ($relatedListFields) {
-			$this->set('QueryFields', $relatedListFields);
-			return $relatedListFields;
-		}
-		$entity = $this->getQueryGenerator()->getEntityModel();
-		if ($entity->list_fields_name) {
+		$queryGenerator = $this->getQueryGenerator();
+		$entity = $queryGenerator->getEntityModel();
+		if (!empty($entity->list_fields_name)) {
 			foreach ($entity->list_fields_name as &$fieldName) {
+				$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
+			}
+		} else {
+			$queryGenerator->initForDefaultCustomView(true, true);
+			foreach ($queryGenerator->getFields() as &$fieldName) {
 				$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 			}
 		}
@@ -291,15 +291,8 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$this->set('QueryFields', $relatedListFields);
 			return $relatedListFields;
 		}
-		/*
-		  if ($relatedModuleName === 'Documents') {
-		  //$relatedListFields[] = 'filelocationtype';
-		  //$relatedListFields[] = 'filestatus';
-		  //$relatedListFields[] = 'filetype';
-		  }
-		 */
 		$this->set('QueryFields', $relatedListFields);
-		return [];
+		return $relatedListFields;
 	}
 
 	/**
@@ -308,32 +301,32 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	 */
 	public function getRelationField()
 	{
-		$relationField = $this->get('relationField');
-		if (!$relationField) {
-			$relatedModuleModel = $this->getRelationModuleModel();
-			$parentModuleName = $this->getParentModuleModel()->getName();
-			$relatedModuleName = $relatedModuleModel->getName();
-			$fieldRel = App\Field::getFieldModuleRel($relatedModuleName, $parentModuleName);
-			$relatedModelFields = $relatedModuleModel->getFields();
-			foreach ($relatedModelFields as &$fieldModel) {
-				if ($fieldModel->getId() === $fieldRel['fieldid'] && $fieldModel->getUIType() === 10) {
-					$relationField = $fieldModel;
-					break;
-				}
+		if ($this->has('RelationField')) {
+			return $this->get('RelationField');
+		}
+		$relatedModuleModel = $this->getRelationModuleModel();
+		$parentModuleName = $this->getParentModuleModel()->getName();
+		$relatedModuleName = $relatedModuleModel->getName();
+		$fieldRel = App\Field::getFieldModuleRel($relatedModuleName, $parentModuleName);
+		$relatedModelFields = $relatedModuleModel->getFields();
+		foreach ($relatedModelFields as &$fieldModel) {
+			if ($fieldModel->getId() === $fieldRel['fieldid'] && $fieldModel->getUIType() === 10) {
+				$relationField = $fieldModel;
+				break;
 			}
-			if (!$relationField) {
-				foreach ($relatedModelFields as &$fieldModel) {
-					if ($fieldModel->isReferenceField()) {
-						$referenceList = $fieldModel->getReferenceList();
-						if (!empty($referenceList) && in_array($parentModuleName, $referenceList)) {
-							$relationField = $fieldModel;
-							break;
-						}
+		}
+		if (!$relationField) {
+			foreach ($relatedModelFields as &$fieldModel) {
+				if ($fieldModel->isReferenceField()) {
+					$referenceList = $fieldModel->getReferenceList();
+					if (!empty($referenceList) && in_array($parentModuleName, $referenceList)) {
+						$relationField = $fieldModel;
+						break;
 					}
 				}
 			}
-			$this->set('relationField', $relationField ? $relationField : false);
 		}
+		$this->set('RelationField', $relationField ? $relationField : false);
 		return $relationField;
 	}
 
@@ -357,6 +350,53 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$record = $this->get('parentRecord')->getId();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentityrel', '(vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)']);
 		$queryGenerator->addAndConditionNative(['or', ['vtiger_crmentityrel.crmid' => $record], ['vtiger_crmentityrel.relcrmid' => $record]]);
+	}
+
+	/**
+	 * Get attachments
+	 */
+	public function getAttachments()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_senotesrel', 'vtiger_senotesrel.notesid= vtiger_notes.notesid']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentity crm2', 'crm2.crmid = vtiger_senotesrel.crmid']);
+		$queryGenerator->addAndConditionNative(['crm2.crmid' => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * Get Campaigns
+	 */
+	public function getCampaigns()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_campaign_records', 'vtiger_campaign_records.campaignid=vtiger_campaign.campaignid']);
+		$queryGenerator->addAndConditionNative(['vtiger_campaign_records.crmid' => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * Get relation inventory fields
+	 * @return Vtiger_Basic_InventoryField[]
+	 */
+	public function getRelationInventoryFields()
+	{
+		if ($this->has('RelationInventoryFields')) {
+			return $this->get('RelationInventoryFields');
+		}
+		$columns = (new \App\Db\Query())
+			->select(['fieldname'])
+			->from('a_#__relatedlists_inv_fields')
+			->where(['relation_id' => $this->getId()])
+			->orderBy('sequence')
+			->column();
+		$inventoryFields = Vtiger_InventoryField_Model::getInstance($this->get('modulename'))->getFields();
+		$fields = [];
+		foreach ($columns as &$column) {
+			if (!empty($inventoryFields[$column]) && $inventoryFields[$column]->isVisible()) {
+				$fields[] = $column;
+			}
+		}
+		$this->set('RelationInventoryFields', $fields);
+		return $fields;
 	}
 	/**
 	 * 
@@ -669,23 +709,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			return $fields;
 		}
 		return $dataReader->readAll();
-	}
-
-	public function getRelationInventoryFields()
-	{
-		$db = PearDatabase::getInstance();
-		$relationId = $this->getId();
-		$moduleName = $this->get('modulename');
-		$inventoryFields = Vtiger_InventoryField_Model::getInstance($moduleName)->getFields();
-		$query = 'SELECT a_yf_relatedlists_inv_fields.fieldname FROM a_yf_relatedlists_inv_fields WHERE a_yf_relatedlists_inv_fields.relation_id = ? ORDER BY sequence;';
-		$result = $db->pquery($query, [$relationId]);
-		$fields = [];
-		while ($name = $db->getSingleValue($result)) {
-			if ($inventoryFields[$name] && $inventoryFields[$name]->isVisible()) {
-				$fields[] = $name;
-			}
-		}
-		return $fields;
 	}
 
 	public function addSearchConditions($query, $searchParams, $related_module)
