@@ -457,7 +457,9 @@ class Project extends CRMEntity
 	 */
 	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 
-
+	/**
+	 * @todo To remove after rebuilding relations
+	 */
 	public function get_gantt_chart($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
 		require_once("BURAK_Gantt.class.php");

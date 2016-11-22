@@ -258,9 +258,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	 */
 
 	/**
-	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_osstimecontrol($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
