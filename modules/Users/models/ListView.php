@@ -78,7 +78,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	public function loadListViewCondition()
 	{
 		$searchKey = $this->get('search_key');
-		if (!empty($searchKey) && $searchKey === 'status') {
+		if ($searchKey && $searchKey === 'status') {
 			$this->get('query_generator')->deletedCondition = false;
 		}
 		parent::loadListViewCondition();
