@@ -206,7 +206,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		echo "<code>";
 		var_dump($sql);
 		echo "</code>";
-		exit;
 		return $relatedRecordList;
 	}
 
@@ -215,42 +214,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	 */
 	public function loadOrderBy()
 	{
-		return;
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy)) {
-			$columnFieldMapping = $this->getModule()->getColumnFieldMapping();
-			$orderByFieldName = $columnFieldMapping[$orderBy];
-			$this->get('query_generator')->setOrder($orderByFieldName, $this->getForSql('sortorder'));
-		}
-
-		$orderBy = $this->getForSql('orderby');
-		$sortOrder = $this->getForSql('sortorder');
-		if ($orderBy) {
 			$relationModule = $this->getRelationModel()->getRelationModuleModel();
-			$orderByFieldModuleModel = $relationModule->getFieldByColumn($orderBy);
-			if ($orderByFieldModuleModel && $orderByFieldModuleModel->isReferenceField()) {
-				//If reference field then we need to perform a join with crmentity with the related to field
-				$queryComponents = preg_split('/WHERE /i', $query);
-				$selectAndFromClause = $queryComponents[0];
-				$whereCondition = $queryComponents[1];
-				$qualifiedOrderBy = 'vtiger_crmentity' . $orderByFieldModuleModel->get('column');
-				$selectAndFromClause .= ' LEFT JOIN vtiger_crmentity AS ' . $qualifiedOrderBy . ' ON ' .
-					$orderByFieldModuleModel->get('table') . '.' . $orderByFieldModuleModel->get('column') . ' = ' .
-					$qualifiedOrderBy . '.crmid ';
-				$query = sprintf('%s WHERE %s ORDER BY %s.label %s', $selectAndFromClause, $whereCondition, $qualifiedOrderBy, $sortOrder);
-			} elseif ($orderByFieldModuleModel && $orderByFieldModuleModel->isOwnerField()) {
-				$query .= sprintf(' ORDER BY COALESCE(%s,vtiger_groups.groupname) %s', \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users'), $sortOrder);
-			} else {
-				// Qualify the the column name with table to remove ambugity
-				$qualifiedOrderBy = $orderBy;
-				$orderByField = $relationModule->getFieldByColumn($orderBy);
-				if ($orderByField) {
-					$qualifiedOrderBy = $relationModule->getOrderBySql($qualifiedOrderBy);
-				}
-				$query = sprintf("%s ORDER BY %s %s ", $query, $qualifiedOrderBy, $sortOrder);
+			$field = $relationModule->getFieldByColumn($orderBy);
+			if ($field) {
+				$this->get('query_generator')->setOrder($field->getName(), $this->getForSql('sortorder'));
 			}
 		}
-		return $query;
 	}
 
 	public function getCreateViewUrl()

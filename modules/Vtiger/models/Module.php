@@ -512,6 +512,31 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
+	 * Function to get the field mode
+	 * @param string $fieldName - field name
+	 * @return Vtiger_Field_Model
+	 */
+	public function getField($fieldName)
+	{
+		return Vtiger_Field_Model::getInstance($fieldName, $this);
+	}
+
+	/**
+	 * Function to get the field by column name.
+	 * @param string $columnName - column name
+	 * @return Vtiger_Field_Model
+	 */
+	public function getFieldByColumn($columnName)
+	{
+		foreach ($this->getFields() as &$field) {
+			if ($field->get('column') === $columnName) {
+				return $field;
+			}
+		}
+		return NULL;
+	}
+
+	/**
 	 * Get field by field name
 	 * @param string $fieldName
 	 * @return Vtiger_Field_Model
@@ -529,7 +554,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function gives fields based on the type
-	 * @param <String> $type - field type
+	 * @param string $type - field type
 	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFieldsByType($type)
@@ -539,8 +564,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 		$fieldList = [];
 		foreach ($this->getFields() as &$field) {
-			$fieldType = $field->getFieldDataType();
-			if (in_array($fieldType, $type)) {
+			if (in_array($field->getFieldDataType(), $type)) {
 				$fieldList[$field->getName()] = $field;
 			}
 		}
@@ -659,34 +683,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 
 		return $quickCreateSortedList;
-	}
-
-	/**
-	 * Function to get the field mode
-	 * @param <String> $fieldName - field name
-	 * @return <Vtiger_Field_Model>
-	 */
-	public function getField($fieldName)
-	{
-		return Vtiger_Field_Model::getInstance($fieldName, $this);
-	}
-
-	/**
-	 * Function to get the field by column name.
-	 * @param <String> $columnName - column name
-	 * @return <Vtiger_Field_Model>
-	 */
-	public function getFieldByColumn($columnName)
-	{
-		$fields = $this->getFields();
-		if ($fields) {
-			foreach ($fields as $field) {
-				if ($field->get('column') == $columnName) {
-					return $field;
-				}
-			}
-		}
-		return NULL;
 	}
 
 	/**
