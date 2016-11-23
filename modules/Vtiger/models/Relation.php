@@ -142,9 +142,10 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	 */
 	public function showCreatorDetail()
 	{
-		if ($this->get('creator_detail') === 0 && $this->getRelationType() !== self::RELATION_M2M) {
+		if ($this->get('creator_detail') === 0 || $this->getRelationType() !== self::RELATION_M2M) {
 			return false;
 		}
+
 		return (bool) $this->get('creator_detail');
 	}
 
@@ -154,7 +155,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	 */
 	public function showComment()
 	{
-		if ($this->get('relation_comment') === 0 && $this->getRelationType() !== self::RELATION_M2M) {
+		if ($this->get('relation_comment') === 0 || $this->getRelationType() !== self::RELATION_M2M) {
 			return false;
 		}
 		return (bool) $this->get('relation_comment');
@@ -431,7 +432,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$fields = [];
 		foreach ($columns as &$column) {
 			if (!empty($inventoryFields[$column]) && $inventoryFields[$column]->isVisible()) {
-				$fields[] = $column;
+				$fields[$column] = $inventoryFields[$column];
 			}
 		}
 		$this->set('RelationInventoryFields', $fields);
