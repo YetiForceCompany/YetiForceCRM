@@ -217,13 +217,24 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		}
 		$relatedRecordList = [];
 		foreach ($rows as &$row) {
-			$relatedRecordList[$row['id']] = $relationModuleModel->getRecordFromArray($row);
+			$recordModel = $relationModuleModel->getRecordFromArray($row);
+			$this->getEntryExtend($recordModel);
+			$relatedRecordList[$row['id']] = $recordModel;
 		}
 		$sql = $query->createCommand()->getRawSql();
-		//echo "<code>";
-		//var_dump($sql);
-		//echo "</code>";
+		echo "<code>";
+		var_dump($sql);
+		echo "</code>";
 		return $relatedRecordList;
+	}
+
+	/**
+	 * Function extending recordModel object with additional information
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function getEntryExtend(Vtiger_Record_Model $recordModel)
+	{
+		
 	}
 
 	/**

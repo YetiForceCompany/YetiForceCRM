@@ -73,6 +73,9 @@ class Services extends CRMEntity
 		'Service Name' => 'servicename',
 		'Price' => 'unit_price'
 	);
+
+	/** @var string[] List of fields in the RelationListView */
+	public $relationFields = ['service_no', 'servicename', 'unit_price'];
 	// For Popup window record selection
 	public $popup_fields = Array('servicename', 'service_usageunit', 'unit_price');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields

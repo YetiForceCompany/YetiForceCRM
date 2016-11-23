@@ -20,6 +20,18 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	];
 
 	/**
+	 * Function extending recordModel object with additional information
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function getEntryExtend(Vtiger_Record_Model $recordModel)
+	{
+		$parentId = $this->getParentRecordModel()->getId();
+		$parentModuleModel = $this->getParentRecordModel()->getModule();
+		$unitPricesList = $parentModuleModel->getPricesForProducts($recordModel->get('currency_id'), [$parentId => $parentId]);
+		$recordModel->set('unit_price', $unitPricesList[$parentId]);
+	}
+
+	/**
 	 * Function to get the links for related list
 	 * @return <Array> List of action models <Vtiger_Link_Model>
 	 */

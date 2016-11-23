@@ -51,7 +51,11 @@ class Products extends CRMEntity
 	public $required_fields = Array(
 		'productname' => 1
 	);
+
+	/** @var string[] List of fields in the RelationListView */
+	public $relationFields = ['productname', 'productcode', 'commissionrate', 'qty_per_unit', 'unit_price'];
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
+	// @var string[] List of fields in the Relatio
 	public $sortby_fields = Array();
 	public $def_basicsearch_col = 'productname';
 	//Added these variables which are used as default order by and sortorder in ListView
@@ -189,62 +193,6 @@ class Products extends CRMEntity
 		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
-	/** 	function used to get the list of pricebooks which are related to the product
-	 * 	@param int $id - product id
-	 * 	@return array - array which will be returned from the function GetRelatedList
-	 */
-	public function get_product_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		global $singlepane_view, $currentModule;
-
-		\App\Log::trace("Entering get_product_pricebooks(" . $id . ") method ...");
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
-		require_once("modules/$related_module/$related_module.php");
-		$focus = new $related_module();
-		$singular_modname = \App\Language::getSingularModuleName($related_module);
-
-		$button = '';
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes' && isPermitted($currentModule, 'EditView', $id) == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_ADD_TO') . " " . \App\Language::translate($related_module) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"AddProductToPriceBooks\";this.form.module.value=\"$currentModule\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_TO') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-		}
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=Products&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=Products&return_action=CallRelatedList&return_id=' . $id;
-
-
-		$query = sprintf('SELECT vtiger_crmentity.crmid,
-			vtiger_pricebook.*,
-			vtiger_pricebookproductrel.productid as prodid
-			FROM vtiger_pricebook
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_pricebook.pricebookid
-			INNER JOIN vtiger_pricebookproductrel
-				ON vtiger_pricebookproductrel.pricebookid = vtiger_pricebook.pricebookid
-			INNER JOIN vtiger_pricebookcf
-				ON vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
-			WHERE vtiger_crmentity.deleted = 0
-			AND vtiger_pricebookproductrel.productid = %s', $id);
-		\App\Log::trace("Exiting get_product_pricebooks method ...");
-
-		$return_value = GetRelatedList($currentModule, $related_module, $focus, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		return $return_value;
-	}
-
 	/** 	function used to get the number of vendors which are related to the product
 	 * 	@param int $id - product id
 	 * 	@return int number of rows - return the number of products which do not have relationship with vendor
@@ -262,110 +210,6 @@ class Products extends CRMEntity
 		$result = $this->db->pquery($query, array());
 		\App\Log::trace("Exiting product_novendor method ...");
 		return $this->db->num_rows($result);
-	}
-
-	/**
-	 * Function to get Product's related Products
-	 * @param  integer   $id      - productid
-	 * returns related Products record in array format
-	 * @todo To remove after rebuilding relations
-	 */
-	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_products(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = \App\Language::getSingularModuleName($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions && $this->ismember_check() === 0) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \App\Language::translate('LBL_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\";' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$query = "SELECT vtiger_products.productid, vtiger_products.productname,
-			vtiger_products.productcode, vtiger_products.commissionrate,
-			vtiger_products.qty_per_unit, vtiger_products.unit_price,
-			vtiger_crmentity.crmid, vtiger_crmentity.smownerid
-			FROM vtiger_products
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
-			INNER JOIN vtiger_productcf
-				ON vtiger_products.productid = vtiger_productcf.productid
-			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid && vtiger_seproductsrel.setype='Products'
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.productid = $id ";
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_products method ...");
-		return $return_value;
-	}
-
-	/**
-	 * Function to get Product's related Products
-	 * @param  integer   $id      - productid
-	 * returns related Products record in array format
-	 */
-	public function get_parent_products($id)
-	{
-		global $singlepane_view;
-
-		\App\Log::trace("Entering get_products(" . $id . ") method ...");
-
-		$focus = new Products();
-
-		$button = '';
-
-		if (isPermitted("Products", 1, "") == 'yes') {
-			$button .= '<input title="' . \App\Language::translate('LBL_NEW_PRODUCT') . '" accessyKey="F" class="button" onclick="this.form.action.value=\'EditView\';this.form.module.value=\'Products\';this.form.return_module.value=\'Products\';this.form.return_action.value=\'DetailView\'" type="submit" name="button" value="' . \App\Language::translate('LBL_NEW_PRODUCT') . '">&nbsp;';
-		}
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=Products&return_action=DetailView&is_parent=1&return_id=' . $id;
-		else
-			$returnset = '&return_module=Products&return_action=CallRelatedList&is_parent=1&return_id=' . $id;
-
-		$query = "SELECT vtiger_products.productid, vtiger_products.productname,
-			vtiger_products.productcode, vtiger_products.commissionrate,
-			vtiger_products.qty_per_unit, vtiger_products.unit_price,
-			vtiger_crmentity.crmid, vtiger_crmentity.smownerid
-			FROM vtiger_products
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
-			INNER JOIN vtiger_seproductsrel ON vtiger_seproductsrel.productid = vtiger_products.productid && vtiger_seproductsrel.setype='Products'
-			INNER JOIN vtiger_productcf ON vtiger_products.productid = vtiger_productcf.productid
-
-			WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.crmid = $id ";
-
-		\App\Log::trace("Exiting get_products method ...");
-		return GetRelatedList('Products', 'Products', $focus, $query, $button, $returnset);
 	}
 
 	/** 	function used to get the export query for product
