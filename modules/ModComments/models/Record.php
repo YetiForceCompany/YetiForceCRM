@@ -34,7 +34,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns url to get child comments
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getChildCommentsUrl()
 	{
@@ -145,7 +145,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the commented time
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCommentedTime()
 	{
@@ -155,7 +155,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the commented time
-	 * @return <String>
+	 * @return string
 	 */
 	public function getModifiedTime()
 	{
@@ -279,7 +279,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get details for user have the permissions to do actions
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isDeletable()
 	{

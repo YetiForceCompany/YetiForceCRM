@@ -21,7 +21,7 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get Create view url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getCreateRecordUrl()
 	{
@@ -30,7 +30,7 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get List view url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getListViewUrl()
 	{

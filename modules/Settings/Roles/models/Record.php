@@ -25,7 +25,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Role Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -43,7 +43,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Parent Role hierarchy as a string
-	 * @return <String>
+	 * @return string
 	 */
 	public function getParentRoleString()
 	{
@@ -202,7 +202,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Edit View Url for the Role
-	 * @return <String>
+	 * @return string
 	 */
 	public function getEditViewUrl()
 	{
@@ -211,7 +211,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Create Child Role Url for the current role
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateChildUrl()
 	{
@@ -220,7 +220,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Delete Action Url for the current role
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDeleteActionUrl()
 	{
@@ -229,7 +229,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Popup Window Url for the current role
-	 * @return <String>
+	 * @return string
 	 */
 	public function getPopupWindowUrl()
 	{
@@ -461,7 +461,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get all the roles
-	 * @param <Boolean> $baseRole
+	 * @param boolean $baseRole
 	 * @return <Array> list of Role models <Settings_Roles_Record_Model>
 	 */
 	public static function getAll($baseRole = false)

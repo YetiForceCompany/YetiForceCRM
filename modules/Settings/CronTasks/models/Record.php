@@ -27,7 +27,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Name of this record
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -128,8 +128,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get display value of every field from this record
-	 * @param <String> $fieldName
-	 * @return <String>
+	 * @param string $fieldName
+	 * @return string
 	 */
 	public function getDisplayValue($fieldName)
 	{
@@ -185,7 +185,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get record instance by using id and moduleName
 	 * @param <Integer> $recordId
-	 * @param <String> $qualifiedModuleName
+	 * @param string $qualifiedModuleName
 	 * @return <Settings_CronTasks_Record_Model> RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)

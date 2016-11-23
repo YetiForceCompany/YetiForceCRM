@@ -232,7 +232,7 @@ class WorkFlowScheduler
 	/**
 	 * Function parse the value based on the condition
 	 * @param <Array> $condition
-	 * @return <String>
+	 * @return string
 	 */
 	public function _parseValueForDate($condition)
 	{

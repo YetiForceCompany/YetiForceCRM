@@ -203,7 +203,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	/**
 	 * Function to check whether the current field is visible
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isVisible()
 	{
@@ -215,7 +215,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	/**
 	 * Function to check whether the current field is editable
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isEditable()
 	{
@@ -227,7 +227,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	/**
 	 * Function to check whether the current field is editable
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isColumnType()
 	{

@@ -16,7 +16,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check whether the current field is read-only
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isReadOnly()
 	{
@@ -28,7 +28,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check if the field is shown in detail view
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isViewEnabled()
 	{
@@ -40,7 +40,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get the Webservice Field data type
-	 * @return <String> Data type of the field
+	 * @return string Data type of the field
 	 */
 	public function getFieldDataType()
 	{
@@ -62,7 +62,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check whether field is ajax editable'
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isAjaxEditable()
 	{
@@ -108,8 +108,8 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to retieve display value for a value
-	 * @param <String> $value - value which need to be converted to display value
-	 * @return <String> - converted display value
+	 * @param string $value - value which need to be converted to display value
+	 * @return string - converted display value
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{

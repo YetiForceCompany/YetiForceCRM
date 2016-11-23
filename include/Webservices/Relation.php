@@ -18,7 +18,7 @@ if (!function_exists('GetRelatedList')) {
 
 /**
  * Function that returns Activity History Query
- * @return <String>
+ * @return string
  */
 function GetHistory($parentmodule, $query, $id)
 {

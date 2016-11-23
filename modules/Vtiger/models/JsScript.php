@@ -18,7 +18,7 @@ class Vtiger_JsScript_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the type attribute value
-	 * @return <String>
+	 * @return string
 	 */
 	public function getType()
 	{
@@ -31,7 +31,7 @@ class Vtiger_JsScript_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the src attribute value
-	 * @return <String>
+	 * @return string
 	 */
 	public function getSrc()
 	{

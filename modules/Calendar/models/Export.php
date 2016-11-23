@@ -11,7 +11,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	/**
 	 * Function that generates Export Query based on the mode
 	 * @param Vtiger_Request $request
-	 * @return <String> export query
+	 * @return string export query
 	 */
 	public function getExportQuery(Vtiger_Request $request)
 	{
@@ -23,7 +23,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	/**
 	 * Function returns the export type - This can be extended to support different file exports
 	 * @param Vtiger_Request $request
-	 * @return <String>
+	 * @return string
 	 */
 	public function getExportContentType()
 	{

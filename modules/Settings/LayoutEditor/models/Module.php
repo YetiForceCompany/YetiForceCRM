@@ -449,7 +449,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check field is editable or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isSortableAllowed()
 	{
@@ -462,7 +462,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check blocks are sortable for the module
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isBlockSortableAllowed()
 	{
@@ -475,7 +475,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check fields are sortable for the block
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isFieldsSortableAllowed($blockName)
 	{

@@ -14,8 +14,8 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Gets list of holidays
-	 * @param <String> $dateStart - beginning date
-	 * @param <String> $dateTo - ending date
+	 * @param string $dateStart - beginning date
+	 * @param string $dateTo - ending date
 	 * @return - array of holidays success, false on failure
 	 */
 	public static function getHolidays($date)
@@ -68,9 +68,9 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Add new holiday
-	 * @param <String> $date - date of the holiday
-	 * @param <String> $name - name of the holiday
-	 * @param <String> $type - type of the holiday
+	 * @param string $date - date of the holiday
+	 * @param string $name - name of the holiday
+	 * @param string $type - type of the holiday
 	 * @return - true on success, false on failure
 	 */
 	public static function save($date, $name, $type)
@@ -92,9 +92,9 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Edit holiday
 	 * @param <Int> $id - id of the holiday
-	 * @param <String> $date - date of the holiday
-	 * @param <String> $name - name of the holiday
-	 * @param <String> $type - name of the holiday
+	 * @param string $date - date of the holiday
+	 * @param string $name - name of the holiday
+	 * @param string $type - name of the holiday
 	 * @return - true on success, false on failure
 	 */
 	public static function edit($id, $date, $name, $type)
@@ -116,7 +116,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Check if it is public holiday
-	 * @param <String> $date - date to be checked
+	 * @param string $date - date to be checked
 	 * @return - true if public holiday exists, false on failure
 	 */
 	public static function checkIfHoliday($date)

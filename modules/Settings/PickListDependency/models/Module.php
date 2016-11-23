@@ -18,7 +18,7 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 
 	/**
 	 * Function to get the url for default view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getDefaultUrl()
 	{
@@ -27,7 +27,7 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 
 	/**
 	 * Function to get the url for Adding Dependency
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getCreateRecordUrl()
 	{

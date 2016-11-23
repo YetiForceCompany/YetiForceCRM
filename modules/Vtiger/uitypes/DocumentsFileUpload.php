@@ -13,7 +13,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type Object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -22,10 +22,10 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <String> $value
+	 * @param string $value
 	 * @param <Integer> $record
 	 * @param <Vtiger_Record_Model>
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{

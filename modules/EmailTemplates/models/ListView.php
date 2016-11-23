@@ -38,7 +38,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
-	 * @param <String> $moduleName - Module Name
+	 * @param string $moduleName - Module Name
 	 * @param <Number> $viewId - Custom View Id
 	 * @return Vtiger_ListView_Model instance
 	 */

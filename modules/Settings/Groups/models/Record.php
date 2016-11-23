@@ -37,7 +37,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Group Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -46,7 +46,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the description of the group
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDescription()
 	{
@@ -55,7 +55,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Edit View Url for the Group
-	 * @return <String>
+	 * @return string
 	 */
 	public function getEditViewUrl()
 	{
@@ -64,7 +64,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Delete Action Url for the current group
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDeleteActionUrl()
 	{
@@ -73,7 +73,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail Url for the current group
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDetailViewUrl()
 	{
@@ -228,7 +228,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get all users related to this group
-	 * @param <Boolean> $nonAdmin true/false
+	 * @param boolean $nonAdmin true/false
 	 * @return <Array> Users models list <Users_Record_Model>
 	 */
 	public function getUsersList($nonAdmin = false)

@@ -143,7 +143,7 @@ class Settings_Webforms_Block_Model extends Vtiger_Block_Model
 
 	/**
 	 * Function to get Instance for Block by using name
-	 * @param <String> $blockName
+	 * @param string $blockName
 	 * @param <Settings_Webforms_Module_Model> $moduleModel
 	 * @return <Settings_Webforms_Block_Model> BlockModel
 	 */

@@ -41,7 +41,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Profile Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -50,7 +50,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the description of the Profile
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDescription()
 	{
@@ -59,7 +59,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Edit View Url for the Profile
-	 * @return <String>
+	 * @return string
 	 */
 	public function getEditViewUrl()
 	{
@@ -68,7 +68,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Edit View Url for the Profile
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDuplicateViewUrl()
 	{
@@ -77,7 +77,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail Action Url for the Profile
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDeleteAjaxUrl()
 	{
@@ -86,7 +86,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Delete Action Url for the current profile
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDeleteActionUrl()
 	{
@@ -709,7 +709,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get all the profiles linked to the given role
-	 * @param <String> - $roleId
+	 * @param string - $roleId
 	 * @return <Array> - Array of Settings_Profiles_Record_Model instances
 	 */
 	public static function getAllByRole($roleId)
@@ -795,7 +795,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail Url for the current group
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDetailViewUrl()
 	{
@@ -818,7 +818,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to check whether module is restricted for to show actions and field access
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return <boolean> true/false
 	 */
 	public function isRestrictedModule($moduleName)
@@ -845,7 +845,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Users list from this Profile
-	 * @param <Boolean> $allUsers
+	 * @param boolean $allUsers
 	 * @return <Array> list of user ids
 	 */
 	public static function getUsersList($profileId = false)

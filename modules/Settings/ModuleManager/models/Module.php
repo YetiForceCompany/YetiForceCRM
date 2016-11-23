@@ -66,7 +66,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function which will get count of modules
-	 * @param <Boolean> $onlyActive - if true get count of only active modules else all the modules
+	 * @param boolean $onlyActive - if true get count of only active modules else all the modules
 	 * @return <integer> number of modules
 	 */
 	public static function getModulesCount($onlyActive = false)

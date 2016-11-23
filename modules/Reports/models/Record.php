@@ -37,7 +37,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Fuction to get the Name of the Report
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -55,7 +55,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the detail view url
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDetailViewUrl()
 	{
@@ -71,7 +71,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the edit view url
-	 * @return <String>
+	 * @return string
 	 */
 	public function getEditViewUrl()
 	{
@@ -87,7 +87,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Funtion to get Duplicate Record Url
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDuplicateRecordUrl()
 	{
@@ -103,7 +103,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url that generates Report in Excel format
-	 * @return <String>
+	 * @return string
 	 */
 	public function getReportExcelURL()
 	{
@@ -112,7 +112,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url that generates Report in CSV format
-	 * @return <String>
+	 * @return string
 	 */
 	public function getReportCSVURL()
 	{
@@ -121,7 +121,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url that generates Report in printable format
-	 * @return <String>
+	 * @return string
 	 */
 	public function getReportPrintURL()
 	{
@@ -131,7 +131,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function returns the Reports Model instance
 	 * @param <Number> $recordId
-	 * @param <String> $module
+	 * @param string $module
 	 * @return <Reports_Record_Model>
 	 */
 	public static function getInstanceById($recordId, $module = null)
@@ -178,7 +178,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns Primary Module of the Report
-	 * @return <String>
+	 * @return string
 	 */
 	public function getPrimaryModule()
 	{
@@ -187,7 +187,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns Secondary Module of the Report
-	 * @return <String>
+	 * @return string
 	 */
 	public function getSecondaryModules()
 	{
@@ -196,7 +196,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function sets the Primary Module of the Report
-	 * @param <String> $module
+	 * @param string $module
 	 */
 	public function setPrimaryModule($module)
 	{
@@ -205,7 +205,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function sets the Secondary Modules for the Report
-	 * @param <String> $modules, modules separated with colon(:)
+	 * @param string $modules, modules separated with colon(:)
 	 */
 	public function setSecondaryModule($modules)
 	{
@@ -214,7 +214,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns Report Type(Summary/Tabular)
-	 * @return <String>
+	 * @return string
 	 */
 	public function getReportType()
 	{
@@ -686,9 +686,9 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns sql for the report
-	 * @param <String> $advancedFilterSQL
-	 * @param <String> $format
-	 * @return <String>
+	 * @param string $advancedFilterSQL
+	 * @param string $format
+	 * @return string
 	 */
 	public function getReportSQL($advancedFilterSQL = false, $format = false)
 	{
@@ -699,8 +699,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns sql for count query which don't need any fields
-	 * @param <String> $query (with all columns)
-	 * @return <String> $query (by removing all columns)
+	 * @param string $query (with all columns)
+	 * @return string $query (by removing all columns)
 	 */
 	public function generateCountQuery($query)
 	{
@@ -714,7 +714,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function returns report's data
 	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param <String> $filterQuery
+	 * @param string $filterQuery
 	 * @return <Array>
 	 */
 	public function getReportData($pagingModel = false, $filterQuery = false)
@@ -982,7 +982,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the Advanced filter SQL
-	 * @return <String>
+	 * @return string
 	 */
 	public function getAdvancedFilterSQL()
 	{

@@ -22,7 +22,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Static Function to get the list of records matching the search key
-	 * @param <String> $searchKey
+	 * @param string $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $moduleName = false, $limit = false)
@@ -148,8 +148,8 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns field mapped to Leads field, used in Lead Convert for settings the field values
-	 * @param <String> $fieldName
-	 * @return <String>
+	 * @param string $fieldName
+	 * @return string
 	 */
 	public function getConvertLeadMappedField($fieldName, $moduleName)
 	{
@@ -204,7 +204,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create event
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateEventUrl()
 	{
@@ -214,7 +214,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create todo
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateTaskUrl()
 	{

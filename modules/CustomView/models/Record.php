@@ -39,7 +39,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Owner Name
-	 * @return <String> Custom View creator User Name
+	 * @return string Custom View creator User Name
 	 */
 	public function getOwnerName()
 	{
@@ -59,7 +59,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to set the Module to which the record belongs
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
 	public function setModule($moduleName)
@@ -70,7 +70,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to set the Module to which the record belongs from the Module model instance
-	 * @param <Vtiger_Module_Model> $module
+	 * @param Vtiger_Module_Model $module
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
 	public function setModuleFromInstance($module)
@@ -81,7 +81,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to check if the view is marked as default
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isDefault()
 	{
@@ -109,7 +109,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to check if the view is created by the current user or is default view
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isMine()
 	{
@@ -119,7 +119,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to check if the view is approved to be Public
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isPublic()
 	{
@@ -128,7 +128,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to check if the view is marked as Private
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isPrivate()
 	{
@@ -137,7 +137,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to check if the view is requested to be Public and is awaiting for Approval
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isPending()
 	{
@@ -146,7 +146,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to check if the view is created by one of the users, who is below the current user in the role hierarchy
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isOthers()
 	{
@@ -155,7 +155,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function which checks if a view is set to Public by the user which may/may not be approved.
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isSetPublic()
 	{
@@ -245,7 +245,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function which provides the records for the current view
-	 * @param <Boolean> $skipRecords - List of the RecordIds to be skipped
+	 * @param boolean $skipRecords - List of the RecordIds to be skipped
 	 * @return int[] List of RecordsIds
 	 */
 	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
@@ -719,7 +719,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns standard filter sql
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCVStdFilterSQL()
 	{
@@ -729,7 +729,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns Advanced filter sql
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCVAdvFilterSQL()
 	{
@@ -824,7 +824,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get all the accessible Custom Views, for a given module if specified
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return <Array> - Array of Vtiger_CustomView_Record models
 	 */
 	public static function getAll($moduleName = '')
@@ -913,7 +913,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get all the custom views, of a given module if specified, grouped by their status
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return <Array> - Associative array of Status label to an array of Vtiger_CustomView_Record models
 	 */
 	public static function getAllByGroup($moduleName = '', $menuId = false)
@@ -1054,7 +1054,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function gives default custom view for a module
-	 * @param <String> $module
+	 * @param string $module
 	 * @return <CustomView_Record_Model>
 	 */
 	public static function getAllFilterByModule($module)

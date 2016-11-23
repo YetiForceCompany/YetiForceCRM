@@ -186,7 +186,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	/**
 	 * Function returns the export type - This can be extended to support different file exports
 	 * @param Vtiger_Request $request
-	 * @return <String>
+	 * @return string
 	 */
 	public function getExportContentType(Vtiger_Request $request)
 	{

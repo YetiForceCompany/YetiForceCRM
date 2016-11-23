@@ -20,7 +20,7 @@ class PBXManager_Server_Model extends Vtiger_Base_Model
 
 	/**
 	 * Static Function Server Record Model
-	 * @params <string> gateway name
+	 * @params string gateway name
 	 * @return PBXManager_Server_Model
 	 */
 	public static function getInstance()

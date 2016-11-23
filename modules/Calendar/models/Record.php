@@ -51,7 +51,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the Entity Name of Record Model
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -66,7 +66,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 * Function to insert details about reminder in to Database
 	 * @param <Date> $reminderSent
 	 * @param <integer> $recurId
-	 * @param <String> $reminderMode like edit/delete
+	 * @param string $reminderMode like edit/delete
 	 */
 	public function setActivityReminder($reminderSent = 0, $recurId = '', $reminderMode = '')
 	{
@@ -76,7 +76,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the Module Name based on the activity type
-	 * @return <String>
+	 * @return string
 	 */
 	public function getType()
 	{
@@ -89,7 +89,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail View url for the record
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -253,7 +253,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get modal view url for the record
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getActivityStateModalUrl()
 	{

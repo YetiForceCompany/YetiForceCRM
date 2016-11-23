@@ -17,7 +17,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the default view for the Calendar module
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDefaultViewName()
 	{
@@ -26,7 +26,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the calendar view name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCalendarViewName()
 	{
@@ -35,7 +35,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 *  Function returns the url for Calendar view
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCalendarViewUrl()
 	{
@@ -44,7 +44,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -53,7 +53,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the URL for creating Events
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateEventRecordUrl()
 	{
@@ -62,7 +62,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the URL for creating Task
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateTaskRecordUrl()
 	{
@@ -182,7 +182,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the url that shows Calendar Import result
-	 * @return <String> url
+	 * @return string url
 	 */
 	public function getImportResultUrl()
 	{
@@ -191,7 +191,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get export query
-	 * @return <String> query;
+	 * @return string query;
 	 */
 	public function getExportQuery($focus = '', $where = '')
 	{
@@ -254,7 +254,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url to view Details for the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getDetailViewUrl($id)
 	{
@@ -369,7 +369,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 *  Function returns the url for Shared Calendar view
-	 * @return <String>
+	 * @return string
 	 */
 	public function getSharedCalendarViewUrl()
 	{
@@ -501,7 +501,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function gives fields based on the type
-	 * @param <String> $type - field type
+	 * @param string $type - field type
 	 * @return <Array of Vtiger_Field_Model> - list of field models
 	 */
 	public function getFieldsByType($type)

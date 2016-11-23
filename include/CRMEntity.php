@@ -570,7 +570,7 @@ class CRMEntity
 	/**
 	 * Function returns the column alias for a field
 	 * @param <Array> $fieldinfo - field information
-	 * @return <String> field value
+	 * @return string field value
 	 */
 	protected function createColumnAliasForField($fieldinfo)
 	{
@@ -2187,10 +2187,10 @@ class CRMEntity
 
 	/**
 	 * Function which will give the basic query to find duplicates
-	 * @param <String> $module
-	 * @param <String> $tableColumns
-	 * @param <String> $selectedColumns
-	 * @param <Boolean> $ignoreEmpty
+	 * @param string $module
+	 * @param string $tableColumns
+	 * @param string $selectedColumns
+	 * @param boolean $ignoreEmpty
 	 * @return string
 	 */
 	public function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')

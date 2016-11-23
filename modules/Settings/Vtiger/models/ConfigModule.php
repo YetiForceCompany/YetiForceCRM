@@ -39,7 +39,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get Edit view Url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getEditViewUrl()
 	{
@@ -49,7 +49,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get Detail view Url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -96,7 +96,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get picklist values
-	 * @param <String> $fieldName
+	 * @param string $fieldName
 	 * @return <Array> list of module names
 	 */
 	public function getPicklistValues($fieldName)
@@ -186,7 +186,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to validate the field values
 	 * @param <Array> $updatedFields
-	 * @return <String> True/Error message
+	 * @return string True/Error message
 	 */
 	public function validateFieldValues($updatedFields)
 	{

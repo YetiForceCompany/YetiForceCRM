@@ -50,7 +50,7 @@ class Services_Module_Model extends Products_Module_Model
 	 * Function returns query for Services-PriceBooks Relationship
 	 * @param <Vtiger_Record_Model> $recordModel
 	 * @param <Vtiger_Record_Model> $relatedModuleModel
-	 * @return <String>
+	 * @return string
 	 */
 	public function get_service_pricebooks($recordModel, $relatedModuleModel)
 	{

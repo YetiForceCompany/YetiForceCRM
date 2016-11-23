@@ -16,7 +16,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function return the url to fetch List Price of the Product for the current PriceBook
-	 * @return <String>
+	 * @return string
 	 */
 	public function getProductUnitPriceURL()
 	{

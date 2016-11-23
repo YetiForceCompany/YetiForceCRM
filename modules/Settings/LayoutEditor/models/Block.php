@@ -22,7 +22,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 
 	/**
 	 * Function to check whether adding custom field is allowed or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isAddCustomFieldEnabled()
 	{

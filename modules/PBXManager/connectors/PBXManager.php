@@ -37,7 +37,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to get provider name
-	 * returns <string>
+	 * returns string
 	 */
 	public function getGatewayName()
 	{
@@ -323,8 +323,8 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to make outbound call 
-	 * @param <string> $number (Customer)
-	 * @param <string> $recordid
+	 * @param string $number (Customer)
+	 * @param string $recordid
 	 */
 	public function call($number, $record)
 	{

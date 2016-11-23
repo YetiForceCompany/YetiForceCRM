@@ -64,7 +64,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the url of the widget
-	 * @return <String>
+	 * @return string
 	 */
 	public function getUrl()
 	{
@@ -197,7 +197,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns URL that will remove a widget for a User
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDeleteUrl()
 	{

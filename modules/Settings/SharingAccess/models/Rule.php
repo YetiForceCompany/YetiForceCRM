@@ -156,7 +156,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Group Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getModule()
 	{

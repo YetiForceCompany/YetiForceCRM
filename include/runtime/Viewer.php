@@ -38,7 +38,7 @@ class Vtiger_Viewer extends SmartyBC
 
 	/**
 	 * Constructor - Sets the templateDir and compileDir for the Smarty files
-	 * @param <String> - $media Layout/Media name
+	 * @param string - $media Layout/Media name
 	 */
 	public function __construct($media = '')
 	{
@@ -96,7 +96,7 @@ class Vtiger_Viewer extends SmartyBC
 
 	/**
 	 * Function to get the current layout name
-	 * @return <String> - Current layout name if not empty, otherwise Default layout name
+	 * @return string - Current layout name if not empty, otherwise Default layout name
 	 */
 	public static function getLayoutName()
 	{
@@ -108,7 +108,7 @@ class Vtiger_Viewer extends SmartyBC
 
 	/**
 	 * Function to return for default layout name
-	 * @return <String> - Default Layout Name
+	 * @return string - Default Layout Name
 	 */
 	public static function getDefaultLayoutName()
 	{
@@ -117,9 +117,9 @@ class Vtiger_Viewer extends SmartyBC
 
 	/**
 	 * Function to get the module specific template path for a given template
-	 * @param <String> $templateName
-	 * @param <String> $moduleName
-	 * @return <String> - Module specific template path if exists, otherwise default template path for the given template name
+	 * @param string $templateName
+	 * @param string $moduleName
+	 * @return string - Module specific template path if exists, otherwise default template path for the given template name
 	 */
 	public function getTemplatePath($templateName, $moduleName = '')
 	{
@@ -155,9 +155,9 @@ class Vtiger_Viewer extends SmartyBC
 
 	/**
 	 * Function to display/fetch the smarty file contents
-	 * @param <String> $templateName
-	 * @param <String> $moduleName
-	 * @param <Boolean> $fetch
+	 * @param string $templateName
+	 * @param string $moduleName
+	 * @param boolean $fetch
 	 * @return html data
 	 */
 	public function view($templateName, $moduleName = '', $fetch = false)
@@ -200,7 +200,7 @@ class Vtiger_Viewer extends SmartyBC
 
 	/**
 	 * Static function to get the Instance of the Class Object
-	 * @param <String> $media Layout/Media
+	 * @param string $media Layout/Media
 	 * @return Vtiger_Viewer instance
 	 */
 	static function getInstance($media = '')

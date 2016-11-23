@@ -76,9 +76,9 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to get relation query for particular module with function name
 	 * @param <record> $recordId
-	 * @param <String> $functionName
+	 * @param string $functionName
 	 * @param Vtiger_Module_Model $relatedModule
-	 * @return <String>
+	 * @return string
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false, $relationListViewModel = false)
 	{

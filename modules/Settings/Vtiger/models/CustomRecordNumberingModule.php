@@ -25,7 +25,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 
 	/**
 	 * Function to get Instance of this module
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return <Settings_Vtiger_CustomRecordNumberingModule_Model> $moduleModel
 	 */
 	public static function getInstance($moduleName, $tabId = false)
@@ -40,7 +40,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 
 	/**
 	 * Function to ger Supported modules for Custom record numbering
-	 * @return <Array> list of supported modules <Vtiger_Module_Model>
+	 * @return <Array> list of supported modules Vtiger_Module_Model
 	 */
 	public static function getSupportedModules()
 	{

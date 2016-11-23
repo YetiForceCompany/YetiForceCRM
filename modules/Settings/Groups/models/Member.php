@@ -53,7 +53,7 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Group Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -62,7 +62,7 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Group Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getQualifiedName()
 	{
@@ -146,7 +146,7 @@ class Settings_Groups_Member_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Detail View Url of this member
-	 * return <String> url
+	 * return string url
 	 */
 	public function getDetailViewUrl()
 	{

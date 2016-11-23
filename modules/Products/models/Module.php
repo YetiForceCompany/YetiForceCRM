@@ -83,7 +83,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -93,9 +93,9 @@ class Products_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
-	 * @param <String> $searchValue - Search value
+	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
-	 * @param <String> $parentModule - parent module name
+	 * @param string $parentModule - parent module name
 	 * @return <Array of Vtiger_Record_Model>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
@@ -113,7 +113,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 	 * Function returns query for Product-PriceBooks relation
 	 * @param <Vtiger_Record_Model> $recordModel
 	 * @param <Vtiger_Record_Model> $relatedModuleModel
-	 * @return <String>
+	 * @return string
 	 */
 	public function get_product_pricebooks($recordModel, $relatedModuleModel)
 	{

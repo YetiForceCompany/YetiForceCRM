@@ -40,7 +40,7 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	/**
 	 * Function to get the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @return <Object>
 	 */
 	public function get($propertyName)
@@ -228,9 +228,9 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	/**
 	 * Function to check whether duplicate exist or not
-	 * @param <String> $blockLabel
+	 * @param string $blockLabel
 	 * @param <Number> ModuleId
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public static function checkDuplicate($blockLabel, $tabId)
 	{

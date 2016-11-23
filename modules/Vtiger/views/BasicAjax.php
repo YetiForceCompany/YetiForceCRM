@@ -113,12 +113,12 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$matchingRecords = [];
 		if (is_array($advFilterList) && count($advFilterList) > 0) {
 			$isAdvanceSearch = true;
-			$user = Users_Record_Model::getCurrentUserModel();
-			$queryGenerator = new QueryGenerator($moduleName, $user);
+			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 
 			foreach ($advFilterList as $groupindex => $groupcolumns) {
 				$filtercolumns = $groupcolumns['columns'];
+				var_dump($groupindex);
 				if (count($filtercolumns) > 0) {
 					$queryGenerator->startGroup('');
 					foreach ($filtercolumns as $index => $filter) {

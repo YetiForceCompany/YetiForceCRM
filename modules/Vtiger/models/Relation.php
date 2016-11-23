@@ -407,13 +407,13 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		$time = AppRequest::get('time');
-		if ($time == 'current') {
-			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$queryGenerator->addAndConditionNative(['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['vtiger_activity.status' => $stateActivityLabels]]);
-		} else if ($time == 'history') {
-			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
-			$queryGenerator->addAndConditionNative(['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['vtiger_activity.status' => $stateActivityLabels]]);
+		switch (AppRequest::get('time')) {
+			case 'current':
+				$queryGenerator->addAndConditionNative(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);
+				break;
+			case 'history':
+				$queryGenerator->addAndConditionNative(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('history')]);
+				break;
 		}
 	}
 
@@ -462,19 +462,10 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$this->set('RelationInventoryFields', $fields);
 		return $fields;
 	}
-	/**
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
 
 	/**
 	 * Function which will specify whether the relation is editable
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isEditable()
 	{
@@ -483,7 +474,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function which will specify whether the relation is deletable
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isDeletable()
 	{

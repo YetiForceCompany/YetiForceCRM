@@ -70,7 +70,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to save PBXManager record with array of params
 	 * @param <array> $values
-	 * return <string> $recordid
+	 * return string $recordid
 	 */
 	public function saveRecordWithArrray($params)
 	{
@@ -93,7 +93,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to update call details
 	 * @param <array> $details
-	 * $param <string> $callid
+	 * $param string $callid
 	 * return true
 	 */
 	public function updateCallDetails($details)
@@ -184,7 +184,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to delete contact/account/lead record in Phonelookup table on every delete
-	 * @param <string> $recordid
+	 * @param string $recordid
 	 */
 	public function deletePhoneLookUpRecord($recordid)
 	{
@@ -194,7 +194,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * * Function to check the customer with number in phonelookup table
-	 * @param <string> $from
+	 * @param string $from
 	 */
 	public static function lookUpRelatedWithNumber($from)
 	{
@@ -223,7 +223,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to user details with number
-	 * @param <string> $number
+	 * @param string $number
 	 */
 	public static function getUserInfoWithNumber($number)
 	{

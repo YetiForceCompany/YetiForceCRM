@@ -206,7 +206,7 @@ class PackageExport
 	/**
 	 * Function copies language files to zip
 	 * @param <vtlib\Zip> $zip
-	 * @param <String> $module
+	 * @param string $module
 	 */
 	public function __copyLanguageFiles($zip, $module)
 	{

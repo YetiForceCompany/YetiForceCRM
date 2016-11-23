@@ -37,7 +37,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 	/**
 	 * Fuction to get the Name of the record
-	 * @return <String> - Entity Name of the record
+	 * @return string - Entity Name of the record
 	 */
 	public function getName()
 	{
@@ -186,7 +186,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns valuetype of the field filter
-	 * @return <String>
+	 * @return string
 	 */
 	public function getFieldFilterValueType($fieldname)
 	{

@@ -109,7 +109,7 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to specify if previous page exists
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isPrevPageExists()
 	{
@@ -121,7 +121,7 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to specify if next page exists
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isNextPageExists()
 	{

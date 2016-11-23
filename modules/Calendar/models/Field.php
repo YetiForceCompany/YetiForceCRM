@@ -41,7 +41,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get the Webservice Field data type
-	 * @return <String> Data type of the field
+	 * @return string Data type of the field
 	 */
 	public function getFieldDataType()
 	{
@@ -78,8 +78,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get Edit view display value
-	 * @param <String> Data base value
-	 * @return <String> value
+	 * @param string Data base value
+	 * @return string value
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{

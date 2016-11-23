@@ -16,7 +16,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -75,7 +75,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * Function to transform display value for currency field
 	 * @param $value
 	 * @param Current User
-	 * @param <Boolean> Skip Conversion
+	 * @param boolean Skip Conversion
 	 * @return converted user format value
 	 */
 	public static function transformDisplayValue($value, $user = null, $skipConversion = false)
@@ -87,7 +87,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * Function converts User currency format to database format
 	 * @param <Object> $value - Currency value
 	 * @param <User Object> $user
-	 * @param <Boolean> $skipConversion
+	 * @param boolean $skipConversion
 	 */
 	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
 	{
@@ -96,8 +96,8 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the display value in edit view
-	 * @param <String> $value
-	 * @return <String>
+	 * @param string $value
+	 * @return string
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{

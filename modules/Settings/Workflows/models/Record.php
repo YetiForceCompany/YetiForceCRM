@@ -302,7 +302,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function returns valuetype of the field filter
-	 * @return <String>
+	 * @return string
 	 */
 	public function getFieldFilterValueType($fieldname)
 	{
@@ -397,8 +397,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get reference field name
-	 * @param <String> $relatedModule
-	 * @return <String> fieldname
+	 * @param string $relatedModule
+	 * @return string fieldname
 	 */
 	public function getReferenceFieldName($relatedModule)
 	{

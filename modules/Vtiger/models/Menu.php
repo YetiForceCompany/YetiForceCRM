@@ -15,7 +15,7 @@ class Vtiger_Menu_Model
 
 	/**
 	 * Static Function to get all the accessible menu models with/without ordering them by sequence
-	 * @param <Boolean> $sequenced - true/false
+	 * @param boolean $sequenced - true/false
 	 * @return <Array> - List of Vtiger_Menu_Model instances
 	 */
 	public static function getAll($sequenced = false, $restrictedModulesList = [])

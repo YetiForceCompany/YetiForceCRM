@@ -16,7 +16,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get detail view url of this model
-	 * @return <String> url
+	 * @return string url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -25,7 +25,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get edit view url of this model
-	 * @return <String> url
+	 * @return string url
 	 */
 	public function getEditViewUrl()
 	{
@@ -34,7 +34,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get delete url of this mapping model
-	 * @return <String> url
+	 * @return string url
 	 */
 	public function getMappingDeleteUrl()
 	{
@@ -235,7 +235,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get instance
-	 * @param <Boolean> true/false
+	 * @param boolean true/false
 	 * @return <Settings_Leads_Mapping_Model>
 	 */
 	public static function getInstance($editable = false)

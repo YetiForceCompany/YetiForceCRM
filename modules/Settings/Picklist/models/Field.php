@@ -69,7 +69,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get instance
-	 * @param <String> $value - fieldname or fieldid
+	 * @param string $value - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
 	 * @return <Vtiger_Field_Model>
 	 */

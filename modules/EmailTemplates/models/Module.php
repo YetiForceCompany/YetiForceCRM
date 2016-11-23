@@ -21,7 +21,7 @@ class EmailTemplates_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for the Create Record view of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getCreateRecordUrl()
 	{

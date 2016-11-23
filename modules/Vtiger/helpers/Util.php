@@ -52,7 +52,7 @@ class Vtiger_Util_Helper
 	/**
 	 * Function parses date into readable format
 	 * @param <Date Time> $dateTime
-	 * @return <String>
+	 * @return string
 	 */
 	public static function formatDateDiffInStrings($dateTime)
 	{
@@ -101,8 +101,8 @@ class Vtiger_Util_Helper
 	/**
 	 * Function returns singular or plural text
 	 * @param <Number> $count
-	 * @param <String> $text
-	 * @return <String>
+	 * @param string $text
+	 * @return string
 	 */
 	public static function pluralize($count, $text)
 	{
@@ -120,8 +120,8 @@ class Vtiger_Util_Helper
 
 	/**
 	 * Function that will strip all the tags while displaying
-	 * @param <String> $input - html data
-	 * @return <String> vtiger6 displayable data
+	 * @param string $input - html data
+	 * @return string vtiger6 displayable data
 	 */
 	public static function toVtiger6SafeHTML($input)
 	{
@@ -133,7 +133,7 @@ class Vtiger_Util_Helper
 	 * Function to parses date into string format
 	 * @param <Date> $date
 	 * @param <Time> $time
-	 * @return <String>
+	 * @return string
 	 */
 	public static function formatDateIntoStrings($date, $time = false)
 	{
@@ -180,8 +180,8 @@ class Vtiger_Util_Helper
 
 	/**
 	 * Function to replace spaces with under scores
-	 * @param <String> $string
-	 * @return <String>
+	 * @param string $string
+	 * @return string
 	 */
 	public static function replaceSpaceWithUnderScores($string)
 	{
@@ -191,7 +191,7 @@ class Vtiger_Util_Helper
 	/**
 	 * Function to parse dateTime into Days
 	 * @param <DateTime> $dateTime
-	 * @return <String>
+	 * @return string
 	 */
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
@@ -272,8 +272,8 @@ class Vtiger_Util_Helper
 
 	/**
 	 * Function decodes the utf-8 characters
-	 * @param <String> $string
-	 * @return <String>
+	 * @param string $string
+	 * @return string
 	 */
 	public static function getDecodedValue($string)
 	{
@@ -317,7 +317,7 @@ class Vtiger_Util_Helper
 	 * Function to get the datetime value in user preferred hour format
 	 * @param <DateTime> $dateTime
 	 * @param <Vtiger_Users_Model> $userObject
-	 * @return <String> date and time with hour format
+	 * @return string date and time with hour format
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null)
 	{
@@ -341,7 +341,7 @@ class Vtiger_Util_Helper
 	 * Function to get the time value in user preferred hour format
 	 * @param <Time> $time
 	 * @param <Vtiger_Users_Model> $userObject
-	 * @return <String> time with hour format
+	 * @return string time with hour format
 	 */
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null)
 	{

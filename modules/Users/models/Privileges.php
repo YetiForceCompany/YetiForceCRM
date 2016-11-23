@@ -17,7 +17,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to get the Display Name for the record
-	 * @return <String> - Entity Display Name for the record
+	 * @return string - Entity Display Name for the record
 	 */
 	public function getName()
 	{
@@ -51,7 +51,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to check if the user has Global Read Permission
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasGlobalReadPermission()
 	{
@@ -62,7 +62,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to check if the user has Global Write Permission
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasGlobalWritePermission()
 	{
@@ -83,7 +83,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	/**
 	 * Function to check whether the user has access to a given module by tabid
 	 * @param <Number> $tabId
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasModulePermission($mixed)
 	{
@@ -96,7 +96,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 * Function to check whether the user has access to the specified action/operation on a given module by tabid
 	 * @param <Number> $tabId
 	 * @param <String/Number> $action
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasModuleActionPermission($mixed, $action)
 	{
@@ -159,8 +159,8 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to check permission for a Module/Action/Record
-	 * @param <String> $moduleName
-	 * @param <String> $actionName
+	 * @param string $moduleName
+	 * @param string $actionName
 	 * @param <Number> $record
 	 * @return Boolean
 	 */
@@ -176,8 +176,8 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function returns non admin access control check query
-	 * @param <String> $module
-	 * @return <String>
+	 * @param string $module
+	 * @return string
 	 */
 	public static function getNonAdminAccessControlQuery($module)
 	{

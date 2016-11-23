@@ -18,7 +18,7 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 
 	/**
 	 * Function to set the module instance
-	 * @param <Vtiger_Module_Model> $moduleInstance - module model
+	 * @param Vtiger_Module_Model $moduleInstance - module model
 	 * @return Vtiger_DetailView_Model>
 	 */
 	public function setModule($moduleInstance)
@@ -115,8 +115,8 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 
 	/**
 	 * Function to get the instance
-	 * @param <String> $moduleName - module name
-	 * @param <String> $recordId - record id
+	 * @param string $moduleName - module name
+	 * @param string $recordId - record id
 	 * @return <Vtiger_DetailView_Model>
 	 */
 	public static function getInstance($moduleName, $recordId)

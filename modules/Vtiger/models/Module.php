@@ -38,7 +38,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to check whether the module is an entity type module or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isEntityModule()
 	{
@@ -47,7 +47,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to check whether the module is enabled for quick create
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isQuickCreateSupported()
 	{
@@ -56,7 +56,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -75,7 +75,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get singluar label key
-	 * @return <String> - Singular module label key
+	 * @return string - Singular module label key
 	 */
 	public function getSingularLabelKey()
 	{
@@ -84,7 +84,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @return <Object>
 	 * @throws Exception
 	 */
@@ -98,7 +98,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to set the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @param <Object> $propertyValue
 	 * @return Vtiger_Module_Model instance
 	 */
@@ -110,7 +110,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function checks if the module is Active
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isActive()
 	{
@@ -119,7 +119,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function checks if the module is enabled for tracking changes
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isTrackingEnabled()
 	{
@@ -302,7 +302,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get listview url with all filter
-	 * @return <string> URL
+	 * @return string URL
 	 */
 	public function getListViewUrlWithAllFilter()
 	{
@@ -371,7 +371,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for default view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getDefaultUrl()
 	{
@@ -380,7 +380,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getListViewUrl()
 	{
@@ -389,7 +389,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Create Record view of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getCreateRecordUrl()
 	{
@@ -398,7 +398,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Create Record view of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getQuickCreateUrl()
 	{
@@ -407,7 +407,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Import action of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getImportUrl()
 	{
@@ -416,7 +416,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Export action of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getExportUrl()
 	{
@@ -425,7 +425,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Find Duplicates action of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getFindDuplicatesUrl()
 	{
@@ -434,7 +434,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url to view Dashboard for the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getDashBoardUrl()
 	{
@@ -443,7 +443,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url to view Details for the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getDetailViewUrl($id)
 	{
@@ -747,7 +747,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function that returns deleted records condition
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDeletedRecordCondition()
 	{
@@ -814,7 +814,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 * Function to get all modules from CRM
 	 * @param <array> $presence
 	 * @param <array> $restrictedModulesList
-	 * @return <array> List of module models <Vtiger_Module_Model>
+	 * @return <array> List of module models Vtiger_Module_Model
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
@@ -915,7 +915,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the list of all searchable modules
-	 * @return array - List of <Vtiger_Module_Model> instances
+	 * @return array - List of Vtiger_Module_Model instances
 	 */
 	public static function getSearchableModules()
 	{
@@ -1039,8 +1039,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns export query - deprecated
-	 * @param <String> $where
-	 * @return <String> export query
+	 * @param string $where
+	 * @return string export query
 	 */
 	public function getExportQuery($focus, $where)
 	{
@@ -1097,7 +1097,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns comments and recent activities across module
 	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param <String> $type - comments, updates or all
+	 * @param string $type - comments, updates or all
 	 * @return <Array>
 	 */
 	public function getHistory($pagingModel, $type = false)
@@ -1150,10 +1150,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns the Calendar Events for the module
-	 * @param <String> $mode - upcoming/overdue mode
+	 * @param string $mode - upcoming/overdue mode
 	 * @param <Vtiger_Paging_Model> $pagingModel - $pagingModel
-	 * @param <String> $user - all/userid
-	 * @param <String> $recordId - record id
+	 * @param string $user - all/userid
+	 * @param string $recordId - record id
 	 * @return <Array>
 	 */
 	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false)
@@ -1276,7 +1276,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get list of fields which are required while importing records
-	 * @param <String> $module
+	 * @param string $module
 	 * @return <Array> list of fields
 	 */
 	public function getRequiredFields($module = '')
@@ -1299,7 +1299,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the module is permitted to specific action
-	 * @param <String> $actionName
+	 * @param string $actionName
 	 * @return <boolean>
 	 */
 	public function isPermitted($actionName)
@@ -1423,10 +1423,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns query for module record's search
-	 * @param <String> $searchValue - part of record name (label column of crmentity table)
+	 * @param string $searchValue - part of record name (label column of crmentity table)
 	 * @param <Integer> $parentId - parent record id
-	 * @param <String> $parentModule - parent module name
-	 * @return <String> - query
+	 * @param string $parentModule - parent module name
+	 * @return string - query
 	 */
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
@@ -1437,9 +1437,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
-	 * @param <String> $searchValue - Search value
+	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
-	 * @param <String> $parentModule - parent module name
+	 * @param string $parentModule - parent module name
 	 * @return <Array of Vtiger_Record_Model>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
@@ -1470,9 +1470,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to get relation query for particular module with function name
 	 * @param <record> $recordId
-	 * @param <String> $functionName
+	 * @param string $functionName
 	 * @param Vtiger_Module_Model $relatedModule
-	 * @return <String>
+	 * @return string
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false, $relationListViewModel = false)
 	{
@@ -1538,7 +1538,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns the default column for Alphabetic search
-	 * @return <String> columnname
+	 * @return string columnname
 	 */
 	public function getAlphabetSearchField()
 	{

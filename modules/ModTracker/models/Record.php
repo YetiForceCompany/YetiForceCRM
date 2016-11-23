@@ -156,7 +156,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the name of the module to which the record belongs
-	 * @return <String> - Record Module Name
+	 * @return string - Record Module Name
 	 */
 	public function getModule()
 	{
@@ -168,7 +168,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the name of the module to which the record belongs
-	 * @return <String> - Record Module Name
+	 * @return string - Record Module Name
 	 */
 	public function getModuleName()
 	{
@@ -177,7 +177,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail View url for the record
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getDetailViewUrl()
 	{

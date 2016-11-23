@@ -74,7 +74,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for default view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public static function getDefaultUrl()
 	{
@@ -83,7 +83,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for create view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public static function getCreateViewUrl()
 	{

@@ -19,7 +19,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Template name for the current UI Type Object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -109,7 +109,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Detailview template name for the current UI Type Object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getDetailViewTemplateName()
 	{
@@ -118,8 +118,8 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Display value for RelatedList
-	 * @param <String> $value
-	 * @return <String>
+	 * @param string $value
+	 * @return string
 	 */
 	public function getRelatedListDisplayValue($value)
 	{

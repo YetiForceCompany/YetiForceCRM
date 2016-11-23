@@ -42,7 +42,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Fuction to get the Name of the record
-	 * @return <String> - Entity Name of the record
+	 * @return string - Entity Name of the record
 	 */
 	public function getName()
 	{
@@ -88,7 +88,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to set the Module to which the record belongs
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
 	public function setModule($moduleName)
@@ -99,7 +99,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to set the Module to which the record belongs from the Module model instance
-	 * @param <Vtiger_Module_Model> $module
+	 * @param Vtiger_Module_Model $module
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
 	public function setModuleFromInstance($module)
@@ -161,7 +161,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Detail View url for the record
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -171,7 +171,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the complete Detail View url for the record
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getFullDetailViewUrl()
 	{
@@ -181,7 +181,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Edit View url for the record
-	 * @return <String> - Record Edit View Url
+	 * @return string - Record Edit View Url
 	 */
 	public function getEditViewUrl()
 	{
@@ -191,7 +191,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Update View url for the record
-	 * @return <String> - Record Upadte view Url
+	 * @return string - Record Upadte view Url
 	 */
 	public function getUpdatesUrl()
 	{
@@ -200,7 +200,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Delete Action url for the record
-	 * @return <String> - Record Delete Action Url
+	 * @return string - Record Delete Action Url
 	 */
 	public function getDeleteUrl()
 	{
@@ -210,7 +210,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the name of the module to which the record belongs
-	 * @return <String> - Record Module Name
+	 * @return string - Record Module Name
 	 */
 	public function getModuleName()
 	{
@@ -219,7 +219,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Display Name for the record
-	 * @return <String> - Entity Display Name for the record
+	 * @return string - Entity Display Name for the record
 	 */
 	public function getDisplayName()
 	{
@@ -228,8 +228,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to retieve display value for a field
-	 * @param <String> $fieldName - field name for which values need to get
-	 * @return <String>
+	 * @param string $fieldName - field name for which values need to get
+	 * @return string
 	 */
 	public function getDisplayValue($fieldName, $recordId = false, $rawText = false)
 	{
@@ -269,7 +269,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns the Vtiger_Field_Model
-	 * @param <String> $fieldName - field name
+	 * @param string $fieldName - field name
 	 * @return <Vtiger_Field_Model>
 	 */
 	public function getField($fieldName)
@@ -328,7 +328,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Static Function to get the instance of a clean Vtiger Record Model for the given module name
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
 	public static function getCleanInstance($moduleName)
@@ -342,7 +342,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	/**
 	 * Static Function to get the instance of the Vtiger Record Model given the recordid and the module name
 	 * @param <Number> $recordId
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
 	public static function getInstanceById($recordId, $module = null)
@@ -386,7 +386,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Static Function to get the list of records matching the search key
-	 * @param <String> $searchKey
+	 * @param string $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $module = false, $limit = false)
@@ -500,7 +500,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Funtion to get Duplicate Record Url
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDuplicateRecordUrl()
 	{
@@ -510,8 +510,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Display value for RelatedList
-	 * @param <String> $value
-	 * @return <String>
+	 * @param string $value
+	 * @return string
 	 */
 	public function getRelatedListDisplayValue($fieldName)
 	{
@@ -538,7 +538,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Descrption value for this record
-	 * @return <String> Descrption
+	 * @return string Descrption
 	 */
 	public function getDescriptionValue()
 	{
@@ -554,7 +554,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	/**
 	 * Function to transfer related records of parent records to this record
 	 * @param <Array> $recordIds
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function transferRelationInfoOfRecords($recordIds = [])
 	{
@@ -782,7 +782,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get EditFieldByModal view url for the record
-	 * @return <String> - EditFieldByModal View Url
+	 * @return string - EditFieldByModal View Url
 	 */
 	public function getEditFieldByModalUrl()
 	{

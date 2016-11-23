@@ -15,7 +15,7 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 	 * Function returns query for PriceBook-Product relation
 	 * @param <Vtiger_Record_Model> $recordModel
 	 * @param <Vtiger_Record_Model> $relatedModuleModel
-	 * @return <String>
+	 * @return string
 	 */
 	public function get_pricebook_products($recordModel, $relatedModuleModel)
 	{
@@ -38,7 +38,7 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 	 * Function returns query for PriceBooks-Services Relationship
 	 * @param <Vtiger_Record_Model> $recordModel
 	 * @param <Vtiger_Record_Model> $relatedModuleModel
-	 * @return <String>
+	 * @return string
 	 */
 	public function get_pricebook_services($recordModel, $relatedModuleModel)
 	{
@@ -87,7 +87,7 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isSummaryViewSupported()
 	{

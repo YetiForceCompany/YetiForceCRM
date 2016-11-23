@@ -14,7 +14,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Module instance
-	 * @return <Vtiger_Module_Model>
+	 * @return Vtiger_Module_Model
 	 */
 	public function getModule()
 	{
@@ -23,8 +23,8 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to set the module instance
-	 * @param <Vtiger_Module_Model> $moduleInstance - module model
-	 * @return Vtiger_DetailView_Model>
+	 * @param Vtiger_Module_Model $moduleInstance - module model
+	 * @return Vtiger_DetailView_Model
 	 */
 	public function setModule($moduleInstance)
 	{
@@ -34,7 +34,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 	/**
 	 *  Function to get the module name
-	 *  @return <String> - name of the module
+	 *  @return string - name of the module
 	 */
 	public function getModuleName()
 	{
@@ -105,9 +105,9 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the module name of a widget using linkurl
-	 * @param <string> $linkUrl
-	 * @param <string> $linkLabel
-	 * @return <string> $module - Module Name
+	 * @param string $linkUrl
+	 * @param string $linkLabel
+	 * @return string $module - Module Name
 	 */
 	public function getModuleNameFromLink($linkUrl, $linkLabel)
 	{
@@ -121,7 +121,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the default widgets(Deprecated)
-	 * @return <Array of Vtiger_Widget_Model>
+	 * @return Vtiger_Widget_Model[]
 	 */
 	public function getDefaultWidgets()
 	{
@@ -177,8 +177,8 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance
-	 * @param <String> $moduleName - module name
-	 * @return <Vtiger_DashBoard_Model>
+	 * @param string $moduleName - module name
+	 * @return Vtiger_DashBoard_Model
 	 */
 	public static function getInstance($moduleName)
 	{
@@ -190,7 +190,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get modules with widgets
-	 * @param <String> $moduleName - module name
+	 * @param string $moduleName - module name
 	 * @return <Array> $modules
 	 */
 	public static function getModulesWithWidgets($moduleName = false, $dashboard)

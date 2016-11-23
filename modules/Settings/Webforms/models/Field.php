@@ -13,7 +13,7 @@ class Settings_Webforms_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function get field is viewable or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isViewable()
 	{
@@ -36,7 +36,7 @@ class Settings_Webforms_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check whether this field editable or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isEditable()
 	{
@@ -56,7 +56,7 @@ class Settings_Webforms_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @return <Object>
 	 * @throws Exception
 	 */

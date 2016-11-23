@@ -37,7 +37,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function checks if the sharing access for the module is enabled or not
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isSharingEditable()
 	{

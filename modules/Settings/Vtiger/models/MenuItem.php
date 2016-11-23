@@ -93,7 +93,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the url to get to the Settings Menu Item
-	 * @return <String> - Menu Item landing url
+	 * @return string - Menu Item landing url
 	 */
 	public function getUrl()
 	{
@@ -110,7 +110,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the module name, to which the Settings Menu Item belongs to
-	 * @return <String> - Module to which the Menu Item belongs
+	 * @return string - Module to which the Menu Item belongs
 	 */
 	public function getModuleName()
 	{
@@ -127,7 +127,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to verify whether menuitem is pinned or not
-	 * @return <Boolean> true to pinned, false to not pinned.
+	 * @return boolean true to pinned, false to not pinned.
 	 */
 	public function isPinned()
 	{
@@ -137,7 +137,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function which will update the pin status 
-	 * @param <Boolean> $pinned - true to enable , false to disable
+	 * @param boolean $pinned - true to enable , false to disable
 	 */
 	private function updatePinStatus($pinned = false)
 	{
@@ -177,7 +177,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance of the Menu Item model, given name and Menu instance
-	 * @param <String> $name
+	 * @param string $name
 	 * @param <Settings_Vtiger_Menu_Model> $menuModel
 	 * @return Settings_Vtiger_MenuItem_Model instance
 	 */
@@ -209,7 +209,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance of the Menu Item model, given item id and Menu instance
-	 * @param <String> $name
+	 * @param string $name
 	 * @param <Settings_Vtiger_Menu_Model> $menuModel
 	 * @return Settings_Vtiger_MenuItem_Model instance
 	 */

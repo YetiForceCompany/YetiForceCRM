@@ -14,7 +14,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Taxes Url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getTaxesURL()
 	{
@@ -150,7 +150,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Static Function to get the list of records matching the search key
-	 * @param <String> $searchKey
+	 * @param string $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $moduleName = false, $limit = false)

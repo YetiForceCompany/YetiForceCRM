@@ -382,7 +382,7 @@ class Owner
 
 	/**
 	 * Function returns List of Accessible Users for a Module
-	 * @param <String> $module
+	 * @param string $module
 	 * @return <Array of Users_Record_Model>
 	 */
 	public function getAccessibleUsersForModule()

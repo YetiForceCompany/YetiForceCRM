@@ -276,7 +276,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to check if the field is named field of the module
-	 * @return <Boolean> - True/False
+	 * @return boolean - True/False
 	 */
 	public function isNameField()
 	{
@@ -301,7 +301,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to check whether the current field is read-only
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isReadOnly()
 	{
@@ -331,7 +331,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @param <Boolean> $skipCheckingRole
+	 * @param boolean $skipCheckingRole
 	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
@@ -406,7 +406,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to check if the current field is mandatory or not
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isMandatory()
 	{
@@ -434,7 +434,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to check if the field is shown in detail view
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isViewEnabled()
 	{
@@ -446,7 +446,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to check if the field is shown in detail view
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isViewable()
 	{
@@ -458,7 +458,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to check if the field is shown in detail view
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isViewableInDetailView()
 	{
@@ -510,7 +510,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to check whether summary field or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isSummaryField()
 	{
@@ -537,7 +537,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to check whether the current field is editable
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isEditable()
 	{
@@ -551,7 +551,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to check whether field is ajax editable'
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isAjaxEditable()
 	{
@@ -797,7 +797,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to retrieve field model for specific block and module
-	 * @param <Vtiger_Module_Model> $blockModel - block instance
+	 * @param Vtiger_Module_Model $blockModel - block instance
 	 * @return <array> List of field model
 	 */
 	public static function getAllForModule($moduleModel)
@@ -875,7 +875,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function checks if the current Field is Read/Write
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function getProfileReadWritePermission()
 	{

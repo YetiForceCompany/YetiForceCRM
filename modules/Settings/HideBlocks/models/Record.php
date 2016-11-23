@@ -23,7 +23,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Name of this record instance
-	 * @return <String> Name
+	 * @return string Name
 	 */
 	public function getName()
 	{
@@ -41,7 +41,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Detail view url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -50,7 +50,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Edit view url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getEditViewUrl()
 	{
@@ -59,7 +59,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Delete url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getDeleteUrl()
 	{
@@ -148,7 +148,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get record instance by using id and moduleName
 	 * @param <Integer> $recordId
-	 * @param <String> $qualifiedModuleName
+	 * @param string $qualifiedModuleName
 	 * @return <Settings_Webforms_Record_Model> RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
@@ -178,8 +178,8 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get display value of every field from this record
-	 * @param <String> $fieldName
-	 * @return <String>
+	 * @param string $fieldName
+	 * @return string
 	 */
 	public function getDisplayValue($fieldName)
 	{

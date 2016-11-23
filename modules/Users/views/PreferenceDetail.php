@@ -30,7 +30,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	/**
 	 * Function to returns the preProcess Template Name
 	 * @param <type> $request
-	 * @return <String>
+	 * @return string
 	 */
 	public function preProcessTplName(Vtiger_Request $request)
 	{

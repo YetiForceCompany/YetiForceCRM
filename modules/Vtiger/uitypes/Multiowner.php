@@ -13,7 +13,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -60,7 +60,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	/**
 	 * Function to know owner is either User or Group
 	 * @param <Integer> userId/GroupId
-	 * @return <String> User/Group
+	 * @return string User/Group
 	 */
 	public static function getOwnerType($id)
 	{

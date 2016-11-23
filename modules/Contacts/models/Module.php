@@ -14,10 +14,10 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns query for module record's search
-	 * @param <String> $searchValue - part of record name (label column of crmentity table)
+	 * @param string $searchValue - part of record name (label column of crmentity table)
 	 * @param <Integer> $parentId - parent record id
-	 * @param <String> $parentModule - parent module name
-	 * @return <String> - query
+	 * @param string $parentModule - parent module name
+	 * @return string - query
 	 */
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{

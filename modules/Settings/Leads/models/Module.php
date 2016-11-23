@@ -71,7 +71,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get instance of module
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return <Settings_Leads_Module_Model>
 	 */
 	public static function getInstance($moduleName)

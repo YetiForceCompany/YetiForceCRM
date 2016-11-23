@@ -205,7 +205,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns valuetype of the field filter
-	 * @return <String>
+	 * @return string
 	 */
 	public function getFieldFilterValueType($fieldname)
 	{

@@ -47,7 +47,7 @@ class Settings_CustomerPortal_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get list of portal modules
-	 * @return <Array> list of portal modules <Vtiger_Module_Model>
+	 * @return <Array> list of portal modules Vtiger_Module_Model
 	 */
 	public function getModulesList()
 	{

@@ -234,21 +234,21 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewModel->set('search_key', $searchKey);
 			$this->listViewModel->set('search_value', $searchValue);
 		}
-		$searchParmams = $request->get('search_params');
-		if (!empty($searchParmams) && is_array($searchParmams)) {
-			$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+		$searchParams = $request->get('search_params');
+		if (!empty($searchParams) && is_array($searchParams)) {
+			$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);
 			//To make smarty to get the details easily accesible
-			foreach ($searchParmams as $fieldListGroup) {
+			foreach ($searchParams as $fieldListGroup) {
 				foreach ($fieldListGroup as $fieldSearchInfo) {
 					$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 					$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
 					$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
-					$searchParmams[$fieldName] = $fieldSearchInfo;
+					$searchParams[$fieldName] = $fieldSearchInfo;
 				}
 			}
 		} else {
-			$searchParmams = [];
+			$searchParams = [];
 		}
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $this->listViewModel->getListViewHeaders();
@@ -286,6 +286,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('GROUPS_IDS', Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId()));
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
-		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		$viewer->assign('SEARCH_DETAILS', $searchParams);
 	}
 }

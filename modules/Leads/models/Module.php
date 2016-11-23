@@ -235,7 +235,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function that checks if lead record can be converted
-	 * @param <String> $status - lead status
+	 * @param string $status - lead status
 	 * @return <boolean> if or not allowed to convert
 	 */
 	public static function checkIfAllowedToConvert($status)

@@ -19,7 +19,7 @@ class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
 
 	/**
 	 * creates an instance of Vtiger_ModuleMeta_Model
-	 * @param <String> $name - module name
+	 * @param string $name - module name
 	 * @param <Object> $user - Users Object
 	 * @return Vtiger_ModuleMeta_Model
 	 */

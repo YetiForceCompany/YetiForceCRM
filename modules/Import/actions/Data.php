@@ -866,7 +866,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	/*
 	 *  Function to get Record details of import
 	 *  @parms $user <User Record Model> Current Users
-	 * 	@parms $user <String> Imported module
+	 * 	@parms $user string Imported module
 	 *  @returns <Array> Import Records with the list of skipped records and failed records
 	 */
 

@@ -13,7 +13,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -23,7 +23,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	/**
 	 * Function to get the Detailview template name for the current UI Type Object 
 	 * Added for PhoneCalls module
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getDetailViewTemplateName()
 	{

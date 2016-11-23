@@ -14,7 +14,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -42,7 +42,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	/**
 	 * Function to get the display value in detail view
 	 * @param <Integer> crmid of record
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{

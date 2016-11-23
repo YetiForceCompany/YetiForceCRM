@@ -53,7 +53,7 @@ abstract class Vtiger_Controller
 
 	/**
 	 * Function that will expose methods for external access
-	 * @param <String> $name - method name
+	 * @param string $name - method name
 	 */
 	protected function exposeMethod($name)
 	{
@@ -414,7 +414,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	/**
 	 * Function returns the css files
 	 * @param <Array> $cssFileNames
-	 * @param <String> $fileExtension
+	 * @param string $fileExtension
 	 * @return <Array of Vtiger_CssScript_Model>
 	 *
 	 * First check if $cssFileName exists

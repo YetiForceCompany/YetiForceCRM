@@ -14,7 +14,7 @@ class Emails_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check whether the module is an entity type module or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isQuickCreateSupported()
 	{
@@ -29,7 +29,7 @@ class Emails_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -63,7 +63,7 @@ class Emails_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to search emails for send email
-	 * @param <String> $searchValue
+	 * @param string $searchValue
 	 * @return <Array> Result of searched emails
 	 */
 	public function searchEmails($searchValue)

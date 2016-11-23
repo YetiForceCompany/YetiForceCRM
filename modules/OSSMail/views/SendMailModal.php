@@ -83,7 +83,7 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function which provides the records for the current view
-	 * @param <Boolean> $excludedIds - List of the RecordIds to be skipped
+	 * @param boolean $excludedIds - List of the RecordIds to be skipped
 	 * @return <Array> List of RecordsIds
 	 */
 	public function getRecordIds($selectedIds = false, $excludedIds = false)

@@ -14,7 +14,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get URL for Convert FAQ
-	 * @return <String>
+	 * @return string
 	 */
 	public function getConvertFAQUrl()
 	{
@@ -23,7 +23,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Comments List of this Record
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCommentsList()
 	{

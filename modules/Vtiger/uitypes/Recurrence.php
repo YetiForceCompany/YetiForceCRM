@@ -19,7 +19,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Date_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -28,7 +28,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Date_UIType
 
 	/**
 	 * Function to get the Detailview template name for the current UI Type Object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getDetailViewTemplateName()
 	{

@@ -250,7 +250,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function gets the next trigger for the workflows
-	 * @global <String> $default_timezone
+	 * @global string $default_timezone
 	 * @return type
 	 */
 	public function getNextTriggerTime()

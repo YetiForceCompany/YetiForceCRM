@@ -20,7 +20,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to get the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @return <Object>
 	 * @throws Exception
 	 */
@@ -33,7 +33,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to set the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @param <Object> $propertyValue
 	 * @return Vtiger_Link_Model instance
 	 */
@@ -54,7 +54,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to get the link url
-	 * @return <String>
+	 * @return string
 	 */
 	public function getUrl()
 	{
@@ -63,7 +63,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to get the link label
-	 * @return <String>
+	 * @return string
 	 */
 	public function getLabel()
 	{
@@ -72,7 +72,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to get the link type
-	 * @return <String>
+	 * @return string
 	 */
 	public function getType()
 	{
@@ -81,7 +81,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to get the link icon name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getIcon()
 	{
@@ -90,7 +90,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to get the link glyphicon name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getGlyphiconIcon()
 	{
@@ -99,7 +99,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to check whether link has icon or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isIconExists()
 	{
@@ -178,7 +178,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to check whether the link model has any child links
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasChild()
 	{
@@ -374,7 +374,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to get the relatedModuleName
-	 * @return <String>
+	 * @return string
 	 */
 	public function getRelatedModuleName($defaultModuleName = false)
 	{

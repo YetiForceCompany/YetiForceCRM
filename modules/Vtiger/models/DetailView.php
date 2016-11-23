@@ -19,7 +19,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Module instance
-	 * @return <Vtiger_Module_Model>
+	 * @return Vtiger_Module_Model
 	 */
 	public function getModule()
 	{
@@ -28,7 +28,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to set the module instance
-	 * @param <Vtiger_Module_Model> $moduleInstance - module model
+	 * @param Vtiger_Module_Model $moduleInstance - module model
 	 * @return Vtiger_DetailView_Model>
 	 */
 	public function setModule($moduleInstance)
@@ -358,7 +358,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the module label
-	 * @return <String> - label
+	 * @return string - label
 	 */
 	public function getModuleLabel()
 	{
@@ -367,7 +367,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 *  Function to get the module name
-	 *  @return <String> - name of the module
+	 *  @return string - name of the module
 	 */
 	public function getModuleName()
 	{
@@ -376,8 +376,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance
-	 * @param <String> $moduleName - module name
-	 * @param <String> $recordId - record id
+	 * @param string $moduleName - module name
+	 * @param string $recordId - record id
 	 * @return <Vtiger_DetailView_Model>
 	 */
 	public static function getInstance($moduleName, $recordId)

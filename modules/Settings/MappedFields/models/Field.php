@@ -13,7 +13,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get field uitype
-	 * @return <String> uitype
+	 * @return string uitype
 	 */
 	public function getUIType()
 	{
@@ -34,7 +34,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get field data type
-	 * @return <String> data type
+	 * @return string data type
 	 */
 	public function getFieldDataType()
 	{
@@ -99,7 +99,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check if the current field is mandatory or not
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isMandatory()
 	{
@@ -111,7 +111,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get field label
-	 * @return <String> label
+	 * @return string label
 	 */
 	public function getFieldLabelKey()
 	{
@@ -141,8 +141,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to get instance
 	 * @param <String/Integer> $value
-	 * @param <String> $module
-	 * @param <String> $type
+	 * @param string $module
+	 * @param string $type
 	 * @return <Settings_MappedFields_Field_Model> field model
 	 */
 	public static function getInstance($value, $module = false, $type = '')

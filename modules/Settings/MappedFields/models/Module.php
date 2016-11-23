@@ -138,7 +138,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get instance of module
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return <Settings_MappedFields_Module_Model>
 	 */
 	public static function getInstance($moduleName = 'Settings:Vtiger')

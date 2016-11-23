@@ -37,7 +37,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Fuction to get the Name of the Record
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -74,7 +74,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to save the record
-	 * @param <string> $url
+	 * @param string $url
 	 */
 	public function save($url)
 	{
@@ -128,7 +128,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get record instance by using id and moduleName
 	 * @param <Integer> $recordId
-	 * @param <String> $qualifiedModuleName
+	 * @param string $qualifiedModuleName
 	 * @return <Rss_Record_Model> RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
@@ -167,7 +167,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get clean record instance by using moduleName
-	 * @param <String> $qualifiedModuleName
+	 * @param string $qualifiedModuleName
 	 * @return <Settings_SMSNotifier_Record_Model>
 	 */
 	static public function getCleanInstance($qualifiedModuleName)
@@ -178,7 +178,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to validate the rss url
-	 * @param <string> $url
+	 * @param string $url
 	 * @return <boolean> 
 	 */
 	public function validateRssUrl($url)
@@ -216,8 +216,8 @@ class Rss_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get html contents from feed
-	 * @param <string> $url
-	 * @return <string> html contents of url
+	 * @param string $url
+	 * @return string html contents of url
 	 */
 	public function getHtmlFromUrl($url)
 	{

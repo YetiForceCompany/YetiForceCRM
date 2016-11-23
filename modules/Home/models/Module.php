@@ -14,7 +14,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the default view for the Home module
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDefaultViewName()
 	{
@@ -175,10 +175,10 @@ class Home_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the Calendar Events for the module
-	 * @param <String> $mode - upcoming/overdue mode
+	 * @param string $mode - upcoming/overdue mode
 	 * @param <Vtiger_Paging_Model> $pagingModel - $pagingModel
-	 * @param <String> $user - all/userid
-	 * @param <String> $recordId - record id
+	 * @param string $user - all/userid
+	 * @param string $recordId - record id
 	 * @return <Array>
 	 */
 	public function getAssignedProjectsTasks($mode, $pagingModel, $user, $recordId = false)
@@ -239,7 +239,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function returns comments and recent activities across module
 	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param <String> $type - comments, updates or all
+	 * @param string $type - comments, updates or all
 	 * @return <Array>
 	 */
 	public function getHistory($pagingModel, $type = false)

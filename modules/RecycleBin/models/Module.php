@@ -13,7 +13,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getDefaultUrl()
 	{
