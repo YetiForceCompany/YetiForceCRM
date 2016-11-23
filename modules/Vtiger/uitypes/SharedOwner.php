@@ -156,32 +156,16 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		return $values;
 	}
 
-	public static function getSearchViewList($module, $view)
+	public static function getSearchViewList($moduleName, $cvId)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
-		$queryGenerator = new QueryGenerator($module, $currentUser);
-		$meta = $queryGenerator->getMeta($module);
-		$baseTable = $meta->getEntityBaseTable();
-		$tableIndexList = $meta->getEntityTableIndexList();
-		$baseTableIndex = $tableIndexList[$baseTable];
-
-		$queryGenerator->initForCustomViewById($view);
+		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator->initForCustomViewById($cvId);
 		$queryGenerator->setFields([]);
-		$queryGenerator->setCustomColumn('userid');
-		$queryGenerator->setCustomFrom([
-			'joinType' => 'INNER',
-			'relatedTable' => 'u_yf_crmentity_showners',
-			'relatedIndex' => 'crmid',
-			'baseTable' => $baseTable,
-			'baseIndex' => $baseTableIndex,
-		]);
-		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
-		$result = $db->query($listQuery);
-
+		$queryGenerator->setCustomColumn('u_yf_crmentity_showners.userid');
+		$queryGenerator->addJoin(['INNER JOIN', 'u_yf_crmentity_showners', "{$queryGenerator->getColumnName('id')} = u_yf_crmentity_showners.crmid"]);
+		$dataReader = $queryGenerator->createQuery()->distinct()->createCommand()->query();
 		$users = $group = [];
-		while ($id = $db->getSingleValue($result)) {
+		while ($id = $dataReader->readColumn(0)) {
 			$name = \App\Fields\Owner::getUserLabel($id);
 			if (!empty($name)) {
 				$users[$id] = $name;
