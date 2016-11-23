@@ -41,14 +41,21 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 							label: app.vtranslate('JS_REMOVE'),
 							action: function (data) {
 								var inst = $.jstree.reference(data.reference);
-								var id = inst.get_selected();
-								var menu = inst.get_node(id);
-								if (menu.children.length > 0) {
+								var ids = inst.get_selected();
+								var showInfo = false;
+								for(var i in ids){
+									var menu = inst.get_node(ids[i]);
+									if(menu.children.length > 0){
+										showInfo = true;
+										break;
+									}
+								}
+								if (showInfo) {
 									var modal = $('.modal.deleteAlert').clone(true, true);
 									var callBackFunction = function (data) {
 										data.find('.deleteAlert').removeClass('hide');
 										data.find('.btn-danger').click(function (e) {
-											thisInstance.removeMenu(id, inst);
+											thisInstance.removeMenu(ids, inst);
 										});
 									};
 									app.showModalWindow(modal, function (data) {
@@ -57,7 +64,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 										}
 									});
 								} else {
-									thisInstance.removeMenu(id, inst);
+									thisInstance.removeMenu(ids, inst);
 								}
 							}
 						},
