@@ -54,6 +54,11 @@ class Reservations extends Vtiger_CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['reservations_no', 'createdtime', 'assigned_user_id'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support

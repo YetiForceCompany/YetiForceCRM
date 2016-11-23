@@ -43,6 +43,11 @@ class Campaigns extends CRMEntity
 		'Expected Close Date' => 'closingdate',
 		'Assigned To' => 'assigned_user_id'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['campaignname', 'campaigntype', 'campaignstatus', 'expectedrevenue', 'closingdate', 'assigned_user_id'];
 	public $list_link_field = 'campaignname';
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';

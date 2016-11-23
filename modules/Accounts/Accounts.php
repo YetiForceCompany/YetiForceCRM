@@ -58,6 +58,11 @@ class Accounts extends CRMEntity
 		'Account Name' => 'accountname',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['accountname', 'website', 'phone', 'assigned_user_id'];
 	// This is the list of vtiger_fields that are required
 	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.

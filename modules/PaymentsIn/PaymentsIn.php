@@ -55,6 +55,11 @@ class PaymentsIn extends Vtiger_CRMEntity
 		'LBL_PAYMENTSCURRENCY' => 'paymentscurrency',
 		'LBL_PAYMENTSSTATUS' => 'paymentsin_status'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['paymentsno', 'paymentsname', 'paymentsvalue', 'paymentscurrency', 'paymentsin_status'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'paymentsname';
 	// For Popup listview and UI type support

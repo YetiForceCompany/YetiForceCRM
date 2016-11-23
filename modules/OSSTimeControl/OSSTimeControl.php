@@ -54,6 +54,11 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['osstimecontrol_no', 'assigned_user_id', 'createdtime'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
@@ -95,7 +100,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$registerLink = false;
 		$displayLabel = 'Time Control';
 		$adb = PearDatabase::getInstance();
-		
+
 		if ($event_type == 'module.postinstall') {
 
 			$tabid = \App\Module::getModuleId($modulename);
@@ -108,13 +113,13 @@ class OSSTimeControl extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('OSSTimeControl'));
 			}
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 			
 		}
@@ -146,7 +151,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $currentModule;
-		
+
 		$results = [];
 
 		$where = '(crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';

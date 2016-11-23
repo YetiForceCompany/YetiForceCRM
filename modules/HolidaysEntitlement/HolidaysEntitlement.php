@@ -52,6 +52,11 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 		'LBL_EMPLOYEE' => 'ossemployeesid',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['holidaysentitlement_no', 'ossemployeesid', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support

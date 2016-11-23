@@ -47,6 +47,11 @@ class OSSDocumentControl extends Vtiger_CRMEntity
 		'Name' => 'name',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['title', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'name';
 	// For Popup listview and UI type support
@@ -94,11 +99,11 @@ class OSSDocumentControl extends Vtiger_CRMEntity
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 

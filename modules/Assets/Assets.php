@@ -73,6 +73,11 @@ class Assets extends CRMEntity
 		'Customer Name' => 'account',
 		'Product Name' => 'product'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['asset_no', 'assetname', 'product', 'assigned_user_id'];
 	// For Popup window record selection
 	public $popup_fields = Array('assetname', 'account', 'product');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields

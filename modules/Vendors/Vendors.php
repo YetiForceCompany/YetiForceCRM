@@ -42,6 +42,11 @@ class Vendors extends CRMEntity
 		'Email' => 'email',
 		'Category' => 'category'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['vendorname', 'phone', 'email', 'category'];
 	public $list_link_field = 'vendorname';
 	public $search_fields = Array(
 		'Vendor Name' => Array('vendor' => 'vendorname'),

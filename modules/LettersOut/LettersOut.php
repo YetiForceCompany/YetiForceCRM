@@ -55,6 +55,11 @@ class LettersOut extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['number', 'title', 'assigned_user_id', 'createdtime'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'title';
 	// For Popup listview and UI type support

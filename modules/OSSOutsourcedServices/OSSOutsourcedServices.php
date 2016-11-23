@@ -55,11 +55,15 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 		/* Format: Field Label => fieldname */
 		'Product Name' => 'productname',
 		'Category' => 'pscategory',
-		'Sub Category' => 'pssubcategory',
 		'Assigned To' => 'assigned_user_id',
 		'Date Sold' => 'datesold',
 		'LBL_osservicesstatus' => 'osservicesstatus',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['productname', 'pscategory', 'assigned_user_id', 'datesold', 'osservicesstatus'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'productname';
 	// For Popup listview and UI type support
@@ -107,13 +111,13 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 		if ($event_type == 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($modulename, 'UO', '1');
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 			
 		}

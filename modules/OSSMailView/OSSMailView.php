@@ -61,6 +61,11 @@ class OSSMailView extends CRMEntity
 		'SendType' => 'ossmailview_sendtype',
 		'Assigned To' => 'assigned_user_id'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['ossmailview_no', 'from_email', 'subject', 'to_email', 'ossmailview_sendtype', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support

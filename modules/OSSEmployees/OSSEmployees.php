@@ -57,6 +57,11 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => 'business_phone',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['ossemployees_no', 'last_name', 'name', 'business_phone', 'assigned_user_id'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support

@@ -52,6 +52,11 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['ticket_no', 'ticket_title', 'parent_id', 'contact_id', 'ticketstatus', 'ticketpriorities', 'assigned_user_id', 'sum_time'];
 	public $list_link_field = 'ticket_title';
 	public $range_fields = Array(
 		'ticketid',

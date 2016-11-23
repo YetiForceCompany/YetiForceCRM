@@ -53,6 +53,11 @@ class Emails extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Access Count' => 'access_count'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['subject', 'parent_id', 'date_start', 'time_start', 'assigned_user_id', 'access_count'];
 	public $list_link_field = 'subject';
 	public $column_fields = Array();
 	public $sortby_fields = Array('subject', 'date_start', 'saved_toid');

@@ -54,6 +54,11 @@ class ProjectMilestone extends CRMEntity
 		'Type' => 'projectmilestonetype',
 		//'Assigned To' => 'assigned_user_id'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['projectmilestonename', 'projectmilestonedate', 'projectmilestonetype', 'assigned_user_id'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projectmilestonename';
 	// For Popup listview and UI type support

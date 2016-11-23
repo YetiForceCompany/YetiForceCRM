@@ -41,6 +41,11 @@ class Documents extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['notes_title', 'filename', 'modifiedtime', 'assigned_user_id', 'folderid', 'filelocationtype', 'filestatus'];
 	public $search_fields = Array(
 		'Title' => Array('notes' => 'notes_title'),
 		'File Name' => Array('notes' => 'filename'),

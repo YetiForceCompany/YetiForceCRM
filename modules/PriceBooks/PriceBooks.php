@@ -32,6 +32,11 @@ class PriceBooks extends CRMEntity
 		'Price Book Name' => 'bookname',
 		'Active' => 'active'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['bookname', 'active', 'unit_price', 'listprice', 'currency_id'];
 	public $list_link_field = 'bookname';
 	public $search_fields = Array(
 		'Price Book Name' => Array('pricebook' => 'bookname')
@@ -62,15 +67,14 @@ class PriceBooks extends CRMEntity
 		$dataReader = (new App\Db\Query())->from('vtiger_pricebookproductrel')
 				->where(['and', ['pricebookid' => $this->id], ['<>', 'usedcurrency', $pricebookCurrency]])
 				->createCommand()->query();
-		while($row = $dataReader->read()) {
+		while ($row = $dataReader->read()) {
 			$productCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($row['usedcurrency']);
 			$pricebookCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($pricebookCurrency);
 			$conversion_rate = $pricebookCurrencyInfo['rate'] / $productCurrencyInfo['rate'];
 			$computedListPrice = $row['listprice'] * $conversion_rate;
 			App\Db::getInstance()->createCommand()
-					->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency],
-					['pricebookid' => $this->id, 'productid' => $row['productid']])
-					->execute();
+				->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency], ['pricebookid' => $this->id, 'productid' => $row['productid']])
+				->execute();
 		}
 		\App\Log::trace("Exiting function updateListPrices...");
 	}

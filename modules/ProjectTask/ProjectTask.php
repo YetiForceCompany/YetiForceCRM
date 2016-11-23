@@ -60,6 +60,11 @@ class ProjectTask extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['projecttaskname', 'startdate', 'enddate', 'projecttasktype', 'projecttaskprogress', 'assigned_user_id', 'sum_time'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projecttaskname';
 	// For Popup listview and UI type support

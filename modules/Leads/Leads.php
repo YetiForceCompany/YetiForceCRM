@@ -46,6 +46,11 @@ class Leads extends CRMEntity
 		'Email' => 'email',
 		'Assigned To' => 'assigned_user_id'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['company', 'phone', 'website', 'email', 'assigned_user_id'];
 	public $list_link_field = 'company';
 	public $search_fields = Array(
 		'Company' => Array('leaddetails' => 'company')

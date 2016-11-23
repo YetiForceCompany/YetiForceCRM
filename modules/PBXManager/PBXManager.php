@@ -44,6 +44,11 @@ class PBXManager extends CRMEntity
 		'Recording' => 'recordingurl',
 		'Start Time' => 'starttime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['callstatus', 'customer', 'user', 'recordingurl', 'starttime'];
 	// Make the field link to detail view
 	public $list_link_field = 'customernumber';
 	// For Popup listview and UI type support
