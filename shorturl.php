@@ -8,9 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-//Overrides GetRelatedList : used to get related query
 require_once 'include/RequirementsValidation.php';
-require_once 'include/Webservices/Relation.php';
 require_once 'include/main/WebUI.php';
 
 Vtiger_ShortURL_Helper::handle(AppRequest::get('id'));

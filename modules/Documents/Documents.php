@@ -535,11 +535,7 @@ class Documents extends CRMEntity
 		$query .= " WHERE vtiger_crmentity.deleted = 0 && vtiger_senotesrel.notesid = $id";
 
 		$query = sprintf($query, $other->table_name);
-		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);
-		if ($returnValue === null)
-			$returnValue = [];
-		$returnValue['CUSTOM_BUTTON'] = $button;
-		return $returnValue;
+		return array('query' => $query, 'entries' => []);
 	}
 
 	/**

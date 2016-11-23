@@ -5,7 +5,6 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-include_once 'include/Webservices/Relation.php';
 $current_user = Users::getActiveAdminUser();
 
 $db = PearDatabase::getInstance();
