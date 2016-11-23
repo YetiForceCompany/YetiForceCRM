@@ -63,6 +63,15 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Get query generator instance
+	 * @return \App\QueryGenerator
+	 */
+	public function getQueryGenerator()
+	{
+		return $this->get('query_generator');
+	}
+
+	/**
 	 * Get relation list view model instance
 	 * @param Vtiger_Module_Model $parentRecordModel
 	 * @param Vtiger_Module_Model $relationModuleName
@@ -81,8 +90,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel, $label);
 		$instance->setParentRecordModel($parentRecordModel);
+		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
 
 		if (!$relationModel) {
+			die(">>> No relationModel instance, requires verification  1 <<<");
 			$relatedModuleName = $relatedModuleModel->getName();
 			$parentModuleModel = $instance->getParentRecordModel()->getModule();
 			$referenceFieldOfParentModule = $parentModuleModel->getFieldsByType('reference');
@@ -96,8 +107,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
-		$instance->setRelationModel($relationModel ? $relationModel : false)->set('query_generator', $queryGenerator);
+		$relationModel->set('query_generator', $queryGenerator);
+		$relationModel->set('parentRecord', $parentRecordModel);
+		$instance->setRelationModel($relationModel)->set('query_generator', $queryGenerator);
 		return $instance;
 	}
 
@@ -114,8 +126,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$this->loadOrderBy();
 		$relationModel = $this->getRelationModel();
 		if (!empty($relationModel) && $relationModel->get('name')) {
-			$relationModel->set('query_generator', $this->get('query_generator'));
-			$relationModel->set('parentRecord', $this->getParentRecordModel());
 			$queryGenerator = $relationModel->getQuery();
 			$relationModuleName = $queryGenerator->getModule();
 			if (isset($this->mandatoryColumns[$relationModuleName])) {
@@ -127,7 +137,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$this->set('Query', $query);
 			return $query;
 		}
-		die(">>> No relationModel instance, requires verification <<<");
+		die(">>> No relationModel instance, requires verification 2 <<<");
 		/*
 		  $relatedModuleModel = $this->getRelatedModuleModel();
 
@@ -175,7 +185,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	public function loadCondition()
 	{
 		$relatedModuleName = $this->getRelatedModuleModel()->getName();
-		$queryGenerator = $this->get('query_generator');
+		$queryGenerator = $this->getRelationModel()->getQueryGenerator();
 		$srcRecord = $this->get('src_record');
 		if ($relatedModuleName === $this->get('src_module') && !empty($srcRecord)) {
 			$queryGenerator->addCondition('id', $srcRecord, 'n');
@@ -247,7 +257,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$relationModule = $this->getRelationModel()->getRelationModuleModel();
 			$field = $relationModule->getFieldByColumn($orderBy);
 			if ($field) {
-				$this->get('query_generator')->setOrder($field->getName(), $this->getForSql('sortorder'));
+				$this->getRelationModel()->getQueryGenerator()->setOrder($field->getName(), $this->getForSql('sortorder'));
 			}
 		}
 	}

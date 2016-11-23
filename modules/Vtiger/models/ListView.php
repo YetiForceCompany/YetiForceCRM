@@ -214,13 +214,22 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Get query generator instance
+	 * @return \App\QueryGenerator
+	 */
+	public function getQueryGenerator()
+	{
+		return $this->get('query_generator');
+	}
+
+	/**
 	 * Function to get the list view header
 	 * @return array - List of Vtiger_Field_Model instances
 	 */
 	public function getListViewHeaders()
 	{
 		$headerFieldModels = [];
-		$headerFields = $this->get('query_generator')->getListViewFields();
+		$headerFields = $this->getQueryGenerator()->getListViewFields();
 		foreach ($headerFields as $fieldName => &$fieldsModel) {
 			if ($fieldsModel && !in_array($fieldsModel->get('presence'), [0, 2])) {
 				continue;
@@ -239,7 +248,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		if (!empty($orderBy)) {
 			$columnFieldMapping = $this->getModule()->getColumnFieldMapping();
 			$orderByFieldName = $columnFieldMapping[$orderBy];
-			$this->get('query_generator')->setOrder($orderByFieldName, $this->getForSql('sortorder'));
+			$this->getQueryGenerator()->setOrder($orderByFieldName, $this->getForSql('sortorder'));
 		}
 	}
 
@@ -248,7 +257,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	 */
 	public function loadListViewCondition()
 	{
-		$queryGenerator = $this->get('query_generator');
+		$queryGenerator = $this->getQueryGenerator();
 		$srcRecord = $this->get('src_record');
 		if ($this->getModule()->get('name') === $this->get('src_module') && !empty($srcRecord)) {
 			$queryGenerator->addAndCondition('id', $srcRecord, 'n');
@@ -290,7 +299,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$this->loadListViewCondition();
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
-		$query = $this->get('query_generator')->createQuery();
+		$query = $this->getQueryGenerator()->createQuery();
 		if ($pagingModel->get('limit') !== 'no_limit') {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
@@ -322,7 +331,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	public function getListViewCount()
 	{
 		$this->loadListViewCondition();
-		return $this->get('query_generator')->createQuery()->count();
+		return $this->getQueryGenerator()->createQuery()->count();
 	}
 
 	/**
@@ -439,6 +448,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$listFields = $moduleModel->getPopupViewFieldsList();
 		$listFields[] = 'id';
 		$listFields = array_merge($listFields, $fieldsList);
-		$this->get('query_generator')->setFields($listFields);
+		$this->getQueryGenerator()->setFields($listFields);
 	}
 }
