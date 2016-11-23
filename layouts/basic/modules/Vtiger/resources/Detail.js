@@ -2910,7 +2910,5 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.loadWidgets();
 
 		this.registerEventForTotalRecordsCount();
-		var header = Vtiger_Header_Js.getInstance();
-		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
 	}
 });
