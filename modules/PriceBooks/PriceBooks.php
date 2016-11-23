@@ -36,7 +36,7 @@ class PriceBooks extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['bookname', 'active', 'unit_price', 'listprice', 'currency_id'];
+	public $relationFields = ['bookname', 'active', 'currency_id'];
 	public $list_link_field = 'bookname';
 	public $search_fields = Array(
 		'Price Book Name' => Array('pricebook' => 'bookname')

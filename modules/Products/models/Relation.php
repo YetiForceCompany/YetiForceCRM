@@ -12,20 +12,6 @@
 class Products_Relation_Model extends Vtiger_Relation_Model
 {
 
-	public function getQueuury($recordModel, $actions = false, $relationListView_Model = false)
-	{
-
-		if ($functionName == 'get_product_pricebooks') {
-			$selectColumnSql = $selectColumnSql . ' ,vtiger_pricebookproductrel.listprice, vtiger_pricebook.currency_id, vtiger_products.unit_price';
-		} elseif ($functionName == 'get_service_pricebooks') {
-			$selectColumnSql = $selectColumnSql . ' ,vtiger_pricebookproductrel.listprice, vtiger_pricebook.currency_id, vtiger_service.unit_price';
-		} elseif ($functionName == 'get_many_to_many' && $relatedModuleName == 'IStorages') {
-			$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $parentModuleName);
-			$selectColumnSql = $selectColumnSql . ' ,' . $referenceInfo['table'] . '.qtyinstock';
-		}
-		return $query;
-	}
-
 	/**
 	 * Function that deletes PriceBooks related records information
 	 * @param <Integer> $sourceRecordId - Product/Service Id
@@ -118,5 +104,42 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_seproductsrel', 'vtiger_products.productid = vtiger_seproductsrel.productid']);
 		$queryGenerator->addAndConditionNative(['vtiger_seproductsrel.setype' => 'Products', 'vtiger_seproductsrel.crmid' => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * Get leads
+	 */
+	public function getLeads()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_seproductsrel', 'vtiger_seproductsrel.crmid = vtiger_leaddetails.leadid']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_products', 'vtiger_seproductsrel.productid = vtiger_products.productid']);
+		$queryGenerator->addAndConditionNative(['vtiger_products.productid' => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * Get accounts
+	 */
+	public function getAccounts()
+	{
+
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_seproductsrel', 'vtiger_seproductsrel.crmid = vtiger_account.accountid']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_products', 'vtiger_seproductsrel.productid = vtiger_products.productid']);
+		$queryGenerator->addAndConditionNative(['vtiger_products.productid' => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * Get many to many
+	 */
+	public function getManyToMany()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$relatedModuleName = $this->getRelationModuleName();
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
+
+		$queryGenerator->setCustomColumn($referenceInfo['table'] . '.qtyinstock');
+		$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], $referenceInfo['table'] . '.' . $referenceInfo['base'] . ' = vtiger_crmentity.crmid']);
+		$queryGenerator->addAndConditionNative([$referenceInfo['table'] . '.' . $referenceInfo['rel'] => $this->get('parentRecord')->getId()]);
 	}
 }
