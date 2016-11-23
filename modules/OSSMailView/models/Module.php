@@ -82,7 +82,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false, $relationListViewModel = false)
 	{
-		if ($functionName === 'get_record2mails') {
+		if ($functionName === 'getRecordToMails') {
 			$query = $this->reletedQueryRecords2Mail($recordId, $relatedModule, $relationModel);
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);

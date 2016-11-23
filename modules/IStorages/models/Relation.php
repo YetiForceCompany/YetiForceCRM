@@ -9,29 +9,13 @@
 class IStorages_Relation_Model extends Vtiger_Relation_Model
 {
 
-	public function getQuery($parentRecord, $actions = false, $relationListView_Model = false)
-	{
-		$parentModuleModel = $this->getParentModuleModel();
-		$relatedModuleModel = $this->getRelationModuleModel();
-		$parentModuleName = $parentModuleModel->getName();
-		$relatedModuleName = $relatedModuleModel->getName();
-		$functionName = $this->get('name');
-		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
-		if ($functionName == 'getManyToMany' && $relatedModuleName == 'Products') {
-			$query = explode('FROM', $query);
-			$query[0] = $query[0] . ', u_yf_istorages_products.qtyinstock as qtyproductinstock ';
-			$query = implode('FROM', $query);
-		}
-		if ($relationListView_Model) {
-			$queryGenerator = $relationListView_Model->get('query_generator');
-			$joinTable = $queryGenerator->getFromClause(true);
-			if ($joinTable) {
-				$queryComponents = preg_split('/WHERE/i', $query);
-				$query = $queryComponents[0] . $joinTable . ' WHERE ' . $queryComponents[1];
-			}
-			$where = $queryGenerator->getWhereClause(true);
-			$query .= $where;
-		}
-		return $query;
+	public function getManyToMany(){
+		
+		$queryGenerator = $this->getQueryGenerator();
+		$relatedModuleName = $this->getRelationModuleName();
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
+		$queryGenerator->setCustomColumn('u_#__istorages_products.qtyinstock qtyproductinstock');
+		$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], $referenceInfo['table'] . '.' . $referenceInfo['base'] . ' = vtiger_crmentity.crmid']);
+		$queryGenerator->addAndConditionNative([$referenceInfo['table'] . '.' . $referenceInfo['rel'] => $this->get('parentRecord')->getId()]);
 	}
 }

@@ -1038,13 +1038,13 @@ class CRMEntity
 		$currentModule = vglobal('currentModule');
 
 		switch ($relatedName) {
-			case 'get_many_to_many':
+			case 'getManyToMany':
 				$this->deleteRelatedM2M($currentModule, $id, $returnModule, $returnId);
 				break;
-			case 'get_dependents_list':
+			case 'getDependentsList':
 				$this->deleteRelatedDependent($currentModule, $id, $returnModule, $returnId);
 				break;
-			case 'get_related_list':
+			case 'getRelatedList':
 				$this->deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
 				break;
 			default:
@@ -1291,10 +1291,10 @@ class CRMEntity
 		if (!is_array($withCrmid))
 			$withCrmid = [$withCrmid];
 		switch ($relatedName) {
-			case 'get_many_to_many':
+			case 'getManyToMany':
 				$this->saveRelatedM2M($module, $crmid, $withModule, $withCrmid);
 				break;
-			case 'get_dependents_list':
+			case 'getDependentsList':
 				break;
 			default:
 				$this->saveRelatedToDB($module, $crmid, $withModule, $withCrmid);

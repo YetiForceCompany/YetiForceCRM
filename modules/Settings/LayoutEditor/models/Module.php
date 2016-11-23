@@ -538,7 +538,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'getRelatedList' => 'PLL_RELATED_LIST',
 			'getDependentsList' => 'PLL_DEPENDENTS_LIST',
 			'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
-			'get_attachments' => 'PLL_ATTACHMENTS',
+			'getAttachments' => 'PLL_ATTACHMENTS',
 		);
 		return $typesList;
 	}
