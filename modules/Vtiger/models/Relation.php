@@ -379,6 +379,10 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$queryGenerator->addAndConditionNative(['vtiger_campaign_records.crmid' => $this->get('parentRecord')->getId()]);
 	}
 
+	/**
+	 * Get Activities for related module
+	 * @throws \Exception\AppException
+	 */
 	public function getActivities()
 	{
 		$queryGenerator = $this->getQueryGenerator();
@@ -411,6 +415,26 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
 			$queryGenerator->addAndConditionNative(['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['vtiger_activity.status' => $stateActivityLabels]]);
 		}
+	}
+
+	/**
+	 * Get related emails
+	 */
+	public function getEmails()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_ossmailview_relation', 'vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid']);
+		$queryGenerator->addAndConditionNative(['vtiger_ossmailview_relation.crmid' => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * Get records for emails
+	 */
+	public function getRecordToMails()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_ossmailview_relation', 'vtiger_ossmailview_relation.crmid = vtiger_crmentity.crmid']);
+		$queryGenerator->addAndConditionNative(['vtiger_ossmailview_relation.ossmailviewid' => $this->get('parentRecord')->getId()]);
 	}
 
 	/**

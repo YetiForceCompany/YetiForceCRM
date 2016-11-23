@@ -87,7 +87,6 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}
-
 		return $query;
 	}
 
@@ -121,6 +120,9 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		return $query;
 	}
 
+	/**
+	 * @todo To remove after rebuilding relations
+	 */
 	public function reletedQueryMail2Records($recordId, $relatedModule, $relationModel)
 	{
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
