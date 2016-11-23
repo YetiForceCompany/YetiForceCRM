@@ -42,4 +42,26 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 			parent::deleteRelation($sourceRecordId, $relatedRecordId);
 		}
 	}
+
+	/**
+	 * Get Pricebooks for products
+	 */
+	public function getPricebookProducts()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_products.productid = vtiger_pricebookproductrel.productid']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebook', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
+		$queryGenerator->addAndConditionNative(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * Get Pricebooks for services
+	 */
+	public function getPricebookServices()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_service.serviceid = vtiger_pricebookproductrel.productid']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebook', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
+		$queryGenerator->addAndConditionNative(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
+	}
 }

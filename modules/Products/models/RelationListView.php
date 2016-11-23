@@ -53,7 +53,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	public function getHeaders()
 	{
 		$headerFields = parent::getHeaders();
-		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'get_many_to_many') {
+		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'getManyToMany') {
 			$unitPriceField = new Vtiger_Field_Model();
 			$unitPriceField->set('name', 'qtyinstock');
 			$unitPriceField->set('column', 'qtyinstock');

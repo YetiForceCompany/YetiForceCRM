@@ -464,7 +464,7 @@ class Project extends CRMEntity
 			$entityIds = $return_id;
 			$return_modules = "'" . $return_module . "'";
 		}
-		if ($relatedName == 'get_many_to_many') {
+		if ($relatedName == 'getManyToMany') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
 			$where = '(relcrmid= ? && module IN (?) && crmid IN (?)) || (crmid= ? && relmodule IN (?) && relcrmid IN (?))';

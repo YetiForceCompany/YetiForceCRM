@@ -17,7 +17,7 @@ class IStorages_Relation_Model extends Vtiger_Relation_Model
 		$relatedModuleName = $relatedModuleModel->getName();
 		$functionName = $this->get('name');
 		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
-		if ($functionName == 'get_many_to_many' && $relatedModuleName == 'Products') {
+		if ($functionName == 'getManyToMany' && $relatedModuleName == 'Products') {
 			$query = explode('FROM', $query);
 			$query[0] = $query[0] . ', u_yf_istorages_products.qtyinstock as qtyproductinstock ';
 			$query = implode('FROM', $query);

@@ -8,6 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
@@ -86,7 +87,7 @@ class Module extends ModuleBasic
 			'actions' => $useactionsText,
 		]);
 
-		if ($functionName == 'get_many_to_many') {
+		if ($functionName == 'getManyToMany') {
 			$refTableName = \Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
 			if (!Utils::CheckTable($refTableName['table'])) {
 				Utils::CreateTable(
