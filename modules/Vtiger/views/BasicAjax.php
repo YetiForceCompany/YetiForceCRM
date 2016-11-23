@@ -79,7 +79,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);
 
-		if ($moduleName == 'Calendar') {
+		if ($moduleName === 'Calendar') {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
@@ -111,56 +111,18 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
 		$matchingRecords = [];
-		if (is_array($advFilterList) && count($advFilterList) > 0) {
+		if (is_array($advFilterList) && $advFilterList) {
 			$isAdvanceSearch = true;
 			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
-
-			foreach ($advFilterList as $groupindex => $groupcolumns) {
-				$filtercolumns = $groupcolumns['columns'];
-				var_dump($groupindex);
-				if (count($filtercolumns) > 0) {
-					$queryGenerator->startGroup('');
-					foreach ($filtercolumns as $index => $filter) {
-						$nameComponents = explode(':', $filter['columnname']);
-						if (empty($nameComponents[2]) && $nameComponents[1] == 'crmid' && $nameComponents[0] == 'vtiger_crmentity') {
-							$name = $queryGenerator->getSQLColumn('id');
-						} else {
-							$name = $nameComponents[2];
-						}
-						if (($nameComponents[4] == 'D' || $nameComponents[4] == 'DT') && in_array($filter['comparator'], \App\CustomView::STD_FILTER_CONDITIONS)) {
-							$filter['stdfilter'] = $filter['comparator'];
-							$valueComponents = explode(',', $filter['value']);
-							if ($filter['comparator'] == 'custom') {
-								$filter['startdate'] = DateTimeField::convertToDBFormat($valueComponents[0]);
-								$filter['enddate'] = DateTimeField::convertToDBFormat($valueComponents[1]);
-							}
-							$dateFilterResolvedList = \App\CustomView::resolveDateFilterValue($filter);
-							$value[] = $queryGenerator->fixDateTimeValue($name, $dateFilterResolvedList['startdate']);
-							$value[] = $queryGenerator->fixDateTimeValue($name, $dateFilterResolvedList['enddate'], false);
-							$queryGenerator->addCondition($name, $value, 'BETWEEN');
-						} else {
-							$queryGenerator->addCondition($name, $filter['value'], $filter['comparator']);
-						}
-						$columncondition = $filter['column_condition'];
-						if (!empty($columncondition) && array_key_exists($index + 1, $filtercolumns)) {
-							$queryGenerator->addConditionGlue($columncondition);
-						}
-					}
-					$queryGenerator->endGroup();
-					$groupConditionGlue = $groupcolumns['condition'];
-					if (!empty($groupConditionGlue))
-						$queryGenerator->addConditionGlue($groupConditionGlue);
-				}
-			}
-			$query = $queryGenerator->getQuery();
-			//Remove the ordering for now to improve the speed
-			$result = $db->query($query);
-			while ($row = $db->fetch_array($result)) {
-				$recordInstance = Vtiger_Record_Model::getInstanceById(current($row));
-				$moduleName = $recordInstance->getModuleName();
-				$recordInstance->set('permitted', true);
-				$matchingRecords[$moduleName][current($row)] = $recordInstance;
+			$queryGenerator->parseAdvFilter($advFilterList);
+			$query = $queryGenerator->createQuery();
+			$rows = $query->limit(100)->all();
+			foreach ($rows as &$row) {
+				$recordId = current($row);
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+				$recordModel->set('permitted', true);
+				$matchingRecords[$moduleName][$recordId] = $recordModel;
 			}
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
@@ -173,15 +135,15 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
 			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchKey, $searchModule, $limit);
-		}
-		if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
-			$matchingRecordsList = [];
-			foreach (\App\Module::getAllEntityModuleInfo(true) as $module) {
-				if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
-					$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
+			if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
+				$matchingRecordsList = [];
+				foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
+					if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
+						$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
+					}
 				}
+				$matchingRecords = $matchingRecordsList;
 			}
-			$matchingRecords = $matchingRecordsList;
 		}
 		$curentModule = $request->get('curentModule');
 		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
@@ -189,15 +151,15 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			unset($matchingRecords[$curentModule]);
 			$matchingRecords = [$curentModule => $pushTop] + $matchingRecords;
 		}
-		if ($request->get('html') == 'true') {
+		if ($request->get('html') === 'true') {
 			$viewer->assign('MODULE', $moduleName);
 			$viewer->assign('MATCHING_RECORDS', $matchingRecords);
 			$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
 			echo $viewer->view('UnifiedSearchResults.tpl', '', true);
 		} else {
 			$recordsList = [];
-			foreach ($matchingRecords as $module => $modules) {
-				foreach ($modules as $recordID => $recordModel) {
+			foreach ($matchingRecords as $module => &$modules) {
+				foreach ($modules as $recordID => &$recordModel) {
 					$label = decode_html($recordModel->getName());
 					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {

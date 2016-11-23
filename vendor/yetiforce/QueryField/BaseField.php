@@ -174,7 +174,7 @@ class BaseField
 	 */
 	public function operatorC()
 	{
-		return ['like', $this->getColumnName(), $this->getValue()];
+		return ['like', $this->getColumnName(), "%{$this->getValue()}%", false];
 	}
 
 	/**

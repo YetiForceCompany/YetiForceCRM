@@ -419,7 +419,10 @@ class QueryGenerator
 			return false;
 		}
 		foreach ($advFilterList as $group => &$filters) {
-			$functionName = ($group === 'and' ? 'addAndCondition' : 'addOrCondition');
+			$functionName = ($group === 'and' || $group === 1) ? 'addAndCondition' : 'addOrCondition';
+			if (isset($filters['columns'])) {
+				$filters = $filters['columns'];
+			}
 			foreach ($filters as &$filter) {
 				list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $filter['columnname']);
 				if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
