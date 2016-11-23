@@ -73,23 +73,6 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		return $response;
 	}
 
-	/**
-	 * Function to get relation query for particular module with function name
-	 * @param <record> $recordId
-	 * @param string $functionName
-	 * @param Vtiger_Module_Model $relatedModule
-	 * @return string
-	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false, $relationListViewModel = false)
-	{
-		if ($functionName === 'getRecordToMails') {
-			$query = $this->reletedQueryRecords2Mail($recordId, $relatedModule, $relationModel);
-		} else {
-			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
-		}
-		return $query;
-	}
-
 	public function reletedQueryRecords2Mail($recordId, $relatedModule, $relationModel)
 	{
 		$relatedModuleName = $relatedModule->getName();
