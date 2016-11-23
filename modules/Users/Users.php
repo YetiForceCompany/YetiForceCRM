@@ -1015,14 +1015,11 @@ class Users extends CRMEntity
 			$em->triggerEvent('vtiger.entity.beforesave', $entityData);
 			$em->triggerEvent('vtiger.entity.beforesave.final', $entityData);
 		}
-
 		if ($this->mode !== 'edit') {
 			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
 			$result = $adb->pquery($sql, array($this->column_fields['user_name'], $this->column_fields['email1']));
 			if ($adb->num_rows($result) > 0) {
-				vtlib\Functions::throwNewException('LBL_USER_EXISTS');
-				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_USER_EXISTS'));
-				return false;
+				throw new \Exception('LBL_USER_EXISTS');
 			}
 			\App\Privilege::setAllUpdater();
 		} else {// update dashboard widgets when changing users role
