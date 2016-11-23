@@ -69,7 +69,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 		$moduleSpecificUiTypeClassName = $moduleName . '_' . $uiTypeClassSuffix . '_UIType';
 		$uiTypeClassName = 'Vtiger_' . $uiTypeClassSuffix . '_UIType';
 		$fallBackClassName = 'Vtiger_Base_UIType';
-	
+
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
 
@@ -100,6 +100,11 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordInstance, $rawText), $this->get('field')->get('maxlengthtext'));
+	}
+
+	public function getReletedListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		return $this->getListViewDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**

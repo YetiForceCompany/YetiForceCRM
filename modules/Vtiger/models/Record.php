@@ -244,18 +244,27 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Function to get the Display Value in ListView
+	 * Function to get the display value in ReletedListView
+	 * @param string $fieldName
+	 * @return string
+	 */
+	public function getReletedListViewDisplayValue($fieldName)
+	{
+		$recordId = $this->getId();
+		$fieldModel = $this->getModule()->getFieldByName($fieldName);
+		return $fieldModel->getUITypeModel()->getReletedListViewDisplayValue($this->get($fieldName), $recordId, $this);
+	}
+
+	/**
+	 * Function to get the display value in ListView
 	 * @param string $fieldName
 	 * @return string
 	 */
 	public function getListViewDisplayValue($fieldName)
 	{
 		$recordId = $this->getId();
-		$fieldModel = $this->getModule()->getField($fieldName);
-		if ($fieldModel) {
-			return $fieldModel->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $recordId, $this);
-		}
-		return '';
+		$fieldModel = $this->getModule()->getFieldByName($fieldName);
+		return $fieldModel->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $recordId, $this);
 	}
 
 	/**
@@ -265,7 +274,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getField($fieldName)
 	{
-		return $this->getModule()->getField($fieldName);
+		return $this->getModule()->getFieldByName($fieldName);
 	}
 
 	/**

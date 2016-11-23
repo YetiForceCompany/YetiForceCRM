@@ -40,7 +40,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
-		if (!empty($viewId) && $viewId != 0) {
+		if ($viewId) {
 			$queryGenerator->initForCustomViewById($viewId);
 		} else {
 			if (!$queryGenerator->initForDefaultCustomView()) {

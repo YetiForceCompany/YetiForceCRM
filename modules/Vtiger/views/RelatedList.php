@@ -111,7 +111,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
-
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
@@ -119,6 +118,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
+		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;

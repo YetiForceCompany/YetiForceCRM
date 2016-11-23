@@ -79,21 +79,13 @@
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap  {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 							{if $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
-								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
+								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
+									{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
+								</a>
 							{elseif $HEADER_FIELD->fromOutsideList eq true}
 								{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
-							{elseif $RELATED_HEADERNAME eq 'access_count'}
-								{$RELATED_RECORD->getAccessCountValue($PARENT_RECORD->getId())}
-							{elseif $RELATED_HEADERNAME eq 'time_start'}
-							{elseif $RELATED_HEADERNAME eq 'listprice' || $RELATED_HEADERNAME eq 'unit_price'}
-								{CurrencyField::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME), null, true)}
-								{if $RELATED_HEADERNAME eq 'listprice'}
-									{assign var="LISTPRICE" value=CurrencyField::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME), null, true)}
-								{/if}
-							{else if $RELATED_HEADERNAME eq 'filename'}
-								{$RELATED_RECORD->get($RELATED_HEADERNAME)}
 							{else}
-								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
+								{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 							{/if}
 							{if $HEADER_FIELD@last}
 							</td>
@@ -101,16 +93,16 @@
 						</td>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
-						<td class="medium" data-field-type="rel_created_time" nowrap>{$RELATED_RECORD->get('relCreatedTime')}</td>
-						<td class="medium" data-field-type="rel_created_user" nowrap>{$RELATED_RECORD->get('relCreatedUser')}</td>
+						<td class="medium" data-field-type="rel_created_time" nowrap>{Vtiger_Datetime_UIType::getDisplayDateTimeValue($RELATED_RECORD->get('rel_created_time'))}</td>
+						<td class="medium" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 					{/if}
 					{if $SHOW_COMMENT}
-						<td class="medium" data-field-type="rel_comment" nowrap>{$RELATED_RECORD->get('relComment')}</td>
+						<td class="medium" data-field-type="rel_comment" nowrap>{$RELATED_RECORD->get('rel_comment')}</td>
 					{/if}
+					
 				</tr>
-				{if $RELATED_RECORD->get('inventoryData')}
-					{assign var="INVENTORY_DATA" value=$RELATED_RECORD->get('inventoryData')}
-					{assign var="INVENTORY_FIELDS" value=Vtiger_InventoryField_Model::getInstance($RELATED_MODULE_NAME)->getFields()}
+				{if $RELATED_RECORD->getModule()->isInventory()}
+					{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
 					<tr class="listViewInventoryEntries hide">
 						{if $RELATED_MODULE->isQuickSearchEnabled()}
 							{$COUNT = $COUNT+1}
@@ -119,8 +111,7 @@
 							<table class="table table-condensed no-margin">
 								<thead>
 									<tr>
-										{foreach from=$INVENTORY_DATA[0] item=VALUE key=NAME}
-											{assign var="FIELD" value=$INVENTORY_FIELDS[$NAME]}
+										{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
 											<th class="medium" nowrap>{vtranslate($FIELD->get('label'),$RELATED_MODULE_NAME)}</th>
 										{/foreach}
 									</tr>
@@ -131,8 +122,7 @@
 											{if $INVENTORY_ROW['name']}
 												{assign var="ROW_MODULE" value=vtlib\Functions::getCRMRecordType($INVENTORY_ROW['name'])}
 											{/if}
-											{foreach from=$ROWDATA item=VALUE key=NAME}
-												{assign var="FIELD" value=$INVENTORY_FIELDS[$NAME]}
+											{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
 												{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}
 												<td>		
 													{include file=$FIELD_TPL_NAME|@vtemplate_path:$RELATED_MODULE_NAME ITEM_VALUE=$ROWDATA[$FIELD->get('columnname')]}
