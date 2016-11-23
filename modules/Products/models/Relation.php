@@ -130,4 +130,14 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		$productModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
 		$productModel->updateListPrice($destinationRecordId, $listPrice, $relationModuleModel->get('currency_id'));
 	}
+
+	/**
+	 * Get products
+	 */
+	public function getProducts()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_seproductsrel', 'vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype=:module', [':module' => 'Products']]);
+		$queryGenerator->addAndConditionNative(['vtiger_seproductsrel.productid' => $this->get('parentRecord')->getId()]);
+	}
 }

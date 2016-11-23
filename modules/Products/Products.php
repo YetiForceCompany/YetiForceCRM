@@ -268,6 +268,7 @@ class Products extends CRMEntity
 	 * Function to get Product's related Products
 	 * @param  integer   $id      - productid
 	 * returns related Products record in array format
+	 * @todo To remove after rebuilding relations
 	 */
 	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
 	{
