@@ -991,7 +991,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -1487,6 +1487,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 			case 'get_many_to_many':
 				$query = $this->getRelationQueryM2M($recordId, $relatedModule, $relationModel);
 				break;
+			/**
+			 * @todo To remove after rebuilding relations
+			 */
 			case 'get_activities':
 				$query = $this->getRelationQueryForActivities($recordId, $relatedModule, $relationModel);
 				break;
@@ -1730,6 +1733,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $query;
 	}
 
+	/**
+	 * @todo To remove after rebuilding relations
+	 */
 	public function getRelationQueryForActivities($recordId, $relatedModule, $relationModel)
 	{
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();

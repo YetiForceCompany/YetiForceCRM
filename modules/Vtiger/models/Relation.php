@@ -378,6 +378,40 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$queryGenerator->addAndConditionNative(['vtiger_campaign_records.crmid' => $this->get('parentRecord')->getId()]);
 	}
 
+	public function getActivities()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$relatedModuleName = $this->getRelationModuleName();
+		$moduleName = $this->getParentModuleModel()->getName();
+		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
+		$referenceLinkInstance = new $referenceLinkClass();
+		if (in_array($moduleName, $referenceLinkInstance->getReferenceList())) {
+			$queryGenerator->addAndConditionNative(['vtiger_activity.link' => $this->get('parentRecord')->getId()]);
+		} else {
+			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
+			$referenceProcessInstance = new $referenceProcessClass();
+			if (in_array($moduleName, $referenceProcessInstance->getReferenceList())) {
+				$queryGenerator->addAndConditionNative(['vtiger_activity.process' => $this->get('parentRecord')->getId()]);
+			} else {
+				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
+				$referenceSubProcessInstance = new $referenceSubProcessClass();
+				if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
+					$queryGenerator->addAndConditionNative(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
+				} else {
+					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+				}
+			}
+		}
+		$time = AppRequest::get('time');
+		if ($time == 'current') {
+			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
+			$queryGenerator->addAndConditionNative(['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['vtiger_activity.status' => $stateActivityLabels]]);
+		} else if ($time == 'history') {
+			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
+			$queryGenerator->addAndConditionNative(['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['vtiger_activity.status' => $stateActivityLabels]]);
+		}
+	}
+
 	/**
 	 * Get relation inventory fields
 	 * @return Vtiger_Basic_InventoryField[]
