@@ -209,10 +209,13 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree', 'inventoryLimit', 'languages', 'currencyList', 'fileLocationType']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
 				continue;
 			}
-			if (jQuery.inArray(conditionList[key], ['om', 'wr', 'nwr']) != -1 && jQuery.inArray(fieldInfo.type, ['owner', 'sharedOwner']) == -1) {
+			if (conditionList[key] === ['om'] && jQuery.inArray(fieldInfo.type, ['owner', 'sharedOwner']) == -1) {
 				continue;
 			}
-			if (jQuery.inArray(conditionList[key], ['s', 'ew']) != -1 && jQuery.inArray(fieldInfo.type, ['taxes', 'posList', 'multipicklist', 'categoryMultipicklist']) != -1) {
+			if (jQuery.inArray(conditionList[key], ['wr', 'nwr']) != -1 && jQuery.inArray(fieldInfo.type, ['owner']) == -1) {
+				continue;
+			}
+			if (jQuery.inArray(conditionList[key], ['s', 'ew']) != -1 && jQuery.inArray(fieldInfo.type, ['taxes', 'posList', 'multipicklist', 'categoryMultipicklist', 'sharedOwner']) != -1) {
 				continue;
 			}
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
@@ -657,7 +660,7 @@ AdvanceFilter_Multipicklist_Field_Js('AdvanceFilter_Taxes_Field_Js', {}, {
 Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 	getUi: function () {
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
-		if (comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n') {
+		if ((comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n') || (this.getName() === 'shownerid' && jQuery.inArray(comparatorSelectedOptionVal, ['c','k']) != -1)) {
 			var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
@@ -699,7 +702,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 Vtiger_Multireferencevalue_Field_Js('AdvanceFilter_Multireferencevalue_Field_Js', {}, {
 });
 
-Vtiger_Sharedowner_Field_Js('AdvanceFilter_Sharedowner_Field_Js', {}, {
+AdvanceFilter_Owner_Field_Js('AdvanceFilter_Sharedowner_Field_Js', {}, {
 });
 
 Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {

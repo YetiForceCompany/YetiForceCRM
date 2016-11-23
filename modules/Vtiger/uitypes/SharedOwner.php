@@ -36,7 +36,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$displayValue = '';
+		$displayValue = [];
 		if (empty($values)) {
 			return $displayValue;
 		} elseif (!is_array($values)) {
@@ -46,19 +46,19 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		foreach ($values as $shownerid) {
 			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
 				if ($currentUser->isAdminUser() && !$rawText) {
-					$displayValue .= '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(\App\Fields\Owner::getLabel($shownerid)) . '</a>,';
+					$displayValue[] = '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(\App\Fields\Owner::getLabel($shownerid)) . '</a>';
 				} else {
-					$displayValue .= rtrim(\App\Fields\Owner::getLabel($shownerid)) . ',';
+					$displayValue[] = rtrim(\App\Fields\Owner::getLabel($shownerid));
 				}
 			} else {
 				if ($currentUser->isAdminUser() && !$rawText) {
-					$displayValue .= '<a href="index.php?module=Groups&parent=Settings&view=Detail&record=' . $shownerid . '">' . rtrim(\App\Fields\Owner::getLabel($shownerid)) . '</a>,';
+					$displayValue[] = '<a href="index.php?module=Groups&parent=Settings&view=Detail&record=' . $shownerid . '">' . rtrim(\App\Fields\Owner::getLabel($shownerid)) . '</a>';
 				} else {
-					$displayValue .= rtrim(\App\Fields\Owner::getLabel($shownerid)) . ',';
+					$displayValue[] = rtrim(\App\Fields\Owner::getLabel($shownerid));
 				}
 			}
 		}
-		return rtrim($displayValue, ',');
+		return implode(', ', $displayValue);
 	}
 
 	/**
@@ -78,6 +78,61 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			$values = [];
 
 		return $values;
+	}
+
+	/**
+	 * Function to get the Display Value in ListView
+	 * @param string $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return string
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		$values = $this->getEditViewDisplayValue($value, $record);
+		if (empty($values)) {
+			return '';
+		}
+		$display = $shownerData = [];
+		$maxLengthText = $this->get('field')->get('maxlengthtext');
+		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
+		foreach ($values as $key => $shownerid) {
+			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
+				$userModel = Users_Privileges_Model::getInstanceById($shownerid);
+				$userModel->setModule('Users');
+				$display[$key] = $userModel->getName();
+				if ($userModel->get('status') === 'Inactive') {
+					$shownerData[$key]['inactive'] = true;
+				}
+				if ($isAdmin && !$rawText) {
+					$shownerData[$key]['link'] = $userModel->getDetailViewUrl();
+				}
+			} else {
+				$shownerName = \App\Fields\Owner::getLabel($shownerid);
+				if (empty($shownerName)) {
+					continue;
+				}
+				$display[$key] = $shownerName;
+				$recordModel = new Settings_Groups_Record_Model();
+				$recordModel->set('groupid', $shownerid);
+				$detailViewUrl = $recordModel->getDetailViewUrl();
+				if ($isAdmin && !$rawText) {
+					$shownerData[$key]['link'] = $detailViewUrl;
+				}
+			}
+		}
+		$display = implode(', ', $display);
+		$display = explode(', ', \vtlib\Functions::textLength($display, $maxLengthText));
+		foreach ($display as $key => &$shownerName) {
+			if (isset($shownerData[$key]['inactive'])) {
+				$shownerName = '<span class="redColor">' . $shownerName . '</span>';
+			}
+			if (isset($shownerData[$key]['link'])) {
+				$shownerName = "<a href='" . $shownerData[$key]['link'] . "'>$shownerName</a>";
+			}
+		}
+		return implode(', ', $display);
 	}
 
 	/**

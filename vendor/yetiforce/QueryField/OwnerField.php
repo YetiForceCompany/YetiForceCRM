@@ -12,16 +12,6 @@ class OwnerField extends BaseField
 {
 
 	/**
-	 * @var Related modules 
-	 */
-	protected $relatedModules;
-
-	/**
-	 * @var Related table name 
-	 */
-	protected $relatedTableName;
-
-	/**
 	 * Equals operator
 	 * @return array
 	 */
