@@ -222,32 +222,6 @@ class Record
 	}
 
 	/**
-	 * Function to update labels
-	 * @param \CRMEntity $entity
-	 * @param int[] $users
-	 * @return void
-	 */
-	public static function updateLabelFromEntity($entity, $users = [])
-	{
-		if (empty($entity) || !is_object($entity)) {
-			return;
-		}
-		$label = $searchLabel = [];
-		$moduleName = $entity->moduleName;
-		$entityInfo = \App\Module::getEntityInfo($moduleName);
-		foreach ($entityInfo['fieldnameArr'] as $fieldname) {
-			$label[] = $entity->column_fields[$fieldname];
-		}
-		foreach ($entityInfo['searchcolumnArr'] as $fieldname) {
-			$searchLabel[] = $entity->column_fields[$fieldname];
-		}
-		$users = ',' . implode(',', array_unique($users)) . ',';
-		$db = \App\Db::getInstance();
-		$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $entity->id, 'label' => implode(' ', $label)])->execute();
-		$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $entity->id, 'searchlabel' => implode(' ', $searchLabel), 'setype' => $moduleName, 'userid' => $users])->execute();
-	}
-
-	/**
 	 * Function checks if record exists
 	 * @param int $recordId - Rekord ID
 	 * @param string $moduleName

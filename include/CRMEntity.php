@@ -309,7 +309,6 @@ class CRMEntity
 			$this->column_fields['createdtime'] = $params['createdtime'];
 			$this->column_fields['modifiedtime'] = $params['modifiedtime'];
 			$this->column_fields['modifiedby'] = $params['modifiedby'];
-			\App\Record::updateLabelFromEntity($this, [$params['smcreatorid'], $params['smownerid']]);
 		}
 	}
 

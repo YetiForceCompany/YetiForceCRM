@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 require_once 'include/events/VTEventHandler.inc';
 
@@ -14,10 +15,10 @@ class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler
 
 	public function handleEvent($eventName, $data)
 	{
-		if ($eventName == 'vtiger.entity.aftersave') {
+		if ($eventName === 'vtiger.entity.aftersave') {
 			$module = $data->getModuleName();
-			if ($module != 'Users') {
-				\App\Record::updateLabel($module, $data->getId(), $data->focus->mode);
+			if ($module !== 'Users') {
+				\App\Record::updateLabel($module, $data->getId(), $data->isNew() ? 'new' : 'edit');
 			}
 		}
 	}
