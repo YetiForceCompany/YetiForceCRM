@@ -109,26 +109,4 @@ class Products_Module_Model extends Vtiger_Module_Model
 		return $matchingRecords;
 	}
 
-	/**
-	 * Function returns query for Product-PriceBooks relation
-	 * @param <Vtiger_Record_Model> $recordModel
-	 * @param <Vtiger_Record_Model> $relatedModuleModel
-	 * @return string
-	 */
-	public function get_product_pricebooks($recordModel, $relatedModuleModel)
-	{
-		$query = 'SELECT vtiger_pricebook.pricebookid, vtiger_pricebook.bookname, vtiger_pricebook.active, vtiger_crmentity.crmid, 
-						vtiger_crmentity.smownerid, vtiger_pricebookproductrel.listprice, vtiger_products.unit_price
-					FROM vtiger_pricebook
-					INNER JOIN vtiger_pricebookproductrel ON vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
-					INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_pricebook.pricebookid
-					INNER JOIN vtiger_products on vtiger_products.productid = vtiger_pricebookproductrel.productid
-					INNER JOIN vtiger_pricebookcf on vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
-					LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
-			. Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleModel->getName()) . '
-					WHERE vtiger_products.productid = ' . $recordModel->getId() . ' and vtiger_crmentity.deleted = 0';
-
-		return $query;
-	}
 }

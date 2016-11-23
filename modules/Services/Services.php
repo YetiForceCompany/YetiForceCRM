@@ -331,63 +331,6 @@ class Services extends CRMEntity
 		return $query;
 	}
 
-	/**
-	 * function used to get the list of pricebooks which are related to the service
-	 * 	@param int $id - service id
-	 * 	@return array - array which will be returned from the function GetRelatedList
-	 */
-	public function get_service_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		global $currentModule, $singlepane_view;
-
-		\App\Log::trace("Entering get_service_pricebooks(" . $id . ") method ...");
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
-		require_once("modules/$related_module/$related_module.php");
-		$focus = new $related_module();
-		$singular_modname = \App\Language::getSingularModuleName($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = "&return_module=$currentModule&return_action=DetailView&return_id=$id";
-		else
-			$returnset = "&return_module=$currentModule&return_action=CallRelatedList&return_id=$id";
-
-		$button = '';
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 1, '') == 'yes' && isPermitted($currentModule, 'EditView', $id) == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_ADD_TO') . " " . \App\Language::translate($related_module) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"AddServiceToPriceBooks\";this.form.module.value=\"$currentModule\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_TO') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$query = sprintf('SELECT vtiger_crmentity.crmid,
-			vtiger_pricebook.*,
-			vtiger_pricebookproductrel.productid as prodid
-			FROM vtiger_pricebook
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_pricebook.pricebookid
-			INNER JOIN vtiger_pricebookproductrel
-				ON vtiger_pricebookproductrel.pricebookid = vtiger_pricebook.pricebookid
-			INNER JOIN vtiger_pricebookcf
-				ON vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
-			WHERE vtiger_crmentity.deleted = 0
-			AND vtiger_pricebookproductrel.productid = %s', $id);
-		\App\Log::trace("Exiting get_product_pricebooks method ...");
-
-		$return_value = GetRelatedList($currentModule, $related_module, $focus, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_service_pricebooks method ...");
-		return $return_value;
-	}
-
 	/** 	Function to display the Services which are related to the PriceBook
 	 * 	@param string $query - query to get the list of products which are related to the current PriceBook
 	 * 	@param object $focus - PriceBook object which contains all the information of the current PriceBook
@@ -679,7 +622,7 @@ class Services extends CRMEntity
 			$conModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
 			$pbModuleInstance = vtlib\Module::getInstance('PriceBooks');
-			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'), 'get_pricebook_services');
+			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'), 'getPricebookServices');
 
 			// Initialize module sequence for the module
 			\App\Fields\RecordNumber::setNumber($moduleName, 'SER', 1);
@@ -716,7 +659,7 @@ class Services extends CRMEntity
 			$entityIds = $return_id;
 			$return_modules = [$return_module];
 		}
-		if ($relatedName && $relatedName != 'get_related_list') {
+		if ($relatedName && $relatedName != 'getRelatedList') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
 			$where = '(relcrmid= ? AND module IN (' . generateQuestionMarks($return_modules) . ') AND crmid IN (' . generateQuestionMarks($entityIds) . ')) OR (crmid= ? AND relmodule IN (' . generateQuestionMarks($return_modules) . ') AND relcrmid IN (' . generateQuestionMarks($entityIds) . '))';

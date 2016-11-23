@@ -1484,7 +1484,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			/**
 			 * @todo To remove after rebuilding relations
 			 */
-			case 'get_emails':
+			case 'getEmails':
 				$query = $relatedModule->reletedQueryMail2Records($recordId, $relatedModule, $relationModel);
 				break;
 			case 'getManyToMany':
@@ -1493,7 +1493,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			/**
 			 * @todo To remove after rebuilding relations
 			 */
-			case 'get_activities':
+			case 'getActivities':
 				$query = $this->getRelationQueryForActivities($recordId, $relatedModule, $relationModel);
 				break;
 			default:

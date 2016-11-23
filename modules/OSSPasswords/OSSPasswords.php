@@ -62,7 +62,7 @@ class OSSPasswords extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['osspassword_no', 'passwordname', 'username', 'datesold', 'osservicesstatus'];
+	public $relationFields = ['osspassword_no', 'passwordname', 'username', 'password', 'link_adres'];
 	// Make the field link to detail view
 	public $list_link_field = 'passwordname';
 	// For Popup listview and UI type support
