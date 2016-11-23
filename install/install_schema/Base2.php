@@ -7247,7 +7247,7 @@ class Base2 extends \App\Db\Importers\Base
 						[93, 2354, 'active', 'u_yf_competition', 1, 56, 'active', 'FL_ACTIVE', 1, 2, '', 100, 6, 303, 1, 'C~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 						[83, 2355, 'announcementstatus', 'u_yf_announcement', 1, 15, 'announcementstatus', 'FL_STATUS', 1, 2, 'PLL_DRAFT', 100, 2, 258, 1, 'V~M', 2, 4, 'BAS', 1, '', 1, '', '0', 0, 0],
 						[83, 2356, 'interval', 'u_yf_announcement', 1, 7, 'interval', 'FL_INTERVAL', 1, 2, '', 100, 3, 258, 1, 'I~O', 1, NULL, 'BAS', 1, 'Edit,Detail,QuickCreateAjax', 0, '', NULL, 0, 0],
-						[14, 2357, 'category_multipicklist', 'vtiger_products', 1, 309, 'category_multipicklist', 'LBL_CATEGORY_MULTIPICKLIST', 1, 2, NULL, 100, 31, 31, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '13', NULL, 0, 0],
+						[14, 2357, 'category_multipicklist', 'vtiger_products', 1, 309, 'category_multipicklist', 'LBL_CATEGORY_MULTIPICKLIST', 1, 1, NULL, 100, 31, 31, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '13', NULL, 0, 0],
 						[89, 2358, 'valid_until', 'u_yf_squotes', 1, 5, 'valid_until', 'FL_VALID_UNTIL', 1, 2, '', 100, 10, 280, 1, 'D~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 						[92, 2381, 'category', 'u_yf_partners', 1, 302, 'category', 'FL_CATEGORY', 1, 2, '', 100, 7, 299, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '18', NULL, 0, 0],
 						[61, 2382, 'secondary_phone', 'vtiger_ossemployees', 1, 11, 'secondary_phone', 'FL_SECONDARY_PHONE', 1, 2, '', 100, 5, 152, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
