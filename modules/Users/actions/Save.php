@@ -54,16 +54,14 @@ class Users_Save_Action extends Vtiger_Save_Action
 			$sharedType = $request->get('sharedtype');
 			if (!empty($sharedType))
 				$recordModel->set('calendarsharedtype', $request->get('sharedtype'));
-			$recordModel->set('mode', 'edit');
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$modelData = $recordModel->getData();
 			$recordModel->set('mode', '');
 		}
-
+		unset($modelData['mode']);
 		foreach ($modelData as $fieldName => $value) {
-			$requestFieldExists = $request->has($fieldName);
-			if (!$requestFieldExists) {
+			if (!$request->has($fieldName)) {
 				continue;
 			}
 			$fieldValue = $request->get($fieldName, null);
