@@ -139,7 +139,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
 
 		$queryGenerator->setCustomColumn($referenceInfo['table'] . '.qtyinstock');
-		$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], $referenceInfo['table'] . '.' . $referenceInfo['base'] . ' = vtiger_crmentity.crmid']);
-		$queryGenerator->addAndConditionNative([$referenceInfo['table'] . '.' . $referenceInfo['rel'] => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = vtiger_crmentity.crmid']);
+		$queryGenerator->addAndConditionNative([$referenceInfo['table'] . '.' . $referenceInfo['base'] => $this->get('parentRecord')->getId()]);
 	}
 }
