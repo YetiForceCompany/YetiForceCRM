@@ -261,7 +261,6 @@ class Install_Index_view extends Vtiger_View_Controller
 				'username' => $configParams['db_username'],
 				'password' => $configParams['db_password'],
 				'dbName' => $configParams['db_name'],
-				'type' => 'mysql',
 				'tablePrefix' => 'yf_',
 				'charset' => 'utf8'
 			]);
