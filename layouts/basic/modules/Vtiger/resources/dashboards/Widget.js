@@ -1297,7 +1297,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				url += '&search_params=[[';
 				var owner = container.find('.widgetFilter.owner option:selected');
 				if (owner.val() != 'all') {
-					url += '["assigned_user_id","c","' + owner.data('name') + '"],';
+					url += '["assigned_user_id","c","' + owner.val() + '"],';
 				}
 				if (parent.find('.widgetFilterSwitch').length > 0) {
 					var status = parent.find('.widgetFilterSwitch').data();
@@ -1394,7 +1394,7 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 			url += '&search_params=[[';
 			var owner = container.find('.widgetFilter.owner option:selected');
 			if (owner.val() != 'all') {
-				url += '["assigned_user_id","c","' + owner.data('name') + '"],';
+				url += '["assigned_user_id","c","' + owner.val() + '"],';
 			}
 			url += '["activitystatus","e","' + status + '"]]]';
 			window.location.href = url;

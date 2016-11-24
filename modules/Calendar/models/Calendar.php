@@ -54,7 +54,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 					[
 					'and',
 						['>=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbStartDateTime],
-						['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
+						['<=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbEndDateTime]
 				],
 					[
 					'and',
@@ -100,7 +100,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		if (!empty($users)) {
 			$conditions[] = ['vtiger_crmentity.smownerid' => $users];
 		}
-		if (!$conditions) {
+		if ($conditions) {
 			$query->andWhere(array_merge(['or'], $conditions));
 		}
 		$query->orderBy('vtiger_activity.date_start,vtiger_activity.time_start');

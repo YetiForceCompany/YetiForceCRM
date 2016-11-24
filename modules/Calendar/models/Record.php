@@ -171,9 +171,9 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function getRecurringObject()
 	{
 		$result = (new \App\Db\Query())->select(['vtiger_recurringevents.*', 'vtiger_activity.time_start', 'vtiger_activity.due_date', 'vtiger_activity.time_end'])
-			->from('vtiger_recurringevents')
-			->innerJoin('vtiger_activity', 'vtiger_recurringevents.activityid = vtiger_activity.activityid')
-			->where(['vtiger_recurringevents.activityid' => (int) $this->getId()])->one();
+				->from('vtiger_recurringevents')
+				->innerJoin('vtiger_activity', 'vtiger_recurringevents.activityid = vtiger_activity.activityid')
+				->where(['vtiger_recurringevents.activityid' => (int) $this->getId()])->one();
 
 		if ($result) {
 			return RecurringType::fromDBRequest($result);
@@ -257,9 +257,9 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getActivityStateModalUrl()
 	{
-		return 'index.php?module = Calendar&view = ActivityStateModal&record = ' . $this->getId();
+		return 'index.php?module=Calendar&view=ActivityStateModal&record=' . $this->getId();
 	}
-	
+
 	/**
 	 * Function to remove record
 	 */
