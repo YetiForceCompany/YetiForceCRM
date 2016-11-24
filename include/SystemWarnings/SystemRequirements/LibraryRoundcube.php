@@ -1,4 +1,5 @@
-<?php namespace includes\SystemWarnings\SystemRequirements;
+<?php
+namespace includes\SystemWarnings\SystemRequirements;
 
 /**
  * Privilege File basic class
@@ -21,7 +22,7 @@ class LibraryRoundcube extends \includes\SystemWarnings\Template
 		if ($this->status == 0) {
 			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=List';
 			$this->linkTitle = vtranslate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
-			$this->description = vtranslate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::$tempDir);
+			$this->description = vtranslate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::TEMP_DIR);
 		}
 	}
 }

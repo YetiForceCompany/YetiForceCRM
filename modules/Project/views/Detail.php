@@ -50,7 +50,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
-			'~libraries/dhtmlxGantt/skins/dhtmlxgantt_broadway.css',
+			'~libraries/gantt/skins/dhtmlxgantt_broadway.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
@@ -62,7 +62,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
-			'~libraries/dhtmlxGantt/dhtmlxgantt.js',
+			'~libraries/gantt/dhtmlxgantt.js',
 			'~libraries/jquery/flot/jquery.flot.min.js',
 			'~libraries/jquery/flot/jquery.flot.resize.js',
 			'~libraries/jquery/flot/jquery.flot.stack.min.js',
