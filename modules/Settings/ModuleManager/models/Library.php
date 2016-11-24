@@ -38,8 +38,8 @@ class Settings_ModuleManager_Library_Model
 			return App\Cache::get('LIBRARY', $name);
 		}
 		$status = true;
-		if (isset(static::LIBRARY[$name])) {
-			$lib = static::LIBRARY[$name];
+		if (isset(self::LIBRARY[$name])) {
+			$lib = self::LIBRARY[$name];
 			if (file_exists($lib['dir'] . 'version.php')) {
 				$libVersion = require $lib['dir'] . 'version.php';
 				if (App\Version::check($libVersion['version'], $lib['name'])) {
@@ -58,7 +58,7 @@ class Settings_ModuleManager_Library_Model
 	public static function &getAll()
 	{
 		$libs = [];
-		foreach (static::LIBRARY as $name => $lib) {
+		foreach (self::LIBRARY as $name => $lib) {
 			$status = 0;
 			if (is_dir($lib['dir'])) {
 				$status = 2;
@@ -81,7 +81,7 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function downloadAll()
 	{
-		foreach (static::LIBRARY as $name => &$lib) {
+		foreach (self::LIBRARY as $name => &$lib) {
 			static::download($name);
 		}
 	}
@@ -94,12 +94,12 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function download($name)
 	{
-		if (!isset(static::LIBRARY[$name])) {
+		if (!isset(self::LIBRARY[$name])) {
 			App\Log::warning('Library does not exist: ' . $name);
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$lib = static::LIBRARY[$name];
+		$lib = self::LIBRARY[$name];
 		if (file_exists($lib['dir'] . 'version.php')) {
 			App\Log::info('Library has already been downloaded: ' . $name);
 			return false;
@@ -143,7 +143,7 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function update($name)
 	{
-		$lib = static::LIBRARY[$name];
+		$lib = self::LIBRARY[$name];
 		\vtlib\Functions::recurseDelete($lib['dir']);
 		static::download($name);
 	}
