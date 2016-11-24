@@ -36,13 +36,12 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$displayValue = [];
 		if (empty($values)) {
-			return $displayValue;
+			return '';
 		} elseif (!is_array($values)) {
 			$values = explode(',', $values);
 		}
-
+		$displayValue = [];
 		foreach ($values as $shownerid) {
 			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
 				if ($currentUser->isAdminUser() && !$rawText) {
