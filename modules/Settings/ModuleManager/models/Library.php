@@ -38,7 +38,7 @@ class Settings_ModuleManager_Library_Model
 			return App\Cache::get('LIBRARY', $name);
 		}
 		$status = true;
-		if (isset(self::LIBRARY[$name])) {
+		if (self::LIBRARY[$name]) {
 			$lib = self::LIBRARY[$name];
 			if (file_exists($lib['dir'] . 'version.php')) {
 				$libVersion = require $lib['dir'] . 'version.php';
@@ -94,7 +94,7 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function download($name)
 	{
-		if (!isset(self::LIBRARY[$name])) {
+		if (!self::LIBRARY[$name]) {
 			App\Log::warning('Library does not exist: ' . $name);
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
