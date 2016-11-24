@@ -486,9 +486,10 @@ jQuery.Class("Vtiger_List_Js", {
 		var excludedIds = listInstance.readExcludedIds(true);
 		var cvId = listInstance.getCurrentCvId();
 		var pageNumber = jQuery('#pageNumber').val();
-
-		exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&viewname=' + cvId + '&page=' + pageNumber;
-
+		if('undefined' === typeof cvId)
+			exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&page=' + pageNumber;
+		else
+			exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&viewname=' + cvId + '&page=' + pageNumber;
 		var listViewInstance = Vtiger_List_Js.getInstance();
 		if (listViewInstance.getListSearchInstance()) {
 			var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();

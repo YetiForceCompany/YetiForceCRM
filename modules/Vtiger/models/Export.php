@@ -116,7 +116,9 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		$mode = $request->getMode();
 		$cvId = $request->get('viewname');
 		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));
-		$queryGenerator->initForCustomViewById($cvId);
+		if (!empty($cvId)) {
+			$queryGenerator->initForCustomViewById($cvId);
+		}
 		$fieldInstances = $this->moduleFieldInstances;
 
 		$accessiblePresenceValue = [0, 2];
@@ -182,13 +184,13 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	/**
 	 * Function that create the exported file
 	 * @param Vtiger_Request $request
-	 * @param <Array> $headers - output file header
-	 * @param <Array> $entries - outfput file data
+	 * @param array $headers - output file header
+	 * @param array $entries - outfput file data
 	 */
 	public function output($request, $headers, $entries)
 	{
 		$moduleName = $request->get('source_module');
-		$fileName = str_replace(' ', '_', decode_html(vtranslate($moduleName, $moduleName))) . '.csv';
+		$fileName = str_replace(' ', '_', decode_html(\App\Language::translate($moduleName, $moduleName))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
