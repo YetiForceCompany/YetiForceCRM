@@ -73,36 +73,6 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		return $response;
 	}
 
-	public function reletedQueryRecords2Mail($recordId, $relatedModule, $relationModel)
-	{
-		$relatedModuleName = $relatedModule->getName();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
-		$relatedListFields = [];
-		if ($relationModel)
-			$relatedListFields = $relationModel->getRelationFields(true, true);
-		if (count($relatedListFields) == 0) {
-			$relatedListFields = $relatedModule->getConfigureRelatedListFields();
-		}
-		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
-		$queryGenerator->setFields($relatedListFields); //ossmailviewid
-		$queryGenerator->setCustomFrom([
-			'joinType' => 'INNER',
-			'relatedTable' => 'vtiger_ossmailview_relation',
-			'relatedIndex' => 'crmid',
-			'baseTable' => 'vtiger_crmentity',
-			'baseIndex' => 'crmid',
-		]);
-		$queryGenerator->setCustomCondition([
-			'glue' => 'AND',
-			'column' => 'vtiger_ossmailview_relation.ossmailviewid',
-			'operator' => '=',
-			'value' => $recordId
-		]);
-		$query = $queryGenerator->getQuery();
-		return $query;
-	}
-
 	public function getPreviewViewUrl($id)
 	{
 		return 'index.php?module=' . $this->get('name') . '&view=preview&record=' . $id;

@@ -212,8 +212,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
-		$this->listViewModel->set('search_params', $transformedSearchParams);
+		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+		$listViewModel->set('search_params', $transformedSearchParams);
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
 		}
