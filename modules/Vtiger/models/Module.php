@@ -1006,7 +1006,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -1670,83 +1670,5 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		return $data;
-	}
-
-	public function getRelationQueryM2M($recordId, $relatedModule, $relationModel)
-	{
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->getName(), $relatedModule->getName());
-		$basetable = $relatedModule->get('basetable');
-
-		$query = sprintf('SELECT vtiger_crmentity.*, %s.* FROM %s 
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %s
-				INNER JOIN %s ON %s.%s = vtiger_crmentity.crmid
-				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 && %s.%s = %d', $basetable, $basetable, $relatedModule->get('basetableid'), $referenceInfo['table'], $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['table'], $referenceInfo['rel'], $recordId);
-		return $query;
-	}
-
-	/**
-	 * @todo To remove after rebuilding relations
-	 */
-	public function getRelationQueryForActivities($recordId, $relatedModule, $relationModel)
-	{
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-		$queryGenerator = new QueryGenerator($relatedModule->getName(), $currentUser);
-		$relatedListFields = $relationModel->getRelationFields(true);
-		if (count($relatedListFields) == 0) {
-			$relatedListFields = $relatedModule->getRelatedListFields();
-		}
-		if (in_array('assigned_user_id', $relatedListFields)) {
-			$queryGenerator->setCustomFrom([
-				'joinType' => 'LEFT',
-				'relatedTable' => 'vtiger_users',
-				'relatedIndex' => 'id',
-				'baseTable' => 'vtiger_crmentity',
-				'baseIndex' => 'smownerid',
-			]);
-			$queryGenerator->setCustomFrom([
-				'joinType' => 'LEFT',
-				'relatedTable' => 'vtiger_groups',
-				'relatedIndex' => 'groupid',
-				'baseTable' => 'vtiger_crmentity',
-				'baseIndex' => 'smownerid',
-			]);
-		}
-		$queryGenerator->setFields($relatedListFields);
-		$queryGenerator->setCustomColumn('crmid');
-		$queryGenerator->permissions = false;
-		$query = $queryGenerator->getQuery();
-		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModule->getName());
-		$referenceLinkInstance = new $referenceLinkClass();
-		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
-			$query .= ' AND vtiger_activity.link = ';
-		} else {
-			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModule->getName());
-			$referenceProcessInstance = new $referenceProcessClass();
-			if (in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
-				$query .= ' AND vtiger_activity.`process` = ';
-			} else {
-				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModule->getName());
-				$referenceSubProcessInstance = new $referenceSubProcessClass();
-				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
-					$query .= ' AND vtiger_activity.`subprocess` = ';
-				} else {
-					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
-				}
-			}
-		}
-		$query .= $recordId;
-
-		$time = AppRequest::get('time');
-		if ($time == 'current') {
-			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
-		}
-		if ($time == 'history') {
-			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
-		}
-		return $query;
 	}
 }

@@ -138,45 +138,6 @@ class Contacts extends CRMEntity
 		return $row["count(*)"];
 	}
 
-	/** Function to process list query for a given query
-	 *  @param $query
-	 *  Returns the results of query in array format
-	 */
-	public function process_list_query1($query)
-	{
-
-		\App\Log::trace("Entering process_list_query1(" . $query . ") method ...");
-
-		$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
-		$list = Array();
-		$rows_found = $this->db->getRowCount($result);
-		if ($rows_found != 0) {
-			$contact = Array();
-			for ($index = 0, $row = $this->db->fetchByAssoc($result, $index); $row && $index < $rows_found; $index++, $row = $this->db->fetchByAssoc($result, $index)) {
-				foreach ($this->range_fields as $columnName) {
-					if (isset($row[$columnName])) {
-
-						$contact[$columnName] = $row[$columnName];
-					} else {
-						$contact[$columnName] = "";
-					}
-				}
-
-				$list[] = $contact;
-			}
-		}
-
-		$response = Array();
-		$response['list'] = $list;
-		$response['row_count'] = $rows_found;
-		$response['next_offset'] = $next_offset;
-		$response['previous_offset'] = $previous_offset;
-
-
-		\App\Log::trace("Exiting process_list_query1 method ...");
-		return $response;
-	}
-
 	/** Function to export the contact records in CSV Format
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Contacts Query.

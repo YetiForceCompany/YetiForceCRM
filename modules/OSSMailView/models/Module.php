@@ -103,22 +103,6 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 		return $query;
 	}
 
-	/**
-	 * @todo To remove after rebuilding relations
-	 */
-	public function reletedQueryMail2Records($recordId, $relatedModule, $relationModel)
-	{
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT vtiger_ossmailview.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name FROM vtiger_ossmailview 
-			INNER JOIN vtiger_ossmailview_relation ON vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid 
-			LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid 
-			LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_ossmailview_relation.crmid = " . $recordId . " ";
-		return $query;
-	}
-
 	public function getPreviewViewUrl($id)
 	{
 		return 'index.php?module=' . $this->get('name') . '&view=preview&record=' . $id;
