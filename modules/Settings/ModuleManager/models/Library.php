@@ -28,20 +28,14 @@ class Settings_ModuleManager_Library_Model
 	const TEMP_DIR = 'cache' . DIRECTORY_SEPARATOR . 'upload';
 
 	/**
-	 * Temporary table that contains checked library ststuses
-	 * @var array 
-	 */
-	public static $cache = [];
-
-	/**
 	 * Function to check library status
 	 * @param string $name
 	 * @return boolean
 	 */
 	public static function checkLibrary($name)
 	{
-		if (isset(static::$cache[$name])) {
-			return static::$cache[$name];
+		if (App\Cache::has('LIBRARY', $name)) {
+			return App\Cache::get('LIBRARY', $name);
 		}
 		$status = true;
 		if (isset(static::LIBRARY[$name])) {
@@ -53,7 +47,7 @@ class Settings_ModuleManager_Library_Model
 				}
 			}
 		}
-		static::$cache[$name] = $status;
+		App\Cache::save('LIBRARY', $name, $status, App\Cache::LONG);
 		return $status;
 	}
 
@@ -63,7 +57,8 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function &getAll()
 	{
-		foreach (static::LIBRARY as $name => &$lib) {
+		$libs = [];
+		foreach (static::LIBRARY as $name => $lib) {
 			$status = 0;
 			if (is_dir($lib['dir'])) {
 				$status = 2;
@@ -75,8 +70,9 @@ class Settings_ModuleManager_Library_Model
 				}
 			}
 			$lib['status'] = $status;
+			$libs[$name] = $lib;
 		}
-		return static::LIBRARY;
+		return $libs;
 	}
 
 	/**
