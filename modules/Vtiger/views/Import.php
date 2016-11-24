@@ -91,14 +91,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$viewer->assign('SUPPORTED_FILE_ENCODING', Import_Utils_Helper::getSupportedFileEncoding());
 		$viewer->assign('SUPPORTED_DELIMITERS', Import_Utils_Helper::getSupportedDelimiters());
 		$viewer->assign('AUTO_MERGE_TYPES', Import_Utils_Helper::getAutoMergeTypes());
-
-		//Duplicate records handling not supported for inventory moduels
-		$duplicateHandlingNotSupportedModules = getInventoryModules();
-		if (in_array($moduleName, $duplicateHandlingNotSupportedModules)) {
-			$viewer->assign('DUPLICATE_HANDLING_NOT_SUPPORTED', true);
-		}
-		//End
-
 		$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getMergableFields(true));
 		$viewer->assign('ENTITY_FIELDS', $moduleMeta->getEntityFields());
 		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));

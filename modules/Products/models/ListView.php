@@ -50,8 +50,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 			}
 			if (in_array($moduleName, ['Products', 'Services'])) {
 				$query->andWhere(['or',
-						['vtiger_crmentityrel.crmid' => $salesProcessId, 'module' => 'SSalesProcesses'],
-						['vtiger_crmentityrel.relcrmid' => $salesProcessId, 'relmodule' => 'SSalesProcesses']
+					['vtiger_crmentityrel.crmid' => $salesProcessId, 'module' => 'SSalesProcesses'],
+					['vtiger_crmentityrel.relcrmid' => $salesProcessId, 'relmodule' => 'SSalesProcesses']
 				]);
 			}
 		}

@@ -441,6 +441,18 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Get many to many
+	 */
+	public function getManyToMany()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$relatedModuleName = $this->getRelationModuleName();
+		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
+		$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = vtiger_crmentity.crmid']);
+		$queryGenerator->addAndConditionNative([$referenceInfo['table'] . '.' . $referenceInfo['base'] => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
 	 * Get relation inventory fields
 	 * @return Vtiger_Basic_InventoryField[]
 	 */

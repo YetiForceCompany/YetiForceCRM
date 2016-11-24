@@ -134,12 +134,10 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	 */
 	public function getManyToMany()
 	{
-		$queryGenerator = $this->getQueryGenerator();
-		$relatedModuleName = $this->getRelationModuleName();
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
-
-		$queryGenerator->setCustomColumn($referenceInfo['table'] . '.qtyinstock');
-		$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = vtiger_crmentity.crmid']);
-		$queryGenerator->addAndConditionNative([$referenceInfo['table'] . '.' . $referenceInfo['base'] => $this->get('parentRecord')->getId()]);
+		if ($this->getRelationModuleName() === 'IStorages') {
+			$queryGenerator = $this->getQueryGenerator();
+			$queryGenerator->setCustomColumn('u_#__istorages_products.qtyinstock');
+		}
+		parent::getManyToMany();
 	}
 }
