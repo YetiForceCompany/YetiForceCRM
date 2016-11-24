@@ -231,7 +231,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$headerFieldModels = [];
 		$headerFields = $this->getQueryGenerator()->getListViewFields();
 		foreach ($headerFields as $fieldName => &$fieldsModel) {
-			if ($fieldsModel && !in_array($fieldsModel->get('presence'), [0, 2])) {
+			if ($fieldsModel && (!$fieldsModel->isViewable() || !$fieldsModel->getPermissions())) {
 				continue;
 			}
 			$headerFieldModels[$fieldName] = $fieldsModel;
@@ -446,8 +446,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$moduleModel = $this->get('module');
 		$listFields = $moduleModel->getPopupViewFieldsList();
-		$listFields[] = 'id';
-		$listFields = array_merge($listFields, $fieldsList);
 		$this->getQueryGenerator()->setFields($listFields);
 	}
 }

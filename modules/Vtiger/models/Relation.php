@@ -167,6 +167,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	 */
 	public function getQueryGenerator()
 	{
+		if (!$this->has('query_generator')) {
+			$this->set('query_generator', new \App\QueryGenerator($this->getRelationModuleName()));
+		}
 		return $this->get('query_generator');
 	}
 

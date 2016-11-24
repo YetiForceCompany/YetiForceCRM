@@ -21,6 +21,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	protected $fields;
 	protected $relations = null;
 	protected $moduleType = '0';
+	protected $entityInstance;
 
 	/**
 	 * Function to get the Module/Tab id
@@ -210,7 +211,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function saveRecord(Vtiger_Record_Model $recordModel)
 	{
 		$moduleName = $this->get('name');
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = $this->getEntityInstance();
 		$fields = $focus->column_fields;
 		foreach ($fields as $fieldName => $fieldValue) {
 			$fieldValue = $recordModel->get($fieldName);
@@ -239,7 +240,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function deleteRecord($recordModel)
 	{
 		$moduleName = $this->get('name');
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = $this->getEntityInstance();
 		$focus->trash($moduleName, $recordModel->getId());
 		if (method_exists($focus, 'transferRelatedRecords')) {
 			if ($recordModel->get('transferRecordIDs'))
@@ -760,8 +761,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getPopupFields()
 	{
-		$entityInstance = CRMEntity::getInstance($this->getName());
-		return $entityInstance->search_fields_name;
+		return $this->getEntityInstance()->search_fields_name;
 	}
 
 	/**
@@ -858,6 +858,18 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		return $moduleModels;
+	}
+
+	/**
+	 * Get entity instance
+	 * @return CRMEntity
+	 */
+	public function getEntityInstance()
+	{
+		if (isset($this->entityInstance)) {
+			return $this->entityInstance;
+		}
+		return $this->entityInstance = CRMEntity::getInstance($this->getName());
 	}
 
 	public static function getEntityModules()
@@ -1044,9 +1056,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getExportQuery($focus, $where)
 	{
-		$focus = CRMEntity::getInstance($this->getName());
-		$query = $focus->create_export_query($where);
-		return $query;
+		return $this->getEntityInstance()->create_export_query($where);
 	}
 
 	/**
@@ -1281,7 +1291,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getRequiredFields($module = '')
 	{
-		$moduleInstance = CRMEntity::getInstance($this->getName());
+		$moduleInstance = $this->getEntityInstance();
 		$requiredFields = $moduleInstance->required_fields;
 		if (empty($requiredFields)) {
 			if (empty($module)) {
@@ -1473,8 +1483,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getAlphabetSearchField()
 	{
-		$focus = CRMEntity::getInstance($this->get('name'));
-		return $focus->def_basicsearch_col;
+		return $this->getEntityInstance()->def_basicsearch_col;
 	}
 
 	/**
@@ -1483,7 +1492,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getCumplosoryMandatoryFieldList()
 	{
-		$focus = CRMEntity::getInstance($this->getName());
+		$focus = $this->getEntityInstance();
 		if (empty($focus->mandatory_fields)) {
 			return [];
 		}
@@ -1538,23 +1547,30 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get popup view fields
+	 * @param string|boolean $sourceModule
+	 * @return string[]
 	 */
 	public function getPopupViewFieldsList($sourceModule = false)
 	{
+		if (App\Cache::staticHas('PopupViewFieldsList', $this->getName())) {
+			return App\Cache::staticGet('PopupViewFieldsList', $this->getName());
+		}
 		$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
 		if (!empty($sourceModule) && $parentRecordModel) {
 			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
 		}
 		$popupFields = [];
 		if ($relationModel) {
-			$popupFields = $relationModel->getRelationFields(true);
+			foreach (App\Field::getFieldsFromRelation($relationModel->getId()) as &$fieldName) {
+				$popupFields[$fieldName] = $fieldName;
+			}
 		}
-		if (count($popupFields) == 0) {
-			$popupFields = array_keys($this->getSummaryViewFieldsList());
+		if (!$popupFields) {
+			foreach ($this->getPopupFields() as &$fieldName) {
+				$popupFields[$fieldName] = $fieldName;
+			}
 		}
-		if (count($popupFields) == 0) {
-			$popupFields = array_values($this->getRelatedListFields());
-		}
+		App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
 		return $popupFields;
 	}
 

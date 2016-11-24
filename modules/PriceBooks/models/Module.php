@@ -11,8 +11,7 @@
 class PriceBooks_Module_Model extends Vtiger_Module_Model
 {
 
-	
-		/**
+	/**
 	 * Function to get list view query for popup window
 	 * @param string $sourceModule Parent module
 	 * @param string $field parent fieldname
@@ -50,29 +49,18 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Funtion that returns fields that will be showed in the record selection popup
-	 * @return <Array of fields>
+	 * Function to get popup view fields
+	 * @param string|boolean $sourceModule
+	 * @return string[]
 	 */
 	public function getPopupViewFieldsList($sourceModule = false)
 	{
-		if (!empty($sourceModule)) {
-			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
-			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
-		}
-		$popupFields = array();
-		if ($relationModel) {
-			$popupFields = $relationModel->getRelationFields(true);
-		}
-		if (count($popupFields) == 0) {
-			$popupFileds = $this->getSummaryViewFieldsList();
-			$reqPopUpFields = array('Currency' => 'currency_id');
-			foreach ($reqPopUpFields as $fieldLabel => $fieldName) {
-				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
-				if ($fieldModel->getPermissions(false)) {
-					$popupFileds[$fieldName] = $fieldModel;
-				}
+		$popupFields = parent::getPopupViewFieldsList($sourceModule);
+		if (!isset($popupFields['currency_id'])) {
+			$fieldModel = Vtiger_Field_Model::getInstance('currency_id', $this);
+			if ($fieldModel->getPermissions()) {
+				$popupFields['currency_id'] = 'currency_id';
 			}
-			$popupFields = array_keys($popupFileds);
 		}
 		return $popupFields;
 	}

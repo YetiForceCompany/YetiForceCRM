@@ -59,36 +59,21 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Funtion that returns fields that will be showed in the record selection popup
-	 * @return <Array of fields>
+	 * Function to get popup view fields
+	 * @param string|boolean $sourceModule
+	 * @return string[]
 	 */
 	public function getPopupViewFieldsList($sourceModule = false)
 	{
-		if (!empty($sourceModule)) {
-			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
-			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
-		}
-		$popupFields = array();
-		if ($relationModel) {
-			$popupFields = $relationModel->getRelationFields(true);
-		}
-		if (count($popupFields) == 0) {
-			$popupFileds = $this->getSummaryViewFieldsList();
-			foreach ($popupFileds as $fieldName => $fieldModel) {
-				if ($fieldName === 'folderid' || $fieldName === 'modifiedtime') {
-					unset($popupFileds[$fieldName]);
-				}
-			}
-			$reqPopUpFields = array('File Status' => 'filestatus',
-				'File Size' => 'filesize',
-				'File Location Type' => 'filelocationtype');
-			foreach ($reqPopUpFields as $fieldLabel => $fieldName) {
+		$popupFields = parent::getPopupViewFieldsList($sourceModule);
+		$reqPopUpFields = ['filestatus', 'filesize', 'filelocationtype'];
+		foreach ($reqPopUpFields as &$fieldName) {
+			if (!isset($popupFields[$fieldName])) {
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
-				if ($fieldModel->getPermissions(false)) {
-					$popupFileds[$fieldName] = $fieldModel;
+				if ($fieldModel->getPermissions()) {
+					$popupFields[$fieldName] = $fieldName;
 				}
 			}
-			$popupFields = array_keys($popupFileds);
 		}
 		return $popupFields;
 	}
