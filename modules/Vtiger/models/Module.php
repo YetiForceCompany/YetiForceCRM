@@ -767,21 +767,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $this->getEntityInstance()->search_fields_name;
 	}
 
-	/**
-	 * @todo To remove after rebuilding relations
-	 */
-	public function getConfigureRelatedListFields()
-	{
-		$showRelatedFieldModel = $this->getSummaryViewFieldsList();
-		$relatedListFields = [];
-		if (count($showRelatedFieldModel) > 0) {
-			foreach ($showRelatedFieldModel as $key => $field) {
-				$relatedListFields[$field->get('column')] = $field->get('name');
-			}
-		}
-		return $relatedListFields;
-	}
-
 	public function isWorkflowSupported()
 	{
 		if ($this->isEntityModule()) {
@@ -1006,7 +991,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),

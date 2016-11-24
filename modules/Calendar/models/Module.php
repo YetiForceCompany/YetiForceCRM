@@ -70,15 +70,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get list of field for related list
-	 * @return <Array> empty array
-	 */
-	public function getConfigureRelatedListFields()
-	{
-		return [];
-	}
-
-	/**
 	 * Function to get list of field for summary view
 	 * @return <Array> empty array
 	 */

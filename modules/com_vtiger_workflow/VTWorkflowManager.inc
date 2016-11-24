@@ -66,18 +66,10 @@ class VTWorkflowManager
 
 	function getWorkflows()
 	{
-		$adb = $this->adb;
-
-		$result = $adb->getColumnNames("com_vtiger_workflows");
-		if (in_array("defaultworkflow", $result)) {
-			$result = $adb->query("select workflow_id, module_name, summary, test, execution_condition,defaultworkflow, type, filtersavedinnew
-									from com_vtiger_workflows ");
-		} else {
-
-			$result = $adb->query("select workflow_id, module_name, summary, test, execution_condition, type, filtersavedinnew
-									from com_vtiger_workflows");
-		}
-		return $this->getWorkflowsForResult($result);
+		$query = (new \App\Db\Query())
+			->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
+			->from('com_vtiger_workflows');
+		return $this->getWorkflowsForResult($query->all());
 	}
 
 	/**
@@ -85,17 +77,13 @@ class VTWorkflowManager
 	 * @param DateTime $referenceTime
 	 * @return Workflow
 	 */
-	function getScheduledWorkflows($referenceTime = '')
+	function getScheduledWorkflows($referenceTime = false)
 	{
-		$adb = $this->adb;
-		$query = 'SELECT * FROM com_vtiger_workflows WHERE execution_condition = ?';
-		$params = array(VTWorkflowManager::$ON_SCHEDULE);
-		if ($referenceTime != '') {
-			$query .= " AND (nexttrigger_time = '' OR nexttrigger_time IS NULL OR nexttrigger_time <= ?)";
-			array_push($params, $referenceTime);
+		$query = (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => VTWorkflowManager::$ON_SCHEDULE]);
+		if ($referenceTime) {
+			$query->andWhere(['or', ['nexttrigger_time' => ''], ['nexttrigger_time' => null], ['<=', 'nexttrigger_time', $referenceTime]]);
 		}
-		$result = $adb->pquery($query, $params);
-		return $this->getWorkflowsForResult($result);
+		return $this->getWorkflowsForResult($query->all());
 	}
 
 	/**
@@ -122,40 +110,33 @@ class VTWorkflowManager
 
 	function getWorkflowsForModule($moduleName, $executionCondition = false)
 	{
-		$adb = $this->adb;
-		$cache = Vtiger_Cache::getInstance();
 		$cacheName = $moduleName . (string) $executionCondition;
-		if ($cache->getWorkflowForModule($cacheName)) {
-			return $this->getWorkflowsForResult($cache->getWorkflowForModule($cacheName));
+		if (App\Cache::staticHas('WorkflowsForModule', $cacheName)) {
+			return $this->getWorkflowsForResult(App\Cache::staticGet('WorkflowsForModule', $cacheName));
 		} else {
-			$sql = 'SELECT workflow_id, module_name, summary, test, execution_condition, defaultworkflow, type, filtersavedinnew FROM com_vtiger_workflows WHERE module_name=?';
-			
-			$params[] = $moduleName;
+			$query = (new \App\Db\Query())
+				->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
+				->from('com_vtiger_workflows')
+				->where(['module_name' => $moduleName]);
 			if ($executionCondition) {
-				$params[] = $executionCondition;
-				$sql .= ' AND execution_condition = ?';
+				$query->andWhere(['execution_condition' => $executionCondition]);
 			}
-			$result = $adb->pquery($sql, $params);
-			$cache->setWorkflowForModule($cacheName, $result);
-			return $this->getWorkflowsForResult($result);
+			$rows = $query->all();
+			App\Cache::staticSave('WorkflowsForModule', $cacheName, $rows);
+			return $this->getWorkflowsForResult($rows);
 		}
 	}
 
-	protected function getWorkflowsForResult($result)
+	protected function getWorkflowsForResult($rows)
 	{
-		$adb = $this->adb;
-
-		$it = new SqlResultIterator($adb, $result);
-		$workflows = array();
-		$i = 0;
-		foreach ($it as $row) {
-			$workflow = $this->getWorkflowInstance($row->type);
-			$workflow->setup($row->data);
-
+		$workflows = [];
+		foreach ($rows as &$row) {
+			$workflow = $this->getWorkflowInstance($row['type']);
+			$workflow->setup($row);
 			if (!is_a($workflow, 'Workflow'))
 				continue;
 
-			$workflows[$i++] = $workflow;
+			$workflows[] = $workflow;
 		}
 		return $workflows;
 	}
@@ -284,25 +265,18 @@ class VTWorkflowManager
 	 */
 	public function getWorkflowsForModuleSupportingComments($moduleName)
 	{
-		$adb = $this->adb;
-		$cache = Vtiger_Cache::getInstance();
-
-		if ($cache->getWorkflowForModuleSupportingComments($moduleName)) {
-			return $cache->getWorkflowForModuleSupportingComments($moduleName);
+		if (App\Cache::staticHas('WorkflowsForModuleSupportingComments', $moduleName)) {
+			return App\Cache::staticGet('WorkflowsForModuleSupportingComments', $moduleName);
 		}
-
-		$result = $adb->getColumnNames('com_vtiger_workflows');
-		if (in_array('defaultworkflow', $result)) {
-			$result = $adb->pquery('SELECT workflow_id, module_name, summary, test, execution_condition, defaultworkflow, type, filtersavedinnew
-									FROM com_vtiger_workflows WHERE module_name = ? AND test LIKE (?)', array($moduleName, '%_VT_add_comment%'));
-		} else {
-			$result = $adb->pquery('SELECT workflow_id, module_name, summary, test, execution_condition, type, filtersavedinnew
-									FROM com_vtiger_workflows where module_name = ? AND test LIKE (?)', array($moduleName, '%_VT_add_comment%'));
-		}
-		$workflowModels = $this->getWorkflowsForResult($result);
+		$query = (new \App\Db\Query())
+			->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
+			->from('com_vtiger_workflows')
+			->where(['module_name' => $moduleName])
+			->andWhere(['like', 'test', '_VT_add_comment']);
+		$workflowModels = $this->getWorkflowsForResult($query->all());
 
 		$commentSupportedWorkflowModels = array();
-		foreach ($workflowModels as $workflowId => $workflowModel) {
+		foreach ($workflowModels as $workflowId => &$workflowModel) {
 			$conditions = \App\Json::decode($workflowModel->test);
 			if (is_array($conditions)) {
 				foreach ($conditions as $key => $conditionInfo) {
@@ -314,7 +288,7 @@ class VTWorkflowManager
 				}
 			}
 		}
-		$cache->setWorkflowForModuleSupportingComments($moduleName, $commentSupportedWorkflowModels);
+		App\Cache::staticSave('WorkflowsForModuleSupportingComments', $moduleName, $commentSupportedWorkflowModels);
 		return $commentSupportedWorkflowModels;
 	}
 }

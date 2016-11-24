@@ -189,42 +189,6 @@ class Vtiger_Cache
 		}
 	}
 
-	//cache for the module Instance
-	private static $_workflow_for_module = [];
-
-	public function getWorkflowForModule($module)
-	{
-		if (isset(self::$_workflow_for_module[$module])) {
-			return self::$_workflow_for_module[$module];
-		}
-		return false;
-	}
-
-	public function setWorkflowForModule($module, $workflows)
-	{
-		if (self::$cacheEnable) {
-			self::$_workflow_for_module[$module] = $workflows;
-		}
-	}
-
-	//cache for the module Instance
-	private static $_workflow_for_module_supporting_comments = [];
-
-	public function getWorkflowForModuleSupportingComments($module)
-	{
-		if (isset(self::$_workflow_for_module_supporting_comments[$module])) {
-			return self::$_workflow_for_module_supporting_comments[$module];
-		}
-		return false;
-	}
-
-	public function setWorkflowForModuleSupportingComments($module, $workflows)
-	{
-		if (self::$cacheEnable) {
-			self::$_workflow_for_module_supporting_comments[$module] = $workflows;
-		}
-	}
-
 	private static $_user_id;
 
 	public function getUserId($userName)

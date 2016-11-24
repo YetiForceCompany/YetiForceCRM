@@ -31,32 +31,27 @@ class WorkFlowScheduler
 		$conditions = \App\Json::decode(decode_html($workflow->test));
 
 		$moduleName = $workflow->moduleName;
-		$queryGenerator = new QueryGenerator($moduleName, $this->user);
+		$queryGenerator = new \App\QueryGenerator($moduleName, $this->user->id);
 		$queryGenerator->setFields(['id']);
 		$this->addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions);
 
-		if ($moduleName == 'Calendar' || $moduleName == 'Events') {
-			if ($conditions) {
-				$queryGenerator->addConditionGlue('AND');
-			}
+		if ($moduleName === 'Calendar' || $moduleName === 'Events') {
 			// We should only get the records related to proper activity type
-			if ($moduleName == 'Calendar') {
-				$queryGenerator->addCondition('activitytype', 'Emails', 'n');
-				$queryGenerator->addCondition('activitytype', 'Task', 'e', 'AND');
-			} else if ($moduleName == "Events") {
-				$queryGenerator->addCondition('activitytype', 'Emails', 'n');
-				$queryGenerator->addCondition('activitytype', 'Task', 'n', 'AND');
+			if ($moduleName === 'Calendar') {
+				$queryGenerator->addAndCondition('activitytype', 'Task', 'e');
+			} else if ($moduleName === 'Events') {
+				$queryGenerator->addAndCondition('activitytype', 'Task', 'n');
 			}
 		}
-
-		$query = $queryGenerator->getQuery();
-		return $query;
+		return $queryGenerator->createQuery();
 	}
 
 	public function getEligibleWorkflowRecords($workflow)
 	{
 		$db = $this->db;
 		$query = $this->getWorkflowQuery($workflow);
+		echo "===========";
+		exit;
 		$result = $db->query($query);
 
 		$recordsList = [];
@@ -84,9 +79,7 @@ class WorkFlowScheduler
 		@date_default_timezone_set($default_timezone);
 
 		$scheduledWorkflows = $vtWorflowManager->getScheduledWorkflows($currentTimestamp);
-		$noOfScheduledWorkflows = count($scheduledWorkflows);
-		for ($i = 0; $i < $noOfScheduledWorkflows; ++$i) {
-			$workflow = $scheduledWorkflows[$i];
+		foreach ($scheduledWorkflows as $i => &$workflow) {
 			$tm = new VTTaskManager($adb);
 			$tasks = $tm->getTasksForWorkflow($workflow->id);
 			if ($tasks) {
@@ -100,7 +93,6 @@ class WorkFlowScheduler
 					} else {
 						$moduleName = $workflow->moduleName;
 					}
-
 					$wsEntityId = vtws_getWebserviceEntityId($moduleName, $recordId);
 					$entityData = $entityCache->forId($wsEntityId);
 					$data = $entityData->getData();
@@ -158,61 +150,40 @@ class WorkFlowScheduler
 			'more than hours later' => 'g',
 			'is today' => 'e',
 		);
-		$noOfConditions = count($conditions);
 		//Algorithm :
 		//1. If the query has already where condition then start a new group with and condition, else start a group
 		//2. Foreach of the condition, if its a condition in the same group just append with the existing joincondition
 		//3. If its a new group, then start the group with the group join.
 		//4. And for the first condition in the new group, dont append any joincondition.
-
-		if ($noOfConditions > 0) {
-			if ($queryGenerator->conditionInstanceCount > 0) {
-				$queryGenerator->startGroup(QueryGenerator::$AND);
-			} else {
-				$queryGenerator->startGroup('');
-			}
-			foreach ($conditions as $index => $condition) {
+		if ($conditions) {
+			foreach ($conditions as &$condition) {
 				$operation = $condition['operation'];
 
 				//Cannot handle this condition for scheduled workflows
-				if ($operation == 'has changed')
+				if ($operation === 'has changed')
 					continue;
-
 				$value = $condition['value'];
 				if (in_array($operation, $this->_specialDateTimeOperator())) {
 					$value = $this->_parseValueForDate($condition);
 				}
-				$columnCondition = $condition['joincondition'];
 				$groupId = $condition['groupid'];
 				$groupJoin = $condition['groupjoin'];
 				$operator = $conditionMapping[$operation];
-				$fieldname = $condition['fieldname'];
+				$fieldName = $condition['fieldname'];
 				$valueType = $condition['valuetype'];
 
-				if ($index > 0 && $groupId != $conditions[$index - 1]['groupid']) { // if new group, end older group and start new
-					$queryGenerator->endGroup();
-					if ($groupJoin) {
-						$queryGenerator->startGroup($groupJoin);
-					} else {
-						$queryGenerator->startGroup(QueryGenerator::$AND);
-					}
-				}
 
-				if ($index > 0 && $groupId != $conditions[$index - 1]['groupid']) { //if first condition in new group, send empty condition to append
-					$columnCondition = null;
-				} else if (empty($columnCondition) && $index > 0) {
-					$columnCondition = $conditions[$index - 1]['joincondition'];
-				}
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
 				if (count($matches) != 0) {
-					list($full, $referenceField, $referenceModule, $fieldname) = $matches;
+					list($full, $referenceField, $referenceModule, $fieldName) = $matches;
 				}
 				if ($referenceField) {
-					$queryGenerator->addReferenceModuleFieldCondition($referenceModule, $referenceField, $fieldname, $value, $operator, $columnCondition);
+					//$queryGenerator->addReferenceModuleFieldCondition($referenceModule, $referenceField, $fieldName, $value, $operator, $columnCondition);
 					$referenceField = null;
 				} else {
-					$queryGenerator->addCondition($fieldname, $value, $operator, $columnCondition);
+					$functionName = $groupJoin === 'and' ? 'addAndCondition' : 'addOrCondition';
+					$this->$functionName($fieldName, $value, $operator);
 				}
 			}
 			$queryGenerator->endGroup();
