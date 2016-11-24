@@ -14,7 +14,6 @@ class Project_Module_Model extends Vtiger_Module_Model
 
 	public function getGanttProject($id)
 	{
-		$adb = PearDatabase::getInstance();
 		$branches = $this->getGanttMileston($id);
 		$response = ['data' => [], 'links' => []];
 		if ($branches) {
@@ -36,23 +35,26 @@ class Project_Module_Model extends Vtiger_Module_Model
 
 	public function getGanttMileston($id)
 	{
-		$adb = PearDatabase::getInstance();
 		$response = ['data' => [], 'links' => []];
-		$focus = CRMEntity::getInstance($this->getName());
-		$relatedListMileston = $focus->get_dependents_list($id, $this->getId(), \App\Module::getModuleId('ProjectMilestone'));
-		$resultMileston = $adb->query($relatedListMileston['query']);
-		$num = $adb->num_rows($resultMileston);
+		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectMilestone');
+		$relatedListView->getRelationModel()->set('QueryFields', [
+			'projectmilestoneid' => 'projectmilestoneid',
+			'projectid' => 'projectid',
+			'projectmilestonename' => 'projectmilestonename',
+			'projectmilestonedate' => 'projectmilestonedate',
+			'projectmilestone_progress' => 'projectmilestone_progress'
+		]);
+		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
 		$milestoneTime = 0;
 		$progressInHours = 0;
-		for ($i = 0; $i < $num; $i++) {
+		while ($row = $dataReader->read()) {
 			$projectmilestone = [];
 			$link = [];
-			$row = $adb->query_result_rowdata($resultMileston, $i);
-			$link['id'] = $row['projectmilestoneid'];
-			$link['target'] = $row['projectmilestoneid'];
+			$link['id'] = $row['id'];
+			$link['target'] = $row['id'];
 			$link['type'] = 1;
 			$link['source'] = $row['projectid'];
-			$projectmilestone['id'] = $row['projectmilestoneid'];
+			$projectmilestone['id'] = $row['id'];
 			$projectmilestone['text'] = $row['projectmilestonename'];
 			$projectmilestone['parent'] = $row['projectid'];
 			$projectmilestone['module'] = 'ProjectMilestone';
@@ -65,7 +67,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$projectmilestone['priority_label'] = vtranslate($row['projectmilestone_priority'], 'ProjectMilestone');
 			$projectmilestone['open'] = true;
 			$projectmilestone['type'] = 'milestone';
-			$projecttask = $this->getGanttTask($row['projectmilestoneid']);
+			$projecttask = $this->getGanttTask($row['id']);
 			$response['data'][] = $projectmilestone;
 			$response['links'][] = $link;
 			$response['data'] = array_merge($response['data'], $projecttask['data']);
@@ -81,20 +83,27 @@ class Project_Module_Model extends Vtiger_Module_Model
 
 	public function getGanttTask($id)
 	{
-		$adb = PearDatabase::getInstance();
+		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
+		$relatedListView->getRelationModel()->set('QueryFields', [
+			'id' => 'id',
+			'projectid' => 'projectid',
+			'projecttaskname' => 'projecttaskname',
+			'parentid' => 'parentid',
+			'projectmilestoneid' => 'projectmilestoneid',
+			'projecttaskprogress' => 'projecttaskprogress',
+			'projecttaskpriority' => 'projecttaskpriority',
+			'startdate' => 'startdate',
+			'targetenddate' => 'targetenddate'
+		]);
+		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
 		$response = ['data' => [], 'links' => []];
-		$focus = CRMEntity::getInstance('ProjectMilestone');
-		$relatedListMileston = $focus->get_dependents_list($id, \App\Module::getModuleId('ProjectMilestone'), \App\Module::getModuleId('ProjectTask'));
-		$resultMileston = $adb->query($relatedListMileston['query']);
-		$num = $adb->num_rows($resultMileston);
 		$taskTime = 0;
-		for ($i = 0; $i < $num; $i++) {
+		while ($row = $dataReader->read()) {
 			$projecttask = [];
 			$link = [];
-			$row = $adb->query_result_rowdata($resultMileston, $i);
-			$link['id'] = $row['projecttaskid'];
-			$link['target'] = $row['projecttaskid'];
-			$projecttask['id'] = $row['projecttaskid'];
+			$link['id'] = $row['id'];
+			$link['target'] = $row['id'];
+			$projecttask['id'] = $row['id'];
 			$projecttask['text'] = $row['projecttaskname'];
 			if ($row['parentid']) {
 				$link['type'] = 0;

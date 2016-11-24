@@ -28,19 +28,18 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 
 	public function updateProgressMilestone($id)
 	{
-		$adb = PearDatabase::getInstance();
-
 		if (!isRecordExists($id)) {
 			return;
 		}
-		$focus = CRMEntity::getInstance($this->getName());
-		$relatedListMileston = $focus->get_dependents_list($id, $this->getId(), \App\Module::getModuleId('ProjectTask'));
-		$resultMileston = $adb->query($relatedListMileston['query']);
-		$num = $adb->num_rows($resultMileston);
+		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
+		$relatedListView->getRelationModel()->set('QueryFields', [
+			'estimated_work_time' => 'estimated_work_time',
+			'projecttaskprogress' => 'projecttaskprogress',
+		]);
+		$dataReader = $relatedListView->getRelationQuery()->createCommand()->query();
 		$estimatedWorkTime = 0;
 		$progressInHours = 0;
-		for ($i = 0; $i < $num; $i++) {
-			$row = $adb->query_result_rowdata($resultMileston, $i);
+		while ($row = $dataReader->read()) {
 			$estimatedWorkTime += $row['estimated_work_time'];
 			$recordProgress = ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
 			$progressInHours += $recordProgress;
@@ -48,6 +47,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		if (!$estimatedWorkTime) {
 			return;
 		}
+		$focus = CRMEntity::getInstance($this->getName());
 		$projectMilestoneProgress = round((100 * $progressInHours) / $estimatedWorkTime);
 		$focus->retrieve_entity_info($id, $this->getName());
 		$focus->column_fields['projectmilestone_progress'] = $projectMilestoneProgress . '%';
