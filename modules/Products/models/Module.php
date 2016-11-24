@@ -20,9 +20,9 @@ class Products_Module_Model extends Vtiger_Module_Model
 	 * @param \App\QueryGenerator $queryGenerator
 	 * @param boolean $skipSelected
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator, $skipSelected = false)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts', 'Contacts');
+		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts');
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || Vtiger_Module_Model::getInstance($sourceModule)->isInventory()) {
 			$condition = ['and', ['vtiger_products.discontinued' => 1]];
 			if ($sourceModule === $this->getName()) {
@@ -45,12 +45,6 @@ class Products_Module_Model extends Vtiger_Module_Model
 				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
 			} elseif ($sourceModule === 'Vendors') {
 				$condition [] = ['<>', 'vtiger_products.vendor_id', $record];
-			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
-				$subQuery = (new App\Db\Query())
-					->select(['productid'])
-					->from('vtiger_seproductsrel')
-					->where(['crmid' => $record]);
-				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
 			}
 			$queryGenerator->addAndConditionNative($condition);
 		}
