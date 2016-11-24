@@ -85,101 +85,94 @@ class Record
 		return $crmIds;
 	}
 
-	protected static $computeLabelsSqlCache = [];
-	protected static $computeLabelsColumnsCache = [];
-	protected static $computeLabelsInfoExtendCache = [];
-	protected static $computeLabelsColumnsSearchCache = [];
-
+	/**
+	 * Function gets labels for record data
+	 * @param string $moduleName
+	 * @param int|array $ids
+	 * @param bool $search
+	 * @return string[]
+	 */
 	public static function computeLabels($moduleName, $ids, $search = false)
 	{
-		$adb = \PearDatabase::getInstance();
+		if (empty($moduleName) || empty($ids)) {
+			return [];
+		}
 		if (!is_array($ids))
 			$ids = [$ids];
 		if ($moduleName === 'Events') {
 			$moduleName = 'Calendar';
 		}
-		if ($moduleName) {
-			$entityDisplay = [];
-			if (!empty($ids)) {
-				if (!isset(static::$computeLabelsSqlCache[$moduleName])) {
-					if ($moduleName == 'Groups') {
-						$metainfo = ['tablename' => 'vtiger_groups', 'entityidfield' => 'groupid', 'fieldname' => 'groupname'];
-					} else {
-						$metainfo = \App\Module::getEntityInfo($moduleName);
-					}
-					if (empty($metainfo)) {
-						return $entityDisplay;
-					}
-					$table = $metainfo['tablename'];
-					$idcolumn = $metainfo['entityidfield'];
-					$columnsName = $metainfo['fieldnameArr'];
-					$columnsSearch = $metainfo['searchcolumnArr'];
-					$columns = array_unique(array_merge($columnsName, $columnsSearch));
+		$entityDisplay = [];
+		$cacheName = 'computeLabelsQuery';
+		if (!\App\Cache::staticHas($cacheName, $moduleName)) {
+			$metainfo = \App\Module::getEntityInfo($moduleName);
+			if (empty($metainfo)) {
+				return $entityDisplay;
+			}
+			$table = $metainfo['tablename'];
+			$idColumn = $metainfo['entityidfield'];
+			$columnsName = $metainfo['fieldnameArr'];
+			$columnsSearch = $metainfo['searchcolumnArr'];
+			$columns = array_unique(array_merge($columnsName, $columnsSearch));
 
-					$moduleInfo = Functions::getModuleFieldInfos($moduleName);
-					$moduleInfoExtend = [];
-					if (count($moduleInfo) > 0) {
-						foreach ($moduleInfo as $field => $fieldInfo) {
-							$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
-						}
-					}
-					$leftJoin = '';
-					$leftJoinTables = [];
-					$paramsCol = [];
-					if ($moduleName != 'Groups') {
-						$focus = \CRMEntity::getInstance($moduleName);
-						foreach (array_filter($columns) as $column) {
-							if (array_key_exists($column, $moduleInfoExtend)) {
-								$paramsCol[] = $column;
-								if ($moduleInfoExtend[$column]['tablename'] != $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
-									$otherTable = $moduleInfoExtend[$column]['tablename'];
-									$leftJoinTables[] = $otherTable;
-									$focusTables = $focus->tab_name_index;
-									$leftJoin .= ' LEFT JOIN ' . $otherTable . ' ON ' . $otherTable . '.' . $focusTables[$otherTable] . ' = ' . $table . '.' . $focusTables[$table];
-								}
-							}
-						}
-					} else {
-						$paramsCol = $columnsName;
-					}
-					$paramsCol[] = $idcolumn;
-					$sql = sprintf('SELECT %s AS id FROM %s %s WHERE %s IN', implode(',', $paramsCol), $table, $leftJoin, $idcolumn);
-					static::$computeLabelsSqlCache[$moduleName] = $sql;
-					static::$computeLabelsColumnsCache[$moduleName] = $columnsName;
-					static::$computeLabelsInfoExtendCache[$moduleName] = $moduleInfoExtend;
-					static::$computeLabelsColumnsSearchCache[$moduleName] = $columnsSearch;
-				} else {
-					$sql = static::$computeLabelsSqlCache[$moduleName];
-					$columnsName = static::$computeLabelsColumnsCache[$moduleName];
-					$moduleInfoExtend = static::$computeLabelsInfoExtendCache[$moduleName];
-					$columnsSearch = static::$computeLabelsColumnsSearchCache[$moduleName];
-				}
-				$ids = array_unique($ids);
-				$sql = sprintf($sql . '(%s)', $adb->generateQuestionMarks($ids));
-				$result = $adb->pquery($sql, $ids);
-				while ($row = $adb->getRow($result)) {
-					$labelSearch = $labelName = [];
-					foreach ($columnsName as $columnName) {
-						if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
-							$labelName[] = static::getLabel($row[$columnName]);
-						else
-							$labelName[] = $row[$columnName];
-					}
-					if ($search) {
-						foreach ($columnsSearch as $columnName) {
-							if ($moduleInfoExtend && in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 75, 81]))
-								$labelSearch[] = static::getLabel($row[$columnName]);
-							else
-								$labelSearch[] = $row[$columnName];
-						}
-						$entityDisplay[$row['id']] = ['name' => implode(' ', $labelName), 'search' => implode(' ', $labelSearch)];
-					}else {
-						$entityDisplay[$row['id']] = trim(implode(' ', $labelName));
+			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
+			$leftJoinTables = [];
+			$paramsCol = [];
+			$query = new \App\Db\Query();
+			$focus = \CRMEntity::getInstance($moduleName);
+			foreach (array_filter($columns) as $column) {
+				if (array_key_exists($column, $moduleInfoExtend)) {
+					$paramsCol[] = $column;
+					if ($moduleInfoExtend[$column]['tablename'] !== $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
+						$otherTable = $moduleInfoExtend[$column]['tablename'];
+						$leftJoinTables[] = $otherTable;
+						$focusTables = $focus->tab_name_index;
+						$query->leftJoin($otherTable, "$table.$focusTables[$table] = $otherTable.$focusTables[$otherTable]");
 					}
 				}
 			}
-			return $entityDisplay;
+			$paramsCol[] = $idColumn . ' AS id';
+			$query->select($paramsCol)->from($table);
+			\App\Cache::staticSave($cacheName, $moduleName, $query);
+		} else {
+			$query = \App\Cache::staticGet($cacheName, $moduleName);
+			$metainfo = \App\Module::getEntityInfo($moduleName);
+			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
+			if (empty($moduleInfoExtend) || empty($metainfo)) {
+				return [];
+			}
+			$columnsName = $metainfo['fieldnameArr'];
+			$columnsSearch = $metainfo['searchcolumnArr'];
 		}
+		$ids = array_unique($ids);
+		$query->where([$idColumn => $ids]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$labelName = [];
+			foreach ($columnsName as $columnName) {
+				if (in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68]))
+					$labelName[] = static::getLabel($row[$columnName]);
+				elseif (in_array($moduleInfoExtend[$columnName]['uitype'], [53]))
+					$labelName[] = \App\Fields\Owner::getLabel($row[$columnName]);
+				else
+					$labelName[] = $row[$columnName];
+			}
+			if ($search) {
+				$labelSearch = [];
+				foreach ($columnsSearch as $columnName) {
+					if (in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68]))
+						$labelSearch[] = static::getLabel($row[$columnName]);
+					elseif (in_array($moduleInfoExtend[$columnName]['uitype'], [53]))
+						$labelSearch[] = \App\Fields\Owner::getLabel($row[$columnName]);
+					else
+						$labelSearch[] = $row[$columnName];
+				}
+				$entityDisplay[$row['id']] = ['name' => implode(' ', $labelName), 'search' => implode(' ', $labelSearch)];
+			} else {
+				$entityDisplay[$row['id']] = trim(implode(' ', $labelName));
+			}
+		}
+		return $entityDisplay;
 	}
 
 	public static function updateLabel($moduleName, $id, $mode = 'edit', $updater = false)

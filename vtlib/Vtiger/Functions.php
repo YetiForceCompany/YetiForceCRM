@@ -325,21 +325,37 @@ class Functions
 		return (isset(self::$userIdNameCache[$id])) ? self::$userIdNameCache[$id] : NULL;
 	}
 
-	protected static $moduleFieldInfoByNameCache = [];
-
-	public static function getModuleFieldInfos($mixed)
+	/**
+	 * Function get module field infos
+	 * @param int|string $mixed
+	 * @param bool $returnByColumn
+	 * @return mixed[]
+	 */
+	public static function getModuleFieldInfos($mixed, $returnByColumn = false)
 	{
 		$moduleInfo = self::getModuleData($mixed);
-		$module = $moduleInfo['name'];
-		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]))) {
-			$dataReader = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
-					->createCommand()->query();
-			self::$moduleFieldInfoByNameCache[$module] = [];
-			while ($row = $dataReader->read()) {
-				self::$moduleFieldInfoByNameCache[$module][$row['fieldname']] = $row;
-			}
+		if (!$moduleInfo || !$moduleInfo['name']) {
+			return [];
 		}
-		return isset(self::$moduleFieldInfoByNameCache[$module]) ? self::$moduleFieldInfoByNameCache[$module] : NULL;
+		$module = $moduleInfo['name'];
+		$cacheName = 'getModuleFieldInfosByName';
+		if (!\App\Cache::has($cacheName, $module)) {
+			$dataReader = (new \App\Db\Query())
+					->from('vtiger_field')
+					->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
+					->createCommand()->query();
+			$fieldInfoByName = $fieldInfoByColumn = [];
+			while ($row = $dataReader->read()) {
+				$fieldInfoByName[$row['fieldname']] = $row;
+				$fieldInfoByColumn[$row['columnname']] = $row;
+			}
+			\App\Cache::save($cacheName, $module, $fieldInfoByName);
+			\App\Cache::save('getModuleFieldInfosByColumn', $module, $fieldInfoByColumn);
+		}
+		if ($returnByColumn) {
+			return \App\Cache::get('getModuleFieldInfosByColumn', $module);
+		}
+		return \App\Cache::get($cacheName, $module);
 	}
 
 	public static function getModuleFieldInfoWithId($fieldid)
