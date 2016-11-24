@@ -38,7 +38,6 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getData(Vtiger_Request $request, $widget)
 	{
-		$db = PearDatabase::getInstance();
 		$fields = ['id', 'assetname', 'dateinservice', 'parent_id'];
 		$limit = 10;
 		$params = [];
@@ -46,32 +45,23 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 			$limit = $widget->get('limit');
 		}
 		$assetConfig = Settings_SalesProcesses_Module_Model::getConfig('asset');
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = 'Assets';
-
-		$queryGenerator = new QueryGenerator($module, $currentUser);
+		$queryGenerator = new App\QueryGenerator($module);
 		$queryGenerator->setFields($fields);
-		$sql = $queryGenerator->getQuery();
-		$sql.= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->getId());
-		if (!empty($assetStatus)) {
+		$query = $queryGenerator->createQuery();
+		if ($assetStatus) {
 			$assetStatus = implode("','", $assetConfig['assetstatus']);
-			$sql .= " && vtiger_assets.assetstatus NOT IN ('$assetStatus')";
+			$query->andWhere(['not in', 'vtiger_assets.assetstatus', $assetStatus]);
 		}
 		$showtype = $request->get('showtype');
-		if ($showtype == 'common') {
-			$sql .= ' && vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid = ?)';
+		if ($showtype === 'common') {
+			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_yf_crmentity_showners')->where(['userid' => User::getCurrentUserId()])->distinct('crmid');
+			$query->andWhere(['in', 'vtiger_crmentity.smownerid', $subQuery]);
 		} else {
-			$sql .= ' && vtiger_crmentity.smownerid = ?';
+			$query->andWhere(['vtiger_crmentity.smownerid' => User::getCurrentUserId()]);
 		}
-
-		$params[] = $currentUser->getId();
-		$sql.= ' ORDER BY vtiger_assets.dateinservice ASC LIMIT %s';
-		$sql = sprintf($sql, $limit);
-		$result = $db->pquery($sql, $params);
-		$returnData = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$returnData[] = $db->query_result_rowdata($result, $i);
-		}
-		return $returnData;
+		$query->orderBy('vtiger_assets.dateinservice');
+		$query->limit($limit);
+		return $query->column();
 	}
 }

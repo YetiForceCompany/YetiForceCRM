@@ -5,31 +5,33 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$current_user = Users::getActiveAdminUser();
-
-$db = PearDatabase::getInstance();
+$db = \App\Db::getInstance();
 $executed = [];
-$result = $db->pquery('SELECT * FROM s_yf_multireference');
-while ($multireference = $db->fetch_array($result)) {
+$rows = (new \App\Db\Query())->from('s_yf_multireference')->all();
+foreach ($rows as &$multireference) {
 	if ($multireference['type'] == 0) {
 		$entity = CRMEntity::getInstance($multireference['source_module']);
-		$queryGenerator = new QueryGenerator($multireference['source_module'], $current_user);
+		$queryGenerator = new App\QueryGenerator($multireference['source_module']);
 		$queryGenerator->setFields(['id']);
-		$queryGenerator->setCustomCondition(['column' => $entity->table_index, 'operator' => '>', 'value' => $multireference['lastid'], 'glue' => 'AND']);
-		$query = $queryGenerator->getQuery();
-		$query .= ' ORDER BY ' . $entity->table_index . ' ASC';
-		$recordsResult = $db->query($query);
+		$queryGenerator->addAndCondition('id' , $multireference['lastid'], 'a');
+		$queryGenerator->setOrder('id','ASC')
 
 		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
-		while ($id = $db->getSingleValue($recordsResult)) {
-			foreach ($fields as $field) {
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		while ($id = $dataReader->readColumn(0)) {
+			foreach ($fields as &$field) {
 				$fieldModel = new Vtiger_Field_Model ();
 				$fieldModel->initialize($field);
 				$UITypeModel = $fieldModel->getUITypeModel();
 				$UITypeModel->reloadValue($multireference['source_module'], $id);
 			}
-			$db->update('s_yf_multireference', ['lastid' => $id], 'source_module = ? AND dest_module = ?', [$multireference['source_module'], $multireference['dest_module']]);
+			$db->createCommand()
+				->update('s_#__multireference', [
+					'lastid' => $id,
+					], ['source_module' => $multireference['source_module'],'dest_module' => $multireference['dest_module']])
+				->execute(); 
 		}
+		unset($queryGenerator);
 	} else {
 		vglobal('currentModule', $multireference['dest_module']);
 		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($multireference['lastid'], $multireference['dest_module']);
@@ -39,11 +41,9 @@ while ($multireference = $db->fetch_array($result)) {
 			continue;
 		}
 		$query = $targetModel->getRelationQuery();
-		$explodedQuery = explode('FROM', $query, 2);
-		$relationQuery = 'SELECT vtiger_crmentity.crmid FROM' . $explodedQuery[1];
-
-		$result2 = $db->query($relationQuery);
-		while ($crmid = $db->getSingleValue($result2)) {
+		$query->setFields(['id'])
+		$dataReader = $query->createCommand()->query();
+		while ($crmid = $dataReader->readColumn(0)) {
 			if (in_array($crmid, $executed)) {
 				continue;
 			}
@@ -56,6 +56,11 @@ while ($multireference = $db->fetch_array($result)) {
 			}
 			$executed[] = $crmid;
 		}
+		unset($query);
 	}
-	$db->delete('s_yf_multireference', 'source_module = ? AND dest_module = ? AND type = ?', [$multireference['source_module'], $multireference['dest_module'], $multireference['type']]);
+	$db->createCommand()->delete('s_#__multireference', [
+		'source_module' => $multireference['source_module'],
+		'dest_module' => $multireference['dest_module'],
+		'type' => $multireference['type']
+		])->execute();
 }

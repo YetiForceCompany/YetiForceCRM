@@ -15,6 +15,8 @@ require_once 'include/Webservices/DescribeObject.php';
 
 function vtws_sync($mtime, $elementType, $syncType, $user)
 {
+	return 'Currently not supported';
+
 	global $recordString, $modifiedTimeString;
 	$adb = PearDatabase::getInstance();
 	$numRecordsLimit = 100;
