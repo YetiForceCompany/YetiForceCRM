@@ -213,14 +213,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $params['module']);
 		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
 		$query = $targetModel->getRelationQuery();
-		$explodedQuery = explode('FROM', $query, 2);
-		$relationQuery = sprintf("SELECT DISTINCT %s FROM %s && %s <> ''", $fieldInfo['columnname'], $explodedQuery[1], $fieldInfo['columnname']);
-
+		$dataReader = $query->select([$fieldInfo['columnname']])
+				->andWhere(['<>', $fieldInfo['columnname'], ''])
+				->createCommand()->query();
 		vglobal('current_user', $currentUser);
 		App\User::setCurrentUserId($orgUserId);
-		$result = $db->query($relationQuery);
 		$currentValue = self::COMMA;
-		while ($value = $db->getSingleValue($result)) {
+		while ($value = $dataReader->read()) {
 			$currentValue .= $value . self::COMMA;
 		}
 		$db->update($this->get('field')->get('table'), [

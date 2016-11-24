@@ -54,19 +54,13 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 
 				break;
 			case 2:
-
 				foreach ($recordIds as $recordId) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
 					$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModule);
-					$query = $relationListView->getRelationQuery();
-					$queryEx = explode('FROM', $query, 2);
-					$query = sprintf('SELECT DISTINCT vtiger_crmentity.crmid FROM %s', $queryEx[1]);
-					$result = $db->query($query);
-					while ($crmid = $db->getSingleValue($result)) {
-						$relatedIds[] = $crmid;
-					}
+					$relatedIds = $relationListView->getRelationQuery()->select(['vtiger_crmentity.crmid'])
+						->distinct()
+						->column();
 				}
-
 				break;
 		}
 		return array_unique($relatedIds);
