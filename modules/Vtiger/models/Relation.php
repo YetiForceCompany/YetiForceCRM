@@ -781,18 +781,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		return $dataReader->readAll();
 	}
 
-	public function addSearchConditions($query, $searchParams, $related_module)
-	{
-		if (!empty($searchParams)) {
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$queryGenerator = new QueryGenerator($related_module, $currentUserModel);
-			$queryGenerator->parseAdvFilterList($searchParams);
-			$where = $queryGenerator->getWhereClause(true);
-			$query .= $where;
-		}
-		return $query;
-	}
-
 	public function isActive()
 	{
 		return $this->get('presence') == 0 ? true : false;

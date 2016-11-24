@@ -24,7 +24,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			$moduleName = $request->getModule();
 		}
 		$componentName = 'Export';
-		if ('xml' == $request->get('export_type')) {
+		if ('xml' === $request->get('export_type')) {
 			$componentName = 'ExportToXml';
 		}
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, $moduleName);
@@ -52,25 +52,22 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
-
 		$query = $this->getExportQuery($request);
-		$result = $db->query($query);
 
 		$headers = [];
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
-			$accessiblePresenceValue = [0, 2];
-			foreach ($this->accessibleFields as $fieldName) {
+			foreach ($this->accessibleFields as &$fieldName) {
 				$fieldModel = $this->moduleFieldInstances[$fieldName];
-
 				// Check added as querygenerator is not checking this for admin users
-				if (isset($fieldModel) && in_array($fieldModel->get('presence'), $accessiblePresenceValue)) {
+				if ($fieldModel && $fieldModel->isViewEnabled()) {
 					$headers[] = $fieldModel->get('label');
 				}
 			}
 		} else {
-			foreach ($this->moduleFieldInstances as $field)
-				$headers[] = $field->get('label');
+			foreach ($this->moduleFieldInstances as &$fieldModel) {
+				$headers[] = $fieldModel->get('label');
+			}
 		}
 
 		$isInventory = $this->moduleInstance->isInventory();
@@ -78,26 +75,25 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			//Get inventory headers
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
 			$inventoryFields = $inventoryFieldModel->getFields();
-			foreach ($inventoryFields as $field) {
+			foreach ($inventoryFields as &$field) {
 				$headers[] = $field->get('label');
 			}
 			$table = $inventoryFieldModel->getTableName('data');
 		}
 
 		$translatedHeaders = [];
-		foreach ($headers as $header)
-			$translatedHeaders[] = vtranslate(html_entity_decode($header, ENT_QUOTES), $moduleName);
-
+		foreach ($headers as &$header) {
+			$translatedHeaders[] = \App\Language::translate(html_entity_decode($header, ENT_QUOTES), $moduleName);
+		}
 		$entries = [];
-		while ($row = $db->fetch_array($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$sanitizedRow = $this->sanitizeValues($row);
 			if ($isInventory) {
-				$query = 'SELECT * FROM %s WHERE id = ? ORDER BY seq';
-				$query = sprintf($query, $table);
-				$resultInventory = $db->pquery($query, [$row[$this->focus->table_index]]);
-				if ($db->getRowCount($resultInventory)) {
-					while ($inventoryRow = $db->fetch_array($resultInventory)) {
-						$sanitizedInventoryRow = $this->sanitizeInventoryValues($inventoryRow, $inventoryFields);
+				$rows = (new \App\Db\Query())->from($table)->where(['id' => $row['id']])->orderBy('seq')->all();
+				if ($rows) {
+					foreach ($rows as &$row) {
+						$sanitizedInventoryRow = $this->sanitizeInventoryValues($row, $inventoryFields);
 						$entries[] = array_merge($sanitizedRow, $sanitizedInventoryRow);
 					}
 				} else {
@@ -117,48 +113,40 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	 */
 	public function getExportQuery(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$mode = $request->getMode();
 		$cvId = $request->get('viewname');
-		$moduleName = $request->get('source_module');
-
-		$queryGenerator = new QueryGenerator($moduleName, $currentUser);
+		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));
 		$queryGenerator->initForCustomViewById($cvId);
 		$fieldInstances = $this->moduleFieldInstances;
 
 		$accessiblePresenceValue = [0, 2];
 		$fields[] = 'id';
-		foreach ($fieldInstances as $field) {
+		foreach ($fieldInstances as &$fieldModel) {
 			// Check added as querygenerator is not checking this for admin users
-			$presence = $field->get('presence');
-			if (in_array($presence, $accessiblePresenceValue)) {
-				$fields[] = $field->getName();
+			if ($fieldModel->isViewEnabled()) {
+				$fields[] = $fieldModel->getName();
 			}
 		}
 		$queryGenerator->setFields($fields);
-		$query = $queryGenerator->getQuery();
-
+		$query = $queryGenerator->createQuery();
 		$this->accessibleFields = $queryGenerator->getFields();
-
 		switch ($mode) {
 			case 'ExportAllData' :
-				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
-				return $query;
+				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 
-			case 'ExportCurrentPage' : $pagingModel = new Vtiger_Paging_Model();
+			case 'ExportCurrentPage' :
+				$pagingModel = new Vtiger_Paging_Model();
 				$limit = $pagingModel->getPageLimit();
-
 				$currentPage = $request->get('page');
-				if (empty($currentPage))
+				if (empty($currentPage)) {
 					$currentPage = 1;
-
+				}
 				$currentPageStart = ($currentPage - 1) * $limit;
-				if ($currentPageStart < 0)
+				if ($currentPageStart < 0) {
 					$currentPageStart = 0;
-				$query .= sprintf(' LIMIT %d,%d', $currentPageStart, $limit);
-
-				return $query;
+				}
+				$query->limit($limit)->offset($currentPageStart);
 				break;
 
 			case 'ExportSelectedRecords' :
@@ -167,20 +155,15 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				$baseTableColumnId = $this->moduleInstance->get('basetableid');
 				if (!empty($idList)) {
 					if (!empty($baseTable) && !empty($baseTableColumnId)) {
-						$idList = implode(',', $idList);
-						$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' IN (' . $idList . ')';
+						$query->andWhere(['in', "$baseTable.$baseTableColumnId", $idList]);
 					}
 				} else {
-					$query .= ' AND ' . $baseTable . '.' . $baseTableColumnId . ' NOT IN (' . implode(',', $request->get('excluded_ids')) . ')';
+					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->get('excluded_ids')]);
 				}
-				$query .= sprintf(' LIMIT %d', AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
-				return $query;
-				break;
-
-
-			default : return $query;
+				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 		}
+		return $query;
 	}
 
 	/**
@@ -230,7 +213,6 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	 */
 	public function sanitizeValues($arr)
 	{
-		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleid = $currentUser->get('roleid');
 		if (empty($this->fieldArray)) {
@@ -263,22 +245,21 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				$this->fieldDataTypeCache[$fieldName] = $fieldInfo->getFieldDataType();
 			}
 			$type = $this->fieldDataTypeCache[$fieldName];
-
-			if ($fieldname != 'hdnTaxType' && ($uitype == 15 || $uitype == 16 || $uitype == 33)) {
+			if ($fieldname !== 'hdnTaxType' && ($uitype === 15 || $uitype === 16 || $uitype === 33)) {
 				if (empty($this->picklistValues[$fieldname])) {
 					$this->picklistValues[$fieldname] = $this->fieldArray[$fieldname]->getPicklistValues();
 				}
 				// If the value being exported is accessible to current user
 				// or the picklist is multiselect type.
-				if ($uitype == 33 || $uitype == 16 || array_key_exists($value, $this->picklistValues[$fieldname])) {
+				if ($uitype === 33 || $uitype === 16 || array_key_exists($value, $this->picklistValues[$fieldname])) {
 					// NOTE: multipicklist (uitype=33) values will be concatenated with |# delim
 					$value = trim($value);
 				} else {
 					$value = '';
 				}
-			} elseif ($uitype == 52 || $type == 'owner') {
+			} elseif ($uitype === 52 || $type === 'owner') {
 				$value = Vtiger_Util_Helper::getOwnerName($value);
-			} elseif ($uitype == 120) {
+			} elseif ($uitype === 120) {
 				$uitypeInstance = new Vtiger_SharedOwner_UIType;
 				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
@@ -286,7 +267,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 					$values[] = Vtiger_Util_Helper::getOwnerName($owner);
 				}
 				$value = implode(',', $values);
-			} elseif ($type == 'reference') {
+			} elseif ($type === 'reference') {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \vtlib\Functions::getCRMRecordType($value);
@@ -307,8 +288,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			} else if (in_array($uitype, [302])) {
 				$value = $fieldInfo->getDisplayValue($value);
 			}
-
-			if ($moduleName == 'Documents' && $fieldname == 'description') {
+			if ($moduleName === 'Documents' && $fieldname === 'description') {
 				$value = strip_tags($value);
 				$value = str_replace('&nbsp;', '', $value);
 				array_push($new_arr, $value);

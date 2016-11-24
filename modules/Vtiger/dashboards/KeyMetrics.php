@@ -45,22 +45,10 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 		vglobal('current_user', $current_user);
 		require_once 'modules/CustomView/ListViewTop.php';
 		$metriclists = getMetricList();
-
-		foreach ($metriclists as $key => $metriclist) {
-
-			$metricresult = NULL;
-			$queryGenerator = new QueryGenerator($metriclist['module'], $current_user);
+		foreach ($metriclists as $key => &$metriclist) {
+			$queryGenerator = new \App\QueryGenerator($metriclist['module']);
 			$queryGenerator->initForCustomViewById($metriclist['id']);
-			if ($metriclist['module'] == "Calendar") {
-				// For calendar we need to eliminate emails or else it will break in status empty condition
-				$queryGenerator->addCondition('activitytype', "Emails", 'n', QueryGenerator::$AND);
-			}
-			$metricsql = $queryGenerator->getQuery();
-			$metricresult = $adb->query(vtlib\Functions::mkCountQuery($metricsql));
-			if ($metricresult) {
-				$rowcount = $adb->fetch_array($metricresult);
-				$metriclists[$key]['count'] = $rowcount['count'];
-			}
+			$metriclists[$key]['count'] = $queryGenerator->createQuery()->count();
 		}
 		return $metriclists;
 	}
