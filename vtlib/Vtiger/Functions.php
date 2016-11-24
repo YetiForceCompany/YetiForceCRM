@@ -358,6 +358,32 @@ class Functions
 		return \App\Cache::get($cacheName, $module);
 	}
 
+	protected static function isAllowed($module, $record = null) {		
+	    $permissions = null;		
+        if($module == 'Users') { // We don't have a user if we haven't ran through the users module yet		
+            return true;		
+        }		
+        $user = vglobal('current_user');		
+        if(static::userIsAdministrator($user)) { // admin is allowed to everything by default		
+            return true;		
+        }		
+        if($record !== null) {		
+            return $user->hasAccessToField($record['fieldid']);		
+        }		
+        return true;		
+    }		
+    
+    protected static function removeEntriesFromCacheByPermission($module) {		
+        if($module == 'Users') {		
+            return;		
+        }		
+        foreach(static::$moduleFieldInfoByNameCache[$module] as $name => $data) {		
+            if(!static::isAllowed($module, $data)) {		
+                unset(static::$moduleFieldInfoByNameCache[$module][$name]);		
+            }		
+        }		
+    }
+
 	public static function getModuleFieldInfoWithId($fieldid)
 	{
 		$adb = \PearDatabase::getInstance();

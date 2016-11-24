@@ -1432,4 +1432,44 @@ class Users extends CRMEntity
 			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
 		}
 	}
+
+			
+    /**		
+     * Checks if the current user can see a field		
+     *		
+     * @param int $fieldId		
+     * @return bool		
+     */		
+	public function hasAccessToField($fieldId) {		
+	    $db = PearDatabase::getInstance();		
+        $q = 'SELECT role_permissions, user_permissions FROM vtiger_field WHERE fieldid = ?';		
+        $r = $db->pquery($q, [$fieldId]);		
+        $access = true;		
+        $row = $db->fetch_array($r);		
+        if(!$this->checkFieldAccess($row['role_permissions'])) {		
+            $access = false;		
+        }		
+        if($this->checkFieldAccess($row['user_permissions'])) { // override role permission if explicitly granted to user		
+            if($row['user_permissions'] === null && !$access) { // if there are no user permissions and access is denied by group		
+                $access = false;		
+            } else {		
+                $access = true;		
+            }		
+        } else { // if access is restricted explicitly to user but role access might be granted it is overridden		
+            $access = false;		
+        }		
+	    return $access;		
+    }		
+    protected function checkFieldAccess($data) {		
+        if($data === null || $this->is_admin == 'on') {		
+            return true;		
+        }		
+        $data = json_decode($data, true);		
+        foreach($data as $id => $permission) {		
+            if($id === $this->id || $id === $this->roleid) {		
+                return  true;		
+            }		
+        }		
+        return false;		
+    }
 }
