@@ -102,8 +102,6 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 */
 	public function showSearchResults(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$advFilterList = $request->get('advfilterlist');

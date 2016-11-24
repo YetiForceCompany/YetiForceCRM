@@ -60,15 +60,16 @@ class Record
 			$userId = \App\User::getCurrentUserId();
 			$crmIds = [];
 			$query = (new \App\Db\Query())
-				->select('crmid,setype,searchlabel')
-				->from('u_#__crmentity_search_label')
-				->where(['like', 'userid', ",$userId,"])
-				->andWhere(['like', 'searchlabel', $label]);
+				->select(['csl.crmid', 'csl.setype', 'csl.searchlabel'])
+				->from('u_#__crmentity_search_label csl')
+				->where(['like', 'csl.userid', ",$userId,"])
+				->innerJoin('vtiger_crmentity', 'csl.crmid = vtiger_crmentity.crmid')
+				->andWhere(['like', 'csl.searchlabel', $label]);
 			if ($moduleName) {
-				$query->andWhere(['setype' => $moduleName]);
+				$query->andWhere(['csl.setype' => $moduleName]);
 			} elseif ($entityName) {
 				$query->andWhere(['vtiger_entityname.turn_off' => 1]);
-				$query->innerJoin('vtiger_entityname', 'u_#__crmentity_search_label.setype = vtiger_entityname.modulename');
+				$query->innerJoin('vtiger_entityname', 'csl.setype = vtiger_entityname.modulename');
 				if (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 2) {
 					$query->orderBy('vtiger_entityname.sequence');
 				}
