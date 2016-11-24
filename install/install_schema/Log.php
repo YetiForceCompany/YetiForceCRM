@@ -172,6 +172,7 @@ class Log extends \App\Db\Importers\Base
 
 	public function data()
 	{
-		$this->data = [];
+		$this->data = [
+		];
 	}
 }
