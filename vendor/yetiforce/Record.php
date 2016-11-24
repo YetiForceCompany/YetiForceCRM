@@ -144,6 +144,7 @@ class Record
 			}
 			$columnsName = $metainfo['fieldnameArr'];
 			$columnsSearch = $metainfo['searchcolumnArr'];
+			$idColumn = $metainfo['entityidfield'];
 		}
 		$ids = array_unique($ids);
 		$query->where([$idColumn => $ids]);
