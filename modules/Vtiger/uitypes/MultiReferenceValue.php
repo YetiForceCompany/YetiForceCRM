@@ -219,7 +219,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		vglobal('current_user', $currentUser);
 		App\User::setCurrentUserId($orgUserId);
 		$currentValue = self::COMMA;
-		while ($value = $dataReader->read()) {
+		while ($value = $dataReader->readColumn(0)) {
 			$currentValue .= $value . self::COMMA;
 		}
 		$db->update($this->get('field')->get('table'), [
