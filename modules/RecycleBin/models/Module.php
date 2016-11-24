@@ -200,17 +200,14 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to restore the deleted records.
-	 * @param type $sourceModule
-	 * @param type $recordIds
+	 * @param string $sourceModule
+	 * @param int[] $recordIds
 	 */
 	public function restore($sourceModule, $recordIds)
 	{
 		$focus = CRMEntity::getInstance($sourceModule);
-		$countRecordIds = count($recordIds);
-		for ($i = 0; $i < $countRecordIds; $i++) {
-			if (!empty($recordIds[$i])) {
-				$focus->restore($sourceModule, $recordIds[$i]);
-			}
+		foreach (array_filter($recordIds) as $id) {
+			$focus->restore($sourceModule, $id);
 		}
 	}
 

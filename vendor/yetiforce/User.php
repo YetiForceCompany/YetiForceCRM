@@ -39,7 +39,7 @@ class User
 	 * Get real current user Id
 	 * @return int
 	 */
-	public function getCurrentUserRealId()
+	public static function getCurrentUserRealId()
 	{
 		if (static::$currentUserRealId) {
 			return static::$currentUserRealId;

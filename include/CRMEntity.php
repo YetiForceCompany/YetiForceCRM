@@ -1081,38 +1081,37 @@ class CRMEntity
 		$this->db->delete('vtiger_crmentityrel', $where, $params);
 	}
 
-	/** Function to restore a deleted record of specified module with given crmid
-	 * @param $module -- module name:: Type varchar
-	 * @param $entity_ids -- list of crmids :: Array
+	/**
+	 * Function to restore a deleted record of specified module with given crmid
+	 * @todo Added Transaction
+	 * @param string $module
+	 * @param int $id
 	 */
 	public function restore($module, $id)
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = vglobal('current_user');
+		$result = \App\Db::getInstance()->createCommand()->update(
+				'vtiger_crmentity', [
+				'deleted' => 0,
+				'modifiedtime' => date('Y-m-d H:i:s'),
+				'modifiedby' => \App\User::getCurrentUserRealId(),
+				'users' => null,
+				], ['crmid' => $id]
+			)->execute();
+		if ($result) {
+			if (!\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+				\App\Privilege::setUpdater($module, $id, 6, 0);
+			}
+			//Event triggering code
+			require_once('include/events/include.inc');
+			$em = new VTEventsManager($db);
 
-		$db->startTransaction();
-		$db->update('vtiger_crmentity', [
-			'deleted' => 0,
-			'modifiedtime' => date('Y-m-d H:i:s'),
-			'modifiedby' => $currentUser->id,
-			'users' => null,
-			], 'crmid = ?', [$id]
-		);
-
-		//Event triggering code
-		require_once('include/events/include.inc');
-		$em = new VTEventsManager($db);
-
-		// Initialize Event trigger cache
-		$em->initTriggerCache();
-
-		$this->id = $id;
-		$entityData = VTEntityData::fromCRMEntity($this);
-		//Event triggering code
-		$em->triggerEvent('vtiger.entity.afterrestore', $entityData);
-		//Event triggering code ends
-
-		$db->completeTransaction();
+			// Initialize Event trigger cache
+			$em->initTriggerCache();
+			$this->id = $id;
+			$entityData = VTEntityData::fromCRMEntity($this);
+			//Event triggering code
+			$em->triggerEvent('vtiger.entity.afterrestore', $entityData);
+		}
 	}
 
 	/**
