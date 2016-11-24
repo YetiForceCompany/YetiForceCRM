@@ -75,19 +75,13 @@ class VTUpdateRelatedFieldTask extends VTTask
 		$reletedDataEx = explode('::', $reletedData);
 		$reletedModuleName = $reletedDataEx[0];
 		$reletedFieldName = $reletedDataEx[1];
-
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($reletedModuleName);
 		$targetModel = Vtiger_RelationListView_Model::getInstance($recordModel, $reletedModuleName);
 		if (!$targetModel->getRelationModel()) {
 			return false;
 		}
-		$query = $targetModel->getRelationQuery();
-		$explodedQuery = explode('FROM', $query, 2);
-		$relationQuery = 'SELECT vtiger_crmentity.crmid FROM' . $explodedQuery[1];
-
-		$db = PearDatabase::getInstance();
-		$result = $db->query($relationQuery);
-		while (($recordId = $db->getSingleValue($result)) !== false) {
+		$dataReader = $targetModel->getRelationQuery()->select(['vtiger_crmentity.crmid'])
+				->createCommand()->query();
+		while ($recordId = $dataReader->readColumn(0)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $reletedModuleName);
 			$recordModel->set('mode', 'edit');
 			$recordModel->set($reletedFieldName, $fieldValue);
