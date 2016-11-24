@@ -355,7 +355,7 @@ class Vtiger_Watchdog_Model extends Vtiger_Base_Model
 		$query = (new App\Db\Query())
 			->select(['member', 'lock', 'exceptions'])
 			->from('u_#__watchdog_module')
-			->where(['module' => $this->get('moduleId')]);
+			->where(['module' =>  (int)$this->get('moduleId')]);
 		if ($getData) {
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {

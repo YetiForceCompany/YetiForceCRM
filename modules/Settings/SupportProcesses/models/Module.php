@@ -74,7 +74,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 
 	public function getAllTicketStatus()
 	{
-		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getAllTicketStatus() method ...");
+		\App\Log::trace(__METHOD__);
 		return App\Fields\Picklist::getPickListValues('ticketstatus');
 	}
 
@@ -82,7 +82,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	{
 
 		$getTicketStatusClosed = self::getTicketStatusNotModify();
-		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getOpenTicketStatus() method ...");
+		\App\Log::trace(__METHOD__);
 		if (empty($getTicketStatusClosed)) {
 			$result = false;
 		} else {
