@@ -44,8 +44,8 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 						case 1:
 							$whereConditionOff = [];
 							foreach ($switchHeaderData['value'] as $name => $value) {
-								$whereCondition[$name] = ['comparison' => 'NOT IN', 'value' => $value];
-								$whereConditionOff[$name] = ['comparison' => 'IN', 'value' => $value];
+								$whereCondition[] = [$name, 'n', implode(',', $value)];
+								$whereConditionOff[] = [$name, 'e', implode(',', $value)];
 							}
 							$this->getCheckboxLables($model, 'switchHeader', 'LBL_SWITCHHEADER_');
 							$this->Config['switchHeader']['on'] = \App\Json::encode($whereCondition);
@@ -64,7 +64,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 				$this->getCheckboxLables($model, 'checkbox', 'LBL_SWITCH_');
 			}
 			if (!empty($whereCondition)) {
-				$this->Config['url'] .= '&whereCondition=' . \App\Json::encode($whereCondition);
+				$this->Config['url'] .= '&search_params=' . \App\Json::encode($whereCondition);
 			}
 			$widget = $this->Config;
 		}

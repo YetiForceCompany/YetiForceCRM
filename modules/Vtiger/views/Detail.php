@@ -655,7 +655,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->get('record');
 		$pageNumber = $request->get('page');
 		$limit = $request->get('limit');
-		$whereCondition = $request->get('whereCondition');
+		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->get('relatedModule');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
@@ -693,11 +693,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
-				$whereCondition[] = ['vtiger_crmentity.crmid' => ['comparison' => 'IN', 'value' => implode(', ', $favorites)]];
+				$relationListView->get('query_generator')->addAndConditionNative(['vtiger_crmentity.crmid' => $favorites]);
 			}
 		}
-		if (!empty($whereCondition)) {
-			$relationListView->set('whereCondition', $whereCondition);
+		if (!empty($searchParams)) {
+			$searchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+			$relationListView->set('search_params', $searchParams);
 		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
