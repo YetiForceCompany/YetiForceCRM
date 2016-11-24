@@ -14,7 +14,7 @@ foreach ($rows as &$multireference) {
 		$queryGenerator = new App\QueryGenerator($multireference['source_module']);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addAndCondition('id' , $multireference['lastid'], 'a');
-		$queryGenerator->setOrder('id','ASC')
+		$queryGenerator->setOrder('id','ASC');
 
 		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
