@@ -58,7 +58,7 @@
 							{else}
 								{assign var=STATUS value='0'}
 							{/if}
-							{assign var=SELECTED_FIELDS value=$MODULE_MODEL->getRelationFields(true)}
+							{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
 							<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
                                 <div class="mainBlockTableHeader panel-heading">
 									<div class="btn-toolbar btn-group-xs pull-right">

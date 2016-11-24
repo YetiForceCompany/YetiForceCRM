@@ -551,4 +551,18 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		);
 		return $actionList;
 	}
+
+	public static function getRelationFields($moduleId)
+	{
+		$query = (new \App\Db\Query())->select('vtiger_field.fieldname')
+			->from('vtiger_relatedlists_fields')
+			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
+			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]]);
+		$dataReader = $query->createCommand()->query();
+		$fields = [];
+		while ($row = $dataReader->read()) {
+			$fields[] = $row['fieldname'];
+		}
+		return $fields;
+	}
 }

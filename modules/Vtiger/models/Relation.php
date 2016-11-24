@@ -758,29 +758,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		}
 	}
 
-	/**
-	 * @todo To remove after rebuilding relations
-	 */
-	public function getRelationFields($onlyFields = false, $association = false)
-	{
-		$query = (new \App\Db\Query())->select('vtiger_field.columnname, vtiger_field.fieldname')
-			->from('vtiger_relatedlists_fields')
-			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
-			->where(['vtiger_relatedlists_fields.relation_id' => $this->getId(), 'vtiger_field.presence' => [0, 2]]);
-		$dataReader = $query->createCommand()->query();
-		if ($onlyFields) {
-			$fields = [];
-			while ($row = $dataReader->read()) {
-				if ($association)
-					$fields[$row['columnname']] = $row['fieldname'];
-				else
-					$fields[] = $row['fieldname'];
-			}
-			return $fields;
-		}
-		return $dataReader->readAll();
-	}
-
 	public function isActive()
 	{
 		return $this->get('presence') == 0 ? true : false;
