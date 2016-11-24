@@ -41,7 +41,7 @@ foreach ($rows as &$multireference) {
 			continue;
 		}
 		$query = $targetModel->getRelationQuery();
-		$query->setFields(['id'])
+		$query->setFields(['id']);
 		$dataReader = $query->createCommand()->query();
 		while ($crmid = $dataReader->readColumn(0)) {
 			if (in_array($crmid, $executed)) {
