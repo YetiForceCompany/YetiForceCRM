@@ -20,6 +20,6 @@ class Services_Relation_Model extends Products_Relation_Model
 		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.productid as prodid');
 		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
-		$queryGenerator->addAndConditionNative(['vtiger_pricebookproductrel.productid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_pricebookproductrel.productid' => $this->get('parentRecord')->getId()]);
 	}
 }

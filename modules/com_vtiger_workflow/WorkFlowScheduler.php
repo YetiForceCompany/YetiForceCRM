@@ -38,9 +38,9 @@ class WorkFlowScheduler
 		if ($moduleName === 'Calendar' || $moduleName === 'Events') {
 			// We should only get the records related to proper activity type
 			if ($moduleName === 'Calendar') {
-				$queryGenerator->addAndCondition('activitytype', 'Task', 'e');
+				$queryGenerator->addCondition('activitytype', 'Task', 'e');
 			} else if ($moduleName === 'Events') {
-				$queryGenerator->addAndCondition('activitytype', 'Task', 'n');
+				$queryGenerator->addCondition('activitytype', 'Task', 'n');
 			}
 		}
 		return $queryGenerator->createQuery();
@@ -164,14 +164,20 @@ class WorkFlowScheduler
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
 				if (count($matches) != 0) {
-					list($full, $referenceField, $referenceModule, $fieldName) = $matches;
+					list($full, $sourceField, $reletedModule, $reletedFieldName) = $matches;
 				}
-				if ($referenceField) {
-					//$queryGenerator->addReferenceModuleFieldCondition($referenceModule, $referenceField, $fieldName, $value, $operator, $columnCondition);
+				if ($sourceField) {
+					$queryGenerator->addReletedCondition([
+						'sourceField' => $sourceField,
+						'reletedModule' => $reletedModule,
+						'reletedField' => $reletedFieldName,
+						'value' => $value,
+						'operator' => $operator,
+						'conditionGroup' => $groupJoin === 'and',
+					]);
 					$referenceField = null;
 				} else {
-					$functionName = $groupJoin === 'and' ? 'addAndCondition' : 'addOrCondition';
-					$queryGenerator->$functionName($fieldName, $value, $operator);
+					$queryGenerator->addCondition($fieldName, $value, $operator, $groupJoin === 'and');
 				}
 			}
 		}

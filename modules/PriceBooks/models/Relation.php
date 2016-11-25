@@ -52,7 +52,7 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_products.productid = vtiger_pricebookproductrel.productid']);
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebook', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
-		$queryGenerator->addAndConditionNative(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
 	}
 
 	/**
@@ -64,6 +64,6 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_service.serviceid = vtiger_pricebookproductrel.productid']);
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebook', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
-		$queryGenerator->addAndConditionNative(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
 	}
 }

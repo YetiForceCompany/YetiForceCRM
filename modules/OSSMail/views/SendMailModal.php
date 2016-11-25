@@ -164,11 +164,11 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 
 		if ($selectedIds && !empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				$queryGenerator->addAndConditionNative(["$baseTableName.$baseTableId" => $selectedIds]);
+				$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selectedIds]);
 			}
 		}
 		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
-			$queryGenerator->addAndConditionNative(['not in', "$baseTableName.$baseTableId" => $excludedIds]);
+			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excludedIds]);
 		}
 		$listQuery = $queryGenerator->createQuery();
 		$this->query = $listQuery;

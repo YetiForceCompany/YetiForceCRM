@@ -93,7 +93,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 				$subQuery = (new App\Db\Query())->select([$fieldName])->from($tableName)->where([$relatedFieldName => $record]);
 				$condition = ['not in', 'vtiger_contactdetails.contactid', $subQuery];
 			}
-			$queryGenerator->addAndConditionNative($condition);
+			$queryGenerator->addNativeCondition($condition);
 		}
 	}
 

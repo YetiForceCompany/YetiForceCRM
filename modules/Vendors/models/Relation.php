@@ -16,6 +16,6 @@ class Vendors_Relation_Model extends Vtiger_Relation_Model
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_vendor', 'vtiger_vendor.vendorid = vtiger_products.vendor_id']);
-		$queryGenerator->addAndConditionNative(['vtiger_vendor.vendorid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_vendor.vendorid' => $this->get('parentRecord')->getId()]);
 	}
 }

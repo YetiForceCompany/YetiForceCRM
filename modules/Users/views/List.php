@@ -122,7 +122,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			}
 		}
 		if (!empty($searchResult) && is_array($searchResult)) {
-			$this->listViewModel->get('query_generator')->addAndConditionNative(['vtiger_crmentity.crmid' => $searchResult]);
+			$this->listViewModel->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
 		}
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $this->listViewModel->getListViewHeaders();

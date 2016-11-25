@@ -41,6 +41,8 @@ class QueryGenerator
 	private $order = [];
 	private $sourceRecord;
 	private $concatColumn = [];
+	private $reletedFields = [];
+	private $reletedQueryFields = [];
 
 	/**
 	 * @var boolean 
@@ -138,11 +140,13 @@ class QueryGenerator
 	 */
 	public function setField($fields)
 	{
-		if (is_array($fields))
-			foreach ($fields as $field)
+		if (is_array($fields)) {
+			foreach ($fields as $field) {
 				$this->fields[] = $field;
-		else
+			}
+		} else {
 			$this->fields[] = $fields;
+		}
 	}
 
 	/**
@@ -195,19 +199,25 @@ class QueryGenerator
 	/**
 	 * Add a mandatory condition
 	 * @param array $condition
+	 * @param boolean $groupAnd
 	 */
-	public function addAndConditionNative($condition)
+	public function addConditionNative($condition, $groupAnd = true)
 	{
-		$this->conditionsAnd[] = $condition;
+		if ($groupAnd) {
+			$this->conditionsAnd[] = $condition;
+		} else {
+			$this->conditionsOr[] = $condition;
+		}
 	}
 
 	/**
-	 * Add a optional condition
-	 * @param array $condition
+	 * Set releted field
+	 * @param string[] $field
 	 */
-	public function addOrConditionNative($condition)
+	public function addReletedField($field)
 	{
-		$this->conditionsOr[] = $condition;
+		$reletedFieldModel = $this->addReletedJoin($field);
+		$this->reletedFields["{$field['reletedModule']}{$reletedFieldModel->getName()}"] = "{$reletedFieldModel->getTableName()}{$field['sourceField']}.{$field['reletedField']}";
 	}
 
 	/**
@@ -430,7 +440,7 @@ class QueryGenerator
 			return false;
 		}
 		foreach ($advFilterList as $group => &$filters) {
-			$functionName = ($group === 'and' || $group === 1) ? 'addAndCondition' : 'addOrCondition';
+			$and = ($group === 'and' || $group === 1);
 			if (isset($filters['columns'])) {
 				$filters = $filters['columns'];
 			}
@@ -439,7 +449,7 @@ class QueryGenerator
 				if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
 					$columnName = $this->getColumnName('id');
 				}
-				$this->$functionName($fieldName, $filter['value'], $filter['comparator']);
+				$this->addCondition($fieldName, $filter['value'], $filter['comparator'], $and);
 			}
 		}
 	}
@@ -481,7 +491,7 @@ class QueryGenerator
 		foreach ($this->customColumns as $customColumn) {
 			$columns[] = $customColumn;
 		}
-		$this->query->select($columns);
+		$this->query->select(array_merge($columns, $this->reletedFields));
 	}
 
 	/**
@@ -627,48 +637,26 @@ class QueryGenerator
 	}
 
 	/**
-	 * Added required condition
+	 * Set condition
 	 * @param string $fieldName
 	 * @param mixed $value
 	 * @param string $operator {@see CustomView::ADVANCED_FILTER_OPTIONS} and {@see CustomView::STD_FILTER_CONDITIONS}
 	 */
-	public function addAndCondition($fieldName, $value, $operator)
-	{
-		$condition = $this->parseCondition($fieldName, $value, $operator);
-		if ($condition) {
-			$this->conditionsAnd[] = $condition;
-		}
-		Log::error('Wrong condition');
-	}
-
-	/**
-	 * Added optional condition
-	 * @param string $fieldName
-	 * @param mixed $value
-	 * @param string $operator {@see CustomView::ADVANCED_FILTER_OPTIONS} and {@see CustomView::STD_FILTER_CONDITIONS}
-	 */
-	public function addOrCondition($fieldName, $value, $operator)
-	{
-		$condition = $this->parseCondition($fieldName, $value, $operator);
-		if ($condition) {
-			$this->conditionsOr[] = $condition;
-		}
-		Log::error('Wrong condition');
-	}
-
-	/**
-	 * Parsing conditions to Yii2 query format
-	 * @param string $fieldName
-	 * @param mixed $value
-	 * @param string $operator {@see CustomView::ADVANCED_FILTER_OPTIONS} and {@see CustomView::STD_FILTER_CONDITIONS}
-	 * @return boolean
-	 */
-	private function parseCondition($fieldName, $value, $operator)
+	public function addCondition($fieldName, $value, $operator, $groupAnd = true)
 	{
 		$queryField = $this->getQueryField($fieldName);
 		$queryField->setValue($value);
 		$queryField->setOperator($operator);
-		return $queryField->getCondition();
+		$condition = $queryField->getCondition();
+		if ($condition) {
+			if ($groupAnd) {
+				$this->conditionsAnd[] = $condition;
+			} else {
+				$this->conditionsOr[] = $condition;
+			}
+		} else {
+			Log::error('Wrong condition');
+		}
 	}
 
 	/**
@@ -698,6 +686,75 @@ class QueryGenerator
 		}
 		$queryField = new $className($this, $field);
 		return $this->queryFields[$fieldName] = $queryField;
+	}
+
+	/**
+	 * Set condition on reference module fields
+	 * @param array $condition
+	 */
+	public function addReletedCondition($condition)
+	{
+		$queryField = $this->getQueryReletedField($this->addReletedJoin($condition), $condition);
+		$queryField->setValue($condition['value']);
+		$queryField->setOperator($condition['operator']);
+		$queryCondition = $queryField->getCondition();
+		if ($queryCondition) {
+			if ($condition['conditionGroup']) {
+				$this->conditionsAnd[] = $queryCondition;
+			} else {
+				$this->conditionsOr[] = $queryCondition;
+			}
+		} else {
+			Log::error('Wrong condition');
+		}
+	}
+
+	/**
+	 * Set releted field join
+	 * @param string[] $fieldDetail
+	 * @return Vtiger_Field_Model|boolean
+	 */
+	protected function addReletedJoin($fieldDetail)
+	{
+		$reletedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['reletedModule']);
+		$reletedFieldModel = $reletedModuleModel->getField($fieldDetail['reletedField']);
+		if (!$reletedFieldModel || !$reletedFieldModel->isActiveField()) {
+			App\Log::warning("Field in related module is inactive or does not exist. Releted module: {$fieldDetail['referenceModule']} | Releted field: {$fieldDetail['reletedField']}");
+			return false;
+		}
+		$tableName = $reletedFieldModel->getTableName();
+		$sourceFieldModel = $this->getModuleField($fieldDetail['sourceField']);
+		$reletedTableName = $tableName . $fieldDetail['sourceField'];
+		$this->addJoin(['LEFT JOIN', "$tableName $reletedTableName", "{$sourceFieldModel->getTableName()}.{$sourceFieldModel->getColumnName()} = $reletedTableName.{$reletedFieldModel->getColumnName()}"]);
+		return $reletedFieldModel;
+	}
+
+	/**
+	 * Get query releted field instance
+	 * @param \Vtiger_Field_Model $field
+	 * @param array $reletedInfo
+	 * @return QueryField\BaseField
+	 * @throws \Exception\AppException
+	 */
+	private function getQueryReletedField($field, $reletedInfo)
+	{
+		$reletedModule = $reletedInfo['reletedModule'];
+		if (isset($this->reletedQueryFields[$reletedModule][$field->getName()])) {
+			return $this->reletedQueryFields[$reletedModule][$field->getName()];
+		}
+		if ($field->getName() === 'id') {
+			$queryField = new QueryField\IdField($this, '');
+			$queryField->setReleted($reletedInfo);
+			return $this->reletedQueryFields[$reletedModule][$field->getName()] = $queryField;
+		}
+		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
+		if (!class_exists($className)) {
+			Log::error('Not found query field condition');
+			throw new \Exception\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
+		}
+		$queryField = new $className($this, $field);
+		$queryField->setReleted($reletedInfo);
+		return $this->reletedQueryFields[$reletedModule][$field->getName()] = $queryField;
 	}
 
 	/**
@@ -737,7 +794,7 @@ class QueryGenerator
 		if (trim(strtolower($value)) === 'null') {
 			$operator = 'e';
 		}
-		$this->addAndCondition($fieldName, $value, $operator);
+		$this->addCondition($fieldName, $value, $operator);
 	}
 
 	/**

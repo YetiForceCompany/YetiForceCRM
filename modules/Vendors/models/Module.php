@@ -23,7 +23,7 @@ class Vendors_Module_Model extends Vtiger_Module_Model
 				->select(['crmid'])
 				->from('vtiger_campaign_records')
 				->where(['campaignid' => $record]);
-			$queryGenerator->addAndConditionNative(['not in', 'vtiger_vendor.vendorid', $subQuery]);
+			$queryGenerator->addNativeCondition(['not in', 'vtiger_vendor.vendorid', $subQuery]);
 		}
 	}
 }

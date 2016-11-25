@@ -259,7 +259,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$queryGenerator = $this->getQueryGenerator();
 		$srcRecord = $this->get('src_record');
 		if ($this->getModule()->get('name') === $this->get('src_module') && !empty($srcRecord)) {
-			$queryGenerator->addAndCondition('id', $srcRecord, 'n');
+			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
 		$searchParams = $this->get('search_params');
 		if ($searchParams) {
@@ -273,7 +273,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 		$searchResult = $this->get('searchResult');
 		if ($searchResult && is_array($searchResult)) {
-			$queryGenerator->addAndConditionNative(['vtiger_crmentity.crmid' => $searchResult]);
+			$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
 		}
 		$sourceModule = $this->get('src_module');
 		if ($sourceModule) {

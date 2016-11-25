@@ -256,7 +256,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 								$comparisonValue = trim($referenceFileValueComponents[1]);
 							}
 						}
-						$queryGenerator->addAndCondition($mergeField, $comparisonValue, 'e');
+						$queryGenerator->addCondition($mergeField, $comparisonValue, 'e');
 					}
 					$query = $queryGenerator->createQuery();
 					$duplicatesResult = $query->all();

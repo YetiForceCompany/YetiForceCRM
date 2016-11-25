@@ -39,7 +39,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
 		$queryGenerator = new \App\QueryGenerator($params['module']);
 		if ($params['filterField'] != '-') {
-			$queryGenerator->addAndCondition($params['filterField'], $params['filterValue'], 'e');
+			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
 		}
 		$queryGenerator->setFields([$fieldInfo['fieldname']]);
 		$query = $queryGenerator->createQuery();

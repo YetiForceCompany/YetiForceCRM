@@ -28,6 +28,11 @@ class BaseField
 	protected $fullColumnName;
 
 	/**
+	 * @var string
+	 */
+	protected $tableName;
+
+	/**
 	 * @var string|array 
 	 */
 	protected $value;
@@ -36,6 +41,11 @@ class BaseField
 	 * @var string 
 	 */
 	protected $operator;
+
+	/**
+	 * @var array Releted detail 
+	 */
+	protected $releted = false;
 
 	/**
 	 * Constructor
@@ -87,6 +97,31 @@ class BaseField
 	}
 
 	/**
+	 * Set releted details
+	 * @param array $reletedInfo
+	 */
+	public function setReleted($reletedInfo)
+	{
+		$this->releted = $reletedInfo;
+	}
+
+	/**
+	 * Get table name
+	 * @return string
+	 */
+	public function getTableName()
+	{
+		if ($this->tableName) {
+			return $this->tableName;
+		}
+		$tableName = $this->fieldModel->getTableName();
+		if ($this->releted) {
+			$tableName .= $this->releted['sourceField'];
+		}
+		return $this->tableName = $tableName;
+	}
+
+	/**
 	 * Get column name
 	 * @return string
 	 */
@@ -95,7 +130,7 @@ class BaseField
 		if ($this->fullColumnName) {
 			return $this->fullColumnName;
 		}
-		return $this->fullColumnName = $this->fieldModel->getTableName() . '.' . $this->fieldModel->getColumnName();
+		return $this->fullColumnName = $this->getTableName() . '.' . $this->fieldModel->getColumnName();
 	}
 
 	/**

@@ -35,7 +35,7 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 					->where(['productid' => $record]);
 				$condition = ['and', ['not in', 'vtiger_pricebook.pricebookid', $subQuery], ['vtiger_pricebook.active' => 1]];
 			}
-			$queryGenerator->addAndConditionNative($condition);
+			$queryGenerator->addNativeCondition($condition);
 		}
 	}
 

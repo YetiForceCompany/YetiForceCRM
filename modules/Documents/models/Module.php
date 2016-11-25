@@ -55,7 +55,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 					['vtiger_notes.filestatus' => 1]
 			];
 		}
-		$queryGenerator->addAndConditionNative($condition);
+		$queryGenerator->addNativeCondition($condition);
 	}
 
 	/**

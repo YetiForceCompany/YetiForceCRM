@@ -175,7 +175,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['id', 'parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'from_mailconverter']);
 		$queryGenerator->setSourceRecord($parentRecordId);
-		$queryGenerator->addAndConditionNative(['related_to' => $parentRecordId]);
+		$queryGenerator->addNativeCondition(['related_to' => $parentRecordId]);
 		$query = $queryGenerator->createQuery();
 		if ($pagingModel->get('limit') !== 'no_limit') {
 			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
@@ -201,15 +201,15 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid']);
 		$queryGenerator->setSourceRecord($parentId);
 		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
-			$queryGenerator->addAndConditionNative(['related_to' => $parentId]);
+			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
 		} else {
 			$recordIds = Vtiger_ModulesHierarchy_Model::getRelatedRecords($parentId, $hierarchy);
 			if (empty($recordIds)) {
 				return [];
 			}
-			$queryGenerator->addAndConditionNative(['related_to' => $recordIds]);
+			$queryGenerator->addNativeCondition(['related_to' => $recordIds]);
 		}
-		$queryGenerator->addAndConditionNative(['parent_comments' => 0]);
+		$queryGenerator->addNativeCondition(['parent_comments' => 0]);
 		$dataReader =$queryGenerator->createQuery()
 				->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC])
 				->createCommand()->query();
@@ -232,7 +232,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields([]);
 		$queryGenerator->setSourceRecord($recordId);
-		$queryGenerator->addAndConditionNative(['parent_comments' => $recordId, 'related_to' => $this->get('related_to')]);
+		$queryGenerator->addNativeCondition(['parent_comments' => $recordId, 'related_to' => $this->get('related_to')]);
 		return $queryGenerator->createQuery()->count();
 	}
 
@@ -248,7 +248,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields([]);
 		$queryGenerator->setSourceRecord($recordId);
-		$queryGenerator->addAndConditionNative(['related_to' => $recordId]);
+		$queryGenerator->addNativeCondition(['related_to' => $recordId]);
 		return $queryGenerator->createQuery()->count('modcommentsid');
 	}
 
@@ -266,7 +266,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid'));
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
-		$queryGenerator->addAndConditionNative(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);
+		$queryGenerator->addNativeCondition(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);
 		$datareader = $queryGenerator->createQuery()->createCommand()->query();
 		$recordInstances = [];
 		while ($row = $datareader->read()) {

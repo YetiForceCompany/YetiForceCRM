@@ -45,7 +45,7 @@ while ($row = $db->getRow($mainResult)) {
 	$queryGenerator = new App\QueryGenerator($moduleName, $currentUser->id);
 	$queryGenerator->setFields($queryFields);
 	if ($last !== false) {
-		$queryGenerator->addAndCondition('id', $last['record'], 'a');
+		$queryGenerator->addCondition('id', $last['record'], 'a');
 	}
 	$query = $queryGenerator->createQuery();
 	$emailCondition = ['or'];

@@ -131,7 +131,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 		$this->initListViewController();
 		if (!$this->listviewRecords) {
-			$this->queryGenerator->addAndConditionNative($this->getConditions());
+			$this->queryGenerator->addNativeCondition($this->getConditions());
 			$query = $this->queryGenerator->createQuery();
 			$query->limit($this->getRecordLimit());
 			if (strtoupper($this->getFromData('sortorder')) === 'ASC') {

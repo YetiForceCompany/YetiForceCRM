@@ -21,7 +21,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		if ($listviewModel->get('src_module') === 'Project' && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');
 			if (!empty($filterFields['projectid'])) {
-				$queryGenerator->addAndConditionNative(['projectid' => $filterFields['projectid']]);
+				$queryGenerator->addNativeCondition(['projectid' => $filterFields['projectid']]);
 			}
 		}
 	}

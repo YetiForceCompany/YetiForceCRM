@@ -65,6 +65,6 @@ class Documents_Relation_Model extends Vtiger_Relation_Model
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_senotesrel', 'vtiger_senotesrel.crmid = vtiger_crmentity.crmid']);
-		$queryGenerator->addAndConditionNative(['vtiger_senotesrel.notesid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_senotesrel.notesid' => $this->get('parentRecord')->getId()]);
 	}
 }

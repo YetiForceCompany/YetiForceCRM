@@ -123,7 +123,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		$queryGenerator->setField('filetype');
 		$folderValue = $this->get('folder_value');
 		if (!empty($folderValue)) {
-			$queryGenerator->addAndCondition($this->get('folder_id'), $folderValue, 'e');
+			$queryGenerator->addCondition($this->get('folder_id'), $folderValue, 'e');
 		}
 		parent::loadListViewCondition();
 	}

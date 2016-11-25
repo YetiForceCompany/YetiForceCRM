@@ -19,7 +19,7 @@ class Partners_Module_Model extends Vtiger_Module_Model
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if ($sourceModule == 'Campaigns') {
-			$queryGenerator->addAndConditionNative(['not in', 'u_#__partners.partnersid', (new App\Db\Query())->select(['crmid'])
+			$queryGenerator->addNativeCondition(['not in', 'u_#__partners.partnersid', (new App\Db\Query())->select(['crmid'])
 					->from('vtiger_campaign_records')
 					->where(['campaignid' => $record])
 			]);

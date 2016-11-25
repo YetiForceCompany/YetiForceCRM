@@ -21,7 +21,7 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		$queryGenerator->addAndConditionNative(['vtiger_ossemployees.employee_status' => 'Employee']);
+		$queryGenerator->addNativeCondition(['vtiger_ossemployees.employee_status' => 'Employee']);
 	}
 
 	public function getWorkingDays($startDate, $endDate)

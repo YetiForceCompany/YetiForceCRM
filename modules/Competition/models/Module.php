@@ -20,7 +20,7 @@ class Competition_Module_Model extends Vtiger_Module_Model
 	{
 		if ($sourceModule == 'Campaigns') {
 			$subQuery = (new App\Db\Query())->select(['crmid'])->from('vtiger_campaign_records')->where(['campaignid' => $record]);
-			$queryGenerator->addAndConditionNative(['not in', 'u_#__competition.competitionid', $subQuery]);
+			$queryGenerator->addNativeCondition(['not in', 'u_#__competition.competitionid', $subQuery]);
 		}
 	}
 }

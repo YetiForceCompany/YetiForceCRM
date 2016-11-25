@@ -16,6 +16,6 @@ class Accounts_Relation_Model extends Vtiger_Relation_Model
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_seproductsrel', 'vtiger_products.productid = vtiger_seproductsrel.productid']);
-		$queryGenerator->addAndConditionNative(['vtiger_seproductsrel.crmid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_seproductsrel.crmid' => $this->get('parentRecord')->getId()]);
 	}
 }

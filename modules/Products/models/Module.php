@@ -46,7 +46,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 			} elseif ($sourceModule === 'Vendors') {
 				$condition [] = ['<>', 'vtiger_products.vendor_id', $record];
 			}
-			$queryGenerator->addAndConditionNative($condition);
+			$queryGenerator->addNativeCondition($condition);
 		}
 	}
 

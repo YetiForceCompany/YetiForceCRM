@@ -81,7 +81,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_seproductsrel', 'vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype=:module', [':module' => 'Products']]);
-		$queryGenerator->addAndConditionNative(['vtiger_seproductsrel.productid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_seproductsrel.productid' => $this->get('parentRecord')->getId()]);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.productid as prodid');
 		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
-		$queryGenerator->addAndConditionNative(['vtiger_pricebookproductrel.productid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_pricebookproductrel.productid' => $this->get('parentRecord')->getId()]);
 	}
 
 	/**
@@ -103,7 +103,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_seproductsrel', 'vtiger_products.productid = vtiger_seproductsrel.productid']);
-		$queryGenerator->addAndConditionNative(['vtiger_seproductsrel.setype' => 'Products', 'vtiger_seproductsrel.crmid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_seproductsrel.setype' => 'Products', 'vtiger_seproductsrel.crmid' => $this->get('parentRecord')->getId()]);
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_seproductsrel', 'vtiger_seproductsrel.crmid = vtiger_leaddetails.leadid']);
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_products', 'vtiger_seproductsrel.productid = vtiger_products.productid']);
-		$queryGenerator->addAndConditionNative(['vtiger_products.productid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_products.productid' => $this->get('parentRecord')->getId()]);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_seproductsrel', 'vtiger_seproductsrel.crmid = vtiger_account.accountid']);
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_products', 'vtiger_seproductsrel.productid = vtiger_products.productid']);
-		$queryGenerator->addAndConditionNative(['vtiger_products.productid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_products.productid' => $this->get('parentRecord')->getId()]);
 	}
 
 	/**

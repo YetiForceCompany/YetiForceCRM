@@ -277,16 +277,16 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		$queryGenerator->parseAdvFilter($transformedSearchParams);
 		if ($module === 'RecycleBin') {
 			$queryGenerator->deletedCondition = false;
-			$queryGenerator->addAndConditionNative(['vtiger_crmentity.deleted = 1']);
+			$queryGenerator->addNativeCondition(['vtiger_crmentity.deleted = 1']);
 		}
 		if (!empty($skipRecords) && count($skipRecords) > 0) {
-			$queryGenerator->addAndConditionNative(['not in', "$baseTableName.$baseTableId", $skipRecords]);
+			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
 			if (is_array($lockFields)) {
 				foreach ($lockFields as $fieldName => $fieldValues) {
-					$queryGenerator->addAndConditionNative(['not in', "$baseTableName.$fieldName", $fieldValues]);
+					$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
 				}
 			}
 		}

@@ -46,7 +46,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 				->select(['crmid'])
 				->from('u_#__crmentity_rel_tree')
 				->where(['module' => App\Module::getModuleId($baseModuleName), 'relmodule' => App\Module::getModuleId($moduleName), 'tree' => $category]);
-			$queryGenerator->addOrConditionNative(['in', $multiReferenceFirld['columnname'], $query]);
+			$queryGenerator->addNativeCondition(['in', $multiReferenceFirld['columnname'], $query], false);
 		}
 		$listViewModel->set('query_generator', $queryGenerator);
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);

@@ -42,7 +42,7 @@ class Services_Module_Model extends Products_Module_Model
 					->where(['relcrmid' => $record]);
 				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
 			}
-			$queryGenerator->addAndConditionNative($condition);
+			$queryGenerator->addNativeCondition($condition);
 		}
 	}
 }

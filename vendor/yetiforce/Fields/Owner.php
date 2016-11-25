@@ -408,7 +408,7 @@ class Owner
 			$queryGenerator->initForCustomViewById($view);
 		}
 		if ($conditions) {
-			$queryGenerator->addAndConditionNative($conditions['condition']);
+			$queryGenerator->addNativeCondition($conditions['condition']);
 			if (!empty($conditions['join'])) {
 				foreach ($conditions['join'] as $join) {
 					$queryGenerator->addJoin($join);

@@ -23,8 +23,8 @@ class Pdf_OverdueDeadlines extends Vtiger_SpecialFunction_Pdf
 		}
 		$queryGenerator = new App\QueryGenerator($moduleName, $adminUser->getId());
 		$queryGenerator->setFields(['id']);
-		$queryGenerator->addAndConditionNative(['vtiger_activity.status' => 'PLL_OVERDUE']);
-		$queryGenerator->addAndConditionNative(['vtiger_crmentity.smownerid' => $currentUserModel->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_activity.status' => 'PLL_OVERDUE']);
+		$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $currentUserModel->getId()]);
 		$query = $queryGenerator->createQuery();
 		$query->limit(500);
 		$dataReader = $query->createCommand()->query();

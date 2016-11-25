@@ -14,6 +14,6 @@ class OSSEmployees_Relation_Model extends Vtiger_Relation_Model
 	 */
 	public function getOsstimecontrol()
 	{
-		$this->getQueryGenerator()->addAndConditionNative(['vtiger_crmentity.smownerid' => $this->get('parentRecord')->get('assigned_user_id')]);
+		$this->getQueryGenerator()->addNativeCondition(['vtiger_crmentity.smownerid' => $this->get('parentRecord')->get('assigned_user_id')]);
 	}
 }

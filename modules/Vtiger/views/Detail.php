@@ -693,7 +693,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
-				$relationListView->get('query_generator')->addAndConditionNative(['vtiger_crmentity.crmid' => $favorites]);
+				$relationListView->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $favorites]);
 			}
 		}
 		if (!empty($searchParams)) {

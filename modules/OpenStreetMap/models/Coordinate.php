@@ -179,7 +179,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$queryGenerator->setFields($fields[$moduleName]);
-		$queryGenerator->addAndConditionNative(['vtiger_crmentity.crmid' => $crmid]);
+		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
 		$row = $queryGenerator->createQuery()->one();
 		$html = '';
 		foreach ($row as $fieldName => $value) {
@@ -435,13 +435,13 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		}
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 		$queryGenerator->parseAdvFilter($transformedSearchParams);
-		$queryGenerator->addAndConditionNative(['u_#__openstreetmap.type' => 'a']);
+		$queryGenerator->addNativeCondition(['u_#__openstreetmap.type' => 'a']);
 		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
-			$queryGenerator->addAndConditionNative(['not in', 'vtiger_crmentity.crmid', $excludedIds]);
+			$queryGenerator->addNativeCondition(['not in', 'vtiger_crmentity.crmid', $excludedIds]);
 		}
 		if (!empty($coordinatesCenter) && !empty($radius)) {
 			$margins = self::getMargins($coordinatesCenter, $radius);
-			$queryGenerator->addAndConditionNative([
+			$queryGenerator->addNativeCondition([
 				'and',
 				['<', 'u_#__openstreetmap.lat', $margins['latMax']],
 				['>', 'u_#__openstreetmap.lat', $margins['latMin']],

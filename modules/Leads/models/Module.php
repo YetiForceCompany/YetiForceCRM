@@ -181,7 +181,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			} else {
 				$condition = ['not in', 'vtiger_leaddetails.leadid', (new App\Db\Query())->select([$fieldName])->from($tableName)->where([$relatedFieldName => $record])];
 			}
-			$queryGenerator->addAndConditionNative($condition);
+			$queryGenerator->addNativeCondition($condition);
 		}
 	}
 

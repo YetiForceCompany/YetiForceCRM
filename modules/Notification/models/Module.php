@@ -28,11 +28,11 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	{
 		$queryGenerator = new App\QueryGenerator($this->getName());
 		$queryGenerator->setFields(['description', 'smwonerid', 'id', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
-		$queryGenerator->addAndConditionNative(['smownerid' => \App\User::getCurrentUserId()]);
+		$queryGenerator->addNativeCondition(['smownerid' => \App\User::getCurrentUserId()]);
 		if (!empty($conditions)) {
-			$queryGenerator->addAndConditionNative($conditions);
+			$queryGenerator->addNativeCondition($conditions);
 		}
-		$queryGenerator->addAndConditionNative(['u_#__notification.notification_status' => 'PLL_UNREAD']);
+		$queryGenerator->addNativeCondition(['u_#__notification.notification_status' => 'PLL_UNREAD']);
 		$query = $queryGenerator->createQuery();
 		if (!empty($limit)) {
 			$query->limit($limit);

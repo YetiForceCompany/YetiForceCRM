@@ -93,6 +93,6 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_campaign_records', 'vtiger_campaign_records.crmid = vtiger_crmentity.crmid']);
 		$queryGenerator->addJoin(['LEFT JOIN', 'vtiger_campaignrelstatus', 'vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid']);
-		$queryGenerator->addAndConditionNative(['vtiger_campaign_records.campaignid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_campaign_records.campaignid' => $this->get('parentRecord')->getId()]);
 	}
 }

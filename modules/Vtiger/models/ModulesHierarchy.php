@@ -252,7 +252,7 @@ WHERE vtiger_tab.presence = ? && vtiger_ws_referencetype.`type` = ?';
 	{
 		$queryGenerator = new \App\QueryGenerator($field['name']);
 		$queryGenerator->setFields(['id']);
-		$queryGenerator->addAndConditionNative([$field['tablename'] . '.' . $field['columnname'] => $record]);
+		$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
 		return $queryGenerator->createQuery()->column();
 	}
 }
