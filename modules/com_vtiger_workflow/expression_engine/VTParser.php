@@ -113,8 +113,7 @@ class VTExpressionParser
 				}
 				return $val;
 			default:
-				print_r($token);
-				throw new Exception();
+				throw new Exception($token);
 		}
 	}
 

@@ -174,7 +174,6 @@ class VTWSEntityType
 							$et->format = 'Decimal';
 							break;
 						default:
-							print_r($type);
 							throw new Exception($type["name"] . " is not supported yet.");
 					}
 					$this->fieldTypes[$fieldName] = $et;
