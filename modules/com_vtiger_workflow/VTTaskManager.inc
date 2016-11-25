@@ -159,7 +159,7 @@ class VTTaskManager
 			return $taskTemplatePath;
 		} else {
 			$taskType = $taskTypeInstance->get('classname');
-			return $moduleName . "/taskforms/" . $taskType . ".tpl";
+			return "$moduleName/taskforms/$taskType.tpl";
 		}
 	}
 }
