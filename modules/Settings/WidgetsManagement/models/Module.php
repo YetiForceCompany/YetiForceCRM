@@ -98,7 +98,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public static function getDashboardInfo($dashboardId)
 	{
 		return (new App\Db\Query())->from('u_#__dashboard_type')
-				->where(['dashboard_id' => $dashboardId])
+				->where(['dashboard_id' => (int)$dashboardId])
 				->one();
 	}
 
