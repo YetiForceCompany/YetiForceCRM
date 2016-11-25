@@ -206,8 +206,8 @@ class CRMEntity
 				'smownerid' => $ownerid,
 				'setype' => $module . " Image",
 				'description' => $this->column_fields['description'],
-				'createdtime' => $adb->formatDate($date, true),
-				'modifiedtime' => $adb->formatDate($date, true)
+				'createdtime' => $date,
+				'modifiedtime' => $date
 			];
 			if ($module == 'Contacts' || $module == 'Products') {
 				$params['setype'] = $module . ' Image';
