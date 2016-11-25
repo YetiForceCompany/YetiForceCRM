@@ -710,7 +710,7 @@ class CRMEntity
 		\App\Log::trace("module name is " . $module_name);
 
 		//Event triggering code
-		require_once("include/events/include.inc");
+		require_once("include/events/include.php");
 		$adb = PearDatabase::getInstance();
 
 		//In Bulk mode stop triggering events
@@ -1004,7 +1004,7 @@ class CRMEntity
 			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
 		}
 		if (!self::isBulkSaveMode()) {
-			require_once("include/events/include.inc");
+			require_once("include/events/include.php");
 			$em = new VTEventsManager($adb);
 
 			// Initialize Event trigger cache
@@ -1102,7 +1102,7 @@ class CRMEntity
 				\App\Privilege::setUpdater($module, $id, 6, 0);
 			}
 			//Event triggering code
-			require_once('include/events/include.inc');
+			require_once('include/events/include.php');
 			$em = new VTEventsManager($db);
 
 			// Initialize Event trigger cache

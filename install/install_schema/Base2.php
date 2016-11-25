@@ -1,4 +1,5 @@
 <?php
+
 namespace Importers;
 
 /**
@@ -54,13 +55,13 @@ class Base2 extends \App\Db\Importers\Base
 					'accounts_status' => $this->stringType(),
 				],
 				'index' => [
-						['account_account_type_idx', 'account_type'],
-						['account_email_idx', ['email1', 'email2']],
-						['account_accountname_idx', 'accountname'],
-						['account_parentid_idx', 'parentid'],
+					['account_account_type_idx', 'account_type'],
+					['account_email_idx', ['email1', 'email2']],
+					['account_accountname_idx', 'accountname'],
+					['account_parentid_idx', 'parentid'],
 				],
 				'primaryKeys' => [
-						['account_pk', 'accountid']
+					['account_pk', 'accountid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -103,7 +104,7 @@ class Base2 extends \App\Db\Importers\Base
 					'poboxc' => $this->stringType(50),
 				],
 				'primaryKeys' => [
-						['accountaddress_pk', 'accountaddressid']
+					['accountaddress_pk', 'accountaddressid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -124,7 +125,7 @@ class Base2 extends \App\Db\Importers\Base
 					'accountid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['accountscf_pk', 'accountid']
+					['accountscf_pk', 'accountid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -138,7 +139,7 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-						['accounttype_idx', 'accounttype', true],
+					['accounttype_idx', 'accounttype', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -157,10 +158,10 @@ class Base2 extends \App\Db\Importers\Base
 					'securitycheck' => $this->integer(),
 				],
 				'index' => [
-						['actionmapping_idx', 'actionname'],
+					['actionmapping_idx', 'actionname'],
 				],
 				'primaryKeys' => [
-						['actionmapping_pk', ['actionid', 'actionname']]
+					['actionmapping_pk', ['actionid', 'actionname']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -195,21 +196,21 @@ class Base2 extends \App\Db\Importers\Base
 					'followup' => $this->integer(),
 				],
 				'index' => [
-						['activity_subject_idx', ['activityid', 'subject']],
-						['activity_date_start_idx', ['activitytype', 'date_start']],
-						['activity_due_date_idx', ['date_start', 'due_date']],
-						['activity_time_start_idx', ['date_start', 'time_start']],
-						['activity_status_idx', 'status'],
-						['activity_idx', ['activitytype', 'date_start', 'due_date', 'time_start', 'time_end', 'deleted', 'smownerid']],
-						['activity_link_idx', 'link'],
-						['activity_process_idx', 'process'],
-						['activity_followup_idx', 'followup'],
-						['activity_subprocess_idx', 'subprocess'],
-						['activity_activitytype_idx', ['activitytype', 'status']],
-						['activity_smownerid_idx', 'smownerid'],
+					['activity_subject_idx', ['activityid', 'subject']],
+					['activity_date_start_idx', ['activitytype', 'date_start']],
+					['activity_due_date_idx', ['date_start', 'due_date']],
+					['activity_time_start_idx', ['date_start', 'time_start']],
+					['activity_status_idx', 'status'],
+					['activity_idx', ['activitytype', 'date_start', 'due_date', 'time_start', 'time_end', 'deleted', 'smownerid']],
+					['activity_link_idx', 'link'],
+					['activity_process_idx', 'process'],
+					['activity_followup_idx', 'followup'],
+					['activity_subprocess_idx', 'subprocess'],
+					['activity_activitytype_idx', ['activitytype', 'status']],
+					['activity_smownerid_idx', 'smownerid'],
 				],
 				'primaryKeys' => [
-						['activity_pk', 'activityid']
+					['activity_pk', 'activityid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -222,7 +223,7 @@ class Base2 extends \App\Db\Importers\Base
 					'recurringid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['activity_reminder_pk', ['activity_id', 'recurringid']]
+					['activity_reminder_pk', ['activity_id', 'recurringid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -236,7 +237,7 @@ class Base2 extends \App\Db\Importers\Base
 					'status' => $this->integer(2)->notNull(),
 				],
 				'index' => [
-						['activity_reminder_popup_idx', 'recordid'],
+					['activity_reminder_popup_idx', 'recordid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -248,11 +249,11 @@ class Base2 extends \App\Db\Importers\Base
 					'task_id' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['activity_update_dates_parent_idx', 'parent'],
-						['activity_update_dates_task_idx', 'task_id'],
+					['activity_update_dates_parent_idx', 'parent'],
+					['activity_update_dates_task_idx', 'task_id'],
 				],
 				'primaryKeys' => [
-						['activity_update_dates_pk', 'activityid']
+					['activity_update_dates_pk', 'activityid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -279,7 +280,7 @@ class Base2 extends \App\Db\Importers\Base
 					'activityid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['activitycf_pk', 'activityid']
+					['activitycf_pk', 'activityid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -290,11 +291,11 @@ class Base2 extends \App\Db\Importers\Base
 					'productid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['activityproductrel_activityid_idx', 'activityid'],
-						['activityproductrel_productid_idx', 'productid'],
+					['activityproductrel_activityid_idx', 'activityid'],
+					['activityproductrel_productid_idx', 'productid'],
 				],
 				'primaryKeys' => [
-						['activityproductrel_pk', ['activityid', 'productid']]
+					['activityproductrel_pk', ['activityid', 'productid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -327,7 +328,7 @@ class Base2 extends \App\Db\Importers\Base
 					'color' => $this->stringType(25),
 				],
 				'index' => [
-						['activitytype_idx', 'activitytype', true],
+					['activitytype_idx', 'activitytype', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -358,7 +359,7 @@ class Base2 extends \App\Db\Importers\Base
 					'type' => $this->stringType()->notNull(),
 				],
 				'primaryKeys' => [
-						['apiaddress_pk', 'id']
+					['apiaddress_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -382,13 +383,13 @@ class Base2 extends \App\Db\Importers\Base
 					'renewalinvoice' => $this->integer(),
 				],
 				'index' => [
-						['assets_parent_id_idx', 'parent_id'],
-						['assets_product_idx', 'product'],
-						['assets_ssalesprocessesid_idx', 'ssalesprocessesid'],
-						['assets_renewalinvoice_idx', 'renewalinvoice'],
+					['assets_parent_id_idx', 'parent_id'],
+					['assets_product_idx', 'product'],
+					['assets_ssalesprocessesid_idx', 'ssalesprocessesid'],
+					['assets_renewalinvoice_idx', 'renewalinvoice'],
 				],
 				'primaryKeys' => [
-						['assets_pk', 'assetsid']
+					['assets_pk', 'assetsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -409,7 +410,7 @@ class Base2 extends \App\Db\Importers\Base
 					'assetsid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['assetscf_pk', 'assetsid']
+					['assetscf_pk', 'assetsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -450,7 +451,7 @@ class Base2 extends \App\Db\Importers\Base
 					'use_asterisk' => $this->stringType(3),
 				],
 				'primaryKeys' => [
-						['asteriskextensions_pk', 'userid']
+					['asteriskextensions_pk', 'userid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -482,7 +483,7 @@ class Base2 extends \App\Db\Importers\Base
 					'relcrmid' => $this->integer(),
 				],
 				'primaryKeys' => [
-						['asteriskincomingevents_pk', 'uid']
+					['asteriskincomingevents_pk', 'uid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -497,7 +498,7 @@ class Base2 extends \App\Db\Importers\Base
 					'subject' => $this->stringType(),
 				],
 				'primaryKeys' => [
-						['attachments_pk', 'attachmentsid']
+					['attachments_pk', 'attachmentsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -512,7 +513,7 @@ class Base2 extends \App\Db\Importers\Base
 					'actiondate' => $this->dateTime(),
 				],
 				'primaryKeys' => [
-						['audit_trial_pk', 'auditid']
+					['audit_trial_pk', 'auditid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -532,10 +533,10 @@ class Base2 extends \App\Db\Importers\Base
 					'iscustom' => $this->integer(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['blocks_tabid_idx', 'tabid'],
+					['blocks_tabid_idx', 'tabid'],
 				],
 				'primaryKeys' => [
-						['blocks_pk', 'blockid']
+					['blocks_pk', 'blockid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -549,9 +550,9 @@ class Base2 extends \App\Db\Importers\Base
 					'view' => $this->stringType(100),
 				],
 				'index' => [
-						['blocks_hide_blockid_idx', ['blockid', 'enabled']],
-						['blocks_hide_view_idx', 'view'],
-						['blocks_hide_idx', ['blockid', 'enabled', 'view']],
+					['blocks_hide_blockid_idx', ['blockid', 'enabled']],
+					['blocks_hide_view_idx', 'view'],
+					['blocks_hide_idx', ['blockid', 'enabled', 'view']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -582,7 +583,7 @@ class Base2 extends \App\Db\Importers\Base
 					'active' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['calendar_default_activitytypes_pk', 'id']
+					['calendar_default_activitytypes_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -603,7 +604,7 @@ class Base2 extends \App\Db\Importers\Base
 					'visible' => $this->integer()->defaultValue(0),
 				],
 				'index' => [
-						['userid_idx', 'userid'],
+					['userid_idx', 'userid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -662,11 +663,11 @@ class Base2 extends \App\Db\Importers\Base
 					'source' => $this->integer(),
 				],
 				'index' => [
-						['callhistory_source_idx', 'source'],
-						['callhistory_destination_idx', 'destination'],
+					['callhistory_source_idx', 'source'],
+					['callhistory_destination_idx', 'destination'],
 				],
 				'primaryKeys' => [
-						['callhistory_pk', 'callhistoryid']
+					['callhistory_pk', 'callhistoryid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -676,7 +677,7 @@ class Base2 extends \App\Db\Importers\Base
 					'callhistoryid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['callhistorycf_pk', 'callhistoryid']
+					['callhistorycf_pk', 'callhistoryid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -724,12 +725,12 @@ class Base2 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 				],
 				'index' => [
-						['campaign_campaignstatus_idx', 'campaignstatus'],
-						['campaign_campaignname_idx', 'campaignname'],
-						['campaign_campaignid_idx', 'campaignid'],
+					['campaign_campaignstatus_idx', 'campaignstatus'],
+					['campaign_campaignname_idx', 'campaignname'],
+					['campaign_campaignid_idx', 'campaignid'],
 				],
 				'primaryKeys' => [
-						['campaign_pk', 'campaignid']
+					['campaign_pk', 'campaignid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -741,10 +742,10 @@ class Base2 extends \App\Db\Importers\Base
 					'campaignrelstatusid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['campaign_records_idx', 'crmid'],
+					['campaign_records_idx', 'crmid'],
 				],
 				'primaryKeys' => [
-						['campaign_records_pk', ['campaignid', 'crmid', 'campaignrelstatusid']]
+					['campaign_records_pk', ['campaignid', 'crmid', 'campaignrelstatusid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -771,7 +772,7 @@ class Base2 extends \App\Db\Importers\Base
 					'campaignid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['campaignscf_pk', 'campaignid']
+					['campaignscf_pk', 'campaignid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -785,7 +786,7 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-						['campaignstatus_idx', 'campaignstatus'],
+					['campaignstatus_idx', 'campaignstatus'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -806,7 +807,7 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->smallInteger(2),
 				],
 				'index' => [
-						['campaigntype_idx', 'campaigntype', true],
+					['campaigntype_idx', 'campaigntype', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -845,7 +846,7 @@ class Base2 extends \App\Db\Importers\Base
 					'poboxb' => $this->stringType(50),
 				],
 				'primaryKeys' => [
-						['contactaddress', 'contactaddressid']
+					['contactaddress', 'contactaddressid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -881,12 +882,12 @@ class Base2 extends \App\Db\Importers\Base
 					'active' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'index' => [
-						['contactdetails_parentid_idx', 'parentid'],
-						['contactdetails_email_idx', 'email'],
-						['contactdetails_lastname_idx', 'lastname'],
+					['contactdetails_parentid_idx', 'parentid'],
+					['contactdetails_email_idx', 'email'],
+					['contactdetails_lastname_idx', 'lastname'],
 				],
 				'primaryKeys' => [
-						['contactdetails_pk', 'contactid']
+					['contactdetails_pk', 'contactid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -896,7 +897,7 @@ class Base2 extends \App\Db\Importers\Base
 					'contactid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['contactscf_pk', 'contactid']
+					['contactscf_pk', 'contactid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -928,7 +929,7 @@ class Base2 extends \App\Db\Importers\Base
 					'leadsource' => $this->stringType(200),
 				],
 				'primaryKeys' => [
-						['contactsubdetails_pk', 'contactsubscriptionid']
+					['contactsubdetails_pk', 'contactsubscriptionid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1020,17 +1021,17 @@ class Base2 extends \App\Db\Importers\Base
 					'users' => $this->text(),
 				],
 				'index' => [
-						['crmentity_smcreatorid_idx', 'smcreatorid'],
-						['crmentity_modifiedby_idx', 'modifiedby'],
-						['crmentity_deleted_idx', 'deleted'],
-						['crmentity_idx', ['smownerid', 'deleted', 'setype']],
-						['crmentity_crmid_idx', ['crmid', 'deleted']],
-						['crmentity_crmid_setype_idx', ['crmid', 'setype']],
-						['crmentity_setype_deleted_idx', ['setype', 'deleted']],
-						['crmentity_setype_idx', 'setype'],
+					['crmentity_smcreatorid_idx', 'smcreatorid'],
+					['crmentity_modifiedby_idx', 'modifiedby'],
+					['crmentity_deleted_idx', 'deleted'],
+					['crmentity_idx', ['smownerid', 'deleted', 'setype']],
+					['crmentity_crmid_idx', ['crmid', 'deleted']],
+					['crmentity_crmid_setype_idx', ['crmid', 'setype']],
+					['crmentity_setype_deleted_idx', ['setype', 'deleted']],
+					['crmentity_setype_idx', 'setype'],
 				],
 				'primaryKeys' => [
-						['crmentity_pk', 'crmid']
+					['crmentity_pk', 'crmid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1053,8 +1054,8 @@ class Base2 extends \App\Db\Importers\Base
 					'rel_comment' => $this->stringType(),
 				],
 				'index' => [
-						['crmentityrel_crmid_idx', 'crmid'],
-						['crmentityrel_relcrmid_idx', 'relcrmid'],
+					['crmentityrel_crmid_idx', 'crmid'],
+					['crmentityrel_relcrmid_idx', 'relcrmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1073,8 +1074,8 @@ class Base2 extends \App\Db\Importers\Base
 					'description' => $this->text(),
 				],
 				'index' => [
-						['cron_task_name_idx', 'name', true],
-						['cron_task_handler_file_idx', 'handler_file', true],
+					['cron_task_name_idx', 'name', true],
+					['cron_task_handler_file_idx', 'handler_file', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1104,7 +1105,7 @@ class Base2 extends \App\Db\Importers\Base
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['currency_idx', 'currency', true],
+					['currency_idx', 'currency', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1206,7 +1207,7 @@ class Base2 extends \App\Db\Importers\Base
 					'content' => $this->text(),
 				],
 				'index' => [
-						['customaction_idx', 'cvid'],
+					['customaction_idx', 'cvid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1219,7 +1220,7 @@ class Base2 extends \App\Db\Importers\Base
 					'support_end_date' => $this->date(),
 				],
 				'primaryKeys' => [
-						['customerdetails_pk', 'customerid']
+					['customerdetails_pk', 'customerid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1240,7 +1241,7 @@ class Base2 extends \App\Db\Importers\Base
 					'prefvalue' => $this->integer(),
 				],
 				'primaryKeys' => [
-						['customerportal_prefs_pk', ['tabid', 'prefkey']]
+					['customerportal_prefs_pk', ['tabid', 'prefkey']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1252,7 +1253,7 @@ class Base2 extends \App\Db\Importers\Base
 					'sequence' => $this->integer(1),
 				],
 				'primaryKeys' => [
-						['customerportal_tabs_pk', 'tabid']
+					['customerportal_tabs_pk', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1275,8 +1276,8 @@ class Base2 extends \App\Db\Importers\Base
 					'color' => $this->stringType(10)->defaultValue(''),
 				],
 				'index' => [
-						['customview_entitytype_idx', 'entitytype'],
-						['customview_setdefault_idx', ['setdefault', 'entitytype']],
+					['customview_entitytype_idx', 'entitytype'],
+					['customview_setdefault_idx', ['setdefault', 'entitytype']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1292,10 +1293,10 @@ class Base2 extends \App\Db\Importers\Base
 					'column_condition' => $this->stringType()->defaultValue('and'),
 				],
 				'index' => [
-						['cvadvfilter_idx', 'cvid'],
+					['cvadvfilter_idx', 'cvid'],
 				],
 				'primaryKeys' => [
-						['cvadvfilter_pk', ['cvid', 'columnindex']]
+					['cvadvfilter_pk', ['cvid', 'columnindex']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1308,10 +1309,10 @@ class Base2 extends \App\Db\Importers\Base
 					'condition_expression' => $this->text(),
 				],
 				'index' => [
-						['cvadvfilter_grouping_idx', 'cvid'],
+					['cvadvfilter_grouping_idx', 'cvid'],
 				],
 				'primaryKeys' => [
-						['cvadvfilter_grouping_pk', ['groupid', 'cvid']]
+					['cvadvfilter_grouping_pk', ['groupid', 'cvid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1323,11 +1324,11 @@ class Base2 extends \App\Db\Importers\Base
 					'columnname' => $this->stringType(250)->defaultValue(''),
 				],
 				'index' => [
-						['cvcolumnlist_columnindex_idx', 'columnindex'],
-						['cvcolumnlist_cvid_idx', 'cvid'],
+					['cvcolumnlist_columnindex_idx', 'columnindex'],
+					['cvcolumnlist_cvid_idx', 'cvid'],
 				],
 				'primaryKeys' => [
-						['cvcolumnlist_pk', ['cvid', 'columnindex']]
+					['cvcolumnlist_pk', ['cvid', 'columnindex']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1341,10 +1342,10 @@ class Base2 extends \App\Db\Importers\Base
 					'enddate' => $this->date(),
 				],
 				'index' => [
-						['cvstdfilter_idx', 'cvid'],
+					['cvstdfilter_idx', 'cvid'],
 				],
 				'primaryKeys' => [
-						['cvstdfilter_pk', 'cvid']
+					['cvstdfilter_pk', 'cvid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1358,7 +1359,7 @@ class Base2 extends \App\Db\Importers\Base
 					'presence' => $this->smallInteger(1)->defaultValue(1),
 				],
 				'index' => [
-						['dataaccess_idx', 'module_name'],
+					['dataaccess_idx', 'module_name'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1384,11 +1385,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_grp2grp_share_groupid_idx', 'share_groupid'],
-						['datashare_grp2grp_to_groupid_idx', 'to_groupid'],
+					['datashare_grp2grp_share_groupid_idx', 'share_groupid'],
+					['datashare_grp2grp_to_groupid_idx', 'to_groupid'],
 				],
 				'primaryKeys' => [
-						['datashare_grp2grp_pk', 'shareid']
+					['datashare_grp2grp_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1401,11 +1402,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_grp2role_share_idx', 'share_groupid'],
-						['datashare_grp2role_to_roleid_idx', 'to_roleid'],
+					['datashare_grp2role_share_idx', 'share_groupid'],
+					['datashare_grp2role_to_roleid_idx', 'to_roleid'],
 				],
 				'primaryKeys' => [
-						['datashare_grp2role_pk', 'shareid']
+					['datashare_grp2role_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1418,11 +1419,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_grp2rs_share_groupid_idx', 'share_groupid'],
-						['datashare_grp2rs_to_roleandsubid_idx', 'to_roleandsubid'],
+					['datashare_grp2rs_share_groupid_idx', 'share_groupid'],
+					['datashare_grp2rs_to_roleandsubid_idx', 'to_roleandsubid'],
 				],
 				'primaryKeys' => [
-						['datashare_grp2rs_pk', 'shareid']
+					['datashare_grp2rs_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1435,11 +1436,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_grp2us_share_groupid_idx', 'share_groupid'],
-						['datashare_grp2us_to_userid_idx', 'to_userid'],
+					['datashare_grp2us_share_groupid_idx', 'share_groupid'],
+					['datashare_grp2us_to_userid_idx', 'to_userid'],
 				],
 				'primaryKeys' => [
-						['datashare_grp2us_pk', 'shareid']
+					['datashare_grp2us_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1451,10 +1452,10 @@ class Base2 extends \App\Db\Importers\Base
 					'relationtype' => $this->stringType(200),
 				],
 				'index' => [
-						['datashare_module_rel_tabid_idx', 'tabid'],
+					['datashare_module_rel_tabid_idx', 'tabid'],
 				],
 				'primaryKeys' => [
-						['datashare_module_rel_pk', 'shareid']
+					['datashare_module_rel_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1466,10 +1467,10 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_relatedmodule_permission_idx', ['shareid', 'permission']],
+					['datashare_relatedmodule_permission_idx', ['shareid', 'permission']],
 				],
 				'primaryKeys' => [
-						['datashare_relatedmodule_permission_pk', ['shareid', 'datashare_relatedmodule_id']]
+					['datashare_relatedmodule_permission_pk', ['shareid', 'datashare_relatedmodule_id']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1481,11 +1482,11 @@ class Base2 extends \App\Db\Importers\Base
 					'relatedto_tabid' => $this->integer(),
 				],
 				'index' => [
-						['datashare_relatedmodules_tabid_idx', 'tabid'],
-						['datashare_relatedmodules_relatedto_tabid_idx', 'relatedto_tabid'],
+					['datashare_relatedmodules_tabid_idx', 'tabid'],
+					['datashare_relatedmodules_relatedto_tabid_idx', 'relatedto_tabid'],
 				],
 				'primaryKeys' => [
-						['datashare_relatedmodules_pk', 'datashare_relatedmodule_id']
+					['datashare_relatedmodules_pk', 'datashare_relatedmodule_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1505,11 +1506,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_role2group_share_idx', 'share_roleid'],
-						['datashare_role2group_group_idx', 'to_groupid'],
+					['datashare_role2group_share_idx', 'share_roleid'],
+					['datashare_role2group_group_idx', 'to_groupid'],
 				],
 				'primaryKeys' => [
-						['datashare_role2group_pk', 'shareid']
+					['datashare_role2group_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1522,11 +1523,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_role2role_share_idx', 'share_roleid'],
-						['datashare_role2role_roleid_idx', 'to_roleid'],
+					['datashare_role2role_share_idx', 'share_roleid'],
+					['datashare_role2role_roleid_idx', 'to_roleid'],
 				],
 				'primaryKeys' => [
-						['datashare_role2role_pk', 'shareid']
+					['datashare_role2role_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1539,11 +1540,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_role2s_share_idx', 'share_roleid'],
-						['datashare_role2s_role_idx', 'to_roleandsubid'],
+					['datashare_role2s_share_idx', 'share_roleid'],
+					['datashare_role2s_role_idx', 'to_roleandsubid'],
 				],
 				'primaryKeys' => [
-						['datashare_role2s_idx', 'shareid']
+					['datashare_role2s_idx', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1556,11 +1557,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_role2us_share_idx', 'share_roleid'],
-						['datashare_role2us_userid_idx', 'to_userid'],
+					['datashare_role2us_share_idx', 'share_roleid'],
+					['datashare_role2us_userid_idx', 'to_userid'],
 				],
 				'primaryKeys' => [
-						['datashare_role2us_pk', 'shareid']
+					['datashare_role2us_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1573,11 +1574,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_rs2grp_share_roleandsubid_idx', 'share_roleandsubid'],
-						['datashare_rs2grp_to_groupid_idx', 'to_groupid'],
+					['datashare_rs2grp_share_roleandsubid_idx', 'share_roleandsubid'],
+					['datashare_rs2grp_to_groupid_idx', 'to_groupid'],
 				],
 				'primaryKeys' => [
-						['datashare_rs2grp_pk', 'shareid']
+					['datashare_rs2grp_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1590,11 +1591,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_rs2role_share_roleandsubid_idx', 'share_roleandsubid'],
-						['datashare_rs2role_to_roleid_idx', 'to_roleid'],
+					['datashare_rs2role_share_roleandsubid_idx', 'share_roleandsubid'],
+					['datashare_rs2role_to_roleid_idx', 'to_roleid'],
 				],
 				'primaryKeys' => [
-						['datashare_rs2role_pk', 'shareid']
+					['datashare_rs2role_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1607,11 +1608,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_rs2rs_share_roleandsubid_idx', 'share_roleandsubid'],
-						['datashare_rs2rs_to_roleandsubid_idx', 'to_roleandsubid'],
+					['datashare_rs2rs_share_roleandsubid_idx', 'share_roleandsubid'],
+					['datashare_rs2rs_to_roleandsubid_idx', 'to_roleandsubid'],
 				],
 				'primaryKeys' => [
-						['datashare_rs2rs_pk', 'shareid']
+					['datashare_rs2rs_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1624,11 +1625,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_rs2us_share_roleandsubid_idx', 'share_roleandsubid'],
-						['datashare_rs2us_to_userid_idx', 'to_userid'],
+					['datashare_rs2us_share_roleandsubid_idx', 'share_roleandsubid'],
+					['datashare_rs2us_to_userid_idx', 'to_userid'],
 				],
 				'primaryKeys' => [
-						['datashare_rs2us_pk', 'shareid']
+					['datashare_rs2us_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1641,11 +1642,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_us2grp_share_userid_idx', 'share_userid'],
-						['datashare_us2grp_to_groupid_idx', 'to_groupid'],
+					['datashare_us2grp_share_userid_idx', 'share_userid'],
+					['datashare_us2grp_to_groupid_idx', 'to_groupid'],
 				],
 				'primaryKeys' => [
-						['datashare_us2grp_pk', 'shareid']
+					['datashare_us2grp_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1658,11 +1659,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_us2role_share_userid_idx', 'share_userid'],
-						['datashare_us2role_to_roleid_idx', 'to_roleid'],
+					['datashare_us2role_share_userid_idx', 'share_userid'],
+					['datashare_us2role_to_roleid_idx', 'to_roleid'],
 				],
 				'primaryKeys' => [
-						['datashare_us2role_pk', 'shareid']
+					['datashare_us2role_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1675,11 +1676,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_us2rs_share_userid_idx', 'share_userid'],
-						['datashare_us2rs_to_roleandsubid_idx', 'to_roleandsubid'],
+					['datashare_us2rs_share_userid_idx', 'share_userid'],
+					['datashare_us2rs_to_roleandsubid_idx', 'to_roleandsubid'],
 				],
 				'primaryKeys' => [
-						['datashare_us2rs_pk', 'shareid']
+					['datashare_us2rs_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1692,11 +1693,11 @@ class Base2 extends \App\Db\Importers\Base
 					'permission' => $this->integer(),
 				],
 				'index' => [
-						['datashare_us2us_share_userid_idx', 'share_userid'],
-						['datashare_us2us_to_userid_idx', 'to_userid'],
+					['datashare_us2us_share_userid_idx', 'share_userid'],
+					['datashare_us2us_to_userid_idx', 'to_userid'],
 				],
 				'primaryKeys' => [
-						['datashare_us2us_pk', 'shareid']
+					['datashare_us2us_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1743,12 +1744,12 @@ class Base2 extends \App\Db\Importers\Base
 					'readonly' => $this->integer(),
 				],
 				'index' => [
-						['def_org_field_tabid_fieldid_idx', ['tabid', 'fieldid']],
-						['def_org_field_tabid_idx', 'tabid'],
-						['def_org_field_visible_fieldid_idx', ['visible', 'fieldid']],
+					['def_org_field_tabid_fieldid_idx', ['tabid', 'fieldid']],
+					['def_org_field_tabid_idx', 'tabid'],
+					['def_org_field_visible_fieldid_idx', ['visible', 'fieldid']],
 				],
 				'primaryKeys' => [
-						['def_org_field_pk', 'fieldid']
+					['def_org_field_pk', 'fieldid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1761,7 +1762,7 @@ class Base2 extends \App\Db\Importers\Base
 					'editstatus' => $this->integer(),
 				],
 				'index' => [
-						['def_org_share_idx', 'permission'],
+					['def_org_share_idx', 'permission'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1815,7 +1816,7 @@ class Base2 extends \App\Db\Importers\Base
 					'query' => $this->text(),
 				],
 				'primaryKeys' => [
-						['defaultcv_pk', 'tabid']
+					['defaultcv_pk', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1887,7 +1888,7 @@ class Base2 extends \App\Db\Importers\Base
 					'email_flag' => $this->stringType(50)->notNull()->defaultValue(''),
 				],
 				'primaryKeys' => [
-						['emaildetails_pk', 'emailid']
+					['emaildetails_pk', 'emailid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1951,7 +1952,7 @@ class Base2 extends \App\Db\Importers\Base
 					'crmactivity' => $this->smallInteger(),
 				],
 				'primaryKeys' => [
-						['entity_stats_pk', 'crmid']
+					['entity_stats_pk', 'crmid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1969,10 +1970,10 @@ class Base2 extends \App\Db\Importers\Base
 					'sequence' => $this->smallInteger(3)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['entityname_idx', 'turn_off'],
+					['entityname_idx', 'turn_off'],
 				],
 				'primaryKeys' => [
-						['entityname_pk', 'tabid']
+					['entityname_pk', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2004,7 +2005,7 @@ class Base2 extends \App\Db\Importers\Base
 					'dependent_on' => $this->stringType()->defaultValue('[]'),
 				],
 				'index' => [
-						['eventhandler_idx', 'eventhandler_id', true],
+					['eventhandler_idx', 'eventhandler_id', true],
 				],
 				// 'primaryKeys' => [
 				// ['PRIMARY KEY', ['eventhandler_id', 'event_name', 'handler_class']]
@@ -2046,7 +2047,7 @@ class Base2 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-						['expectedresponse_idx', 'expectedresponse', true],
+					['expectedresponse_idx', 'expectedresponse', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2069,7 +2070,7 @@ class Base2 extends \App\Db\Importers\Base
 					'status' => $this->stringType(200)->notNull(),
 				],
 				'index' => [
-						['faq_id_idx', 'id'],
+					['faq_id_idx', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2097,7 +2098,7 @@ class Base2 extends \App\Db\Importers\Base
 					'faqid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['faqcf_pk', 'faqid']
+					['faqcf_pk', 'faqid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2110,7 +2111,7 @@ class Base2 extends \App\Db\Importers\Base
 					'createdtime' => $this->dateTime()->notNull(),
 				],
 				'index' => [
-						['faqcomments_faqid_idx', 'faqid'],
+					['faqcomments_faqid_idx', 'faqid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2193,15 +2194,15 @@ class Base2 extends \App\Db\Importers\Base
 					'maxwidthcolumn' => $this->smallInteger(3)->unsigned()->defaultValue(0),
 				],
 				'index' => [
-						['field_tabid_idx', 'tabid'],
-						['field_fieldname_idx', 'fieldname'],
-						['field_block_idx', 'block'],
-						['field_displaytype_idx', 'displaytype'],
-						['field_tabid_tabname_idx', ['tabid', 'tablename']],
-						['field_quickcreate_idx', 'quickcreate'],
-						['field_presence_idx', 'presence'],
-						['field_tabid_fieldname_idx', ['tabid', 'fieldname']],
-						['field_tabid_block_idx', ['tabid', 'block']],
+					['field_tabid_idx', 'tabid'],
+					['field_fieldname_idx', 'fieldname'],
+					['field_block_idx', 'block'],
+					['field_displaytype_idx', 'displaytype'],
+					['field_tabid_tabname_idx', ['tabid', 'tablename']],
+					['field_quickcreate_idx', 'quickcreate'],
+					['field_presence_idx', 'presence'],
+					['field_tabid_fieldname_idx', ['tabid', 'fieldname']],
+					['field_tabid_block_idx', ['tabid', 'block']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2222,7 +2223,7 @@ class Base2 extends \App\Db\Importers\Base
 					'sequence' => $this->smallInteger(1)->unsigned()->defaultValue(0),
 				],
 				'index' => [
-						['fieldmodulerel_idx', 'fieldid'],
+					['fieldmodulerel_idx', 'fieldid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -5671,8 +5672,8 @@ class Base2 extends \App\Db\Importers\Base
 				'values' => [
 					[1, 'vtiger.entity.beforesave', 'include/events/VTEntityDelta.php', 'VTEntityDelta', '', 1, '[]'],
 					[2, 'vtiger.entity.aftersave', 'include/events/VTEntityDelta.php', 'VTEntityDelta', '', 1, '[]'],
-					[3, 'vtiger.entity.aftersave', 'modules/com_vtiger_workflow/VTEventHandler.inc', 'VTWorkflowEventHandler', '', 1, '["VTEntityDelta"]'],
-					[4, 'vtiger.entity.afterrestore', 'modules/com_vtiger_workflow/VTEventHandler.inc', 'VTWorkflowEventHandler', '', 1, '[]'],
+					[3, 'vtiger.entity.aftersave', 'modules/com_vtiger_workflow/VTEventHandler.php', 'VTWorkflowEventHandler', '', 1, '["VTEntityDelta"]'],
+					[4, 'vtiger.entity.afterrestore', 'modules/com_vtiger_workflow/VTEventHandler.php', 'VTWorkflowEventHandler', '', 1, '[]'],
 					[5, 'vtiger.entity.unlink.before', 'include/events/VTEntityDelta.php', 'VTEntityDelta', NULL, 1, '[]'],
 					[6, 'vtiger.entity.unlink.after', 'include/events/VTEntityDelta.php', 'VTEntityDelta', NULL, 1, '[]'],
 					[7, 'vtiger.entity.aftersave.final', 'modules/ModTracker/handlers/ModTrackerHandler.php', 'ModTrackerHandler', '', 1, '[]'],

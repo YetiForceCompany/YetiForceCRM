@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-require_once 'modules/com_vtiger_workflow/VTEventHandler.inc';
+require_once 'modules/com_vtiger_workflow/VTEventHandler.php';
 require_once 'modules/Emails/mail.php';
 require_once 'modules/HelpDesk/HelpDesk.php';
 

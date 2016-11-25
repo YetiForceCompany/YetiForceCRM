@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once 'include/events/VTEntityData.inc';
+require_once 'include/events/VTEntityData.php';
 
 class VTEntityDelta extends VTEventHandler
 {

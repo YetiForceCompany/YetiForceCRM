@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'include/events/include.inc';
+require_once 'include/events/include.php';
 
 /**
  * Roles Record Model Class
@@ -100,14 +100,14 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if (!isset($this->modules)) {
 			$groupId = $this->getId();
-			if (empty($groupId)){
+			if (empty($groupId)) {
 				return [];
 			}
 			$dataReader = (new App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.name'])
-				->from('vtiger_group2modules')
-				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_group2modules.tabid')
-				->where(['vtiger_group2modules.groupid' => $groupId])
-				->createCommand()->query();
+					->from('vtiger_group2modules')
+					->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_group2modules.tabid')
+					->where(['vtiger_group2modules.groupid' => $groupId])
+					->createCommand()->query();
 			$modules = [];
 			while ($row = $dataReader->read()) {
 				$modules[$row['tabid']] = $row['name'];
@@ -136,8 +136,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		if ($mode == 'edit') {
 			$db->createCommand()->update('vtiger_groups', [
 				'groupname' => $this->getName(),
-				'description' =>  $this->getDescription()
-			], ['groupid' => $groupId])->execute();
+				'description' => $this->getDescription()
+				], ['groupid' => $groupId])->execute();
 		} else {
 			$db->createCommand()->insert('vtiger_groups', [
 				'groupid' => $groupId,
@@ -161,7 +161,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 					$memberId = $idComponents[1];
 
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_USERS) {
-						$db->createCommand()->insert('vtiger_users2group', ['userid' => $memberId,'groupid' => $groupId])->execute();
+						$db->createCommand()->insert('vtiger_users2group', ['userid' => $memberId, 'groupid' => $groupId])->execute();
 					}
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_GROUPS) {
 						$db->createCommand()->insert('vtiger_group2grouprel', ['containsgroupid' => $memberId, 'groupid' => $groupId])->execute();

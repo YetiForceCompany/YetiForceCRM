@@ -1002,7 +1002,7 @@ class Users extends CRMEntity
 
 
 		//Event triggering code
-		require_once('include/events/include.inc');
+		require_once('include/events/include.php');
 
 		//In Bulk mode stop triggering events
 		if (!self::isBulkSaveMode()) {
@@ -1410,7 +1410,7 @@ class Users extends CRMEntity
 	public function triggerAfterSaveEventHandlers()
 	{
 		$adb = PearDatabase::getInstance();
-		require_once("include/events/include.inc");
+		require_once("include/events/include.php");
 
 		//In Bulk mode stop triggering events
 		if (!self::isBulkSaveMode()) {

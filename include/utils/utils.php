@@ -24,7 +24,7 @@ require_once 'include/utils/ListViewUtils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/InventoryUtils.php';
 require_once 'include/utils/SearchUtils.php';
-require_once 'include/events/SqlResultIterator.inc';
+require_once 'include/events/SqlResultIterator.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
@@ -572,7 +572,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 	$adb = PearDatabase::getInstance();
 
 	\App\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
-	require_once('include/events/include.inc');
+	require_once('include/events/include.php');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
 		$em = new VTEventsManager($adb);
 		$em->initTriggerCache();
@@ -611,7 +611,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 	$adb = PearDatabase::getInstance();
 
 	\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
-	require_once('include/events/include.inc');
+	require_once('include/events/include.php');
 	//require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
 	//require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
 	$em = new VTEventsManager($adb);

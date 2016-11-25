@@ -1,14 +1,14 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
-ini_set('include_path',ini_get('include_path'). PATH_SEPARATOR . '../..');
+ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . '../..');
 
 require_once 'include/utils/utils.php';
 require_once('include/utils/CommonUtils.php');
@@ -38,26 +38,27 @@ require_once('modules/com_vtiger_workflow/VTSimpleTemplate.inc');
 require_once 'modules/com_vtiger_workflow/VTEntityCache.inc';
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
-require_once 'modules/com_vtiger_workflow/include.inc';
+require_once 'modules/com_vtiger_workflow/include.php';
 
-function vtRunTaskJob($adb){
+function vtRunTaskJob($adb)
+{
 	$util = new VTWorkflowUtils();
 	$adminUser = $util->adminUser();
 	$tq = new VTTaskQueue($adb);
 	$readyTasks = $tq->getReadyTasks();
 	$tm = new VTTaskManager($adb);
-	foreach($readyTasks as $taskDetails){
+	foreach ($readyTasks as $taskDetails) {
 		list($taskId, $entityId, $taskContents) = $taskDetails;
 		$task = $tm->retrieveTask($taskId);
-        //If task is not there then continue
-        if(empty($task)){
-            continue;
-        }
+		//If task is not there then continue
+		if (empty($task)) {
+			continue;
+		}
 		$task->setContents($taskContents);
-        $entity = VTEntityCache::getCachedEntity($entityId);
-        if(!$entity) {
-            $entity = new VTWorkflowEntity($adminUser, $entityId);
-        }
+		$entity = VTEntityCache::getCachedEntity($entityId);
+		if (!$entity) {
+			$entity = new VTWorkflowEntity($adminUser, $entityId);
+		}
 
 		$task->doTask($entity);
 	}

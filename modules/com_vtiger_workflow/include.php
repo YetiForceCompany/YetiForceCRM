@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once 'include/events/SqlResultIterator.inc';
+require_once 'include/events/SqlResultIterator.php';
 require_once 'VTWorkflowManager.inc';
 require_once 'VTTaskManager.inc';
 require_once 'VTWorkflowTemplateManager.inc';

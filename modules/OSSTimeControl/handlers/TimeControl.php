@@ -20,7 +20,7 @@ class TimeControlHandler extends VTEventHandler
 			if ($eventName == 'vtiger.entity.aftersave.final') {
 				OSSTimeControl_Record_Model::setSumTime($data);
 			}
-			vimport('~~modules/com_vtiger_workflow/include.inc');
+			vimport('~~modules/com_vtiger_workflow/include.php');
 			vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
 			vimport('~~include/Webservices/Utils.php');
 			vimport('~~include/Webservices/Retrieve.php');

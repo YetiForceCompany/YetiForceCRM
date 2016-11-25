@@ -139,7 +139,7 @@ class PaymentsOut extends Vtiger_CRMEntity
 
 	private function addWorkflow($moduleName)
 	{
-		vimport('~~modules/com_vtiger_workflow/include.inc');
+		vimport('~~modules/com_vtiger_workflow/include.php');
 		vimport('~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc');
 		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
 		$db = PearDatabase::getInstance();

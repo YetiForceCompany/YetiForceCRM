@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once 'include/events/VTEventHandler.inc';
+require_once 'include/events/VTEventHandler.php';
 
 class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler
 {

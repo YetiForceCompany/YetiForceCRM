@@ -17,7 +17,7 @@ require_once 'include/Webservices/Retrieve.php';
 require_once 'include/Webservices/DataTransform.php';
 require_once 'modules/Vtiger/CRMEntity.php';
 require_once 'include/QueryGenerator/QueryGenerator.php';
-require_once 'include/events/include.inc';
+require_once 'include/events/include.php';
 
 class Import_Data_Action extends Vtiger_Action_Controller
 {

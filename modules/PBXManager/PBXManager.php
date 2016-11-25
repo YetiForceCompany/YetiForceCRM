@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-require 'include/events/include.inc';
+require 'include/events/include.php';
 require_once 'include/utils/utils.php';
 
 class PBXManager extends CRMEntity

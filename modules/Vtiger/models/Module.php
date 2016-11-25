@@ -247,7 +247,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
 
-		vimport('~~modules/com_vtiger_workflow/include.inc');
+		vimport('~~modules/com_vtiger_workflow/include.php');
 		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
 		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
 		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
@@ -991,7 +991,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),

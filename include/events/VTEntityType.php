@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once('include/events/SqlResultIterator.inc');
+require_once('include/events/SqlResultIterator.php');
 
 class VTEntityType
 {
