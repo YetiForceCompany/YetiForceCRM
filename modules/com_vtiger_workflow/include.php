@@ -10,5 +10,5 @@
 require_once 'include/events/SqlResultIterator.php';
 require_once 'VTWorkflowManager.php';
 require_once 'VTTaskManager.php';
-require_once 'VTWorkflowManager.php';
+require_once 'VTWorkflowTemplateManager.php';
 require_once 'VTTaskQueue.php';

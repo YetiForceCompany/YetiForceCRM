@@ -19,7 +19,7 @@ class Services_Module_Model extends Products_Module_Model
 	 * @param \App\QueryGenerator $queryGenerator
 	 * @param boolean $skipSelected
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator, $skipSelected = false)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk');
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || in_array($sourceModule, getInventoryModules())) {
@@ -30,7 +30,7 @@ class Services_Module_Model extends Products_Module_Model
 					->from('vtiger_pricebookproductrel')
 					->where(['pricebookid' => $record]);
 				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
-			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
+			} elseif (!in_array($sourceModule, $supportedModulesList)) {
 				$subQuery = (new App\Db\Query())
 					->select(['relcrmid'])
 					->from('vtiger_crmentityrel')
