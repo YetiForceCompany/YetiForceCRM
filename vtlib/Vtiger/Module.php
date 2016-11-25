@@ -292,7 +292,7 @@ class Module extends ModuleBasic
 		}
 		$fire = self::fireEvent($moduleName, $eventType);
 		if ($fire) {
-			 \App\Db::getInstance()->createCommand()->update('vtiger_tab', ['presence' => $enableDisable], ['name' => $moduleName])->execute();
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['presence' => $enableDisable], ['name' => $moduleName])->execute();
 			Deprecated::createModuleMetaFile();
 			vtlib_RecreateUserPrivilegeFiles();
 			$menuRecordModel = new \Settings_Menu_Record_Model();
