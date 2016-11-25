@@ -141,12 +141,12 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	 */
 	private function updatePinStatus($pinned = false)
 	{
-		$db = PearDatabase::getInstance();
+		
 		$pinnedStaus = 0;
 		if ($pinned) {
 			$pinnedStaus = 1;
 		}
-		$db->update(self::$itemsTable, ['pinned' => $pinnedStaus], self::$itemId . ' = ?', [$this->getId()]);
+		\App\Db::getInstance()->createCommand()->update(self::$itemsTable, ['pinned' => $pinnedStaus], [ self::$itemId => $this->getId()])->execute();
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance of the Menu Item model given the valuemap array
-	 * @param <Array> $valueMap
+	 * @param array $valueMap
 	 * @return Settings_Vtiger_MenuItem_Model instance
 	 */
 	public static function getInstanceFromArray($valueMap)
