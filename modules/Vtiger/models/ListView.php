@@ -246,9 +246,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy)) {
-			$columnFieldMapping = $this->getModule()->getColumnFieldMapping();
-			$orderByFieldName = $columnFieldMapping[$orderBy];
-			$this->getQueryGenerator()->setOrder($orderByFieldName, $this->getForSql('sortorder'));
+			$orderByFieldName = $this->getModule()->getFieldByColumn($orderBy);
+			$this->getQueryGenerator()->setOrder($orderByFieldName->getName(), $this->getForSql('sortorder'));
 		}
 	}
 
