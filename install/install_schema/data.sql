@@ -903,7 +903,6 @@ insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) val
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (26,'Dashboard',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (27,'CreateDashboardFilter',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (28,'QuickExportToExcel',0);
-insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (29,'TagCloud',1);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (30,'DetailTransferOwnership',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (31,'ActivityPostponed',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (32,'ActivityCancel',0);

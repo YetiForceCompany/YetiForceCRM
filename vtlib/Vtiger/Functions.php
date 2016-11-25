@@ -654,28 +654,6 @@ class Functions
 		return $pass;
 	}
 
-	/** gives the option  to display  the tagclouds or not for the current user
-	 * * @param $id -- user id:: Type integer
-	 * * @returns true or false in $tag_cloud_view
-	 * * Added to provide User based Tagcloud
-	 * */
-	public static function getTagCloudView($id = "")
-	{
-		$adb = \PearDatabase::getInstance();
-		if ($id == '') {
-			$tag_cloud_status = 1;
-		} else {
-			$query = "select visible from vtiger_homestuff where userid=? and stufftype='Tag Cloud'";
-			$tag_cloud_status = $adb->query_result($adb->pquery($query, array($id)), 0, 'visible');
-		}
-
-		if ($tag_cloud_status == 0) {
-			$tag_cloud_view = 'true';
-		} else {
-			$tag_cloud_view = 'false';
-		}
-		return $tag_cloud_view;
-	}
 
 	/**     function used to change the Type of Data for advanced filters in custom view and Reports
 	 * *     @param string $table_name - tablename value from field table

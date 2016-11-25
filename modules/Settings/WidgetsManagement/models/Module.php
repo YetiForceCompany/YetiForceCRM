@@ -222,12 +222,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$widgets = [];
 		while ($row = $dataReader->read()) {
 			$moduleName = \App\Module::getModuleName($row['tabid']);
-			if ($row['linklabel'] === 'Tag Cloud') {
-				$isTagCloudExists = \vtlib\Functions::getTagCloudView(\App\User::getCurrentUserId());
-				if ($isTagCloudExists === 'false') {
-					continue;
-				}
-			}
 			$widgets[$moduleName][] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
