@@ -17,29 +17,17 @@ class Services_Module_Model extends Products_Module_Model
 	 * @param string $field parent fieldname
 	 * @param string $record parent id
 	 * @param \App\QueryGenerator $queryGenerator
-	 * @param boolean $skipSelected
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk');
-		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || in_array($sourceModule, getInventoryModules())) {
+		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || Vtiger_Module_Model::getInstance($sourceModule)->isInventory()) {
 			$condition = ['and', ['vtiger_service.discontinued' => 1]];
 			if ($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') {
 				$subQuery = (new App\Db\Query())
 					->select(['productid'])
 					->from('vtiger_pricebookproductrel')
 					->where(['pricebookid' => $record]);
-				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
-			} elseif (!in_array($sourceModule, $supportedModulesList)) {
-				$subQuery = (new App\Db\Query())
-					->select(['relcrmid'])
-					->from('vtiger_crmentityrel')
-					->where(['crmid' => $record]);
-				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
-				$subQuery = (new App\Db\Query())
-					->select(['crmid'])
-					->from('vtiger_crmentityrel')
-					->where(['relcrmid' => $record]);
 				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
 			}
 			$queryGenerator->addNativeCondition($condition);

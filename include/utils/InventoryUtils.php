@@ -214,64 +214,52 @@ function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = '
 
 /** 	Function used to get the prices for the given list of products based in the specified currency
  * 	@param int $currencyid - currency id based on which the prices have to be provided
- * 	@param array $product_ids - List of product id's for which we want to get the price based on given currency
+ * 	@param array $productIds - List of product id's for which we want to get the price based on given currency
  *  @return array $prices_list - List of prices for the given list of products based on the given currency in the form of 'product id' mapped to 'price value'
  */
-function getPricesForProducts($currencyid, $product_ids, $module = 'Products')
+function getPricesForProducts($currencyid, $productIds, $module = 'Products')
 {
-	$adb = PearDatabase::getInstance();
-
-	$current_user = vglobal('current_user');
-	$price_list = [];
-	if (count($product_ids) > 0) {
+	$priceList = [];
+	if (count($productIds) > 0) {
 		if ($module == 'Services') {
-			$query = "SELECT vtiger_currency_info.id, vtiger_currency_info.conversion_rate, " .
-				"vtiger_service.serviceid AS productid, vtiger_service.unit_price, " .
-				"vtiger_productcurrencyrel.actual_price " .
-				"FROM (vtiger_currency_info, vtiger_service) " .
-				"left join vtiger_productcurrencyrel on vtiger_service.serviceid = vtiger_productcurrencyrel.productid " .
-				"and vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid " .
-				"where vtiger_service.serviceid in (" . generateQuestionMarks($product_ids) . ") and vtiger_currency_info.id = ?";
+			$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate', 
+				'productid' => 'vtiger_service.serviceid', 'vtiger_service.unit_price', 'vtiger_productcurrencyrel.actual_price'])
+					->from('vtiger_service')
+					->leftJoin('vtiger_productcurrencyrel', 'vtiger_service.serviceid = vtiger_productcurrencyrel.productid')
+					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
+					->where(['vtiger_service.serviceid' => $productIds, 'vtiger_currency_info.id' => $currencyid])
+					->createCommand()->query();
 		} else {
-			$query = "SELECT vtiger_currency_info.id, vtiger_currency_info.conversion_rate, " .
-				"vtiger_products.productid, vtiger_products.unit_price, " .
-				"vtiger_productcurrencyrel.actual_price " .
-				"FROM (vtiger_currency_info, vtiger_products) " .
-				"left join vtiger_productcurrencyrel on vtiger_products.productid = vtiger_productcurrencyrel.productid " .
-				"and vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid " .
-				"where vtiger_products.productid in (" . generateQuestionMarks($product_ids) . ") and vtiger_currency_info.id = ?";
+			$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate', 
+				'vtiger_products.productid', 'vtiger_products.unit_price', 'vtiger_productcurrencyrel.actual_price'])
+					->from('vtiger_products')
+					->leftJoin('vtiger_productcurrencyrel', 'vtiger_products.productid = vtiger_productcurrencyrel.productid')
+					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
+					->where(['vtiger_products.productid' => $productIds, 'vtiger_currency_info.id' => $currencyid])
+					->createCommand()->query();
 		}
-		$params = array($product_ids, $currencyid);
-		$result = $adb->pquery($query, $params);
 
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$product_id = $adb->query_result($result, $i, 'productid');
+		while ($row = $dataReader->read()) {
+			$productId = $row['productid'];
 			if (\App\Field::getFieldPermission($module, 'unit_price')) {
-				$actual_price = (float) $adb->query_result($result, $i, 'actual_price');
-
-				if ($actual_price === null || $actual_price == '') {
-					$unit_price = $adb->query_result($result, $i, 'unit_price');
-					$product_conv_rate = $adb->query_result($result, $i, 'conversion_rate');
-					$product_base_conv_rate = getBaseConversionRateForProduct($product_id, 'edit', $module);
-					$conversion_rate = $product_conv_rate * $product_base_conv_rate;
-
-					$actual_price = $unit_price * $conversion_rate;
+				$actualPrice = (float) $row['actual_price'];
+				if ($actualPrice === null || $actualPrice == '') {
+					$actualPrice = $row['unit_price'] * $row['conversion_rate'] * getBaseConversionRateForProduct($productId, 'edit', $module);
 				}
-				$price_list[$product_id] = $actual_price;
+				$priceList[$productId] = $actualPrice;
 			} else {
-				$price_list[$product_id] = '';
+				$priceList[$productId] = '';
 			}
 		}
 	}
-	return $price_list;
+	return $priceList;
 }
 
 function getCurrencyId($fieldValue)
 {
 	$adb = PearDatabase::getInstance();
 
-	$sql = 'SELECT id FROM vtiger_currency_info WHERE currency_name = ? && deleted = 0';
+	$sql = 'SELECT id FROM vtiger_currency_info WHERE currency_name = ? AND deleted = 0';
 	$result = $adb->pquery($sql, array($fieldValue));
 	$currencyId = 1;
 	if ($adb->num_rows($result) > 0) {

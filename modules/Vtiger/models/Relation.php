@@ -553,24 +553,21 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function addRelTree($crmid, $tree)
 	{
-		$sourceModule = $this->getParentModuleModel();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-		$db->insert('u_yf_crmentity_rel_tree', [
+		App\Db::getInstance()->createCommand()->insert('u_#__crmentity_rel_tree', [
 			'crmid' => $crmid,
 			'tree' => $tree,
-			'module' => $sourceModule->getId(),
+			'module' => $this->getParentModuleModel()->getId(),
 			'relmodule' => $this->getRelationModuleModel()->getId(),
-			'rel_created_user' => $currentUserModel->getId(),
+			'rel_created_user' => App\User::getCurrentUserId(),
 			'rel_created_time' => date('Y-m-d H:i:s')
-		]);
+		])->execute();
 	}
 
 	public function deleteRelTree($crmid, $tree)
 	{
-		$sourceModule = $this->getParentModuleModel();
-		$db = PearDatabase::getInstance();
-		$db->delete('u_yf_crmentity_rel_tree', 'crmid = ? && tree = ? && module = ? && relmodule = ?', [$crmid, $tree, $sourceModule->getId(), $this->getRelationModuleModel()->getId()]);
+		App\Db::getInstance()->createCommand()
+				->delete('u_#__crmentity_rel_tree', ['crmid' => $crmid, 'tree' => $tree, 'module' => $this->getParentModuleModel()->getId(), 'relmodule' => $this->getRelationModuleModel()->getId()])
+				->execute();
 	}
 
 	public function isDirectRelation()

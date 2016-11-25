@@ -116,7 +116,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
 						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Products Image' && vtiger_seattachmentsrel.crmid = ?";
+						WHERE vtiger_crmentity.setype = 'Products Image' AND vtiger_seattachmentsrel.crmid = ?";
 
 			$result = $db->pquery($sql, array($recordId));
 			$count = $db->num_rows($result);
@@ -259,13 +259,19 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateListPrice($relatedRecordId, $price, $currencyId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?', array($relatedRecordId, $this->getId()));
-		if ($db->num_rows($result)) {
-			$db->pquery('UPDATE vtiger_pricebookproductrel SET listprice = ? WHERE pricebookid = ? && productid = ?', array($price, $relatedRecordId, $this->getId()));
+		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])->exists();
+		if ($isExists) {
+			App\Db::getInstance()->createCommand()
+					->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])
+					->execute();
 		} else {
-			$db->pquery('INSERT INTO vtiger_pricebookproductrel (pricebookid,productid,listprice,usedcurrency) values(?,?,?,?)', array($relatedRecordId, $this->getId(), $price, $currencyId));
+			App\Db::getInstance()->createCommand()
+					->insert('vtiger_pricebookproductrel', [
+						'pricebookid' => $relatedRecordId,
+						'productid' => $this->getId(),
+						'listprice' => $price,
+						'usedcurrency' => $currencyId
+					])->execute();
 		}
 	}
 
