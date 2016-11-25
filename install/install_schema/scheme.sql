@@ -5306,8 +5306,6 @@ CREATE TABLE `vtiger_inventory_tandc` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-
-
 /*Table structure for table `vtiger_inventoryproductrel` */
 
 CREATE TABLE `vtiger_inventoryproductrel` (
