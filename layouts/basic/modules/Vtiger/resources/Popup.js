@@ -36,7 +36,6 @@ jQuery.Class("Vtiger_Popup_Js",{
 	sourceField : false,
 	multiSelect : false,
 	relatedParentModule : false,
-	relatedParentRecord : false,
 
 	/**
 	 * Function to get source module
@@ -81,10 +80,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 	 * Function to get related parent id
 	 */
 	getRelatedParentRecord : function(){
-		if(this.relatedParentRecord == false){
-			this.relatedParentRecord = jQuery('#relatedParentId').val();
-		}
-		return this.relatedParentRecord;
+		return app.getMainParams('relatedParentId');
 	},
 
 	/**
@@ -484,8 +480,9 @@ jQuery.Class("Vtiger_Popup_Js",{
 	 */
 	registerEventForSearch : function(){
 		var thisInstance = this;
-		jQuery('#popupSearchButton').on('click',function(e){
-			jQuery('#totalPageCount').text("");
+		var button = jQuery('#popupSearchButton');
+		button.off('click').on('click',function(e){
+			jQuery('#totalPageCount').text('');
 			thisInstance.searchHandler().then(function(data){
 				jQuery('#pageNumber').val(1);
 				jQuery('#pageToJump').val(1);
@@ -947,9 +944,9 @@ jQuery.Class("Vtiger_Popup_Js",{
 		popupContainer.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '.switchPopup', function (event, state) {
 			var target = jQuery(event.currentTarget);
 			if (state) {
-				jQuery('#' + target.data('field')).val(target.data('onVal'))
+				app.setMainParams(target.data('field'), target.data('onVal'));
 			} else {
-				jQuery('#' + target.data('field')).val(target.data('offVal'))
+				app.setMainParams(target.data('field'), target.data('offVal'));
 			}
 			if (app.getMainParams('popupType') == 1)
 				jQuery('#popupSearchButton').trigger('click');
