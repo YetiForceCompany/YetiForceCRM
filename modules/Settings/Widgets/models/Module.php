@@ -235,10 +235,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getWYSIWYGFields($tabid, $module)
 	{
-		$field = array();
+		$field = [];
 		$adb = PearDatabase::getInstance();
-		$sql = "SELECT fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? && uitype = ?;";
-		$result = $adb->pquery($sql, array($tabid, '300'));
+		$sql = "SELECT fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;";
+		$result = $adb->pquery($sql, [$tabid, '300']);
 		while ($row = $adb->fetch_array($result)) {
 			$field[$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $module);
 		}
