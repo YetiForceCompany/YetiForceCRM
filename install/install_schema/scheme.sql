@@ -5300,11 +5300,11 @@ CREATE TABLE `vtiger_industry_seq` (
 /*Table structure for table `vtiger_inventory_tandc` */
 
 CREATE TABLE `vtiger_inventory_tandc` (
-  `id` int(11) NOT NULL ,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(30) NOT NULL,
   `tandc` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
 

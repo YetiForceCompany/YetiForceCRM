@@ -470,7 +470,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_inventory_tandc' => [
 				'columns' => [
-					'id' => $this->integer()->notNull(),
+					'id' => $this->primaryKey(),
 					'type' => $this->stringType(30)->notNull(),
 					'tandc' => $this->text(),
 				],
