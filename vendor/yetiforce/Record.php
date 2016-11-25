@@ -134,7 +134,7 @@ class Record
 			}
 			$paramsCol['id'] = $idColumn;
 			$query->select($paramsCol)->from($table);
-			\App\Cache::staticSave($cacheName, $moduleName, $query);
+			\App\Cache::staticSave($cacheName, $moduleName, clone $query);
 		} else {
 			$query = \App\Cache::staticGet($cacheName, $moduleName);
 			$metainfo = \App\Module::getEntityInfo($moduleName);
