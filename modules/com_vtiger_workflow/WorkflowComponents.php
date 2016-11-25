@@ -10,7 +10,7 @@
 require_once('include/utils/CommonUtils.php');
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Webservices/DescribeObject.php';
-require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
+require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 function vtJsonFields($adb, Vtiger_Request $request)
 {

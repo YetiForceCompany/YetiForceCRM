@@ -7,6 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-require_once 'VTTokenizer.inc';
-require_once 'VTParser.inc';
-require_once 'VTExpressionEvaluater.inc';
+require_once 'VTTokenizer.php';
+require_once 'VTParser.php';
+require_once 'VTExpressionEvaluater.php';
