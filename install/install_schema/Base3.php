@@ -474,16 +474,6 @@ class Base3 extends \App\Db\Importers\Base
 					'type' => $this->stringType(30)->notNull(),
 					'tandc' => $this->text(),
 				],
-				'primaryKeys' => [
-						['inventory_tandc_pk', 'id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_inventory_tandc_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -3027,12 +3017,6 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => ['id', 'type', 'tandc'],
 				'values' => [
 					[1, 'Inventory', ''],
-				]
-			],
-			'vtiger_inventory_tandc_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[1],
 				]
 			],
 			'vtiger_inventoryproductrel_seq' => [

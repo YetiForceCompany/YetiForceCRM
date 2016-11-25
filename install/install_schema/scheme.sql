@@ -5300,17 +5300,13 @@ CREATE TABLE `vtiger_industry_seq` (
 /*Table structure for table `vtiger_inventory_tandc` */
 
 CREATE TABLE `vtiger_inventory_tandc` (
-  `id` int(19) NOT NULL,
+  `id` int(11) NOT NULL ,
   `type` varchar(30) NOT NULL,
   `tandc` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_inventory_tandc_seq` */
 
-CREATE TABLE `vtiger_inventory_tandc_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_inventoryproductrel` */
 

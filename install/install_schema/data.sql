@@ -6238,9 +6238,6 @@ insert  into `vtiger_industry_seq`(`id`) values (43);
 
 insert  into `vtiger_inventory_tandc`(`id`,`type`,`tandc`) values (1,'Inventory','');
 
-/*Data for the table `vtiger_inventory_tandc_seq` */
-
-insert  into `vtiger_inventory_tandc_seq`(`id`) values (1);
 
 /*Data for the table `vtiger_inventoryproductrel` */
 
