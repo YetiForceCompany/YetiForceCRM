@@ -217,7 +217,7 @@ class QueryGenerator
 	public function addReletedField($field)
 	{
 		$reletedFieldModel = $this->addReletedJoin($field);
-		$this->reletedFields["{$field['reletedModule']}{$reletedFieldModel->getName()}"] = "{$reletedFieldModel->getTableName()}{$field['sourceField']}.{$field['reletedField']}";
+		$this->reletedFields["{$field['relatedModule']}{$reletedFieldModel->getName()}"] = "{$reletedFieldModel->getTableName()}{$field['sourceField']}.{$field['relatedField']}";
 	}
 
 	/**
@@ -716,10 +716,10 @@ class QueryGenerator
 	 */
 	protected function addReletedJoin($fieldDetail)
 	{
-		$reletedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['reletedModule']);
-		$reletedFieldModel = $reletedModuleModel->getField($fieldDetail['reletedField']);
+		$reletedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['relatedModule']);
+		$reletedFieldModel = $reletedModuleModel->getField($fieldDetail['relatedField']);
 		if (!$reletedFieldModel || !$reletedFieldModel->isActiveField()) {
-			App\Log::warning("Field in related module is inactive or does not exist. Releted module: {$fieldDetail['referenceModule']} | Releted field: {$fieldDetail['reletedField']}");
+			App\Log::warning("Field in related module is inactive or does not exist. Releted module: {$fieldDetail['referenceModule']} | Releted field: {$fieldDetail['relatedField']}");
 			return false;
 		}
 		$tableName = $reletedFieldModel->getTableName();
@@ -738,14 +738,14 @@ class QueryGenerator
 	 */
 	private function getQueryReletedField($field, $reletedInfo)
 	{
-		$reletedModule = $reletedInfo['reletedModule'];
-		if (isset($this->reletedQueryFields[$reletedModule][$field->getName()])) {
-			return $this->reletedQueryFields[$reletedModule][$field->getName()];
+		$relatedModule = $reletedInfo['relatedModule'];
+		if (isset($this->reletedQueryFields[$relatedModule][$field->getName()])) {
+			return $this->reletedQueryFields[$relatedModule][$field->getName()];
 		}
 		if ($field->getName() === 'id') {
 			$queryField = new QueryField\IdField($this, '');
 			$queryField->setReleted($reletedInfo);
-			return $this->reletedQueryFields[$reletedModule][$field->getName()] = $queryField;
+			return $this->reletedQueryFields[$relatedModule][$field->getName()] = $queryField;
 		}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
@@ -754,7 +754,7 @@ class QueryGenerator
 		}
 		$queryField = new $className($this, $field);
 		$queryField->setReleted($reletedInfo);
-		return $this->reletedQueryFields[$reletedModule][$field->getName()] = $queryField;
+		return $this->reletedQueryFields[$relatedModule][$field->getName()] = $queryField;
 	}
 
 	/**

@@ -22,7 +22,6 @@
 
 require_once('include/utils/utils.php'); //new
 require_once('include/utils/RecurringType.php');
-require_once 'include/QueryGenerator/QueryGenerator.php';
 require_once 'include/runtime/Cache.php';
 
 function getEntityName($module, $ids, $compute = true)
