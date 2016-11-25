@@ -33,6 +33,8 @@ include_once 'modules/Vtiger/CRMEntity.php';
 require_once 'include/runtime/Cache.php';
 require_once 'modules/Vtiger/helpers/Util.php';
 require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/Utils.php';
 
 // Constants to be defined here
 // For Migration status.
