@@ -129,8 +129,8 @@ class PickListHandler extends VTEventHandler
 			$taskComponents = explode(':', $task);
 			$classNameWithDoubleQuotes = $taskComponents[2];
 			$className = str_replace('"', '', $classNameWithDoubleQuotes);
-			require_once("modules/com_vtiger_workflow/VTTaskManager.inc");
-			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.inc';
+			require_once("modules/com_vtiger_workflow/VTTaskManager.php");
+			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 			$unserializeTask = unserialize($task);
 			if (array_key_exists("field_value_mapping", $unserializeTask)) {
 				$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
@@ -287,8 +287,8 @@ class PickListHandler extends VTEventHandler
 				$taskComponents = explode(':', $task);
 				$classNameWithDoubleQuotes = $taskComponents[2];
 				$className = str_replace('"', '', $classNameWithDoubleQuotes);
-				require_once("modules/com_vtiger_workflow/VTTaskManager.inc");
-				require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.inc';
+				require_once("modules/com_vtiger_workflow/VTTaskManager.php");
+				require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 				$unserializeTask = unserialize($task);
 				if (array_key_exists("field_value_mapping", $unserializeTask)) {
 					$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);

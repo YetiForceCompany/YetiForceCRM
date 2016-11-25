@@ -6,7 +6,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTWatchdog extends VTTask

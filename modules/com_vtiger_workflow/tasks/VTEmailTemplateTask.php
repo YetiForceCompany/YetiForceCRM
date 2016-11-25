@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTEmailTemplateTask extends VTTask

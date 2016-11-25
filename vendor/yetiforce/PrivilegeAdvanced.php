@@ -1,8 +1,8 @@
 <?php
 namespace App;
 
-vimport('~/modules/com_vtiger_workflow/VTJsonCondition.inc');
-vimport('~/modules/com_vtiger_workflow/VTEntityCache.inc');
+vimport('~/modules/com_vtiger_workflow/VTJsonCondition.php');
+vimport('~/modules/com_vtiger_workflow/VTEntityCache.php');
 vimport('~/include/Webservices/Retrieve.php');
 
 /**

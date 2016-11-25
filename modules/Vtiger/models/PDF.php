@@ -225,8 +225,8 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($test !== false) {
 			return (bool) $test;
 		}
-		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.inc");
-		vimport("~/modules/com_vtiger_workflow/VTEntityCache.inc");
+		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.php");
+		vimport("~/modules/com_vtiger_workflow/VTEntityCache.php");
 		vimport("~/include/Webservices/Retrieve.php");
 
 		$conditionStrategy = new VTJsonCondition();

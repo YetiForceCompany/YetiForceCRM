@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once('modules/Users/Users.php');
 

@@ -9,7 +9,7 @@
  * ********************************************************************************** */
 namespace vtlib;
 
-@include_once('include/events/include.inc');
+@include_once('include/events/include.php');
 
 /**
  * Provides API to work with vtiger CRM Eventing (available from vtiger 5.1)

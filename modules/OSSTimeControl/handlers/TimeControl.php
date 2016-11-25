@@ -21,7 +21,7 @@ class TimeControlHandler extends VTEventHandler
 				OSSTimeControl_Record_Model::setSumTime($data);
 			}
 			vimport('~~modules/com_vtiger_workflow/include.php');
-			vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
+			vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
 			vimport('~~include/Webservices/Utils.php');
 			vimport('~~include/Webservices/Retrieve.php');
 			$db = PearDatabase::getInstance();

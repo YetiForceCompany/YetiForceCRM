@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once 'include/events/SqlResultIterator.php';
-require_once 'VTWorkflowManager.inc';
-require_once 'VTTaskManager.inc';
-require_once 'VTWorkflowTemplateManager.inc';
-require_once 'VTTaskQueue.inc';
+require_once 'VTWorkflowManager.php';
+require_once 'VTTaskManager.php';
+require_once 'VTWorkflowManager.php';
+require_once 'VTTaskQueue.php';

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTUpdateFieldsTask extends VTTask
@@ -120,7 +120,7 @@ class VTUpdateFieldsTask extends VTTask
 					}
 					// End
 				} elseif ($fieldValueType == 'expression') {
-					require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
+					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 					$expression = $parser->expression();

@@ -248,7 +248,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 
 		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
 		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {

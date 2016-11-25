@@ -26,7 +26,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
 		vimport('~~include/Webservices/Utils.php');
 		vimport('~~include/Webservices/Retrieve.php');
 

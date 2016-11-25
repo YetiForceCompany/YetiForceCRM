@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ******************************************************************************* */
 
-require_once 'modules/com_vtiger_workflow/VTSimpleTemplate.inc';
+require_once 'modules/com_vtiger_workflow/VTSimpleTemplate.php';
 
 /**
  * Description of VTEmailRecipientsTemplate

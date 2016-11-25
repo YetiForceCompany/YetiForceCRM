@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTSendPdf extends VTTask

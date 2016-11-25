@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTUpdateRelatedFieldTask extends VTTask
@@ -44,7 +44,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 						$fieldValue = $recordModel->get($fieldValue);
 						break;
 					case 'expression':
-						require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
+						require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 
 						$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 						$expression = $parser->expression();

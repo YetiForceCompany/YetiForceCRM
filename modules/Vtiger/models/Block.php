@@ -81,8 +81,8 @@ class Vtiger_Block_Model extends vtlib\Block
 		if (count($hideBlocks) == 0) {
 			return true;
 		}
-		require_once("modules/com_vtiger_workflow/VTJsonCondition.inc");
-		require_once("modules/com_vtiger_workflow/VTEntityCache.inc");
+		require_once("modules/com_vtiger_workflow/VTJsonCondition.php");
+		require_once("modules/com_vtiger_workflow/VTEntityCache.php");
 		require_once("modules/com_vtiger_workflow/VTWorkflowUtils.php");
 		$conditionStrategy = new VTJsonCondition();
 		$currentUser = Users_Record_Model::getCurrentUserModel();

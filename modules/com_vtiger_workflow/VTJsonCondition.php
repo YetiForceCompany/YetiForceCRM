@@ -144,7 +144,7 @@ class VTJsonCondition
 			}
 			$value = $referredData[$value];
 		} elseif ($expressionType == 'expression') {
-			require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
+			require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 
 			$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($value)));
 			$expression = $parser->expression();

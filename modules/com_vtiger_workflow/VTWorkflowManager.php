@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once('VTJsonCondition.inc');
+require_once('VTJsonCondition.php');
 require_once 'include/utils/ConfigReader.php';
 require_once 'include/runtime/Cache.php';
 
@@ -370,8 +370,8 @@ class Workflow
 		$adb = PearDatabase::getInstance();
 		$data = $entityData->getData();
 
-		require_once('modules/com_vtiger_workflow/VTTaskManager.inc');
-		require_once('modules/com_vtiger_workflow/VTTaskQueue.inc');
+		require_once('modules/com_vtiger_workflow/VTTaskManager.php');
+		require_once('modules/com_vtiger_workflow/VTTaskQueue.php');
 
 		$tm = new VTTaskManager($adb);
 		$taskQueue = new VTTaskQueue($adb);

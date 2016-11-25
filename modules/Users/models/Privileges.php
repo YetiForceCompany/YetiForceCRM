@@ -200,8 +200,8 @@ class Users_Privileges_Model extends Users_Record_Model
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
-		vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+		vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
 		vimport('~~include/Webservices/Retrieve.php');
 		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
 		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);

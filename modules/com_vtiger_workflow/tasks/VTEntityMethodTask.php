@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+require_once('modules/com_vtiger_workflow/VTEntityMethodManager.php');
 
 class VTEntityMethodTask extends VTTask
 {

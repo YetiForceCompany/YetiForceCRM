@@ -8,8 +8,8 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once('include/events/SqlResultIterator.php');
-require_once('VTWorkflowManager.inc');
-require_once('VTEntityCache.inc');
+require_once('VTWorkflowManager.php');
+require_once('VTEntityCache.php');
 
 require_once 'include/Webservices/Utils.php';
 require_once("modules/Users/Users.php");

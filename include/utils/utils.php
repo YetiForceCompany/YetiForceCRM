@@ -614,8 +614,8 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 
 	\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
 	require_once('include/events/include.php');
-	//require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
-	//require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+	//require_once('modules/com_vtiger_workflow/VTWorkflowManager.php');
+	//require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 	$em = new VTEventsManager($adb);
 	$em->initTriggerCache();
 	if (!is_array($destinationRecordIds))

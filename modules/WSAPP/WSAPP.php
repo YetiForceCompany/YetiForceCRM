@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('include/events/include.inc');
+require_once('include/events/include.php');
 require_once 'modules/WSAPP/Utils.php';
 
 class WSAPP
