@@ -132,7 +132,7 @@ class Record
 					}
 				}
 			}
-			$paramsCol[] = $idColumn . ' AS id';
+			$paramsCol['id'] = $idColumn;
 			$query->select($paramsCol)->from($table);
 			\App\Cache::staticSave($cacheName, $moduleName, $query);
 		} else {
