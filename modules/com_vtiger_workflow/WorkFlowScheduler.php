@@ -48,17 +48,8 @@ class WorkFlowScheduler
 
 	public function getEligibleWorkflowRecords($workflow)
 	{
-		$db = $this->db;
 		$query = $this->getWorkflowQuery($workflow);
-		echo "===========";
-		exit;
-		$result = $db->query($query);
-
-		$recordsList = [];
-		while (($crmid = $db->getSingleValue($result)) !== false) {
-			$recordsList[] = $crmid;
-		}
-		return $recordsList;
+		return $query->column();
 	}
 
 	public function queueScheduledWorkflowTasks()
@@ -158,7 +149,6 @@ class WorkFlowScheduler
 		if ($conditions) {
 			foreach ($conditions as &$condition) {
 				$operation = $condition['operation'];
-
 				//Cannot handle this condition for scheduled workflows
 				if ($operation === 'has changed')
 					continue;
@@ -171,8 +161,6 @@ class WorkFlowScheduler
 				$operator = $conditionMapping[$operation];
 				$fieldName = $condition['fieldname'];
 				$valueType = $condition['valuetype'];
-
-
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
 				if (count($matches) != 0) {
@@ -183,10 +171,9 @@ class WorkFlowScheduler
 					$referenceField = null;
 				} else {
 					$functionName = $groupJoin === 'and' ? 'addAndCondition' : 'addOrCondition';
-					$this->$functionName($fieldName, $value, $operator);
+					$queryGenerator->$functionName($fieldName, $value, $operator);
 				}
 			}
-			$queryGenerator->endGroup();
 		}
 	}
 
