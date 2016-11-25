@@ -201,7 +201,7 @@ class QueryGenerator
 	 * @param array $condition
 	 * @param boolean $groupAnd
 	 */
-	public function addConditionNative($condition, $groupAnd = true)
+	public function addNativeCondition($condition, $groupAnd = true)
 	{
 		if ($groupAnd) {
 			$this->conditionsAnd[] = $condition;
