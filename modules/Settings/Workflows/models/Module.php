@@ -177,7 +177,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				$db->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']]);
 				$taskId = $db->getLastInsertID();
 
-				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
+				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 				$taskObject = unserialize($task['task']);
 				$taskObject->workflowId = intval($workflowId);
 				$taskObject->id = intval($taskId);
