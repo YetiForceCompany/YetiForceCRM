@@ -40,7 +40,6 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 	// NOTE: Move this function to appropriate model.
 	protected function getKeyMetricsWithCount()
 	{
-		$adb = PearDatabase::getInstance();
 		$current_user = Users_Record_Model::getCurrentUserModel();
 		vglobal('current_user', $current_user);
 		require_once 'modules/CustomView/ListViewTop.php';
