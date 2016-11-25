@@ -1157,8 +1157,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
@@ -1187,50 +1185,40 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
-		$query = sprintf('SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.%s = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0', $relationField);
-		$params = [$this->getName()];
+		$query = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'parent_id' => 'crmentity2.crmid', 'description' => 'vtiger_crmentity.description',
+			'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*'])
+				->from('vtiger_activity')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+				->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
+				->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+				->where(['vtiger_crmentity.deleted' => 0]);
+		$andWhere = ['and'];
 		if ($recordId) {
-			$query .= ' AND vtiger_activity.' . $relationField . ' = ?';
-			array_push($params, $recordId);
+			$andWhere []= ["vtiger_activity.$relationField" => $recordId];
 		}
 		if ($mode === 'current') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN (" . generateQuestionMarks($currentActivityLabels) . "))";
-			$params = array_merge($params, $currentActivityLabels);
+			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['vtiger_activity.status' => $currentActivityLabels]];
 		} elseif ($mode === 'history') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status NOT IN (" . generateQuestionMarks($currentActivityLabels) . "))";
-			$params = array_merge($params, $currentActivityLabels);
+			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['not in', 'vtiger_activity.status', $currentActivityLabels]];
 		} elseif ($mode === 'upcoming') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
-					AND (vtiger_activity.status is NULL || vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
-			$query .= " AND due_date >= '$currentDate'";
+			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['>=', 'due_date', $currentDate]];
 		} elseif ($mode === 'overdue') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
-					AND (vtiger_activity.status is NULL || vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
-			$query .= " AND due_date < '$currentDate'";
+			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]];
 		}
-
-
 		if ($user != 'all' && $user != '') {
 			if ($user === $currentUser->id) {
-				$query .= " AND vtiger_crmentity.smownerid = ?";
-				array_push($params, $user);
+				$andWhere []= ['vtiger_crmentity.smownerid' => $user];
 			}
 		}
-		$query .= \App\PrivilegeQuery::getAccessConditions($moduleName, $currentUser->getId(), $recordId);
-		$query .= sprintf(" ORDER BY date_start, time_start LIMIT %d OFFSET %d", $pagingModel->getStartIndex(), ($pagingModel->getPageLimit() + 1));
-
-		$result = $db->pquery($query, $params);
-		$numOfRows = $db->num_rows($result);
-
+		$query->andWhere($andWhere);
+		App\PrivilegeQuery::getConditions($query, $moduleName, false, $recordId);
 		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
+		$dataReader = $query->createCommand()->query();
+		$numOfRows = $dataReader->count();
 		$activities = [];
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$newRow = $db->query_result_rowdata($result, $i);
+		while ($row = $dataReader->read()) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
-			$ownerId = $newRow['smownerid'];
+			$ownerId = $row['smownerid'];
 			$visibleFields = array('activitytype', 'date_start', 'time_start', 'due_date', 'time_end', 'assigned_user_id', 'visibility', 'smownerid', 'crmid');
 			$visibility = true;
 			if (in_array($ownerId, $groupsIds)) {
@@ -1238,26 +1226,24 @@ class Vtiger_Module_Model extends \vtlib\Module
 			} else if ($ownerId == $currentUser->getId()) {
 				$visibility = false;
 			}
-			if (!$currentUser->isAdminUser() && $newRow['activitytype'] != 'Task' && $newRow['visibility'] == 'Private' && $ownerId && $visibility) {
-				foreach ($newRow as $data => $value) {
+			if (!$currentUser->isAdminUser() && $row['activitytype'] != 'Task' && $row['visibility'] == 'Private' && $ownerId && $visibility) {
+				foreach ($row as $data => $value) {
 					if (in_array($data, $visibleFields) != -1) {
-						unset($newRow[$data]);
+						unset($row[$data]);
 					}
 				}
-				$newRow['subject'] = vtranslate('Busy', 'Events') . '*';
+				$row['subject'] = vtranslate('Busy', 'Events') . '*';
 			}
-			if ($newRow['activitytype'] == 'Task') {
-				unset($newRow['visibility']);
+			if ($row['activitytype'] == 'Task') {
+				unset($row['visibility']);
 			}
-
-			$sql = "SELECT * FROM u_yf_activity_invitation WHERE activityid = ?";
-			$result_invitees = $db->pquery($sql, [$newRow['crmid']]);
-			while ($recordinfo = $db->fetch_array($result_invitees)) {
-				$newRow['selectedusers'][] = $recordinfo['inviteeid'];
+			$dataReaderSecond = (new \App\Db\Query())->select(['inviteesid'])->from('u_#__activity_invitation')->where(['activityid' => $row['crmid']])
+					->createCommand()->query();
+			while ($invite = $dataReaderSecond->readColumn(0)) {
+				$row['selectedusers'][] = $invite;
 			}
-
-			$model->setData($newRow);
-			$model->setId($newRow['crmid']);
+			$model->setData($row);
+			$model->setId($row['crmid']);
 			$activities[] = $model;
 		}
 
