@@ -147,7 +147,7 @@ class VTTaskManager
 			require_once($taskClassPath);
 		} else {
 			if (!empty($taskType)) {
-				require_once("tasks/" . $taskType . ".inc");
+				require_once("tasks/" . $taskType . ".php");
 			}
 		}
 	}

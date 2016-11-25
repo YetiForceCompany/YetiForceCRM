@@ -13,6 +13,7 @@ require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
+require_once 'modules/Users/Users.php';
 vimport('include.runtime.EntryPoint');
 \App\Debuger::init();
 \App\Cache::init();
