@@ -93,13 +93,6 @@ class Users_Save_Action extends Vtiger_Save_Action
 			}
 		}
 
-		// Tag cloud save
-		$tagCloud = $request->get('tagcloudview');
-		if ($tagCloud == "on") {
-			$recordModel->set('tagcloud', 0);
-		} else {
-			$recordModel->set('tagcloud', 1);
-		}
 		return $recordModel;
 	}
 

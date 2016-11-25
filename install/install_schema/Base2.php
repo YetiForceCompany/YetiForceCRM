@@ -2379,7 +2379,6 @@ class Base2 extends \App\Db\Importers\Base
 					[26, 'Dashboard', 0],
 					[27, 'CreateDashboardFilter', 0],
 					[28, 'QuickExportToExcel', 0],
-					[29, 'TagCloud', 1],
 					[30, 'DetailTransferOwnership', 0],
 					[31, 'ActivityPostponed', 0],
 					[32, 'ActivityCancel', 0],

@@ -102,7 +102,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 						->where(['tabid' => $value['related_tabid'], 'uitype' => [15, 16]])
 						->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$filetrs[$value['related_tabid']][$row['fieldname']] = vtranslate($row['fieldlabel'], $value['name']);
+					$filetrs[$value['related_tabid']][$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}
@@ -123,7 +123,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 						->andWhere(['<>', 'columnname', 'was_read'])
 						->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = vtranslate($row['fieldlabel'], $value['name']);
+					$checkboxs[$value['related_tabid']][$row['tablename'] . '.' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}
@@ -134,18 +134,18 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public function getFields($tabid, $uitype = false)
 	{
 		$adb = PearDatabase::getInstance();
-		$fieldlabel = $fieldsList = array();
-		$params = array($tabid);
-		$sql = "SELECT fieldid,columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? && displaytype <> '2' && vtiger_field.presence in (0,2)";
+		$fieldlabel = $fieldsList = [];
+		$params = [$tabid];
+		$sql = "SELECT fieldid,columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND displaytype <> '2' AND vtiger_field.presence in (0,2)";
 		if ($uitype) {
 			$uitype = implode("','", $uitype);
-			$sql .= " && uitype in ('$uitype')";
+			$sql .= " AND uitype in ('$uitype')";
 		}
 		$result = $adb->pquery($sql, $params, true);
 		$Num = $adb->num_rows($result);
 		while ($row = $adb->fetch_array($result)) {
-			$fieldlabel[$row['fieldid']] = vtranslate($row['fieldlabel'], $value['name']);
-			$fieldsList[$value['related_tabid']][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = vtranslate($row['fieldlabel'], $value['name']);
+			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $value['name']);
+			$fieldsList[$value['related_tabid']][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
 		}
 		return array('labels' => $fieldlabel, 'table' => $fieldsList);
 	}
@@ -240,7 +240,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$sql = "SELECT fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? && uitype = ?;";
 		$result = $adb->pquery($sql, array($tabid, '300'));
 		while ($row = $adb->fetch_array($result)) {
-			$field[$row['fieldname']] = vtranslate($row['fieldlabel'], $module);
+			$field[$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $module);
 		}
 		return $field;
 	}
@@ -251,7 +251,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			\App\Module::getModuleId('SSalesProcesses') => [ 0 =>
 				[
 					'type' => 1,
-					'label' => vtranslate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
+					'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
 					'value' => ['ssalesprocesses_status' => ['PLL_SALE_COMPLETED', 'PLL_SALE_FAILED', 'PLL_SALE_CANCELLED']]
 				]
 			]

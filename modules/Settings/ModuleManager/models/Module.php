@@ -192,7 +192,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->enableTools(['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
 			'DuplicateRecord', 'MassEdit', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 			'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
-			'QuickExportToExcel', 'TagCloud', 'DetailTransferOwnership', 'ExportPdf',
+			'QuickExportToExcel', 'DetailTransferOwnership', 'ExportPdf',
 			'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
 			'WatchingModule', 'RemoveRelation', 'ReviewingUpdates']);
 
