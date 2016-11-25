@@ -31,7 +31,7 @@ class Settings_Vtiger_TermsAndConditions_Model extends Vtiger_Base_Model
 
 	public function save()
 	{
-		$isExists = (new \App\Db\Query())->from(self::tableName);
+		$isExists = (new \App\Db\Query())->from(self::tableName)->exists();
 		if ($isExists) {
 			\App\Db::getInstance()->createCommand()->update(self::tableName, ['tandc' => $this->getText()])->execute();
 		} else {
