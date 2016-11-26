@@ -455,7 +455,6 @@ class Accounts extends CRMEntity
 
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
-		$db = PearDatabase::getInstance();
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
 		if (!in_array($with_module, ['Products', 'Campaigns'])) {
@@ -463,23 +462,23 @@ class Accounts extends CRMEntity
 		} else {
 			foreach ($with_crmids as $with_crmid) {
 				if ($with_module == 'Products') {
-					$insert = $db->insert('vtiger_seproductsrel', [
+					App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 						'crmid' => $crmid,
 						'productid' => $with_crmid,
 						'setype' => $module,
 						'rel_created_user' => \App\User::getCurrentUserId(),
 						'rel_created_time' => date('Y-m-d H:i:s')
-					]);
+					])->execute();
 				} elseif ($with_module == 'Campaigns') {
-					$checkResult = $db->pquery('SELECT 1 FROM vtiger_campaign_records WHERE campaignid = ? && crmid = ?', [$with_crmid, $crmid]);
-					if ($db->getRowCount($checkResult) > 0) {
+					$checkResult = (new \App\Db\Query())->from('vtiger_campaign_records')->where(['campaignid' => $with_crmid, 'crmid' => $crmid])->exists();
+					if ($checkResult) {
 						continue;
 					}
-					$db->insert('vtiger_campaign_records', [
+					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 						'campaignid' => $with_crmid,
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 1
-					]);
+					])->execute();
 				}
 			}
 		}

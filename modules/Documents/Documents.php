@@ -376,20 +376,14 @@ class Documents extends CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-
 		if (empty($returnModule) || empty($returnId))
 			return;
-
 		if ($returnModule == 'Accounts') {
-			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && (crmid = ? || crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
-			$this->db->pquery($sql, array($id, $returnId, $returnId));
+			$subQuery = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId]);
+			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['and', ['notesid' => $id], ['or', ['crmid' => $returnId], ['crmid' => $subQuery]]])->execute();
 		} else {
-			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && crmid = ?';
-			$this->db->pquery($sql, array($id, $returnId));
-
-			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
-			$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
-			$this->db->pquery($sql, $params);
+			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['notesid' => $id, 'crmid' => $returnId])->execute();
+			parent::deleteRelatedFromDB($relatedName, $id, $returnModule, $returnId);
 		}
 	}
 

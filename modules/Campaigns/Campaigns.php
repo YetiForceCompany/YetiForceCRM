@@ -145,11 +145,11 @@ class Campaigns extends CRMEntity
 			return;
 
 		if (in_array($returnModule, ['Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			$this->db->delete('vtiger_campaign_records', 'campaignid=? && crmid=?', [$id, $returnId]);
+			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => $returnId])->execute();
 		} elseif ($returnModule == 'Accounts') {
-			$this->db->delete('vtiger_campaign_records', 'campaignid=? && crmid=?', [$id, $returnId]);
-			$sql = 'DELETE FROM vtiger_campaign_records WHERE campaignid=? && crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE accountid=?)';
-			$this->db->pquery($sql, array($id, $returnId));
+			$db = App\Db::getInstance();
+			$db->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => $returnId])->execute();
+			$db->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId])])->execute();
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}

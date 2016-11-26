@@ -583,40 +583,21 @@ class ServiceContracts extends CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $currentModule;
-
-		if ($return_module == 'Accounts') {
-			$focus = CRMEntity::getInstance($return_module);
-			$entityIds = $focus->getRelatedContactsIds($return_id);
-			array_push($entityIds, $return_id);
-			$entityIds = implode(',', $entityIds);
-			$return_modules = "'Accounts','Contacts'";
-		} else {
-			$entityIds = $return_id;
-			$return_modules = "'" . $return_module . "'";
-		}
 		if ($relatedName == 'getManyToMany') {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {
-			$where = '(relcrmid= ? && module IN (?) && crmid IN (?)) || (crmid= ? && relmodule IN (?) && relcrmid IN (?))';
-			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
-			$this->db->delete('vtiger_crmentityrel', $where, $params);
-
-			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule IN (%s))', $return_modules);
-			$fieldRes = $this->db->pquery($sql, [$currentModule]);
-			$numOfFields = $this->db->num_rows($fieldRes);
-			for ($i = 0; $i < $numOfFields; $i++) {
-				$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
-				$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
-				$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
-				$relatedModule = vtlib\Functions::getModuleName($tabId);
-				$focusObj = CRMEntity::getInstance($relatedModule);
-
-				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) && $focusObj->table_index=?";
-				$updateParams = array(null, $id);
-				$this->db->pquery($updateQuery, $updateParams);
+			parent::deleteRelatedFromDB(vglobal('currentModule'), $id, $returnModule, $returnId);
+			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
+					->from('vtiger_field')
+					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $returnModule])])
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				App\Db::getInstance()->createCommand()
+						->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
+						->execute();
 			}
 		}
 	}

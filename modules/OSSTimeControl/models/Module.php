@@ -80,12 +80,11 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	{
 	
 		// Calculate total working time
-		$totalTime = $query->limit(null)->sum('vtiger_osstimecontrol.sum_time');
+		$totalTime = $query->limit(null)->orderBy('')->sum('vtiger_osstimecontrol.sum_time');
 
 		// Calculate total working time divided into users
 		$dataReader = $query->select(['sumtime' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'), 'vtiger_crmentity.smownerid'])
 				->groupBy('vtiger_crmentity.smownerid')
-				->limit(null)
 				->createCommand()->query();
 		$userTime = [];
 		$count = 1;

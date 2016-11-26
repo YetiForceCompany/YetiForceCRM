@@ -156,7 +156,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function addValue(CRMEntity $entity, $sourceRecord, $destRecord)
 	{
-		$db = PearDatabase::getInstance();
 		$values = $this->getRecordValues($entity, $sourceRecord, $destRecord);
 		$currentValue = $values['currentValue'];
 		if (strpos($currentValue, self::COMMA . $values['relatedValue'] . self::COMMA) !== false) {
@@ -166,10 +165,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue .= $values['relatedValue'] . self::COMMA;
-		$db->update($this->get('field')->get('table'), [
+		App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
 			$this->get('field')->get('column') => $currentValue
-			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
-		);
+			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
+		)->execute();
 	}
 
 	/**
@@ -187,10 +186,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue = str_replace(self::COMMA . $values['relatedValue'] . self::COMMA, self::COMMA, $currentValue);
-		$db->update($this->get('field')->get('table'), [
+		App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
 			$this->get('field')->get('column') => $currentValue
-			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
-		);
+			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
+		)->execute();
 	}
 
 	/**

@@ -192,19 +192,17 @@ class Partners extends Vtiger_CRMEntity
 
 	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
-		$adb = PearDatabase::getInstance();
-
 		if (!is_array($withCrmids))
 			$withCrmids = [$withCrmids];
-		if ($withModule != 'Campaigns') {
+		if ($withModule !== 'Campaigns') {
 			parent::save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName);
 		} else {
 			foreach ($withCrmids as $withCrmid) {
-				$adb->insert('vtiger_campaign_records', [
+				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
 					'campaignrelstatusid' => 0
-				]);
+				])->execute();
 			}
 		}
 	}

@@ -191,21 +191,19 @@ class Competition extends Vtiger_CRMEntity
 		}
 	}
 
-	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
-		$adb = PearDatabase::getInstance();
-
-		if (!is_array($with_crmids))
-			$with_crmids = [$with_crmids];
-		foreach ($with_crmids as $with_crmid) {
-			if ($with_module == 'Campaigns') {
-				$adb->insert('vtiger_campaign_records', [
-					'campaignid' => $with_crmid,
+		if (!is_array($withCrmids))
+			$withCrmids = [$withCrmids];
+		foreach ($withCrmids as $withCrmid) {
+			if ($withModule === 'Campaigns') {
+				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
 					'campaignrelstatusid' => 0
-				]);
+				])->execute();
 			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
+				parent::save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName);
 			}
 		}
 	}

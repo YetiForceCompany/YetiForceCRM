@@ -1056,14 +1056,14 @@ class CRMEntity
 
 	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
-		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$module, $withModule]);
-		$numOfFields = $this->db->getRowCount($fieldRes);
-		while ($row = $this->db->getRow($fieldRes)) {
-			$focusObj = CRMEntity::getInstance($row['name']);
-			$columnName = $row['columnname'];
-			$columns = [$columnName => null];
-			$where = "$columnName = ? && $focusObj->table_index = ?";
-			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
+		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
+				->from('vtiger_field')
+				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
+				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $module, 'relmodule' => $withModule])])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			App\Db::getInstance()->createCommand()
+					->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
 	}
 
@@ -1076,9 +1076,18 @@ class CRMEntity
 
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
-		$where = '(crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
-		$params = [$crmid, $withModule, $withCrmid, $crmid, $withModule, $withCrmid];
-		$this->db->delete('vtiger_crmentityrel', $where, $params);
+		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
+			[
+				'crmid' => $crmid,
+				'relmodule' => $withModule,
+				'relcrmid' => $withCrmid
+			],
+			[
+				'relcrmid' => $crmid,
+				'module' => $withModule,
+				'crmid' => $withCrmid
+			] 
+		])->execute();
 	}
 
 	/**

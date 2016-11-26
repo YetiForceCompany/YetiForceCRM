@@ -655,12 +655,20 @@ class Activity extends CRMEntity
 
 	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
-		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$module, $withModule]);
-		if ($fieldRes->rowCount()) {
-			$results = $this->db->getArray($fieldRes);
+		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
+				->from('vtiger_field')
+				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
+				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $module, 'relmodule' => $withModule])])
+				->createCommand()->query();
+		
+		if ($dataReader->count()) {
+			$results = $dataReader->readAll();
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
-			while ($row = $this->db->getRow($fieldRes)) {
+			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
+				->from('vtiger_field')
+				->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($module)])
+				->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
@@ -674,12 +682,9 @@ class Activity extends CRMEntity
 				}
 			}
 		}
-		foreach ($results as $result) {
-			$focusObj = CRMEntity::getInstance($row['name']);
-			$columnName = $row['columnname'];
-			$columns = [$columnName => null];
-			$where = "$columnName = ? && $focusObj->table_index = ?";
-			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
+		foreach ($results as $row) {
+			App\Db::getInstance()->createCommand()
+					->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
 	}
 }
