@@ -121,7 +121,9 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$params[] = $user;
 		}
 		if (!$this->listviewRecords) {
-			$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
+			if (!empty($user)) {
+				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
+			}
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
 			$filterId = $this->widgetModel->get('filterid');
