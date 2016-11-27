@@ -59,11 +59,11 @@ $languageStrings = [
 	/* YetiForce Lead Status */
 	'PLL_TO_REALIZE' => 'in Bearbeitung',
 	'PLL_CONTACTS_IN_THE_FUTURE' => 'Kontakt für die Zukunft',
-	'PLL_LEAD_UNTAPPED' => 'Unobtained',
-	'PLL_LEAD_ACQUIRED' => 'For conversion',
-	'PLL_PENDING' => 'Pending',
+	'PLL_LEAD_UNTAPPED' => 'Unentschlossen',
+	'PLL_LEAD_ACQUIRED' => 'Gewonnen',
+	'PLL_PENDING' => 'Schwebend',
 	'PLL_IN_REALIZATION' => 'In realization',
-	'PLL_INCORRECT' => 'Incorrect',
+	'PLL_INCORRECT' => 'Inkorrekt',
 	/* YetiForce */
 	'Contact Information' => 'Kontakt Informationen',
 	'LBL_REGISTRATION_INFO' => 'Registrierungs-Details',
