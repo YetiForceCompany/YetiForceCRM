@@ -3053,7 +3053,7 @@ class Base4 extends \App\Db\Importers\Base
 					[519, 86, 18, 'getRelatedList', 21, 'Vendors', 0, 'SELECT,ADD', 0, 0, 0],
 					[520, 86, 93, 'getRelatedList', 22, 'Competition', 0, 'SELECT,ADD', 0, 0, 0],
 					[521, 92, 43, 'getRelatedList', 14, 'Project', 0, 'SELECT,ADD', 0, 0, 0],
-					[523, 43, 92, 'getRelatedList', 11, 'Vendors', 0, 'SELECT,ADD', 0, 0, 0],
+					[523, 43, 18, 'getRelatedList', 11, 'Vendors', 0, 'SELECT,ADD', 0, 0, 0],
 					[524, 43, 92, 'getRelatedList', 12, 'Partners', 0, 'SELECT,ADD', 0, 0, 0],
 				]
 			],
