@@ -50,17 +50,11 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 
 		$relatedRecordModelsList = parent::getEntries($pagingModel);
 		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition']) && $relatedRecordModelsList) {
-			$db = PearDatabase::getInstance();
-			$relatedRecordIdsList = array_keys($relatedRecordModelsList);
-
-			$query = 'SELECT campaignrelstatus, crmid FROM vtiger_campaign_records
-						INNER JOIN vtiger_campaignrelstatus ON vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid
-						WHERE crmid IN (%s) && campaignid = ?';
-			$query = sprintf($query, generateQuestionMarks($relatedRecordIdsList));
-			array_push($relatedRecordIdsList, $parentRecordModel->getId());
-
-			$result = $db->pquery($query, $relatedRecordIdsList);
-			while ($row = $db->getRow($result)) {
+			$dataReader = (new App\Db\Query())->select(['campaignrelstatus', 'crmid'])->from('vtiger_campaign_records')
+					->innerJoin('vtiger_campaignrelstatus', 'vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid')
+					->where(['crmid' => array_keys($relatedRecordModelsList), 'campaignid' => $parentRecordModel->getId()])
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$recordId = $row['crmid'];
 				$relatedRecordModel = $relatedRecordModelsList[$recordId];
 				$relatedRecordModel->set('status', $row['campaignrelstatus']);

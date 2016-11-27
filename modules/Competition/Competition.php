@@ -184,8 +184,8 @@ class Competition extends Vtiger_CRMEntity
 
 		if (empty($returnModule) || empty($returnId))
 			return;
-		if ($returnModule == 'Campaigns') {
-			$this->db->delete('vtiger_campaign_records', 'crmid=? && campaignid=?', [$id, $returnId]);
+		if ($returnModule === 'Campaigns') {
+			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}

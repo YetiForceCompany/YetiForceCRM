@@ -23,12 +23,11 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
 		if (($sourceModuleName == 'Products' || $sourceModuleName == 'Services') && $relatedModuleName == 'PriceBooks') {
 			//Description: deleteListPrice function is deleting the relation between Pricebook and Product/Service 
-			$priceBookModel = Vtiger_Record_Model::getInstanceById($relatedRecordId, $relatedModuleName);
-			$priceBookModel->deleteListPrice($sourceRecordId);
+			return Vtiger_Record_Model::getInstanceById($relatedRecordId, $relatedModuleName)->deleteListPrice($sourceRecordId);
 		} else if ($sourceModuleName == $relatedModuleName) {
-			$this->deleteProductToProductRelation($sourceRecordId, $relatedRecordId);
+			return $this->deleteProductToProductRelation($sourceRecordId, $relatedRecordId);
 		} else {
-			parent::deleteRelation($sourceRecordId, $relatedRecordId);
+			return parent::deleteRelation($sourceRecordId, $relatedRecordId);
 		}
 	}
 
@@ -40,11 +39,11 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 	 */
 	public function deleteProductToProductRelation($sourceRecordId, $relatedRecordId)
 	{
-		$db = PearDatabase::getInstance();
 		if (!empty($sourceRecordId) && !empty($relatedRecordId)) {
-			$db->pquery('DELETE FROM vtiger_seproductsrel WHERE crmid = ? && productid = ?', array($relatedRecordId, $sourceRecordId));
+			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $relatedRecordId, 'productid' => $sourceRecordId])->execute();
 			return true;
 		}
+		return false;
 	}
 
 	public function isSubProduct($subProductId)

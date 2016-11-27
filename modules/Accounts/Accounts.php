@@ -443,11 +443,10 @@ class Accounts extends CRMEntity
 		if (empty($return_module) || empty($return_id))
 			return;
 
-		if ($return_module == 'Campaigns') {
-			$this->db->delete('vtiger_campaign_records', 'crmid=? && campaignid=?', [$id, $return_id]);
-		} else if ($return_module == 'Products') {
-			$sql = 'DELETE FROM vtiger_seproductsrel WHERE crmid=? && productid=?';
-			$this->db->pquery($sql, array($id, $return_id));
+		if ($return_module === 'Campaigns') {
+			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
+		} else if ($return_module === 'Products') {
+			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}

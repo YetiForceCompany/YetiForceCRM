@@ -72,7 +72,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 */
 	public function deleteListPrice($relatedRecordId)
 	{
-		App\Db::getInstance()->createCommand()
+		return App\Db::getInstance()->createCommand()
 				->delete('vtiger_pricebookproductrel', ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
 				->execute();
 	}

@@ -49,7 +49,7 @@ class OSSMail
 				throw new \Exception\NotAllowedMethod(vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'roundcube'));
 			}
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_EnabledModule', $moduleName, $user_id), false);
+			App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id])->execute();
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {
