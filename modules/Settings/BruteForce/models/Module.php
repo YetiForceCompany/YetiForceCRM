@@ -155,7 +155,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			'blocked' => self::UNBLOCKED,
 		])->execute();
 		$this->isBlocked = false;
-		return $this->blockedId = $db->getLastInsertID();
+		return $this->blockedId = $db->getLastInsertID('a_#__bruteforce_blocked_id_seq');
 	}
 
 	/**
@@ -193,7 +193,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getAdminUsers()
 	{
-		return \includes\fields\Owner::getInstance()->getUsers(false, 'Active', false, false, true);
+		return \App\Fields\Owner::getInstance()->getUsers(false, 'Active', false, false, true);
 	}
 
 	/**

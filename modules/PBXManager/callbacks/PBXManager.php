@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . '/../../../');
-include_once 'include/Webservices/Relation.php';
 include_once 'include/main/WebUI.php';
 vimport('include.http.Request');
 

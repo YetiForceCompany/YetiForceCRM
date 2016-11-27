@@ -23,7 +23,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Name of this record instance
-	 * @return <String> Name
+	 * @return string Name
 	 */
 	public function getName()
 	{
@@ -41,7 +41,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Detail view url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -50,7 +50,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Edit view url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getEditViewUrl()
 	{
@@ -59,7 +59,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Delete url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getDeleteUrl()
 	{
@@ -130,7 +130,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 
-		$conditions = \includes\utils\Json::encode($wfCondition);
+		$conditions = \App\Json::encode($wfCondition);
 		$views = $this->get('views');
 		$params = [
 			'blockid' => $this->get('blockid'),
@@ -148,23 +148,25 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get record instance by using id and moduleName
 	 * @param <Integer> $recordId
-	 * @param <String> $qualifiedModuleName
+	 * @param string $qualifiedModuleName
 	 * @return <Settings_Webforms_Record_Model> RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
-		
-		$rowData = (new \App\Db\Query())
-			->from('vtiger_blocks_hide')
-			->where(['id' => $recordId])
-			->createCommand()->queryOne();
-		if ($rowData !== false) {
+		$rowData = [];
+		if (!empty($recordId)) {
 			$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$recordModel = new $recordModelClass();
-			$recordModel->setData($rowData);
+			$rowData = (new \App\Db\Query())
+				->from('vtiger_blocks_hide')
+				->where(['id' => $recordId])
+				->one();
+			if ($rowData) {
+				$recordModel->setData($rowData);
+			}
 			return $recordModel;
 		}
-		return $rowData;
+		return false;
 	}
 
 	static public function getCleanInstance($qualifiedModuleName)
@@ -176,8 +178,8 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get display value of every field from this record
-	 * @param <String> $fieldName
-	 * @return <String>
+	 * @param string $fieldName
+	 * @return string
 	 */
 	public function getDisplayValue($fieldName)
 	{
@@ -210,8 +212,8 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModuleInstanceByBlockId($blockId)
 	{
 		$tabid = (new \App\Db\Query())->select('tabid')
-			->from('vtiger_blocks')
-			->where(['blockid' => $blockId])->scalar();
+				->from('vtiger_blocks')
+				->where(['blockid' => $blockId])->scalar();
 		if (!empty($tabid)) {
 			return Vtiger_Module_Model::getInstance($tabid);
 		}

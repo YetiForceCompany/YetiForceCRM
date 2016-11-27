@@ -52,6 +52,11 @@ class Ideas extends Vtiger_CRMEntity
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['ideas_no', 'subject', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -91,7 +96,7 @@ class Ideas extends Vtiger_CRMEntity
 		if ($eventType == 'module.postinstall') {
 
 			$ModuleInstance = CRMEntity::getInstance('Ideas');
-			\includes\fields\RecordNumber::setNumber($moduleName, 'ID', '1');
+			\App\Fields\RecordNumber::setNumber($moduleName, 'ID', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Ideas'));
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -118,13 +123,13 @@ class Ideas extends Vtiger_CRMEntity
 				}
 			}
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 }

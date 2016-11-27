@@ -44,12 +44,12 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 						case 1:
 							$whereConditionOff = [];
 							foreach ($switchHeaderData['value'] as $name => $value) {
-								$whereCondition[$name] = ['comparison' => 'NOT IN', 'value' => $value];
-								$whereConditionOff[$name] = ['comparison' => 'IN', 'value' => $value];
+								$whereCondition[] = [$name, 'n', implode(',', $value)];
+								$whereConditionOff[] = [$name, 'e', implode(',', $value)];
 							}
 							$this->getCheckboxLables($model, 'switchHeader', 'LBL_SWITCHHEADER_');
-							$this->Config['switchHeader']['on'] = \includes\utils\Json::encode($whereCondition);
-							$this->Config['switchHeader']['off'] = \includes\utils\Json::encode($whereConditionOff);
+							$this->Config['switchHeader']['on'] = \App\Json::encode($whereCondition);
+							$this->Config['switchHeader']['off'] = \App\Json::encode($whereConditionOff);
 							$whereCondition = [$whereCondition];
 							break;
 						default:
@@ -59,12 +59,12 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			}
 			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] != '-') {
 				$whereCondition[][$this->Data['checkbox']] = 1;
-				$this->Config['checkbox']['on'] = \includes\utils\Json::encode([$this->Data['checkbox'] => 1]);
-				$this->Config['checkbox']['off'] = \includes\utils\Json::encode([$this->Data['checkbox'] => 0]);
+				$this->Config['checkbox']['on'] = \App\Json::encode([$this->Data['checkbox'] => 1]);
+				$this->Config['checkbox']['off'] = \App\Json::encode([$this->Data['checkbox'] => 0]);
 				$this->getCheckboxLables($model, 'checkbox', 'LBL_SWITCH_');
 			}
 			if (!empty($whereCondition)) {
-				$this->Config['url'] .= '&whereCondition=' . \includes\utils\Json::encode($whereCondition);
+				$this->Config['url'] .= '&search_params=' . \App\Json::encode($whereCondition);
 			}
 			$widget = $this->Config;
 		}

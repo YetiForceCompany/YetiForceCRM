@@ -41,7 +41,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get the Webservice Field data type
-	 * @return <String> Data type of the field
+	 * @return string Data type of the field
 	 */
 	public function getFieldDataType()
 	{
@@ -78,8 +78,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get Edit view display value
-	 * @param <String> Data base value
-	 * @return <String> value
+	 * @param string Data base value
+	 * @return string value
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
@@ -113,9 +113,9 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		$fieldModel = Vtiger_Field_Model::getInstance('recurringtype', Vtiger_Module_Model::getInstance('Events'));
 		if ($fieldModel->isRoleBased() && !$currentUser->isAdminUser()) {
 			$userModel = Users_Record_Model::getCurrentUserModel();
-			$picklistValues = \includes\fields\Picklist::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
+			$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
 		} else {
-			$picklistValues = Vtiger_Util_Helper::getPickListValues('recurringtype');
+			$picklistValues = App\Fields\Picklist::getPickListValues('recurringtype');
 		}
 		foreach ($picklistValues as $value) {
 			$fieldPickListValues[$value] = vtranslate($value, 'Events');

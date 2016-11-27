@@ -114,7 +114,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	{
 		$userid = $this->get('smcreatorid');
 		if (!empty($userid)) {
-			return \includes\fields\Owner::getLabel($userid);
+			return \App\Fields\Owner::getLabel($userid);
 		}
 		return '';
 	}
@@ -157,7 +157,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$usersCollection = $this->isEmpty('assigned_user_id') ? [] : [$this->get('assigned_user_id')];
 		if (!empty($users)) {
 			foreach ($users as $userId) {
-				$userType = \includes\fields\Owner::getType($userId);
+				$userType = \App\Fields\Owner::getType($userId);
 				if ($userType === 'Groups') {
 					$usersCollection = array_merge($usersCollection, \App\PrivilegeUtil::getUsersByGroup($userId));
 				} else {
@@ -168,6 +168,9 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		}
 		$usersCollection = array_unique($usersCollection);
 		foreach ($usersCollection as $userId) {
+			if($relatedId && $notificationType === 'PLL_SYSTEM' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId, $userId)){
+				continue;
+			}
 			$this->set('assigned_user_id', $userId);
 			parent::save();
 		}

@@ -89,23 +89,6 @@ class Vtiger_Cache
 		}
 	}
 
-	private static $_picklist_values;
-
-	public function getPicklistValues($fieldName)
-	{
-		if (isset(self::$_picklist_values[$fieldName])) {
-			return self::$_picklist_values[$fieldName];
-		}
-		return false;
-	}
-
-	public function setPicklistValues($fieldName, $values)
-	{
-		if (self::$cacheEnable) {
-			self::$_picklist_values[$fieldName] = $values;
-		}
-	}
-
 	private static $_picklist_details;
 
 	public function getPicklistDetails($module, $field)
@@ -206,42 +189,6 @@ class Vtiger_Cache
 		}
 	}
 
-	//cache for the module Instance
-	private static $_workflow_for_module = [];
-
-	public function getWorkflowForModule($module)
-	{
-		if (isset(self::$_workflow_for_module[$module])) {
-			return self::$_workflow_for_module[$module];
-		}
-		return false;
-	}
-
-	public function setWorkflowForModule($module, $workflows)
-	{
-		if (self::$cacheEnable) {
-			self::$_workflow_for_module[$module] = $workflows;
-		}
-	}
-
-	//cache for the module Instance
-	private static $_workflow_for_module_supporting_comments = [];
-
-	public function getWorkflowForModuleSupportingComments($module)
-	{
-		if (isset(self::$_workflow_for_module_supporting_comments[$module])) {
-			return self::$_workflow_for_module_supporting_comments[$module];
-		}
-		return false;
-	}
-
-	public function setWorkflowForModuleSupportingComments($module, $workflows)
-	{
-		if (self::$cacheEnable) {
-			self::$_workflow_for_module_supporting_comments[$module] = $workflows;
-		}
-	}
-
 	private static $_user_id;
 
 	public function getUserId($userName)
@@ -308,29 +255,6 @@ class Vtiger_Cache
 		if (self::$cacheEnable) {
 			self::$_group_id[$groupName] = $groupId;
 		}
-	}
-
-	private static $_assigned_picklist_values;
-
-	public function getAssignedPicklistValues($tableName, $roleId)
-	{
-		if (isset(self::$_assigned_picklist_values[$tableName][$roleId])) {
-			return self::$_assigned_picklist_values[$tableName][$roleId];
-		}
-		return false;
-	}
-
-	public function setAssignedPicklistValues($tableName, $roleId, $values)
-	{
-		if (self::$cacheEnable) {
-			self::$_assigned_picklist_values[$tableName][$roleId] = $values;
-		}
-	}
-
-	public function hasAssignedPicklistValues($tableName, $roleId)
-	{
-		$values = $this->getAssignedPicklistValues($tableName, $roleId);
-		return $values !== false;
 	}
 
 	private static $_block_fields;

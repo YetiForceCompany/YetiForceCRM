@@ -13,13 +13,13 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 
 	public function getContent()
 	{
-		$data = \includes\utils\Json::decode(decode_html($this->get('data')));
+		$data = \App\Json::decode(decode_html($this->get('data')));
 		return $data['contents'];
 	}
 
 	public function getLastSavedDate()
 	{
-		$data = \includes\utils\Json::decode(decode_html($this->get('data')));
+		$data = \App\Json::decode(decode_html($this->get('data')));
 		return $data['lastSavedOn'];
 	}
 
@@ -35,7 +35,7 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 		$dataValue['contents'] = strip_tags($content);
 		$dataValue['lastSavedOn'] = $date;
 
-		$data = \includes\utils\Json::encode((object) $dataValue);
+		$data = \App\Json::encode((object) $dataValue);
 		$this->set('data', $data);
 
 
@@ -44,13 +44,10 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 
 	public static function getUserInstance($widgetId)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$db = PearDatabase::getInstance();
-
 		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets 
 			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid 
-			WHERE linktype = ? && vtiger_module_dashboard_widgets.id = ? && vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, $currentUser->getId()]);
+			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, \App\User::getCurrentUserId()]);
 		$self = new self();
 		if ($db->num_rows($result)) {
 			$row = $db->query_result_rowdata($result, 0);

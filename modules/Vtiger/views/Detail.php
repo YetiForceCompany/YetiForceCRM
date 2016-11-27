@@ -176,7 +176,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
-		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 
 		if ($display) {
 			$this->preProcessDisplay($request);
@@ -325,12 +325,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (is_callable($moduleName . "_Record_Model", 'getStructure')) {
 			$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
 		}
-		if (is_callable($moduleName . "_Record_Model", 'getSummaryInfo')) {
-			$viewer->assign('SUMMARY_INFORMATION', $recordModel->getSummaryInfo());
-			return $viewer->view('ModuleSummaryBlockView.tpl', $moduleName, true);
-		} else {
-			return $viewer->view('ModuleSummaryView.tpl', $moduleName, true);
-		}
+		return $viewer->view('ModuleSummaryBlockView.tpl', $moduleName, true);
 	}
 
 	/**
@@ -404,7 +399,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$type = is_array($whereCondition) ? current($whereCondition) : $whereCondition;
 		}
 		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel, $type);
-		$pagingModel->calculatePageRange($recentActivities);
+		$pagingModel->calculatePageRange(count($recentActivities));
 
 		if ($pagingModel->getCurrentPage() == ceil(ModTracker_Record_Model::getTotalRecordCount($parentRecordId, $type) / $pagingModel->getPageLimit())) {
 			$pagingModel->set('nextPageExists', false);
@@ -458,7 +453,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 
 		$recentComments = ModComments_Record_Model::getRecentComments($parentId, $pagingModel);
-		$pagingModel->calculatePageRange($recentComments);
+		$pagingModel->calculatePageRange(count($recentComments));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 
@@ -660,7 +655,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->get('record');
 		$pageNumber = $request->get('page');
 		$limit = $request->get('limit');
-		$whereCondition = $request->get('whereCondition');
+		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->get('relatedModule');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
@@ -698,11 +693,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($relationModel->isFavorites() && Users_Privileges_Model::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
-				$whereCondition[] = ['vtiger_crmentity.crmid' => ['comparison' => 'IN', 'value' => implode(', ', $favorites)]];
+				$relationListView->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $favorites]);
 			}
 		}
-		if (!empty($whereCondition)) {
-			$relationListView->set('whereCondition', $whereCondition);
+		if (!empty($searchParams)) {
+			$searchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+			$relationListView->set('search_params', $searchParams);
 		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);

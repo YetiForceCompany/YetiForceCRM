@@ -364,7 +364,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	private function retrieveUserHierarchy()
 	{
 
-		$heirarchyUsers = \includes\fields\Owner::getInstance()->getUsers(false, 'Active', $this->user->id);
+		$heirarchyUsers = \App\Fields\Owner::getInstance()->getUsers(false, 'Active', $this->user->id);
 		$groupUsers = vtws_getUsersInTheSameGroup($this->user->id);
 		$this->assignUsers = $heirarchyUsers + $groupUsers;
 		$this->assign = true;
@@ -411,7 +411,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		if ($this->objectName == 'Users') {
 			$exists = \App\User::isExists($recordId);
 		} else {
-			$exists = \App\Record::isExists($recordId);
+			$exists = \App\Record::isExists($recordId, $this->objectName);
 		}
 		return $exists;
 	}

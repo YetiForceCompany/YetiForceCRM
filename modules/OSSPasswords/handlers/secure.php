@@ -19,30 +19,23 @@ class SECURE extends VTEventHandler
 	public function handleEvent($eventName, $entityData)
 	{
 		$moduleName = $entityData->getModuleName();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
 		if ($moduleName == 'OSSPasswords') {
 			if ($eventName == 'vtiger.entity.aftersave.final') {
-				$adb = PearDatabase::getInstance();
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-				$conf = $recordModel->getConfiguration();
-
-				$sql = "SELECT basic.id FROM `vtiger_modtracker_basic` basic LEFT JOIN `vtiger_modtracker_detail` detail ON detail.`id` = basic.`id` 
-                    WHERE basic.module = 'OSSPasswords' && basic.`whodid` = '{$currentUserModel->id}'  
-                    && basic.changedon > CURDATE() && detail.fieldname = 'password' ORDER BY basic.id DESC LIMIT 1;";
-				$result = $adb->query($sql, true);
-
-				$num = $adb->num_rows($result);
-				if ($num > 0) {
-					$toUpdate = [];
-					for ($i = 0; $i < $num; $i++)
-						$toUpdate[] = (int) $adb->query_result($result, $i, 'id');
-					// register changes: show prevalue, hide postvalue
-					$where = sprintf("`id` IN (%s) && `fieldname` = 'password'", generateQuestionMarks($toUpdate));
-					if ($conf['register_changes'] == 1)
-						$adb->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where, [implode(',', $toUpdate)]);
+				$result = (new \App\Db\Query())->select(['basic.id'])->from('vtiger_modtracker_basic basic')
+						->leftJoin('vtiger_modtracker_detail detail', 'basic.id = detail.id')
+						->where(['basic.module' => 'OSSPasswords', 'basic.whodid' => \App\User::getCurrentUserId(), 'detail.fieldname' => 'password'])
+						->andWhere(['>', 'changedon', date('Y-m-d H:i:s')])
+						->orderBy(['basic.id' => SORT_DESC])->limit(1)->one();
+				
+				if ($result) {
+					$toUpdate = $result['id'];
+					$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+					$conf = $recordModel->getConfiguration();
+					$where = ['id' => $toUpdate, 'fieldname' => 'password'];
+					if ($conf['register_changes'] === 1)
+						\App\Db::getInstance ()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where)->execute();
 					else
-						$adb->update('vtiger_modtracker_detail', ['postvalue' => '**********', 'prevalue' => '**********'], $where, [implode(',', $toUpdate)]);
+						\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********', 'prevalue' => '**********'], $where)->execute();
 				}
 			}
 		}

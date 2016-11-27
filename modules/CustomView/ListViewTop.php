@@ -19,100 +19,6 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 
-/** to get the details of a KeyMetrics on Home page 
- * @returns  $customviewlist Array in the following format
- * $values = Array('Title'=>Array(0=>'image name',
- * 				 1=>'Key Metrics',
- * 			 	 2=>'home_metrics'
- * 			 	),
- * 		  'Header'=>Array(0=>'Metrics',
- * 	  			  1=>'Count'
- * 			  	),
- * 		  'Entries'=>Array($cvid=>Array(
- * 			  			0=>$customview name,
- * 						1=>$no of records for the view
- * 					       ),
- * 				   $cvid=>Array(
- *                                               0=>$customview name,
- *                                               1=>$no of records for the view
- *                                              ),
- * 					|
- * 					|
- * 				   $cvid=>Array(
- *                                               0=>$customview name,
- *                                               1=>$no of records for the view
- *                                              )	
- * 				  )
- *
- */
-function getKeyMetrics($maxval, $calCnt)
-{
-	require_once("include/Tracker.php");
-	require_once('modules/CustomView/CustomView.php');
-	require_once('include/ListView/ListView.php');
-
-	global $app_strings;
-	$adb = PearDatabase::getInstance();
-	$metriclists = getMetricList();
-
-	// Determine if the KeyMetrics widget should appear or not?
-	if ($calCnt == 'calculateCnt') {
-		return count($metriclists);
-	}
-
-	\App\Log::trace("Metrics :: Successfully got MetricList to be displayed");
-	if (isset($metriclists)) {
-		$current_user = vglobal('current_user');
-		foreach ($metriclists as $key => $metriclist) {
-			if ($metriclist['module'] == "Calendar") {
-				$listquery = getListQuery($metriclist['module']);
-				$oCustomView = new CustomView($metriclist['module']);
-				$metricsql = $oCustomView->getModifiedCvListQuery($metriclist['id'], $listquery, $metriclist['module']);
-				$metricsql = vtlib\Functions::mkCountQuery($metricsql);
-				$metricresult = $adb->query($metricsql);
-				if ($metricresult) {
-					$rowcount = $adb->fetch_array($metricresult);
-					$metriclists[$key]['count'] = $rowcount['count'];
-				}
-			} else {
-				$queryGenerator = new QueryGenerator($metriclist['module'], $current_user);
-				$queryGenerator->initForCustomViewById($metriclist['id']);
-				$metricsql = $queryGenerator->getQuery();
-				$metricsql = vtlib\Functions::mkCountQuery($metricsql);
-				$metricresult = $adb->query($metricsql);
-				if ($metricresult) {
-					$rowcount = $adb->fetch_array($metricresult);
-					$metriclists[$key]['count'] = $rowcount['count'];
-				}
-			}
-		}
-		\App\Log::trace("Metrics :: Successfully build the Metrics");
-	}
-	$title = [];
-	$title[] = 'keyMetrics.gif';
-	$title[] = $app_strings['LBL_HOME_KEY_METRICS'];
-	$title[] = 'home_metrics';
-	$header = [];
-	$header[] = $app_strings['LBL_HOME_METRICS'];
-	$header[] = $app_strings['LBL_MODULE'];
-	$header[] = $app_strings['LBL_HOME_COUNT'];
-	$entries = [];
-	if (isset($metriclists)) {
-		$oddRow = true;
-		foreach ($metriclists as $metriclist) {
-			$value = [];
-			$CVname = (strlen($metriclist['name']) > 20) ? (substr($metriclist['name'], 0, 20) . '...') : $metriclist['name'];
-			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . $CVname . '</a> <font style="color:#6E6E6E;">(' . $metriclist['user'] . ')</font>';
-			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . \App\Language::translate($metriclist['module']) . '</a>';
-			$value[] = '<a href="index.php?action=ListView&module=' . $metriclist['module'] . '&viewname=' . $metriclist['id'] . '">' . $metriclist['count'] . '</a>';
-			$entries[$metriclist['id']] = $value;
-		}
-	}
-	$values = Array('Title' => $title, 'Header' => $header, 'Entries' => $entries);
-	if (($display_empty_home_blocks ) || (count($value) != 0))
-		return $values;
-}
-
 /** to get the details of a customview Entries
  * @returns  $metriclists Array in the following format
  * $customviewlist []= Array('id'=>custom view id,
@@ -149,7 +55,7 @@ function getMetricList($filters = [])
 					'id' => $row['cvid'],
 					'name' => $row['viewname'],
 					'module' => $row['entitytype'],
-					'user' => \includes\fields\Owner::getUserLabel($row['userid']),
+					'user' => \App\Fields\Owner::getUserLabel($row['userid']),
 					'count' => '',
 				];
 			}

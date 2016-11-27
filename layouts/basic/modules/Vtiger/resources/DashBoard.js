@@ -52,6 +52,9 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		}
 		return this.container;
 	},
+	getCurrentDashboard: function () {
+		return $('.selectDashboard li.active').data('id');
+	},
 	getWidgetInstance: function (widgetContainer) {
 		var id = widgetContainer.attr('id');
 		if (this.noCache || !(id in this.instancesCache)) {
@@ -189,6 +192,30 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			);
 		});
 	},
+	registerSelectDashboard: function () {
+		var thisInstance = this;
+		$('.selectDashboard li').on('click', function (e) {
+			var progressIndicatorElement = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var currentTarget = $(e.currentTarget);
+			var dashboardId = currentTarget.data('id');
+			var params = {
+				module: app.getModuleName(),
+				view: app.getViewName(),
+				dashboardId: dashboardId
+			};
+			AppConnector.request(params).then(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				$('.dashboardViewContainer').html(data);
+				thisInstance.noCache = true;
+				thisInstance.registerEvents();
+			});
+		});
+	},
 	registerDatePickerHideInitiater: function () {
 		var container = this.getContainer();
 		container.on('click', 'input.dateRange', function (e) {
@@ -253,7 +280,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var fieldTypeToGroup = ['currency', 'double', 'percentage', 'integer'];
 			app.showModalWindow(null, "index.php?module=Home&view=ChartFilter&step=step1", function (wizardContainer) {
 				var form = jQuery('form', wizardContainer);
-				form.on("keypress", function(event) {
+				form.on("keypress", function (event) {
 					return event.keyCode != 13;
 				});
 				var sectorContainer = form.find('.sectorContainer');
@@ -372,6 +399,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			width: 4,
 			owners_all: ["mine", "all", "users", "groups"],
 			default_owner: 'mine',
+			dashboardId: thisInstance.getCurrentDashboard()
 		};
 		var sourceModule = $('[name="selectedModuleName"]').val();
 		thisInstance.saveWidget(paramsForm, 'save', sourceModule).then(
@@ -408,7 +436,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 
 			app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function (wizardContainer) {
 				var form = jQuery('form', wizardContainer);
-				form.on("keypress", function(event) {
+				form.on("keypress", function (event) {
 					return event.keyCode != 13;
 				});
 				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
@@ -509,6 +537,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			width: 4,
 			owners_all: ["mine", "all", "users", "groups"],
 			default_owner: 'mine',
+			dashboardId: thisInstance.getCurrentDashboard()
 		};
 		var sourceModule = $('[name="selectedModuleName"]').val();
 		thisInstance.saveWidget(paramsForm, 'save', sourceModule).then(
@@ -579,7 +608,8 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var params = {
 				module: currentTarget.data('module'),
 				view: app.getViewName(),
-				sourceModule: app.getModuleName()
+				sourceModule: app.getModuleName(),
+				dashboardId: thisInstance.getCurrentDashboard()
 			};
 			AppConnector.request(params).then(function (data) {
 				$('.dashboardViewContainer').html(data);
@@ -623,5 +653,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		this.registerChartFilterWidget();
 		this.registerTabModules();
 		this.removeWidgetFromList();
+		this.registerSelectDashboard();
 	}
 });

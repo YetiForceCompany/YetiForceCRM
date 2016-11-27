@@ -295,7 +295,7 @@ function getRoleBasesdPickList($fldname, $exist_val)
 	if ($is_Admin == 'off' && $fldname != '') {
 		$roleid = $currentUser->roleid;
 		$roleids = Array();
-		$subrole = getRoleSubordinates($roleid);
+		$subrole = \App\PrivilegeUtil::getRoleSubordinates($roleid);
 		if (count($subrole) > 0)
 			$roleids = $subrole;
 		array_push($roleids, $roleid);

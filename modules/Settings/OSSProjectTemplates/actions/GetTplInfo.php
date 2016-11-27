@@ -15,7 +15,6 @@ class Settings_OSSProjectTemplates_GetTplInfo_Action extends Settings_Vtiger_Ind
 	public function process(Vtiger_Request $request)
 	{
 		$baseModuleName = $request->get('base_module');
-		$db = PearDatabase::getInstance();
 		$id = $request->get('tpl_id');
 		$nameTable = sprintf('vtiger_oss_%s_templates', strtolower($baseModuleName));
 		$dataReader = (new \App\Db\Query())

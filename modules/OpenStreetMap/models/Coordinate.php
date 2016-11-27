@@ -43,7 +43,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		if ($err) {
 			return false;
 		} else {
-			return \includes\utils\Json::decode($response);
+			return \App\Json::decode($response);
 		}
 	}
 
@@ -174,23 +174,13 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 	 */
 	public function getLabelsToPopupById($crmid)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
-		$queryGenerator = new QueryGenerator($moduleName, $currentUserModel);
+		$queryGenerator = new App\QueryGenerator($moduleName);
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$queryGenerator->setFields($fields[$moduleName]);
-		$queryGenerator->setCustomCondition([
-			'glue' => 'AND',
-			'tablename' => 'vtiger_crmentity',
-			'column' => 'crmid',
-			'operator' => '=',
-			'value' => $crmid
-		]);
-		$query = $queryGenerator->getQuery();
-		$db = PearDatabase::getInstance();
-		$result = $db->query($query);
-		$row = $db->getRow($result);
+		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
+		$row = $queryGenerator->createQuery()->one();
 		$html = '';
 		foreach ($row as $fieldName => $value) {
 			if (!empty($value)) {
@@ -339,13 +329,11 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 	 */
 	public function readCoordinatesByRecords($records)
 	{
-		$params = [];
 		$moduleModel = $this->get('srcModuleModel');
 		$groupByField = $this->get('groupBy');
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
 		$moduleName = $moduleModel->getName();
-		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		$groupByFieldColumn = '';
@@ -355,30 +343,24 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 			if ($fieldModel !== false)
 				$groupByFieldColumn = $fieldModel->get('column');
 		}
-		$queryGenerator = new QueryGenerator($moduleName, $currentUserModel);
+		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->setFields($fields);
-		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lat');
-		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lon');
+		$queryGenerator->setCustomColumn('u_#__openstreetmap.lat');
+		$queryGenerator->setCustomColumn('u_#__openstreetmap.lon');
 		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
-		$queryGenerator->setCustomFrom([
-			'joinType' => 'LEFT',
-			'relatedTable' => 'u_yf_openstreetmap',
-			'relatedIndex' => 'crmid',
-			'baseTable' => 'vtiger_crmentity',
-			'baseIndex' => 'crmid',
-		]);
-		$query = $queryGenerator->getQuery();
-		$query .= sprintf(' AND vtiger_crmentity.crmid IN (%s) AND u_yf_openstreetmap.type = \'a\' ', generateQuestionMarks($records));
-		$params = $records;
+		$queryGenerator->addJoin(['LEFT JOIN', 'u_#__openstreetmap', 'vtiger_crmentity.crmid = u_#__openstreetmap.crmid']);
+		$query = $queryGenerator->createQuery();
+		$andWhere = ['and', ['vtiger_crmentity.crmid' => $records], ['u_#__openstreetmap.type' => 'a']];
 		if (!empty($coordinatesCenter) && !empty($radius)) {
-			$query .= ' AND u_yf_openstreetmap.lat < ? AND u_yf_openstreetmap.lat > ? AND u_yf_openstreetmap.lon < ? AND u_yf_openstreetmap.lon > ?';
-			$params = array_merge($params, array_values(self::getMargins($coordinatesCenter, $radius)));
+			$margins = self::getMargins($coordinatesCenter, $radius);
+			$andWhere [] = ['<', 'u_#__openstreetmap.lat', $margins['latMax']];
+			$andWhere [] = ['>', 'u_#__openstreetmap.lat', $margins['latMin']];
+			$andWhere [] = ['<', 'u_#__openstreetmap.lon', $margins['lonMax']];
+			$andWhere [] = ['>', 'u_#__openstreetmap.lon', $margins['lonMin']];
 		}
-
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, $params);
+		$dataReader = $query->andWhere($andWhere)->createCommand()->query();
 		$coordinates = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			if (!empty($row['lat'] && !empty($row['lon']))) {
 				$coordinates[] = [
 					'recordId' => $row['crmid'],
@@ -425,7 +407,6 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
 		$params = [];
-		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {
@@ -433,23 +414,15 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 			$fieldModel = Vtiger_Field_Model::getInstance($groupByField, $moduleModel);
 			$groupByFieldColumn = $fieldModel->get('column');
 		}
-		$queryGenerator = new QueryGenerator($moduleName, $currentUserModel);
+		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->initForCustomViewById($filterId);
 		$queryGenerator->setFields($fields);
-		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lat');
-		$queryGenerator->setCustomColumn('u_yf_openstreetmap.lon');
+		$queryGenerator->setCustomColumn('u_#__openstreetmap.lat');
+		$queryGenerator->setCustomColumn('u_#__openstreetmap.lon');
 		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
-		$queryGenerator->setCustomFrom([
-			'joinType' => 'LEFT',
-			'relatedTable' => 'u_yf_openstreetmap',
-			'relatedIndex' => 'crmid',
-			'baseTable' => 'vtiger_crmentity',
-			'baseIndex' => 'crmid',
-		]);
-
+		$queryGenerator->addJoin(['LEFT JOIN', 'u_#__openstreetmap', 'u_#__openstreetmap.crmid = vtiger_crmentity.crmid']);
 		if (!empty($searchValue)) {
-			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue,
-				'operator' => $operator));
+			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
@@ -460,25 +433,25 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 				unset($searchParams[$key]);
 			}
 		}
-		$glue = '';
-		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
-			$glue = QueryGenerator::$AND;
-		}
-		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
-		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
-		$query = $queryGenerator->getQuery();
-		$query .= ' AND u_yf_openstreetmap.type = \'a\' ';
+		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
+		$queryGenerator->parseAdvFilter($transformedSearchParams);
+		$queryGenerator->addNativeCondition(['u_#__openstreetmap.type' => 'a']);
 		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
-			$query .= ' AND vtiger_crmentity.crmid NOT IN (' . implode(',', $excludedIds) . ')';
+			$queryGenerator->addNativeCondition(['not in', 'vtiger_crmentity.crmid', $excludedIds]);
 		}
 		if (!empty($coordinatesCenter) && !empty($radius)) {
-			$query .= ' AND u_yf_openstreetmap.lat < ? AND u_yf_openstreetmap.lat > ? AND u_yf_openstreetmap.lon < ? AND u_yf_openstreetmap.lon > ?';
-			$params = array_values(self::getMargins($coordinatesCenter, $radius));
+			$margins = self::getMargins($coordinatesCenter, $radius);
+			$queryGenerator->addNativeCondition([
+				'and',
+				['<', 'u_#__openstreetmap.lat', $margins['latMax']],
+				['>', 'u_#__openstreetmap.lat', $margins['latMin']],
+				['<', 'u_#__openstreetmap.lon', $margins['lonMax']],
+				['>', 'u_#__openstreetmap.lon', $margins['lonMin']]
+			]);
 		}
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, $params);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$coordinates = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			if (!empty($row['lat'] && !empty($row['lon']))) {
 				$coordinates[] = [
 					'recordId' => $row['crmid'],
@@ -569,15 +542,16 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 	public function saveAllRecordsToCache()
 	{
 		$moduleName = $this->get('moduleName');
-		$queryGenerator = new QueryGenerator($moduleName);
+		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
-		$query = $queryGenerator->getQuery();
-		$db = PearDatabase::getInstance();
-		$result = $db->query($query);
-		$records = $db->getArrayColumn($result);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$records = [];
+		while ($row = $dataReader->read()) {
+			$records [] = $records['crmid'];
+		}
 		$this->deleteCache();
 		$this->saveCache($records);
-		return $db->getRowCount($result);
+		return $dataReader->count();
 	}
 
 	/**

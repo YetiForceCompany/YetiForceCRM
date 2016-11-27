@@ -1,4 +1,5 @@
-<?php namespace Importers;
+<?php
+namespace Importers;
 
 /**
  * Class that imports admin database
@@ -19,14 +20,14 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'name' => $this->stringType()->notNull(),
 					'tabid' => $this->integer()->null(),
-					'status' => $this->boolean()->unsigned()->notNull(),
-					'action' => $this->boolean()->unsigned()->notNull(),
+					'status' => $this->smallInteger(1)->unsigned()->notNull(),
+					'action' => $this->smallInteger(1)->unsigned()->notNull(),
 					'conditions' => $this->text()->notNull(),
 					'members' => $this->text()->notNull(),
 					'priority' => $this->smallInteger(1)->unsigned()->notNull(),
 				],
 				'index' => [
-					['adv_permission_idx', 'tabid']
+						['adv_permission_idx', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -35,10 +36,8 @@ class Admin extends \App\Db\Importers\Base
 				'columns' => [
 					'attempsnumber' => $this->smallInteger(2)->notNull(),
 					'timelock' => $this->smallInteger(5)->notNull(),
-					'active' => $this->boolean()->defaultValue(false),
-					'sent' => $this->boolean()->defaultValue(false),
-				],
-				'index' => [
+					'active' => $this->smallInteger(1)->defaultValue(0),
+					'sent' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -49,11 +48,11 @@ class Admin extends \App\Db\Importers\Base
 					'ip' => $this->stringType(50)->notNull(),
 					'time' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP')->null(),
 					'attempts' => $this->smallInteger(2)->defaultValue(0),
-					'blocked' => $this->boolean()->defaultValue(false),
+					'blocked' => $this->smallInteger(1)->defaultValue(0),
 					'userid' => $this->integer(),
 				],
 				'index' => [
-					['bruteforce_blocked_idx', ['ip', 'time', 'blocked']],
+						['bruteforce_blocked_idx', ['ip', 'time', 'blocked']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -62,10 +61,8 @@ class Admin extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['bruteforce_users_pk', 'id']
+						['bruteforce_users_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -75,10 +72,8 @@ class Admin extends \App\Db\Importers\Base
 					'param' => $this->stringType(30)->notNull(),
 					'value' => $this->stringType()->notNull()
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['discounts_config_pk', 'param']
+						['discounts_config_pk', 'param']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -88,9 +83,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->defaultValue(0)->unsigned()->notNull(),
-					'status' => $this->boolean()->defaultValue(true)->notNull(),
-				],
-				'index' => [
+					'status' => $this->smallInteger(1)->defaultValue(1)->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -100,20 +93,18 @@ class Admin extends \App\Db\Importers\Base
 					'method' => $this->stringType(40)->notNull(),
 					'pass' => $this->stringType(16)->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'a_#__inventory_limits' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'status' => $this->boolean()->defaultValue(false)->notNull(),
+					'status' => $this->smallInteger(1)->defaultValue(0)->notNull(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->integer(10)->unsigned()->notNull(),
 				],
 				'index' => [
-					['inventory_limits_idx', 'status'],
+						['inventory_limits_idx', 'status'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -123,15 +114,15 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->primaryKey(),
 					'tabid' => $this->smallInteger()->unsigned()->notNull(),
 					'reltabid' => $this->smallInteger()->unsigned()->notNull(),
-					'status' => $this->boolean()->unsigned()->defaultValue(false),
+					'status' => $this->smallInteger(1)->unsigned()->defaultValue(0),
 					'conditions' => $this->text(),
 					'permissions' => $this->stringType(),
 					'params' => $this->stringType(),
 				],
 				'index' => [
-					['mapped_config_tabid_idx', 'tabid'],
-					['mapped_config_reltabid_idx', 'reltabid'],
-					['mapped_config_status_idx', ['tabid', 'status']],
+						['mapped_config_tabid_idx', 'tabid'],
+						['mapped_config_reltabid_idx', 'reltabid'],
+						['mapped_config_status_idx', ['tabid', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -146,7 +137,7 @@ class Admin extends \App\Db\Importers\Base
 					'default' => $this->stringType(),
 				],
 				'index' => [
-					['mapped_fields_idx', 'mappedid'],
+						['mapped_fields_idx', 'mappedid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -158,17 +149,17 @@ class Admin extends \App\Db\Importers\Base
 					'header_content' => $this->text()->notNull(),
 					'body_content' => $this->text()->notNull(),
 					'footer_content' => $this->text()->notNull(),
-					'status' => $this->boolean()->notNull()->defaultValue(false),
+					'status' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'primary_name' => $this->stringType()->notNull(),
 					'secondary_name' => $this->stringType()->notNull(),
 					'meta_author' => $this->stringType()->notNull(),
 					'meta_creator' => $this->stringType()->notNull(),
 					'meta_keywords' => $this->stringType()->notNull(),
-					'metatags_status' => $this->boolean()->notNull(),
+					'metatags_status' => $this->smallInteger(1)->notNull(),
 					'meta_subject' => $this->stringType()->notNull(),
 					'meta_title' => $this->stringType()->notNull(),
 					'page_format' => $this->stringType()->notNull(),
-					'margin_chkbox' => $this->boolean(),
+					'margin_chkbox' => $this->smallInteger(1),
 					'margin_top' => $this->smallInteger(2)->notNull()->unsigned(),
 					'margin_bottom' => $this->smallInteger(2)->notNull()->unsigned(),
 					'margin_left' => $this->smallInteger(2)->notNull()->unsigned(),
@@ -179,19 +170,19 @@ class Admin extends \App\Db\Importers\Base
 					'language' => $this->stringType(7)->notNull(),
 					'filename' => $this->stringType()->notNull(),
 					'visibility' => $this->stringType(200)->notNull(),
-					'default' => $this->boolean(),
+					'default' => $this->smallInteger(1),
 					'conditions' => $this->text()->notNull(),
-					'watermark_type' => $this->boolean()->notNull()->defaultValue(false),
+					'watermark_type' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'watermark_text' => $this->stringType()->notNull(),
 					'watermark_size' => $this->smallInteger(2)->notNull()->unsigned(),
 					'watermark_angle' => $this->smallInteger(3)->notNull()->unsigned(),
 					'watermark_image' => $this->stringType()->notNull(),
 					'template_members' => $this->text()->notNull(),
-					'one_pdf' => $this->boolean(),
+					'one_pdf' => $this->smallInteger(1),
 				],
 				'index' => [
-					['pdf_module_status_idx', ['module_name', 'status']],
-					['pdf_module_idx', 'module_name'],
+						['pdf_module_status_idx', ['module_name', 'status']],
+						['pdf_module_idx', 'module_name'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -203,7 +194,7 @@ class Admin extends \App\Db\Importers\Base
 					'sequence' => $this->smallInteger(1),
 				],
 				'index' => [
-					['relatedlists_inv_fields_id_idx', 'relation_id'],
+						['relatedlists_inv_fields_id_idx', 'relation_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -214,9 +205,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->stringType()->notNull(),
 				],
 				'primaryKeys' => [
-					['taxes_config_pk', 'param']
-				],
-				'index' => [
+						['taxes_config_pk', 'param']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -226,9 +215,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->defaultValue(0)->notNull()->unsigned(),
-					'status' => $this->boolean()->defaultValue(true)->notNull(),
-				],
-				'index' => [
+					'status' => $this->smallInteger(1)->defaultValue(1)->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -239,7 +226,7 @@ class Admin extends \App\Db\Importers\Base
 					'crmid' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-					['mail_updater_idx', 'tabid'],
+						['mail_updater_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -252,7 +239,7 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['multireference_idx', ['source_module', 'dest_module']],
+						['multireference_idx', ['source_module', 'dest_module']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -265,15 +252,15 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['privileges_updater_module_idx', ['module', 'crmid', 'type'], true],
-					['privileges_updater_crmid_idx', 'crmid'],
+						['privileges_updater_module_idx', ['module', 'crmid', 'type'], true],
+						['privileges_updater_crmid_idx', 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 		];
 		$this->foreignKey = [
-			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
+				['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
 		];
 	}
 

@@ -13,53 +13,6 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 {
 
 	/**
-	 * Function returns the Query for the relationhips
-	 * @param <Vtiger_Record_Model> $recordModel
-	 * @param type $actions
-	 * @return <String>
-	 */
-	public function getQuery($recordModel, $actions = false, $relationListView_Model = false)
-	{
-		$parentModuleModel = $this->getParentModuleModel();
-		$relatedModuleModel = $this->getRelationModuleModel();
-		$relatedModuleName = $relatedModuleModel->get('name');
-		$parentModuleName = $parentModuleModel->get('name');
-		$functionName = $this->get('name');
-		$focus = CRMEntity::getInstance($parentModuleName);
-		$focus->id = $recordModel->getId();
-		if (method_exists($parentModuleModel, $functionName)) {
-			$query = $parentModuleModel->$functionName($recordModel, $relatedModuleModel);
-		} else {
-			$result = $focus->$functionName($recordModel->getId(), $parentModuleModel->getId(), $relatedModuleModel->getId(), $actions);
-			$query = $result['query'];
-		}
-
-		//modify query if any module has summary fields, those fields we are displayed in related list of that module
-		$relatedListFields = $this->getRelationFields(true, true);
-		if (count($relatedListFields) == 0) {
-			$relatedListFields = $relatedModuleModel->getConfigureRelatedListFields();
-		}
-		if (count($relatedListFields) > 0) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
-			$queryGenerator->setFields($relatedListFields);
-			$selectColumnSql = $queryGenerator->getSelectClauseColumnSQL();
-			$newQuery = explode('FROM', $query);
-			$selectColumnSql = sprintf('SELECT DISTINCT vtiger_crmentity.crmid, %s', $selectColumnSql);
-		}
-		
-		if ($functionName == ('get_pricebook_products' || 'get_pricebook_services')) {
-			$selectColumnSql = $selectColumnSql . ', vtiger_pricebookproductrel.listprice';
-		}
-		$query = $selectColumnSql . ' FROM ' . $newQuery[1];
-		if ($relationListView_Model) {
-			$searchParams = $relationListView_Model->get('search_params');
-			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
-		}
-		return $query;
-	}
-
-	/**
 	 * Function to add PriceBook-Products/Services Relation
 	 * @param <Integer> $sourceRecordId
 	 * @param <Integer> $destinationRecordId
@@ -88,5 +41,29 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 		} else {
 			parent::deleteRelation($sourceRecordId, $relatedRecordId);
 		}
+	}
+
+	/**
+	 * Get Pricebooks for products
+	 */
+	public function getPricebookProducts()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_products.productid = vtiger_pricebookproductrel.productid']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebook', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
+		$queryGenerator->addNativeCondition(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
+	}
+
+	/**
+	 * Get Pricebooks for services
+	 */
+	public function getPricebookServices()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_service.serviceid = vtiger_pricebookproductrel.productid']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebook', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
+		$queryGenerator->addNativeCondition(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
 	}
 }

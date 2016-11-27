@@ -19,7 +19,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Template name for the current UI Type Object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -69,7 +69,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 		$moduleSpecificUiTypeClassName = $moduleName . '_' . $uiTypeClassSuffix . '_UIType';
 		$uiTypeClassName = 'Vtiger_' . $uiTypeClassSuffix . '_UIType';
 		$fallBackClassName = 'Vtiger_Base_UIType';
-	
+
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
 
@@ -99,12 +99,17 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return $this->getDisplayValue($value, $record, $recordInstance, $rawText);
+		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordInstance, $rawText), $this->get('field')->get('maxlengthtext'));
+	}
+
+	public function getReletedListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		return $this->getListViewDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**
 	 * Function to get the Detailview template name for the current UI Type Object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getDetailViewTemplateName()
 	{
@@ -113,8 +118,8 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Display value for RelatedList
-	 * @param <String> $value
-	 * @return <String>
+	 * @param string $value
+	 * @return string
 	 */
 	public function getRelatedListDisplayValue($value)
 	{

@@ -41,12 +41,13 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function setConfig($param)
 	{
-		$db = PearDatabase::getInstance();
 		$value = $param['val'];
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		$db->pquery('UPDATE yetiforce_auth SET value = ? WHERE type = ? && param = ?;', [$value, $param['type'], $param['param']]);
+		App\Db::getInstance()->createCommand()
+			->update('yetiforce_auth', ['value' => $value], ['type' =>  $param['type'], 'param' => $param['param']])
+			->execute();
 		return true;
 	}
 
@@ -99,10 +100,10 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		if (key_exists($data, self::$usersID)) {
 			return self::$usersID[$data];
 		}
-		if (substr($data, 0, 1) == 'H') {
+		if (substr($data, 0, 1) === 'H') {
 			$db = PearDatabase::getInstance();
 			$return = [];
-			$result = $db->pquery('SELECT userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid WHERE roleid = ? && deleted=0 && status <> ?', [$data, 'Inactive']);
+			$result = $db->pquery('SELECT userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid WHERE roleid = ? AND deleted=0 AND status <> ?', [$data, 'Inactive']);
 			while ($userid = $db->getSingleValue($result)) {
 				$return[] = $userid;
 			}

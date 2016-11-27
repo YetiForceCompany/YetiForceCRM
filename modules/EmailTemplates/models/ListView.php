@@ -38,7 +38,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 
 	/**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
-	 * @param <String> $moduleName - Module Name
+	 * @param string $moduleName - Module Name
 	 * @param <Number> $viewId - Custom View Id
 	 * @return Vtiger_ListView_Model instance
 	 */
@@ -53,29 +53,11 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to get the list view header
-	 * @return <Array> - List of Vtiger_Field_Model instances
-	 */
-	public function getListViewHeaders()
-	{
-		$fieldObjects = array();
-		$listViewHeaders = array('Template Name' => 'templatename', 'Subject' => 'subject');
-		foreach ($listViewHeaders as $key => $fieldName) {
-			$fieldModel = new EmailTemplates_Field_Model();
-			$fieldModel->set('name', $fieldName);
-			$fieldModel->set('label', $key);
-			$fieldModel->set('column', $fieldName);
-			$fieldObjects[] = $fieldModel;
-		}
-		return $fieldObjects;
-	}
-
-	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel)
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
 	{
 		$db = PearDatabase::getInstance();
 		$startIndex = $pagingModel->getStartIndex();
@@ -112,7 +94,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model
 			$listViewRecordModels[$row['templateid']] = $recordModel->setData($row);
 		}
 
-		$pagingModel->calculatePageRange($listViewRecordModels);
+		$pagingModel->calculatePageRange($num_rows);
 
 		if ($num_rows > $pageLimit) {
 			array_pop($listViewRecordModels);

@@ -58,6 +58,11 @@ class Accounts extends CRMEntity
 		'Account Name' => 'accountname',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['accountname', 'website', 'phone', 'assigned_user_id'];
 	// This is the list of vtiger_fields that are required
 	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
@@ -76,259 +81,6 @@ class Accounts extends CRMEntity
 	public function save_module($module)
 	{
 		
-	}
-
-	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
-	/** Returns a list of the associated Campaigns
-	 * @param $id -- campaign id :: Type Integer
-	 * @returns list of campaigns in array format
-	 */
-	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = \App\Module::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		$button .= '<input type="hidden" name="email_directing_module"><input type="hidden" name="record">';
-
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-		}
-
-		$entityIds = $this->getRelatedContactsIds();
-		$entityIds[] = $id;
-		$entityIds = implode(',', $entityIds);
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
-				vtiger_campaign.campaignid, vtiger_campaign.campaignname, vtiger_campaign.campaigntype, vtiger_campaign.campaignstatus,
-				vtiger_campaign.expectedrevenue, vtiger_campaign.closingdate, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-				vtiger_crmentity.modifiedtime
-				from vtiger_campaign
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_campaign.campaignid
-				INNER JOIN vtiger_campaignscf ON vtiger_campaignscf.campaignid = vtiger_campaign.campaignid
-				LEFT JOIN vtiger_campaign_records ON vtiger_campaign_records.campaignid=vtiger_campaign.campaignid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted=0 AND vtiger_campaign_records.crmid IN (" . $entityIds . ")";
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = [];
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_campaigns method ...");
-		return $return_value;
-	}
-
-	/** Returns a list of the associated contacts
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_contacts(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = \App\Module::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-		$current_user = vglobal('current_user');
-		if ($actions && \App\Field::getFieldPermission($related_module, 'account_id', false)) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT vtiger_contactdetails.*,
-			vtiger_crmentity.crmid,
-                        vtiger_crmentity.smownerid,
-			vtiger_account.accountname,
-			case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
-			FROM vtiger_contactdetails
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid
-			LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_contactdetails.parentid
-			INNER JOIN vtiger_contactaddress ON vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid
-			INNER JOIN vtiger_contactsubdetails ON vtiger_contactdetails.contactid = vtiger_contactsubdetails.contactsubscriptionid
-			INNER JOIN vtiger_customerdetails ON vtiger_contactdetails.contactid = vtiger_customerdetails.customerid
-			INNER JOIN vtiger_contactscf ON vtiger_contactdetails.contactid = vtiger_contactscf.contactid
-			LEFT JOIN vtiger_groups	ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-			WHERE vtiger_crmentity.deleted = 0
-			AND vtiger_contactdetails.parentid = " . $id;
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = [];
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_contacts method ...");
-		return $return_value;
-	}
-
-	/**
-	 * Function to get Account related Tickets
-	 * @param  integer   $id      - accountid
-	 * returns related Ticket record in array format
-	 */
-	public function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_tickets(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = \App\Module::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-		$current_user = vglobal('current_user');
-		if ($actions && \App\Field::getFieldPermission($related_module, 'parent_id', false)) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name, vtiger_users.id,
-				vtiger_troubletickets.title, vtiger_troubletickets.ticketid AS crmid, vtiger_troubletickets.status, vtiger_troubletickets.priority,
-				vtiger_troubletickets.parent_id, vtiger_troubletickets.ticket_no, vtiger_crmentity.smownerid, vtiger_crmentity.modifiedtime
-				FROM vtiger_troubletickets
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_troubletickets.ticketid
-				LEFT JOIN vtiger_ticketcf ON vtiger_troubletickets.ticketid = vtiger_ticketcf.ticketid
-				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE  vtiger_crmentity.deleted = 0 and vtiger_troubletickets.parent_id = $id";
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = [];
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_tickets method ...");
-		return $return_value;
-	}
-
-	/**
-	 * Function to get Account related Products
-	 * @param  integer   $id      - accountid
-	 * returns related Products record in array format
-	 */
-	public function get_products($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_products(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = \App\Module::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$entityIds = $this->getRelatedContactsIds();
-		array_push($entityIds, $id);
-		$entityIds = implode(',', $entityIds);
-
-		$query = "SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode, vtiger_products.commissionrate,
-				vtiger_products.qty_per_unit, vtiger_products.unit_price, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_seproductsrel.rel_created_user, vtiger_seproductsrel.rel_created_time
-				FROM vtiger_products
-				INNER JOIN vtiger_seproductsrel ON vtiger_products.productid = vtiger_seproductsrel.productid
-				and vtiger_seproductsrel.setype IN ('Accounts', 'Contacts')
-				INNER JOIN vtiger_productcf ON vtiger_products.productid = vtiger_productcf.productid
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
-				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.crmid IN (%s)";
-		$query = sprintf($query, $entityIds);
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = [];
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_products method ...");
-		return $return_value;
 	}
 
 	/** Function to export the account records in CSV Format
@@ -413,23 +165,7 @@ class Accounts extends CRMEntity
 		if (!$queryPlanner->requireTable('vtiger_account', $matrix)) {
 			return '';
 		}
-		/* //To remove
-		  // Activities related to contact should linked to accounts if contact is related to that account
-		  if($module == "Calendar"){
-		  // query to get all the contacts related to Accounts
-		  $relContactsQuery = "SELECT contactid FROM vtiger_contactdetails as vtiger_tmpContactCalendar
-		  INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_tmpContactCalendar.contactid
-		  WHERE vtiger_tmpContactCalendar.parentid IS NOT NULL && vtiger_tmpContactCalendar.parentid !=''
-		  && vtiger_crmentity.deleted=0";
 
-		  $query = " left join vtiger_cntactivityrel as vtiger_tmpcntactivityrel ON
-		  vtiger_activity.activityid = vtiger_tmpcntactivityrel.activityid AND
-		  vtiger_tmpcntactivityrel.contactid IN ($relContactsQuery)
-		  left join vtiger_contactdetails as vtiger_tmpcontactdetails on vtiger_tmpcntactivityrel.contactid = vtiger_tmpcontactdetails.contactid ";
-		  }else {
-		  $query = "";
-		  }
-		 */
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_account", "accountid", $queryPlanner);
 
 		if ($queryPlanner->requireTable('vtiger_crmentityAccounts', $matrix)) {
@@ -687,41 +423,17 @@ class Accounts extends CRMEntity
 		return $child_accounts;
 	}
 
-	// Function to unlink the dependent records of the given record by id
-	public function unlinkDependencies($module, $id)
+	/**
+	 * Function to unlink all the dependent entities of the given Entity by Id
+	 * @param string $moduleName
+	 * @param int $recordId
+	 */
+	public function deletePerminently($moduleName, $recordId)
 	{
-
-		//Backup Contact-Account Relation
-		$con_q = 'SELECT contactid FROM vtiger_contactdetails WHERE parentid = ?';
-		$con_res = $this->db->pquery($con_q, array($id));
-		if ($this->db->num_rows($con_res) > 0) {
-			$con_ids_list = [];
-			for ($k = 0; $k < $this->db->num_rows($con_res); $k++) {
-				$con_ids_list[] = $this->db->query_result($con_res, $k, "contactid");
-			}
-			$params = array($id, RB_RECORD_UPDATED, 'vtiger_contactdetails', 'parentid', 'contactid', implode(",", $con_ids_list));
-			$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES(?,?,?,?,?,?)', $params);
-		}
-		//Deleting Contact-Account Relation.
-		$con_q = 'UPDATE vtiger_contactdetails SET parentid = 0 WHERE parentid = ?';
-		$this->db->pquery($con_q, array($id));
-
-		//Backup Trouble Tickets-Account Relation
-		$tkt_q = 'SELECT ticketid FROM vtiger_troubletickets WHERE parent_id = ?';
-		$tkt_res = $this->db->pquery($tkt_q, array($id));
-		if ($this->db->num_rows($tkt_res) > 0) {
-			$tkt_ids_list = [];
-			for ($k = 0; $k < $this->db->num_rows($tkt_res); $k++) {
-				$tkt_ids_list[] = $this->db->query_result($tkt_res, $k, "ticketid");
-			}
-			$params = array($id, RB_RECORD_UPDATED, 'vtiger_troubletickets', 'parent_id', 'ticketid', implode(",", $tkt_ids_list));
-			$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES(?,?,?,?,?,?)', $params);
-		}
-		//Deleting Trouble Tickets-Account Relation.
-		$tt_q = 'UPDATE vtiger_troubletickets SET parent_id = 0 WHERE parent_id = ?';
-		$this->db->pquery($tt_q, array($id));
-
-		parent::unlinkDependencies($module, $id);
+		$db = \App\Db::getInstance();
+		$db->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['parentid' => $recordId])->execute();
+		$db->createCommand()->update('vtiger_troubletickets', ['parent_id' => 0], ['parent_id' => $recordId])->execute();
+		parent::deletePerminently($moduleName, $recordId);
 	}
 
 	// Function to unlink an entity with given Id from another entity
@@ -743,7 +455,6 @@ class Accounts extends CRMEntity
 
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
-		$db = PearDatabase::getInstance();
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
 		if (!in_array($with_module, ['Products', 'Campaigns'])) {
@@ -751,90 +462,26 @@ class Accounts extends CRMEntity
 		} else {
 			foreach ($with_crmids as $with_crmid) {
 				if ($with_module == 'Products') {
-					$insert = $db->insert('vtiger_seproductsrel', [
+					App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 						'crmid' => $crmid,
 						'productid' => $with_crmid,
 						'setype' => $module,
 						'rel_created_user' => \App\User::getCurrentUserId(),
 						'rel_created_time' => date('Y-m-d H:i:s')
-					]);
+					])->execute();
 				} elseif ($with_module == 'Campaigns') {
-					$checkResult = $db->pquery('SELECT 1 FROM vtiger_campaign_records WHERE campaignid = ? && crmid = ?', [$with_crmid, $crmid]);
-					if ($db->getRowCount($checkResult) > 0) {
+					$checkResult = (new \App\Db\Query())->from('vtiger_campaign_records')->where(['campaignid' => $with_crmid, 'crmid' => $crmid])->exists();
+					if ($checkResult) {
 						continue;
 					}
-					$db->insert('vtiger_campaign_records', [
+					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 						'campaignid' => $with_crmid,
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 1
-					]);
+					])->execute();
 				}
 			}
 		}
-	}
-	/* Function to get attachments in the related list of accounts module */
-
-	public function get_attachments($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-
-		global $currentModule, $singlepane_view;
-		$this_module = $currentModule;
-		$related_module = \App\Module::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-
-		// Some standard module class doesn't have required variables
-		// that are used in the query, they are defined in this generic API
-		vtlib_setup_modulevars($related_module, $other);
-
-		$singular_modname = vtlib_toSingular($related_module);
-		$button = '';
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		// To make the edit or del link actions to return back to same view.
-		if ($singlepane_view == 'true') {
-			$returnset = "&return_module=$this_module&return_action=DetailView&return_id=$id";
-		} else {
-			$returnset = "&return_module=$this_module&return_action=CallRelatedList&return_id=$id";
-		}
-
-		$entityIds = $this->getRelatedContactsIds();
-		array_push($entityIds, $id);
-		$entityIds = implode(',', $entityIds);
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
-				'Documents' ActivityType,vtiger_attachments.type  FileType,crm2.modifiedtime lastmodified,vtiger_crmentity.modifiedtime,
-				vtiger_seattachmentsrel.attachmentsid attachmentsid, vtiger_notes.notesid crmid, vtiger_notes.notecontent description,vtiger_notes.*
-				from vtiger_notes
-				INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.notesid= vtiger_notes.notesid
-				LEFT JOIN vtiger_notescf ON vtiger_notescf.notesid= vtiger_notes.notesid
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid= vtiger_notes.notesid and vtiger_crmentity.deleted=0
-				INNER JOIN vtiger_crmentity crm2 ON crm2.crmid=vtiger_senotesrel.crmid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.crmid =vtiger_notes.notesid
-				LEFT JOIN vtiger_attachments ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid= vtiger_users.id
-				WHERE crm2.crmid IN (" . $entityIds . ")";
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = [];
-		$return_value['CUSTOM_BUTTON'] = $button;
-		return $return_value;
 	}
 
 	public function createDependentQuery($other, $row, $id)
@@ -881,86 +528,6 @@ class Accounts extends CRMEntity
 		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= " WHERE vtiger_crmentity.deleted = 0 AND $other->table_name.$dependentColumn IN ($entityIds)";
 		return $query;
-	}
-
-	/**
-	 * Function to handle the related list for the module.
-	 * NOTE: vtlib\Module::setRelatedList sets reference to this function in vtiger_relatedlists table
-	 * if function name is not explicitly specified.
-	 */
-	public function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		global $currentModule, $singlepane_view;
-
-		$current_module = \App\Module::getModuleName($cur_tab_id);
-		$related_module = \App\Module::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-
-		// Some standard module class doesn't have required variables
-		// that are used in the query, they are defined in this generic API
-		vtlib_setup_modulevars($current_module, $this);
-		vtlib_setup_modulevars($related_module, $other);
-
-		$singular_modname = 'SINGLE_' . $related_module;
-
-		$button = '';
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' " .
-					" type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$current_module&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\"" .
-					" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module, $related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname, $related_module) . "'>&nbsp;";
-			}
-		}
-
-		// To make the edit or del link actions to return back to same view.
-		if ($singlepane_view == 'true') {
-			$returnset = "&return_module=$current_module&return_action=DetailView&return_id=$id";
-		} else {
-			$returnset = "&return_module=$current_module&return_action=CallRelatedList&return_id=$id";
-		}
-
-		$more_relation = '';
-		if (!empty($other->related_tables)) {
-			foreach ($other->related_tables as $tname => $relmap) {
-				// Setup the default JOIN conditions if not specified
-				if (empty($relmap[1]))
-					$relmap[1] = $other->table_name;
-				if (empty($relmap[2]))
-					$relmap[2] = $relmap[0];
-				$more_relation .= " LEFT JOIN $tname ON $tname.$relmap[0] = $relmap[1].$relmap[2]";
-			}
-		}
-
-		$entityIds = $this->getRelatedContactsIds();
-		array_push($entityIds, $id);
-		$entityIds = implode(',', $entityIds);
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-		$query = "SELECT vtiger_crmentity.*, $other->table_name.*,
-				CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name FROM $other->table_name
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $other->table_name.$other->table_index
-				INNER JOIN vtiger_crmentityrel ON (vtiger_crmentityrel.relcrmid = vtiger_crmentity.crmid OR vtiger_crmentityrel.crmid = vtiger_crmentity.crmid)
-				$more_relation
-				LEFT  JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-				LEFT  JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 AND (vtiger_crmentityrel.crmid IN (" . $entityIds . ") OR vtiger_crmentityrel.relcrmid IN (" . $entityIds . "))";
-
-		$return_value = GetRelatedList($current_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = [];
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		return $return_value;
 	}
 	/* Function to get related contact ids for an account record */
 

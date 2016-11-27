@@ -317,31 +317,6 @@ class VTCacheUtils
 		self::$_profile2fieldpermissionlist_cache[$module][$profileid] = $value;
 	}
 
-	/** Role information */
-	static $_subroles_roleid_cache = [];
-
-	static function lookupRoleSubordinates($roleid)
-	{
-		if (isset(self::$_subroles_roleid_cache[$roleid])) {
-			return self::$_subroles_roleid_cache[$roleid];
-		}
-		return false;
-	}
-
-	static function updateRoleSubordinates($roleid, $roles)
-	{
-		self::$_subroles_roleid_cache[$roleid] = $roles;
-	}
-
-	static function clearRoleSubordinates($roleid = false)
-	{
-		if ($roleid === false) {
-			self::$_subroles_roleid_cache = [];
-		} else if (isset(self::$_subroles_roleid_cache[$roleid])) {
-			unset(self::$_subroles_roleid_cache[$roleid]);
-		}
-	}
-
 	/** Record Owner Id */
 	static $_record_ownerid_cache = [];
 

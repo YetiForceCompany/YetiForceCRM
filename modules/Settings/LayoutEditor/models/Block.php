@@ -22,7 +22,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 
 	/**
 	 * Function to check whether adding custom field is allowed or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isAddCustomFieldEnabled()
 	{
@@ -46,33 +46,27 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 
 	public static function updateFieldSequenceNumber($blockFieldSequence)
 	{
-		$fieldIdList = array();
-		$db = PearDatabase::getInstance();
-
-		$query = 'UPDATE vtiger_field SET ';
-		$query .=' sequence= CASE ';
+		$fieldIdList = [];
+		$db = App\Db::getInstance();
+		$caseSequence = 'CASE';
 		foreach ($blockFieldSequence as $newFieldSequence) {
 			$fieldId = $newFieldSequence['fieldid'];
 			$sequence = $newFieldSequence['sequence'];
-			$block = $newFieldSequence['block'];
 			$fieldIdList[] = $fieldId;
-
-			$query .= ' WHEN fieldid=' . $fieldId . ' THEN ' . $sequence;
+			$caseSequence .= ' WHEN fieldid=' . $fieldId . ' THEN ' . $sequence;
 		}
-
-		$query .=' END, block=CASE ';
-
+		$caseSequence .= ' END';
+		$caseBlock = 'CASE';
 		foreach ($blockFieldSequence as $newFieldSequence) {
 			$fieldId = $newFieldSequence['fieldid'];
-			$sequence = $newFieldSequence['sequence'];
 			$block = $newFieldSequence['block'];
-			$query .= ' WHEN fieldid=' . $fieldId . ' THEN ' . $block;
+			$caseBlock .= ' WHEN fieldid=' . $fieldId . ' THEN ' . $block;
 		}
-		$query .=' END ';
-
-		$query .= sprintf(' WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdList));
-
-		$db->pquery($query, [$fieldIdList]);
+		$caseBlock .= ' END';
+		$db->createCommand()->update('vtiger_field', [
+			'sequence' => new yii\db\Expression($caseSequence),
+			'block' => new yii\db\Expression($caseBlock)
+		], ['fieldid' => $fieldIdList])->execute();
 	}
 
 	public static function getInstance($value, $moduleInstance = false)

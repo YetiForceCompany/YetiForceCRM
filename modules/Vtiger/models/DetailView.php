@@ -19,7 +19,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Module instance
-	 * @return <Vtiger_Module_Model>
+	 * @return Vtiger_Module_Model
 	 */
 	public function getModule()
 	{
@@ -28,7 +28,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to set the module instance
-	 * @param <Vtiger_Module_Model> $moduleInstance - module model
+	 * @param Vtiger_Module_Model $moduleInstance - module model
 	 * @return Vtiger_DetailView_Model>
 	 */
 	public function setModule($moduleInstance)
@@ -73,8 +73,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
 			$adb = PearDatabase::getInstance();
-			vimport('~~modules/com_vtiger_workflow/include.inc');
-			vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+			vimport('~~modules/com_vtiger_workflow/include.php');
+			vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$wfs = new VTWorkflowManager($adb);
 			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
 			if (count($workflows) > 0) {
@@ -131,7 +131,22 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
-
+		$fieldToupdate = AppConfig::module($moduleName, 'FIELD_TO_UPDATE_BY_BUTTON');
+		if ($recordModel->isEditable() && !empty($fieldToupdate)) {
+			foreach ($fieldToupdate as $fieldLabel => $fieldName) {
+				if (App\Field::getFieldPermission($moduleName, $fieldName)) {
+					$editViewLinks = [
+						'linktype' => 'DETAILVIEW',
+						'linklabel' => '',
+						'linkurl' => 'javascript:Vtiger_Detail_Js.updateField(\'' . $fieldName . '\')',
+						'linkicon' => 'glyphicon glyphicon-time',
+						'linkhint' => App\Language::translate('LBL_UPDATE_FIELD', $moduleName) . ' ' . App\Language::translate($fieldLabel, $moduleName),
+						'linkclass' => 'btn-warning',
+					];
+					$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
+				}
+			}
+		}
 		if ($recordModel->isEditable()) {
 			$editViewLinks = array(
 				'linktype' => 'DETAILVIEW',
@@ -343,7 +358,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the module label
-	 * @return <String> - label
+	 * @return string - label
 	 */
 	public function getModuleLabel()
 	{
@@ -352,7 +367,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 *  Function to get the module name
-	 *  @return <String> - name of the module
+	 *  @return string - name of the module
 	 */
 	public function getModuleName()
 	{
@@ -361,8 +376,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the instance
-	 * @param <String> $moduleName - module name
-	 * @param <String> $recordId - record id
+	 * @param string $moduleName - module name
+	 * @param string $recordId - record id
 	 * @return <Vtiger_DetailView_Model>
 	 */
 	public static function getInstance($moduleName, $recordId)

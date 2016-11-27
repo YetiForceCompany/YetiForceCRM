@@ -26,7 +26,7 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query.= " && ((concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) >= ? && concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) <= ?) || (concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) >= ? && concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) <= ?) || (vtiger_osstimecontrol.date_start < ? && vtiger_osstimecontrol.due_date > ?) )";
+			$query.= " AND ((concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) >= ? AND concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) <= ?) OR (concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) <= ?) OR (vtiger_osstimecontrol.date_start < ? AND vtiger_osstimecontrol.due_date > ?) )";
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
@@ -35,27 +35,27 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 			$params[] = $dbEndDate;
 		}
 		if ($this->get('types')) {
-			$query.= " && vtiger_osstimecontrol.timecontrol_type IN ('" . implode("','", $this->get('types')) . "')";
+			$query.= " AND vtiger_osstimecontrol.timecontrol_type IN ('" . implode("','", $this->get('types')) . "')";
 		}
 		if ($this->get('user')) {
 			if (is_array($this->get('user'))) {
-				$query.= ' && vtiger_crmentity.smownerid IN (' . implode(",", $this->get('user')) . ')';
+				$query.= ' AND vtiger_crmentity.smownerid IN (' . implode(",", $this->get('user')) . ')';
 			} else {
-				$query.= ' && vtiger_crmentity.smownerid IN (' . $this->get('user') . ')';
+				$query.= ' AND vtiger_crmentity.smownerid IN (' . $this->get('user') . ')';
 			}
 		}
 		$query .= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->getId());
 		$query .= ' ORDER BY date_start,time_start ASC';
 
 		$queryResult = $db->pquery($query, $params);
-		$result = array();
+		$result = [];
 		for ($i = 0; $i < $db->num_rows($queryResult); $i++) {
 			$record = $db->raw_query_result_rowdata($queryResult, $i);
 
-			$item = array();
+			$item = [];
 			$crmid = $record['osstimecontrolid'];
 			$item['id'] = $crmid;
-			$item['title'] = vtranslate($record['name'], $module);
+			$item['title'] = \App\Language::translate($record['name'], $module);
 			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $crmid;
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);

@@ -14,35 +14,39 @@ class Products_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param <String> $sourceModule Parent module
-	 * @param <String> $field parent fieldname
-	 * @param <Integer> $record parent id
-	 * @param <String> $listQuery
-	 * @return <String> Listview Query
+	 * @param string $sourceModule Parent module
+	 * @param string $field parent fieldname
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param boolean $skipSelected
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery, $skipSelected = false)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts', 'Contacts');
-		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || in_array($sourceModule, getInventoryModules())) {
-
-			$condition = " vtiger_products.discontinued = 1 ";
+		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts');
+		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || Vtiger_Module_Model::getInstance($sourceModule)->isInventory()) {
+			$condition = ['and', ['vtiger_products.discontinued' => 1]];
 			if ($sourceModule === $this->getName()) {
-				$condition .= " && vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_seproductsrel WHERE productid = '$record') && vtiger_products.productid <> '$record' ";
+				$subQuery = (new App\Db\Query())
+					->select(['productid'])
+					->from('vtiger_seproductsrel')
+					->where(['crmid' => $record]);
+				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
+				$subQuery = (new App\Db\Query())
+					->select(['crmid'])
+					->from('vtiger_seproductsrel')
+					->where(['productid' => $record]);
+				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
+				$condition [] = ['<>', 'vtiger_products.productid', $record];
 			} elseif ($sourceModule === 'PriceBooks') {
-				$condition .= " && vtiger_products.productid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
+				$subQuery = (new App\Db\Query())
+					->select(['productid'])
+					->from('vtiger_pricebookproductrel')
+					->where(['pricebookid' => $record]);
+				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
 			} elseif ($sourceModule === 'Vendors') {
-				$condition .= " && vtiger_products.vendor_id != '$record' ";
-			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
-				$condition .= " && vtiger_products.productid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE crmid = '$record')";
+				$condition [] = ['<>', 'vtiger_products.vendor_id', $record];
 			}
-
-			$pos = stripos($listQuery, 'where');
-			if ($pos) {
-				$overRideQuery = $listQuery . ' && ' . $condition;
-			} else {
-				$overRideQuery = $listQuery . ' WHERE ' . $condition;
-			}
-			return $overRideQuery;
+			$queryGenerator->addNativeCondition($condition);
 		}
 	}
 
@@ -73,7 +77,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -83,9 +87,9 @@ class Products_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
-	 * @param <String> $searchValue - Search value
+	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
-	 * @param <String> $parentModule - parent module name
+	 * @param string $parentModule - parent module name
 	 * @return <Array of Vtiger_Record_Model>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
@@ -97,28 +101,5 @@ class Products_Module_Model extends Vtiger_Module_Model
 		}
 
 		return $matchingRecords;
-	}
-
-	/**
-	 * Function returns query for Product-PriceBooks relation
-	 * @param <Vtiger_Record_Model> $recordModel
-	 * @param <Vtiger_Record_Model> $relatedModuleModel
-	 * @return <String>
-	 */
-	public function get_product_pricebooks($recordModel, $relatedModuleModel)
-	{
-		$query = 'SELECT vtiger_pricebook.pricebookid, vtiger_pricebook.bookname, vtiger_pricebook.active, vtiger_crmentity.crmid, 
-						vtiger_crmentity.smownerid, vtiger_pricebookproductrel.listprice, vtiger_products.unit_price
-					FROM vtiger_pricebook
-					INNER JOIN vtiger_pricebookproductrel ON vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
-					INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_pricebook.pricebookid
-					INNER JOIN vtiger_products on vtiger_products.productid = vtiger_pricebookproductrel.productid
-					INNER JOIN vtiger_pricebookcf on vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
-					LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
-			. Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleModel->getName()) . '
-					WHERE vtiger_products.productid = ' . $recordModel->getId() . ' and vtiger_crmentity.deleted = 0';
-
-		return $query;
 	}
 }

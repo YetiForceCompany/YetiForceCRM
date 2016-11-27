@@ -266,8 +266,8 @@ class Utils
 	/**
 	 * funtion to log the exception messge to module.log file
 	 * @global type $site_URL
-	 * @param <string> $module name of the log file and It should be a alphanumeric string
-	 * @param <Exception>/<string> $exception Massage show in the log ,It should be a string or Exception object 
+	 * @param string $module name of the log file and It should be a alphanumeric string
+	 * @param <Exception>/string $exception Massage show in the log ,It should be a string or Exception object 
 	 * @param <array> $extra extra massages need to be displayed
 	 * @param <boolean> $backtrace flag to enable or disable backtrace in log  
 	 * @param <boolean> $request flag to enable or disable request in log

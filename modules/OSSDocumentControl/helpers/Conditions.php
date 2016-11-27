@@ -45,8 +45,6 @@ class Conditions
 			}
 		}
 
-		//var_dump($responeListRequiredStatus);
-
 		$responeListOptionalStatus = false;
 
 		if (count($responeListOptional)) {

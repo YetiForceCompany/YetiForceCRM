@@ -205,7 +205,6 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	{
 		foreach ($this->getChildren() as $child)
 			$child->delete();
-		//rmdir($this->path);
 	}
 
 	/**

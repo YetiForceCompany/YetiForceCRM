@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'include/events/include.inc';
+require_once 'include/events/include.php';
 
 /**
  * Roles Record Model Class
@@ -37,7 +37,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Group Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -46,7 +46,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the description of the group
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDescription()
 	{
@@ -55,7 +55,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Edit View Url for the Group
-	 * @return <String>
+	 * @return string
 	 */
 	public function getEditViewUrl()
 	{
@@ -64,7 +64,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Delete Action Url for the current group
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDeleteActionUrl()
 	{
@@ -73,7 +73,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail Url for the current group
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDetailViewUrl()
 	{
@@ -99,11 +99,15 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModules()
 	{
 		if (!isset($this->modules)) {
+			$groupId = $this->getId();
+			if (empty($groupId)) {
+				return [];
+			}
 			$dataReader = (new App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.name'])
-				->from('vtiger_group2modules')
-				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_group2modules.tabid')
-				->where(['vtiger_group2modules.groupid' => $this->getId()])
-				->createCommand()->query();
+					->from('vtiger_group2modules')
+					->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_group2modules.tabid')
+					->where(['vtiger_group2modules.groupid' => $groupId])
+					->createCommand()->query();
 			$modules = [];
 			while ($row = $dataReader->read()) {
 				$modules[$row['tabid']] = $row['name'];
@@ -125,16 +129,15 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 		if (empty($groupId)) {
 			$mode = '';
-			$adb = PearDatabase::getInstance();
-			$groupId = $adb->getUniqueId('vtiger_users');
+			$groupId = $db->getUniqueId('vtiger_users');
 			$this->setId($groupId);
 		}
 
 		if ($mode == 'edit') {
 			$db->createCommand()->update('vtiger_groups', [
 				'groupname' => $this->getName(),
-				'description' =>  $this->getDescription()
-			], ['groupid' => $groupId])->execute();
+				'description' => $this->getDescription()
+				], ['groupid' => $groupId])->execute();
 		} else {
 			$db->createCommand()->insert('vtiger_groups', [
 				'groupid' => $groupId,
@@ -158,7 +161,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 					$memberId = $idComponents[1];
 
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_USERS) {
-						$db->createCommand()->insert('vtiger_users2group', ['userid' => $memberId,'groupid' => $groupId])->execute();
+						$db->createCommand()->insert('vtiger_users2group', ['userid' => $memberId, 'groupid' => $groupId])->execute();
 					}
 					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_GROUPS) {
 						$db->createCommand()->insert('vtiger_group2grouprel', ['containsgroupid' => $memberId, 'groupid' => $groupId])->execute();
@@ -225,7 +228,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get all users related to this group
-	 * @param <Boolean> $nonAdmin true/false
+	 * @param boolean $nonAdmin true/false
 	 * @return <Array> Users models list <Users_Record_Model>
 	 */
 	public function getUsersList($nonAdmin = false)

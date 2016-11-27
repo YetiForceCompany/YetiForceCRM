@@ -13,6 +13,9 @@ class PrivilegeFile
 	protected static $usersFile = 'user_privileges/users.php';
 	protected static $usersFileCache = false;
 
+	/**
+	 * Create users privileges file
+	 */
 	public static function createUsersFile()
 	{
 		$db = \PearDatabase::getInstance();
@@ -32,6 +35,11 @@ class PrivilegeFile
 		file_put_contents(static::$usersFile, '<?php return ' . \vtlib\Functions::varExportMin($users) . ';');
 	}
 
+	/**
+	 * get general users privileges file
+	 * @param string $type
+	 * @return array
+	 */
 	public static function getUser($type)
 	{
 		if (static::$usersFileCache === false) {
@@ -51,10 +59,13 @@ class PrivilegeFile
 		$userInstance = \CRMEntity::getInstance('Users');
 		$userInstance->retrieve_entity_info($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
+
+		$userRoleInfo = PrivilegeUtil::getRoleDetail($userInstance->column_fields['roleid']);
 		$user['details'] = $userInstance->column_fields;
-		$user['role'] = $userInstance->column_fields['roleid'];
 		$user['profiles'] = PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
 		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
-		file_put_contents($file, "\n return " . \vtlib\Functions::varExportMin($user) . ';', FILE_APPEND);
+		$user['parent_roles'] = $userRoleInfo['parentRoles'];
+		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
+		file_put_contents($file, 'return ' . \vtlib\Functions::varExportMin($user) . ';', FILE_APPEND);
 	}
 }

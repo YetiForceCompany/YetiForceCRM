@@ -14,13 +14,8 @@ class Field_Model_Base
 
 	public function getFieldInfo($fieldName, $moduleName, $column)
 	{
-		$moduleTabId = \App\Module::getModuleId($moduleName);
-		$db = PearDatabase::getInstance();
-
-		$sql = "SELECT * FROM vtiger_field WHERE tabid = $moduleTabId && fieldname = '$fieldName'";
-		$result = $db->query($sql, true);
-
-		return $db->query_result($result, 0, $column);
+		$fieldInfo = vtlib\Functions::getModuleFieldInfo(\App\Module::getModuleId($moduleName), $fieldName);
+		return $fieldInfo[$column];
 	}
 
 	public function getFieldLabel($fieldName, $moduleName)

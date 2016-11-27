@@ -49,7 +49,7 @@ class Settings_Vtiger_OutgoingServer_Model extends Settings_Vtiger_Systems_Model
 		return $this->defaultLoaded;
 	}
 
-	public function save($request)
+	public function save()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$toEmail = $currentUser->get('email1');
@@ -65,7 +65,7 @@ class Settings_Vtiger_OutgoingServer_Model extends Settings_Vtiger_Systems_Model
 			$mailStatus = $recordModel->sendMailFromTemplate($data);
 		}
 		if ($mailStatus != 1 && !$this->isDefaultSettingLoaded()) {
-			throw new Exception('Error occurred while sending mail');
+			throw new Exception('Error occurred while sending mail: ' . $mailStatus);
 		}
 		return parent::save();
 	}

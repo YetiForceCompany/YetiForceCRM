@@ -131,8 +131,8 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 
 	/**
 	 * Set page size and orientation
-	 * @param <String> $format - page format
-	 * @param <String> $orientation - page orientation
+	 * @param string $format - page format
+	 * @param string $orientation - page orientation
 	 */
 	public function setPageSize($format, $orientation)
 	{

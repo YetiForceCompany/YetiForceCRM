@@ -71,33 +71,25 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		return 'Calendar';
 	}
 
-	public function getRelatedSummary($query)
+	/**
+	 * Function to get data of charts
+	 * @param App\Db\Query $query
+	 * @return array
+	 */
+	public function getRelatedSummary(App\Db\Query $query)
 	{
-		$db = PearDatabase::getInstance();
-		$relationQuery = preg_replace("/[ \t\n\r]+/", " ", $query);
-		$position = stripos($relationQuery, ' from ');
-		if ($position) {
-			$split = preg_split('/ FROM /i', $relationQuery);
-			$mainQuery = '';
-			$countSplit = count($split);
-			for ($i = 1; $i < $countSplit; $i++) {
-				$mainQuery = $mainQuery . ' FROM ' . $split[$i];
-			}
-		}
-
+	
 		// Calculate total working time
-		$query = sprintf('SELECT SUM(vtiger_osstimecontrol.sum_time) AS sumtime %s', $mainQuery);
-		$result = $db->query($query);
-		$totalTime = $db->getSingleValue($result);
+		$totalTime = $query->limit(null)->orderBy('')->sum('vtiger_osstimecontrol.sum_time');
 
 		// Calculate total working time divided into users
-		$query = sprintf('SELECT SUM(vtiger_osstimecontrol.sum_time) AS sumtime, vtiger_crmentity.smownerid %s GROUP BY vtiger_crmentity.smownerid', $mainQuery);
-		$result = $db->query($query);
+		$dataReader = $query->select(['sumtime' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'), 'vtiger_crmentity.smownerid'])
+				->groupBy('vtiger_crmentity.smownerid')
+				->createCommand()->query();
 		$userTime = [];
 		$count = 1;
-		while ($row = $db->fetch_array($result)) {
-			$smownerid = vtlib\Functions::getOwnerRecordLabel($row['smownerid']);
-
+		while ($row = $dataReader->read()) {
+			$smownerid = App\Fields\Owner::getLabel($row['smownerid']);
 			$userTime[] = [
 				'name' => [$count, $smownerid],
 				'initial' => [$count, vtlib\Functions::getInitials($smownerid)],

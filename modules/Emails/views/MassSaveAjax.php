@@ -175,7 +175,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 					}
 					$oldFilePath = $path . '/' . $oldFileName;
 
-					$binFile = \includes\fields\File::sanitizeUploadFileName($file_name);
+					$binFile = \App\Fields\File::sanitizeUploadFileName($file_name);
 
 					$current_id = $adb->getUniqueID("vtiger_crmentity");
 

@@ -54,16 +54,14 @@ class Users_Save_Action extends Vtiger_Save_Action
 			$sharedType = $request->get('sharedtype');
 			if (!empty($sharedType))
 				$recordModel->set('calendarsharedtype', $request->get('sharedtype'));
-			$recordModel->set('mode', 'edit');
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$modelData = $recordModel->getData();
 			$recordModel->set('mode', '');
 		}
-
+		unset($modelData['mode']);
 		foreach ($modelData as $fieldName => $value) {
-			$requestFieldExists = $request->has($fieldName);
-			if (!$requestFieldExists) {
+			if (!$request->has($fieldName)) {
 				continue;
 			}
 			$fieldValue = $request->get($fieldName, null);
@@ -95,13 +93,6 @@ class Users_Save_Action extends Vtiger_Save_Action
 			}
 		}
 
-		// Tag cloud save
-		$tagCloud = $request->get('tagcloudview');
-		if ($tagCloud == "on") {
-			$recordModel->set('tagcloud', 0);
-		} else {
-			$recordModel->set('tagcloud', 1);
-		}
 		return $recordModel;
 	}
 
@@ -122,7 +113,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 			$sharedType = $request->get('calendarsharedtype');
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-			$accessibleUsers = \includes\fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
+			$accessibleUsers = \App\Fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
 
 			if ($sharedType == 'private') {
 				$calendarModuleModel->deleteSharedUsers($currentUserModel->id);

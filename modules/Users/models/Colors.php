@@ -100,16 +100,17 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 	public static function updateColor($params)
 	{
-		$adb = PearDatabase::getInstance();
-		$primaryKey = Vtiger_Util_Helper::getPickListId($params['field']);
-		$adb->update($params['table'], ['color' => $params['color']], $primaryKey . ' = ?', [$params['id']]);
+		$primaryKey = App\Fields\Picklist::getPickListId($params['field']);
+		App\Db::getInstance()->createCommand()
+			->update($params['table'], ['color' => $params['color']], [$primaryKey => $params['id']])
+			->execute();
 	}
 
 	public static function getValuesFromField($fieldName)
 	{
 		$db = PearDatabase::getInstance();
 
-		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
+		$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
 		$query = 'SELECT * FROM vtiger_%s order by sortorderid';
 		$query = sprintf($query, $fieldName);
 		$groupColors = [];

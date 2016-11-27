@@ -16,7 +16,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -37,9 +37,9 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		}
 
 		$row = (new App\Db\Query())
-				->from('vtiger_trees_templates_data')
-				->where(['templateid' => $template, 'tree' => $tree])
-				->one();
+			->from('vtiger_trees_templates_data')
+			->where(['templateid' => $template, 'tree' => $tree])
+			->one();
 		$parentName = '';
 		$module = $this->get('field')->getModuleName();
 		$name = false;
@@ -50,10 +50,10 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 				end($pieces);
 				$parent = prev($pieces);
 				$parentName = (new App\Db\Query())
-						->select('name')
-						->from('vtiger_trees_templates_data')
-						->where(['templateid' => $template, 'tree' => $parent])
-						->scalar();
+					->select('name')
+					->from('vtiger_trees_templates_data')
+					->where(['templateid' => $template, 'tree' => $parent])
+					->scalar();
 				$parentName = '(' . vtranslate($parentName, $module) . ') ';
 			}
 			$name = $parentName . vtranslate($row['name'], $module);
@@ -107,7 +107,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		return $values;
 	}
 
-	public function getDisplayValueByField($tree, $field, $module)
+	public static function getDisplayValueByField($tree, $field, $module)
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? && fieldname = ?', array(vtlib\Functions::getModuleId($module), $field));

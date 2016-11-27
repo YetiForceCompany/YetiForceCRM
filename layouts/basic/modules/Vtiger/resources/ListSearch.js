@@ -198,10 +198,10 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			var searchOperator = 'c';
 			if (fieldInfo.hasOwnProperty("searchOperator")) {
 				searchOperator = fieldInfo.searchOperator;
+			} else if (jQuery.inArray(fieldInfo.type, ['owner','picklist',"tree","boolean"]) >= 0) {
+				searchOperator = 'e';
 			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
-			} else if (fieldInfo.type == "boolean" || fieldInfo.type == "picklist" || fieldInfo.type == "tree") {
-				searchOperator = 'e';
 			} else if (fieldInfo.type == 'currency' || fieldInfo.type == "double" || fieldInfo.type == 'percentage' ||
 					fieldInfo.type == "integer" || fieldInfo.type == "number") {
 				if (searchValue.substring(0, 2) == '>=') {

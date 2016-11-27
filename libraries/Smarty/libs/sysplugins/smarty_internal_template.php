@@ -468,7 +468,6 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
         if ($is_valid) {
             $resource->unifunc = $properties[ 'unifunc' ];
             $resource->has_nocache_code = $properties[ 'has_nocache_code' ];
-            //            $tpl->compiled->nocache_hash = $properties['nocache_hash'];
             $resource->file_dependency = $properties[ 'file_dependency' ];
         }
         return $is_valid && !function_exists($properties[ 'unifunc' ]);

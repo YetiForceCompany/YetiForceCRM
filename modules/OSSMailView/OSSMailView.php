@@ -61,6 +61,11 @@ class OSSMailView extends CRMEntity
 		'SendType' => 'ossmailview_sendtype',
 		'Assigned To' => 'assigned_user_id'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['ossmailview_no', 'from_email', 'subject', 'to_email', 'ossmailview_sendtype', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -103,15 +108,6 @@ class OSSMailView extends CRMEntity
 	public function save_module($module)
 	{
 		//module specific save
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
 	}
 
 	/**
@@ -253,7 +249,7 @@ class OSSMailView extends CRMEntity
 	public function transform_export_value($key, $value)
 	{
 		if ($key == 'owner')
-			return \includes\fields\Owner::getLabel($value);
+			return \App\Fields\Owner::getLabel($value);
 		return parent::transform_export_value($key, $value);
 	}
 
@@ -305,13 +301,6 @@ class OSSMailView extends CRMEntity
 		return $query;
 	}
 
-	// Function to unlink all the dependent entities of the given Entity by Id
-	public function unlinkDependencies($module, $id)
-	{
-
-		parent::unlinkDependencies($module, $id);
-	}
-
 	/**
 	 * Invoked when special actions are performed on the module.
 	 * @param String Module name
@@ -322,7 +311,7 @@ class OSSMailView extends CRMEntity
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			\includes\fields\RecordNumber::setNumber($moduleName, 'M_', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'M_', 1);
 			$displayLabel = 'OSSMailView';
 			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$displayLabel'");
 
@@ -372,53 +361,5 @@ class OSSMailView extends CRMEntity
 		} else {
 			$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array($displayLabel));
 		}
-	}
-
-	public function get_attachments($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		global $currentModule, $singlepane_view;
-		$this_module = $currentModule;
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-		$button = '';
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-		if ($singlepane_view == 'true') {
-			$returnset = "&return_module=$this_module&return_action=DetailView&return_id=$id";
-		} else {
-			$returnset = "&return_module=$this_module&return_action=CallRelatedList&return_id=$id";
-		}
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
-				'Documents' ActivityType,vtiger_attachments.type  FileType,vtiger_crmentity.modifiedtime,
-				vtiger_seattachmentsrel.attachmentsid attachmentsid, vtiger_notes.notesid crmid, vtiger_notes.notecontent description,vtiger_notes.*
-				from vtiger_notes
-				LEFT JOIN vtiger_notescf ON vtiger_notescf.notesid= vtiger_notes.notesid
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid= vtiger_notes.notesid and vtiger_crmentity.deleted=0
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.crmid =vtiger_notes.notesid
-				LEFT JOIN vtiger_attachments ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid= vtiger_users.id
-				LEFT JOIN vtiger_ossmailview_files ON vtiger_ossmailview_files.documentsid =vtiger_notes.notesid
-				WHERE vtiger_ossmailview_files.ossmailviewid = '$id'";
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-		return $return_value;
 	}
 }

@@ -159,7 +159,7 @@ class Import_FileReader_Reader
 	/** Function returns the database column type of the field
 	 * @param $fieldObject <Vtiger_Field_Model>
 	 * @param $fieldTypes <Array> - fieldnames with column type
-	 * @return <String> - column name with type for sql creation of table
+	 * @return string - column name with type for sql creation of table
 	 */
 	public function getDBColumnType($fieldObject, $fieldTypes)
 	{
@@ -170,11 +170,7 @@ class Import_FileReader_Reader
 		if (in_array($dataType, $skipDataType)) {
 			$columnsListQuery .= ',' . $fieldName . ' varchar(250)';
 		} elseif ($dataType == 'inventory') {
-//			if( $fieldObject->getName() == 'ItemNumber'){
-//				$columnsListQuery .= ',inv_itemnumber '.$fieldObject->getDBType();
-//			}else{
 			$columnsListQuery .= ',`' . $fieldObject->getColumnName() . '` ' . $fieldObject->getDBType();
-//			}
 		} else {
 			$columnsListQuery .= ',`' . $fieldName . '` ' . $fieldTypes[$fieldObject->get('column')];
 		}

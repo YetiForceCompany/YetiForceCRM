@@ -8,8 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'modules/com_vtiger_workflow/include.inc';
-require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
+require_once 'modules/com_vtiger_workflow/include.php';
+require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -61,7 +61,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for default view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public static function getDefaultUrl()
 	{
@@ -70,7 +70,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for create view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public static function getCreateViewUrl()
 	{
@@ -177,7 +177,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				$db->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']]);
 				$taskId = $db->getLastInsertID();
 
-				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
+				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 				$taskObject = unserialize($task['task']);
 				$taskObject->workflowId = intval($workflowId);
 				$taskObject->id = intval($taskId);
@@ -235,7 +235,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$num = $db->getSingleValue($result);
 
 		if ($num == 0) {
-			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
+			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
 			$emm = new VTEntityMethodManager($db);
 			$emm->addEntityMethod($method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']);
 		}

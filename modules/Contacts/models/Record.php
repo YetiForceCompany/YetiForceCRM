@@ -13,7 +13,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create event
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateEventUrl()
 	{
@@ -23,7 +23,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create todo
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateTaskUrl()
 	{

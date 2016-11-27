@@ -74,11 +74,11 @@ class ModTracker
 			$em = new VTEventsManager($adb);
 			$em->setHandlerActive('ModTrackerHandler');
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -102,7 +102,7 @@ class ModTracker
 	}
 
 	// cache variable
-	static $__cache_modtracker = array();
+	public static $__cache_modtracker = array();
 
 	/**
 	 * Invoked to disable tracking for the module.
@@ -110,19 +110,25 @@ class ModTracker
 	 */
 	static function disableTrackingForModule($tabid)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		if (!self::isModulePresent($tabid)) {
-			$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 0));
+			$db->createCommand()
+				->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 0])
+				->execute();
 			self::updateCache($tabid, 0);
 		} else {
-			$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 0 WHERE tabid = ?", array($tabid));
+			$db->createCommand()
+				->update('vtiger_modtracker_tabs', ['visible' => 0], ['tabid' => $tabid])
+				->execute();
 			self::updateCache($tabid, 0);
 		}
 		if (self::isModtrackerLinkPresent($tabid)) {
 			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAILVIEWBASIC', 'View History');
 		}
-		$adb->pquery("UPDATE vtiger_field SET presence = 1 WHERE tabid = ? && fieldname = ?", array($tabid, 'was_read'));
+		$db->createCommand()
+			->update('vtiger_field', ['presence' => 1], ['tabid' => $tabid, 'fieldname' => 'was_read'])
+			->execute();
 	}
 
 	/**
@@ -150,7 +156,7 @@ class ModTracker
 	 */
 	static function isTrackingEnabledForModule($moduleName)
 	{
-		
+
 		$tracking = Vtiger_Cache::get('isTrackingEnabledForModule', $moduleName);
 		if ($tracking !== false) {
 			return $tracking ? true : false;
@@ -205,14 +211,9 @@ class ModTracker
 	 */
 	static function isModtrackerLinkPresent($tabid)
 	{
-		$adb = PearDatabase::getInstance();
-		$query1 = $adb->pquery("SELECT * FROM vtiger_links WHERE linktype='DETAILVIEWBASIC' AND
-							  linklabel = 'View History' && tabid = ?", array($tabid));
-		$row = $adb->num_rows($query1);
-		if ($row >= 1)
-			return true;
-		else
-			return false;
+		return (new \App\Db\Query())->from('vtiger_links')
+				->where(['linktype' => 'DETAILVIEWBASIC', 'linklabel' => 'View History', 'tabid' => $tabid])
+				->exists();
 	}
 
 	/**
@@ -398,29 +399,34 @@ class ModTracker
 
 	static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentTime = date('Y-m-d H:i:s');
-		$adb->insert('vtiger_modtracker_basic', [
+		$db->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $sourceId,
 			'module' => $sourceModule,
 			'whodid' => $currentUser->getRealId(),
 			'changedon' => $currentTime,
 			'status' => $type,
 			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
-		]);
-		$id = $adb->getLastInsertID();
+		])->execute();
+		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 		ModTracker_Record_Model::unsetReviewed($sourceId, $currentUser->getRealId(), $id);
-		$adb->insert('vtiger_modtracker_relations', [
+		$db->createCommand()->insert('vtiger_modtracker_relations', [
 			'id' => $id,
 			'targetmodule' => $targetModule,
 			'targetid' => $targetId,
 			'changedon' => $currentTime,
-		]);
-		$isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? && crmid = ?', array($currentUser->getRealId(), $sourceId));
-
-		if ($adb->num_rows($isMyRecord) > 0)
-			$adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($sourceId));
+		])->execute();
+		$isMyRecord = (new App\Db\Query())->from('vtiger_crmentity')
+			->where(['<>', 'smownerid', $currentUser->getRealId()])
+			->andWhere(['crmid' => $sourceId])
+			->exists();
+		if ($isMyRecord) {
+			$db->createCommand()
+				->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $sourceId])
+				->execute();
+		}
 	}
 
 	static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)

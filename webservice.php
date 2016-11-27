@@ -7,8 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ****************************************************************************** */
-
-include_once('include/Webservices/Relation.php');
 include_once('include/main/WebUI.php');
 require_once('include/Webservices/Utils.php');
 require_once('include/Webservices/State.php');
@@ -63,10 +61,9 @@ $operation = strtolower($operation);
 $format = AppRequest::get('format', 'json');
 $sessionId = AppRequest::get('sessionName');
 
-try{
+try {
 	$sessionManager = new SessionManager();
 	$operationManager = new OperationManager($adb, $operation, $format, $sessionManager);
-
 } catch (WebServiceException $ex) {
 	echo $ex->getMessage();
 	return;

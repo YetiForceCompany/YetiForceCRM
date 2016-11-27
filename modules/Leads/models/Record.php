@@ -22,7 +22,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Static Function to get the list of records matching the search key
-	 * @param <String> $searchKey
+	 * @param string $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $moduleName = false, $limit = false)
@@ -40,7 +40,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		if ($moduleName !== false) {
 			$multiMode = is_array($moduleName);
 			if ($multiMode) {
-				$queryWhere .= sprintf(' && `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+				$queryWhere .= sprintf(' AND `setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 				$params = array_merge($params, $moduleName);
 			} else {
 				$queryWhere .= ' && `setype` = ?';
@@ -148,8 +148,8 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns field mapped to Leads field, used in Lead Convert for settings the field values
-	 * @param <String> $fieldName
-	 * @return <String>
+	 * @param string $fieldName
+	 * @return string
 	 */
 	public function getConvertLeadMappedField($fieldName, $moduleName)
 	{
@@ -204,7 +204,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create event
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateEventUrl()
 	{
@@ -214,28 +214,11 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create todo
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateTaskUrl()
 	{
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
 		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
-	}
-
-	/**
-	 * Function to check whether the lead is converted or not
-	 * @return True if the Lead is Converted false otherwise.
-	 */
-	public function isLeadConverted()
-	{
-		$db = PearDatabase::getInstance();
-		$id = $this->getId();
-		$sql = "select converted from vtiger_leaddetails where converted = 1 and leadid=?";
-		$result = $db->pquery($sql, array($id));
-		$rowCount = $db->num_rows($result);
-		if ($rowCount > 0) {
-			return true;
-		}
-		return false;
 	}
 }

@@ -14,33 +14,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Taxes Url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getTaxesURL()
 	{
 		return 'index.php?module=Inventory&action=GetTaxes&record=' . $this->getId();
-	}
-
-	/**
-	 * Function to get available taxes for this record
-	 * @return <Array> List of available taxes
-	 */
-	public function getTaxes()
-	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM vtiger_producttaxrel
-					INNER JOIN vtiger_inventorytaxinfo ON vtiger_inventorytaxinfo.taxid = vtiger_producttaxrel.taxid
-					INNER JOIN vtiger_crmentity ON vtiger_producttaxrel.productid = vtiger_crmentity.crmid && vtiger_crmentity.deleted = 0
-					WHERE vtiger_producttaxrel.productid = ?', [$this->getId()]);
-		$taxes = [];
-		while ($row = $db->fetch_array($result)) {
-			$taxName = $row['taxname'];
-			$tabLabel = $row['taxlabel'];
-			$taxPercentage = $row['taxpercentage'];
-			$taxes[$taxName] = ['percentage' => $taxPercentage, 'label' => $tabLabel];
-		}
-		return $taxes;
 	}
 
 	/**
@@ -68,10 +46,10 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$result = $db->pquery("SELECT vtiger_products.productid FROM vtiger_products
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
-			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid && vtiger_products.discontinued = 1 && vtiger_seproductsrel.setype='Products'
+			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_products.discontinued = 1 AND vtiger_seproductsrel.setype='Products'
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.productid = ? ", array($this->getId()));
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", array($this->getId()));
 
 		$subProductList = array();
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
@@ -80,64 +58,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 
 		return $subProductList;
-	}
-
-	/**
-	 * Function to get Tax Class Details for this record(Product)
-	 * @return <Array> List of Taxes
-	 */
-	public function getTaxClassDetails()
-	{
-		$taxClassDetails = $this->get('taxClassDetails');
-		if (!empty($taxClassDetails)) {
-			return $taxClassDetails;
-		}
-
-		$record = $this->getId();
-		if (empty($record)) {
-			return $this->getAllTaxes();
-		}
-
-		$taxClassDetails = getTaxDetailsForProduct($record, 'available_associated');
-		$noOfTaxes = count($taxClassDetails);
-
-		for ($i = 0; $i < $noOfTaxes; $i++) {
-			$taxValue = getProductTaxPercentage($taxClassDetails[$i]['taxname'], $this->getId());
-			$taxClassDetails[$i]['percentage'] = $taxValue;
-			$taxClassDetails[$i]['check_name'] = $taxClassDetails[$i]['taxname'] . '_check';
-			$taxClassDetails[$i]['check_value'] = 1;
-			//if the tax is not associated with the product then we should get the default value and unchecked
-			if ($taxValue == '') {
-				$taxClassDetails[$i]['check_value'] = 0;
-				$taxClassDetails[$i]['percentage'] = getTaxPercentage($taxClassDetails[$i]['taxname']);
-			}
-		}
-
-		$this->set('taxClassDetails', $taxClassDetails);
-		return $taxClassDetails;
-	}
-
-	/**
-	 * Function to get all taxes
-	 * @return <Array> List of taxes
-	 */
-	public function getAllTaxes()
-	{
-		$allTaxesList = $this->get('alltaxes');
-		if (!empty($allTaxesList)) {
-			return $allTaxesList;
-		}
-
-		$allTaxesList = getAllTaxes('available');
-		$noOfTaxes = count($allTaxesList);
-
-		for ($i = 0; $i < $noOfTaxes; $i++) {
-			$allTaxesList[$i]['check_name'] = $allTaxesList[$i]['taxname'] . '_check';
-			$allTaxesList[$i]['check_value'] = 0;
-		}
-
-		$this->set('alltaxes', $allTaxesList);
-		return $allTaxesList;
 	}
 
 	/**
@@ -196,7 +116,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
 						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Products Image' && vtiger_seattachmentsrel.crmid = ?";
+						WHERE vtiger_crmentity.setype = 'Products Image' AND vtiger_seattachmentsrel.crmid = ?";
 
 			$result = $db->pquery($sql, array($recordId));
 			$count = $db->num_rows($result);
@@ -230,7 +150,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Static Function to get the list of records matching the search key
-	 * @param <String> $searchKey
+	 * @param string $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $moduleName = false, $limit = false)
@@ -246,7 +166,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			if ($moduleName !== false) {
 				$multiMode = is_array($moduleName);
 				if ($multiMode) {
-					$queryWhere .= sprintf(' && u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+					$queryWhere .= sprintf(' AND u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 					$params = array_merge($params, $moduleName);
 				} else {
 					$queryWhere .= ' && `setype` = ?';
@@ -339,13 +259,19 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateListPrice($relatedRecordId, $price, $currencyId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?', array($relatedRecordId, $this->getId()));
-		if ($db->num_rows($result)) {
-			$db->pquery('UPDATE vtiger_pricebookproductrel SET listprice = ? WHERE pricebookid = ? && productid = ?', array($price, $relatedRecordId, $this->getId()));
+		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])->exists();
+		if ($isExists) {
+			App\Db::getInstance()->createCommand()
+					->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])
+					->execute();
 		} else {
-			$db->pquery('INSERT INTO vtiger_pricebookproductrel (pricebookid,productid,listprice,usedcurrency) values(?,?,?,?)', array($relatedRecordId, $this->getId(), $price, $currencyId));
+			App\Db::getInstance()->createCommand()
+					->insert('vtiger_pricebookproductrel', [
+						'pricebookid' => $relatedRecordId,
+						'productid' => $this->getId(),
+						'listprice' => $price,
+						'usedcurrency' => $currencyId
+					])->execute();
 		}
 	}
 

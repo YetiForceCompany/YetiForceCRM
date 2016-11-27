@@ -725,6 +725,7 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 				labels: data['data_labels']
 			}
 		});
+		this.registerSectionClick();
 	}
 });
 Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
@@ -879,66 +880,6 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 			instance.loadChart();
 			instance.postInitializeCalls();
 		}
-	}
-});
-Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js', {}, {
-	postLoadWidget: function () {
-		this._super();
-		this.registerTagCloud();
-		this.registerTagClickEvent();
-	},
-	registerTagCloud: function () {
-		jQuery('#tagCloud').find('a').tagcloud({
-			size: {
-				start: parseInt('12'),
-				end: parseInt('30'),
-				unit: 'px'
-			},
-			color: {
-				start: "#0266c9",
-				end: "#759dc4"
-			}
-		});
-	},
-	registerChangeEventForModulesList: function () {
-		jQuery('#tagSearchModulesList').on('change', function (e) {
-			var modulesSelectElement = jQuery(e.currentTarget);
-			if (modulesSelectElement.val() == 'all') {
-				jQuery('[name="tagSearchModuleResults"]').removeClass('hide');
-			} else {
-				jQuery('[name="tagSearchModuleResults"]').removeClass('hide');
-				var selectedOptionValue = modulesSelectElement.val();
-				jQuery('[name="tagSearchModuleResults"]').filter(':not(#' + selectedOptionValue + ')').addClass('hide');
-			}
-		});
-	},
-	registerTagClickEvent: function () {
-		var thisInstance = this;
-		var container = this.getContainer();
-		container.on('click', '.tagName', function (e) {
-			var tagElement = jQuery(e.currentTarget);
-			var tagId = tagElement.data('tagid');
-			var params = {
-				'module': app.getModuleName(),
-				'view': 'TagCloudSearchAjax',
-				'tag_id': tagId,
-				'tag_name': tagElement.text()
-			}
-			AppConnector.request(params).then(
-					function (data) {
-						var params = {
-							'data': data,
-							'css': {'min-width': '40%'}
-						}
-						app.showModalWindow(params);
-						thisInstance.registerChangeEventForModulesList();
-					}
-			)
-		});
-	},
-	postRefreshWidget: function () {
-		this._super();
-		this.registerTagCloud();
 	}
 });
 
@@ -1296,7 +1237,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				url += '&search_params=[[';
 				var owner = container.find('.widgetFilter.owner option:selected');
 				if (owner.val() != 'all') {
-					url += '["assigned_user_id","c","' + owner.data('name') + '"],';
+					url += '["assigned_user_id","c","' + owner.val() + '"],';
 				}
 				if (parent.find('.widgetFilterSwitch').length > 0) {
 					var status = parent.find('.widgetFilterSwitch').data();
@@ -1393,7 +1334,7 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 			url += '&search_params=[[';
 			var owner = container.find('.widgetFilter.owner option:selected');
 			if (owner.val() != 'all') {
-				url += '["assigned_user_id","c","' + owner.data('name') + '"],';
+				url += '["assigned_user_id","c","' + owner.val() + '"],';
 			}
 			url += '["activitystatus","e","' + status + '"]]]';
 			window.location.href = url;

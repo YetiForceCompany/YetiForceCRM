@@ -116,9 +116,9 @@ class Reports_ListView_Model extends Vtiger_ListView_Model
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel, $searchResult = false)
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
 	{
 		$reportFolderModel = Reports_Folder_Model::getInstance();
 		$reportFolderModel->set('folderid', $this->get('folderid'));
@@ -136,7 +136,7 @@ class Reports_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		$reportRecordModels = $reportFolderModel->getReports($pagingModel);
-		$pagingModel->calculatePageRange($reportRecordModels);
+		$pagingModel->calculatePageRange(count($reportRecordModels));
 		return $reportRecordModels;
 	}
 

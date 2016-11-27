@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-require 'include/events/include.inc';
+require 'include/events/include.php';
 require_once 'include/utils/utils.php';
 
 class PBXManager extends CRMEntity
@@ -44,6 +44,11 @@ class PBXManager extends CRMEntity
 		'Recording' => 'recordingurl',
 		'Start Time' => 'starttime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['callstatus', 'customer', 'user', 'recordingurl', 'starttime'];
 	// Make the field link to detail view
 	public $list_link_field = 'customernumber';
 	// For Popup listview and UI type support
@@ -102,9 +107,9 @@ class PBXManager extends CRMEntity
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -120,7 +125,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addUserExtensionField()
 	{
-		
+
 		$module = vtlib\Module::getInstance('Users');
 		if ($module) {
 			$module->initTables();
@@ -142,7 +147,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function registerLookupEvents()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$EventManager = new VTEventsManager($adb);
 		$createEvent = 'vtiger.entity.aftersave';
@@ -166,11 +171,11 @@ class PBXManager extends CRMEntity
 	 */
 	public function setModuleRelatedDependencies()
 	{
-		
+
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
-			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'get_dependents_list');
+			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'getDependentsList');
 		}
 		\App\Log::error('Successfully added Module Related lists');
 	}
@@ -180,11 +185,11 @@ class PBXManager extends CRMEntity
 	 */
 	public function unsetModuleRelatedDependencies()
 	{
-		
+
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
-			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'get_dependents_list');
+			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'getDependentsList');
 		}
 		\App\Log::error('Successfully removed Module Related lists');
 	}
@@ -194,7 +199,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function unregisterLookupEvents()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$EventManager = new VTEventsManager($adb);
 		$className = 'PBXManagerHandler';
@@ -209,7 +214,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addLinksForPBXManager()
 	{
-		
+
 		$handlerInfo = array('path' => 'modules/PBXManager/PBXManager.php',
 			'class' => 'PBXManager',
 			'method' => 'checkLinkPermission');
@@ -223,7 +228,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeLinksForPBXManager()
 	{
-		
+
 		//Deleting Headerscripts links
 		vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js');
 		\App\Log::error('Links Removed');
@@ -234,7 +239,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addSettingsLinks()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$integrationBlock = $adb->pquery('SELECT * FROM vtiger_settings_blocks WHERE label=?', array('LBL_INTEGRATION'));
 		$integrationBlockCount = $adb->num_rows($integrationBlock);
@@ -263,7 +268,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeSettingsLinks()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
 		\App\Log::error('Settings Field Removed');
@@ -274,7 +279,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addActionMapping()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
@@ -305,7 +310,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeActionMapping()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');

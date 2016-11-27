@@ -37,7 +37,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function checks if the sharing access for the module is enabled or not
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isSharingEditable()
 	{
@@ -121,17 +121,16 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getAll($editable = false, $restrictedModulesList = [], $isEntityType = false)
 	{
-		$db = PearDatabase::getInstance();
 		$moduleModels = [];
-		$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE vtiger_tab.presence IN (0,2)';
-		$params = [];
+		$query = (new \App\Db\Query())->from('vtiger_def_org_share')
+				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_def_org_share.tabid')
+				->where(['vtiger_tab.presence' => [0, 2]]);
 		if ($editable) {
-			$query .= ' && editstatus = ?';
-			array_push($params, self::EDITABLE);
+			$query->andWhere(['editstatus' => self::EDITABLE]);
 		}
-		$query .= ' ORDER BY vtiger_def_org_share.tabid ASC';
-		$result = $db->pquery($query, $params);
-		while ($row = $db->getRow($result)) {
+		$query->orderBy(['vtiger_def_org_share.tabid' => SORT_ASC]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$instance = new Settings_SharingAccess_Module_Model();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);

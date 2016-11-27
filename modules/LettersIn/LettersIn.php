@@ -55,6 +55,11 @@ class LettersIn extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['number', 'title', 'assigned_user_id', 'createdtime'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'title';
 	// For Popup listview and UI type support
@@ -91,15 +96,6 @@ class LettersIn extends CRMEntity
 	public function save_module($module)
 	{
 		
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
 	}
 
 	/**
@@ -323,7 +319,7 @@ class LettersIn extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
-			\includes\fields\RecordNumber::setNumber($modulename, 'LI', '1');
+			\App\Fields\RecordNumber::setNumber($modulename, 'LI', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

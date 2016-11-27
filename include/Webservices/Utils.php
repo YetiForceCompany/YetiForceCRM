@@ -46,7 +46,7 @@ function vtws_getUsersInTheSameGroup($id)
 		$usersInGroup = $groupUsers->group_users;
 		foreach ($usersInGroup as $user) {
 			if ($user != $id) {
-				$allUsers[$user] = \includes\fields\Owner::getUserLabel($user);
+				$allUsers[$user] = \App\Fields\Owner::getUserLabel($user);
 			}
 		}
 	}
@@ -229,7 +229,7 @@ function vtws_getModuleInstance($webserviceObject)
 
 function vtws_getOwnerType($ownerId)
 {
-	return \includes\fields\Owner::getType($ownerId);
+	return \App\Fields\Owner::getType($ownerId);
 }
 
 function vtws_runQueryAsTransaction($query, $params, &$result)
@@ -468,7 +468,7 @@ function vtws_CreateCompanyLogoFile($fieldname)
 	if ($fileTypeValue == '') {
 		$fileTypeValue = substr($binFile, strrpos($binFile, '.') + 1);
 	}
-	$fileInstance = \includes\fields\File::loadFromRequest($_FILES[$fieldname]);
+	$fileInstance = \App\Fields\File::loadFromRequest($_FILES[$fieldname]);
 	if ($fileInstance->validate()) {
 		if (in_array($fileTypeValue, $allowedFileTypes)) {
 			$fileInstance->moveFile($uploaddir . $_FILES[$fieldname]['name']);
@@ -889,7 +889,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 	$idSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerId . '"';
 	$fieldSearchValue = 's:16:"assigned_user_id"';
 	$query = sprintf("SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE '%s' 
-			OR task LIKE '%s' || task LIKE '%s'", "%$nameSearchValue%", "%$idSearchValue%", "%$fieldSearchValue%");
+			OR task LIKE '%s' OR task LIKE '%s'", "%$nameSearchValue%", "%$idSearchValue%", "%$fieldSearchValue%");
 	$result = $db->pquery($query, []);
 
 	$num_rows = $db->num_rows($result);
@@ -899,11 +899,11 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 		$taskComponents = explode(':', $task);
 		$classNameWithDoubleQuotes = $taskComponents[2];
 		$className = str_replace('"', '', $classNameWithDoubleQuotes);
-		require_once("modules/com_vtiger_workflow/VTTaskManager.inc");
-		require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.inc';
+		require_once("modules/com_vtiger_workflow/VTTaskManager.php");
+		require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 		$unserializeTask = unserialize($task);
 		if (array_key_exists('field_value_mapping', $unserializeTask)) {
-			$fieldMapping = \includes\utils\Json::decode($unserializeTask->field_value_mapping);
+			$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 			if (!empty($fieldMapping)) {
 				foreach ($fieldMapping as $key => $condition) {
 					if ($condition['fieldname'] == 'assigned_user_id') {
@@ -916,7 +916,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 					}
 					$fieldMapping[$key] = $condition;
 				}
-				$updatedTask = \includes\utils\Json::encode($fieldMapping);
+				$updatedTask = \App\Json::encode($fieldMapping);
 				$unserializeTask->field_value_mapping = $updatedTask;
 				$serializeTask = serialize($unserializeTask);
 

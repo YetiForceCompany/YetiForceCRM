@@ -35,15 +35,6 @@ class Vtiger_CRMEntity extends CRMEntity
 	}
 
 	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
-	}
-
-	/**
 	 * Get list view query.
 	 */
 	public function getListQuery($module, $where = '')
@@ -68,7 +59,7 @@ class Vtiger_CRMEntity extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", [$module]);
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {

@@ -87,7 +87,7 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Load records tree address
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getTreeViewUrl()
 	{

@@ -20,7 +20,7 @@ class PBXManager_Server_Model extends Vtiger_Base_Model
 
 	/**
 	 * Static Function Server Record Model
-	 * @params <string> gateway name
+	 * @params string gateway name
 	 * @return PBXManager_Server_Model
 	 */
 	public static function getInstance()
@@ -30,7 +30,7 @@ class PBXManager_Server_Model extends Vtiger_Base_Model
 		if ($row !== false) {
 			$serverModel->set('gateway', $row['gateway']);
 			$serverModel->set('id', $row['id']);
-			$parameters = \includes\utils\Json::decode(decode_html($row['parameters']));
+			$parameters = \App\Json::decode(decode_html($row['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}

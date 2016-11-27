@@ -20,21 +20,15 @@ class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
 
 	public function getConfigInstance($type = false)
 	{
-		
+
 		\App\Log::trace('Start ' . __METHOD__ . " | Type: " . print_r($type, true));
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM `yetiforce_proc_tc`';
-		if ($type && !is_array($type)) {
-			$type = [$type];
-		}
-		$params = [];
+		$query = (new App\Db\Query())->from('yetiforce_proc_tc');
 		if ($type) {
-			$sql .= sprintf(' WHERE `type` IN (%s)', generateQuestionMarks($type));
-			$params = $type;
+			$query->where(['type' => $type]);
 		}
-		$result = $db->pquery($sql, $params);
+		$dataReader = $query->createCommand()->query();
 		$output = [];
-		while ($row = $db->fetch_array($result)) {
+		while ($row = $dataReader->read()) {
 			$output[$row['type']][$row['param']] = $row['value'];
 		}
 		$this->setData($output);
@@ -44,10 +38,9 @@ class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
 
 	public function setConfig($param)
 	{
-		
 		\App\Log::trace('Start ' . __METHOD__);
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE `yetiforce_proc_tc` SET `value` = ? WHERE `type` = ? && `param` = ?;', $param);
+		\App\Db::getInstance()->createCommand()
+			->update('yetiforce_proc_tc', ['value' => $param['value']], ['type' => $param['type'], 'param' => $param['param']])->execute();
 		\App\Log::trace('End ' . __METHOD__);
 		return true;
 	}

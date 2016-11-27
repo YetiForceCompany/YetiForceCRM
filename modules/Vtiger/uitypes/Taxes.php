@@ -1,19 +1,17 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
 
+/**
+ * UIType Taxes Field Class
+ * @package YetiForce.Fieldsss
+ * @license licenses/License.html
+ * @author YetiForce.com
+ */
 class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 {
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -22,22 +20,42 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param string $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$values = explode(',', $value);
-		$taxs = $this->getTaxes();
 		$display = [];
+		if (!empty($value)) {
+			$taxes = $this->getPicklistValues();
+			$values = explode(',', $value);
+			$display = array_intersect_key($taxes, array_flip($values));
+		}
+		return implode(', ', $display);
+	}
 
-		foreach ($values as $tax) {
-			if (isset($taxs[$tax])) {
-				$display[] = $taxs[$tax]['value'] . '% - ' . $taxs[$tax]['name'];
+	/**
+	 * Function to get the display value in edit view
+	 * @param string $value
+	 * @param int $record - Record ID
+	 * @return array
+	 */
+	public function getEditViewDisplayValue($value, $record = false)
+	{
+		$display = [];
+		if (!empty($value)) {
+			$values = explode(',', $value);
+			$taxes = $this->getPicklistValues();
+			foreach ($values as $tax) {
+				if (isset($taxes[$tax])) {
+					$display[] = $tax;
+				}
 			}
 		}
-
-		return implode(',', $display);
+		return $display;
 	}
 
 	public static function getValues($value)
@@ -55,28 +73,40 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		return $display;
 	}
 
-	public function getListSearchTemplateName()
+	/**
+	 * Function to get taxes
+	 * @return array
+	 */
+	public static function getTaxes()
 	{
-		return 'uitypes/TaxesFieldSearchView.tpl';
+		if (\App\Cache::has('Inventory', 'Taxes')) {
+			return \App\Cache::get('Inventory', 'Taxes');
+		}
+		$taxes = (new App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])
+				->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
+		\App\Cache::save('Inventory', 'Taxes', $taxes, \App\Cache::LONG);
+		return $taxes;
 	}
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return array List of picklist values if the field
 	 */
-	public function getTaxes()
+	public function getPicklistValues()
 	{
-		$taxs = Vtiger_Cache::get('taxes', 'global');
-		if (!$taxs) {
-			$db = PearDatabase::getInstance();
-			$taxs = [];
-			$result = $db->pquery('SELECT * FROM a_yf_taxes_global WHERE status = ?', [0]);
-			while ($row = $db->fetch_array($result)) {
-				$taxs[$row['id']] = $row;
-			}
-			Vtiger_Cache::set('taxes', 'global', $taxs);
+		$taxes = self::getTaxes();
+		foreach ($taxes as $key => $tax) {
+			$taxes[$key] = $tax['name'] . ' - ' . $tax['value'] . '%';
 		}
+		return $taxes;
+	}
 
-		return $taxs;
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/MultiSelectFieldSearchView.tpl';
 	}
 }

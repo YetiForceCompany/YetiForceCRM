@@ -13,7 +13,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type Object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -22,10 +22,10 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <String> $value
+	 * @param string $value
 	 * @param <Integer> $record
 	 * @param <Vtiger_Record_Model>
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -34,9 +34,10 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 			$fileStatus = $recordInstance->get('filestatus');
 			if (!empty($value) && $fileStatus) {
 				if ($fileLocationType == 'I') {
-					$db = PearDatabase::getInstance();
-					$fileIdRes = $db->pquery('SELECT attachmentsid FROM vtiger_seattachmentsrel WHERE crmid = ?', array($record));
-					$fileId = $db->query_result($fileIdRes, 0, 'attachmentsid');
+					$fileId = (new App\Db\Query())->select(['attachmentsid'])
+						->from('vtiger_seattachmentsrel')
+						->where(['crmid' => $record])
+						->scalar();
 					if ($fileId) {
 						$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
 							' title="' . vtranslate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';

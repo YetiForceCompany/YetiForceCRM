@@ -20,6 +20,20 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	];
 
 	/**
+	 * Function extending recordModel object with additional information
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function getEntryExtend(Vtiger_Record_Model $recordModel)
+	{
+		if ($this->getRelationModel()->getRelationModuleModel()->getName() === 'PriceBooks') {
+			$parentId = $this->getParentRecordModel()->getId();
+			$parentModuleModel = $this->getParentRecordModel()->getModule();
+			$unitPricesList = $parentModuleModel->getPricesForProducts($recordModel->get('currency_id'), [$parentId => $parentId]);
+			$recordModel->set('unit_price', $unitPricesList[$parentId]);
+		}
+	}
+
+	/**
 	 * Function to get the links for related list
 	 * @return <Array> List of action models <Vtiger_Link_Model>
 	 */
@@ -41,7 +55,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	public function getHeaders()
 	{
 		$headerFields = parent::getHeaders();
-		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'get_many_to_many') {
+		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'getManyToMany') {
 			$unitPriceField = new Vtiger_Field_Model();
 			$unitPriceField->set('name', 'qtyinstock');
 			$unitPriceField->set('column', 'qtyinstock');

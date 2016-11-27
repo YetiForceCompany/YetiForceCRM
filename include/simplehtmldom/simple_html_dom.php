@@ -679,7 +679,6 @@ if (is_object($debugObject)) {
 
 $selectors = [];
 $result = [];
-//print_r($matches);
 
 foreach ($matches as $m) {
 	$m[0] = trim($m[0]);

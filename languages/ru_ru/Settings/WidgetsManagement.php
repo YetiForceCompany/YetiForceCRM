@@ -50,6 +50,8 @@ $languageStrings = [
 	'PLL_CURRENT_WEEK' => 'Current week',
 	'PLL_CURRENT_MONTH' => 'Current month',
 	'PLL_CURRENT_YEAR' => 'Current year',
+	'LBL_SAVE_DASHBOARD' => 'Save dashboard',
+	'LBL_NAME_DASHBOARD' => 'Dashboard name',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Блок Виджетов успешно добавлен',

@@ -54,6 +54,11 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['osstimecontrol_no', 'assigned_user_id', 'createdtime'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
@@ -95,12 +100,12 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$registerLink = false;
 		$displayLabel = 'Time Control';
 		$adb = PearDatabase::getInstance();
-		
+
 		if ($event_type == 'module.postinstall') {
 
 			$tabid = \App\Module::getModuleId($modulename);
 			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('name','osstimecontrol_no','osstimecontrol_status','smownerid','date_start','time_start','time_end','due_date','sum_time','platnosc');", true);
-			\includes\fields\RecordNumber::setNumber($modulename, 'TC', '1');
+			\App\Fields\RecordNumber::setNumber($modulename, 'TC', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
@@ -108,13 +113,13 @@ class OSSTimeControl extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('OSSTimeControl'));
 			}
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 			
 		}
@@ -146,21 +151,21 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $currentModule;
-		
 		$results = [];
-
-		$where = '(crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
-		$params = [$id, $returnModule, $returnId, $id, $returnModule, $returnId];
-		$this->db->delete('vtiger_crmentityrel', $where, $params);
-
-		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
-			SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$currentModule, $returnModule]);
-		$numOfFields = $this->db->num_rows($fieldRes);
-		if ($fieldRes->rowCount()) {
-			$results = $this->db->getArray($fieldRes);
+		parent::deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
+		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
+				->from('vtiger_field')
+				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
+				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $returnModule])])
+				->createCommand()->query();
+		if ($dataReader->count()) {
+			$results = $dataReader->readAll();
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [vtlib\Functions::getModuleId($currentModule)]);
-			while ($row = $this->db->getRow($fieldRes)) {
+			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
+				->from('vtiger_field')
+				->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($currentModule)])
+				->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
@@ -173,16 +178,9 @@ class OSSTimeControl extends Vtiger_CRMEntity
 				}
 			}
 		}
-		foreach ($results as $result) {
-			$columnName = $result['columnname'];
-
-			$relatedModule = vtlib\Functions::getModuleName($result['tabid']);
-			$focusObj = CRMEntity::getInstance($relatedModule);
-
-			$columns = [$columnName => null];
-			$where = "$columnName = ? && $focusObj->table_index = ?";
-			$params = [$returnId, $id];
-			$this->db->update($result['tablename'], $columns, $where, $params);
+		foreach ($results as $row) {
+			App\Db::getInstance()->createCommand()
+					->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
 		}
 	}
 

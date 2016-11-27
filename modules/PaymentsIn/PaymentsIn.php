@@ -55,6 +55,11 @@ class PaymentsIn extends Vtiger_CRMEntity
 		'LBL_PAYMENTSCURRENCY' => 'paymentscurrency',
 		'LBL_PAYMENTSSTATUS' => 'paymentsin_status'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['paymentsno', 'paymentsname', 'paymentsvalue', 'paymentscurrency', 'paymentsin_status'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'paymentsname';
 	// For Popup listview and UI type support
@@ -100,7 +105,7 @@ class PaymentsIn extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
-			\includes\fields\RecordNumber::setNumber($modulename, '', '1');
+			\App\Fields\RecordNumber::setNumber($modulename, '', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
@@ -152,9 +157,9 @@ class PaymentsIn extends Vtiger_CRMEntity
 
 	private function addWorkflow($moduleName)
 	{
-		vimport('~~modules/com_vtiger_workflow/include.inc');
-		vimport('~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		vimport('~~modules/com_vtiger_workflow/include.php');
+		vimport('~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		$db = PearDatabase::getInstance();
 		$functionName = 'UpdateBalance';
 		$emm = new VTEntityMethodManager($db);

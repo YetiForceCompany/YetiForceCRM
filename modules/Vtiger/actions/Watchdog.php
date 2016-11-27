@@ -5,6 +5,7 @@
  * @package YetiForce.Action
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 {
@@ -23,7 +24,7 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 			}
 		}
 		if ($request->has('user')) {
-			$userList = array_keys(\includes\fields\Owner::getInstance()->getAccessibleUsers());
+			$userList = array_keys(\App\Fields\Owner::getInstance()->getAccessibleUsers());
 			if (!in_array($request->get('user'), $userList)) {
 				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
@@ -41,12 +42,13 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 			$user = $request->get('user');
 		}
 		if (empty($record)) {
-			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleName);
-			$watchdog->changeModuleState($state, $user);
+			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleName, $user);
+			$watchdog->changeModuleState($state);
 		} else {
-			$watchdog = Vtiger_Watchdog_Model::getInstanceById($record, $moduleName);
-			$watchdog->changeRecordState($state, $user);
+			$watchdog = Vtiger_Watchdog_Model::getInstanceById($record, $moduleName, $user);
+			$watchdog->changeRecordState($state);
 		}
+		Vtiger_Watchdog_Model::reloadCache();
 		$response = new Vtiger_Response();
 		$response->setResult($state);
 		$response->emit();

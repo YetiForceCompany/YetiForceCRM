@@ -12,42 +12,39 @@
 class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	private $conditions = false;
-
 	/**
 	 * Function returns Tickets grouped by Status
 	 * @param type $data
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getOpenTickets()
 	{
-		$db = PearDatabase::getInstance();
+
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$moduleName = 'HelpDesk';
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-
-		$sql = sprintf('SELECT count(*) AS count, case when (%s not like "") then
-			%s else vtiger_groups.groupname end as name, 
-			case when (%s not like "") then
-			vtiger_users.cal_color else vtiger_groups.color end as color, smownerid as id
-			FROM vtiger_troubletickets
-			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
-			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0', $usersSqlFullName, $usersSqlFullName, $usersSqlFullName);
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
+		$query = new \App\Db\Query();
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
+				'name' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END"),
+				'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN
+					vtiger_users.cal_color ELSE vtiger_groups.color END"),
+				'id' => 'smownerid'])
+			->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->where(['vtiger_crmentity.deleted' => 0]);
+		\App\PrivilegeQuery::getConditions($query, $module);
 		if (!empty($ticketStatus)) {
-			$ticketStatusSearch = implode("','", $ticketStatus);
-			$sql .= " && vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
-			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
+			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
 		}
-
-		$sql .= ' GROUP BY smownerid';
-		$result = $db->query($sql);
+		$query->groupBy(['smownerid', 'vtiger_users.last_name', 'vtiger_users.last_name', 'vtiger_users.first_name', 'vtiger_groups.groupname', 'vtiger_users.cal_color'
+			, 'vtiger_groups.color']);
+		$dataReader = $query->createCommand()->query();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$chartData = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$data['id'] = $row['id'];
 			$data['label'] = trim($row['name']);
 			$data['data'] = $row['count'];
@@ -69,6 +66,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		}
 
 		$listSearchParams = [];
+
 		$conditions = array(array('assigned_user_id', 'e', $value));
 		array_push($conditions, array('ticketstatus', 'e', "$openTicketsStatus"));
 		$listSearchParams[] = $conditions;
@@ -86,7 +84,6 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		//Include special script and css needed for this widget
 		$viewer->assign('CURRENTUSER', $currentUser);
 

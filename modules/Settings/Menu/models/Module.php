@@ -26,7 +26,7 @@ class Settings_Menu_Module_Model
 
 	/**
 	 * Function to get instance
-	 * @param <Boolean> true/false
+	 * @param boolean true/false
 	 * @return <Settings_Menu_Module_Model>
 	 */
 	public static function getInstance()

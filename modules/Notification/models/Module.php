@@ -5,12 +5,13 @@
  * @package YetiForce.View
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Notification_Module_Model extends Vtiger_Module_Model
 {
 
 	/**
-	 * Function to get number of unread notification
+	 * Function create message contents
 	 * @return int
 	 */
 	public static function getNumberOfEntries()
@@ -23,47 +24,60 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		return $count > $max ? $max : $count;
 	}
 
-	/**
-	 * Function shoud return array with objects <Notification_Record_Model>
-	 * @param int $limit
-	 * @param string $conditions
-	 * @param int $userId
-	 * @param boolean $groupBy
-	 * @return array
-	 */
-	public function getEntries($limit = false, $conditions = false, $userId = false, $groupBy = false)
+	public function getEntries($limit = false, $conditions = false)
 	{
-		$queryGenerator = new QueryGenerator($this->getName());
+		$queryGenerator = new App\QueryGenerator($this->getName());
 		$queryGenerator->setFields(['description', 'smwonerid', 'id', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
-		if (empty($userId)) {
-			$userId = Users_Privileges_Model::getCurrentUserModel()->getId();
-		}
-		$queryGenerator->setCustomCondition([
-			'glue' => 'AND',
-			'tablename' => 'vtiger_crmentity',
-			'column' => 'vtiger_crmentity.smownerid',
-			'operator' => '=',
-			'value' => $userId,
-		]);
-		$query = $queryGenerator->getQuery();
+		$queryGenerator->addNativeCondition(['smownerid' => \App\User::getCurrentUserId()]);
 		if (!empty($conditions)) {
-			$query .= $conditions;
+			$queryGenerator->addNativeCondition($conditions);
 		}
-		$query .= ' AND u_yf_notification.notification_status = \'PLL_UNREAD\' ';
+		$queryGenerator->addNativeCondition(['u_#__notification.notification_status' => 'PLL_UNREAD']);
+		$query = $queryGenerator->createQuery();
 		if (!empty($limit)) {
-			$query .= sprintf(' LIMIT %d', $limit);
+			$query->limit($limit);
 		}
-		$db = PearDatabase::getInstance();
-		$result = $db->query($query);
+		$dataReader = $query->createCommand()->query();
 		$entries = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$recordModel = Vtiger_Record_Model::getCleanInstance('Notification');
 			$recordModel->setData($row);
-			if ($groupBy) {
-				$entries[$row['type']][$row['id']] = $recordModel;
-			} else {
-				$entries[$row['id']] = $recordModel;
-			}
+			$entries[$row['id']] = $recordModel;
+		}
+		return $entries;
+	}
+
+	/**
+	 * Function gets notifications to be sent
+	 * @param int $userId
+	 * @param array $modules
+	 * @param string $startDate
+	 * @param string $endDate
+	 * @param boolean $isExists
+	 * @return array|boolean
+	 */
+	public static function getEmailSendEntries($userId, $modules, $startDate, $endDate, $isExists = false)
+	{
+		$query = (new \App\Db\Query())
+			->from('u_#__notification')
+			->innerJoin('vtiger_crmentity', 'u_#__notification.id = vtiger_crmentity.crmid')
+			->leftJoin('vtiger_crmentity as crmlink', 'u_#__notification.link = crmlink.crmid')
+			->leftJoin('vtiger_crmentity as crmprocess', 'u_#__notification.process = crmprocess.crmid')
+			->leftJoin('vtiger_crmentity as crmsubprocess', 'u_#__notification.subprocess = crmsubprocess.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => $userId])
+			->andWhere(['or', ['in', 'crmlink.setype', $modules], ['in', 'crmprocess.setype', $modules], ['in', 'crmsubprocess.setype', $modules]])
+			->andWhere(['between', 'vtiger_crmentity.createdtime', (string) $startDate, $endDate])
+			->andWhere(['notification_status' => 'PLL_UNREAD']);
+		if ($isExists) {
+			return $query->exists();
+		}
+		$query->select(['u_#__notification.*', 'vtiger_crmentity.*']);
+		$dataReader = $query->createCommand()->query();
+		$entries = [];
+		while ($row = $dataReader->read()) {
+			$recordModel = Vtiger_Record_Model::getCleanInstance('Notification');
+			$recordModel->setData($row);
+			$entries[$row['notification_type']][$row['id']] = $recordModel;
 		}
 		return $entries;
 	}

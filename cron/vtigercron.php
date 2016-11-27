@@ -11,7 +11,6 @@ chdir(dirname(__FILE__) . '/../');
 /**
  * Start the cron services configured.
  */
-include_once 'include/Webservices/Relation.php';
 include_once 'include/main/WebUI.php';
 require_once 'modules/Emails/mail.php';
 

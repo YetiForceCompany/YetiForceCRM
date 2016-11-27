@@ -72,7 +72,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function setFeaturedFilterView($cvId, $user, $action)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db::getInstance();
 		if ($action == 'add') {
 			$db->createCommand()->insert('u_#__featured_filter', [
 				'user' => $user,
@@ -118,13 +118,13 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function upadteSequences($params)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'UPDATE vtiger_customview SET `sequence` = CASE ';
+		$db = App\Db::getInstance();
+		$caseSequence = 'CASE ';
 		foreach ($params as $sequence => $cvId) {
-			$sql .= " WHEN `cvid` = $cvId THEN $sequence";
+			$caseSequence .= ' WHEN ' . $db->quoteColumnName('cvid') . ' = ' . $db->quoteValue($cvId) . ' THEN ' . $db->quoteValue($sequence);
 		}
-		$sql .= ' END WHERE `cvid` IN (' . implode(',', $params) . ')';
-		return $db->query($sql);
+		$caseSequence .= ' END';
+		return $db->createCommand()->update('vtiger_customview', ['sequence' => new yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
 	}
 
 	public function GetUrlToEdit($module, $record)
@@ -170,11 +170,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($params['cvid']);
 		$moduleName = $customViewModel->get('entitytype');
-		$curretView = ListViewSession::getCurrentView($moduleName);
+		$curretView = App\CustomView::getCurrentView($moduleName);
 		if ($curretView == $params['cvid']) {
 			$sortOrder = explode(',', $params['value']);
-			ListViewSession::setSorder($moduleName, $sortOrder[1]);
-			ListViewSession::setSortby($moduleName, $sortOrder[0]);
+			App\CustomView::setSorder($moduleName, $sortOrder[1]);
+			App\CustomView::setSortby($moduleName, $sortOrder[0]);
 		}
 	}
 }

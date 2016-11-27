@@ -22,6 +22,7 @@ $languageStrings = [
 	'FL_TYPE' => 'Type',
 	'FL_STATUS' => 'Statut',
 	'FL_CAMPAIGN' => 'Campagne',
+	'FL_MEMBER_OF' => 'Parent Sales Opportunity',
 	//Picklist
 	'PLL_WEBSITE' => 'Site web',
 	'PLL_PHONE' => 'Téléphone',
@@ -55,4 +56,5 @@ $languageStrings = [
 	'LBL_SWITCHHEADER_ON_0' => 'Ouverte',
 	'LBL_SWITCHHEADER_OFF_0' => 'Fermée',
 	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'Ouverte/Fermée',
+	'LBL_SHOW_HIERARCHY' => 'Hierarchie',
 ];

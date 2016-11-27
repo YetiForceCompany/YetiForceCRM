@@ -34,7 +34,7 @@ class Settings_OSSProjectTemplates_CreateTemplate_Action extends Settings_Vtiger
 				$valField = $request->get($key);
 				$db->createCommand()->insert('vtiger_oss_project_templates', [
 					'fld_name' => $key,
-					'fld_val' => is_array($valField) ? includes\utils\Json::encode($valField) : $valField,
+					'fld_val' => is_array($valField) ? App\Json::encode($valField) : $valField,
 					'id_tpl' => $lastTplId,
 					'parent' => $parentTplId,
 					'module' => $baseModuleName

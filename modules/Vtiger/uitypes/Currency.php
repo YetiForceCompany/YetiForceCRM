@@ -16,7 +16,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -32,10 +32,10 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	{
 		$uiType = $this->get('field')->get('uitype');
 		if ($value) {
-			if ($uiType == 72) {
+			if ($uiType === 72) {
 				// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 				$value = CurrencyField::convertToUserFormat($value, null, true);
-			} else if($uiType !== 71) {
+			} else {
 				$value = CurrencyField::convertToUserFormat($value);
 			}
 			if (!$this->edit) {
@@ -75,7 +75,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * Function to transform display value for currency field
 	 * @param $value
 	 * @param Current User
-	 * @param <Boolean> Skip Conversion
+	 * @param boolean Skip Conversion
 	 * @return converted user format value
 	 */
 	public static function transformDisplayValue($value, $user = null, $skipConversion = false)
@@ -87,7 +87,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * Function converts User currency format to database format
 	 * @param <Object> $value - Currency value
 	 * @param <User Object> $user
-	 * @param <Boolean> $skipConversion
+	 * @param boolean $skipConversion
 	 */
 	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
 	{
@@ -96,8 +96,8 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the display value in edit view
-	 * @param <String> $value
-	 * @return <String>
+	 * @param string $value
+	 * @return string
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
@@ -110,20 +110,18 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function that converts the Number into Users Currency along with currency symbol
-	 * @param Users $user
-	 * @param Boolean $skipConversion
+	 * @param int|string $value
+	 * @param int $recordId
+	 * @param int $uiType
 	 * @return Formatted Currency
 	 */
 	public function getDetailViewDisplayValue($value, $recordId, $uiType)
 	{
-		$currencyModal = new CurrencyField($value);
-		$currencyModal->initialize();
-
-		if ($uiType == '72' && $recordId) {
+		if ($uiType === 72 && $recordId) {
 			$moduleName = $this->get('field')->getModuleName();
 			if (!$moduleName)
 				$moduleName = vtlib\Functions::getCRMRecordType($recordId);
-			if ($this->get('field')->getName() == 'unit_price') {
+			if ($this->get('field')->getName() === 'unit_price') {
 				$currencyId = getProductBaseCurrency($recordId, $moduleName);
 				$cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($currencyId);
 				$currencySymbol = $cursym_convrate['symbol'];
@@ -132,8 +130,10 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 				$currencySymbol = $currencyInfo['currency_symbol'];
 			}
 		} else {
+			$currencyModal = new CurrencyField($value);
+			$currencyModal->initialize();
 			$currencySymbol = $currencyModal->currencySymbol;
 		}
-		return $currencyModal->appendCurrencySymbol($value, $currencySymbol);
+		return CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 	}
 }

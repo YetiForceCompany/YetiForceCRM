@@ -277,6 +277,7 @@ $languageStrings = [
 	'LBL_DELETE' => 'Löschen',
 	'LBL_DELETED' => 'gelöscht',
 	'LBL_DENY' => 'Verweigern',
+
 	'LBL_DESCRIPTION_INFORMATION' => 'Details',
 	'LBL_DESELECT_ALL_RECORDS' => 'Alles deaktivieren',
 	'LBL_DETAILS' => 'Details',
@@ -377,6 +378,7 @@ $languageStrings = [
 	'LBL_LESS_THAN' => 'weniger als',
 	'LBL_LESS_THAN_OR_EQUAL' => 'weniger or gleich', //Duplicated key-value pairs
 	'LBL_LISTVIEW_PAGE_JUMP' => 'Seitenwechsel',
+
 	'LBL_LIST_IN_METRICS' => 'Für Dashboard bereitstellen',
 	'LBL_LIST_PRICE' => 'Listenpreis',
 	'LBL_LOADING' => 'Laden',
@@ -523,6 +525,7 @@ $languageStrings = [
 	'LBL_MODULE_CONFIGURATION' => 'Modul Konfiguration',
 	'LBL_SETUP_WEBFORMS' => 'Webformulare einstellen', //Duplicated key-value pairs
 	'LBL_SET_AS_DEFAULT' => 'Als Standard festlegen',
+
 	'LBL_SET_AS_PUBLIC' => 'Für Alle bereitstellen',
 	'LBL_SET_DISCOUNT_FOR' => 'Rabatt einstellen für',
 	'LBL_SET_TAX_FOR' => 'Steuersatz einstellen für',
@@ -646,6 +649,7 @@ $languageStrings = [
 	'Reviewed' => 'Bewertet',
 	'Rss' => 'RSS',
 	'Sales End Date' => 'Vertrieb Enddatum',
+
 	'Sales Order' => 'Bestellungen',
 	'Sales Start Date' => 'Vertrieb Startdatum',
 	'Salutation' => 'Anrede',
@@ -1270,7 +1274,10 @@ $languageStrings = [
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Organisationen nach Industrie',
 	'LBL_RELATION_COMMENT' => 'Anmerkung',
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Geschätzter Wert Verkaufschancen',
-	];
+	'LBL_UPDATE_DATE_FIELD' => 'Update %s field with current time',
+	'LBL_UPDATE_FIELD' => 'Update field',
+	'FL_IS_PRIVATE' => 'Private',
+];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
 	'JS_LOADING_PLEASE_WAIT' => 'Laden, bitte warten.',

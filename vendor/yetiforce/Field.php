@@ -19,9 +19,8 @@ class Field
 	public static function getFieldsPermissions($tabId, $readOnly = true)
 	{
 		Log::trace('Entering ' . __METHOD__ . ": $tabId");
-		$currentUser = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (Cache::has(__METHOD__ . $currentUser->getId(), $tabId)) {
-			$fields = Cache::get(__METHOD__ . $currentUser->getId(), $tabId);
+		if (Cache::has(__METHOD__ . User::getCurrentUserId(), $tabId)) {
+			$fields = Cache::get(__METHOD__ . User::getCurrentUserId(), $tabId);
 		} else {
 			$query = (new \App\Db\Query())
 				->select('vtiger_field.*, vtiger_profile2field.readonly,vtiger_profile2field.visible')
@@ -29,19 +28,19 @@ class Field
 				->innerJoin('vtiger_profile2field', 'vtiger_profile2field.fieldid = vtiger_field.fieldid')
 				->innerJoin('vtiger_def_org_field', 'vtiger_def_org_field.fieldid = vtiger_field.fieldid')
 				->where([
-					'vtiger_field.tabid' => $tabId,
+					'vtiger_field.tabid' => (int)$tabId,
 					'vtiger_profile2field.visible' => 0,
 					'vtiger_def_org_field.visible' => 0,
 					'vtiger_field.presence' => [0, 2]])
 				->groupBy('vtiger_field.fieldid,vtiger_profile2field.readonly,vtiger_profile2field.visible');
-			$profileList = $currentUser->getProfiles();
+			$profileList = \App\User::getCurrentUserModel()->getProfiles();
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
 			$fields = $query->all();
-			Cache::save(__METHOD__ . $currentUser->getId(), $tabId, $fields, Cache::SHORT);
+			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields, Cache::SHORT);
 		}
-		if (!$readOnly) {
+		if ($readOnly) {
 			return $fields;
 		}
 		foreach ($fields as $key => &$field) {
@@ -139,5 +138,46 @@ class Field
 			static::$columnPermissionCacheWrite[$tabId][$columnName] = false;
 		}
 		return false;
+	}
+
+	/**
+	 * Get field module relation
+	 * @param string $moduleName
+	 * @param string|boolean $relatedModule
+	 * @return array
+	 */
+	public static function getFieldModuleRel($moduleName, $relatedModule = false)
+	{
+		if (Cache::has('getFieldModuleRelByModule', $moduleName)) {
+			$filedsRel = Cache::get('getFieldModuleRelByModule', $moduleName);
+		} else {
+			$filedsRel = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['module' => $moduleName])->all();
+			Cache::save('getFieldModuleRelByModule', $moduleName, $filedsRel, Cache::LONG);
+		}
+		if ($relatedModule) {
+			foreach ($filedsRel as &$filedRel) {
+				if ($filedRel['relmodule'] === $relatedModule) {
+					return $filedRel;
+				}
+			}
+		}
+		return $filedsRel;
+	}
+
+	/**
+	 * Get fields from relation by relation Id
+	 * @param int $relationId
+	 * @return string[]
+	 */
+	public static function getFieldsFromRelation($relationId)
+	{
+		if (Cache::has('getFieldsFromRelation', $relationId)) {
+			$fields = Cache::get('getFieldsFromRelation', $relationId);
+		} else {
+			$fields = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_relatedlists_fields')
+					->where(['relation_id' => $relationId])->column();
+			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
+		}
+		return $fields;
 	}
 }

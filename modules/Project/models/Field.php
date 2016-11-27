@@ -6,7 +6,7 @@ class Project_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check whether the current field is editable
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isEditable()
 	{

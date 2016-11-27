@@ -175,9 +175,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldparams['field'] = $params['MRVField'];
 			$fieldparams['filterField'] = $params['MRVFilterField'];
 			$fieldparams['filterValue'] = $params['MRVFilterValue'];
-			\App\Db::getInstance()->createCommand()->insert('s_yf_multireference',
-				['source_module' => $moduleName, 'dest_module' =>$params['MRVModule']])->execute();
-	
+			\App\Db::getInstance()->createCommand()->insert('s_yf_multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
@@ -194,7 +192,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
 			->set('quickcreate', $quickCreate)
-			->set('fieldparams', $fieldparams ? \includes\utils\Json::encode($fieldparams) : '')
+			->set('fieldparams', $fieldparams ? \App\Json::encode($fieldparams) : '')
 			->set('columntype', $dbType);
 
 		if (isset($details['displayType'])) {
@@ -217,7 +215,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
 				$targetModule = vtlib\Module::getInstance($module);
-				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'get_dependents_list');
+				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'getDependentsList');
 			}
 		}
 		return $fieldModel;
@@ -365,7 +363,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function checkFieldLableExists($fieldLabel)
 	{
-		$db = PearDatabase::getInstance();
 		$tabId = [$this->getId()];
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			//Check for fiel exists in both calendar and events module
@@ -452,7 +449,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check field is editable or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isSortableAllowed()
 	{
@@ -465,7 +462,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check blocks are sortable for the module
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isBlockSortableAllowed()
 	{
@@ -478,7 +475,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check fields are sortable for the block
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isFieldsSortableAllowed($blockName)
 	{
@@ -538,10 +535,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public static function getRelationsTypes()
 	{
 		$typesList = array(
-			'get_related_list' => 'PLL_RELATED_LIST',
-			'get_dependents_list' => 'PLL_DEPENDENTS_LIST',
-			'get_many_to_many' => 'PLL_SPLITED_RELATED_LIST',
-			'get_attachments' => 'PLL_ATTACHMENTS',
+			'getRelatedList' => 'PLL_RELATED_LIST',
+			'getDependentsList' => 'PLL_DEPENDENTS_LIST',
+			'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
+			'getAttachments' => 'PLL_ATTACHMENTS',
 		);
 		return $typesList;
 	}
@@ -553,5 +550,19 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'SELECT' => 'PLL_SELECT',
 		);
 		return $actionList;
+	}
+
+	public static function getRelationFields($moduleId)
+	{
+		$query = (new \App\Db\Query())->select('vtiger_field.fieldname')
+			->from('vtiger_relatedlists_fields')
+			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
+			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]]);
+		$dataReader = $query->createCommand()->query();
+		$fields = [];
+		while ($row = $dataReader->read()) {
+			$fields[] = $row['fieldname'];
+		}
+		return $fields;
 	}
 }

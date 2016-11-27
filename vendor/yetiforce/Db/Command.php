@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 namespace App\Db;
 
 /**
@@ -6,6 +7,7 @@ namespace App\Db;
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Command extends \yii\db\Command
 {
@@ -36,12 +38,15 @@ class Command extends \yii\db\Command
 	 * An empty array is returned if the query results in nothing.
 	 * @throws Exception execution failed
 	 */
-	public function queryAllByGroup($array = false)
+	public function queryAllByGroup($type = 0)
 	{
-		if ($array) {
-			return $this->queryInternal('fetchAll', \PDO::FETCH_GROUP | \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
-		} else {
-			return $this->queryInternal('fetchAll', \PDO::FETCH_KEY_PAIR);
+		switch ($type) {
+			case 0:
+				return $this->queryInternal('fetchAll', \PDO::FETCH_KEY_PAIR);
+			case 1:
+				return $this->queryInternal('fetchAll', \PDO::FETCH_GROUP | \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
+			case 2:
+				return $this->queryInternal('fetchAll', \PDO::FETCH_GROUP | \PDO::FETCH_COLUMN | \PDO::FETCH_ASSOC);
 		}
 	}
 }

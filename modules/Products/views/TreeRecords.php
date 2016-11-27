@@ -38,25 +38,18 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		$pagingModel->set('limit', 'no_limit');
 		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
 		$queryGenerator = $listViewModel->get('query_generator');
-		$glue = '';
 		if (!empty($branches)) {
-			if (count($queryGenerator->getWhereFields()) > 0) {
-				$glue = QueryGenerator::$AND;
-			}
-			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c', $glue);
+			$queryGenerator->addAndConfition($multiReferenceFirld['columnname'], implode(',', $branches), 'c');
 		}
 		if (!empty($category)) {
-			$baseModuleId = vtlib\Functions::getModuleId($baseModuleName);
-			$moduleId = vtlib\Functions::getModuleId($moduleName);
-			$query = sprintf('SELECT crmid FROM u_yf_crmentity_rel_tree WHERE module = %s && relmodule = %s && tree IN (\'%s\')', $baseModuleId, $moduleId, implode("','", $category));
-			if (count($queryGenerator->getWhereFields()) > 0) {
-				$glue = QueryGenerator::$AND;
-			}
-			$queryGenerator->addCondition($multiReferenceFirld['columnname'], $query, 'subQuery', 'OR', true);
+			$query = (new \App\Db\Query())
+				->select(['crmid'])
+				->from('u_#__crmentity_rel_tree')
+				->where(['module' => App\Module::getModuleId($baseModuleName), 'relmodule' => App\Module::getModuleId($moduleName), 'tree' => $category]);
+			$queryGenerator->addNativeCondition(['in', $multiReferenceFirld['columnname'], $query], false);
 		}
 		$listViewModel->set('query_generator', $queryGenerator);
-
-		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		if (count($listEntries) === 0) {
 			return;
 		}

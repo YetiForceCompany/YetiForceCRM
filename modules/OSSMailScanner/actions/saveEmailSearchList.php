@@ -23,7 +23,7 @@ class OSSMailScanner_saveEmailSearchList_Action extends Vtiger_Action_Controller
 	public function process(Vtiger_Request $request)
 	{
 		$vale = $request->get('vale');
-		if ($vale != 'null') {
+		if (!empty($vale)) {
 			$vale = implode(',', $vale);
 		}
 		$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');

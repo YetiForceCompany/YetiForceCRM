@@ -32,7 +32,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get comment field which will useful in creating conditions
-	 * @param <Vtiger_Module_Model> $moduleModel
+	 * @param Vtiger_Module_Model $moduleModel
 	 * @return <Vtiger_Field_Model>
 	 */
 	public static function getCommentFieldForFilterConditions($moduleModel)
@@ -48,7 +48,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get comment fields list which are useful in tasks
-	 * @param <Vtiger_Module_Model> $moduleModel
+	 * @param Vtiger_Module_Model $moduleModel
 	 * @return <Array> list of Field models <Vtiger_Field_Model>
 	 */
 	public static function getCommentFieldsListForTasks($moduleModel)

@@ -91,14 +91,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$viewer->assign('SUPPORTED_FILE_ENCODING', Import_Utils_Helper::getSupportedFileEncoding());
 		$viewer->assign('SUPPORTED_DELIMITERS', Import_Utils_Helper::getSupportedDelimiters());
 		$viewer->assign('AUTO_MERGE_TYPES', Import_Utils_Helper::getAutoMergeTypes());
-
-		//Duplicate records handling not supported for inventory moduels
-		$duplicateHandlingNotSupportedModules = getInventoryModules();
-		if (in_array($moduleName, $duplicateHandlingNotSupportedModules)) {
-			$viewer->assign('DUPLICATE_HANDLING_NOT_SUPPORTED', true);
-		}
-		//End
-
 		$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getMergableFields(true));
 		$viewer->assign('ENTITY_FIELDS', $moduleMeta->getEntityFields());
 		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
@@ -125,7 +117,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				$request->set('merge_type', 0);
 				$request->set('merge_fields', '');
 			} else {
-				$viewer->assign('MERGE_FIELDS', \includes\utils\Json::encode($request->get('merge_fields')));
+				$viewer->assign('MERGE_FIELDS', \App\Json::encode($request->get('merge_fields')));
 			}
 
 			$moduleName = $request->getModule();
@@ -153,7 +145,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			}
 
 			$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getImportableFields(true));
-			$viewer->assign('ENCODED_MANDATORY_FIELDS', \includes\utils\Json::encode($moduleMeta->getMandatoryFields()));
+			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($moduleMeta->getMandatoryFields()));
 			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));

@@ -55,6 +55,11 @@ class ServiceContracts extends CRMEntity
 		'Used Units' => 'used_units',
 		'Total Units' => 'total_units'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['subject', 'assigned_user_id', 'contract_no', 'used_units', 'total_units'];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -104,15 +109,6 @@ class ServiceContracts extends CRMEntity
 				$on_focus->save_related_module($for_module, $for_crmid, $module, $this->id);
 			}
 		}
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
 	}
 
 	/**
@@ -367,16 +363,16 @@ class ServiceContracts extends CRMEntity
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 
 			$accModuleInstance = vtlib\Module::getInstance('Accounts');
-			$accModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'get_dependents_list');
+			$accModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'getDependentsList');
 
 			$conModuleInstance = vtlib\Module::getInstance('Contacts');
-			$conModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'get_dependents_list');
+			$conModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'getDependentsList');
 
 			$helpDeskInstance = vtlib\Module::getInstance("HelpDesk");
 			$helpDeskInstance->setRelatedList($moduleInstance, "Service Contracts", Array('ADD', 'SELECT'));
 
 			// Initialize module sequence for the module
-			\includes\fields\RecordNumber::setNumber($moduleName, 'SERCON', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'SERCON', 1);
 			// Make the picklist value 'Complete' for status as non-editable
 			$adb->query("UPDATE vtiger_contract_status SET presence=0 WHERE contract_status='Complete'");
 
@@ -585,48 +581,23 @@ class ServiceContracts extends CRMEntity
 			$this->updateServiceContractState($crmid);
 		}
 	}
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 
 	/** Function to unlink an entity with given Id from another entity */
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		global $currentModule;
-
-		if ($return_module == 'Accounts') {
-			$focus = CRMEntity::getInstance($return_module);
-			$entityIds = $focus->getRelatedContactsIds($return_id);
-			array_push($entityIds, $return_id);
-			$entityIds = implode(',', $entityIds);
-			$return_modules = "'Accounts','Contacts'";
+		if ($relatedName == 'getManyToMany') {
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {
-			$entityIds = $return_id;
-			$return_modules = "'" . $return_module . "'";
-		}
-		if ($relatedName == 'get_many_to_many') {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
-		} else {
-			$where = '(relcrmid= ? && module IN (?) && crmid IN (?)) || (crmid= ? && relmodule IN (?) && relcrmid IN (?))';
-			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
-			$this->db->delete('vtiger_crmentityrel', $where, $params);
-
-			$sql = sprintf('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule IN (%s))', $return_modules);
-			$fieldRes = $this->db->pquery($sql, [$currentModule]);
-			$numOfFields = $this->db->num_rows($fieldRes);
-			for ($i = 0; $i < $numOfFields; $i++) {
-				$tabId = $this->db->query_result($fieldRes, $i, 'tabid');
-				$tableName = $this->db->query_result($fieldRes, $i, 'tablename');
-				$columnName = $this->db->query_result($fieldRes, $i, 'columnname');
-				$relatedModule = vtlib\Functions::getModuleName($tabId);
-				$focusObj = CRMEntity::getInstance($relatedModule);
-
-				$updateQuery = "UPDATE $tableName SET $columnName=? WHERE $columnName IN ($entityIds) && $focusObj->table_index=?";
-				$updateParams = array(null, $id);
-				$this->db->pquery($updateQuery, $updateParams);
+			parent::deleteRelatedFromDB(vglobal('currentModule'), $id, $returnModule, $returnId);
+			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
+					->from('vtiger_field')
+					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $returnModule])])
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				App\Db::getInstance()->createCommand()
+						->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
+						->execute();
 			}
 		}
 	}

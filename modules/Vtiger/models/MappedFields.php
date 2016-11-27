@@ -27,7 +27,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	public function get($key)
 	{
 		if (in_array($key, ['conditions', 'params']) && !is_array(parent::get($key))) {
-			return \includes\utils\Json::decode(html_entity_decode(parent::get($key)));
+			return \App\Json::decode(html_entity_decode(parent::get($key)));
 		} else {
 			return parent::get($key);
 		}
@@ -205,7 +205,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns valuetype of the field filter
-	 * @return <String>
+	 * @return string
 	 */
 	public function getFieldFilterValueType($fieldname)
 	{
@@ -236,8 +236,8 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		if ($test !== false) {
 			return $test;
 		}
-		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.inc");
-		vimport("~/modules/com_vtiger_workflow/VTEntityCache.inc");
+		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.php");
+		vimport("~/modules/com_vtiger_workflow/VTEntityCache.php");
 		vimport("~/include/Webservices/Retrieve.php");
 
 		$conditionStrategy = new VTJsonCondition();
@@ -271,7 +271,7 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			$return = true;
 		} elseif (array_key_exists('Groups', $getTypes)) {
-			$accessibleGroups = array_keys(\includes\fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
+			$accessibleGroups = array_keys(\App\Fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
 				$return = true;

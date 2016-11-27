@@ -51,7 +51,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the Entity Name of Record Model
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -66,7 +66,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 * Function to insert details about reminder in to Database
 	 * @param <Date> $reminderSent
 	 * @param <integer> $recurId
-	 * @param <String> $reminderMode like edit/delete
+	 * @param string $reminderMode like edit/delete
 	 */
 	public function setActivityReminder($reminderSent = 0, $recurId = '', $reminderMode = '')
 	{
@@ -76,7 +76,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the Module Name based on the activity type
-	 * @return <String>
+	 * @return string
 	 */
 	public function getType()
 	{
@@ -89,7 +89,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail View url for the record
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -170,13 +170,13 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getRecurringObject()
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_recurringevents.*, vtiger_activity.date_start, vtiger_activity.time_start, vtiger_activity.due_date, vtiger_activity.time_end FROM vtiger_recurringevents
-					INNER JOIN vtiger_activity ON vtiger_activity.activityid = vtiger_recurringevents.activityid
-					WHERE vtiger_recurringevents.activityid = ?';
-		$result = $db->pquery($query, array($this->getId()));
-		if ($db->num_rows($result)) {
-			return RecurringType::fromDBRequest($db->query_result_rowdata($result, 0));
+		$result = (new \App\Db\Query())->select(['vtiger_recurringevents.*', 'vtiger_activity.time_start', 'vtiger_activity.due_date', 'vtiger_activity.time_end'])
+				->from('vtiger_recurringevents')
+				->innerJoin('vtiger_activity', 'vtiger_recurringevents.activityid = vtiger_activity.activityid')
+				->where(['vtiger_recurringevents.activityid' => (int) $this->getId()])->one();
+
+		if ($result) {
+			return RecurringType::fromDBRequest($result);
 		}
 		return false;
 	}
@@ -186,8 +186,11 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateReminderStatus($status = 1)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_activity_reminder_popup set status = ? WHERE recordid = ?", array($status, $this->getId()));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_activity_reminder_popup', [
+				'status' => $status,
+				], ['recordid' => $this->getId()])
+			->execute();
 	}
 
 	public function updateReminderPostpone($time)
@@ -216,7 +219,12 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		$datatimeSTR = strtotime($datatime);
 		$time_start = date('H:i:s', $datatimeSTR);
 		$date_start = date('Y-m-d', $datatimeSTR);
-		$db->pquery('UPDATE vtiger_activity_reminder_popup set status = ?, date_start = ?, time_start = ? WHERE recordid = ?', array(0, $date_start, $time_start, $this->getId()));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_activity_reminder_popup', [
+				'status' => 0,
+				'datetime' => date('Y-m-d H:i:s', $datatimeSTR),
+				], ['recordid' => $this->getId()])
+			->execute();
 
 		$result = $db->pquery('SELECT value FROM vtiger_calendar_config WHERE type = ? && name = ? && value = ?', array('reminder', 'update_event', 1));
 		if ($db->num_rows($result) > 0) {
@@ -245,11 +253,21 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get modal view url for the record
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getActivityStateModalUrl()
 	{
-		$module = $this->getModule();
 		return 'index.php?module=Calendar&view=ActivityStateModal&record=' . $this->getId();
+	}
+
+	/**
+	 * Function to remove record
+	 */
+	public function delete()
+	{
+		parent::delete();
+		App\Db::getInstance()->createCommand()
+			->update('vtiger_activity', ['deleted' => 1], ['activityid' => $this->getId()])
+			->execute();
 	}
 }

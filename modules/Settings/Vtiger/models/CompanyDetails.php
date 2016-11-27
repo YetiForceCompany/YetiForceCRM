@@ -43,7 +43,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get Edit view Url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getEditViewUrl()
 	{
@@ -62,7 +62,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get Index view Url
-	 * @return <String> URL
+	 * @return string URL
 	 */
 	public function getIndexViewUrl()
 	{
@@ -90,7 +90,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get Logo path to display
-	 * @return <String> path
+	 * @return string path
 	 */
 	public function getLogoPath($name)
 	{
@@ -114,7 +114,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	public function saveLogo($name)
 	{
 		$uploadDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $this->logoPath;
-		$logoName = $uploadDir . \includes\fields\File::sanitizeUploadFileName($_FILES[$name]['name']);
+		$logoName = $uploadDir . \App\Fields\File::sanitizeUploadFileName($_FILES[$name]['name']);
 		move_uploaded_file($_FILES[$name]['tmp_name'], $logoName);
 		copy($logoName, $uploadDir . 'application.ico');
 	}

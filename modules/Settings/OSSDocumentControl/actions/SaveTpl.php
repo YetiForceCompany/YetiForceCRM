@@ -36,7 +36,7 @@ class Settings_OSSDocumentControl_SaveTpl_Action extends Settings_Vtiger_Index_A
 			'doc_request' => $docRequest ? 1 : 0,
 			'doc_order' => $docOrder
 		])->execute();
-		$recordId = $db->getLastInsertID();
+		$recordId = $db->getLastInsertID('vtiger_ossdocumentcontrol_ossdocumentcontrolid_seq');
 
 		$this->addConditions($conditionAll, $recordId);
 		$this->addConditions($conditionOption, $recordId, false);

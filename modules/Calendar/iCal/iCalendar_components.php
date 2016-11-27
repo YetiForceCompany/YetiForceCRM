@@ -536,7 +536,7 @@ class iCalendar_event extends iCalendar_component
 
 	public function icalendar_event_organizer($activity)
 	{
-		$email = includes\fields\Email::getUserMail($activity['assigned_user_id']);
+		$email = App\Fields\Email::getUserMail($activity['assigned_user_id']);
 		$this->add_property('ORGANIZER', 'mailto:' . $email);
 		return true;
 	}

@@ -31,9 +31,12 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$params['status'] = Calendar_Module_Model::getComponentActivityStateLabel('current');
 		$params['user'] = $currentUser->getId();
 		$conditions = [
-			['vtiger_activity.status', "'" . implode(',', $params['status']) . "'", 'in', QueryGenerator::$AND],
-			['vtiger_crmentity.smcreatorid', $params['user'], 'e', QueryGenerator::$AND],
-			['vtiger_crmentity.smownerid', $params['user'], 'n', QueryGenerator::$AND]
+			'condition' => [
+				'and',
+				['vtiger_activity.status' => $params['status']],
+				['vtiger_crmentity.smcreatorid' => $params['user']],
+				['not in', 'vtiger_crmentity.smownerid', $params['user']]
+			]
 		];
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

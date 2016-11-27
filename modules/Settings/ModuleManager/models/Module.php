@@ -66,7 +66,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function which will get count of modules
-	 * @param <Boolean> $onlyActive - if true get count of only active modules else all the modules
+	 * @param boolean $onlyActive - if true get count of only active modules else all the modules
 	 * @return <integer> number of modules
 	 */
 	public static function getModulesCount($onlyActive = false)
@@ -192,7 +192,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->enableTools(['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
 			'DuplicateRecord', 'MassEdit', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 			'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
-			'QuickExportToExcel', 'TagCloud', 'DetailTransferOwnership', 'ExportPdf',
+			'QuickExportToExcel', 'DetailTransferOwnership', 'ExportPdf',
 			'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
 			'WatchingModule', 'RemoveRelation', 'ReviewingUpdates']);
 
@@ -201,7 +201,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 		// Create files
 		$module->createFiles($field1);
-		\includes\fields\RecordNumber::setNumber($module->name, 'N', 1);
+		\App\Fields\RecordNumber::setNumber($module->name, 'N', 1);
 	}
 
 	public static function toAlphaNumeric($value)

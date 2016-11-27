@@ -19,19 +19,16 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getAmountData()
 	{
-		$adb = PearDatabase::getInstance();
-		$addressbook = $calendarid = [];
-		$result = $adb->query('SELECT addressbookid, COUNT(id) AS num FROM dav_cards GROUP BY addressbookid;');
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$addressbook[$adb->query_result_raw($result, $i, 'addressbookid')] = $adb->query_result_raw($result, $i, 'num');
-		}
-		$result = $adb->query('SELECT calendarid, COUNT(id) AS num FROM dav_calendarobjects GROUP BY calendarid;');
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$calendarid[$adb->query_result_raw($result, $i, 'calendarid')] = $adb->query_result_raw($result, $i, 'num');
-		}
-		return ['calendar' => $calendarid, 'addressbook' => $addressbook];
+		return [
+			'calendar' => (new App\Db\Query())->select(['calendarid', 'num' => new yii\db\Expression('COUNT(id)')])
+				->from('dav_calendarobjects')
+				->groupBy('calendarid')
+				->createCommand()->queryAllByGroup(),
+			'addressbook' => (new App\Db\Query())->select(['addressbookid', 'num' => new yii\db\Expression('COUNT(id)')])
+				->from('dav_cards')
+				->groupBy('addressbookid')
+				->createCommand()->queryAllByGroup()
+		];
 	}
 
 	public function addKey($params)
@@ -42,7 +39,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		$query->select('id')
 			->from('dav_users')
 			->where(['userid' => $userID]);
-		if ($query->count() !== 0) {
+		if ($query->exists()) {
 			return 1;
 		}
 		$keyLength = 10;
@@ -108,13 +105,9 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function createUserDirectory($params)
 	{
-		$adb = PearDatabase::getInstance();
 		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
-
 		$path = '/' . $user_name . '/';
-		$dirHash = sha1($path);
-		$parent_dirid = 0;
 		$davStorageDir = vglobal('davStorageDir');
 		@mkdir($davStorageDir . $path);
 	}

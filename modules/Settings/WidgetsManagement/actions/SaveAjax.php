@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package YetiForce.actions
+ * @package YetiForce.Action
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>

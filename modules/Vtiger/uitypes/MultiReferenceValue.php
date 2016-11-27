@@ -13,7 +13,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -36,21 +36,14 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			return $picklistValues;
 		}
 		$params = $this->get('field')->getFieldParams();
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
-		$queryGenerator = new QueryGenerator($params['module'], $currentUser);
-		$queryGenerator->setFields([$fieldInfo['columnname']]);
+		$queryGenerator = new \App\QueryGenerator($params['module']);
 		if ($params['filterField'] != '-') {
 			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
 		}
-		$query = $queryGenerator->getQuery();
-		$result = $db->query($query);
-
-		$values = [];
-		while ($value = $db->getSingleValue($result)) {
-			$values[$value] = $value;
-		}
+		$queryGenerator->setFields([$fieldInfo['fieldname']]);
+		$query = $queryGenerator->createQuery();
+		$values = $query->indexBy($fieldInfo['fieldname'])->column();
 		$this->set('picklistValues', $values);
 		return $values;
 	}
@@ -163,7 +156,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function addValue(CRMEntity $entity, $sourceRecord, $destRecord)
 	{
-		$db = PearDatabase::getInstance();
 		$values = $this->getRecordValues($entity, $sourceRecord, $destRecord);
 		$currentValue = $values['currentValue'];
 		if (strpos($currentValue, self::COMMA . $values['relatedValue'] . self::COMMA) !== false) {
@@ -173,10 +165,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue .= $values['relatedValue'] . self::COMMA;
-		$db->update($this->get('field')->get('table'), [
+		App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
 			$this->get('field')->get('column') => $currentValue
-			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
-		);
+			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
+		)->execute();
 	}
 
 	/**
@@ -194,10 +186,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue = str_replace(self::COMMA . $values['relatedValue'] . self::COMMA, self::COMMA, $currentValue);
-		$db->update($this->get('field')->get('table'), [
+		App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
 			$this->get('field')->get('column') => $currentValue
-			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
-		);
+			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
+		)->execute();
 	}
 
 	/**
@@ -220,14 +212,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $params['module']);
 		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
 		$query = $targetModel->getRelationQuery();
-		$explodedQuery = explode('FROM', $query, 2);
-		$relationQuery = sprintf("SELECT DISTINCT %s FROM %s && %s <> ''", $fieldInfo['columnname'], $explodedQuery[1], $fieldInfo['columnname']);
-
+		$dataReader = $query->select([$fieldInfo['columnname']])
+				->andWhere(['<>', $fieldInfo['columnname'], ''])
+				->createCommand()->query();
 		vglobal('current_user', $currentUser);
 		App\User::setCurrentUserId($orgUserId);
-		$result = $db->query($relationQuery);
 		$currentValue = self::COMMA;
-		while ($value = $db->getSingleValue($result)) {
+		while ($value = $dataReader->readColumn(0)) {
 			$currentValue .= $value . self::COMMA;
 		}
 		$db->update($this->get('field')->get('table'), [
@@ -242,17 +233,14 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValuesForModuleList($module, $view)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
-		$queryGenerator = new QueryGenerator($module, $currentUser);
+		//  TODO Dodac funkcje setFields zamiast select
+		$queryGenerator = new \App\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields([$this->get('field')->get('name')]);
-		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
-		$result = $db->query($listQuery);
-
+		$query = $queryGenerator->createQuery();
+		$dataReader = $query->distinct()->createCommand()->query();
 		$values = [];
-		while (($value = $db->getSingleValue($result)) !== false) {
+		while (($value = $dataReader->readColumn(0)) !== false) {
 			$value = explode(self::COMMA, trim($value, self::COMMA));
 			$values = array_merge($values, $value);
 		}

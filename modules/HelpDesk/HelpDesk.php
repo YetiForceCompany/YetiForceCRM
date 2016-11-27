@@ -52,6 +52,11 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['ticket_no', 'ticket_title', 'parent_id', 'ticketstatus', 'ticketpriorities', 'assigned_user_id', 'sum_time'];
 	public $list_link_field = 'ticket_title';
 	public $range_fields = Array(
 		'ticketid',
@@ -141,33 +146,6 @@ class HelpDesk extends CRMEntity
 		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
-	/**     Function to get the Ticket History information as in array format
-	 * 	@param int $ticketid - ticket id
-	 * 	@return array - return an array with title and the ticket history informations in the following format
-	  array(
-	  header=>array('0'=>'title'),
-	  entries=>array('0'=>'info1','1'=>'info2',etc.,)
-	  )
-	 */
-	public function get_ticket_history($ticketid)
-	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering into get_ticket_history($ticketid) method ...");
-
-		$query = 'select title,update_log from vtiger_troubletickets where ticketid=?';
-		$result = $adb->pquery($query, array($ticketid));
-		$row = $adb->getRow($result);
-		$updateLog = $row['update_log'];
-		$header[] = $row['title'];
-		$splitval = explode('--//--', trim($updateLog, '--//--'));
-
-		$return_value = ['header' => $header, 'entries' => $splitval];
-
-		\App\Log::trace("Exiting from get_ticket_history($ticketid) method ...");
-		return $return_value;
-	}
-
 	/**     Function to get the Customer Name who has made comment to the ticket from the customer portal
 	 *      @param  int    $id   - Ticket id
 	 *      @return string $customername - The contact name
@@ -246,9 +224,9 @@ class HelpDesk extends CRMEntity
 			if (!empty($assigned_group_name) && $assigntype == 'T') {
 				$updatelog .= " group " . (is_array($assigned_group_name) ? $assigned_group_name[0] : $assigned_group_name);
 			} elseif ($focus->column_fields['assigned_user_id'] != '') {
-				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
+				$updatelog .= " user " . \App\Fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
 			} else {
-				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($currentUser->getId());
+				$updatelog .= " user " . \App\Fields\Owner::getUserLabel($currentUser->getId());
 			}
 
 			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $currentUser->getName();
@@ -270,7 +248,7 @@ class HelpDesk extends CRMEntity
 
 			//Assigned to change log
 			if ($focus->column_fields['assigned_user_id'] != $old_owner_id) {
-				$ownerName = \includes\fields\Owner::getLabel($focus->column_fields['assigned_user_id']);
+				$ownerName = \App\Fields\Owner::getLabel($focus->column_fields['assigned_user_id']);
 				if ($assigntype == 'T')
 					$updatelog .= ' Transferred to group ' . $ownerName . '\.';
 				else
@@ -426,7 +404,7 @@ class HelpDesk extends CRMEntity
 		} elseif ($return_module == 'Products') {
 			$sql = 'UPDATE vtiger_troubletickets SET product_id=? WHERE ticketid=?';
 			$this->db->pquery($sql, array(null, $id));
-		} elseif ($return_module == 'ServiceContracts' && $relatedName != 'get_many_to_many') {
+		} elseif ($return_module == 'ServiceContracts' && $relatedName != 'getManyToMany') {
 			parent::unlinkRelationship($id, $return_module, $return_id);
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);

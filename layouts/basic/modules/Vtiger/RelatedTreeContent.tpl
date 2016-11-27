@@ -31,16 +31,18 @@
 							<td class="{$WIDTHTYPE}" nowrap>{$RECORD[$NAME]}</td>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{$RECORD['relCreatedTime']}</td>
-							<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{$RECORD['relCreatedUser']}</td>
+							<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{$RECORD['rel_created_time']}</td>
+							<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{$RECORD['rel_created_user']}</td>
 						{/if}
 						{if $SHOW_COMMENT}
 							<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
-								{if key_exists('relCommentFull', $RECORD)}
-									<a class="popoverTooltip" data-placement="top" data-content="{$RECORD['relCommentFull']}">{$RECORD['relComment']}</a>
+								{if strlen($RECORD['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')}
+									<a class="popoverTooltip" data-placement="top" data-content="{$RECORD['rel_comment']}">
+										{vtlib\Functions::textLength($RECORD['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'))}
+									</a>
 								{else}	
-									{$RECORD['relComment']}
-								{/if}
+									{$RECORD['rel_comment']}
+								{/if}&nbsp;&nbsp;
 								<span class="actionImages">
 									<a class="showModal" data-url="index.php?module={$MODULE}&view=RelatedCommentModal&record={$RECORDID}&relid={$RECORD['id']}&relmodule={$RELATED_MODULE_NAME}">
 										<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>

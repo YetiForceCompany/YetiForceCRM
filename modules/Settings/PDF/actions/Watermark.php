@@ -37,7 +37,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		$targetFile = $targetDir . $newName;
 		$uploadOk = 1;
 
-		$fileInstance = \includes\fields\File::loadFromPath($_FILES['watermark']['tmp_name'][0]);
+		$fileInstance = \App\Fields\File::loadFromPath($_FILES['watermark']['tmp_name'][0]);
 		if (!$fileInstance->validate('image')) {
 			$uploadOk = 0;
 		}

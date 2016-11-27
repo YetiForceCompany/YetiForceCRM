@@ -93,11 +93,11 @@
 					{/if}
 				</td>
 				<td width="5%" class="{$WIDTHTYPE}">
-					<div class='row'>
+					<div class="row">
 						{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
 						{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
 							{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-								<div class='col-md-6'>
+								<div class="col-md-6">
 									<img class="list-user-img" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
 								</div>
 							{/if}
@@ -111,7 +111,9 @@
 				</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-					<td class="{$WIDTHTYPE}" nowrap> {vtranslate($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), $MODULE)} {if !$LISTVIEW_HEADER@last}</td>{/if}
+					<td class="{$WIDTHTYPE}" nowrap>
+						{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+					</td>
 				{/foreach}
 				<td width="5%">
 					{if $LISTVIEW_HEADER@last}

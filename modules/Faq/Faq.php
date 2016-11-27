@@ -51,6 +51,11 @@ class Faq extends CRMEntity
 		'Created Time' => 'createdtime',
 		'Modified Time' => 'modifiedtime'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['question', 'faqcategories', 'product_id', 'createdtime', 'modifiedtime'];
 	public $list_link_field = 'question';
 	public $search_fields = Array(
 		'Account Name' => Array('account' => 'accountname'),

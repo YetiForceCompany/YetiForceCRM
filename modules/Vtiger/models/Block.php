@@ -40,7 +40,7 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	/**
 	 * Function to get the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @return <Object>
 	 */
 	public function get($propertyName)
@@ -81,8 +81,8 @@ class Vtiger_Block_Model extends vtlib\Block
 		if (count($hideBlocks) == 0) {
 			return true;
 		}
-		require_once("modules/com_vtiger_workflow/VTJsonCondition.inc");
-		require_once("modules/com_vtiger_workflow/VTEntityCache.inc");
+		require_once("modules/com_vtiger_workflow/VTJsonCondition.php");
+		require_once("modules/com_vtiger_workflow/VTEntityCache.php");
 		require_once("modules/com_vtiger_workflow/VTWorkflowUtils.php");
 		$conditionStrategy = new VTJsonCondition();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -92,7 +92,7 @@ class Vtiger_Block_Model extends vtlib\Block
 
 		$showBlock = false;
 		foreach ($hideBlocks as $hideBlock) {
-			$expr = \includes\utils\Json::decode($hideBlock['conditions']);
+			$expr = \App\Json::decode($hideBlock['conditions']);
 			if (!$record->getId() && $expr) {
 				continue;
 			}
@@ -228,9 +228,9 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	/**
 	 * Function to check whether duplicate exist or not
-	 * @param <String> $blockLabel
+	 * @param string $blockLabel
 	 * @param <Number> ModuleId
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public static function checkDuplicate($blockLabel, $tabId)
 	{

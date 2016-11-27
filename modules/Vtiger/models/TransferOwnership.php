@@ -54,19 +54,13 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 
 				break;
 			case 2:
-
 				foreach ($recordIds as $recordId) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
 					$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModule);
-					$query = $relationListView->getRelationQuery();
-					$queryEx = explode('FROM', $query, 2);
-					$query = sprintf('SELECT DISTINCT vtiger_crmentity.crmid FROM %s', $queryEx[1]);
-					$result = $db->query($query);
-					while ($crmid = $db->getSingleValue($result)) {
-						$relatedIds[] = $crmid;
-					}
+					$relatedIds = $relationListView->getRelationQuery()->select(['vtiger_crmentity.crmid'])
+						->distinct()
+						->column();
 				}
-
 				break;
 		}
 		return array_unique($relatedIds);
@@ -93,7 +87,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 					'whodid' => $currentUser->id,
 					'changedon' => date('Y-m-d H:i:s', time())
 				])->execute();
-				$id = $db->getLastInsertID();
+				$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 				$db->createCommand()->insert('vtiger_modtracker_detail', [
 					'id' => $id,
 					'fieldname' => 'assigned_user_id',

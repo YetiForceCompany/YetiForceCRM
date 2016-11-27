@@ -25,7 +25,22 @@
 			</div>
 		</div>
 	</div>
-
+	<ul class="nav nav-tabs massEditTabs selectDashboard marginBottom10px">
+		{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
+			<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
+				<a data-toggle="tab">
+					<strong>{vtranslate($DASHBOARD['name'])}</strong>					
+					<button class="btn btn-primary btn-xs glyphicon glyphicon-pencil marginLeft10 editDashboard"></button>
+					{if $DASHBOARD['system'] neq 1}
+						<button class="btn btn-danger btn-xs glyphicon glyphicon-trash marginLeft10 deleteDashboard"></button>
+					{/if}
+				</a>
+			</li>
+		{/foreach}
+		<li class="addDashboard">
+			<a><strong><span class="glyphicon glyphicon-plus"></span></strong></a>
+		</li>
+	</ul>
 	<div class="contents tabbable">
 
 		<div class="tab-content paddingNoTop10 themeTableColor overflowVisible">
@@ -36,9 +51,9 @@
 				</div>
 
 				<div id="moduleBlocks">
-					<input type="hidden" name="filter_date" value='{\includes\utils\Json::encode($WIDGETS_WITH_FILTER_DATE)}'>
-					<input type="hidden" name="filter_users" value='{\includes\utils\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
-					<input type="hidden" name="filter_restrict" value='{\includes\utils\Json::encode($RESTRICT_FILTER)}'>
+					<input type="hidden" name="filter_date" value='{\App\Json::encode($WIDGETS_WITH_FILTER_DATE)}'>
+					<input type="hidden" name="filter_users" value='{\App\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
+					<input type="hidden" name="filter_restrict" value='{\App\Json::encode($RESTRICT_FILTER)}'>
 					{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 						{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
 						<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">
@@ -133,6 +148,7 @@
 								<h3 class="modal-title">{vtranslate('LBL_ADD_DASHBOARD_BLOCK', $QUALIFIED_MODULE)}</h3>
 							</div>
 							<form class="form-horizontal addBlockDashBoardForm">
+								<input type="hidden" name="dashboardId" value="{$CURRENT_DASHBOARD}">
 								<div class="modal-body">
 									<div class="form-group">
 										<div class="col-sm-4 control-label">

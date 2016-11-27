@@ -37,7 +37,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 	/**
 	 * Fuction to get the Name of the record
-	 * @return <String> - Entity Name of the record
+	 * @return string - Entity Name of the record
 	 */
 	public function getName()
 	{
@@ -186,7 +186,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns valuetype of the field filter
-	 * @return <String>
+	 * @return string
 	 */
 	public function getFieldFilterValueType($fieldname)
 	{
@@ -225,8 +225,8 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($test !== false) {
 			return (bool) $test;
 		}
-		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.inc");
-		vimport("~/modules/com_vtiger_workflow/VTEntityCache.inc");
+		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.php");
+		vimport("~/modules/com_vtiger_workflow/VTEntityCache.php");
 		vimport("~/include/Webservices/Retrieve.php");
 
 		$conditionStrategy = new VTJsonCondition();
@@ -257,7 +257,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			return true;
 		} elseif (array_key_exists('Groups', $getTypes)) {
-			$accessibleGroups = array_keys(\includes\fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
+			$accessibleGroups = array_keys(\App\Fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
 				return true;
@@ -630,7 +630,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		foreach ($fileNames as $file) {
 			unlink($file);
 		}
-		$mimeType = \includes\fields\File::getMimeContentType($fileName);
+		$mimeType = \App\Fields\File::getMimeContentType($fileName);
 		$size = filesize($fileName);
 		$name = basename($fileName);
 

@@ -18,7 +18,7 @@ class Users_Logout_Action extends Vtiger_Action_Controller
 
 	public function process(Vtiger_Request $request)
 	{
-		vimport('~include/events/include.inc');
+		vimport('~include/events/include.php');
 		$db = PearDatabase::getInstance();
 		$em = new VTEventsManager($db);
 		$em->initTriggerCache();

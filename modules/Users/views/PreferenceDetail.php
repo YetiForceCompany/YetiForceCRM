@@ -30,7 +30,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	/**
 	 * Function to returns the preProcess Template Name
 	 * @param <type> $request
-	 * @return <String>
+	 * @return string
 	 */
 	public function preProcessTplName(Vtiger_Request $request)
 	{
@@ -124,7 +124,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		$dayStartPicklistValues = Users_Record_Model::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign("DAY_STARTS", \includes\utils\Json::encode($dayStartPicklistValues));
+		$viewer->assign("DAY_STARTS", \App\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 
 		return parent::process($request);

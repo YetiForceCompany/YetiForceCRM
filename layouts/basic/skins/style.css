@@ -5619,6 +5619,7 @@ select.form-control {
 	width: 500px;
 	margin-bottom: 2px;
 }
+.selectDashboard::after,
 .selectDashboradView::after{
 	height: 3px;
 	width: 100%;
@@ -5745,4 +5746,12 @@ select.form-control {
 }
 .modalContainer + .ui-autocomplete {
 	z-index: 100000;
+}
+.marginIcon {
+	margin-left: .3em;
+}
+.addReletedRecordBtn {
+    top: 20px;
+    right: 30px;
+    position: absolute;
 }

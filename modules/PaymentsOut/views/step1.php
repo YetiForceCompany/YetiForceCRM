@@ -25,7 +25,7 @@ Class PaymentsOut_step1_View extends Vtiger_Index_View
 		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$type = $request->get('type');
 		$bank = $request->get('bank');
-		$fileInstance = \includes\fields\File::loadFromRequest($_FILES['file']);
+		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);
 		if (!$fileInstance->validate()) {
 			return false;
 		}

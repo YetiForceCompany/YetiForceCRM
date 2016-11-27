@@ -82,9 +82,6 @@ class mt940_BOS extends mt940
 
 
 		$tab = preg_split('/\n|\r\n?/', $value);
-		//echo '<pre>';print_r(substr($value, 15, 4));echo '</pre>';
-		//print_r($value);
-		//	echo '<pre>';print_r($tab);echo '</pre>';
 
 		foreach ($tab as $line) {
 			if ($i < 4)

@@ -1,4 +1,5 @@
-<?php namespace Importers;
+<?php
+namespace Importers;
 
 /**
  * Class that imports log database
@@ -25,8 +26,8 @@ class Log extends \App\Db\Importers\Base
 					'duration' => $this->decimal('3,3')->notNull(),
 				],
 				'index' => [
-					['profile_id_idx', 'id'],
-					['profile_category_idx', 'category'],
+						['profile_id_idx', 'id'],
+						['profile_category_idx', 'category'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -41,8 +42,6 @@ class Log extends \App\Db\Importers\Base
 					'module_name' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -54,7 +53,7 @@ class Log extends \App\Db\Importers\Base
 					'field' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['settings_tracker_detail_idx', 'id'],
+						['settings_tracker_detail_idx', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -69,9 +68,9 @@ class Log extends \App\Db\Importers\Base
 					'group' => $this->integer(),
 				],
 				'index' => [
-					['sqltime_id_idx', 'id'],
-					['sqltime_type_idx', 'type'],
-					['sqltime_group_idx', 'group'],
+						['sqltime_id_idx', 'id'],
+						['sqltime_type_idx', 'type'],
+						['sqltime_group_idx', 'group'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -89,8 +88,8 @@ class Log extends \App\Db\Importers\Base
 					'agent' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['switch_users_baseid_idx', 'baseid'],
-					['switch_users_destid_idx', 'destid'],
+						['switch_users_baseid_idx', 'baseid'],
+						['switch_users_destid_idx', 'destid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -107,8 +106,6 @@ class Log extends \App\Db\Importers\Base
 					'request' => $this->stringType(300)->notNull(),
 					'referer' => $this->stringType(300),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -121,8 +118,6 @@ class Log extends \App\Db\Importers\Base
 					'url' => $this->stringType(300)->notNull(),
 					'agent' => $this->stringType()->notNull(),
 					'request' => $this->stringType(300)->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -138,8 +133,6 @@ class Log extends \App\Db\Importers\Base
 					'agent' => $this->stringType()->notNull(),
 					'request' => $this->stringType(300)->notNull(),
 					'referer' => $this->stringType(300),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -157,8 +150,6 @@ class Log extends \App\Db\Importers\Base
 					'request' => $this->stringType(300)->notNull(),
 					'referer' => $this->stringType(300),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -172,8 +163,6 @@ class Log extends \App\Db\Importers\Base
 					'url' => $this->stringType(300)->notNull(),
 					'agent' => $this->stringType()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -183,6 +172,7 @@ class Log extends \App\Db\Importers\Base
 
 	public function data()
 	{
-		$this->data = [];
+		$this->data = [
+		];
 	}
 }

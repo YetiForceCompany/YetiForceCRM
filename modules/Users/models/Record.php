@@ -22,7 +22,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Gets the value of the key . First it will check whether specified key is a property if not it
 	 *  will get from normal data attribure from base class
-	 * @param <string> $key - property or key name
+	 * @param string $key - property or key name
 	 * @return <object>
 	 */
 	public function get($key)
@@ -36,8 +36,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Sets the value of the key . First it will check whether specified key is a property if not it
 	 * will set from normal set from base class
-	 * @param <string> $key - property or key name
-	 * @param <string> $value
+	 * @param string $key - property or key name
+	 * @param string $value
 	 */
 	public function set($key, $value)
 	{
@@ -50,7 +50,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail View url for the record
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -60,7 +60,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail View url for the Preferences page
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getPreferenceDetailViewUrl()
 	{
@@ -70,7 +70,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the url for the Profile page
-	 * @return <String> - Profile Url
+	 * @return string - Profile Url
 	 */
 	public function getProfileUrl()
 	{
@@ -80,7 +80,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Edit View url for the record
-	 * @return <String> - Record Edit View Url
+	 * @return string - Record Edit View Url
 	 */
 	public function getEditViewUrl()
 	{
@@ -90,7 +90,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Edit View url for the Preferences page
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getPreferenceEditViewUrl()
 	{
@@ -100,7 +100,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Delete Action url for the record
-	 * @return <String> - Record Delete Action Url
+	 * @return string - Record Delete Action Url
 	 */
 	public function getDeleteUrl()
 	{
@@ -110,7 +110,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to check whether the user is an Admin user
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isAdminUser()
 	{
@@ -123,7 +123,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the module name
-	 * @return <String> Module Name
+	 * @return string Module Name
 	 */
 	public function getModuleName()
 	{
@@ -256,7 +256,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the Users Parent Role
-	 * @return <String>
+	 * @return string
 	 */
 	public function getParentRoleSequence()
 	{
@@ -272,7 +272,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the Users Current Role
-	 * @return <String>
+	 * @return string
 	 */
 	public function getRole()
 	{
@@ -304,7 +304,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the Users Current Role
-	 * @return <String>
+	 * @return string
 	 */
 	public function getProfiles()
 	{
@@ -416,7 +416,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get user default activity view
-	 * @return <String>
+	 * @return string
 	 */
 	public function getActivityView()
 	{
@@ -541,7 +541,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Funtion to get Duplicate Record Url
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDuplicateRecordUrl()
 	{
@@ -551,7 +551,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get instance of user model by name
-	 * @param <String> $userName
+	 * @param string $userName
 	 * @return <Users_Record_Model>
 	 */
 	public static function getInstanceByName($userName)
@@ -653,7 +653,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Display Name for the record
-	 * @return <String> - Entity Display Name for the record
+	 * @return string - Entity Display Name for the record
 	 */
 	public function getDisplayName()
 	{

@@ -69,7 +69,7 @@
 								{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 								<td nowrap class="{$WIDTHTYPE}">
 									{if $HEADER_FIELD->get('name') == 'listprice'}
-										{$RELATED_RECORD->get($HEADER_FIELD->get('name'))}
+										{CurrencyField::convertToUserFormat($RELATED_RECORD->get($HEADER_FIELD->get('name')))}
 										{assign var="LISTPRICE" value=$RELATED_RECORD->get($HEADER_FIELD->get('name'))}
 									{else if $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
 										<a href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}</a>

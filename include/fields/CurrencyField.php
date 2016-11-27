@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class CurrencyField
@@ -397,14 +398,12 @@ class CurrencyField
 			$currencySeparator = ' ';
 		if (empty($decimalSeparator))
 			$decimalSeparator = ' ';
-		$value = str_replace("$currencySeparator", "", $value);
-		$value = str_replace("$decimalSeparator", ".", $value);
-
+		$value = str_replace($currencySeparator, '', $value);
+		$value = str_replace($decimalSeparator, '.', $value);
+		$value = preg_replace('/[^0-9\.]/', '', $value);
 		if ($skipConversion === false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}
-		$value = preg_replace('/\s+/u', '', $value);
-
 		return $value;
 	}
 

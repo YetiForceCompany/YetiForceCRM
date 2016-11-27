@@ -61,6 +61,11 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		'Date Sold' => 'datesold',
 		'Status' => 'oproductstatus',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['productname', 'pscategory', 'assigned_user_id', 'datesold', 'oproductstatus'];
 	// Make the field link to detail view
 	public $list_link_field = 'productname';
 	// For Popup listview and UI type support
@@ -118,15 +123,15 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			\includes\fields\RecordNumber::setNumber($moduleName, 'UP', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'UP', 1);
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.enabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
 			
 		}
@@ -141,7 +146,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");

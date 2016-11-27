@@ -36,17 +36,10 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 
 			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
 				$fieldName = $relatedModuleModel->get('basetableid');
-
-				$db = PearDatabase::getInstance();
-				$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
-				$queryGenerator = new QueryGenerator($relatedModuleName, $currentUserModel);
+				$queryGenerator = new App\QueryGenerator($relatedModuleName);
 				$queryGenerator->initForCustomViewById($viewId);
-
-				$query = $queryGenerator->getQuery();
-				$result = $db->query($query);
-
-				while ($row = $db->getRow($result)) {
+				$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+				while ($row = $dataReader->read()) {
 					$relatedRecordIdsList[] = $row[$fieldName];
 				}
 				if (empty($relatedRecordIdsList)) {

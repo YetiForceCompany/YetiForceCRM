@@ -138,7 +138,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get instance of module
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return <Settings_MappedFields_Module_Model>
 	 */
 	public static function getInstance($moduleName = 'Settings:Vtiger')
@@ -274,7 +274,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		foreach ($fields as $field) {
 			$value = $this->record->get($field);
 			if (in_array($field, ['conditions', 'params'])) {
-				$params[$field] = \includes\utils\Json::encode($value);
+				$params[$field] = \App\Json::encode($value);
 			} elseif (is_array($value)) {
 				$params[$field] = implode(',', $value);
 			} else {
@@ -283,7 +283,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if (!$this->getRecordId()) {
 			$db->createCommand()->insert($this->baseTable, $params)->execute();
-			$this->record->set('id', $db->getLastInsertID());
+			$this->record->set('id', $db->getLastInsertID($this->baseTable . '_id_seq'));
 		} else {
 			$db->createCommand()->update($this->baseTable, $params, [$this->baseIndex => $this->getRecordId()])->execute();
 		}

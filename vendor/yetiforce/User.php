@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 /**
  * User basic class
@@ -16,17 +17,29 @@ class User
 	protected static $userModelCache = [];
 	protected $privileges;
 
+	/**
+	 * Get current user Id
+	 * @return int
+	 */
 	public static function getCurrentUserId()
 	{
 		return static::$currentUserId;
 	}
 
+	/**
+	 * Set current user Id
+	 * @param int $userId
+	 */
 	public static function setCurrentUserId($userId)
 	{
 		static::$currentUserId = $userId;
 	}
 
-	public function getCurrentUserRealId()
+	/**
+	 * Get real current user Id
+	 * @return int
+	 */
+	public static function getCurrentUserRealId()
 	{
 		if (static::$currentUserRealId) {
 			return static::$currentUserRealId;
@@ -41,8 +54,8 @@ class User
 	}
 
 	/**
-	 * 
-	 * @return User
+	 * Get current user model
+	 * @return \self
 	 */
 	public static function getCurrentUserModel()
 	{
@@ -55,7 +68,12 @@ class User
 		return static::$currentUserCache = static::getUserModel(static::$currentUserId);
 	}
 
-	public static function getUserModel($userId)
+	/**
+	 * Get user model by id
+	 * @param int $userId
+	 * @return \self
+	 */
+	public static function &getUserModel($userId)
 	{
 		if (isset(static::$userModelCache[$userId])) {
 			return static::$userModelCache[$userId];
@@ -71,6 +89,11 @@ class User
 
 	protected static $userPrivilegesCache = false;
 
+	/**
+	 * Get base privileges from file by id
+	 * @param int $userId
+	 * @return array
+	 */
 	public static function getPrivilegesFile($userId)
 	{
 		if (isset(static::$userPrivilegesCache[$userId])) {
@@ -107,6 +130,11 @@ class User
 
 	protected static $userSharingCache = [];
 
+	/**
+	 * Get sharing privileges from file by id
+	 * @param int $userId
+	 * @return array
+	 */
 	public static function getSharingFile($userId)
 	{
 		if (isset(self::$userSharingCache[$userId])) {
@@ -120,11 +148,84 @@ class User
 		return $sharingPrivileges;
 	}
 
-	public function getDetail($key)
+	/**
+	 * Get user id
+	 * @return int
+	 */
+	public function getUserId()
 	{
-		return $this->privileges['details'][$key];
+		return $this->privileges['details']['record_id'];
 	}
 
+	/**
+	 * Get user details
+	 * @param string $fieldName
+	 * @return mixed
+	 */
+	public function getDetail($fieldName)
+	{
+		return $this->privileges['details'][$fieldName];
+	}
+
+	/**
+	 * Get user profiles
+	 * @return array
+	 */
+	public function getProfiles()
+	{
+		return $this->privileges['profiles'];
+	}
+
+	/**
+	 * Get user groups
+	 * @return array
+	 */
+	public function getGroups()
+	{
+		return $this->privileges['groups'];
+	}
+
+	/**
+	 * Get user role Id
+	 * @return string
+	 */
+	public function getRole()
+	{
+		return $this->privileges['details']['roleid'];
+	}
+
+	/**
+	 * Get user parent roles
+	 * @return array
+	 */
+	public function getParentRoles()
+	{
+		return $this->privileges['parent_roles'];
+	}
+
+	/**
+	 * Get user parent roles seq
+	 * @return array
+	 */
+	public function getParentRolesSeq()
+	{
+		return $this->privileges['parent_role_seq'];
+	}
+
+	/**
+	 * Function to check whether the user is an Admin user
+	 * @return boolean true/false
+	 */
+	public function isAdmin()
+	{
+		return $this->privileges['details']['is_admin'];
+	}
+
+	/**
+	 * Get user parameters
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function get($key)
 	{
 		return $this->privileges[$key];

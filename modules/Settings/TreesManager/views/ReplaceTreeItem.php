@@ -14,7 +14,6 @@ class Settings_TreesManager_ReplaceTreeItem_View extends Settings_Vtiger_Index_V
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule(false);
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);

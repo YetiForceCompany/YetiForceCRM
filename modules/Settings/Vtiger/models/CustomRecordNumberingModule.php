@@ -25,7 +25,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 
 	/**
 	 * Function to get Instance of this module
-	 * @param <String> $moduleName
+	 * @param string $moduleName
 	 * @return <Settings_Vtiger_CustomRecordNumberingModule_Model> $moduleModel
 	 */
 	public static function getInstance($moduleName, $tabId = false)
@@ -40,13 +40,13 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 
 	/**
 	 * Function to ger Supported modules for Custom record numbering
-	 * @return <Array> list of supported modules <Vtiger_Module_Model>
+	 * @return <Array> list of supported modules Vtiger_Module_Model
 	 */
 	public static function getSupportedModules()
 	{
 		$db = PearDatabase::getInstance();
 
-		$sql = 'SELECT tabid, name FROM vtiger_tab WHERE isentitytype = ? && presence = ? && tabid IN (SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = ?);';
+		$sql = 'SELECT tabid, name FROM vtiger_tab WHERE isentitytype = ? AND presence = ? AND tabid IN (SELECT DISTINCT tabid FROM vtiger_field WHERE uitype = ?);';
 		$result = $db->pquery($sql, [1, 0, 4]);
 		$numOfRows = $db->num_rows($result);
 
@@ -70,7 +70,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		$sequenceNumber = $this->get('sequenceNumber');
 
 		$tabId = \App\Module::getModuleId($moduleName);
-		$status = \includes\fields\RecordNumber::setNumber($tabId, $prefix, $sequenceNumber, $postfix);
+		$status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $sequenceNumber, $postfix);
 
 		$success = array('success' => $status);
 		if (!$status) {

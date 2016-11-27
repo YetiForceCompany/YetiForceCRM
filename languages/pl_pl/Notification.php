@@ -33,6 +33,10 @@ $languageStrings = [
 	'FL_TYPE' => 'Rodzaj',
 	'LBL_MARK_AS_READ' => 'Oznacz jako przeczytane',
 	'LBL_NO_NOTIFICATIONS' => 'Brak powiadomień',
+	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Częstotliwość uruchamiania crona',
+	'LBL_MODULES' => 'Moduły',
+	'LBL_SENT_NOTIFICATIONS' => 'Wysyłaj powiadomienia',
+	'LBL_NOTIFICATION_SETTINGS' => 'Konfiguracja powiadomień',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',

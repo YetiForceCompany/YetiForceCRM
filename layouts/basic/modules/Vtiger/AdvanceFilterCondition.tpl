@@ -49,7 +49,7 @@
 										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}
 											{assign var=USERSLIST value=array()}
-											{assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+											{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 											{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 												{$USERSLIST[$USER_NAME] = $USER_NAME}
 											{/foreach}
@@ -57,8 +57,8 @@
 											{$FIELD_INFO['type'] = 'picklist'}
 										{/if}
 									{/if}
-									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_INFO))}' 
-									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\includes\utils\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
+									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
+									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
@@ -97,7 +97,7 @@
 										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}
 											{assign var=USERSLIST value=array()}
-											{assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+											{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 											{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 												{$USERSLIST[$USER_NAME] = $USER_NAME}
 											{/foreach}
@@ -105,7 +105,7 @@
 											{$FIELD_INFO['type'] = 'picklist'}
 										{/if}
 									{/if}
-									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_INFO))}' >
+									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' >
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
@@ -120,7 +120,9 @@
 		<div class="col-md-3">
 			<input type="hidden" name="comparatorValue" value="{$CONDITION_INFO['comparator']}">
 			{if $SELECTED_FIELD_MODEL}
-				{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
+				{if !$FIELD_TYPE}
+					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
+				{/if}
 				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
 				{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 					{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
@@ -130,7 +132,7 @@
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
 				<option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected {/if}>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 				{/foreach}
 			</select>
 		</div>

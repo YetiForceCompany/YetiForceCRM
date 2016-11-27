@@ -9,9 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
-require_once('modules/com_vtiger_workflow/VTSimpleTemplate.inc');
+require_once('modules/com_vtiger_workflow/VTSimpleTemplate.php');
 
 require_once('modules/SMSNotifier/SMSNotifier.php');
 

@@ -41,6 +41,11 @@ class Documents extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['notes_title', 'filename', 'modifiedtime', 'assigned_user_id', 'folderid', 'filelocationtype', 'filestatus'];
 	public $search_fields = Array(
 		'Title' => Array('notes' => 'notes_title'),
 		'File Name' => Array('notes' => 'filename'),
@@ -79,7 +84,7 @@ class Documents extends CRMEntity
 				$errCode = $_FILES[$filename_fieldname]['error'];
 				if ($errCode == 0) {
 					foreach ($_FILES as $fileindex => $files) {
-						$fileInstance = \includes\fields\File::loadFromRequest($files);
+						$fileInstance = \App\Fields\File::loadFromRequest($files);
 						if ($fileInstance->validate()) {
 							$filename = $_FILES[$filename_fieldname]['name'];
 							$filename = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $filename));
@@ -334,19 +339,19 @@ class Documents extends CRMEntity
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_notes", "notesid", $queryplanner);
 		$query .= " left join vtiger_notescf on vtiger_notes.notesid = vtiger_notescf.notesid";
 		if ($queryplanner->requireTable("vtiger_crmentityDocuments", $matrix)) {
-			$query .=" left join vtiger_crmentity as vtiger_crmentityDocuments on vtiger_crmentityDocuments.crmid=vtiger_notes.notesid and vtiger_crmentityDocuments.deleted=0";
+			$query .= " left join vtiger_crmentity as vtiger_crmentityDocuments on vtiger_crmentityDocuments.crmid=vtiger_notes.notesid and vtiger_crmentityDocuments.deleted=0";
 		}
 		if ($queryplanner->requireTable("`vtiger_trees_templates_data`")) {
-			$query .=" left join `vtiger_trees_templates_data` on `vtiger_trees_templates_data`.tree=vtiger_notes.folderid";
+			$query .= " left join `vtiger_trees_templates_data` on `vtiger_trees_templates_data`.tree=vtiger_notes.folderid";
 		}
 		if ($queryplanner->requireTable("vtiger_groupsDocuments")) {
-			$query .=" left join vtiger_groups as vtiger_groupsDocuments on vtiger_groupsDocuments.groupid = vtiger_crmentityDocuments.smownerid";
+			$query .= " left join vtiger_groups as vtiger_groupsDocuments on vtiger_groupsDocuments.groupid = vtiger_crmentityDocuments.smownerid";
 		}
 		if ($queryplanner->requireTable("vtiger_usersDocuments")) {
-			$query .=" left join vtiger_users as vtiger_usersDocuments on vtiger_usersDocuments.id = vtiger_crmentityDocuments.smownerid";
+			$query .= " left join vtiger_users as vtiger_usersDocuments on vtiger_usersDocuments.id = vtiger_crmentityDocuments.smownerid";
 		}
 		if ($queryplanner->requireTable("vtiger_lastModifiedByDocuments")) {
-			$query .=" left join vtiger_users as vtiger_lastModifiedByDocuments on vtiger_lastModifiedByDocuments.id = vtiger_crmentityDocuments.modifiedby ";
+			$query .= " left join vtiger_users as vtiger_lastModifiedByDocuments on vtiger_lastModifiedByDocuments.id = vtiger_crmentityDocuments.modifiedby ";
 		}
 		if ($queryplanner->requireTable("vtiger_createdbyDocuments")) {
 			$query .= " left join vtiger_users as vtiger_createdbyDocuments on vtiger_createdbyDocuments.id = vtiger_crmentityDocuments.smcreatorid ";
@@ -368,44 +373,17 @@ class Documents extends CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	// Function to unlink all the dependent entities of the given Entity by Id
-	public function unlinkDependencies($module, $id)
-	{
-
-		/* //Backup Documents Related Records
-		  $se_q = 'SELECT crmid FROM vtiger_senotesrel WHERE notesid = ?';
-		  $se_res = $this->db->pquery($se_q, array($id));
-		  if ($this->db->num_rows($se_res) > 0) {
-		  for($k=0;$k < $this->db->num_rows($se_res);$k++)
-		  {
-		  $se_id = $this->db->query_result($se_res,$k,"crmid");
-		  $params = array($id, RB_RECORD_DELETED, 'vtiger_senotesrel', 'notesid', 'crmid', $se_id);
-		  $this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES (?,?,?,?,?,?)', $params);
-		  }
-		  }
-		  $sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ?';
-		  $this->db->pquery($sql, array($id)); */
-
-		parent::unlinkDependencies($module, $id);
-	}
-
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-
 		if (empty($returnModule) || empty($returnId))
 			return;
-
 		if ($returnModule == 'Accounts') {
-			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && (crmid = ? || crmid IN (SELECT contactid FROM vtiger_contactdetails WHERE parentid=?))';
-			$this->db->pquery($sql, array($id, $returnId, $returnId));
+			$subQuery = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId]);
+			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['and', ['notesid' => $id], ['or', ['crmid' => $returnId], ['crmid' => $subQuery]]])->execute();
 		} else {
-			$sql = 'DELETE FROM vtiger_senotesrel WHERE notesid = ? && crmid = ?';
-			$this->db->pquery($sql, array($id, $returnId));
-
-			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? && relmodule=? && relcrmid=?) || (relcrmid=? && module=? && crmid=?)';
-			$params = array($id, $returnModule, $returnId, $id, $returnModule, $returnId);
-			$this->db->pquery($sql, $params);
+			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['notesid' => $id, 'crmid' => $returnId])->execute();
+			parent::deleteRelatedFromDB($relatedName, $id, $returnModule, $returnId);
 		}
 	}
 
@@ -493,69 +471,6 @@ class Documents extends CRMEntity
 				$adb->pquery("UPDATE vtiger_notes set folderid = ? WHERE notesid = ?", array(self::getFolderDefault()));
 			}
 		}
-	}
-
-	public function getRelatedRecord($id, $curTabId, $relTabId, $actions = false)
-	{
-		global $currentModule, $singlepane_view;
-		$thisModule = $currentModule;
-
-		$relatedModule = vtlib\Functions::getModuleName($relTabId);
-		$other = CRMEntity::getInstance($relatedModule);
-
-		// Some standard module class doesn't have required variables
-		// that are used in the query, they are defined in this generic API
-		vtlib_setup_modulevars($relatedModule, $other);
-
-		// To make the edit or del link actions to return back to same view.
-		if ($singlepane_view == 'true')
-			$returnset = "&return_module=$thisModule&return_action=DetailView&return_id=$id";
-		else
-			$returnset = "&return_module=$thisModule&return_action=CallRelatedList&return_id=$id";
-
-		$joinTables = [];
-		$join = '';
-		$tables = '';
-		foreach ($other->tab_name_index as $table => $index) {
-			if ($table == $other->table_name) {
-				continue;
-			}
-			$joinTables[] = $table;
-			$join .= ' INNER JOIN ' . $table . ' ON ' . $table . '.' . $index . ' = ' . $other->table_name . '.' . $other->table_index;
-		}
-
-		if (!empty($other->related_tables)) {
-			foreach ($other->related_tables as $tname => $relmap) {
-				$tables .= ", $tname.*";
-				if (in_array($tname, $joinTables)) {
-					continue;
-				}
-				// Setup the default JOIN conditions if not specified
-				if (empty($relmap[1]))
-					$relmap[1] = $other->table_name;
-				if (empty($relmap[2]))
-					$relmap[2] = $relmap[0];
-				$join .= " LEFT JOIN $tname ON $tname.$relmap[0] = $relmap[1].$relmap[2]";
-			}
-		}
-		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
-				'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query .= $tables;
-		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
-		$query .= ' FROM %s';
-		$query .= $join;
-		$query .= ' INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid';
-		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
-		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 && vtiger_senotesrel.notesid = $id";
-
-		$query = sprintf($query, $other->table_name);
-		$returnValue = GetRelatedList($thisModule, $relatedModule, $other, $query, $button, $returnset);
-		if ($returnValue === null)
-			$returnValue = [];
-		$returnValue['CUSTOM_BUTTON'] = $button;
-		return $returnValue;
 	}
 
 	/**

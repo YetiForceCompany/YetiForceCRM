@@ -1,4 +1,5 @@
-<?php namespace Importers;
+<?php
+namespace Importers;
 
 /**
  * Class that imports base database
@@ -23,7 +24,7 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-					['glacct_glacct_idx', 'glacct', true],
+						['glacct_glacct_idx', 'glacct', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -31,8 +32,6 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_glacct_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -43,11 +42,11 @@ class Base3 extends \App\Db\Importers\Base
 					'containsgroupid' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-					['group2grouprel_containsgroupid_idx', 'containsgroupid'],
-					['group2grouprel_groupid_idx', 'groupid'],
+						['group2grouprel_containsgroupid_idx', 'containsgroupid'],
+						['group2grouprel_groupid_idx', 'groupid'],
 				],
 				'primaryKeys' => [
-					['group2grouprel_pk', ['groupid', 'containsgroupid']]
+						['group2grouprel_pk', ['groupid', 'containsgroupid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -58,8 +57,8 @@ class Base3 extends \App\Db\Importers\Base
 					'tabid' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['group2modules_groupid_idx', 'groupid'],
-					['group2modules_tabid_idx', 'tabid'],
+						['group2modules_groupid_idx', 'groupid'],
+						['group2modules_tabid_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -70,10 +69,10 @@ class Base3 extends \App\Db\Importers\Base
 					'roleid' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['group2role_idx', 'roleid'],
+						['group2role_idx', 'roleid'],
 				],
 				'primaryKeys' => [
-					['group2role_pk', ['groupid', 'roleid']]
+						['group2role_pk', ['groupid', 'roleid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -84,10 +83,10 @@ class Base3 extends \App\Db\Importers\Base
 					'roleandsubid' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['group2rs_idx', 'roleandsubid'],
+						['group2rs_idx', 'roleandsubid'],
 				],
 				'primaryKeys' => [
-					['group2rs_pk', ['groupid', 'roleandsubid']]
+						['group2rs_pk', ['groupid', 'roleandsubid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -101,10 +100,10 @@ class Base3 extends \App\Db\Importers\Base
 					'modules' => $this->stringType(),
 				],
 				'index' => [
-					['groups_groupname_idx', 'groupname', true],
+						['groups_groupname_idx', 'groupname', true],
 				],
 				'primaryKeys' => [
-					['groups_pk', 'groupid']
+						['groups_pk', 'groupid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -118,10 +117,10 @@ class Base3 extends \App\Db\Importers\Base
 					'ossemployeesid' => $this->integer(),
 				],
 				'index' => [
-					['holidaysentitlement_idx', 'ossemployeesid'],
+						['holidaysentitlement_idx', 'ossemployeesid'],
 				],
 				'primaryKeys' => [
-					['holidaysentitlement_pk', 'holidaysentitlementid']
+						['holidaysentitlement_pk', 'holidaysentitlementid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -134,16 +133,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_holidaysentitlement_year_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -152,10 +147,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'holidaysentitlementid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['holidaysentitlementcf_pk', 'holidaysentitlementid']
+						['holidaysentitlementcf_pk', 'holidaysentitlementid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -165,10 +158,8 @@ class Base3 extends \App\Db\Importers\Base
 					'userid' => $this->integer()->notNull(),
 					'layout' => $this->integer()->notNull()->defaultValue(4),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['home_layout_pk', 'userid']
+						['home_layout_pk', 'userid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -180,10 +171,10 @@ class Base3 extends \App\Db\Importers\Base
 					'dashbdtype' => $this->stringType(100),
 				],
 				'index' => [
-					['homedashbd_idx', 'stuffid'],
+						['homedashbd_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-					['homedashbd_pk', 'stuffid']
+						['homedashbd_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -196,10 +187,10 @@ class Base3 extends \App\Db\Importers\Base
 					'setype' => $this->stringType(30),
 				],
 				'index' => [
-					['homedefault_idx', 'stuffid'],
+						['homedefault_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-					['homedefault_pk', 'stuffid']
+						['homedefault_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -213,10 +204,10 @@ class Base3 extends \App\Db\Importers\Base
 					'setype' => $this->stringType(30)->notNull(),
 				],
 				'index' => [
-					['homemodule_idx', 'stuffid'],
+						['homemodule_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-					['homemodule_pk', 'stuffid']
+						['homemodule_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -227,7 +218,7 @@ class Base3 extends \App\Db\Importers\Base
 					'fieldname' => $this->stringType(100),
 				],
 				'index' => [
-					['homemoduleflds_idx', 'stuffid'],
+						['homemoduleflds_idx', 'stuffid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -238,10 +229,8 @@ class Base3 extends \App\Db\Importers\Base
 					'reportid' => $this->integer(),
 					'reportcharttype' => $this->stringType(100),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['homereportchart_pk', 'stuffid']
+						['homereportchart_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -253,10 +242,10 @@ class Base3 extends \App\Db\Importers\Base
 					'maxentries' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['homerss_idx', 'stuffid'],
+						['homerss_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-					['homerss_pk', 'stuffid']
+						['homerss_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -271,11 +260,11 @@ class Base3 extends \App\Db\Importers\Base
 					'stufftitle' => $this->stringType(100),
 				],
 				'index' => [
-					['homestuff_idx', 'stuffid'],
-					['homestuff_user_idx', 'userid'],
+						['homestuff_idx', 'stuffid'],
+						['homestuff_user_idx', 'userid'],
 				],
 				'primaryKeys' => [
-					['homestuff_pk', 'stuffid']
+						['homestuff_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -283,8 +272,6 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_homestuff_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -297,16 +284,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_hour_format_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -319,10 +302,8 @@ class Base3 extends \App\Db\Importers\Base
 					'ideasstatus' => $this->stringType()->defaultValue(''),
 					'extent_description' => $this->text(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['ideas_pk', 'ideasid']
+						['ideas_pk', 'ideasid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -331,10 +312,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'ideasid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['ideascf_pk', 'ideasid']
+						['ideascf_pk', 'ideasid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -347,16 +326,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_ideasstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -368,8 +343,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -379,8 +352,6 @@ class Base3 extends \App\Db\Importers\Base
 					'igdnc_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -392,8 +363,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -403,8 +372,6 @@ class Base3 extends \App\Db\Importers\Base
 					'igrn_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -416,8 +383,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -427,8 +392,6 @@ class Base3 extends \App\Db\Importers\Base
 					'iidn_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -441,10 +404,8 @@ class Base3 extends \App\Db\Importers\Base
 					'importid' => $this->integer()->notNull(),
 					'locked_since' => $this->dateTime(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['import_locks_pk', 'vtiger_import_lock_id']
+						['import_locks_pk', 'vtiger_import_lock_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -463,7 +424,7 @@ class Base3 extends \App\Db\Importers\Base
 					'is_published' => $this->stringType(3)->notNull()->defaultValue('no'),
 				],
 				'index' => [
-					['import_maps_idx', ['assigned_user_id', 'module', 'name', 'deleted']],
+						['import_maps_idx', ['assigned_user_id', 'module', 'name', 'deleted']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -480,10 +441,8 @@ class Base3 extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1),
 					'temp_status' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['import_queue_pk', 'importid']
+						['import_queue_pk', 'importid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -497,7 +456,7 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-					['industry_industry_idx', 'industry', true],
+						['industry_industry_idx', 'industry', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -506,30 +465,14 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_inventory_tandc' => [
 				'columns' => [
-					'id' => $this->integer()->notNull(),
+					'id' => $this->primaryKey(),
 					'type' => $this->stringType(30)->notNull(),
 					'tandc' => $this->text(),
-				],
-				'index' => [
-				],
-				'primaryKeys' => [
-					['inventory_tandc_pk', 'id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_inventory_tandc_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -556,8 +499,8 @@ class Base3 extends \App\Db\Importers\Base
 					'marginp' => $this->decimal('10,2'),
 				],
 				'index' => [
-					['inventoryproductrel_id_idx', 'id'],
-					['inventoryproductrel_productid_idx', 'productid'],
+						['inventoryproductrel_id_idx', 'id'],
+						['inventoryproductrel_productid_idx', 'productid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -565,8 +508,6 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_inventoryproductrel_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -576,34 +517,6 @@ class Base3 extends \App\Db\Importers\Base
 					'id' => $this->integer()->notNull(),
 					'sequence_no' => $this->integer(10)->notNull(),
 					'productid' => $this->integer()->notNull(),
-				],
-				'index' => [
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_inventorytaxinfo' => [
-				'columns' => [
-					'taxid' => $this->integer(3)->notNull(),
-					'taxname' => $this->stringType(50),
-					'taxlabel' => $this->stringType(50),
-					'percentage' => $this->decimal('7,3'),
-					'deleted' => $this->integer(1),
-				],
-				'index' => [
-					['inventorytaxinfo_taxname_idx', 'taxname'],
-				],
-				'primaryKeys' => [
-					['inventorytaxinfo_pk', 'taxid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_inventorytaxinfo_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -615,8 +528,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -626,8 +537,6 @@ class Base3 extends \App\Db\Importers\Base
 					'istdn_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -639,8 +548,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -650,8 +557,6 @@ class Base3 extends \App\Db\Importers\Base
 					'istn_type' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -663,8 +568,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -675,8 +578,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -686,8 +587,6 @@ class Base3 extends \App\Db\Importers\Base
 					'knowledgebase_view' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -700,11 +599,11 @@ class Base3 extends \App\Db\Importers\Base
 					'label' => $this->stringType(30)->notNull(),
 					'lastupdated' => $this->dateTime(),
 					'sequence' => $this->integer(),
-					'isdefault' => $this->boolean()->notNull()->defaultValue(false),
-					'active' => $this->boolean()->notNull()->defaultValue(true),
+					'isdefault' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'active' => $this->smallInteger(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
-					['language_prefix', 'prefix'],
+						['language_prefix', 'prefix'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -712,8 +611,6 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_language_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -724,13 +621,11 @@ class Base3 extends \App\Db\Importers\Base
 					'name' => $this->stringType(50),
 					'label' => $this->stringType(30),
 					'lastupdated' => $this->dateTime(),
-					'isdefault' => $this->boolean(),
-					'active' => $this->boolean(),
-				],
-				'index' => [
+					'isdefault' => $this->smallInteger(1),
+					'active' => $this->smallInteger(1),
 				],
 				'primaryKeys' => [
-					['layout_pk', 'id']
+						['layout_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -740,9 +635,7 @@ class Base3 extends \App\Db\Importers\Base
 					'lead_viewid' => $this->primaryKey(),
 					'lead_view' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
-					'presence' => $this->boolean()->notNull()->defaultValue(true),
-				],
-				'index' => [
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -750,8 +643,6 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_lead_view_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -774,10 +665,8 @@ class Base3 extends \App\Db\Importers\Base
 					'localnumbera' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['leadaddress_pk', 'leadaddressid']
+						['leadaddress_pk', 'leadaddressid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -790,14 +679,14 @@ class Base3 extends \App\Db\Importers\Base
 					'interest' => $this->stringType(50),
 					'firstname' => $this->stringType(40),
 					'salutation' => $this->stringType(200),
-					'lastname' => $this->stringType(80)->notNull(),
+					'lastname' => $this->stringType(80),
 					'company' => $this->stringType(100)->notNull(),
 					'annualrevenue' => $this->decimal('25,8'),
 					'industry' => $this->stringType(200),
 					'campaign' => $this->stringType(30),
 					'leadstatus' => $this->stringType(50),
 					'leadsource' => $this->stringType(200),
-					'converted' => $this->boolean()->unsigned()->notNull()->defaultValue(false),
+					'converted' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'licencekeystatus' => $this->stringType(50),
 					'space' => $this->stringType(250),
 					'comments' => $this->text(),
@@ -827,16 +716,16 @@ class Base3 extends \App\Db\Importers\Base
 					'leads_relation' => $this->stringType(),
 					'legal_form' => $this->stringType(),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
-					'active' => $this->boolean()->defaultValue(false),
+					'active' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['leaddetails_converted_leadstatus_idx', ['converted', 'leadstatus']],
-					['leaddetails_email_idx', 'email'],
-					['leaddetails_lastname_idx', 'lastname'],
-					['leaddetails_converted_idx', 'converted'],
+						['leaddetails_converted_leadstatus_idx', ['converted', 'leadstatus']],
+						['leaddetails_email_idx', 'email'],
+						['leaddetails_lastname_idx', 'lastname'],
+						['leaddetails_converted_idx', 'converted'],
 				],
 				'primaryKeys' => [
-					['leaddetails_pk', 'leadid']
+						['leaddetails_pk', 'leadid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -848,16 +737,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_leads_relation_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -866,10 +751,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'leadid' => $this->integer()->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['leadscf_pk', 'leadid']
+						['leadscf_pk', 'leadid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -882,16 +765,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_leadsource_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -904,7 +783,7 @@ class Base3 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
-					['leadstage_idx', 'stage', true],
+						['leadstage_idx', 'stage', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -918,16 +797,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'color' => $this->stringType(25)->defaultValue('#E6FAD8'),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_leadstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -940,10 +815,8 @@ class Base3 extends \App\Db\Importers\Base
 					'readornot' => $this->integer(1)->defaultValue(0),
 					'empct' => $this->integer(10)->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['leadsubdetails_pk', 'leadsubscriptionid']
+						['leadsubdetails_pk', 'leadsubscriptionid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -955,16 +828,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_legal_form_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -986,10 +855,8 @@ class Base3 extends \App\Db\Importers\Base
 					'no_internal' => $this->stringType(100)->defaultValue(''),
 					'lin_dimensions' => $this->stringType()->defaultValue(''),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['lettersin_pk', 'lettersinid']
+						['lettersin_pk', 'lettersinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -998,10 +865,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'lettersinid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['lettersincf_pk', 'lettersinid']
+						['lettersincf_pk', 'lettersinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1023,10 +888,8 @@ class Base3 extends \App\Db\Importers\Base
 					'no_internal' => $this->stringType(100)->defaultValue(''),
 					'lout_dimensions' => $this->stringType()->defaultValue(''),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['lettersout_pk', 'lettersoutid']
+						['lettersout_pk', 'lettersoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1035,10 +898,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'lettersoutid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['lettersoutcf_pk', 'lettersoutid']
+						['lettersoutcf_pk', 'lettersoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1050,16 +911,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_lin_dimensions_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1071,16 +928,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_lin_status_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1093,16 +946,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_lin_type_doc_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1114,16 +963,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_lin_type_ship_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1143,13 +988,13 @@ class Base3 extends \App\Db\Importers\Base
 					'params' => $this->stringType(),
 				],
 				'index' => [
-					['links_tabidtype_idx', ['tabid', 'linktype']],
-					['links_linklabel_idx', 'linklabel'],
-					['links_linkid_idx', ['linkid', 'tabid', 'linktype', 'linklabel']],
-					['links_linktype_idx', 'linktype'],
+						['links_tabidtype_idx', ['tabid', 'linktype']],
+						['links_linklabel_idx', 'linklabel'],
+						['links_linkid_idx', ['linkid', 'tabid', 'linktype', 'linklabel']],
+						['links_linktype_idx', 'linktype'],
 				],
 				'primaryKeys' => [
-					['links_idx', 'linkid']
+						['links_idx', 'linkid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1157,8 +1002,6 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_links_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1174,8 +1017,8 @@ class Base3 extends \App\Db\Importers\Base
 					'browser' => $this->stringType(25),
 				],
 				'index' => [
-					['loginhistory_user_name_idx', 'user_name'],
-					['loginhistory_user_idx', ['user_ip', 'login_time', 'status']],
+						['loginhistory_user_name_idx', 'user_name'],
+						['loginhistory_user_idx', ['user_ip', 'login_time', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1187,16 +1030,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_lout_dimensions_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1208,16 +1047,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_lout_status_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1230,16 +1065,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_lout_type_doc_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1251,16 +1082,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_lout_type_ship_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1285,10 +1112,8 @@ class Base3 extends \App\Db\Importers\Base
 					'set_default' => $this->integer(2),
 					'sent_folder' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['mail_accounts_pk', 'account_id']
+						['mail_accounts_pk', 'account_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1302,7 +1127,7 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-					['manufacturer_manufacturer_idx', 'manufacturer', true],
+						['manufacturer_manufacturer_idx', 'manufacturer', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1310,8 +1135,6 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_manufacturer_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1327,14 +1150,14 @@ class Base3 extends \App\Db\Importers\Base
 					'reasontoedit' => $this->stringType(100),
 				],
 				'index' => [
-					['modcomments_relatedto_idx', 'related_to'],
-					['modcomments_modcommentsid_idx', 'modcommentsid'],
-					['modcomments_comments_idx', 'parent_comments'],
-					['modcomments_userid_idx', 'userid'],
-					['modcomments_related_to_idx', ['related_to', 'parent_comments']],
+						['modcomments_relatedto_idx', 'related_to'],
+						['modcomments_modcommentsid_idx', 'modcommentsid'],
+						['modcomments_comments_idx', 'parent_comments'],
+						['modcomments_userid_idx', 'userid'],
+						['modcomments_related_to_idx', ['related_to', 'parent_comments']],
 				],
 				'primaryKeys' => [
-					['modcomments_pk', 'modcommentsid']
+						['modcomments_pk', 'modcommentsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1343,10 +1166,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'modcommentsid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['modcommentscf_pk', 'modcommentsid']
+						['modcommentscf_pk', 'modcommentsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1361,10 +1182,10 @@ class Base3 extends \App\Db\Importers\Base
 					'cur_id' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-					['modentity_num_semodule_idx', 'cur_id'],
-					['modentity_num_prefix_idx', ['prefix', 'postfix', 'cur_id']],
-					['modentity_num_tabid_idx', 'tabid'],
-					['modentity_num_tabid_cur_idx', ['tabid', 'cur_id']],
+						['modentity_num_semodule_idx', 'cur_id'],
+						['modentity_num_prefix_idx', ['prefix', 'postfix', 'cur_id']],
+						['modentity_num_tabid_idx', 'tabid'],
+						['modentity_num_tabid_cur_idx', ['tabid', 'cur_id']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1380,10 +1201,10 @@ class Base3 extends \App\Db\Importers\Base
 					'last_reviewed_users' => $this->stringType()->defaultValue(''),
 				],
 				'index' => [
-					['modtracker_basic_crmid_idx', 'crmid'],
-					['modtracker_basic_id_idx', 'id'],
-					['modtracker_basic_change_mod_idx', ['id', 'module', 'changedon']],
-					['modtracker_basic_change_idx', ['crmid', 'changedon']],
+						['modtracker_basic_crmid_idx', 'crmid'],
+						['modtracker_basic_id_idx', 'id'],
+						['modtracker_basic_change_mod_idx', ['id', 'module', 'changedon']],
+						['modtracker_basic_change_idx', ['crmid', 'changedon']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1396,7 +1217,7 @@ class Base3 extends \App\Db\Importers\Base
 					'postvalue' => $this->text(),
 				],
 				'index' => [
-					['modtracker_detail_idx', 'id'],
+						['modtracker_detail_idx', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1408,10 +1229,8 @@ class Base3 extends \App\Db\Importers\Base
 					'targetid' => $this->integer()->notNull(),
 					'changedon' => $this->dateTime(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['modtracker_relations_pk', 'id']
+						['modtracker_relations_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1419,13 +1238,13 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_modtracker_tabs' => [
 				'columns' => [
 					'tabid' => $this->smallInteger(11)->unsigned()->notNull(),
-					'visible' => $this->boolean()->unsigned()->notNull()->defaultValue(false),
+					'visible' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['modtracker_tabs_tabid_idx', ['tabid', 'visible']],
+						['modtracker_tabs_tabid_idx', ['tabid', 'visible']],
 				],
 				'primaryKeys' => [
-					['modtracker_tabs_pk', 'tabid']
+						['modtracker_tabs_pk', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1440,13 +1259,13 @@ class Base3 extends \App\Db\Importers\Base
 					'data' => $this->text(),
 					'size' => $this->stringType(50),
 					'limit' => $this->smallInteger(2),
-					'isdefault' => $this->boolean()->notNull()->defaultValue(false),
+					'isdefault' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'owners' => $this->stringType(100),
-					'cache' => $this->boolean()->defaultValue(false),
+					'cache' => $this->smallInteger(1)->defaultValue(0),
 					'date' => $this->stringType(20),
 				],
 				'index' => [
-					['module_dashboard_idx', 'blockid'],
+						['module_dashboard_idx', 'blockid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1456,10 +1275,11 @@ class Base3 extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'authorized' => $this->stringType(10)->notNull(),
 					'tabid' => $this->smallInteger(11)->unsigned()->notNull(),
+					'dashboard_id' => $this->integer(),
 				],
 				'index' => [
-					['module_dashboard_blocks_authorized_idx', ['authorized', 'tabid']],
-					['module_dashboard_blocks_tabid_idx', 'tabid'],
+						['module_dashboard_blocks_authorized_idx', ['authorized', 'tabid']],
+						['module_dashboard_blocks_tabid_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1476,16 +1296,17 @@ class Base3 extends \App\Db\Importers\Base
 					'size' => $this->stringType(50),
 					'limit' => $this->smallInteger(2),
 					'position' => $this->stringType(50),
-					'isdefault' => $this->boolean()->defaultValue(false),
-					'active' => $this->boolean()->defaultValue(false),
+					'isdefault' => $this->smallInteger(1)->defaultValue(0),
+					'active' => $this->smallInteger(1)->defaultValue(0),
 					'owners' => $this->stringType(100),
 					'module' => $this->integer(10)->defaultValue(0),
-					'cache' => $this->boolean()->defaultValue(false),
+					'cache' => $this->smallInteger(1)->defaultValue(0),
 					'date' => $this->stringType(20),
+					'dashboardid' => $this->integer(),
 				],
 				'index' => [
-					['module_dashboard_widgets_temp_idx', 'templateid'],
-					['module_dashboard_widgets_idx', ['userid', 'active', 'module']],
+						['module_dashboard_widgets_temp_idx', 'templateid'],
+						['module_dashboard_widgets_idx', ['userid', 'active', 'module']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1497,16 +1318,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_no_of_currency_decimals_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1516,8 +1333,6 @@ class Base3 extends \App\Db\Importers\Base
 					'userid' => $this->integer()->notNull(),
 					'notebookid' => $this->integer()->notNull(),
 					'contents' => $this->text(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1539,11 +1354,11 @@ class Base3 extends \App\Db\Importers\Base
 					'ossdc_status' => $this->stringType(),
 				],
 				'index' => [
-					['notes_title_idx', 'title'],
-					['notes_notesid_idx', 'notesid'],
+						['notes_title_idx', 'title'],
+						['notes_notesid_idx', 'notesid'],
 				],
 				'primaryKeys' => [
-					['notes_pk', 'notesid']
+						['notes_pk', 'notesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1552,10 +1367,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'notesid' => $this->integer()->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['notescf_pk', 'notesid']
+						['notescf_pk', 'notesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1567,8 +1380,6 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1579,8 +1390,6 @@ class Base3 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1594,7 +1403,7 @@ class Base3 extends \App\Db\Importers\Base
 					'probability' => $this->decimal('3,2')->defaultValue(0),
 				],
 				'index' => [
-					['opportunitystage_idx', 'stage', true],
+						['opportunitystage_idx', 'stage', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1607,16 +1416,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_oproductstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1627,10 +1432,10 @@ class Base3 extends \App\Db\Importers\Base
 					'tabid' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['oproductstatus_idx', 'tabid'],
+						['oproductstatus_idx', 'tabid'],
 				],
 				'primaryKeys' => [
-					['oproductstatus_pk', ['share_action_id', 'tabid']]
+						['oproductstatus_pk', ['share_action_id', 'tabid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1640,10 +1445,8 @@ class Base3 extends \App\Db\Importers\Base
 					'share_action_id' => $this->integer()->notNull(),
 					'share_action_name' => $this->stringType(200),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['share_action_mapping_pk', 'share_action_id']
+						['share_action_mapping_pk', 'share_action_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1670,10 +1473,8 @@ class Base3 extends \App\Db\Importers\Base
 					'id2' => $this->stringType(30),
 					'email' => $this->stringType(50),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['organizationdetails_pk', 'organization_id']
+						['organizationdetails_pk', 'organization_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1681,8 +1482,6 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_organizationdetails_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1696,8 +1495,6 @@ class Base3 extends \App\Db\Importers\Base
 					'parent' => $this->integer()->notNull(),
 					'module' => $this->stringType()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1709,16 +1506,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_ossdc_status_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1730,11 +1523,11 @@ class Base3 extends \App\Db\Importers\Base
 					'summary' => $this->stringType()->notNull(),
 					'doc_folder' => $this->integer(),
 					'doc_name' => $this->stringType()->notNull(),
-					'doc_request' => $this->boolean()->notNull(),
+					'doc_request' => $this->smallInteger(1)->notNull(),
 					'doc_order' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['ossdocumentcontrol_idx', 'ossdocumentcontrolid'],
+						['ossdocumentcontrol_idx', 'ossdocumentcontrolid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1748,8 +1541,6 @@ class Base3 extends \App\Db\Importers\Base
 					'val' => $this->stringType(),
 					'required' => $this->smallInteger(3)->notNull(),
 					'field_type' => $this->stringType(100)->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1786,10 +1577,8 @@ class Base3 extends \App\Db\Importers\Base
 					'position' => $this->stringType(),
 					'rbh' => $this->decimal('25,8'),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['ossemployees_pk', 'ossemployeesid']
+						['ossemployees_pk', 'ossemployeesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1798,10 +1587,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'ossemployeesid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['ossemployeescf_pk', 'ossemployeesid']
+						['ossemployeescf_pk', 'ossemployeesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1814,16 +1601,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_osservicesstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1840,8 +1623,6 @@ class Base3 extends \App\Db\Importers\Base
 					'stop_user' => $this->stringType(100),
 					'info' => $this->stringType(100),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1850,8 +1631,6 @@ class Base3 extends \App\Db\Importers\Base
 					'conf_type' => $this->stringType(100)->notNull(),
 					'parameter' => $this->stringType(100),
 					'value' => $this->text(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1863,8 +1642,6 @@ class Base3 extends \App\Db\Importers\Base
 					'folder' => $this->stringType(100),
 					'uid' => $this->integer()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1874,8 +1651,6 @@ class Base3 extends \App\Db\Importers\Base
 					'created_time' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
 					'laststart' => $this->integer()->unsigned(),
 					'status' => $this->stringType(50),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1891,8 +1666,11 @@ class Base3 extends \App\Db\Importers\Base
 					'ossmailtemplates_type' => $this->stringType(),
 				],
 				'index' => [
-					['ossmailtemplates_temp_idx', 'ossmailtemplatesid'],
-					['ossmailtemplates_mod_idx', 'oss_module_list'],
+						['ossmailtemplates_temp_idx', 'ossmailtemplatesid'],
+						['ossmailtemplates_mod_idx', 'oss_module_list'],
+				],
+				'primaryKeys' => [
+						['vtiger_ossmailtemplates_pk', 'ossmailtemplatesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1904,16 +1682,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_ossmailtemplates_type_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1922,10 +1696,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'ossmailtemplatesid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['ossmailtemplatescf_pk', 'ossmailtemplatesid']
+						['ossmailtemplatescf_pk', 'ossmailtemplatesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1956,11 +1728,11 @@ class Base3 extends \App\Db\Importers\Base
 					'date' => $this->dateTime(),
 				],
 				'index' => [
-					['ossmailview_id_idx', 'id'],
-					['ossmailview_message_idx', 'uid'],
+						['ossmailview_id_idx', 'id'],
+						['ossmailview_message_idx', 'uid'],
 				],
 				'primaryKeys' => [
-					['ossmailview_pk', 'ossmailviewid']
+						['ossmailview_pk', 'ossmailviewid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1972,8 +1744,8 @@ class Base3 extends \App\Db\Importers\Base
 					'attachmentsid' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['ossmailview_files_id_idx', 'ossmailviewid'],
-					['ossmailview_files_doc_idx', 'documentsid'],
+						['ossmailview_files_id_idx', 'ossmailviewid'],
+						['ossmailview_files_doc_idx', 'documentsid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1983,15 +1755,15 @@ class Base3 extends \App\Db\Importers\Base
 					'ossmailviewid' => $this->integer()->notNull(),
 					'crmid' => $this->integer()->notNull(),
 					'date' => $this->dateTime(),
-					'deleted' => $this->boolean()->defaultValue(false),
+					'deleted' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['ossmailview_relation_idx', ['ossmailviewid', 'crmid'], true],
-					['ossmailview_relation_id_idx', 'ossmailviewid'],
-					['ossmailview_relation_crm_idx', ['crmid', 'deleted']],
+						['ossmailview_relation_idx', ['ossmailviewid', 'crmid'], true],
+						['ossmailview_relation_id_idx', 'ossmailviewid'],
+						['ossmailview_relation_crm_idx', ['crmid', 'deleted']],
 				],
 				'primaryKeys' => [
-					['ossmailview_relation_pk', ['ossmailviewid', 'crmid']]
+						['ossmailview_relation_pk', ['ossmailviewid', 'crmid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2004,16 +1776,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_ossmailview_sendtype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2022,10 +1790,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'ossmailviewid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['ossmailviewcf_pk', 'ossmailviewid']
+						['ossmailviewcf_pk', 'ossmailviewid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2044,11 +1810,11 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(),
 				],
 				'index' => [
-					['ossoutsourcedservices_id_idx', 'parent_id'],
-					['ossoutsourcedservices_process_idx', 'ssalesprocessesid'],
+						['ossoutsourcedservices_id_idx', 'parent_id'],
+						['ossoutsourcedservices_process_idx', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-					['ossoutsourcedservices_pk', 'ossoutsourcedservicesid']
+						['ossoutsourcedservices_pk', 'ossoutsourcedservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2057,10 +1823,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'ossoutsourcedservicesid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['ossoutsourcedservicescf_pk', 'ossoutsourcedservicesid']
+						['ossoutsourcedservicescf_pk', 'ossoutsourcedservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2075,10 +1839,8 @@ class Base3 extends \App\Db\Importers\Base
 					'link_adres' => $this->stringType(),
 					'linkto' => $this->integer(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['osspasswords_pk', 'osspasswordsid']
+						['osspasswords_pk', 'osspasswordsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2087,10 +1849,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'osspasswordsid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['osspasswordscf_pk', 'osspasswordsid']
+						['osspasswordscf_pk', 'osspasswordsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2113,13 +1873,13 @@ class Base3 extends \App\Db\Importers\Base
 					'renewalinvoice' => $this->integer(),
 				],
 				'index' => [
-					['osssoldservices_parent_idx', 'parent_id'],
-					['osssoldservices_service_idx', 'serviceid'],
-					['osssoldservices_sales_idx', 'ssalesprocessesid'],
-					['osssoldservices_renew_idx', 'renewalinvoice'],
+						['osssoldservices_parent_idx', 'parent_id'],
+						['osssoldservices_service_idx', 'serviceid'],
+						['osssoldservices_sales_idx', 'ssalesprocessesid'],
+						['osssoldservices_renew_idx', 'renewalinvoice'],
 				],
 				'primaryKeys' => [
-					['osssoldservices_pk', 'osssoldservicesid']
+						['osssoldservices_pk', 'osssoldservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2132,8 +1892,6 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2141,10 +1899,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'osssoldservicesid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['osssoldservicescf_pk', 'osssoldservicesid']
+						['osssoldservicescf_pk', 'osssoldservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2167,15 +1923,15 @@ class Base3 extends \App\Db\Importers\Base
 					'subprocess' => $this->integer(),
 				],
 				'index' => [
-					['osstimecontrol_del_idx', 'deleted'],
-					['osstimecontrol_idx', ['osstimecontrol_status', 'deleted']],
-					['osstimecontrol_status_idx', 'osstimecontrol_status'],
-					['osstimecontrol_sub_idx', 'subprocess'],
-					['osstimecontrol_link_idx', 'link'],
-					['osstimecontrol_proc_idx', 'process'],
+						['osstimecontrol_del_idx', 'deleted'],
+						['osstimecontrol_idx', ['osstimecontrol_status', 'deleted']],
+						['osstimecontrol_status_idx', 'osstimecontrol_status'],
+						['osstimecontrol_sub_idx', 'subprocess'],
+						['osstimecontrol_link_idx', 'link'],
+						['osstimecontrol_proc_idx', 'process'],
 				],
 				'primaryKeys' => [
-					['osstimecontrol_pk', 'osstimecontrolid']
+						['osstimecontrol_pk', 'osstimecontrolid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2187,16 +1943,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_osstimecontrol_status_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2205,10 +1957,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'osstimecontrolid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['osstimecontrolcf_pk', 'osstimecontrolid']
+						['osstimecontrolcf_pk', 'osstimecontrolid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2220,16 +1970,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 					'presence' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_othereventduration_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2249,11 +1995,11 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(),
 				],
 				'index' => [
-					['parent_id', 'parent_id'],
-					['ssalesprocessesid', 'ssalesprocessesid'],
+						['parent_id', 'parent_id'],
+						['ssalesprocessesid', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-					['outsourcedproducts_pk', 'outsourcedproductsid']
+						['outsourcedproducts_pk', 'outsourcedproductsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2262,10 +2008,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'outsourcedproductsid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['outsourcedproductscf_pk', 'outsourcedproductsid']
+						['outsourcedproductscf_pk', 'outsourcedproductsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2274,8 +2018,6 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'type' => $this->stringType(20)->notNull(),
 					'val' => $this->stringType(100)->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2286,8 +2028,6 @@ class Base3 extends \App\Db\Importers\Base
 					'pass_length_max' => $this->integer(3)->notNull(),
 					'pass_allow_chars' => $this->stringType(200)->notNull(),
 					'register_changes' => $this->smallInteger(1)->defaultValue(0),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2304,10 +2044,8 @@ class Base3 extends \App\Db\Importers\Base
 					'paymentsin_status' => $this->stringType(128),
 					'relatedid' => $this->integer(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['paymentsin_pk', 'paymentsinid']
+						['paymentsin_pk', 'paymentsinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2320,16 +2058,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_paymentsin_status_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2338,10 +2072,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'paymentsinid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['paymentsincf_pk', 'paymentsinid']
+						['paymentsincf_pk', 'paymentsinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2359,10 +2091,8 @@ class Base3 extends \App\Db\Importers\Base
 					'relatedid' => $this->integer(),
 					'parentid' => $this->integer(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['paymentsout_pk', 'paymentsoutid']
+						['paymentsout_pk', 'paymentsoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2375,16 +2105,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_paymentsout_status_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2393,10 +2119,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'paymentsoutid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['paymentsoutcf_pk', 'paymentsoutid']
+						['paymentsoutcf_pk', 'paymentsoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2419,8 +2143,8 @@ class Base3 extends \App\Db\Importers\Base
 					'customertype' => $this->stringType(100),
 				],
 				'index' => [
-					['pbxmanager_sourceuuid_idx', 'sourceuuid'],
-					['pbxmanager_id_idx', 'pbxmanagerid'],
+						['pbxmanager_sourceuuid_idx', 'sourceuuid'],
+						['pbxmanager_id_idx', 'pbxmanagerid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2430,8 +2154,6 @@ class Base3 extends \App\Db\Importers\Base
 					'id' => $this->primaryKey(),
 					'gateway' => $this->stringType(20),
 					'parameters' => $this->text(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2445,8 +2167,8 @@ class Base3 extends \App\Db\Importers\Base
 					'fieldname' => $this->stringType(50),
 				],
 				'index' => [
-					['pbxmanager_phonelookup_unique_key_idx', ['crmid', 'setype', 'fieldname'], true],
-					['pbxmanager_phonelookup_phone_idx', ['fnumber', 'rnumber']],
+						['pbxmanager_phonelookup_unique_key_idx', ['crmid', 'setype', 'fieldname'], true],
+						['pbxmanager_phonelookup_phone_idx', ['fnumber', 'rnumber']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2455,10 +2177,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'pbxmanagerid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['pbxmanagercf_pk', 'pbxmanagerid']
+						['pbxmanagercf_pk', 'pbxmanagerid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2469,7 +2189,7 @@ class Base3 extends \App\Db\Importers\Base
 					'name' => $this->stringType(200)->notNull(),
 				],
 				'index' => [
-					['picklist_name_idx', 'name', true],
+						['picklist_name_idx', 'name', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2484,10 +2204,8 @@ class Base3 extends \App\Db\Importers\Base
 					'targetvalues' => $this->text(),
 					'criteria' => $this->text(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['picklist_dependency_pk', 'id']
+						['picklist_dependency_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2496,8 +2214,6 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -2505,16 +2221,12 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_picklistvalues_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2529,10 +2241,10 @@ class Base3 extends \App\Db\Importers\Base
 					'createdtime' => $this->dateTime(),
 				],
 				'index' => [
-					['portal_portalname_idx', 'portalname'],
+						['portal_portalname_idx', 'portalname'],
 				],
 				'primaryKeys' => [
-					['portal_pk', 'portalid']
+						['portal_pk', 'portalid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2550,10 +2262,8 @@ class Base3 extends \App\Db\Importers\Base
 					'crypt_type' => $this->stringType(20),
 					'password_sent' => $this->stringType()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['portalinfo_pk', 'id']
+						['portalinfo_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2566,10 +2276,8 @@ class Base3 extends \App\Db\Importers\Base
 					'active' => $this->integer(1),
 					'currency_id' => $this->integer()->notNull()->defaultValue(1),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['pricebook_pk', 'pricebookid']
+						['pricebook_pk', 'pricebookid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2578,10 +2286,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'pricebookid' => $this->integer()->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['pricebookcf_pk', 'pricebookid']
+						['pricebookcf_pk', 'pricebookid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2594,11 +2300,11 @@ class Base3 extends \App\Db\Importers\Base
 					'usedcurrency' => $this->integer()->notNull()->defaultValue(1),
 				],
 				'index' => [
-					['pricebookproductrel_pricebookid_idx', 'pricebookid'],
-					['pricebookproductrel_productid_idx', 'productid'],
+						['pricebookproductrel_pricebookid_idx', 'pricebookid'],
+						['pricebookproductrel_productid_idx', 'productid'],
 				],
 				'primaryKeys' => [
-					['pricebookproductrel_pk', ['pricebookid', 'productid']]
+						['pricebookproductrel_pk', ['pricebookid', 'productid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2611,7 +2317,7 @@ class Base3 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
-					['priority_priority_idx', 'priority', true],
+						['priority_priority_idx', 'priority', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2620,10 +2326,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'productid' => $this->integer()->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['productcf_pk', 'productid']
+						['productcf_pk', 'productid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2636,7 +2340,7 @@ class Base3 extends \App\Db\Importers\Base
 					'actual_price' => $this->decimal('28,8'),
 				],
 				'index' => [
-					['productcurrencyrel_idx', 'productid'],
+						['productcurrencyrel_idx', 'productid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2664,7 +2368,6 @@ class Base3 extends \App\Db\Importers\Base
 					'usageunit' => $this->stringType(200),
 					'reorderlevel' => $this->integer(),
 					'website' => $this->stringType(100),
-					'taxclass' => $this->stringType(200),
 					'mfr_part_no' => $this->stringType(200),
 					'vendor_part_no' => $this->stringType(200),
 					'serialno' => $this->stringType(200),
@@ -2682,23 +2385,8 @@ class Base3 extends \App\Db\Importers\Base
 					'pos' => $this->stringType()->defaultValue(''),
 					'category_multipicklist' => $this->text(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['products_pk', 'productid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_producttaxrel' => [
-				'columns' => [
-					'productid' => $this->integer()->notNull(),
-					'taxid' => $this->integer(3)->notNull(),
-					'taxpercentage' => $this->decimal('7,3'),
-				],
-				'index' => [
-					['producttaxrel_productid_idx', 'productid'],
-					['producttaxrel_taxid_idx', 'taxid'],
+						['products_pk', 'productid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2709,8 +2397,6 @@ class Base3 extends \App\Db\Importers\Base
 					'profilename' => $this->stringType(50)->notNull(),
 					'description' => $this->text(),
 					'directly_related_to_role' => $this->integer(1)->defaultValue(0),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2724,12 +2410,12 @@ class Base3 extends \App\Db\Importers\Base
 					'readonly' => $this->integer(),
 				],
 				'index' => [
-					['profile2field_profileid_tabid_fieldname_idx', ['profileid', 'tabid']],
-					['profile2field_tabid_profileid_idx', ['tabid', 'profileid']],
-					['profile2field_visible_profileid_idx', ['visible', 'profileid']],
+						['profile2field_profileid_tabid_fieldname_idx', ['profileid', 'tabid']],
+						['profile2field_tabid_profileid_idx', ['tabid', 'profileid']],
+						['profile2field_visible_profileid_idx', ['visible', 'profileid']],
 				],
 				'primaryKeys' => [
-					['profile2field_pk', ['profileid', 'fieldid']]
+						['profile2field_pk', ['profileid', 'fieldid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2741,10 +2427,10 @@ class Base3 extends \App\Db\Importers\Base
 					'globalactionpermission' => $this->integer(),
 				],
 				'index' => [
-					['profile2globalpermissions_idx', ['profileid', 'globalactionid']],
+						['profile2globalpermissions_idx', ['profileid', 'globalactionid']],
 				],
 				'primaryKeys' => [
-					['profile2globalpermissions_pk', ['profileid', 'globalactionid']]
+						['profile2globalpermissions_pk', ['profileid', 'globalactionid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2757,11 +2443,11 @@ class Base3 extends \App\Db\Importers\Base
 					'permissions' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'index' => [
-					['profile2standardpermissions_profileid_tabid_idx', ['profileid', 'tabid', 'operation']],
-					['profile2standardpermissions_profileid_idx', ['profileid', 'tabid']],
+						['profile2standardpermissions_profileid_tabid_idx', ['profileid', 'tabid', 'operation']],
+						['profile2standardpermissions_profileid_idx', ['profileid', 'tabid']],
 				],
 				'primaryKeys' => [
-					['profile2standardpermissions_pk', ['profileid', 'tabid', 'operation']]
+						['profile2standardpermissions_pk', ['profileid', 'tabid', 'operation']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2773,7 +2459,7 @@ class Base3 extends \App\Db\Importers\Base
 					'permissions' => $this->integer(10)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['profile2tab_tabid_idx', ['profileid', 'tabid']],
+						['profile2tab_tabid_idx', ['profileid', 'tabid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2786,11 +2472,11 @@ class Base3 extends \App\Db\Importers\Base
 					'permission' => $this->integer(1),
 				],
 				'index' => [
-					['profile2utility_tabid_idx', ['tabid', 'activityid']],
-					['profile2utility_profileid_idx', 'profileid'],
+						['profile2utility_tabid_idx', ['tabid', 'activityid']],
+						['profile2utility_profileid_idx', 'profileid'],
 				],
 				'primaryKeys' => [
-					['profile2utility_pk', ['profileid', 'tabid', 'activityid']]
+						['profile2utility_pk', ['profileid', 'tabid', 'activityid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2798,8 +2484,6 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_profile_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2812,16 +2496,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_progress_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2846,13 +2526,13 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(),
 				],
 				'index' => [
-					['project_service_idx', 'servicecontractsid'],
-					['project_link_idx', 'linktoaccountscontacts'],
-					['project_name_idx', 'projectname'],
-					['project_sales_idx', 'ssalesprocessesid'],
+						['project_service_idx', 'servicecontractsid'],
+						['project_link_idx', 'linktoaccountscontacts'],
+						['project_name_idx', 'projectname'],
+						['project_sales_idx', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-					['project_pk', 'projectid']
+						['project_pk', 'projectid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2861,10 +2541,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'projectid' => $this->integer()->notNull(),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['projectcf_pk', 'projectid']
+						['projectcf_pk', 'projectid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2882,10 +2560,10 @@ class Base3 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 				],
 				'index' => [
-					['projectid', 'projectid'],
+						['projectid', 'projectid'],
 				],
 				'primaryKeys' => [
-					['projectmilestone_pk', 'projectmilestoneid']
+						['projectmilestone_pk', 'projectmilestoneid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2898,16 +2576,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_projectmilestone_priority_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2916,10 +2590,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'projectmilestoneid' => $this->integer()->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['projectmilestonecf_pk', 'projectmilestoneid']
+						['projectmilestonecf_pk', 'projectmilestoneid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2932,16 +2604,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_projectmilestonetype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2954,16 +2622,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_projectpriority_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2977,16 +2641,12 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer()->defaultValue(0),
 					'color' => $this->stringType(25)->defaultValue('#E6FAD8'),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_projectstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3011,13 +2671,13 @@ class Base3 extends \App\Db\Importers\Base
 					'estimated_work_time' => $this->decimal('8,2'),
 				],
 				'index' => [
-					['projecttask_parentid_idx', 'parentid'],
-					['projecttask_projectmilestoneid_idx', 'projectmilestoneid'],
-					['projecttask_projectid_idx', 'projectid'],
-					['projecttask_projecttaskname_idx', 'projecttaskname'],
+						['projecttask_parentid_idx', 'parentid'],
+						['projecttask_projectmilestoneid_idx', 'projectmilestoneid'],
+						['projecttask_projectid_idx', 'projectid'],
+						['projecttask_projecttaskname_idx', 'projecttaskname'],
 				],
 				'primaryKeys' => [
-					['projecttask_pk', 'projecttaskid']
+						['projecttask_pk', 'projecttaskid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3026,10 +2686,8 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'projecttaskid' => $this->integer()->notNull()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'primaryKeys' => [
-					['projecttaskcf_pk', 'projecttaskid']
+						['projecttaskcf_pk', 'projecttaskid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3042,16 +2700,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_projecttaskpriority_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3064,16 +2718,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_projecttaskprogress_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3086,16 +2736,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_projecttaskstatus_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3108,16 +2754,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_projecttasktype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3130,16 +2772,12 @@ class Base3 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
 					'sortorderid' => $this->integer()->defaultValue(0),
 				],
-				'index' => [
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'vtiger_projecttype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3150,8 +2788,6 @@ class Base3 extends \App\Db\Importers\Base
 					'holidaydate' => $this->date()->notNull(),
 					'holidayname' => $this->stringType()->notNull(),
 					'holidaytype' => $this->stringType(25),
-				],
-				'index' => [
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3383,30 +3019,10 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 'Inventory', ''],
 				]
 			],
-			'vtiger_inventory_tandc_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[1],
-				]
-			],
 			'vtiger_inventoryproductrel_seq' => [
 				'columns' => ['id'],
 				'values' => [
 					[0],
-				]
-			],
-			'vtiger_inventorytaxinfo' => [
-				'columns' => ['taxid', 'taxname', 'taxlabel', 'percentage', 'deleted'],
-				'values' => [
-					[1, 'tax1', 'VAT', '23.000', 0],
-					[2, 'tax2', 'Sales', '8.000', 0],
-					[3, 'tax3', 'Service', '5.000', 0],
-				]
-			],
-			'vtiger_inventorytaxinfo_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[3],
 				]
 			],
 			'vtiger_ipreorder_status' => [
@@ -3791,12 +3407,13 @@ class Base3 extends \App\Db\Importers\Base
 					[305, 111, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_SENDER', 'index.php?module=Notification&view=ShowWidget&name=NotificationsBySender', '', 0, NULL, NULL, NULL, NULL],
 					[306, 3, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_RECIPIENT', 'index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient', '', 0, NULL, NULL, NULL, NULL],
 					[307, 111, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_RECIPIENT', 'index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient', '', 0, NULL, NULL, NULL, NULL],
+					[308, 3, 'DASHBOARDWIDGET', 'LBL_EXPIRING_SOLD_PRODUCTS', 'index.php?module=Assets&view=ShowWidget&name=ExpiringSoldProducts', '', 0, NULL, NULL, NULL, NULL],
 				]
 			],
 			'vtiger_links_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[307],
+					[308],
 				]
 			],
 			'vtiger_lout_dimensions' => [
@@ -4049,8 +3666,8 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_notification_type' => [
 				'columns' => ['notification_typeid', 'notification_type', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					[1, 'PLL_USERS', 1, 703, 1],
-					[2, 'PLL_SYSTEM', 1, 704, 2],
+					[1, 'PLL_USERS', 0, 703, 1],
+					[2, 'PLL_SYSTEM', 0, 704, 2],
 				]
 			],
 			'vtiger_oproductstatus' => [
@@ -4404,396 +4021,211 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => ['ossmailtemplatesid', 'name', 'sysname', 'oss_module_list', 'subject', 'content', 'ossmailtemplates_type'],
 				'values' => [
 					[35, 'Notify Owner On Ticket Change', '', 'HelpDesk', '#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
-
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
-
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_UPDATED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
-
-
 
 <hr /><h1><a href="%23s%23LinkToCRMRecord%23sEnd%23">#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
-
-
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
-
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
-
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
-
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
-
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
-
 <hr /> #b#171#bEnd#: #a#171#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[36, 'Notify Account On Ticket Change', '', 'HelpDesk', '#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
-
 <h3><span>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></span></h3>
-
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_UPDATED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
-
-
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
-
-
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
-
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
-
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
-
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
-
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
-
 <hr /> #b#171#bEnd#: #a#171#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[37, 'Notify Contact On Ticket Closed', 'NotifyContactOnTicketClosed', 'HelpDesk', '#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
-
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
-
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CLOSED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
-
-
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
-
-
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
-
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
-
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
-
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
-
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
-
 <hr /> #b#171#bEnd#: #a#171#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[38, 'Notify Account On Ticket Closed', '', 'HelpDesk', '#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
-
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
-
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CLOSED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
-
-
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
-
-
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
-
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
-
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
-
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
-
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
-
 <hr /> #b#171#bEnd#: #a#171#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[39, 'Notify Contact On Ticket Create', 'NotifyContactOnTicketCreate', 'HelpDesk', '#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
-
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
-
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# (#t#LBL_NOTICE_CREATED#tEnd# #a#168#aEnd#).
 
-
-
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
-
-
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
-
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
-
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
-
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
-
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[40, 'Notify Account On Ticket Create', '', 'HelpDesk', '#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
-
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
-
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CREATED#tEnd# #a#168#aEnd#).
-
-
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
-
-
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
-
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
-
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
-
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
-
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[41, 'Notify Contact On Ticket Change', 'NotifyContactOnTicketChange', 'HelpDesk', '#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
-
 <h3><span>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></span></h3>
-
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_UPDATED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
-
-
 
 <hr /><h1><a href="%23s%23LinkToPortalRecord%23sEnd%23">#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
-
-
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
-
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
-
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
-
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
-
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
-
 <hr /> #b#171#bEnd#: #a#171#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[42, 'Notify Owner On Ticket Closed', '', 'HelpDesk', '#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
-
 <h3><span>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></span></h3>
-
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CLOSED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
-
-
 
 <hr /><h1><a href="%23s%23LinkToCRMRecord%23sEnd%23">#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
-
-
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
-
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
-
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
-
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
-
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
-
 <hr /> #b#171#bEnd#: #a#171#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[43, 'Notify Owner On Ticket Create', '', 'HelpDesk', '#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#', '<div>
-
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
-
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CREATED#tEnd# #a#168#aEnd#).
-
-
 
 <hr /><h1><a href="%23s%23LinkToCRMRecord%23sEnd%23">#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#</a></h1>
 
-
-
 <ul><li>#b#161#bEnd#: #a#161#aEnd#</li>
-
 	<li>#b#158#bEnd#: #a#158#aEnd#</li>
-
 	<li>#b#156#bEnd#: #a#156#aEnd#</li>
-
 	<li>#b#157#bEnd#: #a#157#aEnd#</li>
-
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[44, 'Customer Portal Login Details', '', 'Contacts', 'Customer Portal Login Details', '<p>#s#LogoImage#sEnd# </p><p>Dear #a#67#aEnd#  #a#70#aEnd#</p><p>Created for your account in the customer portal, below sending data access.</p><p>Login: #a#80#aEnd#<br />Password: #s#ContactsPortalPass#sEnd#</p><p>Regards</p>', 'PLL_RECORD'],
 					[45, 'Send invitations', '', 'Events', '#a#267#aEnd#:  #a#255#aEnd#', '<table border="0" cellpadding="8" cellspacing="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;" summary=""><tbody><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
-
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>#a#255#aEnd#</span></h3>
-
 			</td>
-
 		</tr><tr><td>
-
 			<div style="padding:2px;">
-
 			<table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#257#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#257#aEnd# #a#258#aEnd#</td>
-
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#259#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#259#aEnd# #a#260#aEnd#</td>
-
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#264#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#264#aEnd#</td>
-
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#277#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#277#aEnd#</td>
-
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#267#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#267#aEnd#</td>
-
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#271#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#271#aEnd#</td>
-
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#268#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top"><span><span>#a#268#aEnd#</span><span dir="ltr"> (<a href="https://maps.google.pl/maps?q=%23a%23268%23aEnd%23" style="color:#20c;white-space:nowrap;">mapa</a>)</span></span></td>
-
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#265#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#265#aEnd#</td>
-
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#275#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#275#aEnd#</td>
-
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
-
 						<div><i style="font-style:normal;">#b#256#bEnd#</i></div>
-
 						</td>
-
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#256#aEnd#</td>
-
 					</tr></tbody></table></div>
-
 			</td>
-
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
-
 			<p>YetiForce CRM - Notification activities on the calendar</p>
-
 			</td>
-
 		</tr></tbody></table>', 'PLL_RECORD'],
 					[46, 'Send Notification Email to Record Owner', '', 'Calendar', 'Task :  #a#231#aEnd#', '#a#232#aEnd#<br /><br />Activity Notification Details:<br />Subject : #a#231#aEnd#<br />Start date and time : #a#233#aEnd# #a#234#aEnd#<br />End date and time : #a#235#aEnd# #a#236#aEnd#<br />Status : #a#239#aEnd#<br />Priority : #a#241#aEnd#<br />Related To : #a#237#aEnd#<br />Contacts List : #a#238#aEnd#<br />Location : #a#250#aEnd#<br />Description : #a#247#aEnd#', 'PLL_RECORD'],
 					[93, 'Activity Reminder Notification', 'ActivityReminderNotificationTask', 'Calendar', 'Reminder:  #a#231#aEnd#', 'This is a reminder notification for the Activity:<br />Subject: #a#231#aEnd#<br />Date & Time: #a#233#aEnd# #a#234#aEnd#<br /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Contact Name: </span>#a#238#aEnd#<br style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Related To: </span>#a#237#aEnd#<br style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Description: </span>#a#247#aEnd#', 'PLL_RECORD'],
 					[94, 'Activity Reminder Notification', 'ActivityReminderNotificationEvents', 'Events', 'Reminder: #a#255#aEnd#', '<span style="line-height:20.7999992370605px;">This is a reminder notification for the Activity:</span><br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Subject:</span>#a#255#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Date & Time: </span>#a#257#aEnd# #a#258#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Contact Name: </span>#a#277#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Related To: </span>#a#264#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Description: </span>#a#275#aEnd#', 'PLL_RECORD'],
 					[95, 'Test mail about the mail server configuration.', 'TestMailAboutTheMailServerConfiguration', 'Users', 'Test mail about the mail server configuration.', '<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Dear </span>#a#478#aEnd#&nbsp;#a#479#aEnd#<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">,&nbsp;</span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
-
 <br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
-
 <b style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured.&nbsp;</b><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
-
 <span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Feel free to delete this mail.&nbsp;<br />
-
 CRM&nbsp;</span>address:&nbsp;#s#LinkToCRMRecord#sEnd#<br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
-
 <br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
-
 <span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Thanks and Regards,</span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" />
-
 <span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Team YetiForce</span>', 'PLL_RECORD'],
 					[103, 'ForgotPassword', 'UsersForgotPassword', 'Users', 'Request: ForgotPassword', 'Dear user,<br /><br />\\r\\nYou recently requested a password reset for your YetiForce CRM.<br />\\r\\nTo create a new password, click on the link #s#LinkToForgotPassword#sEnd#.<br /><br />\\r\\nThis request was made on #s#CurrentDateTime#sEnd# and will expire in next 24 hours.<br /><br />\\r\\nRegards,<br />\\r\\nYetiForce CRM Support Team.', 'PLL_RECORD'],
 					[104, 'Customer Portal - ForgotPassword', 'YetiPortalForgotPassword', 'Contacts', 'Request: ForgotPassword', 'Dear #a#67#aEnd# #a#70#aEnd#,<br /><br />
-
 You recently requested a reminder of your access data for the YetiForce Portal.<br /><br />
-
 You can login by entering the following data:<br /><br />
-
 Your username: #a#80#aEnd#<br />
-
 Your password: #s#ContactsPortalPass#sEnd#<br /><br /><br />
-
 Regards,<br />
-
 YetiForce CRM Support Team.', 'PLL_RECORD'],
 					[105, 'Notify Owner On new comment added to ticket from portal', 'NewCommentAddedToTicketOwner', 'ModComments', '#t#LBL_ADDED_COMMENT_TO_TICKET#tEnd#', '<div>
-
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
-
 #t#LBL_NEW_COMMENT_FOR_TICKET#tEnd# (#t#LBL_NOTICE_CREATED#tEnd# #a#691#aEnd#).
 
-
-
 <hr /> #b#597#bEnd#: #a#597#aEnd#
-
 </div>', 'PLL_RECORD'],
 					[106, 'Notify Contact On New comment added to ticket', 'NewCommentAddedToTicketContact', 'ModComments', '#t#LBL_ADDED_COMMENT_TO_TICKET#tEnd#', '<div>
-
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
-
 #t#LBL_NEW_COMMENT_FOR_TICKET#tEnd# (#t#LBL_NOTICE_CREATED#tEnd# #a#745#aEnd#).
 
-
-
 <hr /> #b#597#bEnd#: #a#597#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[107, 'Security risk has been detected - Brute Force', 'BruteForceSecurityRiskHasBeenDetected', 'Contacts', 'Security risk has been detected', '<span class="value">Dear user,<br />
-
 Failed login attempts have been detected. </span>', 'PLL_MODULE'],
 					[108, 'Backup has been made', 'BackupHasBeenMade', 'Contacts', 'Backup has been made notification', 'Dear User,<br />
-
 Backup has been made.', 'PLL_MODULE'],
 					[109, 'Notify Account On New comment added to ticket', 'NewCommentAddedToTicketAccount', 'ModComments', '#t#LBL_ADDED_COMMENT_TO_TICKET#tEnd#', '<div>
-
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
-
 #t#LBL_NEW_COMMENT_FOR_TICKET#tEnd# (#t#LBL_NOTICE_CREATED#tEnd# #a#745#aEnd#).
 
-
-
 <hr /> #b#597#bEnd#: #a#597#aEnd#
-
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>', 'PLL_RECORD'],
 					[110, 'Send notifications', 'SendNotificationsViaMail', 'System', 'Notifications #s#CurrentDate#sEnd#', '#s#Notifications#sEnd#', 'PLL_MODULE'],
 				]
@@ -5196,7 +4628,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 14, 192, 0, 0],
 					[1, 14, 193, 0, 0],
 					[1, 14, 194, 0, 0],
-					[1, 14, 195, 0, 0],
 					[1, 14, 196, 0, 0],
 					[1, 14, 197, 0, 0],
 					[1, 14, 198, 0, 0],
@@ -5308,9 +4739,12 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 19, 311, 0, 0],
 					[1, 19, 312, 0, 0],
 					[1, 29, 474, 0, 0],
+					[1, 29, 475, 0, 0],
 					[1, 29, 478, 0, 0],
 					[1, 29, 479, 0, 0],
+					[1, 29, 480, 0, 0],
 					[1, 29, 481, 0, 0],
+					[1, 29, 482, 0, 0],
 					[1, 29, 513, 0, 0],
 					[1, 10, 518, 0, 0],
 					[1, 10, 519, 0, 0],
@@ -5370,7 +4804,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 35, 573, 0, 0],
 					[1, 35, 574, 0, 0],
 					[1, 35, 575, 0, 0],
-					[1, 35, 576, 0, 0],
 					[1, 35, 577, 0, 0],
 					[1, 35, 578, 0, 0],
 					[1, 37, 579, 0, 0],
@@ -6578,6 +6011,70 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 6, 2401, 0, 0],
 					[1, 95, 2402, 0, 0],
 					[1, 95, 2403, 0, 0],
+					[1, 86, 2404, 0, 0],
+					[1, 6, 2405, 0, 0],
+					[1, 4, 2406, 0, 0],
+					[1, 7, 2407, 0, 0],
+					[1, 18, 2408, 0, 0],
+					[1, 14, 2409, 0, 0],
+					[1, 86, 2410, 0, 0],
+					[1, 97, 2411, 0, 0],
+					[1, 26, 2412, 0, 0],
+					[1, 16, 2413, 0, 0],
+					[1, 13, 2414, 0, 0],
+					[1, 105, 2415, 0, 0],
+					[1, 35, 2416, 0, 0],
+					[1, 106, 2417, 0, 0],
+					[1, 98, 2418, 0, 0],
+					[1, 54, 2419, 0, 0],
+					[1, 108, 2420, 0, 0],
+					[1, 100, 2421, 0, 0],
+					[1, 109, 2422, 0, 0],
+					[1, 9, 2423, 0, 0],
+					[1, 43, 2424, 0, 0],
+					[1, 101, 2425, 0, 0],
+					[1, 102, 2426, 0, 0],
+					[1, 37, 2427, 0, 0],
+					[1, 61, 2428, 0, 0],
+					[1, 103, 2429, 0, 0],
+					[1, 15, 2430, 0, 0],
+					[1, 74, 2431, 0, 0],
+					[1, 104, 2432, 0, 0],
+					[1, 34, 2433, 0, 0],
+					[1, 59, 2434, 0, 0],
+					[1, 51, 2435, 0, 0],
+					[1, 19, 2436, 0, 0],
+					[1, 41, 2437, 0, 0],
+					[1, 8, 2438, 0, 0],
+					[1, 58, 2439, 0, 0],
+					[1, 84, 2440, 0, 0],
+					[1, 60, 2441, 0, 0],
+					[1, 57, 2442, 0, 0],
+					[1, 83, 2443, 0, 0],
+					[1, 42, 2444, 0, 0],
+					[1, 75, 2445, 0, 0],
+					[1, 78, 2446, 0, 0],
+					[1, 79, 2447, 0, 0],
+					[1, 80, 2448, 0, 0],
+					[1, 81, 2449, 0, 0],
+					[1, 107, 2450, 0, 0],
+					[1, 82, 2451, 0, 0],
+					[1, 99, 2452, 0, 0],
+					[1, 94, 2453, 0, 0],
+					[1, 95, 2454, 0, 0],
+					[1, 96, 2455, 0, 0],
+					[1, 111, 2456, 0, 0],
+					[1, 49, 2457, 0, 0],
+					[1, 85, 2458, 0, 0],
+					[1, 87, 2459, 0, 0],
+					[1, 89, 2460, 0, 0],
+					[1, 91, 2461, 0, 0],
+					[1, 93, 2462, 0, 0],
+					[1, 88, 2463, 0, 0],
+					[1, 90, 2464, 0, 0],
+					[1, 92, 2465, 0, 0],
+					[1, 33, 2466, 0, 0],
+					[1, 35, 2467, 0, 0],
 					[2, 6, 1, 0, 0],
 					[2, 6, 2, 0, 0],
 					[2, 6, 3, 0, 0],
@@ -6706,7 +6203,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 14, 192, 0, 0],
 					[2, 14, 193, 0, 0],
 					[2, 14, 194, 0, 0],
-					[2, 14, 195, 0, 0],
 					[2, 14, 196, 0, 0],
 					[2, 14, 197, 0, 0],
 					[2, 14, 198, 0, 0],
@@ -6818,9 +6314,12 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 19, 311, 0, 0],
 					[2, 19, 312, 0, 0],
 					[2, 29, 474, 0, 0],
+					[2, 29, 475, 0, 0],
 					[2, 29, 478, 0, 0],
 					[2, 29, 479, 0, 0],
+					[2, 29, 480, 0, 0],
 					[2, 29, 481, 0, 0],
+					[2, 29, 482, 0, 0],
 					[2, 29, 513, 0, 0],
 					[2, 10, 518, 0, 0],
 					[2, 10, 519, 0, 0],
@@ -6880,7 +6379,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 35, 573, 0, 0],
 					[2, 35, 574, 0, 0],
 					[2, 35, 575, 0, 0],
-					[2, 35, 576, 0, 0],
 					[2, 35, 577, 0, 0],
 					[2, 35, 578, 0, 0],
 					[2, 37, 579, 0, 0],
@@ -8088,6 +7586,70 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 6, 2401, 0, 0],
 					[2, 95, 2402, 0, 0],
 					[2, 95, 2403, 0, 0],
+					[2, 86, 2404, 0, 0],
+					[2, 6, 2405, 0, 0],
+					[2, 4, 2406, 0, 0],
+					[2, 7, 2407, 0, 0],
+					[2, 18, 2408, 0, 0],
+					[2, 14, 2409, 0, 0],
+					[2, 86, 2410, 0, 0],
+					[2, 97, 2411, 0, 0],
+					[2, 26, 2412, 0, 0],
+					[2, 16, 2413, 0, 0],
+					[2, 13, 2414, 0, 0],
+					[2, 105, 2415, 0, 0],
+					[2, 35, 2416, 0, 0],
+					[2, 106, 2417, 0, 0],
+					[2, 98, 2418, 0, 0],
+					[2, 54, 2419, 0, 0],
+					[2, 108, 2420, 0, 0],
+					[2, 100, 2421, 0, 0],
+					[2, 109, 2422, 0, 0],
+					[2, 9, 2423, 0, 0],
+					[2, 43, 2424, 0, 0],
+					[2, 101, 2425, 0, 0],
+					[2, 102, 2426, 0, 0],
+					[2, 37, 2427, 0, 0],
+					[2, 61, 2428, 0, 0],
+					[2, 103, 2429, 0, 0],
+					[2, 15, 2430, 0, 0],
+					[2, 74, 2431, 0, 0],
+					[2, 104, 2432, 0, 0],
+					[2, 34, 2433, 0, 0],
+					[2, 59, 2434, 0, 0],
+					[2, 51, 2435, 0, 0],
+					[2, 19, 2436, 0, 0],
+					[2, 41, 2437, 0, 0],
+					[2, 8, 2438, 0, 0],
+					[2, 58, 2439, 0, 0],
+					[2, 84, 2440, 0, 0],
+					[2, 60, 2441, 0, 0],
+					[2, 57, 2442, 0, 0],
+					[2, 83, 2443, 0, 0],
+					[2, 42, 2444, 0, 0],
+					[2, 75, 2445, 0, 0],
+					[2, 78, 2446, 0, 0],
+					[2, 79, 2447, 0, 0],
+					[2, 80, 2448, 0, 0],
+					[2, 81, 2449, 0, 0],
+					[2, 107, 2450, 0, 0],
+					[2, 82, 2451, 0, 0],
+					[2, 99, 2452, 0, 0],
+					[2, 94, 2453, 0, 0],
+					[2, 95, 2454, 0, 0],
+					[2, 96, 2455, 0, 0],
+					[2, 111, 2456, 0, 0],
+					[2, 49, 2457, 0, 0],
+					[2, 85, 2458, 0, 0],
+					[2, 87, 2459, 0, 0],
+					[2, 89, 2460, 0, 0],
+					[2, 91, 2461, 0, 0],
+					[2, 93, 2462, 0, 0],
+					[2, 88, 2463, 0, 0],
+					[2, 90, 2464, 0, 0],
+					[2, 92, 2465, 0, 0],
+					[2, 33, 2466, 0, 0],
+					[2, 35, 2467, 0, 0],
 					[3, 6, 1, 0, 0],
 					[3, 6, 2, 0, 0],
 					[3, 6, 3, 0, 0],
@@ -8216,7 +7778,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 14, 192, 0, 0],
 					[3, 14, 193, 0, 0],
 					[3, 14, 194, 0, 0],
-					[3, 14, 195, 0, 0],
 					[3, 14, 196, 0, 0],
 					[3, 14, 197, 0, 0],
 					[3, 14, 198, 0, 0],
@@ -8328,9 +7889,12 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 19, 311, 0, 0],
 					[3, 19, 312, 0, 0],
 					[3, 29, 474, 0, 0],
+					[3, 29, 475, 0, 0],
 					[3, 29, 478, 0, 0],
 					[3, 29, 479, 0, 0],
+					[3, 29, 480, 0, 0],
 					[3, 29, 481, 0, 0],
+					[3, 29, 482, 0, 0],
 					[3, 29, 513, 0, 0],
 					[3, 10, 518, 0, 0],
 					[3, 10, 519, 0, 0],
@@ -8390,7 +7954,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 35, 573, 0, 0],
 					[3, 35, 574, 0, 0],
 					[3, 35, 575, 0, 0],
-					[3, 35, 576, 0, 0],
 					[3, 35, 577, 0, 0],
 					[3, 35, 578, 0, 0],
 					[3, 37, 579, 0, 0],
@@ -9598,6 +9161,70 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 6, 2401, 0, 0],
 					[3, 95, 2402, 0, 0],
 					[3, 95, 2403, 0, 0],
+					[3, 86, 2404, 0, 0],
+					[3, 6, 2405, 0, 0],
+					[3, 4, 2406, 0, 0],
+					[3, 7, 2407, 0, 0],
+					[3, 18, 2408, 0, 0],
+					[3, 14, 2409, 0, 0],
+					[3, 86, 2410, 0, 0],
+					[3, 97, 2411, 0, 0],
+					[3, 26, 2412, 0, 0],
+					[3, 16, 2413, 0, 0],
+					[3, 13, 2414, 0, 0],
+					[3, 105, 2415, 0, 0],
+					[3, 35, 2416, 0, 0],
+					[3, 106, 2417, 0, 0],
+					[3, 98, 2418, 0, 0],
+					[3, 54, 2419, 0, 0],
+					[3, 108, 2420, 0, 0],
+					[3, 100, 2421, 0, 0],
+					[3, 109, 2422, 0, 0],
+					[3, 9, 2423, 0, 0],
+					[3, 43, 2424, 0, 0],
+					[3, 101, 2425, 0, 0],
+					[3, 102, 2426, 0, 0],
+					[3, 37, 2427, 0, 0],
+					[3, 61, 2428, 0, 0],
+					[3, 103, 2429, 0, 0],
+					[3, 15, 2430, 0, 0],
+					[3, 74, 2431, 0, 0],
+					[3, 104, 2432, 0, 0],
+					[3, 34, 2433, 0, 0],
+					[3, 59, 2434, 0, 0],
+					[3, 51, 2435, 0, 0],
+					[3, 19, 2436, 0, 0],
+					[3, 41, 2437, 0, 0],
+					[3, 8, 2438, 0, 0],
+					[3, 58, 2439, 0, 0],
+					[3, 84, 2440, 0, 0],
+					[3, 60, 2441, 0, 0],
+					[3, 57, 2442, 0, 0],
+					[3, 83, 2443, 0, 0],
+					[3, 42, 2444, 0, 0],
+					[3, 75, 2445, 0, 0],
+					[3, 78, 2446, 0, 0],
+					[3, 79, 2447, 0, 0],
+					[3, 80, 2448, 0, 0],
+					[3, 81, 2449, 0, 0],
+					[3, 107, 2450, 0, 0],
+					[3, 82, 2451, 0, 0],
+					[3, 99, 2452, 0, 0],
+					[3, 94, 2453, 0, 0],
+					[3, 95, 2454, 0, 0],
+					[3, 96, 2455, 0, 0],
+					[3, 111, 2456, 0, 0],
+					[3, 49, 2457, 0, 0],
+					[3, 85, 2458, 0, 0],
+					[3, 87, 2459, 0, 0],
+					[3, 89, 2460, 0, 0],
+					[3, 91, 2461, 0, 0],
+					[3, 93, 2462, 0, 0],
+					[3, 88, 2463, 0, 0],
+					[3, 90, 2464, 0, 0],
+					[3, 92, 2465, 0, 0],
+					[3, 33, 2466, 0, 0],
+					[3, 35, 2467, 0, 0],
 					[4, 6, 1, 0, 0],
 					[4, 6, 2, 0, 0],
 					[4, 6, 3, 0, 0],
@@ -9726,7 +9353,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 14, 192, 0, 0],
 					[4, 14, 193, 0, 0],
 					[4, 14, 194, 0, 0],
-					[4, 14, 195, 0, 0],
 					[4, 14, 196, 0, 0],
 					[4, 14, 197, 0, 0],
 					[4, 14, 198, 0, 0],
@@ -9838,9 +9464,12 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 19, 311, 0, 0],
 					[4, 19, 312, 0, 0],
 					[4, 29, 474, 0, 0],
+					[4, 29, 475, 0, 0],
 					[4, 29, 478, 0, 0],
 					[4, 29, 479, 0, 0],
+					[4, 29, 480, 0, 0],
 					[4, 29, 481, 0, 0],
+					[4, 29, 482, 0, 0],
 					[4, 29, 513, 0, 0],
 					[4, 10, 518, 0, 0],
 					[4, 10, 519, 0, 0],
@@ -9900,7 +9529,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 35, 573, 0, 0],
 					[4, 35, 574, 0, 0],
 					[4, 35, 575, 0, 0],
-					[4, 35, 576, 0, 0],
 					[4, 35, 577, 0, 0],
 					[4, 35, 578, 0, 0],
 					[4, 37, 579, 0, 0],
@@ -11108,6 +10736,70 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 6, 2401, 0, 0],
 					[4, 95, 2402, 0, 0],
 					[4, 95, 2403, 0, 0],
+					[4, 86, 2404, 0, 0],
+					[4, 6, 2405, 0, 0],
+					[4, 4, 2406, 0, 0],
+					[4, 7, 2407, 0, 0],
+					[4, 18, 2408, 0, 0],
+					[4, 14, 2409, 0, 0],
+					[4, 86, 2410, 0, 0],
+					[4, 97, 2411, 0, 0],
+					[4, 26, 2412, 0, 0],
+					[4, 16, 2413, 0, 0],
+					[4, 13, 2414, 0, 0],
+					[4, 105, 2415, 0, 0],
+					[4, 35, 2416, 0, 0],
+					[4, 106, 2417, 0, 0],
+					[4, 98, 2418, 0, 0],
+					[4, 54, 2419, 0, 0],
+					[4, 108, 2420, 0, 0],
+					[4, 100, 2421, 0, 0],
+					[4, 109, 2422, 0, 0],
+					[4, 9, 2423, 0, 0],
+					[4, 43, 2424, 0, 0],
+					[4, 101, 2425, 0, 0],
+					[4, 102, 2426, 0, 0],
+					[4, 37, 2427, 0, 0],
+					[4, 61, 2428, 0, 0],
+					[4, 103, 2429, 0, 0],
+					[4, 15, 2430, 0, 0],
+					[4, 74, 2431, 0, 0],
+					[4, 104, 2432, 0, 0],
+					[4, 34, 2433, 0, 0],
+					[4, 59, 2434, 0, 0],
+					[4, 51, 2435, 0, 0],
+					[4, 19, 2436, 0, 0],
+					[4, 41, 2437, 0, 0],
+					[4, 8, 2438, 0, 0],
+					[4, 58, 2439, 0, 0],
+					[4, 84, 2440, 0, 0],
+					[4, 60, 2441, 0, 0],
+					[4, 57, 2442, 0, 0],
+					[4, 83, 2443, 0, 0],
+					[4, 42, 2444, 0, 0],
+					[4, 75, 2445, 0, 0],
+					[4, 78, 2446, 0, 0],
+					[4, 79, 2447, 0, 0],
+					[4, 80, 2448, 0, 0],
+					[4, 81, 2449, 0, 0],
+					[4, 107, 2450, 0, 0],
+					[4, 82, 2451, 0, 0],
+					[4, 99, 2452, 0, 0],
+					[4, 94, 2453, 0, 0],
+					[4, 95, 2454, 0, 0],
+					[4, 96, 2455, 0, 0],
+					[4, 111, 2456, 0, 0],
+					[4, 49, 2457, 0, 0],
+					[4, 85, 2458, 0, 0],
+					[4, 87, 2459, 0, 0],
+					[4, 89, 2460, 0, 0],
+					[4, 91, 2461, 0, 0],
+					[4, 93, 2462, 0, 0],
+					[4, 88, 2463, 0, 0],
+					[4, 90, 2464, 0, 0],
+					[4, 92, 2465, 0, 0],
+					[4, 33, 2466, 0, 0],
+					[4, 35, 2467, 0, 0],
 				]
 			],
 			'vtiger_profile2globalpermissions' => [
@@ -13045,7 +12737,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 4, 26, 0],
 					[1, 4, 27, 0],
 					[1, 4, 28, 0],
-					[1, 4, 29, 0],
 					[1, 4, 30, 0],
 					[1, 4, 34, 0],
 					[1, 4, 36, 0],
@@ -13073,7 +12764,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 6, 26, 0],
 					[1, 6, 27, 0],
 					[1, 6, 28, 0],
-					[1, 6, 29, 0],
 					[1, 6, 30, 0],
 					[1, 6, 34, 0],
 					[1, 6, 36, 0],
@@ -13102,7 +12792,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 7, 26, 0],
 					[1, 7, 27, 0],
 					[1, 7, 28, 0],
-					[1, 7, 29, 0],
 					[1, 7, 30, 0],
 					[1, 7, 34, 0],
 					[1, 7, 36, 0],
@@ -13126,7 +12815,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 8, 26, 0],
 					[1, 8, 27, 0],
 					[1, 8, 28, 0],
-					[1, 8, 29, 0],
 					[1, 8, 30, 0],
 					[1, 8, 34, 0],
 					[1, 8, 36, 0],
@@ -13150,7 +12838,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 9, 26, 0],
 					[1, 9, 27, 0],
 					[1, 9, 28, 0],
-					[1, 9, 29, 0],
 					[1, 9, 30, 0],
 					[1, 9, 31, 0],
 					[1, 9, 32, 0],
@@ -13177,7 +12864,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 13, 26, 0],
 					[1, 13, 27, 0],
 					[1, 13, 28, 0],
-					[1, 13, 29, 0],
 					[1, 13, 30, 0],
 					[1, 13, 34, 0],
 					[1, 13, 36, 0],
@@ -13202,7 +12888,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 14, 26, 0],
 					[1, 14, 27, 0],
 					[1, 14, 28, 0],
-					[1, 14, 29, 0],
 					[1, 14, 30, 0],
 					[1, 14, 34, 0],
 					[1, 14, 36, 0],
@@ -13224,7 +12909,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 15, 26, 0],
 					[1, 15, 27, 0],
 					[1, 15, 28, 0],
-					[1, 15, 29, 0],
 					[1, 15, 30, 0],
 					[1, 15, 34, 0],
 					[1, 15, 36, 0],
@@ -13254,7 +12938,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 18, 26, 0],
 					[1, 18, 27, 0],
 					[1, 18, 28, 0],
-					[1, 18, 29, 0],
 					[1, 18, 30, 0],
 					[1, 18, 34, 0],
 					[1, 18, 36, 0],
@@ -13278,7 +12961,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 19, 26, 0],
 					[1, 19, 27, 0],
 					[1, 19, 28, 0],
-					[1, 19, 29, 0],
 					[1, 19, 30, 0],
 					[1, 19, 34, 0],
 					[1, 19, 36, 0],
@@ -13302,7 +12984,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 26, 26, 0],
 					[1, 26, 27, 0],
 					[1, 26, 28, 0],
-					[1, 26, 29, 0],
 					[1, 26, 30, 0],
 					[1, 26, 34, 0],
 					[1, 26, 36, 0],
@@ -13330,7 +13011,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 34, 26, 0],
 					[1, 34, 27, 0],
 					[1, 34, 28, 0],
-					[1, 34, 29, 0],
 					[1, 34, 30, 0],
 					[1, 34, 34, 0],
 					[1, 34, 36, 0],
@@ -13355,7 +13035,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 35, 26, 0],
 					[1, 35, 27, 0],
 					[1, 35, 28, 0],
-					[1, 35, 29, 0],
 					[1, 35, 30, 0],
 					[1, 35, 34, 0],
 					[1, 35, 36, 0],
@@ -13380,7 +13059,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 37, 26, 0],
 					[1, 37, 27, 0],
 					[1, 37, 28, 0],
-					[1, 37, 29, 0],
 					[1, 37, 30, 0],
 					[1, 37, 34, 0],
 					[1, 37, 36, 0],
@@ -13409,7 +13087,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 41, 26, 0],
 					[1, 41, 27, 0],
 					[1, 41, 28, 0],
-					[1, 41, 29, 0],
 					[1, 41, 30, 0],
 					[1, 41, 34, 0],
 					[1, 41, 36, 0],
@@ -13434,7 +13111,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 42, 26, 0],
 					[1, 42, 27, 0],
 					[1, 42, 28, 0],
-					[1, 42, 29, 0],
 					[1, 42, 30, 0],
 					[1, 42, 34, 0],
 					[1, 42, 36, 0],
@@ -13459,7 +13135,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 43, 26, 0],
 					[1, 43, 27, 0],
 					[1, 43, 28, 0],
-					[1, 43, 29, 0],
 					[1, 43, 30, 0],
 					[1, 43, 34, 0],
 					[1, 43, 36, 0],
@@ -13485,7 +13160,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 49, 26, 0],
 					[1, 49, 27, 0],
 					[1, 49, 28, 0],
-					[1, 49, 29, 0],
 					[1, 49, 30, 0],
 					[1, 49, 34, 0],
 					[1, 49, 40, 0],
@@ -13509,7 +13183,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 51, 26, 0],
 					[1, 51, 27, 0],
 					[1, 51, 28, 0],
-					[1, 51, 29, 0],
 					[1, 51, 30, 0],
 					[1, 51, 34, 0],
 					[1, 51, 36, 0],
@@ -13553,7 +13226,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 57, 26, 0],
 					[1, 57, 27, 0],
 					[1, 57, 28, 0],
-					[1, 57, 29, 0],
 					[1, 57, 30, 0],
 					[1, 57, 34, 0],
 					[1, 57, 36, 0],
@@ -13578,7 +13250,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 58, 26, 0],
 					[1, 58, 27, 0],
 					[1, 58, 28, 0],
-					[1, 58, 29, 0],
 					[1, 58, 30, 0],
 					[1, 58, 34, 0],
 					[1, 58, 36, 0],
@@ -13604,7 +13275,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 59, 26, 0],
 					[1, 59, 27, 0],
 					[1, 59, 28, 0],
-					[1, 59, 29, 0],
 					[1, 59, 30, 0],
 					[1, 59, 34, 0],
 					[1, 59, 36, 0],
@@ -13629,7 +13299,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 60, 26, 0],
 					[1, 60, 27, 0],
 					[1, 60, 28, 0],
-					[1, 60, 29, 0],
 					[1, 60, 30, 0],
 					[1, 60, 34, 0],
 					[1, 60, 36, 0],
@@ -13654,7 +13323,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 61, 26, 0],
 					[1, 61, 27, 0],
 					[1, 61, 28, 0],
-					[1, 61, 29, 0],
 					[1, 61, 30, 0],
 					[1, 61, 34, 0],
 					[1, 61, 36, 0],
@@ -13694,7 +13362,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 75, 26, 0],
 					[1, 75, 27, 0],
 					[1, 75, 28, 0],
-					[1, 75, 29, 0],
 					[1, 75, 30, 0],
 					[1, 75, 34, 0],
 					[1, 75, 36, 0],
@@ -13718,7 +13385,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 78, 26, 0],
 					[1, 78, 27, 0],
 					[1, 78, 28, 0],
-					[1, 78, 29, 0],
 					[1, 78, 30, 0],
 					[1, 78, 34, 0],
 					[1, 78, 36, 0],
@@ -13742,7 +13408,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 79, 26, 0],
 					[1, 79, 27, 0],
 					[1, 79, 28, 0],
-					[1, 79, 29, 0],
 					[1, 79, 30, 0],
 					[1, 79, 34, 0],
 					[1, 79, 36, 0],
@@ -13766,7 +13431,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 80, 26, 0],
 					[1, 80, 27, 0],
 					[1, 80, 28, 0],
-					[1, 80, 29, 0],
 					[1, 80, 30, 0],
 					[1, 80, 34, 0],
 					[1, 80, 36, 0],
@@ -13790,7 +13454,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 81, 26, 0],
 					[1, 81, 27, 0],
 					[1, 81, 28, 0],
-					[1, 81, 29, 0],
 					[1, 81, 30, 0],
 					[1, 81, 34, 0],
 					[1, 81, 36, 0],
@@ -13814,7 +13477,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 82, 26, 0],
 					[1, 82, 27, 0],
 					[1, 82, 28, 0],
-					[1, 82, 29, 0],
 					[1, 82, 30, 0],
 					[1, 82, 34, 0],
 					[1, 82, 36, 0],
@@ -13838,7 +13500,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 83, 26, 0],
 					[1, 83, 27, 0],
 					[1, 83, 28, 0],
-					[1, 83, 29, 0],
 					[1, 83, 30, 0],
 					[1, 83, 34, 0],
 					[1, 83, 36, 0],
@@ -13863,7 +13524,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 84, 26, 0],
 					[1, 84, 27, 0],
 					[1, 84, 28, 0],
-					[1, 84, 29, 0],
 					[1, 84, 30, 0],
 					[1, 84, 34, 0],
 					[1, 84, 36, 0],
@@ -13887,7 +13547,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 85, 26, 0],
 					[1, 85, 27, 0],
 					[1, 85, 28, 0],
-					[1, 85, 29, 0],
 					[1, 85, 30, 0],
 					[1, 85, 34, 0],
 					[1, 85, 36, 0],
@@ -13913,7 +13572,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 86, 26, 0],
 					[1, 86, 27, 0],
 					[1, 86, 28, 0],
-					[1, 86, 29, 0],
 					[1, 86, 30, 0],
 					[1, 86, 34, 0],
 					[1, 86, 36, 0],
@@ -13937,7 +13595,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 87, 26, 0],
 					[1, 87, 27, 0],
 					[1, 87, 28, 0],
-					[1, 87, 29, 0],
 					[1, 87, 30, 0],
 					[1, 87, 34, 0],
 					[1, 87, 36, 0],
@@ -13963,7 +13620,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 88, 26, 0],
 					[1, 88, 27, 0],
 					[1, 88, 28, 0],
-					[1, 88, 29, 0],
 					[1, 88, 30, 0],
 					[1, 88, 34, 0],
 					[1, 88, 36, 0],
@@ -13989,7 +13645,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 89, 26, 0],
 					[1, 89, 27, 0],
 					[1, 89, 28, 0],
-					[1, 89, 29, 0],
 					[1, 89, 30, 0],
 					[1, 89, 34, 0],
 					[1, 89, 36, 0],
@@ -14015,7 +13670,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 90, 26, 0],
 					[1, 90, 27, 0],
 					[1, 90, 28, 0],
-					[1, 90, 29, 0],
 					[1, 90, 30, 0],
 					[1, 90, 34, 0],
 					[1, 90, 36, 0],
@@ -14041,7 +13695,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 91, 26, 0],
 					[1, 91, 27, 0],
 					[1, 91, 28, 0],
-					[1, 91, 29, 0],
 					[1, 91, 30, 0],
 					[1, 91, 34, 0],
 					[1, 91, 36, 0],
@@ -14067,7 +13720,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 92, 26, 0],
 					[1, 92, 27, 0],
 					[1, 92, 28, 0],
-					[1, 92, 29, 0],
 					[1, 92, 30, 0],
 					[1, 92, 34, 0],
 					[1, 92, 36, 0],
@@ -14091,7 +13743,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 93, 26, 0],
 					[1, 93, 27, 0],
 					[1, 93, 28, 0],
-					[1, 93, 29, 0],
 					[1, 93, 30, 0],
 					[1, 93, 34, 0],
 					[1, 93, 36, 0],
@@ -14318,7 +13969,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[1, 111, 26, 0],
 					[1, 111, 27, 0],
 					[1, 111, 28, 0],
-					[1, 111, 29, 0],
 					[1, 111, 30, 0],
 					[1, 111, 34, 0],
 					[1, 111, 36, 0],
@@ -14348,7 +13998,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 4, 26, 0],
 					[2, 4, 27, 0],
 					[2, 4, 28, 0],
-					[2, 4, 29, 0],
 					[2, 4, 30, 0],
 					[2, 4, 34, 0],
 					[2, 4, 36, 0],
@@ -14376,7 +14025,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 6, 26, 0],
 					[2, 6, 27, 0],
 					[2, 6, 28, 0],
-					[2, 6, 29, 0],
 					[2, 6, 30, 0],
 					[2, 6, 34, 0],
 					[2, 6, 36, 0],
@@ -14405,7 +14053,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 7, 26, 0],
 					[2, 7, 27, 0],
 					[2, 7, 28, 0],
-					[2, 7, 29, 0],
 					[2, 7, 30, 0],
 					[2, 7, 34, 0],
 					[2, 7, 36, 0],
@@ -14429,7 +14076,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 8, 26, 0],
 					[2, 8, 27, 0],
 					[2, 8, 28, 0],
-					[2, 8, 29, 0],
 					[2, 8, 30, 0],
 					[2, 8, 34, 0],
 					[2, 8, 36, 0],
@@ -14453,7 +14099,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 9, 26, 0],
 					[2, 9, 27, 0],
 					[2, 9, 28, 0],
-					[2, 9, 29, 0],
 					[2, 9, 30, 0],
 					[2, 9, 31, 0],
 					[2, 9, 32, 0],
@@ -14480,7 +14125,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 13, 26, 0],
 					[2, 13, 27, 0],
 					[2, 13, 28, 0],
-					[2, 13, 29, 0],
 					[2, 13, 30, 0],
 					[2, 13, 34, 0],
 					[2, 13, 36, 0],
@@ -14505,7 +14149,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 14, 26, 0],
 					[2, 14, 27, 0],
 					[2, 14, 28, 0],
-					[2, 14, 29, 0],
 					[2, 14, 30, 0],
 					[2, 14, 34, 0],
 					[2, 14, 36, 0],
@@ -14527,7 +14170,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 15, 26, 0],
 					[2, 15, 27, 0],
 					[2, 15, 28, 0],
-					[2, 15, 29, 0],
 					[2, 15, 30, 0],
 					[2, 15, 34, 0],
 					[2, 15, 36, 0],
@@ -14557,7 +14199,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 18, 26, 0],
 					[2, 18, 27, 0],
 					[2, 18, 28, 0],
-					[2, 18, 29, 0],
 					[2, 18, 30, 0],
 					[2, 18, 34, 0],
 					[2, 18, 36, 0],
@@ -14581,7 +14222,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 19, 26, 0],
 					[2, 19, 27, 0],
 					[2, 19, 28, 0],
-					[2, 19, 29, 0],
 					[2, 19, 30, 0],
 					[2, 19, 34, 0],
 					[2, 19, 36, 0],
@@ -14605,7 +14245,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 26, 26, 0],
 					[2, 26, 27, 0],
 					[2, 26, 28, 0],
-					[2, 26, 29, 0],
 					[2, 26, 30, 0],
 					[2, 26, 34, 0],
 					[2, 26, 36, 0],
@@ -14633,7 +14272,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 34, 26, 0],
 					[2, 34, 27, 0],
 					[2, 34, 28, 0],
-					[2, 34, 29, 0],
 					[2, 34, 30, 0],
 					[2, 34, 34, 0],
 					[2, 34, 36, 0],
@@ -14658,7 +14296,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 35, 26, 0],
 					[2, 35, 27, 0],
 					[2, 35, 28, 0],
-					[2, 35, 29, 0],
 					[2, 35, 30, 0],
 					[2, 35, 34, 0],
 					[2, 35, 36, 0],
@@ -14683,7 +14320,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 37, 26, 0],
 					[2, 37, 27, 0],
 					[2, 37, 28, 0],
-					[2, 37, 29, 0],
 					[2, 37, 30, 0],
 					[2, 37, 34, 0],
 					[2, 37, 36, 0],
@@ -14712,7 +14348,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 41, 26, 0],
 					[2, 41, 27, 0],
 					[2, 41, 28, 0],
-					[2, 41, 29, 0],
 					[2, 41, 30, 0],
 					[2, 41, 34, 0],
 					[2, 41, 36, 0],
@@ -14737,7 +14372,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 42, 26, 0],
 					[2, 42, 27, 0],
 					[2, 42, 28, 0],
-					[2, 42, 29, 0],
 					[2, 42, 30, 0],
 					[2, 42, 34, 0],
 					[2, 42, 36, 0],
@@ -14762,7 +14396,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 43, 26, 0],
 					[2, 43, 27, 0],
 					[2, 43, 28, 0],
-					[2, 43, 29, 0],
 					[2, 43, 30, 0],
 					[2, 43, 34, 0],
 					[2, 43, 36, 0],
@@ -14788,7 +14421,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 49, 26, 0],
 					[2, 49, 27, 0],
 					[2, 49, 28, 0],
-					[2, 49, 29, 0],
 					[2, 49, 30, 0],
 					[2, 49, 34, 0],
 					[2, 49, 40, 0],
@@ -14812,7 +14444,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 51, 26, 0],
 					[2, 51, 27, 0],
 					[2, 51, 28, 0],
-					[2, 51, 29, 0],
 					[2, 51, 30, 0],
 					[2, 51, 34, 0],
 					[2, 51, 36, 0],
@@ -14856,7 +14487,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 57, 26, 0],
 					[2, 57, 27, 0],
 					[2, 57, 28, 0],
-					[2, 57, 29, 0],
 					[2, 57, 30, 0],
 					[2, 57, 34, 0],
 					[2, 57, 36, 0],
@@ -14881,7 +14511,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 58, 26, 0],
 					[2, 58, 27, 0],
 					[2, 58, 28, 0],
-					[2, 58, 29, 0],
 					[2, 58, 30, 0],
 					[2, 58, 34, 0],
 					[2, 58, 36, 0],
@@ -14907,7 +14536,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 59, 26, 0],
 					[2, 59, 27, 0],
 					[2, 59, 28, 0],
-					[2, 59, 29, 0],
 					[2, 59, 30, 0],
 					[2, 59, 34, 0],
 					[2, 59, 36, 0],
@@ -14932,7 +14560,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 60, 26, 0],
 					[2, 60, 27, 0],
 					[2, 60, 28, 0],
-					[2, 60, 29, 0],
 					[2, 60, 30, 0],
 					[2, 60, 34, 0],
 					[2, 60, 36, 0],
@@ -14957,7 +14584,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 61, 26, 0],
 					[2, 61, 27, 0],
 					[2, 61, 28, 0],
-					[2, 61, 29, 0],
 					[2, 61, 30, 0],
 					[2, 61, 34, 0],
 					[2, 61, 36, 0],
@@ -14997,7 +14623,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 75, 26, 0],
 					[2, 75, 27, 0],
 					[2, 75, 28, 0],
-					[2, 75, 29, 0],
 					[2, 75, 30, 0],
 					[2, 75, 34, 0],
 					[2, 75, 36, 0],
@@ -15021,7 +14646,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 78, 26, 0],
 					[2, 78, 27, 0],
 					[2, 78, 28, 0],
-					[2, 78, 29, 0],
 					[2, 78, 30, 0],
 					[2, 78, 34, 0],
 					[2, 78, 36, 0],
@@ -15045,7 +14669,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 79, 26, 0],
 					[2, 79, 27, 0],
 					[2, 79, 28, 0],
-					[2, 79, 29, 0],
 					[2, 79, 30, 0],
 					[2, 79, 34, 0],
 					[2, 79, 36, 0],
@@ -15069,7 +14692,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 80, 26, 0],
 					[2, 80, 27, 0],
 					[2, 80, 28, 0],
-					[2, 80, 29, 0],
 					[2, 80, 30, 0],
 					[2, 80, 34, 0],
 					[2, 80, 36, 0],
@@ -15093,7 +14715,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 81, 26, 0],
 					[2, 81, 27, 0],
 					[2, 81, 28, 0],
-					[2, 81, 29, 0],
 					[2, 81, 30, 0],
 					[2, 81, 34, 0],
 					[2, 81, 36, 0],
@@ -15117,7 +14738,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 82, 26, 0],
 					[2, 82, 27, 0],
 					[2, 82, 28, 0],
-					[2, 82, 29, 0],
 					[2, 82, 30, 0],
 					[2, 82, 34, 0],
 					[2, 82, 36, 0],
@@ -15141,7 +14761,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 83, 26, 0],
 					[2, 83, 27, 0],
 					[2, 83, 28, 0],
-					[2, 83, 29, 0],
 					[2, 83, 30, 0],
 					[2, 83, 34, 0],
 					[2, 83, 36, 0],
@@ -15166,7 +14785,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 84, 26, 0],
 					[2, 84, 27, 0],
 					[2, 84, 28, 0],
-					[2, 84, 29, 0],
 					[2, 84, 30, 0],
 					[2, 84, 34, 0],
 					[2, 84, 36, 0],
@@ -15190,7 +14808,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 85, 26, 0],
 					[2, 85, 27, 0],
 					[2, 85, 28, 0],
-					[2, 85, 29, 0],
 					[2, 85, 30, 0],
 					[2, 85, 34, 0],
 					[2, 85, 36, 0],
@@ -15216,7 +14833,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 86, 26, 0],
 					[2, 86, 27, 0],
 					[2, 86, 28, 0],
-					[2, 86, 29, 0],
 					[2, 86, 30, 0],
 					[2, 86, 34, 0],
 					[2, 86, 36, 0],
@@ -15240,7 +14856,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 87, 26, 0],
 					[2, 87, 27, 0],
 					[2, 87, 28, 0],
-					[2, 87, 29, 0],
 					[2, 87, 30, 0],
 					[2, 87, 34, 0],
 					[2, 87, 36, 0],
@@ -15266,7 +14881,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 88, 26, 0],
 					[2, 88, 27, 0],
 					[2, 88, 28, 0],
-					[2, 88, 29, 0],
 					[2, 88, 30, 0],
 					[2, 88, 34, 0],
 					[2, 88, 36, 0],
@@ -15292,7 +14906,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 89, 26, 0],
 					[2, 89, 27, 0],
 					[2, 89, 28, 0],
-					[2, 89, 29, 0],
 					[2, 89, 30, 0],
 					[2, 89, 34, 0],
 					[2, 89, 36, 0],
@@ -15318,7 +14931,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 90, 26, 0],
 					[2, 90, 27, 0],
 					[2, 90, 28, 0],
-					[2, 90, 29, 0],
 					[2, 90, 30, 0],
 					[2, 90, 34, 0],
 					[2, 90, 36, 0],
@@ -15344,7 +14956,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 91, 26, 0],
 					[2, 91, 27, 0],
 					[2, 91, 28, 0],
-					[2, 91, 29, 0],
 					[2, 91, 30, 0],
 					[2, 91, 34, 0],
 					[2, 91, 36, 0],
@@ -15370,7 +14981,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 92, 26, 0],
 					[2, 92, 27, 0],
 					[2, 92, 28, 0],
-					[2, 92, 29, 0],
 					[2, 92, 30, 0],
 					[2, 92, 34, 0],
 					[2, 92, 36, 0],
@@ -15394,7 +15004,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 93, 26, 0],
 					[2, 93, 27, 0],
 					[2, 93, 28, 0],
-					[2, 93, 29, 0],
 					[2, 93, 30, 0],
 					[2, 93, 34, 0],
 					[2, 93, 36, 0],
@@ -15621,7 +15230,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[2, 111, 26, 0],
 					[2, 111, 27, 0],
 					[2, 111, 28, 0],
-					[2, 111, 29, 0],
 					[2, 111, 30, 0],
 					[2, 111, 34, 0],
 					[2, 111, 36, 0],
@@ -15651,7 +15259,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 4, 26, 0],
 					[3, 4, 27, 0],
 					[3, 4, 28, 0],
-					[3, 4, 29, 0],
 					[3, 4, 30, 0],
 					[3, 4, 34, 0],
 					[3, 4, 36, 0],
@@ -15679,7 +15286,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 6, 26, 0],
 					[3, 6, 27, 0],
 					[3, 6, 28, 0],
-					[3, 6, 29, 0],
 					[3, 6, 30, 0],
 					[3, 6, 34, 0],
 					[3, 6, 36, 0],
@@ -15708,7 +15314,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 7, 26, 0],
 					[3, 7, 27, 0],
 					[3, 7, 28, 0],
-					[3, 7, 29, 0],
 					[3, 7, 30, 0],
 					[3, 7, 34, 0],
 					[3, 7, 36, 0],
@@ -15732,7 +15337,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 8, 26, 0],
 					[3, 8, 27, 0],
 					[3, 8, 28, 0],
-					[3, 8, 29, 0],
 					[3, 8, 30, 0],
 					[3, 8, 34, 0],
 					[3, 8, 36, 0],
@@ -15756,7 +15360,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 9, 26, 0],
 					[3, 9, 27, 0],
 					[3, 9, 28, 0],
-					[3, 9, 29, 0],
 					[3, 9, 30, 0],
 					[3, 9, 31, 0],
 					[3, 9, 32, 0],
@@ -15783,7 +15386,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 13, 26, 0],
 					[3, 13, 27, 0],
 					[3, 13, 28, 0],
-					[3, 13, 29, 0],
 					[3, 13, 30, 0],
 					[3, 13, 34, 0],
 					[3, 13, 36, 0],
@@ -15808,7 +15410,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 14, 26, 0],
 					[3, 14, 27, 0],
 					[3, 14, 28, 0],
-					[3, 14, 29, 0],
 					[3, 14, 30, 0],
 					[3, 14, 34, 0],
 					[3, 14, 36, 0],
@@ -15830,7 +15431,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 15, 26, 0],
 					[3, 15, 27, 0],
 					[3, 15, 28, 0],
-					[3, 15, 29, 0],
 					[3, 15, 30, 0],
 					[3, 15, 34, 0],
 					[3, 15, 36, 0],
@@ -15860,7 +15460,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 18, 26, 0],
 					[3, 18, 27, 0],
 					[3, 18, 28, 0],
-					[3, 18, 29, 0],
 					[3, 18, 30, 0],
 					[3, 18, 34, 0],
 					[3, 18, 36, 0],
@@ -15884,7 +15483,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 19, 26, 0],
 					[3, 19, 27, 0],
 					[3, 19, 28, 0],
-					[3, 19, 29, 0],
 					[3, 19, 30, 0],
 					[3, 19, 34, 0],
 					[3, 19, 36, 0],
@@ -15908,7 +15506,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 26, 26, 0],
 					[3, 26, 27, 0],
 					[3, 26, 28, 0],
-					[3, 26, 29, 0],
 					[3, 26, 30, 0],
 					[3, 26, 34, 0],
 					[3, 26, 36, 0],
@@ -15936,7 +15533,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 34, 26, 0],
 					[3, 34, 27, 0],
 					[3, 34, 28, 0],
-					[3, 34, 29, 0],
 					[3, 34, 30, 0],
 					[3, 34, 34, 0],
 					[3, 34, 36, 0],
@@ -15961,7 +15557,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 35, 26, 0],
 					[3, 35, 27, 0],
 					[3, 35, 28, 0],
-					[3, 35, 29, 0],
 					[3, 35, 30, 0],
 					[3, 35, 34, 0],
 					[3, 35, 36, 0],
@@ -15986,7 +15581,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 37, 26, 0],
 					[3, 37, 27, 0],
 					[3, 37, 28, 0],
-					[3, 37, 29, 0],
 					[3, 37, 30, 0],
 					[3, 37, 34, 0],
 					[3, 37, 36, 0],
@@ -16015,7 +15609,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 41, 26, 0],
 					[3, 41, 27, 0],
 					[3, 41, 28, 0],
-					[3, 41, 29, 0],
 					[3, 41, 30, 0],
 					[3, 41, 34, 0],
 					[3, 41, 36, 0],
@@ -16040,7 +15633,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 42, 26, 0],
 					[3, 42, 27, 0],
 					[3, 42, 28, 0],
-					[3, 42, 29, 0],
 					[3, 42, 30, 0],
 					[3, 42, 34, 0],
 					[3, 42, 36, 0],
@@ -16065,7 +15657,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 43, 26, 0],
 					[3, 43, 27, 0],
 					[3, 43, 28, 0],
-					[3, 43, 29, 0],
 					[3, 43, 30, 0],
 					[3, 43, 34, 0],
 					[3, 43, 36, 0],
@@ -16091,7 +15682,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 49, 26, 0],
 					[3, 49, 27, 0],
 					[3, 49, 28, 0],
-					[3, 49, 29, 0],
 					[3, 49, 30, 0],
 					[3, 49, 34, 0],
 					[3, 49, 40, 0],
@@ -16115,7 +15705,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 51, 26, 0],
 					[3, 51, 27, 0],
 					[3, 51, 28, 0],
-					[3, 51, 29, 0],
 					[3, 51, 30, 0],
 					[3, 51, 34, 0],
 					[3, 51, 36, 0],
@@ -16159,7 +15748,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 57, 26, 0],
 					[3, 57, 27, 0],
 					[3, 57, 28, 0],
-					[3, 57, 29, 0],
 					[3, 57, 30, 0],
 					[3, 57, 34, 0],
 					[3, 57, 36, 0],
@@ -16184,7 +15772,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 58, 26, 0],
 					[3, 58, 27, 0],
 					[3, 58, 28, 0],
-					[3, 58, 29, 0],
 					[3, 58, 30, 0],
 					[3, 58, 34, 0],
 					[3, 58, 36, 0],
@@ -16210,7 +15797,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 59, 26, 0],
 					[3, 59, 27, 0],
 					[3, 59, 28, 0],
-					[3, 59, 29, 0],
 					[3, 59, 30, 0],
 					[3, 59, 34, 0],
 					[3, 59, 36, 0],
@@ -16235,7 +15821,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 60, 26, 0],
 					[3, 60, 27, 0],
 					[3, 60, 28, 0],
-					[3, 60, 29, 0],
 					[3, 60, 30, 0],
 					[3, 60, 34, 0],
 					[3, 60, 36, 0],
@@ -16260,7 +15845,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 61, 26, 0],
 					[3, 61, 27, 0],
 					[3, 61, 28, 0],
-					[3, 61, 29, 0],
 					[3, 61, 30, 0],
 					[3, 61, 34, 0],
 					[3, 61, 36, 0],
@@ -16300,7 +15884,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 75, 26, 0],
 					[3, 75, 27, 0],
 					[3, 75, 28, 0],
-					[3, 75, 29, 0],
 					[3, 75, 30, 0],
 					[3, 75, 34, 0],
 					[3, 75, 36, 0],
@@ -16324,7 +15907,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 78, 26, 0],
 					[3, 78, 27, 0],
 					[3, 78, 28, 0],
-					[3, 78, 29, 0],
 					[3, 78, 30, 0],
 					[3, 78, 34, 0],
 					[3, 78, 36, 0],
@@ -16348,7 +15930,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 79, 26, 0],
 					[3, 79, 27, 0],
 					[3, 79, 28, 0],
-					[3, 79, 29, 0],
 					[3, 79, 30, 0],
 					[3, 79, 34, 0],
 					[3, 79, 36, 0],
@@ -16372,7 +15953,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 80, 26, 0],
 					[3, 80, 27, 0],
 					[3, 80, 28, 0],
-					[3, 80, 29, 0],
 					[3, 80, 30, 0],
 					[3, 80, 34, 0],
 					[3, 80, 36, 0],
@@ -16396,7 +15976,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 81, 26, 0],
 					[3, 81, 27, 0],
 					[3, 81, 28, 0],
-					[3, 81, 29, 0],
 					[3, 81, 30, 0],
 					[3, 81, 34, 0],
 					[3, 81, 36, 0],
@@ -16420,7 +15999,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 82, 26, 0],
 					[3, 82, 27, 0],
 					[3, 82, 28, 0],
-					[3, 82, 29, 0],
 					[3, 82, 30, 0],
 					[3, 82, 34, 0],
 					[3, 82, 36, 0],
@@ -16444,7 +16022,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 83, 26, 0],
 					[3, 83, 27, 0],
 					[3, 83, 28, 0],
-					[3, 83, 29, 0],
 					[3, 83, 30, 0],
 					[3, 83, 34, 0],
 					[3, 83, 36, 0],
@@ -16469,7 +16046,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 84, 26, 0],
 					[3, 84, 27, 0],
 					[3, 84, 28, 0],
-					[3, 84, 29, 0],
 					[3, 84, 30, 0],
 					[3, 84, 34, 0],
 					[3, 84, 36, 0],
@@ -16493,7 +16069,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 85, 26, 0],
 					[3, 85, 27, 0],
 					[3, 85, 28, 0],
-					[3, 85, 29, 0],
 					[3, 85, 30, 0],
 					[3, 85, 34, 0],
 					[3, 85, 36, 0],
@@ -16519,7 +16094,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 86, 26, 0],
 					[3, 86, 27, 0],
 					[3, 86, 28, 0],
-					[3, 86, 29, 0],
 					[3, 86, 30, 0],
 					[3, 86, 34, 0],
 					[3, 86, 36, 0],
@@ -16543,7 +16117,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 87, 26, 0],
 					[3, 87, 27, 0],
 					[3, 87, 28, 0],
-					[3, 87, 29, 0],
 					[3, 87, 30, 0],
 					[3, 87, 34, 0],
 					[3, 87, 36, 0],
@@ -16569,7 +16142,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 88, 26, 0],
 					[3, 88, 27, 0],
 					[3, 88, 28, 0],
-					[3, 88, 29, 0],
 					[3, 88, 30, 0],
 					[3, 88, 34, 0],
 					[3, 88, 36, 0],
@@ -16595,7 +16167,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 89, 26, 0],
 					[3, 89, 27, 0],
 					[3, 89, 28, 0],
-					[3, 89, 29, 0],
 					[3, 89, 30, 0],
 					[3, 89, 34, 0],
 					[3, 89, 36, 0],
@@ -16621,7 +16192,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 90, 26, 0],
 					[3, 90, 27, 0],
 					[3, 90, 28, 0],
-					[3, 90, 29, 0],
 					[3, 90, 30, 0],
 					[3, 90, 34, 0],
 					[3, 90, 36, 0],
@@ -16647,7 +16217,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 91, 26, 0],
 					[3, 91, 27, 0],
 					[3, 91, 28, 0],
-					[3, 91, 29, 0],
 					[3, 91, 30, 0],
 					[3, 91, 34, 0],
 					[3, 91, 36, 0],
@@ -16673,7 +16242,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 92, 26, 0],
 					[3, 92, 27, 0],
 					[3, 92, 28, 0],
-					[3, 92, 29, 0],
 					[3, 92, 30, 0],
 					[3, 92, 34, 0],
 					[3, 92, 36, 0],
@@ -16697,7 +16265,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 93, 26, 0],
 					[3, 93, 27, 0],
 					[3, 93, 28, 0],
-					[3, 93, 29, 0],
 					[3, 93, 30, 0],
 					[3, 93, 34, 0],
 					[3, 93, 36, 0],
@@ -16924,7 +16491,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[3, 111, 26, 0],
 					[3, 111, 27, 0],
 					[3, 111, 28, 0],
-					[3, 111, 29, 0],
 					[3, 111, 30, 0],
 					[3, 111, 34, 0],
 					[3, 111, 36, 0],
@@ -16954,7 +16520,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 4, 26, 0],
 					[4, 4, 27, 0],
 					[4, 4, 28, 0],
-					[4, 4, 29, 0],
 					[4, 4, 30, 0],
 					[4, 4, 34, 0],
 					[4, 4, 36, 0],
@@ -16982,7 +16547,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 6, 26, 0],
 					[4, 6, 27, 0],
 					[4, 6, 28, 0],
-					[4, 6, 29, 0],
 					[4, 6, 30, 0],
 					[4, 6, 34, 0],
 					[4, 6, 36, 0],
@@ -17011,7 +16575,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 7, 26, 0],
 					[4, 7, 27, 0],
 					[4, 7, 28, 0],
-					[4, 7, 29, 0],
 					[4, 7, 30, 0],
 					[4, 7, 34, 0],
 					[4, 7, 36, 0],
@@ -17035,7 +16598,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 8, 26, 0],
 					[4, 8, 27, 0],
 					[4, 8, 28, 0],
-					[4, 8, 29, 0],
 					[4, 8, 30, 0],
 					[4, 8, 34, 0],
 					[4, 8, 36, 0],
@@ -17059,7 +16621,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 9, 26, 0],
 					[4, 9, 27, 0],
 					[4, 9, 28, 0],
-					[4, 9, 29, 0],
 					[4, 9, 30, 0],
 					[4, 9, 31, 0],
 					[4, 9, 32, 0],
@@ -17086,7 +16647,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 13, 26, 0],
 					[4, 13, 27, 0],
 					[4, 13, 28, 0],
-					[4, 13, 29, 0],
 					[4, 13, 30, 0],
 					[4, 13, 34, 0],
 					[4, 13, 36, 0],
@@ -17111,7 +16671,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 14, 26, 0],
 					[4, 14, 27, 0],
 					[4, 14, 28, 0],
-					[4, 14, 29, 0],
 					[4, 14, 30, 0],
 					[4, 14, 34, 0],
 					[4, 14, 36, 0],
@@ -17133,7 +16692,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 15, 26, 0],
 					[4, 15, 27, 0],
 					[4, 15, 28, 0],
-					[4, 15, 29, 0],
 					[4, 15, 30, 0],
 					[4, 15, 34, 0],
 					[4, 15, 36, 0],
@@ -17163,7 +16721,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 18, 26, 0],
 					[4, 18, 27, 0],
 					[4, 18, 28, 0],
-					[4, 18, 29, 0],
 					[4, 18, 30, 0],
 					[4, 18, 34, 0],
 					[4, 18, 36, 0],
@@ -17187,7 +16744,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 19, 26, 0],
 					[4, 19, 27, 0],
 					[4, 19, 28, 0],
-					[4, 19, 29, 0],
 					[4, 19, 30, 0],
 					[4, 19, 34, 0],
 					[4, 19, 36, 0],
@@ -17211,7 +16767,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 26, 26, 0],
 					[4, 26, 27, 0],
 					[4, 26, 28, 0],
-					[4, 26, 29, 0],
 					[4, 26, 30, 0],
 					[4, 26, 34, 0],
 					[4, 26, 36, 0],
@@ -17239,7 +16794,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 34, 26, 0],
 					[4, 34, 27, 0],
 					[4, 34, 28, 0],
-					[4, 34, 29, 0],
 					[4, 34, 30, 0],
 					[4, 34, 34, 0],
 					[4, 34, 36, 0],
@@ -17264,7 +16818,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 35, 26, 0],
 					[4, 35, 27, 0],
 					[4, 35, 28, 0],
-					[4, 35, 29, 0],
 					[4, 35, 30, 0],
 					[4, 35, 34, 0],
 					[4, 35, 36, 0],
@@ -17289,7 +16842,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 37, 26, 0],
 					[4, 37, 27, 0],
 					[4, 37, 28, 0],
-					[4, 37, 29, 0],
 					[4, 37, 30, 0],
 					[4, 37, 34, 0],
 					[4, 37, 36, 0],
@@ -17318,7 +16870,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 41, 26, 0],
 					[4, 41, 27, 0],
 					[4, 41, 28, 0],
-					[4, 41, 29, 0],
 					[4, 41, 30, 0],
 					[4, 41, 34, 0],
 					[4, 41, 36, 0],
@@ -17343,7 +16894,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 42, 26, 0],
 					[4, 42, 27, 0],
 					[4, 42, 28, 0],
-					[4, 42, 29, 0],
 					[4, 42, 30, 0],
 					[4, 42, 34, 0],
 					[4, 42, 36, 0],
@@ -17368,7 +16918,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 43, 26, 0],
 					[4, 43, 27, 0],
 					[4, 43, 28, 0],
-					[4, 43, 29, 0],
 					[4, 43, 30, 0],
 					[4, 43, 34, 0],
 					[4, 43, 36, 0],
@@ -17394,7 +16943,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 49, 26, 0],
 					[4, 49, 27, 0],
 					[4, 49, 28, 0],
-					[4, 49, 29, 0],
 					[4, 49, 30, 0],
 					[4, 49, 34, 0],
 					[4, 49, 40, 0],
@@ -17418,7 +16966,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 51, 26, 0],
 					[4, 51, 27, 0],
 					[4, 51, 28, 0],
-					[4, 51, 29, 0],
 					[4, 51, 30, 0],
 					[4, 51, 34, 0],
 					[4, 51, 36, 0],
@@ -17462,7 +17009,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 57, 26, 0],
 					[4, 57, 27, 0],
 					[4, 57, 28, 0],
-					[4, 57, 29, 0],
 					[4, 57, 30, 0],
 					[4, 57, 34, 0],
 					[4, 57, 36, 0],
@@ -17487,7 +17033,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 58, 26, 0],
 					[4, 58, 27, 0],
 					[4, 58, 28, 0],
-					[4, 58, 29, 0],
 					[4, 58, 30, 0],
 					[4, 58, 34, 0],
 					[4, 58, 36, 0],
@@ -17513,7 +17058,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 59, 26, 0],
 					[4, 59, 27, 0],
 					[4, 59, 28, 0],
-					[4, 59, 29, 0],
 					[4, 59, 30, 0],
 					[4, 59, 34, 0],
 					[4, 59, 36, 0],
@@ -17538,7 +17082,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 60, 26, 0],
 					[4, 60, 27, 0],
 					[4, 60, 28, 0],
-					[4, 60, 29, 0],
 					[4, 60, 30, 0],
 					[4, 60, 34, 0],
 					[4, 60, 36, 0],
@@ -17563,7 +17106,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 61, 26, 0],
 					[4, 61, 27, 0],
 					[4, 61, 28, 0],
-					[4, 61, 29, 0],
 					[4, 61, 30, 0],
 					[4, 61, 34, 0],
 					[4, 61, 36, 0],
@@ -17603,7 +17145,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 75, 26, 0],
 					[4, 75, 27, 0],
 					[4, 75, 28, 0],
-					[4, 75, 29, 0],
 					[4, 75, 30, 0],
 					[4, 75, 34, 0],
 					[4, 75, 36, 0],
@@ -17627,7 +17168,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 78, 26, 0],
 					[4, 78, 27, 0],
 					[4, 78, 28, 0],
-					[4, 78, 29, 0],
 					[4, 78, 30, 0],
 					[4, 78, 34, 0],
 					[4, 78, 36, 0],
@@ -17651,7 +17191,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 79, 26, 0],
 					[4, 79, 27, 0],
 					[4, 79, 28, 0],
-					[4, 79, 29, 0],
 					[4, 79, 30, 0],
 					[4, 79, 34, 0],
 					[4, 79, 36, 0],
@@ -17675,7 +17214,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 80, 26, 0],
 					[4, 80, 27, 0],
 					[4, 80, 28, 0],
-					[4, 80, 29, 0],
 					[4, 80, 30, 0],
 					[4, 80, 34, 0],
 					[4, 80, 36, 0],
@@ -17699,7 +17237,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 81, 26, 0],
 					[4, 81, 27, 0],
 					[4, 81, 28, 0],
-					[4, 81, 29, 0],
 					[4, 81, 30, 0],
 					[4, 81, 34, 0],
 					[4, 81, 36, 0],
@@ -17723,7 +17260,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 82, 26, 0],
 					[4, 82, 27, 0],
 					[4, 82, 28, 0],
-					[4, 82, 29, 0],
 					[4, 82, 30, 0],
 					[4, 82, 34, 0],
 					[4, 82, 36, 0],
@@ -17747,7 +17283,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 83, 26, 0],
 					[4, 83, 27, 0],
 					[4, 83, 28, 0],
-					[4, 83, 29, 0],
 					[4, 83, 30, 0],
 					[4, 83, 34, 0],
 					[4, 83, 36, 0],
@@ -17772,7 +17307,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 84, 26, 0],
 					[4, 84, 27, 0],
 					[4, 84, 28, 0],
-					[4, 84, 29, 0],
 					[4, 84, 30, 0],
 					[4, 84, 34, 0],
 					[4, 84, 36, 0],
@@ -17796,7 +17330,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 85, 26, 0],
 					[4, 85, 27, 0],
 					[4, 85, 28, 0],
-					[4, 85, 29, 0],
 					[4, 85, 30, 0],
 					[4, 85, 34, 0],
 					[4, 85, 36, 0],
@@ -17822,7 +17355,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 86, 26, 0],
 					[4, 86, 27, 0],
 					[4, 86, 28, 0],
-					[4, 86, 29, 0],
 					[4, 86, 30, 0],
 					[4, 86, 34, 0],
 					[4, 86, 36, 0],
@@ -17846,7 +17378,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 87, 26, 0],
 					[4, 87, 27, 0],
 					[4, 87, 28, 0],
-					[4, 87, 29, 0],
 					[4, 87, 30, 0],
 					[4, 87, 34, 0],
 					[4, 87, 36, 0],
@@ -17872,7 +17403,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 88, 26, 0],
 					[4, 88, 27, 0],
 					[4, 88, 28, 0],
-					[4, 88, 29, 0],
 					[4, 88, 30, 0],
 					[4, 88, 34, 0],
 					[4, 88, 36, 0],
@@ -17898,7 +17428,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 89, 26, 0],
 					[4, 89, 27, 0],
 					[4, 89, 28, 0],
-					[4, 89, 29, 0],
 					[4, 89, 30, 0],
 					[4, 89, 34, 0],
 					[4, 89, 36, 0],
@@ -17924,7 +17453,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 90, 26, 0],
 					[4, 90, 27, 0],
 					[4, 90, 28, 0],
-					[4, 90, 29, 0],
 					[4, 90, 30, 0],
 					[4, 90, 34, 0],
 					[4, 90, 36, 0],
@@ -17950,7 +17478,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 91, 26, 0],
 					[4, 91, 27, 0],
 					[4, 91, 28, 0],
-					[4, 91, 29, 0],
 					[4, 91, 30, 0],
 					[4, 91, 34, 0],
 					[4, 91, 36, 0],
@@ -17976,7 +17503,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 92, 26, 0],
 					[4, 92, 27, 0],
 					[4, 92, 28, 0],
-					[4, 92, 29, 0],
 					[4, 92, 30, 0],
 					[4, 92, 34, 0],
 					[4, 92, 36, 0],
@@ -18000,7 +17526,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 93, 26, 0],
 					[4, 93, 27, 0],
 					[4, 93, 28, 0],
-					[4, 93, 29, 0],
 					[4, 93, 30, 0],
 					[4, 93, 34, 0],
 					[4, 93, 36, 0],
@@ -18227,7 +17752,6 @@ Backup has been made.', 'PLL_MODULE'],
 					[4, 111, 26, 0],
 					[4, 111, 27, 0],
 					[4, 111, 28, 0],
-					[4, 111, 29, 0],
 					[4, 111, 30, 0],
 					[4, 111, 34, 0],
 					[4, 111, 36, 0],

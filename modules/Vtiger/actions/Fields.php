@@ -48,7 +48,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		if (empty($searchValue)) {
 			$response->setError('NO');
 		} else {
-			$owner = includes\fields\Owner::getInstance($moduleName);
+			$owner = App\Fields\Owner::getInstance($moduleName);
 			$owner->find($searchValue);
 
 			$data = [];

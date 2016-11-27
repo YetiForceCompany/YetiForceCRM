@@ -24,7 +24,7 @@ class Notification_ListView_Model extends Vtiger_ListView_Model
 		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'NotificationCreateMessage')) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
-				'linkhint' => 'LBL_SEND_NOTIFICATION',
+				'linkhint' => 'LBL_NOTIFICATION_SETTINGS',
 				'linkurl' => 'index.php?module=Notification&view=NotificationConfig',
 				'linkicon' => 'glyphicon glyphicon-cog',
 				'modalView' => true

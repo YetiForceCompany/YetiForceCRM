@@ -728,7 +728,7 @@ class ReportRun extends CRMEntity
 				$rtvalue = ' is NOT NULL';
 			} elseif (trim($value) != '') {
 				if ($columnName)
-					$rtvalue = ' <> ' . $adb->quote($value) . ' || ' . $columnName . " IS NULL ";
+					$rtvalue = ' <> ' . $adb->quote($value) . ' OR ' . $columnName . " IS NULL ";
 				else
 					$rtvalue = ' <> ' . $adb->quote($value);
 			}elseif (trim($value) == '' && $datatype == 'V') {
@@ -804,11 +804,6 @@ class ReportRun extends CRMEntity
 		$typeofdata = $adb->query_result($field_query, 0, 'typeofdata');
 		$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $typeofdata[0]);
 		$uitype = $adb->query_result($field_query, 0, 'uitype');
-		/* if($tr[0]==$ogReport->primodule)
-		  $value = $adb->query_result($field_query,0,'tablename').".".$adb->query_result($field_query,0,'columnname');
-		  else
-		  $value = $adb->query_result($field_query,0,'tablename').$tr[0].".".$adb->query_result($field_query,0,'columnname');
-		 */
 		if ($uitype == 68 || $uitype == 59) {
 			$fieldtypeofdata = 'V';
 		}
@@ -902,10 +897,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 
-		$advfiltersql = "";
-		$customView = new CustomView();
-		$dateSpecificConditions = $customView->getStdFilterConditions();
-
+		$advfiltersql = '';
 		foreach ($advfilterlist as $groupindex => $groupinfo) {
 			$groupcondition = $groupinfo['condition'];
 			$groupcolumns = $groupinfo['columns'];
@@ -921,7 +913,7 @@ class ReportRun extends CRMEntity
 					$advcolsql = array();
 
 					if ($fieldcolname != "" && $comparator != "") {
-						if (in_array($comparator, $dateSpecificConditions)) {
+						if (in_array($comparator, \App\CustomView::STD_FILTER_CONDITIONS)) {
 							if ($fieldcolname != 'none') {
 								$selectedFields = explode(':', $fieldcolname);
 								if ($selectedFields[0] == 'vtiger_crmentity' . $this->primarymodule) {
@@ -1064,8 +1056,7 @@ class ReportRun extends CRMEntity
 							if (strcasecmp(trim($value), "no") == 0)
 								$value = "0";
 						}
-						if (in_array($comparator, $dateSpecificConditions)) {
-							$customView = new CustomView($moduleName);
+						if (in_array($comparator, \App\CustomView::STD_FILTER_CONDITIONS)) {
 							$columninfo['stdfilter'] = $columninfo['comparator'];
 							$valueComponents = explode(',', $columninfo['value']);
 							if ($comparator == 'custom') {
@@ -1079,7 +1070,7 @@ class ReportRun extends CRMEntity
 									$columninfo['enddate'] = DateTimeField::convertToDBFormat($valueComponents[1]);
 								}
 							}
-							$dateFilterResolvedList = $customView->resolveDateFilterValue($columninfo);
+							$dateFilterResolvedList = \App\CustomView::resolveDateFilterValue($columninfo);
 							$startDate = DateTimeField::convertToDBFormat($dateFilterResolvedList['startdate']);
 							$endDate = DateTimeField::convertToDBFormat($dateFilterResolvedList['enddate']);
 							$columninfo['value'] = $value = implode(',', array($startDate, $endDate));
@@ -1235,7 +1226,7 @@ class ReportRun extends CRMEntity
 							foreach ($fieldSqlColumns as $columnSql) {
 								$fieldSqls[] = $columnSql . $comparatorValue;
 							}
-							$fieldvalue = ' (' . implode(' || ', $fieldSqls) . ') ';
+							$fieldvalue = ' (' . implode(' OR ', $fieldSqls) . ') ';
 						} else {
 							$fieldvalue = $selectedfields[0] . "." . $selectedfields[1] . $this->getAdvComparator($comparator, trim($value), $datatype);
 						}
@@ -2155,6 +2146,12 @@ class ReportRun extends CRMEntity
 			}
 			if ($this->queryPlanner->requireTable("vtiger_ossemployees")) {
 				$query .= " LEFT JOIN vtiger_ossemployees ON vtiger_ossemployees.ossemployeesid = vtiger_osstimecontrol.link";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_usersOSSTimeControl")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_usersOSSTimeControl ON vtiger_usersOSSTimeControl.id = vtiger_crmentity.smownerid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_groupsOSSTimeControl")) {
+				$query .= " LEFT JOIN vtiger_groups AS vtiger_groupsOSSTimeControl ON vtiger_groupsOSSTimeControl.groupid = vtiger_crmentity.smownerid";
 			}
 		} else {
 			if ($module != '') {
@@ -3280,7 +3277,7 @@ class ReportRun extends CRMEntity
 		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
 		$roleid = $current_user->roleid;
-		$subrole = getRoleSubordinates($roleid);
+		$subrole = \App\PrivilegeUtil::getRoleSubordinates($roleid);
 		if (count($subrole) > 0) {
 			$roleids = $subrole;
 			array_push($roleids, $roleid);
@@ -3656,10 +3653,7 @@ class ReportRun extends CRMEntity
 				} else {
 					$columnSql = implode('', $columnList);
 				}
-				/* if ($referenceModule == 'DocumentFolders' && $fieldInstance->getFieldName() == 'folderid') {
-				  $columnSql = 'vtiger_attachmentsfolder.foldername';
-				  $this->queryPlanner->addTable("vtiger_attachmentsfolder");
-				  } */
+
 				if ($referenceModule == 'Currency' && $fieldInstance->getFieldName() == 'currency_id') {
 					$columnSql = "vtiger_currency_info$moduleName.currency_name";
 					$this->queryPlanner->addTable("vtiger_currency_info$moduleName");

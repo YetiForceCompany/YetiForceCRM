@@ -80,20 +80,20 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 			} else {
 				$this->set('next_trigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 			}
-			$schdate = \includes\utils\Json::encode(array($dateDBFormat));
+			$schdate = \App\Json::encode(array($dateDBFormat));
 		} else if ($scheduleid == self::$SCHEDULED_WEEKLY) {
-			$schdayoftheweek = \includes\utils\Json::encode($this->get('schdayoftheweek'));
+			$schdayoftheweek = \App\Json::encode($this->get('schdayoftheweek'));
 			$this->set('schdayoftheweek', $schdayoftheweek);
 		} else if ($scheduleid == self::$SCHEDULED_MONTHLY_BY_DATE) {
-			$schdayofthemonth = \includes\utils\Json::encode($this->get('schdayofthemonth'));
+			$schdayofthemonth = \App\Json::encode($this->get('schdayofthemonth'));
 			$this->set('schdayofthemonth', $schdayofthemonth);
 		} else if ($scheduleid == self::$SCHEDULED_ANNUALLY) {
-			$schannualdates = \includes\utils\Json::encode($this->get('schannualdates'));
+			$schannualdates = \App\Json::encode($this->get('schannualdates'));
 			$this->set('schannualdates', $schannualdates);
 		}
 
-		$recipients = \includes\utils\Json::encode($this->get('recipients'));
-		$specificemails = \includes\utils\Json::encode($this->get('specificemails'));
+		$recipients = \App\Json::encode($this->get('recipients'));
+		$specificemails = \App\Json::encode($this->get('specificemails'));
 		$isReportScheduled = $this->get('isReportScheduled');
 
 		if ($scheduleid != self::$SCHEDULED_ON_SPECIFIC_DATE) {
@@ -131,7 +131,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 		if (!empty($recipientsInfo)) {
 			$recipients = [];
-			$recipientsInfo = \includes\utils\Json::decode($recipientsInfo);
+			$recipientsInfo = \App\Json::decode($recipientsInfo);
 			foreach ($recipientsInfo as $key => $recipient) {
 				if (strpos($recipient, 'USER') !== false) {
 					$id = explode('::', $recipient);
@@ -174,7 +174,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
 				if (!Vtiger_Util_Helper::isUserDeleted($userId)) {
-					$userName = \includes\fields\Owner::getUserLabel($userId);
+					$userName = \App\Fields\Owner::getUserLabel($userId);
 					$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
 					if (!in_array($userEmail, $recipientsEmails)) {
 						$recipientsEmails[$userName] = $userEmail;
@@ -183,7 +183,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 			}
 		}
 		//Added for specific email address.
-		$specificemails = explode(',', \includes\utils\Json::decode($this->get('specificemails')));
+		$specificemails = explode(',', \App\Json::decode($this->get('specificemails')));
 		if (!empty($specificemails)) {
 			$recipientsEmails = array_merge($recipientsEmails, $specificemails);
 		}
@@ -239,7 +239,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		}
 		//Added cc to account owner
 		$accountOwnerId = Users::getActiveAdminId();
-		$vtigerMailer->AddCC(\App\User::getUserModel($accountOwnerId)->getDetail('email1'), \includes\fields\Owner::getUserLabel($accountOwnerId));
+		$vtigerMailer->AddCC(\App\User::getUserModel($accountOwnerId)->getDetail('email1'), \App\Fields\Owner::getUserLabel($accountOwnerId));
 		$status = $vtigerMailer->Send(true);
 
 		foreach ($attachments as $attachmentName => $path) {
@@ -250,12 +250,12 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function gets the next trigger for the workflows
-	 * @global <String> $default_timezone
+	 * @global string $default_timezone
 	 * @return type
 	 */
 	public function getNextTriggerTime()
 	{
-		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.inc';
+		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.php';
 		$default_timezone = vglobal('default_timezine');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;

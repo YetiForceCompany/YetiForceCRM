@@ -23,24 +23,27 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		if (empty($sourceModule))
 			$sourceModule = 'Home';
 
-		$moduleName = $request->getModule();
+		$currentDashboard = $request->get('dashboardId');
+		if(empty($currentDashboard)) {
+			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+		}
 		$viewer = $this->getViewer($request);
 		// get widgets list
 		$widgets = $dashboardModules[$sourceModule];
-
-		$dashboardStored = Settings_WidgetsManagement_Module_Model::getDashboardForModule($sourceModule);
-
+		$dashboardStored = Settings_WidgetsManagement_Module_Model::getDashboardForModule($sourceModule, $currentDashboard);
 		$defaultValues = Settings_WidgetsManagement_Module_Model::getDefaultValues();
 		$size = Settings_WidgetsManagement_Module_Model::getSize();
 		$widgetsWithLimit = Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit();
 		$authorization = Settings_Roles_Record_Model::getAll();
-		$bloks = Settings_WidgetsManagement_Module_Model::getBlocksId();
+		$bloks = Settings_WidgetsManagement_Module_Model::getBlocksId($currentDashboard);
 		$specialWidgets = Settings_WidgetsManagement_Module_Model::getSpecialWidgets($sourceModule);
 		$filterSelect = Settings_WidgetsManagement_Module_Model::getFilterSelect();
 		$filterSelectDefault = Settings_WidgetsManagement_Module_Model::getFilterSelectDefault();
 		$widgetsWithFilterUsers = Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers();
 		$restrictFilter = Settings_WidgetsManagement_Module_Model::getRestrictFilter();
 
+		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
+		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('FILTER_SELECT', $filterSelect);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
 		$viewer->assign('DATE_SELECT_DEFAULT', Settings_WidgetsManagement_Module_Model::getDateSelectDefault());

@@ -84,8 +84,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	private function getPickListValues($fieldName)
 	{
-		//Need to decode the picklist values twice which are saved from old ui
-		return array_map('decode_html', getAllPickListValues($fieldName));
+		return App\Fields\Picklist::getPickListValues($fieldName);
 	}
 
 	public function getSourcePickListValues()

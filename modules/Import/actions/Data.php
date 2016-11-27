@@ -16,8 +16,7 @@ require_once 'include/Webservices/Revise.php';
 require_once 'include/Webservices/Retrieve.php';
 require_once 'include/Webservices/DataTransform.php';
 require_once 'modules/Vtiger/CRMEntity.php';
-require_once 'include/QueryGenerator/QueryGenerator.php';
-require_once 'include/events/include.inc';
+require_once 'include/events/include.php';
 
 class Import_Data_Action extends Vtiger_Action_Controller
 {
@@ -70,7 +69,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$defaultValues = array();
 		if (!empty($this->defaultValues)) {
 			if (!is_array($this->defaultValues)) {
-				$this->defaultValues = \includes\utils\Json::decode($this->defaultValues);
+				$this->defaultValues = \App\Json::decode($this->defaultValues);
 			}
 			if ($this->defaultValues != null) {
 				$defaultValues = $this->defaultValues;
@@ -227,32 +226,24 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$entityInfo = $focus->importRecord($this, $fieldData);
 			} else {
 				if (!empty($mergeType) && $mergeType != Import_Utils_Helper::$AUTO_MERGE_NONE) {
-
-					$queryGenerator = new QueryGenerator($moduleName, $this->user);
-					$customView = new CustomView($moduleName);
-					$viewId = $customView->getViewIdByName('All', $moduleName);
+					$queryGenerator = new App\QueryGenerator($moduleName, $this->user->id);
+					$viewId = App\CustomView::getInstance($moduleName)->getViewIdByName('All');
 					if (!empty($viewId)) {
 						$queryGenerator->initForCustomViewById($viewId);
 					} else {
 						$queryGenerator->initForDefaultCustomView();
 					}
 
-					$fieldsList = array('id');
+					$fieldsList = ['id'];
 					$queryGenerator->setFields($fieldsList);
 
 					$mergeFields = $this->mergeFields;
-					if ($queryGenerator->getWhereFields() && $mergeFields) {
-						$queryGenerator->addConditionGlue(QueryGenerator::$AND);
-					}
 					foreach ($mergeFields as $index => $mergeField) {
-						if ($index != 0) {
-							$queryGenerator->addConditionGlue(QueryGenerator::$AND);
-						}
 						$comparisonValue = $fieldData[$mergeField];
 						$fieldInstance = $moduleFields[$mergeField];
 						if ($fieldInstance->getFieldDataType() == 'owner') {
 							$userId = getUserId_Ol($comparisonValue);
-							$comparisonValue = \includes\fields\Owner::getUserLabel($userId);
+							$comparisonValue = \App\Fields\Owner::getUserLabel($userId);
 						}
 						if ($fieldInstance->getFieldDataType() == 'reference') {
 							if (strpos($comparisonValue, '::::') > 0) {
@@ -264,11 +255,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 								$comparisonValue = trim($referenceFileValueComponents[1]);
 							}
 						}
-						$queryGenerator->addCondition($mergeField, $comparisonValue, 'e', '', '', '', true);
+						$queryGenerator->addCondition($mergeField, $comparisonValue, 'e');
 					}
-					$query = $queryGenerator->getQuery();
-					$duplicatesResult = $adb->query($query);
-					$noOfDuplicates = $adb->num_rows($duplicatesResult);
+					$query = $queryGenerator->createQuery();
+					$duplicatesResult = $query->all();
+					$noOfDuplicates = count($duplicatesResult);
 
 					if ($noOfDuplicates > 0) {
 						if ($mergeType == Import_Utils_Helper::$AUTO_MERGE_IGNORE) {
@@ -277,11 +268,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 							$mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS) {
 
 							for ($index = 0; $index < $noOfDuplicates - 1; ++$index) {
-								$duplicateRecordId = $adb->query_result($duplicatesResult, $index, $fieldColumnMapping['id']);
+								$duplicateRecordId = $duplicatesResult[$index][$fieldColumnMapping['id']];
 								$entityId = vtws_getId($moduleObjectId, $duplicateRecordId);
 								vtws_delete($entityId, $this->user);
 							}
-							$baseRecordId = $adb->query_result($duplicatesResult, $noOfDuplicates - 1, $fieldColumnMapping['id']);
+							$baseRecordId = $duplicatesResult[$noOfDuplicates - 1][$fieldColumnMapping['id']];
 							$baseEntityId = vtws_getId($moduleObjectId, $baseRecordId);
 
 							if ($mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE) {
@@ -402,7 +393,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 								$newCurrencyParam[$valueData] = $currencyData;
 							}
 						}
-						$data['currencyparam'] = \includes\utils\Json::encode($newCurrencyParam);
+						$data['currencyparam'] = \App\Json::encode($newCurrencyParam);
 					} elseif (array_key_exists($fieldName, $maps)) {
 						$value = $this->transformInventoryFieldFromMap($value, $maps[$fieldName]);
 					}
@@ -476,7 +467,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		$ownerId = getUserId_Ol(trim($fieldValue));
 		if (empty($ownerId)) {
-			$ownerId = getGrpId($fieldValue);
+			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
 		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
 			$ownerId = $defaultFieldValues[$fieldName];
@@ -495,7 +486,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		foreach ($owners as $owner) {
 			$ownerId = getUserId_Ol(trim($owner));
 			if (empty($ownerId)) {
-				$ownerId = getGrpId($owner);
+				$ownerId = \App\Fields\Owner::getGroupId($owner);
 			}
 			if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
 				$ownerId = $defaultFieldValues[$fieldName];
@@ -670,7 +661,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue, $defaultFieldValues);
 			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue, $defaultFieldValues);
-			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$REFERENCE_TYPES)) {
+			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {
 				$fieldData[$fieldName] = $this->transformReference($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
 			} elseif ($fieldInstance->getFieldDataType() == 'picklist') {
 				$fieldData[$fieldName] = $this->transformPicklist($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
@@ -868,7 +859,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	/*
 	 *  Function to get Record details of import
 	 *  @parms $user <User Record Model> Current Users
-	 * 	@parms $user <String> Imported module
+	 * 	@parms $user string Imported module
 	 *  @returns <Array> Import Records with the list of skipped records and failed records
 	 */
 
@@ -1018,7 +1009,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$invDat['inventoryItemsNo'] = $i;
 			foreach ($data as $name => $value) {
 				if (in_array($name, $jsonFields)) {
-					$value = \includes\utils\Json::decode($value);
+					$value = \App\Json::decode($value);
 				}
 				$invDat[$name . $i] = $value;
 			}

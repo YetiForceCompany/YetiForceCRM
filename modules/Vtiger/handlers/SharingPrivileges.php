@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once 'include/events/VTEventHandler.inc';
+require_once 'include/events/VTEventHandler.php';
 
 class Vtiger_SharingPrivileges_Handler extends VTEventHandler
 {

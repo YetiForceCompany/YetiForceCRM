@@ -65,18 +65,9 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 
 	public function getAllRecords()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$queryGenerator = new QueryGenerator($this->getModuleName(), $currentUser);
-		$queryGenerator->setFields(['category', 'knowledgebase_view', 'subject']);
-		$queryGenerator->setCustomColumn('knowledgebaseid');
-		$listQuery = $queryGenerator->getQuery('SELECT');
-		$db = PearDatabase::getInstance();
-		$result = $db->query($listQuery);
-		$records = [];
-		while ($row = $db->getRow($result)) {
-			$records[] = $row;
-		}
-		return $records;
+		$queryGenerator = new App\QueryGenerator($this->getModuleName());
+		$queryGenerator->setFields(['id', 'category', 'knowledgebase_view', 'subject']);
+		return $queryGenerator->createQuery()->all();
 	}
 
 	public function getDocuments()
@@ -89,7 +80,7 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 			$tree[] = [
 				'id' => $this->lastIdinTree,
 				'type' => $item['knowledgebase_view'],
-				'record_id' => $item['knowledgebaseid'],
+				'record_id' => $item['id'],
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item['subject'],
 				'icon' => 'glyphicon glyphicon-file'

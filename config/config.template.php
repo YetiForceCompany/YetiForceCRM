@@ -188,9 +188,6 @@ $backgroundClosingModal = true;
 // Enable CSRF-protection
 $csrfProtection = true;
 
-// Enable encrypt backup, Support from PHP 5.6.x
-$encryptBackup = false;
-
 // Is sending emails active. 
 $isActiveSendingMails = true;
 

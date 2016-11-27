@@ -16,7 +16,7 @@ class Events_Module_Model extends Calendar_Module_Model
 
 	/**
 	 * Function to get the url for list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getListViewUrl()
 	{

@@ -44,7 +44,7 @@ class Events_Field_Model extends Calendar_Field_Model
 
 	/**
 	 * Function to check whether field is ajax editable'
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isAjaxEditable()
 	{

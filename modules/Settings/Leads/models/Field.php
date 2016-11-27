@@ -13,7 +13,7 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get field data type
-	 * @return <String> data type
+	 * @return string data type
 	 */
 	public function getFieldDataType()
 	{
@@ -50,7 +50,7 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to get instance
 	 * @param <String/Integer> $value
-	 * @param <String> $module
+	 * @param string $module
 	 * @return <Settings_Leads_Field_Model> field model
 	 */
 	public static function getInstance($value, $module = false)

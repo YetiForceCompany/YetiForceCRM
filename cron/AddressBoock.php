@@ -11,7 +11,7 @@
 $limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_ADDRESS_BOOCK_UPDATER');
 $db = PearDatabase::getInstance();
 $currentUser = Users::getActiveAdminUser();
-$usersIds = \includes\fields\Owner::getUsersIds();
+$usersIds = \App\Fields\Owner::getUsersIds();
 $i = ['rows' => [], 'users' => count($usersIds)];
 $l = 0;
 $break = false;
@@ -42,21 +42,19 @@ while ($row = $db->getRow($mainResult)) {
 	$metainfo = \App\Module::getEntityInfo($moduleName);
 	$queryFields = array_merge(['id'], $metainfo['fieldnameArr'], $emailFields);
 
-	$queryGenerator = new QueryGenerator($moduleName, $currentUser);
+	$queryGenerator = new App\QueryGenerator($moduleName, $currentUser->id);
 	$queryGenerator->setFields($queryFields);
 	if ($last !== false) {
 		$queryGenerator->addCondition('id', $last['record'], 'a');
 	}
-	$query = $queryGenerator->getQuery();
-	$emailCondition = [];
+	$query = $queryGenerator->createQuery();
+	$emailCondition = ['or'];
 	foreach ($emailFields as &$fieldName) {
-		$emailCondition[] = "$fieldName <> ''";
+		$emailCondition[] = ['<>', $fieldName, ''];
 	}
-	$query .= ' AND (' . implode(' OR ', $emailCondition);
-	$query .= ') LIMIT ' . ($limit + 1);
-
-	$result = $db->query($query);
-	while ($row = $db->getRow($result)) {
+	$query->andWhere($emailCondition)->limit($limit + 1);
+	$dataReader = $query->createCommand()->query();
+	while ($row = $dataReader->read()) {
 		$users = $name = '';
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $row[$entityName];

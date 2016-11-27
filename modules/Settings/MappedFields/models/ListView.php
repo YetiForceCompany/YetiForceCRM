@@ -24,7 +24,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		}
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
-		$listFields []= $module->baseIndex;
+		$listFields [] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
@@ -49,7 +49,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 			$recordModel->setData($row);
 			$listViewRecordModels[$recordModel->getId()] = $recordModel;
 		}
-		$pagingModel->calculatePageRange($listViewRecordModels);
+		$pagingModel->calculatePageRange($dataReader->count());
 		if ($dataReader->count() > $pageLimit) {
 			array_pop($listViewRecordModels);
 			$pagingModel->set('nextPageExists', true);

@@ -87,11 +87,11 @@ class Reports extends CRMEntity
 				$userGroups->getAllUserGroups($current_user->id);
 				$user_groups = $userGroups->user_groups;
 				if (!empty($user_groups) && $is_admin === false) {
-					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") && setype='groups') OR";
+					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
 					array_push($params, $user_groups);
 				}
 
-				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? && setype='users'))";
+				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
 				if ($is_admin === false) {
 					$ssql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 					array_push($params, $current_user->id);
@@ -235,7 +235,7 @@ class Reports extends CRMEntity
 					INNER JOIN vtiger_relatedlists on vtiger_tab.tabid=vtiger_relatedlists.related_tabid
 					WHERE vtiger_tab.isentitytype=1
 					AND vtiger_tab.name NOT IN(%s)
-					AND vtiger_tab.presence = 0 && vtiger_relatedlists.label!='Activity History'
+					AND vtiger_tab.presence = 0 AND vtiger_relatedlists.label!='Activity History'
 					UNION
 					SELECT relmodule, vtiger_tab.tabid FROM vtiger_fieldmodulerel
 					INNER JOIN vtiger_tab on vtiger_tab.name = vtiger_fieldmodulerel.module
@@ -352,7 +352,7 @@ class Reports extends CRMEntity
 			if ($orderBy) {
 				$sql .= " ORDER BY $orderBy $sortBy";
 			}
-			$sql .= " LIMIT $startIndex," . ($pageLimit + 1);
+			$sql .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		}
 		$result = $adb->pquery($sql, $params);
 		$report = $adb->fetch_array($result);
@@ -414,11 +414,11 @@ class Reports extends CRMEntity
 		$userGroups->getAllUserGroups($currentUser->getId());
 		$user_groups = $userGroups->user_groups;
 		if (!empty($user_groups) && $is_admin === false) {
-			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") && setype='groups') OR";
+			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
 			array_push($params, $user_groups);
 		}
 
-		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? && setype='users'))";
+		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
 		if ($is_admin === false) {
 			$sql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
 			array_push($params, $currentUser->getId());
@@ -432,7 +432,7 @@ class Reports extends CRMEntity
 			if ($orderBy) {
 				$sql .= " ORDER BY $orderBy $sortBy";
 			}
-			$sql .= " LIMIT $startIndex," . ($pageLimit + 1);
+			$sql .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		}
 		$query = $adb->pquery('select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?', [$current_user_parent_role_seq . '::%']);
 		$subordinate_users = [];
@@ -606,7 +606,7 @@ class Reports extends CRMEntity
 
 		$profileList = $currentUser->getProfiles();
 		$sql = sprintf("select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (%s)  and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)", generateQuestionMarks($tabid), generateQuestionMarks($block));
-		if (count($profileList) > 0) {
+		if ($profileList !== false && count($profileList) > 0) {
 			$sql .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
 			array_push($params, $profileList);
 		}
@@ -712,14 +712,14 @@ class Reports extends CRMEntity
 
 		$datefiltervalue = Array("custom", "prevfy", "thisfy", "nextfy", "prevfq", "thisfq", "nextfq",
 			"yesterday", "today", "tomorrow", "lastweek", "thisweek", "nextweek", "lastmonth", "thismonth",
-			"nextmonth", "last7days", "last30days", "last60days", "last90days", "last120days",
-			"next30days", "next60days", "next90days", "next120days"
+			"nextmonth", "last7days", "last15days", "last30days", "last60days", "last90days", "last120days",
+			"next15days", "next30days", "next60days", "next90days", "next120days"
 		);
 
 		$datefilterdisplay = Array("Custom", "Previous FY", "Current FY", "Next FY", "Previous FQ", "Current FQ", "Next FQ", "Yesterday",
 			"Today", "Tomorrow", "Last Week", "Current Week", "Next Week", "Last Month", "Current Month",
-			"Next Month", "Last 7 Days", "Last 30 Days", "Last 60 Days", "Last 90 Days", "Last 120 Days",
-			"Next 7 Days", "Next 30 Days", "Next 60 Days", "Next 90 Days", "Next 120 Days"
+			"Next Month", "Last 7 Days", "Last 15 Days", "Last 30 Days", "Last 60 Days", "Last 90 Days", "Last 120 Days",
+			"Next 7 Days", "Next 15 Days", "Next 30 Days", "Next 60 Days", "Next 90 Days", "Next 120 Days"
 		);
 
 		$countDateFilterValue = count($datefiltervalue);
@@ -1062,12 +1062,10 @@ class Reports extends CRMEntity
 		$sparams = array($tabid);
 		$profileList = $currentUser->getProfiles();
 		$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid  where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_def_org_field.visible=0 and vtiger_profile2field.visible=0 and vtiger_field.presence in (0,2)";
-		if (count($profileList) > 0) {
+		if ($profileList !== false && count($profileList) > 0) {
 			$ssql .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")";
 			array_push($sparams, $profileList);
 		}
-
-
 		//Added to avoid display the Related fields (Account name,Vandor name,product name, etc) in Report Calculations(SUM,AVG..)
 		switch ($tabid) {
 			case 4://Contacts

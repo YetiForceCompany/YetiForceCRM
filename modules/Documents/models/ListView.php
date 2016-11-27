@@ -117,44 +117,14 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		return $links;
 	}
 
-	public function loadListViewCondition($moduleName)
+	public function loadListViewCondition()
 	{
 		$queryGenerator = $this->get('query_generator');
-		$srcRecord = $this->get('src_record');
-		if ($moduleName == $this->get('src_module') && !empty($srcRecord)) {
-			$queryGenerator->addCondition('id', $srcRecord, 'n');
-		}
-		$fields = $queryGenerator->getFields();
-		$fields[] = 'filetype';
-		$queryGenerator->setFields($fields);
-
-		$folderKey = $this->get('folder_id');
+		$queryGenerator->setField('filetype');
 		$folderValue = $this->get('folder_value');
 		if (!empty($folderValue)) {
-			$queryGenerator->addCondition($folderKey, $folderValue, 'e');
+			$queryGenerator->addCondition($this->get('folder_id'), $folderValue, 'e');
 		}
-
-		$searchParams = $this->get('search_params');
-		if (empty($searchParams)) {
-			$searchParams = [];
-		}
-		$glue = '';
-		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
-			$glue = QueryGenerator::$AND;
-		}
-		$queryGenerator->parseAdvFilterList($searchParams, $glue);
-
-		$searchKey = $this->get('search_key');
-		$searchValue = $this->get('search_value');
-		$operator = $this->get('operator');
-		if (!empty($searchKey)) {
-			$queryGenerator->addUserSearchConditions(
-				[
-					'search_field' => $searchKey,
-					'search_text' => $searchValue,
-					'operator' => $operator
-				]
-			);
-		}
+		parent::loadListViewCondition();
 	}
 }

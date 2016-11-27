@@ -83,20 +83,18 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function which provides the records for the current view
-	 * @param <Boolean> $excludedIds - List of the RecordIds to be skipped
+	 * @param boolean $excludedIds - List of the RecordIds to be skipped
 	 * @return <Array> List of RecordsIds
 	 */
 	public function getRecordIds($selectedIds = false, $excludedIds = false)
 	{
-		$db = PearDatabase::getInstance();
-		$query = $this->getQuery($selectedIds, $excludedIds);
-		$result = $db->query($query);
+		$dataReader = $this->getQuery($selectedIds, $excludedIds)->createCommand()->query();
 
 		$moduleModel = $this->customViewModel->getModule();
 		$baseTableId = $moduleModel->get('basetableid');
 
 		$records = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			foreach ($this->emailColumns as &$email) {
 				if (!empty($row[$email])) {
 					$records[$row[$baseTableId]] = $row[$email];
@@ -115,14 +113,7 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 				return count($selectedIds);
 			}
 		}
-
-		$db = PearDatabase::getInstance();
-		$query = $this->getQuery();
-		$exQuery = preg_split('/ FROM /i', $query, 2);
-		$query = sprintf('SELECT count(*) FROM %s', $exQuery[1]);
-
-		$result = $db->query($query);
-		return $db->getSingleValue($result);
+		return $this->getQuery()->count();
 	}
 
 	public function getQuery($selectedIds = false, $excludedIds = false)
@@ -144,7 +135,7 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 		$searchValue = $this->customViewModel->get('search_value');
 		$operator = $this->customViewModel->get('operator');
 		if (!empty($searchValue)) {
-			$queryGenerator->addUserSearchConditions(array('search_field' => $searchKey, 'search_text' => $searchValue, 'operator' => $operator));
+			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
 
 		$searchParams = $this->customViewModel->get('search_params');
@@ -156,12 +147,8 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 				unset($searchParams[$key]);
 			}
 		}
-		$glue = '';
-		if (count($queryGenerator->getWhereFields()) > 0 && (count($searchParams)) > 0) {
-			$glue = QueryGenerator::$AND;
-		}
-		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParams, $moduleModel);
-		$queryGenerator->parseAdvFilterList($transformedSearchParams, $glue);
+		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
+		$queryGenerator->parseAdvFilter($transformedSearchParams);
 
 		$emailColumns = [];
 		$emailFields = ['id'];
@@ -177,19 +164,13 @@ class OSSMail_SendMailModal_View extends Vtiger_BasicModal_View
 
 		if ($selectedIds && !empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				$queryGenerator->setCustomCondition([
-					'tablename' => $baseTableName,
-					'column' => $baseTableId,
-					'operator' => 'IN',
-					'value' => '(' . implode(',', $selectedIds) . ')',
-					'glue' => 'AND'
-				]);
+				$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selectedIds]);
 			}
 		}
-		$listQuery = $queryGenerator->getQuery();
 		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
-			$listQuery .= ' && ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $excludedIds) . ')';
+			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excludedIds]);
 		}
+		$listQuery = $queryGenerator->createQuery();
 		$this->query = $listQuery;
 		return $listQuery;
 	}

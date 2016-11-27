@@ -8,9 +8,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-require_once('include/ListView/ListViewSession.php');
 
-/* * initializes Related ListViewSession
+/*
  * Portions created by vtigerCRM are Copyright (C) vtigerCRM.
  * All Rights Reserved.
  */
@@ -26,7 +25,7 @@ class RelatedListViewSession
 
 	public function __construct()
 	{
-		
+
 		$currentModule = vglobal('currentModule');
 		\App\Log::trace("Entering RelatedListViewSession() method ...");
 
@@ -72,14 +71,10 @@ class RelatedListViewSession
 		$_SESSION['rlvs'][$currentModule][$relationId]['start'] = $start;
 	}
 
-	public static function getCurrentPage($relationId)
+	public static function getCurrentPage($viewId)
 	{
 		$currentModule = vglobal('currentModule');
-
-		if (!empty($_SESSION['rlvs'][$currentModule][$relationId]['start'])) {
-			return $_SESSION['rlvs'][$currentModule][$relationId]['start'];
-		}
-		return 1;
+		return App\CustomView::getCurrentPage($currentModule, $viewId);
 	}
 
 	public static function getRequestStartPage()

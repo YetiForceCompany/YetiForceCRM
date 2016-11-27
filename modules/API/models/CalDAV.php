@@ -49,7 +49,7 @@ class API_CalDAV_Model
 	{
 		foreach ($this->davUsers as &$user) {
 			$this->calendarId = $user->get('calendarsid');
-			$accessibleGroups = \includes\fields\Owner::getInstance(false, $user)->getAccessibleGroups();
+			$accessibleGroups = \App\Fields\Owner::getInstance(false, $user)->getAccessibleGroups();
 			if ($this->record['smownerid'] == $user->get('id') || $this->record['visibility'] == 'Public' || isset($accessibleGroups[$this->record['smownerid']])) {
 				$sync = true;
 				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_TO_DAV');
@@ -599,7 +599,7 @@ class API_CalDAV_Model
 		if ($cal['smownerid'] == '') {
 			return true;
 		}
-		$accessibleGroups = \includes\fields\Owner::getInstance(false, $this->user)->getAccessibleGroups();
+		$accessibleGroups = \App\Fields\Owner::getInstance(false, $this->user)->getAccessibleGroups();
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT visibility FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE activityid = ? And vtiger_crmentity.deleted=?';
 		$result = $db->pquery($query, [$cal['crmid'], 0]);
@@ -780,13 +780,13 @@ class API_CalDAV_Model
 		foreach ($attendees as &$attendee) {
 			$value = ltrim($attendee->getValue(), 'mailto:');
 			if ($attendee['ROLE']->getValue() == 'CHAIR') {
-				$users = includes\fields\Email::findCrmidByEmail($value, ['Users']);
+				$users = App\Fields\Email::findCrmidByEmail($value, ['Users']);
 				if (!empty($users)) {
 					continue;
 				}
 			}
 			$crmid = 0;
-			$records = includes\fields\Email::findCrmidByEmail($value, array_keys(Vtiger_ModulesHierarchy_Model::getModulesByLevel()));
+			$records = App\Fields\Email::findCrmidByEmail($value, array_keys(Vtiger_ModulesHierarchy_Model::getModulesByLevel()));
 			if (!empty($records)) {
 				$record = reset($records);
 				$crmid = $record['crmid'];

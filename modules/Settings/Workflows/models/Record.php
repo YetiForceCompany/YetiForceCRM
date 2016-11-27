@@ -11,8 +11,8 @@
 /*
  * Workflow Record Model Class
  */
-require_once 'modules/com_vtiger_workflow/include.inc';
-require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
+require_once 'modules/com_vtiger_workflow/include.php';
+require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -29,15 +29,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function get($key)
 	{
-//		if($key == 'execution_condition') {
-//			$executionCondition = parent::get($key);
-//			$executionConditionAsLabel = Settings_Workflows_Module_Model::$triggerTypes[$executionCondition];
-//			return Vtiger_Language_Handler::getTranslatedString($executionConditionAsLabel, 'Settings:Workflows');
-//		}
-//		if($key == 'module_name') {
-//			$moduleName = parent::get($key);
-//			return Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName);
-//		}
 		return parent::get($key);
 	}
 
@@ -104,7 +95,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
-		$wf->test = \includes\utils\Json::encode($this->get('conditions'));
+		$wf->test = \App\Json::encode($this->get('conditions'));
 		$wf->moduleName = $this->get('module_name');
 		$wf->executionCondition = $this->get('execution_condition');
 		$wf->filtersavedinnew = $this->get('filtersavedinnew');
@@ -212,7 +203,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$workflowModel = new self();
 
 		$workflowModel->set('summary', $wf->description);
-		$workflowModel->set('conditions', \includes\utils\Json::decode($wf->test));
+		$workflowModel->set('conditions', \App\Json::decode($wf->test));
 		$workflowModel->set('execution_condition', $wf->executionCondition);
 		$workflowModel->set('module_name', $wf->moduleName);
 		$workflowModel->set('workflow_id', $wf->id);
@@ -239,7 +230,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	{
 
 		$db = PearDatabase::getInstance();
-		vimport('~modules/com_vtiger_workflow/VTTaskManager.inc');
+		vimport('~modules/com_vtiger_workflow/VTTaskManager.php');
 		$taskManager = new VTTaskManager($db);
 		$taskList = $taskManager->getTasks();
 
@@ -311,7 +302,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function returns valuetype of the field filter
-	 * @return <String>
+	 * @return string
 	 */
 	public function getFieldFilterValueType($fieldname)
 	{
@@ -406,8 +397,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get reference field name
-	 * @param <String> $relatedModule
-	 * @return <String> fieldname
+	 * @param string $relatedModule
+	 * @return string fieldname
 	 */
 	public function getReferenceFieldName($relatedModule)
 	{

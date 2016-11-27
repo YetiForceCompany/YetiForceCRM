@@ -1,9 +1,3 @@
-/*
-SQLyog Community v12.09 (64 bit)
-MySQL - 5.7.9 : Database - yetiforce
-*********************************************************************
-*/
-
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -1017,7 +1011,7 @@ CREATE TABLE `u_yf_crmentity_search_label` (
   `crmid` int(19) unsigned NOT NULL,
   `searchlabel` varchar(255) NOT NULL,
   `setype` varchar(30) NOT NULL,
-  `userid` text NOT NULL,
+  `userid` text,
   PRIMARY KEY (`crmid`),
   KEY `searchlabel` (`searchlabel`),
   KEY `searchlabel_2` (`searchlabel`,`setype`)
@@ -1033,6 +1027,15 @@ CREATE TABLE `u_yf_crmentity_showners` (
   KEY `userid` (`userid`),
   CONSTRAINT `fk_u_yf_crmentity_showners` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_dashboard_type` */
+
+CREATE TABLE `u_yf_dashboard_type` (
+  `dashboard_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `system` smallint(1) DEFAULT '0',
+  PRIMARY KEY (`dashboard_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_favorites` */
 
@@ -2757,9 +2760,11 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   `ssalesprocesses_type` varchar(255) DEFAULT NULL,
   `ssalesprocesses_status` varchar(255) DEFAULT NULL,
   `campaignid` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT '0',
   PRIMARY KEY (`ssalesprocessesid`),
   KEY `related_to` (`related_to`),
   KEY `campaignid` (`campaignid`),
+  KEY `parentid` (`parentid`),
   CONSTRAINT `fk_1_u_yf_ssalesprocesses` FOREIGN KEY (`ssalesprocessesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2903,10 +2908,12 @@ CREATE TABLE `u_yf_ssingleorderscf` (
 /*Table structure for table `u_yf_watchdog_module` */
 
 CREATE TABLE `u_yf_watchdog_module` (
-  `userid` int(11) unsigned NOT NULL,
+  `member` varchar(50) NOT NULL,
   `module` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`userid`,`module`),
-  KEY `userid` (`userid`)
+  `lock` tinyint(1) DEFAULT '0',
+  `exceptions` text,
+  PRIMARY KEY (`member`,`module`),
+  KEY `userid` (`member`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_watchdog_record` */
@@ -2928,6 +2935,7 @@ CREATE TABLE `u_yf_watchdog_schedule` (
   `userid` int(11) NOT NULL,
   `frequency` smallint(6) NOT NULL,
   `last_execution` datetime DEFAULT NULL,
+  `modules` text,
   PRIMARY KEY (`userid`),
   CONSTRAINT `u_yf_watchdog_schedule_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -3128,8 +3136,7 @@ CREATE TABLE `vtiger_activity_reminder_popup` (
   `reminderid` int(19) NOT NULL AUTO_INCREMENT,
   `semodule` varchar(100) NOT NULL,
   `recordid` int(19) NOT NULL,
-  `date_start` date NOT NULL,
-  `time_start` varchar(100) NOT NULL,
+  `datetime` datetime NOT NULL,
   `status` int(2) NOT NULL,
   PRIMARY KEY (`reminderid`),
   KEY `recordid` (`recordid`),
@@ -3444,19 +3451,14 @@ CREATE TABLE `vtiger_calendar_default_activitytypes_seq` (
 /*Table structure for table `vtiger_calendar_user_activitytypes` */
 
 CREATE TABLE `vtiger_calendar_user_activitytypes` (
-  `id` int(19) NOT NULL,
+  `id` int(19) NOT NULL AUTO_INCREMENT,
   `defaultid` int(19) DEFAULT NULL,
   `userid` int(19) DEFAULT NULL,
   `color` varchar(50) DEFAULT NULL,
   `visible` int(19) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_calendar_user_activitytypes_seq` */
-
-CREATE TABLE `vtiger_calendar_user_activitytypes_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `userid` (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calendarsharedtype` */
 
@@ -3825,6 +3827,7 @@ CREATE TABLE `vtiger_crmentity` (
   `presence` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `was_read` tinyint(1) DEFAULT '0',
+  `private` tinyint(1) DEFAULT '0',
   `users` text,
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
@@ -4056,7 +4059,6 @@ CREATE TABLE `vtiger_customview` (
   KEY `setdefault` (`setdefault`,`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
-
 
 /*Table structure for table `vtiger_cvadvfilter` */
 
@@ -4831,7 +4833,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2404 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2468 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5298,17 +5300,11 @@ CREATE TABLE `vtiger_industry_seq` (
 /*Table structure for table `vtiger_inventory_tandc` */
 
 CREATE TABLE `vtiger_inventory_tandc` (
-  `id` int(19) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(30) NOT NULL,
   `tandc` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_inventory_tandc_seq` */
-
-CREATE TABLE `vtiger_inventory_tandc_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_inventoryproductrel` */
 
@@ -5348,24 +5344,6 @@ CREATE TABLE `vtiger_inventorysubproductrel` (
   `id` int(19) NOT NULL,
   `sequence_no` int(10) NOT NULL,
   `productid` int(19) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_inventorytaxinfo` */
-
-CREATE TABLE `vtiger_inventorytaxinfo` (
-  `taxid` int(3) NOT NULL,
-  `taxname` varchar(50) DEFAULT NULL,
-  `taxlabel` varchar(50) DEFAULT NULL,
-  `percentage` decimal(7,3) DEFAULT NULL,
-  `deleted` int(1) DEFAULT NULL,
-  PRIMARY KEY (`taxid`),
-  KEY `inventorytaxinfo_taxname_idx` (`taxname`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_inventorytaxinfo_seq` */
-
-CREATE TABLE `vtiger_inventorytaxinfo_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ipreorder_status` */
@@ -5518,7 +5496,7 @@ CREATE TABLE `vtiger_leaddetails` (
   `interest` varchar(50) DEFAULT NULL,
   `firstname` varchar(40) DEFAULT NULL,
   `salutation` varchar(200) DEFAULT NULL,
-  `lastname` varchar(80) NOT NULL,
+  `lastname` varchar(80) DEFAULT NULL,
   `company` varchar(100) NOT NULL,
   `annualrevenue` decimal(25,8) DEFAULT NULL,
   `industry` varchar(200) DEFAULT NULL,
@@ -6047,6 +6025,7 @@ CREATE TABLE `vtiger_module_dashboard_blocks` (
   `id` int(100) unsigned NOT NULL AUTO_INCREMENT,
   `authorized` varchar(10) NOT NULL,
   `tabid` smallint(11) unsigned NOT NULL,
+  `dashboard_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `authorized` (`authorized`,`tabid`),
   KEY `tabid` (`tabid`)
@@ -6071,6 +6050,7 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   `module` int(10) DEFAULT '0',
   `cache` tinyint(1) DEFAULT '0',
   `date` varchar(20) DEFAULT NULL,
+  `dashboardid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
   KEY `userid` (`userid`,`active`,`module`),
@@ -7004,7 +6984,6 @@ CREATE TABLE `vtiger_products` (
   `usageunit` varchar(200) DEFAULT NULL,
   `reorderlevel` int(11) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
-  `taxclass` varchar(200) DEFAULT NULL,
   `mfr_part_no` varchar(200) DEFAULT NULL,
   `vendor_part_no` varchar(200) DEFAULT NULL,
   `serialno` varchar(200) DEFAULT NULL,
@@ -7023,16 +7002,6 @@ CREATE TABLE `vtiger_products` (
   `category_multipicklist` text,
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_producttaxrel` */
-
-CREATE TABLE `vtiger_producttaxrel` (
-  `productid` int(11) NOT NULL,
-  `taxid` int(3) NOT NULL,
-  `taxpercentage` decimal(7,3) DEFAULT NULL,
-  KEY `producttaxrel_productid_idx` (`productid`),
-  KEY `producttaxrel_taxid_idx` (`taxid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_profile` */
@@ -7491,23 +7460,6 @@ CREATE TABLE `vtiger_relatedlists_fields` (
   KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_relatedlists_rb` */
-
-CREATE TABLE `vtiger_relatedlists_rb` (
-  `entityid` int(19) DEFAULT NULL,
-  `action` varchar(50) DEFAULT NULL,
-  `rel_table` varchar(200) DEFAULT NULL,
-  `rel_column` varchar(200) DEFAULT NULL,
-  `ref_column` varchar(200) DEFAULT NULL,
-  `related_crm_ids` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_relatedlists_seq` */
-
-CREATE TABLE `vtiger_relatedlists_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_relcriteria` */
 
 CREATE TABLE `vtiger_relcriteria` (
@@ -7957,10 +7909,10 @@ CREATE TABLE `vtiger_service` (
   `discontinued` tinyint(1) NOT NULL DEFAULT '0',
   `service_usageunit` varchar(200) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
-  `taxclass` varchar(200) DEFAULT NULL,
   `currency_id` int(19) NOT NULL DEFAULT '1',
   `commissionrate` decimal(7,3) DEFAULT NULL,
   `renewable` tinyint(1) DEFAULT '0',
+  `taxes` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`serviceid`),
   CONSTRAINT `fk_1_vtiger_service` FOREIGN KEY (`serviceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -9042,6 +8994,7 @@ CREATE TABLE `vtiger_webforms_field` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `webformid` int(19) NOT NULL,
   `fieldname` varchar(50) NOT NULL,
+  `fieldid` int(11) DEFAULT NULL,
   `neutralizedfield` varchar(50) NOT NULL,
   `defaultvalue` varchar(200) DEFAULT NULL,
   `required` int(10) NOT NULL DEFAULT '0',
@@ -9051,8 +9004,9 @@ CREATE TABLE `vtiger_webforms_field` (
   KEY `webforms_webforms_field_idx` (`id`),
   KEY `fk_1_vtiger_webforms_field` (`webformid`),
   KEY `fk_2_vtiger_webforms_field` (`fieldname`),
+  KEY `fk_3_vtiger_webforms_field` (`fieldid`),
   CONSTRAINT `fk_1_vtiger_webforms_field` FOREIGN KEY (`webformid`) REFERENCES `vtiger_webforms` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_3_vtiger_webforms_field` FOREIGN KEY (`fieldname`) REFERENCES `vtiger_field` (`fieldname`) ON DELETE CASCADE
+  CONSTRAINT `fk_3_vtiger_webforms_field` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_widgets` */

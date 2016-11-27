@@ -7,7 +7,7 @@
 			&nbsp;{vtranslate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
-	{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
 		<li class="active"><a href="#user_list" data-toggle="tab">{vtranslate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#configuration" data-toggle="tab">{vtranslate('LBL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>

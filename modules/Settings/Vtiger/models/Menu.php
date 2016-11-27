@@ -60,7 +60,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the url to list the items of the Menu
-	 * @return <String> - List url
+	 * @return string - List url
 	 */
 	public function getListUrl()
 	{

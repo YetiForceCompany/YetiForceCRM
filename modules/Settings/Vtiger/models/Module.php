@@ -74,7 +74,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get field using field name
-	 * @param <String> $fieldName
+	 * @param string $fieldName
 	 * @return <Field_Model>
 	 */
 	public function getField($fieldName)
@@ -126,7 +126,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Index view Url
-	 * @return <String> URL
+	 * @return string URL
 	 */
 	public function getIndexViewUrl()
 	{

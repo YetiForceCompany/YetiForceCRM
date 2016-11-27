@@ -13,29 +13,26 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param <String> $sourceModule Parent module
-	 * @param <String> $field parent fieldname
-	 * @param <Integer> $record parent id
-	 * @param <String> $listQuery
-	 * @return <String> Listview Query
+	 * @param string $sourceModule Parent module
+	 * @param string $field parent fieldname
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if ($sourceModule == 'Users' && $field == 'reports_to_id') {
-			$overRideQuery = $listQuery;
 			if (!empty($record)) {
-				$overRideQuery = $overRideQuery . " && vtiger_users.id != " . $record;
+				$queryGenerator->addNativeCondition(['<>', 'vtiger_users.id', $record]);
 			}
-			return $overRideQuery;
 		}
 	}
 
 	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
-	 * @param <String> $searchValue - Search value
+	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
-	 * @param <String> $parentModule - parent module name
+	 * @param string $parentModule - parent module name
 	 * @return <Array of Users_Record_Model>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
@@ -62,7 +59,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the default column for Alphabetic search
-	 * @return <String> columnname
+	 * @return string columnname
 	 */
 	public function getAlphabetSearchField()
 	{
@@ -71,7 +68,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for the Create Record view of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getCreateRecordUrl()
 	{
@@ -105,7 +102,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getListViewUrl()
 	{
@@ -232,12 +229,11 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	public function checkMailExist($email, $id)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = "SELECT COUNT(*) as num FROM vtiger_users WHERE email1 = ? && id != ?";
-		$result = $db->pquery($sql, array($email, $id), true);
-
-		return !!$db->query_result($result, 0, 'num');
+		$query = (new \App\Db\Query())->from('vtiger_users')->where(['email1' => $email]);
+		if ($id) {
+			$query->andWhere(['<>', 'id', $id]);
+		}
+		return $query->exists();
 	}
 
 	/**
@@ -274,15 +270,9 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	public static function getNotAdminUsers()
 	{
-		$adb = PearDatabase::getInstance();
-		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'off' && deleted = 0 && status='Active'";
-		$result = $adb->query($query);
-		$numRows = $adb->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$output[] = $adb->query_result_rowdata($result, $i);
-		}
-
-		return $output;
+		return (new App\Db\Query())->from('vtiger_users')
+				->where(['is_admin' => 'off', 'deleted' => 0, 'status' => 'Active'])
+				->all();
 	}
 
 	public static function getSwitchUsers()

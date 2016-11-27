@@ -51,15 +51,15 @@ class Install_Utils_Model
 
 	/**
 	 * Function checks the database connection
-	 * @param <String> $db_type
-	 * @param <String> $db_hostname
-	 * @param <String> $db_username
-	 * @param <String> $db_password
-	 * @param <String> $db_name
-	 * @param <String> $create_db
-	 * @param <String> $create_utf8_db
-	 * @param <String> $root_user
-	 * @param <String> $root_password
+	 * @param string $db_type
+	 * @param string $db_hostname
+	 * @param string $db_username
+	 * @param string $db_password
+	 * @param string $db_name
+	 * @param string $create_db
+	 * @param string $create_utf8_db
+	 * @param string $root_user
+	 * @param string $root_password
 	 * @return <Array>
 	 */
 	public static function checkDbConnection($db_type, $db_hostname, $db_username, $db_password, $db_name, $create_db = false, $create_utf8_db = true, $root_user = '', $root_password = '')

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
@@ -13,7 +14,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -32,17 +33,25 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		}
 		$value = explode(' |##| ', $value);
 		$trValue = [];
-
+		$moduleName = $this->get('field')->getModuleName();
 		$countValue = count($value);
 		for ($i = 0; $i < $countValue; $i++) {
-			$trValue[] = Vtiger_Language_Handler::getTranslatedString($value[$i], $this->get('field')->getModuleName());
+			$trValue[] = Vtiger_Language_Handler::getTranslatedString($value[$i], $moduleName);
 		}
-
-		if (is_array($trValue)) {
-			$trValue = implode(' |##| ', $trValue);
-		}
+		$trValue = implode(' |##| ', $trValue);
 
 		return str_ireplace(' |##| ', ', ', $trValue);
+	}
+
+	/**
+	 * Function to get the display value in edit view
+	 * @param string $value
+	 * @param int $record - Record ID
+	 * @return array
+	 */
+	public function getEditViewDisplayValue($value, $record = false)
+	{
+		return explode(' |##| ', $value);
 	}
 
 	public function getDBInsertValue($value)

@@ -64,7 +64,7 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 			'id' => $id,
 			'userid' => $currentUserModel->getRealId(),
 			'tabid' => \vtlib\Functions::getModuleId($module),
-			'data' => \includes\utils\Json::encode($data),
+			'data' => \App\Json::encode($data),
 			'time' => date('Y-m-d H:i:s')
 		])->execute();
 	}

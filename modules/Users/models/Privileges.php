@@ -17,7 +17,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to get the Display Name for the record
-	 * @return <String> - Entity Display Name for the record
+	 * @return string - Entity Display Name for the record
 	 */
 	public function getName()
 	{
@@ -51,7 +51,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to check if the user has Global Read Permission
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasGlobalReadPermission()
 	{
@@ -62,7 +62,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to check if the user has Global Write Permission
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasGlobalWritePermission()
 	{
@@ -83,7 +83,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	/**
 	 * Function to check whether the user has access to a given module by tabid
 	 * @param <Number> $tabId
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasModulePermission($mixed)
 	{
@@ -96,7 +96,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 * Function to check whether the user has access to the specified action/operation on a given module by tabid
 	 * @param <Number> $tabId
 	 * @param <String/Number> $action
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasModuleActionPermission($mixed, $action)
 	{
@@ -154,15 +154,13 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function getCurrentUserPrivilegesModel()
 	{
-		$currentUser = vglobal('current_user');
-		$currentUserId = $currentUser->id;
-		return self::getInstanceById($currentUserId);
+		return self::getInstanceById(App\User::getCurrentUserId());
 	}
 
 	/**
 	 * Function to check permission for a Module/Action/Record
-	 * @param <String> $moduleName
-	 * @param <String> $actionName
+	 * @param string $moduleName
+	 * @param string $actionName
 	 * @param <Number> $record
 	 * @return Boolean
 	 */
@@ -178,8 +176,8 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function returns non admin access control check query
-	 * @param <String> $module
-	 * @return <String>
+	 * @param string $module
+	 * @return string
 	 */
 	public static function getNonAdminAccessControlQuery($module)
 	{
@@ -201,9 +199,9 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
-		vimport('~~modules/com_vtiger_workflow/include.inc');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
-		vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
+		vimport('~~modules/com_vtiger_workflow/include.php');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+		vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
 		vimport('~~include/Webservices/Retrieve.php');
 		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
 		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
@@ -232,30 +230,30 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to set Shared Owner
+	 * @param int|array|string $userIds
+	 * @param int $record
 	 */
-	public static function setSharedOwner(Vtiger_Record_Model $recordModel)
+	public static function setSharedOwner($userIds, $record)
 	{
 		$saveFull = true;
 
-		$db = PearDatabase::getInstance();
-		$userIds = $recordModel->get('shownerid');
-		$record = $recordModel->getId();
+		$db = \App\Db::getInstance();
 		if (AppRequest::get('action') == 'SaveAjax' && AppRequest::has('field') && AppRequest::get('field') != 'shownerid') {
 			$saveFull = false;
 		}
 		if ($saveFull) {
-			$db->delete('u_yf_crmentity_showners', 'crmid = ?', [$record]);
+			$db->createCommand()->delete('u_#__crmentity_showners', ['crmid' => $record])->execute();
 			if (empty($userIds)) {
 				return false;
 			}
 			if (!is_array($userIds) && $userIds) {
-				$userIds = [$userIds];
+				$userIds = explode(',', $userIds);
 			}
 			foreach ($userIds as $userId) {
-				$db->insert('u_yf_crmentity_showners', [
+				$db->createCommand()->insert('u_#__crmentity_showners', [
 					'crmid' => $record,
 					'userid' => $userId,
-				]);
+				])->execute();
 			}
 		}
 	}

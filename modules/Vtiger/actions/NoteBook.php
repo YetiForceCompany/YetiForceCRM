@@ -14,7 +14,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 
 	public function __construct()
 	{
-		$this->exposeMethod('NoteBookCreate');
+		$this->exposeMethod('noteBookCreate');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -26,35 +26,29 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function NoteBookCreate(Vtiger_Request $request)
+	public function noteBookCreate(Vtiger_Request $request)
 	{
-		$adb = PearDatabase::getInstance();
 		$userModel = Users_Record_Model::getCurrentUserModel();
-		$linkId = $request->get('linkId');
-		$noteBookName = $request->get('notePadName');
-		$noteBookContent = $request->get('notePadContent');
-		$blockid = $request->get('blockid');
-		$isdefault = $request->get('isdefault');
-		$width = $request->get('width');
-		$height = $request->get('height');
+		$dataValue['contents'] = $request->get('notePadContent');
+		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 
-		$date_var = date("Y-m-d H:i:s");
-		$date = $adb->formatDate($date_var, true);
-
-		$dataValue = [];
-		$dataValue['contents'] = $noteBookContent;
-		$dataValue['lastSavedOn'] = $date;
-
-		$data = \includes\utils\Json::encode((object) $dataValue);
-		$size = \includes\utils\Json::encode(array('width' => $width, 'height' => $height));
-		$query = "INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `isdefault`, `size`) VALUES(?,?,?,?,?,?,?)";
-		$params = array($linkId, $blockid, 0, $noteBookName, $data, $isdefault, $size);
-		$adb->pquery($query, $params);
-		$id = $adb->getLastInsertID();
+		$data = \App\Json::encode((object) $dataValue);
+		$size = \App\Json::encode(['width' => $request->get('width'), 'height' => $request->get('height')]);
+		$db = \App\Db::getInstance();
+		$db->createCommand()
+			->insert('vtiger_module_dashboard', [
+				'linkid' => $request->get('linkId'),
+				'blockid' => $request->get('blockid'),
+				'filterid' => 0,
+				'title' => $request->get('notePadName'),
+				'data' => $data,
+				'isdefault' => $isDefault = $request->get('isdefault'),
+				'size' => $size
+			])->execute();
 
 		$result = [];
 		$result['success'] = true;
-		$result['widgetId'] = $id;
+		$result['widgetId'] = $db->getLastInsertID('vtiger_module_dashboard_id_seq');
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

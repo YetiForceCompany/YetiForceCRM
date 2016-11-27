@@ -54,7 +54,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getUserColors()
 	{
-		$instance = new \includes\fields\Owner();
+		$instance = new \App\Fields\Owner();
 		$users = $instance->initUsers();
 
 		$calendarViewTypes = [];

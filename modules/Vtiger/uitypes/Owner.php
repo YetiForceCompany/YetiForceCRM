@@ -13,7 +13,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -27,11 +27,11 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$ownerName = \includes\fields\Owner::getLabel($value);
+		$ownerName = \App\Fields\Owner::getLabel($value);
 		if ($rawText) {
 			return $ownerName;
 		}
-		if (\includes\fields\Owner::getType($value) === 'Users') {
+		if (\App\Fields\Owner::getType($value) === 'Users') {
 			$userModel = Users_Privileges_Model::getInstanceById($value);
 			$userModel->setModule('Users');
 			$ownerName = $userModel->getName();
@@ -63,11 +63,11 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$maxLengthText = $this->get('field')->get('maxlengthtext');
-		$ownerName = \includes\fields\Owner::getLabel($value);
+		$ownerName = \App\Fields\Owner::getLabel($value);
 		if ($rawText) {
 			return \vtlib\Functions::textLength($ownerName, $maxLengthText);
 		}
-		if (\includes\fields\Owner::getType($value) === 'Users') {
+		if (\App\Fields\Owner::getType($value) === 'Users') {
 			$userModel = Users_Privileges_Model::getInstanceById($value);
 			$userModel->setModule('Users');
 			$ownerName = vtlib\Functions::textLength($userModel->getName(), $maxLengthText);
@@ -93,8 +93,8 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get Display value for RelatedList
-	 * @param <String> $value
-	 * @return <String>
+	 * @param string $value
+	 * @return string
 	 */
 	public function getRelatedListDisplayValue($value)
 	{

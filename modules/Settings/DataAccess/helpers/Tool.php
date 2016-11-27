@@ -9,9 +9,9 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 include_once 'include/main/WebUI.php';
-include_once 'modules/com_vtiger_workflow/include.inc';
-include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
-include_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
+include_once 'modules/com_vtiger_workflow/include.php';
+include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
+include_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
 
 class Oss_Tool
 {

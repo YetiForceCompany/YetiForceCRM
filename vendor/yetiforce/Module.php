@@ -98,4 +98,53 @@ class Module
 	{
 		return \vtlib\Functions::getModuleName($tabId);
 	}
+
+	/**
+	 * Function get module name
+	 * @param string $moduleName
+	 * @return string
+	 */
+	public static function getTabName($moduleName)
+	{
+		return $moduleName === 'Events' ? 'Calendar' : $moduleName;
+	}
+
+	/**
+	 * Function to get the list of module for which the user defined sharing rules can be defined
+	 * @param array $eliminateModules
+	 * @return array
+	 */
+	public static function getSharingModuleList($eliminateModules = false)
+	{
+		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
+		$sharingModules = [];
+		foreach ($modules as $tabId => $row) {
+			if (!$eliminateModules || !in_array($row['name'], $eliminateModules)) {
+				$sharingModules[] = $row['name'];
+			}
+		}
+		return $sharingModules;
+	}
+
+	/**
+	 * Get sql for name in display format
+	 * @param string $moduleName
+	 * @return string
+	 */
+	public static function getSqlForNameInDisplayFormat($moduleName)
+	{
+		$entityFieldInfo = static::getEntityInfo($moduleName);
+		$fieldsName = $entityFieldInfo['fieldnameArr'];
+		if (count($fieldsName) > 1) {
+			$sqlString = 'CONCAT(';
+			foreach ($fieldsName as &$column) {
+				$sqlString .= "{$entityFieldInfo['tablename']}.$column,' ',";
+			}
+			$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
+		} else {
+			$fieldsName = array_pop($fieldsName);
+			$formattedName = "{$entityFieldInfo['tablename']}.$fieldsName";
+		}
+		return $formattedName;
+	}
 }

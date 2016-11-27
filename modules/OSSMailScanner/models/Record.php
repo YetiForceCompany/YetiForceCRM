@@ -66,7 +66,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		//var_dump($return);
 		return $return;
 	}
 
@@ -143,15 +142,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
-	public function setConfigWidget($conf_type, $type, $vale)
+	public function setConfigWidget($confType, $type, $value)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($vale === null || $vale == 'null') {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = ? && parameter = ?", [$conf_type, $type]);
-		} else {
-			$result = $adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = ? && parameter = ?", [$vale, $conf_type, $type]);
+		if ($value === null || $value == 'null') {
+			$value = null;
 		}
-		return vtranslate('LBL_SAVE', 'OSSMailScanner');
+		App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
+		return App\Language::translate('LBL_SAVE', 'OSSMailScanner');
 	}
 
 	public static function getTypeFolder($folder)
@@ -302,12 +299,15 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$return = [];
 		$queryParams = ['Users'];
+		$query = (new App\Db\Query())->from('vtiger_field')
+			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
+			->where(['and', ['or', ['uitype' => 13], ['uitype' => 14]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
 		if ($module) {
-			$ifwhere = 'AND vtiger_tab.name = ? ';
-			$queryParams[] = $module;
+			$query->andWhere(['vtiger_tab.name' => $module]);
 		}
-		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' || uitype = '104') && vtiger_field.presence <> '1' AND vtiger_tab.name <> ? $ifwhere ORDER BY name", $queryParams);
-		while ($row = $db->getRow($result)) {
+		$query->orderBy('name');
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$return[] = [
 				'key' => $row['tablename'] . '=' . $row['columnname'] . '=' . $row['name'],
 				'fieldlabel' => $row['fieldlabel'],
@@ -328,29 +328,38 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			return $cache;
 		}
 		$return = [];
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT value FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
-		if ($result->rowCount()) {
-			$value = $db->getSingleValue($result);
-			if (!empty($value)) {
-				$return = explode(',', $value);
-			}
+		$value = (new \App\Db\Query())->select('value')->from('vtiger_ossmailscanner_config')
+			->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])
+			->scalar();
+		if (!empty($value)) {
+			$return = explode(',', $value);
 		}
 		Vtiger_Cache::set('Mail', 'EmailSearchList', $return);
 		return $return;
 	}
 
-	public static function setEmailSearchList($vale)
+	public static function setEmailSearchList($value)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
-		if ($vale === null || $vale == 'null') {
-			$adb->query("UPDATE vtiger_ossmailscanner_config SET value = NULL WHERE conf_type = 'emailsearch' && parameter = 'fields'", true);
+		$db = App\Db::getInstance();
+		if ($value === null || $value == 'null') {
+			$db->createCommand()
+				->update('vtiger_ossmailscanner_config', ['value' => ''], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])
+				->execute();
 		} else {
-			if ($adb->getRowCount($result) == 0) {
-				$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'fields', $vale));
+			$isExists = (new App\Db\Query())
+				->from('vtiger_ossmailscanner_config')
+				->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])
+				->exists();
+			if (!$isExists) {
+				$db->createCommand()->insert('vtiger_ossmailscanner_config', [
+					'conf_type' => 'emailsearch',
+					'parameter' => 'fields',
+					'value' => $value
+				])->execute();
 			} else {
-				$adb->pquery("UPDATE vtiger_ossmailscanner_config SET value = ? WHERE conf_type = 'emailsearch' && parameter = 'fields'", array($vale), true);
+				$db->createCommand()
+					->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])
+					->execute();
 			}
 		}
 	}
@@ -448,23 +457,28 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public function get_scan_history($startNumber = 0)
 	{
-		$adb = PearDatabase::getInstance();
 		$limit = 30;
 		$endNumber = $startNumber + $limit;
-		$result = $adb->query("SELECT * FROM vtiger_ossmails_logs ORDER BY id DESC LIMIT $startNumber , $endNumber");
+		$dataReader = (new App\Db\Query())->from('vtiger_ossmails_logs')
+				->orderBy(['id' => SORT_DESC])
+				->limit($endNumber)
+				->offset($startNumber)
+				->createCommand()->query();
 		$output = [];
-		for ($i = 0; $i < $adb->getRowCount($result); $i++) {
-			$startTime = new DateTimeField($adb->query_result($result, $i, 'start_time'));
-			$endTime = new DateTimeField($adb->query_result($result, $i, 'end_time'));
-			$output[$i]['id'] = $adb->query_result($result, $i, 'id');
-			$output[$i]['start_time'] = $startTime->getDisplayDateTimeValue();
-			$output[$i]['end_time'] = $endTime->getDisplayDateTimeValue();
-			$output[$i]['status'] = self::getHistoryStatus($adb->query_result($result, $i, 'status'));
-			$output[$i]['user'] = $adb->query_result($result, $i, 'user');
-			$output[$i]['stop_user'] = $adb->query_result($result, $i, 'stop_user');
-			$output[$i]['count'] = $adb->query_result($result, $i, 'count');
-			$output[$i]['action'] = vtranslate($adb->query_result($result, $i, 'action'), 'OSSMailScanner');
-			$output[$i]['info'] = $adb->query_result($result, $i, 'info');
+		while ($row = $dataReader->read()) {
+			$startTime = new DateTimeField($row['start_time']);
+			$endTime = new DateTimeField($row['end_time']);
+			$output [] = [
+				'id' => $row['id'],
+				'start_time' => $startTime->getDisplayDateTimeValue(),
+				'end_time' => $endTime->getDisplayDateTimeValue(),
+				'status' => self::getHistoryStatus($row['status']),
+				'user' => $row['user'],
+				'stop_user' => $row['stop_user'],
+				'count' => $row['count'],
+				'action' => $row['count'],
+				'info' => $row['info'],
+			];
 		}
 		return $output;
 	}
@@ -494,10 +508,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			if ($row['status'] == 1) {
 				$config = self::getConfig('cron');
 				$time = strtotime($row['start_time']) + ( $config['time'] * 60);
-				//var_dump(strtotime("now") > $time, strtotime("now"), $time, date('Y-m-d H:i:s'));
 				if (strtotime("now") > $time) {
 					$return = $row['start_time'];
-					//return array( date("Y-m-d H:i:s"), date("Y-m-d H:i:s", $time) , $config['time'] );
 				}
 			}
 		}

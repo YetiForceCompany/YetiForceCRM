@@ -15,12 +15,13 @@
 class Vtiger_Module_Model extends \vtlib\Module
 {
 
-	protected $blocks = false;
-	protected $nameFields = false;
-	protected $moduleMeta = false;
-	protected $fields = false;
+	protected $blocks;
+	protected $nameFields;
+	protected $moduleMeta;
+	protected $fields;
 	protected $relations = null;
 	protected $moduleType = '0';
+	protected $entityInstance;
 
 	/**
 	 * Function to get the Module/Tab id
@@ -38,7 +39,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to check whether the module is an entity type module or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isEntityModule()
 	{
@@ -47,7 +48,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to check whether the module is enabled for quick create
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isQuickCreateSupported()
 	{
@@ -56,7 +57,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -75,7 +76,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get singluar label key
-	 * @return <String> - Singular module label key
+	 * @return string - Singular module label key
 	 */
 	public function getSingularLabelKey()
 	{
@@ -84,7 +85,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @return <Object>
 	 * @throws Exception
 	 */
@@ -98,7 +99,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to set the value of a given property
-	 * @param <String> $propertyName
+	 * @param string $propertyName
 	 * @param <Object> $propertyValue
 	 * @return Vtiger_Module_Model instance
 	 */
@@ -110,7 +111,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function checks if the module is Active
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isActive()
 	{
@@ -119,7 +120,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function checks if the module is enabled for tracking changes
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isTrackingEnabled()
 	{
@@ -155,13 +156,62 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
+	 * Static Function to get the instance of Vtiger Module Model for the given id or name
+	 * @param int|string $mixed id or name of the module
+	 * @return self
+	 */
+	public static function getInstance($mixed)
+	{
+		$instance = Vtiger_Cache::get('module', $mixed);
+		if (!$instance) {
+			$instance = false;
+			$moduleObject = parent::getInstance($mixed);
+			if ($moduleObject) {
+				$instance = self::getInstanceFromModuleObject($moduleObject);
+				Vtiger_Cache::set('module', $moduleObject->id, $instance);
+				Vtiger_Cache::set('module', $moduleObject->name, $instance);
+			}
+		}
+		return $instance;
+	}
+
+	/**
+	 * Function to get the instance of Vtiger Module Model from a given vtlib\Module object
+	 * @param vtlib\Module $moduleObj
+	 * @return self
+	 */
+	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
+	{
+		$objectProperties = get_object_vars($moduleObj);
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $objectProperties['name']);
+		$moduleModel = new $modelClassName();
+		foreach ($objectProperties as $properName => $propertyValue) {
+			$moduleModel->$properName = $propertyValue;
+		}
+		return $moduleModel;
+	}
+
+	/**
+	 * Function to get the instance of Vtiger Module Model from a given list of key-value mapping
+	 * @param array $valueArray
+	 * @return self
+	 */
+	public static function getInstanceFromArray($valueArray)
+	{
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $valueArray['name']);
+		$instance = new $modelClassName();
+		$instance->initialize($valueArray);
+		return $instance;
+	}
+
+	/**
 	 * Function to save a given record model of the current module
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function saveRecord(Vtiger_Record_Model $recordModel)
 	{
 		$moduleName = $this->get('name');
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = $this->getEntityInstance();
 		$fields = $focus->column_fields;
 		foreach ($fields as $fieldName => $fieldValue) {
 			$fieldValue = $recordModel->get($fieldName);
@@ -180,9 +230,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$focus->newRecord = $recordModel->get('newRecord');
 		$focus->save($moduleName);
 		$recordModel->setData($focus->column_fields)->setId($focus->id)->setEntity($focus);
-		if ($recordModel->has('shownerid')) {
-			Users_Privileges_Model::setSharedOwner($recordModel);
-		}
 		return $recordModel;
 	}
 
@@ -193,15 +240,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function deleteRecord($recordModel)
 	{
 		$moduleName = $this->get('name');
-		$focus = CRMEntity::getInstance($moduleName);
+		$focus = $this->getEntityInstance();
 		$focus->trash($moduleName, $recordModel->getId());
 		if (method_exists($focus, 'transferRelatedRecords')) {
 			if ($recordModel->get('transferRecordIDs'))
 				$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
 
-		vimport('~~modules/com_vtiger_workflow/include.inc');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		vimport('~~modules/com_vtiger_workflow/include.php');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
 		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {
@@ -214,6 +261,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('u_yf_crmentity_label', ['crmid' => $recordModel->getId()])->execute();
+		$db->createCommand()->delete('u_yf_crmentity_search_label', ['crmid' => $recordModel->getId()])->execute();
 	}
 
 	/**
@@ -256,7 +306,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get listview url with all filter
-	 * @return <string> URL
+	 * @return string URL
 	 */
 	public function getListViewUrlWithAllFilter()
 	{
@@ -265,13 +315,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns the All filter for the module
-	 * @return <Int> custom filter id
+	 * @return int custom filter id
 	 */
 	public function getAllFilterCvidForModule()
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE viewname = 'All' && entitytype = ?", [$this->getName()]);
+		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE viewname = 'All' AND entitytype = ?", [$this->getName()]);
 		if ($result->rowCount()) {
 			return $db->getSingleValue($result);
 		}
@@ -325,7 +375,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for default view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getDefaultUrl()
 	{
@@ -334,7 +384,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getListViewUrl()
 	{
@@ -343,7 +393,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Create Record view of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getCreateRecordUrl()
 	{
@@ -352,7 +402,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Create Record view of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getQuickCreateUrl()
 	{
@@ -361,7 +411,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Import action of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getImportUrl()
 	{
@@ -370,7 +420,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Export action of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getExportUrl()
 	{
@@ -379,7 +429,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url for the Find Duplicates action of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getFindDuplicatesUrl()
 	{
@@ -388,7 +438,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url to view Dashboard for the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getDashBoardUrl()
 	{
@@ -397,7 +447,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the url to view Details for the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getDetailViewUrl($id)
 	{
@@ -422,6 +472,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
+		$recordInstance->setFullForm(false);
 		return $recordInstance->setData($valueArray)->setModuleFromInstance($this)->setRawData($rawData);
 	}
 
@@ -444,7 +495,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function that returns all the fields for the module
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -465,31 +516,76 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
+	 * Function to get the field mode
+	 * @param string $fieldName - field name
+	 * @return Vtiger_Field_Model
+	 */
+	public function getField($fieldName)
+	{
+		return Vtiger_Field_Model::getInstance($fieldName, $this);
+	}
+
+	/**
+	 * Function to get the field by column name.
+	 * @param string $columnName - column name
+	 * @return Vtiger_Field_Model
+	 */
+	public function getFieldByColumn($columnName)
+	{
+		foreach ($this->getFields() as &$field) {
+			if ($field->get('column') === $columnName) {
+				return $field;
+			}
+		}
+		return NULL;
+	}
+
+	/**
+	 * Get field by field name
+	 * @param string $fieldName
+	 * @return Vtiger_Field_Model
+	 * @throws \Exception\AppException
+	 */
+	public function getFieldByName($fieldName)
+	{
+		if (!$this->fields) {
+			$this->getFields();
+		}
+		if (isset($this->fields[$fieldName])) {
+			return $this->fields[$fieldName];
+		}
+		App\Log::error("Field does not exist: $fieldName in " . __METHOD__);
+		throw new \Exception\AppException('LBL_FIELD_DOES_NOT_EXIST');
+	}
+
+	/**
 	 * Function gives fields based on the type
-	 * @param <String> $type - field type
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @param string $type - field type
+	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFieldsByType($type)
 	{
 		if (!is_array($type)) {
 			$type = array($type);
 		}
-		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as $field) {
-			$fieldType = $field->getFieldDataType();
-			if (in_array($fieldType, $type)) {
+		foreach ($this->getFields() as &$field) {
+			if (in_array($field->getFieldDataType(), $type)) {
 				$fieldList[$field->getName()] = $field;
 			}
 		}
 		return $fieldList;
 	}
 
-	public function getFieldsByUiType($type)
+	/**
+	 * Function gives fields based on the uitype
+	 * @return Vtiger_Field_Model[] with field id as key
+	 */
+	public function getFieldsByUiType($uitype)
 	{
 		$fieldList = [];
-		foreach ($this->getFields() as $field) {
-			if ($field->get('uitype') == $type) {
+		foreach ($this->getFields() as &$field) {
+			if ($field->get('uitype') === $uitype) {
 				$fieldList[$field->getName()] = $field;
 			}
 		}
@@ -498,41 +594,40 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function gives fields based on the type
-	 * @return <Vtiger_Field_Model> with field label as key
+	 * @return Vtiger_Field_Model[] with field label as key
 	 */
 	public function getFieldsByLabel()
 	{
-		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as $field) {
-			$fieldLabel = $field->get('label');
-			$fieldList[$fieldLabel] = $field;
+		foreach ($this->getFields() as &$field) {
+			$fieldList[$field->get('label')] = $field;
 		}
 		return $fieldList;
 	}
 
 	/**
 	 * Function gives fields based on the fieldid
-	 * @return <Vtiger_Field_Model> with field id as key
+	 * @return Vtiger_Field_Model[] with field id as key
 	 */
 	public function getFieldsById()
 	{
 		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as $field) {
-			$fieldId = $field->getId();
-			$fieldList[$fieldId] = $field;
+		foreach ($fields as &$field) {
+			$fieldList[$field->getId()] = $field;
 		}
 		return $fieldList;
 	}
 
+	/**
+	 * Function gives fields based on the type
+	 * @return Vtiger_Field_Model[] with field id as key
+	 */
 	public function getFieldsByDisplayType($type)
 	{
-		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as $field) {
-			$displayType = $field->get('displaytype');
-			if ($displayType == $type) {
+		foreach ($this->getFields() as &$field) {
+			if ($field->get('displaytype') === $type) {
 				$fieldList[$field->getName()] = $field;
 			}
 		}
@@ -540,15 +635,21 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function returns all the relation models
-	 * @return <Array of Vtiger_Relation_Model>
+	 * Function to get list of field for summary view
+	 * @return Vtiger_Field_Model[] list of field models
 	 */
-	public function getRelations()
+	public function getSummaryViewFieldsList()
 	{
-		if (empty($this->relations)) {
-			$this->relations = Vtiger_Relation_Model::getAllRelations($this);
+		if (!isset($this->summaryFields)) {
+			$summaryFields = [];
+			foreach ($this->getFields() as $fieldName => &$fieldModel) {
+				if ($fieldModel->isSummaryField() && $fieldModel->isActiveField()) {
+					$summaryFields[$fieldName] = $fieldModel;
+				}
+			}
+			$this->summaryFields = $summaryFields;
 		}
-		return $this->relations;
+		return $this->summaryFields;
 	}
 
 	/**
@@ -579,31 +680,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get the field mode
-	 * @param <String> $fieldName - field name
-	 * @return <Vtiger_Field_Model>
+	 * Function returns all the relation models
+	 * @return Vtiger_Relation_Model[]
 	 */
-	public function getField($fieldName)
+	public function getRelations()
 	{
-		return Vtiger_Field_Model::getInstance($fieldName, $this);
-	}
-
-	/**
-	 * Function to get the field by column name.
-	 * @param <String> $columnName - column name
-	 * @return <Vtiger_Field_Model>
-	 */
-	public function getFieldByColumn($columnName)
-	{
-		$fields = $this->getFields();
-		if ($fields) {
-			foreach ($fields as $field) {
-				if ($field->get('column') == $columnName) {
-					return $field;
-				}
-			}
+		if (empty($this->relations)) {
+			$this->relations = Vtiger_Relation_Model::getAllRelations($this);
 		}
-		return NULL;
+		return $this->relations;
 	}
 
 	/**
@@ -666,7 +751,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function that returns deleted records condition
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDeletedRecordCondition()
 	{
@@ -679,40 +764,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getPopupFields()
 	{
-		$entityInstance = CRMEntity::getInstance($this->getName());
-		return $entityInstance->search_fields_name;
-	}
-
-	/**
-	 * Function that returns related list header fields that will be showed in the Related List View
-	 * @return <Array> returns related fields list.
-	 */
-	public function getRelatedListFields()
-	{
-		$entityInstance = CRMEntity::getInstance($this->getName());
-		$list_fields_name = $entityInstance->list_fields_name;
-		$list_fields = $entityInstance->list_fields;
-		$relatedListFields = [];
-		foreach ($list_fields as $key => $fieldInfo) {
-			foreach ($fieldInfo as $columnName) {
-				if (array_key_exists($key, $list_fields_name)) {
-					$relatedListFields[$columnName] = $list_fields_name[$key];
-				}
-			}
-		}
-		return $relatedListFields;
-	}
-
-	public function getConfigureRelatedListFields()
-	{
-		$showRelatedFieldModel = $this->getSummaryViewFieldsList();
-		$relatedListFields = [];
-		if (count($showRelatedFieldModel) > 0) {
-			foreach ($showRelatedFieldModel as $key => $field) {
-				$relatedListFields[$field->get('column')] = $field->get('name');
-			}
-		}
-		return $relatedListFields;
+		return $this->getEntityInstance()->search_fields_name;
 	}
 
 	public function isWorkflowSupported()
@@ -747,58 +799,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name
-	 * @param mixed id or name of the module
-	 */
-	public static function getInstance($mixed)
-	{
-		$instance = Vtiger_Cache::get('module', $mixed);
-		if (!$instance) {
-			$instance = false;
-			$moduleObject = parent::getInstance($mixed);
-			if ($moduleObject) {
-				$instance = self::getInstanceFromModuleObject($moduleObject);
-				Vtiger_Cache::set('module', $moduleObject->id, $instance);
-				Vtiger_Cache::set('module', $moduleObject->name, $instance);
-			}
-		}
-		return $instance;
-	}
-
-	/**
-	 * Function to get the instance of Vtiger Module Model from a given vtlib\Module object
-	 * @param vtlib\Module $moduleObj
-	 * @return Vtiger_Module_Model instance
-	 */
-	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
-	{
-		$objectProperties = get_object_vars($moduleObj);
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $objectProperties['name']);
-		$moduleModel = new $modelClassName();
-		foreach ($objectProperties as $properName => $propertyValue) {
-			$moduleModel->$properName = $propertyValue;
-		}
-		return $moduleModel;
-	}
-
-	/**
-	 * Function to get the instance of Vtiger Module Model from a given list of key-value mapping
-	 * @param <Array> $valueArray
-	 * @return Vtiger_Module_Model instance
-	 */
-	public static function getInstanceFromArray($valueArray)
-	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $valueArray['name']);
-		$instance = new $modelClassName();
-		$instance->initialize($valueArray);
-		return $instance;
-	}
-
-	/**
 	 * Function to get all modules from CRM
 	 * @param <array> $presence
 	 * @param <array> $restrictedModulesList
-	 * @return <array> List of module models <Vtiger_Module_Model>
+	 * @return <array> List of module models Vtiger_Module_Model
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
@@ -844,6 +848,18 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $moduleModels;
 	}
 
+	/**
+	 * Get entity instance
+	 * @return CRMEntity
+	 */
+	public function getEntityInstance()
+	{
+		if (isset($this->entityInstance)) {
+			return $this->entityInstance;
+		}
+		return $this->entityInstance = CRMEntity::getInstance($this->getName());
+	}
+
 	public static function getEntityModules()
 	{
 		self::preModuleInitialize2();
@@ -874,7 +890,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		
+
 		self::preModuleInitialize2();
 		$query = new \App\Db\Query();
 		$query->select('vtiger_tab.*')->from('vtiger_field')
@@ -883,7 +899,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			->andWhere(['<>', 'vtiger_tab.presence', 1])
 			->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
 		if ($restrictList) {
-			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments','PriceBooks','Events']]);
+			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'Events']]);
 		}
 		$quickCreateModules = [];
 		$dataReader = $query->createCommand()->query();
@@ -899,7 +915,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the list of all searchable modules
-	 * @return array - List of <Vtiger_Module_Model> instances
+	 * @return array - List of Vtiger_Module_Model instances
 	 */
 	public static function getSearchableModules()
 	{
@@ -945,8 +961,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	public static function getPicklistSupportedModules()
 	{
-		vimport('~modules/PickList/PickListUtils.php');
-		$modules = getPickListModules();
+		$modules = App\Fields\Picklist::getPickListModules();
 		$modulesModelsList = [];
 		foreach ($modules as $moduleLabel => $moduleName) {
 			$instance = new self();
@@ -1024,14 +1039,12 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns export query - deprecated
-	 * @param <String> $where
-	 * @return <String> export query
+	 * @param string $where
+	 * @return string export query
 	 */
 	public function getExportQuery($focus, $where)
 	{
-		$focus = CRMEntity::getInstance($this->getName());
-		$query = $focus->create_export_query($where);
-		return $query;
+		return $this->getEntityInstance()->create_export_query($where);
 	}
 
 	/**
@@ -1082,7 +1095,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns comments and recent activities across module
 	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param <String> $type - comments, updates or all
+	 * @param string $type - comments, updates or all
 	 * @return <Array>
 	 */
 	public function getHistory($pagingModel, $type = false)
@@ -1135,17 +1148,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns the Calendar Events for the module
-	 * @param <String> $mode - upcoming/overdue mode
+	 * @param string $mode - upcoming/overdue mode
 	 * @param <Vtiger_Paging_Model> $pagingModel - $pagingModel
-	 * @param <String> $user - all/userid
-	 * @param <String> $recordId - record id
+	 * @param string $user - all/userid
+	 * @param string $recordId - record id
 	 * @return <Array>
 	 */
 	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
@@ -1174,50 +1185,40 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
-		$query = sprintf('SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.%s = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0', $relationField);
-		$params = [$this->getName()];
+		$query = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'parent_id' => 'crmentity2.crmid', 'description' => 'vtiger_crmentity.description',
+			'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*'])
+				->from('vtiger_activity')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+				->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
+				->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+				->where(['vtiger_crmentity.deleted' => 0]);
+		$andWhere = ['and'];
 		if ($recordId) {
-			$query .= ' AND vtiger_activity.' . $relationField . ' = ?';
-			array_push($params, $recordId);
+			$andWhere []= ["vtiger_activity.$relationField" => $recordId];
 		}
 		if ($mode === 'current') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN (" . generateQuestionMarks($currentActivityLabels) . "))";
-			$params = array_merge($params, $currentActivityLabels);
+			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['vtiger_activity.status' => $currentActivityLabels]];
 		} elseif ($mode === 'history') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status NOT IN (" . generateQuestionMarks($currentActivityLabels) . "))";
-			$params = array_merge($params, $currentActivityLabels);
+			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['not in', 'vtiger_activity.status', $currentActivityLabels]];
 		} elseif ($mode === 'upcoming') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
-					AND (vtiger_activity.status is NULL || vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
-			$query .= " AND due_date >= '$currentDate'";
+			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['>=', 'due_date', $currentDate]];
 		} elseif ($mode === 'overdue') {
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
-					AND (vtiger_activity.status is NULL || vtiger_activity.status NOT IN ('Completed', 'Deferred'))";
-			$query .= " AND due_date < '$currentDate'";
+			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]];
 		}
-
-
 		if ($user != 'all' && $user != '') {
 			if ($user === $currentUser->id) {
-				$query .= " AND vtiger_crmentity.smownerid = ?";
-				array_push($params, $user);
+				$andWhere []= ['vtiger_crmentity.smownerid' => $user];
 			}
 		}
-		$query .= \App\PrivilegeQuery::getAccessConditions($moduleName, $currentUser->getId(), $recordId);
-		$query .= sprintf(" ORDER BY date_start, time_start LIMIT %d OFFSET %d", $pagingModel->getStartIndex(), ($pagingModel->getPageLimit() + 1));
-			
-		$result = $db->pquery($query, $params);
-		$numOfRows = $db->num_rows($result);
-
+		$query->andWhere($andWhere);
+		App\PrivilegeQuery::getConditions($query, $moduleName, false, $recordId);
 		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
+		$dataReader = $query->createCommand()->query();
+		$numOfRows = $dataReader->count();
 		$activities = [];
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$newRow = $db->query_result_rowdata($result, $i);
+		while ($row = $dataReader->read()) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
-			$ownerId = $newRow['smownerid'];
+			$ownerId = $row['smownerid'];
 			$visibleFields = array('activitytype', 'date_start', 'time_start', 'due_date', 'time_end', 'assigned_user_id', 'visibility', 'smownerid', 'crmid');
 			$visibility = true;
 			if (in_array($ownerId, $groupsIds)) {
@@ -1225,30 +1226,28 @@ class Vtiger_Module_Model extends \vtlib\Module
 			} else if ($ownerId == $currentUser->getId()) {
 				$visibility = false;
 			}
-			if (!$currentUser->isAdminUser() && $newRow['activitytype'] != 'Task' && $newRow['visibility'] == 'Private' && $ownerId && $visibility) {
-				foreach ($newRow as $data => $value) {
+			if (!$currentUser->isAdminUser() && $row['activitytype'] != 'Task' && $row['visibility'] == 'Private' && $ownerId && $visibility) {
+				foreach ($row as $data => $value) {
 					if (in_array($data, $visibleFields) != -1) {
-						unset($newRow[$data]);
+						unset($row[$data]);
 					}
 				}
-				$newRow['subject'] = vtranslate('Busy', 'Events') . '*';
+				$row['subject'] = vtranslate('Busy', 'Events') . '*';
 			}
-			if ($newRow['activitytype'] == 'Task') {
-				unset($newRow['visibility']);
+			if ($row['activitytype'] == 'Task') {
+				unset($row['visibility']);
 			}
-
-			$sql = "SELECT * FROM u_yf_activity_invitation WHERE activityid = ?";
-			$result_invitees = $db->pquery($sql, [$newRow['crmid']]);
-			while ($recordinfo = $db->fetch_array($result_invitees)) {
-				$newRow['selectedusers'][] = $recordinfo['inviteeid'];
+			$dataReaderSecond = (new \App\Db\Query())->select(['inviteesid'])->from('u_#__activity_invitation')->where(['activityid' => $row['crmid']])
+					->createCommand()->query();
+			while ($invite = $dataReaderSecond->readColumn(0)) {
+				$row['selectedusers'][] = $invite;
 			}
-
-			$model->setData($newRow);
-			$model->setId($newRow['crmid']);
+			$model->setData($row);
+			$model->setId($row['crmid']);
 			$activities[] = $model;
 		}
 
-		$pagingModel->calculatePageRange($activities);
+		$pagingModel->calculatePageRange($numOfRows);
 		if ($numOfRows > $pagingModel->getPageLimit()) {
 			array_pop($activities);
 			$pagingModel->set('nextPageExists', true);
@@ -1261,12 +1260,12 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get list of fields which are required while importing records
-	 * @param <String> $module
+	 * @param string $module
 	 * @return <Array> list of fields
 	 */
 	public function getRequiredFields($module = '')
 	{
-		$moduleInstance = CRMEntity::getInstance($this->getName());
+		$moduleInstance = $this->getEntityInstance();
 		$requiredFields = $moduleInstance->required_fields;
 		if (empty($requiredFields)) {
 			if (empty($module)) {
@@ -1284,7 +1283,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the module is permitted to specific action
-	 * @param <String> $actionName
+	 * @param string $actionName
 	 * @return <boolean>
 	 */
 	public function isPermitted($actionName)
@@ -1407,30 +1406,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get list of field for summary view
-	 * @return <Array> list of field models <Vtiger_Field_Model>
-	 */
-	public function getSummaryViewFieldsList()
-	{
-		if (!isset($this->summaryFields)) {
-			$summaryFields = [];
-			$fields = $this->getFields();
-			foreach ($fields as $fieldName => $fieldModel) {
-				if ($fieldModel->isSummaryField() && $fieldModel->isActiveField()) {
-					$summaryFields[$fieldName] = $fieldModel;
-				}
-			}
-			$this->summaryFields = $summaryFields;
-		}
-		return $this->summaryFields;
-	}
-
-	/**
 	 * Function returns query for module record's search
-	 * @param <String> $searchValue - part of record name (label column of crmentity table)
+	 * @param string $searchValue - part of record name (label column of crmentity table)
 	 * @param <Integer> $parentId - parent record id
-	 * @param <String> $parentModule - parent module name
-	 * @return <String> - query
+	 * @param string $parentModule - parent module name
+	 * @return string - query
 	 */
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
@@ -1441,9 +1421,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
-	 * @param <String> $searchValue - Search value
+	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
-	 * @param <String> $parentModule - parent module name
+	 * @param string $parentModule - parent module name
 	 * @return <Array of Vtiger_Record_Model>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
@@ -1472,90 +1452,12 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get relation query for particular module with function name
-	 * @param <record> $recordId
-	 * @param <String> $functionName
-	 * @param Vtiger_Module_Model $relatedModule
-	 * @return <String>
-	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false, $relationListViewModel = false)
-	{
-		$relatedModuleName = $relatedModule->getName();
-
-		$focus = CRMEntity::getInstance($this->getName());
-		$focus->id = $recordId;
-		switch ($functionName) {
-			case 'get_emails':
-				$query = $relatedModule->reletedQueryMail2Records($recordId, $relatedModule, $relationModel);
-				break;
-			case 'get_many_to_many':
-				$query = $this->getRelationQueryM2M($recordId, $relatedModule, $relationModel);
-				break;
-			case 'get_activities':
-				$query = $this->getRelationQueryForActivities($recordId, $relatedModule, $relationModel);
-				break;
-			default:
-				$result = $focus->$functionName($recordId, $this->getId(), $relatedModule->getId());
-				$query = $result['query'] . ' ' . $this->getSpecificRelationQuery($relatedModuleName);
-				break;
-		}
-
-
-		//modify query if any module has summary fields, those fields we are displayed in related list of that module
-		$relatedListFields = [];
-		if ($relationModel)
-			$relatedListFields = $relationModel->getRelationFields(true, true);
-		if (count($relatedListFields) == 0) {
-			$relatedListFields = $relatedModule->getConfigureRelatedListFields();
-			if ($relatedModuleName == 'Documents') {
-				$relatedListFields['filelocationtype'] = 'filelocationtype';
-				$relatedListFields['filestatus'] = 'filestatus';
-				$relatedListFields['filetype'] = 'filetype';
-			}
-		}
-		if (count($relatedListFields) > 0) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
-			$queryGenerator->setFields($relatedListFields);
-			if ($relationModel->showCreatorDetail()) {
-				$queryGenerator->setCustomColumn('rel_created_user');
-				$queryGenerator->setCustomColumn('rel_created_time');
-			}
-			if ($relationModel->showComment()) {
-				$queryGenerator->setCustomColumn('rel_comment');
-			}
-			$selectColumnSql = $queryGenerator->getSelectClauseColumnSQL();
-			$query = str_replace('FROM', 'from', $query);
-			$newQuery = explode('from', $query);
-			$selectColumnSql = sprintf('SELECT DISTINCT vtiger_crmentity.crmid,%s', $selectColumnSql);
-			$query = $selectColumnSql . ' FROM ' . $newQuery[1];
-		}
-		$query .= \App\PrivilegeQuery::getAccessConditions($relatedModuleName, false, $recordId);
-		return $query;
-	}
-
-	/**
-	 * Function to get Non admin access control query
-	 * @param <String> $relatedModuleName
-	 * @return <String>
-	 */
-	public function getNonAdminAccessControlQueryForRelation($relatedModuleName)
-	{
-		$modulesList = array('Faq', 'PriceBook', 'Users');
-
-		if (!in_array($relatedModuleName, $modulesList)) {
-			return Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleName);
-		}
-	}
-
-	/**
 	 * Function returns the default column for Alphabetic search
-	 * @return <String> columnname
+	 * @return string columnname
 	 */
 	public function getAlphabetSearchField()
 	{
-		$focus = CRMEntity::getInstance($this->get('name'));
-		return $focus->def_basicsearch_col;
+		return $this->getEntityInstance()->def_basicsearch_col;
 	}
 
 	/**
@@ -1564,7 +1466,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getCumplosoryMandatoryFieldList()
 	{
-		$focus = CRMEntity::getInstance($this->getName());
+		$focus = $this->getEntityInstance();
 		if (empty($focus->mandatory_fields)) {
 			return [];
 		}
@@ -1619,23 +1521,30 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get popup view fields
+	 * @param string|boolean $sourceModule
+	 * @return string[]
 	 */
 	public function getPopupViewFieldsList($sourceModule = false)
 	{
+		if (App\Cache::staticHas('PopupViewFieldsList', $this->getName())) {
+			return App\Cache::staticGet('PopupViewFieldsList', $this->getName());
+		}
 		$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
 		if (!empty($sourceModule) && $parentRecordModel) {
 			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
 		}
 		$popupFields = [];
 		if ($relationModel) {
-			$popupFields = $relationModel->getRelationFields(true);
+			foreach (App\Field::getFieldsFromRelation($relationModel->getId()) as &$fieldName) {
+				$popupFields[$fieldName] = $fieldName;
+			}
 		}
-		if (count($popupFields) == 0) {
-			$popupFields = array_keys($this->getSummaryViewFieldsList());
+		if (!$popupFields) {
+			foreach ($this->getPopupFields() as &$fieldName) {
+				$popupFields[$fieldName] = $fieldName;
+			}
 		}
-		if (count($popupFields) == 0) {
-			$popupFields = array_values($this->getRelatedListFields());
-		}
+		App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
 		return $popupFields;
 	}
 
@@ -1732,80 +1641,5 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		return $data;
-	}
-
-	public function getRelationQueryM2M($recordId, $relatedModule, $relationModel)
-	{
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($this->getName(), $relatedModule->getName());
-		$basetable = $relatedModule->get('basetable');
-
-		$query = sprintf('SELECT vtiger_crmentity.*, %s.* FROM %s 
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %s
-				INNER JOIN %s ON %s.%s = vtiger_crmentity.crmid
-				LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE vtiger_crmentity.deleted = 0 && %s.%s = %d', $basetable, $basetable, $relatedModule->get('basetableid'), $referenceInfo['table'], $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['table'], $referenceInfo['rel'], $recordId);
-		return $query;
-	}
-
-	public function getRelationQueryForActivities($recordId, $relatedModule, $relationModel)
-	{
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-		$queryGenerator = new QueryGenerator($relatedModule->getName(), $currentUser);
-		$relatedListFields = $relationModel->getRelationFields(true);
-		if (count($relatedListFields) == 0) {
-			$relatedListFields = $relatedModule->getRelatedListFields();
-		}
-		if (in_array('assigned_user_id', $relatedListFields)) {
-			$queryGenerator->setCustomFrom([
-				'joinType' => 'LEFT',
-				'relatedTable' => 'vtiger_users',
-				'relatedIndex' => 'id',
-				'baseTable' => 'vtiger_crmentity',
-				'baseIndex' => 'smownerid',
-			]);
-			$queryGenerator->setCustomFrom([
-				'joinType' => 'LEFT',
-				'relatedTable' => 'vtiger_groups',
-				'relatedIndex' => 'groupid',
-				'baseTable' => 'vtiger_crmentity',
-				'baseIndex' => 'smownerid',
-			]);
-		}
-		$queryGenerator->setFields($relatedListFields);
-		$queryGenerator->setCustomColumn('crmid');
-		$queryGenerator->permissions = false;
-		$query = $queryGenerator->getQuery();
-		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModule->getName());
-		$referenceLinkInstance = new $referenceLinkClass();
-		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
-			$query .= ' AND vtiger_activity.link = ';
-		} else {
-			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModule->getName());
-			$referenceProcessInstance = new $referenceProcessClass();
-			if (in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
-				$query .= ' AND vtiger_activity.`process` = ';
-			} else {
-				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModule->getName());
-				$referenceSubProcessInstance = new $referenceSubProcessClass();
-				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
-					$query .= ' AND vtiger_activity.`subprocess` = ';
-				} else {
-					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
-				}
-			}
-		}
-		$query .= $recordId;
-
-		$time = AppRequest::get('time');
-		if ($time == 'current') {
-			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
-		}
-		if ($time == 'history') {
-			$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('history');
-			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails') AND vtiger_activity.status IN ('" . implode("','", $stateActivityLabels) . "'))";
-		}
-		return $query;
 	}
 }

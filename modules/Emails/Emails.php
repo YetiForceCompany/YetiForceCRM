@@ -53,6 +53,11 @@ class Emails extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Access Count' => 'access_count'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['subject', 'parent_id', 'date_start', 'time_start', 'assigned_user_id', 'access_count'];
 	public $list_link_field = 'subject';
 	public $column_fields = Array();
 	public $sortby_fields = Array('subject', 'date_start', 'saved_toid');
@@ -170,7 +175,7 @@ class Emails extends CRMEntity
 		$mailbox = $_REQUEST["mailbox"];
 		$MailBox = new MailBox($mailbox);
 		$mail = $MailBox->mbox;
-		$binFile = \includes\fields\File::sanitizeUploadFileName($file_details['name']);
+		$binFile = \App\Fields\File::sanitizeUploadFileName($file_details['name']);
 		$filename = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
 		$filetype = $file_details['type'];
 		$filesize = $file_details['size'];
@@ -208,77 +213,6 @@ class Emails extends CRMEntity
 		$adb->pquery($sql3, array($id, $current_id));
 		return true;
 		\App\Log::trace("exiting from  saveforwardattachment function.");
-	}
-
-	/** Returns a list of the associated contacts
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	public function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_contacts(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('BULKMAIL', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_BULK_MAILS') . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"sendmail\";this.form.module.value=\"$this_module\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_BULK_MAILS') . "'>";
-			}
-		}
-
-		$query = sprintf('SELECT 
-					vtiger_contactdetails.parentid,
-					vtiger_contactdetails.contactid,
-					vtiger_contactdetails.firstname,
-					vtiger_contactdetails.lastname,
-					vtiger_contactdetails.department,
-					vtiger_contactdetails.title,
-					vtiger_contactdetails.email,
-					vtiger_contactdetails.phone,
-					vtiger_contactdetails.emailoptout,
-					vtiger_crmentity.crmid,
-					vtiger_crmentity.smownerid,
-					vtiger_crmentity.modifiedtime 
-				  FROM
-					vtiger_contactdetails 
-					INNER JOIN vtiger_cntactivityrel 
-					  ON vtiger_cntactivityrel.contactid = vtiger_contactdetails.contactid 
-					INNER JOIN vtiger_crmentity 
-					  ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid 
-					LEFT JOIN vtiger_groups 
-					  ON vtiger_groups.groupid = vtiger_crmentity.smownerid 
-				  WHERE vtiger_cntactivityrel.activityid = %s 
-					AND vtiger_crmentity.deleted = 0;', $adb->quote($id));
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_contacts method ...");
-		return $return_value;
 	}
 
 	/** Returns the column name that needs to be sorted
@@ -321,80 +255,6 @@ class Emails extends CRMEntity
 
 		\App\Log::trace("Exiting getOrderBy method ...");
 		return $order_by;
-	}
-	// Mike Crowe Mod --------------------------------------------------------
-
-	/** Returns a list of the associated vtiger_users
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	public function get_users($id)
-	{
-
-		\App\Log::trace("Entering get_users(" . $id . ") method ...");
-		$adb = PearDatabase::getInstance();
-		global $app_strings;
-
-		$id = $_REQUEST['record'];
-
-		$button = '<input title="' . \App\Language::translate('LBL_BULK_MAILS') . '" accessykey="F" class="crmbutton small create"
-				onclick="this.form.action.value=\"sendmail\";this.form.return_action.value=\"DetailView\";this.form.module.value=\"Emails\";this.form.return_module.value=\"Emails\";"
-				name="button" value="' . \App\Language::translate('LBL_BULK_MAILS') . '" type="submit">&nbsp;
-				<input title="' . \App\Language::translate('LBL_BULK_MAILS') . '" accesskey="" tabindex="2" class="crmbutton small edit"
-				value="' . \App\Language::translate('LBL_SELECT_USER_BUTTON_LABEL') . '" name="Button" language="javascript"
-				onclick=\"return window.open("index.php?module=Users&return_module=Emails&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=true&return_id=' . $id . '&recordid=' . $id . '","test","width=640,height=520,resizable=0,scrollbars=0");\"
-				type="button">';
-
-		$query = 'SELECT vtiger_users.id, vtiger_users.first_name,vtiger_users.last_name, vtiger_users.user_name, vtiger_users.email1,  vtiger_users.phone_home, vtiger_users.phone_work, vtiger_users.phone_mobile, vtiger_users.phone_other, vtiger_users.phone_fax from vtiger_users inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.smid=vtiger_users.id and vtiger_salesmanactivityrel.activityid=?';
-		$result = $adb->pquery($query, array($id));
-
-		$noofrows = $adb->num_rows($result);
-		$header [] = $app_strings['LBL_LIST_NAME'];
-
-		$header [] = $app_strings['LBL_LIST_USER_NAME'];
-
-		$header [] = $app_strings['LBL_EMAIL'];
-
-		$header [] = $app_strings['LBL_PHONE'];
-		while ($row = $adb->fetch_array($result)) {
-
-			$current_user = vglobal('current_user');
-
-			$entries = Array();
-
-			if (vtlib\Functions::userIsAdministrator($current_user)) {
-				$entries[] = \vtlib\Deprecated::getFullNameFromArray('Users', $row);
-			} else {
-				$entries[] = \vtlib\Deprecated::getFullNameFromArray('Users', $row);
-			}
-
-			$entries[] = $row['user_name'];
-			$entries[] = $row['email1'];
-			$entries[] = $row['phone_home'];
-			if ($phone == '')
-				$phone = $row['phone_work'];
-			if ($phone == '')
-				$phone = $row['phone_mobile'];
-			if ($phone == '')
-				$phone = $row['phone_other'];
-			if ($phone == '')
-				$phone = $row['phone_fax'];
-
-			//Adding Security Check for User
-
-			$entries_list[] = $entries;
-		}
-
-		if ($entries_list != '')
-			$return_data = array("header" => $header, "entries" => $entries);
-
-		if ($return_data === null)
-			$return_data = Array();
-		$return_data['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_users method ...");
-		return $return_data;
 	}
 
 	/**

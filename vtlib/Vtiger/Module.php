@@ -8,6 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
@@ -49,7 +50,7 @@ class Module extends ModuleBasic
 	 *
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
-	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'get_related_list')
+	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList')
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -86,7 +87,7 @@ class Module extends ModuleBasic
 			'actions' => $useactionsText,
 		]);
 
-		if ($functionName == 'get_many_to_many') {
+		if ($functionName == 'getManyToMany') {
 			$refTableName = \Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
 			if (!Utils::CheckTable($refTableName['table'])) {
 				Utils::CreateTable(
@@ -104,7 +105,7 @@ class Module extends ModuleBasic
 	 * @param String Label to display in related list (default is target module name)
 	 * @param String Callback function name of this module to use as handler
 	 */
-	public function unsetRelatedList($moduleInstance, $label = '', $function_name = 'get_related_list')
+	public function unsetRelatedList($moduleInstance, $label = '', $function_name = 'getRelatedList')
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -291,11 +292,7 @@ class Module extends ModuleBasic
 		}
 		$fire = self::fireEvent($moduleName, $eventType);
 		if ($fire) {
-			$db = \PearDatabase::getInstance();
-			$db->update('vtiger_tab', [
-				'presence' => $enableDisable
-				], 'name = ?', [$moduleName]
-			);
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['presence' => $enableDisable], ['name' => $moduleName])->execute();
 			Deprecated::createModuleMetaFile();
 			vtlib_RecreateUserPrivilegeFiles();
 			$menuRecordModel = new \Settings_Menu_Record_Model();

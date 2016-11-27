@@ -14,7 +14,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -23,8 +23,8 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get display value for time
-	 * @param <String> time
-	 * @return <String> time
+	 * @param string time
+	 * @return string time
 	 */
 	public static function getDisplayTimeValue($time)
 	{
@@ -34,8 +34,8 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get time value in AM/PM format
-	 * @param <String> $time
-	 * @return <String> time
+	 * @param string $time
+	 * @return string time
 	 */
 	public static function getTimeValueInAMorPM($time)
 	{
@@ -63,8 +63,8 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get Time value with seconds
-	 * @param <String> $time
-	 * @return <String> time
+	 * @param string $time
+	 * @return string time
 	 */
 	public static function getTimeValueWithSeconds($time)
 	{
@@ -122,7 +122,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		return 'uitypes/TimeFieldSearchView.tpl';
 	}
 
-	public function getDBTimeFromUserValue($value)
+	public static function getDBTimeFromUserValue($value)
 	{
 		$time = DateTimeField::convertToDBTimeZone(date(DateTimeField::getPHPDateFormat()) . ' ' . $value);
 		$value = $time->format('H:i:s');

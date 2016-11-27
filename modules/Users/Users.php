@@ -295,15 +295,18 @@ class Users extends CRMEntity
 
 	/**
 	 * Checks the config.php AUTHCFG value for login type and forks off to the proper module
-	 *
-	 * @param string $user_password - The password of the user to authenticate
-	 * @return true if the user is authenticated, false otherwise
+	 * @param string $userPassword - The password of the user to authenticate
+	 * @return bool true if the user is authenticated, false otherwise
 	 */
 	public function doLogin($userPassword)
 	{
-		$userName = $this->column_fields["user_name"];
-		$userid = $this->retrieve_user_id($userName);
-		\App\Log::trace("Start of authentication for user: $userName");
+		$userName = $this->column_fields['user_name'];
+		$userId = $this->retrieve_user_id($userName);
+		if (!$userId) {
+			\App\Log::error('User not found: ' . $userName);
+			return false;
+		}
+		\App\Log::trace('Start of authentication for user: ' . $userName);
 		$result = $this->db->pquery('SELECT * FROM yetiforce_auth');
 		$auth = [];
 		while ($row = $this->db->getRow($result)) {
@@ -312,17 +315,20 @@ class Users extends CRMEntity
 		if ($auth['ldap']['active'] == 'true') {
 			\App\Log::trace('Start LDAP authentication');
 			$users = explode(',', $auth['ldap']['users']);
-			if (in_array($userid, $users)) {
+			if (in_array($userId, $users)) {
 				$bind = false;
 				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
 				$ds = @ldap_connect($auth['ldap']['server'], $port);
 				if (!$ds) {
 					\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.');
 				}
-				@ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
-				@ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+				ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
+				ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+				ldap_set_option($ds, LDAP_OPT_TIMELIMIT, 5);
+				ldap_set_option($ds, LDAP_OPT_TIMEOUT, 5);
+				ldap_set_option($ds, LDAP_OPT_NETWORK_TIMEOUT, 5);
 				if ($port != 636) {
-					@ldap_start_tls($ds);
+					ldap_start_tls($ds);
 				}
 				$bind = @ldap_bind($ds, $userName . $auth['ldap']['domain'], $userPassword);
 				if (!$bind) {
@@ -330,7 +336,7 @@ class Users extends CRMEntity
 				}
 				return $bind;
 			} else {
-				\App\Log::error("$userName user does not belong to the LDAP");
+				\App\Log::error($userName . ' user does not belong to the LDAP');
 			}
 			\App\Log::trace('End LDAP authentication');
 		}
@@ -338,9 +344,9 @@ class Users extends CRMEntity
 		//Default authentication
 		\App\Log::trace('Using integrated/SQL authentication');
 		$query = new \App\Db\Query();
-		$cryptType = $query->select('crypt_type')->from($this->table_name)->where(['id' => $userid])->scalar();
+		$cryptType = $query->select('crypt_type')->from($this->table_name)->where(['id' => $userId])->scalar();
 		if ($cryptType === false) {
-			\App\Log::error("User not found: $userName");
+			\App\Log::error('User not found: ' . $userName);
 			return false;
 		}
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
@@ -878,24 +884,19 @@ class Users extends CRMEntity
 			\App\Log::error('record is empty. returning null');
 			return null;
 		}
-
 		$result = [];
-		foreach ($this->tab_name_index as $table_name => $index) {
-			$query = 'SELECT * FROM %s WHERE %s = ?';
-			$query = sprintf($query, $table_name, $index);
-			$result[$table_name] = $adb->pquery($query, [$record]);
+		foreach ($this->tab_name_index as $tableName => $index) {
+			$result[$tableName] = (new \App\Db\Query())
+					->from($tableName)
+					->where([$index => $record])->one();
 		}
-		$tabid = \App\Module::getModuleId($module);
-		$sql1 = 'select * from vtiger_field where tabid=? and vtiger_field.presence in (0,2)';
-		$result1 = $adb->pquery($sql1, array($tabid));
-		while ($row = $adb->getRow($result1)) {
-			$fieldcolname = $row['columnname'];
-			$tablename = $row['tablename'];
-			$fieldname = $row['fieldname'];
-
-			$fld_value = $adb->query_result($result[$tablename], 0, $fieldcolname);
-			$this->column_fields[$fieldname] = $fld_value;
-			$this->$fieldname = $fld_value;
+		$fields = vtlib\Functions::getModuleFieldInfos($module);
+		foreach ($fields as $fieldName => &$fieldRow) {
+			if (isset($result[$fieldRow['tablename']][$fieldRow['columnname']])) {
+				$value = $result[$fieldRow['tablename']][$fieldRow['columnname']];
+				$this->column_fields[$fieldName] = $value;
+				$this->$fieldName = $value;
+			}
 		}
 		$this->column_fields['record_id'] = $record;
 		$this->column_fields['record_module'] = $module;
@@ -950,7 +951,7 @@ class Users extends CRMEntity
 		if (!isset($ownerid) || $ownerid == '')
 			$ownerid = $current_user->id;
 
-		$fileInstance = \includes\fields\File::loadFromRequest($file_details);
+		$fileInstance = \App\Fields\File::loadFromRequest($file_details);
 		if (!$fileInstance->validate('image')) {
 			\App\Log::trace('Skip the save attachment process.');
 			return false;
@@ -1001,7 +1002,7 @@ class Users extends CRMEntity
 
 
 		//Event triggering code
-		require_once('include/events/include.inc');
+		require_once('include/events/include.php');
 
 		//In Bulk mode stop triggering events
 		if (!self::isBulkSaveMode()) {
@@ -1014,21 +1015,18 @@ class Users extends CRMEntity
 			$em->triggerEvent('vtiger.entity.beforesave', $entityData);
 			$em->triggerEvent('vtiger.entity.beforesave.final', $entityData);
 		}
-
 		if ($this->mode !== 'edit') {
 			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
 			$result = $adb->pquery($sql, array($this->column_fields['user_name'], $this->column_fields['email1']));
 			if ($adb->num_rows($result) > 0) {
-				vtlib\Functions::throwNewException('LBL_USER_EXISTS');
-				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_USER_EXISTS'));
-				return false;
+				throw new \Exception('LBL_USER_EXISTS');
 			}
 			\App\Privilege::setAllUpdater();
 		} else {// update dashboard widgets when changing users role
-			$query = 'SELECT `roleid` FROM `vtiger_user2role` WHERE `userid` = ? LIMIT 1;';
-			$oldRoleResult = $adb->pquery($query, [$this->id]);
-			$oldRole = $adb->query_result($oldRoleResult, 0, 'roleid');
-
+			$oldRole = (new App\Db\Query())->select('roleid')
+				->from('vtiger_user2role')
+				->where(['userid' => $this->id])
+				->scalar();
 			$privilegesModel = Users_Privileges_Model::getInstanceById($this->id);
 			if ($this->column_fields['is_admin'] != $privilegesModel->get('is_admin')) {
 				\App\Privilege::setAllUpdater();
@@ -1053,8 +1051,7 @@ class Users extends CRMEntity
 		$query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?", array($this->id));
 		$prev_reminder_interval = $adb->query_result($query_prev_interval, 0, 'reminder_interval');
 
-		$this->saveHomeStuffOrder($this->id);
-
+		//$this->saveHomeStuffOrder($this->id);
 		// Added for Reminder Popup support
 		$this->resetReminderInterval($prev_reminder_interval);
 		//Creating the Privileges Flat File
@@ -1076,7 +1073,7 @@ class Users extends CRMEntity
 	 */
 	public function updateUser2RoleMapping()
 	{
-		$db = \App\Db::getInstance()->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->update('vtiger_user2role', ['roleid' => $this->column_fields['roleid']], ['userid' => $this->id])
 			->execute();
 	}
@@ -1185,12 +1182,6 @@ class Users extends CRMEntity
 		$visibility = $this->getDefaultHomeModuleVisibility('LTFAQ', $inVal);
 		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
 		$res = $adb->pquery($sql, array($s14, 14, 'Default', $uid, $visibility, 'My Recent FAQs'));
-
-		// Non-Default Home Page widget (no entry is requried in vtiger_homedefault below)
-		$tc = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = 0;
-		$sql = "insert into vtiger_homestuff values($tc, 15, 'Tag Cloud', $uid, $visibility, 'Tag Cloud')";
-		$adb->pquery($sql, []);
 
 		$sql = "insert into vtiger_homedefault values(" . $s1 . ",'ALVT',5,'Accounts')";
 		$adb->pquery($sql, []);
@@ -1419,7 +1410,7 @@ class Users extends CRMEntity
 	public function triggerAfterSaveEventHandlers()
 	{
 		$adb = PearDatabase::getInstance();
-		require_once("include/events/include.inc");
+		require_once("include/events/include.php");
 
 		//In Bulk mode stop triggering events
 		if (!self::isBulkSaveMode()) {

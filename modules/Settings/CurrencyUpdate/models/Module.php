@@ -20,7 +20,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	}
 	/*
 	 * Returns CRMS active currency name by currency code
-	 * @return <String> - currency name
+	 * @return string - currency name
 	 */
 
 	public static function getCRMCurrencyName($code)
@@ -43,8 +43,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	/*
 	 * Returns currency exchange rates for systems active currencies from bank
 	 * @param <Date> $date - date for which to fetch exchange rates
-	 * @param <Boolean> $cron - true if fired by server, and so updates systems currency conversion rates
-	 * @return <Boolean> - true if fetched new exchange rates, false otherwise
+	 * @param boolean $cron - true if fired by server, and so updates systems currency conversion rates
+	 * @return boolean - true if fetched new exchange rates, false otherwise
 	 */
 
 	public function fetchCurrencyRates($dateCur, $cron = false)
@@ -194,7 +194,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	}
 	/*
 	 * Returns list of supported currencies by active bank
-	 * @param <String> $bankName - bank name
+	 * @param string $bankName - bank name
 	 * @return <Array> - array of supported currencies
 	 */
 
@@ -209,7 +209,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	}
 	/*
 	 * Returns list of unsupported currencies by active bank
-	 * @param <String> $bankName - bank name
+	 * @param string $bankName - bank name
 	 * @return <Array> - array of unsupported currencies
 	 */
 
@@ -233,7 +233,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	}
 	/*
 	 * Sets systems exchange rate for chosen currency
-	 * @param <String> $currency - currency code
+	 * @param string $currency - currency code
 	 * @param <Float> $exchange - exchange rate
 	 */
 
@@ -246,8 +246,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	}
 	/*
 	 * Function that retrieves conversion rate from and to specified currency
-	 * @param <String> $from - currency code or id (converted to code)
-	 * @param <String> $to - currency code or id (converted to code)
+	 * @param string $from - currency code or id (converted to code)
+	 * @param string $to - currency code or id (converted to code)
 	 * @param <Date> $date - date of the exchange rate
 	 * @return <Float> - conversion rate
 	 */
@@ -333,8 +333,8 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	/*
 	 * Convert given amount in one currency to another
 	 * @param <Float> $amount - number to convert
-	 * @param <String> $from - currency code
-	 * @param <String> $to - currency code
+	 * @param string $from - currency code
+	 * @param string $to - currency code
 	 * @param <Date> $date - date of the exchange rate
 	 * @return <Float> - floating point number
 	 */
@@ -355,7 +355,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	/*
 	 * Saves new active bank by id
 	 * @param <Integer> $bankId - bank id
-	 * @return <Boolean> - true on success or false
+	 * @return boolean - true on success or false
 	 */
 
 	public function setActiveBankById($bankId)
@@ -371,7 +371,7 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 	}
 	/*
 	 * Returns active banks name
-	 * @return <String> - bank name
+	 * @return string - bank name
 	 */
 
 	public function getActiveBankName()

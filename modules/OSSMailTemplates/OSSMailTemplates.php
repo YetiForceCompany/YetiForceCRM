@@ -47,6 +47,11 @@ class OSSMailTemplates extends Vtiger_CRMEntity
 		'Name' => 'name',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['name', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'name';
 	// For Popup listview and UI type support
@@ -99,9 +104,9 @@ class OSSMailTemplates extends Vtiger_CRMEntity
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_EnabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
 
 			$Module = vtlib\Module::getInstance($moduleName);

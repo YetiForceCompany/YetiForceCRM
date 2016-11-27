@@ -15,6 +15,8 @@ require_once 'include/Webservices/DescribeObject.php';
 
 function vtws_sync($mtime, $elementType, $syncType, $user)
 {
+	return 'Currently not supported';
+
 	global $recordString, $modifiedTimeString;
 	$adb = PearDatabase::getInstance();
 	$numRecordsLimit = 100;
@@ -117,7 +119,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$params = array_merge($params, $ownerIds);
 	}
 
-	$q .=" order by modifiedtime limit $numRecordsLimit";
+	$q .= " order by modifiedtime limit $numRecordsLimit";
 	$result = $adb->pquery($q, $params);
 
 	$modTime = [];
@@ -157,7 +159,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		// since not all fields present in delete condition will be present in the fieldnames of the module
 		foreach ($deleteColumnNames as $table_fieldName => $columnName) {
 			if (!in_array($columnName, $moduleFieldNames)) {
-				$selectClause .=", " . $table_fieldName;
+				$selectClause .= ", " . $table_fieldName;
 			}
 		}
 		if ($elementType == "Emails")
@@ -167,10 +169,10 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 
 		$fromClause .= " INNER JOIN (select modifiedtime, crmid,deleted,setype FROM $baseCRMTable WHERE setype=? and modifiedtime >? and modifiedtime<=?";
 		if (!$applicationSync) {
-			$fromClause.= 'and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
+			$fromClause .= 'and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
 			$params = array_merge($params, $ownerIds);
 		}
-		$fromClause.= ' ) vtiger_ws_sync ON (vtiger_crmentity.crmid = vtiger_ws_sync.crmid)';
+		$fromClause .= ' ) vtiger_ws_sync ON (vtiger_crmentity.crmid = vtiger_ws_sync.crmid)';
 		$q = $selectClause . " " . $fromClause;
 		$result = $adb->pquery($q, $params);
 		$recordDetails = [];
@@ -207,7 +209,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$params[] = $entityModule;
 	}
 	if (!$applicationSync) {
-		$q.='and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
+		$q .= 'and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
 		$params = array_merge($params, $ownerIds);
 	}
 
@@ -295,12 +297,5 @@ function getCalendarTypeCondition($elementType)
 function getSelectClauseFields($module, $moduleMeta, $user)
 {
 	$moduleFieldNames = $moduleMeta->getModuleFields();
-	$inventoryModules = getInventoryModules();
-	if (in_array($module, $inventoryModules)) {
-		$fields = vtws_describe('LineItem', $user);
-		foreach ($fields['fields'] as $field) {
-			unset($moduleFieldNames[$field['name']]);
-		}
-	}
 	return array_keys($moduleFieldNames);
 }

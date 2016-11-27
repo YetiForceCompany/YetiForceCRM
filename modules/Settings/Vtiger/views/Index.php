@@ -155,7 +155,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 		$folders = array_values(\includes\SystemWarnings::getFolders());
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('FOLDERS', \includes\utils\Json::encode($folders));
+		$viewer->assign('FOLDERS', \App\Json::encode($folders));
 		$viewer->view('SystemWarnings.tpl', $qualifiedModuleName);
 	}
 

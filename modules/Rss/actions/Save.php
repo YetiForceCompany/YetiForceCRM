@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-require_once('libraries/magpierss/rss_fetch.inc');
 
 class Rss_Save_Action extends Vtiger_Save_Action
 {

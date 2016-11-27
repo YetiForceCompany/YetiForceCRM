@@ -32,11 +32,10 @@ class Services extends CRMEntity
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_service' => 'serviceid',
-		'vtiger_servicecf' => 'serviceid',
-		'vtiger_producttaxrel' => 'productid');
+		'vtiger_servicecf' => 'serviceid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
@@ -74,6 +73,9 @@ class Services extends CRMEntity
 		'Service Name' => 'servicename',
 		'Price' => 'unit_price'
 	);
+
+	/** @var string[] List of fields in the RelationListView */
+	public $relationFields = ['service_no', 'servicename', 'unit_price'];
 	// For Popup window record selection
 	public $popup_fields = Array('servicename', 'service_usageunit', 'unit_price');
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
@@ -91,121 +93,66 @@ class Services extends CRMEntity
 	public $default_sort_order = 'ASC';
 	public $unit_price;
 
+	/**
+	 * Custom Save for Module
+	 * @param string $module
+	 */
 	public function save_module($module)
 	{
 		//Inserting into service_taxrel table
-		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
-			$this->insertTaxInformation('vtiger_producttaxrel', 'Services');
-			$this->insertPriceInformation('vtiger_productcurrencyrel', 'Services');
+		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassSave' && AppRequest::get('action') != 'ProcessDuplicates') {
+			$this->insertPriceInformation();
 		}
 		// Update unit price value in vtiger_productcurrencyrel
 		$this->updateUnitPrice();
 	}
 
-	/** 	function to save the service tax information in vtiger_servicetaxrel table
-	 * 	@param string $tablename - vtiger_tablename to save the service tax relationship (servicetaxrel)
-	 * 	@param string $module	 - current module name
-	 * 	$return void
+	/**
+	 * Function to save the product price information in vtiger_productcurrencyrel table
 	 */
-	public function insertTaxInformation($tablename, $module)
+	public function insertPriceInformation()
 	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering into insertTaxInformation($tablename, $module) method ...");
-		$tax_details = getAllTaxes();
-
-		$tax_per = '';
-		//Save the Product - tax relationship if corresponding tax check box is enabled
-		//Delete the existing tax if any
-		if ($this->mode == 'edit') {
-			$countTaxDetails = count($tax_details);
-			for ($i = 0; $i < $countTaxDetails; $i++) {
-				$taxid = getTaxId($tax_details[$i]['taxname']);
-				$sql = "delete from vtiger_producttaxrel where productid=? and taxid=?";
-				$adb->pquery($sql, array($this->id, $taxid));
-			}
+		\App\Log::trace('Entering ' . __METHOD__);
+		$db = \App\Db::getInstance();
+		$productBaseConvRate = getBaseConversionRateForProduct($this->id, $this->mode);
+		$currencySet = false;
+		$currencyDetails = vtlib\Functions::getAllCurrency(true);
+		if ($this->mode === 'edit') {
+			$db->createCommand()->delete('vtiger_productcurrencyrel', ['productid' => $this->id])->execute();
 		}
-		$countTaxDetails = count($tax_details);
-		for ($i = 0; $i < $countTaxDetails; $i++) {
-			$tax_name = $tax_details[$i]['taxname'];
-			$tax_checkname = $tax_details[$i]['taxname'] . "_check";
-			if (AppRequest::get($tax_checkname) == 'on' || AppRequest::get($tax_checkname) == 1) {
-				$taxid = getTaxId($tax_name);
-				$tax_per = AppRequest::get($tax_name);
-				if ($tax_per == '') {
-					\App\Log::trace("Tax selected but value not given so default value will be saved.");
-					$tax_per = getTaxPercentage($tax_name);
+		foreach ($currencyDetails as $curid => $currency) {
+			$curName = $currency['currency_name'];
+			$curCheckName = 'cur_' . $curid . '_check';
+			$curValue = 'curname' . $curid;
+			if (AppRequest::get($curCheckName) === 'on' || AppRequest::get($curCheckName) === 1) {
+				$requestPrice = CurrencyField::convertToDBFormat(AppRequest::get('unit_price'), null, true);
+				$actualPrice = CurrencyField::convertToDBFormat(AppRequest::get($curValue), null, true);
+				$conversionRate = $currency['conversion_rate'];
+				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
+				$convertedPrice = $actualConversionRate * $requestPrice;
+				\App\Log::trace("Going to save the Services - $curName currency relationship");
+				\App\Db::getInstance()->createCommand()->insert('vtiger_productcurrencyrel', [
+					'productid' => $this->id,
+					'currencyid' => $curid,
+					'converted_price' => $convertedPrice,
+					'actual_price' => $actualPrice
+				])->execute();
+				if (AppRequest::get('base_currency') === $curValue) {
+					$currencySet = true;
+					$db->createCommand()
+						->update($this->table_name, ['currency_id' => $curid, 'unit_price' => $actualPrice], [$this->table_index => $this->id])
+						->execute();
 				}
-
-				\App\Log::trace("Going to save the Product - $tax_name tax relationship");
-
-				$query = "insert into vtiger_producttaxrel values(?,?,?)";
-				$adb->pquery($query, array($this->id, $taxid, $tax_per));
 			}
 		}
-
-		\App\Log::trace("Exiting from insertTaxInformation($tablename, $module) method ...");
-	}
-
-	/** 	function to save the service price information in vtiger_servicecurrencyrel table
-	 * 	@param string $tablename - vtiger_tablename to save the service currency relationship (servicecurrencyrel)
-	 * 	@param string $module	 - current module name
-	 * 	$return void
-	 */
-	public function insertPriceInformation($tablename, $module)
-	{
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
-		\App\Log::trace("Entering into insertPriceInformation($tablename, $module) method ...");
-		//removed the update of currency_id based on the logged in user's preference : fix 6490
-
-
-		$currency_details = getAllCurrencies('all');
-
-		//Delete the existing currency relationship if any
-		if ($this->mode == 'edit' && AppRequest::get('action') != 'MassEditSave' && AppRequest::get('action') != 'ProcessDuplicates') {
-			$countCurrencyDetails = count($currency_details);
-			for ($i = 0; $i < $countCurrencyDetails; $i++) {
-				$curid = $currency_details[$i]['curid'];
-				$sql = "delete from vtiger_productcurrencyrel where productid=? and currencyid=?";
-				$adb->pquery($sql, array($this->id, $curid));
-			}
+		if (!$currencySet) {
+			reset($currencyDetails);
+			$curid = key($currencyDetails);
+			$db->createCommand()
+				->update($this->table_name, ['currency_id' => $curid], [$this->table_index => $this->id])
+				->execute();
 		}
-
-		$service_base_conv_rate = getBaseConversionRateForProduct($this->id, $this->mode, $module);
-
-		//Save the Product - Currency relationship if corresponding currency check box is enabled
-		$countCurrencyDetails = count($currency_details);
-		for ($i = 0; $i < $countCurrencyDetails; $i++) {
-			$curid = $currency_details[$i]['curid'];
-			$curname = $currency_details[$i]['currencylabel'];
-			$cur_checkname = 'cur_' . $curid . '_check';
-			$cur_valuename = 'curname' . $curid;
-			$base_currency_check = 'base_currency' . $curid;
-			$requestPrice = CurrencyField::convertToDBFormat(AppRequest::get('unit_price'), null, true);
-			$actualPrice = CurrencyField::convertToDBFormat(AppRequest::get($cur_valuename), null, true);
-			if (AppRequest::get($cur_valuename) == 'on' || AppRequest::get($cur_checkname) == 1) {
-				$conversion_rate = $currency_details[$i]['conversionrate'];
-				$actual_conversion_rate = $service_base_conv_rate * $conversion_rate;
-				$converted_price = $actual_conversion_rate * $requestPrice;
-
-				\App\Log::trace("Going to save the Product - $curname currency relationship");
-
-				$query = "insert into vtiger_productcurrencyrel values(?,?,?,?)";
-				$adb->pquery($query, array($this->id, $curid, $converted_price, $actualPrice));
-
-				// Update the Product information with Base Currency choosen by the User.
-				if (AppRequest::get('base_currency') == $cur_valuename) {
-					$adb->pquery("update vtiger_service set currency_id=?, unit_price=? where serviceid=?", array($curid, $actualPrice, $this->id));
-				}
-			} else {
-				$curid = \vtlib\Functions::userCurrencyId($current_user->id);
-				$adb->pquery("update vtiger_service set currency_id=? where serviceid=?", array($curid, $this->id));
-			}
-		}
-
-		\App\Log::trace("Exiting from insertPriceInformation($tablename, $module) method ...");
+		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	public function updateUnitPrice()
@@ -217,15 +164,6 @@ class Services extends CRMEntity
 		$query = "update vtiger_productcurrencyrel set actual_price=? where productid=? and currencyid=?";
 		$params = array($prod_unit_price, $this->id, $prod_base_currency);
 		$this->db->pquery($query, $params);
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
 	}
 
 	/**
@@ -392,82 +330,6 @@ class Services extends CRMEntity
 
 		return $query;
 	}
-	/**
-	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	// function save_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle deleting related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function delete_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
-
-	/** 	function used to get the list of pricebooks which are related to the service
-	 * 	@param int $id - service id
-	 * 	@return array - array which will be returned from the function GetRelatedList
-	 */
-	public function get_service_pricebooks($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		global $currentModule, $singlepane_view;
-
-		\App\Log::trace("Entering get_service_pricebooks(" . $id . ") method ...");
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
-		require_once("modules/$related_module/$related_module.php");
-		$focus = new $related_module();
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = "&return_module=$currentModule&return_action=DetailView&return_id=$id";
-		else
-			$returnset = "&return_module=$currentModule&return_action=CallRelatedList&return_id=$id";
-
-		$button = '';
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 1, '') == 'yes' && isPermitted($currentModule, 'EditView', $id) == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_ADD_TO') . " " . \App\Language::translate($related_module) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"AddServiceToPriceBooks\";this.form.module.value=\"$currentModule\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_TO') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$query = sprintf('SELECT vtiger_crmentity.crmid,
-			vtiger_pricebook.*,
-			vtiger_pricebookproductrel.productid as prodid
-			FROM vtiger_pricebook
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_pricebook.pricebookid
-			INNER JOIN vtiger_pricebookproductrel
-				ON vtiger_pricebookproductrel.pricebookid = vtiger_pricebook.pricebookid
-			INNER JOIN vtiger_pricebookcf
-				ON vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
-			WHERE vtiger_crmentity.deleted = 0
-			AND vtiger_pricebookproductrel.productid = %s', $id);
-		\App\Log::trace("Exiting get_product_pricebooks method ...");
-
-		$return_value = GetRelatedList($currentModule, $related_module, $focus, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_service_pricebooks method ...");
-		return $return_value;
-	}
 
 	/** 	Function to display the Services which are related to the PriceBook
 	 * 	@param string $query - query to get the list of products which are related to the current PriceBook
@@ -502,18 +364,6 @@ class Services extends CRMEntity
 		}
 		$module = 'PriceBooks';
 		$relatedmodule = 'Services';
-		if (!$_SESSION['rlvs'][$module][$relatedmodule]) {
-			$modObj = new ListViewSession();
-			$modObj->sortby = $focus->default_order_by;
-			$modObj->sorder = $focus->default_sort_order;
-			$_SESSION['rlvs'][$module][$relatedmodule] = get_object_vars($modObj);
-		}
-		if (AppRequest::get('relmodule') == $relatedmodule) {
-			$relmodule = AppRequest::get('relmodule');
-			if ($_SESSION['rlvs'][$module][$relmodule]) {
-				setSessionVar($_SESSION['rlvs'][$module][$relmodule], $noofrows, $listMaxEntriesPerPage, $module, $relmodule);
-			}
-		}
 		global $relationId;
 		$start = RelatedListViewSession::getRequestCurrentPage($relationId, $query);
 		$navigation_array = VT_getSimpleNavigationValues($start, $listMaxEntriesPerPage, $noofrows);
@@ -733,13 +583,15 @@ class Services extends CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	// Function to unlink all the dependent entities of the given Entity by Id
-	public function unlinkDependencies($module, $id)
+	/**
+	 * Function to unlink all the dependent entities of the given Entity by Id
+	 * @param string $moduleName
+	 * @param int $recordId
+	 */
+	public function deletePerminently($moduleName, $recordId)
 	{
-
-		$this->db->pquery('DELETE from vtiger_seproductsrel WHERE productid=? or crmid=?', array($id, $id));
-
-		parent::unlinkDependencies($module, $id);
+		\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $recordId], ['crmid' => $recordId]])->execute();
+		parent::deletePerminently($moduleName, $recordId);
 	}
 
 	/**
@@ -770,10 +622,10 @@ class Services extends CRMEntity
 			$conModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
 			$pbModuleInstance = vtlib\Module::getInstance('PriceBooks');
-			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'), 'get_pricebook_services');
+			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'), 'getPricebookServices');
 
 			// Initialize module sequence for the module
-			\includes\fields\RecordNumber::setNumber($moduleName, 'SER', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'SER', 1);
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 		} else if ($eventType == 'module.disabled') {
@@ -807,77 +659,12 @@ class Services extends CRMEntity
 			$entityIds = $return_id;
 			$return_modules = [$return_module];
 		}
-		if ($relatedName && $relatedName != 'get_related_list') {
+		if ($relatedName && $relatedName != 'getRelatedList') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
 			$where = '(relcrmid= ? AND module IN (' . generateQuestionMarks($return_modules) . ') AND crmid IN (' . generateQuestionMarks($entityIds) . ')) OR (crmid= ? AND relmodule IN (' . generateQuestionMarks($return_modules) . ') AND relcrmid IN (' . generateQuestionMarks($entityIds) . '))';
 			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
 			$this->db->delete('vtiger_crmentityrel', $where, $params);
 		}
-	}
-
-	/**
-	 * Function to get Product's related Products
-	 * @param  integer   $id      - productid
-	 * returns related Products record in array format
-	 */
-	public function get_services($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_products(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions && $this->ismember_check() === 0) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \App\Language::translate('LBL_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\";' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$query = "SELECT vtiger_service.serviceid, vtiger_service.servicename,
-			vtiger_service.service_no, vtiger_service.commissionrate,
-			vtiger_service.service_usageunit, vtiger_service.unit_price,
-			vtiger_crmentity.crmid, vtiger_crmentity.smownerid
-			FROM vtiger_service
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_service.serviceid
-			INNER JOIN vtiger_servicecf
-				ON vtiger_service.serviceid = vtiger_servicecf.serviceid
-			LEFT JOIN vtiger_crmentityrel ON vtiger_crmentityrel.relcrmid = vtiger_service.serviceid && vtiger_crmentityrel.module='Services'
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 && vtiger_crmentityrel.crmid = $id ";
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_products method ...");
-		return $return_value;
 	}
 }

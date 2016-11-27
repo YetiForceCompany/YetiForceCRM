@@ -74,7 +74,6 @@ class Smarty_Internal_Runtime_ValidateCompiled
         if ($is_valid) {
             $resource->unifunc = $properties['unifunc'];
             $resource->has_nocache_code = $properties['has_nocache_code'];
-            //            $tpl->compiled->nocache_hash = $properties['nocache_hash'];
             $resource->file_dependency = $properties['file_dependency'];
             if (isset($properties['tpl_function'])) {
                 $tpl->tpl_function = $properties['tpl_function'];

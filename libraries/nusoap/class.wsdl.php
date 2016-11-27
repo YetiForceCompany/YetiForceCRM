@@ -260,7 +260,6 @@ class wsdl extends nusoap_base {
         // Create an XML parser.
         $this->parser = xml_parser_create(); 
         // Set the options for parsing the XML data.
-        // xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
         xml_parser_set_option($this->parser, XML_OPTION_CASE_FOLDING, 0); 
         // Set the object for the parser.
         xml_set_object($this->parser, $this); 
@@ -463,10 +462,7 @@ class wsdl extends nusoap_base {
                     $this->debug('parsing import ' . $attrs['namespace']. ' - [no location] (' . count($this->import[$attrs['namespace']]).')');
 				}
 				break;
-			//wait for schema
-			//case 'types':
-			//	$this->status = 'schema';
-			//	break;
+
 			case 'message':
 				$this->status = 'message';
 				$this->messages[$attrs['name']] = array();
@@ -633,7 +629,6 @@ class wsdl extends nusoap_base {
 			// binding type of port matches parameter
 			if ($portData['bindingType'] == $bindingType) {
 				// get binding
-				//foreach($this->bindings[ $portData['binding'] ]['operations'] as $bOperation => $opData) {
 				foreach(array_keys($this->bindings[ $portData['binding'] ]['operations']) as $bOperation) {
 					// note that we could/should also check the namespace here
 					if ($operation == $bOperation) {
@@ -929,11 +924,9 @@ class wsdl extends nusoap_base {
 				$xml .= "\n<message name=\"" . $msgName . '">';
 				if(is_array($msgParts)){
 					foreach($msgParts as $partName => $partType) {
-						// print 'serializing '.$partType.', sv: '.$this->XMLSchemaVersion.'<br>';
 						if (strpos($partType, ':')) {
 						    $typePrefix = $this->getPrefixFromNamespace($this->getPrefix($partType));
 						} elseif (isset($this->typemap[$this->namespaces['xsd']][$partType])) {
-						    // print 'checking typemap: '.$this->XMLSchemaVersion.'<br>';
 						    $typePrefix = 'xsd';
 						} else {
 						    foreach($this->typemap as $ns => $types) {

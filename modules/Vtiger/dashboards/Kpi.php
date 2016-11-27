@@ -20,7 +20,6 @@ class Vtiger_Kpi_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 
-		//var_dump($request->get('createdtime'));
 		$kpiHelper = new Vtiger_Kpi_Helper($request);
 		$data = $kpiHelper->getData($request);
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());

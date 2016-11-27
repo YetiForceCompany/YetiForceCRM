@@ -60,7 +60,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$limitID = $recordModel->get($limitFieldName);
 		$balance = $recordModel->get($balanceFieldName);
 		if (!empty($limitID)) {
-			$limit = reset(Vtiger_InventoryLimit_UIType::getValues($limitID))['value'];
+			$limit = Vtiger_InventoryLimit_UIType::getValues($limitID)['value'];
 		} else {
 			$response->setResult(['status' => true]);
 			$response->emit();

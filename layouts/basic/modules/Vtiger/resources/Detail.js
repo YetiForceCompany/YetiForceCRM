@@ -273,6 +273,28 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
+	updateField: function (fieldName) {
+		var params = {
+			module: app.getModuleName(),
+			action: 'UpdateField',
+			record: app.getRecordId(),
+			fieldName: fieldName,
+		};
+		AppConnector.request(params).then(
+				function (response) {
+					Vtiger_Helper_Js.showMessage({
+						title: app.vtranslate('JS_LBL_PERMISSION'),
+						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+						type: 'success',
+						animation: 'show'
+					});
+					location.reload();
+				},
+				function (error, err) {
+					console.error(error, err);
+				}
+		);
+	}
 }, {
 	targetPicklistChange: false,
 	targetPicklist: false,
@@ -1101,7 +1123,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		jQuery(fieldElement).each(function (index, element) {
 			var fieldName = jQuery(element).val();
 			var elementTarget = jQuery(element);
-			var elementName = jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner']) != -1 ? fieldName + '[]' : fieldName;
+			var elementName = jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist', 'posList']) != -1 ? fieldName + '[]' : fieldName;
 			var fieldElement = jQuery('[name="' + elementName + '"]', editElement);
 			if (fieldElement.attr('disabled') == 'disabled') {
 				return;
@@ -1217,11 +1239,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					currentTdElement.progressIndicator();
 					editElement.addClass('hide');
 					var fieldNameValueMap = {};
-					//The same values must be in the file SummaryViewContents.tpl
-					if (fieldInfo.getType() == 'multipicklist' || fieldInfo.getType() == 'sharedOwner' || fieldInfo.getType() == 'taxes') {
-						var multiPicklistFieldName = fieldName.split('[]');
-						fieldName = multiPicklistFieldName[0];
-					}
 
 					fieldNameValueMap["value"] = fieldValue;
 					fieldNameValueMap["field"] = fieldName;
@@ -1499,6 +1516,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				} else {
 					value = element.data('off-val');
 				}
+			} else if (element.attr('type') == 'radio') {
+				if (element.is(':checked')) {
+					urlNewParams[element.attr('name')] = element.val();
+				}
 			} else {
 				var selectedFilter = element.find('option:selected').val();
 				var fieldlable = element.data('fieldlable');
@@ -1510,10 +1531,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 					return;
 				}
 			}
-			if (name in urlNewParams) {
-				urlNewParams[name].push(value);
-			} else {
-				urlNewParams[name] = [value];
+			if (name) {
+				if (name in urlNewParams) {
+					urlNewParams[name].push(value);
+				} else {
+					urlNewParams[name] = [value];
+				}
 			}
 		});
 		if (params != undefined) {
@@ -2887,7 +2910,5 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.loadWidgets();
 
 		this.registerEventForTotalRecordsCount();
-		var header = Vtiger_Header_Js.getInstance();
-		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
 	}
 });

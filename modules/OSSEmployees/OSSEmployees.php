@@ -57,6 +57,11 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => 'business_phone',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['ossemployees_no', 'last_name', 'name', 'business_phone', 'assigned_user_id'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
@@ -243,85 +248,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 		\App\Log::trace("Exiting __getChildEmployees method ...");
 		return $child_accounts;
 	}
-	/* function addWidgetTo($moduleNames, $widgetType='DETAILVIEWWIDGET', $widgetName='DetailViewBlockEMPLOYEEHOLIDAY') {
-	  if (empty($moduleNames)) return;
-
-	  if (is_string($moduleNames)) $moduleNames = array($moduleNames);
-
-	  foreach($moduleNames as $moduleName) {
-	  $module = vtlib\Module::getInstance($moduleName);
-	  if($module) {
-	  $module->addLink($widgetType, $widgetName, "modules/OSSEmployees/OSSEmployeesHoliday.php");
-	  }
-	  }
-	  }
-	 */
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
-	 */
-	public function get_osstimecontrol($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_osstimecontrol(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-
-
-		$record = Vtiger_Record_Model::getInstanceById($id);
-		$userId = $record->get('assigned_user_id');
-
-
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		if ($actions && \App\Field::getFieldPermission($related_module, 'parent_id', false)) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \App\Language::translate('LBL_SELECT') . " " . \App\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input title='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \App\Language::translate('LBL_ADD_NEW') . " " . \App\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name, vtiger_users.id,
-				vtiger_osstimecontrol.name, vtiger_osstimecontrol.osstimecontrolid as crmid, vtiger_osstimecontrol.osstimecontrol_status, vtiger_osstimecontrol.payment,
-				vtiger_osstimecontrol.osstimecontrol_no, vtiger_osstimecontrol.date_start, vtiger_osstimecontrol.due_date, vtiger_osstimecontrol.time_end, vtiger_osstimecontrol.sum_time, vtiger_crmentity.smownerid, vtiger_crmentity.modifiedtime
-				FROM vtiger_osstimecontrol
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid
-				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE  vtiger_crmentity.deleted = 0 && vtiger_crmentity.`smownerid`= " . $userId;
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-		\App\Log::trace("Exiting get_osstimecontrol method ...");
-		return $return_value;
-	}
 
 	public function vtlib_handler($modulename, $event_type)
 	{
@@ -331,7 +257,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$tabid = \App\Module::getModuleId($modulename);
 			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('ossemployees_no','employee_status','name','last_name','pesel','id_card','employee_education','parentid','business_mail');", true);
 
-			\includes\fields\RecordNumber::setNumber($modulename, 'P', '1');
+			\App\Fields\RecordNumber::setNumber($modulename, 'P', '1');
 			// block with comments
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

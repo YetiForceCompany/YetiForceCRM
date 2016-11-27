@@ -15,53 +15,22 @@ class Services_Module_Model extends Products_Module_Model
 	 * Function to get list view query for popup window
 	 * @param string $sourceModule Parent module
 	 * @param string $field parent fieldname
-	 * @param integer $record parent id
-	 * @param string $listQuery
-	 * @return string Listview Query
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery, $skipSelected = false)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk');
-		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || in_array($sourceModule, getInventoryModules())) {
-
-			$condition = " vtiger_service.discontinued = 1 ";
-
+		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || Vtiger_Module_Model::getInstance($sourceModule)->isInventory()) {
+			$condition = ['and', ['vtiger_service.discontinued' => 1]];
 			if ($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') {
-				$condition .= " AND vtiger_service.serviceid NOT IN (SELECT productid FROM vtiger_pricebookproductrel WHERE pricebookid = '$record') ";
-			} elseif (in_array($sourceModule, $supportedModulesList) && $skipSelected === false) {
-				$condition .= " AND vtiger_service.serviceid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
+				$subQuery = (new App\Db\Query())
+					->select(['productid'])
+					->from('vtiger_pricebookproductrel')
+					->where(['pricebookid' => $record]);
+				$condition [] = ['not in', 'vtiger_service.serviceid', $subQuery];
 			}
-
-			$pos = stripos($listQuery, 'where');
-			if ($pos) {
-				$overRideQuery = $listQuery . ' AND ' . $condition;
-			} else {
-				$overRideQuery = $listQuery . ' WHERE ' . $condition;
-			}
-			return $overRideQuery;
+			$queryGenerator->addNativeCondition($condition);
 		}
-	}
-
-	/**
-	 * Function returns query for Services-PriceBooks Relationship
-	 * @param <Vtiger_Record_Model> $recordModel
-	 * @param <Vtiger_Record_Model> $relatedModuleModel
-	 * @return <String>
-	 */
-	public function get_service_pricebooks($recordModel, $relatedModuleModel)
-	{
-		$query = 'SELECT vtiger_pricebook.pricebookid, vtiger_pricebook.bookname, vtiger_pricebook.active, vtiger_crmentity.crmid, 
-						vtiger_crmentity.smownerid, vtiger_pricebookproductrel.listprice, vtiger_service.unit_price
-					FROM vtiger_pricebook
-					INNER JOIN vtiger_pricebookproductrel ON vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid
-					INNER JOIN vtiger_crmentity on vtiger_crmentity.crmid = vtiger_pricebook.pricebookid
-					INNER JOIN vtiger_service on vtiger_service.serviceid = vtiger_pricebookproductrel.productid
-					INNER JOIN vtiger_pricebookcf on vtiger_pricebookcf.pricebookid = vtiger_pricebook.pricebookid
-					LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid '
-			. Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleModel->getName()) . '
-					WHERE vtiger_service.serviceid = ' . $recordModel->getId() . ' and vtiger_crmentity.deleted = 0';
-
-		return $query;
 	}
 }

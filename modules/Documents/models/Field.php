@@ -13,8 +13,8 @@ class Documents_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to retieve display value for a value
-	 * @param <String> $value - value which need to be converted to display value
-	 * @return <String> - converted display value
+	 * @param string $value - value which need to be converted to display value
+	 * @return string - converted display value
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{

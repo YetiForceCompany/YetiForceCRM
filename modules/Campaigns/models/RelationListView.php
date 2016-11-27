@@ -39,10 +39,10 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 
 	/**
 	 * Function to get list of record models in this relation
-	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @return <array> List of record models <Vtiger_Record_Model>
+	 * @param Vtiger_Paging_Model $pagingModel
+	 * @return Vtiger_Record_Model[] List of record models 
 	 */
-	public function getEntries($pagingModel)
+	public function getEntries(Vtiger_Paging_Model $pagingModel)
 	{
 		$relationModel = $this->getRelationModel();
 		$parentRecordModel = $this->getParentRecordModel();

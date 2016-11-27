@@ -160,8 +160,7 @@ class Vtiger_AdvancedFilter_Helper
 
 	public static function getDateFilter($moduleName)
 	{
-		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
-		foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
+		foreach (\App\CustomView::getDateFilterTypes() as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
 			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $moduleName);

@@ -18,54 +18,6 @@ class Functions
 		return (isset($user->is_admin) && $user->is_admin == 'on');
 	}
 
-	public static function currentUserJSDateFormat($localformat)
-	{
-		$current_user = vglobal('current_user');
-		switch ($current_user->date_format) {
-			case 'dd-mm-yyyy': $dt_popup_fmt = "%d-%m-%Y";
-				break;
-			case 'mm-dd-yyyy': $dt_popup_fmt = "%m-%d-%Y";
-				break;
-			case 'yyyy-mm-dd': $dt_popup_fmt = "%Y-%m-%d";
-				break;
-			case 'dd.mm.yyyy': $dt_popup_fmt = "%d.%m.%Y";
-				break;
-			case 'mm.dd.yyyy': $dt_popup_fmt = "%m.%d.%Y";
-				break;
-			case 'yyyy.mm.dd': $dt_popup_fmt = "%Y.%m.%d";
-				break;
-			case 'dd/mm/yyyy': $dt_popup_fmt = "%d/%m/%Y";
-				break;
-			case 'mm/dd/yyyy': $dt_popup_fmt = "%m/%d/%Y";
-				break;
-			case 'yyyy/mm/dd': $dt_popup_fmt = "%Y/%m/%d";
-				break;
-		}
-		return $dt_popup_fmt;
-	}
-
-	/**
-	 * This function returns the date in user specified format.
-	 * limitation is that mm-dd-yyyy and dd-mm-yyyy will be considered same by this API.
-	 * As in the date value is on mm-dd-yyyy and user date format is dd-mm-yyyy then the mm-dd-yyyy
-	 * value will be return as the API will be considered as considered as in same format.
-	 * this due to the fact that this API tries to consider the where given date is in user date
-	 * format. we need a better gauge for this case.
-	 * @global Users $current_user
-	 * @param Date $cur_date_val the date which should a changed to user date format.
-	 * @return Date
-	 */
-	public static function currentUserDisplayDate($value)
-	{
-		$current_user = vglobal('current_user');
-		$dat_fmt = $current_user->date_format;
-		if ($dat_fmt == '') {
-			$dat_fmt = 'yyyy-mm-dd';
-		}
-		$date = new \DateTimeField($value);
-		return $date->getDisplayDate();
-	}
-
 	public static function currentUserDisplayDateNew()
 	{
 		$current_user = vglobal('current_user');
@@ -203,13 +155,13 @@ class Functions
 			if ($isEntityType && $module['isentitytype'] == 0) {
 				unset($moduleList[$id]);
 			}
-			if ($presence !== false && $module['presence'] != $presence) {
+			if ($presence !== false && $module['presence'] !== $presence) {
 				unset($moduleList[$id]);
 			}
-			if ($colorActive !== false && $module['coloractive'] != 1) {
+			if ($colorActive !== false && $module['coloractive'] !== 1) {
 				unset($moduleList[$id]);
 			}
-			if ($ownedby !== false && $module['ownedby'] != $ownedby) {
+			if ($ownedby !== false && $module['ownedby'] !== $ownedby) {
 				unset($moduleList[$id]);
 			}
 		}
@@ -321,7 +273,7 @@ class Functions
 		}
 		if ($missing) {
 			$query = (new \App\Db\Query())
-				->select(['crmid', 'setype', 'deleted', 'smcreatorid', 'smownerid', 'createdtime'])
+				->select(['crmid', 'setype', 'deleted', 'smcreatorid', 'smownerid', 'createdtime', 'private'])
 				->from('vtiger_crmentity')
 				->where(['in', 'crmid', $missing]);
 			$dataReader = $query->createCommand()->query();
@@ -356,7 +308,7 @@ class Functions
 
 	public static function getOwnerRecordLabel($id)
 	{
-		return \includes\fields\Owner::getLabel($id);
+		return \App\Fields\Owner::getLabel($id);
 	}
 
 	protected static $userIdNameCache = [];
@@ -373,21 +325,37 @@ class Functions
 		return (isset(self::$userIdNameCache[$id])) ? self::$userIdNameCache[$id] : NULL;
 	}
 
-	protected static $moduleFieldInfoByNameCache = [];
-
-	public static function getModuleFieldInfos($mixed)
+	/**
+	 * Function get module field infos
+	 * @param int|string $mixed
+	 * @param bool $returnByColumn
+	 * @return mixed[]
+	 */
+	public static function getModuleFieldInfos($mixed, $returnByColumn = false)
 	{
 		$moduleInfo = self::getModuleData($mixed);
-		$module = $moduleInfo['name'];
-		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]))) {
-			$dataReader = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
-					->createCommand()->query();
-			self::$moduleFieldInfoByNameCache[$module] = [];
-			while ($row = $dataReader->read()) {
-				self::$moduleFieldInfoByNameCache[$module][$row['fieldname']] = $row;
-			}
+		if (!$moduleInfo || !$moduleInfo['name']) {
+			return [];
 		}
-		return isset(self::$moduleFieldInfoByNameCache[$module]) ? self::$moduleFieldInfoByNameCache[$module] : NULL;
+		$module = $moduleInfo['name'];
+		$cacheName = 'getModuleFieldInfosByName';
+		if (!\App\Cache::has($cacheName, $module)) {
+			$dataReader = (new \App\Db\Query())
+					->from('vtiger_field')
+					->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
+					->createCommand()->query();
+			$fieldInfoByName = $fieldInfoByColumn = [];
+			while ($row = $dataReader->read()) {
+				$fieldInfoByName[$row['fieldname']] = $row;
+				$fieldInfoByColumn[$row['columnname']] = $row;
+			}
+			\App\Cache::save($cacheName, $module, $fieldInfoByName);
+			\App\Cache::save('getModuleFieldInfosByColumn', $module, $fieldInfoByColumn);
+		}
+		if ($returnByColumn) {
+			return \App\Cache::get('getModuleFieldInfosByColumn', $module);
+		}
+		return \App\Cache::get($cacheName, $module);
 	}
 
 	public static function getModuleFieldInfoWithId($fieldid)
@@ -686,28 +654,6 @@ class Functions
 		return $pass;
 	}
 
-	/** gives the option  to display  the tagclouds or not for the current user
-	 * * @param $id -- user id:: Type integer
-	 * * @returns true or false in $tag_cloud_view
-	 * * Added to provide User based Tagcloud
-	 * */
-	public static function getTagCloudView($id = "")
-	{
-		$adb = \PearDatabase::getInstance();
-		if ($id == '') {
-			$tag_cloud_status = 1;
-		} else {
-			$query = "select visible from vtiger_homestuff where userid=? and stufftype='Tag Cloud'";
-			$tag_cloud_status = $adb->query_result($adb->pquery($query, array($id)), 0, 'visible');
-		}
-
-		if ($tag_cloud_status == 0) {
-			$tag_cloud_view = 'true';
-		} else {
-			$tag_cloud_view = 'false';
-		}
-		return $tag_cloud_view;
-	}
 
 	/**     function used to change the Type of Data for advanced filters in custom view and Reports
 	 * *     @param string $table_name - tablename value from field table

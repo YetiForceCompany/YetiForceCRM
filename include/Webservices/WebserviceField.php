@@ -186,7 +186,7 @@ class WebserviceField
 
 	public function getFieldParams()
 	{
-		return \includes\utils\Json::decode($this->fieldparams);
+		return \App\Json::decode($this->fieldparams);
 	}
 
 	public function isReadOnly()
@@ -426,7 +426,7 @@ class WebserviceField
 			}
 		}else {
 			$user = VTWS_PreserveGlobal::getGlobal('current_user');
-			$details = \includes\fields\Picklist::getRoleBasedPicklistValues($fieldName, $user->roleid);
+			$details = \App\Fields\Picklist::getRoleBasedPicklistValues($fieldName, $user->roleid);
 			for ($i = 0; $i < sizeof($details); ++$i) {
 				$elem = [];
 				$picklistValue = decode_html($details[$i]);

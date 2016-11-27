@@ -122,7 +122,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function which specifies whether the field can have mandatory switch to happen
-	 * @return <Boolean> - true if we can make a field mandatory and non mandatory , false if we cant change previous state
+	 * @return boolean - true if we can make a field mandatory and non mandatory , false if we cant change previous state
 	 */
 	public function isMandatoryOptionDisabled()
 	{
@@ -190,7 +190,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check whether summary field option is disable or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isSummaryFieldOptionDisabled()
 	{
@@ -203,7 +203,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check field is editable or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isEditable()
 	{
@@ -216,7 +216,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get instance
-	 * @param <String> $value - fieldname or fieldid
+	 * @param string $value - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
 	 * @return <Settings_LayoutEditor_Field_Model>
 	 */
@@ -234,7 +234,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to get all fields list for all blocks
 	 * @param <Array> List of block ids
-	 * @param <Vtiger_Module_Model> $moduleInstance
+	 * @param Vtiger_Module_Model $moduleInstance
 	 * @return <Array> List of Field models <Settings_LayoutEditor_Field_Model>
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)

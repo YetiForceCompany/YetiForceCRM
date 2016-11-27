@@ -58,6 +58,11 @@ class OSSPasswords extends CRMEntity
 		'Password' => 'password',
 		'WWW page' => 'link_adres',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['osspassword_no', 'passwordname', 'username', 'password', 'link_adres'];
 	// Make the field link to detail view
 	public $list_link_field = 'passwordname';
 	// For Popup listview and UI type support
@@ -96,15 +101,6 @@ class OSSPasswords extends CRMEntity
 	public function save_module($module)
 	{
 		//module specific save
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
 	}
 
 	/**
@@ -246,7 +242,7 @@ class OSSPasswords extends CRMEntity
 	public function transform_export_value($key, $value)
 	{
 		if ($key == 'owner')
-			return \includes\fields\Owner::getLabel($value);
+			return \App\Fields\Owner::getLabel($value);
 		return parent::transform_export_value($key, $value);
 	}
 
@@ -298,13 +294,6 @@ class OSSPasswords extends CRMEntity
 		return $query;
 	}
 
-	// Function to unlink all the dependent entities of the given Entity by Id
-	public function unlinkDependencies($module, $id)
-	{
-
-		parent::unlinkDependencies($module, $id);
-	}
-
 	/**
 	 * Invoked when special actions are performed on the module.
 	 * @param String Module name
@@ -313,7 +302,7 @@ class OSSPasswords extends CRMEntity
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		require_once('include/utils/utils.php');
-		require_once('include/events/include.inc');
+		require_once('include/events/include.php');
 
 		$adb = PearDatabase::getInstance();
 		$registerLink = false;

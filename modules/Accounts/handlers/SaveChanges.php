@@ -11,26 +11,24 @@ class SaveChanges extends VTEventHandler
 
 	public function handleEvent($eventName, $data)
 	{
-		$moduleName = $data->getModuleName();
 		$vtEntityDelta = new VTEntityDelta();
-		$delta = $vtEntityDelta->getEntityDelta($moduleName, $data->getId(), true);
+		$delta = $vtEntityDelta->getEntityDelta($data->getModuleName(), $data->getId(), true);
 		if (isset($delta['active'])) {
-			$db = PearDatabase::getInstance();
-			$query = 'SELECT (1) FROM u_yf_crmentity_last_changes WHERE crmid = ? && fieldname = ?';
-			$userModel = Users_Privileges_Model::getCurrentUserModel();
-			if ($db->getRow($db->pquery($query, [$data->getId(), 'active']))) {
-				$db->update('u_yf_crmentity_last_changes', [
+			$isExists = (new \App\Db\Query())->from('u_#__crmentity_last_changes')
+					->where(['crmid' => $data->getId(), 'fieldname' => 'active'])
+					->exists();
+			if ($isExists) {
+				App\Db::getInstance()->createCommand()->update('u_#__crmentity_last_changes', [
 					'date_updated' => date('Y-m-d H:i:s'),
-					'user_id' => $userModel->getId(),
-					], 'crmid = ? && fieldname = ?', [$data->getId(), 'active']);
+					'user_id' => App\User::getCurrentUserId(),
+					], ['crmid' => $data->getId(), 'fieldname' => 'active'])->execute();
 			} else {
-				$params = [
-					'user_id' => $userModel->getId(),
+				App\Db::getInstance()->createCommand()->insert('u_#__crmentity_last_changes', [
+					'user_id' => App\User::getCurrentUserId(),
 					'crmid' => $data->getId(),
 					'fieldname' => 'active',
 					'date_updated' => date('Y-m-d H:i:s'),
-				];
-				$db->insert('u_yf_crmentity_last_changes', $params);
+				])->execute();
 			}
 		}
 	}

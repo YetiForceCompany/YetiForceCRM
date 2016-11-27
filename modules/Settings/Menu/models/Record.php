@@ -23,7 +23,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Name of this record instance
-	 * @return <String> Name
+	 * @return string Name
 	 */
 	public function getName()
 	{
@@ -107,7 +107,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$params[] = $item;
 			}
-			$maxSequence = (new \App\Db\Query())->from('yetiforce_menu')->where(['role'=> $role, 'parentid'=> 0])->max('sequence');
+			$maxSequence = (new \App\Db\Query())->from('yetiforce_menu')->where(['role' => $role, 'parentid' => 0])->max('sequence');
 			$max = (int) $maxSequence;
 			$sqlCol .= 'sequence';
 			$params[] = $max + 1;
@@ -135,17 +135,29 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$this->generateFileMenu($role);
 	}
 
-	public function removeMenu($id)
+	/**
+	 * Function removes menu items
+	 * @param int[] $ids
+	 */
+	public function removeMenu($ids)
 	{
 		$db = \App\Db::getInstance();
-		$recordModel = Settings_Menu_Record_Model::getInstanceById($id);
-		$query = (new \App\Db\Query())->select('id')->from('yetiforce_menu')->where(['parentid' => $id]);
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->readColumn(0)) {
-			$this->removeMenu($row['id']);
+		if (!is_array($ids)) {
+			$ids = [$ids];
 		}
-		$db->createCommand()->delete('yetiforce_menu', ['id' => $id])->execute();
-		$this->generateFileMenu($recordModel->get('role'));
+		foreach ($ids as $id) {
+			if (empty($id)) {
+				continue;
+			}
+			$recordModel = Settings_Menu_Record_Model::getInstanceById($id);
+			$query = (new \App\Db\Query())->select('id')->from('yetiforce_menu')->where(['parentid' => $id]);
+			$dataReader = $query->createCommand()->query();
+			while ($childId = $dataReader->readColumn(0)) {
+				$this->removeMenu($childId);
+			}
+			$db->createCommand()->delete('yetiforce_menu', ['id' => $id])->execute();
+			$this->generateFileMenu($recordModel->get('role'));
+		}
 	}
 
 	public function getChildMenu($roleId, $parent)
@@ -277,7 +289,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getRolesContainMenu()
 	{
-		$db = PearDatabase::getInstance();
 		$allRoles = Settings_Roles_Record_Model::getAll();
 		$menu = [];
 		$counter = 0;
@@ -291,8 +302,8 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		return $menu;
 	}
-	
-		/**
+
+	/**
 	 * Function adds records to task queue that updates reviewing changes in records
 	 * @param int $fromRole - Copy from role
 	 * @param int $toRole - Copy to role
@@ -302,13 +313,13 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$db = \App\Db::getInstance();
 		$result = $db->createCommand('SHOW TABLE STATUS WHERE NAME = "yetiforce_menu"')->queryOne();
 		$nextId = $result['Auto_increment'];
-		
-		$query = (new \App\Db\Query())->from('yetiforce_menu')->where(['role'=> $fromRole]);
+
+		$query = (new \App\Db\Query())->from('yetiforce_menu')->where(['role' => $fromRole]);
 		$dataReader = $query->createCommand()->query();
 		$rows = $dataReader->readAll();
 
 		if ($rows) {
-			
+
 			foreach ($rows as &$row) {
 				$oldAndNewIds[$row['id']] = $nextId;
 				$nextId += 1;

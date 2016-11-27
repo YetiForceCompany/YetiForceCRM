@@ -35,7 +35,7 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
-		$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
+		$overdueActivityLabels['status'] = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner, false, $overdueActivityLabels);
 
@@ -58,7 +58,7 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('USER_CONDITIONS', ['vtiger_activity.status', "'$overdueActivityLabels'", 'in', QueryGenerator::$AND]);
+		$viewer->assign('USER_CONDITIONS', ['condition' => ['vtiger_activity.status' => $overdueActivityLabels]]);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

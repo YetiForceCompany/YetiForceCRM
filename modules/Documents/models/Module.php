@@ -22,7 +22,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -40,59 +40,40 @@ class Documents_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param <String> $sourceModule Parent module
-	 * @param <String> $field parent fieldname
-	 * @param <Integer> $record parent id
-	 * @param <String> $listQuery
-	 * @return <String> Listview Query
+	 * @param string $sourceModule Parent module
+	 * @param string $field parent fieldname
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if ($sourceModule === 'Emails' && $field === 'composeEmail') {
-			$condition = ' (( vtiger_notes.filelocationtype LIKE "%I%")) AND vtiger_notes.filename != "" AND vtiger_notes.filestatus = 1';
+			$condition = ['and', ['vtiger_notes.filelocationtype' => 'I'], ['<>', 'vtiger_notes.filename', ''], ['vtiger_notes.filestatus' => 1]];
 		} else {
-			$condition = " vtiger_notes.notesid NOT IN (SELECT notesid FROM vtiger_senotesrel WHERE crmid = '$record') AND vtiger_notes.filestatus = 1";
+			$condition = ['and',
+					['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
+					['vtiger_notes.filestatus' => 1]
+			];
 		}
-		$pos = stripos($listQuery, 'where');
-		if ($pos) {
-			$overRideQuery = $listQuery . ' AND ' . $condition;
-		} else {
-			$overRideQuery = $listQuery . ' WHERE ' . $condition;
-		}
-		return $overRideQuery;
+		$queryGenerator->addNativeCondition($condition);
 	}
 
 	/**
-	 * Funtion that returns fields that will be showed in the record selection popup
-	 * @return <Array of fields>
+	 * Function to get popup view fields
+	 * @param string|boolean $sourceModule
+	 * @return string[]
 	 */
 	public function getPopupViewFieldsList($sourceModule = false)
 	{
-		if (!empty($sourceModule)) {
-			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
-			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
-		}
-		$popupFields = array();
-		if ($relationModel) {
-			$popupFields = $relationModel->getRelationFields(true);
-		}
-		if (count($popupFields) == 0) {
-			$popupFileds = $this->getSummaryViewFieldsList();
-			foreach ($popupFileds as $fieldName => $fieldModel) {
-				if ($fieldName === 'folderid' || $fieldName === 'modifiedtime') {
-					unset($popupFileds[$fieldName]);
-				}
-			}
-			$reqPopUpFields = array('File Status' => 'filestatus',
-				'File Size' => 'filesize',
-				'File Location Type' => 'filelocationtype');
-			foreach ($reqPopUpFields as $fieldLabel => $fieldName) {
+		$popupFields = parent::getPopupViewFieldsList($sourceModule);
+		$reqPopUpFields = ['filestatus', 'filesize', 'filelocationtype'];
+		foreach ($reqPopUpFields as &$fieldName) {
+			if (!isset($popupFields[$fieldName])) {
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
-				if ($fieldModel->getPermissions(false)) {
-					$popupFileds[$fieldName] = $fieldModel;
+				if ($fieldModel->getPermissions()) {
+					$popupFields[$fieldName] = $fieldName;
 				}
 			}
-			$popupFields = array_keys($popupFileds);
 		}
 		return $popupFields;
 	}
@@ -103,21 +84,6 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	public function getAlphabetSearchField()
 	{
 		return 'notes_title';
-	}
-
-	/**
-	 * Function that returns related list header fields that will be showed in the Related List View
-	 * @return <Array> returns related fields list.
-	 */
-	public function getRelatedListFields()
-	{
-		$relatedListFields = parent::getRelatedListFields();
-
-		//Adding filestatus, filelocationtype in the related list to be used for file download
-		$relatedListFields['filestatus'] = 'filestatus';
-		$relatedListFields['filelocationtype'] = 'filelocationtype';
-
-		return $relatedListFields;
 	}
 
 	public function getSettingLinks()

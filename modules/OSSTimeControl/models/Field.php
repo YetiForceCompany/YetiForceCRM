@@ -14,8 +14,8 @@ class OSSTimeControl_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get Edit view display value
-	 * @param <String> Data base value
-	 * @return <String> value
+	 * @param string Data base value
+	 * @return string value
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{

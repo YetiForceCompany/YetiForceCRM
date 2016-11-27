@@ -13,7 +13,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Detail View url for the record
-	 * @return <String> - Record Detail View Url
+	 * @return string - Record Detail View Url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -165,7 +165,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Returns the From Email address that will be used for the sent mails
-	 * @return <String> - from email address
+	 * @return string - from email address
 	 */
 	public function getFromEmailAddress()
 	{
@@ -271,7 +271,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get File size
 	 * @param <Integer> $filesize
-	 * @return <String> filesize
+	 * @return string filesize
 	 */
 	public function getFormattedFileSize($filesize)
 	{
@@ -344,7 +344,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to check the total size of files is morethan max upload size or not
 	 * @param <Array> $documentIds
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function checkUploadSize($documentIds = false)
 	{
@@ -382,8 +382,8 @@ class Emails_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Access count value
-	 * @param <String> $parentId
-	 * @return <String>
+	 * @param string $parentId
+	 * @return string
 	 */
 	public function getAccessCountValue($parentId)
 	{
@@ -395,7 +395,7 @@ class Emails_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function checks if the mail is sent or not
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isSentMail()
 	{

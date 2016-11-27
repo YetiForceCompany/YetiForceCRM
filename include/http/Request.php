@@ -63,7 +63,7 @@ class Vtiger_Request
 			}
 		}
 		if ($isJSON) {
-			$decodeValue = \includes\utils\Json::decode($value);
+			$decodeValue = \App\Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
 			}
@@ -87,8 +87,8 @@ class Vtiger_Request
 
 	/**
 	 * Function to get the value if its safe to use for SQL Query (column).
-	 * @param <String> $key
-	 * @param <Boolean> $skipEmpty - Skip the check if string is empty
+	 * @param string $key
+	 * @param boolean $skipEmpty - Skip the check if string is empty
 	 * @return Value for the given key
 	 */
 	public function getForSql($key, $skipEmtpy = true)
@@ -115,7 +115,7 @@ class Vtiger_Request
 			}
 		}
 		if ($isJSON) {
-			$decodeValue = \includes\utils\Json::decode($value);
+			$decodeValue = \App\Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
 			}
@@ -152,7 +152,7 @@ class Vtiger_Request
 	 */
 	public function has($key)
 	{
-		return isset($this->rawValueMap[$key]);
+		return isset($this->rawValueMap[$key]) || isset($this->valueMap[$key]);
 	}
 
 	/**

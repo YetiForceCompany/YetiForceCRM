@@ -14,10 +14,10 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns query for module record's search
-	 * @param <String> $searchValue - part of record name (label column of crmentity table)
+	 * @param string $searchValue - part of record name (label column of crmentity table)
 	 * @param <Integer> $parentId - parent record id
-	 * @param <String> $parentModule - parent module name
-	 * @return <String> - query
+	 * @param string $parentModule - parent module name
+	 * @return string - query
 	 */
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
@@ -50,47 +50,50 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param <String> $sourceModule Parent module
-	 * @param <String> $field parent fieldname
-	 * @param <Integer> $record parent id
-	 * @param <String> $listQuery
-	 * @return <String> Listview Query
+	 * @param string $sourceModule Parent module
+	 * @param string $field parent fieldname
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if (in_array($sourceModule, array('Campaigns', 'Vendors', 'Products', 'Services', 'Emails')) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
 			switch ($sourceModule) {
-				case 'Campaigns' : $tableName = 'vtiger_campaign_records';
+				case 'Campaigns' :
+					$tableName = 'vtiger_campaign_records';
 					$fieldName = 'crmid';
 					$relatedFieldName = 'campaignid';
 					break;
-				case 'Vendors' : $tableName = 'vtiger_vendorcontactrel';
+				case 'Vendors' :
+					$tableName = 'vtiger_vendorcontactrel';
 					$fieldName = 'contactid';
 					$relatedFieldName = 'vendorid';
 					break;
-				case 'Products' : $tableName = 'vtiger_seproductsrel';
+				case 'Products' :
+					$tableName = 'vtiger_seproductsrel';
 					$fieldName = 'crmid';
 					$relatedFieldName = 'productid';
 					break;
 			}
-
 			if ($sourceModule === 'Services') {
-				$condition = " vtiger_contactdetails.contactid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
+				$subQuery = (new App\Db\Query())
+					->select(['relcrmid'])
+					->from('vtiger_crmentityrel')
+					->where(['crmid' => $record]);
+				$secondSubQuery = (new App\Db\Query())
+					->select(['crmid'])
+					->from('vtiger_crmentityrel')
+					->where(['relcrmid' => $record]);
+				$condition = ['and', ['not in', 'vtiger_contactdetails.contactid', $subQuery], ['not in', 'vtiger_contactdetails.contactid', $secondSubQuery]];
 			} elseif ($sourceModule === 'Emails') {
-				$condition = ' vtiger_contactdetails.emailoptout = 0';
+				$condition = ['vtiger_contactdetails.emailoptout' => 0];
 			} elseif ($sourceModule === 'Contacts' && $field === 'contact_id') {
-				$condition = " vtiger_contactdetails.contactid != '$record'";
+				$condition = ['<>', 'vtiger_contactdetails.contactid', $record];
 			} else {
-				$condition = " vtiger_contactdetails.contactid NOT IN (SELECT $fieldName FROM $tableName WHERE $relatedFieldName = '$record')";
+				$subQuery = (new App\Db\Query())->select([$fieldName])->from($tableName)->where([$relatedFieldName => $record]);
+				$condition = ['not in', 'vtiger_contactdetails.contactid', $subQuery];
 			}
-
-			$position = stripos($listQuery, 'where');
-			if ($position) {
-				$overRideQuery = $listQuery . ' && ' . $condition;
-			} else {
-				$overRideQuery = $listQuery . ' WHERE ' . $condition;
-			}
-			return $overRideQuery;
+			$queryGenerator->addNativeCondition($condition);
 		}
 	}
 

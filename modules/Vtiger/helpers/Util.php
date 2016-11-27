@@ -52,7 +52,7 @@ class Vtiger_Util_Helper
 	/**
 	 * Function parses date into readable format
 	 * @param <Date Time> $dateTime
-	 * @return <String>
+	 * @return string
 	 */
 	public static function formatDateDiffInStrings($dateTime)
 	{
@@ -101,8 +101,8 @@ class Vtiger_Util_Helper
 	/**
 	 * Function returns singular or plural text
 	 * @param <Number> $count
-	 * @param <String> $text
-	 * @return <String>
+	 * @param string $text
+	 * @return string
 	 */
 	public static function pluralize($count, $text)
 	{
@@ -120,8 +120,8 @@ class Vtiger_Util_Helper
 
 	/**
 	 * Function that will strip all the tags while displaying
-	 * @param <String> $input - html data
-	 * @return <String> vtiger6 displayable data
+	 * @param string $input - html data
+	 * @return string vtiger6 displayable data
 	 */
 	public static function toVtiger6SafeHTML($input)
 	{
@@ -133,7 +133,7 @@ class Vtiger_Util_Helper
 	 * Function to parses date into string format
 	 * @param <Date> $date
 	 * @param <Time> $time
-	 * @return <String>
+	 * @return string
 	 */
 	public static function formatDateIntoStrings($date, $time = false)
 	{
@@ -151,7 +151,7 @@ class Vtiger_Util_Helper
 		$today = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
 		$tomorrow = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s', strtotime('tomorrow')));
 		$userDate = DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
-		//var_dump($userDate);
+
 		if ($dateInUserFormat == $today) {
 			$todayInfo = vtranslate('LBL_TODAY');
 			if ($time) {
@@ -180,8 +180,8 @@ class Vtiger_Util_Helper
 
 	/**
 	 * Function to replace spaces with under scores
-	 * @param <String> $string
-	 * @return <String>
+	 * @param string $string
+	 * @return string
 	 */
 	public static function replaceSpaceWithUnderScores($string)
 	{
@@ -191,7 +191,7 @@ class Vtiger_Util_Helper
 	/**
 	 * Function to parse dateTime into Days
 	 * @param <DateTime> $dateTime
-	 * @return <String>
+	 * @return string
 	 */
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
@@ -223,70 +223,17 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function to get picklist key for a picklist
-	 */
-	public static function getPickListId($fieldName)
-	{
-		$pickListIds = array('opportunity_type' => 'opptypeid',
-			'sales_stage' => 'sales_stage_id',
-			'rating' => 'rating_id',
-			'ticketpriorities' => 'ticketpriorities_id',
-			'ticketseverities' => 'ticketseverities_id',
-			'ticketstatus' => 'ticketstatus_id',
-			'salutationtype' => 'salutationid',
-			'faqstatus' => 'faqstatus_id',
-			'faqcategories' => 'faqcategories_id',
-			'recurring_frequency' => 'recurring_frequency_id',
-			'payment_duration' => 'payment_duration_id',
-			'language' => 'id',
-			'recurringtype' => 'recurringeventid',
-			'duration_minutes' => 'minutesid'
-		);
-		if (array_key_exists($fieldName, $pickListIds)) {
-			return $pickListIds[$fieldName];
-		}
-		return $fieldName . 'id';
-	}
-
-	/**
-	 * Function which will give the picklist values for a field
-	 * @param type $fieldName -- string
-	 * @return type -- array of values
-	 */
-	public static function getPickListValues($fieldName)
-	{
-		$cache = Vtiger_Cache::getInstance();
-		if ($cache->getPicklistValues($fieldName)) {
-			return $cache->getPicklistValues($fieldName);
-		}
-		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
-				->from("vtiger_$fieldName")
-				->orderBy('sortorderid')
-				->createCommand()->query();
-		$values = [];
-		while ($row = $dataReader->read()) {
-			$values[$row[$primaryKey]] = decode_html(decode_html($row[$fieldName]));
-		}
-		$cache->setPicklistValues($fieldName, $values);
-		return $values;
-	}
-
-	/**
 	 * Function gets the CRM's base Currency information
 	 * @return Array
 	 */
 	public static function getBaseCurrency()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE defaultid < 0', []);
-		if ($db->num_rows($result))
-			return $db->query_result_rowdata($result, 0);
+		return(new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid', '0'])->one();
 	}
 
 	/**
 	 * Function to get maximum upload size
-	 * @return <Float> maximum upload size
+	 * @return float maximum upload size
 	 */
 	public static function getMaxUploadSize()
 	{
@@ -296,8 +243,8 @@ class Vtiger_Util_Helper
 
 	/**
 	 * Function to get Owner name for ownerId
-	 * @param <Integer> $ownerId
-	 * @return <String> $ownerName
+	 * @param integer $ownerId
+	 * @return string $ownerName
 	 */
 	public static function getOwnerName($ownerId)
 	{
@@ -325,8 +272,8 @@ class Vtiger_Util_Helper
 
 	/**
 	 * Function decodes the utf-8 characters
-	 * @param <String> $string
-	 * @return <String>
+	 * @param string $string
+	 * @return string
 	 */
 	public static function getDecodedValue($string)
 	{
@@ -370,7 +317,7 @@ class Vtiger_Util_Helper
 	 * Function to get the datetime value in user preferred hour format
 	 * @param <DateTime> $dateTime
 	 * @param <Vtiger_Users_Model> $userObject
-	 * @return <String> date and time with hour format
+	 * @return string date and time with hour format
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null)
 	{
@@ -394,7 +341,7 @@ class Vtiger_Util_Helper
 	 * Function to get the time value in user preferred hour format
 	 * @param <Time> $time
 	 * @param <Vtiger_Users_Model> $userObject
-	 * @return <String> time with hour format
+	 * @return string time with hour format
 	 */
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null)
 	{
@@ -435,53 +382,44 @@ class Vtiger_Util_Helper
 		return $userGroupInstance->user_groups;
 	}
 
-	public static function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
+	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)
 	{
-		if (empty($listSearchParams)) {
-			$listSearchParams = [];
+		if (empty($searchParams)) {
+			return [];
 		}
 		$advFilterConditionFormat = [];
-		$glueOrder = array('and', 'or');
+		$glueOrder = ['and', 'or'];
 		$groupIterator = 0;
-		foreach ($listSearchParams as $groupInfo) {
+		foreach ($searchParams as &$groupInfo) {
 			if (empty($groupInfo)) {
 				continue;
 			}
-			$groupConditionInfo = [];
-			$groupColumnsInfo = [];
-			$groupConditionGlue = $glueOrder[$groupIterator];
-			foreach ($groupInfo as $fieldSearchInfo) {
-				$advFilterFieldInfoFormat = [];
-				$fieldName = $fieldSearchInfo[0];
-				$operator = $fieldSearchInfo[1];
-				$fieldValue = $fieldSearchInfo[2];
-				$specialOption = $fieldSearchInfo[3];
+			$groupColumnsInfo = $groupConditionInfo = [];
+			foreach ($groupInfo as &$fieldSearchInfo) {
+				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
 				$fieldInfo = $moduleModel->getField($fieldName);
-
-				if ($fieldInfo->getFieldDataType() == "tree" && $specialOption) {
+				if ($field->getFieldDataType() === 'tree' && $specialOption) {
 					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-				//Database format
-
-				if ($fieldInfo->getFieldDataType() == "time") {
+				if ($field->getFieldDataType() === 'time') {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
-				if ($fieldInfo->getFieldDataType() == 'currency') {
+				if ($field->getFieldDataType() === 'currency') {
 					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
 				}
-
-				if ($fieldName == 'date_start' || $fieldName == 'due_date' || $fieldInfo->getFieldDataType() == "datetime") {
+				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
 					$dateValues = explode(',', $fieldValue);
 					//Indicate whether it is fist date in the between condition
 					$isFirstDate = true;
 					foreach ($dateValues as $key => $dateValue) {
 						$dateTimeCompoenents = explode(' ', $dateValue);
 						if (empty($dateTimeCompoenents[1])) {
-							if ($isFirstDate)
+							if ($isFirstDate) {
 								$dateTimeCompoenents[1] = '00:00:00';
-							else
+							} else {
 								$dateTimeCompoenents[1] = '23:59:59';
+							}
 						}
 						$dateValue = implode(' ', $dateTimeCompoenents);
 						$dateValues[$key] = $dateValue;
@@ -489,23 +427,11 @@ class Vtiger_Util_Helper
 					}
 					$fieldValue = implode(',', $dateValues);
 				}
-
-				$advFilterFieldInfoFormat['columnname'] = $fieldInfo->getCustomViewColumnName();
-				$advFilterFieldInfoFormat['comparator'] = $operator;
-				$advFilterFieldInfoFormat['value'] = $fieldValue;
-				$advFilterFieldInfoFormat['column_condition'] = $groupConditionGlue;
-				$groupColumnsInfo[] = $advFilterFieldInfoFormat;
+				$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
 			}
-			$noOfConditions = count($groupColumnsInfo);
-			//to remove the last column condition
-			$groupColumnsInfo[$noOfConditions - 1]['column_condition'] = '';
-			$groupConditionInfo['columns'] = $groupColumnsInfo;
-			$groupConditionInfo['condition'] = 'and';
-			$advFilterConditionFormat[] = $groupConditionInfo;
+			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
 			$groupIterator++;
 		}
-		//We aer removing last condition since this condition if there is next group and this is the last group
-		unset($advFilterConditionFormat[count($advFilterConditionFormat) - 1]['condition']);
 		return $advFilterConditionFormat;
 	}
 	/*	 * *
@@ -525,27 +451,24 @@ class Vtiger_Util_Helper
 				$row = $db->query_result_rowdata($queryResult, $i);
 				$activityIds[$row['id']] = $row['defaultcolor'];
 			}
-
+			$db = \App\Db::getInstance();
 			foreach ($activityIds as $activityId => $color) {
-				$insertActivityTypesSql = '';
-				$insertActivityTypesParams = [];
-
+				$columns = [
+					'defaultid' => $activityId,
+					'userid' => $userId,
+					'color' => $color,
+				];
 				if (in_array($activityId, array(1, 2))) {
-					$insertActivityTypesSql = 'INSERT INTO vtiger_calendar_user_activitytypes (id, defaultid, userid, color, visible) VALUES (?,?,?,?,?)';
-					$insertActivityTypesParams = array($db->getUniqueID('vtiger_calendar_user_activitytypes'), $activityId, $userId, $color, 1);
-				} else {
-					$insertActivityTypesSql = 'INSERT INTO vtiger_calendar_user_activitytypes (id, defaultid, userid, color) VALUES (?,?,?,?)';
-					$insertActivityTypesParams = array($db->getUniqueID('vtiger_calendar_user_activitytypes'), $activityId, $userId, $color);
+					$columns['visible'] = 1;
 				}
-
-				$db->pquery($insertActivityTypesSql, $insertActivityTypesParams);
+				$db->createCommand()->insert('vtiger_calendar_user_activitytypes', $columns)->execute();
 			}
 		}
 	}
 
 	public static function getAllSkins()
 	{
-		return array('twilight' => '#404952', 'blue' => '#00509e');
+		return ['twilight' => '#404952', 'blue' => '#00509e', 'modern' => '#0d9605'];
 	}
 
 	public static function isUserDeleted($userid)

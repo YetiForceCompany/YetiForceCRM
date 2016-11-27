@@ -6,32 +6,42 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_FileLocationType_UIType extends Vtiger_Base_UIType
+class Vtiger_FileLocationType_UIType extends Vtiger_Picklist_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/FileLocationType.tpl';
-	}
-
-	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <String> value of field
-	 * @return <String> Converted value
+	 * @param string $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($value === 'I') {
-			$value = 'LBL_INTERNAL';
-		} else {
-			$value = 'LBL_EXTERNAL';
-		}
-		return vtranslate($value, 'Documents');
+		$values = $this->getPicklistValues();
+		return isset($values[$value]) ? $values[$value] : $value;
+	}
+
+	/**
+	 * Function to get all the available picklist values for the current field
+	 * @return array List of picklist values if the field
+	 */
+	public function getPicklistValues()
+	{
+		$moduleName = $this->get('field')->getModuleName();
+		return ['I' => \App\Language::translate('LBL_INTERNAL', $moduleName), 'E' => \App\Language::translate('LBL_EXTERNAL', $moduleName)];
+	}
+
+	/**
+	 * Function defines empty picklist element availability
+	 * @return boolean
+	 */
+	public function isEmptyPicklistOptionAllowed()
+	{
+		return false;
 	}
 }

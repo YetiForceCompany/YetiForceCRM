@@ -56,11 +56,15 @@ class OSSSoldServices extends Vtiger_CRMEntity
 		/* Format: Field Label => fieldname */
 		'Product Name' => 'productname',
 		'Category' => 'pscategory',
-		'Sub Category' => 'pssubcategory',
 		'Assigned To' => 'assigned_user_id',
 		'Date Sold' => 'datesold',
 		'LBL_ssservicesstatus' => 'ssservicesstatus',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['productname', 'pscategory', 'assigned_user_id', 'datesold', 'ssservicesstatus'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'productname';
 	// For Popup listview and UI type support
@@ -106,15 +110,15 @@ class OSSSoldServices extends Vtiger_CRMEntity
 	public function vtlib_handler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
-			\includes\fields\RecordNumber::setNumber($modulename, 'US', '1');
+			\App\Fields\RecordNumber::setNumber($modulename, 'US', '1');
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 			
 		}

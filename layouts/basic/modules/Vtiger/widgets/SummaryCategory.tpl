@@ -6,7 +6,7 @@
 		</div>
 		<hr class="widgetHr">
 	{/if}
-	{foreach item=SUMMARY_CATEGORY from=$SUMMARY_INFORMATION}
+	{foreach item=SUMMARY_CATEGORY from=$RECORD->getSummaryInfo()}
 		<div class="row textAlignCenter roundedCorners">
 			{foreach item=FIELD_VALUE from=$SUMMARY_CATEGORY}
 				<div class="col-md-3" data-reference="{$FIELD_VALUE.reference}">

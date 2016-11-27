@@ -11,7 +11,7 @@ while ($row = $db->getRow($result)) {
 	$typeAddress = $row['type'];
 	$recordId = $row['crmid'];
 	$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-	$coordinates = $coordinatesModel->getCoordinates(\includes\utils\Json::decode($row['address']));
+	$coordinates = $coordinatesModel->getCoordinates(\App\Json::decode($row['address']));
 	if ($coordinates === false) break;
 	if (empty($coordinates)) {
 		$db->delete('u_yf_openstreetmap_record_updater', 'crmid = ? && type = ?',

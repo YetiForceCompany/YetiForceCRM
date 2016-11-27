@@ -31,7 +31,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		if (!empty($returnIds)) {
 			return $returnIds;
 		}
-		$this->prefix = \includes\fields\Email::findRecordNumber($this->mail->get('subject'), $this->moduleName);
+		$this->prefix = \App\Fields\Email::findRecordNumber($this->mail->get('subject'), $this->moduleName);
 		if (!$this->prefix) {
 			return false;
 		}
@@ -42,25 +42,26 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 	protected function add()
 	{
 		$returnIds = [];
-		$cache = Vtiger_Cache::get('MSFindPrevix', $this->prefix);
-		if ($cache !== false) {
-			$status = OSSMailView_Relation_Model::addRelation($this->mail->getMailCrmId(), $cache, $this->mail->get('udate_formated'));
-			if ($status) {
-				$returnIds[] = $cache;
-			}
+		$crmId = false;
+		if (\App\Cache::has('getRecordByPrefix', $this->prefix)) {
+			$crmId = \App\Cache::get('getRecordByPrefix', $this->prefix);
 		} else {
 			$moduleObject = CRMEntity::getInstance($this->moduleName);
 			$tableIndex = $moduleObject->tab_name_index[$this->tableName];
-			$db = PearDatabase::getInstance();
-			$query = sprintf('SELECT %s FROM %s INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = %s.%s WHERE vtiger_crmentity.deleted = 0  && %s = ? ', $tableIndex, $this->tableName, $this->tableName, $tableIndex, $this->tableName . '.' . $this->tableColumn);
-			$result = $db->pquery($query, [$this->prefix]);
-			if ($db->getRowCount($result)) {
-				$crmid = $db->getSingleValue($result);
-				$status = OSSMailView_Relation_Model::addRelation($this->mail->getMailCrmId(), $crmid, $this->mail->get('udate_formated'));
-				if ($status) {
-					$returnIds[] = $crmid;
-				}
-				Vtiger_Cache::set('MSFindPrevix', $this->prefix, $crmid);
+			$crmId = (new \App\Db\Query())
+				->select([$tableIndex])
+				->from($this->tableName)
+				->innerJoin('vtiger_crmentity', "$this->tableName.$tableIndex = vtiger_crmentity.crmid")
+				->where(['vtiger_crmentity.deleted' => 0, $this->tableName . '.' . $this->tableColumn => $this->prefix])
+				->one();
+			if ($crmId) {
+				\App\Cache::save('getRecordByPrefix', $this->prefix, $crmId, \App\Cache::LONG);
+			}
+		}
+		if ($crmId) {
+			$status = OSSMailView_Relation_Model::addRelation($this->mail->getMailCrmId(), $crmId, $this->mail->get('udate_formated'));
+			if ($status) {
+				$returnIds[] = $crmId;
 			}
 		}
 		return $returnIds;
