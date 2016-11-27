@@ -434,23 +434,20 @@ class Products extends CRMEntity
 
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		if (!is_array($with_crmids))
 			$with_crmids = Array($with_crmids);
 		foreach ($with_crmids as $with_crmid) {
-			if ($with_module == 'Leads' || $with_module == 'Accounts' ||
-				$with_module == 'Contacts' || $with_module == 'Products') {
-				$query = $db->pquery("SELECT * from vtiger_seproductsrel WHERE crmid=? and productid=?", array($crmid, $with_crmid));
-				if ($db->getRowCount($query) == 0) {
-					$db->insert('vtiger_seproductsrel', [
+			if ($with_module === 'Leads' || $with_module === 'Accounts' ||
+				$with_module === 'Contacts' || $with_module === 'Products') {
+				$isExists = (new App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $with_crmid, 'productid' => $crmid])->exists();
+				if (!$isExists) {
+					App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 						'crmid' => $with_crmid,
 						'productid' => $crmid,
 						'setype' => $with_module,
-						'rel_created_user' => $currentUser->getId(),
+						'rel_created_user' => App\User::getCurrentUserId(),
 						'rel_created_time' => date('Y-m-d H:i:s')
-					]);
+					])->execute();
 				}
 			} else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
