@@ -46,7 +46,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 	public function getPagination(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$cvId = $request->get('view');
+		$cvId = $request->get('viewname');
 		$pageNumber = $request->get('page');
 		$searchResult = $request->get('searchResult');
 		$moduleName = $request->getModule();

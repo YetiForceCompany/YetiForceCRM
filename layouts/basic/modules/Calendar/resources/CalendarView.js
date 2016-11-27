@@ -473,8 +473,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	goToRecordsList: function (link) {
 		var thisInstance = this;
 		var types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), []);
-		var user = thisInstance.getValuesFromSelect2($("#calendarUserList"), [], true);
-		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user, true);
+		var user = thisInstance.getValuesFromSelect2($("#calendarUserList"), [], false);
+		user = thisInstance.getValuesFromSelect2($("#calendarGroupList"), user, false);
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var start_date = view.start.format();
 		var end_date = view.end.format();
@@ -485,7 +485,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			searchParams += ',["activitytype","e","' + types + '"]';
 		}
 		if (user.length) {
-			searchParams += ',["assigned_user_id","c","' + user + '"]';
+			searchParams += ',["assigned_user_id","e","' + user + '"]';
 		}
 		$(".calendarFilters .filterField").each(function () {
 			var type = $(this).attr('type');
