@@ -65,84 +65,85 @@ class Documents extends CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 
+	/**
+	 * Function to handle module specific operations when saving a entity
+	 * @param string $module
+	 */
 	public function save_module($module)
 	{
-
-		$adb = PearDatabase::getInstance();
-		$insertion_mode = $this->mode;
-		if (isset($this->parentid) && $this->parentid != '')
+		$db = \App\Db::getInstance();
+		if (isset($this->parentid) && !empty($this->parentid))
 			$relid = $this->parentid;
 		//inserting into vtiger_senotesrel
-		if (isset($relid) && $relid != '') {
+		if (isset($relid) && !empty($relid)) {
 			$this->insertintonotesrel($relid, $this->id);
 		}
-		$filetype_fieldname = $this->getFileTypeFieldName();
-		$filename_fieldname = $this->getFile_FieldName();
+		$fileTypeFieldName = $this->getFileTypeFieldName();
+		$fileNameByField = $this->getFile_FieldName();
 
-		if ($this->column_fields[$filetype_fieldname] == 'I') {
-			if ($_FILES[$filename_fieldname]['name'] != '') {
-				$errCode = $_FILES[$filename_fieldname]['error'];
+		if ($this->column_fields[$fileTypeFieldName] === 'I') {
+			if (!empty($_FILES[$fileNameByField]['name'])) {
+				$errCode = $_FILES[$fileNameByField]['error'];
 				if ($errCode == 0) {
 					foreach ($_FILES as $fileindex => $files) {
 						$fileInstance = \App\Fields\File::loadFromRequest($files);
 						if ($fileInstance->validate()) {
-							$filename = $_FILES[$filename_fieldname]['name'];
-							$filename = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $filename));
-							$filetype = $_FILES[$filename_fieldname]['type'];
-							$filesize = $_FILES[$filename_fieldname]['size'];
-							$filelocationtype = 'I';
-							$filename = ltrim(basename(" " . $filename)); //allowed filename like UTF-8 characters
+							$fileName = $_FILES[$fileNameByField]['name'];
+							$fileName = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $fileName));
+							$fileType = $_FILES[$fileNameByField]['type'];
+							$fileSize = $_FILES[$fileNameByField]['size'];
+							$fileLocationType = 'I';
+							$fileName = ltrim(basename(" " . $fileName)); //allowed filename like UTF-8 characters
 						}
 					}
 				}
-			} elseif ($this->mode == 'edit') {
-				$fileres = $adb->pquery("select filetype, filesize,filename,filedownloadcount,filelocationtype from vtiger_notes where notesid=?", array($this->id));
-				if ($adb->num_rows($fileres) > 0) {
-					$filename = $adb->query_result($fileres, 0, 'filename');
-					$filetype = $adb->query_result($fileres, 0, 'filetype');
-					$filesize = $adb->query_result($fileres, 0, 'filesize');
-					$filedownloadcount = $adb->query_result($fileres, 0, 'filedownloadcount');
-					$filelocationtype = $adb->query_result($fileres, 0, 'filelocationtype');
+			} elseif ($this->mode === 'edit') {
+				$noteData = (new \App\Db\Query())->select(['filetype', 'filesize', 'filename', 'filedownloadcount', 'filelocationtype'])->from('vtiger_notes')
+					->where(['notesid' => $this->id])
+					->one();
+				if ($noteData) {
+					$fileName = $noteData['filename'];
+					$fileType = $noteData['filetype'];
+					$fileSize = $noteData['filesize'];
+					$fileDownloadCount = $noteData['filedownloadcount'];
+					$fileLocationType = $noteData['filelocationtype'];
 				}
-			} elseif ($this->column_fields[$filename_fieldname]) {
-				$filename = $this->column_fields[$filename_fieldname];
-				$filesize = $this->column_fields['filesize'];
-				$filetype = $this->column_fields['filetype'];
-				$filelocationtype = $this->column_fields[$filetype_fieldname];
-				$filedownloadcount = 0;
+			} elseif ($this->column_fields[$fileNameByField]) {
+				$fileName = $this->column_fields[$fileNameByField];
+				$fileSize = $this->column_fields['filesize'];
+				$fileType = $this->column_fields['filetype'];
+				$fileLocationType = $this->column_fields[$fileTypeFieldName];
+				$fileDownloadCount = 0;
 			} else {
-				$filelocationtype = 'I';
-				$filetype = '';
-				$filesize = 0;
-				$filedownloadcount = null;
+				$fileLocationType = 'I';
+				$fileType = '';
+				$fileSize = 0;
+				$fileDownloadCount = null;
 			}
-		} else if ($this->column_fields[$filetype_fieldname] == 'E') {
-			$filelocationtype = 'E';
-			$filename = $this->column_fields[$filename_fieldname];
+		} else if ($this->column_fields[$fileTypeFieldName] === 'E') {
+			$fileLocationType = 'E';
+			$fileName = $this->column_fields[$fileNameByField];
 			// If filename does not has the protocol prefix, default it to http://
 			// Protocol prefix could be like (https://, smb://, file://, \\, smb:\\,...)
-			if (!empty($filename) && !preg_match('/^\w{1,5}:\/\/|^\w{0,3}:?\\\\\\\\/', trim($filename), $match)) {
-				$filename = "http://$filename";
+			if (!empty($fileName) && !preg_match('/^\w{1,5}:\/\/|^\w{0,3}:?\\\\\\\\/', trim($fileName), $match)) {
+				$fileName = "http://$fileName";
 			}
-			$filetype = '';
-			$filesize = 0;
-			$filedownloadcount = null;
+			$fileType = '';
+			$fileSize = 0;
+			$fileDownloadCount = null;
 		}
-		$query = "UPDATE vtiger_notes SET filename = ? ,filesize = ?, filetype = ? , filelocationtype = ? , filedownloadcount = ? WHERE notesid = ?";
-		$re = $adb->pquery($query, array(decode_html($filename), $filesize, $filetype, $filelocationtype, $filedownloadcount, $this->id));
-		//Inserting into attachments table
-		if ($filelocationtype == 'I') {
+		$db->createCommand()->update('vtiger_notes', ['filename' => decode_html($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->id])->execute();
+//		//Inserting into attachments table
+		if ($fileLocationType === 'I') {
 			$this->insertIntoAttachment($this->id, 'Documents');
 		} else {
-			$query = "delete from vtiger_seattachmentsrel where crmid = ?";
-			$qparams = array($this->id);
-			$adb->pquery($query, $qparams);
+			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $this->id])->execute();
 		}
 		//set the column_fields so that its available in the event handlers
-		$this->column_fields['filename'] = $filename;
-		$this->column_fields['filesize'] = $filesize;
-		$this->column_fields['filetype'] = $filetype;
-		$this->column_fields['filedownloadcount'] = $filedownloadcount;
+		$this->column_fields['filename'] = $fileName;
+		$this->column_fields['filesize'] = $fileSize;
+		$this->column_fields['filetype'] = $fileType;
+		$this->column_fields['filedownloadcount'] = $fileDownloadCount;
 	}
 
 	/**

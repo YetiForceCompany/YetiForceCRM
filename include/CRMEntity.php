@@ -161,10 +161,7 @@ class CRMEntity
 	 */
 	public function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
 	{
-
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
-
-		$adb = PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
 		$userId = \App\User::getCurrentUserId();
 		$date = date('Y-m-d H:i:s');
@@ -209,7 +206,7 @@ class CRMEntity
 				'createdtime' => $date,
 				'modifiedtime' => $date
 			];
-			if ($module == 'Contacts' || $module == 'Products') {
+			if ($module === 'Contacts' || $module === 'Products') {
 				$params['setype'] = $module . ' Image';
 			} else {
 				$params['setype'] = $module . ' Attachment';
@@ -226,21 +223,22 @@ class CRMEntity
 			$db->createCommand()->insert('vtiger_attachments', $params)->execute();
 
 			if (AppRequest::get('mode') == 'edit') {
-				if ($id != '' && AppRequest::get('fileid') != '') {
-					$delparams = [$id, AppRequest::get('fileid')];
-					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? && attachmentsid = ?', $delparams);
+				if (!empty($id) && !empty(AppRequest::get('fileid'))) {
+					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => AppRequest::get('fileid')])->execute();
 				}
 			}
-			if ($module == 'Documents') {
-				$adb->delete('vtiger_seattachmentsrel', 'crmid = ?', [$id]);
+			if ($module === 'Documents') {
+				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
 			}
 			if ($module == 'Contacts') {
-				$att_sql = "select vtiger_seattachmentsrel.attachmentsid  from vtiger_seattachmentsrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.attachmentsid where vtiger_crmentity.setype='Contacts Image' and vtiger_seattachmentsrel.crmid=?";
-				$res = $adb->pquery($att_sql, array($id));
-				$attachmentsid = $adb->query_result($res, 0, 'attachmentsid');
-				if ($attachmentsid != '') {
-					$adb->delete('vtiger_seattachmentsrel', 'crmid = ? && attachmentsid = ?', [$id, $attachmentsid]);
-					$adb->delete('vtiger_crmentity', 'crmid = ?', [$attachmentsid]);
+				$attachmentsId = (new \App\Db\Query())->select(['vtiger_seattachmentsrel.attachmentsid'])
+					->from('vtiger_seattachmentsrel')
+					->innerJoin('vtiger_crmentity', 'vtiger_seattachmentsrel.attachmentsid=vtiger_crmentity.crmid')
+					->where(['vtiger_crmentity.setype' => 'Contacts Image', 'vtiger_seattachmentsrel.crmid' => $id])
+					->scalar();
+				if (!empty($attachmentsId)) {
+					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $attachmentsId])->execute();
+					$db->createCommand()->delete('vtiger_crmentity', ['crmid' => $attachmentsId])->execute();
 					$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
 				} else {
 					$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
@@ -248,7 +246,6 @@ class CRMEntity
 			} else {
 				$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
 			}
-
 			return true;
 		} else {
 			\App\Log::trace('Skip the save attachment process.');
@@ -303,7 +300,7 @@ class CRMEntity
 				'createdtime' => $this->getValueToSave('createdtime'),
 				'modifiedtime' => $this->getValueToSave('modifiedtime'),
 				'private' => $this->getValueToSave('private'),
-				'users' => ',' . $this->getValueToSave('smownerid') . ',',
+				'users' => ', ' . $this->getValueToSave('smownerid') . ', ',
 			];
 			\App\Db::getInstance()->createCommand()->insert('vtiger_crmentity', $params)->execute();
 			$this->column_fields['createdtime'] = $params['createdtime'];
@@ -1077,12 +1074,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-			[
+				[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-			[
+				[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
