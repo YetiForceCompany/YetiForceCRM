@@ -176,7 +176,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		}
 
 		if ($deleteMappingsList) {
-			self::deleteMapping($deleteMappingsList, ' AND editable = 1');
+			self::deleteMapping($deleteMappingsList, true);
 		}
 
 		if ($createMappingsList) {
@@ -256,15 +256,14 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to delate the mapping
-	 * @param <Array> $mappingIdsList
+	 * @param array $mappingIdsList
 	 */
 	public static function deleteMapping($mappingIdsList, $conditions = false)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = sprintf('DELETE FROM vtiger_convertleadmapping WHERE cfmid IN (%s) ', generateQuestionMarks($mappingIdsList));
-		if ($conditions) {
-			$sql .= $conditions;
-		}
-		$db->pquery($sql, $mappingIdsList);
+		if($conditions)
+			$params = ['cfmid' => $mappingIdsList, 'editable' => 1];
+		else
+			$params = ['cfmid' => $mappingIdsList];
+		\App\Db::getInstance()->createCommand()->delete('vtiger_convertleadmapping', $params)->execute();
 	}
 }

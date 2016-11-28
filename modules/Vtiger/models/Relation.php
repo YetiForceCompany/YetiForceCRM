@@ -726,31 +726,31 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public static function updateModuleRelatedFields($relationId, $fields)
 	{
-		$db = PearDatabase::getInstance();
-		$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
 		if ($fields) {
 			foreach ($fields as $key => $field) {
-				$db->insert('vtiger_relatedlists_fields', [
+				$db->createCommand()->insert('vtiger_relatedlists_fields', [
 					'relation_id' => $relationId,
 					'fieldid' => $field['id'],
 					'fieldname' => $field['name'],
 					'sequence' => $key
-				]);
+				])->execute();
 			}
 		}
 	}
 
 	public static function updateModuleRelatedInventoryFields($relationId, $fields)
 	{
-		$db = PearDatabase::getInstance();
-		$db->delete('a_yf_relatedlists_inv_fields', 'relation_id = ?', [$relationId]);
+		$db = \App\Db::getInstance('admin');
+		$db->createCommand()->delete('a_#__relatedlists_inv_fields', ['relation_id' => $relationId])->execute();
 		if ($fields) {
 			foreach ($fields as $key => $field) {
-				$db->insert('a_yf_relatedlists_inv_fields', [
+				$db->createCommand()->insert('a_#__relatedlists_inv_fields', [
 					'relation_id' => $relationId,
 					'fieldname' => $field,
 					'sequence' => $key
-				]);
+				])->execute();
 			}
 		}
 	}
@@ -824,9 +824,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public static function updateStateFavorites($relationId, $status)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_relatedlists SET `favorites` = ? WHERE `relation_id` = ?;';
-		$result = $adb->pquery($query, [$status, $relationId]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['favorites' => $status], ['relation_id' => $relationId])->execute();
 	}
 
 	public function isFavorites()
