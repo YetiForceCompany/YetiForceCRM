@@ -34,7 +34,7 @@ class OSSMailTemplates_GetTpl_Action extends Vtiger_Action_Controller
 			$recordModel->findVar($output['content'], 0, $record, $selectModule, 's', $request);
 		}
 		if ('true' === $request->get('as_var')) {
-			$output['content'] = to_html($output['content']);
+			$output['content'] = \App\Purifier::toHtml($output['content']);
 			return $output;
 		} else {
 			$response = new Vtiger_Response();

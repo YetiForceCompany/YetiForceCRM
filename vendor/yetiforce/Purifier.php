@@ -224,4 +224,54 @@ class Purifier
 		}
 		return false;
 	}
+
+	private static $toHtmlInUTF8;
+
+	/**
+	 * Function to convert the given string to html
+	 * @param $string -- string:: Type string
+	 * @param $encode -- boolean:: Type boolean
+	 * @returns $string -- string:: Type string
+	 *
+	 */
+	public static function toHtml($string, $encode = true)
+	{
+		$oginalString = $string;
+		if (Cache::has('toHtml', $oginalString)) {
+			return Cache::get('toHtml', $oginalString);
+		}
+		$default_charset = vglobal('default_charset');
+
+		$action = \AppRequest::has('action') ? \AppRequest::get('action') : false;
+		$search = \AppRequest::has('search') ? \AppRequest::get('search') : false;
+		$ajaxAction = false;
+		$doconvert = false;
+
+		// For optimization - default_charset can be either upper / lower case.
+		if (!isset(static::$toHtmlInUTF8)) {
+			static::$toHtmlInUTF8 = (strtoupper($default_charset) == 'UTF-8');
+		}
+
+		if (\AppRequest::has('module') && \AppRequest::has('file') && \AppRequest::get('module') !== 'Settings' && \AppRequest::get('file') !== 'ListView' && \AppRequest::get('module') !== 'Portal' && \AppRequest::get('module') !== 'Reports')
+			$ajaxAction = \AppRequest::get('module') . 'Ajax';
+
+		if (is_string($string) && !empty($string)) {
+			if ($action !== 'CustomView' && $action !== 'Export' && $action !== $ajaxAction && $action !== 'LeadConvertToEntities' && \AppRequest::get('module') !== 'Dashboard' && (!\AppRequest::has('submode'))) {
+				$doconvert = true;
+			} else if ($search === true) {
+				// Fix for tickets #4647, #4648. Conversion required in case of search results also.
+				$doconvert = true;
+			}
+
+			// In vtiger5 ajax request are treated specially and the data is encoded
+			if ($doconvert === true) {
+				if (static::$toHtmlInUTF8)
+					$string = htmlentities($string, ENT_QUOTES, $default_charset);
+				else
+					$string = preg_replace(['/</', '/>/', '/"/'], ['&lt;', '&gt;', '&quot;'], $string);
+			}
+		}
+		Cache::save('toHtml', $oginalString, $string, Cache::LONG);
+		return $string;
+	}
 }

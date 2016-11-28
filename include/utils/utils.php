@@ -97,55 +97,6 @@ $toHtml = array(
 	'\r\n' => '\n',
 );
 
-/** Function to convert the given string to html
- * @param $string -- string:: Type string
- * @param $encode -- boolean:: Type boolean
- * @returns $string -- string:: Type string
- *
- */
-function to_html($string, $encode = true)
-{
-	$oginalString = $string;
-	$instance = Vtiger_Cache::get('to_html', $oginalString);
-	if ($instance) {
-		return $instance;
-	}
-	$default_charset = vglobal('default_charset');
-
-	$action = AppRequest::has('action') ? AppRequest::get('action') : false;
-	$search = AppRequest::has('search') ? AppRequest::get('search') : false;
-	$ajaxAction = false;
-	$doconvert = false;
-
-	// For optimization - default_charset can be either upper / lower case.
-	static $inUTF8 = NULL;
-	if ($inUTF8 === NULL) {
-		$inUTF8 = (strtoupper($default_charset) == 'UTF-8');
-	}
-
-	if (AppRequest::has('module') && AppRequest::has('file') && AppRequest::get('module') != 'Settings' && AppRequest::get('file') != 'ListView' && AppRequest::get('module') != 'Portal' && AppRequest::get('module') != 'Reports')
-		$ajaxAction = AppRequest::get('module') . 'Ajax';
-
-	if (is_string($string)) {
-		if ($action != 'CustomView' && $action != 'Export' && $action != $ajaxAction && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && AppRequest::get('module') != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!AppRequest::has('submode'))) {
-			$doconvert = true;
-		} else if ($search === true) {
-			// Fix for tickets #4647, #4648. Conversion required in case of search results also.
-			$doconvert = true;
-		}
-
-		// In vtiger5 ajax request are treated specially and the data is encoded
-		if ($doconvert === true) {
-			if ($inUTF8)
-				$string = htmlentities($string, ENT_QUOTES, $default_charset);
-			else
-				$string = preg_replace(['/</', '/>/', '/"/'], ['&lt;', '&gt;', '&quot;'], $string);
-		}
-	}
-	Vtiger_Cache::set('to_html', $oginalString, $string);
-	return $string;
-}
-
 /** Function to get column fields for a given module
  * @param $module -- module:: Type string
  * @returns $column_fld -- column field :: Type array
