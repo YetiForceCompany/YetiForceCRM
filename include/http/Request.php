@@ -186,6 +186,15 @@ class Vtiger_Request
 	}
 
 	/**
+	 * Set the value for key
+	 */
+	public function delete($key)
+	{
+		unset($this->valueMap[$key]);
+		unset($this->rawValueMap[$key]);
+	}
+
+	/**
 	 * Set the value for key, both in the object as well as global $_REQUEST variable
 	 */
 	public function setGlobal($key, $newvalue)
