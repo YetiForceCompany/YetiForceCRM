@@ -299,7 +299,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		//Disabled generating record ID in transaction  in order to maintain data integrity
-		if ($this->get('mode') != 'edit') {
+		if ($this->get('mode') !== 'edit') {
 			$recordId = \App\Db::getInstance()->getUniqueID('vtiger_crmentity');
 			$this->set('newRecord', $recordId);
 		}

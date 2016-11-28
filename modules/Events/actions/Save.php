@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Events_Save_Action extends Calendar_Save_Action
@@ -13,8 +14,8 @@ class Events_Save_Action extends Calendar_Save_Action
 
 	/**
 	 * Function to save record
-	 * @param <Vtiger_Request> $request - values of the record
-	 * @return <RecordModel> - record Model of saved record
+	 * @param Vtiger_Request $request - values of the record
+	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
 	public function saveRecord($request)
 	{
@@ -69,13 +70,10 @@ class Events_Save_Action extends Calendar_Save_Action
 			$heldevent = true;
 		}
 
-		if (AppRequest::get('recurringtype') != '' && AppRequest::get('recurringtype') != '--None--') {
+		if (!AppRequest::isEmpty('recurringtype') && AppRequest::get('recurringtype') !== '--None--') {
 			vimport('~modules/Calendar/RepeatEvents.php');
-			$focus = new Activity();
-
-			//get all the stored data to this object
+			$focus = CRMEntity::getInstance($recordModel->getModuleName());
 			$focus->column_fields = $recordModel->getData();
-
 			Calendar_RepeatEvents::repeatFromRequest($focus);
 		}
 		return $recordModel;

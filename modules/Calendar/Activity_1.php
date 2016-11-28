@@ -98,36 +98,41 @@ class Activity extends CRMEntity
 		$this->column_fields = getColumnFields('Calendar');
 	}
 
-	/**
-	 * Function to handle module specific operations when saving a entity
-	 * @param string $module
-	 */
 	public function save_module($module)
 	{
+		$adb = PearDatabase::getInstance();
+		//Handling module specific save
 		$recordId = $this->id;
 		$recurType = $this->column_fields['recurringtype'];
-
+//		echo '<pre>', print_r([$this->column_fields, AppRequest::init()]);
+//		echo '</pre>';
+//		exit;
+//		if (($recur_type == "--None--" || $recur_type == '') && $this->mode == "edit") {
+//			$sql = 'delete  from vtiger_recurringevents where activityid=?';
+//			$adb->pquery($sql, array($this->id));
+//		}
 		if ((empty($recurType) || $recurType === '--None--') && $this->mode === 'edit') {
 			\App\Db::getInstance()->createCommand()->delete('vtiger_recurringevents', ['activityid' => $recordId])->execute();
 		}
-
+		//Handling for recurring type
 		//Insert into vtiger_recurring event table
 		if (isset($recurType) && !empty($recurType) && $recurType !== '--None--') {
-			$recurData = \vtlib\Functions::getRecurringObjValue();
-			if (is_object($recurData))
-				$this->insertIntoRecurringTable($recurData);
+//			$recur_type = trim($recurType);
+			$recur_data = \vtlib\Functions::getRecurringObjValue();
+			if (is_object($recur_data))
+				$this->insertIntoRecurringTable($recur_data);
 		}
-
-		//Insert into vtiger_activity_remainder table
-
-		$this->insertIntoReminderTable('vtiger_activity_reminder', $module, "");
-
-		//Handling for invitees
-		$this->insertIntoInviteeTable($module);
-
-		//Inserting into sales man activity rel
-		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['smownerid' => $this->column_fields['assigned_user_id']], ['activityid' => $recordId])->execute();
-		$this->insertIntoActivityReminderPopup($module);
+//
+//		//Insert into vtiger_activity_remainder table
+//
+//		$this->insertIntoReminderTable('vtiger_activity_reminder', $module, "");
+//
+//		//Handling for invitees
+//		$this->insertIntoInviteeTable($module);
+//
+//		//Inserting into sales man activity rel
+//		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['smownerid' => $this->column_fields['assigned_user_id']], ['activityid' => $recordId])->execute();
+//		$this->insertIntoActivityReminderPopup($module);
 	}
 
 	/** Function to insert values in vtiger_activity_reminder_popup table for the specified module
@@ -213,57 +218,71 @@ class Activity extends CRMEntity
 
 	// Code included by Jaguar - starts
 	/** Function to insert values in vtiger_recurringevents table for the specified tablename,module
-	 * @param RecurringType $recurObj - Object of class RecurringType
+	 * @param $recurObj -- Recurring Object:: Type varchar
 	 */
 	public function insertIntoRecurringTable(& $recurObj)
 	{
-		$db = \App\Db::getInstance();
+		$adb = PearDatabase::getInstance();
 
-		$stDate = $recurObj->startdate->get_DB_formatted_date();
-		$endDate = $recurObj->enddate->get_DB_formatted_date();
+		$st_date = $recurObj->startdate->get_DB_formatted_date();
+		$end_date = $recurObj->enddate->get_DB_formatted_date();
 		if (!empty($recurObj->recurringenddate)) {
-			$recurringEndDate = $recurObj->recurringenddate->get_DB_formatted_date();
+			$recurringenddate = $recurObj->recurringenddate->get_DB_formatted_date();
 		}
 		$type = $recurObj->getRecurringType();
-		$flag = true;
+		$flag = 'true';
 
-		if (AppRequest::get('mode') === 'edit') {
-			$activityId = $this->id;
+		if (AppRequest::get('mode') == 'edit') {
+			$activity_id = $this->id;
 
-			$data = (new \App\Db\Query())->select(['min_date' => 'recurringdate', 'max_date' => 'recurringdate', 'recurringtype', 'activityid'])->from('vtiger_recurringevents')->where(['activityid' => $activityId])->one();
-			if ($data && ($stDate === $data['min_date'] && $endDate === $data['max_date'] && $type == $data['recurringtype'])) {
-				if (AppRequest::get('set_reminder') === 'Yes') {
-					$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $activityId])->execute();
-					$db->createCommand()->delete('vtiger_recurringevents', ['activityid' => $activityId])->execute();
-					$flag = true;
-				} elseif (AppRequest::get('set_reminder') === 'No') {
-					$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $activityId])->execute();
-					$flag = false;
+			$sql = 'select min(recurringdate) AS min_date,max(recurringdate) AS max_date, recurringtype, activityid from vtiger_recurringevents where activityid=? group by activityid, recurringtype';
+			$result = $adb->pquery($sql, array($activity_id));
+			$noofrows = $adb->num_rows($result);
+			for ($i = 0; $i < $noofrows; $i++) {
+				$recur_type_b4_edit = $adb->query_result($result, $i, "recurringtype");
+				$date_start_b4edit = $adb->query_result($result, $i, "min_date");
+				$end_date_b4edit = $adb->query_result($result, $i, "max_date");
+			}
+			if (($st_date == $date_start_b4edit) && ($end_date == $end_date_b4edit) && ($type == $recur_type_b4_edit)) {
+				if (AppRequest::get('set_reminder') == 'Yes') {
+					$sql = 'delete from vtiger_activity_reminder where activity_id=?';
+					$adb->pquery($sql, array($activity_id));
+					$sql = 'delete  from vtiger_recurringevents where activityid=?';
+					$adb->pquery($sql, array($activity_id));
+					$flag = "true";
+				} elseif (AppRequest::get('set_reminder') == 'No') {
+					$sql = 'delete  from vtiger_activity_reminder where activity_id=?';
+					$adb->pquery($sql, array($activity_id));
+					$flag = "false";
 				} else
-					$flag = false;
-			} else {
-				$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $activityId])->execute();
-				$db->createCommand()->delete('vtiger_recurringevents', ['activityid' => $activityId])->execute();
+					$flag = "false";
+			}
+			else {
+				$sql = 'delete from vtiger_activity_reminder where activity_id=?';
+				$adb->pquery($sql, array($activity_id));
+				$sql = 'delete  from vtiger_recurringevents where activityid=?';
+				$adb->pquery($sql, array($activity_id));
 			}
 		}
 
-		$recurFreq = $recurObj->getRecurringFrequency();
-		$recurringInfo = $recurObj->getDBRecurringInfoString();
+		$recur_freq = $recurObj->getRecurringFrequency();
+		$recurringinfo = $recurObj->getDBRecurringInfoString();
 
-		if ($flag) {
-			$currentId = $db->getUniqueID('vtiger_recurringevents', 'recurringid', false);
-			$result = $db->createCommand()->insert('vtiger_recurringevents', [
-					'recurringid' => $currentId,
-					'activityid' => $this->id,
-					'recurringdate' => $stDate,
-					'recurringtype' => $type,
-					'recurringfreq' => $recurFreq,
-					'recurringinfo' => $recurringInfo,
-					'recurringenddate' => $recurringEndDate
-				])->execute();
+		if ($flag == "true") {
+			$max_recurid_qry = 'select max(recurringid) AS recurid from vtiger_recurringevents;';
+			$result = $adb->pquery($max_recurid_qry, []);
+			$noofrows = $adb->num_rows($result);
+			$recur_id = 0;
+			if ($noofrows > 0) {
+				$recur_id = $adb->query_result($result, 0, "recurid");
+			}
+			$current_id = $recur_id + 1;
+			$recurring_insert = "insert into vtiger_recurringevents values (?,?,?,?,?,?,?)";
+			$rec_params = array($current_id, $this->id, $st_date, $type, $recur_freq, $recurringinfo, $recurringenddate);
+			$adb->pquery($recurring_insert, $rec_params);
 			unset($_SESSION['next_reminder_time']);
-			if (AppRequest::get('set_reminder') === 'Yes') {
-				$this->insertIntoReminderTable('vtiger_activity_reminder', $module, $currentId, '');
+			if (AppRequest::get('set_reminder') == 'Yes') {
+				$this->insertIntoReminderTable("vtiger_activity_reminder", $module, $current_id, '');
 			}
 		}
 	}
@@ -642,20 +661,12 @@ class Activity extends CRMEntity
 
 	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
-		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
-				->from('vtiger_field')
-				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $module, 'relmodule' => $withModule])])
-				->createCommand()->query();
-
-		if ($dataReader->count()) {
-			$results = $dataReader->readAll();
+		$fieldRes = $this->db->pquery('SELECT vtiger_field.tabid, vtiger_field.tablename, vtiger_field.columnname, vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.`tabid` = vtiger_field.`tabid` WHERE fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE module=? && relmodule=?)', [$module, $withModule]);
+		if ($fieldRes->rowCount()) {
+			$results = $this->db->getArray($fieldRes);
 		} else {
-			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
-					->from('vtiger_field')
-					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($module)])
-					->createCommand()->query();
-			while ($row = $dataReader->read()) {
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [vtlib\Functions::getModuleId($module)]);
+			while ($row = $this->db->getRow($fieldRes)) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
@@ -669,9 +680,12 @@ class Activity extends CRMEntity
 				}
 			}
 		}
-		foreach ($results as $row) {
-			App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
+		foreach ($results as $result) {
+			$focusObj = CRMEntity::getInstance($row['name']);
+			$columnName = $row['columnname'];
+			$columns = [$columnName => null];
+			$where = "$columnName = ? && $focusObj->table_index = ?";
+			$this->db->update($row['tablename'], $columns, $where, [$withCrmid, $crmid]);
 		}
 	}
 }
