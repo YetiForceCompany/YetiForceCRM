@@ -195,55 +195,62 @@ class Owner
 		return $result;
 	}
 
+	/**
+	 * Function initiates users list
+	 * @param string $status
+	 * @param mixed $assignedUser
+	 * @param string $private
+	 * @return array
+	 */
 	public function &initUsers($status = 'Active', $assignedUser = '', $private = '')
 	{
-		$cacheKeyMod = $private == 'private' ? $this->moduleName : '';
+		$cacheKeyMod = $private === 'private' ? $this->moduleName : '';
 		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
 		$cacheKey = $cacheKeyMod . $status . $cacheKeyAss . $private;
-		$tempResult = \Vtiger_Cache::get('getUsers', $cacheKey);
-		if ($tempResult === false) {
+		if (!\App\Cache::has('getUsers', $cacheKey)) {
 			$db = \PearDatabase::getInstance();
 			$entityData = \App\Module::getEntityInfo('Users');
-
+			$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
 			// Including deleted vtiger_users for now.
-			if ($private == 'private') {
+			if ($private === 'private') {
 				$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
 				\App\Log::trace('Sharing is Private. Only the current user should be listed');
-				$query = "SELECT id,%s,is_admin,cal_color,status FROM vtiger_users WHERE id=? UNION SELECT vtiger_user2role.userid AS id,%s,is_admin,cal_color,status FROM vtiger_user2role 
-							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ? UNION
-							SELECT shareduserid AS id,%s,is_admin,cal_color,status FROM vtiger_tmp_write_user_sharing_per INNER JOIN vtiger_users ON vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid WHERE vtiger_tmp_write_user_sharing_per.userid=? && vtiger_tmp_write_user_sharing_per.tabid=?";
-				$params = array($this->currentUser->getId(), $userPrivileges['parent_role_seq'] . '::%', $this->currentUser->getId(), \App\Module::getModuleId($this->moduleName));
+				$query = new \App\Db\Query();
+				$query->select($selectFields)->from('vtiger_users')->where(['id' => $this->currentUser->getId()]);
+				$queryByUserRole = new \App\Db\Query();
+				$selectFields['id'] = 'vtiger_user2role.userid';
+				$queryByUserRole->
+					select($selectFields)
+					->from('vtiger_user2role')
+					->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
+					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+					->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
+				$queryBySharing = new \App\Db\Query();
+				$selectFields['id'] = 'shareduserid';
+				$queryBySharing->
+					select($selectFields)
+					->from('vtiger_tmp_write_user_sharing_per')
+					->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
+					->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
+				$query->union($queryByUserRole)->union($queryBySharing);
 			} else {
 				\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
-				$query = 'SELECT id,%s,is_admin,cal_color,status FROM vtiger_users';
-				$params = [];
+				$query = new \App\Db\Query();
+				$query->select($selectFields)->from('vtiger_users');
 			}
-			$where = '';
-			$query = str_replace('%s', implode(',', $entityData['fieldnameArr']), $query);
+
 			if (!empty($assignedUser)) {
-				if (is_array($assignedUser)) {
-					$where .= sprintf(' AND id IN (%s)', generateQuestionMarks($assignedUser));
-					foreach ($assignedUser as $id) {
-						array_push($params, $id);
-					}
-				} else {
-					$where .= ' && id=?';
-					array_push($params, $assignedUser);
-				}
+				$query->where(['id' => $assignedUser]);
 			}
 			if (!empty($this->searchValue)) {
-				$entityName = $db->concat($entityData['fieldnameArr']);
-				$where .= " && $entityName LIKE ?";
-				array_push($params, "%$this->searchValue%");
+				$concat = \App\Module::getSqlForNameInDisplayFormat('Users');
+				$query->where(['like', $concat, $this->searchValue]);
 			}
-			if (!empty($where)) {
-				$query .= sprintf(' WHERE %s ', ltrim($where, ' &&'));
-			}
-			$result = $db->pquery($query, $params);
 			$tempResult = [];
+			$dataReader = $query->createCommand()->query();
 			// Get the id and the name.
-			while ($row = $db->getRow($result)) {
-				if ($status == 'Active' && $row['status'] != 'Active') {
+			while ($row = $dataReader->read()) {
+				if ($status === 'Active' && $row['status'] !== 'Active') {
 					continue;
 				}
 				$fullName = '';
@@ -253,9 +260,9 @@ class Owner
 				$row['fullName'] = trim($fullName);
 				$tempResult[$row['id']] = $row;
 			}
-			\Vtiger_Cache::set('getUsers', $cacheKey, $tempResult);
+			\App\Cache::save('getUsers', $cacheKey, $tempResult);
 		}
-		return $tempResult;
+		return \App\Cache::get('getUsers', $cacheKey);
 	}
 
 	/** Function returns the user key in user array
@@ -556,6 +563,11 @@ class Owner
 
 	protected static $typeCache = [];
 
+	/**
+	 * Function checks record type
+	 * @param int $id
+	 * @return boolean
+	 */
 	public static function getType($id)
 	{
 		if (isset(self::$typeCache[$id])) {
@@ -563,11 +575,14 @@ class Owner
 		}
 		if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
+			$isExists = isset($users[$id]);
 		} else {
-			$instance = new self();
-			$users = $instance->initUsers('Inactive');
+			$isExists = (new \App\Db\Query())
+				->from('vtiger_users')
+				->where(['id' => $id])
+				->exists();
 		}
-		$result = isset($users[$id]) ? 'Users' : 'Groups';
+		$result = $isExists ? 'Users' : 'Groups';
 		self::$typeCache[$id] = $result;
 		return $result;
 	}
