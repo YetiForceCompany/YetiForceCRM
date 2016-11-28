@@ -308,7 +308,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		@date_default_timezone_set($default_timezone);
 		$dataReader = (new App\Db\Query())->select(['reportid'])
 				->from('vtiger_schedulereports')
-				->where('or', ['next_trigger_time' => ''], ['<=', 'next_trigger_time', $currentTimestamp])
+				->where(['or', ['next_trigger_time' => null], ['<=', 'next_trigger_time', $currentTimestamp]])
 				->createCommand()->query();
 		$scheduledReports = [];
 		while ($recordId = $dataReader->readColumn(0)) {
