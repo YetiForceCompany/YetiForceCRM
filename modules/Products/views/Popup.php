@@ -88,7 +88,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		if (empty($searchParmams)) {
 			$searchParmams = array();
 		}
-		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParmams, $moduleModel);
+		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$listViewModel->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
