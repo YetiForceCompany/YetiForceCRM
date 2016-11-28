@@ -22,15 +22,15 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
+		foreach ($fieldModelList as $fieldName => &$fieldModel) {
 			$recordFieldValue = $recordModel->get($fieldName);
-			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'multipicklist') {
+			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() === 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			} elseif (is_array($recordFieldValue) && in_array($fieldModel->getFieldDataType(), ['sharedOwner', 'taxes', 'posList'])) {
 				$recordFieldValue = implode(',', $recordFieldValue);
 			}
 			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
-			if ($fieldModel->getFieldDataType() == 'currency') {
+			if ($fieldModel->getFieldDataType() === 'currency') {
 				$recordFieldValue = $fieldModel->getDBInsertValue($recordFieldValue);
 				$displayValue = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
 			} elseif ($fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'date') {
@@ -45,7 +45,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			$salutationType = $recordModel->getDisplayValue('salutationtype');
 			$firstNameDetails = $result['firstname'];
 			$firstNameDetails['display_value'] = $salutationType . " " . $firstNameDetails['display_value'];
-			if ($salutationType != '--None--')
+			if ($salutationType !== '--None--')
 				$result['firstname'] = $firstNameDetails;
 		}
 

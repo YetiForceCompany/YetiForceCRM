@@ -68,7 +68,27 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		} else {
 			$loadUrl = $recordModel->getDetailViewUrl();
 		}
-		header("Location: $loadUrl");
+		if ($request->get('mode') !== 'edit') {
+			$request->set('record', $recordModel->getId());
+		}
+	}
+
+	public function postProcess(Vtiger_Request $request)
+	{
+		define('_PROCESS_TYPE', 'View');
+		define('_PROCESS_NAME', 'Detail');
+		$request->set('view', 'Detail');
+		$request->delete('action');
+		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $request->getModule());
+		$handler = new $handlerClass();
+		if ($handler) {
+			$handler->preProcess($request);
+			$handler->process($request);
+			$handler->postProcess($request);
+		} else {
+			throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+		}
+		return true;
 	}
 
 	/**
@@ -123,11 +143,11 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		}
 
 		$fieldModelList = $moduleModel->getFields();
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
+		foreach ($fieldModelList as $fieldName => &$fieldModel) {
 			if (!$fieldModel->isEditEnabled()) {
 				continue;
 			}
-			if ($request->has($fieldName) && $fieldModel->get('uitype') == 300) {
+			if ($request->has($fieldName) && $fieldModel->get('uitype') === 300) {
 				$fieldValue = $request->getForHtml($fieldName, null);
 			} else if ($request->has($fieldName)) {
 				$fieldValue = $request->get($fieldName, null);
@@ -137,7 +157,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 				$fieldValue = $fieldModel->getDefaultFieldValue();
 			}
 			$fieldDataType = $fieldModel->getFieldDataType();
-			if ($fieldDataType == 'time') {
+			if ($fieldDataType === 'time') {
 				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 			}
 			if ($fieldValue !== null) {

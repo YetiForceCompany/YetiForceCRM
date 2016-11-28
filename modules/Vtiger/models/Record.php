@@ -310,6 +310,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
 
+		if ($this->get('mode') !== 'edit') {
+			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
+		}
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
 	}
 
@@ -356,10 +359,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$moduleName = \App\Record::getType($recordId);
 			$module = Vtiger_Module_Model::getInstance($moduleName);
 		}
-		$cacheName = $recordId . ':' . $moduleName;
-		$instance = Vtiger_Cache::get('Vtiger_Record_Model', $cacheName);
-		if ($instance) {
-			return $instance;
+		$cacheName = "$recordId:$moduleName";
+		if (\App\Cache::staticHas('RecordModel', $cacheName)) {
+			return \App\Cache::staticGet('RecordModel', $cacheName);
 		}
 
 		$focus = CRMEntity::getInstance($moduleName);
@@ -369,7 +371,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$instance = new $modelClassName();
 		$instance->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($module)->setEntity($focus);
 		$instance->set('mode', 'edit');
-		Vtiger_Cache::set('Vtiger_Record_Model', $cacheName, $instance);
+		\App\Cache::staticSave('RecordModel', $cacheName, $instance);
 		return $instance;
 	}
 
