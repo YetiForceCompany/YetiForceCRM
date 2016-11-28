@@ -300,7 +300,7 @@ class CRMEntity
 				'createdtime' => $this->getValueToSave('createdtime'),
 				'modifiedtime' => $this->getValueToSave('modifiedtime'),
 				'private' => $this->getValueToSave('private'),
-				'users' => ', ' . $this->getValueToSave('smownerid') . ', ',
+				'users' => ',' . $this->getValueToSave('smownerid') . ',',
 			];
 			\App\Db::getInstance()->createCommand()->insert('vtiger_crmentity', $params)->execute();
 			$this->column_fields['createdtime'] = $params['createdtime'];
