@@ -198,7 +198,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			var searchOperator = 'c';
 			if (fieldInfo.hasOwnProperty("searchOperator")) {
 				searchOperator = fieldInfo.searchOperator;
-			} else if (jQuery.inArray(fieldInfo.type, ['owner','picklist',"tree","boolean"]) >= 0) {
+			} else if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'tree', 'boolean', 'fileLocationType']) >= 0) {
 				searchOperator = 'e';
 			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
