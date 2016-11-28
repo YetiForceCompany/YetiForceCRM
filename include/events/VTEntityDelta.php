@@ -31,16 +31,16 @@ class VTEntityDelta extends VTEventHandler
 		}
 		$moduleName = $entityData->getModuleName();
 		$recordId = $entityData->getId();
-		if ($eventName == 'vtiger.entity.beforesave' || $eventName == 'vtiger.entity.unlink.before') {
+		if ($eventName === 'vtiger.entity.beforesave' || $eventName === 'vtiger.entity.unlink.before') {
 			if (!$entityData->isNew()) {
-				$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName);
+				$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName, false);
 				if ($moduleName == 'HelpDesk') {
 					$entityData->set('comments', \vtlib\Functions::getTicketComments($recordId));
 				}
 				self::$oldEntity[$moduleName][$recordId] = $entityData;
 			}
 		}
-		if ($eventName == 'vtiger.entity.aftersave' || $eventName == 'vtiger.entity.unlink.after') {
+		if ($eventName === 'vtiger.entity.aftersave' || $eventName === 'vtiger.entity.unlink.after') {
 			$this->fetchEntity($moduleName, $recordId);
 			$this->computeDelta($moduleName, $recordId);
 		}
@@ -48,19 +48,19 @@ class VTEntityDelta extends VTEventHandler
 
 	public function fetchEntity($moduleName, $recordId)
 	{
-		$adb = PearDatabase::getInstance();
-		$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName);
-		if ($moduleName == 'HelpDesk') {
-			$entityData->set('comments', \vtlib\Functions::getTicketComments($recordId));
+		if (!isset(self::$newEntity[$moduleName][$recordId])) {
+			$adb = PearDatabase::getInstance();
+			$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName);
+			if ($moduleName == 'HelpDesk') {
+				$entityData->set('comments', \vtlib\Functions::getTicketComments($recordId));
+			}
+			self::$newEntity[$moduleName][$recordId] = $entityData;
 		}
-		self::$newEntity[$moduleName][$recordId] = $entityData;
 	}
 
 	public function computeDelta($moduleName, $recordId)
 	{
-
 		$delta = [];
-
 		$oldData = [];
 		if (!empty(self::$oldEntity[$moduleName][$recordId])) {
 			$oldEntity = self::$oldEntity[$moduleName][$recordId];
@@ -69,13 +69,13 @@ class VTEntityDelta extends VTEventHandler
 		$newEntity = self::$newEntity[$moduleName][$recordId];
 		$newData = $newEntity->getData();
 		/** Detect field value changes * */
-		foreach ($newData as $fieldName => $fieldValue) {
+		foreach ($newData as $fieldName => &$fieldValue) {
 			$isModified = false;
 			if (empty($oldData[$fieldName])) {
 				if (!empty($newData[$fieldName])) {
 					$isModified = true;
 				}
-			} elseif ($oldData[$fieldName] != $newData[$fieldName]) {
+			} elseif ($oldData[$fieldName] !== $newData[$fieldName]) {
 				$isModified = true;
 			}
 			if ($isModified) {
@@ -88,7 +88,7 @@ class VTEntityDelta extends VTEventHandler
 
 	public function getEntityDelta($moduleName, $recordId, $forceFetch = false)
 	{
-		if ($forceFetch) {
+		if ($forceFetch && !isset(self::$entityDelta[$moduleName][$recordId])) {
 			$this->fetchEntity($moduleName, $recordId);
 			$this->computeDelta($moduleName, $recordId);
 		}
@@ -123,7 +123,7 @@ class VTEntityDelta extends VTEventHandler
 			return false;
 		}
 		$fieldDelta = self::$entityDelta[$moduleName][$recordId][$fieldName];
-		$result = $fieldDelta['oldValue'] != $fieldDelta['currentValue'];
+		$result = $fieldDelta['oldValue'] !== $fieldDelta['currentValue'];
 		if ($fieldValue !== NULL) {
 			$result = $result && ($fieldDelta['currentValue'] === $fieldValue);
 		}
