@@ -35,7 +35,7 @@ class API_CalDAV_Model
 		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description '
 			. 'FROM vtiger_activity '
 			. 'INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid '
-			. "WHERE vtiger_crmentity.deleted=0 && vtiger_activity.activitytype IN ('Task','Meeting') && vtiger_activity.dav_status = 1;";
+			. "WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.activitytype IN ('Task','Meeting') AND vtiger_activity.dav_status = 1;";
 
 		$result = $db->query($query);
 		while ($row = $db->getRow($result)) {

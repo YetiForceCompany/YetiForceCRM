@@ -298,9 +298,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 	public static function getScheduledReports()
 	{
-		$adb = PearDatabase::getInstance();
 		$default_timezone = vglobal('default_timezone');
-
 		// set the time zone to the admin's time zone, this is needed so that the scheduled reprots will be triggered
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled reports
 		$admin = Users::getActiveAdminUser();
@@ -308,12 +306,12 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		@date_default_timezone_set($adminTimeZone);
 		$currentTimestamp = date("Y-m-d H:i:s");
 		@date_default_timezone_set($default_timezone);
-		$result = $adb->pquery("SELECT reportid FROM vtiger_schedulereports WHERE next_trigger_time = '' || next_trigger_time <= ?", array($currentTimestamp));
-
+		$dataReader = (new App\Db\Query())->select(['reportid'])
+				->from('vtiger_schedulereports')
+				->where('or', ['next_trigger_time' => ''], ['<=', 'next_trigger_time', $currentTimestamp])
+				->createCommand()->query();
 		$scheduledReports = [];
-		$noOfScheduledReports = $adb->num_rows($result);
-		for ($i = 0; $i < $noOfScheduledReports; ++$i) {
-			$recordId = $adb->query_result($result, $i, 'reportid');
+		while ($recordId = $dataReader->readColumn(0)) {
 			$scheduledReports[] = self::getInstanceById($recordId);
 		}
 		return $scheduledReports;

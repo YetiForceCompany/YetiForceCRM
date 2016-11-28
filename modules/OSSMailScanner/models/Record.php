@@ -527,7 +527,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$return = false;
-		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE name = ? && status = '2'", array('MailScannerAction'));
+		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE name = ? AND status = '2'", array('MailScannerAction'));
 		if ($adb->getRowCount($result) > 0) {
 			$return = $adb->query_result_rowdata($result, 0);
 		}

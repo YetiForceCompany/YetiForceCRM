@@ -350,37 +350,31 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDependentModules()
 	{
-		$db = PearDatabase::getInstance();
 		$moduleName = $this->getModule()->getName();
-
-		$result = $db->pquery("SELECT fieldname, tabid, typeofdata, vtiger_ws_referencetype.type as reference_module FROM vtiger_field
-								INNER JOIN vtiger_ws_fieldtype ON vtiger_field.uitype = vtiger_ws_fieldtype.uitype
-								INNER JOIN vtiger_ws_referencetype ON vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid
-							UNION
-							SELECT fieldname, tabid, typeofdata, relmodule as reference_module FROM vtiger_field
-								INNER JOIN vtiger_fieldmodulerel ON vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid", array());
-
-		$noOfFields = $db->num_rows($result);
-
-		$dependentFields = array();
+		$query = (new App\Db\Query())->select(['fieldname', 'tabid', 'typeofdata', 'reference_module' => 'vtiger_ws_referencetype.type'])
+				->from('vtiger_field')
+				->innerJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype = vtiger_ws_fieldtype.uitype')
+				->innerJoin('vtiger_ws_referencetype', 'vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid');
+		$querySecond = (new App\Db\Query())->select(['fieldname', 'tabid', 'typeofdata', 'reference_module' => 'relmodule'])
+				->from('vtiger_field')
+				->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid');
+		$dataReader = $query->union($querySecond)->createCommand()->query();
+		$dependentFields = [];
 		// List of modules which will not be supported by 'Create Entity' workflow task
-		$filterModules = array('Emails', 'Calendar', 'Events', 'Accounts');
-		$skipFieldsList = array();
-		for ($i = 0; $i < $noOfFields; ++$i) {
-			$tabId = $db->query_result($result, $i, 'tabid');
-			$fieldName = $db->query_result($result, $i, 'fieldname');
-			$typeOfData = $db->query_result($result, $i, 'typeofdata');
-			$referenceModule = $db->query_result($result, $i, 'reference_module');
-			$tabModuleName = \App\Module::getModuleName($tabId);
+		$filterModules = ['Emails', 'Calendar', 'Events', 'Accounts'];
+		$skipFieldsList = [];
+		while ($row = $dataReader->read()) {
+			$fieldName = $row['fieldname'];
+			$tabModuleName = \App\Module::getModuleName($row['tabid']);
 			if (in_array($tabModuleName, $filterModules))
 				continue;
-			if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
+			if ($row['reference_module'] == $moduleName && $tabModuleName != $moduleName) {
 				if (!\App\Module::isModuleActive($tabModuleName))
 					continue;
-				$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \App\Language::translate($tabModuleName, $tabModuleName));
+				$dependentFields[$tabModuleName] = ['fieldname' => $fieldName, 'modulelabel' => \App\Language::translate($tabModuleName, $tabModuleName)];
 			} else {
-				$dataTypeInfo = explode('~', $typeOfData);
-				if ($dataTypeInfo[1] == 'M') { // If the current reference field is mandatory
+				$dataTypeInfo = explode('~', $row['typeofdata']);
+				if ($dataTypeInfo[1] === 'M') { // If the current reference field is mandatory
 					$skipFieldsList[$tabModuleName] = array('fieldname' => $fieldName);
 				}
 			}

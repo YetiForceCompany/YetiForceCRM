@@ -94,7 +94,7 @@ class VTWorkflowManager
 	{
 		$query = (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => VTWorkflowManager::$ON_SCHEDULE]);
 		if ($referenceTime) {
-			$query->andWhere(['or', ['nexttrigger_time' => ''], ['nexttrigger_time' => null], ['<=', 'nexttrigger_time', $referenceTime]]);
+			$query->andWhere(['or', ['nexttrigger_time' => null], ['<=', 'nexttrigger_time', $referenceTime]]);
 		}
 		return $this->getWorkflowsForResult($query->all());
 	}
