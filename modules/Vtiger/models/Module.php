@@ -1186,28 +1186,28 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'parent_id' => 'crmentity2.crmid', 'description' => 'vtiger_crmentity.description',
-			'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*'])
-				->from('vtiger_activity')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
-				->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
-				->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-				->where(['vtiger_crmentity.deleted' => 0]);
+				'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*'])
+			->from('vtiger_activity')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+			->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0]);
 		$andWhere = ['and'];
 		if ($recordId) {
-			$andWhere []= ["vtiger_activity.$relationField" => $recordId];
+			$andWhere [] = ["vtiger_activity.$relationField" => $recordId];
 		}
 		if ($mode === 'current') {
-			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['vtiger_activity.status' => $currentActivityLabels]];
+			$andWhere [] = ['vtiger_activity.status' => $currentActivityLabels];
 		} elseif ($mode === 'history') {
-			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['not in', 'vtiger_activity.status', $currentActivityLabels]];
+			$andWhere [] = ['not in', 'vtiger_activity.status', $currentActivityLabels];
 		} elseif ($mode === 'upcoming') {
-			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['>=', 'due_date', $currentDate]];
+			$andWhere [] = ['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['>=', 'due_date', $currentDate]];
 		} elseif ($mode === 'overdue') {
-			$andWhere []= ['and', ['<>', 'vtiger_activity.activitytype', 'Emails'], ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]];
+			$andWhere [] = ['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]];
 		}
 		if ($user != 'all' && $user != '') {
 			if ($user === $currentUser->id) {
-				$andWhere []= ['vtiger_crmentity.smownerid' => $user];
+				$andWhere [] = ['vtiger_crmentity.smownerid' => $user];
 			}
 		}
 		$query->andWhere($andWhere);
@@ -1216,10 +1216,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$dataReader = $query->createCommand()->query();
 		$numOfRows = $dataReader->count();
 		$activities = [];
+		$visibleFields = ['activitytype', 'date_start', 'time_start', 'due_date', 'time_end', 'assigned_user_id', 'visibility', 'smownerid', 'crmid'];
 		while ($row = $dataReader->read()) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$ownerId = $row['smownerid'];
-			$visibleFields = array('activitytype', 'date_start', 'time_start', 'due_date', 'time_end', 'assigned_user_id', 'visibility', 'smownerid', 'crmid');
 			$visibility = true;
 			if (in_array($ownerId, $groupsIds)) {
 				$visibility = false;

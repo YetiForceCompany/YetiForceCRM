@@ -421,8 +421,7 @@ class Products extends CRMEntity
 
 		if (empty($return_module) || empty($return_id))
 			return;
-
-		if ($return_module == 'Leads' || $return_module == 'Accounts') {
+		if ($return_module === 'Leads' || $return_module === 'Accounts') {
 			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $return_id])->execute();
 		} elseif ($return_module == 'Vendors') {
 			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';

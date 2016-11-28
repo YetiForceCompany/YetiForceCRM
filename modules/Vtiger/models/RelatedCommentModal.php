@@ -26,7 +26,7 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 
 	public function getComment()
 	{
-		if (substr($this->get('relatedRecord'), 0, 1) == 'T') {
+		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
 			$dataReader = $this->getRelationTreeQuery()->createCommand()->query();
 		} else {
 			$dataReader = $this->getRelationQuery()->createCommand()->query();
@@ -42,8 +42,8 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 		$relationTable = $this->getRelationTable();
 		$table = key($relationTable);
 		return (new \App\Db\Query())->select(['rel_comment'])
-					->from($table)
-					->where([$relationTable[$table][0] => $this->get('record'), $relationTable[$table][1] => $this->get('relatedRecord')]);
+				->from($table)
+				->where([$relationTable[$table][0] => $this->get('record'), $relationTable[$table][1] => $this->get('relatedRecord')]);
 	}
 
 	public function getRelationTable()
@@ -61,8 +61,8 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 	public function getRelationTreeQuery()
 	{
 		return (new \App\Db\Query())->select(['rel_comment'])
-					->from('u_#__crmentity_rel_tree')
-					->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]);
+				->from('u_#__crmentity_rel_tree')
+				->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]);
 	}
 
 	public function isEditable()
@@ -73,7 +73,7 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 	public function save($comment)
 	{
 		$db = App\Db::getInstance();
-		if (substr($this->get('relatedRecord'), 0, 1) == 'T') {
+		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
 			$db->createCommand()->update('u_#__crmentity_rel_tree', [
 				'rel_comment' => $comment
 				], ['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]

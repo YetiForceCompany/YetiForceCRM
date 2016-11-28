@@ -251,7 +251,7 @@ class Leads extends CRMEntity
 		if (!is_array($withCrmids))
 			$withCrmids = [$withCrmids];
 		foreach ($withCrmids as $withCrmid) {
-			if ($withModule == 'Products') {
+			if ($withModule === 'Products') {
 				App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 					'crmid' => $crmid,
 					'productid' => $withCrmid,
@@ -259,7 +259,7 @@ class Leads extends CRMEntity
 					'rel_created_user' => App\User::getCurrentUserId(),
 					'rel_created_time' => date('Y-m-d H:i:s')
 				])->execute();
-			} elseif ($withModule == 'Campaigns') {
+			} elseif ($withModule === 'Campaigns') {
 				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
