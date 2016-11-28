@@ -695,7 +695,6 @@ $languageStrings = [
 	'Contact details' => 'Dane kontaktowe',
 	'Registration details' => 'Dane rejestrowe',
 	'LBL_SUMMARY_LICENSE' => 'YetiForce Public License 1.1',
-	'Tag Cloud' => 'Chmura tagów',
 	'LBL_REGISTERING_INFORMATION' => 'Informacje rejestrowe',
 	'Created By' => 'Utworzył',
 	'Parent ID' => 'Powiązany z',

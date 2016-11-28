@@ -54,7 +54,6 @@ $languageStrings = [
 	'CreateCustomFilter' => 'Tworzenie filtrów niestandardowych',
 	'DuplicateRecord' => 'Tworzenie duplikatów',
 	'EditableComments' => 'Edycja komentarzy',
-	'TagCloud' => 'Chmura tagów',
 	'MassEdit' => 'Masowa edycja',
 	'MassDelete' => 'Masowe usuwanie',
 	'MassAddComment' => 'Masowe dodawanie komentarzy',

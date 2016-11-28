@@ -279,7 +279,6 @@ $languageStrings = [
 	'Summary' => 'Кратко',
 	'Sunday' => 'Воскресенье',
 	'Symbol Placement' => 'Расположение символа',
-	'Tag Cloud' => 'Облако тегов',
 	'The email address contains illegal characters.' => 'Адрес электронной почты содержит недопустимые символы.',
 	'Theme' => 'Тема оформления',
 	'This Month' => 'Месяц',

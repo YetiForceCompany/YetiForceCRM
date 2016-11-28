@@ -729,7 +729,6 @@ $languageStrings = [
 	'Address details' => 'Détails de l\'adresse',
 	'Contact details' => 'Détails du contact ',
 	'Registration details' => 'Détails du registre',
-	'Tag Cloud' => 'Nuage de Tags',
 	'Attention' => 'Commentaires',
 	'Progress' => 'Progression',
 	'Created By' => 'Créé par',

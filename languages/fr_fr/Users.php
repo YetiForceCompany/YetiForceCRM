@@ -112,7 +112,6 @@ $languageStrings = [
 	'Street Address' => 'Adresse postale',
 	'Summary' => 'Résumé',
 	'Symbol Placement' => 'Positionnement des symboles ',
-	'Tag Cloud' => 'Nuage de Tag',
 	'Theme' => 'Théme',
 	'Time Zone' => 'Fuseau horaire',
 	'Title' => 'Titre',

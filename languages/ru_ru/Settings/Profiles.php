@@ -56,7 +56,6 @@ $languageStrings = [
 	'CreateCustomFilter' => 'Создавать фильтры',
 	'DuplicateRecord' => 'Дублировать записи',
 	'EditableComments' => 'Редактировать комментарии',
-	'TagCloud' => 'Теги',
 	'MassEdit' => 'Массовое редактирование',
 	'MassDelete' => 'Массовое удаление',
 	'MassAddComment' => 'Массовое комментирование',

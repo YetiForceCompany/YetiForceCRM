@@ -53,7 +53,6 @@ $languageStrings = [
 	'CreateCustomFilter' => 'Custom filters creation',
 	'DuplicateRecord' => 'Duplicating',
 	'EditableComments' => 'Edit comments',
-	'TagCloud' => 'Tags cloud',
 	'MassEdit' => 'Mass edit',
 	'MassDelete' => 'Mass delete',
 	'MassAddComment' => 'Mass add comments',

@@ -748,7 +748,6 @@ $languageStrings = [
 	'Address details' => 'Детали адреса',
 	'Contact details' => 'Детали контакта',
 	'Registration details' => 'Регистрационные данные',
-	'Tag Cloud' => 'Облако Тегов',
 	'Attention' => 'Комментарии',
 	'Progress' => 'Прогресс',
 	'Created By' => 'Кем создано',

@@ -52,7 +52,6 @@ $languageStrings = [
 	'Print' => 'Drucken',
 	'DuplicateRecord' => 'Duplizieren',
 	'EditableComments' => 'Kommentar bearbeiten',
-	'TagCloud' => 'Tag Wolke',
 	'MassEdit' => 'Massenbearbeitung',
 	'MassDelete' => 'Massenlöschen',
 	'MassAddComment' => 'Massenkommentieren',

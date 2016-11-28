@@ -107,7 +107,6 @@ $languageStrings = [
 	'Street Address' => 'Nazwa ulicy',
 	'Summary' => 'Podsumowanie',
 	'Symbol Placement' => 'Miejsce symbolu waluty',
-	'Tag Cloud' => 'Chmura tagów',
 	'Theme' => 'Skórka',
 	'Time Zone' => 'Strefa czasowa',
 	'Title' => 'Tytuł',

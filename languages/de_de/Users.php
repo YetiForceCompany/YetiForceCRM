@@ -122,7 +122,6 @@ $languageStrings = [
 	'Street Address' => 'Straßenadresse',
 	'Summary' => 'Zusammenfassung',
 	'Symbol Placement' => 'Symbol-Plazierung',
-	'Tag Cloud' => 'Tag Wolke',
 	'Theme' => 'Thema',
 	'Time Zone' => 'Zeitzone',
 	'Title' => 'Titel',

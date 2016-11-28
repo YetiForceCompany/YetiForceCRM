@@ -750,7 +750,6 @@ $languageStrings = [
 	'Address details' => 'Adressendetails',
 	'Contact details' => 'Kontaktdetails',
 	'Registration details' => 'Registrierungsdetails',
-	'Tag Cloud' => 'Tag Wolke',
 	'Attention' => 'Anforderungen',
 	'Progress' => 'Fortschritt',
 	'Created By' => 'Erstellt von',
