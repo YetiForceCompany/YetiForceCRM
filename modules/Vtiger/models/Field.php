@@ -1037,28 +1037,16 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function __update()
 	{
-		$db = PearDatabase::getInstance();
-		$this->get('generatedtype') == 1 ? $generatedtype = 1 : $generatedtype = 2;
-		$query = 'UPDATE vtiger_field SET typeofdata=?, presence=?, quickcreate=?, masseditable=?, header_field=?, maxlengthtext=?, maxwidthcolumn=?, defaultvalue=?, summaryfield=?, displaytype=?, helpinfo=?, generatedtype=?, fieldparams=? WHERE fieldid=?';
-		$params = array(
-			$this->get('typeofdata'),
-			$this->get('presence'),
-			$this->get('quickcreate'),
-			$this->get('masseditable'),
-			$this->get('header_field'),
-			$this->get('maxlengthtext'),
-			$this->get('maxwidthcolumn'),
-			$this->get('defaultvalue'),
-			$this->get('summaryfield'),
-			$this->get('displaytype'),
-			$this->get('helpinfo'),
-			$generatedtype,
-			$this->get('fieldparams'),
-			$this->get('id')
-		);
-		$db->pquery($query, $params);
+		$db = \App\Db::getInstance();
+		$this->get('generatedtype') == 1 ? $generatedType = 1 : $generatedType = 2;
+		$db->createCommand()->update('vtiger_field', [ 'typeofdata' => $this->get('typeofdata'), 'presence' => $this->get('presence'), 'quickcreate' => $this->get('quickcreate'),
+			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
+			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
+			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
+			'fieldparams' => $this->get('fieldparams')
+			], ['fieldid' => $this->get('id')])->execute();
 		if ($this->isMandatory())
-			$db->pquery('UPDATE vtiger_blocks_hide SET `enabled` = ? WHERE `blockid` = ?;', array(0, $this->getBlockId()));
+			$db->createCommand ()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
 	}
 
 	public function updateTypeofDataFromMandatory($mandatoryValue = 'O')
