@@ -33,34 +33,47 @@ class VTWorkflowManager
 
 	function save($workflow)
 	{
-		$adb = $this->adb;
 		if (isset($workflow->id)) {
 			$wf = $workflow;
 			if ($wf->filtersavedinnew == null)
 				$wf->filtersavedinnew = 5;
-			$adb->pquery("update com_vtiger_workflows set
-								module_name=?, summary=?, test=?, execution_condition=?, defaultworkflow=?, filtersavedinnew=?,
-								schtypeid=?, schtime=?, schdayofmonth=?, schdayofweek=?, schannualdates=?, nexttrigger_time=? where workflow_id=?", array($wf->moduleName, $wf->description, $wf->test, $wf->executionCondition, $wf->defaultworkflow, $wf->filtersavedinnew,
-				$wf->schtypeid, $wf->schtime, $wf->schdayofmonth, $wf->schdayofweek, $wf->schannualdates, $wf->nexttrigger_time, $wf->id));
-		}else {
-			$workflowId = $adb->getUniqueID("com_vtiger_workflows");
+			App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
+				'module_name' => $wf->moduleName,
+				'summary' => $wf->description,
+				'test' => $wf->test,
+				'execution_condition' => $wf->executionCondition,
+				'defaultworkflow' => $wf->defaultworkflow,
+				'filtersavedinnew' => $wf->filtersavedinnew,
+				'schtypeid' => $wf->schtypeid,
+				'schtime' => $wf->schtime,
+				'schdayofmonth' => $wf->schdayofmonth,
+				'schdayofweek' => $wf->schdayofweek,
+				'schannualdates' => $wf->schannualdates,
+				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time
+				], ['workflow_id' => $wf->id])->execute();
+		} else {
+			$db = App\Db::getInstance();
+			$workflowId = $db->getUniqueID('com_vtiger_workflows');
 			$workflow->id = $workflowId;
 			$wf = $workflow;
 			if ($wf->filtersavedinnew == null)
 				$wf->filtersavedinnew = 5;
-
-			$result = $adb->getColumnNames("com_vtiger_workflows");
-			if (in_array("type", $result)) {
-				$adb->pquery("insert into com_vtiger_workflows
-								(workflow_id, module_name, summary, test, execution_condition, type, defaultworkflow, filtersavedinnew,
-								schtypeid, schtime, schdayofmonth, schdayofweek, schannualdates, nexttrigger_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", array($workflowId, $wf->moduleName, $wf->description, $wf->test, $wf->executionCondition, $wf->type, $wf->defaultworkflow, $wf->filtersavedinnew,
-					$wf->schtypeid, $wf->schtime, $wf->schdayofmonth, $wf->schdayofweek, $wf->schannualdates, $wf->nexttrigger_time));
-			} else {
-				$adb->pquery("insert into com_vtiger_workflows
-								(workflow_id, module_name, summary, test, execution_condition, defaultworkflow,filtersavedinnew,
-								schtypeid, schtime, schdayofmonth, schdayofweek, schannualdates, nexttrigger_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?)", array($workflowId, $wf->moduleName, $wf->description, $wf->test, $wf->executionCondition, $wf->defaultworkflow, $wf->filtersavedinnew,
-					$wf->schtypeid, $wf->schtime, $wf->schdayofmonth, $wf->schdayofweek, $wf->schannualdates, $wf->nexttrigger_time));
-			}
+			App\Db::getInstance()->createCommand()->insert('com_vtiger_workflows', [
+				'workflow_id' => $workflowId,
+				'module_name' => $wf->moduleName,
+				'summary' => $wf->description,
+				'test' => $wf->test,
+				'execution_condition' => $wf->executionCondition,
+				'type' => $wf->type,
+				'defaultworkflow' => $wf->defaultworkflow,
+				'filtersavedinnew' => $wf->filtersavedinnew,
+				'schtypeid' => $wf->schtypeid,
+				'schtime' => $wf->schtime,
+				'schdayofmonth' => $wf->schdayofmonth,
+				'schdayofweek' => $wf->schdayofweek,
+				'schannualdates' => $wf->schannualdates,
+				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time
+			])->execute();
 		}
 	}
 

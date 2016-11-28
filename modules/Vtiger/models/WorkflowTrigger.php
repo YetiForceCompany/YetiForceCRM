@@ -11,7 +11,7 @@
 class Vtiger_WorkflowTrigger_Model
 {
 
-	public function execute($moduleName, $record, $ids, $userID)
+	public static function execute($moduleName, $record, $ids, $userID)
 	{
 		vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
 		vimport('~~modules/com_vtiger_workflow/include.php');

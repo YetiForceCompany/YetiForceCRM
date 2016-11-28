@@ -197,7 +197,7 @@ class DataTransform
 	public static function sanitizeReferences($row, $meta)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		$references = $meta->getReferenceFieldDetails();
 		foreach ($references as $field => $typeList) {
 			if (strtolower($meta->getEntityName()) == "emails") {
@@ -249,7 +249,7 @@ class DataTransform
 		return $row;
 	}
 
-	public function sanitizeDateFieldsForInsert($row, $meta)
+	public static function sanitizeDateFieldsForInsert($row, $meta)
 	{
 		$current_user = vglobal('current_user');
 		$moduleFields = $meta->getModuleFields();
@@ -264,7 +264,7 @@ class DataTransform
 		return $row;
 	}
 
-	public function sanitizeCurrencyFieldsForInsert($row, $meta)
+	public static function sanitizeCurrencyFieldsForInsert($row, $meta)
 	{
 		$current_user = vglobal('current_user');
 		$moduleFields = $meta->getModuleFields();

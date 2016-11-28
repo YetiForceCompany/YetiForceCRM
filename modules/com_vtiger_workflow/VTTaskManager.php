@@ -31,17 +31,20 @@ class VTTaskManager
 	 */
 	public function saveTask($task)
 	{
-		$adb = $this->adb;
+		$db = App\Db::getInstance();
 		if (is_numeric($task->id)) {//How do I check whether a member exists in php?
 			$taskId = $task->id;
-			$adb->pquery("update com_vtiger_workflowtasks set summary=?, task=? where task_id=?", array($task->summary, serialize($task), $taskId));
+			$db->createCommand()->update('com_vtiger_workflowtasks', ['summary' => $task->summary, 'task' => serialize($task)], ['task_id' => $taskId])->execute();
 			return $taskId;
 		} else {
-			$taskId = $adb->getUniqueID("com_vtiger_workflowtasks");
+			$taskId = $db->getUniqueID("com_vtiger_workflowtasks");
 			$task->id = $taskId;
-			$adb->pquery("insert into com_vtiger_workflowtasks
-							(task_id, workflow_id, summary, task)
-							values (?, ?, ?, ?)", array($taskId, $task->workflowId, $task->summary, serialize($task)));
+			$db->createCommand()->insert('com_vtiger_workflowtasks', [
+				'task_id' => $taskId,
+				'workflow_id' => $task->workflowId,
+				'summary' => $task->summary,
+				'task' => serialize($task)
+			])->execute();
 			return $taskId;
 		}
 	}
