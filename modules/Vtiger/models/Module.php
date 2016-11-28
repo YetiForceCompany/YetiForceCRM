@@ -485,7 +485,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (empty($this->blocks)) {
 			$blocksList = [];
 			$moduleBlocks = Vtiger_Block_Model::getAllForModule($this);
-			foreach ($moduleBlocks as $block) {
+			foreach ($moduleBlocks as &$block) {
 				$blocksList[$block->get('label')] = $block;
 			}
 			$this->blocks = $blocksList;
@@ -991,7 +991,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),

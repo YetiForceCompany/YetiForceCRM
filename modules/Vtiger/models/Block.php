@@ -19,13 +19,11 @@ class Vtiger_Block_Model extends vtlib\Block
 		if (empty($this->fields)) {
 			$moduleFields = Vtiger_Field_Model::getAllForModule($this->module);
 			$this->fields = [];
-
 			// if block does not contains any fields 
 			if (!isset($moduleFields[$this->id])) {
 				$moduleFields[$this->id] = [];
 			}
-
-			foreach ($moduleFields[$this->id] as $field) {
+			foreach ($moduleFields[$this->id] as &$field) {
 				$this->fields[$field->get('name')] = $field;
 			}
 		}
@@ -187,7 +185,7 @@ class Vtiger_Block_Model extends vtlib\Block
 		$db = PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_blocks SET sequence = CASE blockid ';
 		foreach ($sequenceList as $blockId => $sequence) {
-			$query .=' WHEN ' . $blockId . ' THEN ' . $sequence;
+			$query .= ' WHEN ' . $blockId . ' THEN ' . $sequence;
 		}
 		$query .= sprintf(' END WHERE blockid IN (%s)', generateQuestionMarks($sequenceList));
 		$db->pquery($query, array_keys($sequenceList));

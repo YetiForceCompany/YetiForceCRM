@@ -13,6 +13,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 {
 
 	protected $record = false;
+	protected $recordStructure = false;
 	public $defaultMode = false;
 
 	public function __construct()
@@ -64,11 +65,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$summaryInfo = [];
 		// Take first block information as summary information
-		$stucturedValues = $recordStrucure->getStructure();
-		$fieldsInHeader = $recordStrucure->getFieldInHeader();
+		$stucturedValues = $this->recordStructure->getStructure();
+		$fieldsInHeader = $this->recordStructure->getFieldInHeader();
 		foreach ($stucturedValues as $blockLabel => $fieldList) {
 			$summaryInfo[$blockLabel] = $fieldList;
 			break;
@@ -285,8 +286,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
-		$structuredValues = $recordStrucure->getStructure();
+		if (!$this->recordStructure) {
+			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		}
+		$structuredValues = $this->recordStructure->getStructure();
 
 		$moduleModel = $recordModel->getModule();
 
@@ -355,8 +358,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('VIEW', $request->get('view'));
 
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
-		$structuredValues = $recordStrucure->getStructure();
+		if (!$this->recordStructure) {
+			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		}
+		$structuredValues = $this->recordStructure->getStructure();
 
 		$moduleModel = $recordModel->getModule();
 
@@ -807,8 +812,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 'no_limit');
-		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
-		$structuredValues = $recordStrucure->getStructure();
+		if (!$this->recordStructure) {
+			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
+		}
+		$structuredValues = $this->recordStructure->getStructure();
 
 		$moduleModel = $recordModel->getModule();
 

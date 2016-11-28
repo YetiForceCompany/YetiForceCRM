@@ -438,7 +438,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isViewEnabled()
 	{
-		if ($this->getDisplayType() == '4' || in_array($this->get('presence'), array(1, 3))) {
+		if ($this->getDisplayType() === 4 || in_array($this->get('presence'), [1, 3])) {
 			return false;
 		}
 		return $this->getPermissions();
@@ -462,7 +462,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isViewableInDetailView()
 	{
-		if (!$this->isViewable() || $this->getDisplayType() == '3' || $this->getDisplayType() == '5') {
+		if (!$this->isViewable() || $this->getDisplayType() === 3 || $this->getDisplayType() === 5) {
 			return false;
 		}
 		return true;
@@ -519,7 +519,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isActiveReference()
 	{
-		if ($this->getFieldDataType() == 'reference') {
+		if ($this->getFieldDataType() === 'reference') {
 			$webserviceField = $this->getWebserviceFieldObject();
 			$referenceList = $webserviceField->getReferenceList();
 			foreach ($referenceList as $key => $module) {
@@ -812,7 +812,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				$fieldObjects = [];
 			}
 
-			foreach ($fieldObjects as $fieldObject) {
+			foreach ($fieldObjects as &$fieldObject) {
 				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
 				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
 				$fieldModelList[$block][] = $fieldModelObject;
