@@ -11,6 +11,14 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 {
 
 	/**
+	 * If the field is sortable in ListView
+	 */
+	public function isListviewSortable()
+	{
+		return false;
+	}
+
+	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return string - Template Name
 	 */

@@ -563,6 +563,14 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * If the field is sortable in ListView
+	 */
+	public function isListviewSortable()
+	{
+		return $this->getUITypeModel()->isListviewSortable();
+	}
+
+	/**
 	 * Static Function to get the instance fo Vtiger Field Model from a given vtlib\Field object
 	 * @param vtlib\Field $fieldObj - vtlib field object
 	 * @return Vtiger_Field_Model instance
