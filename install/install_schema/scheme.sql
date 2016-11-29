@@ -4638,12 +4638,14 @@ CREATE TABLE `vtiger_eventhandler_module_seq` (
 
 CREATE TABLE `vtiger_eventhandlers` (
   `eventhandler_id` smallint(11) unsigned NOT NULL AUTO_INCREMENT,
-  `event_name` varchar(100) NOT NULL,
-  `handler_path` varchar(400) NOT NULL,
+  `event_name` varchar(50) NOT NULL,
   `handler_class` varchar(100) NOT NULL,
-  `cond` text,
   `is_active` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `include_modules` text NOT NULL,
+  `exclude_modules` text NOT NULL,
+  `priority` tinyint(1) unsigned NOT NULL DEFAULT '5',
   `dependent_on` varchar(255) DEFAULT '[]',
+  `handler_path` varchar(400) NOT NULL,
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;

@@ -1,25 +1,21 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
-require_once 'include/events/VTEventHandler.php';
 
-class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler
+/**
+ * Abstract base handler class
+ * @package YetiForce.Handler
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+class Vtiger_RecordLabelUpdater_Handler
 {
 
-	public function handleEvent($eventName, $data)
+	/**
+	 * Entity.AfterSave function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
-		if ($eventName === 'vtiger.entity.aftersave') {
-			$module = $data->getModuleName();
-			if ($module !== 'Users') {
-				\App\Record::updateLabel($module, $data->getId(), $data->isNew() ? 'new' : 'edit');
-			}
-		}
+		$recordModel = $eventHandler->getRecordModel();
+		\App\Record::updateLabel($eventHandler->getModuleName(), $recordModel->getId(), $recordModel->get('mode'));
 	}
 }
