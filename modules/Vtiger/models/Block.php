@@ -227,17 +227,11 @@ class Vtiger_Block_Model extends vtlib\Block
 	/**
 	 * Function to check whether duplicate exist or not
 	 * @param string $blockLabel
-	 * @param <Number> ModuleId
+	 * @param number ModuleId
 	 * @return boolean true/false
 	 */
 	public static function checkDuplicate($blockLabel, $tabId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT 1 FROM vtiger_blocks WHERE blocklabel = ? && tabid = ?', array($blockLabel, $tabId));
-		if ($db->num_rows($result)) {
-			return true;
-		}
-		return false;
+		return (new \App\Db\Query())->from('vtiger_blocks')->where(['blocklabel' => $blockLabel, 'tabid' => $tabId])->exists();
 	}
 }
