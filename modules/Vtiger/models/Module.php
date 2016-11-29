@@ -208,7 +208,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 * Function to save a given record model of the current module
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public function saveRecord(Vtiger_Record_Model $recordModel)
+	public function saveRecord(\Vtiger_Record_Model $recordModel)
 	{
 		$moduleName = $this->get('name');
 		$focus = $this->getEntityInstance();
@@ -222,14 +222,28 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		$focus->isInventory = $this->isInventory();
+
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($recordModel);
+		$eventHandler->setModuleName($recordModel->getModuleName());
+
+		$eventHandler->trigger('EntityInventoryBeforeSave');
 		if ($this->isInventory()) {
 			$focus->inventoryData = $recordModel->getInventoryData();
 		}
+		$eventHandler->trigger('EntityInventoryAfterSave');
+
 		$focus->mode = $recordModel->get('mode');
 		$focus->id = $recordModel->getId();
 		$focus->newRecord = $recordModel->get('newRecord');
+		$eventHandler->trigger('EntityBeforeSave');
+
+		$recordModel->setData($focus->column_fields)->setEntity($focus);
 		$focus->save($moduleName);
-		$recordModel->setData($focus->column_fields)->setId($focus->id)->setEntity($focus);
+		$recordModel->setId($focus->id);
+
+		$eventHandler->trigger('EntityAfterSave');
+		$eventHandler->setSystemTrigger('EntityAfterSaveSystem');
 		return $recordModel;
 	}
 

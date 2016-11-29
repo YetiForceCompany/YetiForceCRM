@@ -258,6 +258,18 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			's_#__handler_updater' => [
+				'columns' => [
+					'tabid' => $this->smallInteger()->notNull()->defaultValue(0)->unsigned(),
+					'crmid' => $this->integer()->notNull()->defaultValue(0)->unsigned(),
+					'userid' => $this->smallInteger()->unsigned()->notNull()->defaultValue(0)->unsigned(),
+					'handler_name' => $this->stringType(50)->notNull(),
+					'class' => $this->stringType(50)->notNull(),
+					'params' => $this->text()->notNull(),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 		];
 		$this->foreignKey = [
 				['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],

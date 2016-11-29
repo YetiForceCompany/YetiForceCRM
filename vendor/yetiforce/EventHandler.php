@@ -14,6 +14,7 @@ class EventHandler
 	private $recordModel;
 	private $moduleName;
 	private $params;
+	private $userId;
 
 	/**
 	 * Get all event handlers
@@ -54,9 +55,8 @@ class EventHandler
 		}
 		$handlers = isset(static::$handlerByType[$name]) ? static::$handlerByType[$name] : [];
 		if ($moduleName) {
-			$moduleId = Module::getModuleId($moduleName);
 			foreach ($handlers as $key => &$handler) {
-				if (($handler['tabid'] !== 0) ? ($handler['tabid'] !== $moduleId) : (!empty($handler['include_modules']) && !in_array($moduleName, explode(',', $handler['include_modules'])) || (!empty($handler['exclude_modules']) && in_array($moduleName, explode(',', $handler['exclude_modules']))))) {
+				if ((!empty($handler['include_modules']) && !in_array($moduleName, explode(',', $handler['include_modules']))) || (!empty($handler['exclude_modules']) && in_array($moduleName, explode(',', $handler['exclude_modules'])))) {
 					unset($handlers[$key]);
 				}
 			}
@@ -84,11 +84,20 @@ class EventHandler
 
 	/**
 	 * Set params
-	 * @param type $params
+	 * @param array $params
 	 */
 	public function setParams($params)
 	{
 		$this->params = $params;
+	}
+
+	/**
+	 * Set user Id
+	 * @param int $userId
+	 */
+	public function setUser($userId)
+	{
+		$this->userId = $userId;
 	}
 
 	/**
@@ -134,6 +143,32 @@ class EventHandler
 			} else {
 				throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 			}
+		}
+	}
+
+	/**
+	 * Set system handler
+	 * @param string $name
+	 * @return boolean
+	 */
+	public function setSystemTrigger($name, $class = '', $params = [])
+	{
+		$handlers = static::getByType($name, $this->moduleName);
+		if (empty($handlers)) {
+			return false;
+		}
+		$db = \App\Db::getInstance('admin');
+		$isExists = (new \App\Db\Query())->from('s_#__handler_updater')->where(['crmid' => $this->getRecordModel()->getId()])->exists($db);
+		if (!$isExists) {
+			$db->createCommand()
+				->insert('s_#__handler_updater', [
+					'tabid' => Module::getModuleId($this->getModuleName()),
+					'crmid' => $this->getRecordModel()->getId(),
+					'userid' => User::getCurrentUserId(),
+					'handler_name' => $name,
+					'class' => $class,
+					'params' => Json::encode($params)
+				])->execute();
 		}
 	}
 }

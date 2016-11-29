@@ -1996,19 +1996,18 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_eventhandlers' => [
 				'columns' => [
 					'eventhandler_id' => $this->primaryKey()->unsigned(),
-					'event_name' => $this->stringType(100)->notNull(),
-					'handler_path' => $this->stringType(400)->notNull(),
+					'event_name' => $this->stringType(50)->notNull(),
 					'handler_class' => $this->stringType(100)->notNull(),
-					'cond' => $this->text(),
 					'is_active' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'include_modules' => $this->text()->notNull(),
+					'exclude_modules' => $this->text()->notNull(),
+					'priority' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(5),
 					'dependent_on' => $this->stringType()->defaultValue('[]'),
+					'handler_path' => $this->stringType(400)->notNull(),
 				],
 				'index' => [
 						['eventhandler_idx', 'eventhandler_id', true],
 				],
-				// 'primaryKeys' => [
-				// ['PRIMARY KEY', ['eventhandler_id', 'event_name', 'handler_class']]
-				//  ], 
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -3036,6 +3035,7 @@ class Base2 extends \App\Db\Importers\Base
 					[2, 'LBL_ADDRESS_BOOCK', 'cron/AddressBoock.php', 86400, NULL, NULL, 1, 'Vtiger', 24, ''],
 					[3, 'SendReminder', 'cron/SendReminder.php', 900, NULL, NULL, 1, 'Calendar', 3, 'Recommended frequency for SendReminder is 15 mins'],
 					[4, 'LBL_CURRENCY_UPDATE', 'modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php', 86400, NULL, NULL, 1, 'CurrencyUpdate', 4, 'Recommended frequency for Currency Update is 24 hours'],
+					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 1, 'Vtiger', 2, NULL],
 					[8, 'Scheduled Import', 'cron/modules/Import/ScheduledImport.php', 900, NULL, NULL, 1, 'Import', 6, 'Recommended frequency for MailScanner is 15 mins'],
 					[9, 'ScheduleReports', 'cron/modules/Reports/ScheduleReports.php', 900, NULL, NULL, 1, 'Reports', 7, 'Recommended frequency for ScheduleReports is 15 mins'],
 					[10, 'MailScannerAction', 'modules/OSSMailScanner/cron/action.php', 200, NULL, NULL, 1, 'OSSMailScanner', 8, ''],

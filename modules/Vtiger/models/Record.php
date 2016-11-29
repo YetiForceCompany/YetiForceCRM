@@ -57,7 +57,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function set($key, $value)
 	{
 		$this->changes[$key] = $this->get($key);
-		return parent::set($key, $value);
+		$this->valueMap[$key] = $value;
+		return $this;
 	}
 
 	/**
@@ -389,7 +390,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$focus->retrieve_entity_info($recordId, $moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
-		$instance->setEntity($focus)->set('mode', 'edit')->setId($recordId)->setData($focus->column_fields)->setModuleFromInstance($module);
+		$instance->setEntity($focus)->setData($focus->column_fields)->set('mode', 'edit')->setId($recordId)->setModuleFromInstance($module);
 		\App\Cache::staticSave('RecordModel', $cacheName, $instance);
 		return $instance;
 	}
