@@ -1074,12 +1074,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-				[
+			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-				[
+			[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
@@ -2200,59 +2200,57 @@ class CRMEntity
 	 */
 	public function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')
 	{
-		$query = (new \App\Db\Query())->select(['recordid' => "{$this->table_name}.{$this->table_index}"]);
-		$query->addSelect($tableColumns);
-		$query->addSelect($additionalColumns);
+		if (is_array($tableColumns)) {
+			$tableColumnsString = implode(',', $tableColumns);
+		}
+		if (is_array($additionalColumns)) {
+			$additionalColumns = implode(',', $additionalColumns);
+		}
+		if (!empty($additionalColumns)) {
+			$additionalColumns = ',' . $additionalColumns;
+		}
+		$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
+
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
-			$query->addSelect("{$this->customFieldTable[0]}.*");
-		//$query .= ", " . $this->customFieldTable[0] . ".* ";
+			$query .= ", " . $this->customFieldTable[0] . ".* ";
 
-		$query->from($this->table_name)
-			->innerJoin('vtiger_crmentity', "vtiger_crmentity.crmid = $this->table_name.$this->table_index");
+		$fromClause = " FROM $this->table_name";
+
+		$fromClause .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
+
 		if ($this->tab_name) {
 			foreach ($this->tab_name as $tableName) {
 				if ($tableName != 'vtiger_crmentity' && $tableName != $this->table_name && $tableName != 'vtiger_inventoryproductrel') {
 					if ($this->tab_name_index[$tableName]) {
-						$query->innerJoin($tableName, "$tableName.{$this->tab_name_index[$tableName]} = $this->table_name.$this->table_index");
+						$fromClause .= " INNER JOIN " . $tableName . " ON " . $tableName . '.' . $this->tab_name_index[$tableName] .
+							" = $this->table_name.$this->table_index";
 					}
 				}
 			}
 		}
-		$query->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid');
+		$fromClause .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
+						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
 
-		$query->where(['vtiger_crmentity.deleted' => 0]);
-		App\PrivilegeQuery::getConditions($query, $module);
+		$whereClause = " WHERE vtiger_crmentity.deleted = 0";
+		$whereClause .= $this->getListViewSecurityParameter($module);
+
 		if ($ignoreEmpty) {
 			foreach ($tableColumns as $tableColumn) {
-				$query->andWhere(['and', ['not', [$tableColumn => null]], ['<>', $tableColumn, '']]);
-				//$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
 			}
 		}
 
 		if (isset($selectedColumns) && trim($selectedColumns) != '') {
-
-			$subQuery = (new \App\Db\Query())->select($selectedColumns)->from(['t' => $this->table_name])
-				->innerJoin(['crm' => 'vtiger_crmentity'], "crm.crmid = t.$this->table_index");
-			//$sub_query = "SELECT $selectedColumns FROM $this->table_name AS t " .
-			//	" INNER JOIN vtiger_crmentity AS crm ON crm.crmid = t." . $this->table_index;
+			$sub_query = "SELECT $selectedColumns FROM $this->table_name AS t " .
+				" INNER JOIN vtiger_crmentity AS crm ON crm.crmid = t." . $this->table_index;
 			// Consider custom table join as well.
 			if (isset($this->customFieldTable)) {
-				$subQuery->leftJoin(['tcf' => $this->customFieldTable[0]], "tcf.{$this->customFieldTable[1]} = t.$this->table_index");
-				//	$sub_query .= " LEFT JOIN " . $this->customFieldTable[0] . " tcf ON tcf." . $this->customFieldTable[1] . " = t.$this->table_index";
+				$sub_query .= " LEFT JOIN " . $this->customFieldTable[0] . " tcf ON tcf." . $this->customFieldTable[1] . " = t.$this->table_index";
 			}
-			$subQuery->where(['crm.deleted' => 0])->groupBy($selectedColumns)->having(['>', new \yii\db\Expression('COUNT(*)'), 1]);
-			//$sub_query .= " WHERE crm.deleted=0 GROUP BY $selectedColumns HAVING COUNT(*)>1";
+			$sub_query .= " WHERE crm.deleted=0 GROUP BY $selectedColumns HAVING COUNT(*)>1";
 		} else {
-
-			$subQuery = clone $query;
-			$groupBy = array_merge($additionalColumns, $tableColumns);
-			$groupBy [] = "{$this->table_name}.{$this->table_index}";
-			$groupBy [] = "{$this->customFieldTable[0]}.$this->table_index";
-			var_dump($groupBy);
-			$subQuery->groupBy($groupBy)->having(['>', new \yii\db\Expression('COUNT(*)'), 1]);
-			//$subQuery = "SELECT $tableColumnsString $additionalColumns $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
+			$sub_query = "SELECT $tableColumnsString $additionalColumns $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
 		}
 
 		$i = 1;
@@ -2263,15 +2261,12 @@ class CRMEntity
 				$duplicateCheckClause .= ' AND ';
 		}
 
-		$query->leftJoin('vtiger_users_last_import', "vtiger_users_last_import.bean_id = $this->table_name.$this->table_index")
-			->innerJoin(['temp' => $subQuery], $duplicateCheckClause)
-			->orderBy($tableColumns);
-		/* $query = $selectClause . $fromClause .
-		  " LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
-		  " INNER JOIN (" . $sub_query . ") AS temp ON " . $duplicateCheckClause .
-		  $whereClause .
-		  " ORDER BY $tableColumnsString," . $this->table_name . "." . $this->table_index . " ASC"; */
-		return $query->createCommand()->getRawSql();
+		$query = $selectClause . $fromClause .
+			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
+			" INNER JOIN (" . $sub_query . ") AS temp ON " . $duplicateCheckClause .
+			$whereClause .
+			" ORDER BY $tableColumnsString," . $this->table_name . "." . $this->table_index . " ASC";
+		return $query;
 	}
 
 	public function getLockFields()

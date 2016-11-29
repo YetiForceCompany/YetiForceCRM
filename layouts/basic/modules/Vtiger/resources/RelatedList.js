@@ -239,6 +239,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		var aDeferred = jQuery.Deferred();
 		var fieldName = headerElement.data('fieldname');
 		var sortOrderVal = headerElement.data('nextsortorderval');
+		if(typeof sortOrderVal === 'undefined')
+				return;
 		var sortingParams = {
 			"orderby": fieldName,
 			"sortorder": sortOrderVal,

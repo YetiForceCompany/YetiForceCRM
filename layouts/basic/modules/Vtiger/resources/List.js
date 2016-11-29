@@ -1527,6 +1527,8 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewPageDiv.on('click', '.listViewHeaderValues', function (e) {
 			var fieldName = jQuery(e.currentTarget).data('columnname');
 			var sortOrderVal = jQuery(e.currentTarget).data('nextsortorderval');
+			if(typeof sortOrderVal === 'undefined')
+				return;
 			var cvId = thisInstance.getCurrentCvId();
 			var urlParams = {
 				"orderby": fieldName,

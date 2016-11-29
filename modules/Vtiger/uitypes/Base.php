@@ -18,6 +18,14 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	}
 
 	/**
+	 * If the field is sortable in ListView
+	 */
+	public function isListviewSortable()
+	{
+		return true;
+	}
+
+	/**
 	 * Function to get the Template name for the current UI Type Object
 	 * @return string - Template Name
 	 */

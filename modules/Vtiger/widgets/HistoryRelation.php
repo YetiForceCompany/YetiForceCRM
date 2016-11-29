@@ -175,6 +175,5 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			$sql = (new \App\Db\Query)->from(['records' => $subQuery]);
 		}
 		return $sql->orderBy(['time' => SORT_DESC]);
-		;
 	}
 }
