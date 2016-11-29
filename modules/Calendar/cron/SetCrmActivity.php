@@ -4,9 +4,6 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once 'include/main/WebUI.php';
-$current_user = Users::getActiveAdminUser();
-$db = PearDatabase::getInstance();
 $dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
 		->from('vtiger_crmentity')
 		->innerJoin('vtiger_entity_stats', 'vtiger_entity_stats.crmid = vtiger_crmentity.crmid')

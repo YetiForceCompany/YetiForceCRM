@@ -1,9 +1,5 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-require_once 'include/main/WebUI.php';
-
-$current_user = Users::getActiveAdminUser();
-$adb = PearDatabase::getInstance();
 
 $statusActivity = Calendar_Module_Model::getComponentActivityStateLabel();
 $dataReader = (new App\Db\Query())->select(['vtiger_activity.activityid', 'vtiger_activity.due_date', 'vtiger_activity.time_end',
