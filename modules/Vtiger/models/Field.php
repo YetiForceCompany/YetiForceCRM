@@ -1046,7 +1046,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'fieldparams' => $this->get('fieldparams')
 			], ['fieldid' => $this->get('id')])->execute();
 		if ($this->isMandatory())
-			$db->createCommand ()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
+			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
 	}
 
 	public function updateTypeofDataFromMandatory($mandatoryValue = 'O')

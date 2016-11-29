@@ -41,12 +41,14 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => &$fieldModel) {
 					if ($fieldModel->isViewableInDetailView()) {
-						if ($recordExists && $fieldModel->isHeaderField()) {
+						if ($recordExists) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-							$this->fieldsInHeader[$fieldModel->get('label')] = [
-								'value' => $recordModel->getDisplayValue($fieldName),
-								'class' => $fieldModel->get('header_field')
-							];
+							if ($fieldModel->isHeaderField()) {
+								$this->fieldsInHeader[$fieldModel->get('label')] = [
+									'value' => $recordModel->getDisplayValue($fieldName),
+									'class' => $fieldModel->get('header_field')
+								];
+							}
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
 					}
