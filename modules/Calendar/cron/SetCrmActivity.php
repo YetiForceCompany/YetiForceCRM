@@ -7,9 +7,12 @@
 require_once 'include/main/WebUI.php';
 $current_user = Users::getActiveAdminUser();
 $db = PearDatabase::getInstance();
-$query = 'SELECT vtiger_crmentity.`crmid`, vtiger_crmentity.`setype` FROM vtiger_crmentity INNER JOIN vtiger_entity_stats ON vtiger_entity_stats.crmid = vtiger_crmentity.crmid WHERE vtiger_crmentity.`deleted` = 0 && vtiger_entity_stats.crmactivity IS NOT NULL';
-$result = $db->query($query);
-while ($row = $db->getRow($result)) {
+$dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
+		->from('vtiger_crmentity')
+		->innerJoin('vtiger_entity_stats', 'vtiger_entity_stats.crmid = vtiger_crmentity.crmid')
+		->where(['and', ['vtiger_crmentity.deleted' => 0], ['not', ['vtiger_entity_stats.crmactivity' => null]]])
+		->createCommand()->query();
+while ($row = $dataReader->read()) {
 	Calendar_Record_Model::setCrmActivity(array_flip([$row['crmid']]), $row['setype']);
 }
 

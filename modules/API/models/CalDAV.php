@@ -587,11 +587,10 @@ class API_CalDAV_Model
 
 	protected function recordMarkComplete()
 	{
-		$db = PearDatabase::getInstance();
-		$db->update('vtiger_activity', [
+		App\Db::getInstance()->createCommand()->update('vtiger_activity', [
 			'dav_status' => 0
-			], 'activityid = ?', [$this->record['crmid']]
-		);
+			], ['activityid' => $this->record['crmid']]
+		)->execute();
 	}
 
 	protected function toDelete($cal)

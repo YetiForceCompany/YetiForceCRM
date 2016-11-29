@@ -17,10 +17,11 @@ $l = 0;
 $break = false;
 $table = OSSMail_AddressBoock_Model::TABLE;
 $last = OSSMail_AddressBoock_Model::getLastRecord();
-
-$query = 'SELECT module_name, task FROM `com_vtiger_workflows` LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id WHERE `task` LIKE \'%VTAddressBookTask%\'';
-$mainResult = $db->query($query);
-while ($row = $db->getRow($mainResult)) {
+$dataReader = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
+		->leftJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id')
+		->where(['like', 'task', 'VTAddressBookTask'])
+		->createCommand()->query();
+while ($row = $dataReader->read()) {
 	$task = (array) unserialize($row['task']);
 	$moduleName = $row['module_name'];
 	if (empty($task['active']) || ($last !== false && $last['module'] != $moduleName)) {
