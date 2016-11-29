@@ -12,6 +12,7 @@ class EventHandler
 
 	private static $handlerByType;
 	private $recordModel;
+	private $moduleName;
 	private $params;
 
 	/**
@@ -73,6 +74,15 @@ class EventHandler
 	}
 
 	/**
+	 * Set module name
+	 * @param string $moduleName
+	 */
+	public function setModuleName($moduleName)
+	{
+		$this->moduleName = $moduleName;
+	}
+
+	/**
 	 * Set params
 	 * @param type $params
 	 */
@@ -81,8 +91,49 @@ class EventHandler
 		$this->params = $params;
 	}
 
-	public function trigger()
+	/**
+	 * Get record model
+	 * @return \Vtiger_Record_Model
+	 */
+	public function getRecordModel()
 	{
-		
+		return $this->recordModel;
+	}
+
+	/**
+	 * Get module name
+	 * @return string
+	 */
+	public function getModuleName()
+	{
+		return $this->moduleName;
+	}
+
+	/**
+	 * Get params
+	 * @return array Additional parameters
+	 */
+	public function getParams()
+	{
+		return $this->params;
+	}
+
+	/**
+	 * Trigger an event
+	 * @param string $name Event name
+	 * @throws \Exception\AppException
+	 */
+	public function trigger($name)
+	{
+		$handlers = static::getByType($name, $this->moduleName);
+		foreach ($handlers as &$handler) {
+			$handlerInstance = new $handler['handler_class']();
+			$function = lcfirst($name);
+			if (method_exists($handlerInstance, $function)) {
+				$handlerInstance->$function($this);
+			} else {
+				throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+			}
+		}
 	}
 }

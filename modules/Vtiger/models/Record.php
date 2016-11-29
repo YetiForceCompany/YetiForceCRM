@@ -19,6 +19,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	protected $inventoryData = false;
 	protected $privileges = [];
 	protected $fullForm = true;
+	protected $changes = [];
 	public $summaryRowCount = 4;
 
 	/**
@@ -33,11 +34,30 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	/**
 	 * Function to set the id of the record
 	 * @param <type> $value - id value
-	 * @return <Object> - current instance
 	 */
 	public function setId($value)
 	{
 		return $this->set('id', $value);
+	}
+
+	/**
+	 * Is new record
+	 * @return boolean
+	 */
+	public function isNew()
+	{
+		return $this->get('mode') !== 'edit';
+	}
+
+	/**
+	 * Function to set the value for a given key
+	 * @param $key
+	 * @param $value
+	 */
+	public function set($key, $value)
+	{
+		$this->changes[$key] = $this->get($key);
+		return parent::set($key, $value);
 	}
 
 	/**
@@ -299,7 +319,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		//Disabled generating record ID in transaction  in order to maintain data integrity
-		if ($this->get('mode') !== 'edit') {
+		if ($this->isNew()) {
 			$recordId = \App\Db::getInstance()->getUniqueID('vtiger_crmentity');
 			$this->set('newRecord', $recordId);
 		}
@@ -310,7 +330,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
 
-		if ($this->get('mode') !== 'edit') {
+		if ($this->isNew()) {
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 		}
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
@@ -369,8 +389,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$focus->retrieve_entity_info($recordId, $moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
-		$instance->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($module)->setEntity($focus);
-		$instance->set('mode', 'edit');
+		$instance->setEntity($focus)->set('mode', 'edit')->setId($recordId)->setData($focus->column_fields)->setModuleFromInstance($module);
 		\App\Cache::staticSave('RecordModel', $cacheName, $instance);
 		return $instance;
 	}
