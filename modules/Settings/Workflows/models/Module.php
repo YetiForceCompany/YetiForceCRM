@@ -161,7 +161,6 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$db = App\Db::getInstance();
 		$db->createCommand()->insert($this->getBaseTable(), $data['fields'])->execute();
 		$workflowId = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
-		$db->createCommand()->update($this->getBaseTable() . '_seq', ['id' => $workflowId])->execute();
 		$messages = ['id' => $workflowId];
 		if ($data['workflow_methods']) {
 			foreach ($data['workflow_methods'] as $method) {
@@ -177,7 +176,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				$taskObject->workflowId = intval($workflowId);
 				$taskObject->id = intval($taskId);
 				$db->createCommand()->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
-				$db->createCommand()->update('com_vtiger_workflowtasks_seq',  ['id' => $taskId])->execute();
+				$db->createCommand()->update('com_vtiger_workflowtasks_seq', ['id' => $taskId])->execute();
 			}
 		}
 

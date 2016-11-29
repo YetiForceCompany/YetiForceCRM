@@ -286,12 +286,6 @@ CREATE TABLE `com_vtiger_workflows` (
   UNIQUE KEY `com_vtiger_workflows_idx` (`workflow_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `com_vtiger_workflows_seq` */
-
-CREATE TABLE `com_vtiger_workflows_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `com_vtiger_workflowtask_queue` */
 
 CREATE TABLE `com_vtiger_workflowtask_queue` (

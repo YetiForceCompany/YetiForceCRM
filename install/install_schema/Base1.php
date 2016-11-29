@@ -138,13 +138,6 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'com_vtiger_workflows_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'com_vtiger_workflowtask_queue' => [
 				'columns' => [
 					'task_id' => $this->integer(),
@@ -3134,12 +3127,6 @@ class Base1 extends \App\Db\Importers\Base
 					[67, 'SSingleOrders', 'Block edition', '[{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_CANCELLED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ssingleorders_status","operation":"is","value":"PLL_ACCEPTED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
 					[68, 'SRecurringOrders', 'Block edition', '[{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_UNREALIZED","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"srecurringorders_status","operation":"is","value":"PLL_REALIZED","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]', 9, NULL, 'basic', 6, 0, '', '', '', '', NULL],
 					[69, 'OSSTimeControl', 'LBL_UPDATE_WORK_TIME', '[]', 7, NULL, 'basic', 6, NULL, NULL, NULL, NULL, NULL, NULL],
-				]
-			],
-			'com_vtiger_workflows_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[69],
 				]
 			],
 			'com_vtiger_workflowtasks' => [
