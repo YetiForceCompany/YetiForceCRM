@@ -53,13 +53,10 @@ class VTWorkflowManager
 				], ['workflow_id' => $wf->id])->execute();
 		} else {
 			$db = App\Db::getInstance();
-			$workflowId = $db->getUniqueID('com_vtiger_workflows');
-			$workflow->id = $workflowId;
 			$wf = $workflow;
 			if ($wf->filtersavedinnew == null)
 				$wf->filtersavedinnew = 5;
-			App\Db::getInstance()->createCommand()->insert('com_vtiger_workflows', [
-				'workflow_id' => $workflowId,
+			$db->createCommand()->insert('com_vtiger_workflows', [
 				'module_name' => $wf->moduleName,
 				'summary' => $wf->description,
 				'test' => $wf->test,
@@ -74,6 +71,7 @@ class VTWorkflowManager
 				'schannualdates' => $wf->schannualdates,
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time
 			])->execute();
+			$wf->id = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
 		}
 	}
 
