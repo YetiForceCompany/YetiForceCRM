@@ -104,7 +104,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				$fieldValue = Vtiger_Date_UIType::getDisplayDateValue($startDate);
 			}
 			if ($fieldModel->isEditable() || $specialField) {
-				$recordModel->set($fieldName, $fieldModel->getDBInsertValue($fieldValue));
+				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);

@@ -34,7 +34,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		foreach ($requestFieldList as $fieldName => $fieldValue) {
 			$fieldModel = $fieldList[$fieldName];
 			if ($fieldModel->isEditable()) {
-				$recordModel->set($fieldName, $fieldModel->getDBInsertValue($fieldValue));
+				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
 

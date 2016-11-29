@@ -31,7 +31,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			}
 			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
 			if ($fieldModel->getFieldDataType() === 'currency') {
-				$recordFieldValue = $fieldModel->getDBInsertValue($recordFieldValue);
+				$recordFieldValue = $fieldModel->getDBValue($recordFieldValue);
 				$displayValue = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
 			} elseif ($fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel);

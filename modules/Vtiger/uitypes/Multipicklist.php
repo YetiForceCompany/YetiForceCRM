@@ -54,7 +54,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		return explode(' |##| ', $value);
 	}
 
-	public function getDBInsertValue($value)
+	public function getDBValue($value)
 	{
 		if (is_array($value)) {
 			$value = implode(' |##| ', $value);

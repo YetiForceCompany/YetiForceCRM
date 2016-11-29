@@ -61,7 +61,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDBInsertValue($value)
+	public function getDBValue($value)
 	{
 		$uiType = $this->get('field')->get('uitype');
 		if ($uiType == 72) {

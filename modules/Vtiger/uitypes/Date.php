@@ -55,7 +55,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDBInsertValue($value)
+	public function getDBValue($value)
 	{
 		if (!empty($value)) {
 			return self::getDBInsertedValue($value);

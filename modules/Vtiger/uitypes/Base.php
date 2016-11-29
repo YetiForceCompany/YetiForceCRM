@@ -31,7 +31,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDBInsertValue($value)
+	public function getDBValue($value)
 	{
 		return $value;
 	}

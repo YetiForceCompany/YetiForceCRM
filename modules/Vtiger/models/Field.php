@@ -1020,9 +1020,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * @param type $value in user format
 	 * @return type
 	 */
-	public function getDBInsertValue($value)
+	public function getDBValue($value)
 	{
-		return $this->getUITypeModel()->getDBInsertValue($value);
+		return $this->getUITypeModel()->getDBValue($value);
 	}
 
 	/**
