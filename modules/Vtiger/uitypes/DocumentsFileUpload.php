@@ -51,11 +51,12 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get value for database
+	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @return string
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getDBValue($value)
+	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value === null) {
 			$fileName = (new App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $this->id])->one();

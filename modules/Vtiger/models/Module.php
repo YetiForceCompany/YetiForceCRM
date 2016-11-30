@@ -221,6 +221,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$focus->column_fields[$fieldName] = decode_html($fieldValue);
 			}
 		}
+		if (!$recordModel->isNew() && empty($recordModel->changes)) {
+			App\Log::warning('ERR_NO_DATA');
+			//return $recordModel;
+		}
 		$focus->isInventory = $this->isInventory();
 
 		$eventHandler = new App\EventHandler();
@@ -240,7 +244,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
 		$focus->save($moduleName);
 		$recordModel->setId($focus->id);
-
+		//$recordModel->saveToDb();
 		$eventHandler->trigger('EntityAfterSave');
 		$eventHandler->setSystemTrigger('EntityAfterSaveSystem');
 		return $recordModel;
@@ -651,6 +655,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		return $fieldList;
+	}
+
+	public function getFieldsForSave()
+	{
+		$editFields = [];
+		foreach (App\Field::getFieldsPermissions($this->getId(), false) as &$field) {
+			$editFields[] = $field['fieldname'];
+		}
+		$editFields = array_unique(array_merge($editFields, ['assigned_user_id', 'modifiedby', 'modifiedtime']));
+		$saveFields = array_diff($editFields, ['closedtime', 'shownerid']);
+		return $saveFields;
 	}
 
 	/**

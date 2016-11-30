@@ -32,6 +32,16 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Function to get the value for a given key
+	 * @param $key
+	 * @return Value for the given key
+	 */
+	public function get($key)
+	{
+		return isset($this->valueMap[$key]) ? $this->valueMap[$key] : null;
+	}
+
+	/**
 	 * Function to set the id of the record
 	 * @param <type> $value - id value
 	 */
@@ -56,7 +66,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function set($key, $value)
 	{
-		if (!in_array($key, ['mode', 'id'])) {
+		if (!in_array($key, ['mode', 'id', 'newRecord'])) {
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->valueMap[$key] = $value;
@@ -351,6 +361,32 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 		}
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
+	}
+
+	public function saveToDb()
+	{
+		$saveFields = $this->getModule()->getFieldsForSave();
+		$isNew = $this->isNew();
+		if (!$isNew) {
+			$saveFields = array_intersect($saveFields, array_keys($this->changes));
+		}
+		$moduleModel = $this->getModule();
+		$entityInstance = $moduleModel->getEntityModules();
+		$data = [];
+		foreach ($saveFields as &$fieldName) {
+			$fieldModel = $moduleModel->getFieldByName($fieldName);
+			$data[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $fieldModel->getUITypeModel()->getDBValue($this->get($fieldName), $this);
+		}
+		$db = \App\Db::getInstance();
+		foreach ($data as $tableName => $$tableData) {
+			$tablekey = $entityInstance->tab_name_index[$tableName];
+			if ($isNew) {
+				$tableData[$tablekey] = $this->get('newRecord');
+				$db->createCommand()->insert($tableName, $tableData)->execute();
+			} else {
+				$db->createCommand()->update($tableName, $tableData, [$tablekey => $this->getId()])->execute();
+			}
+		}
 	}
 
 	/**

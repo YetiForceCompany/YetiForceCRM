@@ -32,11 +32,12 @@ class Vtiger_DocumentsFolder_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get value for database
+	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @return string
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getDBValue($value)
+	public function getDBValue($value, $recordModel = false)
 	{
 		if (empty($value)) {
 			return 1; //the documents will stored in default folder
