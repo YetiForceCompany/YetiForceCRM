@@ -30,4 +30,17 @@ class Vtiger_DocumentsFolder_UIType extends Vtiger_Base_UIType
 		return (new App\Db\Query())->select(['foldername'])->from('vtiger_attachmentsfolder')
 				->where(['folderid' => $value])->scalar();
 	}
+
+	/**
+	 * Function to get value for database
+	 * @param mixed $value
+	 * @return string
+	 */
+	public function getDBValue($value)
+	{
+		if (empty($value)) {
+			return 1; //the documents will stored in default folder
+		}
+		return $value;
+	}
 }

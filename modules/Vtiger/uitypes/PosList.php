@@ -27,4 +27,17 @@ class Vtiger_PosList_UIType extends Vtiger_Taxes_UIType
 	{
 		return $this->getServers();
 	}
+
+	/**
+	 * Function to get value for database
+	 * @param mixed $value
+	 * @return string
+	 */
+	public function getDBValue($value)
+	{
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		return $value;
+	}
 }

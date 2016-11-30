@@ -109,4 +109,17 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	{
 		return 'uitypes/MultiSelectFieldSearchView.tpl';
 	}
+
+	/**
+	 * Function to get value for database
+	 * @param mixed $value
+	 * @return string
+	 */
+	public function getDBValue($value)
+	{
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		return $value;
+	}
 }

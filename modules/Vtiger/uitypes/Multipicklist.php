@@ -54,6 +54,11 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		return explode(' |##| ', $value);
 	}
 
+	/**
+	 * Function to get value for database
+	 * @param mixed $value
+	 * @return string
+	 */
 	public function getDBValue($value)
 	{
 		if (is_array($value)) {

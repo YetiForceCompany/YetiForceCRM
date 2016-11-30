@@ -476,22 +476,6 @@ class CRMEntity
 					} else {
 						$fldvalue = decode_html($this->column_fields[$fieldname]);
 					}
-				} elseif ($uitype === 8) {
-					$this->column_fields[$fieldname] = rtrim($this->column_fields[$fieldname], ',');
-					$ids = explode(',', $this->column_fields[$fieldname]);
-					$fldvalue = \App\Json::encode($ids);
-				} elseif ($uitype === 12) {
-					// Bulk Sae Mode: Consider the FROM email address as specified, if not lookup
-					$fldvalue = $this->column_fields[$fieldname];
-					if (empty($fldvalue)) {
-						$query = "SELECT email1 FROM vtiger_users WHERE id = ?";
-						$res = $adb->pquery($query, array($currentUser->getId()));
-						$rows = $adb->num_rows($res);
-						if ($rows > 0) {
-							$fldvalue = $adb->query_result($res, 0, 'email1');
-						}
-					}
-					// END
 				} elseif ($uitype === 72 && !$ajaxSave) {
 					// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 					$fldvalue = CurrencyField::convertToDBFormat($this->column_fields[$fieldname], null, true);

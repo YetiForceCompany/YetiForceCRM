@@ -41,4 +41,18 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	{
 		return 'uitypes/BooleanFieldSearchView.tpl';
 	}
+
+	/**
+	 * Function to get value for database
+	 * @param type $value
+	 * @return int
+	 */
+	public function getDBValue($value)
+	{
+		if ($value === 'on' || $value == 1) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 }

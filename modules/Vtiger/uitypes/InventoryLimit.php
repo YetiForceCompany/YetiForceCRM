@@ -61,4 +61,17 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 		}
 		return $limits;
 	}
+
+	/**
+	 * Function to get value for database
+	 * @param mixed $value
+	 * @return string
+	 */
+	public function getDBValue($value)
+	{
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		return $value;
+	}
 }

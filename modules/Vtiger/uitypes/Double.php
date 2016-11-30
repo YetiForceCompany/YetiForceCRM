@@ -29,4 +29,14 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	{
 		return \vtlib\Functions::formatDecimal($value);
 	}
+
+	/**
+	 * Function to get value for database
+	 * @param mixed $value
+	 * @return string
+	 */
+	public function getDBValue($value)
+	{
+		return str_replace(',', '', $value);
+	}
 }

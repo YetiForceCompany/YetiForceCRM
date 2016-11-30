@@ -49,4 +49,22 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 		}
 		return $value;
 	}
+
+	/**
+	 * Function to get value for database
+	 * @param mixed $value
+	 * @return string
+	 */
+	public function getDBValue($value)
+	{
+		if ($value === null) {
+			$fileName = (new App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $this->id])->one();
+			if ($fileName) {
+				return decode_html($fileName);
+			}
+			return $value;
+		} else {
+			return decode_html($value);
+		}
+	}
 }
