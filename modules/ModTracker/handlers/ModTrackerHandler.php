@@ -21,13 +21,32 @@ class ModTracker_ModTrackerHandler_Handler
 	public function entityAfterLink(App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
-		$moduleName = $params['destinationModule'];
-		if (!ModTracker::isTrackingEnabledForModule($moduleName)) {
+		if (!ModTracker::isTrackingEnabledForModule($params['destinationModule'])) {
 			return false;
 		}
 		ModTracker::linkRelation($params['sourceModule'], $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId']);
 		if (AppConfig::module('ModTracker', 'WATCHDOG')) {
 			$watchdogTitle = 'LBL_ADDED';
+			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($params['sourceRecordId']) . '</a>';
+			$watchdogMessage .= ' (translate: [LBL_WITH]) ';
+			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">(general: RecordLabel)</a>';
+			$this->addNotification($eventHandler, $watchdogTitle, $watchdogMessage);
+		}
+	}
+
+	/**
+	 * EntityAfterUnLink handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterUnLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		if (!ModTracker::isTrackingEnabledForModule($params['destinationModule'])) {
+			return false;
+		}
+		ModTracker::unLinkRelation($params['sourceModule'], $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId']);
+		if (AppConfig::module('ModTracker', 'WATCHDOG')) {
+			$watchdogTitle = 'LBL_REMOVED';
 			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($params['sourceRecordId']) . '</a>';
 			$watchdogMessage .= ' (translate: [LBL_WITH]) ';
 			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">(general: RecordLabel)</a>';
@@ -75,8 +94,6 @@ class ModTrackerHandler extends VTEventHandler
 	public function handleEvent($eventName, $data)
 	{
 		$adb = PearDatabase::getInstance();
-
-
 		if (!is_object($data)) {
 			$extendedData = $data;
 			$data = $extendedData['entityData'];
@@ -185,19 +202,6 @@ class ModTrackerHandler extends VTEventHandler
 						$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0,], ['crmid' => $recordId])->execute();
 					}
 					$watchdogTitle = 'LBL_RESTORED';
-
-					break;
-				case 'vtiger.entity.unlink.after':
-
-					$recordId = $extendedData['destinationRecordId'];
-					$moduleName = $extendedData['destinationModule'];
-					ModTracker::unLinkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
-					$watchdogTitle = 'LBL_REMOVED';
-					if (AppConfig::module('ModTracker', 'WATCHDOG')) {
-						$watchdogMessage = '<a href="index.php?module=' . $extendedData['sourceModule'] . '&view=Detail&record=' . $extendedData['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($extendedData['sourceRecordId']) . '</a>';
-						$watchdogMessage .= ' (translate: [LBL_WITH]) ';
-						$watchdogMessage .= '<a href="index.php?module=' . $extendedData['destinationModule'] . '&view=Detail&record=' . $extendedData['destinationRecordId'] . '">(general: RecordLabel)</a>';
-					}
 
 					break;
 				case 'entity.convertlead.after':

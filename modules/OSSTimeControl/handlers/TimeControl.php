@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Time Control Handler Class
  * @package YetiForce.Handlers
@@ -7,6 +6,35 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+vimport('~~modules/com_vtiger_workflow/include.php');
+vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
+vimport('~~include/Webservices/Utils.php');
+vimport('~~include/Webservices/Retrieve.php');
+
+class TimeControl_TimeControl_Handler
+{
+
+	/**
+	 * EntityAfterUnLink handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterUnLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		$db = PearDatabase::getInstance();
+		$wfs = new VTWorkflowManager($db);
+		$workflows = $wfs->getWorkflowsForModule($params['destinationModule'], VTWorkflowManager::$MANUAL);
+		$wsId = vtws_getWebserviceEntityId($params['destinationModule'], $params['destinationRecordId']);
+		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
+		$entityData = $entityCache->forId($wsId);
+		foreach ($workflows as &$workflow) {
+			if ($workflow->evaluate($entityCache, $entityData->getId())) {
+				$workflow->performTasks($entityData);
+			}
+		}
+	}
+}
+
 class TimeControlHandler extends VTEventHandler
 {
 
@@ -20,10 +48,6 @@ class TimeControlHandler extends VTEventHandler
 			if ($eventName == 'vtiger.entity.aftersave.final') {
 				OSSTimeControl_Record_Model::setSumTime($data);
 			}
-			vimport('~~modules/com_vtiger_workflow/include.php');
-			vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
-			vimport('~~include/Webservices/Utils.php');
-			vimport('~~include/Webservices/Retrieve.php');
 			$db = PearDatabase::getInstance();
 			$wfs = new VTWorkflowManager($db);
 			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$MANUAL);
