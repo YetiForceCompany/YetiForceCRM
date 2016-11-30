@@ -262,9 +262,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$focus->trash($moduleName, $recordModel->getId());
 
 		$eventHandler->trigger('EntityAfterDelete');
-		if (method_exists($focus, 'transferRelatedRecords')) {
-			if ($recordModel->get('transferRecordIDs'))
-				$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
+		if (method_exists($focus, 'transferRelatedRecords') && $recordModel->get('transferRecordIDs')) {
+			$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
 
 		vimport('~~modules/com_vtiger_workflow/include.php');

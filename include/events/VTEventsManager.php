@@ -20,28 +20,6 @@ class VTEventsManager
 	}
 
 	/**
-	 * Register an event handler
-	 *
-	 * @param $forEvent The name of the event to handle
-	 * @param $path The path to the php file containing the handler
-	 * @param $className The name of the VTEventHandler class.
-	 * @param $condition A condition which must evaluate true for the event to be accepted.
-	 */
-	function registerHandler($forEvent, $path, $className, $condition = '', $depedentOn = '[]')
-	{
-		$adb = $this->adb;
-		$result = $adb->pquery("SELECT * FROM vtiger_eventhandlers WHERE event_name=? AND handler_path=? AND handler_class=?", array($forEvent, $path, $className));
-		if ($adb->num_rows($result) === 0) {
-			$handlerId = $adb->getUniqueId('vtiger_eventhandlers');
-			$adb->pquery("insert into vtiger_eventhandlers
-					(eventhandler_id, event_name, handler_path, handler_class, cond, is_active, dependent_on)
-					values (?,?,?,?,?, true, ?)", array($handlerId, $forEvent, $path, $className, $condition, $depedentOn));
-
-			$this->clearTriggerCache($forEvent);
-		}
-	}
-
-	/**
 	 * Initialize Event Trigger Cache for the required event types.
 	 *
 	 * @param Object $for Optional String or Array of event_names for initializing.

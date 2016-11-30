@@ -19,11 +19,11 @@ class ProjectTask_ProjectTaskHandler_Handler
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if ($recordModel->getEntity()->mode !== 'edit') {
+		if ($recordModel->isNew()) {
 			Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
 		} else {
 			$delta = $recordModel->getChanges();
-			foreach ($delta as $name => $value) {
+			foreach ($delta as $name => &$value) {
 				if ($name === 'projectmilestoneid' || $name === 'estimated_work_time' || $name === 'projecttaskprogress') {
 					$moduledModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
 					if ($name === 'projectmilestoneid') {

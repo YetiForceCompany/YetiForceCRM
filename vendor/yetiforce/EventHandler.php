@@ -65,6 +65,88 @@ class EventHandler
 	}
 
 	/**
+	 * Register an event handler
+	 * @param string $eventName The name of the event to handle
+	 * @param string $className
+	 * @param string $includeModules
+	 * @param string $excludeModules
+	 * @param int $priority
+	 * @param boolean $isActive
+	 */
+	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true)
+	{
+		$isExists = (new \App\Db\Query())->from('vtiger_eventhandlers')->where(['event_name' => $eventName, 'handler_class' => $className])->exists();
+		if ($isExists) {
+			\App\Db::getInstance()->createCommand()
+				->insert('vtiger_eventhandlers', [
+					'name' => $eventName,
+					'handler_class' => $className,
+					'is_active' => $isActive,
+					'include_modules' => $includeModules,
+					'exclude_modules' => $excludeModules,
+					'priority' => $priority
+				])->execute();
+			static::clearCache();
+		}
+	}
+
+	/**
+	 * Clear cache
+	 */
+	public static function clearCache()
+	{
+		unset(static::$handlerByType);
+		Cache::delete('EventHandler', 'All');
+	}
+
+	/**
+	 * Unregister a registered handler
+	 * @param string $className 
+	 * @param boolean|string $eventName 
+	 */
+	public static function deleteHandler($className, $eventName = false)
+	{
+		$params = ['handler_class' => $className];
+		if ($eventName) {
+			$params['event_name'] = $eventName;
+		}
+		\App\Db::getInstance()->createCommand()->delete('vtiger_eventhandlers', $params)->execute();
+		static::clearCache();
+	}
+
+	/**
+	 * Set an event handler as inactive
+	 * @param string $className 
+	 * @param boolean|string $eventName 
+	 */
+	public static function setInActive($className, $eventName = false)
+	{
+		$params = ['handler_class' => $className];
+		if ($eventName) {
+			$params['event_name'] = $eventName;
+		}
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_eventhandlers', ['is_active' => false], $params)->execute();
+		static::clearCache();
+	}
+
+	/**
+	 * Set an event handler as active
+	 * @param string $className 
+	 * @param boolean|string $eventName 
+	 */
+	public static function setActive($className, $eventName = false)
+	{
+		$params = ['handler_class' => $className];
+		if ($eventName) {
+			$params['event_name'] = $eventName;
+		}
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_eventhandlers', ['is_active' => true], $params)->execute();
+		static::clearCache();
+	}
+
+	/**
 	 * Set record model
 	 * @param \App\Vtiger_Record_Model $recordModel
 	 */
