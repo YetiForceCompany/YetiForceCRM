@@ -55,6 +55,25 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
+	 * DetailViewBefore handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function detailViewBefore(App\EventHandler $eventHandler)
+	{
+		if (!ModTracker::isTrackingEnabledForModule($eventHandler->getModuleName())) {
+			return false;
+		}
+		$recordModel = $eventHandler->getRecordModel();
+		\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_basic', [
+			'crmid' => $recordModel->getId(),
+			'module' => $eventHandler->getModuleName(),
+			'whodid' => \App\User::getCurrentUserRealId(),
+			'changedon' => date('Y-m-d H:i:s'),
+			'status' => ModTracker::$DISPLAYED
+		])->execute();
+	}
+
+	/**
 	 * Add notification
 	 * @param App\EventHandler $eventHandler
 	 * @param string $watchdogTitle
@@ -206,16 +225,6 @@ class ModTrackerHandler extends VTEventHandler
 					break;
 				case 'entity.convertlead.after':
 					// TODU
-					break;
-				case 'vtiger.view.detail.before':
-					$recordId = $data->getId();
-					$db->createCommand()->insert('vtiger_modtracker_basic', [
-						'crmid' => $recordId,
-						'module' => $moduleName,
-						'whodid' => $currentUser->getRealId(),
-						'changedon' => date('Y-m-d H:i:s', time()),
-						'status' => ModTracker::$DISPLAYED
-					])->execute();
 					break;
 			}
 			if (AppConfig::module('ModTracker', 'WATCHDOG') && $watchdogTitle != '') {
