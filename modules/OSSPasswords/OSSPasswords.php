@@ -348,22 +348,7 @@ class OSSPasswords extends CRMEntity
 
 		// register modtracker history updates
 		if ($addModTracker) {
-			$tabId = \App\Module::getModuleId($moduleName);
-			include_once('modules/ModTracker/ModTracker.php');
-			$moduleModTrackerInstance = new ModTracker();
-			if (!$moduleModTrackerInstance->isModulePresent($tabId)) {
-				$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabId, 1));
-				$moduleModTrackerInstance->updateCache($tabId, 1);
-			} else {
-				$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabId));
-				$moduleModTrackerInstance->updateCache($tabId, 1);
-			}
-			if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabId)) {
-				$moduleInstance = vtlib\Module::getInstance($tabId);
-				$moduleInstance->addLink(
-					'DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted')
-				);
-			}
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
 		}
 	}
 }

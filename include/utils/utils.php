@@ -522,30 +522,24 @@ function getRelationTables($module, $secmodule)
  */
 function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
 {
-	$adb = PearDatabase::getInstance();
-
 	\App\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 	require_once('include/events/include.php');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
-		$em = new VTEventsManager($adb);
-		$em->initTriggerCache();
-
-		$data = [];
-		$data['CRMEntity'] = $focus;
-		$data['entityData'] = VTEntityData::fromEntityId($adb, $destinationRecordId);
-		$data['sourceModule'] = $sourceModule;
-		$data['sourceRecordId'] = $sourceRecordId;
-		$data['destinationModule'] = $destinationModule;
-		$data['destinationRecordId'] = $destinationRecordId;
-		$em->triggerEvent('vtiger.entity.unlink.before', $data);
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setModuleName($sourceModule);
+		$eventHandler->setParams([
+			'CRMEntity' => $focus,
+			'sourceModule' => $sourceModule,
+			'sourceRecordId' => $sourceRecordId,
+			'destinationModule' => $destinationModule,
+			'destinationRecordId' => $destinationRecordId,
+		]);
+		$eventHandler->trigger('EntityBeforeUnLink');
 
 		$focus->unlinkRelationship($destinationRecordId, $sourceModule, $sourceRecordId, $relatedName);
 		$focus->trackUnLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 
-		if ($em) {
-			$entityData = VTEntityData::fromEntityId($adb, $destinationRecordId);
-			$em->triggerEvent('vtiger.entity.unlink.after', $data);
-		}
+		$eventHandler->trigger('EntityAfterUnLink');
 	} else {
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
@@ -561,45 +555,25 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
  */
 function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
 {
-	$adb = PearDatabase::getInstance();
-
 	\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
-	require_once('include/events/include.php');
-	//require_once('modules/com_vtiger_workflow/VTWorkflowManager.php');
-	//require_once('modules/com_vtiger_workflow/VTEntityCache.php');
-	$em = new VTEventsManager($adb);
-	$em->initTriggerCache();
 	if (!is_array($destinationRecordIds))
 		$destinationRecordIds = [$destinationRecordIds];
 
-	$data = [];
-	$data['CRMEntity'] = $focus;
-	$data['entityData'] = VTEntityData::fromEntityId($adb, $sourceRecordId);
-	$data['sourceModule'] = $sourceModule;
-	$data['sourceRecordId'] = $sourceRecordId;
-	$data['destinationModule'] = $destinationModule;
-	foreach ($destinationRecordIds as $destinationRecordId) {
+	$data = [
+		'CRMEntity' => $focus,
+		'sourceModule' => $sourceModule,
+		'sourceRecordId' => $sourceRecordId,
+		'destinationModule' => $destinationModule,
+	];
+	$eventHandler = new App\EventHandler();
+	$eventHandler->setModuleName($sourceModule);
+	foreach ($destinationRecordIds as &$destinationRecordId) {
 		$data['destinationRecordId'] = $destinationRecordId;
-		$em->triggerEvent('vtiger.entity.link.before', $data);
+		$eventHandler->setParams($data);
+		$eventHandler->trigger('EntityBeforeLink');
 		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
 		CRMEntity::trackLinkedInfo($sourceRecordId);
-		/*
-		  $wfs = new VTWorkflowManager($adb);
-		  $workflows = $wfs->getWorkflowsForModule($sourceModule, VTWorkflowManager::$ON_RELATED);
-		  $entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
-		  $entityData = VTEntityData::fromCRMEntity($focus);
-		  $entityData->eventType = VTWorkflowManager::$ON_RELATED;
-		  $entityData->relatedInfo = [
-		  'destId' => $destinationRecordId,
-		  'destModule' => $destinationModule,
-		  ];
-		  foreach ($workflows as $id => $workflow) {
-		  if ($workflow->evaluate($entityCache, $entityData->getId())) {
-		  $workflow->performTasks($entityData);
-		  }
-		  }
-		 */
-		$em->triggerEvent('vtiger.entity.link.after', $data);
+		$eventHandler->trigger('EntityAfterLink');
 	}
 	\App\Log::trace("Exiting relateEntities method ...");
 }

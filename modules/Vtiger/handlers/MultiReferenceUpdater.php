@@ -6,24 +6,38 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_MultiReferenceUpdater_Handler extends VTEventHandler
+class Vtiger_MultiReferenceUpdater_Handler
 {
 
-	public function handleEvent($eventName, $entityData)
+	/**
+	 * EntityAfterLink handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterLink(App\EventHandler $eventHandler)
 	{
-		if (in_array($eventName, ['vtiger.entity.link.after', 'vtiger.entity.unlink.after'])) {
-			$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($entityData['sourceModule'], $entityData['destinationModule']);
-			foreach ($fields as $field) {
-				$fieldModel = new Vtiger_Field_Model();
-				$fieldModel->initialize($field);
-				$UITypeModel = $fieldModel->getUITypeModel();
+		$params = $eventHandler->getParams();
+		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
+		foreach ($fields as &$field) {
+			$fieldModel = new Vtiger_Field_Model();
+			$fieldModel->initialize($field);
+			$uitypeModel = $fieldModel->getUITypeModel();
+			$uitypeModel->addValue($params['CRMEntity'], $params['sourceRecordId'], $params['destinationRecordId']);
+		}
+	}
 
-				if ($eventName == 'vtiger.entity.link.after') {
-					$UITypeModel->addValue($entityData['CRMEntity'], $entityData['sourceRecordId'], $entityData['destinationRecordId']);
-				} elseif ($eventName == 'vtiger.entity.unlink.after') {
-					$UITypeModel->removeValue(CRMEntity::getInstance($entityData['sourceModule']), $entityData['sourceRecordId'], $entityData['destinationRecordId']);
-				}
-			}
+	/**
+	 * EntityAfterUnLink handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterUnLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		$fields = Vtiger_MultiReferenceValue_UIType::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
+		foreach ($fields as &$field) {
+			$fieldModel = new Vtiger_Field_Model();
+			$fieldModel->initialize($field);
+			$uitypeModel = $fieldModel->getUITypeModel();
+			$uitypeModel->removeValue(CRMEntity::getInstance($params['sourceModule']), $params['sourceRecordId'], $params['destinationRecordId']);
 		}
 	}
 }

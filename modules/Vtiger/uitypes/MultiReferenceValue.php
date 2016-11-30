@@ -56,18 +56,17 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getFieldsByModules($sourceModule, $destinationModule)
 	{
-		$return = Vtiger_Cache::get('mrvfm-' . $sourceModule, $destinationModule);
-		if (!$return) {
-			$db = PearDatabase::getInstance();
-			$query = sprintf('SELECT * FROM vtiger_field WHERE tabid = ? AND presence <> ? AND vtiger_field.uitype = ? AND fieldparams LIKE \'%s\';', '{"module":"' . $destinationModule . '"%');
-			$result = $db->pquery($query, [vtlib\Functions::getModuleId($sourceModule), 1, 305]);
-			$return = [];
-			while ($field = $db->fetch_array($result)) {
-				$return[] = $field;
-			}
-			Vtiger_Cache::set('mrvfm-' . $sourceModule, $destinationModule, $return);
+		$cacheKey = "$sourceModule,$destinationModule";
+		if (App\Cache::has('mrvfbm', $cacheKey)) {
+			return App\Cache::get('mrvfbm', $cacheKey);
 		}
-		return $return;
+		$fields = (new \App\Db\Query())
+				->from('vtiger_field')
+				->where(['tabid' => App\Module::getModuleId($sourceModule), 'uitype' => 305])
+				->andWhere(['<>', 'presence', 1])
+				->andWhere(['like', 'fieldparams', '{"module":"' . $destinationModule . '"%', false])->column();
+		App\Cache::get('mrvfbm', $cacheKey, $fields, App\Cache::LONG);
+		return $fields;
 	}
 
 	/**

@@ -40,30 +40,25 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		return $commentsList;
 	}
 
-	public static function updateTicketRangeTimeField($entityData, $updateFieldImmediately = false)
+	public static function updateTicketRangeTimeField($recordModel, $updateFieldImmediately = false)
 	{
-		$db = PearDatabase::getInstance();
-		$ticketId = $entityData->getId();
-		$moduleName = $entityData->getModuleName();
-		$status = 'ticketstatus';
-		if (class_exists('VTEntityDelta')) {
-			$vtEntityDelta = new VTEntityDelta();
-			$delta = $vtEntityDelta->getEntityDelta($moduleName, $entityData->getId(), true);
-		}
-		$currentDate = date('Y-m-d H:i:s');
-		if (!$entityData->isNew() && ((is_array($delta) && !empty($delta[$status])) || $updateFieldImmediately)) {
-			if (in_array($entityData->get($status), ['Closed', 'Rejected'])) {
-				$db->pquery('UPDATE vtiger_troubletickets SET `response_time` = NULL WHERE ticketid = ?', [$ticketId]);
-			} else {
-				$db->update('vtiger_troubletickets', ['response_time' => $currentDate], 'ticketid = ?', [$ticketId]);
+		if (!$recordModel->isNew() && ($recordModel->getChanges('ticketstatus') || $updateFieldImmediately)) {
+			$currentDate = date('Y-m-d H:i:s');
+			if (in_array($recordModel->get('ticketstatus'), ['Closed', 'Rejected'])) {
+				$currentDate = null;
 			}
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_troubletickets', [
+					'response_time' => $currentDate,
+					], ['ticketid' => $recordModel->getId()])
+				->execute();
 		}
-		$closedTime = vtlib\Functions::getSingleFieldValue('vtiger_crmentity', 'closedtime', 'crmid', $ticketId);
-		if (!empty($closedTime) && array_key_exists('report_time', $entityData->getData())) {
-			$timeMinutesRange = round(vtlib\Functions::getDateTimeMinutesDiff($entityData->get('createdtime'), $closedTime));
+		$closedTime = $recordModel->get('closedtime');
+		if (!empty($closedTime) && $recordModel->has('report_time')) {
+			$timeMinutesRange = round(vtlib\Functions::getDateTimeMinutesDiff($recordModel->get('createdtime'), $closedTime));
 			if (!empty($timeMinutesRange)) {
 				App\Db::getInstance()->createCommand()
-					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $ticketId])
+					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $recordModel->getId()])
 					->execute();
 			}
 		}

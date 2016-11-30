@@ -56,7 +56,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function set($key, $value)
 	{
-		$this->changes[$key] = $this->get($key);
+		if (!in_array($key, ['mode', 'id'])) {
+			$this->changes[$key] = $this->get($key);
+		}
 		$this->valueMap[$key] = $value;
 		return $this;
 	}
@@ -72,6 +74,19 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$displayName = $this->getDisplayName();
 		}
 		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+	}
+
+	/**
+	 * Get record changes
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getChanges($key = false)
+	{
+		if (!$key) {
+			return $this->changes;
+		}
+		return isset($this->changes[$key]) ? $this->changes[$key] : false;
 	}
 
 	/**

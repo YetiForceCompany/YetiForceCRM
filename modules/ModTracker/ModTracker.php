@@ -87,170 +87,103 @@ class ModTracker
 	 */
 	public function getModTrackerEnabledModules()
 	{
-		$adb = PearDatabase::getInstance();
-		$moduleResult = $adb->pquery('SELECT * FROM vtiger_modtracker_tabs', array());
-		$countModuleResult = $adb->num_rows($moduleResult);
-		for ($i = 0; $i < $countModuleResult; $i++) {
-			$tabId = $adb->query_result($moduleResult, $i, 'tabid');
-			$visible = $adb->query_result($moduleResult, $i, 'visible');
-			self::updateCache($tabId, $visible);
-			if ($visible == 1) {
-				$modules[] = \App\Module::getModuleName($tabId);
+		$rows = (new \App\Db\Query())->from('vtiger_modtracker_tabs')->all();
+		foreach ($rows as &$row) {
+			if ($row['visible'] === 1) {
+				App\Cache::save('isTrackingEnabledForModule', $row['tabid'], true, App\Cache::LONG);
+				$modules[] = \App\Module::getModuleName($row['tabid']);
+			} else {
+				App\Cache::save('isTrackingEnabledForModule', $row['tabid'], false, App\Cache::LONG);
 			}
 		}
 		return $modules;
 	}
 
-	// cache variable
-	public static $__cache_modtracker = array();
-
 	/**
 	 * Invoked to disable tracking for the module.
 	 * @param Integer $tabid
 	 */
-	static function disableTrackingForModule($tabid)
+	public function disableTrackingForModule($tabid)
 	{
 		$db = \App\Db::getInstance();
-		if (!self::isModulePresent($tabid)) {
-			$db->createCommand()
-				->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 0])
-				->execute();
-			self::updateCache($tabid, 0);
+		if (!static::isModulePresent($tabid)) {
+			$db->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 0])->execute();
 		} else {
-			$db->createCommand()
-				->update('vtiger_modtracker_tabs', ['visible' => 0], ['tabid' => $tabid])
-				->execute();
-			self::updateCache($tabid, 0);
+			$db->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 0], ['tabid' => $tabid])->execute();
 		}
-		if (self::isModtrackerLinkPresent($tabid)) {
+		if (static::isModtrackerLinkPresent($tabid)) {
 			$moduleInstance = vtlib\Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAILVIEWBASIC', 'View History');
 		}
 		$db->createCommand()
 			->update('vtiger_field', ['presence' => 1], ['tabid' => $tabid, 'fieldname' => 'was_read'])
 			->execute();
+		App\Cache::save('isTrackingEnabledForModule', $tabid, false, App\Cache::LONG);
 	}
 
 	/**
 	 * Invoked to enable tracking for the module.
 	 * @param Integer $tabid
 	 */
-	static function enableTrackingForModule($tabid)
+	public function enableTrackingForModule($tabid)
 	{
-		if (!self::isModulePresent($tabid)) {
-			\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 1])
-				->execute();
-			self::updateCache($tabid, 1);
+		if (!static::isModulePresent($tabid)) {
+			\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 1])->execute();
 		} else {
-			\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 1], ['tabid' => $tabid])
-				->execute();
-			self::updateCache($tabid, 1);
+			\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 1], ['tabid' => $tabid])->execute();
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])
-			->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])->execute();
+		if (static::isModtrackerLinkPresent($tabid)) {
+			$moduleInstance = vtlib\Module::getInstance($tabid);
+			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
+		}
+		App\Cache::save('isTrackingEnabledForModule', $tabid, true, App\Cache::LONG);
 	}
 
 	/**
 	 * Invoked to check if tracking is enabled or disabled for the module.
 	 * @param String $moduleName
 	 */
-	static function isTrackingEnabledForModule($moduleName)
+	public static function isTrackingEnabledForModule($moduleName)
 	{
-
-		$tracking = Vtiger_Cache::get('isTrackingEnabledForModule', $moduleName);
-		if ($tracking !== false) {
-			return $tracking ? true : false;
-		}
 		$tabId = \App\Module::getModuleId($moduleName);
-		if (!self::getVisibilityForModule($tabid) || self::getVisibilityForModule($tabId) !== 0) {
-			$count = (new \App\Db\Query())
-					->from('vtiger_modtracker_tabs')
-					->where(['vtiger_modtracker_tabs.visible' => 1, 'vtiger_modtracker_tabs.tabid' => $tabId])->count(1);
-			if ($count < 1) {
-				self::updateCache($tabId, 0);
-				Vtiger_Cache::set('isTrackingEnabledForModule', $moduleName, 0);
-				return false;
-			} else {
-				self::updateCache($tabId, 1);
-				Vtiger_Cache::set('isTrackingEnabledForModule', $moduleName, 1);
-				return true;
-			}
-		} else if (self::getVisibilityForModule($tabId) === 0) {
-			Vtiger_Cache::set('isTrackingEnabledForModule', $moduleName, 0);
-			return false;
-		} else {
-			Vtiger_Cache::set('isTrackingEnabledForModule', $moduleName, 1);
-			return true;
+		if (App\Cache::has('isTrackingEnabledForModule', $tabId)) {
+			return App\Cache::get('isTrackingEnabledForModule', $tabId);
 		}
+		$isExists = (new \App\Db\Query())->from('vtiger_modtracker_tabs')
+			->where(['vtiger_modtracker_tabs.visible' => 1, 'vtiger_modtracker_tabs.tabid' => $tabId])
+			->exists();
+		App\Cache::save('isTrackingEnabledForModule', $tabId, $isExists, App\Cache::LONG);
+		return $isExists;
 	}
 
 	/**
 	 * Invoked to check if the module is present in the table or not.
-	 * @param Integer $tabid
+	 * @param int $tabId
 	 */
-	static function isModulePresent($tabid)
+	public static function isModulePresent($tabId)
 	{
-		$adb = PearDatabase::getInstance();
-		if (!self::checkModuleInModTrackerCache($tabid)) {
-			$query = $adb->pquery("SELECT * FROM vtiger_modtracker_tabs WHERE tabid = ?", array($tabid));
-			$rows = $adb->num_rows($query);
-			if ($rows) {
-				$tabid = $adb->query_result($query, 0, 'tabid');
-				$visible = $adb->query_result($query, 0, 'visible');
-				self::updateCache($tabid, $visible);
+		if (!App\Cache::has('isTrackingEnabledForModule', $tabId)) {
+			$row = (new \App\Db\Query())->from('vtiger_modtracker_tabs')->where(['tabid' => $tabId])->one();
+			if ($row) {
+				App\Cache::save('isTrackingEnabledForModule', $tabId, (bool) $row['visible'], App\Cache::LONG);
 				return true;
-			} else
+			} else {
 				return false;
-		} else
-			return true;
+			}
+		}
+		return true;
 	}
 
 	/**
 	 * Invoked to check if ModTracker links are enabled for the module.
 	 * @param Integer $tabid
 	 */
-	static function isModtrackerLinkPresent($tabid)
+	public static function isModtrackerLinkPresent($tabid)
 	{
 		return (new \App\Db\Query())->from('vtiger_links')
 				->where(['linktype' => 'DETAILVIEWBASIC', 'linklabel' => 'View History', 'tabid' => $tabid])
 				->exists();
-	}
-
-	/**
-	 * Invoked to update cache.
-	 * @param Integer $tabid
-	 * @param Boolean $visible
-	 */
-	static function updateCache($tabid, $visible)
-	{
-		self::$__cache_modtracker[$tabid] = array(
-			'tabid' => $tabid,
-			'visible' => $visible
-		);
-	}
-
-	/**
-	 * Invoked to check the ModTracker cache.
-	 * @param Integer $tabid
-	 */
-	static function checkModuleInModTrackerCache($tabid)
-	{
-		if (isset(self::$__cache_modtracker[$tabid])) {
-			return true;
-		} else
-			return false;
-	}
-
-	/**
-	 * Invoked to fetch the visibility for the module from the cache.
-	 * @param Integer $tabid
-	 */
-	static function getVisibilityForModule($tabid)
-	{
-		if (isset(self::$__cache_modtracker[$tabid])) {
-			return self::$__cache_modtracker[$tabid]['visible'];
-		}
-		return false;
 	}
 
 	/**
@@ -283,7 +216,7 @@ class ModTracker
 		}
 
 		if ($limit != false)
-			$query .=" LIMIT $limit";
+			$query .= " LIMIT $limit";
 
 		$result = $adb->pquery($query, $params);
 
@@ -360,7 +293,7 @@ class ModTracker
 		return $output;
 	}
 
-	static function getRecordFieldChanges($crmid, $time, $decodeHTML = false)
+	public static function getRecordFieldChanges($crmid, $time, $decodeHTML = false)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -387,7 +320,7 @@ class ModTracker
 		return $fields;
 	}
 
-	static function isViewPermitted($linkData)
+	public static function isViewPermitted($linkData)
 	{
 		$moduleName = $linkData->getModule();
 		$recordId = $linkData->getInputParameter('record');
@@ -397,7 +330,7 @@ class ModTracker
 		return false;
 	}
 
-	static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
+	public static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
 	{
 		$db = App\Db::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -429,12 +362,12 @@ class ModTracker
 		}
 	}
 
-	static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)
+	public static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$LINK);
 	}
 
-	static function unLinkRelation($sourceModule, $sourceId, $targetModule, $targetId)
+	public static function unLinkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
 	}
