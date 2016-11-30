@@ -8,6 +8,21 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+class PBXManager_PBXManagerHandler_Handler
+{
+
+	/**
+	 * EntityAfterDelete handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterDelete(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$pbxRecordModel = new PBXManager_Record_Model;
+		$pbxRecordModel->deletePhoneLookUpRecord($recordModel->getId());
+	}
+}
+
 class PBXManagerHandler extends VTEventHandler
 {
 
@@ -22,11 +37,6 @@ class PBXManagerHandler extends VTEventHandler
 		if ($eventName == 'vtiger.entity.aftersave') {
 			PBXManagerHandler::handlePhoneLookUpSaveEvent($entityData, $moduleName);
 		}
-
-		if ($eventName == 'vtiger.entity.afterdelete') {
-			PBXManagerHandler::handlePhoneLookupDeleteEvent($entityData);
-		}
-
 		if ($eventName == 'vtiger.entity.afterrestore') {
 			$this->handlePhoneLookUpRestoreEvent($entityData, $moduleName);
 		}
@@ -53,13 +63,6 @@ class PBXManagerHandler extends VTEventHandler
 		}
 	}
 
-	static function handlePhoneLookupDeleteEvent($entityData)
-	{
-		$recordid = $entityData->getId();
-		$recordModel = new PBXManager_Record_Model;
-		$recordModel->deletePhoneLookUpRecord($recordid);
-	}
-
 	protected function handlePhoneLookUpRestoreEvent($entityData, $moduleName)
 	{
 		$recordid = $entityData->getId();
@@ -80,29 +83,6 @@ class PBXManagerHandler extends VTEventHandler
 
 			if ($values[$fieldName])
 				$recordModel->receivePhoneLookUpRecord($fieldName, $values, true);
-		}
-	}
-}
-
-class PBXManagerBatchHandler extends VTEventHandler
-{
-
-	public function handleEvent($eventName, $entityDatas)
-	{
-		foreach ($entityDatas as $entityData) {
-			$moduleName = $entityData->getModuleName();
-
-			$acceptedModule = array('Contacts', 'Accounts', 'Leads');
-			if (!in_array($moduleName, $acceptedModule))
-				return;
-
-			if ($eventName == 'vtiger.batchevent.save') {
-				PBXManagerHandler::handlePhoneLookUpSaveEvent($entityData, $moduleName);
-			}
-
-			if ($eventName == 'vtiger.batchevent.delete') {
-				PBXManagerHandler::handlePhoneLookupDeleteEvent($entityData);
-			}
 		}
 	}
 }

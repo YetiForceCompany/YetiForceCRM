@@ -151,18 +151,13 @@ class PBXManager extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$EventManager = new VTEventsManager($adb);
 		$createEvent = 'vtiger.entity.aftersave';
-		$deleteEVent = 'vtiger.entity.afterdelete';
+		$deleteEVent = 'EntityAfterDelete';
 		$restoreEvent = 'vtiger.entity.afterrestore';
-		$batchSaveEvent = 'vtiger.batchevent.save';
-		$batchDeleteEvent = 'vtiger.batchevent.delete';
 		$handler_path = 'modules/PBXManager/handlers/PBXManagerHandler.php';
-		$className = 'PBXManagerHandler';
-		$batchEventClassName = 'PBXManagerBatchHandler';
+		$className = 'PBXManager_PBXManagerHandler_Handler';
 		$EventManager->registerHandler($createEvent, $handler_path, $className, '', '["VTEntityDelta"]');
 		$EventManager->registerHandler($deleteEVent, $handler_path, $className);
 		$EventManager->registerHandler($restoreEvent, $handler_path, $className);
-		$EventManager->registerHandler($batchSaveEvent, $handler_path, $batchEventClassName);
-		$EventManager->registerHandler($batchDeleteEvent, $handler_path, $batchEventClassName);
 		\App\Log::error('Lookup Events Registered');
 	}
 

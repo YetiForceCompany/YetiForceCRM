@@ -176,8 +176,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$moduleMeta = $moduleHandler->getMeta();
 		$moduleObjectId = $moduleMeta->getEntityId();
 		$moduleFields = $moduleMeta->getModuleFields();
-
-		$entityData = [];
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
 		$sql = 'SELECT * FROM %s  WHERE temp_status = %s';
 		$sql = sprintf($sql, $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
@@ -358,8 +356,12 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$this->updateImportStatus($rowId, $entityInfo);
 		}
 		if (empty($handlerOn) && $this->entityData) {
-			$entity = new VTEventsManager($adb);
-			$entity->triggerEvent('vtiger.batchevent.save', $this->entityData);
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setModuleName($moduleName);
+			$eventHandler->setParams([
+				'rows' => $this->entityData,
+			]);
+			$eventHandler->trigger('EntityImportSave');
 		}
 		$this->entityData = null;
 		$result = null;
@@ -759,7 +761,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$focus = $recordModel->getEntity();
 		$focus->id = $recordId;
 		$focus->column_fields = $fieldData;
-		$this->entityData[] = VTEntityData::fromCRMEntity($focus);
+		$recordModel->setId($recordId);
+		$this->entityData[] = $recordModel;
 		$focus->updateMissingSeqNumber($moduleName);
 		return $entityIdInfo;
 	}

@@ -253,8 +253,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function deleteRecord($recordModel)
 	{
 		$moduleName = $this->get('name');
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($recordModel);
+		$eventHandler->setModuleName($moduleName);
+		$eventHandler->trigger('EntityBeforeDelete');
+
 		$focus = $this->getEntityInstance();
 		$focus->trash($moduleName, $recordModel->getId());
+
+		$eventHandler->trigger('EntityAfterDelete');
 		if (method_exists($focus, 'transferRelatedRecords')) {
 			if ($recordModel->get('transferRecordIDs'))
 				$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());

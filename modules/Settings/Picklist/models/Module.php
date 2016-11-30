@@ -56,9 +56,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		}
 		if ($fieldModel->isRoleBased() && !empty($rolesSelected)) {
 			$picklistid = (new \App\Db\Query())->select(['picklistid'])
-					->from('vtiger_picklist')
-					->where(['name' => $pickListFieldName])
-					->scalar();
+				->from('vtiger_picklist')
+				->where(['name' => $pickListFieldName])
+				->scalar();
 			//add the picklist values to the selected roles
 			foreach ($rolesSelected as $roleid) {
 				$sortid = (new \App\Db\Query())->from('vtiger_role2picklist')
@@ -87,22 +87,22 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		//so we are checking for both the values
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 		$db->createCommand()->update($this->getPickListTableName($pickListFieldName), [$pickListFieldName => $newValue], [$primaryKey => $id])
-				->execute();
+			->execute();
 		while ($row = $dataReader->read()) {
 			$columnName = $row['columnname'];
 			$db->createCommand()->update($row['tablename'], [$columnName => $newValue], [$columnName => $oldValue])->execute();
 		}
 		$db->createCommand()->update('vtiger_field', ['defaultvalue' => $newValue], ['defaultvalue' => $oldValue, 'columnname' => $columnName])->execute();
-		vimport('include/utils/CommonUtils.php');
 		$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName])->execute();
-		$em = new VTEventsManager($db);
-		$data = [];
-		$data['fieldname'] = $pickListFieldName;
-		$data['oldvalue'] = $oldValue;
-		$data['newvalue'] = $newValue;
-		$data['module'] = $moduleName;
-		$em->triggerEvent('vtiger.picklist.afterrename', $data);
-
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setParams([
+			'fieldname' => $pickListFieldName,
+			'oldvalue' => $oldValue,
+			'newvalue' => $newValue,
+			'module' => $moduleName,
+			'id' => $id,
+		]);
+		$eventHandler->trigger('PicklistAfterRename');
 		return true;
 	}
 
@@ -141,12 +141,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			}
 			$db->delete('vtiger_role2picklist', 'picklistvalueid IN (' . generateQuestionMarks($picklistValueIdToDelete) . ')', $picklistValueIdToDelete);
 		}
-
 		$db->delete($this->getPickListTableName($pickListFieldName), $primaryKey . ' IN (' . generateQuestionMarks($valueToDeleteId) . ')', $valueToDeleteId);
-
-		vimport('include/utils/CommonUtils.php');
 		$adb->createCommand()->delete('vtiger_picklist_dependency', ['sourcevalue' => $pickListValues, 'sourcefield' => $pickListFieldName])
-				->execute();
+			->execute();
 
 		$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname'])
 				->from('vtiger_field')
@@ -156,18 +153,18 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
 			$adb->createCommand()->update($tableName, [$columnName => $replaceValue], [$columnName => $pickListValues])
-					->execute();
+				->execute();
 		}
 		$adb->createCommand()->update('vtiger_field', ['defaultvalue' => $replaceValue], ['defaultvalue' => $pickListValues, 'columnname' => $columnName])
-					->execute();
-		$em = new VTEventsManager($db);
-		$data = [];
-		$data['fieldname'] = $pickListFieldName;
-		$data['valuetodelete'] = $pickListValues;
-		$data['replacevalue'] = $replaceValue;
-		$data['module'] = $moduleName;
-		$em->triggerEvent('vtiger.picklist.afterdelete', $data);
-
+			->execute();
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setParams([
+			'fieldname' => $pickListFieldName,
+			'valuetodelete' => $pickListValues,
+			'replacevalue' => $replaceValue,
+			'module' => $moduleName
+		]);
+		$eventHandler->trigger('PicklistAfterDelete');
 		return true;
 	}
 
@@ -248,18 +245,18 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	public static function getPicklistSupportedModules()
 	{
 		$dataReader = (new App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])
-			->from('vtiger_tab')
-			->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where([
-				'and',
-				['uitype' => [15, 33, 16]],
-				['NOT IN', 'vtiger_field.tabid', [29, 10]],
-				['<>', 'vtiger_tab.presence', 1],
-				['vtiger_field.presence' => [0, 2]],
-				['<>', 'vtiger_field.columnname', 'taxtype']
-		])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-			->distinct()
-			->createCommand()->query();
+				->from('vtiger_tab')
+				->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
+				->where([
+					'and',
+						['uitype' => [15, 33, 16]],
+						['NOT IN', 'vtiger_field.tabid', [29, 10]],
+						['<>', 'vtiger_tab.presence', 1],
+						['vtiger_field.presence' => [0, 2]],
+						['<>', 'vtiger_field.columnname', 'taxtype']
+				])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
+				->distinct()
+				->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];

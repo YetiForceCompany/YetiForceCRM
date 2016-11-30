@@ -184,11 +184,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		} else {
 			vglobal('VTIGER_BULK_SAVE_MODE', false);
 		}
-		list($noOfRecords, $noOfRecordsDeleted, $entityData) = $this->undoRecords($type, $moduleName);
-		if (empty($type)) {
-			$entity = new VTEventsManager($db);
-			$entity->triggerEvent('vtiger.batchevent.delete', $entityData);
-		}
+		list($noOfRecords, $noOfRecordsDeleted) = $this->undoRecords($type, $moduleName);
 		vglobal('VTIGER_BULK_SAVE_MODE', $previousBulkSaveMode);
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
@@ -199,30 +195,23 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 	public function undoRecords($type, $moduleName)
 	{
-		$db = PearDatabase::getInstance();
 		$user = Users_Record_Model::getCurrentUserModel();
 		$dbTableName = Import_Utils_Helper::getDbTableName($user);
-		$query = "SELECT recordid FROM $dbTableName WHERE temp_status = ? && recordid IS NOT NULL";
-		$result = $db->pquery($query, array(Import_Data_Action::$IMPORT_RECORD_CREATED));
-		$noOfRecords = $db->getRowCount($result);
-		$noOfRecordsDeleted = 0;
-		$entityData = [];
-		for ($i = 0; $i < $noOfRecords; $i++) {
-			$recordId = $db->query_result($result, $i, 'recordid');
-			if (isRecordExists($recordId)) {
+		$query = (new \App\Db\Query())->select(['recordid'])->from($dbTableName)->where(['temp_status' => Import_Data_Action::$IMPORT_RECORD_CREATED, 'recordid' => null]);
+		$dataReader = $query->createCommand()->query();
+		$noOfRecords = $noOfRecordsDeleted = 0;
+		$rows = [];
+		while ($recordId = $dataReader->readColumn(0)) {
+			if (App\Record::isExists($recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 				if ($recordModel->isDeletable()) {
 					$recordModel->delete();
-					if (empty($type)) {
-						$focus = $recordModel->getEntity();
-						$focus->id = $recordId;
-						$entityData[] = VTEntityData::fromCRMEntity($focus);
-					}
 					$noOfRecordsDeleted++;
 				}
 			}
+			$noOfRecords++;
 		}
-		return [$noOfRecords, $noOfRecordsDeleted, $entityData];
+		return [$noOfRecords, $noOfRecordsDeleted];
 	}
 
 	public function lastImportedRecords(Vtiger_Request $request)

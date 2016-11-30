@@ -33,6 +33,26 @@ class TimeControl_TimeControl_Handler
 			}
 		}
 	}
+
+	/**
+	 * EntityAfterDelete handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterDelete(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$db = PearDatabase::getInstance();
+		$wfs = new VTWorkflowManager($db);
+		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
+		$wsId = vtws_getWebserviceEntityId($eventHandler->getModuleName(), $recordModel->getId());
+		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
+		$entityData = $entityCache->forId($wsId);
+		foreach ($workflows as &$workflow) {
+			if ($workflow->evaluate($entityCache, $entityData->getId())) {
+				$workflow->performTasks($entityData);
+			}
+		}
+	}
 }
 
 class TimeControlHandler extends VTEventHandler
@@ -44,7 +64,7 @@ class TimeControlHandler extends VTEventHandler
 			$data = $data['entityData'];
 		}
 		$moduleName = $data->getModuleName();
-		if ($moduleName == 'OSSTimeControl' && in_array($eventName, ['vtiger.entity.aftersave.final', 'vtiger.entity.afterrestore', 'vtiger.entity.afterdelete'])) {
+		if ($moduleName == 'OSSTimeControl' && in_array($eventName, ['vtiger.entity.aftersave.final', 'vtiger.entity.afterrestore'])) {
 			if ($eventName == 'vtiger.entity.aftersave.final') {
 				OSSTimeControl_Record_Model::setSumTime($data);
 			}
@@ -56,13 +76,6 @@ class TimeControlHandler extends VTEventHandler
 			$wsId = vtws_getWebserviceEntityId($moduleName, $data->getId());
 			$entityCache = new VTEntityCache($currentUser);
 			$entityData = $entityCache->forId($wsId);
-			if ($eventName == 'vtiger.entity.afterdelete' && !$entityData->getData()) {
-				$entityData->data = $data->getData();
-				$entityData->data['id'] = $wsId;
-				$entityData->id = $wsId;
-				$entityData->mode = 'delete';
-				$entityData->moduleName = $moduleName;
-			}
 			foreach ($workflows as $id => $workflow) {
 				if ($workflow->evaluate($entityCache, $entityData->getId())) {
 					$workflow->performTasks($entityData);

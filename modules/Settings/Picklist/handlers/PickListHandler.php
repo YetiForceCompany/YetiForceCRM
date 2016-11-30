@@ -1,18 +1,24 @@
 <?php
 
-class PickListHandler extends VTEventHandler
+class Settings_Picklist_PickListHandler_Handler
 {
 
-	public function handleEvent($eventName, $entityData)
+	/**
+	 * PicklistAfterRename handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function picklistAfterRename(App\EventHandler $eventHandler)
 	{
-		$adb = PearDatabase::getInstance();
-		
+		$this->operationsAfterPicklistRename($eventHandler->getParams());
+	}
 
-		if ($eventName == 'vtiger.picklist.afterrename') {
-			$this->operationsAfterPicklistRename($entityData);
-		} elseif ($eventName == 'vtiger.picklist.afterdelete') {
-			$this->operationsAfterPicklistDelete($entityData);
-		}
+	/**
+	 * PicklistAfterDelete handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function picklistAfterDelete(App\EventHandler $eventHandler)
+	{
+		$this->operationsAfterPicklistDelete($eventHandler->getParams());
 	}
 
 	/**
@@ -87,13 +93,13 @@ class PickListHandler extends VTEventHandler
 
 		//update Workflows values
 		$dataReader = (new \App\Db\Query())->select(['workflow_id', 'test'])->from('com_vtiger_workflows')->where([
-			'and',
-			['module_name' => $moduleName],
-			['<>', 'test', ''],
-			['not', ['test' => null]],
-			['<>', 'test', 'null'],
-			['like', 'test', $oldValue]
-		])->createCommand()->query();
+				'and',
+					['module_name' => $moduleName],
+					['<>', 'test', ''],
+					['not', ['test' => null]],
+					['<>', 'test', 'null'],
+					['like', 'test', $oldValue]
+			])->createCommand()->query();
 
 		while ($row = $dataReader->read()) {
 			$condition = decode_html($row['test']);
@@ -114,7 +120,7 @@ class PickListHandler extends VTEventHandler
 				}
 				$condtion = \App\Json::encode($decodedArrayConditions);
 				$adb->createCommand()->update('com_vtiger_workflows', ['test' => $condtion], ['workflow_id' => $row['workflow_id']])
-						->execute();
+					->execute();
 			}
 		}
 
@@ -244,13 +250,13 @@ class PickListHandler extends VTEventHandler
 		foreach ($valueToDelete as $value) {
 			//update Workflows values
 			$dataReader = (new \App\Db\Query())->select(['workflow_id', 'test'])->from('com_vtiger_workflows')->where([
-				'and',
-				['module_name' => $moduleName],
-				['<>', 'test', ''],
-				['not', ['test' => null]],
-				['<>', 'test', 'null'],
-				['like', 'test', $value]
-			])->createCommand()->query();
+					'and',
+						['module_name' => $moduleName],
+						['<>', 'test', ''],
+						['not', ['test' => null]],
+						['<>', 'test', 'null'],
+						['like', 'test', $value]
+				])->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$condition = decode_html($row['test']);
 				$decodedArrayConditions = \App\Json::decode($condition);
