@@ -61,6 +61,33 @@ Settings_Vtiger_List_Js("Settings_LoginHistory_List_Js",{},{
 		return pageJumpParams;
 	},
 	
+	updatePagination: function (pageNumber) {
+		pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
+		var thisInstance = this;
+		var cvId = thisInstance.getCurrentCvId();
+		var params = {};
+		params['module'] = app.getModuleName();
+		if ('Settings' == app.getParentModuleName())
+			params['parent'] = 'Settings';
+		params['view'] = 'Pagination';
+		params['viewname'] = cvId;
+		params['page'] = pageNumber;
+		params['mode'] = 'getPagination';
+		params['sourceModule'] = jQuery('#moduleFilter').val();
+		params['totalCount'] = $('.pagination').data('totalCount');
+
+		params['search_key'] = 'user_name';
+		params['search_value'] = jQuery('#usersFilter').val();
+		params['operator'] = 's';
+
+		params['noOfEntries'] = jQuery('#noOfEntries').val();
+		AppConnector.request(params).then(function (data) {
+			jQuery('.paginationDiv').html(data);
+			thisInstance.registerPageNavigationEvents();
+
+		});
+	},
+	
 	registerEvents : function() {
 		this.registerFilterChangeEvent();
 		this.registerPageNavigationEvents();

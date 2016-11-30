@@ -31,7 +31,7 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$usersListArray = [];
 		$dataReader = (new \App\Db\Query())->select('user_name')
-				->from('vtiger_loginhistory')
+				->from('vtiger_users')->where(['deleted' => 0])
 				->createCommand()->query();
 		while ($userName = $dataReader->readColumn(0)) {
 			$usersListArray[$userName] = $userName;
