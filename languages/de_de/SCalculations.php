@@ -6,7 +6,7 @@ $languageStrings = [
 	//BLOCKS
 	'LBL_SCALCULATIONS_INFORMATION' => 'Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibung Details',
+	'LBL_DESCRIPTION_INFORMATION' => 'Details',
 	'LBL_STATISTICS' => 'Statistik',
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',

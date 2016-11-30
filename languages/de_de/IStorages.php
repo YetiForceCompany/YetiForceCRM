@@ -3,7 +3,7 @@
 $languageStrings = [
 	'IStorages' => 'Lager',
 	'SINGLE_IStorages' => 'Lager',
-	'LBL_DESCRIPTION_BLOCK' => 'Besschreibung',
+	'LBL_DESCRIPTION_BLOCK' => 'Beschreibung',
 	'LBL_ATTENTION_BLOCK' => 'Kommentare',
 	'FL_PARENT_STORAGE' => 'Hauptlager',
 	'FL_SUBJECT' => 'Betreff',

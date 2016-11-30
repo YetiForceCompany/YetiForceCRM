@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_SEARCH_IN_RADIUS' => 'Suche im Umkreis',
 	'LBL_COPY_TO_CLIPBOARD' => 'In die Zwischenablage kopieren',
 	'LBL_CLIPBOARD' => 'Zwischenablage',
-	'LBL_INDIRECT_POINT' => 'Indirekte Punkt',
+	'LBL_INDIRECT_POINT' => 'Indirekter Punkt',
 	//Errors
-	'ERR_ADDRESS_NOT_FOUND' => 'Address not found',
+	'ERR_ADDRESS_NOT_FOUND' => 'Addresse nicht gefunden',
 ];
