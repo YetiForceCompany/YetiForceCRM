@@ -42,7 +42,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 
 	public static function updateTicketRangeTimeField($recordModel, $updateFieldImmediately = false)
 	{
-		if (!$recordModel->isNew() && ($recordModel->getChanges('ticketstatus') || $updateFieldImmediately)) {
+		if (!$recordModel->isNew() && ($recordModel->getPreviousValue('ticketstatus') || $updateFieldImmediately)) {
 			$currentDate = date('Y-m-d H:i:s');
 			if (in_array($recordModel->get('ticketstatus'), ['Closed', 'Rejected'])) {
 				$currentDate = null;

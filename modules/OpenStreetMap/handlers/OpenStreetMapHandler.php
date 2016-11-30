@@ -20,11 +20,11 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 		];
 		$typeAddressToUpdate = [];
 		$recordModel = $eventHandler->getRecordModel();
-		if ($recordModel->getEntity()->mode === 'edit') {
-			$deltaFields = array_keys($recordModel->getChanges());
-			foreach ($deltaFields as $deltaField) {
-				if ($recordModel->getChanges($deltaField) != $recordModel->get($deltaField)) {
-					foreach ($fieldAddress as $field) {
+		if (!$recordModel->isNew()) {
+			$deltaFields = array_keys($recordModel->getPreviousValue());
+			foreach ($deltaFields as &$deltaField) {
+				if ($recordModel->getPreviousValue($deltaField) !== $recordModel->get($deltaField)) {
+					foreach ($fieldAddress as &$field) {
 						if (strpos($deltaField, $field) !== false) {
 							$typeAddressToUpdate [] = substr($deltaField, -1);
 						}
@@ -32,7 +32,7 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 				}
 			}
 		}
-		foreach (['a', 'b', 'c'] as $typeAddress) {
+		foreach (['a', 'b', 'c'] as &$typeAddress) {
 			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->getEntity()->mode !== 'edit' || in_array($typeAddress, $typeAddressToUpdate))) {
 				$isCoordinateExists = (new App\Db\Query())
 					->from('u_#__openstreetmap_record_updater')

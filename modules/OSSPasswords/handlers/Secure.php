@@ -12,12 +12,14 @@
 
 class OSSPasswords_Secure_Handler
 {
+
 	/**
 	 * EntityAfterSave handler function
 	 * @param App\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler){
-		if ($eventHandler->getRecordModel()->getChanges('password')) {
+	public function entityAfterSave(App\EventHandler $eventHandler)
+	{
+		if ($eventHandler->getRecordModel()->getPreviousValue('password')) {
 			$result = (new \App\Db\Query())->select(['basic.id'])->from('vtiger_modtracker_basic basic')
 					->leftJoin('vtiger_modtracker_detail detail', 'basic.id = detail.id')
 					->where(['basic.module' => $eventHandler->getModuleName(), 'basic.whodid' => \App\User::getCurrentUserId(), 'detail.fieldname' => 'password'])

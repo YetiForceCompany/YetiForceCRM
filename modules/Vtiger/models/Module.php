@@ -274,7 +274,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$wsId = vtws_getWebserviceEntityId($moduleName, $recordModel->getId());
 			$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
 			$entityData = $entityCache->forId($wsId);
-			foreach ($workflows as $id => $workflow) {
+			foreach ($workflows as $id => &$workflow) {
 				if ($workflow->evaluate($entityCache, $entityData->getId())) {
 					$workflow->performTasks($entityData);
 				}

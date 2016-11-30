@@ -22,7 +22,7 @@ class ProjectTask_ProjectTaskHandler_Handler
 		if ($recordModel->isNew()) {
 			Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
 		} else {
-			$delta = $recordModel->getChanges();
+			$delta = $recordModel->getPreviousValue();
 			foreach ($delta as $name => &$value) {
 				if ($name === 'projectmilestoneid' || $name === 'estimated_work_time' || $name === 'projecttaskprogress') {
 					$moduledModel = Vtiger_Module_Model::getInstance('ProjectMilestone');

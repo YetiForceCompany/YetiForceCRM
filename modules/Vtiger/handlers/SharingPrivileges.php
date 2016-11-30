@@ -20,7 +20,7 @@ class Vtiger_SharingPrivileges_Handler
 			return false;
 		}
 		$recordModel = $eventHandler->getRecordModel();
-		$removeUser = $recordModel->getChanges('assigned_user_id');
+		$removeUser = $recordModel->getPreviousValue('assigned_user_id');
 		if ($removeUser) {
 			$addUser = $recordModel->get('assigned_user_id');
 			$recordsByModule = Users_Privileges_Model::getSharedRecordsRecursively($recordModel->getId(), $recordModel->getModuleName());

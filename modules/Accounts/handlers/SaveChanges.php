@@ -16,7 +16,7 @@ class Accounts_SaveChanges_Handler
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if ($recordModel->getChanges('active') != $recordModel->get('active')) {
+		if ($recordModel->getPreviousValue('active') != $recordModel->get('active')) {
 			$isExists = (new \App\Db\Query())->from('u_#__crmentity_last_changes')
 				->where(['crmid' => $recordModel->getId(), 'fieldname' => 'active'])
 				->exists();

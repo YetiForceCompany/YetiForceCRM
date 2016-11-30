@@ -77,11 +77,11 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Get record changes
+	 * Get pevious value by field
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function getChanges($key = false)
+	public function getPreviousValue($key = false)
 	{
 		if (!$key) {
 			return $this->changes;

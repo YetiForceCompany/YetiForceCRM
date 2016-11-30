@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class IStorages_RecalculateStockHandler_Handler 
+class IStorages_RecalculateStockHandler_Handler
 {
 
 	/**
@@ -31,7 +31,7 @@ class IStorages_RecalculateStockHandler_Handler
 			}
 			$this->getInventoryDataAndSend($recordModel, 'add');
 		} else {
-			$delta = $recordModel->getChanges($status);
+			$delta = $recordModel->getPreviousValue($status);
 			if ($delta && 'PLL_ACCEPTED' === $delta) {
 				if (isset($correctionModules[$moduleName])) {
 					$this->getInventoryDataAndSend($relatedModuleRecordModel, 'add');
