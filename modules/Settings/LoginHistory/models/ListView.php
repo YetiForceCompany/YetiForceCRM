@@ -23,9 +23,8 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$value = $this->get('search_value');
 		if (!empty($search_key) && !empty($value)) {
 			if ('other' === $value) {
-				$loginHistoryRecordModel = new Settings_LoginHistory_Record_Model();
-				$usersList = $loginHistoryRecordModel->getAccessibleUsers();
-				$query->where(['not in', "$module->baseTable.$search_key", $usersList]);
+				$subQuery = (new \App\Db\Query())->select('user_name')->from('vtiger_users');
+				$query->where(['not in', "$module->baseTable.$search_key", $subQuery]);
 			} else
 				$query->where(["$module->baseTable.$search_key" => $value]);
 		}
