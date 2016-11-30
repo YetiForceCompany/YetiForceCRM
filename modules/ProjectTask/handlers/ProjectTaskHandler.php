@@ -9,39 +9,51 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ProjectTaskHandler extends VTEventHandler
+class ProjectTask_ProjectTaskHandler_Handler
 {
 
-	public function handleEvent($eventName, $data)
+	/**
+	 * EntityAfterSave handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
-		$moduleName = $data->getModuleName();
-		if ($eventName == 'vtiger.entity.aftersave.final' && $moduleName == 'ProjectTask') {
-			$recordId = $data->getId();
-			if ($data->isNew()) {
-				$recordModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
-				$recordModel->updateProgressMilestone($data->get('projectmilestoneid'));
-			} else {
-				vimport('include.events.VTEntityDelta');
-				$vtEntityDelta = new VTEntityDelta();
-				$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
-				foreach ($delta as $name => $value) {
-					if ($name == 'projectmilestoneid' || $name == 'estimated_work_time' || $name == 'projecttaskprogress') {
-						$recordModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
-						if ($name == 'projectmilestoneid') {
-							$recordModel->updateProgressMilestone($value['currentValue']);
-							$recordModel->updateProgressMilestone($value['oldValue']);
-						} else {
-							$recordModel->updateProgressMilestone($data->get('projectmilestoneid'));
-						}
+		$recordModel = $eventHandler->getRecordModel();
+		if ($recordModel->getEntity()->mode !== 'edit') {
+			Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($recordModel->get('projectmilestoneid'));
+		} else {
+			$delta = $recordModel->getChanges();
+			foreach ($delta as $name => $value) {
+				if ($name === 'projectmilestoneid' || $name === 'estimated_work_time' || $name === 'projecttaskprogress') {
+					$moduledModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
+					if ($name === 'projectmilestoneid') {
+						$moduledModel->updateProgressMilestone($recordModel->get($name));
+						$moduledModel->updateProgressMilestone($value);
+					} else {
+						$moduledModel->updateProgressMilestone($recordModel->get('projectmilestoneid'));
 					}
 				}
 			}
-		} elseif ($eventName == 'vtiger.entity.afterdelete' && $moduleName == 'ProjectTask') {
-			$recordModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
-			$recordModel->updateProgressMilestone($data->get('projectmilestoneid'));
-		} elseif ($eventName == 'vtiger.entity.afterrestore' && $moduleName == 'ProjectTask') {
-			$recordModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
-			$recordModel->updateProgressMilestone($data->get('projectmilestoneid'));
 		}
+	}
+
+	/**
+	 * EntityAfterDelete handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterDelete(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$recordModel->getModule()->updateProgressMilestone($recordModel->get('projectmilestoneid'));
+	}
+
+	/**
+	 * EntityAfterRestore handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterRestore(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$recordModel->getModule()->updateProgressMilestone($recordModel->get('projectmilestoneid'));
 	}
 }

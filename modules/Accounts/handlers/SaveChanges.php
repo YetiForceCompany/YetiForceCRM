@@ -6,26 +6,29 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class SaveChanges extends VTEventHandler
+class Accounts_SaveChanges_Handler
 {
 
-	public function handleEvent($eventName, $data)
+	/**
+	 * EntityAfterSave handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
-		$vtEntityDelta = new VTEntityDelta();
-		$delta = $vtEntityDelta->getEntityDelta($data->getModuleName(), $data->getId(), true);
-		if (isset($delta['active'])) {
+		$recordModel = $eventHandler->getRecordModel();
+		if ($recordModel->getChanges('active') != $recordModel->get('active')) {
 			$isExists = (new \App\Db\Query())->from('u_#__crmentity_last_changes')
-					->where(['crmid' => $data->getId(), 'fieldname' => 'active'])
-					->exists();
+				->where(['crmid' => $recordModel->getId(), 'fieldname' => 'active'])
+				->exists();
 			if ($isExists) {
 				App\Db::getInstance()->createCommand()->update('u_#__crmentity_last_changes', [
 					'date_updated' => date('Y-m-d H:i:s'),
 					'user_id' => App\User::getCurrentUserId(),
-					], ['crmid' => $data->getId(), 'fieldname' => 'active'])->execute();
+					], ['crmid' => $recordModel->getId(), 'fieldname' => 'active'])->execute();
 			} else {
 				App\Db::getInstance()->createCommand()->insert('u_#__crmentity_last_changes', [
 					'user_id' => App\User::getCurrentUserId(),
-					'crmid' => $data->getId(),
+					'crmid' => $recordModel->getId(),
 					'fieldname' => 'active',
 					'date_updated' => date('Y-m-d H:i:s'),
 				])->execute();

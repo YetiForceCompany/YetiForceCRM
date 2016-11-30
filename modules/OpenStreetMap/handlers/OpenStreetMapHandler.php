@@ -6,50 +6,49 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMapHandler extends VTEventHandler
+class OpenStreetMap_OpenStreetMapHandler_Handler
 {
 
-	public function handleEvent($eventName, $data)
+	/**
+	 * EntityAfterSave handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$fieldAddress = [
 			'addresslevel', 'buildingnumber', 'localnumber', 'pobox'
 		];
-		$moduleName = $data->getModuleName();
-		$recordModel = Vtiger_Record_Model::getInstanceByEntity($data->focus, $data->getId());
 		$typeAddressToUpdate = [];
-		if ($data->focus->mode === 'edit') {
-			$vtEntityDelta = new VTEntityDelta();
-			$delta = $vtEntityDelta->getEntityDelta($moduleName, $data->getId(), true);
-			$deltaFields = array_keys($delta);
+		$recordModel = $eventHandler->getRecordModel();
+		if ($recordModel->getEntity()->mode === 'edit') {
+			$deltaFields = array_keys($recordModel->getChanges());
 			foreach ($deltaFields as $deltaField) {
-				foreach ($fieldAddress as $field) {
-					if (strpos($deltaField, $field) !== false) {
-						$typeAddressToUpdate [] = substr($deltaField, -1);
+				if ($recordModel->getChanges($deltaField) != $recordModel->get($deltaField)) {
+					foreach ($fieldAddress as $field) {
+						if (strpos($deltaField, $field) !== false) {
+							$typeAddressToUpdate [] = substr($deltaField, -1);
+						}
 					}
 				}
 			}
 		}
 		foreach (['a', 'b', 'c'] as $typeAddress) {
-			if (!$recordModel->isEmpty('addresslevel5'.$typeAddress) && ($data->focus->mode !== 'edit' || in_array($typeAddress,
-					$typeAddressToUpdate))) {
+			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->getEntity()->mode !== 'edit' || in_array($typeAddress, $typeAddressToUpdate))) {
 				$isCoordinateExists = (new App\Db\Query())
 					->from('u_#__openstreetmap_record_updater')
-					->where(['type' => $typeAddress, 'crmid' => $data->getId()])
+					->where(['type' => $typeAddress, 'crmid' => $recordModel->getId()])
 					->exists();
 				$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 				$address = $coordinatesModel->getUrlParamsToSearching($recordModel, $typeAddress);
 				if (!$isCoordinateExists) {
-					App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater',
-						[
-						'crmid' => $data->getId(),
+					App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater', [
+						'crmid' => $recordModel->getId(),
 						'type' => $typeAddress,
 						'address' => \App\Json::encode($address)
 					])->execute();
 				} else {
 					App\Db::getInstance()->createCommand()
-						->update('u_#__openstreetmap_record_updater',
-							['address' => \App\Json::encode($address)],
-							['crmid' => $data->getId(), 'type' => $typeAddress])
+						->update('u_#__openstreetmap_record_updater', ['address' => \App\Json::encode($address)], ['crmid' => $recordModel->getId(), 'type' => $typeAddress])
 						->execute();
 				}
 			}

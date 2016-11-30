@@ -28,7 +28,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 
 	public function updateProgressMilestone($id)
 	{
-		if (!isRecordExists($id)) {
+		if (!App\Record::isExists($id)) {
 			return;
 		}
 		$relatedListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($id), 'ProjectTask');
