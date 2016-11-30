@@ -372,13 +372,13 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 		$moduleModel = $this->getModule();
 		$entityInstance = $moduleModel->getEntityModules();
-		$data = [];
+		$forSave = [];
 		foreach ($saveFields as &$fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
-			$data[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $fieldModel->getUITypeModel()->getDBValue($this->get($fieldName), $this);
+			$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $fieldModel->getUITypeModel()->getDBValue($this->get($fieldName), $this);
 		}
 		$db = \App\Db::getInstance();
-		foreach ($data as $tableName => $$tableData) {
+		foreach ($forSave as $tableName => $$tableData) {
 			$tablekey = $entityInstance->tab_name_index[$tableName];
 			if ($isNew) {
 				$tableData[$tablekey] = $this->get('newRecord');
