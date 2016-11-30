@@ -5,6 +5,7 @@
  * @package YetiForce.Actions
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Fields_Action extends Vtiger_Action_Controller
 {
@@ -22,6 +23,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		parent::__construct();
 		$this->exposeMethod('getOwners');
 		$this->exposeMethod('searchReference');
+		$this->exposeMethod('searchValues');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -69,6 +71,29 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 						$data[] = ['id' => $key, 'name' => $value];
 					}
 				}
+			}
+			$response->setResult(['items' => $data]);
+		}
+		$response->emit();
+	}
+
+	/**
+	 * Function searches for value data 
+	 * @param Vtiger_Request $request
+	 */
+	public function searchValues(Vtiger_Request $request)
+	{
+		$searchValue = $request->get('value');
+		$fieldId = $request->get('fld');
+		$moduleName = $request->getModule();
+		$response = new Vtiger_Response();
+		if (empty($searchValue)) {
+			$response->setError('NO');
+		} else {
+			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+			$rows = $fieldModel->getUITypeModel()->getSearchValues($searchValue);
+			foreach ($rows as $key => $value) {
+				$data[] = ['id' => $key, 'name' => $value];
 			}
 			$response->setResult(['items' => $data]);
 		}

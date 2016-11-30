@@ -6,42 +6,23 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_UserRole_UIType extends Vtiger_Base_UIType
+class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 {
-
-	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/UserRole.tpl';
-	}
-
-	/**
-	 * Function to get the display value in detail view
-	 * @param <Integer> crmid of record
-	 * @return string
-	 */
-	public function getEditViewDisplayValue($value, $record = false)
-	{
-		if ($value) {
-			$userName = \App\PrivilegeUtil::getRoleName($value);
-			return $userName;
-		}
-	}
 
 	/**
 	 * Function to get display value
 	 * @param string $value
-	 * @param <Number> $recordId
-	 * @return string display value
+	 * @param int $recordId
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return string
 	 */
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
-		$displayValue = $this->getEditViewDisplayValue($value);
+		$displayValue = \App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser() && $rawText === false) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
@@ -49,5 +30,40 @@ class Vtiger_UserRole_UIType extends Vtiger_Base_UIType
 			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
 		}
 		return $displayValue;
+	}
+
+	/**
+	 * Function to get all the available picklist values for the current field
+	 * @return string[]
+	 */
+	public function getPicklistValues()
+	{
+		$roleModels = Settings_Roles_Record_Model::getAll();
+		$roles = [];
+		foreach ($roleModels as $roleId => $roleModel) {
+			$roles[$roleId] = \App\Language::translate($roleModel->getName(), $this->get('field')->getModuleName());
+		}
+		return $roles;
+	}
+
+	/**
+	 * Function searches for value data 
+	 * @param string $value
+	 * @return string[]
+	 */
+	public function getSearchValues($value)
+	{
+		$roles = (new App\Db\Query())->select(['roleid', 'rolename'])->from('vtiger_role')->where(['like', 'rolename', $value])
+				->createCommand()->queryAllByGroup();
+		return $roles;
+	}
+
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/UserRoleFieldSearchView.tpl';
 	}
 }

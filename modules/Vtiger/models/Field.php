@@ -1047,7 +1047,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$db = \App\Db::getInstance();
 		$this->get('generatedtype') == 1 ? $generatedType = 1 : $generatedType = 2;
-		$db->createCommand()->update('vtiger_field', [ 'typeofdata' => $this->get('typeofdata'), 'presence' => $this->get('presence'), 'quickcreate' => $this->get('quickcreate'),
+		$db->createCommand()->update('vtiger_field', ['typeofdata' => $this->get('typeofdata'), 'presence' => $this->get('presence'), 'quickcreate' => $this->get('quickcreate'),
 			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
@@ -1119,6 +1119,12 @@ class Vtiger_Field_Model extends vtlib\Field
 		return ($this->getFieldDataType() == self::OWNER_TYPE) ? true : false;
 	}
 
+	/**
+	 * Function returns field instance for field ID
+	 * @param int $fieldId
+	 * @param int $moduleTabId
+	 * @return \Vtiger_Field_Model
+	 */
 	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
 		$fieldModel = Vtiger_Cache::get('FieldModel', $fieldId);
@@ -1126,7 +1132,8 @@ class Vtiger_Field_Model extends vtlib\Field
 			return $fieldModel;
 		}
 		$field = vtlib\Functions::getModuleFieldInfoWithId($fieldId);
-		$fieldModel = new self();
+		$className = Vtiger_Loader::getComponentClassName('Model', 'Field', \App\Module::getModuleName($field['tabid']));
+		$fieldModel = new $className();
 		$fieldModel->initialize($field);
 		Vtiger_Cache::set('FieldModel', $fieldId, $fieldModel);
 		return $fieldModel;
