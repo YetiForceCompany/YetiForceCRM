@@ -31,7 +31,7 @@ class VTEntityDelta extends VTEventHandler
 		}
 		$moduleName = $entityData->getModuleName();
 		$recordId = $entityData->getId();
-		if ($eventName === 'vtiger.entity.beforesave' || $eventName === 'vtiger.entity.unlink.before') {
+		if ($eventName === 'vtiger.entity.beforesave') {
 			if (!$entityData->isNew()) {
 				$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName, false);
 				if ($moduleName == 'HelpDesk') {
@@ -40,7 +40,7 @@ class VTEntityDelta extends VTEventHandler
 				self::$oldEntity[$moduleName][$recordId] = $entityData;
 			}
 		}
-		if ($eventName === 'vtiger.entity.aftersave' || $eventName === 'vtiger.entity.unlink.after') {
+		if ($eventName === 'vtiger.entity.aftersave') {
 			$this->fetchEntity($moduleName, $recordId);
 			$this->computeDelta($moduleName, $recordId);
 		}

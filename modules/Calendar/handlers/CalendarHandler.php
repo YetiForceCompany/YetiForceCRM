@@ -1,5 +1,25 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
+/**
+ * Calendar Handler Class
+ * @package YetiForce.Handler
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+class Calendar_CalendarHandler_Handler
+{
+
+	/**
+	 * EntityAfterUnLink handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterUnLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		$fieldName = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($params['sourceModule']);
+		Calendar_Record_Model::setCrmActivity([$params['sourceRecordId'] => $fieldName]);
+	}
+}
 
 class CalendarHandler extends VTEventHandler
 {
@@ -10,13 +30,14 @@ class CalendarHandler extends VTEventHandler
 			$entityData = $entityData['entityData'];
 		}
 		$moduleName = $entityData->getModuleName();
-		if (!vtlib\Cron::isCronAction() && in_array($handlerType, ['vtiger.entity.unlink.after', 'vtiger.entity.afterrestore', 'vtiger.entity.aftersave.final']) && in_array($moduleName, ['Calendar', 'Events', 'Activity'])) {
+		if (!vtlib\Cron::isCronAction() && in_array($handlerType, ['vtiger.entity.afterrestore', 'vtiger.entity.aftersave.final']) && in_array($moduleName, ['Calendar', 'Events', 'Activity'])) {
 			$recordId = $entityData->getId();
 			$delta = [];
 			if ($handlerType != 'vtiger.entity.afterrestore') {
 				$vtEntityDelta = new VTEntityDelta();
 				$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
 			}
+
 			Calendar_Record_Model::setCrmActivity(self::getRefernceIds($entityData->getData(), $delta));
 		} elseif (!vtlib\Cron::isCronAction() && $handlerType == 'vtiger.entity.beforesave' && in_array($moduleName, ['Calendar', 'Events', 'Activity'])) {
 			$data = $entityData->getData();

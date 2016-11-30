@@ -44,7 +44,7 @@ class TimeControlHandler extends VTEventHandler
 			$data = $data['entityData'];
 		}
 		$moduleName = $data->getModuleName();
-		if ($moduleName == 'OSSTimeControl' && in_array($eventName, ['vtiger.entity.aftersave.final', 'vtiger.entity.afterrestore', 'vtiger.entity.afterdelete', 'vtiger.entity.unlink.after'])) {
+		if ($moduleName == 'OSSTimeControl' && in_array($eventName, ['vtiger.entity.aftersave.final', 'vtiger.entity.afterrestore', 'vtiger.entity.afterdelete'])) {
 			if ($eventName == 'vtiger.entity.aftersave.final') {
 				OSSTimeControl_Record_Model::setSumTime($data);
 			}
