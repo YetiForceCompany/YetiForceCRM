@@ -158,6 +158,15 @@ class User
 	}
 
 	/**
+	 * Get user id
+	 * @return int
+	 */
+	public function getName()
+	{
+		return $this->privileges['displayName'];
+	}
+
+	/**
 	 * Get user details
 	 * @param string $fieldName
 	 * @return mixed

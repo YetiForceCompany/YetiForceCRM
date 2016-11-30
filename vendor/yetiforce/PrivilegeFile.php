@@ -59,9 +59,14 @@ class PrivilegeFile
 		$userInstance = \CRMEntity::getInstance('Users');
 		$userInstance->retrieve_entity_info($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
-
+		$entityData = Module::getEntityInfo('Users');
+		$displayName = '';
+		foreach ($entityData['fieldnameArr'] as &$field) {
+			$displayName .= ' ' . $userInstance->column_fields[$field];
+		}
 		$userRoleInfo = PrivilegeUtil::getRoleDetail($userInstance->column_fields['roleid']);
 		$user['details'] = $userInstance->column_fields;
+		$user['displayName'] = trim($displayName);
 		$user['profiles'] = PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
 		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
