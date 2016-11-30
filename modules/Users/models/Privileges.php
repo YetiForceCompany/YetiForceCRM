@@ -258,57 +258,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 	}
 
-	/**
-	 * Function to get set Shared Owner Recursively
-	 */
-	public static function setSharedOwnerRecursively($recordId, $addUser, $removeUser, $moduleName)
-	{
-
-		$db = PearDatabase::getInstance();
-		\App\Log::trace('Entering Into setSharedOwnerRecursively( ' . $recordId . ', ' . $moduleName . ')');
-
-		$recordsByModule = self::getSharedRecordsRecursively($recordId, $moduleName);
-		if (count($recordsByModule) === 0) {
-			\App\Log::trace('Exiting setSharedOwnerRecursively() - No shared records');
-			return false;
-		}
-		$removeUserString = $addUserString = false;
-		if (count($removeUser) > 0) {
-			$removeUserString = implode(',', $removeUser);
-		}
-		if (count($addUser) > 0) {
-			$addUserString = implode(',', $addUser);
-		}
-		foreach ($recordsByModule as $parentModuleName => &$records) {
-			$sqlRecords = implode(',', $records);
-
-			if ($removeUserString !== false) {
-				$db->delete('u_yf_crmentity_showners', 'userid IN(' . $removeUserString . ') && crmid IN (' . $sqlRecords . ')');
-			}
-
-			if ($addUserString !== false) {
-				$usersExist = [];
-				$query = 'SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(%s) && crmid IN (%s)';
-				$query = sprintf($query, $addUserString, $sqlRecords);
-				$result = $db->query($query);
-				while ($row = $db->getRow($result)) {
-					$usersExist[$row['crmid']][$row['userid']] = true;
-				}
-				foreach ($records as &$record) {
-					foreach ($addUser as $userId) {
-						if (!isset($usersExist[$record][$userId])) {
-							$db->insert('u_yf_crmentity_showners', [
-								'crmid' => $record,
-								'userid' => $userId,
-							]);
-						}
-					}
-				}
-			}
-		}
-		\App\Log::trace('Exiting setSharedOwnerRecursively()');
-	}
-
 	public static function isPermittedByUserId($userId, $moduleName, $actionName = '', $record = false)
 	{
 		return \App\Privilege::isPermitted($moduleName, $actionName, $record, $userId);
