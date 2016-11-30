@@ -43,8 +43,7 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 */
 	public function entityAfterDelete(App\EventHandler $eventHandler)
 	{
-		$recordModel = $eventHandler->getRecordModel();
-		$recordModel->getModule()->updateProgressMilestone($recordModel->get('projectmilestoneid'));
+		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 
 	/**
@@ -53,7 +52,6 @@ class ProjectTask_ProjectTaskHandler_Handler
 	 */
 	public function entityAfterRestore(App\EventHandler $eventHandler)
 	{
-		$recordModel = $eventHandler->getRecordModel();
-		$recordModel->getModule()->updateProgressMilestone($recordModel->get('projectmilestoneid'));
+		Vtiger_Module_Model::getInstance('ProjectMilestone')->updateProgressMilestone($eventHandler->getRecordModel()->get('projectmilestoneid'));
 	}
 }
