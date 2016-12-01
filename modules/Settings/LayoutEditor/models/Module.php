@@ -159,7 +159,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$columnName = $name;
 			$tableName = $focus->table_name;
 		} elseif ($type == 1) {
-			$max_fieldid = $db->getUniqueID("vtiger_field");
+			$max_fieldid = $db->getUniqueID('vtiger_field');
 			$columnName = 'cf_' . $max_fieldid;
 			$custfld_fieldid = $max_fieldid;
 			if (isset($focus->customFieldTable)) {

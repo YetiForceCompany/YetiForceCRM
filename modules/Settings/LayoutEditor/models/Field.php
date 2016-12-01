@@ -66,7 +66,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			if (!$dataReader->count()) {
 				$db->createCommand()->dropTable('vtiger_' . $columnName)->execute();
 				//To Delete Sequence Table 
-				if (vtlib\Utils::CheckTable('vtiger_' . $columnName . '_seq')) {
+				if ($db->isTableExists('vtiger_' . $columnName . '_seq')) {
 					$db->createCommand()->dropTable('vtiger_' . $columnName . '_seq')->execute();
 				}
 				$db->createCommand()->delete('vtiger_picklist', ['name' => $columnName]);
@@ -194,11 +194,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isSummaryFieldOptionDisabled()
 	{
-		$moduleModel = $this->getModule();
-		if ($this->get('uitype') == 70) {
-			return true;
-		}
-		return false;
+		return $this->get('uitype') === 70;
 	}
 
 	/**
