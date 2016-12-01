@@ -87,9 +87,9 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	{
 		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
 		$dataReader = (new \App\Db\Query())->select(['tabid', 'name'])
-			->from('vtiger_tab')
-			->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])
-			->createCommand()->query();
+				->from('vtiger_tab')
+				->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])
+				->createCommand()->query();
 		$moduleModels = [];
 		while ($row = $dataReader->read()) {
 			$moduleModels[$row['name']] = self::getInstanceFromArray($row);
@@ -176,6 +176,18 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field5->displaytype = 2;
 		$block->addField($field5);
 
+		$field6 = new vtlib\Field();
+		$field6->name = 'created_user_id';
+		$field6->label = 'Created By';
+		$field6->table = 'vtiger_crmentity';
+		$field6->column = 'smcreatorid';
+		$field6->uitype = 53;
+		$field6->typeofdata = 'V~O';
+		$field6->displaytype = 2;
+		$field6->quickcreate = 3;
+		$field6->masseditable = 0;
+		$block->addField($field6);
+
 		// Create default custom filter (mandatory)
 		$filter1 = new vtlib\Filter();
 		$filter1->name = 'All';
@@ -201,7 +213,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 		// Create files
 		$module->createFiles($field1);
-		\App\Fields\RecordNumber::setNumber($module->name, 'N', 1);
+		\App\Fields\RecordNumber::setNumber($module->id, 'N', 1);
 	}
 
 	public static function toAlphaNumeric($value)
