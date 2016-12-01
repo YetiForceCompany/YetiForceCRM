@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
 namespace vtlib;
 
@@ -22,8 +23,8 @@ class Field extends FieldBasic
 	 */
 	public function __getPicklistUniqueId()
 	{
-		$adb = \PearDatabase::getInstance();
-		return $adb->getUniqueID('vtiger_picklist');
+		$db = \App\Db::getInstance();
+		return $db->getUniqueID('vtiger_picklist');
 	}
 
 	/**
@@ -48,35 +49,35 @@ class Field extends FieldBasic
 			return;
 		}
 		$adb = \PearDatabase::getInstance();
-		$picklist_table = 'vtiger_' . $this->name;
-		$picklist_idcol = $this->name . 'id';
-		if (!Utils::CheckTable($picklist_table)) {
+		$db = \App\Db::getInstance();
+		$picklistTable = 'vtiger_' . $this->name;
+		$picklistIdCol = $this->name . 'id';
+		if (!Utils::CheckTable($picklistTable)) {
 			Utils::CreateTable(
-				$picklist_table, "($picklist_idcol INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				$picklistTable, "($picklistIdCol INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				$this->name VARCHAR(200) NOT NULL,
 				presence INT (1) NOT NULL DEFAULT 1,
 				picklist_valueid INT NOT NULL DEFAULT 0,
                 sortorderid INT DEFAULT 0)", true);
-			$new_picklistid = $this->__getPicklistUniqueId();
-			$adb->pquery("INSERT INTO vtiger_picklist (picklistid,name) VALUES(?,?)", Array($new_picklistid, $this->name));
-			self::log("Creating table $picklist_table ... DONE");
+			$newPicklistId = $this->__getPicklistUniqueId();
+			$db->createCommand()->insert('vtiger_picklist', ['picklistid' => $newPicklistId, 'name' => $this->name])->execute();
+			self::log("Creating table $picklistTable ... DONE");
 		} else {
-			$picklistResult = $adb->pquery("SELECT picklistid FROM vtiger_picklist WHERE name=?", Array($this->name));
-			$new_picklistid = $adb->query_result($picklistResult, 0, 'picklistid');
+			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
 		}
 
-		$specialNameSpacedPicklists = array(
+		$specialNameSpacedPicklists = [
 			'opportunity_type' => 'opptypeid',
 			'duration_minutes' => 'minutesid',
 			'recurringtype' => 'recurringeventid'
-		);
+		];
 
 		// Fix Table ID column names
 		$fieldName = (string) $this->name;
-		if (in_array($fieldName . '_id', $adb->getColumnNames($picklist_table))) {
-			$picklist_idcol = $fieldName . '_id';
+		if (in_array($fieldName . '_id', $db->getTableSchema($picklistTable)->getColumnNames())) {
+			$picklistIdCol = $fieldName . '_id';
 		} elseif (array_key_exists($fieldName, $specialNameSpacedPicklists)) {
-			$picklist_idcol = $specialNameSpacedPicklists[$fieldName];
+			$picklistIdCol = $specialNameSpacedPicklists[$fieldName];
 		}
 		// END
 		// Add value to picklist now
@@ -86,17 +87,23 @@ class Field extends FieldBasic
 			if (in_array($value, $picklistValues)) {
 				continue;
 			}
-			$new_picklistvalueid = $adb->getUniqueID('vtiger_picklistvalues');
+			$newPicklistValueId = $adb->getUniqueID('vtiger_picklistvalues');
 			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
-			$new_id = $adb->getUniqueID($picklist_table);
 			++$sortid;
-
-			$adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, presence, picklist_valueid,sortorderid) VALUES(?,?,?,?,?)", Array($new_id, $value, $presence, $new_picklistvalueid, $sortid));
-
+			$db->createCommand()->insert($picklistTable, [$this->name => $value, 'presence' => $presence,
+				'picklist_valueid' => $newPicklistValueId, 'sortorderid' => $sortid
+			])->execute();
 
 			// Associate picklist values to all the role
-			$adb->pquery("INSERT INTO vtiger_role2picklist(roleid, picklistvalueid, picklistid, sortid) SELECT roleid,
-				$new_picklistvalueid, $new_picklistid, $sortid FROM vtiger_role", []);
+			$query = (new \App\Db\Query)->select('roleid')->from('vtiger_role');
+			$roleIds = $query->column();
+			$insertedData = [];
+			foreach ($roleIds as $value) {
+				$insertedData [] = [$value, $newPicklistValueId, $recordId, $newPicklistId, $sortid];
+			}
+			$db->createCommand()
+				->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)
+				->execute();
 		}
 	}
 
@@ -109,7 +116,8 @@ class Field extends FieldBasic
 	 */
 	public function setNoRolePicklistValues($values)
 	{
-		$adb = \PearDatabase::getInstance();
+
+		$db = \App\Db::getInstance();
 		$pickListNameIDs = array('recurring_frequency', 'payment_duration');
 		$picklistTable = 'vtiger_' . $this->name;
 		$picklistIDcol = $this->name . 'id';
@@ -134,15 +142,13 @@ class Field extends FieldBasic
 				continue;
 			}
 			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
-			$newId = $adb->getUniqueId($picklistTable);
 
 			$data = [
-				$picklistIDcol => $newId,
 				$this->name => $value,
 				'sortorderid' => $sortid,
 				'presence' => $presence,
 			];
-			$adb->insert($picklistTable, $data);
+			$db->createCommand()->insert($picklistTable, $data)->execute();
 			$sortid = $sortid + 1;
 		}
 	}
@@ -167,17 +173,16 @@ class Field extends FieldBasic
 		}
 		// END
 
-		$adb = \PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		foreach ($moduleNames as $relmodule) {
-			$checkres = $adb->pquery('SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=? && module=? && relmodule=?', Array($this->id, $this->getModuleName(), $relmodule));
+			$checkRes = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->one();
 
 			// If relation already exist continue
-			if ($adb->num_rows($checkres))
+			if ($checkRes)
 				continue;
 
-			$adb->pquery('INSERT INTO vtiger_fieldmodulerel(fieldid, module, relmodule) VALUES(?,?,?)', Array($this->id, $this->getModuleName(), $relmodule));
-
-			self::log("Setting $this->name relation with $relmodule ... DONE");
+			$db->createCommand()->insert('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
+			self::log("Setting $this->name relation with $checkRes ... DONE");
 		}
 		return true;
 	}
@@ -188,10 +193,9 @@ class Field extends FieldBasic
 	 */
 	public function unsetRelatedModules($moduleNames)
 	{
-		$adb = \PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		foreach ($moduleNames as $relmodule) {
-			$adb->pquery('DELETE FROM vtiger_fieldmodulerel WHERE fieldid=? && module=? && relmodule = ?', Array($this->id, $this->getModuleName(), $relmodule));
-
+			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
 			Utils::Log("Unsetting $this->name relation with $relmodule ... DONE");
 		}
 		return true;
@@ -204,7 +208,6 @@ class Field extends FieldBasic
 	 */
 	static function getInstance($value, $moduleInstance = false)
 	{
-		$adb = \PearDatabase::getInstance();
 		$instance = false;
 		$moduleid = null;
 		if ($moduleInstance) {
@@ -229,19 +232,16 @@ class Field extends FieldBasic
 		if ($cache->getBlockFields($blockInstance->id, $moduleInstance->id)) {
 			return $cache->getBlockFields($blockInstance->id, $moduleInstance->id);
 		} else {
-			$adb = \PearDatabase::getInstance();
 			$instances = false;
 			$query = false;
 			$queryParams = false;
 			if ($moduleInstance) {
-				$query = "SELECT * FROM vtiger_field WHERE block=? && tabid=? ORDER BY sequence";
-				$queryParams = Array($blockInstance->id, $moduleInstance->id);
+				$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockInstance->id, 'tabid' => $moduleInstance->id])->orderBy('sequence');
 			} else {
-				$query = "SELECT * FROM vtiger_field WHERE block=? ORDER BY sequence";
-				$queryParams = Array($blockInstance->id);
+				$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockInstance->id])->orderBy('sequence');
 			}
-			$result = $adb->pquery($query, $queryParams);
-			while ($row = $adb->getRow($result)) {
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$instance = new self();
 				$instance->initialize($row, $moduleInstance, $blockInstance);
 				$instances[] = $instance;
@@ -257,14 +257,13 @@ class Field extends FieldBasic
 	 */
 	static function getAllForModule($moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
 		$instances = false;
+		$query = (new \App\Db\Query())->from('vtiger_field')
+				->leftJoin('vtiger_blocks', 'vtiger_field.block=vtiger_blocks.blockid')
+				->where(['vtiger_field.tabid' => $moduleInstance->id])->orderBy('vtiger_blocks.sequence', 'vtiger_field.sequence');
 
-		$query = 'SELECT * FROM vtiger_field LEFT JOIN vtiger_blocks ON vtiger_field.block=vtiger_blocks.blockid WHERE vtiger_field.tabid=? ORDER BY vtiger_blocks.sequence,vtiger_field.sequence';
-		$queryParams = Array($moduleInstance->id);
-
-		$result = $adb->pquery($query, $queryParams);
-		while ($row = $adb->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$instance = new self();
 			$instance->initialize($row, $moduleInstance);
 			$instances[] = $instance;
@@ -279,27 +278,27 @@ class Field extends FieldBasic
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
 		self::deletePickLists($moduleInstance);
 		self::deleteUiType10Fields($moduleInstance);
-		$adb->delete('vtiger_field', 'tabid=?', [$moduleInstance->id]);
-		$adb->delete('vtiger_fieldmodulerel', 'module = ? || relmodule = ?', [$moduleInstance->name, $moduleInstance->name]);
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_field', ['tabid' => $moduleInstance->id])->execute();
+		$db->createCommand()->delete('vtiger_fieldmodulerel', ['or', "module = '$moduleInstance->name'", "relmodule = '$moduleInstance->name'"])->execute();
 		self::log("Deleting fields of the module ... DONE");
 	}
 
 	public function setTreeTemplate($tree, $moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
-		$adb->pquery('INSERT INTO vtiger_trees_templates(name, module, access) VALUES (?,?,?)', Array($tree->name, $moduleInstance->id, $tree->access));
-		$templateid = $adb->getLastInsertID();
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('vtiger_trees_templates', ['name' => $tree->name, 'module' => $moduleInstance->id, 'access' => $tree->access])->execute();
+		$templateId = $db->getLastInsertID();
 
 		foreach ($tree->tree_values->tree_value as $treeValue) {
-			$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label, state) VALUES (?,?,?,?,?,?,?)';
-			$params = array($templateid, $treeValue->name, $treeValue->tree, $treeValue->parenttrre, $treeValue->depth, $treeValue->label, $treeValue->state);
-			$adb->pquery($sql, $params);
+			$db->createCommand()->insert('vtiger_trees_templates_data', ['templateid' => $templateId, 'name' => $treeValue->name, 'tree' => $treeValue->tree,
+				'parenttrre' => $treeValue->parenttrre, 'depth' => $treeValue->depth, 'label' => $treeValue->label, 'state' => $treeValue->state
+			])->execute();
 		}
 		self::log("Add tree template $tree->name ... DONE");
-		return $templateid;
+		return $templateId;
 	}
 
 	/**
@@ -309,13 +308,11 @@ class Field extends FieldBasic
 	static function deleteUiType10Fields($moduleInstance)
 	{
 		self::log(__METHOD__ . ' | Start');
-		$db = \PearDatabase::getInstance();
-		$query = 'SELECT fieldid FROM `vtiger_fieldmodulerel` WHERE relmodule = ?';
-		$result = $db->pquery($query, [$moduleInstance->name]);
-		while ($fieldId = $db->getSingleValue($result)) {
-			$query = 'SELECT COUNT(1) FROM `vtiger_fieldmodulerel` WHERE fieldid = ?';
-			$resultQuery = $db->pquery($query, [$fieldId]);
-			if ((int) $db->getSingleValue($resultQuery) == 1) {
+		$query = (new \App\Db\Query)->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['relmodule' => $moduleInstance->name]);
+		$dataReader = $query->createCommand()->query();
+		while ($fieldId = $dataReader->readColumn(0)) {
+			$count = (new \App\Db\Query)->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId])->count();
+			if ((int) $count === 1) {
 				$field = Field::getInstance($fieldId);
 				$field->delete();
 			}
@@ -330,25 +327,21 @@ class Field extends FieldBasic
 	static function deletePickLists($moduleInstance)
 	{
 		self::log(__METHOD__ . ' | Start');
-		$db = \PearDatabase::getInstance();
-		$query = "SELECT `fieldname` FROM `vtiger_field` WHERE `tabid` = ? &&  uitype IN (15, 16, 33)";
-		$result = $db->pquery($query, [$moduleInstance->getId()]);
-		$modulePicklists = $db->getArrayColumn($result, 'fieldname');
+		$db = \App\Db::getInstance();
+		$query = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleInstance->getId(), 'uitype' => [15, 16, 33]]);
+		$modulePicklists = $query->column();
 		if (!empty($modulePicklists)) {
-			$params = $modulePicklists;
-			$query = sprintf("SELECT `fieldname` FROM `vtiger_field` WHERE `fieldname` IN (%s) && `tabid` <> ? && uitype IN (?, ?, ?)", $db->generateQuestionMarks($modulePicklists));
-			array_push($params, $moduleInstance->getId(), 15, 16, 33);
-			$result = $db->pquery($query, $params);
-			$picklists = $db->getArrayColumn($result, 'fieldname');
+			$query = (new \App\Db\Query)->select('fieldname')->from('vtiger_field')->where(['fieldname' => $modulePicklists, 'uitype' => [15, 16, 33]])
+				->andWhere(['<>', 'tabid', $moduleInstance->getId()]);
+			$picklists = $query->column();
 			$modulePicklists = array_diff($modulePicklists, $picklists);
 		}
 		foreach ($modulePicklists as $picklistName) {
-			$db->query('DROP TABLE IF EXISTS vtiger_' . $picklistName . '');
-			$db->query('DROP TABLE IF EXISTS vtiger_' . $picklistName . '_seq');
-			$query = $db->query("SELECT picklistid from vtiger_picklist WHERE name = '$picklistName'");
-			$picklistId = $db->getSingleValue($query);
-			$db->query("DELETE FROM vtiger_role2picklist WHERE picklistid = '$picklistId'");
-			$db->query("DELETE FROM vtiger_picklist WHERE name = '$picklistName'");
+			$db->createCommand()->dropTable('vtiger_' . $picklistName . '')->execute();
+			$db->createCommand()->dropTable('vtiger_' . $picklistName . '_seq')->execute();
+			$picklistId = (new \App\Db\Query)->select('picklistid')->from('vtiger_picklist')->where(['name' => $picklistName])->scalar();
+			$db->createCommand()->delete('vtiger_role2picklist', ['picklistid' => $picklistId])->execute();
+			$db->createCommand()->delete('vtiger_picklist', ['name' => $picklistName])->execute();
 		}
 		self::log(__METHOD__ . ' | END');
 	}
