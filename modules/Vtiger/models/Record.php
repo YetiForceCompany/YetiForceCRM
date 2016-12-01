@@ -915,7 +915,5 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			}
 		}
 		Users_Privileges_Model::clearLockEditCache($this->getModuleName() . $this->getId());
-		$wsId = vtws_getWebserviceEntityId($this->getModuleName(), $this->getId());
-		VTEntityCache::setCachedEntity($wsId, false);
 	}
 }
