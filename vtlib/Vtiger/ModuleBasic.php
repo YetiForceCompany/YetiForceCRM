@@ -514,7 +514,7 @@ class ModuleBasic
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->name);
 			$recordModel->delete();
 		}
-		\App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['setype' => $this->name])->execute();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_crmentity', ['setype' => $this->name])->execute();
 		self::log(__METHOD__ . ' | END');
 	}
 
