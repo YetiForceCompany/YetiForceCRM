@@ -113,7 +113,7 @@ class Field extends FieldBasic
 			$picklistIdCol = $this->name . '_id';
 		}
 
-		if (!$db->isTableExistss($picklistTable)) {
+		if (!$db->isTableExists($picklistTable)) {
 			$importer = new \App\Db\Importers\Base();
 			$db->createTable($picklistTable, [
 				$picklistIdCol => 'pk',
