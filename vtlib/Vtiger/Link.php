@@ -66,7 +66,7 @@ class Link
 	 */
 	static function __getUniqueId()
 	{
-		return \PearDatabase::getInstance()->getUniqueID('vtiger_links');
+		return \App\Db::getInstance()->getUniqueID('vtiger_links');
 	}
 
 	/** Cache (Record) the schema changes to improve performance */
@@ -83,11 +83,13 @@ class Link
 	 */
 	static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $linkParams = null)
 	{
-		$adb = \PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		if ($tabid != 0) {
-			$checkres = $adb->pquery('SELECT linkid FROM vtiger_links WHERE tabid=? && linktype=? && linkurl=? && linkicon=? && linklabel=?', [$tabid, $type, $url, $iconpath, $label]);
+			$checkres = (new \App\Db\Query())->from('vtiger_links')
+				->where(['tabid' => $tabid, 'linktype' => $type, 'linkurl' => $url, 'linkicon' => $iconpath, 'linklabel' => $label])
+				->exists();
 		}
-		if ($tabid == 0 || !$adb->getRowCount($checkres)) {
+		if ($tabid == 0 || !$checkres) {
 			$params = [
 				'linkid' => self::__getUniqueId(),
 				'tabid' => $tabid,
@@ -105,7 +107,7 @@ class Link
 			if (!empty($linkParams)) {
 				$params['params'] = $linkParams;
 			}
-			$adb->insert('vtiger_links', $params);
+			$db->createCommand()->insert('vtiger_links', $params)->execute();
 			self::log("Adding Link ($type - $label) ... DONE");
 		}
 	}
@@ -119,12 +121,21 @@ class Link
 	 */
 	static function deleteLink($tabid, $type, $label, $url = false)
 	{
-		$adb = \PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		if ($url) {
-			$adb->pquery('DELETE FROM vtiger_links WHERE tabid=? && linktype=? && linklabel=? && linkurl=?', Array($tabid, $type, $label, $url));
+			$db->createCommand()->delete('vtiger_links', [
+				'tabid' => $tabid,
+				'linktype' => $type,
+				'linklabel' => $label,
+				'linkurl' => $url
+			])->execute();
 			self::log("Deleting Link ($type - $label - $url) ... DONE");
 		} else {
-			$adb->pquery('DELETE FROM vtiger_links WHERE tabid=? && linktype=? && linklabel=?', Array($tabid, $type, $label));
+			$db->createCommand()->delete('vtiger_links', [
+				'tabid' => $tabid,
+				'linktype' => $type,
+				'linklabel' => $label,
+			])->execute();
 			self::log("Deleting Link ($type - $label) ... DONE");
 		}
 	}
@@ -135,8 +146,7 @@ class Link
 	 */
 	static function deleteAll($tabid)
 	{
-		$adb = \PearDatabase::getInstance();
-		$adb->delete('vtiger_links', 'tabid=?', [$tabid]);
+		\App\Db::getInstance()->createCommand()->delete('vtiger_links', ['tabid' => $tabid])->execute();
 		self::log("Deleting Links ... DONE");
 	}
 
@@ -157,7 +167,6 @@ class Link
 	 */
 	static function getAllByType($tabid, $type = false, $parameters = false)
 	{
-		$adb = \PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		$multitype = false;
@@ -236,10 +245,11 @@ class Link
 	 */
 	static function getAllForExport($tabid)
 	{
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM vtiger_links WHERE tabid=?', array($tabid));
+		$dataReader = (new \App\Db\Query())->from('vtiger_links')
+				->where(['tabid' => $tabid])
+				->createCommand()->query();
 		$links = [];
-		while ($row = $adb->fetch_array($result)) {
+		while ($row = $dataReader->read()) {
 			$instance = new self();
 			$instance->initialize($row);
 			$links[] = $instance;
