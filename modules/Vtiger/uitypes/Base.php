@@ -140,6 +140,15 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 		return 'uitypes/FieldSearchView.tpl';
 	}
 
+	/**
+	 * Get field model instance
+	 * @return Vtiger_Field_Model
+	 */
+	public function getFieldModel()
+	{
+		return $this->get('field');
+	}
+
 	public function isActiveSearchView()
 	{
 		return true;

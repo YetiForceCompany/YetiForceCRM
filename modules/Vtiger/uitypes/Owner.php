@@ -115,4 +115,15 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		}
 		return false;
 	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		return empty($value) ? \App\User::getCurrentUserId() : $value;
+	}
 }

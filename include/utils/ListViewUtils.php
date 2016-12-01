@@ -356,13 +356,9 @@ function getEntityId($module, $entityName)
 function decode_html($str)
 {
 	$defaultCharset = AppConfig::main('default_charset');
-	if (empty($default_charset))
+	if (empty($defaultCharset))
 		$defaultCharset = 'UTF-8';
-	// Direct Popup action or Ajax Popup action should be treated the same.
-	if (AppRequest::get('action') === 'Popup' || (AppRequest::has('action') && AppRequest::get('file') === 'Popup'))
-		return html_entity_decode($str);
-	else
-		return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
+	return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
 }
 
 function popup_decode_html($str)
