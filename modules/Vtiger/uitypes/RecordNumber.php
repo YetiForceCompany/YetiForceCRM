@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_RecordNumber_UIType extends Vtiger_Base_Model
+class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 {
 
 	/**
