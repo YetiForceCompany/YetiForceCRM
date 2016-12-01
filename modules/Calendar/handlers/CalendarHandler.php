@@ -19,6 +19,23 @@ class Calendar_CalendarHandler_Handler
 		$fieldName = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($params['sourceModule']);
 		Calendar_Record_Model::setCrmActivity([$params['sourceRecordId'] => $fieldName]);
 	}
+
+	/**
+	 * EntityBeforeSave handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityBeforeSave(App\EventHandler $eventHandler)
+	{
+		if (!vtlib\Cron::isCronAction()) {
+
+			$recordModel = $eventHandler->getRecordModel();
+			$data = $recordModel->getData();
+			$state = Calendar_Module_Model::getCalendarState($data);
+			if ($state) {
+				$recordModel->set('activitystatus', $state);
+			}
+		}
+	}
 }
 
 class CalendarHandler extends VTEventHandler

@@ -11,7 +11,7 @@ vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
 vimport('~~include/Webservices/Utils.php');
 vimport('~~include/Webservices/Retrieve.php');
 
-class TimeControl_TimeControl_Handler
+class OSSTimeControl_TimeControl_Handler
 {
 
 	/**
@@ -53,33 +53,42 @@ class TimeControl_TimeControl_Handler
 			}
 		}
 	}
-}
 
-class TimeControlHandler extends VTEventHandler
-{
-
-	public function handleEvent($eventName, $data)
+	/**
+	 * EntityAfterSave handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
-		if (!is_object($data)) {
-			$data = $data['entityData'];
-		}
-		$moduleName = $data->getModuleName();
-		if ($moduleName == 'OSSTimeControl' && in_array($eventName, ['vtiger.entity.aftersave.final', 'vtiger.entity.afterrestore'])) {
-			if ($eventName == 'vtiger.entity.aftersave.final') {
-				OSSTimeControl_Record_Model::setSumTime($data);
+		$recordModel = $eventHandler->getRecordModel();
+		OSSTimeControl_Record_Model::setSumTime($recordModel);
+		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
+		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
+		$wsId = vtws_getWebserviceEntityId($eventHandler->getModuleName(), $recordModel->getId());
+		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
+		$entityData = $entityCache->forId($wsId);
+		foreach ($workflows as &$workflow) {
+			if ($workflow->evaluate($entityCache, $entityData->getId())) {
+				$workflow->performTasks($entityData);
 			}
-			$db = PearDatabase::getInstance();
-			$wfs = new VTWorkflowManager($db);
-			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$MANUAL);
+		}
+	}
 
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$wsId = vtws_getWebserviceEntityId($moduleName, $data->getId());
-			$entityCache = new VTEntityCache($currentUser);
-			$entityData = $entityCache->forId($wsId);
-			foreach ($workflows as $id => $workflow) {
-				if ($workflow->evaluate($entityCache, $entityData->getId())) {
-					$workflow->performTasks($entityData);
-				}
+	/**
+	 * EntityAfterRestore handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterRestore(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
+		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
+		$wsId = vtws_getWebserviceEntityId($eventHandler->getModuleName(), $recordModel->getId());
+		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
+		$entityData = $entityCache->forId($wsId);
+		foreach ($workflows as &$workflow) {
+			if ($workflow->evaluate($entityCache, $entityData->getId())) {
+				$workflow->performTasks($entityData);
 			}
 		}
 	}
