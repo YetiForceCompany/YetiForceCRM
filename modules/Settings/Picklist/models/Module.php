@@ -37,7 +37,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$tableName = 'vtiger_' . $pickListFieldName;
-		$id = $db->getUniqueID($tableName);
+		if($db->isTableExists($tableName . '_seq')) {
+			$id = $db->getUniqueID($tableName);
+		} else {
+			$id = $db->getUniqueID($tableName, $pickListFieldName . 'id' ,false);
+		}
 		$picklistValueId = $db->getUniqueID('vtiger_picklistvalues');
 		$sequence = (new \App\Db\Query())->from($tableName)->max('sortorderid');
 		$columnNames = $db->getTableSchema($tableName)->getColumnNames();
