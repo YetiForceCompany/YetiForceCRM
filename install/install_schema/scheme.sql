@@ -4438,12 +4438,6 @@ CREATE TABLE `vtiger_def_org_share` (
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_def_org_share_seq` */
-
-CREATE TABLE `vtiger_def_org_share_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_default_record_view` */
 
 CREATE TABLE `vtiger_default_record_view` (

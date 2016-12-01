@@ -1766,13 +1766,6 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_def_org_share_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_default_record_view' => [
 				'columns' => [
 					'default_record_viewid' => $this->primaryKey(),
@@ -5456,12 +5449,6 @@ class Base2 extends \App\Db\Importers\Base
 					[81, 108, 2, 0],
 					[82, 109, 2, 0],
 					[83, 111, 2, 0],
-				]
-			],
-			'vtiger_def_org_share_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[83],
 				]
 			],
 			'vtiger_default_record_view' => [

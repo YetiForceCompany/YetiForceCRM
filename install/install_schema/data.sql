@@ -3942,10 +3942,6 @@ insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) 
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (82,109,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (83,111,2,0);
 
-/*Data for the table `vtiger_def_org_share_seq` */
-
-insert  into `vtiger_def_org_share_seq`(`id`) values (83);
-
 /*Data for the table `vtiger_default_record_view` */
 
 insert  into `vtiger_default_record_view`(`default_record_viewid`,`default_record_view`,`sortorderid`,`presence`) values (1,'Summary',1,1);
