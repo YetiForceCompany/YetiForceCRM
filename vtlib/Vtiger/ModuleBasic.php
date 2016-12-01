@@ -335,11 +335,11 @@ class ModuleBasic
 				$db->createCommand()->insert('vtiger_entityname', [
 					'tabid' => $this->id,
 					'modulename' => $this->name,
-					'tablename' => $this->table,
+					'tablename' => $fieldInstance->table,
 					'fieldname' => $fieldInstance->name,
 					'entityidfield' => $this->entityidfield,
 					'entityidcolumn' => $this->entityidcolumn,
-					'searchcolumn' => $this->maxversion
+					'searchcolumn' => $fieldInstance->name
 				])->execute();
 				self::log('Setting entity identifier ... DONE');
 			} else {
