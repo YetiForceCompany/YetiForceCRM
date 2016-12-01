@@ -121,7 +121,7 @@ class Db extends \yii\db\Connection
 
 	/**
 	 * Returns the ID of the last inserted row or sequence value.
-	 * @param string $sequenceName name of the sequence object (required by some DBMS)
+	 * @param string $sequenceName name of the sequence object (required by some DBMS) ex. table vtiger_picklist >>> vtiger_picklist_picklistid_seq
 	 * @return string the row ID of the last row inserted, or the last value retrieved from the sequence object
 	 * @see http://www.php.net/manual/en/function.PDO-lastInsertId.php
 	 */

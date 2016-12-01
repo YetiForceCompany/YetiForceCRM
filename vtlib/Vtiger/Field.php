@@ -51,7 +51,7 @@ class Field extends FieldBasic
 				'sortorderid' => $importer->smallInteger()->defaultValue(0)
 			]);
 			$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
-			$newPicklistId = $db->getLastInsertID('vtiger_picklist_seq');
+			$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
 			self::log("Creating table $picklistTable ... DONE");
 		} else {
 			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
