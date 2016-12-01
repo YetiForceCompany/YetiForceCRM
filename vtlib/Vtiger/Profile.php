@@ -32,28 +32,44 @@ class Profile
 
 	private function create()
 	{
-		$adb = \PearDatabase::getInstance();
-		$this->id = $adb->getUniqueID('vtiger_profile');
-		$sql = "INSERT INTO vtiger_profile (profileid, profilename, description) 
-						VALUES (?,?,?)";
-		$binds = array($this->id, $this->name, $this->desc);
-		$adb->pquery($sql, $binds);
-		$sql = "INSERT INTO vtiger_profile2field (profileid, tabid, fieldid, visible, readonly) 
-						SELECT ?, tabid, fieldid, 0, 0 
-						FROM vtiger_field";
-		$binds = array($this->id);
-		$adb->pquery($sql, $binds);
-		$sql = "INSERT INTO vtiger_profile2tab (profileid, tabid, permissions) 
-						SELECT ?, tabid, 0 
-						FROM vtiger_tab";
-		$binds = array($this->id);
-		$adb->pquery($sql, $binds);
-		$sql = "INSERT INTO vtiger_profile2standardpermissions (profileid, tabid, Operation, permissions) 
-						SELECT ?, tabid, actionid, 0 
-				FROM vtiger_actionmapping, vtiger_tab 
-						WHERE actionname IN ('Save', 'EditView', 'Delete', 'index', 'DetailView') && isentitytype = 1";
-		$binds = array($this->id);
-		$adb->pquery($sql, $binds);
+		$db = \App\Db::getInstance();
+		$this->id = $db->getUniqueID('vtiger_profile');
+		$db->createCommand()->insert('vtiger_profile', [
+			'profileid' => $this->id,
+			'profilename' => $this->name,
+			'description' => $this->desc
+		])->execute();
+		$dataReader = (new \App\Db\Query())->select(['tabid', 'fieldid'])->from('vtiger_field')
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$db->createCommand()->insert('vtiger_profile2field', [
+				'profileid' => $this->id,
+				'tabid' => $row['tabid'],
+				'fieldid' => $row['fieldid'],
+				'visible' => 0,
+				'readonly' => 0
+			])->execute();
+		}
+		$dataReader = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')
+				->createCommand()->query();
+		$insertedData = [];
+		while ($row = $dataReader->read()) {
+			$insertedData [] = [$this->id, $row['tabid'], 0];
+		}
+		$db->createCommand()->batchInsert('vtiger_profile2tab', ['profileid', 'tabid', 'permissions'], $insertedData)->execute();
+		$dataReader = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')
+				->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->select(['tabid', 'actionid'])->from(['vtiger_actionmapping', 'vtiger_tab'])
+				->where(['actionname' => ['Save', 'EditView', 'Delete', 'index', 'DetailView'], 'isentitytype' => 1])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$db->createCommand()->insert('vtiger_profile2standardpermissions', [
+				'profileid' => $this->id,
+				'tabid' => $row['tabid'],
+				'operation' => $row['actionid'],
+				'permissions' => 0,
+			])->execute();
+		}
 		self::log("Initializing profile permissions ... DONE");
 	}
 
@@ -80,15 +96,20 @@ class Profile
 	 */
 	static function initForField($fieldInstance)
 	{
-		$adb = \PearDatabase::getInstance();
-
+		$db = \App\Db::getInstance();
 		// Allow field access to all
-		$adb->pquery("INSERT INTO vtiger_def_org_field (tabid, fieldid, visible, readonly) VALUES(?,?,?,?)", Array($fieldInstance->getModuleId(), $fieldInstance->id, '0', '0'));
-
+		$db->createCommand()->insert('vtiger_def_org_field', [
+			'tabid' => $fieldInstance->getModuleId(),
+			'fieldid' => $fieldInstance->id,
+			'visible' => 0,
+			'readonly' => 0,
+		])->execute();
 		$profileids = self::getAllIds();
+		$insertedValues = [];
 		foreach ($profileids as $profileid) {
-			$adb->pquery("INSERT INTO vtiger_profile2field (profileid, tabid, fieldid, visible, readonly) VALUES(?,?,?,?,?)", Array($profileid, $fieldInstance->getModuleId(), $fieldInstance->id, '0', '0'));
+			$insertedValues [] = [$profileid, $fieldInstance->getModuleId(), $fieldInstance->id, 0, 0];
 		}
+		$db->createCommand()->batchInsert('vtiger_profile2field', ['profileid', 'tabid', 'fieldid', 'visible', 'readonly'], $insertedValues)->execute();
 	}
 
 	/**
@@ -98,10 +119,9 @@ class Profile
 	 */
 	static function deleteForField($fieldInstance)
 	{
-		$adb = \PearDatabase::getInstance();
-
-		$adb->pquery("DELETE FROM vtiger_def_org_field WHERE fieldid=?", Array($fieldInstance->id));
-		$adb->pquery("DELETE FROM vtiger_profile2field WHERE fieldid=?", Array($fieldInstance->id));
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_def_org_field', ['fieldid' => $fieldInstance->id])->execute();
+		$db->createCommand()->delete('vtiger_profile2field', ['fieldid' => $fieldInstance->id])->execute();
 	}
 
 	/**
@@ -110,14 +130,7 @@ class Profile
 	 */
 	static function getAllIds()
 	{
-		$adb = \PearDatabase::getInstance();
-		$profileids = [];
-		$result = $adb->pquery('SELECT profileid FROM vtiger_profile', []);
-		$countResult = $adb->num_rows($result);
-		for ($index = 0; $index < $countResult; ++$index) {
-			$profileids[] = $adb->query_result($result, $index, 'profileid');
-		}
-		return $profileids;
+		return (new \App\Db\Query())->select(['profileid'])->from('vtiger_profile')->column();
 	}
 
 	/**
@@ -127,29 +140,25 @@ class Profile
 	 */
 	static function initForModule($moduleInstance)
 	{
-		$adb = \PearDatabase::getInstance();
-
-		$actionids = [];
-		$result = $adb->pquery("SELECT actionid from vtiger_actionmapping WHERE actionname IN 
-			(?,?,?,?,?,?)", ['Save', 'EditView', 'Delete', 'index', 'DetailView', 'CreateView']);
-		/*
-		 * NOTE: Other actionname (actionid >= 5) is considered as utility (tools) for a profile.
-		 * Gather all the actionid for associating to profile.
-		 */
-		$countResult = $adb->num_rows($result);
-		for ($index = 0; $index < $countResult; ++$index) {
-			$actionids[] = $adb->query_result($result, $index, 'actionid');
-		}
-
+		$db = \App\Db::getInstance();
+		$actionids = (new \App\Db\Query())->select(['actionid'])->from('vtiger_actionmapping')
+			->where(['actionname' => ['Save', 'EditView', 'Delete', 'index', 'DetailView', 'CreateView']])
+			->column();
 		$profileids = self::getAllIds();
-
 		foreach ($profileids as $profileid) {
-			$adb->pquery("INSERT INTO vtiger_profile2tab (profileid, tabid, permissions) VALUES (?,?,?)", [$profileid, $moduleInstance->id, 0]);
-
+			$db->createCommand()->insert('vtiger_profile2tab', [
+				'profileid' => $profileid,
+				'tabid' => $moduleInstance->id,
+				'permissions' => 0
+			])->execute();
 			if ($moduleInstance->isentitytype) {
 				foreach ($actionids as $actionid) {
-					$adb->pquery(
-						"INSERT INTO vtiger_profile2standardpermissions (profileid, tabid, Operation, permissions) VALUES(?,?,?,?)", [$profileid, $moduleInstance->id, $actionid, 0]);
+					$db->createCommand()->insert('vtiger_profile2standardpermissions', [
+						'profileid' => $profileid,
+						'tabid' => $moduleInstance->id,
+						'operation' => $actionid,
+						'permissions' => 0
+					])->execute();
 				}
 			}
 		}
@@ -163,11 +172,11 @@ class Profile
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = \PearDatabase::getInstance();
-		$db->delete('vtiger_def_org_field', 'tabid = ?', [$moduleInstance->id]);
-		$db->delete('vtiger_def_org_share', 'tabid = ?', [$moduleInstance->id]);
-		$db->delete('vtiger_profile2field', 'tabid = ?', [$moduleInstance->id]);
-		$db->delete('vtiger_profile2standardpermissions', 'tabid = ?', [$moduleInstance->id]);
-		$db->delete('vtiger_profile2tab', 'tabid = ?', [$moduleInstance->id]);
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_def_org_field', ['tabid' => $moduleInstance->id])->execute();
+		$db->createCommand()->delete('vtiger_def_org_share', ['tabid' => $moduleInstance->id])->execute();
+		$db->createCommand()->delete('vtiger_profile2field', ['tabid' => $moduleInstance->id])->execute();
+		$db->createCommand()->delete('vtiger_profile2standardpermissions', ['tabid' => $moduleInstance->id])->execute();
+		$db->createCommand()->delete('vtiger_profile2tab', ['tabid' => $moduleInstance->id])->execute();
 	}
 }
