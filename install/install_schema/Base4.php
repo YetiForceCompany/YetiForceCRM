@@ -8145,7 +8145,7 @@ class Base4 extends \App\Db\Importers\Base
 					[28, '80', 'reference'],
 					[29, '81', 'reference'],
 					[30, '101', 'reference'],
-					[31, '52', 'reference'],
+					[31, '52', 'userCreator'],
 					[32, '357', 'reference'],
 					[33, '59', 'reference'],
 					[34, '66', 'referenceProcess'],
