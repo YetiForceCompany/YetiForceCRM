@@ -90,8 +90,7 @@ class FieldBasic
 	 */
 	public function __getUniqueId()
 	{
-		$adb = \PearDatabase::getInstance();
-		return $adb->getUniqueID('vtiger_field');
+		return \App\Db::getInstance()->getUniqueID('vtiger_field');
 	}
 
 	/**
@@ -106,7 +105,7 @@ class FieldBasic
 		if ($maxSeq) {
 			return $maxSeq + 1;
 		}
-		return 1;
+		return 0;
 	}
 
 	/**
@@ -121,7 +120,7 @@ class FieldBasic
 		if ($maxSeq) {
 			return $maxSeq + 1;
 		}
-		return 1;
+		return 0;
 	}
 
 	/**
