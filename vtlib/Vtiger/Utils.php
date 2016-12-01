@@ -183,24 +183,12 @@ class Utils
 	}
 
 	/**
-	 * Alter existing table
-	 * @param String tablename to alter
-	 * @param String alter criteria like ' ADD columnname columntype' <br>
-	 * will be appended to ALTER TABLE $tablename SQL
-	 */
-	static function AlterTable($tablename, $criteria)
-	{
-		$adb = \PearDatabase::getInstance();
-		$adb->query("ALTER TABLE " . $tablename . $criteria);
-	}
-
-	/**
 	 * Add column to existing table
 	 * @param String tablename to alter
 	 * @param String columnname to add
 	 * @param String columntype (criteria like 'VARCHAR(100)') 
 	 */
-	static function AddColumn($tableName, $columnName, $criteria)
+	public static function AddColumn($tableName, $columnName, $criteria)
 	{
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($tableName);

@@ -146,15 +146,14 @@ class FieldBasic
 			$this->quicksequence = null;
 		}
 
-// Initialize other variables which are not done
+		// Initialize other variables which are not done
 		if (!$this->table)
 			$this->table = $moduleInstance->basetable;
 		if (!$this->column) {
 			$this->column = strtolower($this->name);
 			if (!$this->columntype)
-				$this->columntype = 'VARCHAR(100)';
+				$this->columntype = 'string(100)';
 		}
-
 		if (!$this->label)
 			$this->label = $this->name;
 
@@ -180,21 +179,17 @@ class FieldBasic
 			'info_type' => $this->info_type,
 			'helpinfo' => $this->helpinfo,
 			'summaryfield' => intval($this->summaryfield),
-			'fieldparams' => $this->fieldparams
+			'fieldparams' => $this->fieldparams,
+			'masseditable' => $this->masseditable,
 		])->execute();
-
-		// Set the field status for mass-edit (if set)
-		$db->createCommand()->update('vtiger_field', ['masseditable' => $this->masseditable], ['fieldid' => $this->id])
-			->execute();
 		Profile::initForField($this);
-
 		if (!empty($this->columntype)) {
 			$columntype = $this->columntype;
-			if ($this->uitype == 10)
-				$columntype .= ', ADD INDEX (`' . $this->column . '`)';
 			Utils::AddColumn($this->table, $this->column, $columntype);
+			if ($this->uitype === 10) {
+				$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
+			}
 		}
-
 		self::log("Creating field $this->name ... DONE");
 	}
 
