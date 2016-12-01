@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /*
@@ -123,22 +124,24 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 		return $links;
 	}
-	/*
+
+	/**
 	 * Function to get Basic links
 	 * @return array of Basic links
 	 */
-
 	public function getBasicLinks()
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
 		if ($moduleModel->hasCreatePermissions())
-			$basicLinks[] = array(
+			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
-				'linkicon' => ''
-			);
+				'linkclass' => 'btn-success addButton',
+				'linkicon' => 'glyphicon glyphicon-plus',
+				'showLabel' => 1
+			];
 
 		return $basicLinks;
 	}
