@@ -6,7 +6,7 @@ body{
 	background: #fff;
 }
 .baseContainer .leftPanel a{
-	color: #003c7d;
+	color: #eee;
 }
 .reminderPostpone:hover,
 .relatedHeader .btn-default.addButton:hover,
@@ -407,16 +407,21 @@ btn-danger:hover{
 	margin-left: 0px;
 }
 .baseContainer .leftPanel{
-	background: #fff;
+	background: #003a80;
 	position: fixed;
     left: 0;
     top: 50px;
-	height: 42px;
+	height: 73px;
     bottom: 33px;
     width: 100%;
     color: #00285f;
 	font-weight: bold;
     z-index: 1030;
+}
+.baseContainer .leftPanel .nav.modulesList{
+	
+	color: #eee;
+	height: 73px;
 }
 .bodyHeader{
 	left:50px;
@@ -428,20 +433,29 @@ btn-danger:hover{
 	bottom: 33px;
 }
 .basePanel{
-	top:92px !important;
-}
-.nav.modulesList{
-	border-bottom: 3px solid #00285f;
-	white-space: nowrap;
+	top:120px !important;
 }
 .baseContainer .leftPanel .menuContainer a{
 	padding-left: 10px;
 }
+.iconContainer{
+	width: 100%;
+}
+.iconContainer .iconImage{
+	text-align: center;
+}
+.labelConstainer {
+	width: 100% !important;
+}
+.labelConstainer .labelValue{
+	text-align: center;
+}
+.baseContainer .leftPanel .menuContainer a.hasIcon{
+	display: block;
+}
 .baseContainer .leftPanel .menuContainer a .glyphicon, 
-.baseContainer .leftPanel .menuContainer a.hasIcon img,
-.iconContainer,
-.leftPanel .menuContainer .modulesList .subMenu .menuIcon,
-.leftPanel .menuContainer .modulesList .menuIcon{
+.baseContainer .leftPanel .menuContainer a.hasIcon img
+{
 	display: none;
 }
 .labelConstainer{
@@ -458,8 +472,8 @@ btn-danger:hover{
 }
 .baseContainer .leftPanel .menuContainer a:hover, 
 .baseContainer .leftPanel .menuContainer a:focus{
-	color: #323232;
-	background: #fff;
+	color: #eee;
+	background: #16508c;
 }
 .leftPanel .menuContainer .modulesList .menuIcon,
 .ui-draggable-menuShortcut .menuIcon{
@@ -470,27 +484,21 @@ btn-danger:hover{
 	display: none;
 }
 .nav li > .slimScrollDiv >.subMenu{
-	border-top: 3px solid #00285f;
-	background: #E7E7E7;
+	background: #3a6ea6;
 	border-bottom: 1px solid #fff;
-	left: 0px !important;
-	top: 37px !important;
-	width: 100% !important;
-	height: 0px !important;
-	padding:0 10px;
-	-moz-column-fill: auto;
-	column-fill: auto;
-	column-count: 6;
-	-webkit-column-count: 6;
-    -moz-column-count: 6;
+	height: auto !important;
+	max-height: 500px;
+	top: 73px !important;
+	padding:0 0;
 	overflow: hidden !important;
 	position: absolute;
 	transition: all ease-in 0s 0.25s;
-	display: block;
+	display: none;
 }
 .nav li:hover > .slimScrollDiv >.subMenu{
-	border-bottom: 1px solid #969696;
-	height: 150px !important;
+	left: auto !important;
+	display: block;
+	z-index:1;
 }
 .leftPanel .slimScrollBar{
 	display: none !important;
@@ -501,13 +509,36 @@ btn-danger:hover{
 .leftPanel .modulesList.nav > li{
 	display: inline-block;
 	margin-right: -4px;
+	white-space: nowrap;
+}
+.leftPanel .modulesList.nav > li > a{
+	margin-top:-5px;
+	margin-bottom: -4px;
+	padding-top: 14px !important;
+}
+.leftPanel .modulesList.nav > li.menuModule a,
+.leftPanel .modulesList.nav > li.menuShortcut  a{
+	float:left;
+	padding: 7px 12px;
+}
+.leftPanel .modulesList.nav > li.menuModule .menuIcon,
+.leftPanel .modulesList.nav > li.menuShortcut .menuIcon {
+	width: 100%;
+	float:left;
+	text-align: center;
+}
+.leftPanel .modulesList.nav > li.menuModule .menuName,
+.leftPanel .modulesList.nav > li.menuShortcut  .menuName {
+	width: 100%;
+	float:left;
+	text-align: center;
 }
 .leftPanel .ps-scrollbar-x-rail{
 	display:none !important;
 }
 .baseContainer .leftPanel .menuContainer .subMenu a{
 	font-weight: normal;
-	color: #646464;
+	color: #fff;
 }
 .leftPanel .menuContainer .modulesList .subMenu .menuIcon{
 	font-size: 15px;
@@ -523,8 +554,8 @@ btn-danger:hover{
 .baseContainer .leftPanel .menuContainer .subMenu a:focus,
 .baseContainer .leftPanel .menuContainer .subMenu button:hover,
 .baseContainer .leftPanel .menuContainer .subMenu button:focus{
-	background: #E7E7E7 !important;
-	color: #323232 !important;
+	background: #16508c !important;
+	color: #fff !important;
 }
 .baseContainer .leftPanel .menuContainer .subMenu  a.hasIcon,
 .baseContainer .leftPanel .menuContainer .subMenu  button .hasIcon{
@@ -610,7 +641,9 @@ btn-danger:hover{
 	padding-top: 4px;
 	padding-bottom: 4px;
 }
-.modulesList .menuIcon,
+.modulesList .menuIcon{
+	font-size: 20px !important;
+}
 .modulesList .menuName{
 	font-size: 13px !important;
 }
@@ -632,9 +665,6 @@ btn-danger:hover{
 }
 .baseContainer .leftPanel .menuContainer .modulesList > .menuShortcut a .menuName{
 	text-transform: uppercase;
-}
-.leftPanel .menuContainer .modulesList > .menuShortcut .menuIcon{
-	display: none;
 }
 .indexContainer{
 	border-top: 0 solid #fff;
