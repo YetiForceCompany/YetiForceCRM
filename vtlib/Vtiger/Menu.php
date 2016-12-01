@@ -61,11 +61,9 @@ class Menu
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = \PearDatabase::getInstance();
-		$result = $db->pquery('SELECT id FROM yetiforce_menu WHERE module=?', [$moduleInstance->id]);
-		$db->delete('yetiforce_menu', 'module = ?', [$moduleInstance->id]);
-		$numRows = $db->getRowCount($result);
-		if ($numRows) {
+		$id = (new \App\Db\Query)->select('id')->from('yetiforce_menu')->where(['module' => $moduleInstance->id])->scalar();
+		if ($id) {
+			\App\Db::getInstance()->createCommand()->delete('yetiforce_menu', ['module' => $moduleInstance->id])->execute();
 			$menuRecordModel = new \Settings_Menu_Record_Model();
 			$menuRecordModel->refreshMenuFiles();
 		}
