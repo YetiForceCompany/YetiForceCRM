@@ -171,4 +171,14 @@ class Db extends \yii\db\Connection
 		}
 		return $id;
 	}
+
+	/**
+	 * Check if table is present in database
+	 * @param string $tableName
+	 * @return boolean
+	 */
+	public function isTableExists($tableName)
+	{
+		return $this->getSchema()->getTableSchema($tableName) !== null;
+	}
 }

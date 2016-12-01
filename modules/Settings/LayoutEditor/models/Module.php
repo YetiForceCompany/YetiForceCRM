@@ -230,7 +230,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$fieldLength = $params['fieldLength'];
 				$uichekdata = 'V~O~LE~' . $fieldLength;
 				$uitype = 1;
-				$type = $importerType->string($fieldLength)->defaultValue('');
+				$type = $importerType->stringType($fieldLength)->defaultValue('');
 				break;
 			Case 'Decimal' :
 				$fieldLength = $params['fieldLength'];

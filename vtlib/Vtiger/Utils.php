@@ -149,8 +149,7 @@ class Utils
 	 */
 	static function CheckTable($tableName)
 	{
-		$adb = \PearDatabase::getInstance();
-		return $adb->checkExistTable($tableName);
+		return \App\Db::getInstance()->isTableExists($tableName);
 	}
 
 	/**
