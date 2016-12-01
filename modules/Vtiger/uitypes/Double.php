@@ -38,6 +38,9 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
+		if ($value === '') {
+			return 0;
+		}
 		return str_replace(',', '', $value);
 	}
 }

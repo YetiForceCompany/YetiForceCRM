@@ -237,14 +237,19 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 		$eventHandler->trigger('EntityInventoryAfterSave');
 
+
 		$focus->mode = $recordModel->get('mode');
-		$focus->id = $recordModel->getId();
+		$recordId = $focus->id = $recordModel->getId();
+		if ($recordModel->isNew()) {
+			$recordId = $recordModel->get('newRecord');
+		}
 		$focus->newRecord = $recordModel->get('newRecord');
 		$eventHandler->trigger('EntityBeforeSave');
 		$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
+		$recordModel->setId($recordId);
 		$focus->save($moduleName);
-		$recordModel->setId($focus->id);
 		//$recordModel->saveToDb();
+
 		$eventHandler->trigger('EntityAfterSave');
 		$eventHandler->setSystemTrigger('EntityAfterSaveSystem');
 		return $recordModel;
@@ -578,7 +583,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			return $this->fields[$fieldName];
 		}
 		App\Log::error("Field does not exist: $fieldName in " . __METHOD__);
-		throw new \Exception\AppException('LBL_FIELD_DOES_NOT_EXIST');
+		return false;
 	}
 
 	/**
@@ -661,19 +666,20 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 * Function gives list fields for save
 	 * @return type
 	 */
-	public function getFieldsForSave()
+	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
 	{
 		$tabId = $this->getId();
 		if ($this->getName() === 'Events') {
 			$tabId = \App\Module::getModuleId('Calendar');
 		}
+		if ($this->getName() === 'Calendar' && $recordModel->get('activitytype') !== 'Task') {
+			$tabId = \App\Module::getModuleId('Events');
+		}
 		$editFields = [];
 		foreach (App\Field::getFieldsPermissions($tabId, false) as &$field) {
 			$editFields[] = $field['fieldname'];
 		}
-		$editFields = array_unique(array_merge($editFields, ['assigned_user_id', 'modifiedby', 'modifiedtime']));
-		$saveFields = array_diff($editFields, ['closedtime', 'shownerid']);
-		return $saveFields;
+		return array_diff($editFields, ['closedtime', 'shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);
 	}
 
 	/**

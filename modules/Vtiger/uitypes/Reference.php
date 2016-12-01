@@ -117,4 +117,18 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		}
 		return parent::getListSearchTemplateName();
 	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (empty($value)) {
+			$value = 0;
+		}
+		return $value;
+	}
 }

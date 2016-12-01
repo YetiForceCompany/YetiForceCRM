@@ -365,7 +365,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function saveToDb()
 	{
-		$saveFields = $this->getModule()->getFieldsForSave();
+		$saveFields = $this->getModule()->getFieldsForSave($this);
 		$forSave = $this->getEntityDataForSave();
 		$isNew = $this->isNew();
 		if (!$isNew) {
@@ -382,7 +382,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$db = \App\Db::getInstance();
 		foreach ($forSave as $tableName => &$tableData) {
 			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
-			echo "<hr>$tableName<br>";
 			if ($isNew) {
 				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
 			} else {

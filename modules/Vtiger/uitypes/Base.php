@@ -42,6 +42,9 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
+		if ($value === '' && in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
+			$value = 0;
+		}
 		return $value;
 	}
 
