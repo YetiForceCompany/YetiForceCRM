@@ -200,11 +200,12 @@ class Utils
 	 * @param String columnname to add
 	 * @param String columntype (criteria like 'VARCHAR(100)') 
 	 */
-	static function AddColumn($tablename, $columnname, $criteria)
+	static function AddColumn($tableName, $columnName, $criteria)
 	{
-		$adb = \PearDatabase::getInstance();
-		if (!in_array($columnname, $adb->getColumnNames($tablename))) {
-			self::AlterTable($tablename, " ADD COLUMN `$columnname` $criteria");
+		$db = \App\Db::getInstance();
+		$tableSchema = $db->getSchema()->getTableSchema($tableName);
+		if (is_null($tableSchema->getColumn($columnName))) {
+			$db->createCommand()->addColumn($tableName, $columnName, $criteria)->execute();
 		}
 	}
 

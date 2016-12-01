@@ -85,23 +85,6 @@ class FieldBasic
 	static $__cacheSchemaChanges = [];
 
 	/**
-	 * Initialize vtiger schema changes.
-	 * @access private
-	 */
-	public function __handleVtigerCoreSchemaChanges()
-	{
-// Add helpinfo column to the vtiger_field table
-		if (empty(self::$__cacheSchemaChanges['vtiger_field.helpinfo'])) {
-			Utils::AddColumn('vtiger_field', 'helpinfo', ' TEXT');
-			self::$__cacheSchemaChanges['vtiger_field.helpinfo'] = true;
-		}
-		if (empty(self::$__cacheSchemaChanges['vtiger_field.summaryfield'])) {
-			Utils::AddColumn('vtiger_field', 'summaryfield', ' INT(10) NOT NULL DEFAULT 0');
-			self::$__cacheSchemaChanges['vtiger_field.summaryfield'] = 0;
-		}
-	}
-
-	/**
 	 * Get unique id for this instance
 	 * @access private
 	 */
@@ -148,7 +131,6 @@ class FieldBasic
 	 */
 	public function __create($blockInstance)
 	{
-		$this->__handleVtigerCoreSchemaChanges();
 		$db = \App\Db::getInstance();
 		$this->block = $blockInstance;
 		$moduleInstance = $this->getModuleInstance();
@@ -298,7 +280,6 @@ class FieldBasic
 	public function setHelpInfo($helptext)
 	{
 		// Make sure to initialize the core tables first
-		$this->__handleVtigerCoreSchemaChanges();
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_field', ['helpinfo' => $helptext], ['fieldid' => $this->id])
 			->execute();
