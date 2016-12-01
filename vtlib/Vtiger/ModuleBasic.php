@@ -260,21 +260,58 @@ class ModuleBasic
 
 		// Initialize tablename and index column names
 		$lcasemodname = strtolower($this->name);
-		if (!$this->basetable)
+		if (!$this->basetable) {
 			$this->basetable = "vtiger_$lcasemodname";
-		if (!$this->basetableid)
+		}
+		if (!$this->basetableid) {
 			$this->basetableid = $lcasemodname . 'id';
-
-		if (!$this->customtable)
+		}
+		if (!$this->customtable) {
 			$this->customtable = $this->basetable . 'cf';
-
-		Utils::CreateTable($this->basetable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->basetable` FOREIGN KEY (`$this->basetableid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)", true);
-		Utils::CreateTable($this->customtable, "($this->basetableid int(19) PRIMARY KEY, CONSTRAINT `fk_1_$this->customtable` FOREIGN KEY (`$this->basetableid`) REFERENCES `$this->basetable` (`$this->basetableid`) ON DELETE CASCADE)", true);
-		if ($this->type == 1) {
-			Utils::CreateTable($this->basetable . '_invfield', "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
-				defaultvalue varchar(255),sequence int(10) unsigned NOT NULL, block tinyint(1) unsigned NOT NULL,displaytype tinyint(1) unsigned NOT NULL DEFAULT '1', params text, colspan tinyint(1) unsigned NOT NULL DEFAULT '1')", true);
-			Utils::CreateTable($this->basetable . '_inventory', '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $this->basetable . '_inventory` FOREIGN KEY (`id`) REFERENCES `' . $this->basetable . '` (`' . $this->basetableid . '`) ON DELETE CASCADE)', true);
-			Utils::CreateTable($this->basetable . '_invmap', '(module varchar(50) NOT NULL,field varchar(50) NOT NULL,tofield varchar(50) NOT NULL,PRIMARY KEY (`module`,`field`,`tofield`))', true);
+		}
+		$db = \App\Db::getInstance();
+		$importer = new \App\Db\Importers\Base();
+		$db->createTable($this->basetable, [
+			$this->basetableid => 'int'
+		]);
+		$db->createCommand()->addPrimaryKey("{$this->basetable}_pk", $this->basetable, $this->basetableid)->execute();
+		$db->createCommand()->addForeignKey(
+			"fk_1_{$this->basetable}{$this->basetableid}", $this->basetable, $this->basetableid, 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'
+		)->execute();
+		$db->createTable($this->customtable, [
+			$this->basetableid => 'int'
+		]);
+		$db->createCommand()->addPrimaryKey("{$this->customtable}_pk", $this->customtable, $this->basetableid)->execute();
+		$db->createCommand()->addForeignKey(
+			"fk_1_{$this->customtable}{$this->basetableid}", $this->customtable, $this->basetableid, $this->basetable, $this->basetableid, 'CASCADE', 'RESTRICT'
+		)->execute();
+		if ($this->type === 1) {
+			$db->createTable($this->basetable . '_invfield', [
+				'id' => 'pk',
+				'columnname' => 'string(30)',
+				'label' => $importer->stringType(50)->notNull(),
+				'invtype' => $importer->stringType(30)->notNull(),
+				'presence' => $importer->boolean()->defaultValue(false),
+				'defaultvalue' => 'string',
+				'sequence' => $importer->smallInteger()->unsigned()->notNull(),
+				'block' => $importer->smallInteger()->unsigned()->notNull(),
+				'displaytype' => $importer->smallInteger()->unsigned()->notNull()->defaultValue(1),
+				'params' => 'text',
+				'colspan' => $importer->smallInteger()->unsigned()->notNull()->defaultValue(1),
+			]);
+			$db->createTable($this->basetable . '_inventory', [
+				'id' => 'int'
+			]);
+			$db->createCommand()->createIndex("{$this->basetable}_inventory_id_idx", $this->basetable . '_inventory', 'id')->execute();
+			$db->createCommand()->addForeignKey(
+				"fk_1_{$this->basetable}_inventory{$this->basetableid}", $this->basetable . '_inventory', 'id', $this->basetable, $this->basetableid, 'CASCADE', 'RESTRICT'
+			)->execute();
+			$db->createTable($this->basetable . '_invmap', [
+				'module' => $importer->stringType(50)->notNull(),
+				'field' => $importer->stringType(50)->notNull(),
+				'tofield' => $importer->stringType(50)->notNull()
+			]);
+			$db->createCommand()->addPrimaryKey("{$this->basetable}_invmap_pk", $this->basetable . '_invmap', ['module', 'field', 'tofield'])->execute();
 		}
 	}
 

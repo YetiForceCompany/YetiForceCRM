@@ -95,10 +95,10 @@ class Module extends ModuleBasic
 				]);
 				$db->createCommand()->createIndex("{$refTableName['table']}_crmid_idx", $refTableName['table'], 'crmid')->execute();
 				$db->createCommand()->createIndex("{$refTableName['table']}_relcrmid_idx", $refTableName['table'], 'relcrmid')->execute();
-				$db->createCommand()->createCommand()->addForeignKey(
+				$db->createCommand()->addForeignKey(
 					"fk_1_{$refTableName['table']}", $refTableName['table'], 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'
 				)->execute();
-				$db->createCommand()->createCommand()->addForeignKey(
+				$db->createCommand()->addForeignKey(
 					"fk_2_{$refTableName['table']}", $refTableName['table'], 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'
 				)->execute();
 			}
