@@ -117,14 +117,13 @@ class FieldBasic
 	 */
 	public function __getNextSequence()
 	{
-		$db = \PearDatabase::getInstance();
-		$result = $db->pquery("SELECT MAX(sequence) AS max_seq FROM vtiger_field WHERE tabid=? && block=?", Array($this->getModuleId(), $this->getBlockId()));
-		$maxseq = 0;
-		if ($result && $db->num_rows($result)) {
-			$maxseq = $db->getSingleValue($result);
-			$maxseq += 1;
+		$maxSeq = (new \App\Db\Query())->from('vtiger_field')
+			->where(['tabid' => $this->getModuleId(), 'block' => $this->getBlockId()])
+			->max('sequence');
+		if ($maxSeq) {
+			return $maxSeq + 1;
 		}
-		return $maxseq;
+		return 1;
 	}
 
 	/**
@@ -133,14 +132,13 @@ class FieldBasic
 	 */
 	public function __getNextQuickCreateSequence()
 	{
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT MAX(quickcreatesequence) AS max_quickcreateseq FROM vtiger_field WHERE tabid=?", Array($this->getModuleId()));
-		$max_quickcreateseq = 0;
-		if ($result && $adb->num_rows($result)) {
-			$max_quickcreateseq = $adb->query_result($result, 0, 'max_quickcreateseq');
-			$max_quickcreateseq += 1;
+		$maxSeq = (new \App\Db\Query())->from('vtiger_field')
+			->where(['tabid' => $this->getModuleId()])
+			->max('quickcreatesequence');
+		if ($maxSeq) {
+			return $maxSeq + 1;
 		}
-		return $max_quickcreateseq;
+		return 1;
 	}
 
 	/**
@@ -151,19 +149,13 @@ class FieldBasic
 	public function __create($blockInstance)
 	{
 		$this->__handleVtigerCoreSchemaChanges();
-
-		$adb = \PearDatabase::getInstance();
-
+		$db = \App\Db::getInstance();
 		$this->block = $blockInstance;
-
 		$moduleInstance = $this->getModuleInstance();
-
 		$this->id = $this->__getUniqueId();
-
 		if (!$this->sequence) {
 			$this->sequence = $this->__getNextSequence();
 		}
-
 		if ($this->quickcreate != 1) { // If enabled for display
 			if (!$this->quicksequence) {
 				$this->quicksequence = $this->__getNextQuickCreateSequence();
@@ -184,17 +176,34 @@ class FieldBasic
 		if (!$this->label)
 			$this->label = $this->name;
 
-		$adb->pquery('INSERT INTO vtiger_field (tabid, fieldid, columnname, tablename, generatedtype,
-uitype, fieldname, fieldlabel, readonly, presence, defaultvalue, maximumlength, sequence,
-block, displaytype, typeofdata, quickcreate, quickcreatesequence, info_type, helpinfo, summaryfield, fieldparams) 
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(), $this->id, $this->column, $this->table, intval($this->generatedtype),
-			$this->uitype, $this->name, $this->label, $this->readonly, $this->presence, $this->defaultvalue,
-			$this->maximumlength, $this->sequence, $this->getBlockId(), $this->displaytype, $this->typeofdata,
-			intval($this->quickcreate), intval($this->quicksequence), $this->info_type, $this->helpinfo, intval($this->summaryfield), $this->fieldparams));
+		$db->createCommand()->insert('vtiger_field', [
+			'tabid' => $this->getModuleId(),
+			'fieldid' => $this->id,
+			'columnname' => $this->column,
+			'tablename' => $this->table,
+			'generatedtype' => intval($this->generatedtype),
+			'uitype' => $this->uitype,
+			'fieldname' => $this->name,
+			'fieldlabel' => $this->label,
+			'readonly' => $this->readonly,
+			'presence' => $this->presence,
+			'defaultvalue' => $this->defaultvalue,
+			'maximumlength' => $this->maximumlength,
+			'sequence' => $this->sequence,
+			'block' => $this->getBlockId(),
+			'displaytype' => $this->displaytype,
+			'typeofdata' => $this->typeofdata,
+			'quickcreate' => intval($this->quickcreate),
+			'quickcreatesequence' => intval($this->quicksequence),
+			'info_type' => $this->info_type,
+			'helpinfo' => $this->helpinfo,
+			'summaryfield' => intval($this->summaryfield),
+			'fieldparams' => $this->fieldparams
+		])->execute();
 
-// Set the field status for mass-edit (if set)
-		$adb->pquery('UPDATE vtiger_field SET masseditable=? WHERE fieldid=?', Array($this->masseditable, $this->id));
-
+		// Set the field status for mass-edit (if set)
+		$db->createCommand()->update('vtiger_field', ['masseditable' => $this->masseditable], ['fieldid' => $this->id])
+			->execute();
 		Profile::initForField($this);
 
 		if (!empty($this->columntype)) {
@@ -218,11 +227,8 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	public function __delete()
 	{
-		$adb = \PearDatabase::getInstance();
-
 		Profile::deleteForField($this);
-
-		$adb->pquery("DELETE FROM vtiger_field WHERE fieldid=?", Array($this->id));
+		\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $this->id])->execute();
 		self::log("Deleteing Field $this->name ... DONE");
 	}
 
@@ -291,11 +297,11 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	public function setHelpInfo($helptext)
 	{
-// Make sure to initialize the core tables first
+		// Make sure to initialize the core tables first
 		$this->__handleVtigerCoreSchemaChanges();
-
-		$adb = \PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_field SET helpinfo=? WHERE fieldid=?', Array($helptext, $this->id));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_field', ['helpinfo' => $helptext], ['fieldid' => $this->id])
+			->execute();
 		self::log("Updated help information of $this->name ... DONE");
 	}
 
@@ -305,8 +311,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	public function setMassEditable($value)
 	{
-		$adb = \PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_field SET masseditable=? WHERE fieldid=?', Array($value, $this->id));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_field', ['masseditable' => $value], ['fieldid' => $this->id])
+			->execute();
 		self::log("Updated masseditable information of $this->name ... DONE");
 	}
 
@@ -316,8 +323,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', Array($this->getModuleId(
 	 */
 	public function setSummaryField($value)
 	{
-		$adb = \PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_field SET summaryfield=? WHERE fieldid=?', Array($value, $this->id));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_field', ['summaryfield' => $value], ['fieldid' => $this->id])
+			->execute();
 		self::log("Updated summaryfield information of $this->name ... DONE");
 	}
 
