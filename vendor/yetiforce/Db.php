@@ -181,4 +181,18 @@ class Db extends \yii\db\Connection
 	{
 		return $this->getSchema()->getTableSchema($tableName) !== null;
 	}
+
+	/**
+	 * Creating a new DB table
+	 * @param string $tableName
+	 * @return boolean
+	 */
+	public function createTable($tableName, $columns)
+	{
+		$tableOptions = null;
+		if ($this->getDriverName() === 'mysql') {
+			$tableOptions = 'CHARACTER SET utf8 ENGINE=InnoDB';
+		}
+		$this->createCommand()->createTable($tableName, $columns, $tableOptions)->execute();
+	}
 }

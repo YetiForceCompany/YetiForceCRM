@@ -18,16 +18,6 @@ class Field extends FieldBasic
 {
 
 	/**
-	 * Get unique picklist id to use
-	 * @access private
-	 */
-	public function __getPicklistUniqueId()
-	{
-		$db = \App\Db::getInstance();
-		return $db->getUniqueID('vtiger_picklist');
-	}
-
-	/**
 	 * Get picklist values from table
 	 */
 	public function getPicklistValues()
@@ -48,30 +38,28 @@ class Field extends FieldBasic
 			$this->setNoRolePicklistValues($values);
 			return;
 		}
-		$adb = \PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
 		$picklistTable = 'vtiger_' . $this->name;
 		$picklistIdCol = $this->name . 'id';
-		if (!Utils::CheckTable($picklistTable)) {
-			Utils::CreateTable(
-				$picklistTable, "($picklistIdCol INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				$this->name VARCHAR(200) NOT NULL,
-				presence INT (1) NOT NULL DEFAULT 1,
-				picklist_valueid INT NOT NULL DEFAULT 0,
-                sortorderid INT DEFAULT 0)", true);
-			$newPicklistId = $this->__getPicklistUniqueId();
-			$db->createCommand()->insert('vtiger_picklist', ['picklistid' => $newPicklistId, 'name' => $this->name])->execute();
+		if (!$db->isTableExists($picklistTable)) {
+			$importer = new \App\Db\Importers\Base();
+			$db->createTable($picklistTable, [
+				$picklistIdCol => 'pk',
+				$this->name => 'string',
+				'presence' => $importer->boolean()->defaultValue(true),
+				'picklist_valueid' => $importer->smallInteger()->defaultValue(0),
+				'sortorderid' => $importer->smallInteger()->defaultValue(0)
+			]);
+			$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
 			self::log("Creating table $picklistTable ... DONE");
 		} else {
 			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
 		}
-
 		$specialNameSpacedPicklists = [
 			'opportunity_type' => 'opptypeid',
 			'duration_minutes' => 'minutesid',
 			'recurringtype' => 'recurringeventid'
 		];
-
 		// Fix Table ID column names
 		$fieldName = (string) $this->name;
 		if (in_array($fieldName . '_id', $db->getTableSchema($picklistTable)->getColumnNames())) {
@@ -83,11 +71,11 @@ class Field extends FieldBasic
 		// Add value to picklist now
 		$picklistValues = self::getPicklistValues();
 		$sortid = 0;
-		foreach ($values as $value) {
+		foreach ($values as &$value) {
 			if (in_array($value, $picklistValues)) {
 				continue;
 			}
-			$newPicklistValueId = $adb->getUniqueID('vtiger_picklistvalues');
+			$newPicklistValueId = $db->getUniqueID('vtiger_picklistvalues');
 			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
 			++$sortid;
 			$db->createCommand()->insert($picklistTable, [$this->name => $value, 'presence' => $presence,
@@ -99,7 +87,7 @@ class Field extends FieldBasic
 			$roleIds = $query->column();
 			$insertedData = [];
 			foreach ($roleIds as $value) {
-				$insertedData [] = [$value, $newPicklistValueId, $recordId, $newPicklistId, $sortid];
+				$insertedData [] = [$value, $newPicklistValueId, $newPicklistId, $sortid];
 			}
 			$db->createCommand()
 				->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)
@@ -120,24 +108,26 @@ class Field extends FieldBasic
 		$db = \App\Db::getInstance();
 		$pickListNameIDs = array('recurring_frequency', 'payment_duration');
 		$picklistTable = 'vtiger_' . $this->name;
-		$picklistIDcol = $this->name . 'id';
+		$picklistIdCol = $this->name . 'id';
 		if (in_array($this->name, $pickListNameIDs)) {
-			$picklistIDcol = $this->name . '_id';
+			$picklistIdCol = $this->name . '_id';
 		}
 
-		if (!Utils::CheckTable($picklistTable)) {
-			Utils::CreateTable(
-				$picklistTable, "($picklistIDcol INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				$this->name VARCHAR(200) NOT NULL,
-				sortorderid INT(11),
-				presence INT (11) NOT NULL DEFAULT 1)", true);
+		if (!$db->isTableExistss($picklistTable)) {
+			$importer = new \App\Db\Importers\Base();
+			$db->createTable($picklistTable, [
+				$picklistIdCol => 'pk',
+				$this->name => 'string',
+				'presence' => $importer->boolean()->defaultValue(true),
+				'sortorderid' => $importer->smallInteger()->defaultValue(0)
+			]);
 			self::log("Creating table $picklistTable ... DONE");
 		}
 		// Add value to picklist now
 		$picklistValues = $this->getPicklistValues();
 
 		$sortid = 1;
-		foreach ($values as $value) {
+		foreach ($values as &$value) {
 			if (in_array($value, $picklistValues)) {
 				continue;
 			}
@@ -165,16 +155,9 @@ class Field extends FieldBasic
 			self::log("Setting $this->name relation with $relmodule ... ERROR: No module names");
 			return false;
 		}
-		// We need to create core table to capture the relation between the field and modules.
-		if (!Utils::CheckTable('vtiger_fieldmodulerel')) {
-			Utils::CreateTable(
-				'vtiger_fieldmodulerel', '(fieldid INT NOT NULL, module VARCHAR(100) NOT NULL, relmodule VARCHAR(100) NOT NULL, status VARCHAR(10), sequence INT)', true
-			);
-		}
-		// END
-
 		$db = \App\Db::getInstance();
-		foreach ($moduleNames as $relmodule) {
+		// END
+		foreach ($moduleNames as &$relmodule) {
 			$checkRes = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->one();
 
 			// If relation already exist continue
@@ -194,7 +177,7 @@ class Field extends FieldBasic
 	public function unsetRelatedModules($moduleNames)
 	{
 		$db = \App\Db::getInstance();
-		foreach ($moduleNames as $relmodule) {
+		foreach ($moduleNames as &$relmodule) {
 			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
 			Utils::Log("Unsetting $this->name relation with $relmodule ... DONE");
 		}
@@ -292,7 +275,7 @@ class Field extends FieldBasic
 		$db->createCommand()->insert('vtiger_trees_templates', ['name' => $tree->name, 'module' => $moduleInstance->id, 'access' => $tree->access])->execute();
 		$templateId = $db->getLastInsertID();
 
-		foreach ($tree->tree_values->tree_value as $treeValue) {
+		foreach ($tree->tree_values->tree_value as &$treeValue) {
 			$db->createCommand()->insert('vtiger_trees_templates_data', ['templateid' => $templateId, 'name' => $treeValue->name, 'tree' => $treeValue->tree,
 				'parenttrre' => $treeValue->parenttrre, 'depth' => $treeValue->depth, 'label' => $treeValue->label, 'state' => $treeValue->state
 			])->execute();
@@ -336,7 +319,7 @@ class Field extends FieldBasic
 			$picklists = $query->column();
 			$modulePicklists = array_diff($modulePicklists, $picklists);
 		}
-		foreach ($modulePicklists as $picklistName) {
+		foreach ($modulePicklists as &$picklistName) {
 			$db->createCommand()->dropTable('vtiger_' . $picklistName . '')->execute();
 			$db->createCommand()->dropTable('vtiger_' . $picklistName . '_seq')->execute();
 			$picklistId = (new \App\Db\Query)->select('picklistid')->from('vtiger_picklist')->where(['name' => $picklistName])->scalar();

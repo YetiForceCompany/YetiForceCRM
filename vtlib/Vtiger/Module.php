@@ -89,14 +89,10 @@ class Module extends ModuleBasic
 			$refTableName = \Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
 			$schema = $db->getSchema();
 			if (!$schema->getTableSchema($refTableName['table'])) {
-				$tableOptions = null;
-				if ($db->getDriverName() === 'mysql') {
-					$tableOptions = 'CHARACTER SET utf8 ENGINE=InnoDB';
-				}
-				$db->createCommand()->createTable($refTableName['table'], [
+				$db->createTable($refTableName['table'], [
 					'crmid' => 'int',
 					'relcrmid' => 'int'
-					], $tableOptions)->execute();
+				]);
 				$db->createCommand()->createIndex("{$refTableName['table']}_crmid_idx", $refTableName['table'], 'crmid')->execute();
 				$db->createCommand()->createIndex("{$refTableName['table']}_relcrmid_idx", $refTableName['table'], 'relcrmid')->execute();
 				$db->createCommand()->createCommand()->addForeignKey(
