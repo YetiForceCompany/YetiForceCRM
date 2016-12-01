@@ -224,130 +224,132 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getTypeDetailsForAddField($fieldType, $params)
 	{
 		$displayType = 1;
+		$importerType = new \App\Db\Importers\Base();
 		switch ($fieldType) {
 			Case 'Text' :
 				$fieldLength = $params['fieldLength'];
 				$uichekdata = 'V~O~LE~' . $fieldLength;
 				$uitype = 1;
-				$type = "VARCHAR(" . $fieldLength . ") default ''";
+				$type = $importerType->string($fieldLength)->defaultValue('');
 				break;
 			Case 'Decimal' :
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
 				$uitype = 7;
-
 				$dbfldlength = $fieldLength + $decimal + 1;
-				$type = "NUMERIC(" . $dbfldlength . "," . $decimal . ")";
+				$type = $importerType->decimal($dbfldlength, $decimal);
 				// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363
 				$uichekdata = 'NN~O';
 				break;
 			Case 'Percent' :
 				$uitype = 9;
-				$type = "NUMERIC(5,2)";
+				$type = $importerType->decimal(5, 2);
 				$uichekdata = 'N~O~2~2';
 				break;
 			Case 'Currency' :
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
 				$uitype = 71;
-				if (1 == $fieldLength)
+				if (1 == $fieldLength) {
 					$dbfldlength = $fieldLength + $decimal + 2;
-				else
+				} else {
 					$dbfldlength = $fieldLength + $decimal + 1;
+				}
 				$decimal = $decimal + 3;
-				$type = "NUMERIC(" . $dbfldlength . "," . $decimal . ")";
+				$type = $importerType->decimal($dbfldlength, $decimal);
 				$uichekdata = 'N~O';
 				break;
 			Case 'Date' :
 				$uichekdata = 'D~O';
 				$uitype = 5;
-				$type = "DATE";
+				$type = $importerType->date();
 				break;
 			Case 'Email' :
 				$uitype = 13;
-				$type = "VARCHAR(50) default '' ";
+				$type = $importerType->stringType(50)->defaultValue('');
 				$uichekdata = 'E~O';
 				break;
 			Case 'Time' :
 				$uitype = 14;
-				$type = "TIME";
+				$type = $importerType->time();
 				$uichekdata = 'T~O';
 				break;
 			Case 'Phone' :
 				$uitype = 11;
-				$type = "VARCHAR(30) default '' ";
+				$type = $importerType->stringType(30)->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'Picklist' :
 				$uitype = 16;
-				if (!empty($params['isRoleBasedPickList']))
+				if (!empty($params['isRoleBasedPickList'])) {
 					$uitype = 15;
-				$type = "VARCHAR(255) default '' ";
+				}
+				$type = $importerType->stringType()->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'URL' :
 				$uitype = 17;
-				$type = "VARCHAR(255) default '' ";
+				$type = $importerType->stringType()->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'Checkbox' :
 				$uitype = 56;
-				$type = "TINYINT(1) default 0";
+				$type = $importerType->boolean()->defaultValue(false);
 				$uichekdata = 'C~O';
 				break;
 			Case 'TextArea' :
 				$uitype = 21;
-				$type = "TEXT";
+				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
 			Case 'MultiSelectCombo' :
 				$uitype = 33;
-				$type = "TEXT";
+				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
 			Case 'Skype' :
 				$uitype = 85;
-				$type = "VARCHAR(255) default '' ";
+				$type = $importerType->stringType()->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'Integer' :
 				$fieldLength = $params['fieldLength'];
 				$uitype = 7;
 				if ($fieldLength > 10) {
-					$type = "BIGINT(" . $fieldLength . ")";
+					$type = $importerType->bigInteger($fieldLength)->defaultValue(0);
 				} else {
-					$type = "INTEGER(" . $fieldLength . ")";
+					$type = $importerType->integer($fieldLength)->defaultValue(0);
 				}
 				$uichekdata = 'I~O';
 				break;
 			Case 'Related1M' :
 				$uitype = 10;
-				$type = "INTEGER(19)";
+				$type = $importerType->integer()->defaultValue(0)->unsigned();
 				$uichekdata = 'V~O';
 				break;
 			Case 'Editor' :
 				$uitype = 300;
-				$type = "TEXT";
+				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
 			Case 'Tree' :
 				$uitype = 302;
-				$type = "VARCHAR(255) default '' ";
+				$type = $importerType->stringType()->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'MultiReferenceValue' :
 				$uitype = 305;
-				$type = "TEXT";
+				$type = $importerType->text();
 				$uichekdata = 'C~O';
 				$displayType = 5;
 				break;
 		}
-		return array(
+		return [
 			'uitype' => $uitype,
 			'typeofdata' => $uichekdata,
 			'dbType' => $type,
 			'displayType' => $displayType,
-		);
+		];
 	}
 
 	public function checkFieldNameCharacters($name)
