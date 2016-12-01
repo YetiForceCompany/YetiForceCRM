@@ -19,7 +19,7 @@ class Module extends ModuleBasic
 
 	/**
 	 * Function to get the Module/Tab id
-	 * @return <Number>
+	 * @return int
 	 */
 	public function getId()
 	{
@@ -28,16 +28,11 @@ class Module extends ModuleBasic
 
 	/**
 	 * Get related list sequence to use
-	 * @access private
+	 * @return int
 	 */
 	public function __getNextRelatedListSequence()
 	{
-		$adb = \PearDatabase::getInstance();
-		$max_sequence = 0;
-		$result = $adb->pquery("SELECT max(sequence) as maxsequence FROM vtiger_relatedlists WHERE tabid=?", Array($this->id));
-		if ($adb->num_rows($result))
-			$max_sequence = $adb->query_result($result, 0, 'maxsequence');
-		return ++$max_sequence;
+		return (new \App\Db\Query())->from('vtiger_relatedlists')->where(['tabid' => $this->id])->max('sequence') + 1;
 	}
 
 	/**
@@ -51,15 +46,19 @@ class Module extends ModuleBasic
 	 */
 	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList')
 	{
-		$adb = \PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 
 		if (empty($moduleInstance))
 			return;
-		if (empty($label))
+		if (empty($label)) {
 			$label = $moduleInstance->name;
-
-		$result = $adb->pquery('SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? && related_tabid = ? && name = ? && label = ?;', [$this->id, $moduleInstance->id, $functionName, $label]);
-		if ($result->rowCount() > 0) {
+		}
+		$isExists = (new \App\Db\Query())
+			->select('relation_id')
+			->from('vtiger_relatedlists')
+			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
+			->exists();
+		if ($isExists) {
 			self::log("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists");
 			return;
 		}
@@ -75,18 +74,18 @@ class Module extends ModuleBasic
 			$useactionsText = implode(',', $actions);
 		$useactionsText = strtoupper($useactionsText);
 
-		$adb->insert('vtiger_relatedlists', [
-			'relation_id' => $adb->getUniqueID('vtiger_relatedlists'),
+		$db->createCommand()->insert('vtiger_relatedlists', [
+			'relation_id' => $db->getUniqueID('vtiger_relatedlists', 'relation_id', false),
 			'tabid' => $this->id,
 			'related_tabid' => $moduleInstance->id,
 			'name' => $functionName,
 			'sequence' => $sequence,
 			'label' => $label,
 			'presence' => $presence,
-			'actions' => $useactionsText,
-		]);
+			'actions' => $useactionsText
+		])->execute();
 
-		if ($functionName == 'getManyToMany') {
+		if ($functionName === 'getManyToMany') {
 			$refTableName = \Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
 			if (!Utils::CheckTable($refTableName['table'])) {
 				Utils::CreateTable(
@@ -100,22 +99,19 @@ class Module extends ModuleBasic
 
 	/**
 	 * Unset related list information that exists with other module
-	 * @param Module Instance of target module with which relation should be setup
-	 * @param String Label to display in related list (default is target module name)
-	 * @param String Callback function name of this module to use as handler
+	 * @param \Module Instance of target module with which relation should be setup
+	 * @param string Label to display in related list (default is target module name)
+	 * @param string Callback function name of this module to use as handler
 	 */
 	public function unsetRelatedList($moduleInstance, $label = '', $function_name = 'getRelatedList')
 	{
-		$adb = \PearDatabase::getInstance();
-
 		if (empty($moduleInstance))
 			return;
 
 		if (empty($label))
 			$label = $moduleInstance->name;
 
-		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE tabid=? && related_tabid=? && name=? && label=?", Array($this->id, $moduleInstance->id, $function_name, $label));
-
+		\App\Db::getInstance()->createCommand()->delete('vtiger_relatedlists', ['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $function_name, 'label' => $label])->execute();
 		self::log("Unsetting relation with $moduleInstance->name ... DONE");
 	}
 
