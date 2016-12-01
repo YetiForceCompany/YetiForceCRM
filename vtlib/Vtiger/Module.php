@@ -87,11 +87,24 @@ class Module extends ModuleBasic
 
 		if ($functionName === 'getManyToMany') {
 			$refTableName = \Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
-			if (!Utils::CheckTable($refTableName['table'])) {
-				Utils::CreateTable(
-					$refTableName['table'], '(crmid INT(19) ,relcrmid INT(19),KEY crmid (crmid),KEY relcrmid (relcrmid),'
-					. ' CONSTRAINT `' . $refTableName['table'] . '_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,'
-					. ' CONSTRAINT `' . $refTableName['table'] . '_ibfk_2` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE)', true);
+			$schema = $db->getSchema();
+			if (!$schema->getTableSchema($refTableName['table'])) {
+				$tableOptions = null;
+				if ($db->getDriverName() === 'mysql') {
+					$tableOptions = 'CHARACTER SET utf8 ENGINE=InnoDB';
+				}
+				$db->createCommand()->createTable($refTableName['table'], [
+					'crmid' => 'int',
+					'relcrmid' => 'int'
+					], $tableOptions)->execute();
+				$db->createCommand()->createIndex("{$refTableName['table']}_crmid_idx", $refTableName['table'], 'crmid')->execute();
+				$db->createCommand()->createIndex("{$refTableName['table']}_relcrmid_idx", $refTableName['table'], 'relcrmid')->execute();
+				$db->createCommand()->createCommand()->addForeignKey(
+					"fk_1_{$refTableName['table']}", $refTableName['table'], 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'
+				)->execute();
+				$db->createCommand()->createCommand()->addForeignKey(
+					"fk_2_{$refTableName['table']}", $refTableName['table'], 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'
+				)->execute();
 			}
 		}
 		self::log("Setting relation with $moduleInstance->name  ... DONE");
