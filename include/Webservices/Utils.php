@@ -278,28 +278,28 @@ function vtws_getWebserviceEntityId($entityName, $id)
 
 function vtws_addDefaultModuleTypeEntity($moduleName)
 {
-	$adb = PearDatabase::getInstance();
-	$isModule = 1;
-	$moduleHandler = array('file' => 'include/Webservices/VtigerModuleOperation.php',
-		'class' => 'VtigerModuleOperation');
-	return vtws_addModuleTypeWebserviceEntity($moduleName, $moduleHandler['file'], $moduleHandler['class'], $isModule);
+	$moduleHandler = array('file' => 'include/Webservices/VtigerModuleOperation.php', 'class' => 'VtigerModuleOperation');
+	return vtws_addModuleTypeWebserviceEntity($moduleName, $moduleHandler['file'], $moduleHandler['class'], 1);
 }
 
-function vtws_addModuleTypeWebserviceEntity($moduleName, $filePath, $className)
+function vtws_addModuleTypeWebserviceEntity($moduleName, $filePath, $className, $isModule = 1)
 {
-	$adb = PearDatabase::getInstance();
-	$checkres = $adb->pquery('SELECT id FROM vtiger_ws_entity WHERE name=? && handler_path=? && handler_class=?', array($moduleName, $filePath, $className));
-	if ($checkres && $adb->num_rows($checkres) == 0) {
-		$isModule = 1;
-		$entityId = $adb->getUniqueID("vtiger_ws_entity");
-		$adb->pquery('insert into vtiger_ws_entity(id,name,handler_path,handler_class,ismodule) values (?,?,?,?,?)', array($entityId, $moduleName, $filePath, $className, $isModule));
+	$isExists = (new \App\Db\Query())->from('vtiger_ws_entity')->where(['name' => $moduleName, 'handler_class' => $className, 'handler_path' => $filePath])->exists();
+	if (!$isExists) {
+		\App\Db::getInstance()->createCommand()
+			->insert('vtiger_ws_entity', [
+				'name' => $moduleName,
+				'handler_path' => $filePath,
+				'handler_class' => $className,
+				'ismodule' => $isModule,
+			])->execute();
 	}
 }
 
 function vtws_deleteWebserviceEntity($moduleName)
 {
-	$adb = PearDatabase::getInstance();
-	$adb->pquery('DELETE FROM vtiger_ws_entity WHERE name=?', array($moduleName));
+	\App\Db::getInstance()->createCommand()
+		->delete('vtiger_ws_entity', ['name' => $moduleName])->execute();
 }
 
 function vtws_addDefaultActorTypeEntity($actorName, $actorNameDetails, $withName = true)
@@ -315,25 +315,37 @@ function vtws_addDefaultActorTypeEntity($actorName, $actorNameDetails, $withName
 
 function vtws_addActorTypeWebserviceEntityWithName($moduleName, $filePath, $className, $actorNameDetails)
 {
-	$adb = PearDatabase::getInstance();
-	$isModule = 0;
-	$entityId = $adb->getUniqueID("vtiger_ws_entity");
-	$adb->pquery('insert into vtiger_ws_entity(id,name,handler_path,handler_class,ismodule) values (?,?,?,?,?)', array($entityId, $moduleName, $filePath, $className, $isModule));
-	vtws_addActorTypeName($entityId, $actorNameDetails['fieldNames'], $actorNameDetails['indexField'], $actorNameDetails['tableName']);
+	$db = \App\Db::getInstance();
+	$db->createCommand()
+		->insert('vtiger_ws_entity', [
+			'name' => $moduleName,
+			'handler_path' => $filePath,
+			'handler_class' => $className,
+			'ismodule' => 0,
+		])->execute();
+	vtws_addActorTypeName($db->getLastInsertID('vtiger_ws_entity_seq'), $actorNameDetails['fieldNames'], $actorNameDetails['indexField'], $actorNameDetails['tableName']);
 }
 
 function vtws_addActorTypeWebserviceEntityWithoutName($moduleName, $filePath, $className, $actorNameDetails)
 {
-	$adb = PearDatabase::getInstance();
-	$isModule = 0;
-	$entityId = $adb->getUniqueID("vtiger_ws_entity");
-	$adb->pquery('insert into vtiger_ws_entity(id,name,handler_path,handler_class,ismodule) values (?,?,?,?,?)', array($entityId, $moduleName, $filePath, $className, $isModule));
+	\App\Db::getInstance()->createCommand()
+		->insert('vtiger_ws_entity', [
+			'name' => $moduleName,
+			'handler_path' => $filePath,
+			'handler_class' => $className,
+			'ismodule' => 0,
+		])->execute();
 }
 
 function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
 {
-	$adb = PearDatabase::getInstance();
-	$adb->pquery('insert into vtiger_ws_entity_name(entity_id,name_fields,index_field,table_name) values (?,?,?,?)', array($entityId, $fieldNames, $indexColumn, $tableName));
+	\App\Db::getInstance()->createCommand()
+		->insert('vtiger_ws_entity_name', [
+			'entity_id' => $entityId,
+			'name_fields' => $fieldNames,
+			'index_field' => $indexColumn,
+			'table_name' => $tableName,
+		])->execute();
 }
 
 function vtws_getName($id, $user)
