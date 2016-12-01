@@ -514,7 +514,7 @@ class ModuleBasic
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->name);
 			$recordModel->delete();
 		}
-		\App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', [['setype' => $this->name]])->execute();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['setype' => $this->name])->execute();
 		self::log(__METHOD__ . ' | END');
 	}
 
@@ -524,7 +524,7 @@ class ModuleBasic
 	public function deleteFromModentityNum()
 	{
 		self::log(__METHOD__ . ' | Start');
-		\App\Db::getInstance()->createCommand()->delete('vtiger_modentity_num', [['tabid' => $this->id]])->execute();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_modentity_num', ['tabid' => $this->id])->execute();
 		self::log(__METHOD__ . ' | END');
 	}
 
