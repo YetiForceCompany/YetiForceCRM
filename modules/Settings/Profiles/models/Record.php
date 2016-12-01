@@ -424,6 +424,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function save()
 	{
+		$adb = App\Db::getInstance();
 		$db = PearDatabase::getInstance();
 		$modulePermissions = $this->getModulePermissions();
 
@@ -443,19 +444,20 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$profileId = $this->getId();
 		if (!$profileId) {
-			$profileId = $db->getUniqueId('vtiger_profile');
+			$adb->createCommand()->insert('vtiger_profile', [
+				'profilename' => $profileName,
+				'description' => $description,
+				'directly_related_to_role' => $isProfileDirectlyRelatedToRole
+			])->execute();
+			$profileId = $adb->getLastInsertID('vtiger_profile_profileid_seq');
 			$this->setId($profileId);
-			$sql = 'INSERT INTO vtiger_profile(profileid, profilename, description, directly_related_to_role) VALUES (?,?,?,?)';
-			$params = array($profileId, $profileName, $description, $isProfileDirectlyRelatedToRole);
 			$isNewProfile = true;
 		} else {
 			$sql = 'UPDATE vtiger_profile SET profilename=?, description=?, directly_related_to_role=? WHERE profileid=?';
 			$params = array($profileName, $description, $isProfileDirectlyRelatedToRole, $profileId);
-
 			$db->pquery('DELETE FROM vtiger_profile2globalpermissions WHERE profileid=?', array($profileId));
+			$db->pquery($sql, $params);
 		}
-		$db->pquery($sql, $params);
-
 		$sql = 'INSERT INTO vtiger_profile2globalpermissions(profileid, globalactionid, globalactionpermission) VALUES (?,?,?)';
 		$params = array($profileId, Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW, $this->tranformInputPermissionValue($this->get('viewall')));
 		$db->pquery($sql, $params);

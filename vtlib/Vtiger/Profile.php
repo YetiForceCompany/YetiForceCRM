@@ -33,12 +33,11 @@ class Profile
 	private function create()
 	{
 		$db = \App\Db::getInstance();
-		$this->id = $db->getUniqueID('vtiger_profile');
 		$db->createCommand()->insert('vtiger_profile', [
-			'profileid' => $this->id,
 			'profilename' => $this->name,
 			'description' => $this->desc
 		])->execute();
+		$this->id = $db->getLastInsertID('vtiger_profile_profileid_seq');
 		$dataReader = (new \App\Db\Query())->select(['tabid', 'fieldid'])->from('vtiger_field')
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {

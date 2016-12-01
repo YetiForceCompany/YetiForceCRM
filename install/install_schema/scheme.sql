@@ -7076,12 +7076,6 @@ CREATE TABLE `vtiger_profile2utility` (
   CONSTRAINT `vtiger_profile2utility_ibfk_1` FOREIGN KEY (`profileid`) REFERENCES `vtiger_profile` (`profileid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_profile_seq` */
-
-CREATE TABLE `vtiger_profile_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_progress` */
 
 CREATE TABLE `vtiger_progress` (
