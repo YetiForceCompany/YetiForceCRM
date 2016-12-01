@@ -95,6 +95,14 @@ class Cron
 	}
 
 	/**
+	 * Get the next sequence.
+	 */
+	static function nextSequence()
+	{
+		return \App\Db::getInstance()->getUniqueID(self::$baseTable, 'sequence', false);
+	}
+
+	/**
 	 * Get the user datetimefeild
 	 */
 	public function getLastEndDateTime()
@@ -304,7 +312,7 @@ class Cron
 	{
 		$db = \App\Db::getInstance();
 		if (empty($sequence)) {
-			$sequence = $db->getUniqueID(self::$baseTable, 'sequence', false);
+			$sequence = static::nextSequence();
 		}
 		$db->createCommand()->insert(self::$baseTable, [
 			'name' => $name,

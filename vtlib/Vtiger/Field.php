@@ -34,7 +34,7 @@ class Field extends FieldBasic
 	public function setPicklistValues($values)
 	{
 		// Non-Role based picklist values
-		if ($this->uitype == '16') {
+		if ($this->uitype === 16) {
 			$this->setNoRolePicklistValues($values);
 			return;
 		}
@@ -51,6 +51,7 @@ class Field extends FieldBasic
 				'sortorderid' => $importer->smallInteger()->defaultValue(0)
 			]);
 			$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
+			$newPicklistId = $db->getLastInsertID('vtiger_picklist_seq');
 			self::log("Creating table $picklistTable ... DONE");
 		} else {
 			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
@@ -62,7 +63,7 @@ class Field extends FieldBasic
 		];
 		// Fix Table ID column names
 		$fieldName = (string) $this->name;
-		if (in_array($fieldName . '_id', $db->getTableSchema($picklistTable)->getColumnNames())) {
+		if ($db->getTableSchema($picklistTable, true)->getColumn($fieldName . '_id')) {
 			$picklistIdCol = $fieldName . '_id';
 		} elseif (array_key_exists($fieldName, $specialNameSpacedPicklists)) {
 			$picklistIdCol = $specialNameSpacedPicklists[$fieldName];
@@ -86,7 +87,7 @@ class Field extends FieldBasic
 			$query = (new \App\Db\Query)->select('roleid')->from('vtiger_role');
 			$roleIds = $query->column();
 			$insertedData = [];
-			foreach ($roleIds as $value) {
+			foreach ($roleIds as &$value) {
 				$insertedData [] = [$value, $newPicklistValueId, $newPicklistId, $sortid];
 			}
 			$db->createCommand()
