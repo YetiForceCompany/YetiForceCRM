@@ -6863,12 +6863,6 @@ CREATE TABLE `vtiger_picklist_dependency_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_picklist_seq` */
-
-CREATE TABLE `vtiger_picklist_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_picklistvalues_seq` */
 
 CREATE TABLE `vtiger_picklistvalues_seq` (

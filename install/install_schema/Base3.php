@@ -2217,13 +2217,6 @@ class Base3 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_picklist_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_picklistvalues_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
@@ -4474,12 +4467,6 @@ Backup has been made.', 'PLL_MODULE'],
 				'columns' => ['id'],
 				'values' => [
 					[17],
-				]
-			],
-			'vtiger_picklist_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[98],
 				]
 			],
 			'vtiger_picklistvalues_seq' => [
