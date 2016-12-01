@@ -7458,10 +7458,6 @@ insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfiel
 
 insert  into `vtiger_picklist_dependency_seq`(`id`) values (17);
 
-/*Data for the table `vtiger_picklist_seq` */
-
-insert  into `vtiger_picklist_seq`(`id`) values (98);
-
 /*Data for the table `vtiger_picklistvalues_seq` */
 
 insert  into `vtiger_picklistvalues_seq`(`id`) values (722);
