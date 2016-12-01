@@ -9,7 +9,7 @@ use yii\db\Schema;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-abstract class Base
+class Base
 {
 
 	public $dbType = 'base';
@@ -18,10 +18,6 @@ abstract class Base
 	public $data;
 	public $db;
 	protected $schema;
-
-	abstract function scheme();
-
-	abstract function data();
 
 	public function __construct()
 	{

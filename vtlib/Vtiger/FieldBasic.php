@@ -146,16 +146,18 @@ class FieldBasic
 		}
 
 		// Initialize other variables which are not done
-		if (!$this->table)
+		if (!$this->table) {
 			$this->table = $moduleInstance->basetable;
+		}
 		if (!$this->column) {
 			$this->column = strtolower($this->name);
-			if (!$this->columntype)
-				$this->columntype = 'string(100)';
 		}
-		if (!$this->label)
+		if (!$this->columntype) {
+			$this->columntype = 'string(100)';
+		}
+		if (!$this->label) {
 			$this->label = $this->name;
-
+		}
 		$db->createCommand()->insert('vtiger_field', [
 			'tabid' => $this->getModuleId(),
 			'fieldid' => $this->id,
@@ -183,8 +185,7 @@ class FieldBasic
 		])->execute();
 		Profile::initForField($this);
 		if (!empty($this->columntype)) {
-			$columntype = $this->columntype;
-			Utils::AddColumn($this->table, $this->column, $columntype);
+			Utils::AddColumn($this->table, $this->column, $this->columntype);
 			if ($this->uitype === 10) {
 				$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
 			}
