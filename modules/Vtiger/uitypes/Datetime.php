@@ -63,9 +63,6 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if (in_array($this->getFieldModel()->getName(), ['modifiedtime', 'createdtime'])) {
-			return date('Y-m-d H:i:s');
-		}
 		return parent::getDBValue($value, $recordModel);
 	}
 

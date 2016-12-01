@@ -366,27 +366,47 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function saveToDb()
 	{
 		$saveFields = $this->getModule()->getFieldsForSave();
+		$forSave = $this->getEntityDataForSave();
 		$isNew = $this->isNew();
 		if (!$isNew) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
 		}
 		$moduleModel = $this->getModule();
-		$entityInstance = $moduleModel->getEntityModules();
-		$forSave = [];
+		$entityInstance = $moduleModel->getEntityInstance();
 		foreach ($saveFields as &$fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
-			$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $fieldModel->getUITypeModel()->getDBValue($this->get($fieldName), $this);
-		}
-		$db = \App\Db::getInstance();
-		foreach ($forSave as $tableName => $$tableData) {
-			$tablekey = $entityInstance->tab_name_index[$tableName];
-			if ($isNew) {
-				$tableData[$tablekey] = $this->get('newRecord');
-				$db->createCommand()->insert($tableName, $tableData)->execute();
-			} else {
-				$db->createCommand()->update($tableName, $tableData, [$tablekey => $this->getId()])->execute();
+			if ($fieldModel) {
+				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $fieldModel->getUITypeModel()->getDBValue($this->get($fieldName), $this);
 			}
 		}
+		$db = \App\Db::getInstance();
+		foreach ($forSave as $tableName => &$tableData) {
+			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
+			echo "<hr>$tableName<br>";
+			if ($isNew) {
+				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
+			} else {
+				$db->createCommand()->update($tableName, $tableData, $keyTable)->execute();
+			}
+		}
+	}
+
+	public function getEntityDataForSave()
+	{
+		$row = [];
+		$time = date('Y-m-d H:i:s');
+		if ($this->isNew()) {
+			$row['setype'] = $this->getModuleName();
+			$row['smcreatorid'] = \App\User::getCurrentUserId();
+			$row['createdtime'] = $time;
+			$row['users'] = ',' . \App\User::getCurrentUserId() . ',';
+			$this->set('createdtime', $time);
+		}
+		$row['modifiedtime'] = $time;
+		$row['modifiedby'] = \App\User::getCurrentUserId();
+		$this->set('modifiedtime', $time);
+		$this->set('modifiedby', \App\User::getCurrentUserId());
+		return['vtiger_crmentity' => $row];
 	}
 
 	/**
