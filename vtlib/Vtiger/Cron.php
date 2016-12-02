@@ -380,7 +380,6 @@ class Cron
 	 */
 	public static function getInstanceById($id)
 	{
-		$adb = \PearDatabase::getInstance();
 		$instance = false;
 		if (isset(self::$instanceCache[$id])) {
 			$instance = self::$instanceCache[$id];
