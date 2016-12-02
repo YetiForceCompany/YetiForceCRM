@@ -416,6 +416,9 @@ class CurrencyField
 	 */
 	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
 	{
+		if (empty($value)) {
+			return 0;
+		}
 		$self = new self($value);
 		return $self->getDBInsertedValue($user, $skipConversion);
 	}
