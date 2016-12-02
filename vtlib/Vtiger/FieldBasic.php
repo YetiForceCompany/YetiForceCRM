@@ -315,4 +315,16 @@ class FieldBasic
 	{
 		Utils::Log($message, $delim);
 	}
+
+	/**
+	 * Get block name
+	 * @return string
+	 */
+	public function getBlockName()
+	{
+		if ($this->block) {
+			return $this->block->label;
+		}
+		return '';
+	}
 }
