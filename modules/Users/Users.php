@@ -352,7 +352,7 @@ class Users extends CRMEntity
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
 
 		$result = $query->from($this->table_name)->where(['user_name' => $userName, 'user_password' => $encryptedPassword, 'status' => 'Active']);
-		if ($result->count() === 1) {
+		if ($result->exists()) {
 			\App\Log::trace("Authentication OK. User: $userName");
 			return true;
 		}
