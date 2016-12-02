@@ -64,7 +64,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 				->from('vtiger_field')
 				->where(['tabid' => App\Module::getModuleId($sourceModule), 'uitype' => 305])
 				->andWhere(['<>', 'presence', 1])
-				->andWhere(['like', 'fieldparams', '{"module":"' . $destinationModule . '"%', false])->column();
+				->andWhere(['like', 'fieldparams', '{"module":"' . $destinationModule . '"%', false])->all();
 		App\Cache::get('mrvfbm', $cacheKey, $fields, App\Cache::LONG);
 		return $fields;
 	}

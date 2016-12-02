@@ -201,15 +201,15 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 
 	public static function addSettingsField($block, $params)
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$blockId = vtlib\Deprecated::getSettingsBlockId($block);
-		$result = $db->pquery('SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?', [$blockId]);
-		$sequence = $db->getSingleValue($result);
+		$sequence = (new App\Db\Query())->from('vtiger_settings_field')->where(['blockid' => $blockId])
+				->max('sequence');
 		$fieldId = $db->getUniqueId('vtiger_settings_field');
 		$params['fieldid'] = $fieldId;
 		$params['blockid'] = $blockId;
 		$params['sequence'] = $sequence;
-		$db->insert('vtiger_settings_field', $params);
+		$db->createCommand()->insert('vtiger_settings_field', $params)->execute();
 	}
 
 	public static function deleteSettingsField($block, $name)

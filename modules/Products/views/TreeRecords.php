@@ -39,7 +39,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
 		$queryGenerator = $listViewModel->get('query_generator');
 		if (!empty($branches)) {
-			$queryGenerator->addAndConfition($multiReferenceFirld['columnname'], implode(',', $branches), 'c');
+			$queryGenerator->addCondition($multiReferenceFirld['columnname'], implode(',', $branches), 'c');
 		}
 		if (!empty($category)) {
 			$query = (new \App\Db\Query())
