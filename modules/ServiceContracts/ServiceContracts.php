@@ -500,19 +500,23 @@ class ServiceContracts extends CRMEntity
 		return $usedUnits;
 	}
 
-	// Function to Upate the Used Units of the Service Contract.
+	/**
+	 * Function to Upate the Used Units of the Service Contract.
+	 * @param float $usedUnits
+	 */
 	public function updateUsedUnits($usedUnits)
 	{
 		$this->column_fields['used_units'] = $usedUnits;
-		$updateQuery = "UPDATE vtiger_servicecontracts SET used_units = $usedUnits WHERE servicecontractsid = ?";
-		$this->db->pquery($updateQuery, array($this->id));
+		\App\Db::getInstance()->createCommand()->update($this->table_name, ['used_units' => $usedUnits], ['servicecontractsid' => $this->id])->execute();
 	}
 
-	// Function to Calculate the End Date, Planned Duration, Actual Duration and Progress of a Service Contract
+	/**
+	 * Function to Calculate the End Date, Planned Duration, Actual Duration and Progress of a Service Contract
+	 */
 	public function calculateProgress()
 	{
-		$updateCols = array();
-		$updateParams = array();
+		$db = \App\Db::getInstance();
+		$params = [];
 
 		$startDate = $this->column_fields['start_date'];
 		$dueDate = $this->column_fields['due_date'];
@@ -525,48 +529,42 @@ class ServiceContracts extends CRMEntity
 
 		// Update the End date if the status is Complete or if the Used Units reaches/exceeds Total Units
 		// We need to do this first to make sure Actual duration is computed properly
-		if ($contractStatus == 'Complete' || (!empty($usedUnits) && !empty($totalUnits) && $usedUnits >= $totalUnits)) {
+		if ($contractStatus === 'Complete' || (!empty($usedUnits) && !empty($totalUnits) && $usedUnits >= $totalUnits)) {
 			if (empty($endDate)) {
 				$endDate = date('Y-m-d');
-				$this->db->pquery('UPDATE vtiger_servicecontracts SET end_date=? WHERE servicecontractsid = ?', array(date('Y-m-d'), $this->id));
+				$db->createCommand()->update($this->table_name, ['end_date' => $endDate], ['servicecontractsid' => $this->id])->execute();
 			}
 		} else {
 			$endDate = null;
-			$this->db->pquery('UPDATE vtiger_servicecontracts SET end_date=? WHERE servicecontractsid = ?', array(null, $this->id));
+			$db->createCommand()->update($this->table_name, ['end_date' => $endDate], ['servicecontractsid' => $this->id])->execute();
 		}
 
 		// Calculate the Planned Duration based on Due date and Start date. (in days)
 		if (!empty($dueDate) && !empty($startDate)) {
-			$plannedDurationUpdate = " planned_duration = (TO_DAYS(due_date)-TO_DAYS(start_date)+1)";
+			$start = new \DateTime($startDate);
+			$end = new \DateTime($dueDate);
+			$interval = $start->diff($end)->format('%a');
+			$params['planned_duration'] = $interval;
 		} else {
-			$plannedDurationUpdate = " planned_duration = ''";
+			$params['planned_duration'] = '';
 		}
-		array_push($updateCols, $plannedDurationUpdate);
 
 		// Calculate the Actual Duration based on End date and Start date. (in days)
 		if (!empty($endDate) && !empty($startDate)) {
-			$actualDurationUpdate = "actual_duration = (TO_DAYS(end_date)-TO_DAYS(start_date)+1)";
+			$start = new \DateTime($startDate);
+			$end = new \DateTime($endDate);
+			$interval = $start->diff($end)->format('%a');
+			$params['actual_duration'] = $interval;
 		} else {
-			$actualDurationUpdate = "actual_duration = ''";
+			$params['actual_duration'] = '';
 		}
-		array_push($updateCols, $actualDurationUpdate);
-
 		// Update the Progress based on Used Units and Total Units (in percentage)
 		if (!empty($usedUnits) && !empty($totalUnits)) {
-			$progressUpdate = 'progress = ?';
-			$progressUpdateParams = floatval(($usedUnits * 100) / $totalUnits);
+			$params['progress'] = floatval(($usedUnits * 100) / $totalUnits);
 		} else {
-			$progressUpdate = 'progress = ?';
-			$progressUpdateParams = null;
+			$params['progress'] = null;
 		}
-		array_push($updateCols, $progressUpdate);
-		array_push($updateParams, $progressUpdateParams);
-
-		if (count($updateCols) > 0) {
-			$updateQuery = sprintf('UPDATE vtiger_servicecontracts SET %s WHERE servicecontractsid = ?', implode(",", $updateCols));
-			array_push($updateParams, $this->id);
-			$this->db->pquery($updateQuery, $updateParams);
-		}
+		$db->createCommand()->update($this->table_name, $params, ['servicecontractsid' => $this->id])->execute();
 	}
 
 	/**
@@ -596,8 +594,8 @@ class ServiceContracts extends CRMEntity
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				App\Db::getInstance()->createCommand()
-						->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
-						->execute();
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
+					->execute();
 			}
 		}
 	}
