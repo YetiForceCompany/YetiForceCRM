@@ -97,7 +97,7 @@ class VTCreateEventTask extends VTTask
 			'date_start' => $startDate,
 			'time_end' => self::convertToDBFormat($this->endTime),
 			'due_date' => $endDate,
-			'duration_hours' => '0'
+			'duration_hours' => 0
 		);
 
 		//Setting visibility value

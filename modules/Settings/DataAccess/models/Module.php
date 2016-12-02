@@ -198,7 +198,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function updateConditions($conditions, $relId, $mendatory = true)
+	public static function updateConditions($conditions, $relId, $mendatory = true)
 	{
 		\App\Db::getInstance()->createCommand()
 			->delete('vtiger_dataaccess_cnd', ['dataaccessid' => $relId, 'required' => $mendatory ? 1 : 0])
@@ -253,7 +253,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			->execute();
 	}
 
-	public function showConfigDataAccess($tpl_id, $actionsName, $baseModule)
+	public static function showConfigDataAccess($tpl_id, $actionsName, $baseModule)
 	{
 		if (!is_array($actionsName)) {
 			$actionsNameA = explode(self::$separator, $actionsName);
@@ -273,7 +273,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return $resp;
 	}
 
-	public function getActionName($name, $typ)
+	public static function getActionName($name, $typ)
 	{
 		$actionsName = explode(self::$separator, $name);
 		if ($typ)

@@ -1,3 +1,9 @@
+/*
+SQLyog Community v12.09 (64 bit)
+MySQL - 5.7.9 : Database - yetiforce
+*********************************************************************
+*/
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -3091,8 +3097,8 @@ CREATE TABLE `vtiger_activity` (
   `time_start` time DEFAULT NULL,
   `time_end` time DEFAULT NULL,
   `sendnotification` varchar(3) NOT NULL DEFAULT '0',
-  `duration_hours` varchar(200) DEFAULT NULL,
-  `duration_minutes` varchar(200) DEFAULT NULL,
+  `duration_hours` smallint(6) DEFAULT NULL,
+  `duration_minutes` smallint(3) DEFAULT NULL,
   `status` varchar(200) DEFAULT NULL,
   `priority` varchar(200) DEFAULT NULL,
   `location` varchar(150) DEFAULT NULL,
