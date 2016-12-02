@@ -464,21 +464,18 @@ class Users extends CRMEntity
 	 */
 	public function change_password($userPassword, $newPassword, $dieOnError = true)
 	{
-		$db = PearDatabase::getInstance();
-
-
-		$usr_name = $this->column_fields['user_name'];
+		$userName = $this->column_fields['user_name'];
 		$currentUser = \App\User::getCurrentUserModel();
-		\App\Log::trace('Starting password change for ' . $usr_name);
+		\App\Log::trace('Starting password change for ' . $userName);
 
-		if (!isset($newPassword) || $newPassword == "") {
+		if (empty($newPassword)) {
 			$this->error_string = vtranslate('ERR_PASSWORD_CHANGE_FAILED_1') . $user_name . vtranslate('ERR_PASSWORD_CHANGE_FAILED_2');
 			return false;
 		}
 
 		if (!$currentUser->isAdmin()) {
 			if (!$this->verifyPassword($userPassword)) {
-				\App\Log::warning('Incorrect old password for ' . $usr_name);
+				\App\Log::warning('Incorrect old password for ' . $userName);
 				$this->error_string = vtranslate('ERR_PASSWORD_INCORRECT_OLD');
 				return false;
 			}
@@ -490,10 +487,11 @@ class Users extends CRMEntity
 		$encryptedNewPassword = $this->encrypt_password($newPassword, $crypt_type);
 
 		\App\Db::getInstance()->createCommand()->update($this->table_name, [
-			'id' => $this->id,
+			'user_password' => $encryptedNewPassword,
 			'confirm_password' => $encryptedNewPassword,
 			'user_hash' => $userHash,
-			'crypt_type' => $crypt_type], ['id' => $this->id])->execute();
+			'crypt_type' => $crypt_type,
+			], ['id' => $this->id])->execute();
 
 		// Fill up the post-save state of the instance.
 		if (empty($this->column_fields['user_hash'])) {
@@ -504,7 +502,7 @@ class Users extends CRMEntity
 		$this->column_fields['confirm_password'] = $encryptedNewPassword;
 
 		$this->triggerAfterSaveEventHandlers();
-		\App\Log::trace('Ending password change for ' . $usr_name);
+		\App\Log::trace('Ending password change for ' . $userName);
 		return true;
 	}
 
