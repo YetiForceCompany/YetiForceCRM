@@ -1,8 +1,4 @@
 /*
-SQLyog Community v12.09 (64 bit)
-MySQL - 5.7.9 : Database - yetiforce
-*********************************************************************
-*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -20,7 +16,7 @@ CREATE TABLE `a_yf_adv_permission` (
   `tabid` int(19) DEFAULT NULL,
   `status` tinyint(1) unsigned NOT NULL,
   `action` tinyint(1) unsigned NOT NULL,
-  `conditions` text NOT NULL,
+  `conditions` text,
   `members` text NOT NULL,
   `priority` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`id`),
