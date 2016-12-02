@@ -242,8 +242,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$recordId = $focus->id = $recordModel->getId();
 		if ($recordModel->isNew()) {
 			$recordId = $recordModel->get('newRecord');
-			$focus->newRecord = $recordId;
 		}
+		$focus->newRecord = $recordId;
 		$eventHandler->trigger('EntityBeforeSave');
 		$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
 		$recordModel->setId($recordId);
