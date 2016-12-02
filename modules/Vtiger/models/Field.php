@@ -727,6 +727,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				$this->fieldInfo['group_separator'] = $currentUser->get('currency_grouping_separator');
 				break;
 			case 'owner':
+			case 'userCreator':
 			case 'sharedOwner':
 				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || AppRequest::get('module') === 'CustomView') {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);

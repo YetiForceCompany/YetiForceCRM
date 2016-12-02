@@ -206,7 +206,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			if (jQuery.inArray(fieldInfo.type, ['rangeTime', 'image']) != -1 && jQuery.inArray(conditionList[key], ['y', 'ny']) == -1) {
 				continue;
 			}
-			if (jQuery.inArray(fieldInfo.type, ['owner', 'picklist', 'modules', 'tree', 'inventoryLimit', 'languages', 'currencyList', 'fileLocationType']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
+			if (jQuery.inArray(fieldInfo.type, ['userCreator', 'owner', 'picklist', 'modules', 'tree', 'inventoryLimit', 'languages', 'currencyList', 'fileLocationType']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
 				continue;
 			}
 			if (conditionList[key] === 'om' && jQuery.inArray(fieldInfo.type, ['owner', 'sharedOwner']) == -1) {
@@ -293,7 +293,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		if ($.inArray(fieldModel.getType(), ['multipicklist', 'sharedOwner', 'multiReferenceValue', 'taxes', 'posList', 'categoryMultipicklist']) > -1) {
 			fieldName = fieldName + "[]";
-		} else if (($.inArray(fieldModel.getType(), ['picklist', 'owner', 'languages', 'modules', 'inventoryLimit', 'currencyList', 'fileLocationType']) > -1)
+		} else if (($.inArray(fieldModel.getType(), ['userCreator', 'picklist', 'owner', 'languages', 'modules', 'inventoryLimit', 'currencyList', 'fileLocationType']) > -1)
 				&& fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
 			fieldName = fieldName + "[]";
 		}
@@ -470,7 +470,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
 						}
 					}
-				} else if ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
+				} else if ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'userCreator', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
 					for (var key in fieldList) {
 						var field = fieldList[key];
 						if (field == 'value' && valueSelectElement.is('input')) {
@@ -487,7 +487,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 							}
 							var reconstructedCommaSeperatedValues = newvaluesArr.join(',');
 							rowValues[field] = reconstructedCommaSeperatedValues;
-						} else if (field == 'value' && valueSelectElement.is('select') && ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1)) {
+						} else if (field == 'value' && valueSelectElement.is('select') && ($.inArray(fieldType, ['picklist','userCreator', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1)) {
 							var value = valueSelectElement.val();
 							if (value == null) {
 								rowValues[field] = value;
@@ -603,7 +603,7 @@ Vtiger_Field_Js('AdvanceFilter_Field_Js', {}, {
 		var currentModule = app.getModuleName();
 
 		var type = this.getType();
-		if ($.inArray(type, ['picklist', 'multipicklist', 'owner', 'modules', 'date', 'datetime', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
+		if ($.inArray(type, ['picklist', 'userCreator', 'multipicklist', 'owner', 'userCreator' ,'modules', 'date', 'datetime', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
 			currentModule = 'AdvanceFilter';
 		}
 		return currentModule;
@@ -705,6 +705,8 @@ Vtiger_Multireferencevalue_Field_Js('AdvanceFilter_Multireferencevalue_Field_Js'
 AdvanceFilter_Owner_Field_Js('AdvanceFilter_Sharedowner_Field_Js', {}, {
 });
 
+AdvanceFilter_Owner_Field_Js('AdvanceFilter_Usercreator_Field_Js', {}, {
+});
 Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 	/**
 	 * Function to get the ui
