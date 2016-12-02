@@ -574,7 +574,7 @@ function vtws_getConvertLeadFieldMapping()
 function vtws_getRelatedNotesAttachments($id, $relatedId)
 {
 	$adb = PearDatabase::getInstance();
-
+	$db = \App\Db::getInstance();
 
 	$sql = 'SELECT notesid FROM vtiger_senotesrel WHERE crmid=?';
 	$result = $adb->pquery($sql, [$id]);
@@ -582,7 +582,7 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
 		return false;
 	}
 	while ($noteId = $adb->getSingleValue($result)) {
-		$adb->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $noteId]);
+		$db->createCommand()->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $noteId])->execute();
 	}
 
 	$sql = 'SELECT attachmentsid FROM vtiger_seattachmentsrel WHERE crmid=?';
@@ -591,7 +591,7 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
 		return false;
 	}
 	while ($attachmentId = $adb->getSingleValue($result)) {
-		$adb->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId]);
+		$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId])->execute();
 	}
 	return true;
 }
@@ -631,35 +631,35 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
  */
 function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 {
-	$db = PearDatabase::getInstance();
-
-	$result = $db->pquery("select * from vtiger_crmentityrel where crmid=?", [$leadId]);
-	if ($db->getRowCount($result) == 0) {
+	$adb = PearDatabase::getInstance();
+	$db = \App\Db::getInstance();
+	$result = $adb->pquery("select * from vtiger_crmentityrel where crmid=?", [$leadId]);
+	if ($adb->getRowCount($result) == 0) {
 		return false;
 	}
-	while ($row = $db->getRow($result)) {
-		$resultNew = $db->insert('vtiger_crmentityrel', [
-			'crmid' => $relatedId,
-			'module' => $setype,
-			'relcrmid' => $row['relcrmid'],
-			'relmodule' => $row['relmodule']
-		]);
-		if ($resultNew['rowCount'] == 0) {
+	while ($row = $adb->getRow($result)) {
+		$resultNew = $db->createCommand()->insert('vtiger_crmentityrel', [
+				'crmid' => $relatedId,
+				'module' => $setype,
+				'relcrmid' => $row['relcrmid'],
+				'relmodule' => $row['relmodule']
+			])->execute();
+		if ($resultNew == 0) {
 			return false;
 		}
 	}
-	$result = $db->pquery("select * from vtiger_crmentityrel where relcrmid=?", [$leadId]);
-	if ($db->getRowCount($result) == 0) {
+	$result = $adb->pquery("select * from vtiger_crmentityrel where relcrmid=?", [$leadId]);
+	if ($adb->getRowCount($result) == 0) {
 		return false;
 	}
-	while ($row = $db->getRow($result)) {
-		$resultNew = $db->insert('vtiger_crmentityrel', [
-			'crmid' => $relatedId,
-			'module' => $setype,
-			'relcrmid' => $row['crmid'],
-			'relmodule' => $row['module']
-		]);
-		if ($resultNew['rowCount'] == 0) {
+	while ($row = $adb->getRow($result)) {
+		$resultNew = $db->createCommand()->insert('vtiger_crmentityrel', [
+				'crmid' => $relatedId,
+				'module' => $setype,
+				'relcrmid' => $row['crmid'],
+				'relmodule' => $row['module']
+			])->execute();
+		if ($resultNew == 0) {
 			return false;
 		}
 	}
@@ -688,12 +688,12 @@ function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
 	if (empty($leadId) || empty($relatedId) || (empty($accountId) && empty($contactId))) {
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Activities/Emails");
 	}
-	$adb = PearDatabase::getInstance();
+	$db = \App\Db::getInstance();
 	if (!empty($accountId)) {
-		$adb->pquery('UPDATE `vtiger_activity` SET `link` = ? WHERE `link` = ?;', array($accountId, $leadId));
+		$db->createCommand()->update('vtiger_activity', ['link' => $accountId], ['link' => $leadId])->execute();
 	}
 	if (!empty($contactId)) {
-		$adb->pquery('UPDATE `vtiger_activity` SET `link` = ? WHERE `link` = ?;', array($contactId, $leadId));
+		$db->createCommand()->update('vtiger_activity', ['link' => $contactId], ['link' => $leadId])->execute();
 	}
 	return true;
 }
@@ -707,11 +707,11 @@ function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
  */
 function vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType)
 {
-	$db = PearDatabase::getInstance();
-	$rowCount = $db->update('vtiger_campaign_records', [
-		'crmid' => $relatedId
-		], 'crmid = ?', [$leadId]
-	);
+	$db = \App\Db::getInstance();
+	$rowCount = $db->createCommand()->update('vtiger_campaign_records', [
+			'crmid' => $relatedId
+			], ['crmid' => $leadId]
+		)->execute();
 	if ($rowCount == 0) {
 		return false;
 	}
@@ -749,6 +749,7 @@ function vtws_transferComments($sourceRecordId, $destinationRecordId)
 function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 {
 	$db = PearDatabase::getInstance();
+	$adb = \App\Db::getInstance();
 	//PBXManager
 	$db->pquery("UPDATE vtiger_pbxmanager SET customer=? WHERE customer=?", [$destinationRecordId, $sourceRecordId]);
 	//OSSPasswords
@@ -764,11 +765,11 @@ function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 	//OSSMailView
 	$db->pquery("UPDATE vtiger_ossmailview_relation SET crmid=? WHERE crmid=?", [$destinationRecordId, $sourceRecordId]);
 	//CallHistory
-	$db->update('vtiger_callhistory', ['destination' => $destinationRecordId], 'destination = ?', [$sourceRecordId]);
+	$adb->createCommand()->update('vtiger_callhistory', ['destination' => $destinationRecordId], ['destination' => $sourceRecordId])->execute();
 	//LettersIn
-	$db->update('vtiger_lettersin', ['relatedid' => $destinationRecordId], 'relatedid = ?', [$sourceRecordId]);
+	$adb->createCommand()->update('vtiger_lettersin', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
 	//LettersOut
-	$db->update('vtiger_lettersout', ['relatedid' => $destinationRecordId], 'relatedid = ?', [$sourceRecordId]);
+	$adb->createCommand()->update('vtiger_lettersout', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
 }
 
 function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
