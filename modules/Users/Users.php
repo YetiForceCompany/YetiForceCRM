@@ -663,7 +663,6 @@ class Users extends CRMEntity
 				$this->insertIntoEntityTable($table_name, $module);
 			}
 		}
-
 		if (Settings_Roles_Record_Model::getInstanceById($this->column_fields['roleid']) === null) {
 			$roleid = Settings_Roles_Record_Model::getInstanceByName($this->column_fields['roleid']);
 			if ($roleid) {
@@ -734,7 +733,7 @@ class Users extends CRMEntity
 		} else {
 			$column = $this->tab_name_index[$table_name];
 			if ($column === 'id' && $table_name === 'vtiger_users') {
-				$this->id = $db->getUniqueID("vtiger_users");
+				$this->column_fields['id'] = $this->id = $db->getUniqueID("vtiger_users");
 			}
 			$params[$column] = $this->id;
 			$tabid = \App\Module::getModuleId($module);
@@ -901,12 +900,12 @@ class Users extends CRMEntity
 		$this->column_fields['record_id'] = $record;
 		$this->column_fields['record_module'] = $module;
 
-		$currency_query = "select * from vtiger_currency_info where id=? and currency_status='Active' and deleted=0";
-		$currencyResult = $adb->pquery($currency_query, array($this->column_fields['currency_id']));
-		if ($adb->num_rows($currencyResult) == 0) {
-			$currencyResult = $adb->query('select * from vtiger_currency_info where id =1');
+		if (!empty($this->column_fields['currency_id'])) {
+			$currency = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => $this->column_fields['currency_id'], 'deleted' => 0])->one();
 		}
-		$currency = $adb->getRow($currencyResult);
+		if (!$currency) {
+			$currency = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => 1])->one();
+		}
 		$currencyArray = ['$' => '&#36;', '&euro;' => '&#8364;', '&pound;' => '&#163;', '&yen;' => '&#165;'];
 		if (isset($currencyArray[$currency['currency_symbol']])) {
 			$currencySymbol = $currencyArray[$currency['currency_symbol']];
@@ -917,16 +916,15 @@ class Users extends CRMEntity
 		$this->column_fields['currency_code'] = $this->currency_code = $currency['currency_code'];
 		$this->column_fields['currency_symbol'] = $this->currency_symbol = $currencySymbol;
 		$this->column_fields['conv_rate'] = $this->conv_rate = $currency['conversion_rate'];
-		if ($this->column_fields['no_of_currency_decimals'] == '')
+		if ($this->column_fields['no_of_currency_decimals'] == '') {
 			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = getCurrencyDecimalPlaces();
-
+		}
 		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
 			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
 			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ' ';
 			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '1.0$';
 		}
-
 		$this->id = $record;
 		\App\Log::trace('Exit from retrieve_entity_info() method.');
 		return $this;

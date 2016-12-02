@@ -229,7 +229,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
-		$eventHandler->setModuleName($recordModel->getModuleName());
+		$eventHandler->setModuleName($moduleName);
 
 		$eventHandler->trigger('EntityInventoryBeforeSave');
 		if ($this->isInventory()) {
@@ -242,14 +242,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$recordId = $focus->id = $recordModel->getId();
 		if ($recordModel->isNew()) {
 			$recordId = $recordModel->get('newRecord');
+			$focus->newRecord = $recordId;
 		}
-		$focus->newRecord = $recordModel->get('newRecord');
 		$eventHandler->trigger('EntityBeforeSave');
 		$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
 		$recordModel->setId($recordId);
 		$focus->save($moduleName);
 		//$recordModel->saveToDb();
-
+		if ($moduleName === 'Users') {
+			$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
+			$recordModel->setId($recordId);
+		}
 		$eventHandler->trigger('EntityAfterSave');
 		$eventHandler->setSystemTrigger('EntityAfterSaveSystem');
 		return $recordModel;
