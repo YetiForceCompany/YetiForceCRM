@@ -355,9 +355,11 @@ class CRMEntity
 			return $adb->query_result($result, $index, $columnname);
 	}
 
-	/** Function to insert values in the specifed table for the specified module
-	 * @param $table_name -- table name:: Type varchar
-	 * @param $module -- module:: Type varchar
+	/**
+	 * Function to insert values in the specifed table for the specified module
+	 * @param string $table_name
+	 * @param string $module
+	 * @param int $fileid
 	 */
 	public function insertIntoEntityTable($table_name, $module, $fileid = '')
 	{
@@ -465,15 +467,8 @@ class CRMEntity
 						$fldvalue = $this->column_fields[$fieldname];
 					}
 				} elseif ($uitype === 28) {
-					if ($this->column_fields[$fieldname] === null) {
-						$fileQuery = $adb->pquery("SELECT filename from vtiger_notes WHERE notesid = ?", array($this->id));
-						$fldvalue = null;
-						if (isset($fileQuery)) {
-							$rowCount = $adb->num_rows($fileQuery);
-							if ($rowCount > 0) {
-								$fldvalue = decode_html($adb->query_result($fileQuery, 0, 'filename'));
-							}
-						}
+					if (empty($this->column_fields[$fieldname])) {
+						continue;
 					} else {
 						$fldvalue = decode_html($this->column_fields[$fieldname]);
 					}
