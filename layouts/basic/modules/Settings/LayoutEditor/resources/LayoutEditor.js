@@ -581,7 +581,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 							var pickListValuesArray = pickListValueElement.val();
 							var pickListValuesArraySize = pickListValuesArray.length;
 							var specialChars = /["]/;
-							if (fieldNameValue.toLowerCase() === 'status') {
+							if (fieldNameValue.toLowerCase() === 'status' || 'picklist' === fieldNameValue.toLowerCase()) {
 								var message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
 								jQuery('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
