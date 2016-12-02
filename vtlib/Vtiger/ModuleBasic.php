@@ -535,7 +535,7 @@ class ModuleBasic
 	{
 		self::log(__METHOD__ . ' | Start');
 		$db = \App\Db::getInstance();
-		$db->createCommand()->checkIntegrity(false);
+		$db->createCommand()->checkIntegrity(false)->execute();
 		$moduleInstance = \Vtiger_Module_Model::getInstance($this->name);
 		if ($moduleInstance->isInventory()) {
 			$tablesName = [$this->tableName . '_inventory', $this->tableName . '_invfield', $this->tableName . '_invmap'];
@@ -553,7 +553,7 @@ class ModuleBasic
 				}
 			}
 		}
-		$db->createCommand()->checkIntegrity(true);
+		$db->createCommand()->checkIntegrity(true)->execute();
 		self::log(__METHOD__ . ' | END');
 	}
 
