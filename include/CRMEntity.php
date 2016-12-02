@@ -306,6 +306,7 @@ class CRMEntity
 			$this->column_fields['createdtime'] = $params['createdtime'];
 			$this->column_fields['modifiedtime'] = $params['modifiedtime'];
 			$this->column_fields['modifiedby'] = $params['modifiedby'];
+			$this->column_fields['created_user_id'] = $params['smcreatorid'];
 		}
 	}
 
@@ -1058,12 +1059,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-			[
+				[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-			[
+				[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid

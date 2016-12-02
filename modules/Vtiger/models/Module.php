@@ -249,8 +249,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$recordModel->setId($recordId);
 		$focus->save($moduleName);
 		//$recordModel->saveToDb();
-		if ($moduleName === 'Users') {
-			$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
+		$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
+		if ($moduleName !== 'Users') {
+			$recordModel->setId($recordId);
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		$eventHandler->setSystemTrigger('EntityAfterSaveSystem');
