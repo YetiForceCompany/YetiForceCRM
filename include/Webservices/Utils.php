@@ -603,21 +603,23 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
  */
 function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 {
-	$db = PearDatabase::getInstance();
-
-	$result = $db->pquery('select productid from vtiger_seproductsrel where crmid=?', [$leadId]);
-	if ($db->getRowCount($result) == 0) {
+	$db = \App\Db::getInstance();
+	$dataReader = (new \App\Db\Query())->select(['productid'])
+			->from('vtiger_seproductsrel')
+			->where(['crmid' => $leadId])
+			->createCommand()->query();
+	if ($dataReader->count() === 0) {
 		return false;
 	}
-	while ($productId = $db->getSingleValue($result)) {
-		$resultNew = $db->insert('vtiger_seproductsrel', [
-			'crmid' => $relatedId,
-			'productid' => $productId,
-			'setype' => $setype,
-			'rel_created_user' => \App\User::getCurrentUserId(),
-			'rel_created_time' => date('Y-m-d H:i:s')
-		]);
-		if ($resultNew['rowCount'] == 0) {
+	while ($productId = $dataReader->readColumn(0)) {
+		$resultNew = $db->createCommand()->insert('vtiger_seproductsrel', [
+				'crmid' => $relatedId,
+				'productid' => $productId,
+				'setype' => $setype,
+				'rel_created_user' => \App\User::getCurrentUserId(),
+				'rel_created_time' => date('Y-m-d H:i:s')
+			])->execute();
+		if ($resultNew === 0) {
 			return false;
 		}
 	}

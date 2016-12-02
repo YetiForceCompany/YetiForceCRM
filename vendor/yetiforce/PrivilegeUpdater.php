@@ -44,10 +44,11 @@ class PrivilegeUpdater
 	{
 		if (!static::$globalSearchUsersCache) {
 			static::$globalSearchUsersCache = [];
-			$adb = \PearDatabase::getInstance();
-			$query = 'SELECT `userid`,`searchunpriv` FROM `vtiger_user2role` LEFT JOIN `vtiger_role` ON vtiger_role.roleid = vtiger_user2role.roleid WHERE vtiger_role.`searchunpriv` <> \'\'';
-			$result = $adb->query($query);
-			while ($row = $adb->getRow($result)) {
+			$dataReader = (new Db\Query())->select(['userid', 'searchunpriv'])->from('vtiger_user2role')
+					->leftJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+					->where(['<>', 'vtiger_role.searchunpriv', ''])
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				static::$globalSearchUsersCache[$row['userid']] = explode(',', $row['searchunpriv']);
 			}
 		}
