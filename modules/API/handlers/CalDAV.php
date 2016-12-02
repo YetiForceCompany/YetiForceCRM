@@ -17,7 +17,7 @@ class API_CalDAV_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (!$recordModel->isNew()) {
-			App\Db::getInstance()->createCommand()->update('vtiger_activity', ['dav_status' => 1], ['activityid', $recordModel->getId()])->execute();
+			\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['dav_status' => 1], ['activityid' => $recordModel->getId()])->execute();
 		}
 	}
 }
