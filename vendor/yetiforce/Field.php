@@ -171,6 +171,9 @@ class Field
 	 */
 	public static function getFieldsFromRelation($relationId)
 	{
+		if (empty($relationId)) {
+			return [];
+		}
 		if (Cache::has('getFieldsFromRelation', $relationId)) {
 			$fields = Cache::get('getFieldsFromRelation', $relationId);
 		} else {
