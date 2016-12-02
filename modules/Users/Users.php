@@ -456,10 +456,11 @@ class Users extends CRMEntity
 	 * @param string $userPassword - Must be non null and at least 1 character.
 	 * @param string $newPassword - Must be non null and at least 1 character.
 	 * @return boolean - If passwords pass verification and query succeeds, return true, else return false.
+	 * @todo Add transactions
 	 * @desc Verify that the current password is correct and write the new password to the DB.
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
 	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
+	 * Contributor(s): Contributor(s): YetiForce.com
 	 */
 	public function change_password($userPassword, $newPassword, $dieOnError = true)
 	{
@@ -467,7 +468,7 @@ class Users extends CRMEntity
 
 
 		$usr_name = $this->column_fields['user_name'];
-		$current_user = vglobal('current_user');
+		$currentUser = \App\User::getCurrentUserModel();
 		\App\Log::trace('Starting password change for ' . $usr_name);
 
 		if (!isset($newPassword) || $newPassword == "") {
@@ -475,7 +476,7 @@ class Users extends CRMEntity
 			return false;
 		}
 
-		if (!\vtlib\Functions::userIsAdministrator($current_user)) {
+		if (!$currentUser->isAdmin()) {
 			if (!$this->verifyPassword($userPassword)) {
 				\App\Log::warning('Incorrect old password for ' . $usr_name);
 				$this->error_string = vtranslate('ERR_PASSWORD_INCORRECT_OLD');
@@ -488,14 +489,11 @@ class Users extends CRMEntity
 		$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
 		$encryptedNewPassword = $this->encrypt_password($newPassword, $crypt_type);
 
-		$db->startTransaction();
-		$db->update($this->table_name, [
-			'user_password' => $encryptedNewPassword,
+		\App\Db::getInstance()->createCommand()->update($this->table_name, [
+			'id' => $this->id,
 			'confirm_password' => $encryptedNewPassword,
 			'user_hash' => $userHash,
-			'crypt_type' => $crypt_type,
-			], 'id = ?', [$this->id]
-		);
+			'crypt_type' => $crypt_type], ['id' => $this->id])->execute();
 
 		// Fill up the post-save state of the instance.
 		if (empty($this->column_fields['user_hash'])) {
@@ -506,7 +504,6 @@ class Users extends CRMEntity
 		$this->column_fields['confirm_password'] = $encryptedNewPassword;
 
 		$this->triggerAfterSaveEventHandlers();
-		$db->completeTransaction();
 		\App\Log::trace('Ending password change for ' . $usr_name);
 		return true;
 	}
