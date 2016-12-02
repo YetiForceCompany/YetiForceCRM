@@ -244,7 +244,7 @@ class Field extends FieldBasic
 		$instances = false;
 		$query = (new \App\Db\Query())->from('vtiger_field')
 				->leftJoin('vtiger_blocks', 'vtiger_field.block=vtiger_blocks.blockid')
-				->where(['vtiger_field.tabid' => $moduleInstance->id])->orderBy('vtiger_blocks.sequence', 'vtiger_field.sequence');
+				->where(['vtiger_field.tabid' => $moduleInstance->id])->orderBy(['vtiger_blocks.sequence' => SORT_ASC, 'vtiger_field.sequence' => SORT_ASC]);
 
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
