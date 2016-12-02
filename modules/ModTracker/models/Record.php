@@ -83,7 +83,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$query->andWhere(['<>', 'id', $exception]);
 		}
 		$row = $query->one();
-		
+
 		if ($row) {
 			$lastReviewedUsers = array_filter(explode('#', $row['last_reviewed_users']));
 			$key = array_search($userId, $lastReviewedUsers);
@@ -351,15 +351,13 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	public static function addConvertToAccountRelation($sourceModule, $sourceId, $current_user)
 	{
-		$adb = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$adb->insert('vtiger_modtracker_basic', [
+		\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $sourceId,
 			'module' => $sourceModule,
 			'whodid' => $current_user,
 			'changedon' => date('Y-m-d H:i:s'),
 			'status' => 6,
-			'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
-		]);
+			'last_reviewed_users' => '#' . Users_Record_Model::getCurrentUserModel()->getRealId() . '#'
+		])->execute();
 	}
 }
