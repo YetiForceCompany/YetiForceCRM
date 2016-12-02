@@ -612,7 +612,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 							var treeListElement = form.find('select.TreeList');
 							if (treeListElement.val() == '-') {
 								var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-								form.find('.select2-container.TreeList').validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+								form.find('.TreeList').validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
 							}
 
