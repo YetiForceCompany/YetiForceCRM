@@ -14,8 +14,8 @@
 			<div class="modal-body text-center">
 				<div class="form-group">
 					<select class="select2 form-control" name="user" id="user">
-						{foreach item=USER_NAME key=USER_ID from=$SWITCH_USERS}
-							<option value="{$USER_ID}">{$USER_NAME}</option>
+						{foreach item=ROW key=USER_ID from=$SWITCH_USERS}
+							<option value="{$USER_ID}">{$ROW['userName']} ({App\Language::translate($ROW['roleName'])})</option>
 						{/foreach}
 					</select>
 				</div>

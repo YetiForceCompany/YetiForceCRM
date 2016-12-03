@@ -275,17 +275,31 @@ class Users_Module_Model extends Vtiger_Module_Model
 				->all();
 	}
 
-	public static function getSwitchUsers()
+	/**
+	 * Get switch users
+	 * @param boolean $showRole
+	 * @return array
+	 */
+	public static function getSwitchUsers($showRole = false)
 	{
-		$userModel = Users_Record_Model::getCurrentUserModel();
 		require('user_privileges/switchUsers.php');
-		$baseUserId = $userModel->getRealId();
-		$users = [];
-		if (array_key_exists($baseUserId, $switchUsers)) {
-			foreach ($switchUsers[$baseUserId] as $userid => $userName) {
-				$users[$userid] = $userName;
+		$baseUserId = \App\User::getCurrentUserRealId();
+		$users = $userIds = [];
+		if (isset($switchUsers[$baseUserId])) {
+			foreach ($switchUsers[$baseUserId] as $userId => &$userName) {
+				$users[$userId] = ['userName' => $userName];
+				$userIds[] = $userId;
 			}
-			if (count($users) > 1) {
+			if ($showRole) {
+				$dataReader = (new \App\Db\Query())->select(['vtiger_role.rolename', 'vtiger_user2role.userid'])->from('vtiger_role')
+						->leftJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')
+						->where(['vtiger_user2role.userid' => $userIds])
+						->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					$users[$row['userid']]['roleName'] = $row['rolename'];
+				}
+			}
+			if ($users) {
 				return $users;
 			}
 		}
