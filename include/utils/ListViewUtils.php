@@ -355,9 +355,9 @@ function getEntityId($module, $entityName)
 
 function decode_html($str)
 {
-	$defaultCharset = AppConfig::main('default_charset');
+	static $defaultCharset = false;
 	if (empty($defaultCharset))
-		$defaultCharset = 'UTF-8';
+		$defaultCharset = AppConfig::main('default_charset', 'UTF-8');
 	return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
 }
 

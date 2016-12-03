@@ -75,15 +75,12 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		}
 		if (self::$cachedInstances) {
 			$actionid = vtlib\Utils::isNumber($value) ? $value : false;
+			if($actionid === false && isset(self::$cachedInstances[$value])){
+				return self::$cachedInstances[$value];
+			}
 			foreach (self::$cachedInstances as $instance) {
-				if ($actionid !== false) {
-					if ($instance->get('actionid') == $actionid) {
-						return $instance;
-					}
-				} else {
-					if ($instance->get('actionname') == $value) {
-						return $instance;
-					}
+				if ($instance->get('actionid') == $actionid) {
+					return $instance;
 				}
 			}
 		}
@@ -119,7 +116,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 			$actionModels = [];
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$actionModels[] = self::getInstanceFromRow($row);
+				$actionModels[$row['actionname']] = self::getInstanceFromRow($row);
 			}
 			Vtiger_Cache::set('vtiger', 'actions', $actionModels);
 		}
