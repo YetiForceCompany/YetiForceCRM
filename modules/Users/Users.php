@@ -1321,24 +1321,18 @@ class Users extends CRMEntity
 	public function transformOwnerShipAndDelete($userId, $transformToUserId)
 	{
 		$adb = PearDatabase::getInstance();
-
 		$em = new VTEventsManager($adb);
-
 		// Initialize Event trigger cache
 		$em->initTriggerCache();
-
 		$entityData = VTEntityData::fromUserId($adb, $userId);
-
 		//set transform user id
 		$entityData->set('transformtouserid', $transformToUserId);
-
 		$em->triggerEvent("vtiger.entity.beforedelete", $entityData);
-
 		vtws_transferOwnership($userId, $transformToUserId);
-
 		//updating the vtiger_users table;
-		$sql = "UPDATE vtiger_users SET status=?,deleted=? where id=?";
-		$adb->pquery($sql, array('Inactive', true, $userId));
+		App\Db::getInstance()->createCommand()
+				->update('vtiger_users', ['status' => 'Inactive', 'deleted' => 1], ['id' => $userId])
+				->execute();
 	}
 
 	/**

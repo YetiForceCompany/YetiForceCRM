@@ -632,22 +632,13 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public function deleteUserPermanently($userId, $newOwnerId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'UPDATE vtiger_crmentity SET smcreatorid=?,smownerid=? WHERE smcreatorid=? && setype=?';
-		$db->pquery($sql, array($newOwnerId, $newOwnerId, $userId, 'ModComments'));
-
+		$db = App\Db::getInstance();
+		$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
 		//update history details in vtiger_modtracker_basic 
-		$sql = 'update vtiger_modtracker_basic set whodid=? where whodid=?';
-		$db->pquery($sql, array($newOwnerId, $userId));
-
+		$db->createCommand()->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();
 		//update comments details in vtiger_modcomments 
-		$sql = 'update vtiger_modcomments set userid=? where userid=?';
-		$db->pquery($sql, array($newOwnerId, $userId));
-
-		$sql = 'DELETE FROM vtiger_users WHERE id=?';
-		$db->pquery($sql, array($userId));
-
+		$db->createCommand()->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
+		$db->createCommand()->delete('vtiger_users', ['id' => $userId])->execute();
 		deleteUserRelatedSharingRules($userId);
 	}
 
