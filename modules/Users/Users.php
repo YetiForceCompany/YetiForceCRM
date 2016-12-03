@@ -73,7 +73,6 @@ class Users extends CRMEntity
 		'Role Name' => Array('vtiger_user2role' => 'roleid'),
 		'User Name' => Array('vtiger_users' => 'user_name'),
 		'Status' => Array('vtiger_users' => 'status'),
-		'Email' => Array('vtiger_users' => 'email1'),
 		'Admin' => Array('vtiger_users' => 'is_admin')
 	);
 	public $list_fields_name = Array(
@@ -82,7 +81,6 @@ class Users extends CRMEntity
 		'Role Name' => 'roleid',
 		'User Name' => 'user_name',
 		'Status' => 'status',
-		'Email' => 'email1',
 		'Admin' => 'is_admin'
 	);
 	//Default Fields for Email Templates -- Pavani

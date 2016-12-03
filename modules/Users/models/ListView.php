@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Users_ListView_Model extends Vtiger_ListView_Model
@@ -83,7 +84,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		}
 		parent::loadListViewCondition();
 	}
-	
+
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel, $status (Active or Inactive User). Default false
@@ -110,6 +111,23 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		}
 		$this->set('search_params', $searchParams);
 		return parent::getListViewEntries($pagingModel);
+	}
+
+	/**
+	 * Function to get the list view header
+	 * @return Vtiger_Field_Model[] - List of Vtiger_Field_Model instances
+	 */
+	public function getListViewHeaders()
+	{
+		$headerFieldModels = [];
+		$headerFields = $this->getQueryGenerator()->getListViewFields();
+		foreach ($headerFields as $fieldName => &$fieldsModel) {
+			if ($fieldsModel && ((!$fieldsModel->isViewable() && $fieldsModel->getUitype() !== 106) || !$fieldsModel->getPermissions())) {
+				continue;
+			}
+			$headerFieldModels[$fieldName] = $fieldsModel;
+		}
+		return $headerFieldModels;
 	}
 
 	public function getListViewCount()
