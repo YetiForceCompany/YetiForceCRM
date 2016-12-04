@@ -29,17 +29,13 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public function checkFileIntegrity()
 	{
-		$recordId = $this->get('id');
 		$downloadType = $this->get('filelocationtype');
 		$returnValue = false;
-
-		if ($downloadType == 'I') {
+		if ($downloadType === 'I') {
 			$fileDetails = $this->getFileDetails();
 			if (!empty($fileDetails)) {
 				$filePath = $fileDetails['path'];
-
 				$savedFile = $fileDetails['attachmentsid'] . "_" . $this->get('filename');
-
 				if (fopen($filePath . $savedFile, "r")) {
 					$returnValue = true;
 				}
@@ -95,8 +91,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public function updateFileStatus($status)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_notes SET filestatus = ? WHERE notesid= ?", array($status, $this->get('id')));
+		App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
 	}
 
 	public function updateDownloadCount()

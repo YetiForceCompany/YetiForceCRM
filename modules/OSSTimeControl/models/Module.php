@@ -102,29 +102,25 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 	public function getTimeUsers($id, $moduleName)
 	{
-		$db = PearDatabase::getInstance();
 		$fieldName = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
-
 		if (empty($id) || empty($fieldName))
 			$response = false;
 		else {
-			$securityParameter = \App\PrivilegeQuery::getAccessConditions($this->getName());
-			$userSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-
-			$sql = sprintf('SELECT count(*) AS count, %s as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time FROM vtiger_osstimecontrol
-							INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
-							INNER JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid && vtiger_users.status="ACTIVE"
-							AND vtiger_crmentity.deleted = 0'
-				. ' WHERE vtiger_osstimecontrol.%s = ? && vtiger_osstimecontrol.osstimecontrol_status = ? %s GROUP BY smownerid'
-				, $userSqlFullName, $fieldName, $securityParameter);
-			$result = $db->pquery($sql, [$id, OSSTimeControl_Record_Model::recalculateStatus]);
-
+			$query = (new \App\Db\Query())->select([
+				'vtiger_crmentity.smownerid',
+				'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)')
+			])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
+					->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::recalculateStatus])
+					->groupBy('smownerid');
+			App\PrivilegeQuery::getConditions($query, $this->getName());
+			$dataReader = $query->createCommand()->query();
 			$data = [];
 			$i = 0;
-			while ($row = $db->getRow($result)) {
-				$data[$i]['label'] = $row['name'];
+			while ($row = $dataReader->read()) {
+				$name = App\Fields\Owner::getLabel($row['smownerid']);
+				$data[$i]['label'] = $name;
 				$ticks[$i][0] = $i;
-				$ticks[$i][1] = $row['name'];
+				$ticks[$i][1] = $name;
 				$data[$i]['data'][0][0] = $i;
 				$data[$i]['data'][0][1] = $row['time'];
 				++$i;

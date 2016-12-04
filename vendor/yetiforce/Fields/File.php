@@ -206,7 +206,8 @@ class File
 			require 'config/mimetypes.php';
 			self::$mimeTypes = $mimeTypes;
 		}
-		$ext = strtolower(array_pop(explode('.', $fileName)));
+		$ext = explode('.', $fileName);
+		$ext = strtolower(array_pop($ext));
 		if (isset(self::$mimeTypes[$ext])) {
 			$mimeType = self::$mimeTypes[$ext];
 		} elseif (function_exists('mime_content_type')) {
