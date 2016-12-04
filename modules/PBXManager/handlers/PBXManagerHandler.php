@@ -21,6 +21,28 @@ class PBXManager_PBXManagerHandler_Handler
 		$pbxRecordModel = new PBXManager_Record_Model;
 		$pbxRecordModel->deletePhoneLookUpRecord($recordModel->getId());
 	}
+
+	/**
+	 * Entity.AfterSave function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$values = [
+			'crmid' => $recordModel->getId(),
+			'setype' => $eventHandler->getModuleName(),
+		];
+		$pbxRecordModel = new PBXManager_Record_Model;
+		$moduleInstance = Vtiger_Module_Model::getInstance($eventHandler->getModuleName());
+		$fields = $moduleInstance->getFieldsByType('phone');
+		foreach ($fields as $fieldName => &$fieldModel) {
+			if (!$recordModel->isEmpty($fieldName)) {
+				$values[$fieldName] = $recordModel->get($fieldName);
+				$pbxRecordModel->receivePhoneLookUpRecord($fieldName, $values, true);
+			}
+		}
+	}
 }
 
 class PBXManagerHandler extends VTEventHandler
@@ -33,33 +55,8 @@ class PBXManagerHandler extends VTEventHandler
 		$acceptedModule = array('Contacts', 'Accounts', 'Leads');
 		if (!in_array($moduleName, $acceptedModule))
 			return;
-
-		if ($eventName == 'vtiger.entity.aftersave') {
-			PBXManagerHandler::handlePhoneLookUpSaveEvent($entityData, $moduleName);
-		}
 		if ($eventName == 'vtiger.entity.afterrestore') {
 			$this->handlePhoneLookUpRestoreEvent($entityData, $moduleName);
-		}
-	}
-
-	static function handlePhoneLookUpSaveEvent($entityData, $moduleName)
-	{
-		$recordid = $entityData->getId();
-		$data = $entityData->getData();
-
-		$values['crmid'] = $recordid;
-		$values['setype'] = $moduleName;
-		$recordModel = new PBXManager_Record_Model;
-
-		$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldsModel = $moduleInstance->getFieldsByType('phone');
-
-		foreach ($fieldsModel as $field => $fieldName) {
-			$fieldName = $fieldName->get('name');
-			$values[$fieldName] = $data[$fieldName];
-
-			if ($values[$fieldName])
-				$recordModel->receivePhoneLookUpRecord($fieldName, $values, true);
 		}
 	}
 
