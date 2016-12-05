@@ -14,7 +14,7 @@ class DataTransform
 	public static $recordString = "record_id";
 	public static $recordModuleString = 'record_module';
 
-	public function sanitizeDataWithColumn($row, $meta)
+	public static function sanitizeDataWithColumn($row, $meta)
 	{
 
 		$newRow = [];
