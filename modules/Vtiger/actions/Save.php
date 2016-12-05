@@ -11,6 +11,9 @@
 class Vtiger_Save_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * @var Vtiger_Record_Model 
+	 */
 	protected $record = false;
 
 	public function checkPermission(Vtiger_Request $request)
@@ -93,10 +96,10 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to save record
-	 * @param <Vtiger_Request> $request - values of the record
-	 * @return <RecordModel> - record Model of saved record
+	 * @param Vtiger_Request $request - values of the record
+	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord($request)
+	public function saveRecord(Vtiger_Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
@@ -108,13 +111,14 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			$relatedRecordId = $recordModel->getId();
 
 			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			if ($relationModel)
+			if ($relationModel) {
 				$relationModel->addRelation($parentRecordId, $relatedRecordId);
+			}
 		}
 		if ($request->get('imgDeleted')) {
 			$imageIds = $request->get('imageid');
-			foreach ($imageIds as $imageId) {
-				$status = $recordModel->deleteImage($imageId);
+			foreach ($imageIds as &$imageId) {
+				$recordModel->deleteImage($imageId);
 			}
 		}
 		return $recordModel;
@@ -130,43 +134,28 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		if (!empty($recordId)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$recordModel->set('id', $recordId);
-			$recordModel->set('mode', 'edit');
 		} else {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getCleanInstance($moduleName);
-			$recordModel->set('mode', '');
 		}
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
-			if (!$fieldModel->isEditEnabled()) {
+			if (!$fieldModel->isEditable()) {
 				continue;
 			}
 			if ($request->has($fieldName) && $fieldModel->get('uitype') === 300) {
-				$fieldValue = $request->getForHtml($fieldName, null);
-			} else if ($request->has($fieldName)) {
-				$fieldValue = $request->get($fieldName, null);
-			} else if (in_array($fieldModel->getDisplayType(), [3, 5])) {
-				$fieldValue = $recordModel->get($fieldName);
-			} else {
-				$fieldValue = $fieldModel->getDefaultFieldValue();
-			}
-			$fieldDataType = $fieldModel->getFieldDataType();
-			if ($fieldDataType === 'time') {
-				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-			}
-			if ($fieldValue !== null) {
-				if (!is_array($fieldValue)) {
-					$fieldValue = trim($fieldValue);
+				$recordModel->set($fieldName, $request->getForHtml($fieldName, null));
+			} elseif ($request->has($fieldName)) {
+				$recordModel->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($request->get($fieldName, null), $recordModel));
+			} elseif ($recordModel->isNew()) {
+				$defaultValue = $fieldModel->getDefaultFieldValue();
+				if ($defaultValue !== '') {
+					$recordModel->set($fieldName, $defaultValue);
 				}
-				$recordModel->set($fieldName, $fieldValue);
-			} else
-				$recordModel->set($fieldName, null);
+			}
 		}
 		return $recordModel;
 	}

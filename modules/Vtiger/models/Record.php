@@ -15,6 +15,7 @@
 class Vtiger_Record_Model extends Vtiger_Base_Model
 {
 
+	protected $isNew = true;
 	protected $module = false;
 	protected $inventoryData = false;
 	protected $privileges = [];
@@ -56,7 +57,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function isNew()
 	{
-		return $this->get('mode') !== 'edit';
+		return $this->isNew;
 	}
 
 	/**
@@ -66,10 +67,25 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function set($key, $value)
 	{
-		if (!in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime'])) {
+		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && $this->valueMap[$key] != $value) {
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->valueMap[$key] = $value;
+		return $this;
+	}
+
+	/**
+	 * Function to set the value for a given key and user farmat
+	 * @param $fieldName
+	 * @param $value
+	 */
+	public function setInUserFormat($fieldName, $value)
+	{
+		if ($value === '') {
+			return $this;
+		}
+		$fieldModel = $this->getModule()->getFieldByName($fieldName);
+		$this->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($value, $this));
 		return $this;
 	}
 
@@ -364,6 +380,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 	}
 
+	/**
+	 * Save data to the database
+	 */
 	public function saveToDb()
 	{
 		$saveFields = $this->getModule()->getFieldsForSave($this);
@@ -377,7 +396,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		foreach ($saveFields as &$fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
-				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $fieldModel->getUITypeModel()->getDBValue($this->get($fieldName), $this);
+				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $this->get($fieldName);
 			}
 		}
 		$db = \App\Db::getInstance();
@@ -462,7 +481,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$focus->retrieve_entity_info($recordId, $moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
-		$instance->setEntity($focus)->setData($focus->column_fields)->set('mode', 'edit')->setId($recordId)->setModuleFromInstance($module);
+		$instance->setEntity($focus)->setData($focus->column_fields)->setId($recordId)->setModuleFromInstance($module);
+		$instance->isNew = false;
 		\App\Cache::staticSave('RecordModel', $cacheName, $instance);
 		return $instance;
 	}
@@ -841,7 +861,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$moduleName = $this->getModuleName();
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$fields = $inventory->getColumns();
-		$table = $inventory->getTableName('data');
 		$summaryFields = $inventory->getSummaryFields();
 		$inventoryData = $summary = [];
 		if ($this->has('inventoryData')) {
@@ -905,6 +924,27 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function setInventoryData($data)
 	{
 		$this->inventoryData = $data;
+	}
+
+	/**
+	 * Save the inventory data
+	 */
+	public function saveInventoryData($moduleName)
+	{
+		\App\Log::trace('Start ' . __METHOD__);
+		$db = App\Db::getInstance();
+		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$table = $inventory->getTableName('data');
+
+		$inventoryData = $this->getInventoryData();
+		$db->createCommand()->delete($table, ['id' => $this->getId()])->execute();
+		if (is_array($inventoryData)) {
+			foreach ($inventoryData as &$insertData) {
+				$insertData['id'] = $this->getId();
+				$db->createCommand()->insert($table, $insertData)->execute();
+			}
+		}
+		\App\Log::trace('End ' . __METHOD__);
 	}
 
 	public function clearPrivilegesCache($name = false)

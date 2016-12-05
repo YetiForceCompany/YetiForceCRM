@@ -212,46 +212,34 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$moduleName = $this->get('name');
 		$focus = $this->getEntityInstance();
-		$fields = $focus->column_fields;
-		foreach ($fields as $fieldName => $fieldValue) {
-			$fieldValue = $recordModel->get($fieldName);
-			if (is_array($fieldValue)) {
-				$focus->column_fields[$fieldName] = $fieldValue;
-			} else if ($fieldValue !== null) {
-				$focus->column_fields[$fieldName] = decode_html($fieldValue);
-			}
-		}
 		if (!$recordModel->isNew() && empty($recordModel->changes)) {
 			App\Log::warning('ERR_NO_DATA');
 			//return $recordModel;
 		}
-		$focus->isInventory = $this->isInventory();
-
+		$recordId = $recordModel->getId();
+		if ($recordModel->isNew()) {
+			$recordId = $recordModel->get('newRecord');
+			$recordModel->setId($recordId);
+		}
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
-
-		$eventHandler->trigger('EntityInventoryBeforeSave');
-		if ($this->isInventory()) {
-			$focus->inventoryData = $recordModel->getInventoryData();
-		}
-		$eventHandler->trigger('EntityInventoryAfterSave');
-
-
-		$focus->mode = $recordModel->get('mode');
-		$recordId = $focus->id = $recordModel->getId();
-		if ($recordModel->isNew()) {
-			$recordId = $recordModel->get('newRecord');
-		}
-		$focus->newRecord = $recordId;
 		$eventHandler->trigger('EntityBeforeSave');
-		$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
-		$recordModel->setId($recordId);
-		$focus->save($moduleName);
-		//$recordModel->saveToDb();
-		$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
-		if ($moduleName !== 'Users' || !$recordModel->isNew()) {
-			$recordModel->setId($recordId);
+
+		$recordModel->saveToDb();
+
+		Users_Privileges_Model::setSharedOwner($recordModel->get('shownerid'), $recordId);
+		if ($this->isInventory()) {
+			$recordModel->saveInventoryData($moduleName);
+		}
+		// vtlib customization: Hook provide to enable generic module relation.
+		if (AppRequest::get('createmode') === 'link') {
+			$forModule = AppRequest::get('return_module');
+			$forCrmid = AppRequest::get('return_id');
+			if ($forModule && $forCrmid) {
+				$focus = CRMEntity::getInstance($forModule);
+				relateEntities($focus, $forModule, $forCrmid, $moduleName, $recordId);
+			}
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		$eventHandler->setSystemTrigger('EntityAfterSaveSystem');

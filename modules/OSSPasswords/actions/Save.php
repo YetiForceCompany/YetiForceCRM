@@ -93,48 +93,4 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 		}
 		return $recordModel;
 	}
-
-	/**
-	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
-	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
-	{
-
-		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$modelData = $recordModel->getData();
-			$recordModel->set('id', $recordId);
-			$recordModel->set('mode', 'edit');
-		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$modelData = $recordModel->getData();
-			$recordModel->set('mode', '');
-		}
-
-		$fieldModelList = $moduleModel->getFields();
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if (!$fieldModel->isEditEnabled()) {
-				continue;
-			}
-			$fieldValue = $request->get($fieldName, null);
-			$fieldDataType = $fieldModel->getFieldDataType();
-			if ($fieldDataType == 'time') {
-				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-			}
-			if ($fieldValue !== null) {
-				if (!is_array($fieldValue)) {
-					$fieldValue = trim($fieldValue);
-				}
-				$recordModel->set($fieldName, $fieldValue);
-			}
-		}
-		return $recordModel;
-	}
 }

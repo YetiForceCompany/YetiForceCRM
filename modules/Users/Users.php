@@ -819,7 +819,7 @@ class Users extends CRMEntity
 				}
 			}
 			if ($fldvalue == '') {
-				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
+				//$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
 			}
 			$params[$columname] = $fldvalue;
 		}
@@ -1218,23 +1218,6 @@ class Users extends CRMEntity
 
 		$tracker = new Tracker();
 		$tracker->track_view($user_id, $current_module, $id, '');
-	}
-
-	/**
-	 * Function to get the column value of a field
-	 * @param $column_name -- Column name
-	 * @param $input_value -- Input value for the column taken from the User
-	 * @return Column value of the field.
-	 */
-	public function get_column_value($columName, $fldvalue, $fieldname, $uitype, $datatype = '')
-	{
-		if (is_uitype($uitype, "_date_") && $fldvalue == '') {
-			return null;
-		}
-		if ($datatype == 'I' || $datatype == 'N' || $datatype == 'NN') {
-			return 0;
-		}
-		return $fldvalue;
 	}
 
 	/**
