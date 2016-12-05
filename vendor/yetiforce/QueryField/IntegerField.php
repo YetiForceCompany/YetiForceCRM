@@ -45,4 +45,22 @@ class IntegerField extends BaseField
 	{
 		return ['>=', $this->getColumnName(), $this->getValue()];
 	}
+
+	/**
+	 * Is empty operator
+	 * @return array
+	 */
+	public function operatorY()
+	{
+		return [$this->getColumnName() => null];
+	}
+
+	/**
+	 * Is not empty operator
+	 * @return array
+	 */
+	public function operatorNy()
+	{
+		return ['not', [$this->getColumnName() => null]];
+	}
 }
