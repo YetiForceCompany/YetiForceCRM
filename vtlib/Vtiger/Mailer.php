@@ -282,10 +282,6 @@ class Mailer extends \PHPMailer
 				}
 				$sent = $mailer->Send(true);
 				if ($sent) {
-					Event::trigger('vtiger.mailer.mailsent', $relcrmid);
-					if ($listener) {
-						$listener->mailsent($queueid);
-					}
 					$adb->pquery('DELETE FROM vtiger_mailer_queue WHERE id=?', Array($queueid));
 					$adb->pquery('DELETE FROM vtiger_mailer_queueinfo WHERE id=?', Array($queueid));
 					$adb->pquery('DELETE FROM vtiger_mailer_queueattachments WHERE id=?', Array($queueid));

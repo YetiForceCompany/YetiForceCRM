@@ -18,7 +18,6 @@ class OpenStreetMap
 			\vtlib\Cron::register('UpdaterCoordinates', 'modules/OpenStreetMap/cron/UpdaterCoordinates.php', 60, 'OpenStreetMap', 1);
 			\vtlib\Cron::register('UpdaterRecordsCoordinates', 'modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php', 300, 'OpenStreetMap', 1);
 		} else if ($eventType == 'module.disabled') {
-			$db->update('vtiger_eventhandlers', ['is_active' => 0], 'handler_class = ?', ['OpenStreetMapHandler']);
 			App\EventHandler::setInActive('OpenStreetMap_OpenStreetMapHandler_Handler');
 			\vtlib\Cron::getInstance('UpdaterCoordinates')->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
 			\vtlib\Cron::getInstance('UpdaterRecordsCoordinates')->updateStatus(\vtlib\Cron::$STATUS_DISABLED);

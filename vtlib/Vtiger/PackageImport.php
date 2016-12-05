@@ -870,30 +870,13 @@ class PackageImport extends PackageExport
 	 */
 	public function import_Events($modulenode, $moduleInstance)
 	{
-		if (empty($modulenode->events) || empty($modulenode->events->event))
+		if (empty($modulenode->eventHandlers) || empty($modulenode->eventHandlers->event)) {
 			return;
-
-		if (Event::hasSupport()) {
-			foreach ($modulenode->events->event as $eventnode) {
-				$this->import_Event($modulenode, $moduleInstance, $eventnode);
-			}
 		}
-	}
-
-	/**
-	 * Import Event of the module
-	 * @access private
-	 */
-	public function import_Event($modulenode, $moduleInstance, $eventnode)
-	{
-		$event_condition = '';
-		$event_dependent = '[]';
-		if (!empty($eventnode->condition))
-			$event_condition = "$eventnode->condition";
-		if (!empty($eventnode->dependent))
-			$event_dependent = "$eventnode->dependent";
-		Event::register($moduleInstance, (string) $eventnode->eventname, (string) $eventnode->classname, (string) $eventnode->filename, (string) $event_condition, (string) $event_dependent
-		);
+		$moduleId = \App\Module::getModuleId($moduleInstance->name);
+		foreach ($modulenode->eventHandlers->event as &$eventNode) {
+			\App\EventHandler::registerHandler($eventNode->eventName, $eventNode->className, $eventNode->includeModules, $eventNode->excludeModules, $eventNode->priority, $eventNode->isActive, $moduleId);
+		}
 	}
 
 	/**

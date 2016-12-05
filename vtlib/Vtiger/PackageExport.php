@@ -635,7 +635,9 @@ class PackageExport
 	 */
 	public function export_Events($moduleInstance)
 	{
-		$events = Event::getAll($moduleInstance);
+		//TODU: needs updating
+		return false;
+		//$events = Event::getAll($moduleInstance);
 		if (!$events)
 			return;
 
