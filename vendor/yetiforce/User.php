@@ -265,4 +265,15 @@ class User
 		Cache::save('UserIsExists', $id, $isExists);
 		return $isExists;
 	}
+	
+	/**
+	 * Function checks if user is admin
+	 * @param int $id - User ID
+	 * @return boolean
+	 */
+	public static function isAdminUserById($id)
+	{
+		$isAdmin = (new \App\Db\Query)->select(['is_admin'])->from('vtiger_users')->where(['id' => $id])->scalar();
+		return $isAdmin;
+	}
 }
