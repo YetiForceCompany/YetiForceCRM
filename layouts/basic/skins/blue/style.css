@@ -767,10 +767,6 @@ btn-danger:hover{
 #leadAccordion .fieldValue{
 	background-color: #fff;
 }
-.leftPanel > .slimScrollDiv > .menuContainer > nav > .nav.modulesList > li > a.active{
-	background-color: #00a8e1;
-	color: #fff;
-}
 .globalSearchResults .nav > li > a:hover{
 	color: #003c7d;
 }
