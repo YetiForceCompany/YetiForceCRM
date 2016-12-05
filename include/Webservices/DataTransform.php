@@ -189,7 +189,7 @@ class DataTransform
 		}
 
 		foreach ($row as $field => $value) {
-			$row[$field] = html_entity_decode($value, ENT_QUOTES, $default_charset);
+			$row[$field] = html_entity_decode((string) $value, ENT_QUOTES, $default_charset);
 		}
 		return $row;
 	}
