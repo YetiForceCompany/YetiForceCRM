@@ -85,18 +85,18 @@ class CRMEntity
 	 */
 	public function saveInventoryData($moduleName)
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 
 		\App\Log::trace('Entering ' . __METHOD__);
 
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
 
-		$db->delete($table, 'id = ?', [$this->id]);
+		$db->createCommand()->delete($table, ['id' => $this->id])->execute();
 		if (is_array($this->inventoryData)) {
 			foreach ($this->inventoryData as $insertData) {
 				$insertData['id'] = $this->id;
-				$db->insert($table, $insertData);
+				$db->createCommand()->insert($table, $insertData)->execute();
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
@@ -1054,12 +1054,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-				[
+			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-				[
+			[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
