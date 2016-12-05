@@ -499,6 +499,7 @@ class Users extends CRMEntity
 		$this->column_fields['user_password'] = $encryptedNewPassword;
 		$this->column_fields['confirm_password'] = $encryptedNewPassword;
 
+		$this->triggerAfterSaveEventHandlers();
 		\App\Log::trace('Ending password change for ' . $userName);
 		return true;
 	}
@@ -985,10 +986,27 @@ class Users extends CRMEntity
 	public function save($module_name, $fileid = '')
 	{
 		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
+
+		//Event triggering code
+		require_once('include/events/include.php');
+
+		//In Bulk mode stop triggering events
+		if (!self::isBulkSaveMode()) {
+			$em = new VTEventsManager($adb);
+			// Initialize Event trigger cache
+			$em->initTriggerCache();
+			$entityData = VTEntityData::fromCRMEntity($this);
+
+			$em->triggerEvent('vtiger.entity.beforesave.modifiable', $entityData);
+			$em->triggerEvent('vtiger.entity.beforesave', $entityData);
+			$em->triggerEvent('vtiger.entity.beforesave.final', $entityData);
+		}
 		if ($this->mode !== 'edit') {
-			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
-			$result = $adb->pquery($sql, array($this->column_fields['user_name'], $this->column_fields['email1']));
-			if ($adb->num_rows($result) > 0) {
+
+			if ((new \App\Db\Query())->from('vtiger_users')
+					->where(['or', ['user_name' => $this->column_fields['user_name']], ['email1' => $this->column_fields['email1']]])
+					->exists()) {
 				throw new \Exception('LBL_USER_EXISTS');
 			}
 			\App\Privilege::setAllUpdater();
@@ -1002,13 +1020,20 @@ class Users extends CRMEntity
 				\App\Privilege::setAllUpdater();
 			}
 			if ($oldRole != $this->column_fields['roleid']) {
-				$query = 'DELETE FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ?;';
-				$adb->pquery($query, [$this->id]);
+				$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->id])->execute();
 				\App\Privilege::setAllUpdater();
 			}
 		}
 		//Save entity being called with the modulename as parameter
 		$this->saveentity($module_name);
+
+		if ($em) {
+			//Event triggering code
+			$em->triggerEvent("vtiger.entity.aftersave", $entityData);
+			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
+			//Event triggering code ends
+		}
+
 		// Added for Reminder Popup support
 		$query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?", array($this->id));
 		$prev_reminder_interval = $adb->query_result($query_prev_interval, 0, 'reminder_interval');
@@ -1291,22 +1316,19 @@ class Users extends CRMEntity
 
 	public function transformOwnerShipAndDelete($userId, $transformToUserId)
 	{
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setParams(['userId' => $userId, 'transformToUserId' => $transformToUserId]);
-		$eventHandler->setModuleName('Users');
-		$eventHandler->trigger('UsersBeforeDelete');
-
+		$adb = PearDatabase::getInstance();
+		$em = new VTEventsManager($adb);
+		// Initialize Event trigger cache
+		$em->initTriggerCache();
+		$entityData = VTEntityData::fromUserId($adb, $userId);
+		//set transform user id
+		$entityData->set('transformtouserid', $transformToUserId);
+		$em->triggerEvent("vtiger.entity.beforedelete", $entityData);
 		vtws_transferOwnership($userId, $transformToUserId);
 		//updating the vtiger_users table;
 		App\Db::getInstance()->createCommand()
-			->update('vtiger_users', [
-				'status' => 'Inactive',
-				'deleted' => 1,
-				'date_modified' => date('Y-m-d H:i:s'),
-				'modified_user_id' => App\User::getCurrentUserRealId()
-				], ['id' => $userId])->execute();
-
-		$eventHandler->trigger('UsersAfterDelete');
+			->update('vtiger_users', ['status' => 'Inactive', 'deleted' => 1], ['id' => $userId])
+			->execute();
 	}
 
 	/**
@@ -1364,5 +1386,25 @@ class Users extends CRMEntity
 		$user = CRMEntity::getInstance('Users');
 		$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;
+	}
+
+	public function triggerAfterSaveEventHandlers()
+	{
+		$adb = PearDatabase::getInstance();
+		require_once("include/events/include.php");
+
+		//In Bulk mode stop triggering events
+		if (!self::isBulkSaveMode()) {
+			$em = new VTEventsManager($adb);
+			// Initialize Event trigger cache
+			$em->initTriggerCache();
+			$entityData = VTEntityData::fromCRMEntity($this);
+		}
+		//Event triggering code ends
+		if ($em) {
+			//Event triggering code
+			$em->triggerEvent("vtiger.entity.aftersave", $entityData);
+			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
+		}
 	}
 }

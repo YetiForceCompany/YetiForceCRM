@@ -56,4 +56,6 @@ $PERFORMANCE_CONFIG = [
 	'CRON_MAX_NUMERS_RECORD_ADDRESS_BOOCK_UPDATER' => 10000,
 	//Data caching is about storing some PHP variables in cache and retrieving it later from cache. Drivers: Base, Apcu
 	'CACHING_DRIVER' => 'Base',
+	//Parameter that determines whether admin panel should be available to admin by default
+	'SHOW_ADMIN_PANEL' => false,
 ];
