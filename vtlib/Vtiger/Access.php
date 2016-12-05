@@ -50,7 +50,7 @@ class Access
 	{
 		$ownedBy = $enable ? 0 : 1;
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['ownedby' => $ownedBy], ['tabid' => $moduleInstance->id])->execute();
-		self::log(($enable ? "Enabled" : "Disabled") . " sharing access control ... DONE");
+		self::log(($enable ? 'Enabled' : 'Disabled') . ' sharing access control ... DONE');
 	}
 
 	/**
@@ -92,19 +92,19 @@ class Access
 	 * @param String Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 * @access private
 	 */
-	static function setDefaultSharing($moduleInstance, $permission_text = 'Public_ReadWriteDelete')
+	static function setDefaultSharing($moduleInstance, $permissionText = 'Public_ReadWriteDelete')
 	{
 		$adb = \PearDatabase::getInstance();
 
-		$permission_text = strtolower($permission_text);
+		$permissionText = strtolower($permissionText);
 
-		if ($permission_text == 'public_readonly')
+		if ($permissionText === 'public_readonly')
 			$permission = 0;
-		else if ($permission_text == 'public_readwrite')
+		else if ($permissionText === 'public_readwrite')
 			$permission = 1;
-		else if ($permission_text == 'public_readwritedelete')
+		else if ($permissionText === 'public_readwritedelete')
 			$permission = 2;
-		else if ($permission_text == 'private')
+		else if ($permissionText === 'private')
 			$permission = 3;
 		else
 			$permission = 2; // public_readwritedelete is default
@@ -147,7 +147,7 @@ class Access
 
 			self::log(($flag ? 'Enabling' : 'Disabling') . " $toolAction for Profile [", false);
 			$db = \App\Db::getInstance();
-			foreach ($profileids as $useProfileId) {
+			foreach ($profileids as &$useProfileId) {
 				$curpermission = (new \App\Db\Query)->select('permission')->from('vtiger_profile2utility')
 					->where(['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId]);
 				if ($curpermission) {

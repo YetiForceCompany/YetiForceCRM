@@ -162,8 +162,9 @@ class Field extends FieldBasic
 			$checkRes = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->one();
 
 			// If relation already exist continue
-			if ($checkRes)
+			if ($checkRes){
 				continue;
+			}
 
 			$db->createCommand()->insert('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
 			self::log("Setting $this->name relation with $checkRes ... DONE");
@@ -190,7 +191,7 @@ class Field extends FieldBasic
 	 * @param mixed fieldid or fieldname
 	 * @param Module Instance of the module if fieldname is used
 	 */
-	static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, $moduleInstance = false)
 	{
 		$instance = false;
 		$moduleid = null;
@@ -210,7 +211,7 @@ class Field extends FieldBasic
 	 * @param vtlib\Block Instnace of block to use
 	 * @param Module Instance of module to which block is associated
 	 */
-	static function getAllForBlock($blockInstance, $moduleInstance = false)
+	public static function getAllForBlock($blockInstance, $moduleInstance = false)
 	{
 		$cache = \Vtiger_Cache::getInstance();
 		if ($cache->getBlockFields($blockInstance->id, $moduleInstance->id)) {
@@ -239,7 +240,7 @@ class Field extends FieldBasic
 	 * Get Field instances related to module
 	 * @param Module Instance of module to use
 	 */
-	static function getAllForModule($moduleInstance)
+	public static function getAllForModule($moduleInstance)
 	{
 		$instances = false;
 		$query = (new \App\Db\Query())->from('vtiger_field')
@@ -260,7 +261,7 @@ class Field extends FieldBasic
 	 * @param Module Instance of module
 	 * @access private
 	 */
-	static function deleteForModule($moduleInstance)
+	public static function deleteForModule($moduleInstance)
 	{
 		self::deletePickLists($moduleInstance);
 		self::deleteUiType10Fields($moduleInstance);
@@ -289,7 +290,7 @@ class Field extends FieldBasic
 	 * Function to remove uitype10 fields
 	 * @param Module Instance of module
 	 */
-	static function deleteUiType10Fields($moduleInstance)
+	public static function deleteUiType10Fields($moduleInstance)
 	{
 		self::log(__METHOD__ . ' | Start');
 		$query = (new \App\Db\Query)->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['relmodule' => $moduleInstance->name]);
@@ -308,7 +309,7 @@ class Field extends FieldBasic
 	 * Function to remove picklist-type or multiple choice picklist-type table
 	 * @param Module Instance of module
 	 */
-	static function deletePickLists($moduleInstance)
+  	public static function deletePickLists($moduleInstance)
 	{
 		self::log(__METHOD__ . ' | Start');
 		$db = \App\Db::getInstance();
