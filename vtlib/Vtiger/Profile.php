@@ -83,7 +83,7 @@ class Profile
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delimit = true)
+	public static function log($message, $delimit = true)
 	{
 		Utils::Log($message, $delimit);
 	}
@@ -93,7 +93,7 @@ class Profile
 	 * @param Field Instance of the field
 	 * @access private
 	 */
-	static function initForField($fieldInstance)
+	public static function initForField($fieldInstance)
 	{
 		$db = \App\Db::getInstance();
 		// Allow field access to all
@@ -105,7 +105,7 @@ class Profile
 		])->execute();
 		$profileids = self::getAllIds();
 		$insertedValues = [];
-		foreach ($profileids as $profileid) {
+		foreach ($profileids as &$profileid) {
 			$insertedValues [] = [$profileid, $fieldInstance->getModuleId(), $fieldInstance->id, 0, 0];
 		}
 		$db->createCommand()->batchInsert('vtiger_profile2field', ['profileid', 'tabid', 'fieldid', 'visible', 'readonly'], $insertedValues)->execute();
@@ -116,7 +116,7 @@ class Profile
 	 * @param Field Instance of the field
 	 * @access private
 	 */
-	static function deleteForField($fieldInstance)
+	public static function deleteForField($fieldInstance)
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_def_org_field', ['fieldid' => $fieldInstance->id])->execute();
@@ -127,7 +127,7 @@ class Profile
 	 * Get all the existing profile ids
 	 * @access private
 	 */
-	static function getAllIds()
+	public static function getAllIds()
 	{
 		return (new \App\Db\Query())->select(['profileid'])->from('vtiger_profile')->column();
 	}
@@ -137,21 +137,21 @@ class Profile
 	 * @param Module Instance of module
 	 * @access private
 	 */
-	static function initForModule($moduleInstance)
+	public static function initForModule($moduleInstance)
 	{
 		$db = \App\Db::getInstance();
 		$actionids = (new \App\Db\Query())->select(['actionid'])->from('vtiger_actionmapping')
 			->where(['actionname' => ['Save', 'EditView', 'Delete', 'index', 'DetailView', 'CreateView']])
 			->column();
 		$profileids = self::getAllIds();
-		foreach ($profileids as $profileid) {
+		foreach ($profileids as &$profileid) {
 			$db->createCommand()->insert('vtiger_profile2tab', [
 				'profileid' => $profileid,
 				'tabid' => $moduleInstance->id,
 				'permissions' => 0
 			])->execute();
 			if ($moduleInstance->isentitytype) {
-				foreach ($actionids as $actionid) {
+				foreach ($actionids as &$actionid) {
 					$db->createCommand()->insert('vtiger_profile2standardpermissions', [
 						'profileid' => $profileid,
 						'tabid' => $moduleInstance->id,
@@ -169,7 +169,7 @@ class Profile
 	 * @param Module Instance of module
 	 * @access private
 	 */
-	static function deleteForModule($moduleInstance)
+	public static function deleteForModule($moduleInstance)
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_def_org_field', ['tabid' => $moduleInstance->id])->execute();

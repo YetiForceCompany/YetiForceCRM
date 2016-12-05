@@ -226,6 +226,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			searchParams.push(searchInfo);
 		});
 		if (urlSearchParams) {
+			var valueInSearch = null;
 			var url = app.getUrlVar('search_params');
 			if (url != undefined && url.length) {
 				url = jQuery.parseJSON(decodeURIComponent(url));
@@ -236,7 +237,8 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 							exist = true;
 						}
 					});
-					if (exist == false) {
+					valueInSearch = listViewTable.find('.listSearchContributor[name="' + value[0] +'"]').val();
+					if (exist == false && valueInSearch != '' && valueInSearch !== null) {
 						searchParams.push(value);
 					}
 				});
