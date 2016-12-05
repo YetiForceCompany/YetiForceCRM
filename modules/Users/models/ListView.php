@@ -65,7 +65,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		}
 		$countLinks = count($links['LISTVIEWMASSACTION']);
 		for ($i = 0; $i < $countLinks; $i++) {
-			if ($links['LISTVIEWMASSACTION'][$i]->linklabel == 'LBL_MASS_DELETE') {
+			if ($links['LISTVIEWMASSACTION'][$i]->linklabel === 'LBL_MASS_DELETE' || $links['LISTVIEWMASSACTION'][$i]->linklabel === 'LBL_TRANSFER_OWNERSHIP') {
 				unset($links['LISTVIEWMASSACTION'][$i]);
 			}
 		}
