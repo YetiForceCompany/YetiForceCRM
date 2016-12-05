@@ -15,24 +15,6 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 
 	const recalculateStatus = 'Accepted';
 
-	public function recalculateTimeOldValues($record_id, $data)
-	{
-		require_once 'include/events/VTEntityDelta.php';
-		$relatedField = array('accountid', 'contactid', 'ticketid', 'projectid', 'projecttaskid', 'servicecontractsid', 'assetsid', 'reservationsid');
-		$vtEntityDelta = new VTEntityDelta();
-		$delta = $vtEntityDelta->getEntityDelta('Reservations', $record_id, true);
-		$recalculateOldValue = false;
-		foreach ($relatedField as $key => $val) {
-			if (array_key_exists($val, $delta) && $delta[$val]['oldValue'] != 0 && $delta[$val]['currentValue'] == 0) {
-				$data->set($val, $delta[$val]['oldValue']);
-				$recalculateOldValue = true;
-			}
-		}
-		if ($recalculateOldValue) {
-			Reservations_Record_Model::recalculateTimeControl($data);
-		}
-	}
-
 	public function recalculateTimeControl($data)
 	{
 		$db = PearDatabase::getInstance();

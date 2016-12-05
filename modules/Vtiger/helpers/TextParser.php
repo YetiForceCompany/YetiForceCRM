@@ -189,10 +189,12 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		if (!Users_Privileges_Model::isPermitted($this->get('moduleName'), 'DetailView', $this->get('record'))) {
 			return '';
 		}
-
-		$vtEntityDelta = new VTEntityDelta();
-		$delta = $vtEntityDelta->getEntityDelta($this->get('moduleName'), $this->get('record'));
-		unset($delta['modifiedtime']);
+		$cacheName = $this->get('record') . ':' . $this->get('moduleName');
+		if (!\App\Cache::staticHas('RecordModel', $cacheName)) {
+			return '';
+		}
+		$recordModel = \App\Cache::staticGet('RecordModel', $cacheName);
+		$delta = $recordModel->getPreviousValue();
 		unset($delta['record_id']);
 		unset($delta['record_module']);
 		if (empty($delta)) {
@@ -201,20 +203,20 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		$value = '';
 		switch ($key) {
 			case 'listOfAllChanges':
-				foreach ($delta as $fieldName => $delta) {
+				foreach ($delta as $fieldName => $oldValue) {
 					$fieldModel = $this->get('recordModel')->getModule()->getField($fieldName);
-					$oldValue = $this->recordChangesDisplayValue($delta['oldValue'], $fieldModel);
-					$currentValue = $this->recordChangesDisplayValue($delta['currentValue'], $fieldModel);
-					$value.= '(translate: [' . $fieldModel->getFieldLabel() . '|||' . $this->get('moduleName') . '])' . ' ' .
+					$oldValue = $this->recordChangesDisplayValue($oldValue, $fieldModel);
+					$currentValue = $this->recordChangesDisplayValue($recordModel->get($fieldName), $fieldModel);
+					$value .= '(translate: [' . $fieldModel->getFieldLabel() . '|||' . $this->get('moduleName') . '])' . ' ' .
 						'(translate: [LBL_FROM])' . ' ' . $oldValue . ' ' . '(translate: [LBL_TO])' . ' ' . $currentValue . PHP_EOL;
 				}
 				return $value;
 			case 'listOfAllValues':
-				foreach ($delta as $fieldName => $delta) {
+				foreach ($delta as $fieldName => $oldValue) {
 					$fieldModel = $this->get('recordModel')->getModule()->getField($fieldName);
 					if ($fieldModel) {
-						$value.= '(translate: [' . $fieldModel->getFieldLabel() . '|||' . $this->get('moduleName') . '])' . ': ' .
-							$this->recordChangesDisplayValue($delta['currentValue'], $fieldModel) . PHP_EOL;
+						$value .= '(translate: [' . $fieldModel->getFieldLabel() . '|||' . $this->get('moduleName') . '])' . ': ' .
+							$this->recordChangesDisplayValue($recordModel->get($fieldName), $fieldModel) . PHP_EOL;
 					}
 				}
 				return $value;

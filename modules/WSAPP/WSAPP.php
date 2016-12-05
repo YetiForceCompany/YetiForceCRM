@@ -24,7 +24,6 @@ class WSAPP
 			$this->initCustomWebserviceOperations();
 			$this->registerHandlers();
 			$this->registerVtigerCRMApp();
-			$this->registerWsappWorkflowhandler();
 			$this->registerSynclibEventHandler();
 		} else if ($event_type == 'module.disabled') {
 			return;
@@ -133,15 +132,6 @@ class WSAPP
 		$db->pquery("INSERT INTO vtiger_wsapp (name, appkey,type) VALUES(?,?,?)", array($appName, $uid, $type));
 	}
 
-	public function registerWsappWorkflowhandler()
-	{
-		$db = PearDatabase::getInstance();
-		$em = new VTEventsManager($db);
-		$dependentEventHandlers = array('VTEntityDelta');
-		$dependentEventHandlersJson = \App\Json::encode($dependentEventHandlers);
-		$em->registerHandler('vtiger.entity.aftersave', 'modules/WSAPP/WorkFlowHandlers/WSAPPAssignToTracker.php', 'WSAPPAssignToTracker', '', $dependentEventHandlersJson);
-	}
-
 	public function registerSynclibEventHandler()
 	{
 		$className = 'WSAPP_VtigerSyncEventHandler';
@@ -150,5 +140,3 @@ class WSAPP
 		wsapp_RegisterHandler($type, $className, $path);
 	}
 }
-
-?>
