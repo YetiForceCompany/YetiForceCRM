@@ -986,7 +986,7 @@ class Users extends CRMEntity
 	public function save($module_name, $fileid = '')
 	{
 		$adb = PearDatabase::getInstance();
-
+		$db = App\Db::getInstance();
 
 		//Event triggering code
 		require_once('include/events/include.php');
@@ -1003,9 +1003,10 @@ class Users extends CRMEntity
 			$em->triggerEvent('vtiger.entity.beforesave.final', $entityData);
 		}
 		if ($this->mode !== 'edit') {
-			$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
-			$result = $adb->pquery($sql, array($this->column_fields['user_name'], $this->column_fields['email1']));
-			if ($adb->num_rows($result) > 0) {
+
+			if ((new \App\Db\Query())->from('vtiger_users')
+					->where(['or', ['user_name' => $this->column_fields['user_name']], ['email1' => $this->column_fields['email1']]])
+					->exists()) {
 				throw new \Exception('LBL_USER_EXISTS');
 			}
 			\App\Privilege::setAllUpdater();
@@ -1019,8 +1020,7 @@ class Users extends CRMEntity
 				\App\Privilege::setAllUpdater();
 			}
 			if ($oldRole != $this->column_fields['roleid']) {
-				$query = 'DELETE FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ?;';
-				$adb->pquery($query, [$this->id]);
+				$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->id])->execute();
 				\App\Privilege::setAllUpdater();
 			}
 		}
