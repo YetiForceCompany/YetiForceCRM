@@ -849,6 +849,19 @@ CREATE TABLE `roundcube_users_autologin` (
   CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_automatic_assignment` */
+
+CREATE TABLE `s_yf_automatic_assignment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tabid` int(11) unsigned NOT NULL,
+  `fieldid` int(11) NOT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `roles` text,
+  `smowners` text,
+  `showners` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_handler_updater` */
 
 CREATE TABLE `s_yf_handler_updater` (

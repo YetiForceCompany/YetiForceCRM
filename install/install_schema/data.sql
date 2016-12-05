@@ -264,6 +264,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `roundcube_users_autologin` */
 
+/*Data for the table `s_yf_automatic_assignment` */
+
 /*Data for the table `s_yf_handler_updater` */
 
 /*Data for the table `s_yf_mail_relation_updater` */
@@ -25193,6 +25195,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (100,5,'LBL_WEBSERVICE_APPS',NULL,NULL,'index.php?module=WebserviceApps&view=Index&parent=Settings',11,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (101,1,'LBL_OWNER_ALLOCATION','adminIcon-owner','LBL_OWNER_ALLOCATION_DESCRIPTION','index.php?module=RecordAllocation&view=Index&parent=Settings&type=owner',9,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (102,1,'LBL_MULTIOWNER_ALLOCATION','adminIcon-shared-owner','LBL_MULTIOWNER_ALLOCATION_DESCRIPTION','index.php?module=RecordAllocation&view=Index&parent=Settings&type=sharedOwner',10,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (103,1,'LBL_AUTOMATIC_ASSIGNMENT','adminIcon-shared-owner','LBL_AUTOMATICASSIGNMENT_DESCRIPTION','index.php?module=AutomaticAssignment&view=List&parent=Settings',11,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
