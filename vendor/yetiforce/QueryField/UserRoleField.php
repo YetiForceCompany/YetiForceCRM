@@ -9,6 +9,17 @@ namespace App\QueryField;
  */
 class UserRoleField extends StringField
 {
+
+	/**
+	 * Equal operator
+	 * @return array
+	 */
+	public function operatorE()
+	{
+		$this->queryGenerator->addJoin(['INNER JOIN', 'vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id']);
+		return ['vtiger_user2role.roleid' => explode(',', $this->getValue())];
+	}
+
 	/**
 	 * Contains operator
 	 * @return array
@@ -19,6 +30,7 @@ class UserRoleField extends StringField
 		$this->queryGenerator->addJoin(['INNER JOIN', 'vtiger_role', 'vtiger_role.roleid = ' . $this->getColumnName()]);
 		return ['like', 'vtiger_role.rolename', $this->getValue()];
 	}
+
 	/**
 	 * Get order by
 	 * @return array
