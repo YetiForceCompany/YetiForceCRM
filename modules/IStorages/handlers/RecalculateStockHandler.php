@@ -41,18 +41,12 @@ class IStorages_RecalculateStockHandler_Handler
 		}
 	}
 
-	public function getInventoryDataAndSend($data, $action)
+	public function getInventoryDataAndSend(Vtiger_Record_Model $recordModel, $action)
 	{
-		$moduleName = $data->getModuleName();
-		if ($data->focus->inventoryData) {
-			$inventoryData = $data->focus->inventoryData;
-		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$recordModel->set('id', $data->getId());
-			$inventoryData = $recordModel->getInventoryData();
-		}
-		if (!empty($inventoryData)) {
-			IStorages_Module_Model::RecalculateStock($moduleName, $inventoryData, $data->get('storageid'), $action);
+		$moduleName = $recordModel->getModuleName();
+		$inventoryData = $recordModel->getInventoryData();
+		if (!empty($inventoryData) && $recordModel->get('storageid')) {
+			IStorages_Module_Model::RecalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
 		}
 	}
 }
