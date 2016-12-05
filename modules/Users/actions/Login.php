@@ -63,10 +63,11 @@ class Users_Login_Action extends Vtiger_Action_Controller
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
 			} else {
-				if (AppConfig::performance('SHOW_ADMIN_PANEL') && App\User::getUserModel($userid)->isAdmin())
+				if (AppConfig::performance('SHOW_ADMIN_PANEL') && App\User::getUserModel($userid)->isAdmin()) {
 					header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
-				else
+				} else {
 					header('Location: index.php');
+				}
 			}
 		} else {
 			$bfInstance->updateBlockedIp();
