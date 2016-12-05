@@ -356,7 +356,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			'whodid' => $current_user,
 			'changedon' => date('Y-m-d H:i:s'),
 			'status' => 6,
-			'last_reviewed_users' => '#' . Users_Record_Model::getCurrentUserModel()->getRealId() . '#'
+			'last_reviewed_users' => '#' . App\User::getCurrentUserRealId() . '#'
 		])->execute();
 	}
 }

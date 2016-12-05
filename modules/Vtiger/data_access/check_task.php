@@ -18,15 +18,15 @@ Class DataAccess_check_task
 	{
 		if (!isset($ID) || $ID == 0 || $ID == '')
 			return ['save_record' => true];
-		$countActivities = (new \App\Db\Query())->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+		$activitiesExists = (new \App\Db\Query())->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 				->where(['and',
 					['vtiger_crmentity.deleted' => 0],
 					['vtiger_activity.activitytype' => 'Task'],
 					['vtiger_activity.status' => $config['status']],
 					['vtiger_activity.subject' => $config['name']],
 					['or', ['vtiger_activity.link' => $ID], ['vtiger_activity.process' => $ID]]
-				])->count();
-		if ($countActivities === 0)
+				])->exists();
+		if (!$activitiesExists)
 			return [
 				'save_record' => false,
 				'type' => 0,
@@ -41,12 +41,6 @@ Class DataAccess_check_task
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT * FROM vtiger_activitystatus ORDER BY sortorderid", [], true);
-		$fields = [];
-		while ($row = $db->fetch_array($result)) {
-			array_push($fields, $row['activitystatus']);
-		}
-		return Array('status' => $fields);
+		return ['status' => (new App\Db\Query())->select(['activitystatus'])->from('vtiger_activitystatus')->orderBy('sortorderid')->column()];
 	}
 }

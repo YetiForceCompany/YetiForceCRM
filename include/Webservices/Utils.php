@@ -633,35 +633,36 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
  */
 function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 {
-	$adb = PearDatabase::getInstance();
 	$db = \App\Db::getInstance();
-	$result = $adb->pquery("select * from vtiger_crmentityrel where crmid=?", [$leadId]);
-	if ($adb->getRowCount($result) == 0) {
+	$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['crmid' => $leadId])
+			->createCommand()->query();
+	if ($dataReader->count() === 0) {
 		return false;
 	}
-	while ($row = $adb->getRow($result)) {
+	while ($row = $dataReader->read()) {
 		$resultNew = $db->createCommand()->insert('vtiger_crmentityrel', [
 				'crmid' => $relatedId,
 				'module' => $setype,
 				'relcrmid' => $row['relcrmid'],
 				'relmodule' => $row['relmodule']
 			])->execute();
-		if ($resultNew == 0) {
+		if ($resultNew === 0) {
 			return false;
 		}
 	}
-	$result = $adb->pquery("select * from vtiger_crmentityrel where relcrmid=?", [$leadId]);
-	if ($adb->getRowCount($result) == 0) {
+	$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['relcrmid' => $leadId])
+			->createCommand()->query();
+	if ($dataReader->count() === 0) {
 		return false;
 	}
-	while ($row = $adb->getRow($result)) {
+	while ($row = $dataReader->read()) {
 		$resultNew = $db->createCommand()->insert('vtiger_crmentityrel', [
 				'crmid' => $relatedId,
 				'module' => $setype,
 				'relcrmid' => $row['crmid'],
 				'relmodule' => $row['module']
 			])->execute();
-		if ($resultNew == 0) {
+		if ($resultNew === 0) {
 			return false;
 		}
 	}
@@ -750,28 +751,27 @@ function vtws_transferComments($sourceRecordId, $destinationRecordId)
 
 function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 {
-	$db = PearDatabase::getInstance();
-	$adb = \App\Db::getInstance();
+	$db = \App\Db::getInstance();
 	//PBXManager
-	$db->pquery("UPDATE vtiger_pbxmanager SET customer=? WHERE customer=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_pbxmanager', ['customer' => $destinationRecordId], ['customer' => $sourceRecordId])->execute();
 	//OSSPasswords
-	$db->pquery("UPDATE vtiger_osspasswords SET linkto=? WHERE linkto=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_osspasswords', ['linkto' => $destinationRecordId], ['linkto' => $sourceRecordId])->execute();
 	//Contacts
-	$db->pquery("UPDATE vtiger_contactdetails SET parentid=? WHERE parentid=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_contactdetails', ['parentid' => $destinationRecordId], ['parentid' => $sourceRecordId])->execute();
 	//OutsourcedProducts
-	$db->pquery("UPDATE vtiger_outsourcedproducts SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_outsourcedproducts', ['parent_id' => $destinationRecordId], ['parent_id' => $sourceRecordId])->execute();
 	//OSSOutsourcedServices
-	$db->pquery("UPDATE vtiger_ossoutsourcedservices SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_ossoutsourcedservices', ['parent_id' => $destinationRecordId], ['parent_id' => $sourceRecordId])->execute();
 	//OSSTimeControl
-	$db->pquery("UPDATE vtiger_osstimecontrol SET link=? WHERE link=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_osstimecontrol', ['link' => $destinationRecordId], ['link' => $sourceRecordId])->execute();
 	//OSSMailView
-	$db->pquery("UPDATE vtiger_ossmailview_relation SET crmid=? WHERE crmid=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_ossmailview_relation', ['crmid' => $destinationRecordId], ['crmid' => $sourceRecordId])->execute();
 	//CallHistory
-	$adb->createCommand()->update('vtiger_callhistory', ['destination' => $destinationRecordId], ['destination' => $sourceRecordId])->execute();
+	$db->createCommand()->update('vtiger_callhistory', ['destination' => $destinationRecordId], ['destination' => $sourceRecordId])->execute();
 	//LettersIn
-	$adb->createCommand()->update('vtiger_lettersin', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
+	$db->createCommand()->update('vtiger_lettersin', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
 	//LettersOut
-	$adb->createCommand()->update('vtiger_lettersout', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
+	$db->createCommand()->update('vtiger_lettersout', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
 }
 
 function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)

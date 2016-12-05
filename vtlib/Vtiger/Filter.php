@@ -189,7 +189,7 @@ class Filter
 	 * Translate comparator (condition) to long or short form.
 	 * @access private
 	 */
-	static function translateComparator($value, $tolongform = false)
+	public static function translateComparator($value, $tolongform = false)
 	{
 		$comparator = false;
 		if ($tolongform) {
@@ -246,7 +246,7 @@ class Filter
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delim = true)
+	public static function log($message, $delim = true)
 	{
 		Utils::Log($message, $delim);
 	}
@@ -256,7 +256,7 @@ class Filter
 	 * @param mixed filterid or filtername
 	 * @param Module Instance of the module to use when filtername is used
 	 */
-	static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, $moduleInstance = false)
 	{
 		$instance = false;
 		if (Utils::isNumber($value)) {
@@ -276,7 +276,7 @@ class Filter
 	 * Get all instances of filter for the module
 	 * @param Module Instance of module
 	 */
-	static function getAllForModule($moduleInstance)
+	public static function getAllForModule($moduleInstance)
 	{
 		$instances = false;
 		$dataReader = (new \App\Db\Query())->from('vtiger_customview')
@@ -294,7 +294,7 @@ class Filter
 	 * Delete filter associated for module
 	 * @param Module Instance of module
 	 */
-	static function deleteForModule($moduleInstance)
+	public static function deleteForModule($moduleInstance)
 	{
 		$cvids = (new \App\Db\Query())->from('vtiger_customview')
 			->where(['entitytype' => $moduleInstance->name])
