@@ -12,8 +12,6 @@ vimport('~~include/utils/RecurringType.php');
 class Calendar_Record_Model extends Vtiger_Record_Model
 {
 
-	public static $referenceFields = ['link', 'process', 'subprocess'];
-
 	public static function getNameByReference($refModuleName)
 	{
 		$fieldName = Vtiger_Cache::get('NameRelatedField', $refModuleName . '-Calendar');

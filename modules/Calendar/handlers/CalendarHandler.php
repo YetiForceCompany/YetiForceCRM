@@ -9,6 +9,46 @@
 class Calendar_CalendarHandler_Handler
 {
 
+	const UPDATE_FIELDS = ['link', 'process', 'subprocess'];
+
+	/**
+	 * EntityAfterSave function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
+	{
+		if (vtlib\Cron::isCronAction()) {
+			return false;
+		}
+		$recordModel = $eventHandler->getRecordModel();
+		$ids = [];
+		foreach (static::UPDATE_FIELDS as &$fieldName) {
+			if (!$recordModel->isEmpty($fieldName)) {
+				$ids[$recordModel->get($fieldName)] = $fieldName;
+			}
+			if ($recordModel->getPreviousValue($fieldName)) {
+				$ids[$recordModel->getPreviousValue($fieldName)] = $fieldName;
+			}
+		}
+		Calendar_Record_Model::setCrmActivity($ids);
+	}
+
+	/**
+	 * EntityAfterRestore handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterRestore(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		$recordModel = Vtiger_Record_Model::getInstanceById($params['id'], $eventHandler->getModuleName());
+		foreach (static::UPDATE_FIELDS as &$fieldName) {
+			if (!$recordModel->isEmpty($fieldName)) {
+				$ids[$recordModel->get($fieldName)] = $fieldName;
+			}
+		}
+		Calendar_Record_Model::setCrmActivity($ids);
+	}
+
 	/**
 	 * EntityAfterUnLink handler function
 	 * @param App\EventHandler $eventHandler
@@ -26,61 +66,14 @@ class Calendar_CalendarHandler_Handler
 	 */
 	public function entityBeforeSave(App\EventHandler $eventHandler)
 	{
-		if (!vtlib\Cron::isCronAction()) {
-
-			$recordModel = $eventHandler->getRecordModel();
-			$data = $recordModel->getData();
-			$state = Calendar_Module_Model::getCalendarState($data);
-			if ($state) {
-				$recordModel->set('activitystatus', $state);
-			}
+		if (vtlib\Cron::isCronAction()) {
+			return false;
 		}
-	}
-}
-
-class CalendarHandler extends VTEventHandler
-{
-
-	public function handleEvent($handlerType, $entityData)
-	{
-		if (!is_object($entityData)) {
-			$entityData = $entityData['entityData'];
+		$recordModel = $eventHandler->getRecordModel();
+		$data = $recordModel->getData();
+		$state = Calendar_Module_Model::getCalendarState($data);
+		if ($state) {
+			$recordModel->set('activitystatus', $state);
 		}
-		$moduleName = $entityData->getModuleName();
-		if (!vtlib\Cron::isCronAction() && in_array($handlerType, ['vtiger.entity.afterrestore', 'vtiger.entity.aftersave.final']) && in_array($moduleName, ['Calendar', 'Events', 'Activity'])) {
-			$recordId = $entityData->getId();
-			$delta = [];
-			if ($handlerType != 'vtiger.entity.afterrestore') {
-				$vtEntityDelta = new VTEntityDelta();
-				$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
-			}
-
-			Calendar_Record_Model::setCrmActivity(self::getRefernceIds($entityData->getData(), $delta));
-		} elseif (!vtlib\Cron::isCronAction() && $handlerType == 'vtiger.entity.beforesave' && in_array($moduleName, ['Calendar', 'Events', 'Activity'])) {
-			$data = $entityData->getData();
-			$state = Calendar_Module_Model::getCalendarState($data);
-			if ($state) {
-				$entityData->set('activitystatus', $state);
-			}
-		}
-	}
-
-	public static function getRefernceIds($data, $delta)
-	{
-		$referenceIds = [];
-		foreach (Calendar_Record_Model::$referenceFields as $fieldName) {
-			if (!empty($data[$fieldName])) {
-				$referenceIds[$data[$fieldName]] = $fieldName;
-			}
-			if (!empty($delta[$fieldName])) {
-				if (!empty($delta[$fieldName]['oldValue'])) {
-					$referenceIds[$delta[$fieldName]['oldValue']] = $fieldName;
-				}
-				if (!empty($delta[$fieldName]['currentValue'])) {
-					$referenceIds[$delta[$fieldName]['currentValue']] = $fieldName;
-				}
-			}
-		}
-		return $referenceIds;
 	}
 }

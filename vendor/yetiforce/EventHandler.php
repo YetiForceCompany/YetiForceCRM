@@ -15,6 +15,7 @@ class EventHandler
 	private $moduleName;
 	private $params;
 	private $userId;
+	private static $handlersInstance;
 
 	/**
 	 * Get all event handlers
@@ -218,7 +219,12 @@ class EventHandler
 	{
 		$handlers = static::getByType($name, $this->moduleName);
 		foreach ($handlers as &$handler) {
-			$handlerInstance = new $handler['handler_class']();
+			if (isset(static::$handlersInstance[$handler['handler_class']])) {
+				$handlerInstance = static::$handlersInstance[$handler['handler_class']];
+			} else {
+				$handlerInstance = new $handler['handler_class']();
+				static::$handlersInstance[$handler['handler_class']] = $handlerInstance;
+			}
 			$function = lcfirst($name);
 			if (method_exists($handlerInstance, $function)) {
 				$handlerInstance->$function($this);

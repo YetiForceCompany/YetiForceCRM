@@ -2,7 +2,7 @@
 
 /**
  * Protects your password when displaying in history.
- * @package YetiForce.Handlers
+ * @package YetiForce.Handler
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */

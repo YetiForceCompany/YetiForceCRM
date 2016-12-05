@@ -23,7 +23,7 @@ class PBXManager_PBXManagerHandler_Handler
 	}
 
 	/**
-	 * Entity.AfterSave function
+	 * EntityAfterSave function
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
@@ -34,8 +34,7 @@ class PBXManager_PBXManagerHandler_Handler
 			'setype' => $eventHandler->getModuleName(),
 		];
 		$pbxRecordModel = new PBXManager_Record_Model;
-		$moduleInstance = Vtiger_Module_Model::getInstance($eventHandler->getModuleName());
-		$fields = $moduleInstance->getFieldsByType('phone');
+		$fields = $recordModel->getModule()->getFieldsByType('phone');
 		foreach ($fields as $fieldName => &$fieldModel) {
 			if (!$recordModel->isEmpty($fieldName)) {
 				$values[$fieldName] = $recordModel->get($fieldName);
@@ -43,43 +42,26 @@ class PBXManager_PBXManagerHandler_Handler
 			}
 		}
 	}
-}
 
-class PBXManagerHandler extends VTEventHandler
-{
-
-	public function handleEvent($eventName, $entityData)
+	/**
+	 * EntityAfterRestore handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterRestore(App\EventHandler $eventHandler)
 	{
-		$moduleName = $entityData->getModuleName();
-
-		$acceptedModule = array('Contacts', 'Accounts', 'Leads');
-		if (!in_array($moduleName, $acceptedModule))
-			return;
-		if ($eventName == 'vtiger.entity.afterrestore') {
-			$this->handlePhoneLookUpRestoreEvent($entityData, $moduleName);
-		}
-	}
-
-	protected function handlePhoneLookUpRestoreEvent($entityData, $moduleName)
-	{
-		$recordid = $entityData->getId();
-
-		//To get the record model of the restored record
-		$recordmodel = Vtiger_Record_Model::getInstanceById($recordid, $moduleName);
-
-		$values['crmid'] = $recordid;
-		$values['setype'] = $moduleName;
-		$recordModel = new PBXManager_Record_Model;
-
-		$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldsModel = $moduleInstance->getFieldsByType('phone');
-
-		foreach ($fieldsModel as $field => $fieldName) {
-			$fieldName = $fieldName->get('name');
-			$values[$fieldName] = $recordmodel->get($fieldName);
-
-			if ($values[$fieldName])
-				$recordModel->receivePhoneLookUpRecord($fieldName, $values, true);
+		$params = $eventHandler->getParams();
+		$recordModel = Vtiger_Record_Model::getInstanceById($params['id'], $eventHandler->getModuleName());
+		$values = [
+			'crmid' => $recordModel->getId(),
+			'setype' => $eventHandler->getModuleName(),
+		];
+		$pbxRecordModel = new PBXManager_Record_Model;
+		$fields = $recordModel->getModule()->getFieldsByType('phone');
+		foreach ($fields as $fieldName => &$fieldModel) {
+			if (!$recordModel->isEmpty($fieldName)) {
+				$values[$fieldName] = $recordModel->get($fieldName);
+				$pbxRecordModel->receivePhoneLookUpRecord($fieldName, $values, true);
+			}
 		}
 	}
 }

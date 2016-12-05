@@ -66,7 +66,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function set($key, $value)
 	{
-		if (!in_array($key, ['mode', 'id', 'newRecord'])) {
+		if (!in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime'])) {
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->valueMap[$key] = $value;
@@ -406,7 +406,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$row['modifiedby'] = \App\User::getCurrentUserId();
 		$this->set('modifiedtime', $time);
 		$this->set('modifiedby', \App\User::getCurrentUserId());
-		return['vtiger_crmentity' => $row];
+		return ['vtiger_crmentity' => $row];
 	}
 
 	/**

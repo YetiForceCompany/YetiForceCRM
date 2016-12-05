@@ -83,7 +83,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$query->andWhere(['<>', 'id', $exception]);
 		}
 		$row = $query->one();
-
 		if ($row) {
 			$lastReviewedUsers = array_filter(explode('#', $row['last_reviewed_users']));
 			$key = array_search($userId, $lastReviewedUsers);

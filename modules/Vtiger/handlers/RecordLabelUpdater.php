@@ -10,7 +10,7 @@ class Vtiger_RecordLabelUpdater_Handler
 {
 
 	/**
-	 * Entity.AfterSave function
+	 * EntityAfterSave function
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)

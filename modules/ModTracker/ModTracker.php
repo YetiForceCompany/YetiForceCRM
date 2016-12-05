@@ -67,12 +67,9 @@ class ModTracker
 				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'ModTracker', 'set-IcoLoginHistory.gif', 'LBL_MODTRACKER_DESCRIPTION',
 				'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker', $seq));
 		} else if ($eventType == 'module.disabled') {
-
-			$em = new VTEventsManager($adb);
-			$em->setHandlerInActive('ModTrackerHandler');
+			\App\EventHandler::setInActive('ModTracker_ModTrackerHandler_Handler');
 		} else if ($eventType == 'module.enabled') {
-			$em = new VTEventsManager($adb);
-			$em->setHandlerActive('ModTrackerHandler');
+			\App\EventHandler::setActive('ModTracker_ModTrackerHandler_Handler');
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {
