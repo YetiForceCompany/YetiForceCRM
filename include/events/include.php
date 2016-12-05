@@ -16,7 +16,4 @@ require_once 'VTEventConditionParserParser.php';
 require_once 'VTEntityData.php';
 require_once 'VTEntityType.php';
 require_once 'VTEventHandler.php';
-require_once 'VTEventsManager.php';
-require_once 'VTEventTrigger.php';
 require_once 'VTBatchData.php';
-require_once 'VTBatchEventTrigger.php';

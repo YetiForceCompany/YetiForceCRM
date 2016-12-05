@@ -67,11 +67,8 @@ class Event
 	{
 		// Security check on fileaccess, don't die if it fails
 		if (Utils::checkFileAccess($filename, false)) {
-			$adb = \PearDatabase::getInstance();
-			$eventsManager = new \VTEventsManager($adb);
-			$eventsManager->registerHandler($eventname, $filename, $classname, $condition, $dependent);
-			$eventsManager->setModuleForHandler($moduleInstance->name, $classname);
 
+			throw new \Exception\AppException('Mechanism has been removed. App\EventHandler');
 			self::log("Registering Event $eventname with [$filename] $classname ... DONE");
 		}
 	}
@@ -101,10 +98,7 @@ class Event
 					$current_user = new Users();
 					$current_user->id = $moduleInstance->column_fields['assigned_user_id'];
 				}
-
-				// Trigger the event
-				$em = new \VTEventsManager($adb);
-				$em->triggerEvent($eventname, \VTEntityData::fromCRMEntity($moduleInstance));
+				throw new \Exception\AppException('Mechanism has been removed. App\EventHandler');
 			}
 		}
 	}

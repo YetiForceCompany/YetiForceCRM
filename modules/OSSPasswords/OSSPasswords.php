@@ -313,12 +313,10 @@ class OSSPasswords extends CRMEntity
 			
 		} else if ($eventType == 'module.disabled') {
 			$registerLink = false;
-			$em = new VTEventsManager($adb);
-			$em->setHandlerInActive($handlerClass);
+			App\EventHandler::setInActive('OSSPasswords_Secure_Handler');
 		} else if ($eventType == 'module.enabled') {
 			$registerLink = true;
-			$em = new VTEventsManager($adb);
-			$em->setHandlerActive($handlerClass);
+			App\EventHandler::setActive('OSSPasswords_Secure_Handler');
 		} else if ($eventType == 'module.preuninstall') {
 			\App\Log::trace('Before starting uninstall script...');
 			require_once( 'modules/Settings/' . $moduleName . '/views/uninstall.php' );

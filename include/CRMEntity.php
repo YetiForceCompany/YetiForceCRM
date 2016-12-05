@@ -683,34 +683,10 @@ class CRMEntity
 	 */
 	public function save($module_name, $fileid = '')
 	{
-
 		\App\Log::trace('module name is ' . $module_name);
-
-		//Event triggering code
-		require_once('include/events/include.php');
-		$adb = PearDatabase::getInstance();
-
-		//In Bulk mode stop triggering events
-		if (!self::isBulkSaveMode()) {
-			$em = new VTEventsManager($adb);
-			// Initialize Event trigger cache
-			$em->initTriggerCache();
-			$entityData = VTEntityData::fromCRMEntity($this);
-
-			$em->triggerEvent('vtiger.entity.beforesave.modifiable', $entityData);
-			$em->triggerEvent('vtiger.entity.beforesave', $entityData);
-			$em->triggerEvent('vtiger.entity.beforesave.final', $entityData);
-		}
 		//Event triggering code ends
 		//GS Save entity being called with the modulename as parameter
 		$this->saveentity($module_name, $fileid);
-
-		if ($em) {
-			//Event triggering code
-			$em->triggerEvent('vtiger.entity.aftersave', $entityData);
-			$em->triggerEvent('vtiger.entity.aftersave.final', $entityData);
-			//Event triggering code ends
-		}
 	}
 
 	public function process_full_list_query($query)

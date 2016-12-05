@@ -191,14 +191,14 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		$this->recalculate($oldUsersList);
-		$em = new VTEventsManager(PearDatabase::getInstance());
-		$em->initTriggerCache();
-		$entityData = [];
-		$entityData['groupid'] = $groupId;
-		$entityData['group_members'] = $members;
-		$entityData['memberId'] = $memberId;
-		$entityData['modules'] = $modules;
-		$em->triggerEvent("vtiger.entity.aftergroupsave", $entityData);
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setParams([
+			'groupsRecordModel' => $this,
+			'oldUsersList' => $oldUsersList,
+			'removedModules' => $removed,
+			'addModules' => $add,
+		]);
+		$eventHandler->trigger('GroupAfterSave');
 	}
 
 	/**
@@ -319,16 +319,10 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = App\Db::getInstance();
 		$groupId = $this->getId();
-		$transferGroupId = $transferToGroup->getId();
 
-		$em = new VTEventsManager($db);
-		// Initialize Event trigger cache
-		$em->initTriggerCache();
-
-		$entityData = [];
-		$entityData['groupid'] = $groupId;
-		$entityData['transferToId'] = $transferGroupId;
-		$em->triggerEvent("vtiger.entity.beforegroupdelete", $entityData);
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setParams(['groupId' => $groupId, 'transferToGroup' => $transferToGroup]);
+		$eventHandler->trigger('GroupBeforeDelete');
 
 		$this->transferOwnership($transferToGroup);
 

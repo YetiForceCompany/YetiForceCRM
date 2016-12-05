@@ -175,6 +175,15 @@ class EventHandler
 	}
 
 	/**
+	 * Add param
+	 * @param array $params
+	 */
+	public function addParams($key, $value)
+	{
+		$this->params[$key] = $value;
+	}
+
+	/**
 	 * Set user Id
 	 * @param int $userId
 	 */

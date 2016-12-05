@@ -379,11 +379,9 @@ class ServiceContracts extends CRMEntity
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 		} else if ($eventType == 'module.disabled') {
-			$em = new VTEventsManager($adb);
-			$em->setHandlerInActive('ServiceContractsHandler');
+			App\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType == 'module.enabled') {
-			$em = new VTEventsManager($adb);
-			$em->setHandlerActive('ServiceContractsHandler');
+			App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {

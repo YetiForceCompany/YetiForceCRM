@@ -57,13 +57,9 @@ function vtws_convertlead($entityvalues, $user)
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 	}
 
-	require_once("include/events/include.php");
-	$em = new VTEventsManager($adb);
-
-	// Initialize Event trigger cache
-	$em->initTriggerCache();
-	$entityData = VTEntityData::fromEntityId($adb, $leadIdComponents[1]);
-	$em->triggerEvent('entity.convertlead.before', [$entityvalues, $user, $leadInfo]);
+	$eventHandler = new App\EventHandler();
+	$eventHandler->setParams(['entityValues' => $entityvalues, 'user' => $user, 'leadInfo' => $leadInfo]);
+	$eventHandler->trigger('EntityBeforeConvertLead');
 
 	$entityIds = [];
 	$availableModules = ['Accounts', 'Contacts'];
@@ -124,9 +120,9 @@ function vtws_convertlead($entityvalues, $user)
 		$relatedIdComponents = vtws_getIdComponents($entityIds[$entityvalues['transferRelatedRecordsTo']]);
 		vtws_getRelatedActivities($leadIdComponents[1], $accountId, $contactId, $relatedIdComponents[1]);
 		vtws_updateConvertLeadStatus($entityIds, $entityvalues['leadId'], $user);
-		if ($em) {
-			$em->triggerEvent('entity.convertlead.after', [$entityvalues, $user, $leadInfo, $entityIds]);
-		}
+
+		$eventHandler->addParams('entityIds', $entityIds);
+		$eventHandler->trigger('EntityAfterConvertLead');
 	} catch (Exception $e) {
 		\App\Log::error('Error converting a lead: ' . $e->getMessage());
 		foreach ($entityIds as $entity => $id) {
