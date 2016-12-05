@@ -74,7 +74,7 @@ class EventHandler
 	 * @param int $priority
 	 * @param boolean $isActive
 	 */
-	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true)
+	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0)
 	{
 		$isExists = (new \App\Db\Query())->from('vtiger_eventhandlers')->where(['event_name' => $eventName, 'handler_class' => $className])->exists();
 		if ($isExists) {
@@ -85,7 +85,8 @@ class EventHandler
 					'is_active' => $isActive,
 					'include_modules' => $includeModules,
 					'exclude_modules' => $excludeModules,
-					'priority' => $priority
+					'priority' => $priority,
+					'owner_id' => $ownerId
 				])->execute();
 			static::clearCache();
 		}

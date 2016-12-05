@@ -4637,21 +4637,6 @@ CREATE TABLE `vtiger_entityname` (
   CONSTRAINT `fk_1_vtiger_entityname` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_eventhandler_module` */
-
-CREATE TABLE `vtiger_eventhandler_module` (
-  `eventhandler_module_id` int(11) NOT NULL AUTO_INCREMENT,
-  `module_name` varchar(100) DEFAULT NULL,
-  `handler_class` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`eventhandler_module_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_eventhandler_module_seq` */
-
-CREATE TABLE `vtiger_eventhandler_module_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_eventhandlers` */
 
 CREATE TABLE `vtiger_eventhandlers` (
@@ -4662,16 +4647,10 @@ CREATE TABLE `vtiger_eventhandlers` (
   `include_modules` varchar(255) NOT NULL DEFAULT '',
   `exclude_modules` varchar(255) NOT NULL DEFAULT '',
   `priority` tinyint(1) unsigned NOT NULL DEFAULT '5',
-  `ownerId` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `owner_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_eventhandlers_seq` */
-
-CREATE TABLE `vtiger_eventhandlers_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus` */
 
