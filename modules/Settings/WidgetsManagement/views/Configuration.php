@@ -15,13 +15,15 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 	public function process(Vtiger_Request $request)
 	{
 		
-		\App\Log::trace("Entering Settings_WidgetsManagement_Configuration_View::process() method ...");
+		\App\Log::trace(__METHOD__ . ' | Start');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$sourceModule = $request->get('sourceModule');
-		$dashboardModules = Settings_WidgetsManagement_Module_Model::getSelectableDashboard();
+		$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
+		$dashboardModules = $widgetsManagementModel->getSelectableDashboard();
 
-		if (empty($sourceModule))
+		if (empty($sourceModule)){
 			$sourceModule = 'Home';
+		}
 
 		$currentDashboard = $request->get('dashboardId');
 		if(empty($currentDashboard)) {
@@ -30,17 +32,17 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer = $this->getViewer($request);
 		// get widgets list
 		$widgets = $dashboardModules[$sourceModule];
-		$dashboardStored = Settings_WidgetsManagement_Module_Model::getDashboardForModule($sourceModule, $currentDashboard);
-		$defaultValues = Settings_WidgetsManagement_Module_Model::getDefaultValues();
-		$size = Settings_WidgetsManagement_Module_Model::getSize();
-		$widgetsWithLimit = Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit();
+		$dashboardStored = $widgetsManagementModel->getDashboardForModule($sourceModule, $currentDashboard);
+		$defaultValues = $widgetsManagementModel->getDefaultValues();
+		$size = $widgetsManagementModel->getSize();
+		$widgetsWithLimit = $widgetsManagementModel->getWidgetsWithLimit();
 		$authorization = Settings_Roles_Record_Model::getAll();
-		$bloks = Settings_WidgetsManagement_Module_Model::getBlocksId($currentDashboard);
+		$bloks = $widgetsManagementModel->getBlocksId($currentDashboard);
 		$specialWidgets = Settings_WidgetsManagement_Module_Model::getSpecialWidgets($sourceModule);
-		$filterSelect = Settings_WidgetsManagement_Module_Model::getFilterSelect();
-		$filterSelectDefault = Settings_WidgetsManagement_Module_Model::getFilterSelectDefault();
-		$widgetsWithFilterUsers = Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers();
-		$restrictFilter = Settings_WidgetsManagement_Module_Model::getRestrictFilter();
+		$filterSelect = $widgetsManagementModel->getFilterSelect();
+		$filterSelectDefault = $widgetsManagementModel->getFilterSelectDefault();
+		$widgetsWithFilterUsers = $widgetsManagementModel->getWidgetsWithFilterUsers();
+		$restrictFilter = $widgetsManagementModel->getRestrictFilter();
 
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
 		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
@@ -64,6 +66,6 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('RESTRICT_FILTER', $restrictFilter);
 
 		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
-		\App\Log::trace("Exiting Settings_WidgetsManagement_Configuration_View::process() method ...");
+		\App\Log::trace(__METHOD__ . ' | End');
 	}
 }

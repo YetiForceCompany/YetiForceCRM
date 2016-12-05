@@ -41,7 +41,8 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 			if (!$data['action'])
 				$data['action'] = 'saveDetails';
 			$action = $data['action'];
-			$result = Settings_WidgetsManagement_Module_Model::$action($data, $moduleName, $addToUser);
+			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
+			$result = $widgetsManagementModel->$action($data, $moduleName, $addToUser);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -56,9 +57,11 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 			$result = array('success' => false, 'message' => vtranslate('LBL_INVALID_DATA', $moduleName));
 		} else {
 			$action = $data['action'];
-			if (!$action)
+			if (!$action){
 				$action = 'removeWidget';
-			$result = Settings_WidgetsManagement_Module_Model::$action($data);
+			}
+			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
+			$result = $widgetsManagementModel->$action($data);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
