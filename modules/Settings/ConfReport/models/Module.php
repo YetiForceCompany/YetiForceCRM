@@ -85,11 +85,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'max_execution_time' => ['prefer' => '600'],
 			'max_input_time' => ['prefer' => '600'],
 			'default_socket_timeout' => ['prefer' => '600'],
-			'mysql.connect_timeout' => ['prefer' => '600'],
-			'innodb_lock_wait_timeout' => ['prefer' => '600'], // MySQL
-			'wait_timeout' => ['prefer' => '600'], // MySQL
-			'interactive_timeout' => ['prefer' => '600'], // MySQL
-			'sql_mode' => ['prefer' => ''], // MySQL
 			'memory_limit' => ['prefer' => '512 MB'],
 			'safe_mode' => ['prefer' => 'Off'],
 			'display_errors' => ['prefer' => 'Off'],
@@ -98,7 +93,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'short_open_tag' => ['prefer' => 'On'],
 			'post_max_size' => ['prefer' => '50 MB'],
 			'upload_max_filesize' => ['prefer' => '50 MB'],
-			'max_allowed_packet' => ['prefer' => '10 MB'], // MySQL
 			'max_input_vars' => ['prefer' => '5000'],
 			'magic_quotes_gpc' => ['prefer' => 'Off'],
 			'magic_quotes_sybase' => ['prefer' => 'Off'],
@@ -113,6 +107,14 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'mbstring.func_overload' => ['prefer' => 'Off'],
 			'zend.ze1_compatibility_mode' => ['prefer' => 'Off'],
 		];
+		if (App\Db::getInstance()->getDriverName() === 'mysql') {
+			$directiveValues['mysql.connect_timeout'] = ['prefer' => '600'];
+			$directiveValues['innodb_lock_wait_timeout'] = ['prefer' => '600']; // MySQL
+			$directiveValues['wait_timeout'] = ['prefer' => '600']; // MySQL
+			$directiveValues['interactive_timeout'] = ['prefer' => '600']; // MySQL
+			$directiveValues['sql_mode'] = ['prefer' => '']; // MySQL
+			$directiveValues['max_allowed_packet'] = ['prefer' => '10 MB']; // MySQL
+		}
 		if (extension_loaded('suhosin')) {
 			$directiveValues['suhosin.session.encrypt'] = array('prefer' => 'Off');
 			$directiveValues['suhosin.request.max_vars'] = array('prefer' => '5000');
@@ -254,7 +256,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
 		}
 
-		if (!$instalMode) {
+		if (!$instalMode && App\Db::getInstance()->getDriverName() === 'mysql') {
 			$db = PearDatabase::getInstance();
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
