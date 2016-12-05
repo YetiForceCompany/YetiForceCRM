@@ -146,7 +146,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return self::$composeParam;
 	}
 
-	static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
+	public static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
 		$url = 'mailto:';
 		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
@@ -161,9 +161,8 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
-				$db = PearDatabase::getInstance();
-				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? && uitype = ?', [$moduleModel->getId(), 4]);
-				if ($db->getRowCount($result) > 0) {
+				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
+				if ($fieldName) {
 					$subject = 'subject=';
 					if ($type == 'new') {
 						switch ($moduleName) {
@@ -178,7 +177,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 								break;
 						}
 					}
-					$subject .= '[' . $recordModel->get($db->getSingleValue($result)) . ']';
+					$subject .= '[' . $fieldName . ']';
 					$url .= $subject;
 				}
 			}
@@ -209,10 +208,9 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$moduleModel = $recordModel->getModule();
 			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
-				$db = PearDatabase::getInstance();
-				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? && uitype = ?', [$moduleModel->getId(), 4]);
-				if ($db->getRowCount($result) > 0) {
-					$subject .= '[' . $recordModel->get($db->getSingleValue($result)) . ']';
+				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
+				if ($fieldName) {
+					$subject .= '[' . $fieldName . ']';
 				}
 			}
 		}
