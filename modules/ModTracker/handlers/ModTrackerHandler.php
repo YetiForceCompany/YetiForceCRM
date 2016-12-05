@@ -151,6 +151,31 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
+	 * EntityBeforeDelete handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityBeforeDelete(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('vtiger_modtracker_basic', [
+			'crmid' => $params['id'],
+			'module' => $eventHandler->getModuleName(),
+			'whodid' => \App\User::getCurrentUserRealId(),
+			'changedon' => date('Y-m-d H:i:s'),
+			'status' => ModTracker::$DELETED,
+			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
+		])->execute();
+		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
+		ModTracker_Record_Model::unsetReviewed($params['id'], \App\User::getCurrentUserRealId(), $id);
+		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $params['id']])->andWhere(['<>', 'smownerid', \App\User::getCurrentUserRealId()])->exists();
+		if ($isExists) {
+			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $params['id']])->execute();
+		}
+		$this->addNotification($eventHandler->getModuleName(), $params['id'], 'LBL_REMOVED');
+	}
+
+	/**
 	 * Add notification in handler
 	 * @param string $moduleName
 	 * @param int $recordId
@@ -176,74 +201,6 @@ class ModTracker_ModTrackerHandler_Handler
 					$notification->set('notification_type', $watchdog->noticeDefaultType);
 					$notification->set('notification_status', 'PLL_UNREAD');
 					$notification->save();
-				}
-			}
-		}
-	}
-}
-
-class ModTrackerHandler extends VTEventHandler
-{
-
-	public function handleEvent($eventName, $data)
-	{
-		$adb = PearDatabase::getInstance();
-		if (!is_object($data)) {
-			$extendedData = $data;
-			$data = $extendedData['entityData'];
-		}
-		$moduleName = $data->getModuleName();
-		$flag = ModTracker::isTrackingEnabledForModule($moduleName);
-
-		if ($flag) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$watchdogTitle = $watchdogMessage = '';
-			$db = \App\Db::getInstance();
-			switch ($eventName) {
-				case 'vtiger.entity.beforedelete':
-
-					$recordId = $data->getId();
-					$columnFields = $data->getData();
-					$db->createCommand()->insert('vtiger_modtracker_basic', [
-						'crmid' => $recordId,
-						'module' => $moduleName,
-						'whodid' => $currentUser->getRealId(),
-						'changedon' => date('Y-m-d H:i:s', time()),
-						'status' => ModTracker::$DELETED,
-						'last_reviewed_users' => '#' . $currentUser->getRealId() . '#'
-					])->execute();
-					$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
-					ModTracker_Record_Model::unsetReviewed($recordId, $currentUser->getRealId(), $id);
-
-					$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', $currentUser->getRealId()])->exists();
-					if ($isExists) {
-						$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0,], ['crmid' => $recordId])->execute();
-					}
-					$watchdogTitle = 'LBL_REMOVED';
-					$watchdogMessage = '(recordChanges: listOfAllChanges)';
-
-					break;
-				case 'entity.convertlead.after':
-					// TODU
-					break;
-			}
-			if (AppConfig::module('ModTracker', 'WATCHDOG') && $watchdogTitle != '') {
-				$watchdogTitle = '(translate: [' . $watchdogTitle . '|||ModTracker]) (general: RecordLabel)';
-				$watchdogTitle = $currentUser->getName() . ' ' . $watchdogTitle;
-				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordId, $moduleName);
-				$users = $watchdog->getWatchingUsers([$currentUser->getRealId()]);
-				if (!empty($users)) {
-					$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
-					if ($relatedField !== false) {
-						$notification = Vtiger_Record_Model::getCleanInstance('Notification');
-						$notification->set('shownerid', $users);
-						$notification->set($relatedField, $recordId);
-						$notification->set('title', $watchdogTitle);
-						$notification->set('description', $watchdogMessage);
-						$notification->set('notification_type', $watchdog->noticeDefaultType);
-						$notification->set('notification_status', 'PLL_UNREAD');
-						$notification->save();
-					}
 				}
 			}
 		}
