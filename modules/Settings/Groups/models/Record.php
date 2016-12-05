@@ -416,8 +416,10 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$query = new App\Db\Query();
 		$query->from('vtiger_groups')->where(['groupname' => $name]);
-		if (!empty($excludedRecordId)) {
-			$query->andWhere(['NOT IN', 'groupid', $excludedRecordId]);
+		$containsEmpty = in_array('', $excludedRecordId, true);
+
+		if (!empty($excludedRecordId && !$containsEmpty)) {
+			$query->andWhere(['not in', 'groupid', $excludedRecordId]);
 		}
 		$dataReader = $query->createCommand()->query();
 		if ($dataReader->count() > 0) {
