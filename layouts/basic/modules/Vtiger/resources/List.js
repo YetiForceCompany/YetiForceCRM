@@ -721,7 +721,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listSearchInstance = this.getListSearchInstance();
 		if (listSearchInstance !== false) {
 			var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
-			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
+			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams(true));
 			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
 				params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
 				params['search_value'] = searchValue;

@@ -23,7 +23,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		if ($assignedto != '')
 			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
 		if (!empty($dates)) {
-			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59'));
+			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ',' . $dates['end']));
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . App\Json::encode($listSearchParams);
@@ -102,7 +102,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
 		} else {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time !== false){
+			if ($time !== false) {
 				$dates = $time;
 			}
 		}
@@ -121,7 +121,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('DTIME', $dates);
-		
+
 		$accessibleUsers = \App\Fields\Owner::getInstance('Accounts', $currentUser)->getAccessibleUsersForModule();
 		$accessibleGroups = \App\Fields\Owner::getInstance('Accounts', $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
