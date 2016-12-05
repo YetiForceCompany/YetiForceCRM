@@ -1070,10 +1070,10 @@ class CRMEntity
 	/**
 	 * Function to restore a deleted record of specified module with given crmid
 	 * @todo Added Transaction
-	 * @param string $module
+	 * @param string $moduleName
 	 * @param int $id
 	 */
-	public function restore($module, $id)
+	public function restore($moduleName, $id)
 	{
 		$result = \App\Db::getInstance()->createCommand()->update(
 				'vtiger_crmentity', [
@@ -1085,18 +1085,13 @@ class CRMEntity
 			)->execute();
 		if ($result) {
 			if (!\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
-				\App\Privilege::setUpdater($module, $id, 6, 0);
+				\App\Privilege::setUpdater($moduleName, $id, 6, 0);
 			}
 			//Event triggering code
-			require_once('include/events/include.php');
-			$em = new VTEventsManager($db);
-
-			// Initialize Event trigger cache
-			$em->initTriggerCache();
-			$this->id = $id;
-			$entityData = VTEntityData::fromCRMEntity($this);
-			//Event triggering code
-			$em->triggerEvent('vtiger.entity.afterrestore', $entityData);
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setParams(['id' => $id]);
+			$eventHandler->setModuleName($moduleName);
+			$eventHandler->trigger('EntityAfterRestore');
 		}
 	}
 
