@@ -4662,8 +4662,6 @@ CREATE TABLE `vtiger_eventhandlers` (
   `include_modules` varchar(255) NOT NULL DEFAULT '',
   `exclude_modules` varchar(255) NOT NULL DEFAULT '',
   `priority` tinyint(1) unsigned NOT NULL DEFAULT '5',
-  `dependent_on` varchar(255) DEFAULT '[]',
-  `handler_path` varchar(400) NOT NULL,
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
