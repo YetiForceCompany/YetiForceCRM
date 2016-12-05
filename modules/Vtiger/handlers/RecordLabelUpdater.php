@@ -16,6 +16,6 @@ class Vtiger_RecordLabelUpdater_Handler
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		\App\Record::updateLabel($eventHandler->getModuleName(), $recordModel->getId(), $recordModel->get('mode'));
+		\App\Record::updateLabel($eventHandler->getModuleName(), $recordModel->getId(), $recordModel->isNew());
 	}
 }

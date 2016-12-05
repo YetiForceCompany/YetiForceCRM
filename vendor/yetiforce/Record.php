@@ -177,14 +177,13 @@ class Record
 		return $entityDisplay;
 	}
 
-	public static function updateLabel($moduleName, $id, $mode = 'edit', $updater = false)
+	public static function updateLabel($moduleName, $id, $insertMode = false, $updater = false)
 	{
 		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
 			$db = \App\Db::getInstance();
 			$label = decode_html($labelInfo[$id]['name']);
 			$search = decode_html($labelInfo[$id]['search']);
-			$insertMode = $mode !== 'edit';
 			$rowCount = 0;
 			if (empty($label)) {
 				$label = '';

@@ -23,7 +23,7 @@ while ($row = $dataReader->read()) {
 	} elseif ($row['searchlabel'] === null && $row['label'] !== null) {
 		$updater = 'searchlabel';
 	}
-	\App\Record::updateLabel($row['setype'], $row['crmid'], 'new', $updater);
+	\App\Record::updateLabel($row['setype'], $row['crmid'], true, $updater);
 	$limit--;
 	if (0 === $limit) {
 		return;
