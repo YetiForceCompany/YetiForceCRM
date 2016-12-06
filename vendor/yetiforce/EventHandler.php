@@ -10,6 +10,11 @@ namespace App;
 class EventHandler
 {
 
+	/**
+	 * Table name
+	 * @var string 
+	 */
+	protected static $baseTable = 'vtiger_eventhandlers';
 	private static $handlerByType;
 	private $recordModel;
 	private $moduleName;
@@ -27,7 +32,7 @@ class EventHandler
 		if (Cache::has('EventHandler', 'All')) {
 			$handlers = Cache::get('EventHandler', 'All');
 		} else {
-			$handlers = (new \App\Db\Query())->from('vtiger_eventhandlers')->orderBy(['priority' => SORT_DESC])->all();
+			$handlers = (new \App\Db\Query())->from(self::$baseTable)->orderBy(['priority' => SORT_DESC])->all();
 			Cache::save('EventHandler', 'All', $handlers);
 		}
 		if ($active) {
@@ -47,7 +52,7 @@ class EventHandler
 	 */
 	public static function getByType($name, $moduleName = false)
 	{
-		if (!isset(static::$handlerByType)) {
+		if (!isset(self::$handlerByType)) {
 			$handlers = [];
 			foreach (static::getAll(true) as &$handler) {
 				$handlers[$handler['event_name']][] = $handler;
@@ -76,11 +81,11 @@ class EventHandler
 	 */
 	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0)
 	{
-		$isExists = (new \App\Db\Query())->from('vtiger_eventhandlers')->where(['event_name' => $eventName, 'handler_class' => $className])->exists();
-		if ($isExists) {
+		$isExists = (new \App\Db\Query())->from(self::$baseTable)->where(['event_name' => $eventName, 'handler_class' => $className])->exists();
+		if (!$isExists) {
 			\App\Db::getInstance()->createCommand()
-				->insert('vtiger_eventhandlers', [
-					'name' => $eventName,
+				->insert(self::$baseTable, [
+					'event_name' => $eventName,
 					'handler_class' => $className,
 					'is_active' => $isActive,
 					'include_modules' => $includeModules,
@@ -112,7 +117,7 @@ class EventHandler
 		if ($eventName) {
 			$params['event_name'] = $eventName;
 		}
-		\App\Db::getInstance()->createCommand()->delete('vtiger_eventhandlers', $params)->execute();
+		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, $params)->execute();
 		static::clearCache();
 	}
 
@@ -128,7 +133,7 @@ class EventHandler
 			$params['event_name'] = $eventName;
 		}
 		\App\Db::getInstance()->createCommand()
-			->update('vtiger_eventhandlers', ['is_active' => false], $params)->execute();
+			->update(self::$baseTable, ['is_active' => false], $params)->execute();
 		static::clearCache();
 	}
 
@@ -144,7 +149,7 @@ class EventHandler
 			$params['event_name'] = $eventName;
 		}
 		\App\Db::getInstance()->createCommand()
-			->update('vtiger_eventhandlers', ['is_active' => true], $params)->execute();
+			->update(self::$baseTable, ['is_active' => true], $params)->execute();
 		static::clearCache();
 	}
 

@@ -97,7 +97,7 @@ class Cron
 	/**
 	 * Get the next sequence.
 	 */
-	static function nextSequence()
+	public static function nextSequence()
 	{
 		return \App\Db::getInstance()->getUniqueID(self::$baseTable, 'sequence', false);
 	}
