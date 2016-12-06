@@ -172,7 +172,6 @@ class Products_Popup_View extends Vtiger_Popup_View
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('GETURL', $getUrl);
 		$viewer->assign('CURRENCY_ID', $currencyId);
-		$viewer->assign('POPUPTYPE', vglobal('popupType'));
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

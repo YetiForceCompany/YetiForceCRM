@@ -277,7 +277,6 @@ $languageStrings = [
 	'LBL_DELETE' => 'Löschen',
 	'LBL_DELETED' => 'gelöscht',
 	'LBL_DENY' => 'Verweigern',
-
 	'LBL_DESCRIPTION_INFORMATION' => 'Details',
 	'LBL_DESELECT_ALL_RECORDS' => 'Alles deaktivieren',
 	'LBL_DETAILS' => 'Details',
@@ -378,7 +377,6 @@ $languageStrings = [
 	'LBL_LESS_THAN' => 'weniger als',
 	'LBL_LESS_THAN_OR_EQUAL' => 'weniger or gleich', //Duplicated key-value pairs
 	'LBL_LISTVIEW_PAGE_JUMP' => 'Seitenwechsel',
-
 	'LBL_LIST_IN_METRICS' => 'Für Dashboard bereitstellen',
 	'LBL_LIST_PRICE' => 'Listenpreis',
 	'LBL_LOADING' => 'Laden',
@@ -499,7 +497,6 @@ $languageStrings = [
 	'LBL_SAVE_FILTER' => 'Filter speichern',
 	'LBL_SAVE_MODIFY_FILTER' => 'Filter Speichern/ändern',
 	'LBL_SEARCH' => 'Suchen',
-	'LBL_SEARCH_BUTTON' => 'Suchtaste',
 	'LBL_SEARCH_FOR' => 'Suchen nach',
 	'LBL_SEARCH_IN' => 'Suchen in',
 	'LBL_SEARCH_RESULTS' => 'Suchergebnisse',
@@ -525,7 +522,6 @@ $languageStrings = [
 	'LBL_MODULE_CONFIGURATION' => 'Modul Konfiguration',
 	'LBL_SETUP_WEBFORMS' => 'Webformulare einstellen', //Duplicated key-value pairs
 	'LBL_SET_AS_DEFAULT' => 'Als Standard festlegen',
-
 	'LBL_SET_AS_PUBLIC' => 'Für Alle bereitstellen',
 	'LBL_SET_DISCOUNT_FOR' => 'Rabatt einstellen für',
 	'LBL_SET_TAX_FOR' => 'Steuersatz einstellen für',
@@ -649,7 +645,6 @@ $languageStrings = [
 	'Reviewed' => 'Bewertet',
 	'Rss' => 'RSS',
 	'Sales End Date' => 'Vertrieb Enddatum',
-
 	'Sales Order' => 'Bestellungen',
 	'Sales Start Date' => 'Vertrieb Startdatum',
 	'Salutation' => 'Anrede',
@@ -816,7 +811,6 @@ $languageStrings = [
 	'LBL_SORT_DESCENDING' => 'Absteigens sortieren',
 	'LBL_SORT_ASCENDING' => 'Aufsteigend sortieren',
 	'LBL_GO_TO_RECORDS_LIST' => 'Zur Datenliste springen',
-	'LBL_SEARCH_IN_FIELD' => 'suche in Feld',
 	'LBL_SELECT_FILE' => 'Wähle Datei zu hochladen',
 	'LBL_ENABLE_CURRENCY' => 'Währung aktivieren',
 	'LBL_DISABLE_CURRENCY' => 'Währung deaktivieren',

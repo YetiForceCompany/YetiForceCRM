@@ -16,7 +16,7 @@ class PriceBooks_Save_Action extends Vtiger_Save_Action
 	 * @param Vtiger_Request $request - values of the record
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord($request)
+	public function saveRecord(Vtiger_Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();

@@ -45,25 +45,21 @@
 									{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" alt="{vtranslate('LBL_SORT_ASCENDING')}" src="{vimage_path( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{vtranslate('LBL_SORT_DESCENDING')}" src="{vimage_path( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 							</th>
 						{/foreach}
-						{if $POPUPTYPE == 2}
-							<th class="{$WIDTHTYPE}"></th>
-							{/if}
+						<th class="{$WIDTHTYPE}"></th>
 					</tr>
 				</thead>
 				<tbody>
-					{if $POPUPTYPE == 2}
-						<tr>
-							{if $MULTI_SELECT}
-								<td class="{$WIDTHTYPE}"></td>
-							{/if}
-							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-								<td class="{$WIDTHTYPE}">
-									{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-									{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
-								</td>
-							{/foreach}
-							<td class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE_NAME )}</button></td>
-							{/if}
+					<tr>
+						{if $MULTI_SELECT}
+							<td class="{$WIDTHTYPE}"></td>
+						{/if}
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+							<td class="{$WIDTHTYPE}">
+								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+								{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
+							</td>
+						{/foreach}
+						<td class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE_NAME )}</button></td>
 					</tr>
 
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
@@ -86,9 +82,8 @@
 									{/if}
 								</td>
 							{/foreach}
-							{if $POPUPTYPE == 2}
-								<td class="{$WIDTHTYPE}"></td>
-							{/if}
+							<td class="{$WIDTHTYPE}"></td>
+
 						</tr>
 					{/foreach}
 				</tbody>

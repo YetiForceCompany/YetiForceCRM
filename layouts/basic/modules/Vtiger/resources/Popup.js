@@ -36,7 +36,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 	sourceField : false,
 	multiSelect : false,
 	relatedParentModule : false,
-
+	
 	/**
 	 * Function to get source module
 	 */
@@ -475,34 +475,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 		return aDeferred.promise();
 	},
 
-	/**
-	 * Function to register event for Search
-	 */
-	registerEventForSearch : function(){
-		var thisInstance = this;
-		var button = jQuery('#popupSearchButton');
-		button.off('click').on('click',function(e){
-			jQuery('#totalPageCount').text('');
-			thisInstance.searchHandler().then(function(data){
-				jQuery('#pageNumber').val(1);
-				jQuery('#pageToJump').val(1);
-				thisInstance.updatePagination();
-			});
-		});
-	},
-    /**
-	 * Function to register event for Searching on click of enter
-	 */
-	registerEventForEnter : function(){
-		var thisInstance = this;
-		jQuery('#searchvalue').keyup(function (e) {
-            if (e.keyCode == 13) {
-            jQuery('#popupSearchButton').trigger('click');
-            }
-		});
-	},
-
-	/**
+ 	/**
 	 * Function to handle Sort
 	 */
 	sortHandler : function(headerElement){
@@ -541,10 +514,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 			var element = jQuery(e.currentTarget);
 			thisInstance.sortHandler(element).then(function(data){
 				thisInstance.updatePagination();
-				var popupType = jQuery('#popupType').val();
-				if(popupType == 2){
-					thisInstance.registerListSearch();
-				}
+				thisInstance.registerListSearch();
 			});
 		});
 	},
@@ -616,19 +586,13 @@ jQuery.Class("Vtiger_Popup_Js",{
 		jQuery('#listViewNextPageButton').on('click',function(){
 			thisInstance.nextPageHandler().then(function(data){
 				thisInstance.updatePagination();
-				var popupType = jQuery('#popupType').val();
-				if(popupType == 2){
-					thisInstance.registerListSearch();
-				}
+				thisInstance.registerListSearch();
 			});
 		});
 		jQuery('#listViewPreviousPageButton').on('click',function(){
 			thisInstance.previousPageHandler().then(function(data){
 				thisInstance.updatePagination();
-				var popupType = jQuery('#popupType').val();
-				if(popupType == 2){
-					thisInstance.registerListSearch();
-				}
+				thisInstance.registerListSearch();
 			});
 		});
 		jQuery('#listViewPageJump').on('click',function(e){
@@ -696,10 +660,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 						function(data){
 							currentPageElement.val(newPageNumber);
 							thisInstance.updatePagination();
-							var popupType = jQuery('#popupType').val();
-							if(popupType == 2){
-								thisInstance.registerListSearch();
-							}
+							thisInstance.registerListSearch();
 							element.closest('.btn-group ').removeClass('open');
 						},
 						function(textStatus, errorThrown){
@@ -870,7 +831,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 			placeholder: app.vtranslate('JS_SELECT_AN_OPTION')
 		};
 		app.showSelect2ElementView(select,params);
-		select.on("change", function(e) { 
+		select.off('change').on("change", function(e) { 
 			thisInstance.triggerListSearch();
 		})
 	},
@@ -924,13 +885,26 @@ jQuery.Class("Vtiger_Popup_Js",{
 	             return true;
 	         }
 	         var searchOperator = 'c';
-	         if(fieldInfo.type == "date" || fieldInfo.type == "datetime") {
-	             searchOperator = 'bw';
-	         }else if (fieldInfo.type == 'percentage' || fieldInfo.type == "double" || fieldInfo.type == "integer"
-	             || fieldInfo.type == 'currency' || fieldInfo.type == "number" || fieldInfo.type == "boolean" ||
-	             fieldInfo.type == "picklist"|| fieldInfo.type == "tree") {
-	             searchOperator = 'e';
-	         }
+			if (fieldInfo.hasOwnProperty("searchOperator")) {
+				searchOperator = fieldInfo.searchOperator;
+			} else if (jQuery.inArray(fieldInfo.type, ['userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole']) >= 0) {
+				searchOperator = 'e';
+			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
+				searchOperator = 'bw';
+			} else if (fieldInfo.type == 'currency' || fieldInfo.type == "double" || fieldInfo.type == 'percentage' ||
+					fieldInfo.type == "integer" || fieldInfo.type == "number") {
+				if (searchValue.substring(0, 2) == '>=') {
+					searchOperator = 'h';
+				} else if (searchValue.substring(0, 2) == '<=') {
+					searchOperator = 'm';
+				} else if (searchValue.substring(0, 1) == '>') {
+					searchOperator = 'g';
+				} else if (searchValue.substring(0, 1) == '<') {
+					searchOperator = 'l';
+				} else {
+					searchOperator = 'e';
+				}
+			}
 	         searchInfo.push(fieldName);
 	         searchInfo.push(searchOperator);
 	         searchInfo.push(searchValue);
@@ -948,10 +922,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 			} else {
 				app.setMainParams(target.data('field'), target.data('offVal'));
 			}
-			if (app.getMainParams('popupType') == 1)
-				jQuery('#popupSearchButton').trigger('click');
-			else
-				thisInstance.triggerListSearch();
+			thisInstance.triggerListSearch();
 		});
 	},
 	registerEvents: function(){
@@ -965,15 +936,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 		this.registerEventForCheckboxChange();
 		this.registerEventForSort();
 		this.registerEventForListViewEntries();
-		var popupType = jQuery('#popupType').val();
-		if(popupType == 1){
-			this.registerEventForSearch();
-	     	this.registerEventForEnter();
-			//this.triggerDisplayTypeEvent();
-		}
-		if(popupType == 2){
-			this.registerListSearch();
-		}
+		this.registerListSearch();
 		var popupPageContainer = jQuery('#popupPageContainer');
 		if(popupPageContainer.length > 0){
 			this.registerEventForTotalRecordsCount();
