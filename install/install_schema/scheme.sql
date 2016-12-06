@@ -4208,7 +4208,7 @@ CREATE TABLE `vtiger_datashare_grp2us` (
 /*Table structure for table `vtiger_datashare_module_rel` */
 
 CREATE TABLE `vtiger_datashare_module_rel` (
-  `shareid` int(19) NOT NULL,
+  `shareid` int(19) NOT NULL AUTO_INCREMENT,
   `tabid` int(19) NOT NULL,
   `relationtype` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`shareid`),

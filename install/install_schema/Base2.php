@@ -1446,7 +1446,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_datashare_module_rel' => [
 				'columns' => [
-					'shareid' => $this->integer()->notNull(),
+					'shareid' => $this->primaryKey(),
 					'tabid' => $this->integer()->notNull(),
 					'relationtype' => $this->stringType(200),
 				],
