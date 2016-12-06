@@ -67,11 +67,6 @@ class Vendors extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'vendorname';
 
-	public function save_module($module)
-	{
-		
-	}
-
 	//Pavani: Function to create, export query for vendors module
 	/** Function to export the vendors in CSV Format
 	 * @param reference variable - where condition is passed when the query is executed

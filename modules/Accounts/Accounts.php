@@ -76,13 +76,6 @@ class Accounts extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'accountname';
 
-	/** Function to handle module specific operations when saving a entity
-	 */
-	public function save_module($module)
-	{
-		
-	}
-
 	/** Function to export the account records in CSV Format
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Accounts Query.

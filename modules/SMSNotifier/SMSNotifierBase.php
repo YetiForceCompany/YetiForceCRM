@@ -112,11 +112,6 @@ class SMSNotifierBase extends CRMEntity
 		return $orderby;
 	}
 
-	public function save_module($module)
-	{
-		
-	}
-
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
 	 */

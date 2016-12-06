@@ -105,11 +105,6 @@ class OSSMailView extends CRMEntity
 	public $default_sort_order = 'DESC';
 	public $unit_price;
 
-	public function save_module($module)
-	{
-		//module specific save
-	}
-
 	/**
 	 * Get list view query.
 	 */

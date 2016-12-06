@@ -29,11 +29,6 @@ class Vtiger_CRMEntity extends CRMEntity
 		$this->db = PearDatabase::getInstance();
 	}
 
-	public function save_module($module)
-	{
-		// Custom Save for Module
-	}
-
 	/**
 	 * Get list view query.
 	 */

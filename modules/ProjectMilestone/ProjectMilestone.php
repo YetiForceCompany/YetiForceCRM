@@ -93,11 +93,6 @@ class ProjectMilestone extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectmilestonename', 'projectid', 'assigned_user_id');
 
-	public function save_module($module)
-	{
-		
-	}
-
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
 	 */

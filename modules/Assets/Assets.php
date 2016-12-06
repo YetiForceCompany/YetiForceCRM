@@ -95,11 +95,6 @@ class Assets extends CRMEntity
 	public $default_sort_order = 'ASC';
 	public $unit_price;
 
-	public function save_module($module)
-	{
-		//module specific save
-	}
-
 	/**
 	 * Get list view query.
 	 */

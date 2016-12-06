@@ -109,13 +109,6 @@ class PBXManager extends CRMEntity
 		}
 	}
 
-	/** Function to handle module specific operations when saving a entity
-	 */
-	public function save_module($module)
-	{
-		
-	}
-
 	/**
 	 * To add a phone extension field in user preferences page 
 	 */

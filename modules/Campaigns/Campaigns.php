@@ -66,12 +66,6 @@ class Campaigns extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'campaignname';
 
-	/** Function to handle module specific operations when saving a entity
-	 */
-	public function save_module($module)
-	{
-		
-	}
 	/*
 	 * Function to get the secondary query part of a report
 	 * @param - $module primary module name
@@ -164,8 +158,8 @@ class Campaigns extends CRMEntity
 		} else {
 			foreach ($withCrmids as $withCrmid) {
 				$checkResult = (new App\Db\Query())->from('vtiger_campaign_records')
-						->where(['campaignid' => $crmid, 'crmid' => $withCrmid])
-						->exists();
+					->where(['campaignid' => $crmid, 'crmid' => $withCrmid])
+					->exists();
 				if ($checkResult) {
 					continue;
 				}
