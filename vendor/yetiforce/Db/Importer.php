@@ -254,7 +254,7 @@ class Importer
 						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 					}
 				}
-				if (isset($importer->data[$tableName . '_seq'])) {
+				if (false && isset($importer->data[$tableName . '_seq'])) {
 					$this->logs .= "   > error: redundant table {$tableName}_seq !!!\n";
 					if ($this->dieOnError) {
 						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
