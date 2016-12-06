@@ -41,9 +41,10 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		$user->column_fields['user_name'] = $username;
 		$moduleModel = Users_Module_Model::getInstance('Users');
 
-		if ($user->doLogin($password)) {
-			if (AppConfig::main('session_regenerate_id'))
+		if (!empty($password) && $user->doLogin($password)) {
+			if (AppConfig::main('session_regenerate_id')) {
 				Vtiger_Session::regenerateId(true); // to overcome session id reuse.
+			}
 			$userid = $user->retrieve_user_id($username);
 			Vtiger_Session::set('authenticated_user_id', $userid);
 			Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
