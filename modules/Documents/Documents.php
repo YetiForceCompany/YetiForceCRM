@@ -65,111 +65,7 @@ class Documents extends CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 
-	/**
-	 * Function to handle module specific operations when saving a entity
-	 * @param string $module
-	 */
-	public function save_module($module)
-	{
-		$db = \App\Db::getInstance();
-		if (isset($this->parentid) && !empty($this->parentid))
-			$relid = $this->parentid;
-		//inserting into vtiger_senotesrel
-		if (isset($relid) && !empty($relid)) {
-			$this->insertintonotesrel($relid, $this->id);
-		}
-		$fileTypeFieldName = $this->getFileTypeFieldName();
-		$fileNameByField = $this->getFile_FieldName();
-
-		if ($this->column_fields[$fileTypeFieldName] === 'I') {
-			if (!empty($_FILES[$fileNameByField]['name'])) {
-				$errCode = $_FILES[$fileNameByField]['error'];
-				if ($errCode == 0) {
-					foreach ($_FILES as $fileindex => $files) {
-						$fileInstance = \App\Fields\File::loadFromRequest($files);
-						if ($fileInstance->validate()) {
-							$fileName = $_FILES[$fileNameByField]['name'];
-							$fileName = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $fileName));
-							$fileType = $_FILES[$fileNameByField]['type'];
-							$fileSize = $_FILES[$fileNameByField]['size'];
-							$fileLocationType = 'I';
-							$fileName = ltrim(basename(" " . $fileName)); //allowed filename like UTF-8 characters
-						}
-					}
-				}
-			} elseif ($this->mode === 'edit') {
-				$noteData = (new \App\Db\Query())->select(['filetype', 'filesize', 'filename', 'filedownloadcount', 'filelocationtype'])->from('vtiger_notes')
-					->where(['notesid' => $this->id])
-					->one();
-				if ($noteData) {
-					$fileName = $noteData['filename'];
-					$fileType = $noteData['filetype'];
-					$fileSize = $noteData['filesize'];
-					$fileDownloadCount = $noteData['filedownloadcount'];
-					$fileLocationType = $noteData['filelocationtype'];
-				}
-			} elseif ($this->column_fields[$fileNameByField]) {
-				$fileName = $this->column_fields[$fileNameByField];
-				$fileSize = $this->column_fields['filesize'];
-				$fileType = $this->column_fields['filetype'];
-				$fileLocationType = $this->column_fields[$fileTypeFieldName];
-				$fileDownloadCount = 0;
-			} else {
-				$fileLocationType = 'I';
-				$fileType = '';
-				$fileSize = 0;
-				$fileDownloadCount = null;
-			}
-		} else if ($this->column_fields[$fileTypeFieldName] === 'E') {
-			$fileLocationType = 'E';
-			$fileName = $this->column_fields[$fileNameByField];
-			// If filename does not has the protocol prefix, default it to http://
-			// Protocol prefix could be like (https://, smb://, file://, \\, smb:\\,...)
-			if (!empty($fileName) && !preg_match('/^\w{1,5}:\/\/|^\w{0,3}:?\\\\\\\\/', trim($fileName), $match)) {
-				$fileName = "http://$fileName";
-			}
-			$fileType = '';
-			$fileSize = 0;
-			$fileDownloadCount = null;
-		}
-		$db->createCommand()->update('vtiger_notes', ['filename' => decode_html($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->id])->execute();
-//		//Inserting into attachments table
-		if ($fileLocationType === 'I') {
-			$this->insertIntoAttachment($this->id, 'Documents');
-		} else {
-			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $this->id])->execute();
-		}
-		//set the column_fields so that its available in the event handlers
-		$this->column_fields['filename'] = $fileName;
-		$this->column_fields['filesize'] = $fileSize;
-		$this->column_fields['filetype'] = $fileType;
-		$this->column_fields['filedownloadcount'] = $fileDownloadCount;
-	}
-
-	/**
-	 *      This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
-	 *      @param int $id  - entity id to which the vtiger_files to be uploaded
-	 *      @param string $module  - the current module name
-	 */
-	public function insertIntoAttachment($id, $module)
-	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
-
-		$file_saved = false;
-
-		foreach ($_FILES as $fileindex => $files) {
-			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = AppRequest::get($fileindex . '_hidden');
-				$file_saved = $this->uploadAndSaveFile($id, $module, $files);
-			}
-		}
-
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
-	}
-
-	/**    Function used to get the sort order for Documents listview
+		/**    Function used to get the sort order for Documents listview
 	 *      @return string  $sorder - first check the $_REQUEST['sorder'] if request value is empty then check in the $_SESSION['NOTES_SORT_ORDER'] if this session value is empty then default sort order will be returned.
 	 */
 	public function getSortOrder()
@@ -280,16 +176,6 @@ class Documents extends CRMEntity
 		return $query;
 	}
 
-	public function insertintonotesrel($relid, $id)
-	{
-		$adb = PearDatabase::getInstance();
-		$dbQuery = "insert into vtiger_senotesrel values ( ?, ? )";
-		$dbresult = $adb->pquery($dbQuery, array($relid, $id));
-	}
-	/* function save_related_module($module, $crmid, $with_module, $with_crmid){
-	  } */
-
-
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name
@@ -386,46 +272,6 @@ class Documents extends CRMEntity
 			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['notesid' => $id, 'crmid' => $returnId])->execute();
 			parent::deleteRelatedFromDB($relatedName, $id, $returnModule, $returnId);
 		}
-	}
-
-// Function to get fieldname for uitype 27 assuming that documents have only one file type field
-
-	public function getFileTypeFieldName()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
-		$tabid = \App\Module::getModuleId('Documents');
-		$filetype_uitype = 27;
-		$res = $adb->pquery($query, array($tabid, $filetype_uitype));
-		$fieldname = null;
-		if (isset($res)) {
-			$rowCount = $adb->num_rows($res);
-			if ($rowCount > 0) {
-				$fieldname = $adb->query_result($res, 0, 'fieldname');
-			}
-		}
-		return $fieldname;
-	}
-
-//	public function to get fieldname for uitype 28 assuming that doc has only one file upload type
-
-	public function getFile_FieldName()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
-		$tabid = \App\Module::getModuleId('Documents');
-		$filename_uitype = 28;
-		$res = $adb->pquery($query, array($tabid, $filename_uitype));
-		$fieldname = null;
-		if (isset($res)) {
-			$rowCount = $adb->num_rows($res);
-			if ($rowCount > 0) {
-				$fieldname = $adb->query_result($res, 0, 'fieldname');
-			}
-		}
-		return $fieldname;
 	}
 
 	/**

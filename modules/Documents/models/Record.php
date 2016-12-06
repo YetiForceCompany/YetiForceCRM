@@ -127,4 +127,68 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
 		return $fileIcon;
 	}
+	
+	/**
+	 * Function to save record
+	 */
+	public function save() 
+	{
+		parent::save();
+		$db = \App\Db::getInstance();
+		$fileNameByField = 'filename';
+		if ($this->get('filelocationtype') === 'I') {
+			if (!empty($_FILES[$fileNameByField]['name'])) {
+				$errCode = $_FILES[$fileNameByField]['error'];
+				if ($errCode === 0) {
+					foreach ($_FILES as $fileindex => $files) {
+						$fileInstance = \App\Fields\File::loadFromRequest($files);
+						if ($fileInstance->validate()) {
+							$fileName = $_FILES[$fileNameByField]['name'];
+							$fileName = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $fileName));
+							$fileType = $_FILES[$fileNameByField]['type'];
+							$fileSize = $_FILES[$fileNameByField]['size'];
+							$fileLocationType = 'I';
+							$fileName = ltrim(basename(" " . $fileName)); //allowed filename like UTF-8 characters
+						}
+					}
+				}
+			} elseif ($this->get($fileNameByField)) {
+				$fileName = $this->get($fileNameByField);
+				$fileSize = $this->get('filesize');
+				$fileType = $this->get('filetype');
+				$fileLocationType = $this->get('filelocationtype');
+				$fileDownloadCount = 0;
+			} else {
+				$fileLocationType = 'I';
+				$fileType = '';
+				$fileSize = 0;
+				$fileDownloadCount = null;
+			}
+		} else if ($this->get('filelocationtype') === 'E') {
+			$fileLocationType = 'E';
+			$fileName = $this->get($fileNameByField);
+			// If filename does not has the protocol prefix, default it to http://
+			// Protocol prefix could be like (https://, smb://, file://, \\, smb:\\,...)
+			if (!empty($fileName) && !preg_match('/^\w{1,5}:\/\/|^\w{0,3}:?\\\\\\\\/', trim($fileName), $match)) {
+				$fileName = "http://$fileName";
+			}
+			$fileType = '';
+			$fileSize = 0;
+			$fileDownloadCount = null;
+		}
+		$db->createCommand()->update('vtiger_notes', ['filename' => decode_html($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
+		//Inserting into attachments table
+		if ($fileLocationType === 'I') {
+			foreach ($_FILES as $fileindex => $files) {
+				if ($files['name'] != '' && $files['size'] > 0) {
+					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
+					$this->uploadAndSaveFile($files);
+				}
+			}
+		} else {
+			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
+		}
+		//set the column_fields so that its available in the event handlers
+		$this->set('filename', $fileName)->set('filesize', $fileSize)->set('filetype', $fileType)->set('filedownloadcount', $fileDownloadCount);
+	}
 }

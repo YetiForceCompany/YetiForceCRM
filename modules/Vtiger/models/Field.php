@@ -425,7 +425,8 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (isset($this->fieldType)) {
 			return $this->fieldType;
 		}
-		$fieldType = array_shift(explode('~', $this->get('typeofdata')));
+		$fieldType = explode('~', $this->get('typeofdata'));
+		$fieldType = array_shift($fieldType);
 		if ($this->getFieldDataType() === 'reference') {
 			$fieldType = 'V';
 		} else {
