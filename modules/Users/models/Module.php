@@ -310,4 +310,32 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getListViewName() . '&parent=Settings';
 	}
+
+	/**
+	 * Function to save a given record model of the current module
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function saveRecord(\Vtiger_Record_Model $recordModel)
+	{
+		$moduleName = $this->get('name');
+		$focus = $this->getEntityInstance();
+		$fields = $focus->column_fields;
+		foreach ($fields as $fieldName => $fieldValue) {
+			$fieldValue = $recordModel->get($fieldName);
+			if (is_array($fieldValue)) {
+				$focus->column_fields[$fieldName] = $fieldValue;
+			} else if ($fieldValue !== null) {
+				$focus->column_fields[$fieldName] = decode_html($fieldValue);
+			}
+		}
+		$focus->mode = $recordModel->get('mode');
+		$focus->id = $recordModel->getId();
+		$focus->newRecord = $recordModel->get('newRecord');
+
+		$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
+		$focus->save($moduleName);
+		$recordModel->setId($focus->id);
+
+		return $recordModel;
+	}
 }

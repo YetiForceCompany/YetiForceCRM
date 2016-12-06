@@ -361,7 +361,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		//Disabled generating record ID in transaction  in order to maintain data integrity
-		if ($this->isNew() && $this->getModuleName() !== 'Users') {
+		if ($this->isNew()) {
 			$recordId = \App\Db::getInstance()->getUniqueID('vtiger_crmentity');
 			$this->set('newRecord', $recordId);
 		}
@@ -375,9 +375,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if ($this->isNew()) {
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 		}
-		if ($this->getModuleName() !== 'Users') {
-			\App\PrivilegeUpdater::updateOnRecordSave($this);
-		}
+		\App\PrivilegeUpdater::updateOnRecordSave($this);
 	}
 
 	/**

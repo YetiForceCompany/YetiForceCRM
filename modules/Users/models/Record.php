@@ -140,7 +140,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function save()
 	{
-		parent::save();
+		$db = PearDatabase::getInstance();
+		//Disabled generating record ID in transaction  in order to maintain data integrity
+		if ($this->isNew()) {
+			$recordId = \App\Db::getInstance()->getUniqueID('vtiger_users');
+			$this->set('newRecord', $recordId);
+		}
+		$db->startTransaction();
+		if ($this->getModule()->isInventory()) {
+			$this->initInventoryData();
+		}
+		$this->getModule()->saveRecord($this);
+		$db->completeTransaction();
 	}
 
 	/**
