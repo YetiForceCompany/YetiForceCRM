@@ -262,16 +262,16 @@ class Products_Record_Model extends Vtiger_Record_Model
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])->exists();
 		if ($isExists) {
 			App\Db::getInstance()->createCommand()
-					->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])
-					->execute();
+				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])
+				->execute();
 		} else {
 			App\Db::getInstance()->createCommand()
-					->insert('vtiger_pricebookproductrel', [
-						'pricebookid' => $relatedRecordId,
-						'productid' => $this->getId(),
-						'listprice' => $price,
-						'usedcurrency' => $currencyId
-					])->execute();
+				->insert('vtiger_pricebookproductrel', [
+					'pricebookid' => $relatedRecordId,
+					'productid' => $this->getId(),
+					'listprice' => $price,
+					'usedcurrency' => $currencyId
+				])->execute();
 		}
 	}
 
@@ -417,5 +417,128 @@ class Products_Record_Model extends Vtiger_Record_Model
 		$conv_rate = $adb->query_result($res, 0, 'conversion_rate');
 
 		return 1 / $conv_rate;
+	}
+
+	/**
+	 * Custom Save for Module
+	 */
+	public function save()
+	{
+		parent::save();
+		//Inserting into product_taxrel table
+		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassSave' && AppRequest::get('action') != 'ProcessDuplicates') {
+			$this->insertPriceInformation();
+		}
+		// Update unit price value in vtiger_productcurrencyrel
+		$this->updateUnitPrice();
+		//Inserting into attachments
+		$this->insertAttachment();
+	}
+
+	/**
+	 * Update unit price 
+	 */
+	public function updateUnitPrice()
+	{
+		$productInfo = (new App\Db\Query())->select(['unit_price', 'currency_id'])
+			->from('vtiger_products')
+			->where(['productid' => $this->getId()])
+			->one();
+		App\Db::getInstance()->createCommand()->update('vtiger_productcurrencyrel', ['actual_price' => $productInfo['unit_price']], ['productid' => $this->getId(), 'currencyid' => $productInfo['currency_id']])->execute();
+	}
+
+	/**
+	 * Function to save the product price information in vtiger_productcurrencyrel table
+	 */
+	public function insertPriceInformation()
+	{
+		\App\Log::trace('Entering ' . __METHOD__);
+		$db = \App\Db::getInstance();
+		$productBaseConvRate = getBaseConversionRateForProduct($this->getId(), $this->mode);
+		$currencySet = false;
+		$currencyDetails = vtlib\Functions::getAllCurrency(true);
+		if (!$this->isNew()) {
+			$db->createCommand()->delete('vtiger_productcurrencyrel', ['productid' => $this->getId()])->execute();
+		}
+		foreach ($currencyDetails as $curid => $currency) {
+			$curName = $currency['currency_name'];
+			$curCheckName = 'cur_' . $curid . '_check';
+			$curValue = 'curname' . $curid;
+			if (AppRequest::get($curCheckName) === 'on' || AppRequest::get($curCheckName) === 1) {
+				$requestPrice = CurrencyField::convertToDBFormat(AppRequest::get('unit_price'), null, true);
+				$actualPrice = CurrencyField::convertToDBFormat(AppRequest::get($curValue), null, true);
+				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
+				$convertedPrice = $actualConversionRate * $requestPrice;
+				\App\Log::trace("Going to save the Product - $curName currency relationship");
+				\App\Db::getInstance()->createCommand()->insert('vtiger_productcurrencyrel', [
+					'productid' => $this->getId(),
+					'currencyid' => $curid,
+					'converted_price' => $convertedPrice,
+					'actual_price' => $actualPrice
+				])->execute();
+				if (AppRequest::get('base_currency') === $curValue) {
+					$currencySet = true;
+					$db->createCommand()
+						->update($this->getEntity()->table_name, ['currency_id' => $curid, 'unit_price' => $actualPrice], [$this->getEntity()->table_index => $this->getId()])
+						->execute();
+				}
+			}
+		}
+		if (!$currencySet) {
+			reset($currencyDetails);
+			$curid = key($currencyDetails);
+			$db->createCommand()
+				->update($this->getEntity()->table_name, ['currency_id' => $curid], [$this->getEntity()->table_index => $this->getId()])
+				->execute();
+		}
+		\App\Log::trace('Exiting ' . __METHOD__);
+	}
+
+	/**
+	 * 
+	 */
+	public function insertAttachment()
+	{
+		$db = App\Db::getInstance();
+		$id = $this->getId();
+		$module = AppRequest::get('module');
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
+		foreach ($_FILES as $fileindex => $files) {
+			$fileInstance = \App\Fields\File::loadFromRequest($files);
+			if ($fileInstance->validate('image')) {
+				if (AppRequest::get($fileindex . '_hidden') != '')
+					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
+				else
+					$files['original_name'] = stripslashes($files['name']);
+				$files['original_name'] = str_replace('"', '', $files['original_name']);
+				$this->uploadAndSaveFile($files);
+			}
+		}
+		//Updating image information in main table of products
+		$dataReader = (new App\Db\Query())->select(['name'])->from('vtiger_seattachmentsrel')
+				->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+				->leftJoin('vtiger_products', 'vtiger_products.productid = vtiger_seattachmentsrel.crmid')
+				->where(['vtiger_seattachmentsrel.crmid' => $id])
+				->createCommand()->query();
+		$productImageMap = [];
+		while ($imageName = $dataReader->readColumn(0)) {
+			$productImageMap [] = decode_html($imageName);
+		}
+		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
+			->execute();
+		//Remove the deleted vtiger_attachments from db - Products
+		if ($module === 'Products' && AppRequest::get('del_file_list') != '') {
+			$deleteFileList = explode("###", trim(AppRequest::get('del_file_list'), "###"));
+			foreach ($deleteFileList as $fileName) {
+				$attachmentId = (new App\Db\Query())->select(['vtiger_attachments.attachmentsid'])
+					->from('vtiger_attachments')
+					->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
+					->where(['crmid' => $id, 'name' => $fileName])
+					->scalar();
+				$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $attachmentId])->execute();
+				$db->createCommand()->delete('vtiger_seattachmentsrel', ['attachmentsid' => $attachmentId])->execute();
+			}
+		}
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 }
