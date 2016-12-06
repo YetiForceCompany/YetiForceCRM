@@ -63,4 +63,28 @@ class Faq_Record_Model extends Vtiger_Record_Model
 			array('ticketField' => '', 'faqField' => 'faqstatus', 'defaultValue' => 'Draft')
 		);
 	}
+
+	public function save()
+	{
+		parent::save();
+		$this->insertIntoFAQCommentTable();
+	}
+
+	/**
+	 *  Function to insert values in vtiger_faqcomments table for the specified module,
+	 */
+	public function insertIntoFAQCommentTable()
+	{
+		if ($this->get('comments') !== '')
+			$comment = $this->get('comments');
+		else
+			$comment = AppRequest::get('comments');
+		if ($comment) {
+			App\Db::getInstance()->createCommand()->insert('vtiger_faqcomments', [
+				'faqid' => $this->getId(),
+				'comments' => \vtlib\Functions::fromHTML($comment),
+				'createdtime' => date('Y-m-d H:i:s')
+			])->execute();
+		}
+	}
 }

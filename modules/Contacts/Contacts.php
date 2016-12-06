@@ -180,60 +180,6 @@ class Contacts extends CRMEntity
 		return $query;
 	}
 
-	/** Function to handle module specific operations when saving a entity
-	 */
-	public function save_module($module)
-	{
-		$this->insertIntoAttachment($this->id, $module);
-	}
-
-	/**
-	 *      This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
-	 *      @param int $id  - entity id to which the vtiger_files to be uploaded
-	 *      @param string $module  - the current module name
-	 */
-	public function insertIntoAttachment($id, $module)
-	{
-
-		$adb = PearDatabase::getInstance();
-		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
-
-		$file_saved = false;
-		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
-		$old_attachmentid = $adb->query_result($adb->pquery("select vtiger_crmentity.crmid from vtiger_seattachmentsrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.attachmentsid where  vtiger_seattachmentsrel.crmid=?", array($id)), 0, 'crmid');
-		if ($_FILES) {
-			foreach ($_FILES as $fileindex => $files) {
-				$fileInstance = \App\Fields\File::loadFromRequest($files);
-				if ($fileInstance->validate('image')) {
-					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
-					$file_saved = $this->uploadAndSaveFile($id, $module, $files);
-				}
-			}
-		}
-
-		$imageNameSql = 'SELECT name FROM vtiger_seattachmentsrel INNER JOIN vtiger_attachments ON
-								vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid LEFT JOIN vtiger_contactdetails ON
-								vtiger_contactdetails.contactid = vtiger_seattachmentsrel.crmid WHERE vtiger_seattachmentsrel.crmid = ?';
-		$imageNameResult = $adb->pquery($imageNameSql, array($id));
-		$imageName = decode_html($adb->query_result($imageNameResult, 0, "name"));
-
-		//Inserting image information of record into base table
-		$adb->pquery('UPDATE vtiger_contactdetails SET imagename = ? WHERE contactid = ?', array($imageName, $id));
-
-		//This is to handle the delete image for contacts
-		if ($module == 'Contacts' && $file_saved) {
-			if ($old_attachmentid != '') {
-				$setype = $adb->query_result($adb->pquery("select setype from vtiger_crmentity where crmid=?", array($old_attachmentid)), 0, 'setype');
-				if ($setype == 'Contacts Image') {
-					$del_res1 = $adb->pquery("delete from vtiger_attachments where attachmentsid=?", array($old_attachmentid));
-					$del_res2 = $adb->pquery("delete from vtiger_seattachmentsrel where attachmentsid=?", array($old_attachmentid));
-				}
-			}
-		}
-
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
-	}
-
 	/**
 	 * Move the related records of the specified list of id's to the given record.
 	 * @param String This module name

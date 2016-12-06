@@ -72,35 +72,6 @@ class Faq extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'question';
 
-	public function save_module($module)
-	{
-		//Inserting into Faq comment table
-		$this->insertIntoFAQCommentTable('vtiger_faqcomments', $module);
-	}
-
-	/** Function to insert values in vtiger_faqcomments table for the specified module,
-	 * @param $table_name -- table name:: Type varchar
-	 * @param $module -- module:: Type varchar
-	 */
-	public function insertIntoFAQCommentTable($table_name, $module)
-	{
-
-		\App\Log::trace("in insertIntoFAQCommentTable  " . $table_name . "    module is  " . $module);
-		$adb = PearDatabase::getInstance();
-
-		$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);
-
-		if ($this->column_fields['comments'] != '')
-			$comment = $this->column_fields['comments'];
-		else
-			$comment = AppRequest::get('comments');
-
-		if ($comment != '') {
-			$params = array('', $this->id, \vtlib\Functions::fromHTML($comment), $current_time);
-			$sql = "insert into vtiger_faqcomments values(?, ?, ?, ?)";
-			$adb->pquery($sql, $params);
-		}
-	}
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name
