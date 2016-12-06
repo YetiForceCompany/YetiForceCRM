@@ -62,15 +62,18 @@ class VTUpdateWorkTime extends VTTask
 	public function getContents($entity, $entityCache = false)
 	{
 		if (!$this->contents && is_object($entity)) {
-			$moduleName = $entity->getModuleName();
-			if ($entity->mode != 'delete') {
-				$parts = explode('x', $entity->getId());
-				$vtEntityDelta = new VTEntityDelta();
-				$delta = $vtEntityDelta->getEntityDelta($moduleName, $parts[1], true);
-			} else {
-				$delta = $entity->getData();
-			}
-			$delta = array_intersect_key($delta, array_flip(OSSTimeControl_Record_Model::$referenceFieldsToTime));
+			$delta = [];
+			/*
+			  $moduleName = $entity->getModuleName();
+			  if ($entity->mode != 'delete') {
+			  $parts = explode('x', $entity->getId());
+			  $vtEntityDelta = new VTEntityDelta();
+			  $delta = $vtEntityDelta->getEntityDelta($moduleName, $parts[1], true);
+			  } else {
+			  $delta = $entity->getData();
+			  }
+			  $delta = array_intersect_key($delta, array_flip(OSSTimeControl_Record_Model::$referenceFieldsToTime));
+			 */
 			$this->contents = \App\Json::encode($delta);
 		}
 		return $this->contents;
