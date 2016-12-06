@@ -92,6 +92,19 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	}
 
 	/**
+	 * Function verifies if it is possible to sort by given field in list view
+	 * @param string $fieldName
+	 * @return boolean
+	 */
+	public function isSortByName($fieldName)
+	{
+		if (in_array($fieldName, ['value', 'active'])) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Function returns list of fields available in list view
 	 * @return Vtiger_Base_Model[]
 	 */
@@ -101,7 +114,11 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			foreach ($fields as $fieldName => $fieldLabel) {
-				$fieldObjects[$fieldName] = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel, 'sort' => true]);
+				$fieldObject = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel]);
+				if (!$this->isSortByName($fieldName)) {
+					$fieldObject->set('sort', true);
+				}
+				$fieldObjects[$fieldName] = $fieldObject;
 			}
 			$this->listFieldModels = $fieldObjects;
 		}
