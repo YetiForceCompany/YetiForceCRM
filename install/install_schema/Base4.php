@@ -7014,7 +7014,7 @@ class Base4 extends \App\Db\Importers\Base
 			'vtiger_settings_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-						[102],
+						[103],
 				]
 			],
 			'vtiger_squoteenquiries_status' => [

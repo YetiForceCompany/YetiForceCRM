@@ -25193,7 +25193,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (102);
+insert  into `vtiger_settings_field_seq`(`id`) values (103);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
