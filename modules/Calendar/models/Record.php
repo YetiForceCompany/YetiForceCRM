@@ -140,6 +140,8 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		AppRequest::set('time_end', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_end')));
 		parent::save();
 		$this->updateActivityReminder();
+		$this->insertIntoInviteTable();
+		$this->insertIntoActivityReminderPopup();
 	}
 
 	/**
@@ -152,6 +154,9 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if ($this->isNew()) {
 			$forSave['vtiger_crmentity']['setype'] = 'Calendar';
 		}
+		if (isset($forSave['vtiger_crmentity']['smownerid'])) {
+			$forSave['vtiger_activity']['smownerid'] = $forSave['vtiger_crmentity']['smownerid'];
+		}
 		unset($forSave['vtiger_activity_reminder']);
 		return $forSave;
 	}
@@ -161,10 +166,104 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateActivityReminder()
 	{
+		if ($this->get('set_reminder') === null) {
+			return false;
+		}
+		$db = \App\Db::getInstance();
 		if ($this->get('set_reminder') !== false) {
-			$forSave['vtiger_activity_reminder']['reminder_time'] = $this->get('set_reminder');
+			$reminderTime = $this->get('set_reminder');
+			$activityReminderExists = (new \App\Db\Query())->select(['activity_id'])
+				->from('vtiger_activity_reminder')
+				->where(['activity_id' => $this->getId()])
+				->exists();
+			if ($activityReminderExists) {
+				$db->createCommand()->update('vtiger_activity_reminder', [
+					'reminder_time' => $reminderTime,
+					'reminder_sent' => 0
+					], ['activity_id' => $this->getId()])->execute();
+			} else {
+				$db->createCommand()->insert('vtiger_activity_reminder', [
+					'reminder_time' => $reminderTime,
+					'reminder_sent' => 0,
+					'activity_id' => $this->getId(),
+					'recurringid' => 0
+				])->execute();
+			}
 		} else {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $this->getId()])->execute();
+			$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $this->getId()])->execute();
+		}
+	}
+
+	/**
+	 * Function to insert values in u_yf_activity_invitation table for the specified module,tablename ,invitees_array
+	 */
+	public function insertIntoInviteTable()
+	{
+		if (!AppRequest::has('inviteesid')) {
+			\App\Log::error('No invitations in request, Exiting insertIntoInviteeTable method ...');
+			return;
+		}
+		\App\Log::trace('Entering ' . __METHOD__);
+		$db = App\Db::getInstance();
+		$inviteesRequest = AppRequest::get('inviteesid');
+		$dataReader = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $this->getId()])->createCommand()->query();
+		$invities = [];
+		while ($row = $dataReader->read()) {
+			$invities[$row['inviteesid']] = $row;
+		}
+		if (!empty($inviteesRequest)) {
+			foreach ($inviteesRequest as &$invitation) {
+				if (isset($invities[$invitation[2]])) {
+					unset($invities[$invitation[2]]);
+				} else {
+					$db->createCommand()->insert('u_#__activity_invitation', [
+						'email' => $invitation[0],
+						'crmid' => $invitation[1],
+						'activityid' => $this->getId()
+					])->execute();
+				}
+			}
+		}
+		foreach ($invities as &$invitation) {
+			$db->createCommand()->delete('u_#__activity_invitation', ['inviteesid' => $invitation['inviteesid']])->execute();
+		}
+		\App\Log::trace('Exiting ' . __METHOD__);
+	}
+
+	/**
+	 * Update event in popup reminder
+	 */
+	public function insertIntoActivityReminderPopup()
+	{
+		$cbrecord = $this->getId();
+		$module = AppRequest::get('module');
+		if (!empty($cbrecord)) {
+			$cbdate = getValidDBInsertDateValue($this->get('date_start'));
+			$cbtime = $this->get('time_start');
+			$reminderid = (new \App\Db\Query())->select(['reminderid'])->from('vtiger_activity_reminder_popup')
+				->where(['semodule' => $module, 'recordid' => $cbrecord])
+				->scalar();
+			$currentStates = Calendar_Module_Model::getComponentActivityStateLabel('current');
+			$state = Calendar_Module_Model::getCalendarState($this->getData());
+			if (in_array($state, $currentStates)) {
+				$status = 0;
+			} else {
+				$status = 1;
+			}
+			if (!empty($reminderid)) {
+				\App\Db::getInstance()->createCommand()->update('vtiger_activity_reminder_popup', [
+					'datetime' => "$cbdate $cbtime",
+					'status' => $status,
+					], ['reminderid' => $reminderid]
+				)->execute();
+			} else {
+				\App\Db::getInstance()->createCommand()->insert('vtiger_activity_reminder_popup', [
+					'recordid' => $cbrecord,
+					'semodule' => $module,
+					'datetime' => "$cbdate $cbtime",
+					'status' => $status,
+				])->execute();
+			}
 		}
 	}
 

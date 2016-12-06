@@ -117,65 +117,6 @@ class Activity extends CRMEntity
 			if (is_object($recurData))
 				$this->insertIntoRecurringTable($recurData);
 		}
-
-		//Insert into vtiger_activity_remainder table
-
-		$this->insertIntoReminderTable('vtiger_activity_reminder', $module, "");
-
-		//Handling for invitees
-		$this->insertIntoInviteeTable($module);
-
-		//Inserting into sales man activity rel
-		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['smownerid' => $this->column_fields['assigned_user_id']], ['activityid' => $recordId])->execute();
-		$this->insertIntoActivityReminderPopup($module);
-	}
-
-	/** Function to insert values in vtiger_activity_reminder_popup table for the specified module
-	 * @param $cbmodule -- module:: Type varchar
-	 */
-	public function insertIntoActivityReminderPopup($cbmodule)
-	{
-
-		$adb = PearDatabase::getInstance();
-
-		$cbrecord = $this->id;
-		unset($_SESSION['next_reminder_time']);
-		if (isset($cbmodule) && isset($cbrecord)) {
-			$cbdate = getValidDBInsertDateValue($this->column_fields['date_start']);
-			$cbtime = $this->column_fields['time_start'];
-
-			$reminderQuery = 'SELECT reminderid FROM vtiger_activity_reminder_popup WHERE semodule = ? and recordid = ?';
-			$reminderParams = [$cbmodule, $cbrecord];
-			$reminderidres = $adb->pquery($reminderQuery, $reminderParams);
-
-			$reminderid = null;
-			if ($reminderidres->rowCount() > 0) {
-				$reminderid = $adb->query_result($reminderidres, 0, 'reminderid');
-			}
-
-			$currentStates = Calendar_Module_Model::getComponentActivityStateLabel('current');
-			$state = Calendar_Module_Model::getCalendarState($this->column_fields);
-			if (in_array($state, $currentStates)) {
-				$status = 0;
-			} else {
-				$status = 1;
-			}
-
-			if (isset($reminderid)) {
-				$adb->update('vtiger_activity_reminder_popup', [
-					'datetime' => "$cbdate $cbtime",
-					'status' => $status,
-					], 'reminderid = ?', [$reminderid]
-				);
-			} else {
-				\App\Db::getInstance()->createCommand()->insert('vtiger_activity_reminder_popup', [
-					'recordid' => $cbrecord,
-					'semodule' => $cbmodule,
-					'datetime' => "$cbdate $cbtime",
-					'status' => $status,
-				]);
-			}
-		}
 	}
 
 	/** Function to insert values in vtiger_activity_remainder table for the specified module,
@@ -262,46 +203,6 @@ class Activity extends CRMEntity
 				$this->insertIntoReminderTable('vtiger_activity_reminder', $module, $currentId, '');
 			}
 		}
-	}
-
-	/** Function to insert values in u_yf_activity_invitation table for the specified module,tablename ,invitees_array
-	 * @param $table_name -- table name:: Type varchar
-	 * @param $module -- module:: Type varchar
-	 * @param $invitees_array Array
-	 */
-	public function insertIntoInviteeTable($module)
-	{
-
-		if (!AppRequest::has('inviteesid')) {
-			\App\Log::error('No invitations in request, Exiting insertIntoInviteeTable method ...');
-			return;
-		}
-		\App\Log::trace("Entering insertIntoInviteeTable($module) method ...");
-
-		$inviteesRequest = AppRequest::get('inviteesid');
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$this->id]);
-		$invities = [];
-		while ($row = $db->getRow($result)) {
-			$invities[$row['inviteesid']] = $row;
-		}
-		if (!empty($inviteesRequest)) {
-			foreach ($inviteesRequest as &$invitation) {
-				if (isset($invities[$invitation[2]])) {
-					unset($invities[$invitation[2]]);
-				} else {
-					$db->insert('u_yf_activity_invitation', [
-						'email' => $invitation[0],
-						'crmid' => $invitation[1],
-						'activityid' => $this->id
-					]);
-				}
-			}
-		}
-		foreach ($invities as &$invitation) {
-			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation['inviteesid']]);
-		}
-		\App\Log::trace('Exiting insertIntoInviteeTable method ...');
 	}
 
 	/** Function to insert values in vtiger_salesmanactivityrel table for the specified module

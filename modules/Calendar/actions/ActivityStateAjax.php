@@ -12,13 +12,11 @@ class Calendar_ActivityStateAjax_Action extends Calendar_SaveAjax_Action
 
 	public function process(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$state = $request->get('state');
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$recordModel->set('activitystatus', $state);
-		$recordModel->set('mode', 'edit');
 		$recordModel->save();
 
 		$response = new Vtiger_Response();
