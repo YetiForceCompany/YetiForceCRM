@@ -5355,6 +5355,8 @@ class Base2 extends \App\Db\Importers\Base
 					[92, 2465, 0, 0],
 					[33, 2466, 0, 0],
 					[35, 2467, 0, 0],
+					[29, 2468, 0, 0],
+					[29, 2469, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -7322,12 +7324,14 @@ class Base2 extends \App\Db\Importers\Base
 					[92, 2465, 'private', 'vtiger_crmentity', 1, 56, 'private', 'FL_IS_PRIVATE', 1, 0, '', 1, 8, 299, 1, 'C~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[33, 2466, 'private', 'vtiger_crmentity', 1, 56, 'private', 'FL_IS_PRIVATE', 1, 0, '', 1, 18, 88, 1, 'C~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[35, 2467, 'taxes', 'vtiger_service', 1, 303, 'taxes', 'FL_TAXES', 1, 2, '', 100, 3, 92, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 2468, 'available', 'vtiger_users', 1, 56, 'available', 'FL_AVAILABLE', 1, 0, '', 3, 13, 77, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 2469, 'auto_assign', 'vtiger_users', 1, 56, 'auto_assign', 'FL_AUTO_ASSIGN_RECORDS', 1, 0, '', 3, 14, 77, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2467],
+					[2469],
 				]
 			],
 			'vtiger_fieldmodulerel' => [

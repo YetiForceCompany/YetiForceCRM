@@ -3875,6 +3875,8 @@ insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) valu
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (92,2465,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (33,2466,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (35,2467,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (29,2468,0,0);
+insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (29,2469,0,0);
 
 /*Data for the table `vtiger_def_org_share` */
 
@@ -5804,10 +5806,12 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (92,2465,'private','vtiger_crmentity',1,56,'private','FL_IS_PRIVATE',1,0,'',1,8,299,1,'C~O',1,0,'BAS',0,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (33,2466,'private','vtiger_crmentity',1,56,'private','FL_IS_PRIVATE',1,0,'',1,18,88,1,'C~O',1,0,'BAS',0,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (35,2467,'taxes','vtiger_service',1,303,'taxes','FL_TAXES',1,2,'',100,3,92,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (29,2468,'available','vtiger_users',1,56,'available','FL_AVAILABLE',1,0,'',3,13,77,1,'C~O',1,0,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (29,2469,'auto_assign','vtiger_users',1,56,'auto_assign','FL_AUTO_ASSIGN_RECORDS',1,0,'',3,14,77,1,'C~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 
 /*Data for the table `vtiger_field_seq` */
 
-insert  into `vtiger_field_seq`(`id`) values (2467);
+insert  into `vtiger_field_seq`(`id`) values (2469);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -9043,6 +9047,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,92,2465,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,33,2466,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,35,2467,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,2468,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,2469,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,3,0,0);
@@ -10618,6 +10624,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,92,2465,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,33,2466,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,35,2467,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,29,2468,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,29,2469,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,3,0,0);
@@ -12193,6 +12201,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,92,2465,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,33,2466,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,35,2467,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,29,2468,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,29,2469,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,3,0,0);
@@ -13768,6 +13778,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,92,2465,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,33,2466,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,35,2467,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,29,2468,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,29,2469,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -25896,7 +25908,7 @@ insert  into `vtiger_user2role`(`userid`,`roleid`) values (1,'H2');
 
 /*Data for the table `vtiger_users` */
 
-insert  into `vtiger_users`(`id`,`user_name`,`user_password`,`user_hash`,`cal_color`,`first_name`,`last_name`,`reports_to_id`,`is_admin`,`currency_id`,`description`,`date_entered`,`date_modified`,`modified_user_id`,`email1`,`status`,`user_preferences`,`tz`,`holidays`,`namedays`,`workdays`,`weekstart`,`date_format`,`hour_format`,`start_hour`,`end_hour`,`activity_view`,`lead_view`,`imagename`,`deleted`,`confirm_password`,`internal_mailer`,`reminder_interval`,`reminder_next_time`,`crypt_type`,`accesskey`,`theme`,`language`,`time_zone`,`currency_grouping_pattern`,`currency_decimal_separator`,`currency_grouping_separator`,`currency_symbol_placement`,`phone_crm_extension`,`no_of_currency_decimals`,`truncate_trailing_zeros`,`dayoftheweek`,`callduration`,`othereventduration`,`calendarsharedtype`,`default_record_view`,`leftpanelhide`,`rowheight`,`defaulteventstatus`,`defaultactivitytype`,`is_owner`,`emailoptout`) values (1,'admin','$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/','d41d8cd98f00b204e9800998ecf8427e','#E6FAD8','','Administrator',0,'on',1,'','2016-03-17 11:44:49','0000-00-00 00:00:00',NULL,'help@yetiforce.com','Active',NULL,NULL,NULL,NULL,NULL,NULL,'yyyy-mm-dd','24','08:00','23:00','This Month','Today','',0,'$1$ad000000$nYTnfhTZRmUP.wQT9y1AE.',1,'15 Minutes',NULL,'PHP5.3MD5','aOFXop10GCJ1uw0P','twilight','en_us','Europe/Sarajevo','123456789',',',' ','1.0$','',2,1,'Monday',60,60,'private','Summary',0,'medium','PLL_PLANNED','Meeting','1',1);
+insert  into `vtiger_users`(`id`,`user_name`,`user_password`,`user_hash`,`cal_color`,`first_name`,`last_name`,`reports_to_id`,`is_admin`,`currency_id`,`description`,`date_entered`,`date_modified`,`modified_user_id`,`email1`,`status`,`user_preferences`,`tz`,`holidays`,`namedays`,`workdays`,`weekstart`,`date_format`,`hour_format`,`start_hour`,`end_hour`,`activity_view`,`lead_view`,`imagename`,`deleted`,`confirm_password`,`internal_mailer`,`reminder_interval`,`reminder_next_time`,`crypt_type`,`accesskey`,`theme`,`language`,`time_zone`,`currency_grouping_pattern`,`currency_decimal_separator`,`currency_grouping_separator`,`currency_symbol_placement`,`phone_crm_extension`,`no_of_currency_decimals`,`truncate_trailing_zeros`,`dayoftheweek`,`callduration`,`othereventduration`,`calendarsharedtype`,`default_record_view`,`leftpanelhide`,`rowheight`,`defaulteventstatus`,`defaultactivitytype`,`is_owner`,`emailoptout`,`available`,`auto_assign`) values (1,'admin','$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/','d41d8cd98f00b204e9800998ecf8427e','#E6FAD8','','Administrator',0,'on',1,'','2016-12-06 09:29:00','0000-00-00 00:00:00',NULL,'help@yetiforce.com','Active',NULL,NULL,NULL,NULL,NULL,NULL,'yyyy-mm-dd','24','08:00','23:00','This Month','Today','',0,'$1$ad000000$nYTnfhTZRmUP.wQT9y1AE.',1,'15 Minutes',NULL,'PHP5.3MD5','aOFXop10GCJ1uw0P','twilight','en_us','Europe/Sarajevo','123456789',',',' ','1.0$','',2,1,'Monday',60,60,'private','Summary',0,'medium','PLL_PLANNED','Meeting','1',1,1,0);
 
 /*Data for the table `vtiger_users2group` */
 
