@@ -415,20 +415,14 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get all the rules
-	 * @return <Array> - Array of Settings_Groups_Record_Model instances
+	 * @return array - Array of Settings_Groups_Record_Model instances
 	 */
 	public static function getInstance($moduleModel, $ruleId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT * FROM vtiger_datashare_module_rel WHERE tabid = ? && shareid = ?';
-		$params = array($moduleModel->getId(), $ruleId);
-		$result = $db->pquery($sql, $params);
-
-		if ($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result, 0);
+		$result = (new \App\Db\Query)->from('vtiger_datashare_module_rel')->where(['tabid' => $moduleModel->getId(), 'shareid' => $ruleId])->one();
+		if ($result) {
 			$ruleModel = new self();
-			return $ruleModel->setData($row)->setModuleFromInstance($moduleModel);
+			return $ruleModel->setData($result)->setModuleFromInstance($moduleModel);
 		}
 		return false;
 	}
