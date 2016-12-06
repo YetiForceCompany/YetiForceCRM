@@ -3,14 +3,14 @@
 	<div class="widget_header row ">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_'|cat:$MODULE|upper|cat:'_DESCRIPTION', $QUALIFIED_MODULE)}
+			{\App\Language::translate('LBL_'|cat:$MODULE|upper|cat:'_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 	<div class="form-horizontal">
 		<input type="hidden" id="record" name="record" value="{$RECORD_MODEL->getId()}" />
 		<ul class="nav nav-tabs" id="myTab">
 			{foreach from=$RECORD_MODEL->getEditFields() item=LABEL key=FIELD_NAME name=tabs}
-				<li class="{if $smarty.foreach.tabs.first}active{/if}"><a data-toggle="tab" href="#{$FIELD_NAME}">{vtranslate($LABEL, $QUALIFIED_MODULE)}</a></li>
+				<li class="{if $smarty.foreach.tabs.first}active{/if}"><a data-toggle="tab" href="#{$FIELD_NAME}">{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</a></li>
 				{/foreach}
 		</ul>
 		<div class="tab-content">

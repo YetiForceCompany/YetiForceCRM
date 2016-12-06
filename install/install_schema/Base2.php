@@ -5653,6 +5653,7 @@ class Base2 extends \App\Db\Importers\Base
 					[52, 'EntityAfterSave', 'IStorages_RecalculateStockHandler_Handler', 1, 'IGRN,IIDN,IGDN,IGIN,IPreOrder,ISTDN,ISTRN,IGRNC,IGDNC', '', 3, 97],
 					[53, 'EntityAfterSave', 'Accounts_SaveChanges_Handler', 1, 'Accounts', '', 5, 6],
 					[54, 'EntityAfterSave', 'OpenStreetMap_OpenStreetMapHandler_Handler', 1, 'Accounts,Leads,Partners,Vendors,Competition,Contacts', '', 3, 110],
+					[55, 'EntitySystemAfterCreate', 'Vtiger_AutomaticAssignment_Handler', 1, '', '', 5, 0],
 				]
 			],
 			'vtiger_eventstatus' => [

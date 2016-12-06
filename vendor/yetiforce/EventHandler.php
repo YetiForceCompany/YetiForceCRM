@@ -102,7 +102,7 @@ class EventHandler
 	 */
 	public static function clearCache()
 	{
-		unset(static::$handlerByType);
+		unset(self::$handlerByType);
 		Cache::delete('EventHandler', 'All');
 	}
 

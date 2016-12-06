@@ -103,7 +103,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		switch ($name) {
 			case 'value':
-				return Vtiger_Field_Model::getInstanceFromFieldId($this->get('fieldid'));
+				return Vtiger_Field_Model::getInstance($this->get('field'), Vtiger_Module_Model::getInstance($this->get('tabid')));
 			case 'roles':
 				return Vtiger_Field_Model::getInstance('roleid', Vtiger_Module_Model::getInstance('Users'));
 			case 'smowners':
@@ -208,7 +208,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				}
 				return $rows;
 				break;
-			case 'fieldid':
 			case 'tabid':
 				$value = (int) $value;
 				break;
@@ -270,9 +269,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					$value = array_unique(array_merge($newVal, $oldVal));
 				}
 				$value = implode(',', $value);
-				break;
-			case 'fieldid':
-				$value = (int) $value;
 				break;
 			case 'tabid':
 				$value = (int) $value;
@@ -391,8 +387,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	public function getDisplayValue($name)
 	{
 		switch ($name) {
-			case 'fieldid':
-				$fieldInstance = Vtiger_Field_Model::getInstanceFromFieldId($this->get($name));
+			case 'field':
+				$fieldInstance = $this->getFieldInstanceByName('value');
 				return $fieldInstance->get('label');
 			case 'tabid':
 				return \App\Module::getModuleName($this->get($name));
@@ -400,5 +396,71 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				break;
 		}
 		return $this->get($name);
+	}
+
+	/**
+	 * List of  available users
+	 * @return int[]
+	 */
+	public function getUsers()
+	{
+		$users = [];
+		$roles = $this->get('roles');
+		if (!empty($roles)) {
+			$roles = explode(',', $this->get('roles'));
+			foreach ($roles as $member) {
+				$users = array_merge($users, \App\PrivilegeUtil::getUserByMember($member));
+			}
+			$users = $this->filterUsers(array_unique($users));
+		}
+		if (empty($users)) {
+			$smowners = $this->get('smowners') ? explode(',', $this->get('smowners')) : [];
+			foreach ($smowners as $key => $user) {
+				if (\App\Fields\Owner::getType($user) !== 'Users') {
+					$users = array_merge($users, \App\PrivilegeUtil::getUsersByGroup($user));
+				} else {
+					$users[] = $user;
+				}
+			}
+			$users = $this->filterUsers(array_unique($users));
+		}
+		return $users;
+	}
+
+	/**
+	 * Limit list of users to users with proper permissions
+	 * @param int[] $users
+	 * @return int[]
+	 */
+	public function filterUsers($users)
+	{
+		foreach ($users as $key => $userId) {
+			$userModel = \App\User::getUserModel($userId);
+			if (!$userModel->getDetail('available') || !$userModel->getDetail('auto_assign')) {
+				unset($users[$key]);
+			}
+		}
+		return $users;
+	}
+
+	/**
+	 * Function returns ID of the user who has the lowest number of records
+	 * @param int[] $users
+	 * @return int
+	 */
+	public function getAssignUser($users)
+	{
+		$queryGenerator = new \App\QueryGenerator(\App\Module::getModuleName($this->get('tabid')), Users::getActiveAdminId());
+		$queryGenerator->setFields(['assigned_user_id']);
+		$query = $queryGenerator->createQuery();
+		if (isset($queryGenerator->getEntityModel()->autoAssignConditions)) {
+			$query->andWhere($queryGenerator->getEntityModel()->autoAssignConditions);
+		}
+		$query->addSelect(['c' => new \yii\db\Expression('COUNT(vtiger_crmentity.crmid)')])
+			->groupBy($queryGenerator->getColumnName('assigned_user_id'))
+			->orderBy(['c' => SORT_ASC])
+			->limit(1);
+
+		return $query->scalar();
 	}
 }

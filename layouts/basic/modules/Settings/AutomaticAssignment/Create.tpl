@@ -35,11 +35,11 @@
 			{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}<span class="redColor"> *</span>
 		</label>
 		<div class="controls">
-			<select class="select2 form-control" name="fieldid" id="supportedFields">
+			<select class="select2 form-control" name="field" id="supportedFields">
 				{foreach key=BLOCK_NAME item=FIELDS from=$SUPPORTED_FIELDS}
 					<optgroup label="{\App\Language::translate($BLOCK_NAME, $SELECTED_MODULE)}">
 						{foreach key=FIELD_NAME item=FIELD_OBJECT from=$FIELDS name=fieldsLoop}
-							<option value="{$FIELD_OBJECT->getId()}">{\App\Language::translate($FIELD_OBJECT->getFieldLabel(),$SELECTED_MODULE)}</option>
+							<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD_OBJECT->getFieldLabel(),$SELECTED_MODULE)}</option>
 						{/foreach}
 					</optgroup>
 				{/foreach}

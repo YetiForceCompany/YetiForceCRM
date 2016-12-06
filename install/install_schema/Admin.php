@@ -224,7 +224,7 @@ class Admin extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned()->notNull(),
 					'tabid' => $this->integer(11)->unsigned()->notNull(),
-					'fieldid' => $this->integer(11)->unsigned()->notNull(),
+					'field' => $this->stringType(30)->notNull(),
 					'value' => $this->stringType(),
 					'roles' => $this->text(),
 					'smowners' => $this->text(),

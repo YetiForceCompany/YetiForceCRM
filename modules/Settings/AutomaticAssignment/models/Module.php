@@ -25,7 +25,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 * List of fields displayed in list view
 	 * @var string 
 	 */
-	public $listFields = ['tabid' => 'FL_MODULE', 'fieldid' => 'FL_FIELD', 'value' => 'FL_VALUE'];
+	public $listFields = ['tabid' => 'FL_MODULE', 'field' => 'FL_FIELD', 'value' => 'FL_VALUE'];
 
 	/**
 	 * Module Name
@@ -106,5 +106,25 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 			$this->listFieldModels = $fieldObjects;
 		}
 		return $this->listFieldModels;
+	}
+
+	/**
+	 * Function searches for record from the Auto assign records panel
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return bool|Settings_AutomaticAssignment_Record_Model
+	 */
+	public function searchRecord(\Vtiger_Record_Model $recordModel)
+	{
+		$dataReader = (new \App\Db\Query())
+				->select(['field', 'value', 'id'])
+				->from($this->baseTable)
+				->where(['tabid' => \App\Module::getModuleId($recordModel->getModuleName())])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			if ($row['value'] === $recordModel->get($row['field'])) {
+				return Settings_AutomaticAssignment_Record_Model::getInstanceById($row['id']);
+			}
+		}
+		return false;
 	}
 }
