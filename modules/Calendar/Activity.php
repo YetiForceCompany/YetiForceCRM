@@ -190,13 +190,9 @@ class Activity extends CRMEntity
 			unset($_SESSION['next_reminder_time']);
 			\App\Log::trace('set reminder is set');
 			$rem_days = AppRequest::get('remdays');
-			\App\Log::trace('rem_days is ' . $rem_days);
 			$rem_hrs = AppRequest::get('remhrs');
-			\App\Log::trace('rem_hrs is ' . $rem_hrs);
 			$rem_min = AppRequest::get('remmin');
-			\App\Log::trace('rem_minutes is ' . $rem_min);
 			$reminder_time = $rem_days * 24 * 60 + $rem_hrs * 60 + $rem_min;
-			\App\Log::trace('reminder_time is ' . $reminder_time);
 			if ($recurid == '') {
 				if (AppRequest::get('mode') == 'edit') {
 					$this->activity_reminder($this->id, $reminder_time, 0, $recurid, 'edit');

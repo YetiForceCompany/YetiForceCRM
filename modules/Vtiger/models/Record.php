@@ -383,29 +383,37 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function saveToDb()
 	{
+		$entityInstance = $this->getModule()->getEntityInstance();
+		$db = \App\Db::getInstance();
+		foreach ($this->getValuesForSave() as $tableName => &$tableData) {
+			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
+			if ($this->isNew()) {
+				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
+			} else {
+				$db->createCommand()->update($tableName, $tableData, $keyTable)->execute();
+			}
+		}
+	}
+
+	/**
+	 * Prepare value to save
+	 * @return array
+	 */
+	public function getValuesForSave()
+	{
 		$saveFields = $this->getModule()->getFieldsForSave($this);
 		$forSave = $this->getEntityDataForSave();
-		$isNew = $this->isNew();
-		if (!$isNew) {
+		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
 		}
 		$moduleModel = $this->getModule();
-		$entityInstance = $moduleModel->getEntityInstance();
 		foreach ($saveFields as &$fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $this->get($fieldName);
 			}
 		}
-		$db = \App\Db::getInstance();
-		foreach ($forSave as $tableName => &$tableData) {
-			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
-			if ($isNew) {
-				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
-			} else {
-				$db->createCommand()->update($tableName, $tableData, $keyTable)->execute();
-			}
-		}
+		return $forSave;
 	}
 
 	public function getEntityDataForSave()

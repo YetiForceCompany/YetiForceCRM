@@ -106,11 +106,15 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$recordModel->set('activitystatus', $request->get('saveAndClose'));
 		}
 		//Due to dependencies on the older code
-		$setReminder = $request->get('set_reminder');
-		if ($setReminder) {
-			AppRequest::set('set_reminder', 'Yes');
+		if ($request->get('set_reminder') && $request->get('set_reminder') !== 'No') {
+			unset($_SESSION['next_reminder_time']);
+			$remDays = (int) $request->get('remdays');
+			$remHrs = (int) $request->get('remhrs');
+			$remMin = (int) $request->get('remmin');
+			$reminderTime = $remDays * 24 * 60 + $remHrs * 60 + $remMin;
+			$recordModel->set('set_reminder', $reminderTime);
 		} else {
-			AppRequest::set('set_reminder', 'No');
+			$recordModel->set('set_reminder', false);
 		}
 		$time = (strtotime($request->get('time_end'))) - (strtotime($request->get('time_start')));
 		$diffinSec = (strtotime($request->get('due_date'))) - (strtotime($request->get('date_start')));

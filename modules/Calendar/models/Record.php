@@ -139,6 +139,33 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		AppRequest::set('time_start', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_start')));
 		AppRequest::set('time_end', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_end')));
 		parent::save();
+		$this->updateActivityReminder();
+	}
+
+	/**
+	 * Prepare value to save
+	 * @return array
+	 */
+	public function getValuesForSave()
+	{
+		$forSave = parent::getValuesForSave();
+		if ($this->isNew()) {
+			$forSave['vtiger_crmentity']['setype'] = 'Calendar';
+		}
+		unset($forSave['vtiger_activity_reminder']);
+		return $forSave;
+	}
+
+	/**
+	 * Update cctivity reminder
+	 */
+	public function updateActivityReminder()
+	{
+		if ($this->get('set_reminder') !== false) {
+			$forSave['vtiger_activity_reminder']['reminder_time'] = $this->get('set_reminder');
+		} else {
+			\App\Db::getInstance()->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $this->getId()])->execute();
+		}
 	}
 
 	/**
