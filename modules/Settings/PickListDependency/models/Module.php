@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 vimport('~~modules/PickList/DependentPickListUtils.php');
 
@@ -46,19 +47,17 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 
 	public static function getPicklistSupportedModules()
 	{
-		$adb = PearDatabase::getInstance();
+		$query = (new \App\Db\Query)->select(['vtiger_field.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])->from('vtiger_field')
+				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
+				->where(['uitype' => [15, 16], 'vtiger_field.displaytype' => 1, 'vtiger_field.presence' => [0, 2]])
+				->andWhere(['<>', 'vtiger_field.tabid', 29])
+				->andWhere(['not', ['vtiger_field.block' => null]])
+				->groupBy('vtiger_field.tabid, vtiger_tab.tablabel, vtiger_tab.name')
+				->having(['>', 'count(*)', 1])->distinct('vtiger_field.tabid');
 
-		$query = "SELECT distinct vtiger_field.tabid, vtiger_tab.tablabel, vtiger_tab.name as tabname FROM vtiger_field
-						INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
-						WHERE uitype IN ('15','16')
-						AND vtiger_field.tabid != 29
-						AND vtiger_field.displaytype = 1
-						AND vtiger_field.presence in ('0','2')
-						AND vtiger_field.block != 'NULL'
-					GROUP BY vtiger_field.tabid HAVING count(*) > 1";
-		// END
-		$result = $adb->pquery($query, array());
-		while ($row = $adb->fetch_array($result)) {
+		$dataReader = $query->createCommand()->query();
+
+		while ($row = $dataReader->read()) {
 			$modules[$row['tablabel']] = $row['tabname'];
 		}
 		ksort($modules);
