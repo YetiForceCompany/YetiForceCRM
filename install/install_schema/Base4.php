@@ -1537,7 +1537,7 @@ class Base4 extends \App\Db\Importers\Base
 					'attention' => $this->text(),
 					'pssold_id' => $this->integer(),
 					'ordertime' => $this->decimal('10,2'),
-					'from_portal' => $this->stringType(3),
+					'from_portal' => $this->smallInteger(1),
 					'contract_type' => $this->stringType(),
 					'contracts_end_date' => $this->date(),
 					'report_time' => $this->integer(10),
