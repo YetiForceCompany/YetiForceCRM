@@ -401,12 +401,14 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getValuesForSave()
 	{
+		$moduleModel = $this->getModule();
 		$saveFields = $this->getModule()->getFieldsForSave($this);
 		$forSave = $this->getEntityDataForSave();
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
+		} else {
+			$forSave[$moduleModel->basetable] = [];
 		}
-		$moduleModel = $this->getModule();
 		foreach ($saveFields as &$fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {

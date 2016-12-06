@@ -97,9 +97,6 @@ class HelpDesk extends CRMEntity
 
 	public function save_module($module)
 	{
-		//Inserting into vtiger_attachments
-		$this->insertIntoAttachment($this->id, $module);
-
 		//service contract update
 		$return_action = AppRequest::get('return_action');
 		$for_module = AppRequest::get('return_module');
@@ -122,28 +119,6 @@ class HelpDesk extends CRMEntity
 		} else {
 			parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 		}
-	}
-
-	/**
-	 *      This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
-	 *      @param int $id  - entity id to which the vtiger_files to be uploaded
-	 *      @param string $module  - the current module name
-	 */
-	public function insertIntoAttachment($id, $module)
-	{
-
-		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
-
-		$file_saved = false;
-
-		foreach ($_FILES as $fileindex => $files) {
-			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = AppRequest::get($fileindex . '_hidden');
-				$file_saved = $this->uploadAndSaveFile($id, $module, $files);
-			}
-		}
-
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/**     Function to get the Customer Name who has made comment to the ticket from the customer portal
