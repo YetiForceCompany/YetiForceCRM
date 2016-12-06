@@ -14,7 +14,7 @@
 class VTTaskManager
 {
 
-	function __construct($adb)
+	function __construct($adb = false)
 	{
 		$this->adb = $adb;
 	}
@@ -92,14 +92,16 @@ class VTTaskManager
 	 */
 	public function getTasksForWorkflow($workflowId)
 	{
-		$tasks = Vtiger_Cache::get('getTasksForWorkflow', $workflowId);
-		if ($tasks !== false) {
-			return $tasks;
+		if (\App\Cache::staticHas('getTasksForWorkflow', $workflowId)) {
+			return \App\Cache::staticGet('getTasksForWorkflow', $workflowId);
 		}
-		$adb = $this->adb;
-		$result = $adb->pquery('select task from com_vtiger_workflowtasks where workflow_id=?', array($workflowId));
-		$tasks = $this->getTasksForResult($result);
-		Vtiger_Cache::set('getTasksForWorkflow', $workflowId, $tasks);
+		$rows = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->column();
+		$tasks = [];
+		foreach ($rows as &$task) {
+			$this->requireTask(self::taskName($task));
+			$tasks[] = unserialize($task);
+		}
+		\App\Cache::staticGet('getTasksForWorkflow', $workflowId, $tasks);
 		return $tasks;
 	}
 
@@ -138,7 +140,7 @@ class VTTaskManager
 
 	private function taskName($serializedTask)
 	{
-		$matches = array();
+		$matches = [];
 		preg_match('/"([^"]+)"/', $serializedTask, $matches);
 		return $matches[1];
 	}

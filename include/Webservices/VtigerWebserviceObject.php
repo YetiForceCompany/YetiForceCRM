@@ -33,19 +33,14 @@ class VtigerWebserviceObject
 	// Cache variables to enable result re-use
 	private static $_fromNameCache = [];
 
-	static function fromName($adb, $entityName)
+	static function fromName($adb = false, $entityName)
 	{
-
 		$rowData = false;
-
 		// If the information not available in cache?
 		if (empty(self::$_fromNameCache)) {
-			$result = $adb->query('select * from vtiger_ws_entity');
-
-			if ($result) {
-				while ($rowData = $adb->getRow($result)) {
-					self::$_fromNameCache[$rowData['name']] = $rowData;
-				}
+			$rows = (new \App\Db\Query())->from('vtiger_ws_entity')->all();
+			foreach ($rows as &$row) {
+				self::$_fromNameCache[$row['name']] = $row;
 			}
 		}
 		if (isset(self::$_fromNameCache[$entityName])) {

@@ -15,7 +15,7 @@
 class VTTaskQueue
 {
 
-	public function __construct($adb)
+	public function __construct($adb = false)
 	{
 		$this->adb = $adb;
 	}
@@ -36,7 +36,6 @@ class VTTaskQueue
 			'do_after' => $when,
 			'task_contents' => $taskContents
 		])->execute();
-		
 		return true;
 	}
 

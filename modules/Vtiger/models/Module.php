@@ -599,6 +599,20 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $fieldList;
 	}
 
+	public function getFieldsByReference($fieldName = false)
+	{
+		$fieldList = [];
+		foreach ($this->getFields() as &$field) {
+			if ($field->isReferenceField()) {
+				$fieldList[$field->getName()] = $field;
+			}
+		}
+		if ($fieldName) {
+			return isset($fieldList[$fieldName]) ? $fieldList[$fieldName] : false;
+		}
+		return $fieldList;
+	}
+
 	/**
 	 * Function gives fields based on the uitype
 	 * @return Vtiger_Field_Model[] with field id as key

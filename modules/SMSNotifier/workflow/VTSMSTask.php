@@ -25,15 +25,9 @@ class VTSMSTask extends VTTask
 		return array('content', 'sms_recepient');
 	}
 
-	public function doTask($entity)
+	public function doTask($recordModel)
 	{
-
 		if (SMSNotifier::checkServer()) {
-
-			$adb = PearDatabase::getInstance();
-			
-			$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 			$util = new VTWorkflowUtils();
 			$admin = $util->adminUser();
 			$ws_id = $entity->getId();
@@ -47,18 +41,16 @@ class VTSMSTask extends VTTask
 			$content = $ct->render($entityCache, $ws_id);
 			$relatedCRMid = substr($ws_id, stripos($ws_id, 'x') + 1);
 
-			$relatedModule = $entity->getModuleName();
+			$relatedModule = $recordModel->getModuleName();
 
 			/** Pickup only non-empty numbers */
 			$tonumbers = array();
-			foreach ($recepients as $tonumber) {
-				if (!empty($tonumber))
+			foreach ($recepients as &$tonumber) {
+				if (!empty($tonumber)) {
 					$tonumbers[] = $tonumber;
+				}
 			}
-
-			SMSNotifier::sendsms($content, $tonumbers, $current_user->id, $relatedCRMid, $relatedModule);
+			SMSNotifier::sendsms($content, $tonumbers, \App\User::getCurrentUserId(), $relatedCRMid, $relatedModule);
 		}
 	}
 }
-
-?>

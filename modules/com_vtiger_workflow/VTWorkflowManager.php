@@ -26,12 +26,12 @@ class VTWorkflowManager
 	static $BLOCK_EDIT = 9;
 	static $ON_RELATED = 10;
 
-	function __construct($adb)
+	public function __construct($adb = false)
 	{
 		$this->adb = $adb;
 	}
 
-	function save($workflow)
+	public function save($workflow)
 	{
 		if (isset($workflow->id)) {
 			$wf = $workflow;
@@ -75,7 +75,7 @@ class VTWorkflowManager
 		}
 	}
 
-	function getWorkflows()
+	public function getWorkflows()
 	{
 		$query = (new \App\Db\Query())
 			->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
@@ -88,7 +88,7 @@ class VTWorkflowManager
 	 * @param DateTime $referenceTime
 	 * @return Workflow
 	 */
-	function getScheduledWorkflows($referenceTime = false)
+	public function getScheduledWorkflows($referenceTime = false)
 	{
 		$query = (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => VTWorkflowManager::$ON_SCHEDULE]);
 		if ($referenceTime) {
@@ -101,7 +101,7 @@ class VTWorkflowManager
 	 * Function to get the number of scheduled workflows
 	 * @return Integer
 	 */
-	function getScheduledWorkflowsCount()
+	public function getScheduledWorkflowsCount()
 	{
 		$adb = $this->adb;
 		$query = 'SELECT count(*) AS count FROM com_vtiger_workflows WHERE execution_condition = ?';
@@ -114,12 +114,12 @@ class VTWorkflowManager
 	 * Function returns the maximum allowed scheduled workflows
 	 * @return int
 	 */
-	function getMaxAllowedScheduledWorkflows()
+	public function getMaxAllowedScheduledWorkflows()
 	{
 		return 10;
 	}
 
-	function getWorkflowsForModule($moduleName, $executionCondition = false)
+	public function getWorkflowsForModule($moduleName, $executionCondition = false)
 	{
 		$cacheName = $moduleName . (string) $executionCondition;
 		if (App\Cache::staticHas('WorkflowsForModule', $cacheName)) {
@@ -172,7 +172,7 @@ class VTWorkflowManager
 	 * @param The id of the workflow
 	 * @return A workflow object.
 	 */
-	function retrieve($id)
+	public function retrieve($id)
 	{
 		$adb = $this->adb;
 		$result = $adb->pquery("select * from com_vtiger_workflows where workflow_id=?", array($id));
@@ -187,7 +187,7 @@ class VTWorkflowManager
 		}
 	}
 
-	function delete($id)
+	public function delete($id)
 	{
 		$adb = $this->adb;
 		$adb->pquery("DELETE FROM com_vtiger_workflowtasks WHERE workflow_id IN
@@ -195,7 +195,7 @@ class VTWorkflowManager
 		$adb->pquery("DELETE FROM com_vtiger_workflows WHERE workflow_id=? AND (defaultworkflow IS NULL OR defaultworkflow != 1)", array($id));
 	}
 
-	function newWorkflow($moduleName)
+	public function newWorkflow($moduleName)
 	{
 		$workflow = $this->getWorkflowInstance();
 		$workflow->moduleName = $moduleName;
@@ -315,12 +315,12 @@ class Workflow
 	static $SCHEDULED_MONTHLY_BY_WEEKDAY = 6;
 	static $SCHEDULED_ANNUALLY = 7;
 
-	function __construct()
+	public function __construct()
 	{
 		$this->conditionStrategy = new VTJsonCondition();
 	}
 
-	function setup($row)
+	public function setup($row)
 	{
 		$this->id = isset($row['workflow_id']) ? $row['workflow_id'] : '';
 		$this->moduleName = isset($row['module_name']) ? $row['module_name'] : '';
@@ -339,76 +339,72 @@ class Workflow
 		$this->nexttrigger_time = isset($row['nexttrigger_time']) ? $row['nexttrigger_time'] : '';
 	}
 
-	function evaluate($entityCache, $id)
+	public function evaluate($recordModel, $id)
 	{
 		if ($this->test == "") {
 			return true;
 		} else {
 			$cs = $this->conditionStrategy;
-			return $cs->evaluate($this->test, $entityCache, $id);
+			return $cs->evaluate($this->test, $recordModel, $id);
 		}
 	}
 
-	function isCompletedForRecord($recordId)
+	public function isCompletedForRecord($recordId)
 	{
-		$adb = PearDatabase::getInstance();
+		$isExistsActivateDonce = (new \App\Db\Query())->from('com_vtiger_workflow_activatedonce')->where(['entity_id' => $recordId, 'workflow_id' => $this->id])->exists();
+		$isExistsWorkflowTasks = (new \App\Db\Query())->from('com_vtiger_workflowtasks')
+				->innerJoin('com_vtiger_workflowtask_queue', 'com_vtiger_workflowtasks.task_id= com_vtiger_workflowtask_queue.task_id')
+				->where(['entity_id' => $recordId, 'workflow_id' => $this->id])->exists();
 
-		$result = $adb->pquery("SELECT * FROM com_vtiger_workflow_activatedonce
-							WHERE entity_id=? and workflow_id=?", array($recordId, $this->id));
-
-		$result2 = $adb->pquery("SELECT * FROM com_vtiger_workflowtasks
-							INNER JOIN com_vtiger_workflowtask_queue
-							ON com_vtiger_workflowtasks.task_id= com_vtiger_workflowtask_queue.task_id
-							WHERE workflow_id=? AND entity_id=?", array($this->id, $recordId));
-
-		if ($adb->num_rows($result) === 0 && $adb->num_rows($result2) === 0) { // Workflow not done for specified record
+		if (!$isExistsActivateDonce && !$isExistsWorkflowTasks) { // Workflow not done for specified record
 			return false;
 		} else {
 			return true;
 		}
 	}
 
-	function markAsCompletedForRecord($recordId)
+	public function markAsCompletedForRecord($recordId)
 	{
-		$adb = PearDatabase::getInstance();
-
-		$adb->pquery("INSERT INTO com_vtiger_workflow_activatedonce (entity_id, workflow_id)
-				VALUES (?,?)", array($recordId, $this->id));
+		\App\Db::getInstance()->createCommand()
+			->insert('com_vtiger_workflow_activatedonce', [
+				'entity_id' => $recordId,
+				'workflow_id' => $this->id
+			])->execute();
 	}
 
-	function performTasks($entityData)
+	/**
+	 * Perform tasks
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function performTasks($recordModel)
 	{
-		$adb = PearDatabase::getInstance();
-		$data = $entityData->getData();
-
 		require_once('modules/com_vtiger_workflow/VTTaskManager.php');
 		require_once('modules/com_vtiger_workflow/VTTaskQueue.php');
 
-		$tm = new VTTaskManager($adb);
-		$taskQueue = new VTTaskQueue($adb);
+		$tm = new VTTaskManager();
+		$taskQueue = new VTTaskQueue();
 		$tasks = $tm->getTasksForWorkflow($this->id);
-
-		foreach ($tasks as $task) {
+		foreach ($tasks as &$task) {
 			if ($task->active) {
 				$trigger = $task->trigger;
 				if ($trigger != null) {
-					$delay = strtotime($data[$trigger['field']]) + $trigger['days'] * 86400;
+					$delay = strtotime($recordModel->get($trigger['field'])) + $trigger['days'] * 86400;
 				} else {
 					$delay = 0;
 				}
 				if ($task->executeImmediately == true) {
-					$task->doTask($entityData);
+					$task->doTask($recordModel);
 				} else {
-					$hasContents = $task->hasContents($entityData);
+					$hasContents = $task->hasContents($recordModel);
 					if ($hasContents) {
-						$taskQueue->queueTask($task->id, $entityData->getId(), $delay, $task->getContents($entityData));
+						$taskQueue->queueTask($task->id, $recordModel->getId(), $delay, $task->getContents($recordModel));
 					}
 				}
 			}
 		}
 	}
 
-	function executionConditionAsLabel($label = null)
+	public function executionConditionAsLabel($label = null)
 	{
 		if ($label == null) {
 			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
@@ -420,7 +416,7 @@ class Workflow
 		}
 	}
 
-	function setNextTriggerTime($time)
+	public function setNextTriggerTime($time)
 	{
 		if ($time) {
 			$db = PearDatabase::getInstance();
@@ -429,32 +425,32 @@ class Workflow
 		}
 	}
 
-	function getNextTriggerTimeValue()
+	public function getNextTriggerTimeValue()
 	{
 		return $this->nexttrigger_time;
 	}
 
-	function getWFScheduleType()
+	public function getWFScheduleType()
 	{
 		return ($this->executionCondition == 6 ? $this->schtypeid : 0);
 	}
 
-	function getWFScheduleTime()
+	public function getWFScheduleTime()
 	{
 		return $this->schtime;
 	}
 
-	function getWFScheduleDay()
+	public function getWFScheduleDay()
 	{
 		return $this->schdayofmonth;
 	}
 
-	function getWFScheduleWeek()
+	public function getWFScheduleWeek()
 	{
 		return $this->schdayofweek;
 	}
 
-	function getWFScheduleAnnualDates()
+	public function getWFScheduleAnnualDates()
 	{
 		return $this->schannualdates;
 	}
@@ -464,7 +460,7 @@ class Workflow
 	 * @global <String> $default_timezone
 	 * @return type
 	 */
-	function getNextTriggerTime()
+	public function getNextTriggerTime()
 	{
 		$default_timezone = vglobal('default_timezone');
 		$admin = Users::getActiveAdminUser();
@@ -510,7 +506,7 @@ class Workflow
 	 * @param type $schTime
 	 * @return time
 	 */
-	function getNextTriggerTimeForDaily($scheduledTime)
+	public function getNextTriggerTimeForDaily($scheduledTime)
 	{
 		$now = strtotime(date("Y-m-d H:i:s"));
 		$todayScheduledTime = strtotime(date("Y-m-d H:i:s", strtotime($scheduledTime)));
@@ -528,7 +524,7 @@ class Workflow
 	 * @param type $scheduledTime
 	 * @return <time>
 	 */
-	function getNextTriggerTimeForWeekly($scheduledDaysOfWeek, $scheduledTime)
+	public function getNextTriggerTimeForWeekly($scheduledDaysOfWeek, $scheduledTime)
 	{
 		$weekDays = array('1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday', '7' => 'Sunday');
 		$currentTime = time();
@@ -584,7 +580,7 @@ class Workflow
 	 * @param type $scheduledTime
 	 * @return <time>
 	 */
-	function getNextTriggerTimeForMonthlyByDate($scheduledDayOfMonth, $scheduledTime)
+	public function getNextTriggerTimeForMonthlyByDate($scheduledDayOfMonth, $scheduledTime)
 	{
 		$currentDayOfMonth = date('j', time());
 		if ($scheduledDayOfMonth) {
@@ -629,7 +625,7 @@ class Workflow
 	 * @param type $scheduledTime
 	 * @return <time>
 	 */
-	function getNextTriggerTimeForMonthlyByWeekDay($scheduledWeekDayOfMonth, $scheduledTime)
+	public function getNextTriggerTimeForMonthlyByWeekDay($scheduledWeekDayOfMonth, $scheduledTime)
 	{
 		$currentTime = time();
 		$currentDayOfMonth = date('j', $currentTime);
@@ -654,7 +650,7 @@ class Workflow
 	 * @param type $scheduledTime
 	 * @return <time>
 	 */
-	function getNextTriggerTimeForAnnualDates($annualDates, $scheduledTime)
+	public function getNextTriggerTimeForAnnualDates($annualDates, $scheduledTime)
 	{
 		if ($annualDates) {
 			$today = date('Y-m-d');

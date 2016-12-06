@@ -31,14 +31,14 @@ class VTEmailRecipientsTemplate extends VTSimpleTemplate
 		parent::__construct($templateString);
 	}
 
-	protected function useValue($data, $fieldname, $moduleName)
+	protected function useValue($fieldname, $moduleName)
 	{
 		if (array_key_exists($moduleName, self::$permissionToSend)) {
 			$checkFieldName = self::$permissionToSend[$moduleName];
 			$tabId = \App\Module::getModuleId($moduleName);
 			$fieldInfo = VTCacheUtils::lookupFieldInfo($tabId, $checkFieldName);
 			$isActive = is_array($fieldInfo) ? !($fieldInfo['presence'] == 1) : true;
-			return ($isActive && array_key_exists($checkFieldName, $data)) ? (bool) $data[$checkFieldName] : true;
+			return ($isActive && $this->recordModel->has($checkFieldName)) ? (bool) $this->recordModel->get($checkFieldName) : true;
 		}
 		return true;
 	}
