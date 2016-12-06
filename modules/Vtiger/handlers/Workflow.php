@@ -1,5 +1,5 @@
 <?php
-vimport('modules/com_vtiger_workflow/VTWorkflowManager.php');
+vimport('~modules/com_vtiger_workflow/VTWorkflowManager.php');
 
 /**
  * Workflow handler

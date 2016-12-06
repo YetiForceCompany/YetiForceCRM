@@ -28,6 +28,7 @@ require_once('VTWorkflowUtils.php');
 
 /*
  * VTEventHandler
+ * To remove
  */
 
 class VTWorkflowEventHandler extends VTEventHandler

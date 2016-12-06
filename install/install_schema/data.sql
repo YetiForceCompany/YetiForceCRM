@@ -4116,8 +4116,8 @@ insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`e
 
 /*Data for the table `vtiger_eventhandlers` */
 
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (3,'EntityAfterSave','VTWorkflowEventHandler',0,'','',5,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (4,'EntityAfterRestore','VTWorkflowEventHandler',0,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (3,'EntityAfterSave','Vtiger_Workflow_Handler',1,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (4,'EntityAfterRestore','Vtiger_Workflow_Handler',1,'','',5,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (8,'EntityBeforeDelete','ModTracker_ModTrackerHandler_Handler',1,'','',5,32);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (9,'EntityAfterRestore','ModTracker_ModTrackerHandler_Handler',1,'','',5,32);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (10,'EntityAfterSave','PBXManager_PBXManagerHandler_Handler',1,'Contacts,Accounts,Leads','',5,33);

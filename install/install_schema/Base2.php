@@ -5617,8 +5617,8 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_eventhandlers' => [
 				'columns' => ['eventhandler_id', 'event_name', 'handler_class', 'is_active', 'include_modules', 'exclude_modules', 'priority', 'owner_id'],
 				'values' => [
-						[3, 'EntityAfterSave', 'VTWorkflowEventHandler', 0, '', '', 5, 0],
-						[4, 'EntityAfterRestore', 'VTWorkflowEventHandler', 0, '', '', 5, 0],
+						[3, 'EntityAfterSave', 'Vtiger_Workflow_Handler', 1, '', '', 5, 0],
+						[4, 'EntityAfterRestore', 'Vtiger_Workflow_Handler', 1, '', '', 5, 0],
 						[8, 'EntityBeforeDelete', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
 						[9, 'EntityAfterRestore', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
 						[10, 'EntityAfterSave', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],
