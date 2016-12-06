@@ -246,4 +246,20 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 
 		return array_unique($values);
 	}
+	
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * @param string $value
+	 * @param integer $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param string $rawText
+	 * @return string
+	 */
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false){
+		$value = str_replace(self::COMMA, ', ', $value);
+		$value = substr($value, 1);
+		$value = substr($value, 0, -2);
+		
+		return $value;
+	}
 }

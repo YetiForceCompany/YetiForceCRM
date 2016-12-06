@@ -36,4 +36,23 @@ class MultiReferenceValueField extends BaseField
 	{
 		return ['or not like', $this->getColumnName(), $this->getValue()];
 	}
+	
+	/**
+	 * Contains operator
+	 * @return array
+	 */
+	public function operatorC()
+	{
+		$condition = ['or'];
+		foreach ($this->getValue() as $value) {
+			array_push($condition, [$this->getColumnName() => $value], ['or like', $this->getColumnName(),
+				[
+					'%' . $value . '%',
+					'%' . $value,
+					$value . '%'
+				], false
+			]);
+		}
+		return $condition;
+	}
 }
