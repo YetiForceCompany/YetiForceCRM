@@ -412,7 +412,11 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		foreach ($saveFields as &$fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
-				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $this->get($fieldName);
+				$value = $this->get($fieldName);
+				if ($value === '') {
+					$value = $fieldModel->getUITypeModel()->getDBValue($value, $this);
+				}
+				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
 			}
 		}
 		return $forSave;
