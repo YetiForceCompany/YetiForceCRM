@@ -84,18 +84,22 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	public function searchValues(Vtiger_Request $request)
 	{
 		$searchValue = $request->get('value');
-		$fieldId = $request->get('fld');
+		$fieldId = (int) $request->get('fld');
 		$moduleName = $request->getModule();
 		$response = new Vtiger_Response();
 		if (empty($searchValue)) {
 			$response->setError('NO');
 		} else {
-			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
-			$rows = $fieldModel->getUITypeModel()->getSearchValues($searchValue);
-			foreach ($rows as $key => $value) {
-				$data[] = ['id' => $key, 'name' => $value];
+			if (\App\Field::getFieldPermission($moduleName, $fieldId)) {
+				$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+				$rows = $fieldModel->getUITypeModel()->getSearchValues($searchValue);
+				foreach ($rows as $key => $value) {
+					$data[] = ['id' => $key, 'name' => $value];
+				}
+				$response->setResult(['items' => $data]);
+			} else {
+				$response->setError('NO');
 			}
-			$response->setResult(['items' => $data]);
 		}
 		$response->emit();
 	}
