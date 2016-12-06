@@ -130,7 +130,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 		$userSelectedRoleId = $request->get('rolesSelected');
 
-		$pickListValuesForRole = $fieldModel->getPicklistValues(array($userSelectedRoleId), 'CONJUNCTION');
+		$pickListValuesForRole = $fieldModel->getPicklistValuesForRole([$userSelectedRoleId], 'CONJUNCTION');
 		$pickListValuesForRole = array_map('Vtiger_Util_Helper::toSafeHTML', $pickListValuesForRole);
 		$allPickListValues = App\Fields\Picklist::getPickListValues($fieldModel->getName());
 		$allPickListValues = array_map('Vtiger_Util_Helper::toSafeHTML', $allPickListValues);

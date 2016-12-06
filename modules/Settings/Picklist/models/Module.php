@@ -237,13 +237,14 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
-
-		$query = sprintf('UPDATE %s SET sortorderid = CASE ', $this->getPickListTableName($pickListFieldName));
+		$set = ' CASE ';
 		foreach ($picklistValues as $values => $sequence) {
-			$query .= ' WHEN ' . $primaryKey . '="' . $values . '" THEN "' . $sequence . '"';
+			$set .= ' WHEN ' . $primaryKey . '=' . $values . ' THEN ' . $sequence . '';
 		}
-		$query .= ' END';
-		$db->pquery($query, array());
+		$set .= ' END';
+		$expression = new \yii\db\Expression($set);
+		\App\Db::getInstance()->createCommand()->update( $this->getPickListTableName($pickListFieldName), ['sortorderid' => $expression])->execute();
+
 	}
 
 	public static function getPicklistSupportedModules()
