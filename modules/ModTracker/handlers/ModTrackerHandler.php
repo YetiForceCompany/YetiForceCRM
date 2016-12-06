@@ -23,18 +23,20 @@ class ModTracker_ModTrackerHandler_Handler
 			return false;
 		}
 		$recordModel = $eventHandler->getRecordModel();
-		$delta = $recordModel->getPreviousValue();
-		if (empty($delta)) {
-			return false;
-		}
 		if ($recordModel->isNew()) {
+			$delta = $recordModel->getData();
+			unset($delta['createdtime'], $delta['modifiedtime'], $delta['id'], $delta['newRecord'], $delta['modifiedby']);
 			$status = ModTracker::$CREATED;
 			$watchdogTitle = 'LBL_CREATED';
 			$watchdogMessage = '(recordChanges: listOfAllValues)';
 		} else {
+			$delta = $recordModel->getPreviousValue();
 			$status = ModTracker::$UPDATED;
 			$watchdogTitle = 'LBL_UPDATED';
 			$watchdogMessage = '(recordChanges: listOfAllChanges)';
+		}
+		if (empty($delta)) {
+			return false;
 		}
 		$recordId = $recordModel->getId();
 		$db = \App\Db::getInstance();
@@ -51,6 +53,9 @@ class ModTracker_ModTrackerHandler_Handler
 			ModTracker_Record_Model::unsetReviewed($recordId, App\User::getCurrentUserRealId(), $id);
 		}
 		foreach ($delta as $fieldName => &$value) {
+			if (empty($value)) {
+				continue;
+			}
 			$db->createCommand()->insert('vtiger_modtracker_detail', [
 				'id' => $id,
 				'fieldname' => $fieldName,
