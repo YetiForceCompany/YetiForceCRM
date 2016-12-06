@@ -94,10 +94,12 @@ class ModuleBasic
 		$db = \App\Db::getInstance();
 
 		$this->id = $db->getUniqueID('vtiger_tab', 'tabid', false);
-		if (!$this->tabsequence)
+		if (!$this->tabsequence) {
 			$this->tabsequence = $db->getUniqueID('vtiger_tab', 'tabsequence', false);
-		if (!$this->label)
+		}
+		if (!$this->label) {
 			$this->label = $this->name;
+		}
 
 		$customized = 1; // To indicate this is a Custom Module
 

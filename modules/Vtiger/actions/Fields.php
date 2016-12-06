@@ -90,7 +90,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		if (empty($searchValue)) {
 			$response->setError('NO');
 		} else {
-			if (\App\Field::getFieldPermission($moduleName, $fieldId)) {
+			if (\App\Field::getFieldPermission($moduleName, $fieldId) || $moduleName === 'Users') {
 				$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
 				$rows = $fieldModel->getUITypeModel()->getSearchValues($searchValue);
 				foreach ($rows as $key => $value) {
