@@ -1,26 +1,43 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {}, {
+Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
+	changeRecordState: function (recordId, state) {
+		var aDeferred = jQuery.Deferred();
+		var message = app.vtranslate('JS_STATE_CONFIRMATION');
+		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+				function (e) {
+					app.saveAjax('save', {active: state}, {record: recordId}).then(function (respons) {
+						var listInstance = Settings_AutomaticAssignment_List_Js.getInstance();
+						listInstance.getListViewRecords();
+					});
+				},
+				function (error, err) {
+					app.errorLog(error, err);
+				}
+		);
+		return aDeferred.promise();
+	},
+}, {
 	container: false,
-	registerFilterChangeEvent : function() {
+	registerFilterChangeEvent: function () {
 		var thisInstance = this;
-		jQuery('#moduleFilter').on('change',function(e){
+		jQuery('#moduleFilter').on('change', function (e) {
 			jQuery('#pageNumber').val("1");
 			jQuery('#pageToJump').val('1');
 			jQuery('#orderBy').val('');
 			jQuery("#sortOrder").val('');
 			var params = {
-				module : app.getModuleName(),
-				parent : app.getParentModuleName(),
-				sourceModule : jQuery(e.currentTarget).val()
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				sourceModule: jQuery(e.currentTarget).val()
 			}
 			//Make the select all count as empty
 			jQuery('#recordsCount').val('');
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text("");
 			thisInstance.getListViewRecords(params).then(
-				function(data){
-					thisInstance.updatePagination();
-				}
+					function (data) {
+						thisInstance.updatePagination();
+					}
 			);
 		});
 	},

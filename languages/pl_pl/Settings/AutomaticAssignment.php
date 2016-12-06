@@ -17,4 +17,9 @@ $languageStrings = [
 	'BTN_CLOSE' => 'Zamknij',
 	'BTN_ADD' => 'Dodaj',
 	'LBL_CHANGE_ROLE_TYPE' => 'Zmień typ roli',
+	'LBL_CHANGE_RECORD_STATE' => 'Zmień stan rekordu',
 ];
+$jsLanguageStrings = [
+	'JS_STATE_CONFIRMATION' => 'Czy jesteś pewien, że chcesz zmienić stan rekordu?',
+];
+

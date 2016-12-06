@@ -321,6 +321,12 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$recordLinks = [
 				[
 				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_CHANGE_RECORD_STATE',
+				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.changeRecordState(' . $this->getId() . ', ' . (int) !$this->isActive() . ');',
+				'linkicon' => 'glyphicon glyphicon-transfer'
+			],
+				[
+				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
@@ -392,10 +398,21 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				return $fieldInstance->get('label');
 			case 'tabid':
 				return \App\Module::getModuleName($this->get($name));
+			case 'active':
+				return empty($this->get($name)) ? 'LBL_NO' : 'LBL_YES';
 			default:
 				break;
 		}
 		return $this->get($name);
+	}
+
+	/**
+	 * Function checks if record is active
+	 * @return boolean
+	 */
+	public function isActive()
+	{
+		return (bool) $this->get('active');
 	}
 
 	/**

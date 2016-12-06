@@ -859,6 +859,7 @@ CREATE TABLE `s_yf_automatic_assignment` (
   `roles` text,
   `smowners` text,
   `showners` text,
+  `active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
