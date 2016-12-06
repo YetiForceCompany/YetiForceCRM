@@ -211,7 +211,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function saveRecord(\Vtiger_Record_Model $recordModel)
 	{
 		$moduleName = $this->get('name');
-		$focus = $this->getEntityInstance();
 		if (!$recordModel->isNew() && empty($recordModel->changes)) {
 			App\Log::warning('ERR_NO_DATA');
 			//return $recordModel;
@@ -242,7 +241,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		$eventHandler->trigger('EntityAfterSave');
-		$eventHandler->setSystemTrigger('EntityAfterSaveSystem');
+		if ($recordModel->isNew()) {
+			$eventHandler->setSystemTrigger('EntitySystemAfterCreate');
+		} else {
+			$eventHandler->setSystemTrigger('EntitySystemAfterEdit');
+		}
 		return $recordModel;
 	}
 
