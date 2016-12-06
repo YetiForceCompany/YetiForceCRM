@@ -1453,9 +1453,6 @@ class Base2 extends \App\Db\Importers\Base
 				'index' => [
 						['datashare_module_rel_tabid_idx', 'tabid'],
 				],
-				'primaryKeys' => [
-						['datashare_module_rel_pk', 'shareid']
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
