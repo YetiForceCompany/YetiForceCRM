@@ -328,7 +328,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 				$focus->column_fields[$fieldName] = decode_html($fieldValue);
 			}
 		}
-		$focus->mode = $recordModel->get('mode');
+		$focus->mode = !$recordModel->isNew() ? 'edit' : '';
 		$focus->id = $recordModel->getId();
 		$focus->newRecord = $recordModel->get('newRecord');
 
