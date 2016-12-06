@@ -432,7 +432,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 		// Update unit price value in vtiger_productcurrencyrel
 		$this->updateUnitPrice();
 		//Inserting into attachments
-		$this->insertAttachment();
+		if (AppRequest::get('module') === 'Products') {
+			$this->insertAttachment();
+		}
 	}
 
 	/**
@@ -441,8 +443,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function updateUnitPrice()
 	{
 		$productInfo = (new App\Db\Query())->select(['unit_price', 'currency_id'])
-			->from('vtiger_products')
-			->where(['productid' => $this->getId()])
+			->from($this->getEntity()->table_name)
+			->where([$this->getEntity()->table_index => $this->getId()])
 			->one();
 		App\Db::getInstance()->createCommand()->update('vtiger_productcurrencyrel', ['actual_price' => $productInfo['unit_price']], ['productid' => $this->getId(), 'currencyid' => $productInfo['currency_id']])->execute();
 	}
