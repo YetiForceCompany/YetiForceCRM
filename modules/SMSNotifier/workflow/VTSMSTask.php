@@ -8,11 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once('modules/com_vtiger_workflow/VTSimpleTemplate.php');
-
 require_once('modules/SMSNotifier/SMSNotifier.php');
 
 class VTSMSTask extends VTTask
@@ -25,32 +21,28 @@ class VTSMSTask extends VTTask
 		return array('content', 'sms_recepient');
 	}
 
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
 	public function doTask($recordModel)
 	{
 		if (SMSNotifier::checkServer()) {
-			$util = new VTWorkflowUtils();
-			$admin = $util->adminUser();
-			$ws_id = $entity->getId();
-			$entityCache = new VTEntityCache($admin);
-
 			$et = new VTSimpleTemplate($this->sms_recepient);
-			$recepient = $et->render($entityCache, $ws_id);
+			$recepient = $et->render($recordModel);
 			$recepients = explode(',', $recepient);
 
 			$ct = new VTSimpleTemplate($this->content);
-			$content = $ct->render($entityCache, $ws_id);
-			$relatedCRMid = substr($ws_id, stripos($ws_id, 'x') + 1);
-
-			$relatedModule = $recordModel->getModuleName();
+			$content = $ct->render($recordModel);
 
 			/** Pickup only non-empty numbers */
-			$tonumbers = array();
+			$tonumbers = [];
 			foreach ($recepients as &$tonumber) {
 				if (!empty($tonumber)) {
 					$tonumbers[] = $tonumber;
 				}
 			}
-			SMSNotifier::sendsms($content, $tonumbers, \App\User::getCurrentUserId(), $relatedCRMid, $relatedModule);
+			SMSNotifier::sendsms($content, $tonumbers, \App\User::getCurrentUserId(), $recordModel->getId(), $recordModel->getModuleName());
 		}
 	}
 }

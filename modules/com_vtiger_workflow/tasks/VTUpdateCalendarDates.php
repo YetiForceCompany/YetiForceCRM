@@ -16,31 +16,29 @@ class VTUpdateCalendarDates extends VTTask
 		return array();
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
-		$wsId = $entity->getId();
-		$moduleName = $entity->getModuleName();
-		$parts = explode('x', $wsId);
-		$entityId = $parts[1];
+		$entityId = $recordModel->getId();
 
-		$vtEntityDelta = new VTEntityDelta();
-		$delta = $vtEntityDelta->getEntityDelta($moduleName, $entityId);
-		unset($delta['modifiedtime']);
+		$delta = $recordModel->getPreviousValue();
 		if (count($delta) == 0) {
 			return;
 		}
-		$baseRecordModel = Vtiger_Record_Model::getInstanceById($entityId, $moduleName);
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_activity_update_dates INNER JOIN com_vtiger_workflowtasks ON com_vtiger_workflowtasks.task_id = vtiger_activity_update_dates.task_id '
 			. 'WHERE vtiger_activity_update_dates.parent = ?', [$entityId]);
 		while ($row = $adb->fetch_array($result)) {
 			$task = new \ArrayObject(unserialize($row['task']));
-			$recordModel = Vtiger_Record_Model::getInstanceById($row['activityid'], 'Calendar');
+			$rowRecordModel = Vtiger_Record_Model::getInstanceById($row['activityid'], 'Calendar');
 
 			if ($task['datefield_start'] == 'wfRunTime') {
 				$baseDateStart = date('Y-m-d H:i:s');
 			} else {
-				$baseDateStart = $baseRecordModel->get($task['datefield_start']);
+				$baseDateStart = $recordModel->get($task['datefield_start']);
 				if ($baseDateStart == '') {
 					$baseDateStart = date('Y-m-d');
 				}
@@ -60,14 +58,14 @@ class VTUpdateCalendarDates extends VTTask
 			if ($task['datefield_end'] == 'wfRunTime') {
 				$baseDateEnd = date('Y-m-d H:i:s');
 			} else {
-				$baseDateEnd = $baseRecordModel->get($task['datefield_end']);
+				$baseDateEnd = $recordModel->get($task['datefield_end']);
 				if ($baseDateEnd == '') {
 					$baseDateEnd = date('Y-m-d');
 				}
 			}
 			$timeEnd = explode(' ', $baseDateEnd);
 			if (count($timeEnd) < 2) {
-				$userId = $recordModel->get('assigned_user_id');
+				$userId = $rowRecordModel->get('assigned_user_id');
 				if ($userId === null) {
 					$userId = vtws_getWebserviceEntityId('Users', 1);
 				}
@@ -93,10 +91,9 @@ class VTUpdateCalendarDates extends VTTask
 			$date_start = strftime('%Y-%m-%d', $baseDateStart + $task['days_start'] * 24 * 60 * 60 * (strtolower($task['direction_start']) == 'before' ? -1 : 1));
 			$due_date = strftime('%Y-%m-%d', $baseDateEnd + $task['days_end'] * 24 * 60 * 60 * (strtolower($task['direction_start']) == 'before' ? -1 : 1));
 
-			$recordModel->set('date_start', $date_start);
-			$recordModel->set('due_date', $due_date);
-			$recordModel->set('mode', 'edit');
-			$recordModel->save();
+			$rowRecordModel->set('date_start', $date_start);
+			$rowRecordModel->set('due_date', $due_date);
+			$rowRecordModel->save();
 		}
 	}
 }

@@ -19,6 +19,10 @@ class VTEntityMethodTask extends VTTask
 		return array('methodName');
 	}
 
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
 	public function doTask($entityData)
 	{
 		$adb = PearDatabase::getInstance();

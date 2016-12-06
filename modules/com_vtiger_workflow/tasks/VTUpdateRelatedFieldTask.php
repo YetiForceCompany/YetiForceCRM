@@ -18,7 +18,11 @@ class VTUpdateRelatedFieldTask extends VTTask
 		return ['field_value_mapping'];
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
@@ -29,13 +33,6 @@ class VTUpdateRelatedFieldTask extends VTTask
 		}
 		if (!empty($fieldValueMapping)) {
 			$util->loggedInUser();
-
-			$moduleName = $entity->getModuleName();
-			$entityId = $entity->getId();
-			$recordId = vtws_getIdComponents($entityId);
-			$recordId = $recordId[1];
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$reletedData = $fieldInfo['fieldname'];
 				$fieldValue = trim($fieldInfo['value']);
@@ -49,7 +46,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 						$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 						$expression = $parser->expression();
 						$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-						$fieldValue = $exprEvaluater->evaluate($entity);
+						$fieldValue = $exprEvaluater->evaluate($recordModel);
 						break;
 					default:
 						if (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {

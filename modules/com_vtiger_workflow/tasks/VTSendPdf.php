@@ -8,20 +8,24 @@ class VTSendPdf extends VTTask
 
 	public $executeImmediately = true;
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		$templateId = $this->pdf_tpl;
 		$emailTemplateId = $this->email_tpl;
 		$emailField = $this->email_fld;
-		$recordId = explode('x', $entity->getId())[1];
-		$module = $entity->getModuleName();
+		$recordId = $recordModel->getId();
+		$module = $recordModel->getModuleName();
 
 		if ((is_numeric($templateId) && $templateId != 0) && (is_numeric($emailTemplateId) && $emailTemplateId != 0)) {
 			if (false === strpos($emailField, '=')) {
-				$email = $entity->get($emailField);
+				$email = $recordModel->get($emailField);
 			} else {
 				list($parentIdFieldName, $relModuleName, $relModuleField) = explode('=', $emailField);
-				$relRecord = explode('x', $entity->get($parentIdFieldName))[1];
+				$relRecord = $recordModel->get($parentIdFieldName);
 				if ($module == $relModuleName) {
 					$relRecord = $recordId;
 				}

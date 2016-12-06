@@ -59,8 +59,6 @@ class VTSimpleTemplate
 					$result = $this->getCompanySetting($fieldname);
 				} else {
 					$referenceId = $this->recordModel->get($referenceField);
-					$referenceModuleModel = Vtiger_Module_Model::getInstance($referenceModule);
-					$fieldModel = Vtiger_Field_Model::getInstance($fieldname, $referenceModuleModel);
 					if ($referenceId === null) {
 						$result = '';
 					} else {
@@ -79,24 +77,9 @@ class VTSimpleTemplate
 							}
 							return implode(',', $parts);
 						}
-						if ($fieldModel->getFieldDataType() === 'owner') {
-							/*
-							  require_once('include/utils/GetGroupUsers.php');
-							  $ggu = new GetGroupUsers();
-							  $ggu->getAllUsersInGroup($referenceId);
-
-							  $users = $ggu->group_users;
-							  $parts = Array();
-							  foreach ($users as $userId) {
-							  $refId = vtws_getWebserviceEntityId("Users", $userId);
-							  $entity = $this->cache->forId($refId);
-							  $data = $entity->getData();
-							  if ($this->useValue($data, $fieldname, $referenceModule)) {
-							  $parts[] = $this->transformToUserFormat($referenceModule, $fieldname, $data[$fieldname]);
-							  }
-							  }
-							  $result = implode(", ", $parts);
-							 */
+						if ($referenceModule === 'Users') {
+							$currentUser = Users_Privileges_Model::getInstanceById($referenceId);
+							$result = $currentUser->getDisplayValue($fieldname);
 						} else {
 							if (App\Record::getType($referenceId) === $referenceModule) {
 								$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);

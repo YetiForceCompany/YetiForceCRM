@@ -172,7 +172,7 @@ class VTTaskManager
 abstract class VTTask
 {
 
-	public abstract function doTask($data);
+	public abstract function doTask($recordModel);
 
 	public abstract function getFieldNames();
 
@@ -181,19 +181,19 @@ abstract class VTTask
 		return array();
 	}
 
-	public function getContents($entity, $entityCache = false)
+	public function getContents($recordModel)
 	{
 		return $this->contents;
 	}
 
-	public function setContents($contents)
+	public function setContents($recordModel)
 	{
-		$this->contents = $contents;
+		$this->contents = $recordModel;
 	}
 
-	public function hasContents($entity)
+	public function hasContents($recordModel)
 	{
-		$taskContents = $this->getContents($entity);
+		$taskContents = $this->getContents($recordModel);
 		if ($taskContents) {
 			return true;
 		}

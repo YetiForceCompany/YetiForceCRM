@@ -46,32 +46,34 @@ class VTCreateEventTask extends VTTask
 		return $user;
 	}
 
-	public function doTask($entityData)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$userId = $entityData->get('assigned_user_id');
+		$userId = $recordModel->get('assigned_user_id');
 		if ($userId === null) {
 			$userId = vtws_getWebserviceEntityId('Users', 1);
 		}
-
-		$moduleName = $entityData->getModuleName();
+		$moduleName = $recordModel->getModuleName();
 		$adminUser = $this->getAdmin();
 
-		$startDate = $this->calculateDate($entityData, $this->startDays, $this->startDirection, $this->startDatefield);
-		$endDate = $this->calculateDate($entityData, $this->endDays, $this->endDirection, $this->endDatefield);
+		$startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
+		$endDate = $this->calculateDate($recordModel, $this->endDays, $this->endDirection, $this->endDatefield);
 
-		if ($this->assigned_user_id == 'currentUser' && isset($current_user)) {
-			$userId = vtws_getWebserviceEntityId('Users', $current_user->id);
-		} else if ($this->assigned_user_id == 'triggerUser' && isset($entityData->executeUser)) {
-			$userId = vtws_getWebserviceEntityId('Users', $entityData->executeUser);
+		if ($this->assigned_user_id == 'currentUser') {
+			$userId = vtws_getWebserviceEntityId('Users', \App\User::getCurrentUserId());
+		} else if ($this->assigned_user_id == 'triggerUser') {
+			$userId = vtws_getWebserviceEntityId('Users', \App\User::getCurrentUserRealId());
 		}
-
 		if ($this->assigned_user_id == 'copyParentOwner') {
-			$userId = $entityData->get('assigned_user_id');
+			$userId = $recordModel->get('assigned_user_id');
 		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = $adb->pquery('SELECT 1 FROM vtiger_users WHERE id = ? AND status = ?', array($this->assigned_user_id, 'Active'));
 			if ($adb->num_rows($userExists)) {
@@ -108,97 +110,99 @@ class VTCreateEventTask extends VTTask
 		}
 		$fields['visibility'] = ucfirst($sharedType);
 
-		$id = $entityData->getId();
+		$id = $recordModel->getId();
 		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 		if ($field) {
 			$fields[$field] = $id;
 		}
-
+		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
+		$newRecordModel->setData($fields);
+		$newRecordModel->save();
 		$event = vtws_create('Events', $fields, $adminUser);
-		$eventIdDetails = vtws_getIdComponents($event['id']);
 		$entityIdDetails = vtws_getIdComponents($id);
 
-		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $entityIdDetails[1], 'Calendar', $eventIdDetails[1]);
+		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		/*
+		  $handler = vtws_getModuleHandlerFromName('Events', $adminUser);
+		  $meta = $handler->getMeta();
+		  $recordValues = DataTransform::sanitizeForInsert($newRecordModel->getData(), $meta);
+		  list($typeId, $id) = vtws_getIdComponents($event['id']);
+		  $event = CRMEntity::getInstance('Events');
+		  $event->id = $id;
+		  $event->column_fields = $recordValues;
 
-		$handler = vtws_getModuleHandlerFromName('Events', $adminUser);
-		$meta = $handler->getMeta();
-		$recordValues = DataTransform::sanitizeForInsert($event, $meta);
-		list($typeId, $id) = vtws_getIdComponents($event['id']);
-		$event = CRMEntity::getInstance('Events');
-		$event->id = $id;
-		$event->column_fields = $recordValues;
+		  if ($this->recurringcheck && !empty($startDate) &&
+		  ($this->calendar_repeat_limit_date)) {
 
-		if ($this->recurringcheck && !empty($startDate) &&
-			($this->calendar_repeat_limit_date)) {
+		  $resultRow = array();
 
-			$resultRow = array();
+		  $resultRow['date_start'] = $startDate;
+		  $resultRow['time_start'] = self::conv12to24hour($this->startTime);
+		  $resultRow['due_date'] = $this->calendar_repeat_limit_date;
+		  $resultRow['time_end'] = self::conv12to24hour($this->endTime);
+		  $resultRow['recurringtype'] = $this->recurringtype;
+		  $resultRow['recurringfreq'] = $this->repeat_frequency;
 
-			$resultRow['date_start'] = $startDate;
-			$resultRow['time_start'] = self::conv12to24hour($this->startTime);
-			$resultRow['due_date'] = $this->calendar_repeat_limit_date;
-			$resultRow['time_end'] = self::conv12to24hour($this->endTime);
-			$resultRow['recurringtype'] = $this->recurringtype;
-			$resultRow['recurringfreq'] = $this->repeat_frequency;
+		  if ($this->sun_flag) {
+		  $daysOfWeekToRepeat[] = 0;
+		  }
+		  if ($this->mon_flag) {
+		  $daysOfWeekToRepeat[] = 1;
+		  }
+		  if ($this->tue_flag) {
+		  $daysOfWeekToRepeat[] = 2;
+		  }
+		  if ($this->wed_flag) {
+		  $daysOfWeekToRepeat[] = 3;
+		  }
+		  if ($this->thu_flag) {
+		  $daysOfWeekToRepeat[] = 4;
+		  }
+		  if ($this->fri_flag) {
+		  $daysOfWeekToRepeat[] = 5;
+		  }
+		  if ($this->sat_flag) {
+		  $daysOfWeekToRepeat[] = 6;
+		  }
 
-			if ($this->sun_flag) {
-				$daysOfWeekToRepeat[] = 0;
-			}
-			if ($this->mon_flag) {
-				$daysOfWeekToRepeat[] = 1;
-			}
-			if ($this->tue_flag) {
-				$daysOfWeekToRepeat[] = 2;
-			}
-			if ($this->wed_flag) {
-				$daysOfWeekToRepeat[] = 3;
-			}
-			if ($this->thu_flag) {
-				$daysOfWeekToRepeat[] = 4;
-			}
-			if ($this->fri_flag) {
-				$daysOfWeekToRepeat[] = 5;
-			}
-			if ($this->sat_flag) {
-				$daysOfWeekToRepeat[] = 6;
-			}
+		  if ($this->recurringtype == 'Daily' || $this->recurringtype == 'Yearly') {
+		  $recurringInfo = $this->recurringtype;
+		  } elseif ($this->recurringtype == 'Weekly') {
+		  if ($daysOfWeekToRepeat != null) {
+		  $recurringInfo = $this->recurringtype . '::' . implode('::', $daysOfWeekToRepeat);
+		  } else {
+		  $recurringInfo = $recurringType;
+		  }
+		  } elseif ($this->recurringtype == 'Monthly') {
+		  $recurringInfo = $this->recurringtype . '::' . $this->repeatMonth;
+		  if ($this->repeatMonth == 'date') {
+		  $recurringInfo = $recurringInfo . '::' . $this->repeatMonth_date;
+		  } else {
+		  $recurringInfo = $recurringInfo . '::' . $this->repeatMonth_daytype . '::' . $this->repeatMonth_day;
+		  }
+		  }
+		  $resultRow['recurringinfo'] = $recurringInfo;
 
-			if ($this->recurringtype == 'Daily' || $this->recurringtype == 'Yearly') {
-				$recurringInfo = $this->recurringtype;
-			} elseif ($this->recurringtype == 'Weekly') {
-				if ($daysOfWeekToRepeat != null) {
-					$recurringInfo = $this->recurringtype . '::' . implode('::', $daysOfWeekToRepeat);
-				} else {
-					$recurringInfo = $recurringType;
-				}
-			} elseif ($this->recurringtype == 'Monthly') {
-				$recurringInfo = $this->recurringtype . '::' . $this->repeatMonth;
-				if ($this->repeatMonth == 'date') {
-					$recurringInfo = $recurringInfo . '::' . $this->repeatMonth_date;
-				} else {
-					$recurringInfo = $recurringInfo . '::' . $this->repeatMonth_daytype . '::' . $this->repeatMonth_day;
-				}
-			}
-			$resultRow['recurringinfo'] = $recurringInfo;
+		  // Added this to relate these events to parent module.
+		  AppRequest::set('createmode', 'link');
+		  AppRequest::set('return_module', $moduleName);
+		  AppRequest::set('return_id', $entityIdDetails[1]);
 
-			// Added this to relate these events to parent module.
-			AppRequest::set('createmode', 'link');
-			AppRequest::set('return_module', $moduleName);
-			AppRequest::set('return_id', $entityIdDetails[1]);
+		  $recurObj = RecurringType::fromDBRequest($resultRow);
 
-			$recurObj = RecurringType::fromDBRequest($resultRow);
+		  include_once 'modules/Calendar/RepeatEvents.php';
+		  Calendar_RepeatEvents::repeat($event, $recurObj);
 
-			include_once 'modules/Calendar/RepeatEvents.php';
-			Calendar_RepeatEvents::repeat($event, $recurObj);
-
-			AppRequest::set('createmode', '');
-		}
+		  AppRequest::set('createmode', '');
+		  }
+		 */
 		$current_user = vglobal('current_user');
 		$current_user = $this->originalUser;
 	}
 
-	private function calculateDate($entityData, $days, $direction, $datefield)
+	private function calculateDate($recordModel, $days, $direction, $datefield)
 	{
-		$baseDate = $entityData->get($datefield);
+		$baseDate = $recordModel->get($datefield);
 		if ($baseDate == '') {
 			$baseDate = date('Y-m-d');
 		}

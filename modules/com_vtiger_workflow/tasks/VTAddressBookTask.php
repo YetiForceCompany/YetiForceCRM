@@ -8,7 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once('modules/Users/Users.php');
 
@@ -22,20 +21,21 @@ class VTAddressBookTask extends VTTask
 		return array('test');
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		$db = PearDatabase::getInstance();
-
-		$ws_id = $entity->getId();
-		$moduleName = $entity->getModuleName();
-		$parts = explode('x', $ws_id);
-		$entityId = $parts[1];
+		$moduleName = $recordModel->getModuleName();
+		$entityId = $recordModel->getId();
 
 		$users = $name = '';
 		$table = OSSMail_AddressBoock_Model::TABLE;
 		$metainfo = \App\Module::getEntityInfo($moduleName);
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
-			$name .= ' ' . $entity->get($entityName);
+			$name .= ' ' . $recordModel->get($entityName);
 		}
 
 		$usersIds = \App\Fields\Owner::getUsersIds();
@@ -50,8 +50,8 @@ class VTAddressBookTask extends VTTask
 		$fields = $moduleModel->getFieldsByType('email');
 		foreach ($fields as $field) {
 			$fieldname = $field->getName();
-			if (!empty($entity->get($fieldname))) {
-				$db->insert($table, ['id' => $entityId, 'email' => $entity->get($fieldname), 'name' => trim($name), 'users' => $users]);
+			if (!empty($recordModel->get($fieldname))) {
+				$db->insert($table, ['id' => $entityId, 'email' => $recordModel->get($fieldname), 'name' => trim($name), 'users' => $users]);
 			}
 		}
 		OSSMail_AddressBoock_Model::createABFile();
@@ -59,10 +59,10 @@ class VTAddressBookTask extends VTTask
 
 	/**
 	 * Function to get contents of this task
-	 * @param <Object> $entity
-	 * @return <Array> contents
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return bool
 	 */
-	public function getContents($entity, $entityCache = false)
+	public function getContents($recordModel)
 	{
 		$this->contents = true;
 		return $this->contents;

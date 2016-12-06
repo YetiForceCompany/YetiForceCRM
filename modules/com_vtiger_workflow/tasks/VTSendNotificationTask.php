@@ -21,15 +21,17 @@ class VTSendNotificationTask extends VTTask
 		return array("template");
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		$db = PearDatabase::getInstance();
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
-		$ws_id = $entity->getId();
-		$module = $entity->getModuleName();
-		$parts = explode('x', $ws_id);
-		$entityId = $parts[1];
+		$module = $recordModel->getModuleName();
+		$entityId = $recordModel->getId();
 
 		if (is_numeric($this->template) && $this->template > 0) {
 			$fieldName = $entityId . '_invitation.ics';
@@ -39,7 +41,7 @@ class VTSendNotificationTask extends VTTask
 			$sql = 'SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_crmentity.smownerid as assigned_user_id,  vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime, vtiger_activity_reminder.reminder_time FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = 0 WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activityid = ?';
 			$result = $db->pquery($sql, array($entityId));
 
-			$moduleModel = Vtiger_Module_Model::getInstance($module);
+			$moduleModel = $recordModel->getModule();
 			$moduleModel->setEventFieldsForExport();
 			$moduleModel->setTodoFieldsForExport();
 			$exportData = new Calendar_Export_Model();
@@ -54,10 +56,10 @@ class VTSendNotificationTask extends VTTask
 			);
 			$result_invitees = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid = ?', array($entityId));
 			while ($recordinfo = $db->fetch_array($result_invitees)) {
-				$recordModel = Users_Record_Model::getInstanceById($recordinfo['inviteeid'], 'Users');
-				$email = $recordModel->get('email1');
-				$language = $recordModel->get('language');
-				if ($recordModel->get('status') == 'Active') {
+				$userModel = Users_Record_Model::getInstanceById($recordinfo['inviteeid'], 'Users');
+				$email = $userModel->get('email1');
+				$language = $userModel->get('language');
+				if ($userModel->get('status') == 'Active') {
 					$data = array(
 						'id' => $this->template,
 						'to_email' => $email,
@@ -67,8 +69,8 @@ class VTSendNotificationTask extends VTTask
 						'record' => $entityId,
 						'attachment_src' => $attachment,
 					);
-					$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-					$recordModel->sendMailFromTemplate($data);
+					$mailRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
+					$mailRecordModel->sendMailFromTemplate($data);
 				}
 			}
 			unlink($fieldNameUrl);

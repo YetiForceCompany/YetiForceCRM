@@ -5,7 +5,6 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTEmailTemplateTask extends VTTask
@@ -19,21 +18,21 @@ class VTEmailTemplateTask extends VTTask
 		return array("template", "attachments", "email", "copy_email");
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
-		$ws_id = $entity->getId();
-		$module = $entity->getModuleName();
-		$parts = explode('x', $ws_id);
-		$entityId = $parts[1];
-
+		$module = $recordModel->getModuleName();
 		if (is_numeric($this->template) && $this->template > 0) {
 			if (strpos($this->email, '=') === false) {
-				$email = $entity->get($this->email);
+				$email = $recordModel->get($this->email);
 			} else {
 				$emaildata = explode("=", $this->email);
-				$parentRecord = $entity->get($emaildata[0]);
+				$parentRecord = $recordModel->get($emaildata[0]);
 				$parentRecord = explode('x', $parentRecord);
 				$parentRecord = $parentRecord[1];
 				if (is_numeric($parentRecord) && $parentRecord != '' && $parentRecord != 0) {
@@ -52,7 +51,7 @@ class VTEmailTemplateTask extends VTTask
 					'to_email_mod' => $emailMod,
 					'notifilanguage' => $notifilanguage,
 					'module' => $module,
-					'record' => $entityId,
+					'record' => $recordModel->getId(),
 					'cc' => $TASK_OBJECT->copy_email,
 				);
 				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');

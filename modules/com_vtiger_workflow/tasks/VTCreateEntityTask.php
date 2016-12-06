@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTCreateEntityTask extends VTTask
@@ -21,57 +20,44 @@ class VTCreateEntityTask extends VTTask
 		return array('entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel');
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
-		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$util = new VTWorkflowUtils();
-
-		$admin = $util->adminUser();
-		$moduleName = $entity->getModuleName();
-		$entityId = $entity->getId();
-		$recordId = vtws_getIdComponents($entityId);
-		$recordId = $recordId[1];
-
+		$moduleName = $recordModel->getModuleName();
+		$recordId = $recordModel->getId();
 		$entityType = $this->entity_type;
 		if (!\App\Module::isModuleActive($entityType)) {
 			return;
 		}
-
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
-
 		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0 && !$this->mappingPanel) {
-			require_once('include/CRMEntity.php');
+			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 
-			$newEntity = CRMEntity::getInstance($entityType);
-			$newEntity->mode = '';
-			$newEntityData = VTEntityData::fromCRMEntity($newEntity);
+			$newEntityData = VTEntityData::fromCRMEntity($newRecordModel->getEntity());
 			$entityModuleHandler = vtws_getModuleHandlerFromName($entityType, $current_user);
 			$handlerMeta = $entityModuleHandler->getMeta();
 			$ownerFields = $handlerMeta->getOwnerFields();
-
-			$focus = CRMEntity::getInstance($moduleName);
-			$focus->id = $recordId;
-			$focus->mode = 'edit';
-			$focus->retrieve_entity_info($recordId, $moduleName);
-
-			foreach ($fieldValueMapping as $fieldInfo) {
+			foreach ($fieldValueMapping as &$fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
 				$referenceModule = $fieldInfo['modulename'];
 				$fieldType = '';
 				$fieldValueType = $fieldInfo['valuetype'];
 				$fieldValue = trim($fieldInfo['value']);
 
-				if ($fieldValueType == 'fieldname') {
+				if ($fieldValueType === 'fieldname') {
 					if ($referenceModule == $entityType) {
-						$fieldValue = $newEntity->column_fields[$fieldValue];
+						$fieldValue = $newRecordModel->get($fieldValue);
 					} else {
-						$fieldValue = $focus->column_fields[$fieldValue];
+						$fieldValue = $recordModel->get($fieldValue);
 					}
-				} elseif ($fieldValueType == 'expression') {
+				} elseif ($fieldValueType === 'expression') {
 					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
@@ -80,7 +66,7 @@ class VTCreateEntityTask extends VTTask
 					if ($referenceModule == $entityType) {
 						$fieldValue = $exprEvaluater->evaluate($newEntityData);
 					} else {
-						$fieldValue = $exprEvaluater->evaluate($entity);
+						$fieldValue = $exprEvaluater->evaluate($recordModel);
 					}
 				} elseif (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {
 					$fieldValue = $match[1];
@@ -90,49 +76,44 @@ class VTCreateEntityTask extends VTTask
 						$fieldValue = '0';
 					}
 				}
-
 				if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
 					$userId = getUserId_Ol($fieldValue);
 					$groupId = \App\Fields\Owner::getGroupId($fieldValue);
 
 					if ($userId == 0 && $groupId == 0) {
-						$fieldValue = $focus->column_fields[$fieldName];
+						$fieldValue = $recordModel->get($fieldName);
 					} else {
 						$fieldValue = ($userId == 0) ? $groupId : $userId;
 					}
 				}
-
-				$newEntity->column_fields[$fieldName] = $fieldValue;
+				$newRecordModel->set($fieldName, $fieldValue);
 			}
-			$newEntity->column_fields[$this->reference_field] = $focus->id;
+			$newRecordModel->set($this->reference_field, $recordId);
 			// To handle cyclic process
-			$newEntity->_from_workflow = true;
-
-			$newEntity->save($entityType);
-			relateEntities($focus, $moduleName, $recordId, $entityType, $newEntity->id);
+			//$newEntity->_from_workflow = true;
+			$newRecordModel->save();
+			relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
 		} elseif ($entityType && $this->mappingPanel) {
 			$saveContinue = true;
-			$recordModel = Vtiger_Record_Model::getCleanInstance($entityType);
+			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$recordModel->setRecordFieldValues($parentRecordModel);
-			if ($recordModel->getModule()->isInventory()) {
-				$recordModel = $this->setInventoryDataToRequest($recordModel);
+			$newRecordModel->setRecordFieldValues($parentRecordModel);
+			if ($newRecordModel->getModule()->isInventory()) {
+				$newRecordModel = $this->setInventoryDataToRequest($newRecordModel);
 			}
-			$mandatoryFields = $recordModel->getModule()->getMandatoryFieldModels();
+			$mandatoryFields = $newRecordModel->getModule()->getMandatoryFieldModels();
 			if (!empty($fieldValueMapping) && is_array($fieldValueMapping)) {
-				$recordModel = $this->setFieldMapping($fieldValueMapping, $recordModel, $parentRecordModel);
+				$newRecordModel = $this->setFieldMapping($fieldValueMapping, $newRecordModel, $parentRecordModel);
 			}
 			foreach ($mandatoryFields as $field) {
-				if (empty($recordModel->get($field->getName()))) {
+				if (empty($newRecordModel->get($field->getName()))) {
 					$saveContinue = false;
 				}
 			}
 			if ($saveContinue) {
-				$recordModel->set('mode', '');
-				$recordModel->save();
+				$newRecordModel->save();
 			}
 		}
-		$util->revertUser();
 	}
 
 	public function setFieldMapping($fieldValueMapping, $recordModel, $parentRecordModel)

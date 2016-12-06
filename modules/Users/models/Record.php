@@ -20,6 +20,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * Function to get the Module to which the record belongs
+	 * @return Vtiger_Module_Model
+	 */
+	public function getModule()
+	{
+		if (empty($this->module)) {
+			$this->module = Vtiger_Module_Model::getInstance('Users');
+		}
+		return $this->module;
+	}
+
+	/**
 	 * Gets the value of the key . First it will check whether specified key is a property if not it
 	 *  will get from normal data attribure from base class
 	 * @param string $key - property or key name

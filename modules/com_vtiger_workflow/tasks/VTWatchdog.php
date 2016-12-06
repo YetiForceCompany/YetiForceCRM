@@ -20,12 +20,14 @@ class VTWatchdog extends VTTask
 		return ['type', 'message', 'recipients', 'title', 'skipCurrentUser'];
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
-		$moduleName = $entity->getModuleName();
-		$wsId = $entity->getId();
-		$parts = explode('x', $wsId);
-		$recordId = $parts[1];
+		$moduleName = $recordModel->getModuleName();
+		$recordId = $recordModel->getId();
 		$users = [];
 
 		switch ($this->recipients) {
@@ -34,7 +36,7 @@ class VTWatchdog extends VTTask
 				$users = $watchdog->getWatchingUsers();
 				break;
 			case 'owner':
-				$owner = explode('x', $entity->get('assigned_user_id'));
+				$owner = explode('x', $recordModel->get('assigned_user_id'));
 				$users = [$owner[1]];
 				break;
 			default:

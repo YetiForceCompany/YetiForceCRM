@@ -11,7 +11,11 @@ class VTUpdateWorkTime extends VTTask
 		return [];
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		if (!vglobal('workflowIdsAlreadyDone')) {
 			vglobal('workflowIdsAlreadyDone', []);
@@ -22,12 +26,11 @@ class VTUpdateWorkTime extends VTTask
 		$referenceName = OSSTimeControl_Record_Model::$referenceFieldsToTime;
 
 		foreach ($referenceName as $name) {
-			if ($entity->get($name)) {
-				$parts = explode('x', $entity->get($name));
-				$referenceIds[$parts[1]] = $name;
+			if ($recordModel->get($name)) {
+				$referenceIds[$recordModel->get($name)] = $name;
 			}
 		}
-		$delta = \App\Json::decode($this->getContents($entity));
+		$delta = \App\Json::decode($this->getContents($recordModel));
 		if (is_array($delta)) {
 			foreach ($delta as $fieldName => $values) {
 				if (!empty($values) && !is_array($values)) {
@@ -56,24 +59,14 @@ class VTUpdateWorkTime extends VTTask
 
 	/**
 	 * Function to get contents of this task
-	 * @param <Object> $entity
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return <String> contents
 	 */
-	public function getContents($entity, $entityCache = false)
+	public function getContents($recordModel)
 	{
-		if (!$this->contents && is_object($entity)) {
-			$delta = [];
-			/*
-			  $moduleName = $entity->getModuleName();
-			  if ($entity->mode != 'delete') {
-			  $parts = explode('x', $entity->getId());
-			  $vtEntityDelta = new VTEntityDelta();
-			  $delta = $vtEntityDelta->getEntityDelta($moduleName, $parts[1], true);
-			  } else {
-			  $delta = $entity->getData();
-			  }
-			  $delta = array_intersect_key($delta, array_flip(OSSTimeControl_Record_Model::$referenceFieldsToTime));
-			 */
+		if (!$this->contents && is_object($recordModel)) {
+			$delta = array_intersect_key($recordModel->getPreviousValue(), array_flip(OSSTimeControl_Record_Model::$referenceFieldsToTime));
+
 			$this->contents = \App\Json::encode($delta);
 		}
 		return $this->contents;

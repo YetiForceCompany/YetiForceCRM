@@ -18,7 +18,11 @@ class VTDummyTask extends VTTask
 		return array();
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		$statement = $this->statement;
 		echo "This is a dummy workflow task with $statement";

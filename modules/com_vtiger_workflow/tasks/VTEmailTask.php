@@ -7,7 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once('modules/com_vtiger_workflow/VTEmailRecipientsTemplate.php');
 require_once('modules/Emails/mail.php');
@@ -24,15 +23,19 @@ class VTEmailTask extends VTTask
 		return array("subject", "content", "recepient", 'emailcc', 'emailbcc', 'fromEmail');
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
-		$module = $entity->getModuleName();
+		$module = $recordModel->getModuleName();
 
-		$taskContents = \App\Json::decode($this->getContents($entity));
+		$taskContents = \App\Json::decode($this->getContents($recordModel));
 		$from_email = $taskContents['fromEmail'];
 		$from_name = $taskContents['fromName'];
 		$to_email = $taskContents['toEmail'];
@@ -43,22 +46,10 @@ class VTEmailTask extends VTTask
 
 		if (!empty($to_email)) {
 			//Storing the details of emails
-			$entityIdDetails = vtws_getIdComponents($entity->getId());
-			$entityId = $entityIdDetails[1];
-
 			if (stripos($content, '<img src="cid:logo" />')) {
 				$logo = 1;
 			}
-
 			$status = send_mail($module, $to_email, $from_name, $from_email, $subject, $content, $cc, $bcc, '', '', $logo);
-
-			if (!empty($emailId)) {
-				$emailFocus->setEmailAccessCountValue($emailId);
-			}
-			if (!$status) {
-				//If mail is not sent then removing the details about email
-				$emailFocus->trash($moduleName, $emailId);
-			}
 		}
 		$util->revertUser();
 	}
@@ -68,35 +59,25 @@ class VTEmailTask extends VTTask
 	 * @param <Object> $entity
 	 * @return <Array> contents
 	 */
-	public function getContents($entity, $entityCache = false)
+	public function getContents($recordModel)
 	{
 		if (!$this->contents) {
 			$adb = PearDatabase::getInstance();
 			$current_user = vglobal('current_user');
 			$taskContents = array();
-			$entityId = $entity->getId();
-
+			$recordId = $recordModel->getId();
 			$utils = new VTWorkflowUtils();
 			$adminUser = $utils->adminUser();
-			if (!$entityCache) {
-				$entityCache = new VTEntityCache($adminUser);
-			}
 
-			$fromUserId = Users::getActiveAdminId();
-			$entityOwnerId = $entity->get('assigned_user_id');
-			if ($entityOwnerId) {
-				list ($moduleId, $fromUserId) = explode('x', $entityOwnerId);
-			}
-
-			$ownerEntity = $entityCache->forId($entityOwnerId);
-			if ($ownerEntity->getModuleName() === 'Groups') {
-				list($moduleId, $recordId) = vtws_getIdComponents($entityId);
+			$fromUserId = $recordModel->get('assigned_user_id');
+			$fromModule = \App\Fields\Owner::getType($fromUserId);
+			if ($fromModule === 'Groups') {
 				$fromUserId = Vtiger_Util_Helper::getCreator($recordId);
 			}
 
-			if ($this->fromEmail && !($ownerEntity->getModuleName() === 'Groups' && strpos($this->fromEmail, 'assigned_user_id : (Users) ') !== false)) {
+			if ($this->fromEmail && !($fromModule === 'Groups' && strpos($this->fromEmail, 'assigned_user_id : (Users) ') !== false)) {
 				$et = new VTEmailRecipientsTemplate($this->fromEmail);
-				$fromEmailDetails = $et->render($entityCache, $entityId);
+				$fromEmailDetails = $et->render($recordModel);
 
 				if (strpos($this->fromEmail, '&lt;') && strpos($this->fromEmail, '&gt;')) {
 					list($fromName, $fromEmail) = explode('&lt;', $fromEmailDetails);
@@ -126,13 +107,13 @@ class VTEmailTask extends VTTask
 			$taskContents['fromName'] = $fromName;
 
 			$et = new VTEmailRecipientsTemplate($this->recepient);
-			$toEmail = $et->render($entityCache, $entityId);
+			$toEmail = $et->render($recordModel);
 
 			$ecct = new VTEmailRecipientsTemplate($this->emailcc);
-			$ccEmail = $ecct->render($entityCache, $entityId);
+			$ccEmail = $ecct->render($recordModel);
 
 			$ebcct = new VTEmailRecipientsTemplate($this->emailbcc);
-			$bccEmail = $ebcct->render($entityCache, $entityId);
+			$bccEmail = $ebcct->render($recordModel);
 
 			if (strlen(trim($toEmail, " \t\n,")) == 0 && strlen(trim($ccEmail, " \t\n,")) == 0 && strlen(trim($bccEmail, " \t\n,")) == 0) {
 				$utils->revertUser();
@@ -144,10 +125,10 @@ class VTEmailTask extends VTTask
 			$taskContents['bccEmail'] = $bccEmail;
 
 			$st = new VTSimpleTemplate($this->subject);
-			$taskContents['subject'] = $st->render($entityCache, $entityId);
+			$taskContents['subject'] = $st->render($recordModel);
 
 			$ct = new VTSimpleTemplate($this->content);
-			$taskContents['content'] = $ct->render($entityCache, $entityId);
+			$taskContents['content'] = $ct->render($recordModel);
 			$this->contents = $taskContents;
 			$utils->revertUser();
 		}

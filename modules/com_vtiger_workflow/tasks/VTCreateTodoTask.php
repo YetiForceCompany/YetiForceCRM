@@ -41,25 +41,27 @@ class VTCreateTodoTask extends VTTask
 		return $user;
 	}
 
-	public function doTask($entityData)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		
+
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
-		$userId = $entityData->get('assigned_user_id');
+		$userId = $recordModel->get('assigned_user_id');
 		if ($userId === null) {
 			$userId = vtws_getWebserviceEntityId('Users', 1);
 		}
-		$moduleName = $entityData->getModuleName();
+		$moduleName = $recordModel->getModuleName();
 		$adminUser = $this->getAdmin();
-		$id = $entityData->getId();
 		if ($this->doNotDuplicate == 'true') {
-			$parts = explode('x', $id);
-			$entityId = $parts[1];
+			$entityId = $recordModel->getId();
 			$sql = 'SELECT count(vtiger_activity.activityid) AS num FROM vtiger_activity 
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 					WHERE vtiger_crmentity.deleted = 0 AND (vtiger_activity.link = ? OR vtiger_activity.process = ?) 
@@ -76,14 +78,14 @@ class VTCreateTodoTask extends VTTask
 			}
 		}
 
-		if ($this->assigned_user_id == 'currentUser' && isset($current_user)) {
-			$userId = vtws_getWebserviceEntityId('Users', $current_user->id);
-		} else if ($this->assigned_user_id == 'triggerUser' && isset($entityData->executeUser)) {
-			$userId = vtws_getWebserviceEntityId('Users', $entityData->executeUser);
+		if ($this->assigned_user_id == 'currentUser') {
+			$userId = vtws_getWebserviceEntityId('Users', \App\User::getCurrentUserId());
+		} else if ($this->assigned_user_id == 'triggerUser') {
+			$userId = vtws_getWebserviceEntityId('Users', \App\User::getCurrentUserRealId());
 		}
 
 		if ($this->assigned_user_id == 'copyParentOwner') {
-			$userId = $entityData->get('assigned_user_id');
+			$userId = $recordModel->get('assigned_user_id');
 		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = $adb->pquery('SELECT 1 FROM vtiger_users WHERE id = ? AND status = ?', array($this->assigned_user_id, 'Active'));
 			if ($adb->num_rows($userExists)) {
@@ -101,7 +103,7 @@ class VTCreateTodoTask extends VTTask
 		if ($this->datefield_start == 'wfRunTime') {
 			$baseDateStart = date('Y-m-d H:i:s');
 		} else {
-			$baseDateStart = $entityData->get($this->datefield_start);
+			$baseDateStart = $recordModel->get($this->datefield_start);
 			if ($baseDateStart == '') {
 				$baseDateStart = date('Y-m-d');
 			}
@@ -121,7 +123,7 @@ class VTCreateTodoTask extends VTTask
 		if ($this->datefield_end == 'wfRunTime') {
 			$baseDateEnd = date('Y-m-d H:i:s');
 		} else {
-			$baseDateEnd = $entityData->get($this->datefield_end);
+			$baseDateEnd = $recordModel->get($this->datefield_end);
 			if ($baseDateEnd == '') {
 				$baseDateEnd = date('Y-m-d');
 			}
@@ -163,7 +165,7 @@ class VTCreateTodoTask extends VTTask
 			'time_start' => $time,
 			'time_end' => $timeEnd,
 			'sendnotification' => ($this->sendNotification != '' && $this->sendNotification != 'N') ?
-				true : false,
+			true : false,
 			'date_start' => $date_start,
 			'due_date' => $due_date,
 			'visibility' => 'Private',
@@ -171,19 +173,18 @@ class VTCreateTodoTask extends VTTask
 		);
 		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 		if ($field) {
-			$fields[$field] = $id;
+			$fields[$field] = $recordModel->getId();
 		}
+		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
+		$newRecordModel->setData($fields);
+		$newRecordModel->save();
 
-		$todo = vtws_create('Calendar', $fields, $adminUser);
-		$todoIdDetails = vtws_getIdComponents($todo['id']);
-		$entityIdDetails = vtws_getIdComponents($id);
-
-		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $entityIdDetails[1], 'Calendar', $todoIdDetails[1]);
+		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 
 		if ($this->updateDates == 'true') {
 			$adb->insert('vtiger_activity_update_dates', [
-				'activityid' => $todoIdDetails[1],
-				'parent' => $entityIdDetails[1],
+				'activityid' => $newRecordModel->getId(),
+				'parent' => $recordModel->getId(),
 				'task_id' => $this->id,
 			]);
 		}

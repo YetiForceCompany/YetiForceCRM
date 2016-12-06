@@ -19,11 +19,13 @@ class VTUpdateClosedTime extends VTTask
 		return array();
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
-		$entityIdDetails = vtws_getIdComponents($entity->getId());
-		$entityId = $entityIdDetails[1];
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_crmentity SET closedtime = ? WHERE crmid = ?", array(date("Y-m-d H:i:s"), $entityId));
+		$adb->pquery("UPDATE vtiger_crmentity SET closedtime = ? WHERE crmid = ?", array(date("Y-m-d H:i:s"), $recordModel->getId()));
 	}
 }

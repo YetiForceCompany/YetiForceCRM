@@ -21,17 +21,19 @@ class VTUpdateFieldsTask extends VTTask
 		return array('field_value_mapping');
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
 		global $adb, $current_user, $default_charset;
 
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 
-		$moduleName = $entity->getModuleName();
-		$entityId = $entity->getId();
-		$recordId = vtws_getIdComponents($entityId);
-		$recordId = $recordId[1];
+		$moduleName = $recordModel->getModuleName();
+		$recordId = $recordModel->getId();
 
 		$moduleHandler = vtws_getModuleHandlerFromName($moduleName, $current_user);
 		$handlerMeta = $moduleHandler->getMeta();
@@ -125,7 +127,7 @@ class VTUpdateFieldsTask extends VTTask
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 					$expression = $parser->expression();
 					$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-					$fieldValue = $exprEvaluater->evaluate($entity);
+					$fieldValue = $exprEvaluater->evaluate($recordModel);
 					$fieldValueInDB = $fieldValue;
 					//for Product Unit Price value converted with based product currency
 					if ($fieldInstance && $fieldInstance->getFieldDataType() == 'currency' && $fieldName == 'unit_price') {
