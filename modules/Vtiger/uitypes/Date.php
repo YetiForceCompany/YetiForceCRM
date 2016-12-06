@@ -41,16 +41,6 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Value of the field in the format, the user provides it on Save
-	 * @param <Object> $value
-	 * @return <Object>
-	 */
-	public function getUserRequestValue($value, $recordId)
-	{
-		return $this->getDisplayValue($value);
-	}
-
-	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
 	 * @param \Vtiger_Record_Model $recordModel

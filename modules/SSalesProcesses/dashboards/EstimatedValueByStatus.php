@@ -63,7 +63,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 
 	/**
 	 * Main function
-	 * @param <Vtiger_Request> $request
+	 * @param Vtiger_Request $request
 	 */
 	public function process(\Vtiger_Request $request)
 	{

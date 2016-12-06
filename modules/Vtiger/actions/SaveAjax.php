@@ -31,24 +31,12 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			}
 			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
 			if ($fieldModel->getFieldDataType() === 'currency') {
-				$recordFieldValue = $fieldModel->getDBValue($recordFieldValue);
 				$displayValue = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
 			} elseif ($fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel);
 			}
-
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
-
-		//Handling salutation type
-		if ($request->get('field') === 'firstname' && in_array($request->getModule(), ['Contacts'])) {
-			$salutationType = $recordModel->getDisplayValue('salutationtype');
-			$firstNameDetails = $result['firstname'];
-			$firstNameDetails['display_value'] = $salutationType . " " . $firstNameDetails['display_value'];
-			if ($salutationType !== '--None--')
-				$result['firstname'] = $firstNameDetails;
-		}
-
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 		$recordModel->clearPrivilegesCache();
@@ -67,67 +55,17 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	 */
 	public function getRecordModelFromRequest(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-
 		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$recordModel->set('id', $recordId);
-			$recordModel->set('mode', 'edit');
-
-			$fieldModelList = $recordModel->getModule()->getFields();
-			foreach ($fieldModelList as $fieldName => $fieldModel) {
-				//For not converting craetedtime and modified time to user format
-				$uiType = $fieldModel->get('uitype');
-				if ($uiType == 70) {
-					$fieldValue = $recordModel->get($fieldName);
-				} else {
-					$fieldValue = $fieldModel->getUITypeModel()->getUserRequestValue($recordModel->get($fieldName), $recordId);
-				}
-
-				if ($fieldName === $request->get('field')) {
-					$fieldValue = $request->get('value');
-				}
-				$fieldDataType = $fieldModel->getFieldDataType();
-				if ($fieldDataType == 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-				}
-				if ($fieldValue !== null) {
-					if (!is_array($fieldValue)) {
-						$fieldValue = trim($fieldValue);
-					}
-					$recordModel->set($fieldName, $fieldValue);
-				}
-				$recordModel->set($fieldName, $fieldValue);
+			$moduleName = $request->getModule();
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$fieldModel = $recordModel->getModule()->getFieldByName($request->get('field'));
+			if ($fieldModel && $fieldModel->isEditable()) {
+				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->getDBValue($request->get('value'), $recordModel));
 			}
 		} else {
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$recordModel->set('mode', '');
-
-			$fieldModelList = $moduleModel->getFields();
-			foreach ($fieldModelList as $fieldName => $fieldModel) {
-				if ($request->has($fieldName) && $fieldModel->get('uitype') == 300) {
-					$fieldValue = $request->getForHtml($fieldName, null);
-				} else if ($request->has($fieldName)) {
-					$fieldValue = $request->get($fieldName, null);
-				} else {
-					$fieldValue = $fieldModel->getDefaultFieldValue();
-				}
-				$fieldDataType = $fieldModel->getFieldDataType();
-				if ($fieldDataType == 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-				}
-				if ($fieldValue !== null) {
-					if (!is_array($fieldValue)) {
-						$fieldValue = trim($fieldValue);
-					}
-					$recordModel->set($fieldName, $fieldValue);
-				}
-			}
+			$recordModel = parent::getRecordModelFromRequest($request);
 		}
-
 		return $recordModel;
 	}
 }

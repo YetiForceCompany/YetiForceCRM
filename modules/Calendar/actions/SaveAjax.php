@@ -23,7 +23,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = array();
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
+		foreach ($fieldModelList as $fieldName => &$fieldModel) {
 			$value = $recordModel->get($fieldName);
 			if (!is_array($value)) {
 				$fieldValue = Vtiger_Util_Helper::toSafeHTML($value);
@@ -154,19 +154,16 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$recordModel->set('date_start', $startDate);
 			$recordModel->set('time_start', $startTime);
 		}
-
 		$endDate = $request->get('due_date');
 		if (!empty($endDate)) {
 			//End Date and Time values
 			$endTime = $request->get('time_end');
 			$endDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('due_date'));
-
 			if ($endTime) {
 				$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
 				$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
 				list($endDate, $endTime) = explode(' ', $endDateTime);
 			}
-
 			$recordModel->set('time_end', $endTime);
 			$recordModel->set('due_date', $endDate);
 		}
@@ -183,25 +180,17 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		if ($request->has('saveAndClose')) {
 			$recordModel->set('activitystatus', $request->get('saveAndClose'));
 		}
-		if (empty($visibility)) {
-			$assignedUserId = $recordModel->get('assigned_user_id');
-			$sharedType = Calendar_Module_Model::getSharedType($assignedUserId);
-			if ($sharedType == 'selectedusers') {
-				$sharedType = 'public';
-			}
-			$recordModel->set('visibility', ucfirst($sharedType));
+		if ($endTime && $startTime) {
+			$time = (strtotime($endTime)) - (strtotime($startTime));
+			$diffinSec = (strtotime($endDate)) - (strtotime($startDate));
+			$diff_days = floor($diffinSec / (60 * 60 * 24));
+
+			$hours = ((float) $time / 3600) + ($diff_days * 24);
+			$minutes = ((float) $hours - (int) $hours) * 60;
+
+			$recordModel->set('duration_hours', (int) $hours);
+			$recordModel->set('duration_minutes', round($minutes, 0));
 		}
-
-		$time = (strtotime($endTime)) - (strtotime($startTime));
-		$diffinSec = (strtotime($endDate)) - (strtotime($startDate));
-		$diff_days = floor($diffinSec / (60 * 60 * 24));
-
-		$hours = ((float) $time / 3600) + ($diff_days * 24);
-		$minutes = ((float) $hours - (int) $hours) * 60;
-
-		$recordModel->set('duration_hours', (int) $hours);
-		$recordModel->set('duration_minutes', round($minutes, 0));
-
 		return $recordModel;
 	}
 }

@@ -25,7 +25,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		$moduleName = $request->getModule();
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		$allRecordSave = true;
-		foreach ($recordModels as $recordId => $recordModel) {
+		foreach ($recordModels as $recordId => &$recordModel) {
 			if (Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId)) {
 				$recordModel->save();
 			} else {
@@ -45,39 +45,26 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	 */
 	public function getRecordModelsFromRequest(Vtiger_Request $request)
 	{
-
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordIds = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		$recordModels = [];
 
-		$fieldModelList = $moduleModel->getFields();
-		foreach ($recordIds as $recordId) {
+		foreach ($recordIds as &$recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
 			if (!$recordModel->isEditable()) {
 				continue;
 			}
-			$recordModel->set('id', $recordId);
-			$recordModel->set('mode', 'edit');
-
-			foreach ($fieldModelList as $fieldName => $fieldModel) {
-				$fieldValue = $request->get($fieldName, null);
-				if (isset($fieldValue)) {
-					$fieldDataType = $fieldModel->getFieldDataType();
-					if (!is_array($fieldValue)) {
-						$fieldValue = trim($fieldValue);
-					}
-					if ($fieldDataType === 'time') {
-						$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-					}
-					$recordModel->set($fieldName, $fieldValue);
-				} else {
-					$uiType = $fieldModel->get('uitype');
-					if ($uiType == 70) {
-						$recordModel->set($fieldName, $recordModel->get($fieldName));
+			$fieldModelList = $moduleModel->getFields();
+			foreach ($fieldModelList as $fieldName => &$fieldModel) {
+				if (!$fieldModel->isEditable()) {
+					continue;
+				}
+				if ($request->has($fieldName)) {
+					if ($fieldModel->get('uitype') === 300) {
+						$recordModel->set($fieldName, $request->getForHtml($fieldName, null));
 					} else {
-						$uiTypeModel = $fieldModel->getUITypeModel();
-						$recordModel->set($fieldName, $uiTypeModel->getUserRequestValue($recordModel->get($fieldName), $recordId));
+						$recordModel->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($request->get($fieldName, null), $recordModel));
 					}
 				}
 			}

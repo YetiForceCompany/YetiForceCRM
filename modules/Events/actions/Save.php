@@ -17,7 +17,7 @@ class Events_Save_Action extends Calendar_Save_Action
 	 * @param Vtiger_Request $request - values of the record
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord($request)
+	public function saveRecord(Vtiger_Request $request)
 	{
 		$adb = PearDatabase::getInstance();
 		$recordModel = $this->getRecordModelFromRequest($request);

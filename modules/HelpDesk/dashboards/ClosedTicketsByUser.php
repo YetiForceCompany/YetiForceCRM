@@ -76,7 +76,7 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 
 	/**
 	 * Main function 
-	 * @param <Vtiger_Request> $request 
+	 * @param Vtiger_Request $request 
 	 */
 	public function process(Vtiger_Request $request)
 	{

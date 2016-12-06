@@ -46,10 +46,10 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to save record
-	 * @param <Vtiger_Request> $request - values of the record
-	 * @return <RecordModel> - record Model of saved record
+	 * @param Vtiger_Request $request - values of the record
+	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord($request)
+	public function saveRecord(Vtiger_Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
@@ -76,76 +76,27 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	 */
 	protected function getRecordModelFromRequest(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$user = Users_Record_Model::getCurrentUserModel();
-		$allDay = $request->get('allday');
-		if ('on' == $allDay) {
-			$request->set('time_start', $user->get('start_hour'));
-			$request->set('time_end', $user->get('end_hour'));
-		}
-
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$modelData = $recordModel->getData();
-			$recordModel->set('id', $recordId);
-			$recordModel->set('mode', 'edit');
-			//Due to dependencies on the activity_reminder api in Activity.php(5.x)
-			AppRequest::set('mode', 'edit');
-		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$modelData = $recordModel->getData();
-			$recordModel->set('mode', '');
-		}
-
-		$fieldModelList = $moduleModel->getFields();
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if (!$fieldModel->isEditEnabled()) {
-				continue;
-			}
-			$fieldValue = $request->get($fieldName, null);
-			// For custom time fields in Calendar, it was not converting to db insert format(sending as 10:00 AM/PM)
-			$fieldDataType = $fieldModel->getFieldDataType();
-			if ($fieldDataType == 'time') {
-				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-			}
-			// End
-			if ($fieldValue !== null) {
-				if (!is_array($fieldValue)) {
-					$fieldValue = trim($fieldValue);
-				}
-				$recordModel->set($fieldName, $fieldValue);
-			}
-		}
-
+		$recordModel = parent::getRecordModelFromRequest($request);
 		//Start Date and Time values
 		$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
 		$startDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('date_start'));
-
 		if ($startTime) {
 			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($startTime);
-			$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start') . " " . $startTime);
+			$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start') . ' ' . $startTime);
 			list($startDate, $startTime) = explode(' ', $startDateTime);
 		}
-
 		$recordModel->set('date_start', $startDate);
 		$recordModel->set('time_start', $startTime);
-
 		//End Date and Time values
 		$endTime = $request->get('time_end');
 		$endDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('due_date'));
-
 		if ($endTime) {
 			$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
 			$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
 			list($endDate, $endTime) = explode(' ', $endDateTime);
 		}
-
 		$recordModel->set('time_end', $endTime);
 		$recordModel->set('due_date', $endDate);
-
 		$activityType = $request->get('activitytype');
 		if (empty($activityType)) {
 			$recordModel->set('activitytype', 'Task');
@@ -161,17 +112,13 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 		} else {
 			AppRequest::set('set_reminder', 'No');
 		}
-
 		$time = (strtotime($request->get('time_end'))) - (strtotime($request->get('time_start')));
 		$diffinSec = (strtotime($request->get('due_date'))) - (strtotime($request->get('date_start')));
 		$diff_days = floor($diffinSec / (60 * 60 * 24));
-
 		$hours = ((float) $time / 3600) + ($diff_days * 24);
 		$minutes = ((float) $hours - (int) $hours) * 60;
-
 		$recordModel->set('duration_hours', (int) $hours);
 		$recordModel->set('duration_minutes', round($minutes, 0));
-
 		return $recordModel;
 	}
 }

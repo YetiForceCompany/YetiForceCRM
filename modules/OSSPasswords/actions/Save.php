@@ -30,8 +30,8 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to save record
-	 * @param <Vtiger_Request> $request - values of the record
-	 * @return <RecordModel> - record Model of saved record
+	 * @param Vtiger_Request $request - values of the record
+	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
 	public function saveRecord($request)
 	{

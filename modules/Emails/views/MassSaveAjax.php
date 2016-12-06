@@ -37,7 +37,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 
 	/**
 	 * Function Sends/Saves mass emails
-	 * @param <Vtiger_Request> $request
+	 * @param Vtiger_Request $request
 	 */
 	public function massSave(Vtiger_Request $request)
 	{
