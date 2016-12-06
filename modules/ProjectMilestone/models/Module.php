@@ -47,11 +47,9 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		if (!$estimatedWorkTime) {
 			return;
 		}
-		$focus = CRMEntity::getInstance($this->getName());
 		$projectMilestoneProgress = round((100 * $progressInHours) / $estimatedWorkTime);
-		$focus->retrieve_entity_info($id, $this->getName());
-		$focus->column_fields['projectmilestone_progress'] = $projectMilestoneProgress . '%';
-		$focus->column_fields['mode'] = 'edit';
-		$focus->saveentity($this->getName(), $id);
+		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
+		$recordModel->set('projectmilestone_progress', $projectMilestoneProgress . '%');
+		$recordModel->save();
 	}
 }
