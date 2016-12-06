@@ -39,7 +39,7 @@ function createUserPrivilegesfile($userid)
 
 		if ($user_focus->is_admin == 'on') {
 			$newbuf .= "\$is_admin=true;\n";
-			$newbuf .= "\$user_info=" . constructSingleStringKeyValueArray($userInfo) . ";\n";
+			$newbuf .= "\$user_info=" . \vtlib\Functions::varExportMin($userInfo) . ";\n";
 		} else {
 			$newbuf .= "\$is_admin=false;\n";
 
@@ -63,7 +63,7 @@ function createUserPrivilegesfile($userid)
 			$newbuf .= "\$subordinate_roles=" . constructSingleCharArray($subRoles) . ";\n";
 			$newbuf .= "\$parent_roles=" . constructSingleCharArray($parentRoles) . ";\n";
 			$newbuf .= "\$subordinate_roles_users=" . constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
-			$newbuf .= "\$user_info=" . constructSingleStringKeyValueArray($userInfo) . ";\n";
+			$newbuf .= "\$user_info=" . \vtlib\Functions::varExportMin($userInfo) . ";\n";
 		}
 		fputs($handle, $newbuf);
 		fclose($handle);
@@ -364,33 +364,6 @@ function constructSingleStringKeyAndValueArray($var)
 	if (is_array($var)) {
 		$code = '[';
 		foreach ($var as $key => $value) {
-			if ($i < $size) {
-				$code .= "'" . $key . "'=>" . $value . ",";
-			} else {
-				$code .= "'" . $key . "'=>" . $value;
-			}
-			$i++;
-		}
-		$code .= ']';
-		return $code;
-	}
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file 
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array 
- */
-function constructSingleStringKeyValueArray($var)
-{
-	$adb = PearDatabase::getInstance();
-	$size = sizeof($var);
-	$i = 1;
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $key => $value) {
-			//fix for signatue quote(') issue
-			$value = $adb->sql_escape_string($value);
 			if ($i < $size) {
 				$code .= "'" . $key . "'=>" . $value . ",";
 			} else {
