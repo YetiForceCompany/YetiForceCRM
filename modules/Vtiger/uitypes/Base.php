@@ -45,6 +45,9 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 		if ($value === '' && in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
 			$value = 0;
 		}
+		if (is_null($value)) {
+			$value = '';
+		}
 		return $value;
 	}
 
