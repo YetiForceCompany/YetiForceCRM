@@ -72,4 +72,17 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		\App\PrivilegeQuery::getConditions($query, 'ServiceContracts');
 		return $query->all();
 	}
+
+	/**
+	 * Function to save record
+	 */
+	public function save()
+	{
+		parent::save();
+		$forModule = AppRequest::get('return_module');
+		$forCrmid = AppRequest::get('return_id');
+		if (AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'ServiceContracts') {
+			CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, AppRequest::get('module'), $this->getId());
+		}
+	}
 }

@@ -36,7 +36,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getProductsListPrice($relatedRecordId)
 	{
-		
+
 		return (new \App\Db\Query())->select(['listprice'])
 				->from('vtiger_pricebookproductrel')
 				->where(['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
@@ -53,16 +53,16 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])->exists();
 		if ($isExists) {
 			App\Db::getInstance()->createCommand()
-					->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
-					->execute();
+				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
+				->execute();
 		} else {
 			App\Db::getInstance()->createCommand()
-					->insert('vtiger_pricebookproductrel', [
-						'pricebookid' => $this->getId(),
-						'productid' => $relatedRecordId,
-						'listprice' => $price,
-						'usedcurrency' => $this->get('currency_id')
-					])->execute();
+				->insert('vtiger_pricebookproductrel', [
+					'pricebookid' => $this->getId(),
+					'productid' => $relatedRecordId,
+					'listprice' => $price,
+					'usedcurrency' => $this->get('currency_id')
+				])->execute();
 		}
 	}
 
@@ -75,5 +75,29 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 		return App\Db::getInstance()->createCommand()
 				->delete('vtiger_pricebookproductrel', ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
 				->execute();
+	}
+
+	public function save()
+	{
+		parent::save();
+		$this->updateListPrices();
+	}
+
+	public function updateListPrices()
+	{
+		\App\Log::trace("Entering function updateListPrices...");
+		$pricebookCurrency = $this->get('currency_id');
+		$dataReader = (new App\Db\Query())->from('vtiger_pricebookproductrel')
+				->where(['and', ['pricebookid' => $this->getId()], ['<>', 'usedcurrency', $pricebookCurrency]])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$productCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($row['usedcurrency']);
+			$pricebookCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($pricebookCurrency);
+			$computedListPrice = $row['listprice'] * $pricebookCurrencyInfo['rate'] / $productCurrencyInfo['rate'];
+			App\Db::getInstance()->createCommand()
+				->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency], ['pricebookid' => $this->getId(), 'productid' => $row['productid']])
+				->execute();
+		}
+		\App\Log::trace("Exiting function updateListPrices...");
 	}
 }

@@ -98,19 +98,6 @@ class ServiceContracts extends CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
-	public function save_module($module)
-	{
-		$return_action = AppRequest::get('return_action');
-		$for_module = AppRequest::get('return_module');
-		$for_crmid = AppRequest::get('return_id');
-		if ($return_action && $for_module && $for_crmid) {
-			if ($for_module == 'HelpDesk') {
-				$on_focus = CRMEntity::getInstance($for_module);
-				$on_focus->save_related_module($for_module, $for_crmid, $module, $this->id);
-			}
-		}
-	}
-
 	/**
 	 * Get list view query.
 	 */

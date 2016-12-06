@@ -51,35 +51,7 @@ class PriceBooks extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'bookname';
 
-	public function save_module($module)
-	{
-		// Update the list prices in the price book with the unit price, if the Currency has been changed
-		$this->updateListPrices();
-	}
-	/* Function to Update the List prices for all the products of a current price book
-	  with its Unit price, if the Currency for Price book has changed. */
-
-	public function updateListPrices()
-	{
-
-		\App\Log::trace("Entering function updateListPrices...");
-		$pricebookCurrency = $this->column_fields['currency_id'];
-		$dataReader = (new App\Db\Query())->from('vtiger_pricebookproductrel')
-				->where(['and', ['pricebookid' => $this->id], ['<>', 'usedcurrency', $pricebookCurrency]])
-				->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$productCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($row['usedcurrency']);
-			$pricebookCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($pricebookCurrency);
-			$conversion_rate = $pricebookCurrencyInfo['rate'] / $productCurrencyInfo['rate'];
-			$computedListPrice = $row['listprice'] * $conversion_rate;
-			App\Db::getInstance()->createCommand()
-				->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency], ['pricebookid' => $this->id, 'productid' => $row['productid']])
-				->execute();
-		}
-		\App\Log::trace("Exiting function updateListPrices...");
-	}
-
-	/** 	function used to get whether the pricebook has related with a product or not
+	/** function used to get whether the pricebook has related with a product or not
 	 * 	@param int $id - product id
 	 * 	@return true or false - if there are no pricebooks available or associated pricebooks for the product is equal to total number of pricebooks then return false, else return true
 	 */

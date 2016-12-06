@@ -95,20 +95,6 @@ class HelpDesk extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'ticket_title';
 
-	public function save_module($module)
-	{
-		//service contract update
-		$return_action = AppRequest::get('return_action');
-		$for_module = AppRequest::get('return_module');
-		$for_crmid = AppRequest::get('return_id');
-		if ($return_action && $for_module && $for_crmid) {
-			if ($for_module == 'ServiceContracts') {
-				$on_focus = CRMEntity::getInstance($for_module);
-				$on_focus->save_related_module($for_module, $for_crmid, $module, $this->id);
-			}
-		}
-	}
-
 	public function save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName = false)
 	{
 		if ($with_module == 'ServiceContracts') {
