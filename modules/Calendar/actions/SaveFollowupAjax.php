@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
 class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action
@@ -33,10 +34,10 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$subject = $recordModel->get('subject');
-		$followupSubject = "[Followup] " . $subject;
+		$followupSubject = '[Followup] ' . $subject;
 		$recordModel->set('subject', $followupSubject);
 		//followup event is Planned
-		$recordModel->set('eventstatus', "Planned");
+		$recordModel->set('eventstatus', 'Planned');
 
 		$activityType = $recordModel->get('activitytype');
 		if ($activityType == "Call")
@@ -63,7 +64,7 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action
 		$recordModel->save();
 
 		$response = new Vtiger_Response();
-		$result = array('created' => true);
+		$result = ['created' => true];
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -73,14 +74,13 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$recordModel->set('mode', 'edit');
 		$activityType = $recordModel->get('activitytype');
 		$response = new Vtiger_Response();
 
-		if ($activityType == 'Task') {
+		if ($activityType === 'Task') {
 			$status = 'Completed';
 			$recordModel->set('taskstatus', $status);
-			$result = array("valid" => true, "markedascompleted" => true, "activitytype" => "Task");
+			$result = ['valid' => true, 'markedascompleted' => true, 'activitytype' => 'Task'];
 		} else {
 			//checking if the event can be marked as Held (status validation)
 			$startDateTime[] = $recordModel->get('date_start');
@@ -90,14 +90,14 @@ class Calendar_SaveFollowupAjax_Action extends Calendar_SaveAjax_Action
 			$currentDateTime = date("Y-m-d H:i:s");
 			$currentDateTime = new DateTime($currentDateTime);
 			if ($startDateTime > $currentDateTime) {
-				$result = array("valid" => false, "markedascompleted" => false);
+				$result = ['valid' => false, 'markedascompleted' => false];
 				$response->setResult($result);
 				$response->emit();
 				return;
 			}
 			$status = 'Held';
 			$recordModel->set('eventstatus', $status);
-			$result = array("valid" => true, "markedascompleted" => true, "activitytype" => "Event");
+			$result = ['valid' => true, 'markedascompleted' => true, 'activitytype' => 'Event'];
 		}
 		$recordModel->save();
 		$response->setResult($result);
