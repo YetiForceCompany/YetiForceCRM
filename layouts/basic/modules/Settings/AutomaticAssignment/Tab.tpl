@@ -2,9 +2,11 @@
 {strip}
 	<div class="row">
 		{assign var=FIELD_MODEL value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)}
-		{assign var=SOURCE_MODULE value=$FIELD_MODEL->getModuleName()}
+		{if isset($FIELD_MODEL)}	
+			{assign var=SOURCE_MODULE value=$FIELD_MODEL->getModuleName()}
+		{/if}
 		{if $FIELD_NAME eq 'value'}
-			<div class="col-sm-11 paddingTop20">
+			<form id="formValue" class="col-sm-11 paddingTop20">
 				<div class="form-group col-sm-5 paddingLefttZero">
 					<label class="col-sm-4 control-label">
 						{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
@@ -28,6 +30,38 @@
 							&nbsp;
 						{/if}
 					</span>
+				</div>
+			</form>
+		{elseif $FIELD_NAME eq 'conditions'}
+			<div class="padding20 form-horizontal">
+				<div class="form-group">
+					<div class="row col-md-5">
+						<label class="pull-left-lg control-label paddingLeftMd">{\App\Language::translate('LBL_INCLUDE_USERS_RECORD_LIMIT', $QUALIFIED_MODULE)}</label>
+						<div class="col-md-6">
+							&nbsp;<input name="user_limit" class="switchBtn switchBtnReload saveValue" type="checkbox" {if $RECORD_MODEL->get('user_limit')}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+						</div>
+					</div>
+				</div>
+				<div class="fieldContainer row col-md-10 col-lg-8" data-dbname="{$FIELD_NAME}">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h5 class="no-margin">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $QUALIFIED_MODULE)}</h5>
+						</div>
+						<div class="panel-body paddingBottomZero">
+							<div class="filterConditionsDiv">
+								<div class="row">
+									<span class="col-md-12">
+										{include file='AdvanceFilter.tpl'|@vtemplate_path}
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer clearfix">
+							<div class="btn-toolbar pull-right">
+								<button class="btn btn-success saveValue" type="button">{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		{else}
@@ -75,7 +109,6 @@
 							<li class="Users padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
 							<li class="Groups padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
 								{/if}
-
 					</ul>
 				</div>
 			</div>

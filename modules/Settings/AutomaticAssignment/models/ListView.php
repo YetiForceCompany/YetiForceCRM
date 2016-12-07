@@ -26,13 +26,6 @@ class Settings_AutomaticAssignment_ListView_Model extends Settings_Vtiger_ListVi
 				'linkclass' => 'btn-success addRecord',
 				'showLabel' => '1'
 			];
-//			$basicLinks[] = [
-//				'linktype' => 'LISTVIEWBASIC',
-//				'linklabel' => 'LBL_IMPORT',
-//				'linkdata' => ['url' => $moduleModel->getImportRecordUrl()],
-//				'linkicon' => 'glyphicon glyphicon-import',
-//				'linkclass' => 'showModal btn-primary',
-//			];
 		}
 		return $basicLinks;
 	}

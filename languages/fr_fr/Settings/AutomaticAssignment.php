@@ -18,8 +18,11 @@ $languageStrings = [
 	'BTN_ADD' => 'Add',
 	'LBL_CHANGE_ROLE_TYPE' => 'Change role type',
 	'LBL_CHANGE_RECORD_STATE' => 'Change record state',
+	'BTN_SAVE' => 'Save',
+	'LBL_INCLUDE_USERS_RECORD_LIMIT' => 'Include user\'s record limit',
 ];
 $jsLanguageStrings = [
 	'JS_STATE_CONFIRMATION' => 'Are you sure you want to change record state?',
+	'JS_SAVE_SUCCESS' => 'Changes saved successfully',
 ];
 

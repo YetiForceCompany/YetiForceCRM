@@ -15,9 +15,9 @@
 		</ul>
 		<div class="tab-content">
 			{foreach from=$RECORD_MODEL->getEditFields() item=LABEL key=FIELD_NAME name=tabs}
-				<form id="{$FIELD_NAME}" data-url="{$RECORD_MODEL->getEditViewTabUrl($FIELD_NAME)}" class="tab-pane fade in{if $smarty.foreach.tabs.first} active{/if}">
+				<div id="{$FIELD_NAME}" data-url="{$RECORD_MODEL->getEditViewTabUrl($FIELD_NAME)}" class="tab-pane fade in{if $smarty.foreach.tabs.first} active{/if}{if !$RECORD_MODEL->isRefreshTab($FIELD_NAME)} noRefresh{/if}">
 					{include file=vtemplate_path('Tab.tpl', $QUALIFIED_MODULE)}
-				</form>
+				</div>
 			{/foreach}
 		</div>
 	</div>

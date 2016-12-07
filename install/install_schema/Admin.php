@@ -229,7 +229,9 @@ class Admin extends \App\Db\Importers\Base
 					'roles' => $this->text(),
 					'smowners' => $this->text(),
 					'showners' => $this->text(),
-					'active' => $this->smallInteger(1)->defaultValue(1)
+					'active' => $this->smallInteger(1)->defaultValue(1),
+					'conditions' => $this->text(),
+					'user_limit' => $this->smallInteger(1)
 				],
 				'index' => [
 						['automatic_assignment_idx', 'tabid'],

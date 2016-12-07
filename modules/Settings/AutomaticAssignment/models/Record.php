@@ -49,6 +49,15 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
+	 * 
+	 * @return string
+	 */
+	public function getSorceModuleName()
+	{
+		return \App\Module::getModuleName($this->get('tabid'));
+	}
+
+	/**
 	 * Set module Instance
 	 * @param Settings_AutomaticAssignment_Module_Model $moduleModel
 	 * @return Settings_AutomaticAssignment_Module_Model
@@ -91,7 +100,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function getEditFields()
 	{
-		return ['value' => 'FL_VALUE', 'roles' => 'FL_ROLES', 'smowners' => 'FL_SMOWNERS', 'showners' => 'FL_SHOWNERS'];
+		return ['value' => 'FL_VALUE', 'roles' => 'FL_ROLES', 'smowners' => 'FL_SMOWNERS', 'showners' => 'FL_SHOWNERS', 'conditions' => 'FL_CONDITIONS'];
 	}
 
 	/**
@@ -112,7 +121,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			default:
 				break;
 		}
-		return NULL;
+		return null;
 	}
 
 	/**
@@ -271,6 +280,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				$value = implode(',', $value);
 				break;
 			case 'tabid':
+			case 'user_limit':
 				$value = (int) $value;
 				break;
 			case 'smowners':
@@ -285,9 +295,41 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				$value = implode(',', $value);
 				break;
 			default:
+			case 'conditions':
+				if ($value !== $this->rawData[$key]) {
+					$value = \App\Json::encode($this->transformAdvanceFilter($value));
+				}
+				break;
+			default:
 				break;
 		}
 		return $value;
+	}
+
+	/**
+	 * Function transforms Advance filter to workflow conditions
+	 * @param array $condition
+	 * @return array
+	 */
+	public function transformAdvanceFilter($conditions)
+	{
+		if (is_string($conditions)) {
+			$conditions = \App\Json::decode($conditions);
+		}
+		$conditionResult = [];
+		if (!empty($conditions)) {
+			foreach ($conditions as $index => $condition) {
+				$columns = $condition['columns'];
+				if (!empty($columns) && is_array($columns)) {
+					foreach ($columns as $column) {
+						$conditionResult[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
+							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'groupjoin' => $condition['condition'], 'groupid' => $index === 1 ? 0 : 1];
+					}
+				}
+			}
+		}
+		return $conditionResult;
 	}
 
 	/**
@@ -453,11 +495,42 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		foreach ($users as $key => $userId) {
 			$userModel = \App\User::getUserModel($userId);
-			if (!$userModel->getDetail('available') || !$userModel->getDetail('auto_assign')) {
+			if (!$userModel->getDetail('available') || !$userModel->getDetail('auto_assign') || $this->getCustomConditions($userModel)) {
 				unset($users[$key]);
 			}
 		}
 		return $users;
+	}
+
+	/**
+	 * Function supports custom user conditions
+	 * @param \App\User $userModel
+	 * @return boolean
+	 */
+	private function getCustomConditions($userModel)
+	{
+		if (!isset($this->customConditions)) {
+			$userContitions = \AppConfig::module('Users', 'AUTO_ASSIGN_CONDITIONS');
+			$this->customConditions = ($userContitions && isset($userContitions['modules'][$this->getSorceModuleName()])) ? $userContitions['modules'][$this->getSorceModuleName()] : [];
+		}
+		$result = true;
+		foreach ($this->customConditions as $moduleFields => $condition) {
+			switch ($condition[1]) {
+				case 'like':
+					$result = strpos($userModel->getDetail($condition[0]), $this->sourceRecordModel->get($moduleFields)) !== false;
+					break;
+				case '=':
+					$result = $this->sourceRecordModel->get($moduleFields) === $userModel->getDetail($condition[0]);
+					break;
+				default:
+					$result = true;
+					break;
+			}
+			if (!$result) {
+				break;
+			}
+		}
+		return !$result;
 	}
 
 	/**
@@ -469,15 +542,37 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		$queryGenerator = new \App\QueryGenerator(\App\Module::getModuleName($this->get('tabid')), Users::getActiveAdminId());
 		$queryGenerator->setFields(['assigned_user_id']);
+		$conditions = \App\Json::decode($this->get('conditions'));
+		if ($conditions) {
+			foreach ($conditions as $condition) {
+				$queryGenerator->addCondition($condition['fieldname'], $condition['value'], $condition['operation'], (bool) $condition['groupjoin']);
+			}
+		}
 		$query = $queryGenerator->createQuery();
-		if (isset($queryGenerator->getEntityModel()->autoAssignConditions)) {
-			$query->andWhere($queryGenerator->getEntityModel()->autoAssignConditions);
+
+		if ($this->get('user_limit')) {
+			$query->innerJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id');
+			$userLimitExpression = new \yii\db\Expression('autoAssignLimit');
+			$query->addSelect(['autoAssignLimit' => 'vtiger_users.records_limit'])
+				->having(['or', ['<=', 'c', $userLimitExpression], ['is', $userLimitExpression, null], ['=', $userLimitExpression, 0]]);
 		}
 		$query->addSelect(['c' => new \yii\db\Expression('COUNT(vtiger_crmentity.crmid)')])
 			->groupBy($queryGenerator->getColumnName('assigned_user_id'))
 			->orderBy(['c' => SORT_ASC])
 			->limit(1);
-
 		return $query->scalar();
+	}
+
+	/**
+	 * Function defines whether given tab in edit view should be refreshed after saving
+	 * @param string $name
+	 * @return boolean
+	 */
+	public function isRefreshTab($name)
+	{
+		if ($name === 'conditions') {
+			return false;
+		}
+		return true;
 	}
 }

@@ -139,7 +139,9 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if ($row['value'] === $recordModel->get($row['field'])) {
-				return Settings_AutomaticAssignment_Record_Model::getInstanceById($row['id']);
+				$autoAssignRecordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($row['id']);
+				$autoAssignRecordModel->sourceRecordModel = $recordModel;
+				return $autoAssignRecordModel;
 			}
 		}
 		return false;
