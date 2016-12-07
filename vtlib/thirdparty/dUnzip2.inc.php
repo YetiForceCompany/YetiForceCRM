@@ -90,7 +90,7 @@ class dUnzip2
 
 	// Public
 
-	public function dUnzip2($fileName)
+	public function __construct($fileName)
 	{
 		$this->fileName = $fileName;
 		$this->compressedList = $this->centralDirList = $this->endOfCentral = Array();
