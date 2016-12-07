@@ -6795,16 +6795,16 @@ insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (109,1);
 
 /*Data for the table `vtiger_no_of_currency_decimals` */
 
-insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (0,'0',0,1);
-insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (1,'1',1,1);
-insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (2,'2',2,1);
-insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (3,'3',3,1);
-insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (4,'4',4,1);
-insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (5,'5',5,1);
+insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (1,'0',0,1);
+insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (2,'1',1,1);
+insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (3,'2',2,1);
+insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (4,'3',3,1);
+insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (5,'4',4,1);
+insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (6,'5',5,1);
 
 /*Data for the table `vtiger_no_of_currency_decimals_seq` */
 
-insert  into `vtiger_no_of_currency_decimals_seq`(`id`) values (5);
+insert  into `vtiger_no_of_currency_decimals_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_notebook_contents` */
 

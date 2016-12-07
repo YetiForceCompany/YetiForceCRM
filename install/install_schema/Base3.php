@@ -3628,18 +3628,18 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_no_of_currency_decimals' => [
 				'columns' => ['no_of_currency_decimalsid', 'no_of_currency_decimals', 'sortorderid', 'presence'],
 				'values' => [
-						[0, '0', 0, 1],
-						[1, '1', 1, 1],
-						[2, '2', 2, 1],
-						[3, '3', 3, 1],
-						[4, '4', 4, 1],
-						[5, '5', 5, 1],
+						[1, '0', 0, 1],
+						[2, '1', 1, 1],
+						[3, '2', 2, 1],
+						[4, '3', 3, 1],
+						[5, '4', 4, 1],
+						[6, '5', 5, 1],
 				]
 			],
 			'vtiger_no_of_currency_decimals_seq' => [
 				'columns' => ['id'],
 				'values' => [
-						[5],
+						[6],
 				]
 			],
 			'vtiger_notification_status' => [
