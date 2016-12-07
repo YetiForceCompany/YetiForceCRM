@@ -16,7 +16,7 @@ class VTUpdateClosedTime extends VTTask
 
 	public function getFieldNames()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -25,7 +25,6 @@ class VTUpdateClosedTime extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_crmentity SET closedtime = ? WHERE crmid = ?", array(date("Y-m-d H:i:s"), $recordModel->getId()));
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['closedtime' => date("Y-m-d H:i:s")], ['crmid' => $recordModel->getId()])->execute();
 	}
 }
