@@ -28,7 +28,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if (empty($value)) {
-			throw new \Exception\AppException('ERR_OWNER_IS_EMPTY');
+			return '';
 		}
 		$ownerName = \App\Fields\Owner::getLabel($value);
 		if ($rawText) {

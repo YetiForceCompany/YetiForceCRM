@@ -19,11 +19,11 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	public function process(Vtiger_Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
-
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
 			$recordFieldValue = $recordModel->get($fieldName);
+
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() === 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			} elseif (is_array($recordFieldValue) && in_array($fieldModel->getFieldDataType(), ['sharedOwner', 'taxes', 'posList'])) {
@@ -33,7 +33,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			if ($fieldModel->getFieldDataType() === 'currency') {
 				$displayValue = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
 			} elseif ($fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'date') {
-				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel);
+				$displayValue = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
 			}
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}

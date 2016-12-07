@@ -823,6 +823,9 @@ class Users extends CRMEntity
 			}
 			$params[$columname] = $fldvalue;
 		}
+		if ($table_name === 'vtiger_users') {
+			$params['date_modified'] = date('Y-m-d H:i:s');
+		}
 		if ($insertion_mode == 'edit') {
 			//Check done by Don. If update is empty the the query fails
 			if ($params) {
