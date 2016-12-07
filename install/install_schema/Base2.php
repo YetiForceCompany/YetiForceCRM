@@ -5654,6 +5654,7 @@ class Base2 extends \App\Db\Importers\Base
 						[53, 'EntityAfterSave', 'Accounts_SaveChanges_Handler', 1, 'Accounts', '', 5, 6],
 						[54, 'EntityAfterSave', 'OpenStreetMap_OpenStreetMapHandler_Handler', 1, 'Accounts,Leads,Partners,Vendors,Competition,Contacts', '', 3, 110],
 						[55, 'EntitySystemAfterCreate', 'Vtiger_AutomaticAssignment_Handler', 0, '', '', 5, 0],
+						[56, 'EntityAfterSave', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
 				]
 			],
 			'vtiger_eventstatus' => [
