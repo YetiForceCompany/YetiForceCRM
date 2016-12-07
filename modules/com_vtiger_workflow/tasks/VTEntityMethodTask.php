@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 require_once('modules/com_vtiger_workflow/VTEntityMethodManager.php');
 
@@ -16,17 +17,17 @@ class VTEntityMethodTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array('methodName');
+		return ['methodName'];
 	}
 
 	/**
 	 * Execute task
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public function doTask($entityData)
+	public function doTask($recordModel)
 	{
 		$adb = PearDatabase::getInstance();
 		$emm = new VTEntityMethodManager($adb);
-		$emm->executeMethod($entityData, $this->methodName);
+		$emm->executeMethod($recordModel, $this->methodName);
 	}
 }
