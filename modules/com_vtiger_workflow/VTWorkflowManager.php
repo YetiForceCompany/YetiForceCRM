@@ -339,13 +339,18 @@ class Workflow
 		$this->nexttrigger_time = isset($row['nexttrigger_time']) ? $row['nexttrigger_time'] : '';
 	}
 
-	public function evaluate($recordModel, $id)
+	/**
+	 * Evaluate
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return boolean
+	 */
+	public function evaluate($recordModel)
 	{
 		if ($this->test == "") {
 			return true;
 		} else {
 			$cs = $this->conditionStrategy;
-			return $cs->evaluate($this->test, $recordModel, $id);
+			return $cs->evaluate($this->test, $recordModel);
 		}
 	}
 
