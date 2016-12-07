@@ -25,6 +25,6 @@ class VTUpdateClosedTime extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['closedtime' => date("Y-m-d H:i:s")], ['crmid' => $recordModel->getId()])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['closedtime' => date('Y-m-d H:i:s')], ['crmid' => $recordModel->getId()])->execute();
 	}
 }
