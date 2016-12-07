@@ -84,7 +84,9 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if ($fieldModel->getFieldDataType() !== 'currency' && $fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'time' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
-
+			if ($fieldName === 'password') {
+				$fieldValue = $displayValue = '**********';
+			}
 			$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);
 		}
 
