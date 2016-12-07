@@ -94,8 +94,6 @@ class Access
 	 */
 	static function setDefaultSharing($moduleInstance, $permissionText = 'Public_ReadWriteDelete')
 	{
-		$adb = \PearDatabase::getInstance();
-
 		$permissionText = strtolower($permissionText);
 
 		if ($permissionText === 'public_readonly')
@@ -131,10 +129,7 @@ class Access
 	 */
 	static function updateTool($moduleInstance, $toolAction, $flag, $profileid = false)
 	{
-		$adb = \PearDatabase::getInstance();
-
-		$result = $adb->pquery("SELECT actionid FROM vtiger_actionmapping WHERE actionname=?", Array($toolAction));
-		$actionId = (new \App\Db\Query)->select('actionid')->from('vtiger_actionmapping')->where(['actionname' => $actionname])->scalar();
+		$actionid = getActionid($toolAction);
 		if ($actionId) {
 			$permission = ($flag === true) ? '0' : '1';
 
