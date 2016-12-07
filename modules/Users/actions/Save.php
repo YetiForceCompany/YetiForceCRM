@@ -57,7 +57,6 @@ class Users_Save_Action extends Vtiger_Save_Action
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$modelData = $recordModel->getData();
-			$recordModel->set('mode', '');
 		}
 		unset($modelData['mode']);
 		foreach ($modelData as $fieldName => $value) {

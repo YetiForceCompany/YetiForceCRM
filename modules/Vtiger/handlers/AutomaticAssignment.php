@@ -24,7 +24,6 @@ class Vtiger_AutomaticAssignment_Handler
 				$assignUser = $autoAssignRecord->getAssignUser($users);
 				if ($assignUser && $assignUser !== $recordModel->get('assigned_user_id')) {
 					$recordModel->set('assigned_user_id', $assignUser);
-					$recordModel->set('mode', 'edit');
 					$recordModel->save();
 				}
 			}

@@ -180,7 +180,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$recordModel = Users_Record_Model::getInstanceById($record, $moduleName);
 		$recordModel->set('status', 'Active');
 		$recordModel->set('id', $record);
-		$recordModel->set('mode', 'edit');
 		$recordModel->set('user_hash', $recordModel->getUserHash());
 		$recordModel->save();
 

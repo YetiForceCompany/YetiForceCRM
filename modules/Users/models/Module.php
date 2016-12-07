@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
 class Users_Module_Model extends Vtiger_Module_Model
@@ -332,7 +333,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$focus->id = $recordModel->getId();
 		$focus->newRecord = $recordModel->get('newRecord');
 
-		$recordModel->setData($focus->column_fields)->setEntity($focus)->set('mode', $focus->mode);
+		$recordModel->setData($focus->column_fields)->setEntity($focus);
 		$focus->save($moduleName);
 		$recordModel->setId($focus->id);
 
