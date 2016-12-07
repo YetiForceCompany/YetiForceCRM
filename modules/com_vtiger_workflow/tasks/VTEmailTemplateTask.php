@@ -33,8 +33,6 @@ class VTEmailTemplateTask extends VTTask
 			} else {
 				$emaildata = explode("=", $this->email);
 				$parentRecord = $recordModel->get($emaildata[0]);
-				$parentRecord = explode('x', $parentRecord);
-				$parentRecord = $parentRecord[1];
 				if (is_numeric($parentRecord) && $parentRecord != '' && $parentRecord != 0) {
 					$Record_Model = Vtiger_Record_Model::getInstanceById($parentRecord, $emaildata[1]);
 					$email = $Record_Model->get($emaildata[2]);
