@@ -1081,7 +1081,7 @@ class Functions
 		return $initial;
 	}
 
-	public function getDiskSpace($dir = '')
+	public static function getDiskSpace($dir = '')
 	{
 		if ($dir == '') {
 			$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
