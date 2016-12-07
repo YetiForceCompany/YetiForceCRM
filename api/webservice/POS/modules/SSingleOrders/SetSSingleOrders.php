@@ -48,7 +48,6 @@ class API_SSingleOrders_SetSSingleOrders extends BaseAction
 				$recordModel->set('description', $offer['description']);
 				$recordModel->set('accountid', $this->api->app['accounts_id']);
 				$recordModel->set('assigned_user_id', $this->user['user_id']);
-				$recordModel->set('mode', '');
 				$countInventoryData = 0;
 				$defaultCurrency = vtlib\Functions::getDefaultCurrencyInfo()['id'];
 				$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);

@@ -15,7 +15,6 @@ while ($row = $dataReader->read()) {
 		$recordModel = Vtiger_Record_Model::getInstanceById($row['activityid']);
 		$recordModel->set('id', $row['activityid']);
 		$recordModel->set('activitystatus', $state);
-		$recordModel->set('mode', 'edit');
 		$recordModel->save();
 	}
 }

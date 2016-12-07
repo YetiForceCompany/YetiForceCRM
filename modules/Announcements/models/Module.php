@@ -92,7 +92,6 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		}
 		if ($archive) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $this->getName());
-			$recordModel->set('mode', 'edit');
 			$recordModel->set('announcementstatus', 'PLL_ARCHIVES');
 			$recordModel->save();
 		}

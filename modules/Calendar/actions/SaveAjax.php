@@ -123,7 +123,6 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 				$recordModel->set('due_date', $endDate);
 				$recordModel->set('time_end', $endTime);
-				$recordModel->set('mode', 'create');
 				$recordModel->save();
 			}
 		}
