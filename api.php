@@ -32,12 +32,14 @@ if (isset($service)) {
 		echo "No Service Configured for $service";
 	}
 } else {
-	echo "<h1>YetiForceCRM API Services</h1>";
-	echo "<li>YetiForceCRM Yeti Portal EndPoint URL -- Click <a href='api.php?service=yetiportal'>here</a></li>";
-	echo "<li>YetiForceCRM Outlook Plugin EndPoint URL -- Click <a href='api.php?service=outlook'>here</a></li>";
-	echo "<li>YetiForceCRM Word Plugin EndPoint URL -- Click <a href='api.php?service=wordplugin'>here</a></li>";
-	echo "<li>YetiForceCRM ThunderBird Extenstion EndPoint URL -- Click <a href='api.php?service=thunderbird'>here</a></li>";
-	echo "<li>YetiForceCRM Customer Portal EndPoint URL -- Click <a href='api.php?service=customerportal'>here</a></li>";
-	echo "<li>YetiForceCRM WebForm EndPoint URL -- Click <a href='api.php?service=webforms'>here</a></li>";
-	echo "<li>YetiForceCRM FireFox Extension EndPoint URL -- Click <a href='api.php?service=firefox'>here</a></li>";
+	/*
+	  echo "<h1>YetiForceCRM API Services</h1>";
+	  echo "<li>YetiForceCRM Yeti Portal EndPoint URL -- Click <a href='api.php?service=yetiportal'>here</a></li>";
+	  echo "<li>YetiForceCRM Outlook Plugin EndPoint URL -- Click <a href='api.php?service=outlook'>here</a></li>";
+	  echo "<li>YetiForceCRM Word Plugin EndPoint URL -- Click <a href='api.php?service=wordplugin'>here</a></li>";
+	  echo "<li>YetiForceCRM ThunderBird Extenstion EndPoint URL -- Click <a href='api.php?service=thunderbird'>here</a></li>";
+	  echo "<li>YetiForceCRM Customer Portal EndPoint URL -- Click <a href='api.php?service=customerportal'>here</a></li>";
+	  echo "<li>YetiForceCRM WebForm EndPoint URL -- Click <a href='api.php?service=webforms'>here</a></li>";
+	  echo "<li>YetiForceCRM FireFox Extension EndPoint URL -- Click <a href='api.php?service=firefox'>here</a></li>";
+	 */
 }
