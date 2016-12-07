@@ -7,6 +7,9 @@
  */
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers TestModule::<public>
+ */
 class TestModule extends TestCase
 {
 
@@ -15,7 +18,9 @@ class TestModule extends TestCase
 		$testModule = 'TestModule.zip';
 		try {
 			file_put_contents($testModule, file_get_contents('https://tests.yetiforce.com/' . $_SERVER['YETI_KEY']));
-		} catch (Exception $exc) {}
+		} catch (Exception $exc) {
+			
+		}
 		if (file_exists($testModule)) {
 			$package = new vtlib\Package();
 			$package->import($testModule);

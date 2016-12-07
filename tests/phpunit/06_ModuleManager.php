@@ -8,7 +8,7 @@
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Permissions::<public>
+ * @covers ModuleManager::<public>
  */
 class ModuleManager extends TestCase
 {
@@ -18,7 +18,7 @@ class ModuleManager extends TestCase
 		$package = new \vtlib\LanguageExport();
 		$package->export('pl_pl', ROOT_DIRECTORY . 'PL.zip', 'PL.zip');
 	}
-	
+
 	public function testCreateModule()
 	{
 		$moduleManagerModel = new \Settings_ModuleManager_Module_Model();
@@ -30,11 +30,10 @@ class ModuleManager extends TestCase
 			'entityfieldlabel' => 'Test',
 		]);
 	}
-	
+
 	public function testDeleteModule()
 	{
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		$moduleInstance->delete();
 	}
 }
-
