@@ -58,32 +58,35 @@ class VTCreateEventTask extends VTTask
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
 		$userId = $recordModel->get('assigned_user_id');
+		$adminUser = $this->getAdmin();
 		if ($userId === null) {
-			$userId = vtws_getWebserviceEntityId('Users', 1);
+			$userId = $adminUser;
 		}
 		$moduleName = $recordModel->getModuleName();
-		$adminUser = $this->getAdmin();
+
 
 		$startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
 		$endDate = $this->calculateDate($recordModel, $this->endDays, $this->endDirection, $this->endDatefield);
 
 		if ($this->assigned_user_id == 'currentUser') {
-			$userId = vtws_getWebserviceEntityId('Users', \App\User::getCurrentUserId());
+			$userId = \App\User::getCurrentUserId();
 		} else if ($this->assigned_user_id == 'triggerUser') {
-			$userId = vtws_getWebserviceEntityId('Users', \App\User::getCurrentUserRealId());
+			$userId = \App\User::getCurrentUserRealId();
 		}
 		if ($this->assigned_user_id == 'copyParentOwner') {
 			$userId = $recordModel->get('assigned_user_id');
 		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
-			$userExists = $adb->pquery('SELECT 1 FROM vtiger_users WHERE id = ? AND status = ?', array($this->assigned_user_id, 'Active'));
-			if ($adb->num_rows($userExists)) {
-				$assignedUserId = vtws_getWebserviceEntityId('Users', $this->assigned_user_id);
-				$userId = $assignedUserId;
+			$userExists = (new App\Db\Query())->from('vtiger_users')
+				->where(['id' => $this->assigned_user_id, 'status' => 'Active'])
+				->exists();
+			if ($userExists) {
+				$userId = $this->assigned_user_id;
 			} else {
-				$groupExist = $adb->pquery('SELECT 1 FROM vtiger_groups WHERE groupid = ?', array($this->assigned_user_id));
-				if ($adb->num_rows($groupExist)) {
-					$assignedGroupId = vtws_getWebserviceEntityId('Groups', $this->assigned_user_id);
-					$userId = $assignedGroupId;
+				$groupExist = (new App\Db\Query())->from('vtiger_groups')
+					->where(['groupid' => $this->assigned_user_id])
+					->exists();
+				if ($groupExist) {
+					$userId = $this->assigned_user_id;
 				}
 			}
 		}
@@ -103,8 +106,7 @@ class VTCreateEventTask extends VTTask
 		);
 
 		//Setting visibility value
-		$assignedTo = explode('x', $userId);
-		$sharedType = Calendar_Module_Model::getSharedType($assignedTo[1]);
+		$sharedType = Calendar_Module_Model::getSharedType($userId);
 		if ($sharedType == 'selectedusers' || empty($sharedType)) {
 			$sharedType = 'public';
 		}
@@ -117,8 +119,9 @@ class VTCreateEventTask extends VTTask
 		}
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
 		$newRecordModel->setData($fields);
+		$newRecordModel->setHandlerExceptions(['disableHandlers' => true]);
 		$newRecordModel->save();
-		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 		/*
 		  $handler = vtws_getModuleHandlerFromName('Events', $adminUser);
 		  $meta = $handler->getMeta();
