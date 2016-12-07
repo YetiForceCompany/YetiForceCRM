@@ -75,18 +75,9 @@ class WorkFlowScheduler
 			$tasks = $tm->getTasksForWorkflow($workflow->id);
 			if ($tasks) {
 				$records = $this->getEligibleWorkflowRecords($workflow);
-				$noOfRecords = count($records);
-				for ($j = 0; $j < $noOfRecords; ++$j) {
-					$recordId = $records[$j];
-					// We need to pass proper module name to get the webservice 
-					if ($workflow->moduleName == 'Calendar') {
-						$moduleName = vtws_getCalendarEntityType($recordId);
-					} else {
-						$moduleName = $workflow->moduleName;
-					}
-					$wsEntityId = vtws_getWebserviceEntityId($moduleName, $recordId);
-					$entityData = $entityCache->forId($wsEntityId);
-					$data = $entityData->getData();
+				foreach ($records as &$recordId) {
+					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+					$data = $recordModel->getData();
 					foreach ($tasks as $task) {
 						if ($task->active) {
 							$trigger = $task->trigger;
@@ -96,9 +87,9 @@ class WorkFlowScheduler
 								$delay = 0;
 							}
 							if ($task->executeImmediately === true) {
-								$task->doTask($entityData);
+								$task->doTask($recordModel);
 							} else {
-								$taskQueue->queueTask($task->id, $entityData->getId(), $delay);
+								$taskQueue->queueTask($task->id, $recordModel->getId(), $delay);
 							}
 						}
 					}

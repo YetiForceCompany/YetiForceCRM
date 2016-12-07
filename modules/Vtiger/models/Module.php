@@ -274,15 +274,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 		vimport('~~modules/com_vtiger_workflow/include.php');
 		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
-		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
-		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
+		$workflows = (new VTWorkflowManager(PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {
-			$wsId = vtws_getWebserviceEntityId($moduleName, $recordModel->getId());
-			$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
-			$entityData = $entityCache->forId($wsId);
-			foreach ($workflows as $id => &$workflow) {
-				if ($workflow->evaluate($entityCache, $entityData->getId())) {
-					$workflow->performTasks($entityData);
+			foreach ($workflows as &$workflow) {
+				if ($workflow->evaluate($recordModel)) {
+					$workflow->performTasks($recordModel);
 				}
 			}
 		}
