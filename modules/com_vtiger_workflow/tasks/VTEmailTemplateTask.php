@@ -15,7 +15,7 @@ class VTEmailTemplateTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array("template", "attachments", "email", "copy_email");
+		return ['template', 'attachments', 'email', 'copy_email'];
 	}
 
 	/**

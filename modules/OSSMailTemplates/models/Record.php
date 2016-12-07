@@ -12,13 +12,13 @@
 class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 {
 
-	public function getTempleteList($module)
+	public static function getTempleteList($module)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = "SELECT * FROM vtiger_ossmailtemplates WHERE oss_module_list = ?";
-		$result = $db->pquery($sql, [$module]);
+		$query = (new \App\Db\Query)->from('vtiger_ossmailtemplates')->where(['oss_module_list' => $module]);
+		$dataReader = $query->createCommand()->query();
 		$list = [];
-		while ($row = $db->fetch_array($result)) {
+
+		while ($row = $dataReader->read()) {
 			$list[$row['ossmailtemplatesid']] = $row;
 		}
 		return $list;
