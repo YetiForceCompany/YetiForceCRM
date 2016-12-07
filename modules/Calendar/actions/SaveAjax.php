@@ -172,10 +172,11 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$activityType = $request->get('activitytype');
 			$visibility = $request->get('visibility');
 			if (empty($activityType)) {
-				$recordModel->set('activitytype', 'Task');
+				$activityType = 'Task';
 				$visibility = 'Private';
-				$recordModel->set('visibility', $visibility);
 			}
+			$recordModel->set('activitytype', $activityType);
+			$recordModel->set('visibility', $visibility);
 		}
 		if ($request->has('saveAndClose')) {
 			$recordModel->set('activitystatus', $request->get('saveAndClose'));
