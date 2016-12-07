@@ -14,15 +14,11 @@ class ModComments_Save_Action extends Vtiger_Save_Action
 
 	public function process(Vtiger_Request $request)
 	{
-		$recordId = $request->get('record');
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$request->set('assigned_user_id', $currentUserModel->getId());
-		$request->set('userid', $currentUserModel->getId());
-
+		$request->set('assigned_user_id', App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);
 		$responseFieldsToSent = array('reasontoedit', 'commentcontent');
 		$fieldModelList = $recordModel->getModule()->getFields();
-		foreach ($responseFieldsToSent as $fieldName) {
+		foreach ($responseFieldsToSent as &$fieldName) {
 			$fieldModel = $fieldModelList[$fieldName];
 			$fieldValue = $recordModel->get($fieldName);
 			$result[$fieldName] = $fieldModel->getDisplayValue(Vtiger_Util_Helper::toSafeHTML($fieldValue));

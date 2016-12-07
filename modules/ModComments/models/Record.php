@@ -65,7 +65,17 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Prepare value to save
+	 * @return array
+	 */
+	public function getValuesForSave()
+	{
+		$forSave = parent::getValuesForSave();
+		$forSave['vtiger_modcomments']['userid'] = App\User::getCurrentUserId();
+		return $forSave;
+	}
 	/**
 	 * Function to create an instance of ModComment_Record_Model
 	 * @param <Integer> $record
