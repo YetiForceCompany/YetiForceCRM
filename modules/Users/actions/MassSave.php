@@ -86,7 +86,7 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 						$recordModel->set($fieldName, $recordModel->get($fieldName));
 					} else {
 						$uiTypeModel = $fieldModel->getUITypeModel();
-						$recordModel->set($fieldName, $uiTypeModel->getDBValue($recordModel->get($fieldName), $recordId));
+						$recordModel->set($fieldName, $uiTypeModel->getDBValue($recordModel->get($fieldName), $recordModel));
 					}
 				}
 			}
