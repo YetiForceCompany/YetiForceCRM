@@ -28,10 +28,8 @@ class Settings_Webforms_Save_Action extends Settings_Vtiger_Index_Action
 
 		if ($recordId) {
 			$recordModel = Settings_Webforms_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
-			$recordModel->set('mode', 'edit');
 		} else {
 			$recordModel = Settings_Webforms_Record_Model::getCleanInstance($qualifiedModuleName);
-			$recordModel->set('mode', '');
 		}
 
 		$fieldsList = $recordModel->getModule()->getFields();

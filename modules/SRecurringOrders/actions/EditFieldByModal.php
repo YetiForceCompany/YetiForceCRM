@@ -20,7 +20,6 @@ class SRecurringOrders_EditFieldByModal_Action extends Vtiger_EditFieldByModal_A
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->set('id', $recordId);
 		$recordModel->set($fieldName, $state);
-		$recordModel->set('mode', 'edit');
 		if (in_array($state, ['PLL_UNREALIZED', 'PLL_REALIZED'])) {
 			$currentTime = date('Y-m-d H:i:s');
 			$responseTime = strtotime($currentTime) - strtotime($recordModel->get('createdtime'));
