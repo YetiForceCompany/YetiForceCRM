@@ -36,8 +36,7 @@ class VTWatchdog extends VTTask
 				$users = $watchdog->getWatchingUsers();
 				break;
 			case 'owner':
-				$owner = explode('x', $recordModel->get('assigned_user_id'));
-				$users = [$owner[1]];
+				$users = [$recordModel->get('assigned_user_id')];
 				break;
 			default:
 				$users = \App\PrivilegeUtil::getUserByMember($this->recipients);
