@@ -46,6 +46,7 @@ after_success:
 - cat DetailView.txt
 - cat ListView.txt
 - cat EditView.txt
+- cat TestInstalDb.txt
 - php ocular code-coverage:upload --format=php-clover coverage.clover
 - bash <(curl -s https://codecov.io/bash) 
 
