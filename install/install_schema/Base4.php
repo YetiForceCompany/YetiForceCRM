@@ -1634,7 +1634,7 @@ class Base4 extends \App\Db\Importers\Base
 					'currency_id' => $this->integer()->notNull()->defaultValue(1),
 					'description' => $this->text(),
 					'date_entered' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-					'date_modified' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+					'date_modified' => $this->timestamp()->notNull(),
 					'modified_user_id' => $this->stringType(36),
 					'email1' => $this->stringType(100),
 					'status' => $this->stringType(25),
