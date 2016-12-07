@@ -12,7 +12,7 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 	protected $name = 'PicklistField';
 	protected $defaultLabel = 'LBL_PICKLIST_FIELD';
 	protected $columnName = 'picklistfield';
-	protected $dbType = 'varchar(200)';
+	protected $dbType = 'string';
 	protected $onlyOne = false;
 
 	public function getParams()

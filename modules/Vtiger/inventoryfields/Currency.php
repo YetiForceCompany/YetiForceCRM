@@ -12,9 +12,9 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $name = 'Currency';
 	protected $defaultLabel = 'LBL_CURRENCY';
 	protected $columnName = 'currency';
-	protected $dbType = 'int(10)';
+	protected $dbType = 'int(11)';
 	protected $customColumn = [
-		'currencyparam' => 'varchar(1024)'
+		'currencyparam' => 'string(1024)'
 	];
 	protected $blocks = [0];
 

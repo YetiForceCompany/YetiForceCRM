@@ -15,7 +15,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'discount';
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
 	protected $customColumn = [
-		'discountparam' => 'varchar(255) NOT NULL'
+		'discountparam' => 'string'
 	];
 	protected $summationValue = true;
 

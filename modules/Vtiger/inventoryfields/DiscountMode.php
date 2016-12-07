@@ -13,7 +13,7 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_DISCOUNT_MODE';
 	protected $defaultValue = '0';
 	protected $columnName = 'discountmode';
-	protected $dbType = 'tinyint(1) NOT NULL DEFAULT 0';
+	protected $dbType = 'smallint(1) DEFAULT 0';
 	protected $values = [0 => 'group', 1 => 'individual'];
 	protected $blocks = [0];
 
