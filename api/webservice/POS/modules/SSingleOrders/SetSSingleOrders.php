@@ -69,7 +69,7 @@ class API_SSingleOrders_SetSSingleOrders extends BaseAction
 					$inventoryData->set('currency' . $countInventoryData, $defaultCurrency);
 				}
 				$inventoryData->set('inventoryItemsNo', $countInventoryData);
-				$recordModel->set('inventoryData', $inventoryData);
+				$recordModel->setInventoryRawData($inventoryData);
 				$recordModel->save();
 				$idsToReturn[$offer['id']] = $recordModel->getid();
 			} else {

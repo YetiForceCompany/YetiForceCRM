@@ -921,23 +921,18 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 	public function createRecordByModel($moduleName, $fieldData, $user)
 	{
-		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
-		vglobal('VTIGER_BULK_SAVE_MODE', false);
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		if (isset($fieldData['inventoryData'])) {
 			$inventoryData = $fieldData['inventoryData'];
 			unset($fieldData['inventoryData']);
 		}
-		$fieldData = $this->parseData($moduleName, $fieldData);
 		if ($inventoryData) {
-			$fieldData = $this->setInventoryDataToRequest($fieldData, $inventoryData);
+			$recordModel->setInventoryRawData($this->setInventoryDataToRequest($inventoryData));
 		}
-		foreach ($fieldData as $fieldName => $value) {
+		foreach ($this->parseData($moduleName, $fieldData) as $fieldName => &$value) {
 			$recordModel->set($fieldName, $value);
 		}
-
 		$recordModel->save();
-		vglobal('VTIGER_BULK_SAVE_MODE', $previousBulkSaveMode);
 		$ID = $recordModel->getId();
 		if (!empty($ID)) {
 			$adb = PearDatabase::getInstance();
@@ -1002,22 +997,21 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		return $element;
 	}
 
-	public function setInventoryDataToRequest($fieldData, $inventoryData = [])
+	public function setInventoryDataToRequest($inventoryData = [])
 	{
-		$invDat = [];
+		$inventoryModel = new Vtiger_Base_Model();
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
 		foreach ($inventoryData as $index => $data) {
 			$i = $index + 1;
-			$invDat['inventoryItemsNo'] = $i;
+			$inventoryModel->set('inventoryItemsNo', $i);
 			foreach ($data as $name => $value) {
 				if (in_array($name, $jsonFields)) {
 					$value = \App\Json::decode($value);
 				}
-				$invDat[$name . $i] = $value;
+				$inventoryModel->set($name . $i, $value);
 			}
 		}
-		$fieldData['inventoryData'] = new Vtiger_Request($invDat);
-		return $fieldData;
+		return $inventoryData;
 	}
 }

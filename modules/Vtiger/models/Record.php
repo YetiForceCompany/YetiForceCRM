@@ -17,7 +17,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	protected $isNew = true;
 	protected $module = false;
-	protected $inventoryData = false;
+	protected $inventoryData;
+	protected $inventoryRawData;
 	protected $privileges = [];
 	protected $fullForm = true;
 	protected $changes = [];
@@ -837,9 +838,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getInventoryData()
 	{
-
 		\App\Log::trace('Entering ' . __METHOD__);
-		if (!$this->inventoryData) {
+		if (!isset($this->inventoryData)) {
 			$module = $this->getModuleName();
 			$record = $this->getId();
 			if (empty($record)) {
@@ -880,8 +880,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$fields = $inventory->getColumns();
 		$summaryFields = $inventory->getSummaryFields();
 		$inventoryData = $summary = [];
-		if ($this->has('inventoryData')) {
-			$request = $this->get('inventoryData');
+		if (isset($this->inventoryRawData)) {
+			$request = $this->inventoryRawData;
 		} else {
 			$request = AppRequest::init();
 		}
@@ -892,14 +892,14 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 					continue;
 				}
 				$insertData = ['seq' => $request->get('seq' . $i)];
-				foreach ($fields as $field) {
+				foreach ($fields as &$field) {
 					$insertData[$field] = $inventory->getValueForSave($request, $field, $i);
 				}
 				$inventoryData[] = $insertData;
 			}
 			$prefix = 'sum_';
 			$inventoryFields = $inventory->getFields();
-			foreach ($summaryFields as $fieldName) {
+			foreach ($summaryFields as &$fieldName) {
 				if ($this->has($prefix . $fieldName)) {
 					$value = $inventoryFields[$fieldName]->getSummaryValuesFromData($inventoryData);
 					$this->set($prefix . $fieldName, $value);
@@ -938,9 +938,22 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return (bool) $this->privileges['editFieldByModal'];
 	}
 
+	/**
+	 * Set inventory data
+	 * @param array $data
+	 */
 	public function setInventoryData($data)
 	{
 		$this->inventoryData = $data;
+	}
+
+	/**
+	 * Set inventory raw data
+	 * @param array $data
+	 */
+	public function setInventoryRawData($data)
+	{
+		$this->inventoryRawData = $data;
 	}
 
 	/**
