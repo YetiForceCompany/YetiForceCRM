@@ -52,15 +52,19 @@ class ModTracker_ModTrackerHandler_Handler
 		if (!$recordModel->isNew()) {
 			ModTracker_Record_Model::unsetReviewed($recordId, App\User::getCurrentUserRealId(), $id);
 		}
-		foreach ($delta as $fieldName => &$value) {
-			if (empty($value)) {
+		foreach ($delta as $fieldName => &$preValue) {
+			if (empty($preValue)) {
 				continue;
+			}
+			$newValue = $recordModel->get($fieldName);
+			if (is_object($newValue)) {
+				throw new Exceptions\AppException('Incorrect data type: Value can not be the object');
 			}
 			$db->createCommand()->insert('vtiger_modtracker_detail', [
 				'id' => $id,
 				'fieldname' => $fieldName,
-				'prevalue' => $value,
-				'postvalue' => $recordModel->get($fieldName)
+				'prevalue' => $preValue,
+				'postvalue' => $newValue
 			])->execute();
 		}
 		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', App\User::getCurrentUserRealId()])->exists();
