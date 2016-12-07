@@ -409,13 +409,17 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
 		} else {
-			$forSave[$moduleModel->basetable] = [];
+			$entityModel = $this->getEntity();
+			$forSave[$entityModel->table_name] = [];
+			if (!empty($entityModel->customFieldTable)) {
+				$forSave[$entityModel->customFieldTable[0]] = [];
+			}
 		}
 		foreach ($saveFields as &$fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
 				$value = $this->get($fieldName);
-				if ($value === '') {
+				if ($value === '' || $value === null) {
 					$value = $fieldModel->getUITypeModel()->getDBValue($value, $this);
 				}
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
