@@ -58,7 +58,7 @@ class ModTracker_ModTrackerHandler_Handler
 			}
 			$newValue = $recordModel->get($fieldName);
 			if (is_object($newValue)) {
-				throw new Exceptions\AppException('Incorrect data type: Value can not be the object');
+				throw new Exceptions\AppException('Incorrect data type: Value can not be the object of ' . get_class($newValue));
 			}
 			$db->createCommand()->insert('vtiger_modtracker_detail', [
 				'id' => $id,

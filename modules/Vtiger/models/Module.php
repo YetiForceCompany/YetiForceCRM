@@ -213,7 +213,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$moduleName = $this->get('name');
 		if (!$recordModel->isNew() && empty($recordModel->changes)) {
 			App\Log::warning('ERR_NO_DATA');
-			//return $recordModel;
+			return $recordModel;
 		}
 		$recordId = $recordModel->getId();
 		if ($recordModel->isNew()) {
@@ -579,7 +579,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (isset($this->fields[$fieldName])) {
 			return $this->fields[$fieldName];
 		}
-		App\Log::error("Field does not exist: $fieldName in " . __METHOD__);
+		App\Log::warning("Field does not exist: $fieldName in " . __METHOD__);
 		return false;
 	}
 

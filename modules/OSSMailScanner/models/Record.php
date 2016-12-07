@@ -395,7 +395,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		\App\Log::trace('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {
-			\App\Log::warning(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
+			\App\Log::info(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
@@ -404,7 +404,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$scanId = 0;
 		$accounts = OSSMail_Record_Model::getAccountsList();
 		if (!$accounts) {
-			\App\Log::warning('There are no accounts to be scanned');
+			\App\Log::info('There are no accounts to be scanned');
 			return false;
 		}
 		self::setCronStatus('2');

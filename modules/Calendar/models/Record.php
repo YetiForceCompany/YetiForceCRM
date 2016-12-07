@@ -200,7 +200,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function insertIntoInviteTable()
 	{
 		if (!AppRequest::has('inviteesid')) {
-			\App\Log::error('No invitations in request, Exiting insertIntoInviteeTable method ...');
+			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
 			return;
 		}
 		\App\Log::trace('Entering ' . __METHOD__);

@@ -27,7 +27,7 @@ class API_DAV_Model
 				$dav->davUsers[$key] = $user;
 				\App\Log::trace(__METHOD__ . ' | User is active ' . $user->getName());
 			} else { // User is inactive
-				\App\Log::warning(__METHOD__ . ' | User is inactive ' . $user->getName());
+				\App\Log::info(__METHOD__ . ' | User is inactive ' . $user->getName());
 			}
 		}
 		$cardDav = new API_CardDAV_Model();
@@ -51,7 +51,7 @@ class API_DAV_Model
 				$dav->davUsers[$key] = $user;
 				\App\Log::trace(__METHOD__ . ' | User is active ' . $user->getName());
 			} else { // User is inactive
-				\App\Log::warning(__METHOD__ . ' | User is inactive ' . $user->getName());
+				\App\Log::info(__METHOD__ . ' | User is inactive ' . $user->getName());
 			}
 		}
 		$cardDav = new API_CalDAV_Model();
