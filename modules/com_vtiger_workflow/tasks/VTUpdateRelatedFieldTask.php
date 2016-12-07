@@ -5,7 +5,6 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 class VTUpdateRelatedFieldTask extends VTTask
@@ -67,9 +66,9 @@ class VTUpdateRelatedFieldTask extends VTTask
 		$util->revertUser();
 	}
 
-	function updateRecords($recordModel, $reletedData, $fieldValue)
+	function updateRecords($recordModel, $relatedData, $fieldValue)
 	{
-		$reletedDataEx = explode('::', $reletedData);
+		$reletedDataEx = explode('::', $relatedData);
 		$reletedModuleName = $reletedDataEx[0];
 		$reletedFieldName = $reletedDataEx[1];
 		$targetModel = Vtiger_RelationListView_Model::getInstance($recordModel, $reletedModuleName);
@@ -80,6 +79,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 				->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $reletedModuleName);
+			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
 			$recordModel->set($reletedFieldName, $fieldValue);
 			$recordModel->save();
 		}

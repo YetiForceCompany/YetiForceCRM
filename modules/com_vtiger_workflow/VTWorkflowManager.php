@@ -174,11 +174,8 @@ class VTWorkflowManager
 	 */
 	public function retrieve($id)
 	{
-		$adb = $this->adb;
-		$result = $adb->pquery("select * from com_vtiger_workflows where workflow_id=?", array($id));
-
-		if ($adb->num_rows($result)) {
-			$data = $adb->raw_query_result_rowdata($result, 0);
+		$data = (new App\Db\Query())->from('com_vtiger_workflows')->where(['workflow_id' => $id])->one();
+		if ($data) {
 			$workflow = $this->getWorkflowInstance($data['type']);
 			$workflow->setup($data);
 			return $workflow;
