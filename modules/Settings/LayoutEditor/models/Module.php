@@ -132,7 +132,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function addField($fieldType, $blockId, $params)
 	{
-		$db = PearDatabase::getInstance();
 		$label = $params['fieldLabel'];
 		$type = $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
@@ -159,9 +158,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$columnName = $name;
 			$tableName = $focus->table_name;
 		} elseif ($type == 1) {
-			$max_fieldid = $db->getUniqueID('vtiger_field');
-			$columnName = 'cf_' . $max_fieldid;
-			$custfld_fieldid = $max_fieldid;
+			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field');
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
 			} else {
