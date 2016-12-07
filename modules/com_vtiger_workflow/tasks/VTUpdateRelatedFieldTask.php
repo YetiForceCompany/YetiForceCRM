@@ -80,7 +80,6 @@ class VTUpdateRelatedFieldTask extends VTTask
 				->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $reletedModuleName);
-			$recordModel->set('mode', 'edit');
 			$recordModel->set($reletedFieldName, $fieldValue);
 			$recordModel->save();
 		}
@@ -91,7 +90,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 	 * @param <Object> $entity
 	 * @return <Array> contents
 	 */
-	public function getContents($entity, $entityCache = false)
+	public function getContents($recordModel)
 	{
 		$this->contents = true;
 		return $this->contents;

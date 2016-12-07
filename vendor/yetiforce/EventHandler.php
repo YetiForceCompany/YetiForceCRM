@@ -258,6 +258,11 @@ class EventHandler
 			if (!empty($this->exceptions['disableWorkflow'])) {
 				unset($handlers['Vtiger_Workflow_Handler']);
 			}
+			if (!empty($this->exceptions['disableHandler'])) {
+				foreach ($this->exceptions['disableHandler'] as &$className) {
+					unset($handlers[$className]);
+				}
+			}
 		}
 		return $handlers;
 	}

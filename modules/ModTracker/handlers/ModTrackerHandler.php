@@ -204,6 +204,7 @@ class ModTracker_ModTrackerHandler_Handler
 					$notification->set('description', $watchdogMessage);
 					$notification->set('notification_type', $watchdog->noticeDefaultType);
 					$notification->set('notification_status', 'PLL_UNREAD');
+					$notification->setHandlerExceptions(['disableHandlerByName' => ['ModTracker_ModTrackerHandler_Handler']]);
 					$notification->save();
 				}
 			}
