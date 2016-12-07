@@ -118,9 +118,6 @@ class VTCreateEventTask extends VTTask
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
 		$newRecordModel->setData($fields);
 		$newRecordModel->save();
-		$event = vtws_create('Events', $fields, $adminUser);
-		$entityIdDetails = vtws_getIdComponents($id);
-
 		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 		/*
 		  $handler = vtws_getModuleHandlerFromName('Events', $adminUser);
