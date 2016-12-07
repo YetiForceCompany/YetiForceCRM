@@ -241,6 +241,7 @@ $languageStrings = [
 	'Language' => 'Язык',
 	'FL_AVAILABLE' => 'Available',
 	'FL_AUTO_ASSIGN_RECORDS' => 'Auto assign records',
+	'FL_RECORD_LIMIT_IN_MODULE' => 'Record limit in module',
 	'Last 2 Days' => 'Последние 2 дня',
 	'Last Name' => 'Фамилия',
 	'Last Week' => 'Последняя неделя',

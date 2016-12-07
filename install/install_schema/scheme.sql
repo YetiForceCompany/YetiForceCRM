@@ -4826,7 +4826,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2470 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2471 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8762,6 +8762,7 @@ CREATE TABLE `vtiger_users` (
   `emailoptout` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `available` tinyint(1) DEFAULT '0',
   `auto_assign` tinyint(1) DEFAULT '0',
+  `records_limit` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),

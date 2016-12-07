@@ -32,6 +32,7 @@ $languageStrings = [
 	'Language' => 'Język',
 	'FL_AVAILABLE' => 'Dostępny',
 	'FL_AUTO_ASSIGN_RECORDS' => 'Automatyczny przydział rekordów',
+	'FL_RECORD_LIMIT_IN_MODULE' => 'Limit rekordów w module',
 	'LBL_ABOUT_ME' => 'O mnie',
 	'LBL_ACTIVE_USERS' => 'Aktywni użytkownicy',
 	'LBL_ADD_RECORD' => 'Dodaj użytkownika',

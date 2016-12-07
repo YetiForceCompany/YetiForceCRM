@@ -36,6 +36,7 @@ $languageStrings = [
 	'Language' => 'Language',
 	'FL_AVAILABLE' => 'Available',
 	'FL_AUTO_ASSIGN_RECORDS' => 'Auto assign records',
+	'FL_RECORD_LIMIT_IN_MODULE' => 'Record limit in module',
 	'LBL_ABOUT_ME' => 'About Me',
 	'LBL_ACTIVE_USERS' => 'Active Users',
 	'LBL_ADD_RECORD' => 'Add record',
