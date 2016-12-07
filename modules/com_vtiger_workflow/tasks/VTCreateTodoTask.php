@@ -35,9 +35,9 @@ class VTCreateTodoTask extends VTTask
 	function getAdmin()
 	{
 		$user = Users::getActiveAdminUser();
-		$current_user = vglobal('current_user');
-		$this->originalUser = $current_user;
-		$current_user = $user;
+		$currentUser = vglobal('current_user');
+		$this->originalUser = $currentUser;
+		$currentUser = $user;
 		return $user;
 	}
 
@@ -50,52 +50,58 @@ class VTCreateTodoTask extends VTTask
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = vglobal('current_user');
 
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		$adminUser = $this->getAdmin();
 		$userId = $recordModel->get('assigned_user_id');
 		if ($userId === null) {
-			$userId = vtws_getWebserviceEntityId('Users', 1);
+			$userId = $adminUser;
 		}
 		$moduleName = $recordModel->getModuleName();
-		$adminUser = $this->getAdmin();
+
 		if ($this->doNotDuplicate == 'true') {
+
 			$entityId = $recordModel->getId();
-			$sql = 'SELECT count(vtiger_activity.activityid) AS num FROM vtiger_activity 
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					WHERE vtiger_crmentity.deleted = 0 AND (vtiger_activity.link = ? OR vtiger_activity.process = ?) 
-					AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
+			$query = (new App\Db\Query())->from('vtiger_activity')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+				->where([
+				'and',
+				['vtiger_crmentity.deleted' => 0],
+				['or', ['vtiger_activity.link' => $entityId], ['vtiger_activity.process' => $entityId]],
+				['vtiger_activity.activitytype' => 'Task'],
+				['vtiger_activity.subject' => $this->todo]
+			]);
 			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
-				$sql .= " AND vtiger_activity.status NOT IN ('" . implode("','", $status) . "')";
+				$query->andWhere(['not in', 'vtiger_activity.status', $status]);
 			}
-			$duplicates = $adb->pquery($sql, [$entityId, $entityId, 'Task', $this->todo]);
-			$num = $adb->query_result_raw($duplicates, 0, 'num');
-			if ($num > 0) {
+			if ($query->count() > 0) {
 				\App\Log::warning(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.' . $this->todo);
 				return;
 			}
 		}
 
 		if ($this->assigned_user_id == 'currentUser') {
-			$userId = vtws_getWebserviceEntityId('Users', \App\User::getCurrentUserId());
+			$userId = \App\User::getCurrentUserId();
 		} else if ($this->assigned_user_id == 'triggerUser') {
-			$userId = vtws_getWebserviceEntityId('Users', \App\User::getCurrentUserRealId());
+			$userId = \App\User::getCurrentUserRealId();
 		}
 
 		if ($this->assigned_user_id == 'copyParentOwner') {
 			$userId = $recordModel->get('assigned_user_id');
 		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
-			$userExists = $adb->pquery('SELECT 1 FROM vtiger_users WHERE id = ? AND status = ?', array($this->assigned_user_id, 'Active'));
-			if ($adb->num_rows($userExists)) {
-				$assignedUserId = vtws_getWebserviceEntityId('Users', $this->assigned_user_id);
-				$userId = $assignedUserId;
+			$userExists = (new App\Db\Query())->from('vtiger_users')
+				->where(['id' => $this->assigned_user_id, 'status' => 'Active'])
+				->exists();
+			if ($userExists) {
+				$userId = $this->assigned_user_id;
 			} else {
-				$groupExist = $adb->pquery('SELECT 1 FROM vtiger_groups WHERE groupid = ?', array($this->assigned_user_id));
-				if ($adb->num_rows($groupExist)) {
-					$assignedGroupId = vtws_getWebserviceEntityId('Groups', $this->assigned_user_id);
-					$userId = $assignedGroupId;
+				$groupExist = (new App\Db\Query())->from('vtiger_groups')
+					->where(['groupid' => $this->assigned_user_id])
+					->exists();
+				if ($groupExist) {
+					$userId = $this->assigned_user_id;
 				}
 			}
 		}
@@ -131,8 +137,6 @@ class VTCreateTodoTask extends VTTask
 
 		$timeEnd = explode(' ', $baseDateEnd);
 		if (count($timeEnd) < 2) {
-			$parts = explode('x', $userId);
-			$userId = $parts[1];
 			$row = (new App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->one();
 			if ($row) {
 				$timeEnd = $row['end_hour'];
@@ -150,12 +154,9 @@ class VTCreateTodoTask extends VTTask
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
 		$baseDateEnd = strtotime($match[0]);
-
 		$date_start = strftime('%Y-%m-%d', $baseDateStart + $this->days_start * 24 * 60 * 60 * (strtolower($this->direction_start) == 'before' ? -1 : 1));
 		$due_date = strftime('%Y-%m-%d', $baseDateEnd + $this->days_end * 24 * 60 * 60 * (strtolower($this->direction_end) == 'before' ? -1 : 1));
-
-
-		$fields = array(
+		$fields = [
 			'activitytype' => 'Task',
 			'description' => $this->description,
 			'subject' => $this->todo,
@@ -165,32 +166,31 @@ class VTCreateTodoTask extends VTTask
 			'time_start' => $time,
 			'time_end' => $timeEnd,
 			'sendnotification' => ($this->sendNotification != '' && $this->sendNotification != 'N') ?
-			true : false,
+				true : false,
 			'date_start' => $date_start,
 			'due_date' => $due_date,
 			'visibility' => 'Private',
-			//'eventstatus' => ''
-		);
+		];
 		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 		if ($field) {
 			$fields[$field] = $recordModel->getId();
 		}
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
+		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 
-		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 
 		if ($this->updateDates == 'true') {
-			$adb->insert('vtiger_activity_update_dates', [
+			App\Db::getInstance()->createCommand()->insert('vtiger_activity_update_dates', [
 				'activityid' => $newRecordModel->getId(),
 				'parent' => $recordModel->getId(),
 				'task_id' => $this->id,
-			]);
+			])->execute();
 		}
-
-		$current_user = vglobal('current_user');
-		$current_user = $this->originalUser;
+		$currentUser = vglobal('current_user');
+		$currentUser = $this->originalUser;
 		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 

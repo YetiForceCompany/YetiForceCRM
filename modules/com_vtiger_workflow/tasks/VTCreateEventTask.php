@@ -40,9 +40,9 @@ class VTCreateEventTask extends VTTask
 	function getAdmin()
 	{
 		$user = Users::getActiveAdminUser();
-		$current_user = vglobal('current_user');
-		$this->originalUser = $current_user;
-		$current_user = $user;
+		$currentUser = vglobal('current_user');
+		$this->originalUser = $currentUser;
+		$currentUser = $user;
 		return $user;
 	}
 
@@ -55,8 +55,7 @@ class VTCreateEventTask extends VTTask
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
+		$currentUser = vglobal('current_user');
 		$userId = $recordModel->get('assigned_user_id');
 		$adminUser = $this->getAdmin();
 		if ($userId === null) {
@@ -119,7 +118,7 @@ class VTCreateEventTask extends VTTask
 		}
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
 		$newRecordModel->setData($fields);
-		$newRecordModel->setHandlerExceptions(['disableHandlers' => true]);
+		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 		/*
@@ -196,8 +195,8 @@ class VTCreateEventTask extends VTTask
 		  AppRequest::set('createmode', '');
 		  }
 		 */
-		$current_user = vglobal('current_user');
-		$current_user = $this->originalUser;
+		$currentUser = vglobal('current_user');
+		$currentUser = $this->originalUser;
 	}
 
 	private function calculateDate($recordModel, $days, $direction, $datefield)
