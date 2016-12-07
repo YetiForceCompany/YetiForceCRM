@@ -66,7 +66,6 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		$record->set('ticket_title', $mail->get('subject'));
 		$record->set('description', \App\Purifier::purifyHtml($mail->get('body')));
 		$record->set('ticketstatus', 'Open');
-		$record->set('mode', 'new');
 		$record->set('id', '');
 		$record->save();
 		$id = $record->getId();

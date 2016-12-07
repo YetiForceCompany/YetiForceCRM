@@ -65,7 +65,6 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 					$due_date = $end['date'];
 					$time_end = $end['time'];
 					$recordModel->set('id', $recordId);
-					$recordModel->set('mode', 'edit');
 					$recordModel->set('date_start', $date_start);
 					$recordModel->set('time_start', $time_start);
 					$recordModel->set('due_date', $due_date);

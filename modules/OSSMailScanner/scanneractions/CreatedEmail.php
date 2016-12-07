@@ -62,7 +62,6 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			if (count($mail->get('attachments')) > 0) {
 				$record->set('attachments_exist', 1);
 			}
-			$record->set('mode', 'new');
 			$record->set('id', '');
 
 			$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');

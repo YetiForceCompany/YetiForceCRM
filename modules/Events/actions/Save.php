@@ -65,7 +65,6 @@ class Events_Save_Action extends Calendar_Save_Action
 			$recordModel->set('due_date', $startDate);
 			$recordModel->set('time_end', $startTime);
 			$recordModel->set('recurringtype', '');
-			$recordModel->set('mode', 'create');
 			$recordModel->save();
 			$heldevent = true;
 		}

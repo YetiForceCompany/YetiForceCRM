@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
 class Emails_MassSaveAjax_View extends Vtiger_Footer_View
@@ -58,10 +59,8 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 
 		if (!empty($recordId)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$recordModel->set('mode', 'edit');
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$recordModel->set('mode', '');
 		}
 
 
@@ -87,8 +86,8 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 			//If it is edit view unset the exising attachments
 			//remove the exising attachments if it is in edit view
 
-			$attachmentsToUnlink = array();
-			$documentsToUnlink = array();
+			$attachmentsToUnlink = [];
+			$documentsToUnlink = [];
 
 
 			foreach ($attachmentsWithParentEmail as $i => $attachInfo) {
