@@ -75,7 +75,6 @@ class Module extends ModuleBasic
 		$useactionsText = strtoupper($useactionsText);
 
 		$db->createCommand()->insert('vtiger_relatedlists', [
-			'relation_id' => $db->getUniqueID('vtiger_relatedlists', 'relation_id', false),
 			'tabid' => $this->id,
 			'related_tabid' => $moduleInstance->id,
 			'name' => $functionName,

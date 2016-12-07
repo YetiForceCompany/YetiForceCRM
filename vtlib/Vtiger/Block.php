@@ -72,14 +72,12 @@ class Block
 		$db = \App\Db::getInstance();
 		$this->module = $moduleInstance;
 
-		$this->id = $db->getUniqueID(self::$baseTable);
 		if (!$this->sequence)
 			$this->sequence = $this->__getNextSequence();
 		if ($this->display_status != 0) {
 			$this->display_status = 1;
 		}
 		$db->createCommand()->insert(self::$baseTable, [
-			'blockid' => $this->id,
 			'tabid' => $this->module->id,
 			'blocklabel' => $this->label,
 			'sequence' => $this->sequence,
@@ -91,6 +89,7 @@ class Block
 			'display_status' => $this->display_status,
 			'iscustom' => $this->iscustom
 		])->execute();
+		$this->id = $db->getLastInsertID(self::$baseTable . '_blockid_seq');
 		self::log("Creating Block $this->label ... DONE");
 		self::log("Module language entry for $this->label ... CHECK");
 	}

@@ -3405,7 +3405,7 @@ CREATE TABLE `vtiger_audit_trial` (
 /*Table structure for table `vtiger_blocks` */
 
 CREATE TABLE `vtiger_blocks` (
-  `blockid` int(19) NOT NULL,
+  `blockid` int(19) NOT NULL AUTO_INCREMENT,
   `tabid` int(19) NOT NULL,
   `blocklabel` varchar(100) NOT NULL,
   `sequence` int(10) DEFAULT NULL,
@@ -3419,7 +3419,7 @@ CREATE TABLE `vtiger_blocks` (
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=376 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -7412,7 +7412,7 @@ CREATE TABLE `vtiger_rel_mod_seq` (
 /*Table structure for table `vtiger_relatedlists` */
 
 CREATE TABLE `vtiger_relatedlists` (
-  `relation_id` smallint(19) unsigned NOT NULL,
+  `relation_id` smallint(19) unsigned NOT NULL AUTO_INCREMENT,
   `tabid` smallint(10) unsigned NOT NULL,
   `related_tabid` smallint(10) unsigned NOT NULL,
   `name` varchar(50) DEFAULT NULL,
@@ -7429,7 +7429,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=525 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
