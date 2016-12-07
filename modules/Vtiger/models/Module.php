@@ -223,6 +223,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
+		if ($recordModel->getHandlerExceptions()) {
+			$eventHandler->setExceptions($recordModel->getHandlerExceptions());
+		}
 		$eventHandler->trigger('EntityBeforeSave');
 
 		$recordModel->saveToDb();

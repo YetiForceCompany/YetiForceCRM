@@ -21,6 +21,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	protected $privileges = [];
 	protected $fullForm = true;
 	protected $changes = [];
+	protected $handlerExceptions;
 	public $summaryRowCount = 4;
 
 	/**
@@ -1071,5 +1072,23 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}
+	}
+
+	/**
+	 * Set handler exceptions
+	 * @param array $exceptions
+	 */
+	public function setHandlerExceptions($exceptions)
+	{
+		$this->handlerExceptions = $exceptions;
+	}
+
+	/**
+	 * get handler exceptions
+	 * @return array
+	 */
+	public function getHandlerExceptions()
+	{
+		return $this->handlerExceptions;
 	}
 }

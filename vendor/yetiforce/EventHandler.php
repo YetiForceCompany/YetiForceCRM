@@ -21,6 +21,8 @@ class EventHandler
 	private $params;
 	private $userId;
 	private static $handlersInstance;
+	private $exceptions;
+	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler'];
 
 	/**
 	 * Get all event handlers
@@ -55,7 +57,7 @@ class EventHandler
 		if (!isset(self::$handlerByType)) {
 			$handlers = [];
 			foreach (static::getAll(true) as &$handler) {
-				$handlers[$handler['event_name']][] = $handler;
+				$handlers[$handler['event_name']][$handler['handler_class']] = $handler;
 			}
 			static::$handlerByType = $handlers;
 		}
@@ -226,14 +228,48 @@ class EventHandler
 	}
 
 	/**
+	 * Set exceptions
+	 * @param array $exceptions
+	 */
+	public function setExceptions($exceptions)
+	{
+		$this->exceptions = $exceptions;
+	}
+
+	/**
+	 * 
+	 * @param string $name Event name
+	 * @return array Handlers list
+	 */
+	protected function getHandlers($name)
+	{
+		$handlers = static::getByType($name, $this->moduleName);
+		if ($this->exceptions) {
+			if (!empty($this->exceptions['disableHandlers'])) {
+				$mandatory = [];
+				foreach (static::$mandatoryEventClass as &$className) {
+					if (isset($handlers[$className])) {
+						$mandatory[$className] = $handlers[$className];
+					}
+				}
+				unset($handlers);
+				$handlers = $mandatory;
+			}
+			if (!empty($this->exceptions['disableWorkflow'])) {
+				unset($handlers['Vtiger_Workflow_Handler']);
+			}
+		}
+		return $handlers;
+	}
+
+	/**
 	 * Trigger an event
 	 * @param string $name Event name
 	 * @throws \Exception\AppException
 	 */
 	public function trigger($name)
 	{
-		$handlers = static::getByType($name, $this->moduleName);
-		foreach ($handlers as &$handler) {
+		foreach ($this->getHandlers($name) as &$handler) {
 			if (isset(static::$handlersInstance[$handler['handler_class']])) {
 				$handlerInstance = static::$handlersInstance[$handler['handler_class']];
 			} else {
