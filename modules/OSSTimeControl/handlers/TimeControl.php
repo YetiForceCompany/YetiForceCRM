@@ -21,15 +21,12 @@ class OSSTimeControl_TimeControl_Handler
 	public function entityAfterUnLink(App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
-		$db = PearDatabase::getInstance();
-		$wfs = new VTWorkflowManager($db);
+		$wfs = new VTWorkflowManager();
 		$workflows = $wfs->getWorkflowsForModule($params['destinationModule'], VTWorkflowManager::$MANUAL);
-		$wsId = vtws_getWebserviceEntityId($params['destinationModule'], $params['destinationRecordId']);
-		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
-		$entityData = $entityCache->forId($wsId);
+		$recordModel = Vtiger_Record_Model::getInstanceById($params['destinationRecordId'], $params['destinationModule']);
 		foreach ($workflows as &$workflow) {
-			if ($workflow->evaluate($entityCache, $entityData->getId())) {
-				$workflow->performTasks($entityData);
+			if ($workflow->evaluate($recordModel)) {
+				$workflow->performTasks($recordModel);
 			}
 		}
 	}
@@ -41,15 +38,11 @@ class OSSTimeControl_TimeControl_Handler
 	public function entityAfterDelete(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		$db = PearDatabase::getInstance();
-		$wfs = new VTWorkflowManager($db);
+		$wfs = new VTWorkflowManager();
 		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
-		$wsId = vtws_getWebserviceEntityId($eventHandler->getModuleName(), $recordModel->getId());
-		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
-		$entityData = $entityCache->forId($wsId);
 		foreach ($workflows as &$workflow) {
-			if ($workflow->evaluate($entityCache, $entityData->getId())) {
-				$workflow->performTasks($entityData);
+			if ($workflow->evaluate($recordModel)) {
+				$workflow->performTasks($recordModel);
 			}
 		}
 	}
@@ -62,14 +55,11 @@ class OSSTimeControl_TimeControl_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		OSSTimeControl_Record_Model::setSumTime($recordModel);
-		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
+		$wfs = new VTWorkflowManager();
 		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
-		$wsId = vtws_getWebserviceEntityId($eventHandler->getModuleName(), $recordModel->getId());
-		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
-		$entityData = $entityCache->forId($wsId);
 		foreach ($workflows as &$workflow) {
-			if ($workflow->evaluate($entityCache, $entityData->getId())) {
-				$workflow->performTasks($entityData);
+			if ($workflow->evaluate($recordModel)) {
+				$workflow->performTasks($recordModel);
 			}
 		}
 	}
@@ -81,14 +71,11 @@ class OSSTimeControl_TimeControl_Handler
 	public function entityAfterRestore(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
+		$wfs = new VTWorkflowManager();
 		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
-		$wsId = vtws_getWebserviceEntityId($eventHandler->getModuleName(), $recordModel->getId());
-		$entityCache = new VTEntityCache(Users_Record_Model::getCurrentUserModel());
-		$entityData = $entityCache->forId($wsId);
 		foreach ($workflows as &$workflow) {
-			if ($workflow->evaluate($entityCache, $entityData->getId())) {
-				$workflow->performTasks($entityData);
+			if ($workflow->evaluate($recordModel)) {
+				$workflow->performTasks($recordModel);
 			}
 		}
 	}
