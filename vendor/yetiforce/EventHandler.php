@@ -22,7 +22,7 @@ class EventHandler
 	private $userId;
 	private static $handlersInstance;
 	private $exceptions;
-	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler'];
+	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler', 'Vtiger_RecordLabelUpdater_Handler'];
 
 	/**
 	 * Get all event handlers

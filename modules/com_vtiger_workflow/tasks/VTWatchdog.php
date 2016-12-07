@@ -56,6 +56,7 @@ class VTWatchdog extends VTTask
 		$notification->set('description', $this->message);
 		$notification->set('notification_type', $this->type);
 		$notification->set('notification_status', 'PLL_UNREAD');
+		$notification->setHandlerExceptions(['disableHandlers' => true]);
 		$notification->save();
 	}
 }
