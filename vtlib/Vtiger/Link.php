@@ -61,14 +61,6 @@ class Link
 		return false;
 	}
 
-	/**
-	 * Get unique id for the insertion
-	 */
-	static function __getUniqueId()
-	{
-		return \App\Db::getInstance()->getUniqueID('vtiger_links');
-	}
-
 	/** Cache (Record) the schema changes to improve performance */
 	static $__cacheSchemaChanges = [];
 
@@ -91,7 +83,6 @@ class Link
 		}
 		if ($tabid == 0 || !$checkres) {
 			$params = [
-				'linkid' => self::__getUniqueId(),
 				'tabid' => $tabid,
 				'linktype' => $type,
 				'linklabel' => $label,

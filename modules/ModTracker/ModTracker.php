@@ -46,26 +46,15 @@ class ModTracker
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		global $currentModule;
 		$adb = PearDatabase::getInstance();
-		$modtrackerModule = vtlib\Module::getInstance($currentModule);
-		$otherModuleNames = $this->getModTrackerEnabledModules();
-
 		if ($eventType == 'module.postinstall') {
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
-
-			$fieldid = $adb->getUniqueID('vtiger_settings_field');
-			$blockid = \vtlib\Deprecated::getSettingsBlockId('LBL_OTHER_SETTINGS');
-			$seq_res = $adb->pquery("SELECT max(sequence) AS max_seq FROM vtiger_settings_field WHERE blockid = ?", array($blockid));
-			if ($adb->num_rows($seq_res) > 0) {
-				$cur_seq = $adb->query_result($seq_res, 0, 'max_seq');
-				if ($cur_seq != null)
-					$seq = $cur_seq + 1;
-			}
-
-			$adb->pquery('INSERT INTO vtiger_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence)
-				VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, 'ModTracker', 'set-IcoLoginHistory.gif', 'LBL_MODTRACKER_DESCRIPTION',
-				'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker', $seq));
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+				'name' => 'ModTracker',
+				'iconpath' => 'adminIcon-modules-track-chanegs',
+				'description' => 'LBL_MODTRACKER_DESCRIPTION',
+				'linkto' => 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker'
+			]);
 		} else if ($eventType == 'module.disabled') {
 			\App\EventHandler::setInActive('ModTracker_ModTrackerHandler_Handler');
 		} else if ($eventType == 'module.enabled') {

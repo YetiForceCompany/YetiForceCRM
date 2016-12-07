@@ -41,15 +41,12 @@ class OSSProjectTemplates extends Vtiger_CRMEntity
 
 	private function addLink($moduleName)
 	{
-		$adb = PearDatabase::getInstance();
-
-		$blockid = $adb->query_result(
-			$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'", array()), 0, 'blockid');
-		$sequence = (int) $adb->query_result(
-				$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
-		$fieldid = $adb->getUniqueId('vtiger_settings_field');
-		$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Project Templates', '', 'LBL_PROJECT_TEMPLATES_DESCRIPTION', 'index.php?module=' . $moduleName . '&parent=Settings&view=Index'));
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+			'name' => 'Project Templates',
+			'iconpath' => 'adminIcon-document-templates',
+			'description' => 'LBL_PROJECT_TEMPLATES_DESCRIPTION',
+			'linkto' => 'index.php?module=OSSProjectTemplates&parent=Settings&view=Index'
+		]);
 	}
 
 	private function addWidgetToListView($moduleNames, $widgetName, $widgetType = 'LIST_VIEW_HEADER')

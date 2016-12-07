@@ -5759,7 +5759,7 @@ CREATE TABLE `vtiger_lin_type_ship_seq` (
 /*Table structure for table `vtiger_links` */
 
 CREATE TABLE `vtiger_links` (
-  `linkid` int(11) NOT NULL,
+  `linkid` int(11) NOT NULL AUTO_INCREMENT,
   `tabid` int(11) DEFAULT NULL,
   `linktype` varchar(50) DEFAULT NULL,
   `linklabel` varchar(50) DEFAULT NULL,
@@ -5775,13 +5775,7 @@ CREATE TABLE `vtiger_links` (
   KEY `linklabel` (`linklabel`),
   KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
   KEY `linktype` (`linktype`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_links_seq` */
-
-CREATE TABLE `vtiger_links_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=309 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_loginhistory` */
 
@@ -7988,7 +7982,7 @@ CREATE TABLE `vtiger_settings_blocks_seq` (
 /*Table structure for table `vtiger_settings_field` */
 
 CREATE TABLE `vtiger_settings_field` (
-  `fieldid` int(19) NOT NULL,
+  `fieldid` int(19) NOT NULL AUTO_INCREMENT,
   `blockid` int(19) DEFAULT NULL,
   `name` varchar(250) DEFAULT NULL,
   `iconpath` varchar(300) DEFAULT NULL,
@@ -8000,13 +7994,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_settings_field_seq` */
-
-CREATE TABLE `vtiger_settings_field_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 

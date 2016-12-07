@@ -218,11 +218,12 @@ class PBXManager extends CRMEntity
 			}
 			$adb->pquery("INSERT INTO vtiger_settings_blocks(blockid, label, sequence) VALUES(?,?,?)", array($blockid, 'LBL_INTEGRATION', ++$sequence));
 		}
-
-		// To add a Field
-		$fieldid = $adb->getUniqueID('vtiger_settings_field');
-		$adb->pquery("INSERT INTO vtiger_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active)
-            VALUES(?,?,?,?,?,?,?,?)", array($fieldid, $blockid, 'LBL_PBXMANAGER', '', 'PBXManager module Configuration', 'index.php?module=PBXManager&parent=Settings&view=Index', 2, 0));
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
+			'name' => 'LBL_PBXMANAGER',
+			'iconpath' => 'adminIcon-pbx-manager',
+			'description' => 'LBL_PBXMANAGER_DESCRIPTION',
+			'linkto' => 'index.php?module=PBXManager&parent=Settings&view=Index'
+		]);
 		\App\Log::error('Settings Block and Field added');
 	}
 

@@ -75,10 +75,11 @@ class Faq_Record_Model extends Vtiger_Record_Model
 	 */
 	public function insertIntoFAQCommentTable()
 	{
-		if ($this->get('comments') !== '')
+		if ($this->get('comments') !== '') {
 			$comment = $this->get('comments');
-		else
+		} else {
 			$comment = AppRequest::get('comments');
+		}
 		if ($comment) {
 			App\Db::getInstance()->createCommand()->insert('vtiger_faqcomments', [
 				'faqid' => $this->getId(),

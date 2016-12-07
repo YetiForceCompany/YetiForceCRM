@@ -205,8 +205,6 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 		$blockId = vtlib\Deprecated::getSettingsBlockId($block);
 		$sequence = (new App\Db\Query())->from('vtiger_settings_field')->where(['blockid' => $blockId])
 				->max('sequence');
-		$fieldId = $db->getUniqueId('vtiger_settings_field');
-		$params['fieldid'] = $fieldId;
 		$params['blockid'] = $blockId;
 		$params['sequence'] = $sequence;
 		$db->createCommand()->insert('vtiger_settings_field', $params)->execute();

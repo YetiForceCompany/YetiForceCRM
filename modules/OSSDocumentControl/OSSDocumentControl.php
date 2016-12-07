@@ -109,14 +109,11 @@ class OSSDocumentControl extends Vtiger_CRMEntity
 
 	private function addLink($moduleName)
 	{
-		$db = PearDatabase::getInstance();
-
-		$blockid = $db->query_result(
-			$db->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'", array()), 0, 'blockid');
-		$sequence = (int) $db->query_result(
-				$db->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
-		$fieldid = $db->getUniqueId('vtiger_settings_field');
-		$db->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Document Control', '', 'LBL_DOCUMENT_CONTROL_DESCRIPTION', 'index.php?module=OSSDocumentControl&parent=Settings&view=Index'));
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+			'name' => 'Document Control',
+			'iconpath' => 'adminIcon-workflow',
+			'description' => 'LBL_DOCUMENT_CONTROL_DESCRIPTION',
+			'linkto' => 'index.php?module=OSSDocumentControl&parent=Settings&view=Index'
+		]);
 	}
 }

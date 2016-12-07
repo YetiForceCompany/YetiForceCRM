@@ -85,7 +85,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 
 	public function updateListPrices()
 	{
-		\App\Log::trace("Entering function updateListPrices...");
+		\App\Log::trace('Entering function updateListPrices...');
 		$pricebookCurrency = $this->get('currency_id');
 		$dataReader = (new App\Db\Query())->from('vtiger_pricebookproductrel')
 				->where(['and', ['pricebookid' => $this->getId()], ['<>', 'usedcurrency', $pricebookCurrency]])
@@ -98,6 +98,6 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 				->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency], ['pricebookid' => $this->getId(), 'productid' => $row['productid']])
 				->execute();
 		}
-		\App\Log::trace("Exiting function updateListPrices...");
+		\App\Log::trace('Exiting function updateListPrices...');
 	}
 }

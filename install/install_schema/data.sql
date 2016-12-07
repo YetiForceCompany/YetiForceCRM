@@ -6570,10 +6570,6 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (307,111,'DASHBOARDWIDGET','LBL_NOTIFICATION_BY_RECIPIENT','index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (308,3,'DASHBOARDWIDGET','LBL_EXPIRING_SOLD_PRODUCTS','index.php?module=Assets&view=ShowWidget&name=ExpiringSoldProducts','',0,NULL,NULL,NULL,NULL);
 
-/*Data for the table `vtiger_links_seq` */
-
-insert  into `vtiger_links_seq`(`id`) values (308);
-
 /*Data for the table `vtiger_loginhistory` */
 
 /*Data for the table `vtiger_lout_dimensions` */
@@ -25192,10 +25188,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (101,1,'LBL_OWNER_ALLOCATION','adminIcon-owner','LBL_OWNER_ALLOCATION_DESCRIPTION','index.php?module=RecordAllocation&view=Index&parent=Settings&type=owner',9,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (102,1,'LBL_MULTIOWNER_ALLOCATION','adminIcon-shared-owner','LBL_MULTIOWNER_ALLOCATION_DESCRIPTION','index.php?module=RecordAllocation&view=Index&parent=Settings&type=sharedOwner',10,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (103,1,'LBL_AUTOMATIC_ASSIGNMENT','adminIcon-shared-owner','LBL_AUTOMATICASSIGNMENT_DESCRIPTION','index.php?module=AutomaticAssignment&view=List&parent=Settings',11,0,0);
-
-/*Data for the table `vtiger_settings_field_seq` */
-
-insert  into `vtiger_settings_field_seq`(`id`) values (103);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

@@ -794,7 +794,7 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'vtiger_settings_field' => [
 				'columns' => [
-					'fieldid' => $this->integer()->notNull(),
+					'fieldid' => $this->primaryKey(),
 					'blockid' => $this->integer(),
 					'name' => $this->stringType(250),
 					'iconpath' => $this->stringType(300),
@@ -806,16 +806,6 @@ class Base4 extends \App\Db\Importers\Base
 				],
 				'index' => [
 						['settings_field_idx', 'blockid'],
-				],
-				'primaryKeys' => [
-						['settings_field_pk', 'fieldid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_settings_field_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -7009,12 +6999,6 @@ class Base4 extends \App\Db\Importers\Base
 						[101, 1, 'LBL_OWNER_ALLOCATION', 'adminIcon-owner', 'LBL_OWNER_ALLOCATION_DESCRIPTION', 'index.php?module=RecordAllocation&view=Index&parent=Settings&type=owner', 9, 0, 0],
 						[102, 1, 'LBL_MULTIOWNER_ALLOCATION', 'adminIcon-shared-owner', 'LBL_MULTIOWNER_ALLOCATION_DESCRIPTION', 'index.php?module=RecordAllocation&view=Index&parent=Settings&type=sharedOwner', 10, 0, 0],
 						[103, 1, 'LBL_AUTOMATIC_ASSIGNMENT', 'adminIcon-shared-owner', 'LBL_AUTOMATICASSIGNMENT_DESCRIPTION', 'index.php?module=AutomaticAssignment&view=List&parent=Settings', 11, 0, 0],
-				]
-			],
-			'vtiger_settings_field_seq' => [
-				'columns' => ['id'],
-				'values' => [
-						[103],
 				]
 			],
 			'vtiger_squoteenquiries_status' => [

@@ -43,15 +43,14 @@ class ApiAddress
 		}
 		$displayLabel = 'LBL_API_ADDRESS';
 		if ($registerLink) {
-			$blockid = $adb->query_result(
-				$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_INTEGRATION'", array()), 0, 'blockid');
-			$sequence = (int) $adb->query_result(
-					$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid), true), 0, 'sequence') + 1;
-			$fieldid = $adb->getUniqueId('vtiger_settings_field');
-			$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, $displayLabel, '', 'LBL_API_ADDRESS_DESCRIPTION', 'index.php?module=ApiAddress&parent=Settings&view=Configuration'), true);
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
+				'name' => $displayLabel,
+				'iconpath' => '',
+				'description' => 'LBL_API_ADDRESS_DESCRIPTION',
+				'linkto' => 'index.php?module=ApiAddress&parent=Settings&view=Configuration'
+			]);
 		} else {
-			$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array($displayLabel), true);
+			Settings_Vtiger_Module_Model::deleteSettingsField('LBL_INTEGRATION', $displayLabel);
 		}
 	}
 }

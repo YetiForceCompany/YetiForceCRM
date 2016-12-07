@@ -62,21 +62,18 @@ class OSSMailScanner
 
 	public function turn_on($moduleName)
 	{
-		$adb = PearDatabase::getInstance();
-		$blockid = $adb->query_result(
-			$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_MAIL'", array()), 0, 'blockid');
-		$sequence = (int) $adb->query_result(
-				$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
-		$fieldid = $adb->getUniqueId('vtiger_settings_field');
-		$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Mail Scanner', '', 'LBL_MAIL_SCANNER_DESCRIPTION', 'index.php?module=OSSMailScanner&parent=Settings&view=Index'));
-		$blockid = $adb->query_result(
-			$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_SECURITY_MANAGEMENT'", array()), 0, 'blockid');
-		$sequence = (int) $adb->query_result(
-				$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
-		$fieldid = $adb->getUniqueId('vtiger_settings_field');
-		$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence + 1, 'Mail Logs', '', 'LBL_MAIL_LOGS_DESCRIPTION', 'index.php?module=OSSMailScanner&parent=Settings&view=logs'));
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+			'name' => 'Mail Scanner',
+			'iconpath' => 'adminIcon-mail-scanner',
+			'description' => 'LBL_MAIL_SCANNER_DESCRIPTION',
+			'linkto' => 'index.php?module=OSSMailScanner&parent=Settings&view=Index'
+		]);
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_SECURITY_MANAGEMENT', [
+			'name' => 'Mail Logs',
+			'iconpath' => 'adminIcon-mail-download-history',
+			'description' => 'LBL_MAIL_LOGS_DESCRIPTION',
+			'linkto' => 'index.php?module=OSSMailScanner&parent=Settings&view=logs'
+		]);
 	}
 
 	public function turn_off($moduleName)

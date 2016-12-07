@@ -975,7 +975,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_links' => [
 				'columns' => [
-					'linkid' => $this->integer()->notNull(),
+					'linkid' => $this->primaryKey(),
 					'tabid' => $this->integer(),
 					'linktype' => $this->stringType(50),
 					'linklabel' => $this->stringType(50),
@@ -992,16 +992,6 @@ class Base3 extends \App\Db\Importers\Base
 						['links_linklabel_idx', 'linklabel'],
 						['links_linkid_idx', ['linkid', 'tabid', 'linktype', 'linklabel']],
 						['links_linktype_idx', 'linktype'],
-				],
-				'primaryKeys' => [
-						['links_idx', 'linkid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_links_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3394,12 +3384,6 @@ class Base3 extends \App\Db\Importers\Base
 						[306, 3, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_RECIPIENT', 'index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient', '', 0, NULL, NULL, NULL, NULL],
 						[307, 111, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_RECIPIENT', 'index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient', '', 0, NULL, NULL, NULL, NULL],
 						[308, 3, 'DASHBOARDWIDGET', 'LBL_EXPIRING_SOLD_PRODUCTS', 'index.php?module=Assets&view=ShowWidget&name=ExpiringSoldProducts', '', 0, NULL, NULL, NULL, NULL],
-				]
-			],
-			'vtiger_links_seq' => [
-				'columns' => ['id'],
-				'values' => [
-						[308],
 				]
 			],
 			'vtiger_lout_dimensions' => [

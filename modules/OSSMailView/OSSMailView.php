@@ -333,13 +333,12 @@ class OSSMailView extends CRMEntity
 		}
 		$displayLabel = 'Mail View';
 		if ($registerLink) {
-			$blockid = $adb->query_result(
-				$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_MAIL'", array()), 0, 'blockid');
-			$sequence = (int) $adb->query_result(
-					$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
-			$fieldid = $adb->getUniqueId('vtiger_settings_field');
-			$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, $displayLabel, '', 'LBL_MAIL_VIEW_DESCRIPTION', 'index.php?module=OSSMailView&parent=Settings&view=index'));
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+				'name' => $displayLabel,
+				'iconpath' => 'adminIcon-oss_mailview',
+				'description' => 'LBL_MAIL_VIEW_DESCRIPTION',
+				'linkto' => 'index.php?module=OSSMailView&parent=Settings&view=index'
+			]);
 		} else {
 			$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array($displayLabel));
 		}

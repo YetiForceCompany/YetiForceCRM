@@ -39,22 +39,22 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 
 		$matchingRecords = $leadIdsList = [];
 		foreach ($rows as &$row) {
-			if ($row['moduleName'] === 'Leads') {
+			if ($row['setype'] === 'Leads') {
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
 		foreach ($rows as &$row) {
-			if ($row['moduleName'] === 'Leads' && $convertedInfo[$row['crmid']]) {
+			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
 			if (Users_Privileges_Model::isPermitted($row['moduleName'], 'DetailView', $row['crmid'])) {
 				$label = \App\Record::getLabel($row['crmid']);
 				$matchingRecords[] = [
 					'id' => $row['crmid'],
-					'module' => $row['moduleName'],
-					'category' => vtranslate($row['moduleName'], $row['moduleName']),
-					'fullLabel' => vtranslate($row['moduleName'], $row['moduleName']) . ': ' . $label,
+					'module' => $row['setype'],
+					'category' => vtranslate($row['setype'], $row['setype']),
+					'fullLabel' => vtranslate($row['setype'], $row['setype']) . ': ' . $label,
 					'label' => $label
 				];
 			}

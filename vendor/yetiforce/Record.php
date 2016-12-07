@@ -60,7 +60,7 @@ class Record
 			$userId = \App\User::getCurrentUserId();
 			$crmIds = [];
 			$query = (new \App\Db\Query())
-				->select(['csl.crmid', 'moduleName' => 'csl.setype', 'csl.searchlabel'])
+				->select(['csl.crmid', 'csl.setype', 'csl.searchlabel'])
 				->from('u_#__crmentity_search_label csl')
 				->where(['like', 'csl.userid', ",$userId,"])
 				->innerJoin('vtiger_crmentity', 'csl.crmid = vtiger_crmentity.crmid')

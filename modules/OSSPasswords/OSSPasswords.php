@@ -327,14 +327,12 @@ class OSSPasswords extends CRMEntity
 		$displayLabel = 'OSSPassword Configuration';
 
 		if ($registerLink) {
-			$blockid = $adb->query_result(
-				$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'", array()), 0, 'blockid');
-			$sequence = (int) $adb->query_result(
-					$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
-			$fieldid = $adb->getUniqueId('vtiger_settings_field');
-			$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, $displayLabel, 'migrate.gif', 'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION',
-				'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings'));
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+				'name' => $displayLabel,
+				'iconpath' => 'adminIcon-passwords-encryption',
+				'description' => 'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION',
+				'linkto' => 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings'
+			]);
 		} else {
 			$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array($displayLabel));
 		}
