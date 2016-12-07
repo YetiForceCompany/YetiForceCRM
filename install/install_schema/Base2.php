@@ -6613,7 +6613,7 @@ class Base2 extends \App\Db\Importers\Base
 						[84, 1721, 'time_start', 'vtiger_reservations', 1, 14, 'time_start', 'LBL_TIME_START', 1, 0, '', 100, 5, 261, 1, 'T~M', 1, 5, 'BAS', 1, '', 1, '', NULL, 0, 0],
 						[84, 1722, 'time_end', 'vtiger_reservations', 1, 14, 'time_end', 'LBL_END_TIME', 1, 0, '', 100, 6, 261, 1, 'T~M~OTH~GE~time_start~LBL_TIME_START', 1, 7, 'BAS', 1, '', 1, '', NULL, 0, 0],
 						[84, 1723, 'due_date', 'vtiger_reservations', 1, 23, 'due_date', 'LBL_END_DATE', 1, 0, '', 100, 4, 261, 1, 'D~M~OTH~GE~date_start~LBL_START_DATE', 1, 8, 'BAS', 1, '', 1, '', NULL, 0, 0],
-						[84, 1724, 'sum_time', 'vtiger_reservations', 1, 7, 'sum_time', 'LBL_TOTAL_TIME', 1, 2, '', 100, 8, 261, 1, 'NN~O', 1, NULL, 'BAS', 1, '', 1, '', NULL, 0, 0],
+						[84, 1724, 'sum_time', 'vtiger_reservations', 1, 7, 'sum_time', 'LBL_TOTAL_TIME', 1, 2, '', 100, 8, 261, 10, 'NN~O', 1, NULL, 'BAS', 1, '', 1, '', NULL, 0, 0],
 						[84, 1725, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 0, '', 100, 11, 261, 2, 'DT~O', 3, 2, 'BAS', 0, '', 0, '', NULL, 0, 0],
 						[84, 1726, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 0, '', 100, 10, 261, 2, 'DT~O', 3, 2, 'BAS', 0, '', 0, '', NULL, 0, 0],
 						[84, 1727, 'closedtime', 'vtiger_crmentity', 1, 70, 'closedtime', 'Closed Time', 1, 2, '', 100, 13, 261, 2, 'DT~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
