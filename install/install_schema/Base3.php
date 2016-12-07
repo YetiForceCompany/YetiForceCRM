@@ -419,7 +419,7 @@ class Base3 extends \App\Db\Importers\Base
 					'has_header' => $this->integer(1)->notNull()->defaultValue(1),
 					'deleted' => $this->integer(1)->notNull()->defaultValue(0),
 					'date_entered' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-					'date_modified' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+					'date_modified' => $this->timestamp()->notNull(),
 					'assigned_user_id' => $this->stringType(36),
 					'is_published' => $this->stringType(3)->notNull()->defaultValue('no'),
 				],
