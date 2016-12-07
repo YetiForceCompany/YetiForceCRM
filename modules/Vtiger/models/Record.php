@@ -755,13 +755,11 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function setRecordFieldValues($parentRecordModel)
 	{
 		$newInvData = [];
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$mfInstance = Vtiger_MappedFields_Model::getInstanceByModules($parentRecordModel->getModule()->getId(), $this->getModule()->getId());
 		if ($mfInstance) {
 			$moduleFields = $this->getModule()->getFields();
 			$fieldsList = array_keys($moduleFields);
 			$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
-			$this->set('mode', 'fromMapping');
 			$params = $mfInstance->get('params');
 			if ($params['autofill']) {
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
