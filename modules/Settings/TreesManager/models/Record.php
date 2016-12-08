@@ -251,18 +251,20 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getChildren($fieldValue, $fieldName, $moduleModel)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = 'SELECT `fieldparams` FROM `vtiger_field` WHERE `tabid` = ? && `columnname` = ? && presence in (0,2)';
-		$result = $adb->pquery($query, array($moduleModel->getId(), $fieldName));
-		$templateId = $adb->query_result_raw($result, 0, 'fieldparams');
+
+		$templateId = (new App\Db\Query())->select(['fieldparams'])
+				->from('vtiger_field')
+				->where(['tabid' => $moduleModel->getId(), 'columnname' => $fieldName, 'presence' => [0,2]])
+				->scalar();
 		$values = explode(',', $fieldValue);
-		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', array($templateId));
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$tree = $adb->query_result_raw($result, $i, 'tree');
+		$dataReader = (new App\Db\Query())->from('vtiger_trees_templates_data')
+				->where(['templateid' => $templateId])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$tree = $row['tree'];
 			$parent = '';
-			if ($adb->query_result_raw($result, $i, 'depth') > 0) {
-				$parenttrre = $adb->query_result_raw($result, $i, 'parenttrre');
+			if ($row['depth'] > 0) {
+				$parenttrre = $row['parenttrre'];
 				$cut = strlen('::' . $tree);
 				$parenttrre = substr($parenttrre, 0, - $cut);
 				$pieces = explode('::', $parenttrre);
