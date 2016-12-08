@@ -187,35 +187,29 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	protected static $lockEditCache = [];
 
-	public static function checkLockEdit($moduleName, $record)
+	public static function checkLockEdit($moduleName, Vtiger_Record_Model $recordModel)
 	{
-		if (isset(self::$lockEditCache[$moduleName . $record])) {
-			return self::$lockEditCache[$moduleName . $record];
+		$recordId = $recordModel->getId();
+		if (isset(self::$lockEditCache[$moduleName . $recordId])) {
+			return self::$lockEditCache[$moduleName . $recordId];
 		}
 		$return = false;
-		if (empty($record)) {
-			self::$lockEditCache[$moduleName . $record] = $return;
+		if (empty($recordId)) {
+			self::$lockEditCache[$moduleName . $recordId] = $return;
 			return $return;
 		}
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
 		vimport('~~modules/com_vtiger_workflow/include.php');
 		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
 		vimport('~~include/Webservices/Retrieve.php');
-		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
-		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
+		$workflows = (new VTWorkflowManager(PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
-			$wsId = vtws_getWebserviceEntityId($moduleName, $record);
-			$entityCache = new VTEntityCache($currentUserModel);
-			$entityData = $entityCache->forId($wsId);
-			foreach ($workflows as $id => $workflow) {
-				if ($workflow->evaluate($entityCache, $entityData->getId())) {
+			foreach ($workflows as &$workflow) {
+				if ($workflow->evaluate($recordModel)) {
 					$return = true;
 				}
 			}
 		}
-		self::$lockEditCache[$moduleName . $record] = $return;
+		self::$lockEditCache[$moduleName . $recordId] = $return;
 		return $return;
 	}
 
