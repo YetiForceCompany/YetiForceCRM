@@ -249,7 +249,7 @@ class Vendors extends CRMEntity
 						'contactid' => $with_crmid
 					])->execute();
 				} elseif ($with_module === 'Products') {
-					App\Db::getInstance()->createCommand()->update(['vendor_id' => $crmid], ['productid' => $with_crmid])->execute();
+					App\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => $crmid], ['productid' => $with_crmid])->execute();
 				} elseif ($with_module === 'Campaigns') {
 					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 						'campaignid' => $with_crmid,
