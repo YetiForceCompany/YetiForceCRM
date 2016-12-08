@@ -199,7 +199,7 @@ class BaseField
 	{
 		return ['and',
 				['not', [$this->getColumnName() => null]],
-				['<>', $this->getColumnName(), '']
+				['<>', $this->getColumnName(), 0]
 		];
 	}
 
