@@ -666,7 +666,7 @@ class Base4 extends \App\Db\Importers\Base
 				'columns' => [
 					'serviceid' => $this->integer()->notNull(),
 					'service_no' => $this->stringType(100)->notNull(),
-					'servicename' => $this->stringType(50)->notNull(),
+					'servicename' => $this->stringType(255)->notNull(),
 					'pscategory' => $this->stringType(200),
 					'qty_per_unit' => $this->decimal('11,2')->defaultValue(0),
 					'unit_price' => $this->decimal('25,8'),

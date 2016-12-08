@@ -7874,7 +7874,7 @@ CREATE TABLE `vtiger_seproductsrel` (
 CREATE TABLE `vtiger_service` (
   `serviceid` int(11) NOT NULL,
   `service_no` varchar(100) NOT NULL,
-  `servicename` varchar(50) NOT NULL,
+  `servicename` varchar(255) NOT NULL,
   `pscategory` varchar(200) DEFAULT NULL,
   `qty_per_unit` decimal(11,2) DEFAULT '0.00',
   `unit_price` decimal(25,8) DEFAULT NULL,
