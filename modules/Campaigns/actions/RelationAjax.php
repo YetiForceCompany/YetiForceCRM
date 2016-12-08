@@ -26,21 +26,17 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	{
 		$sourceRecordId = $request->get('sourceRecord');
 		$relatedModuleName = $request->get('relatedModule');
-
 		$viewId = $request->get('viewId');
 		if ($viewId) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
-
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-
 			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-				$fieldName = $relatedModuleModel->get('basetableid');
 				$queryGenerator = new App\QueryGenerator($relatedModuleName);
 				$queryGenerator->initForCustomViewById($viewId);
 				$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					$relatedRecordIdsList[] = $row[$fieldName];
+					$relatedRecordIdsList[] = $row['id'];
 				}
 				if (empty($relatedRecordIdsList)) {
 					$response = new Vtiger_Response();

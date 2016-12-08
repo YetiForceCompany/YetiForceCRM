@@ -131,17 +131,13 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	private function loadFieldLabels()
 	{
-		$db = PearDatabase::getInstance();
-
 		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
 		$fieldNames = array($this->get('sourcefield'), $this->get('targetfield'));
-
-		$query = sprintf('SELECT fieldlabel,fieldname FROM vtiger_field WHERE fieldname IN (%s) && tabid = ?', generateQuestionMarks($fieldNames));
-		$params = array($fieldNames, $tabId);
-		$result = $db->pquery($query, $params);
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$dataReader = (new App\Db\Query())->select(['fieldlabel', 'fieldname'])
+				->from('vtiger_field')
+				->where(['fieldname' => $fieldNames, 'tabid' => $tabId])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$fieldName = $row['fieldname'];
 			if ($fieldName == $this->get('sourcefield')) {
 				$this->set('sourcelabel', $row['fieldlabel']);

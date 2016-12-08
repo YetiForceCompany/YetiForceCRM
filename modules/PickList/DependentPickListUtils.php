@@ -81,7 +81,7 @@ class Vtiger_DependencyPicklist
 
 	static function savePickListDependencies($module, $dependencyMap)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$tabId = \App\Module::getModuleId($module);
 		$sourceField = $dependencyMap['sourcefield'];
 		$targetField = $dependencyMap['targetfield'];
@@ -107,54 +107,51 @@ class Vtiger_DependencyPicklist
 			}
 			//to handle Accent Sensitive search in MySql
 			//reference Links http://dev.mysql.com/doc/refman/5.0/en/charset-convert.html , http://stackoverflow.com/questions/500826/how-to-conduct-an-accent-sensitive-search-in-mysql
-			$checkForExistenceResult = $adb->pquery("SELECT id FROM vtiger_picklist_dependency WHERE tabid=? && sourcefield=? && targetfield=? && sourcevalue=CAST(? AS CHAR CHARACTER SET utf8) COLLATE utf8_bin", array($tabId, $sourceField, $targetField, $sourceValue));
-			if ($adb->num_rows($checkForExistenceResult) > 0) {
-				$dependencyId = $adb->query_result($checkForExistenceResult, 0, 'id');
-				$adb->pquery("UPDATE vtiger_picklist_dependency SET targetvalues=?, criteria=? WHERE id=?", array($serializedTargetValues, $serializedCriteria, $dependencyId));
+			$dependencyId = (new App\Db\Query())->select(['id'])->from('vtiger_picklist_dependency')
+					->where(['tabid' => $tabId, 'sourcefield' => $sourceField, 'targetfield' => $targetField, 'sourcevalue' => $sourceValue])
+					->scalar();
+			if ($dependencyId) {
+				App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
+					'targetvalues' => $serializedTargetValues,
+					'criteria' => $serializedCriteria,
+				], ['id' => $dependencyId])->execute();
 			} else {
-				$adb->pquery("INSERT INTO vtiger_picklist_dependency (id, tabid, sourcefield, targetfield, sourcevalue, targetvalues, criteria)
-								VALUES (?,?,?,?,?,?,?)", array($adb->getUniqueID('vtiger_picklist_dependency'), $tabId, $sourceField, $targetField, $sourceValue,
-					$serializedTargetValues, $serializedCriteria));
+				$db->createCommand()->insert('vtiger_picklist_dependency', [
+					'id' => $db->getUniqueID('vtiger_picklist_dependency'),
+					'tabid' => $tabId,
+					'sourcefield' => $sourceField,
+					'targetfield' => $targetField,
+					'sourcevalue' => $sourceValue,
+					'targetvalues' => $serializedTargetValues,
+					'criteria' => $serializedCriteria,
+				])->execute();
 			}
 		}
 	}
 
 	static function deletePickListDependencies($module, $sourceField, $targetField)
 	{
-		$adb = PearDatabase::getInstance();
-
-		$tabId = \App\Module::getModuleId($module);
-
-		$adb->pquery("DELETE FROM vtiger_picklist_dependency WHERE tabid=? && sourcefield=? && targetfield=?", array($tabId, $sourceField, $targetField));
+		App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
+			'tabid' => \App\Module::getModuleId($module),
+			'sourcefield' => $sourceField,
+			'targetfield' => $targetField
+		])->execute();
 	}
 
 	static function getPickListDependency($module, $sourceField, $targetField)
 	{
-		$adb = PearDatabase::getInstance();
-
-		$tabId = \App\Module::getModuleId($module);
-		$dependencyMap = array();
 		$dependencyMap['sourcefield'] = $sourceField;
 		$dependencyMap['targetfield'] = $targetField;
-
-		$result = $adb->pquery('SELECT * FROM vtiger_picklist_dependency WHERE tabid=? && sourcefield=? && targetfield=?', array($tabId, $sourceField, $targetField));
-		$noOfMapping = $adb->num_rows($result);
-
-		$valueMapping = array();
-		$mappedSourceValues = array();
-		for ($i = 0; $i < $noOfMapping; ++$i) {
-			$sourceValue = $adb->query_result($result, $i, 'sourcevalue');
-			$targetValues = $adb->query_result($result, $i, 'targetvalues');
-			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
-
-			$mapping = array();
-			$mapping['sourcevalue'] = $sourceValue;
-			$mapping['targetvalues'] = $unserializedTargetValues;
-
-			$valueMapping[$i] = $mapping;
+		$dataReader = (new App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField])
+			->createCommand()->query();
+		$valueMapping = [];
+		while ($row = $dataReader->read()) {
+			$valueMapping[] = [
+				'sourcevalue' => $row['sourcevalue'],
+				'targetvalues' => \App\Json::decode(html_entity_decode($row['targetvalues']))
+			];
 		}
 		$dependencyMap['valuemapping'] = $valueMapping;
-
 		return $dependencyMap;
 	}
 
@@ -205,16 +202,10 @@ class Vtiger_DependencyPicklist
 
 	static function checkCyclicDependency($module, $sourceField, $targetField)
 	{
-		$adb = PearDatabase::getInstance();
-
 		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
-		$result = $adb->pquery('SELECT 1 FROM vtiger_picklist_dependency
-									WHERE tabid = ? && targetfield = ? && sourcefield != ?', array(\App\Module::getModuleId($module), $targetField, $sourceField));
-		if ($adb->num_rows($result) > 0) {
-			return true;
-		}
-
-		return false;
+		return (new App\Db\Query())->from('vtiger_picklist_dependency')
+				->where(['tabid' => \App\Module::getModuleId($module), 'targetfield' => $targetField, 'sourcefield' => $sourceField, 'targetfield' => $targetField])
+				->exists();
 	}
 
 	static function getDependentPickListModules()

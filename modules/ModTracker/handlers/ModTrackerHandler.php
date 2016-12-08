@@ -53,10 +53,10 @@ class ModTracker_ModTrackerHandler_Handler
 			ModTracker_Record_Model::unsetReviewed($recordId, App\User::getCurrentUserRealId(), $id);
 		}
 		foreach ($delta as $fieldName => &$preValue) {
-			if (empty($preValue)) {
+			$newValue = $recordModel->get($fieldName);
+			if (empty($preValue) && empty($newValue)) {
 				continue;
 			}
-			$newValue = $recordModel->get($fieldName);
 			if (is_object($newValue)) {
 				throw new Exceptions\AppException('Incorrect data type: Value can not be the object of ' . get_class($newValue));
 			}

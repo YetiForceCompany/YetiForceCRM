@@ -479,7 +479,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var start_date = view.start.format();
 		var end_date = view.end.format();
 		var status = app.getMainParams('activityStateLabels', true);
-		var searchParams = '["activitystatus","c","' + status[app.getMainParams('showType')].join() + '"]';
+		var searchParams = '["activitystatus","e","' + status[app.getMainParams('showType')].join() + '"]';
 		searchParams += ',["date_start","bw","' + start_date + ',' + end_date + '"]';
 		if (types.length) {
 			searchParams += ',["activitytype","e","' + types + '"]';
