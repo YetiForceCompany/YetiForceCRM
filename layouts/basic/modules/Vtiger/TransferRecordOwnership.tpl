@@ -31,8 +31,8 @@
 											{$USER_MODEL->getName()}
 										</option>
 									{else}
-										{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
-										{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
+										{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('', 'owner')}
+										{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups('', 'owner', true)}
 										{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 										<optgroup label="{vtranslate('LBL_USERS')}">
 											{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
