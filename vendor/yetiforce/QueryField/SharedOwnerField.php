@@ -86,4 +86,28 @@ class SharedOwnerField extends BaseField
 		}
 		return $condition;
 	}
+	
+	/**
+	 * Is not empty operator
+	 * @return array
+	 */
+	public function operatorNy()
+	{
+		return ['and',
+				['not', [$this->getColumnName() => null]],
+				['<>', $this->getColumnName(), 0]
+		];
+	}
+	
+	/**
+	 * Is empty operator
+	 * @return array
+	 */
+	public function operatorY()
+	{
+		return ['or',
+				[$this->getColumnName() => null],
+				['=', $this->getColumnName(), 0]
+		];
+	}
 }
