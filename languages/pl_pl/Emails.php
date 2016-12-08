@@ -11,7 +11,6 @@
 $languageStrings = [
 	'Email Flag' => 'Oflaguj wiadomość',
 	'Activtiy Type' => 'Typ czynności',
-	'Sales Enity Module' => 'Moduł sprzedaży podmiotu',
 	'Parent ID' => 'ID Rodzica',
 	'Owner' => 'Właściciel',
 	'Access Count' => 'Liczba wyświetleń',

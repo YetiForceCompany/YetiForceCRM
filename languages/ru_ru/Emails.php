@@ -10,7 +10,6 @@
 $languageStrings = [
 	'Activtiy Type' => 'Тип',
 	'Email Flag' => 'Привелегии',
-	'Sales Enity Module' => 'Модуль продаж',
 	'Access Count' => 'Число просмотров',
 	'Date & Time Sent' => 'Отправлено',
 	'Emails' => 'Сообщения Почты',

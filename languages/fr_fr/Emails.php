@@ -14,7 +14,6 @@ $languageStrings = [
 	'LBL_ATTACHMENT' => 'Pièce jointe',
 	'Email Flag' => 'Email',
 	'Activtiy Type' => 'Type d\'activité',
-	'Sales Enity Module' => 'Module vente',
 	'Parent ID' => 'ID Parent',
 	'Owner' => 'Propriétaire',
 	'Access Count' => 'Nombre d\'accès',

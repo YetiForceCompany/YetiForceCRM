@@ -3100,7 +3100,6 @@ CREATE TABLE `vtiger_actionmapping` (
 CREATE TABLE `vtiger_activity` (
   `activityid` int(19) NOT NULL DEFAULT '0',
   `subject` varchar(100) NOT NULL,
-  `semodule` varchar(20) DEFAULT NULL,
   `activitytype` varchar(200) NOT NULL,
   `date_start` date NOT NULL,
   `due_date` date DEFAULT NULL,

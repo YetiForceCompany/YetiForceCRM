@@ -169,7 +169,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'activityid' => $this->integer()->notNull()->defaultValue(0),
 					'subject' => $this->stringType(100)->notNull(),
-					'semodule' => $this->stringType(20),
 					'activitytype' => $this->stringType(200)->notNull(),
 					'date_start' => $this->date()->notNull(),
 					'due_date' => $this->date(),
@@ -3929,7 +3928,6 @@ class Base2 extends \App\Db\Importers\Base
 					[8, 217, 0, 0],
 					[8, 218, 0, 0],
 					[10, 219, 0, 0],
-					[10, 220, 0, 0],
 					[10, 221, 0, 0],
 					[10, 222, 0, 0],
 					[10, 223, 0, 0],
@@ -5881,7 +5879,6 @@ class Base2 extends \App\Db\Importers\Base
 					[8, 217, 'note_no', 'vtiger_notes', 1, 4, 'note_no', 'Document No', 1, 0, '', 100, 3, 17, 1, 'V~O', 3, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[8, 218, 'modifiedby', 'vtiger_crmentity', 1, 52, 'modifiedby', 'Last Modified By', 1, 0, '', 100, 12, 17, 3, 'V~O', 3, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[10, 219, 'date_start', 'vtiger_activity', 1, 6, 'date_start', 'Date & Time Sent', 1, 0, '', 100, 1, 21, 1, 'DT~M~time_start~Time Start', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[10, 220, 'semodule', 'vtiger_activity', 1, 2, 'parent_type', 'Sales Enity Module', 1, 0, '', 100, 2, 21, 3, '', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[10, 221, 'activitytype', 'vtiger_activity', 1, 2, 'activitytype', 'Activtiy Type', 1, 0, '', 100, 3, 21, 3, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[10, 222, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 0, '', 100, 5, 21, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[10, 223, 'subject', 'vtiger_activity', 1, 2, 'subject', 'Subject', 1, 0, '', 100, 1, 23, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],

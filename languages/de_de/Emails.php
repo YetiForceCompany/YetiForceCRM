@@ -16,7 +16,6 @@ $languageStrings = [
 	'LBL_ATTACHED' => 'Angehängt',
 	'Date & Time Sent' => 'Sendedatum',
 	'Emails' => 'E-Mails',
-	'Sales Enity Module' => 'Zugehöriges Vertriebmodul',
 	'LBL_ADD_BCC' => 'Bcc hinzufügen',
 	'LBL_ADD_CC' => 'Cc hinzufügen',
 	'LBL_ATTACHMENT' => 'Anhang',
