@@ -17,7 +17,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	 * @param string $sourceModule - Source Module Name
 	 * @return Vtiger_ListView_Model instance
 	 */
-	public static function getInstance($moduleName, $sourceModule)
+	public static function getInstance($moduleName, $sourceModule = 0)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
@@ -34,7 +34,8 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	 * Load list view conditions
 	 * @param string $moduleName
 	 */
-	public function loadListViewCondition() {
+	public function loadListViewCondition()
+	{
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->deletedCondition = false;
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.deleted' => 1]);

@@ -139,10 +139,10 @@ class ModTracker_ModTrackerHandler_Handler
 	 */
 	public function entityAfterRestore(App\EventHandler $eventHandler)
 	{
-		$params = $eventHandler->getParams();
+		$recordId = $eventHandler->getRecordModel()->getId();
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
-			'crmid' => $params['id'],
+			'crmid' => $recordId,
 			'module' => $eventHandler->getModuleName(),
 			'whodid' => \App\User::getCurrentUserRealId(),
 			'changedon' => date('Y-m-d H:i:s'),
@@ -150,12 +150,12 @@ class ModTracker_ModTrackerHandler_Handler
 			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
-		ModTracker_Record_Model::unsetReviewed($params['id'], \App\User::getCurrentUserRealId(), $id);
-		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $params['id']])->andWhere(['<>', 'smownerid', \App\User::getCurrentUserRealId()])->exists();
+		ModTracker_Record_Model::unsetReviewed($recordId, \App\User::getCurrentUserRealId(), $id);
+		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', \App\User::getCurrentUserRealId()])->exists();
 		if ($isExists) {
-			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $params['id']])->execute();
+			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
 		}
-		$this->addNotification($eventHandler->getModuleName(), $params['id'], 'LBL_RESTORED');
+		$this->addNotification($eventHandler->getModuleName(), $recordId, 'LBL_RESTORED');
 	}
 
 	/**
@@ -164,10 +164,10 @@ class ModTracker_ModTrackerHandler_Handler
 	 */
 	public function entityBeforeDelete(App\EventHandler $eventHandler)
 	{
-		$params = $eventHandler->getParams();
+		$recordId = $eventHandler->getRecordModel()->getId();
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
-			'crmid' => $params['id'],
+			'crmid' => $recordId,
 			'module' => $eventHandler->getModuleName(),
 			'whodid' => \App\User::getCurrentUserRealId(),
 			'changedon' => date('Y-m-d H:i:s'),
@@ -175,12 +175,12 @@ class ModTracker_ModTrackerHandler_Handler
 			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
-		ModTracker_Record_Model::unsetReviewed($params['id'], \App\User::getCurrentUserRealId(), $id);
-		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $params['id']])->andWhere(['<>', 'smownerid', \App\User::getCurrentUserRealId()])->exists();
+		ModTracker_Record_Model::unsetReviewed($recordId, \App\User::getCurrentUserRealId(), $id);
+		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', \App\User::getCurrentUserRealId()])->exists();
 		if ($isExists) {
-			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $params['id']])->execute();
+			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
 		}
-		$this->addNotification($eventHandler->getModuleName(), $params['id'], 'LBL_REMOVED');
+		$this->addNotification($eventHandler->getModuleName(), $recordId, 'LBL_REMOVED');
 	}
 
 	/**

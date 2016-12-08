@@ -39,8 +39,7 @@ class Calendar_CalendarHandler_Handler
 	 */
 	public function entityAfterRestore(App\EventHandler $eventHandler)
 	{
-		$params = $eventHandler->getParams();
-		$recordModel = Vtiger_Record_Model::getInstanceById($params['id'], $eventHandler->getModuleName());
+		$recordModel = $eventHandler->getRecordModel();
 		foreach (static::UPDATE_FIELDS as &$fieldName) {
 			if (!$recordModel->isEmpty($fieldName)) {
 				$ids[$recordModel->get($fieldName)] = $fieldName;

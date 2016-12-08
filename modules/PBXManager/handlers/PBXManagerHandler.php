@@ -17,9 +17,7 @@ class PBXManager_PBXManagerHandler_Handler
 	 */
 	public function entityAfterDelete(App\EventHandler $eventHandler)
 	{
-		$recordModel = $eventHandler->getRecordModel();
-		$pbxRecordModel = new PBXManager_Record_Model;
-		$pbxRecordModel->deletePhoneLookUpRecord($recordModel->getId());
+		(new PBXManager_Record_Model())->deletePhoneLookUpRecord($eventHandler->getRecordModel()->getId());
 	}
 
 	/**
@@ -49,8 +47,7 @@ class PBXManager_PBXManagerHandler_Handler
 	 */
 	public function entityAfterRestore(App\EventHandler $eventHandler)
 	{
-		$params = $eventHandler->getParams();
-		$recordModel = Vtiger_Record_Model::getInstanceById($params['id'], $eventHandler->getModuleName());
+		$recordModel = $eventHandler->getRecordModel();
 		$values = [
 			'crmid' => $recordModel->getId(),
 			'setype' => $eventHandler->getModuleName(),

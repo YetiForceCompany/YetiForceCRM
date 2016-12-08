@@ -620,15 +620,8 @@ class CRMEntity
 		if (vtlib\Functions::getCRMRecordType($id) !== $moduleName) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setParams(['id' => $id]);
-		$eventHandler->setModuleName($moduleName);
-		$eventHandler->trigger('EntityBeforeDelete');
-
 		$this->mark_deleted($id);
 		\App\Db::getInstance()->createCommand()->delete('vtiger_tracker', ['user_id' => \App\User::getCurrentUserRealId(), 'item_id' => $id])->execute();
-
-		$eventHandler->trigger('EntityAfterDelete');
 	}
 
 	/**
@@ -686,12 +679,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-				[
+			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-				[
+			[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
@@ -721,7 +714,7 @@ class CRMEntity
 			}
 			//Event triggering code
 			$eventHandler = new App\EventHandler();
-			$eventHandler->setParams(['id' => $id]);
+			$eventHandler->setRecordModel(Vtiger_Record_Model::getInstanceById($id));
 			$eventHandler->setModuleName($moduleName);
 			$eventHandler->trigger('EntityAfterRestore');
 		}
