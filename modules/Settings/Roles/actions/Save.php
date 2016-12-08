@@ -6,11 +6,17 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Checking permission
+	 * @param Vtiger_Request $request
+	 * @throws \Exception\AppException
+	 */
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -19,6 +25,10 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -46,7 +56,8 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 				->set('permissionsrelatedfield', $request->get('permissionsRelatedField'))
 				->set('globalsearchadv', $request->get('globalSearchAdvanced'))
 				->set('assignedmultiowner', $request->get('assignedmultiowner'))
-				->set('clendarallorecords', $request->get('clendarallorecords'));
+				->set('clendarallorecords', $request->get('clendarallorecords'))
+				->set('auto_assign', $request->get('auto_assign'));
 			if (!empty($allowassignedrecordsto))
 				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto); // set the value of assigned records to
 			if ($parentRole && !empty($roleName) && !empty($roleProfiles)) {

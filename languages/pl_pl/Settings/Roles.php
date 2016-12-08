@@ -52,6 +52,7 @@ $languageStrings = [
 	'LBL_BLOCK_COPY' => 'Blokuj kopiowanie',
 	'LBL_BLOCK_CUT' => 'Blokuj wycinanie',
 	'LBL_BLOCK_PASTE' => 'Blokuj wklejanie',
+	'LBL_AUTO_ASSIGN_RECORDS' => 'Automatyczny przydział rekordów',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Brak uprawnień do przeniesienia',

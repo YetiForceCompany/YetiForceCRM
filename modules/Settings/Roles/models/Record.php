@@ -330,7 +330,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'previewrelatedrecord' => $this->get('previewrelatedrecord'),
 			'editrelatedrecord' => (int) $this->get('editrelatedrecord'),
 			'permissionsrelatedfield' => $permissionsRelatedField,
-			'globalsearchadv' => (int) $this->get('globalsearchadv')
+			'globalsearchadv' => (int) $this->get('globalsearchadv'),
+			'auto_assign' => (int) $this->get('auto_assign')
 		];
 		if ($mode == 'edit') {
 			$db->createCommand()->update('vtiger_role', $values, ['roleid' => $roleId])
