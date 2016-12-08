@@ -149,6 +149,7 @@ $languageStrings = [
 	'Sales stage - Negotiations' => 'Этап продаж - Переговоры',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Обновление даты генерируемых событий при изменении базовой даты',
 	'LBL_CURRENT_USER' => 'В настоящее время авторизованный пользователь',
+	'LBL_SELECT_TEMPLATE' => 'Select template',
 	//workflow trigger types
 	'ONCE' => 'Только один раз, когда все условия будут выполнены',
 	'ON_EVERY_SAVE' => 'Каждый раз, когда запись сохраняется (например. Создания, модификации)',
@@ -175,6 +176,7 @@ $languageStrings = [
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Автоматическое обновление рабочего времени',
 	'LBL_UPDATE_WORK_TIME' => 'Обновление рабочего времени',
 	'LBL_UPDATE_RELATED_FIELD' => 'Обновление связанных записей',
+	'LBL_AUTO_ASSIGN' => 'Auto assign record',
 	//workflow add time
 	'Current Date' => 'Текущая дата',
 	'Current Time' => 'Текущее время',

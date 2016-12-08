@@ -158,6 +158,7 @@ $languageStrings = [
 	'Sales stage - Negotiations' => 'Sales stage - Negotiations',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Update the dates of the generated events when the base date changes',
 	'LBL_CURRENT_USER' => 'Currently logged in user',
+	'LBL_SELECT_TEMPLATE' => 'Select template',
 	//workflow trigger types
 	'ONCE' => 'Only once, when all conditions are met',
 	'ON_EVERY_SAVE' => 'Every time a record is saved (eg. creating, modifying)',
@@ -189,6 +190,7 @@ $languageStrings = [
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Automatically update working time',
 	'LBL_UPDATE_WORK_TIME' => 'Update working time',
 	'LBL_UPDATE_RELATED_FIELD' => 'Update related record',
+	'LBL_AUTO_ASSIGN' => 'Auto assign record',
 	//workflow add time
 	'Current Date' => 'Current date',
 	'Current Time' => 'Current time',

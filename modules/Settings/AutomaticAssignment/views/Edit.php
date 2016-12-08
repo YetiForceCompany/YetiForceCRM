@@ -23,14 +23,14 @@ class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Prosses
+	 * Process
 	 * @param Vtiger_Request $request
 	 */
 	public function process(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->get('record'));
-		$sourceModuleName = $recordModel->getSorceModuleName();
+		$sourceModuleName = $recordModel->getSourceModuleName();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleName);
@@ -52,7 +52,7 @@ class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
 	 */
 	private function getVariablesToAdvancedFilter(Vtiger_Viewer $viewer, $recordModel)
 	{
-		$sourceModuleName = $recordModel->getSorceModuleName();
+		$sourceModuleName = $recordModel->getSourceModuleName();
 		$moduleModel = Vtiger_Module_Model::getInstance($recordModel->get('tabid'));
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

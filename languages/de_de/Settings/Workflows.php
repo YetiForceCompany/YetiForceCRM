@@ -144,6 +144,7 @@ $languageStrings = [
 	'Sales stage - Negotiations' => 'Verkaufsphase - Verhandlung',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Aktualisiere das Datum der erzeugten Ereignisse wenn sich das Basisdaum ändert',
 	'LBL_CURRENT_USER' => 'Aktuell eingeloggtern Benutzer',
+	'LBL_SELECT_TEMPLATE' => 'Select template',
 	//workflow trigger types
 	'ONCE' => 'Nur einmal, wenn alle Bedingungen erfüllt sind',
 	'ON_EVERY_SAVE' => 'Jederzeit wenn der Datensatz gespeichert wird (z.B. Anlegen, Ändern)',
@@ -175,6 +176,7 @@ $languageStrings = [
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Arbeitszeit automatisch aktualisieren',
 	'LBL_UPDATE_WORK_TIME' => 'Arbeitszeit aktualisieren',
 	'LBL_UPDATE_RELATED_FIELD' => 'Verknüpfter Datensatz aktualisieren',
+	'LBL_AUTO_ASSIGN' => 'Auto assign record',
 	//workflow add time
 	'Current Date' => 'Aktuelles Datum',
 	'Current Time' => 'Aktuelle Uhrzeit',

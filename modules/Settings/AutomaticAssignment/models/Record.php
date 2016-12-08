@@ -49,10 +49,10 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
-	 * 
+	 * Source module name
 	 * @return string
 	 */
-	public function getSorceModuleName()
+	public function getSourceModuleName()
 	{
 		return \App\Module::getModuleName($this->get('tabid'));
 	}
@@ -511,7 +511,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		if (!isset($this->customConditions)) {
 			$userContitions = \AppConfig::module('Users', 'AUTO_ASSIGN_CONDITIONS');
-			$this->customConditions = ($userContitions && isset($userContitions['modules'][$this->getSorceModuleName()])) ? $userContitions['modules'][$this->getSorceModuleName()] : [];
+			$this->customConditions = ($userContitions && isset($userContitions['modules'][$this->getSourceModuleName()])) ? $userContitions['modules'][$this->getSourceModuleName()] : [];
 		}
 		$result = true;
 		foreach ($this->customConditions as $moduleFields => $condition) {
@@ -540,27 +540,44 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function getAssignUser($users)
 	{
-		$queryGenerator = new \App\QueryGenerator(\App\Module::getModuleName($this->get('tabid')), Users::getActiveAdminId());
+		$queryGenerator = new \App\QueryGenerator($this->getSourceModuleName(), Users::getActiveAdminId());
 		$queryGenerator->setFields(['assigned_user_id']);
-		$conditions = \App\Json::decode($this->get('conditions'));
+		$conditions = $this->get('conditions');
 		if ($conditions) {
-			foreach ($conditions as $condition) {
-				$queryGenerator->addCondition($condition['fieldname'], $condition['value'], $condition['operation'], (bool) $condition['groupjoin']);
+			foreach (\App\Json::decode($conditions) as $condition) {
+				$fieldName = explode(':', $condition['fieldname']);
+				$queryGenerator->addCondition($fieldName[1], $condition['value'], $condition['operation'], (bool) $condition['groupjoin']);
 			}
 		}
 		$query = $queryGenerator->createQuery();
-
-		if ($this->get('user_limit')) {
-			$query->innerJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id');
-			$userLimitExpression = new \yii\db\Expression('autoAssignLimit');
-			$query->addSelect(['autoAssignLimit' => 'vtiger_users.records_limit'])
-				->having(['or', ['<=', 'c', $userLimitExpression], ['is', $userLimitExpression, null], ['=', $userLimitExpression, 0]]);
-		}
-		$query->addSelect(['c' => new \yii\db\Expression('COUNT(vtiger_crmentity.crmid)')])
+		$count = new \yii\db\Expression('COUNT(vtiger_crmentity.crmid)');
+		$query->addSelect(['c' => $count])
 			->groupBy($queryGenerator->getColumnName('assigned_user_id'))
-			->orderBy(['c' => SORT_ASC])
-			->limit(1);
-		return $query->scalar();
+			->orderBy(['c' => SORT_ASC]);
+		if ($this->get('user_limit')) {
+			$usersRecords = [];
+			$query->innerJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id');
+			$access = new \yii\db\Expression('CASE WHEN ' . $count . '<=`vtiger_users`.`records_limit` OR `vtiger_users`.`records_limit` IS NULL OR `vtiger_users`.`records_limit` = 0 THEN 1 ELSE 0 END');
+			$query->addSelect(['a' => $access]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				if (!empty($row['a'])) {
+					$usersRecords[] = $row['assigned_user_id'];
+				}
+			}
+		} else {
+			$usersRecords = $query->column();
+		}
+
+		$usersWithoutRecords = array_diff($users, $usersRecords);
+		if (empty($usersWithoutRecords)) {
+			reset($usersRecords);
+			$userId = current($usersRecords);
+		} else {
+			reset($usersWithoutRecords);
+			$userId = current($usersWithoutRecords);
+		}
+		return $userId;
 	}
 
 	/**

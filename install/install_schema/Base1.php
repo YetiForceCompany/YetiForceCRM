@@ -3092,12 +3092,13 @@ class Base1 extends \App\Db\Importers\Base
 					[14, 'VTUpdateWorkTime', 'LBL_UPDATE_WORK_TIME_AUTOMATICALLY', 'VTUpdateWorkTime', 'modules/com_vtiger_workflow/tasks/VTUpdateWorkTime.php', 'com_vtiger_workflow/taskforms/VTUpdateWorkTime.tpl', '{"include":["OSSTimeControl"],"exclude":[]}', NULL],
 					[15, 'VTUpdateRelatedFieldTask', 'LBL_UPDATE_RELATED_FIELD', 'VTUpdateRelatedFieldTask', 'modules/com_vtiger_workflow/tasks/VTUpdateRelatedFieldTask.php', 'com_vtiger_workflow/taskforms/VTUpdateRelatedFieldTask.tpl', '{"include":[],"exclude":[]}', ''],
 					[16, 'VTWatchdog', 'LBL_NOTIFICATIONS', 'VTWatchdog', 'modules/com_vtiger_workflow/tasks/VTWatchdog.php', 'com_vtiger_workflow/taskforms/VTWatchdog.tpl', '{"include":[],"exclude":[]}', NULL],
+					[17, 'VTAutoAssign', 'LBL_AUTO_ASSIGN', 'VTAutoAssign', 'modules/com_vtiger_workflow/tasks/VTAutoAssign.php', 'com_vtiger_workflow/taskforms/VTAutoAssign.tpl', '{"include":[],"exclude":[]}', NULL],
 				]
 			],
 			'com_vtiger_workflow_tasktypes_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[16],
+					[17],
 				]
 			],
 			'com_vtiger_workflows' => [
