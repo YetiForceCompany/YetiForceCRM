@@ -32,4 +32,6 @@ $SECURITY_CONFIG = [
 	'RESTRICTED_DOMAINS_ALLOWED' => [],
 	//List of modules excluded from restricted domains validation.
 	'RESTRICTED_DOMAINS_EXCLUDED' => ['OSSEmployees', 'Users'],
+	// Remember user credentials
+	'LOGIN_PAGE_REMEMBER_CREDENTIALS' => false,
 ];
