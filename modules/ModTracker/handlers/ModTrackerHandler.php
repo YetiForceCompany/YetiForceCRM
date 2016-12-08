@@ -60,6 +60,9 @@ class ModTracker_ModTrackerHandler_Handler
 			if (is_object($newValue)) {
 				throw new Exceptions\AppException('Incorrect data type: Value can not be the object of ' . get_class($newValue));
 			}
+			if (is_array($newValue)) {
+				$newValue = implode(',', $newValue);
+			}
 			$db->createCommand()->insert('vtiger_modtracker_detail', [
 				'id' => $id,
 				'fieldname' => $fieldName,
