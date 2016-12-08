@@ -1,44 +1,65 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="row">
+	<div class="row padding20">
 		{assign var=FIELD_MODEL value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)}
 		{if isset($FIELD_MODEL)}	
 			{assign var=SOURCE_MODULE value=$FIELD_MODEL->getModuleName()}
 		{/if}
+		<div class="alert alert-info fade in">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<strong>{\App\Language::translate('LBL_NOTE', $QUALIFIED_MODULE)}&nbsp;&nbsp;</strong>{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper|cat:'_INFO', $QUALIFIED_MODULE)}
+		</div>
 		{if $FIELD_NAME eq 'value'}
-			<form id="formValue" class="col-sm-11 paddingTop20">
-				<div class="form-group col-sm-5 paddingLefttZero">
-					<label class="col-sm-4 control-label">
-						{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
+			{assign var=FIELD_MODEL value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
+			<form id="formValue" class="">
+				<label class="col-sm-2 col-md-2 col-lg-1 control-label">
+					{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
+				</label>
+				<div class="col-sm-5 col-md-4 controls">
+					<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
+						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
+						<div class="input-group-btn" id="basic-addon">
+							<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
+								<span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		{elseif $FIELD_NAME eq 'assign'}
+			{assign var=FIELD_MODEL value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
+			<form id="formValue" class="col-sm-12">
+				<div class="form-group">
+					<label class="col-xs-12">{\App\Language::translate('LBL_SET_DEFAULT_USER', $QUALIFIED_MODULE)}</label>
+					<div class="col-xs-12">
+						&nbsp;<input name="{$FIELD_NAME}" id="defaultUser" class="switchBtn saveValue noField" type="checkbox" {if $RECORD_MODEL->get($FIELD_NAME)}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+					</div>
+				</div>
+				<div class="form-group fieldToShowHide{if !$RECORD_MODEL->get($FIELD_NAME)} hide{/if}">
+					<label class="col-xs-12">
+						{\App\Language::translate('LBL_ASSIGNED_TO', $QUALIFIED_MODULE)}
 					</label>
-					<div class="col-sm-8 controls">
+					<div class="col-md-5 col-lg-4">
 						<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
 							{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 							<div class="input-group-btn" id="basic-addon">
 								<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
-									<span class="glyphicon glyphicon-plus"></span>
+									<span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</span>
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4 form-group">
-					<span class="col-sm-12 col-xs-11 btn btn-info ">
-						{if $RECORD_MODEL->get($FIELD_NAME)}
-							{$FIELD_MODEL->getUITypeModel()->getDisplayValue($RECORD_MODEL->get($FIELD_NAME))}
-						{else}
-							&nbsp;
-						{/if}
-					</span>
-				</div>
 			</form>
 		{elseif $FIELD_NAME eq 'conditions'}
-			<div class="padding20 form-horizontal">
+			<div class="form-horizontal">
 				<div class="form-group">
 					<div class="row col-md-5">
 						<label class="pull-left-lg control-label paddingLeftMd">{\App\Language::translate('LBL_INCLUDE_USERS_RECORD_LIMIT', $QUALIFIED_MODULE)}</label>
 						<div class="col-md-6">
-							&nbsp;<input name="user_limit" class="switchBtn switchBtnReload saveValue" type="checkbox" {if $RECORD_MODEL->get('user_limit')}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+							&nbsp;<input name="user_limit" class="switchBtn saveValue" type="checkbox" {if $RECORD_MODEL->get('user_limit')}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 						</div>
 					</div>
 				</div>
@@ -65,7 +86,7 @@
 				</div>
 			</div>
 		{else}
-			<div class="paddingTop20 padding20">
+			<div class="">
 				<div class="table-responsive col-lg-9 col-md-10 col-sm-10 col-xs-12">
 					<table class="table table-bordered table-condensed dataTable" data-mode="base">
 						<thead>

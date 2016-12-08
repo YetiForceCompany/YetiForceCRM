@@ -82,7 +82,15 @@ jQuery.Class('Settings_AutomaticAssignment_Edit_Js', {}, {
 		container.find('.switchBtn').on('switchChange.bootstrapSwitch', function (event, state) {
 			var element = jQuery(this);
 			var params = [];
-			params[element.attr('name')] = Number(state);
+			if (element.hasClass('noField')) {
+				if (state) {
+					element.closest('form').find('.fieldToShowHide').removeClass('hide');
+					return false;
+				} else {
+					element.closest('form').find('.fieldToShowHide').addClass('hide');
+				}
+			}
+			params[element.attr('name')] = Number(state)
 			app.saveAjax('save', jQuery.extend({}, params), {'record': app.getMainParams('record')}).then(function (respons) {
 				thisInstance.refreshTab();
 			});

@@ -100,7 +100,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function getEditFields()
 	{
-		return ['value' => 'FL_VALUE', 'roles' => 'FL_ROLES', 'smowners' => 'FL_SMOWNERS', 'showners' => 'FL_SHOWNERS', 'conditions' => 'FL_CONDITIONS'];
+		return ['value' => 'FL_VALUE', 'roles' => 'FL_ROLES', 'smowners' => 'FL_SMOWNERS', 'assign' => 'FL_ASSIGN', 'conditions' => 'FL_CONDITIONS'];
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			case 'roles':
 				return Vtiger_Field_Model::getInstance('roleid', Vtiger_Module_Model::getInstance('Users'));
 			case 'smowners':
-			case 'showners':
+			case 'assign':
 				return Vtiger_Field_Model::getInstance('assigned_user_id', Vtiger_Module_Model::getInstance($this->get('tabid')));
 			default:
 				break;
@@ -221,7 +221,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				$value = (int) $value;
 				break;
 			case 'smowners':
-			case 'showners':
 				$rows = [];
 				if ($this->get($key)) {
 					$value = explode(',', $this->get($key));
@@ -281,10 +280,10 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				break;
 			case 'tabid':
 			case 'user_limit':
+			case 'assign':
 				$value = (int) $value;
 				break;
 			case 'smowners':
-			case 'showners':
 				if (!is_array($value)) {
 					$value = array_filter(explode(',', $value));
 				}
@@ -346,7 +345,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			$seccess = $db->createCommand()->insert($this->getTable(), $params)->execute();
 			if ($seccess) {
 				$this->rawData = $params;
-				$this->set('id', $db->getLastInsertID());
+				$this->set('id', $db->getLastInsertID($this->getTable() . '_id_seq'));
 			}
 		} elseif (!empty($this->getId())) {
 			$db->createCommand()->update($this->getTable(), $params, ['id' => $this->getId()])->execute();
@@ -483,6 +482,9 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			}
 			$users = $this->filterUsers(array_unique($users));
 		}
+		if (empty($users) && $this->get('assign')) {
+			$users[] = $this->get('assign');
+		}
 		return $users;
 	}
 
@@ -540,6 +542,9 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function getAssignUser($users)
 	{
+		if ($this->get('assign') && count($users) === 1 && $users[0] === $this->get('assign')) {
+			return $this->get('assign');
+		}
 		$queryGenerator = new \App\QueryGenerator($this->getSourceModuleName(), Users::getActiveAdminId());
 		$queryGenerator->setFields(['assigned_user_id']);
 		$conditions = $this->get('conditions');
@@ -587,7 +592,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function isRefreshTab($name)
 	{
-		if ($name === 'conditions') {
+		if (in_array($name, ['conditions', 'assign', 'value'])) {
 			return false;
 		}
 		return true;
