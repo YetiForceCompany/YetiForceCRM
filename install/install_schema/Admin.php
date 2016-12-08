@@ -228,7 +228,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->stringType(),
 					'roles' => $this->text(),
 					'smowners' => $this->text(),
-					'showners' => $this->text(),
+					'assign' => $this->smallInteger(5),
 					'active' => $this->smallInteger(1)->defaultValue(1),
 					'conditions' => $this->text(),
 					'user_limit' => $this->smallInteger(1)
