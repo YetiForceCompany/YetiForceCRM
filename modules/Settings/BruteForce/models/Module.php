@@ -22,9 +22,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getCleanInstance()
 	{
-		$data = self::getBruteForceSettings();
 		$instance = new self();
-		$instance->setData($data);
+		$instance->setData(self::getBruteForceSettings());
 		return $instance;
 	}
 
@@ -43,7 +42,12 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getBruteForceSettings()
 	{
-		return (new App\Db\Query())->from('a_#__bruteforce')->one();
+		if (App\Cache::has('BruteForce', 'Settings')) {
+			return App\Cache::has('BruteForce', 'Settings');
+		}
+		$row = (new App\Db\Query())->from('a_#__bruteforce')->one();
+		App\Cache::save('BruteForce', 'Settings', $row, App\Cache::LONG);
+		return $row;
 	}
 
 	/**
@@ -57,15 +61,15 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$blockDate->modify("-$time minutes");
 
 		$query = (new \App\Db\Query())
-			->select(['COUNT(*) AS c', 'id', 'ip', new \yii\db\Expression('GROUP_CONCAT(DISTINCT(user_name)) as usersName'), 'time', new \yii\db\Expression('GROUP_CONCAT(DISTINCT(browser)) as browsers')])
+			->select(['id', 'attempts', 'ip', new \yii\db\Expression('GROUP_CONCAT(DISTINCT(user_name)) as usersName'), 'time', new \yii\db\Expression('GROUP_CONCAT(DISTINCT(browser)) as browsers')])
 			->from('vtiger_loginhistory')
 			->innerJoin('a_#__bruteforce_blocked', 'vtiger_loginhistory.user_ip = a_#__bruteforce_blocked.ip')
-			->where(['status' => 'Failed login'])
+			->where(['status' => ['Failed login', 'Blocked IP']])
 			->andWhere(['>=', 'time', $blockDate->format('Y-m-d H:i:s')])
 			->andWhere(['>=', 'login_time', new \yii\db\Expression('time')])
 			->andWhere(['blocked' => self::BLOCKED])
-			->groupBy(['ip'])
-			->having(['>=', 'c', $this->get('attempsnumber')]);
+			->andWhere(['>=', 'attempts', $this->get('attempsnumber')])
+			->groupBy(['ip']);
 		return $query->createCommand()->queryAll();
 	}
 
@@ -83,12 +87,13 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$blockDate->modify("-$time minutes");
 		$ip = \App\RequestUtil::getRemoteIP();
 		$this->blockedId = (new \App\Db\Query())
+			->select(['id'])
 			->from('a_#__bruteforce_blocked')
 			->where(['>', 'time', $blockDate->format('Y-m-d H:i:s')])
 			->andWhere(['ip' => $ip])
 			->andWhere(['blocked' => self::BLOCKED])
 			->scalar();
-		return $this->isBlocked = (bool) $this->blockedId;
+		return $this->isBlocked = (!empty($this->blockedId));
 	}
 
 	/**
@@ -144,7 +149,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function adds unsuccessful login attempt to database 
 	 * @param string $ip - User IP
-	 * @return int - Created record’s ID
+	 * @return int - Created records ID
 	 */
 	private function setBlockedIp($ip)
 	{
@@ -161,15 +166,15 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function removes redundant entries from database
 	 * @param string $ip - User IP
-	 * @param string $data - Cut-off date of user’s block condition
+	 * @param string $data - Cut-off date of users block condition
 	 */
 	private function clearBlockedByIp($ip, $data)
 	{
 		$db = \App\Db::getInstance('admin');
 		$db->createCommand()->delete('a_#__bruteforce_blocked', [
 			'and', ['<', 'time', $data],
-			['blocked' => self::UNBLOCKED],
-			['ip' => $ip]])->execute();
+				['blocked' => self::UNBLOCKED],
+				['ip' => $ip]])->execute();
 	}
 
 	/**

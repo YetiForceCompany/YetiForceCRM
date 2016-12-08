@@ -66,7 +66,8 @@
 								<tr class="blockHeader">
 									<th><span class="alignMiddle">{vtranslate('LBL_IP', $QUALIFIED_MODULE)}</span></th>
 									<th><span class="alignMiddle">{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span></th>
-									<th><span class="alignMiddle">{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}</span></th>    
+									<th><span class="alignMiddle">{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}</span></th>
+									<th><span class="alignMiddle">{vtranslate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}</span></th>
 									<th><span class="alignMiddle">{vtranslate('LBL_BROWSERS', $QUALIFIED_MODULE)}</span></th>
 									<th><span class="alignMiddle">{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</span></th>
 								</tr>
@@ -77,6 +78,7 @@
 										<td><label>{$ITEM['ip']}</label></td>
 										<td><label>{$ITEM['time']}</label></td>
 										<td><label>{$ITEM['usersName']}</label></td>
+										<td><label>{$ITEM['attempts']}</label></td>
 										<td><label>{$ITEM['browsers']}</label></td>
 										<td class="text-center">
 											<button data-id="{$ITEM['id']}" class="btn btn-success unblock" type="button" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}">

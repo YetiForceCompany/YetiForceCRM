@@ -30,16 +30,18 @@ class Users_Login_Action extends Vtiger_Action_Controller
 	{
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
-
+		$moduleModel = Users_Module_Model::getInstance('Users');
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
+			$moduleModel->saveLoginHistory($username, 'Blocked IP');
 			header('Location: index.php?module=Users&view=Login&error=2');
+			return false;
 		}
 
 		$user = CRMEntity::getInstance('Users');
 		$user->column_fields['user_name'] = $username;
-		$moduleModel = Users_Module_Model::getInstance('Users');
+
 
 		if (!empty($password) && $user->doLogin($password)) {
 			if (AppConfig::main('session_regenerate_id')) {
