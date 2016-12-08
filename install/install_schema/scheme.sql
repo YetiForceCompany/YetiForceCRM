@@ -7993,6 +7993,7 @@ CREATE TABLE `vtiger_settings_field` (
   `sequence` int(19) DEFAULT NULL,
   `active` int(19) DEFAULT '0',
   `pinned` int(1) DEFAULT '0',
+  `admin_access` text,
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE

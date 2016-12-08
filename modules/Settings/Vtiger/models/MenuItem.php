@@ -141,7 +141,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	 */
 	private function updatePinStatus($pinned = false)
 	{
-		
+
 		$pinnedStaus = 0;
 		if ($pinned) {
 			$pinnedStaus = 1;
@@ -260,7 +260,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		if (count($conditionsSqls) > 0) {
 			$query->where($conditionsSqls);
 		}
-		$dataReader = $query->andWhere(['NOT IN', 'name', $skipMenuItemList])
+		$dataReader = $query->andWhere(['and', ['NOT IN', 'name', $skipMenuItemList], ['or', ['like', 'admin_access', ',' . App\User::getCurrentUserId() . ','], ['admin_access' => null]]])
 				->orderBy('sequence')
 				->createCommand()->query();
 		$menuItemModels = [];
@@ -288,14 +288,14 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 			'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
 			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', 'Webforms Configuration Editor'];
 		$query = (new App\Db\Query())->from(self::$itemsTable)
-				->where(['pinned' => 1, 'active' => 0]);
+			->where(['pinned' => 1, 'active' => 0]);
 		if (!empty($fieldList)) {
 			$query->andWhere([self::$itemsId => $fieldList]);
 		}
 		$dataReader = $query->andWhere(['NOT IN', 'name', $skipMenuItemList])
 				->createCommand()->query();
 		$menuItemModels = [];
-		while($rowData = $dataReader->read()) {
+		while ($rowData = $dataReader->read()) {
 			$menuItem = Settings_Vtiger_MenuItem_Model::getInstanceFromArray($rowData);
 			$menuItem->setMenu($rowData['blockid']);
 			$menuItemModels[$rowData[self::$itemId]] = $menuItem;
