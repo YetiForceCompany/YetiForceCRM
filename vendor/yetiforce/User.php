@@ -274,4 +274,34 @@ class User
 		Cache::save('UserIsExists', $id, $isExists);
 		return $isExists;
 	}
+
+	/**
+	 * Function to get the user if of the active admin user.
+	 * @return integer - Active Admin User ID
+	 */
+	public static function getActiveAdminId()
+	{
+		$key = 'id';
+		if (Cache::has(__METHOD__, $key)) {
+			return Cache::get(__METHOD__, $key);
+		} else {
+			$adminId = 1;
+			if (\AppConfig::performance('ENABLE_CACHING_USERS')) {
+				$users = PrivilegeFile::getUser('id');
+				foreach ($users as $id => $user) {
+					if ($user['status'] === 'Active' && $user['is_admin'] === 'on') {
+						$adminId = $id;
+						break;
+					}
+				}
+			} else {
+				$adminId = (new Db\Query())->select('id')
+						->from('vtiger_users')
+						->where(['is_admin' => 'on', 'status' => 'Active'])
+						->limit(1)->scalar();
+			}
+			Cache::save(__METHOD__, $key, $adminId, \App\Cache::LONG);
+			return $adminId;
+		}
+	}
 }

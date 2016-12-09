@@ -1318,6 +1318,7 @@ class Users extends CRMEntity
 	/**
 	 * Function to get the user if of the active admin user.
 	 * @return Integer - Active Admin User ID
+	 * @todo To remove, replace \App\User::getActiveAdminId()
 	 */
 	public static function getActiveAdminId()
 	{

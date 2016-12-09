@@ -572,7 +572,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		if (empty($this->availableUsers)) {
 			return $this->availableUsers;
 		}
-		$queryGenerator = new \App\QueryGenerator($this->getSourceModuleName(), Users::getActiveAdminId());
+
+		$queryGenerator = new \App\QueryGenerator($this->getSourceModuleName(), \App\User::getActiveAdminId());
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id']);
 		$queryGenerator->addNativeCondition(['vtiger_users.available' => 1, 'vtiger_users.auto_assign' => 1]);
