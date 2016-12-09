@@ -482,9 +482,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			}
 			$users = $this->filterUsers(array_unique($users));
 		}
-		if (empty($users) && $this->get('assign')) {
-			$users[] = $this->get('assign');
-		}
 		return $users;
 	}
 
@@ -497,7 +494,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		foreach ($users as $key => $userId) {
 			$userModel = \App\User::getUserModel($userId);
-			if (!$userModel->getDetail('available') || !$userModel->getDetail('auto_assign') || $this->getCustomConditions($userModel)) {
+			if (!$userModel->isActive() || !$userModel->getDetail('available') || !$userModel->getDetail('auto_assign') || $this->getCustomConditions($userModel)) {
 				unset($users[$key]);
 			}
 		}
@@ -537,16 +534,49 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 
 	/**
 	 * Function returns ID of the user who has the lowest number of records
-	 * @param int[] $users
 	 * @return int
 	 */
-	public function getAssignUser($users)
+	public function getAssignUser()
 	{
-		if ($this->get('assign') && count($users) === 1 && $users[0] === $this->get('assign')) {
-			return $this->get('assign');
+		$users = $this->getAvailableUsers();
+		if (empty($users)) {
+			return $this->getDefaultOwner();
+		}
+		asort($users);
+		return key($users);
+	}
+
+	/**
+	 * Default owner
+	 * @return int
+	 */
+	public function getDefaultOwner()
+	{
+		$owner = $this->get('assign');
+		if (\App\Fields\Owner::getType($owner) === 'Users') {
+			return \App\User::isExists($owner) ? $owner : 0;
+		}
+		return Settings_Groups_Record_Model::getInstance($owner) ? $owner : 0;
+	}
+
+	/**
+	 * Function returns table of available users
+	 * @return int[]
+	 */
+	public function getAvailableUsers()
+	{
+		if (isset($this->availableUsers)) {
+			return $this->availableUsers;
+		}
+
+		$this->availableUsers = array_fill_keys($this->getUsers(), 0);
+		if (empty($this->availableUsers)) {
+			return $this->availableUsers;
 		}
 		$queryGenerator = new \App\QueryGenerator($this->getSourceModuleName(), Users::getActiveAdminId());
 		$queryGenerator->setFields(['assigned_user_id']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id']);
+		$queryGenerator->addNativeCondition(['vtiger_users.available' => 1, 'vtiger_users.auto_assign' => 1]);
 		$conditions = $this->get('conditions');
 		if ($conditions) {
 			foreach (\App\Json::decode($conditions) as $condition) {
@@ -561,28 +591,27 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			->orderBy(['c' => SORT_ASC]);
 		if ($this->get('user_limit')) {
 			$usersRecords = [];
-			$query->innerJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id');
 			$access = new \yii\db\Expression('CASE WHEN ' . $count . '<=`vtiger_users`.`records_limit` OR `vtiger_users`.`records_limit` IS NULL OR `vtiger_users`.`records_limit` = 0 THEN 1 ELSE 0 END');
 			$query->addSelect(['a' => $access]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				if (!empty($row['a'])) {
-					$usersRecords[] = $row['assigned_user_id'];
+				$userId = $row['assigned_user_id'];
+				if (!empty($row['a']) && isset($this->availableUsers[$userId])) {
+					$this->availableUsers[$userId] = $row['c'];
+				} else {
+					unset($this->availableUsers[$userId]);
 				}
 			}
 		} else {
-			$usersRecords = $query->column();
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$userId = $row['assigned_user_id'];
+				if (isset($this->availableUsers[$userId])) {
+					$this->availableUsers[$userId] = $row['c'];
+				}
+			}
 		}
-
-		$usersWithoutRecords = array_diff($users, $usersRecords);
-		if (empty($usersWithoutRecords)) {
-			reset($usersRecords);
-			$userId = current($usersRecords);
-		} else {
-			reset($usersWithoutRecords);
-			$userId = current($usersWithoutRecords);
-		}
-		return $userId;
+		return $this->availableUsers;
 	}
 
 	/**

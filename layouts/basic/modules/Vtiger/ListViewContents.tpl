@@ -97,7 +97,7 @@
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $smarty.foreach.listHeaderForeach.iteration eq $LISTVIEW_HEADER_COUNT}colspan="2"{/if}>
+							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
 									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
@@ -107,6 +107,9 @@
 								{/if}
 							</td>
 						{/foreach}
+						<td class="{$WIDTHTYPE} noWrap rightRecordActions">
+							{include file=vtemplate_path('ListViewRightSide.tpl',$MODULE_NAME)}
+						</td>
 					</tr>
 				{/foreach}
 			</table>

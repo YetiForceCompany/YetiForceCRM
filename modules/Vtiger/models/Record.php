@@ -1111,4 +1111,58 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		return $this->handlerExceptions;
 	}
+
+	/**
+	 * Function to get the list view actions for the record
+	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
+	 */
+	public function getRecordListViewLinks()
+	{
+		$links = $recordLinks = [];
+		if ($this->isEditable() && $this->isCanAssignToHimself()) {
+			$recordLinks[] = [
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'BTN_REALIZE',
+				'linkurl' => 'javascript:Vtiger_Index_Js.assignToOwner(this)',
+				'linkicon' => 'glyphicon glyphicon-user',
+				'linkclass' => 'btn-sm btn-success',
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId()],
+			];
+		}
+		if ($this->isEditable() && $this->autoAssignRecord()) {
+			$recordLinks[] = [
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'BTN_ASSIGN_TO',
+				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=AutoAssignRecord&record=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-random',
+				'linkclass' => 'btn-sm btn-primary',
+				'modalView' => true
+			];
+		}
+		foreach ($recordLinks as $recordLink) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+
+		return $links;
+	}
+
+	public function isCanAssignToHimself()
+	{
+		return \App\Fields\Owner::getType($this->get('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
+			array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
+	}
+
+	public function autoAssignRecord()
+	{
+		if (\App\Fields\Owner::getType($this->get('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
+			$userModel = \App\User::getCurrentUserModel();
+			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
+			if (!empty($roleData['auto_assign'])) {
+				$autoAssignModel = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
+				$autoAssignRecord = $autoAssignModel->searchRecord($this);
+				return $autoAssignRecord ? true : false;
+			}
+		}
+		return false;
+	}
 }

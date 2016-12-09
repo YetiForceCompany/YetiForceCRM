@@ -631,6 +631,26 @@ var Vtiger_Index_Js = {
 		});
 		return aDeferred.promise();
 	},
+	assignToOwner: function (element, userId) {
+		var aDeferred = jQuery.Deferred();
+		element = jQuery(element);
+		if(userId == undefined){
+			userId = app.getMainParams('current_user_id');
+		}
+		var params = {
+			module: element.data('module'),
+			record: element.data('record'),
+			field: 'assigned_user_id',
+			value: userId
+		};
+		app.saveAjax('', null, params).then(function (e) {
+			app.hideModalWindow();
+			if (app.getViewName() === 'List') {
+				var listinstance = new Vtiger_List_Js();
+				listinstance.getListViewRecords();
+			}
+		})
+	},
 	sendNotification: function () {
 		Vtiger_Header_Js.getInstance().quickCreateModule('Notification');
 	},

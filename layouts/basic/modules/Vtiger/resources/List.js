@@ -1728,6 +1728,8 @@ jQuery.Class("Vtiger_List_Js", {
 				return;
 			if (jQuery(e.target).is('input[type="checkbox"]'))
 				return;
+			if ($.contains(jQuery(e.currentTarget).find('td:last-child').get(0), e.target))
+				return;
 			var elem = jQuery(e.currentTarget);
 			var recordUrl = elem.data('recordurl');
 			if (typeof recordUrl == 'undefined') {
