@@ -101,7 +101,6 @@ class Users_Save_Action extends Vtiger_Save_Action
 		$_FILES = $result['imagename'];
 
 		$moduleModel = Vtiger_Module_Model::getInstance('Users');
-
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);
 
@@ -142,10 +141,10 @@ class Users_Save_Action extends Vtiger_Save_Action
 				$loadUrl = $recordModel->getDetailViewUrl();
 			}
 		} else {
-			echo vtranslate('USER_MAIL_EXIST', 'Users');
+			App\Log::error('USER_MAIL_EXIST');
 			header('Location: index.php?module=Users&parent=Settings&view=Edit');
+			return false;
 		}
-
 		header("Location: $loadUrl");
 	}
 }
