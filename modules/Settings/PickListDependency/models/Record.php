@@ -59,7 +59,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
 
 		$query = (new \App\Db\Query)->select(['vtiger_field.fieldlabel', 'vtiger_field.fieldname'])->from('vtiger_field')
-			->where(['displaytype' => 1, 'vtiger_field.tabid' => 6, 'vtiger_field.uitype' => [15, 16], 'vtiger_field.presence' => [0, 2]])
+			->where(['displaytype' => 1, 'vtiger_field.tabid' => $tabId, 'vtiger_field.uitype' => [15, 16], 'vtiger_field.presence' => [0, 2]])
 			->andWhere(['not', ['vtiger_field.block' => null]])
 			->andWhere(['<>', 'vtiger_field.block', 0]);
 		$dataReader = $query->createCommand()->query();
