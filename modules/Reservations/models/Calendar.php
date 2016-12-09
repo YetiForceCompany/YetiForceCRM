@@ -14,11 +14,14 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 
 	public function getEntity()
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$module = 'Reservations';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$query = getListQuery($module);
-		$params = array();
+		$query = (new \App\Db\Query())->from('vtiger_reservations')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_reservations.reservationsid')
+			->innerJoin('vtiger_reservationscf', 'vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid')
+			->where(['vtiger_crmentity.deleted' => 0]);
+
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), $currentUser, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
@@ -26,7 +29,23 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), $currentUser, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query.= " && ((concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) >= ? && concat(vtiger_reservations.date_start, ' ', vtiger_reservations.time_start) <= ?) || (concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) >= ? && concat(vtiger_reservations.due_date, ' ', vtiger_reservations.time_end) <= ?) || (vtiger_reservations.date_start < ? && vtiger_reservations.due_date > ?) )";
+			$query->andWhere([
+				'and',
+				['or',
+					['and',
+						['>=', new \yii\db\Expression('CONCAT(vtiger_reservations.date_start, ' . $db->quoteValue(' ') . ', vtiger_reservations.time_start)'), $dbStartDateTime],
+						['<=', new \yii\db\Expression('CONCAT(vtiger_reservations.date_start, ' . $db->quoteValue(' ') . ', vtiger_reservations.time_start)'), $dbEndDateTime],
+					],
+					['and',
+						['>=', new \yii\db\Expression('CONCAT(vtiger_reservations.due_date, ' . $db->quoteValue(' ') . ', vtiger_reservations.time_end)'), $dbStartDateTime],
+						['<=', new \yii\db\Expression('CONCAT(vtiger_reservations.due_date, ' . $db->quoteValue(' ') . ', vtiger_reservations.time_end)'), $dbEndDateTime],
+					],
+					['and',
+						['<', 'vtiger_reservations.date_start', $dbStartDate],
+						['>', 'vtiger_reservations.due_date', $dbEndDate],
+					],
+				]
+			]);
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
@@ -35,24 +54,21 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 			$params[] = $dbEndDate;
 		}
 		if ($this->get('types')) {
-			$query.= " && vtiger_reservations.type IN ('" . implode("','", $this->get('types')) . "')";
+			$query->andWhere(['vtiger_reservations.type' => $this->get('types')]);
 		}
-		if ($this->get('user')) {
-			if (is_array($this->get('user'))) {
-				$query.= ' && vtiger_crmentity.smownerid IN (' . implode(",", $this->get('user')) . ')';
-			} else {
-				$query.= ' && vtiger_crmentity.smownerid IN (' . $this->get('user') . ')';
+		if (!empty($this->get('user'))) {
+			$owners = $this->get('user');
+			if (!is_array($owners)) {
+				$owners = (int) $owners;
 			}
+			$query->andWhere(['vtiger_crmentity.smownerid' => $owners]);
 		}
-		$query .= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->getId());
-		$query.= ' ORDER BY date_start,time_start ASC';
+		\App\PrivilegeQuery::getConditions($query, $module);
+		$query->orderBy(['date_start' => SORT_ASC, 'time_start' => SORT_ASC]);
 
-		$queryResult = $db->pquery($query, $params);
-		$result = array();
-		for ($i = 0; $i < $db->num_rows($queryResult); $i++) {
-			$record = $db->raw_query_result_rowdata($queryResult, $i);
-
-			$item = array();
+		$dataReader = $query->createCommand()->query();
+		$result = [];
+		while ($record = $dataReader->read()) {
 			$crmid = $record['reservationsid'];
 			$item['id'] = $crmid;
 			$item['title'] = $record['title'];
