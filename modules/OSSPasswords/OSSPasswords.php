@@ -299,10 +299,9 @@ class OSSPasswords extends CRMEntity
 		require_once('include/utils/utils.php');
 		require_once('include/events/include.php');
 
-		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$registerLink = false;
 		$addModTracker = false;
-		$handlerClass = 'SECURE';
 
 		if ($eventType == 'module.postinstall') {
 			
@@ -334,7 +333,7 @@ class OSSPasswords extends CRMEntity
 				'linkto' => 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings'
 			]);
 		} else {
-			$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array($displayLabel));
+			$db->createCommand()->delete('vtiger_settings_field', ['name' => $displayLabel])->execute();
 		}
 
 		// register modtracker history updates
