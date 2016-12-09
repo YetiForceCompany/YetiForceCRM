@@ -1262,6 +1262,7 @@ $languageStrings = [
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Kontrahenci według branży',
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Szacowana wartość szans sprzedaży',
 	'LBL_UPDATE_FIELD' => 'Aktualizuj pole:',
+	'FL_IS_PRIVATE' => 'Prywatny',
 	'LBL_AUTOMATIC_ASSIGNMENT' => 'Przydział rekordów',
 	'LBL_ROLE' => 'Rola',
 	'LBL_NUMBER_OF_ASSIGNED_RECORDS' => 'Ilość rekordów',
