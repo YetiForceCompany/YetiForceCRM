@@ -241,6 +241,15 @@ class User
 	}
 
 	/**
+	 * Function checks if user is active
+	 * @return boolean
+	 */
+	public function isActive()
+	{
+		return $this->privileges['details']['status'] === 'Active';
+	}
+
+	/**
 	 * Function checks if user exists
 	 * @param int $id - User ID
 	 * @return boolean
