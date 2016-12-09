@@ -7972,6 +7972,7 @@ CREATE TABLE `vtiger_settings_blocks` (
   `icon` varchar(255) DEFAULT NULL,
   `type` tinyint(1) DEFAULT NULL,
   `linkto` text,
+  `admin_access` text,
   PRIMARY KEY (`blockid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

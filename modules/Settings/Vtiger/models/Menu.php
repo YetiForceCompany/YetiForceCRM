@@ -85,12 +85,11 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 		if (self::$casheMenu) {
 			return self::$casheMenu;
 		}
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM %s ORDER BY sequence', self::$menusTable);
-		$result = $db->query($query);
-
+		$dataReader = (new App\Db\Query())->from(self::$menusTable)->where(['or', ['like', 'admin_access', ',' . App\User::getCurrentUserId() . ','], ['admin_access' => null]])
+				->orderBy(['sequence' => SORT_ASC])
+				->createCommand()->query();
 		$menuModels = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$blockId = $row[self::$menuId];
 			$menuModels[$blockId] = Settings_Vtiger_Menu_Model::getInstanceFromArray($row);
 		}
