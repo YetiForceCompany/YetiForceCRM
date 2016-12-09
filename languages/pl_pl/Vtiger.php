@@ -1262,7 +1262,14 @@ $languageStrings = [
 	'LBL_ACCOUNTS_BY_INDUSTRY' => 'Kontrahenci według branży',
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Szacowana wartość szans sprzedaży',
 	'LBL_UPDATE_FIELD' => 'Aktualizuj pole:',
-	'FL_IS_PRIVATE' => 'Prywatny',
+	'LBL_AUTOMATIC_ASSIGNMENT' => 'Przydział rekordów',
+	'LBL_ROLE' => 'Rola',
+	'LBL_NUMBER_OF_ASSIGNED_RECORDS' => 'Ilość rekordów',
+	'LBL_ASSIGN' => 'Przypisz',
+	'LBL_SET_DEFAULT_RECORD_OWNER' => 'Ustaw domyślnego właściciela rekordu',
+	'LBL_NO_USERS_TO_ASSIGN' => 'Brak użytkowników do przypisania',
+	'BTN_ASSIGN_TO' => 'Przekaż',
+	'BTN_REALIZE' => 'Realizuj',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
