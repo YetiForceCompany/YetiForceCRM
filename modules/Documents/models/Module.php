@@ -51,8 +51,8 @@ class Documents_Module_Model extends Vtiger_Module_Model
 			$condition = ['and', ['vtiger_notes.filelocationtype' => 'I'], ['<>', 'vtiger_notes.filename', ''], ['vtiger_notes.filestatus' => 1]];
 		} else {
 			$condition = ['and',
-					['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
-					['vtiger_notes.filestatus' => 1]
+				['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
+				['vtiger_notes.filestatus' => 1]
 			];
 		}
 		$queryGenerator->addNativeCondition($condition);
@@ -131,26 +131,18 @@ class Documents_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Added function that returns the folders in a Document
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getAllFolders()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT `tree`,`name` FROM
-				`vtiger_trees_templates_data` 
-			INNER JOIN `vtiger_field` 
-				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
-			WHERE `vtiger_field`.`columnname` = ? 
-				AND `vtiger_field`.`tablename` = ?;", array('folderid', 'vtiger_notes'));
-		$rows = $adb->num_rows($result);
-		$folders = array();
-		for ($i = 0; $i < $rows; $i++) {
-			$folderId = $adb->query_result($result, $i, 'tree');
-			$folderName = $adb->query_result($result, $i, 'name');
-			$folders[$folderId] = $folderName;
-		}
-		return $folders;
+		$templateId = (new \App\Db\Query())->select(['vtiger_field.fieldparams'])
+			->from('vtiger_field')
+			->where(['vtiger_field.columnname' => 'folderid', 'vtiger_field.tablename' => 'vtiger_notes'])
+			->scalar();
+		return (new \App\Db\Query())
+				->select(['tree', 'name'])
+				->from('vtiger_trees_templates_data')
+				->where(['templateid' => $templateId])
+				->createCommand()->queryAllByGroup();
 	}
 }
-
-?>
