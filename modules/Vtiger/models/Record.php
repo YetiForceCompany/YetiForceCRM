@@ -1146,12 +1146,20 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $links;
 	}
 
+	/**
+	 * Function checks if user can assign record to himself
+	 * @return boolean
+	 */
 	public function isCanAssignToHimself()
 	{
 		return \App\Fields\Owner::getType($this->get('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
 			array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 
+	/**
+	 * Function checks if user can use records auto assign mechanism
+	 * @return boolean
+	 */
 	public function autoAssignRecord()
 	{
 		if (\App\Fields\Owner::getType($this->get('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {

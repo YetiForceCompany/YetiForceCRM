@@ -20,14 +20,14 @@
 			{assign var=DEFAULT_OWNER value=$AUTO_ASSIGN_RECORD->getDefaultOwner()}
 			{if $USERS}
 				<div class="table-responsive col-xs-12">
-					<table class="table table-bordered table-condensed dataTable">
+					<table id="assignTable" class="table table-striped table-bordered dataTable">
 						<thead>
 							<tr>
 								<th>
-									<strong>{\App\Language::translate('LBL_USERS', $MODULE_NAME)}</strong>
+									<strong>{\App\Language::translate('LBL_USER', $MODULE_NAME)}</strong>
 								</th>
 								<th>
-									<strong>{\App\Language::translate('LBL_ROLES', $MODULE_NAME)}</strong>
+									<strong>{\App\Language::translate('LBL_ROLE', $MODULE_NAME)}</strong>
 								</th>
 								<th>
 									<strong>{\App\Language::translate('LBL_NUMBER_OF_ASSIGNED_RECORDS', $MODULE_NAME)}</strong>
