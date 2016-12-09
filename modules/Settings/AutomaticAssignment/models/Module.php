@@ -138,6 +138,11 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 				->where(['tabid' => \App\Module::getModuleId($recordModel->getModuleName()), 'active' => 1])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			if (!$recordModel->has($row['field'])) {
+				$entityModel = $recordModel->getEntity();
+				$value = \vtlib\Functions::getSingleFieldValue($entityModel->table_name, $row['field'], $entityModel->table_index, $recordModel->getId());
+				$recordModel->set($row['field'], $value);
+			}
 			if ($row['value'] == $recordModel->get($row['field'])) {
 				$autoAssignRecordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($row['id']);
 				$autoAssignRecordModel->sourceRecordModel = $recordModel;

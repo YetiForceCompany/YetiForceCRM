@@ -518,17 +518,15 @@ class Functions
 	}
 
 	/** 	Function used to retrieve a single field value from database
-	 * 	@param string $tablename - tablename from which we will retrieve the field value
-	 * 	@param string $fieldname - fieldname to which we want to get the value from database
-	 * 	@param string $idname	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
+	 * 	@param string $tableName - tablename from which we will retrieve the field value
+	 * 	@param string $fieldName - fieldname to which we want to get the value from database
+	 * 	@param string $idName	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
 	 * 	@param int    $id	 - entity id
-	 * 	return string $fieldval  - field value of the needed fieldname from database will be returned
+	 * 	return mixed $fieldval  - field value of the needed fieldname from database will be returned
 	 */
-	public static function getSingleFieldValue($tablename, $fieldname, $idname, $id)
+	public static function getSingleFieldValue($tableName, $fieldName, $idName, $id)
 	{
-		$adb = \PearDatabase::getInstance();
-		$fieldval = $adb->query_result($adb->pquery("select $fieldname from $tablename where $idname = ?", array($id)), 0, $fieldname);
-		return $fieldval;
+		return (new \App\Db\Query())->select([$fieldName])->from($tableName)->where([$idName => $id])->scalar();
 	}
 
 	/**
@@ -653,7 +651,6 @@ class Functions
 		}
 		return $pass;
 	}
-
 
 	/**     function used to change the Type of Data for advanced filters in custom view and Reports
 	 * *     @param string $table_name - tablename value from field table
