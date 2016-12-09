@@ -23,23 +23,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
 			$moduleModel = $recordModel->getModule();
-			$listViewUrl = $moduleModel->getListViewUrl();
-
-			if ($recordModel->get('visibility') === 'Private') {
-				$loadUrl = $listViewUrl;
-			} else {
-				$userId = $recordModel->get('assigned_user_id');
-				$sharedType = Calendar_Module_Model::getSharedType($userId);
-				if ($sharedType === 'selectedusers') {
-					$currentUserModel = Users_Record_Model::getCurrentUserModel();
-					$sharedUserIds = Calendar_Module_Model::getCaledarSharedUsers($userId);
-					if (!array_key_exists($currentUserModel->id, $sharedUserIds)) {
-						$loadUrl = $listViewUrl;
-					}
-				} else if ($sharedType === 'private') {
-					$loadUrl = $listViewUrl;
-				}
-			}
+			$loadUrl = $moduleModel->getListViewUrl();
 		}
 		header("Location: $loadUrl");
 	}

@@ -257,30 +257,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 * @param $id --  user id
 	 * @returns <Array> $sharedids
 	 */
-	public static function getCaledarSharedUsers($id)
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT vtiger_users.user_name, vtiger_sharedcalendar.* FROM vtiger_sharedcalendar
-				LEFT JOIN vtiger_users ON vtiger_sharedcalendar.sharedid=vtiger_users.id WHERE userid=?";
-		$result = $db->pquery($query, array($id));
-		$rows = $db->num_rows($result);
-
-		$sharedids = Array();
-		$focus = new Users();
-		for ($i = 0; $i < $rows; $i++) {
-			$sharedid = $db->query_result($result, $i, 'sharedid');
-			$userId = $db->query_result($result, $i, 'userid');
-			$sharedids[$sharedid] = $userId;
-		}
-		return $sharedids;
-	}
-
-	/**
-	 * To get the lists of sharedids
-	 * @param $id --  user id
-	 * @returns <Array> $sharedids
-	 */
 	public static function getSharedUsersOfCurrentUser($id)
 	{
 		$db = PearDatabase::getInstance();
@@ -392,17 +368,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$db->pquery($sql, array($currentUserId, $sharedId));
 			}
 		}
-	}
-
-	/**
-	 * Function to get shared type
-	 * @param type $currentUserId
-	 * @param type $sharedIds
-	 */
-	public static function getSharedType($currentUserId)
-	{
-		$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUserId);
-		return $userPrivilegesModel->get('calendarsharedtype');
 	}
 
 	/**

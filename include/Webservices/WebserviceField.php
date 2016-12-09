@@ -264,9 +264,8 @@ class WebserviceField
 	public function getReferenceList()
 	{
 		if ($this->referenceList === null) {
-			$referenceList = Vtiger_Cache::get('getReferenceList', $this->getFieldId());
-			if ($referenceList !== false) {
-				return $referenceList;
+			if (\App\Cache::has('getReferenceList', $this->getFieldId())) {
+				return \App\Cache::get('getReferenceList', $this->getFieldId());
 			}
 			if (!isset(WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
 				$this->getFieldTypeFromUIType();
@@ -314,7 +313,7 @@ class WebserviceField
 				$referenceTypesSorted[$keySort] = $reference;
 			}
 			ksort($referenceTypesSorted);
-			Vtiger_Cache::set('getReferenceList', $this->getFieldId(), $referenceTypesSorted);
+			\App\Cache::save('getReferenceList', $this->getFieldId(), $referenceTypesSorted);
 			$this->referenceList = $referenceTypesSorted;
 			return $referenceTypesSorted;
 		}

@@ -78,13 +78,6 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 			$viewer->assign('IS_PREFERENCE', true);
 			$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
-
-			$allUsers = Users_Record_Model::getAll(true);
-			$sharedUsers = Calendar_Module_Model::getCaledarSharedUsers($currentUser->id);
-			$sharedType = Calendar_Module_Model::getSharedType($currentUser->id);
-			$viewer->assign('ALL_USERS', $allUsers);
-			$viewer->assign('SHAREDUSERS', $sharedUsers);
-			$viewer->assign('SHARED_TYPE', $sharedType);
 			$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 			if ($display) {
 				$this->preProcessDisplay($request);

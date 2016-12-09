@@ -103,14 +103,6 @@ class VTCreateEventTask extends VTTask
 			'due_date' => $endDate,
 			'duration_hours' => 0
 		);
-
-		//Setting visibility value
-		$sharedType = Calendar_Module_Model::getSharedType($userId);
-		if ($sharedType == 'selectedusers' || empty($sharedType)) {
-			$sharedType = 'public';
-		}
-		$fields['visibility'] = ucfirst($sharedType);
-
 		$id = $recordModel->getId();
 		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 		if ($field) {

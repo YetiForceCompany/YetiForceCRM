@@ -466,13 +466,18 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public static function getCleanInstance($moduleName)
 	{
+		if (\App\Cache::staticHas('RecordModelCleanInstance', $moduleName)) {
+			return clone \App\Cache::staticGet('RecordModelCleanInstance', $moduleName);
+		}
 		$focus = CRMEntity::getInstance($moduleName);
 		$module = Vtiger_Module_Model::getInstance($moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
-		return $instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
+		$instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
+		\App\Cache::staticSave('RecordModelCleanInstance', $moduleName, clone $instance);
+		return $instance;
 	}
 
 	/**
