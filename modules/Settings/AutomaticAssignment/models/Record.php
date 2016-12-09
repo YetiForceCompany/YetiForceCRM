@@ -293,7 +293,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				}
 				$value = implode(',', $value);
 				break;
-			default:
 			case 'conditions':
 				if ($value !== $this->rawData[$key]) {
 					$value = \App\Json::encode($this->transformAdvanceFilter($value));

@@ -15,7 +15,7 @@
 			{assign var=FIELD_MODEL value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 			<form id="formValue" class="">
 				<label class="col-sm-2 col-md-2 col-lg-1 control-label">
-					{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
+					{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
 				</label>
 				<div class="col-sm-5 col-md-4 controls">
 					<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
