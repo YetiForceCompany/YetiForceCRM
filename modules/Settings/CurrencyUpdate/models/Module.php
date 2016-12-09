@@ -114,9 +114,10 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 		}
 		$activeId = $this->getActiveBankId();
 		if (!$activeId) {
-			$db = PearDatabase::getInstance();
-			$query = 'UPDATE `yetiforce_currencyupdate_banks` SET `active` = 1 ORDER BY `id` ASC LIMIT 1;';
-			$db->query($query);
+			$id = (new \App\Db\Query)->select(['id'])->from('yetiforce_currencyupdate_banks')->orderBy(['id' => SORT_ASC])->limit(1);
+			if($id){
+				$db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['id' => $id])->execute();
+			}
 		}
 	}
 	/*
