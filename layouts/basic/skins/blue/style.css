@@ -433,7 +433,7 @@ btn-danger:hover{
 	bottom: 33px;
 }
 .basePanel{
-	top:120px !important;
+	top: 123px !important;
 }
 .baseContainer .leftPanel .menuContainer a{
 	padding-left: 10px;
@@ -453,7 +453,6 @@ btn-danger:hover{
 .baseContainer .leftPanel .menuContainer a.hasIcon{
 	display: block;
 }
-.baseContainer .leftPanel .menuContainer a .glyphicon, 
 .baseContainer .leftPanel .menuContainer a.hasIcon img
 {
 	display: none;
@@ -519,10 +518,15 @@ btn-danger:hover{
 .leftPanel .modulesList.nav > li.menuModule a,
 .leftPanel .modulesList.nav > li.menuShortcut  a{
 	float:left;
-	padding: 7px 12px;
+	padding: 5px 12px;
+}
+.leftPanel .modulesList.nav > li .glyphicon{
+	padding-bottom: 5px;
 }
 .leftPanel .modulesList.nav > li.menuModule .menuIcon,
-.leftPanel .modulesList.nav > li.menuShortcut .menuIcon {
+.leftPanel .modulesList.nav > li.menuModule .glyphicon,
+.leftPanel .modulesList.nav > li.menuShortcut .menuIcon,
+.leftPanel .modulesList.nav > li.menuShortcut .glyphicon{
 	width: 100%;
 	float:left;
 	text-align: center;
