@@ -93,7 +93,7 @@ class Vtiger_Paging_Model extends Vtiger_Base_Model
 			$rangeInfo = $this->getRecordRange();
 			return $rangeInfo['end'];
 		}
-		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1) + $this->get('noOfEntries');
+		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1) + (int) $this->get('noOfEntries');
 	}
 
 	/**
