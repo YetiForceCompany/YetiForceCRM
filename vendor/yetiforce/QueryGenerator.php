@@ -773,28 +773,33 @@ class QueryGenerator
 	 * @param mixed $value
 	 * @param string $operator
 	 */
-	public function addBaseSearchConditions($fieldName, $value, $operator = 'e')
+	public function addBaseSearchConditions($fieldName, $values, $operator = 'e')
 	{
 		if (empty($fieldName)) {
 			return;
 		}
 		$field = $this->getModuleField($fieldName);
 		$type = $field->getFieldDataType();
-		if ($value !== '') {
-			$value = function_exists('iconv') ? iconv('UTF-8', \AppConfig::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
-			if ($type === 'currency') {
-				// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
-				if ($field->getUIType() === 72) {
-					$value = \CurrencyField::convertToDBFormat($value, null, true);
-				} else {
-					$value = \CurrencyField::convertToDBFormat($value);
+		if (!is_array($values)) {
+			$values = [$values];
+		}
+		foreach ($values as &$value) {
+			if ($value !== '') {
+				$value = function_exists('iconv') ? iconv('UTF-8', \AppConfig::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
+				if ($type === 'currency') {
+					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
+					if ($field->getUIType() === 72) {
+						$value = \CurrencyField::convertToDBFormat($value, null, true);
+					} else {
+						$value = \CurrencyField::convertToDBFormat($value);
+					}
 				}
 			}
+			if (trim(strtolower($value)) === 'null') {
+				$operator = 'e';
+			}
 		}
-		if (trim(strtolower($value)) === 'null') {
-			$operator = 'e';
-		}
-		$this->addCondition($fieldName, $value, $operator);
+		$this->addCondition($fieldName, $values, $operator);
 	}
 
 	/**

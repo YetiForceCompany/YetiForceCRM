@@ -269,6 +269,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 		$searchValue = $this->get('search_value');
 		$operator = $this->get('operator');
 		if ($searchKey) {
+			if ($operator === 's' && strlen($searchValue) === 1) {
+				$searchValue = [$searchValue, strtolower($searchValue)];
+			}
 			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
 		$searchResult = $this->get('searchResult');

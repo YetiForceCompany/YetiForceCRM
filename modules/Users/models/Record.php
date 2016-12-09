@@ -653,7 +653,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * to whom records should be assigned
 	 */
 
-	public function deleteUserPermanently($userId, $newOwnerId)
+	public static function deleteUserPermanently($userId, $newOwnerId)
 	{
 		$db = App\Db::getInstance();
 		$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
