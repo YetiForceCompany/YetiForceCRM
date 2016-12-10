@@ -587,11 +587,11 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$query = $queryGenerator->createQuery();
 		$count = new \yii\db\Expression('COUNT(vtiger_crmentity.crmid)');
 		$query->addSelect(['c' => $count])
-			->groupBy($queryGenerator->getColumnName('assigned_user_id'))
+			->groupBy([$queryGenerator->getColumnName('assigned_user_id'), 'vtiger_users.records_limit'])
 			->orderBy(['c' => SORT_ASC]);
 		if ($this->get('user_limit')) {
 			$usersRecords = [];
-			$access = new \yii\db\Expression('CASE WHEN ' . $count . '<=`vtiger_users`.`records_limit` OR `vtiger_users`.`records_limit` IS NULL OR `vtiger_users`.`records_limit` = 0 THEN 1 ELSE 0 END');
+			$access = new \yii\db\Expression('CASE WHEN ' . $count . '<=vtiger_users.records_limit OR vtiger_users.records_limit IS NULL OR vtiger_users.records_limit = 0 THEN 1 ELSE 0 END');
 			$query->addSelect(['a' => $access]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
