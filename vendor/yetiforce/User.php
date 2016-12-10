@@ -298,6 +298,7 @@ class User
 				$adminId = (new Db\Query())->select('id')
 						->from('vtiger_users')
 						->where(['is_admin' => 'on', 'status' => 'Active'])
+						->orderBy('id', SORT_ASC)
 						->limit(1)->scalar();
 			}
 			Cache::save(__METHOD__, $key, $adminId, \App\Cache::LONG);
