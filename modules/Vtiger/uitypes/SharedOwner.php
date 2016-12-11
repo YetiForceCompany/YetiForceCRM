@@ -188,4 +188,18 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		asort($group);
 		return ['users' => $users, 'group' => $group];
 	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		return parent::getDBValue($value);
+	}
 }
