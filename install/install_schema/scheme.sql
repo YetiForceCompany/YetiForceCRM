@@ -862,6 +862,7 @@ CREATE TABLE `s_yf_automatic_assignment` (
   `active` tinyint(1) DEFAULT '1',
   `conditions` text,
   `user_limit` tinyint(1) DEFAULT NULL,
+  `roleid` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

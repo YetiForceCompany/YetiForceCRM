@@ -1167,7 +1167,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {
 				$autoAssignModel = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
-				$autoAssignRecord = $autoAssignModel->searchRecord($this);
+				$autoAssignRecord = $autoAssignModel->searchRecord($this, $userModel->getRole());
 				return $autoAssignRecord ? true : false;
 			}
 		}

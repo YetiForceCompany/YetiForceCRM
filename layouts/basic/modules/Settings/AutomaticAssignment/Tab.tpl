@@ -28,18 +28,24 @@
 					</div>
 				</div>
 			</form>
-		{elseif $FIELD_NAME eq 'assign'}
+		{elseif $FIELD_NAME eq 'assign' || $FIELD_NAME eq 'roleid'}
 			{assign var=FIELD_MODEL value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 			<form id="formValue" class="col-sm-12">
 				<div class="form-group">
-					<label class="col-xs-12">{\App\Language::translate('LBL_SET_DEFAULT_USER', $QUALIFIED_MODULE)}</label>
+					<label class="col-xs-12">
+						{if $FIELD_NAME eq 'roleid'}
+							{\App\Language::translate('LBL_DEACTIVATE_SYSTEM_MODE', $QUALIFIED_MODULE)}
+						{else}
+							{\App\Language::translate('LBL_SET_DEFAULT_USER', $QUALIFIED_MODULE)}
+						{/if}
+					</label>
 					<div class="col-xs-12">
 						&nbsp;<input name="{$FIELD_NAME}" id="defaultUser" class="switchBtn saveValue noField" type="checkbox" {if $RECORD_MODEL->get($FIELD_NAME)}checked{/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 					</div>
 				</div>
 				<div class="form-group fieldToShowHide{if !$RECORD_MODEL->get($FIELD_NAME)} hide{/if}">
 					<label class="col-xs-12">
-						{\App\Language::translate('LBL_ASSIGNED_TO', $QUALIFIED_MODULE)}
+						{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}<span class="redColor"> *</span>
 					</label>
 					<div class="col-md-5 col-lg-4">
 						<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">

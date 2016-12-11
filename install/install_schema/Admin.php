@@ -231,7 +231,8 @@ class Admin extends \App\Db\Importers\Base
 					'assign' => $this->smallInteger(5),
 					'active' => $this->smallInteger(1)->defaultValue(1),
 					'conditions' => $this->text(),
-					'user_limit' => $this->smallInteger(1)
+					'user_limit' => $this->smallInteger(1),
+					'roleid' => $this->stringType(200)
 				],
 				'index' => [
 						['automatic_assignment_idx', 'tabid'],

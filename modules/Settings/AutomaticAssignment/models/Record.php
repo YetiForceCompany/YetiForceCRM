@@ -100,7 +100,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function getEditFields()
 	{
-		return ['value' => 'FL_VALUE', 'roles' => 'FL_ROLES', 'smowners' => 'FL_SMOWNERS', 'assign' => 'FL_ASSIGN', 'conditions' => 'FL_CONDITIONS'];
+		return ['roleid' => 'FL_MODE', 'value' => 'FL_VALUE', 'roles' => 'FL_ROLES', 'smowners' => 'FL_SMOWNERS', 'assign' => 'FL_ASSIGN', 'conditions' => 'FL_CONDITIONS'];
 	}
 
 	/**
@@ -114,6 +114,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			case 'value':
 				return Vtiger_Field_Model::getInstance($this->get('field'), Vtiger_Module_Model::getInstance($this->get('tabid')));
 			case 'roles':
+			case 'roleid':
 				return Vtiger_Field_Model::getInstance('roleid', Vtiger_Module_Model::getInstance('Users'));
 			case 'smowners':
 			case 'assign':
@@ -349,6 +350,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		} elseif (!empty($this->getId())) {
 			$db->createCommand()->update($this->getTable(), $params, ['id' => $this->getId()])->execute();
 		}
+		$this->getModule()->clearCache($params);
 	}
 
 	/**
@@ -621,7 +623,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function isRefreshTab($name)
 	{
-		if (in_array($name, ['conditions', 'assign', 'value'])) {
+		if (in_array($name, ['conditions', 'assign', 'value', 'roleid'])) {
 			return false;
 		}
 		return true;

@@ -128,19 +128,30 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	/**
 	 * Function searches for record from the Auto assign records panel
 	 * @param Vtiger_Record_Model $recordModel
+	 * @param string $role
 	 * @return bool|Settings_AutomaticAssignment_Record_Model
 	 */
-	public function searchRecord(\Vtiger_Record_Model $recordModel)
+	public function searchRecord(\Vtiger_Record_Model $recordModel, $role = '')
 	{
-		$dataReader = (new \App\Db\Query())
+		$key = $recordModel->getModuleName() . $role;
+		if (\App\Cache::has(__METHOD__, $key)) {
+			$data = \App\Cache::get(__METHOD__, $key);
+		} else {
+			$query = (new \App\Db\Query())
 				->select(['field', 'value', 'id'])
 				->from($this->baseTable)
-				->where(['tabid' => \App\Module::getModuleId($recordModel->getModuleName()), 'active' => 1])
-				->createCommand()->query();
-		while ($row = $dataReader->read()) {
+				->where(['tabid' => \App\Module::getModuleId($recordModel->getModuleName()), 'active' => 1]);
+			if ($role) {
+				$query->andWhere(['roleid' => $role]);
+			}
+			$data = $query->all();
+			\App\Cache::save(__METHOD__, $key, $data, \App\Cache::LONG);
+		}
+		foreach ($data as $row) {
 			if (!$recordModel->has($row['field'])) {
-				$entityModel = $recordModel->getEntity();
-				$value = \vtlib\Functions::getSingleFieldValue($entityModel->table_name, $row['field'], $entityModel->table_index, $recordModel->getId());
+				$fieldModel = $recordModel->getModule()->getFieldByName($row['field']);
+				$idName = $recordModel->getEntity()->tab_name_index[$fieldModel->getTableName()];
+				$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $recordModel->getId());
 				$recordModel->set($row['field'], $value);
 			}
 			if ($row['value'] == $recordModel->get($row['field'])) {
@@ -150,6 +161,19 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Function clears cache
+	 * @param array $param
+	 */
+	public function clearCache($param)
+	{
+		if ($param) {
+			$tabId = \App\Module::getModuleName($param['tabid']);
+			$cacheKey = $tabId . $param['roleid'];
+			\App\Cache::delete(get_class() . '::searchRecord', $cacheKey);
+		}
 	}
 
 	/**
