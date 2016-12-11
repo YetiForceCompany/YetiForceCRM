@@ -5692,21 +5692,30 @@ select.form-control {
 .marginRight15{
 	margin-right: 15px;
 }
-.leftRecordActions .actions:hover .toolsAction{
+.leftRecordActions .actions:hover .toolsAction,
+.rightRecordActions .actions:hover .toolsAction{
 	display: none;
 }
-.leftRecordActions .actions:hover{
+.leftRecordActions .actions:hover,
+.rightRecordActions .actions:hover{
 	white-space: nowrap;
 	position: absolute;
 }
 .leftRecordActions > div,
-.leftRecordActions .actions:hover .actionImages{
+.leftRecordActions .actions:hover .actionImages,
+.rightRecordActions .actions:hover .actionImages{
 	display: inline-block !important;
 }
+
+.rightRecordActions .actions:hover{
+	right: 7px;
+}
+
 .leftRecordActions .actions:hover + div .unreviewed{
 	margin-left: 20px;
 }
-.leftRecordActions .actions{
+.leftRecordActions .actions,
+.rightRecordActions .actions{
 	background: inherit;
 	padding: 4px 2px 0 0;
 }
