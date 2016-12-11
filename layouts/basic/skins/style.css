@@ -5706,16 +5706,20 @@ select.form-control {
 .rightRecordActions .actions:hover .actionImages{
 	display: inline-block !important;
 }
-
 .rightRecordActions .actions:hover{
 	right: 7px;
 }
-
+td.rightRecordActions.medium{
+	padding-top: 0px!important;
+	padding-bottom: 0px!important;
+}
+.rightRecordActions .actions{
+	padding-top: 8px;
+}
 .leftRecordActions .actions:hover + div .unreviewed{
 	margin-left: 20px;
 }
-.leftRecordActions .actions,
-.rightRecordActions .actions{
+.leftRecordActions .actions{
 	background: inherit;
 	padding: 4px 2px 0 0;
 }
