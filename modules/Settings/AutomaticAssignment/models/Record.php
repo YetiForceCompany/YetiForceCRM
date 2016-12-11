@@ -442,6 +442,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				return \App\Module::getModuleName($this->get($name));
 			case 'active':
 				return empty($this->get($name)) ? 'LBL_NO' : 'LBL_YES';
+			case 'roleid':
+				return empty($this->get($name)) ? 'LBL_SYSTEM' : \App\Language::translate(\App\PrivilegeUtil::getRoleName($this->get($name)));
 			default:
 				break;
 		}

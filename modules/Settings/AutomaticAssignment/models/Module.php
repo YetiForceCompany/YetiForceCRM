@@ -25,7 +25,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 * List of fields displayed in list view
 	 * @var string 
 	 */
-	public $listFields = ['tabid' => 'FL_MODULE', 'field' => 'FL_FIELD', 'value' => 'FL_VALUE', 'active' => 'FL_ACTIVE'];
+	public $listFields = ['tabid' => 'FL_MODULE', 'field' => 'FL_FIELD', 'value' => 'FL_VALUE', 'active' => 'FL_ACTIVE', 'roleid' => 'FL_MODE'];
 
 	/**
 	 * Module Name

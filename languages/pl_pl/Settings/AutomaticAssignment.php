@@ -24,6 +24,7 @@ $languageStrings = [
 	'LBL_INCLUDE_USERS_RECORD_LIMIT' => 'Uwzględniaj limit rekordów użytkownika',
 	'LBL_SET_DEFAULT_USER' => 'Ustaw użytkownika domyślnego',
 	'LBL_DEACTIVATE_SYSTEM_MODE' => 'Wyłącz tryb systemowy',
+	'LBL_SYSTEM' => 'Systemowy',
 	'LBL_NOTE' => 'Informacja!',
 	'LBL_VALUE_INFO' => 'W poniższym polu ustawia się wartość dla wybranego pola modułu.',
 	'LBL_ROLES_INFO' => 'Z wybranych poniżej ról tworzona jest lista użytkowników wstępnie możliwych do przypisania.',
