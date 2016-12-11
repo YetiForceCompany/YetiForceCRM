@@ -93,10 +93,10 @@ class SharedOwnerField extends BaseField
 	 */
 	public function operatorNy()
 	{
-		return ['and',
-				['not', [$this->getColumnName() => null]],
-				['<>', $this->getColumnName(), 0]
-		];
+		$focus = $this->queryGenerator->getEntityModel();
+		$baseTable = $focus->table_name;
+		$baseTableIndex = $focus->table_index;
+		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
 	}
 	
 	/**
@@ -105,9 +105,10 @@ class SharedOwnerField extends BaseField
 	 */
 	public function operatorY()
 	{
-		return ['or',
-				[$this->getColumnName() => null],
-				['=', $this->getColumnName(), 0]
-		];
+		$focus = $this->queryGenerator->getEntityModel();
+		$baseTable = $focus->table_name;
+		$baseTableIndex = $focus->table_index;
+		$this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
+		return ['u_#__crmentity_showners.userid' => null]; 
 	}
 }
