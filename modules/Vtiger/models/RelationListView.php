@@ -539,17 +539,12 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 	public function getFavoriteRecords()
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$recordId = $this->getParentRecordModel()->getId();
-		$relModuleName = $this->getRelatedModuleModel()->getName();
-		$moduleName = $this->getParentRecordModel()->getModuleName();
-
-		$query = 'SELECT `relcrmid` FROM `u_yf_favorites` WHERE u_yf_favorites.module = ? 
-		AND u_yf_favorites.relmodule = ? 
-		AND u_yf_favorites.crmid = ? 
-		AND u_yf_favorites.userid = ?';
-		$result = $db->pquery($query, [$moduleName, $relModuleName, $recordId, $currentUser->getId()]);
-		return $db->getArrayColumn($result, 'relcrmid');
+		return (new App\Db\Query())->select(['relcrmid'])->from('u_#__favorites')
+						->where([
+							'module' => $this->getParentRecordModel()->getModuleName(),
+							'relmodule' => $this->getRelatedModuleModel()->getName(),
+							'crmid' => $this->getParentRecordModel()->getId(),
+							'userid' => App\User::getCurrentUserId()])
+						->column();
 	}
 }

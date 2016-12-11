@@ -804,21 +804,25 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public function updateFavoriteForRecord($action, $data)
 	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db = App\Db::getInstance();
 		$moduleName = $this->getParentModuleModel()->get('name');
 		$result = false;
-		if ('add' == $action) {
-			$result = $db->insert('u_yf_favorites', [
+		if ('add' === $action) {
+			$result = $db->createCommand()->insert('u_yf_favorites', [
 				'crmid' => $data['crmid'],
 				'module' => $moduleName,
 				'relcrmid' => $data['relcrmid'],
 				'relmodule' => $this->getRelationModuleName(),
-				'userid' => $currentUser->getId()
-			]);
-		} elseif ('delete' == $action) {
-			$where = 'crmid = ? && module = ? && relcrmid = ?  && relmodule = ? && userid = ?';
-			$result = $db->delete('u_yf_favorites', $where, [$data['crmid'], $moduleName, $data['relcrmid'], $this->getRelationModuleName(), $currentUser->getId()]);
+				'userid' => App\User::getCurrentUserId()
+			])->execute();
+		} elseif ('delete' === $action) {
+			$result = $db->createCommand()->delete('u_yf_favorites', [
+				'crmid' => $data['crmid'],
+				'module' => $moduleName,
+				'relcrmid' => $data['relcrmid'],
+				'relmodule' => $this->getRelationModuleName(),
+				'userid' => App\User::getCurrentUserId()
+			])->execute();
 		}
 		return $result;
 	}
