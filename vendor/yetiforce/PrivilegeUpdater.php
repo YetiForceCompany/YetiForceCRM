@@ -158,7 +158,6 @@ class PrivilegeUpdater
 		if ($priority) {
 			$params['priority'] = $priority;
 		}
-		$adb = \PearDatabase::getInstance();
 		$insert = $update = $row = false;
 		$query = new \App\Db\Query();
 		$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 1])->one();
@@ -180,12 +179,12 @@ class PrivilegeUpdater
 				$params['type'] = 0;
 			}
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db::getInstance('admin');
 		if ($insert) {
-			$db->createCommand()->insert('s_yf_privileges_updater', $params)->execute();
+			$db->createCommand()->insert('s_#__privileges_updater', $params)->execute();
 		}
 		if ($update) {
-			$adb->update('s_yf_privileges_updater', $params, 'module = ? && type = ?', [$moduleName, $type]);
+			$db->createCommand()->update('s_#__privileges_updater', $params, ['module' => $moduleName, 'type' => $type])->execute();
 		}
 	}
 
