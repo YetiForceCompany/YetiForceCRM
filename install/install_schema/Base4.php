@@ -96,7 +96,7 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'vtiger_relatedlists' => [
 				'columns' => [
-					'relation_id' => $this->smallInteger(19)->unsigned()->notNull(),
+					'relation_id' => $this->primaryKey(),
 					'tabid' => $this->smallInteger(10)->unsigned()->notNull(),
 					'related_tabid' => $this->smallInteger(10)->unsigned()->notNull(),
 					'name' => $this->stringType(50),
@@ -114,9 +114,6 @@ class Base4 extends \App\Db\Importers\Base
 					['relatedlists_tabid_2_idx', ['tabid', 'related_tabid']],
 					['relatedlists_label_idx', ['tabid', 'related_tabid', 'label']],
 					['relatedlists_pres_idx', ['tabid', 'related_tabid', 'presence']],
-				],
-				'primaryKeys' => [
-					['relatedlists_pk', 'relation_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
