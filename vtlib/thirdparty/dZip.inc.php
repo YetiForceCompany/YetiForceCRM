@@ -30,7 +30,7 @@ class dZip
 
 	public function addFile($filename, $cfilename, $fileComments = '', $data = false)
 	{
-		if (!($fh = $this->fh))
+		if (!($fh = &$this->fh))
 			$fh = fopen($this->filename, $this->overwrite ? 'wb' : 'a+b');
 
 		// $filename can be a local file OR the data wich will be compressed
