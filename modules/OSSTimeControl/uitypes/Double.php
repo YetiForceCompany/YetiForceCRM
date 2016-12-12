@@ -19,7 +19,7 @@ class OSSTimeControl_Double_UIType extends Vtiger_Double_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($this->get('field')->getFieldName() == 'sum_time') {
+		if ($this->get('field')->getFieldName() === 'sum_time') {
 			$return = vtlib\Functions::decimalTimeFormat((int) $value);
 			return $return['short'];
 		} else {
