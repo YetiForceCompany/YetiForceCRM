@@ -6,6 +6,7 @@ namespace App;
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class QueryGenerator
 {
@@ -39,6 +40,7 @@ class QueryGenerator
 	private $joins = [];
 	private $queryFields = [];
 	private $order = [];
+	private $group = [];
 	private $sourceRecord;
 	private $concatColumn = [];
 	private $reletedFields = [];
@@ -165,7 +167,17 @@ class QueryGenerator
 	 */
 	public function setCustomColumn($columns)
 	{
-		$this->customColumns[] = $columns;
+		if (is_array($columns)) {
+			foreach ($columns as $key => $column) {
+				if (is_numeric($key)) {
+					$this->customColumns[] = $column;
+				} else {
+					$this->customColumns[$key] = $column;
+				}
+			}
+		} else {
+			$this->customColumns[] = $columns;
+		}
 	}
 
 	/**
@@ -268,6 +280,35 @@ class QueryGenerator
 	{
 		$queryField = $this->getQueryField($fieldName);
 		$this->order = array_merge($this->order, $queryField->getOrderBy($order));
+	}
+
+	/**
+	 * Set group
+	 * @param string $fieldName
+	 */
+	public function setGroup($fieldName)
+	{
+		$queryField = $this->getQueryField($fieldName);
+		$this->group = array_unique(array_merge($this->group, $queryField->getColumnName()));
+	}
+
+	/**
+	 * Set custom group
+	 * @param string|array $groups
+	 */
+	public function setCustomGroup($groups)
+	{
+		if (is_array($groups)) {
+			foreach ($groups as $key => $group) {
+				if (is_numeric($key)) {
+					$this->group[] = $group;
+				} else {
+					$this->group[$key] = $group;
+				}
+			}
+		} else {
+			$this->group[] = $groups;
+		}
 	}
 
 	/**
@@ -467,6 +508,7 @@ class QueryGenerator
 			$this->loadWhere();
 			$this->loadOrder();
 			$this->loadJoin();
+			$this->loadGroup();
 			$this->buildedQuery = $this->query;
 		}
 		return $this->buildedQuery;
@@ -488,8 +530,12 @@ class QueryGenerator
 				$columns[$fieldName] = $this->getColumnName($fieldName);
 			}
 		}
-		foreach ($this->customColumns as $customColumn) {
-			$columns[] = $customColumn;
+		foreach ($this->customColumns as $key => $customColumn) {
+			if (is_numeric($key)) {
+				$columns[] = $customColumn;
+			} else {
+				$columns[$key] = $customColumn;
+			}
 		}
 		$this->query->select(array_merge($columns, $this->reletedFields));
 	}
@@ -764,6 +810,16 @@ class QueryGenerator
 	{
 		if ($this->order) {
 			$this->query->orderBy($this->order);
+		}
+	}
+
+	/**
+	 * Sets the GROUP BY part of the query.
+	 */
+	public function loadGroup()
+	{
+		if ($this->group) {
+			$this->query->groupBy($this->group);
 		}
 	}
 
