@@ -58,4 +58,6 @@ $PERFORMANCE_CONFIG = [
 	'CACHING_DRIVER' => 'Base',
 	//Parameter that determines whether admin panel should be available to admin by default
 	'SHOW_ADMIN_PANEL' => false,
+	//Global search: true/false
+	'GLOBAL_SEARCH' => true,
 ];
