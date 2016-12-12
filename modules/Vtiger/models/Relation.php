@@ -567,8 +567,8 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function deleteRelTree($crmid, $tree)
 	{
 		App\Db::getInstance()->createCommand()
-				->delete('u_#__crmentity_rel_tree', ['crmid' => $crmid, 'tree' => $tree, 'module' => $this->getParentModuleModel()->getId(), 'relmodule' => $this->getRelationModuleModel()->getId()])
-				->execute();
+			->delete('u_#__crmentity_rel_tree', ['crmid' => $crmid, 'tree' => $tree, 'module' => $this->getParentModuleModel()->getId(), 'relmodule' => $this->getRelationModuleModel()->getId()])
+			->execute();
 	}
 
 	public function isDirectRelation()
@@ -808,21 +808,21 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$moduleName = $this->getParentModuleModel()->get('name');
 		$result = false;
 		if ('add' === $action) {
-			$result = $db->createCommand()->insert('u_yf_favorites', [
-				'crmid' => $data['crmid'],
-				'module' => $moduleName,
-				'relcrmid' => $data['relcrmid'],
-				'relmodule' => $this->getRelationModuleName(),
-				'userid' => App\User::getCurrentUserId()
-			])->execute();
+			$result = $db->createCommand()->insert('u_#__favorites', [
+					'crmid' => $data['crmid'],
+					'module' => $moduleName,
+					'relcrmid' => $data['relcrmid'],
+					'relmodule' => $this->getRelationModuleName(),
+					'userid' => App\User::getCurrentUserId()
+				])->execute();
 		} elseif ('delete' === $action) {
-			$result = $db->createCommand()->delete('u_yf_favorites', [
-				'crmid' => $data['crmid'],
-				'module' => $moduleName,
-				'relcrmid' => $data['relcrmid'],
-				'relmodule' => $this->getRelationModuleName(),
-				'userid' => App\User::getCurrentUserId()
-			])->execute();
+			$result = $db->createCommand()->delete('u_#__favorites', [
+					'crmid' => $data['crmid'],
+					'module' => $moduleName,
+					'relcrmid' => $data['relcrmid'],
+					'relmodule' => $this->getRelationModuleName(),
+					'userid' => App\User::getCurrentUserId()
+				])->execute();
 		}
 		return $result;
 	}

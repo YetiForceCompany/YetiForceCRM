@@ -14,8 +14,6 @@ class Vtiger_WorkflowTrigger_Model
 	public static function execute($moduleName, $record, $ids, $userID)
 	{
 		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~include/Webservices/Utils.php');
-		vimport('~~include/Webservices/Retrieve.php');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$wfs = new VTWorkflowManager();
 		foreach ($ids as $id) {

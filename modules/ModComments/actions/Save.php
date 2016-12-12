@@ -21,7 +21,7 @@ class ModComments_Save_Action extends Vtiger_Save_Action
 		foreach ($responseFieldsToSent as &$fieldName) {
 			$fieldModel = $fieldModelList[$fieldName];
 			$fieldValue = $recordModel->get($fieldName);
-			$result[$fieldName] = $fieldModel->getDisplayValue(Vtiger_Util_Helper::toSafeHTML($fieldValue));
+			$result[$fieldName] = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
 		}
 
 		$result['success'] = true;
