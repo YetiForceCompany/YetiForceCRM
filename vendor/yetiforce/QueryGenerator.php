@@ -855,6 +855,9 @@ class QueryGenerator
 				$operator = 'e';
 			}
 		}
+		if (count($values) === 1) {
+			$values = $values[0];
+		}
 		$this->addCondition($fieldName, $values, $operator);
 	}
 
