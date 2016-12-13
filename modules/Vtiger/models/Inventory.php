@@ -170,7 +170,6 @@ class Vtiger_Inventory_Model
 	 */
 	public function setInventoryTable($type)
 	{
-		$db = PearDatabase::getInstance();
 		$moduleName = $this->name;
 
 		$focus = CRMEntity::getInstance($moduleName);
@@ -184,12 +183,9 @@ class Vtiger_Inventory_Model
 		} else {
 			$type = 0;
 		}
-		$result = $db->update('vtiger_tab', [
-			'type' => $type
-			], 'name = ?', [$moduleName]
-		);
+		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['type' => $type], ['name' => $moduleName])->execute();
 		$i = 0;
-		if ($result && $type) {
+		if ($type) {
 			while (isset($tableEnds[$i]) && $ends = $tableEnds[$i]) {
 				switch ($ends) {
 					case '_inventory':

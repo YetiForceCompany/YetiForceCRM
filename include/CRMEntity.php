@@ -102,107 +102,6 @@ class CRMEntity
 		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
-	/**
-	 *      This function is used to upload the attachment in the server and save that attachment information in db.
-	 *      @param int $id  - entity id to which the file to be uploaded
-	 *      @param string $module  - the current module name
-	 *      @param array $file_details  - array which contains the file information(name, type, size, tmp_name and error)
-	 *      return void
-	 */
-	public function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
-	{
-		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
-		$db = \App\Db::getInstance();
-		$userId = \App\User::getCurrentUserId();
-		$date = date('Y-m-d H:i:s');
-
-		//to get the owner id
-		$ownerid = $this->column_fields['assigned_user_id'];
-		if (!isset($ownerid) || $ownerid === '')
-			$ownerid = $userId;
-
-		if (isset($file_details['original_name']) && $file_details['original_name'] != null) {
-			$file_name = $file_details['original_name'];
-		} else {
-			$file_name = $file_details['name'];
-		}
-
-		$fileInstance = \App\Fields\File::loadFromRequest($file_details);
-		if (!$fileInstance->validate()) {
-			return false;
-		}
-		$binFile = \App\Fields\File::sanitizeUploadFileName($file_name);
-
-		$currentId = $db->getUniqueID('vtiger_crmentity');
-
-		$filename = ltrim(basename(' ' . $binFile)); //allowed filename like UTF-8 characters
-		$filetype = $file_details['type'];
-		$filesize = $file_details['size'];
-		$filetmp_name = $file_details['tmp_name'];
-
-		//get the file path inwhich folder we want to upload the file
-		$upload_file_path = \vtlib\Functions::initStorageFileDirectory($module);
-
-		//upload the file in server
-		$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $currentId . '_' . $binFile);
-		if ($upload_status == 'true') {
-			//This is only to update the attached filename in the vtiger_notes vtiger_table for the Notes module
-			$params = [
-				'crmid' => $currentId,
-				'smcreatorid' => $userId,
-				'smownerid' => $ownerid,
-				'setype' => $module . " Image",
-				'description' => $this->column_fields['description'],
-				'createdtime' => $date,
-				'modifiedtime' => $date
-			];
-			if ($module === 'Contacts' || $module === 'Products') {
-				$params['setype'] = $module . ' Image';
-			} else {
-				$params['setype'] = $module . ' Attachment';
-			}
-			$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
-
-			$params = [
-				'attachmentsid' => $currentId,
-				'name' => $filename,
-				'description' => $this->column_fields['description'],
-				'type' => $filetype,
-				'path' => $upload_file_path
-			];
-			$db->createCommand()->insert('vtiger_attachments', $params)->execute();
-
-			if (AppRequest::get('mode') == 'edit') {
-				if (!empty($id) && !empty(AppRequest::get('fileid'))) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => AppRequest::get('fileid')])->execute();
-				}
-			}
-			if ($module === 'Documents') {
-				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
-			}
-			if ($module == 'Contacts') {
-				$attachmentsId = (new \App\Db\Query())->select(['vtiger_seattachmentsrel.attachmentsid'])
-					->from('vtiger_seattachmentsrel')
-					->innerJoin('vtiger_crmentity', 'vtiger_seattachmentsrel.attachmentsid=vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.setype' => 'Contacts Image', 'vtiger_seattachmentsrel.crmid' => $id])
-					->scalar();
-				if (!empty($attachmentsId)) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $attachmentsId])->execute();
-					$db->createCommand()->delete('vtiger_crmentity', ['crmid' => $attachmentsId])->execute();
-					$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
-				} else {
-					$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
-				}
-			} else {
-				$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
-			}
-			return true;
-		} else {
-			\App\Log::trace('Skip the save attachment process.');
-			return false;
-		}
-	}
-
 	// Function which returns the value based on result type (array / ADODB ResultSet)
 	private function resolve_query_result_value($result, $index, $columnname)
 	{
@@ -679,12 +578,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-			[
+				[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-			[
+				[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid

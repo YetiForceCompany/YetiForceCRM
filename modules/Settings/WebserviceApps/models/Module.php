@@ -33,6 +33,6 @@ class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 			$query->andWhere(['type' => $type]);
 		}
 
-		return $query->createCommand($db)->queryAllByGroup(true);
+		return $query->createCommand($db)->queryAllByGroup(1);
 	}
 }

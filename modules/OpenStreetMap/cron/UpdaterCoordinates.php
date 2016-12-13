@@ -40,7 +40,7 @@ if ($lastUpdatedCrmId !== false) {
 		}
 		$lastUpdatedCrmId = $row['crmid'];
 	}
-	$lastRecordId = (new App\Db\Query())->select(['id'])->from('vtiger_crmentity_seq')->scalar();
+	$lastRecordId = $db->getUniqueID('vtiger_crmentity', 'crmid', false);
 	if ($lastRecordId === $lastUpdatedCrmId) {
 		$db->createCommand()->update('u_#__openstreetmap_address_updater', ['crmid' => $lastUpdatedCrmId])->execute();
 		$cronTask->updateStatus(\vtlib\Cron::$STATUS_DISABLED);

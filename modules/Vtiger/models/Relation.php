@@ -696,12 +696,10 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public static function updateRelationPresence($relationId, $status)
 	{
-		$adb = PearDatabase::getInstance();
 		$presence = 0;
-		if ($status == 0)
+		if ($status === 0)
 			$presence = 1;
-		$query = 'UPDATE vtiger_relatedlists SET `presence` = ? WHERE `relation_id` = ?;';
-		$result = $adb->pquery($query, array($presence, $relationId));
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $presence], ['relation_id' => $relationId])->execute();
 	}
 
 	public static function removeRelationById($relationId)
