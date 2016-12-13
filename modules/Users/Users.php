@@ -926,59 +926,62 @@ class Users extends CRMEntity
 	}
 
 	/** Function to upload the file to the server and add the file details in the attachments table
-	 * @param $id -- user id:: Type varchar
-	 * @param $module -- module name:: Type varchar
-	 * @param $file_details -- file details array:: Type array
+	 * @param string $id
+	 * @param string $module
+	 * @param array $fileDetails
+	 * @return boolean
+	 * @todo Add transaction. Consider no possibility of uploading the file to the server (move_uploaded_file) as failure to save
 	 */
-	public function uploadAndSaveFile($id, $module, $file_details, $attachmentType = 'Attachment')
+	public function uploadAndSaveFile($id, $module, $fileDetails)
 	{
-		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
-		$current_user = vglobal('current_user');
-		$date_var = date('Y-m-d H:i:s');
+		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
+		$currentUserId = \App\User::getCurrentUserId();
+		$dateVar = date('Y-m-d H:i:s');
 		$db = App\Db::getInstance();
 		//to get the owner id
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if (!isset($ownerid) || $ownerid == '')
-			$ownerid = $current_user->id;
-		$fileInstance = \App\Fields\File::loadFromRequest($file_details);
+			$ownerid = $currentUserId;
+		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validate('image')) {
 			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}
 		$binFile = $fileInstance->getSanitizeName();
-		$filename = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
-		$filetype = $file_details['type'];
-		$filesize = $file_details['size'];
-		$filetmp_name = $file_details['tmp_name'];
-		$current_id = $db->getUniqueID("vtiger_crmentity");
-		//get the file path inwhich folder we want to upload the file
-		$upload_file_path = \vtlib\Functions::initStorageFileDirectory($module);
-		//upload the file in server
-		move_uploaded_file($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
+		$fileName = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
+		$fileType = $fileDetails['type'];
+		$fileTmpName = $fileDetails['tmp_name'];
+		$uploadFilePath = \vtlib\Functions::initStorageFileDirectory($module);
 		$db->createCommand()->insert('vtiger_crmentity', [
-			'crmid' => $current_id,
-			'smcreatorid' => $current_user->id,
+			'smcreatorid' => $currentUserId,
 			'smownerid' => $ownerid,
 			'setype' => $module . ' Attachment',
 			'description' => $this->column_fields['description'],
-			'createdtime' => $this->db->formatDate($date_var, true),
-			'modifiedtime' => $this->db->formatDate($date_var, true)
+			'createdtime' => $dateVar,
+			'modifiedtime' => $dateVar
 		])->execute();
-		$db->createCommand()->insert('vtiger_attachments', [
-			'attachmentsid' => $current_id,
-			'name' => $filename,
-			'description' => $this->column_fields['description'],
-			'type' => $filetype,
-			'path' => $upload_file_path,
-		])->execute();
-		if ($id != '') {
-			$db->createCommand()->delete('vtiger_salesmanattachmentsrel', ['smid' => $id])->execute();
+		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
+		//upload the file in server
+		$success = move_uploaded_file($fileTmpName, $uploadFilePath . $currentId . "_" . $binFile);
+		if ($success) {
+			$db->createCommand()->insert('vtiger_attachments', [
+				'attachmentsid' => $currentId,
+				'name' => $fileName,
+				'description' => $this->column_fields['description'],
+				'type' => $fileType,
+				'path' => $uploadFilePath,
+			])->execute();
+			if ($id != '') {
+				$db->createCommand()->delete('vtiger_salesmanattachmentsrel', ['smid' => $id])->execute();
+			}
+			$db->createCommand()->insert('vtiger_salesmanattachmentsrel', ['smid' => $id, 'attachmentsid' => $currentId])->execute();
+			//we should update the imagename in the users table
+			$db->createCommand()->update('vtiger_users', ['imagename' => $id], ['id' => $currentId])->execute();
+			\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
+			return true;
 		}
-		$db->createCommand()->insert('vtiger_salesmanattachmentsrel', ['smid' => $id, 'attachmentsid' => $current_id])->execute();
-		//we should update the imagename in the users table
-		$db->createCommand()->update('vtiger_users', ['imagename' => $id], ['id' => $current_id])->execute();
-		\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$file_details) method.");
-		return;
+		\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
+		return false;
 	}
 
 	/** Function to save the user information into the database

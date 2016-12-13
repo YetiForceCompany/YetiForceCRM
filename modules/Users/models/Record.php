@@ -159,9 +159,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$this->set('newRecord', $recordId);
 		}
 		$db->startTransaction();
-		if ($this->getModule()->isInventory()) {
-			$this->initInventoryData();
-		}
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
 	}
