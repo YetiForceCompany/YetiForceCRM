@@ -363,10 +363,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		//Disabled generating record ID in transaction  in order to maintain data integrity
-		if ($this->isNew()) {
-			$recordId = \App\Db::getInstance()->getUniqueID('vtiger_crmentity');
-			$this->set('newRecord', $recordId);
-		}
 		$db->startTransaction();
 		if ($this->getModule()->isInventory()) {
 			$this->initInventoryData();
@@ -390,9 +386,14 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		foreach ($this->getValuesForSave() as $tableName => &$tableData) {
 			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
-				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
+				if ($tableName === 'vtiger_crmentity') {
+					$db->createCommand()->insert($tableName, $tableData)->execute();
+					$this->setId($db->getLastInsertID('vtiger_crmentity_crmid_seq'));
+				} else {
+					$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
+				}
 			} else {
-				$db->createCommand()->update($tableName, $tableData, $keyTable)->execute();
+				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
 		}
 	}

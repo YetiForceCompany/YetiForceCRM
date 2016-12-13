@@ -215,11 +215,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			App\Log::warning('ERR_NO_DATA');
 			return $recordModel;
 		}
-		$recordId = $recordModel->getId();
-		if ($recordModel->isNew()) {
-			$recordId = $recordModel->get('newRecord');
-			$recordModel->setId($recordId);
-		}
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
@@ -230,6 +225,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 		$recordModel->saveToDb();
 
+		$recordId = $recordModel->getId();
 		Users_Privileges_Model::setSharedOwner($recordModel->get('shownerid'), $recordId);
 		if ($this->isInventory()) {
 			$recordModel->saveInventoryData($moduleName);

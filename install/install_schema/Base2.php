@@ -995,7 +995,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_crmentity' => [
 				'columns' => [
-					'crmid' => $this->integer()->notNull(),
+					'crmid' => $this->primaryKey(),
 					'smcreatorid' => $this->smallInteger(5)->unsigned()->notNull()->defaultValue(0),
 					'smownerid' => $this->smallInteger(5)->unsigned()->notNull()->defaultValue(0),
 					'shownerid' => $this->smallInteger(1),
@@ -1024,16 +1024,6 @@ class Base2 extends \App\Db\Importers\Base
 						['crmentity_crmid_setype_idx', ['crmid', 'setype']],
 						['crmentity_setype_deleted_idx', ['setype', 'deleted']],
 						['crmentity_setype_idx', 'setype'],
-				],
-				'primaryKeys' => [
-						['crmentity_pk', 'crmid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_crmentity_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2982,12 +2972,6 @@ class Base2 extends \App\Db\Importers\Base
 						[108, 1, 1, 0, 1, 'OSSMailTemplates', NULL, NULL, '2015-03-12 07:44:12', '2015-03-12 07:44:12', '2015-03-12 07:44:13', NULL, NULL, 0, 1, 0, 0, 0, NULL],
 						[109, 1, 1, 0, 1, 'OSSMailTemplates', NULL, NULL, '2015-10-23 08:16:58', '2015-10-23 08:34:54', '2015-10-23 08:34:54', NULL, NULL, 0, 1, 0, 0, 0, NULL],
 						[110, 1, 1, NULL, 1, 'OSSMailTemplates', NULL, NULL, '2016-05-24 12:40:24', '2016-05-24 12:40:24', '2016-05-24 12:40:24', NULL, NULL, 0, 1, 0, 0, 0, NULL],
-				]
-			],
-			'vtiger_crmentity_seq' => [
-				'columns' => ['id'],
-				'values' => [
-						[110],
 				]
 			],
 			'vtiger_cron_task' => [

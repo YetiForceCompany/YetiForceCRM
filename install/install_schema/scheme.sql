@@ -3831,7 +3831,7 @@ CREATE TABLE `vtiger_convertleadmapping` (
 /*Table structure for table `vtiger_crmentity` */
 
 CREATE TABLE `vtiger_crmentity` (
-  `crmid` int(19) NOT NULL,
+  `crmid` int(19) NOT NULL AUTO_INCREMENT,
   `smcreatorid` smallint(5) unsigned NOT NULL DEFAULT '0',
   `smownerid` smallint(5) unsigned NOT NULL DEFAULT '0',
   `shownerid` tinyint(1) DEFAULT NULL,
