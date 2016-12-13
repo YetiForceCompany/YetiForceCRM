@@ -216,6 +216,45 @@ class Record
 	}
 
 	/**
+	 * Update record label on save
+	 * @param \Vtiger_Record_Model $recordModel
+	 */
+	public static function updateLabelOnSave($recordModel)
+	{
+		$metaInfo = \App\Module::getEntityInfo($recordModel->getModuleName());
+		$labelName = [];
+		foreach ($metaInfo['fieldnameArr'] as &$columnName) {
+			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
+			$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
+		}
+		$labelSearch = [];
+		foreach ($metaInfo['searchcolumnArr'] as &$columnName) {
+			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
+			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
+		}
+		$label = implode(' ', $labelName);
+		if (empty($label)) {
+			$label = '';
+		}
+		$search = implode(' ', $labelSearch);
+		if (empty($search)) {
+			$search = '';
+		}
+		$db = \App\Db::getInstance();
+		if ($recordModel->isNew()) {
+			$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $recordModel->getId(), 'label' => $label])->execute();
+			$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'setype' => $recordModel->getModuleName()])->execute();
+		} else {
+			$db->createCommand()
+				->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $recordModel->getId()])
+				->execute();
+			$db->createCommand()
+				->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $recordModel->getId()])
+				->execute();
+		}
+	}
+
+	/**
 	 * Function checks if record exists
 	 * @param int $recordId - Rekord ID
 	 * @param string $moduleName

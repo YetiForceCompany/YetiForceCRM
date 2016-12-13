@@ -52,6 +52,7 @@ class ModTracker_ModTrackerHandler_Handler
 		if (!$recordModel->isNew()) {
 			ModTracker_Record_Model::unsetReviewed($recordId, App\User::getCurrentUserRealId(), $id);
 		}
+		$insertedData = [];
 		foreach ($delta as $fieldName => &$preValue) {
 			$newValue = $recordModel->get($fieldName);
 			if (empty($preValue) && empty($newValue)) {
@@ -63,13 +64,11 @@ class ModTracker_ModTrackerHandler_Handler
 			if (is_array($newValue)) {
 				$newValue = implode(',', $newValue);
 			}
-			$db->createCommand()->insert('vtiger_modtracker_detail', [
-				'id' => $id,
-				'fieldname' => $fieldName,
-				'prevalue' => $preValue,
-				'postvalue' => $newValue
-			])->execute();
+			$insertedData[] = [$id, $fieldName, $preValue, $newValue];
 		}
+		$db->createCommand()
+			->batchInsert('vtiger_modtracker_detail', ['id', 'fieldname', 'prevalue', 'postvalue'], $insertedData)
+			->execute();
 		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', App\User::getCurrentUserRealId()])->exists();
 		if ($isExists) {
 			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();

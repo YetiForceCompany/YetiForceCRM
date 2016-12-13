@@ -331,13 +331,11 @@ class Functions
 	 * @param bool $returnByColumn
 	 * @return mixed[]
 	 */
-	public static function getModuleFieldInfos($mixed, $returnByColumn = false)
+	public static function getModuleFieldInfos($module, $returnByColumn = false)
 	{
-		$moduleInfo = self::getModuleData($mixed);
-		if (!$moduleInfo || !$moduleInfo['name']) {
-			return [];
+		if (is_numeric($module)) {
+			$module = \App\Module::getModuleName($module);
 		}
-		$module = $moduleInfo['name'];
 		$cacheName = 'getModuleFieldInfosByName';
 		if (!\App\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
