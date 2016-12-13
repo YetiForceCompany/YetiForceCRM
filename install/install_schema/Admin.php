@@ -280,6 +280,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__handler_updater' => [
 				'columns' => [
+					'id' => $this->primaryKey(),
 					'tabid' => $this->smallInteger()->notNull()->defaultValue(0)->unsigned(),
 					'crmid' => $this->integer()->notNull()->defaultValue(0)->unsigned(),
 					'userid' => $this->smallInteger()->unsigned()->notNull()->defaultValue(0)->unsigned(),

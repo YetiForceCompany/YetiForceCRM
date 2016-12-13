@@ -4,6 +4,7 @@
  * @package YetiForce.Cron
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 $updaterLimit = 10;
 $cronMaxTime = 60;
@@ -26,6 +27,7 @@ do {
 				$handlerInstance = new $row['class']();
 				$handlerInstance->process($eventHandler);
 			}
+			$db->createCommand()->delete('s_#__handler_updater', ['id' => $row['id']])->execute();
 		}
 	} catch (Exception $e) {
 		App\Log::error($e->getMessage(), 'CRON');

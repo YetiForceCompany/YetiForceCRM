@@ -869,12 +869,14 @@ CREATE TABLE `s_yf_automatic_assignment` (
 /*Table structure for table `s_yf_handler_updater` */
 
 CREATE TABLE `s_yf_handler_updater` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `tabid` smallint(11) unsigned NOT NULL,
   `crmid` int(11) unsigned NOT NULL,
   `userid` int(11) unsigned NOT NULL,
   `handler_name` varchar(50) NOT NULL,
   `class` varchar(50) NOT NULL,
-  `params` text NOT NULL
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_relation_updater` */
@@ -3859,7 +3861,7 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `crmid_2` (`crmid`,`setype`),
   KEY `setypedeleted` (`setype`,`deleted`),
   KEY `setype` (`setype`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentityrel` */
 
