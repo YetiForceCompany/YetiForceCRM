@@ -9,9 +9,9 @@
 class FInvoice_Record_Model extends Vtiger_Record_Model
 {
 
-	public function save()
+	public function saveToDb()
 	{
-		parent::save();
+		parent::saveToDb();
 
 		if (AppConfig::module('FInvoice', 'UPDATE_LAST_INVOICE_DATE') && !$this->isEmpty('accountid')) {
 			$date = (new \App\Db\Query())->from('u_yf_finvoice')

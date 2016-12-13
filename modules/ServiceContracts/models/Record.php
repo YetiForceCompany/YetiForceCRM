@@ -12,9 +12,9 @@ class ServiceContracts_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to save record
 	 */
-	public function save()
+	public function saveToDb()
 	{
-		parent::save();
+		parent::saveToDb();
 		$forModule = AppRequest::get('return_module');
 		$forCrmid = AppRequest::get('return_id');
 		if (AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'HelpDesk') {

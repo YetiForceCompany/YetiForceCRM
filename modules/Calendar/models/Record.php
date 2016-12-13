@@ -133,12 +133,12 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		return $recurringData;
 	}
 
-	public function save()
+	public function saveToDb()
 	{
 		//Time should changed to 24hrs format
 		AppRequest::set('time_start', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_start')));
 		AppRequest::set('time_end', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_end')));
-		parent::save();
+		parent::saveToDb();
 		$this->updateActivityReminder();
 		$this->insertIntoInviteTable();
 		$this->insertIntoActivityReminderPopup();

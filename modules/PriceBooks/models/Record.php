@@ -77,9 +77,9 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 				->execute();
 	}
 
-	public function save()
+	public function saveToDb()
 	{
-		parent::save();
+		parent::saveToDb();
 		$this->updateListPrices();
 	}
 

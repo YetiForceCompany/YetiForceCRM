@@ -127,13 +127,13 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
 		return $fileIcon;
 	}
-	
+
 	/**
 	 * Function to save record
 	 */
-	public function save() 
+	public function saveToDb()
 	{
-		parent::save();
+		parent::saveToDb();
 		$db = \App\Db::getInstance();
 		$fileNameByField = 'filename';
 		if ($this->get('filelocationtype') === 'I') {

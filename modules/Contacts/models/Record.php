@@ -99,9 +99,9 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 		return $imageDetails;
 	}
 
-	public function save()
+	public function saveToDb()
 	{
-		parent::save();
+		parent::saveToDb();
 		$this->insertAttachment();
 	}
 

@@ -422,9 +422,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Custom Save for Module
 	 */
-	public function save()
+	public function saveToDb()
 	{
-		parent::save();
+		parent::saveToDb();
 		//Inserting into product_taxrel table
 		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassSave' && AppRequest::get('action') != 'ProcessDuplicates') {
 			$this->insertPriceInformation();
