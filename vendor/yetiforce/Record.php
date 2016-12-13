@@ -182,9 +182,8 @@ class Record
 		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
 			$db = \App\Db::getInstance();
-			$label = decode_html($labelInfo[$id]['name']);
-			$search = decode_html($labelInfo[$id]['search']);
-			$rowCount = 0;
+			$label = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['name']), 254, false);
+			$search = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['search']), 254, false);
 			if (empty($label)) {
 				$label = '';
 			}
@@ -232,11 +231,11 @@ class Record
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
 		}
-		$label = implode(' ', $labelName);
+		$label = \vtlib\Functions::textLength(implode(' ', $labelName), 254, false);
 		if (empty($label)) {
 			$label = '';
 		}
-		$search = implode(' ', $labelSearch);
+		$search = \vtlib\Functions::textLength(implode(' ', $labelSearch), 254, false);
 		if (empty($search)) {
 			$search = '';
 		}
