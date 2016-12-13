@@ -518,7 +518,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			fwrite($fh, $fileContent);
 			fclose($fh);
 		}
-		$mimeType = MailAttachmentMIME::detect($saveAsFile);
+		$mimeType = \App\Fields\File::getMimeContentType($saveAsFile);
 		$params = [
 			'attachmentsid' => $attachid,
 			'name' => $fileName,
