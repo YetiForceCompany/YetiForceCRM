@@ -39,10 +39,11 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 	/**
 	 * Function Sends/Saves mass emails
 	 * @param Vtiger_Request $request
+	 * @todo Add transaction
 	 */
 	public function massSave(Vtiger_Request $request)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -128,7 +129,6 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 			$to = implode(',', $to);
 		}
 
-
 		$recordModel->set('description', $request->get('description'));
 		$recordModel->set('subject', $request->get('subject'));
 		$recordModel->set('toMailNamesList', $request->get('toMailNamesList'));
@@ -158,9 +158,8 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 			$recordModel->save();
 
 			//To Handle existing attachments
-			$current_user = Users_Record_Model::getCurrentUserModel();
 			$ownerId = $recordModel->get('assigned_user_id');
-			$date_var = date('Y-m-d H:i:s');
+			$dateVar = date('Y-m-d H:i:s');
 			if (is_array($existingAttachments)) {
 				foreach ($existingAttachments as $index => $existingAttachInfo) {
 					$file_name = $existingAttachInfo['attachment'];
@@ -176,28 +175,38 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View
 
 					$binFile = \App\Fields\File::sanitizeUploadFileName($file_name);
 
-					$current_id = $adb->getUniqueID("vtiger_crmentity");
+					$db->createCommand()->insert('vtiger_crmentity', [
+						'smcreatorid' => \App\User::getCurrentUserId(),
+						'smownerid' => $ownerId,
+						'setype' => $moduleName . ' Attachment',
+						'description' => $recordModel->get('description'),
+						'createdtime' => $dateVar,
+						'modifiedtime' => $dateVar
+					])->execute();
+					$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
 
 					$filename = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
 					$filetype = $existingAttachInfo['type'];
 					$filesize = $existingAttachInfo['size'];
 
 					//get the file path inwhich folder we want to upload the file
-					$upload_file_path = \vtlib\Functions::initStorageFileDirectory();
-					$newFilePath = $upload_file_path . $current_id . "_" . $binFile;
+					$uploadFilePath = \vtlib\Functions::initStorageFileDirectory();
+					$newFilePath = $uploadFilePath . $currentId . '_' . $binFile;
 
 					copy($oldFilePath, $newFilePath);
 
-					$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?, ?, ?, ?, ?, ?, ?)";
-					$params1 = array($current_id, $current_user->getId(), $ownerId, $moduleName . " Attachment", $recordModel->get('description'), $adb->formatDate($date_var, true), $adb->formatDate($date_var, true));
-					$adb->pquery($sql1, $params1);
+					$db->createCommand()->insert('vtiger_attachments', [
+						'attachmentsid' => $currentId,
+						'name' => $filename,
+						'description' => $recordModel->get('description'),
+						'type' => $filetype,
+						'path' => $uploadFilePath
+					])->execute();
 
-					$sql2 = "insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?, ?, ?, ?, ?)";
-					$params2 = array($current_id, $filename, $recordModel->get('description'), $filetype, $upload_file_path);
-					$result = $adb->pquery($sql2, $params2);
-
-					$sql3 = 'insert into vtiger_seattachmentsrel values(?,?)';
-					$adb->pquery($sql3, array($recordModel->getId(), $current_id));
+					$db->createCommand()->insert('vtiger_seattachmentsrel', [
+						'crmid' => $recordModel->getId(),
+						'attachmentsid' => $currentId
+					])->execute();
 				}
 			}
 			$success = true;
