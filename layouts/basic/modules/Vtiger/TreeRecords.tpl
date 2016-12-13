@@ -18,20 +18,11 @@
 						<td>
 							{if $HEADER->isNameField() eq true}
 								<a {if $HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$ENTRY->getDetailViewUrl()}">
-									{if $HEADER->getFieldDataType() eq 'sharedOwner' || $HEADER->getFieldDataType() eq 'owner' || $HEADER->getFieldDataType() eq 'boolean' || $HEADER->getFieldDataType() eq 'tree'}
-										{$ENTRY->getDisplayValue($HEADERNAME)}
-									{else}
-										{$ENTRY->get($HEADERNAME)}
-									{/if}</a>
-								{else}
-									{if $HEADER->getFieldDataType() eq 'double'}
-										{\vtlib\Functions::formatDecimal($ENTRY->get($HEADERNAME))}
-									{else if $HEADER->getFieldDataType() eq 'sharedOwner' || $HEADER->getFieldDataType() eq 'owner' || $HEADER->getFieldDataType() eq 'boolean' || $HEADER->getFieldDataType() eq 'tree'}
-										{$ENTRY->getDisplayValue($HEADERNAME)}
-									{else}
-										{$ENTRY->get($HEADERNAME)}
-									{/if}
-								{/if}
+									{$ENTRY->getListViewDisplayValue($HEADERNAME)}
+								</a>
+							{else}
+								{$ENTRY->getListViewDisplayValue($HEADERNAME)}
+							{/if}
 						</td>
 					{/foreach}
 				</tr>
