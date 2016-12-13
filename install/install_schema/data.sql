@@ -1513,10 +1513,6 @@ insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`m
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`,`private`,`users`) values (109,1,1,0,1,'OSSMailTemplates',NULL,NULL,'2015-10-23 08:16:58','2015-10-23 08:34:54','2015-10-23 08:34:54',NULL,NULL,0,1,0,0,0,NULL);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`was_read`,`private`,`users`) values (110,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2016-05-24 12:40:24','2016-05-24 12:40:24','2016-05-24 12:40:24',NULL,NULL,0,1,0,0,0,NULL);
 
-/*Data for the table `vtiger_crmentity_seq` */
-
-insert  into `vtiger_crmentity_seq`(`id`) values (110);
-
 /*Data for the table `vtiger_crmentityrel` */
 
 /*Data for the table `vtiger_cron_task` */

@@ -3861,12 +3861,6 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `setype` (`setype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_crmentity_seq` */
-
-CREATE TABLE `vtiger_crmentity_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_crmentityrel` */
 
 CREATE TABLE `vtiger_crmentityrel` (
