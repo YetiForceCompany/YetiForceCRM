@@ -63,7 +63,7 @@ class User
 			return static::$currentUserCache;
 		}
 		if (!static::$currentUserId) {
-			static::$currentUserId = \Vtiger_Session::get('authenticated_user_id');
+			static::$currentUserId = (int) \Vtiger_Session::get('authenticated_user_id');
 		}
 		return static::$currentUserCache = static::getUserModel(static::$currentUserId);
 	}
