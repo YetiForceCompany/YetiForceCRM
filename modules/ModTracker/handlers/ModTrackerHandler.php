@@ -69,9 +69,11 @@ class ModTracker_ModTrackerHandler_Handler
 		$db->createCommand()
 			->batchInsert('vtiger_modtracker_detail', ['id', 'fieldname', 'prevalue', 'postvalue'], $insertedData)
 			->execute();
-		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', App\User::getCurrentUserRealId()])->exists();
-		if ($isExists) {
-			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
+		if (!$recordModel->isNew()) {
+			$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', App\User::getCurrentUserRealId()])->exists();
+			if ($isExists) {
+				$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
+			}
 		}
 		$this->addNotification($eventHandler->getModuleName(), $recordId, $watchdogTitle, $watchdogMessage);
 	}
