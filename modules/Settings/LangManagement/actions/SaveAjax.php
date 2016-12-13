@@ -115,9 +115,9 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$saveResp = Settings_LangManagement_Module_Model::delete($params);
 		$response = new Vtiger_Response();
 		if ($saveResp) {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_DeleteDataOK', $request->getModule(false))));
+			$response->setResult(['success' => true, 'message' => vtranslate('LBL_DeleteDataOK', $request->getModule(false))]);
 		} else {
-			$response->setResult(array('success' => false));
+			$response->setResult(['success' => false]);
 		}
 		$response->emit();
 	}

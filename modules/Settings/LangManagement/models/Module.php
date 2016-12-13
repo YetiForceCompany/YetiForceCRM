@@ -324,9 +324,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return array('success' => true, 'data' => 'LBL_SUCCESSFULLY_UPDATED');
 	}
 
-	public function delete($params)
+	public static function delete($params)
 	{
-		$dir = "languages/" . $params['prefix'];
+		$dir = 'languages/' . $params['prefix'];
 		if (file_exists($dir)) {
 			self::DeleteDir($dir);
 		}
