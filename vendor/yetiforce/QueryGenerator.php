@@ -289,7 +289,7 @@ class QueryGenerator
 	public function setGroup($fieldName)
 	{
 		$queryField = $this->getQueryField($fieldName);
-		$this->group = array_unique(array_merge($this->group, $queryField->getColumnName()));
+		$this->group[] = $queryField->getColumnName();
 	}
 
 	/**
@@ -819,7 +819,7 @@ class QueryGenerator
 	public function loadGroup()
 	{
 		if ($this->group) {
-			$this->query->groupBy($this->group);
+			$this->query->groupBy(array_unique($this->group));
 		}
 	}
 
