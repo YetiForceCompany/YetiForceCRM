@@ -301,7 +301,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	protected static $parentRecordCache = [];
 
-	public function getParentRecord($record, $moduleName = false, $type = 1, $actionid = false)
+	public static function getParentRecord($record, $moduleName = false, $type = 1, $actionid = false)
 	{
 		if (isset(self::$parentRecordCache[$record])) {
 			return self::$parentRecordCache[$record];
