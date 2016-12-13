@@ -42,6 +42,15 @@ class Activity extends CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['subject', 'activitytype', 'date_start', 'due_date', 'visibility', 'assigned_user_id'];
+	public $search_fields_name = [
+		/* Format: Field Label => fieldname */
+		'Type' => 'activitytype',
+		'Subject' => 'subject',
+		'Related to' => 'link',
+		'Start Date & Time' => 'date_start',
+		'End Date & Time' => 'due_date',
+		'Assigned To' => 'assigned_user_id',
+	];
 
 	/**
 	 * Mandatory table for supporting custom fields.
