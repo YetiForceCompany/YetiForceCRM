@@ -58,9 +58,19 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 				}
 			}
 			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] != '-') {
-				$whereCondition[][$this->Data['checkbox']] = 1;
-				$this->Config['checkbox']['on'] = \App\Json::encode([$this->Data['checkbox'] => 1]);
-				$this->Config['checkbox']['off'] = \App\Json::encode([$this->Data['checkbox'] => 0]);
+				if(strpos($this->Data['checkbox'], '.') !== false){
+					$separateData = explode('.', $this->Data['checkbox']);
+					$columnName = $separateData[1];
+				}else{
+					$columnName = $this->Data['checkbox'];
+				}
+				
+				$whereOnCondition[] = [$columnName, 'e', 1];
+				$whereOffCondition[] = [$columnName, 'e', 0];
+				$whereCondition =[$whereOnCondition];
+			
+				$this->Config['checkbox']['on'] = \App\Json::encode($whereOnCondition);
+				$this->Config['checkbox']['off'] = \App\Json::encode($whereOffCondition);
 				$this->getCheckboxLables($model, 'checkbox', 'LBL_SWITCH_');
 			}
 			if (!empty($whereCondition)) {

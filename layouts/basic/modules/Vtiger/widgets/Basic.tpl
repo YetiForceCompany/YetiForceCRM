@@ -75,7 +75,7 @@
 						{assign var=checkbox value=$WIDGET['data']['checkbox']}
 						<input type="hidden" name="checkbox_data" value="{$checkbox}" />
 						<div class="pull-right">
-							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="mini" data-label-width="5" data-on-text="{$WIDGET['checkboxLables']['on']}" data-off-text="{$WIDGET['checkboxLables']['off']}" data-urlparams="whereCondition" data-on-val='{$WIDGET['checkbox']['on']}' data-off-val='{$WIDGET['checkbox']['off']}'>
+							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="mini" data-label-width="5" data-on-text="{$WIDGET['checkboxLables']['on']}" data-off-text="{$WIDGET['checkboxLables']['off']}" data-urlparams="search_params" data-on-val='{$WIDGET['checkbox']['on']}' data-off-val='{$WIDGET['checkbox']['off']}'>
 						</div>
 					</div>
 				{/if}
