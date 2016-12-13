@@ -173,6 +173,8 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$visibility = $request->get('visibility');
 			if (empty($activityType)) {
 				$activityType = 'Task';
+			}
+			if (empty($visibility)) {
 				$visibility = 'Private';
 			}
 			$recordModel->set('activitytype', $activityType);
