@@ -18,23 +18,18 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 
 	public function exportData(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
 		if ($request->get('xmlExportType')) {
 			$this->tplName = $request->get('xmlExportType');
 		}
 		$query = $this->getExportQuery($request);
-		$result = $db->query($query);
-
 		$fileName = str_replace(' ', '_', decode_html(vtranslate($this->moduleName, $this->moduleName)));
-
-		$entries = $db->getArray($result);
+		$entries = $query->all();
 		$entriesInventory = [];
 		if ($this->moduleInstance->isInventory()) {
 			foreach ($entries as $key => $recordData) {
 				$entriesInventory[$key] = $this->getEntriesInventory($recordData);
 			}
 		}
-
 		foreach ($entries as $key => $data) {
 			$this->tmpXmlPath = 'cache/import/' . uniqid() . '_.xml';
 			$this->xmlList[] = $this->tmpXmlPath;

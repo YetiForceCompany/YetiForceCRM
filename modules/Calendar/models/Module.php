@@ -89,7 +89,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = [
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
@@ -102,7 +102,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			  'linkurl' => $this->getSharedCalendarViewUrl(),
 			  'linkicon' => '',
 			  ), */
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -186,13 +186,15 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getExportQuery($focus = '', $where = '')
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$userId = $currentUserModel->getId();
-		$query = "SELECT vtiger_activity.*, vtiger_crmentity.description,vtiger_crmentity.smownerid as assigned_user_id, vtiger_activity_reminder.reminder_time FROM vtiger_activity
-					INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid
-					LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid && vtiger_activity_reminder.recurringid = 0
-					WHERE vtiger_crmentity.deleted = 0 && vtiger_crmentity.smownerid = $userId && vtiger_activity.activitytype NOT IN ('Emails')";
-		return $query;
+		return (new App\Db\Query())->select(['vtiger_activity.*', 'vtiger_crmentity.description', 'assigned_user_id' => 'vtiger_crmentity.smownerid', 'vtiger_activity_reminder.reminder_time'])
+				->from('vtiger_activity')
+				->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')
+				->leftJoin('vtiger_activity_reminder', 'vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = :id', [':id' => 0])
+				->where(['and',
+					['vtiger_crmentity.deleted' => 0],
+					['vtiger_crmentity.smownerid' => App\User::getCurrentUserId()],
+					['<>', 'vtiger_activity.activitytype', 'Emails']
+		]);
 	}
 
 	/**
@@ -201,7 +203,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function setEventFieldsForExport()
 	{
 		$moduleFields = array_flip($this->getColumnFieldMapping());
-		$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$keysToReplace = array('taskpriority');
 		$keysValuesToReplace = array('taskpriority' => 'priority');
@@ -225,7 +226,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function setTodoFieldsForExport()
 	{
 		$moduleFields = array_flip($this->getColumnFieldMapping());
-		$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$keysToReplace = array('taskpriority', 'activitystatus');
 		$keysValuesToReplace = array('taskpriority' => 'priority', 'activitystatus' => 'status');

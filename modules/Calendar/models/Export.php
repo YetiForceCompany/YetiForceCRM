@@ -36,24 +36,22 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function exportData(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		$moduleModel->setEventFieldsForExport();
 		$moduleModel->setTodoFieldsForExport();
 
 		$query = $this->getExportQuery($request);
-		$result = $db->query($query);
 		$fileName = $request->get('filename');
-		$this->output($request, $result, $moduleModel, $fileName);
+		$this->output($request, $query->createCommand()->query(), $moduleModel, $fileName);
 	}
 
 	/**
 	 * Function that create the exported file
 	 * @param Vtiger_Request $request
-	 * @param <Array> $result
+	 * @param <Array> $dataReader
 	 * @param Vtiger_Module_Model $moduleModel
 	 */
-	public function output($request, $result, $moduleModel, $fileName, $toFile = false)
+	public function output($request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$timeZone = new iCalendar_timezone;
@@ -77,7 +75,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		$myiCal = new iCalendar;
 		$myiCal->add_component($timeZone);
 
-		while ($row = $adb->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$eventFields = $row;
 			$id = $eventFields['activityid'];
 			$type = $eventFields['activitytype'];
