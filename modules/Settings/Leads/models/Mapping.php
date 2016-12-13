@@ -257,8 +257,9 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to delate the mapping
 	 * @param array $mappingIdsList
+	 * @param boolean $editableParam
 	 */
-	public static function deleteMapping($mappingIdsList, $conditions = false)
+	public static function deleteMapping($mappingIdsList, $editableParam = false)
 	{
 		if($conditions)
 			$params = ['cfmid' => $mappingIdsList, 'editable' => 1];

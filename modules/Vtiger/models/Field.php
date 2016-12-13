@@ -1048,7 +1048,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function __update()
 	{
 		$db = \App\Db::getInstance();
-		$this->get('generatedtype') == 1 ? $generatedType = 1 : $generatedType = 2;
+		$this->get('generatedtype') === 1 ? $generatedType = 1 : $generatedType = 2;
 		$db->createCommand()->update('vtiger_field', ['typeofdata' => $this->get('typeofdata'), 'presence' => $this->get('presence'), 'quickcreate' => $this->get('quickcreate'),
 			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
