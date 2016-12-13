@@ -697,8 +697,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public static function updateRelationPresence($relationId, $status)
 	{
 		$presence = 0;
-		if ($status === 0)
+		if ($status === 0){
 			$presence = 1;
+		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $presence], ['relation_id' => $relationId])->execute();
 	}
 
