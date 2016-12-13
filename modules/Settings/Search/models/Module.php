@@ -63,7 +63,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		return $return;
 	}
 
-	public function Save($params)
+	public static function save($params)
 	{
 		$db = App\Db::getInstance();
 		$name = $params['name'];
