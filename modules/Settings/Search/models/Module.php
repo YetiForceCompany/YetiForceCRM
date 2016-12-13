@@ -12,26 +12,23 @@
 class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public function getModulesEntity($tabid = false, $onlyActive = false)
+	public static function getModulesEntity($tabId = false, $onlyActive = false)
 	{
-		$db = PearDatabase::getInstance();
-		$params = [];
+		$query = (new \App\Db\Query);
 		if ($onlyActive) {
-			$sql = 'SELECT vtiger_entityname.* FROM vtiger_entityname 
-				LEFT JOIN vtiger_tab ON vtiger_entityname.tabid = vtiger_tab.tabid 
-				WHERE vtiger_tab.presence = ?';
-			$params [] = '0';
+			$query->select(['vtiger_entityname.*'])->from('vtiger_entityname')->leftJoin('vtiger_tab', 'vtiger_entityname.tabid = vtiger_tab.tabid')
+				->where(['vtiger_tab.presence' => 0]);
 		} else {
-			$sql = 'SELECT * FROM vtiger_entityname';
-			if ($tabid) {
-				$sql .= ' WHERE tabid = ?';
-				$params[] = $tabid;
+			$query->from(('vtiger_entityname'));
+
+			if ($tabId) {
+				$query->where(['tabid' => $tabId]);
 			}
 		}
-		$sql .= ' ORDER BY sequence';
-		$result = $db->pquery($sql, $params);
+		$query->orderBy('sequence');
+		$dataReader = $query->createCommand()->query();
 		$moduleEntity = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$moduleEntity[$row['tabid']] = $row;
 		}
 		return $moduleEntity;
