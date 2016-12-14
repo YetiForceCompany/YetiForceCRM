@@ -63,7 +63,7 @@
 				</td>
 				<td class="listViewEntryValue {$WIDTHTYPE}">
 					<div class="row">
-						<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible col-md-10 zeroPaddingAndMargin" data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
+						<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible col-md-10 zeroPaddingAndMargin" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
 							   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'/>
 					</div>
 				</td>
