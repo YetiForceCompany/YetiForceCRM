@@ -263,7 +263,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				break;
 			Case 'Email' :
 				$uitype = 13;
-				$type = $importerType->stringType(50)->defaultValue('');
+				$type = $importerType->stringType(100)->defaultValue('');
 				$uichekdata = 'E~O';
 				break;
 			Case 'Time' :

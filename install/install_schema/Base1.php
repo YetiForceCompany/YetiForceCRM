@@ -753,7 +753,7 @@ class Base1 extends \App\Db\Importers\Base
 					'subject' => $this->stringType(),
 					'vat_id' => $this->stringType(30),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
-					'email' => $this->stringType(50)->defaultValue(''),
+					'email' => $this->stringType(100)->defaultValue(''),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'primaryKeys' => [
@@ -2259,7 +2259,7 @@ class Base1 extends \App\Db\Importers\Base
 					'subject' => $this->stringType(),
 					'vat_id' => $this->stringType(30),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
-					'email' => $this->stringType(50)->defaultValue(''),
+					'email' => $this->stringType(100)->defaultValue(''),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 					'category' => $this->stringType()->defaultValue(''),
 				],
