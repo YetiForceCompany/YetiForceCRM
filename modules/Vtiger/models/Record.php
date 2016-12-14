@@ -596,6 +596,18 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $this->privileges['isEditable'];
 	}
 
+	/**
+	 * The function decide about mandatory save record
+	 * @return type
+	 */
+	public function isMandatorySave()
+	{
+		if ($this->getModule()->isInventory()) {
+			return true;
+		}
+		return false;
+	}
+
 	public function checkLockFields()
 	{
 		$moduleName = $this->getModuleName();

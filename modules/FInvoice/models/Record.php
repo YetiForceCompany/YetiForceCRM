@@ -14,7 +14,7 @@ class FInvoice_Record_Model extends Vtiger_Record_Model
 		parent::saveToDb();
 
 		if (AppConfig::module('FInvoice', 'UPDATE_LAST_INVOICE_DATE') && !$this->isEmpty('accountid')) {
-			$date = (new \App\Db\Query())->from('u_yf_finvoice')
+			$date = (new \App\Db\Query())->from('u_#__finvoice')
 				->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_yf_finvoice.finvoiceid')
 				->where(['vtiger_crmentity.deleted' => 0, 'accountid' => $this->get('accountid')])
 				->max('saledate');

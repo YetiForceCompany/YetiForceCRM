@@ -129,6 +129,15 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * The function decide about mandatory save record
+	 * @return type
+	 */
+	public function isMandatorySave()
+	{
+		return $_FILES ? true : false;
+	}
+
+	/**
 	 * Function to save record
 	 */
 	public function saveToDb()

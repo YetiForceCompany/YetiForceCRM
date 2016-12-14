@@ -211,7 +211,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function saveRecord(\Vtiger_Record_Model $recordModel)
 	{
 		$moduleName = $this->get('name');
-		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
+		if (!$recordModel->isNew() && !$recordModel->isMandatorySave() && empty($recordModel->getPreviousValue())) {
 			App\Log::warning('ERR_NO_DATA');
 			return $recordModel;
 		}
@@ -1042,7 +1042,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),

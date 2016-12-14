@@ -420,6 +420,15 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * The function decide about mandatory save record
+	 * @return type
+	 */
+	public function isMandatorySave()
+	{
+		return $_FILES ? true : false;
+	}
+
+	/**
 	 * Custom Save for Module
 	 */
 	public function saveToDb()

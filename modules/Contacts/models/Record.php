@@ -99,6 +99,18 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 		return $imageDetails;
 	}
 
+	/**
+	 * The function decide about mandatory save record
+	 * @return type
+	 */
+	public function isMandatorySave()
+	{
+		return $_FILES ? true : false;
+	}
+
+	/**
+	 * Function to save data to database
+	 */
 	public function saveToDb()
 	{
 		parent::saveToDb();
