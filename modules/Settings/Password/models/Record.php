@@ -12,7 +12,7 @@
 class Settings_Password_Record_Model extends Vtiger_Record_Model
 {
 
-	public function getPassDetail($type = false)
+	public static function getPassDetail($type = false)
 	{
 		$query = (new \App\Db\Query())->from('vtiger_password');
 		if ($type) {
