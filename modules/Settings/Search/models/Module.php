@@ -79,49 +79,11 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function updateLabels($params)
 	{
-		$adb = PearDatabase::getInstance();
-		$tabId = (int) $params['tabid'];
-		$modulesEntity = self::getModulesEntity($tabId);
-		$moduleEntity = $modulesEntity[$tabId];
-		$moduleName = $moduleEntity['modulename'];
-		$fieldName = $moduleEntity['fieldname'];
-		$searchColumns = $moduleEntity['searchcolumn'];
-		$moduleInfo = vtlib\Functions::getModuleFieldInfos($moduleName);
-		$columnsEntityName = explode(',', $fieldName);
-		$searchColumns = explode(',', $searchColumns);
-		$allColumns = array_unique(array_merge($columnsEntityName, $searchColumns));
-		$sqlExt = '';
-		$entityColumnName = '';
-		$searchColumnName = '';
-
-		$moduleInfoExtend = [];
-		foreach ($moduleInfo as $field => $fieldInfo) {
-			$moduleInfoExtend[$fieldInfo['columnname']] = $fieldInfo;
-		}
-
-		foreach ($allColumns as $key => $columnName) {
-			$columnNameExt = ',' . $columnName;
-			$fieldObiect = $moduleInfoExtend[$columnName];
-			if (in_array($fieldObiect['uitype'], [10, 51, 75, 81, 66, 67, 68])) {
-				$sqlExt .= " LEFT JOIN (SELECT extj_$key.crmid, extj_$key.label AS ext_$columnName FROM vtiger_crmentity extj_$key) ext_$key ON ext_$key.crmid = " . $fieldObiect['tablename'] . ".$columnName";
-				$columnNameExt = ',ext_' . $columnName;
-			}
-			if (in_array($columnName, $columnsEntityName)) {
-				$entityColumnName .= $columnNameExt;
-			}
-			if (in_array($columnName, $searchColumns)) {
-				$searchColumnName .= $columnNameExt;
-			}
-		}
-
-		$sql = 'UPDATE vtiger_crmentity';
-		$sql .= self::getFromClauseByColumn($moduleName, $moduleInfoExtend, $allColumns);
-		$sql .= $sqlExt;
-		$sql .= ' INNER JOIN u_yf_crmentity_label ON u_yf_crmentity_label.crmid = vtiger_crmentity.crmid';
-		$sql .= ' INNER JOIN u_yf_crmentity_search_label ON u_yf_crmentity_search_label.crmid = vtiger_crmentity.crmid';
-		$sql .= " SET u_yf_crmentity_label.label = CONCAT_WS(' ' $entityColumnName), u_yf_crmentity_search_label.searchlabel = CONCAT_WS(' ' $searchColumnName)";
-		$sql .= " WHERE vtiger_crmentity.setype = '$moduleName'";
-		$adb->query($sql);
+		$moduleName = App\Module::getModuleName((int) $params['tabid']);
+		$db = App\Db::getInstance();
+		$db->createCommand()->update('u_#__crmentity_search_label', ['searchlabel' => ''], ['setype' => $moduleName])->execute();
+		$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleName]);
+		$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $subQuery])->execute();
 	}
 
 	public static function getFromClauseByColumn($moduleName, $moduleInfoExtend, $columns)
