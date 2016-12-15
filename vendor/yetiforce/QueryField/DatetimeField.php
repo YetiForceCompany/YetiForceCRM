@@ -26,7 +26,7 @@ class DatetimeField extends DateField
 	public function getArrayValue()
 	{
 		return array_map(function($row) {
-			return array_shift(explode(' ', \DateTimeField::convertToDBFormat($row)));
+			return \DateTimeField::convertToDBFormat(reset(explode(' ', $row)));
 		}, explode(',', $this->value));
 	}
 

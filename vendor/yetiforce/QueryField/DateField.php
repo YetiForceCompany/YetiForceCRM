@@ -71,8 +71,9 @@ class DateField extends BaseField
 	 */
 	public function getArrayValue()
 	{
-		$value = explode(',', $this->value);
-		return array_map('\DateTimeField::convertToDBFormat', $value);
+		return array_map(function($row) {
+			return \DateTimeField::convertToDBFormat(reset(explode(' ', $row)));
+		}, explode(',', $this->value));
 	}
 
 	/**
