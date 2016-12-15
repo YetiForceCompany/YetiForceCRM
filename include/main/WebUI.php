@@ -170,7 +170,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					}
 				} else {
 					$module = 'Users';
-					$qualifiedModuleName = 'Settings:Users';
+					$qualifiedModuleName = $module;
 					$view = 'Login';
 				}
 				$request->set('module', $module);
@@ -189,6 +189,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			define('_PROCESS_TYPE', $componentType);
 			define('_PROCESS_NAME', $componentName);
+			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($currentUser)) {
+				header('Location: ' . AppConfig::main('site_URL'), true, 301);
+			}
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			$handler = new $handlerClass();
 			if ($handler) {
