@@ -67,7 +67,7 @@
 											{/foreach}
 										</select>
 									{else if $cnd_item['field_type'] eq 'time'}
-										<div class="input-group time"><input type="text" data-format="24" value="{$cnd_item['val']}" class="timepicker-default form-control ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>
+										<div class="input-group time"><input type="text" data-format="24" value="{$cnd_item['val']}" class="clockPicker form-control" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>
 											{else if $cnd_item['field_type'] eq 'date'}
 												{if $cnd_item['comparator'] == 'between'}
 											<div class="date"><input class="dateField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>

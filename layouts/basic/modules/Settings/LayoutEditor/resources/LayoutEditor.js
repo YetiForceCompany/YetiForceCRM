@@ -1733,7 +1733,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
 		app.registerEventForDatePickerFields(contents);
-		app.registerEventForTimeFields(contents);
+		app.registerEventForClockPicker(contents);
 		app.changeSelectElementView(contents);
 
 		thisInstance.makeFieldsListSortable();

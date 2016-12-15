@@ -384,7 +384,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		this.registerCcAndBccEvents();
 	},
 	registerVTCreateTodoTaskEvents: function () {
-		app.registerEventForTimeFields(jQuery('#saveTask'));
+		app.registerEventForClockPicker();
 	},
 	registerVTUpdateFieldsTaskEvents: function () {
 		var thisInstance = this;
@@ -552,7 +552,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		return  jQuery(fieldModel.getUiTypeSpecificHtml())
 	},
 	registerVTCreateEventTaskEvents: function () {
-		app.registerEventForTimeFields(jQuery('#saveTask'));
+		app.registerEventForClockPicker();
 		this.registerRecurrenceFieldCheckBox();
 		this.repeatMonthOptionsChangeHandling();
 		this.registerRecurringTypeChangeEvent();

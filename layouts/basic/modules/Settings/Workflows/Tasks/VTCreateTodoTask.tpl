@@ -76,7 +76,7 @@
 						{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 						{assign var=TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 					{/if}
-					<input  type="text" class="timepicker-default form-control" value="{$TIME}" name="time" />
+					<input  type="text" class="clockPicker form-control" value="{$TIME}" name="time" />
 					<span class="input-group-addon cursorPointer">
 						<i class="glyphicon glyphicon-time"></i>
 					</span>

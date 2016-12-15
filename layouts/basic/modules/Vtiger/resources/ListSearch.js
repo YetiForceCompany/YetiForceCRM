@@ -115,7 +115,12 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		});
 	},
 	registerTimeListSearch: function () {
-		app.registerEventForTimeFields(this.getContainer(), false);
+		var thisInstance = this;
+		app.registerEventForClockPicker();
+		$('.clockPicker').on('change', function(){
+			thisInstance.resetPagination();
+			thisInstance.reloadList();
+		})
 	},
 	registerAlphabetClick: function () {
 		var thisInstance = this;

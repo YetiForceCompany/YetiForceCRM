@@ -843,7 +843,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 	},
 	
 	registerTimeListSearch : function(container) {
-		app.registerEventForTimeFields(container,false);
+		app.registerEventForClockPicker();
 	},
 
 	registerDateListSearch : function(container) {

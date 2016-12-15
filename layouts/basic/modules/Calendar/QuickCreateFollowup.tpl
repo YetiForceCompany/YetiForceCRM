@@ -53,7 +53,7 @@
 						</div>
 						<div class="controls">
 							<div class="input-group time">
-								<input type="text" name="followup_time_start" class="timepicker-default input-sm" 
+								<input type="text" name="followup_time_start" class="clockPicker input-sm" 
 									   value="{$currentTimeInVtigerFormat}" data-format="{$timeformat}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
 								<span class="input-group-addon cursorPointer">
 									<i class="glyphicon glyphicon-time"></i>

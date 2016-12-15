@@ -82,7 +82,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js",{},{
 				scheduleBoxContainer.addClass('hide');
 			}
 		});
-		app.registerEventForTimeFields('#schtime', true);
+		app.registerEventForClockPicker($('.clockPicker'));
 		app.registerEventForDatePickerFields('#scheduleByDate', true);
 
 		jQuery('#annualDates').chosen();

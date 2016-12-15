@@ -892,8 +892,14 @@ var app = {
 			currentElement.val(date);
 		});
 	},
-	registerEventForClockPicker: function () {
-		var formatTime = app.getMainParams('userTimeFormat');
+	registerEventForClockPicker: function (object) {
+		if (typeof object === 'undefined') {
+			var elementClockBtn = $('.clockPicker');
+			var formatTime = app.getMainParams('userTimeFormat');
+		} else {
+			elementClockBtn = object;
+			var formatTime = elementClockBtn.data('format');
+		}
 		formatTime = formatTime == 12 ? true : false;
 		var params = {
 			placement: 'bottom',
@@ -902,7 +908,7 @@ var app = {
 			minutestep: 5,
 			ampmSubmit: false,
 		};
-		var elementClockBtn = $('.clockPicker')
+				
 		var parentTimeElem = elementClockBtn.closest('.time');
 		jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
 			var elem = jQuery(e.currentTarget);
