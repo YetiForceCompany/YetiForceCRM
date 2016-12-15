@@ -20,7 +20,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getHolidays($date)
 	{
-		
+
 		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::getHolidays(" . print_r($date, true) . ") method ...");
 
 		$query = (new App\Db\Query())->select('publicholidayid, holidaydate, holidayname, holidaytype')
@@ -34,15 +34,15 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$holidays = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-				$id = $row['publicholidayid'];
-				$date = $row['holidaydate'];
-				$name = $row['holidayname'];
-				$type = $row['holidaytype'];
-				$holidays[$id]['id'] = $id;
-				$holidays[$id]['date'] = $date;
-				$holidays[$id]['name'] = $name;
-				$holidays[$id]['type'] = $type;
-				$holidays[$id]['day'] = vtranslate(date('l', strtotime($date)), 'PublicHoliday');
+			$id = $row['publicholidayid'];
+			$date = $row['holidaydate'];
+			$name = $row['holidayname'];
+			$type = $row['holidaytype'];
+			$holidays[$id]['id'] = $id;
+			$holidays[$id]['date'] = $date;
+			$holidays[$id]['name'] = $name;
+			$holidays[$id]['type'] = $type;
+			$holidays[$id]['day'] = vtranslate(date('l', strtotime($date)), 'PublicHoliday');
 		}
 		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::getHolidays() method ...");
 		return $holidays;
@@ -77,11 +77,11 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::save(" . $date . ', ' . $name . ', ' . $type . ") method ...");
 		$saved = App\Db::getInstance()->createCommand()
-			->insert('vtiger_publicholiday', [
-				'holidaydate' => $date,
-				'holidayname' => $name,
-				'holidaytype' => $type
-			])->execute();
+				->insert('vtiger_publicholiday', [
+					'holidaydate' => $date,
+					'holidayname' => $name,
+					'holidaytype' => $type
+				])->execute();
 		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::save() method ...");
 		if ($saved === 1)
 			return true;
@@ -105,7 +105,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 				'holidaydate' => $date,
 				'holidayname' => $name,
 				'holidaytype' => $type
-			], ['publicholidayid' => $id])
+				], ['publicholidayid' => $id])
 			->execute();
 		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::edit() method ...");
 		if ($saved === 1)
@@ -121,7 +121,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function checkIfHoliday($date)
 	{
-		
+
 		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::checkIfHoliday(" . $date . ") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -145,13 +145,15 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getHolidayGroupType($date = false)
 	{
-		
+
 		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::getHolidayGroupType method ...");
 		$query = (new App\Db\Query())
 			->select(['count' => new \yii\db\Expression('COUNT(publicholidayid)'), 'holidaytype'])
 			->from('vtiger_publicholiday');
 
 		if ($date) {
+			$date[0] = DateTimeField::convertToDBFormat($date[0]);
+			$date[1] = DateTimeField::convertToDBFormat($date[1]);
 			$query->where(['between', 'holidaydate', $date[0], $date[1]]);
 		}
 		$query->groupBy('holidaytype');

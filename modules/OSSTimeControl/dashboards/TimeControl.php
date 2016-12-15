@@ -30,6 +30,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (!$time) {
 			return [];
 		}
+		$date['start'] = Vtiger_Date_UIType::getDBInsertedValue($time['start']);
+		$date['end'] = Vtiger_Date_UIType::getDBInsertedValue($time['end']);
 		$module = 'HelpDesk';
 		$query = (new App\Db\Query())->select(['daytime' => 'sum_time', 'due_date', 'timecontrol_type'])
 			->from('vtiger_osstimecontrol')
@@ -38,8 +40,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, $module);
 		$query->andWhere([
 			'and',
-			['>=', 'vtiger_osstimecontrol.due_date', $time['start']],
-			['<=', 'vtiger_osstimecontrol.due_date', $time['end']],
+			['>=', 'vtiger_osstimecontrol.due_date', $date['start']],
+			['<=', 'vtiger_osstimecontrol.due_date', $date['end']],
 			['vtiger_osstimecontrol.deleted' => 0]
 		])->orderBy('due_date');
 
@@ -76,8 +78,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 
 		if ($dataReader->count() > 0) {
 			$dataReader = (new App\Db\Query())->select(['timecontrol_type', 'color'])
-				->from('vtiger_timecontrol_type')
-				->createCommand()->query();
+					->from('vtiger_timecontrol_type')
+					->createCommand()->query();
 
 			while ($row = $dataReader->read()) {
 				$colors[$row['timecontrol_type']] = $row['color'];
@@ -154,22 +156,18 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time === false){
+			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));			
+				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
+			$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
+			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
 		}
-		$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
-		$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
-
-		if (empty($user))
+		if (empty($user)) {
 			$user = $loggedUserId;
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		
-
+		}
 		$data = $this->getWidgetTimeControl($user, $time);
 		$daysAmount = count($data['ticks']);
-
 		$listViewUrl = 'index.php?module=OSSTimeControl&view=List&viewname=All';
 		for ($i = 0; $i < $daysAmount; $i++) {
 			$data['links'][$i][0] = $i;

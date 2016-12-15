@@ -122,6 +122,9 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			if ($time === false) {
 				$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
 				$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
+			} else {
+				$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
+				$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
 			}
 		}
 		if (empty($user)) {
