@@ -1198,6 +1198,7 @@ jQuery.Class("Vtiger_List_Js", {
 			);
 		});
 		$('#totalCountBtn').on('click', function () {
+			app.hidePopover(jQuery(this));
 			var paramsNotifier = {
 				title: app.vtranslate('JS_LBL_PERMISSION'),
 				text: app.vtranslate('JS_GET_PAGINATION_INFO'),

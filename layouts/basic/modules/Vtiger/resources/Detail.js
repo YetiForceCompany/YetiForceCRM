@@ -892,6 +892,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			relatedController.selectPageHandler(pageNumber);
 		});
 		detailContentsHolder.on('click', '#totalCountBtn', function () {
+			app.hidePopover(jQuery(this));
 			var params = {
 				module: app.getModuleName(),
 				view: 'Pagination',
