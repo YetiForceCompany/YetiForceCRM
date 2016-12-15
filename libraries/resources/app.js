@@ -370,6 +370,12 @@ var app = {
 		selectElement.selectize(params);
 		return selectElement;
 	},
+	hidePopover: function (element) {
+		if (typeof element == 'undefined') {
+			element = jQuery('body .popoverTooltip');
+		}
+		element.popover('hide');
+	},
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params == 'undefined') {
 			params = {trigger: 'hover', placement: 'bottom', html: true};
