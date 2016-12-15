@@ -16,7 +16,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	protected $recordCache = [];
 	protected $recordId;
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
-	
+
 	/**
 	 * Function to get watermark type
 	 * @return array
@@ -149,7 +149,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	 */
 	public static function getTemplatesByModule($moduleName)
 	{
-		
+
 		$dataReader = (new \App\Db\Query())->from(self::$baseTable)
 				->where(['module_name' => $moduleName, 'status' => 1])
 				->createCommand()->query();
@@ -303,7 +303,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 			$parameters['subject'] = $this->get('meta_subject');
 			$parameters['keywords'] = $this->get('meta_keywords');
 		} else {
-			$companyDetails = getCompanyDetails();
+			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById()->getData();
 			$parameters['title'] = $this->get('primary_name');
 			$parameters['author'] = $companyDetails['organizationname'];
 			$parameters['creator'] = $companyDetails['organizationname'];
@@ -504,7 +504,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if (empty($content)) {
 			return $content;
 		}
-		$companyDetails = getCompanyDetails();
+		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById()->getData();
 
 		foreach ($companyDetails as $name => $value) {
 			if ($name === 'logoname') {
@@ -604,7 +604,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 
 	public static function zipAndDownload(array $fileNames)
 	{
-		
+
 		//create the object
 		$zip = new ZipArchive();
 

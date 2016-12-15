@@ -797,11 +797,6 @@ function dateDiff($d1, $d2)
 	);
 }
 
-function getCompanyDetails()
-{
-	return (new \App\Db\Query())->from('vtiger_organizationdetails')->one();
-}
-
 /** call back function to change the array values in to lower case */
 function lower_array(&$string)
 {

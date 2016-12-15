@@ -346,8 +346,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 	{
 		$site_URL = vglobal('site_URL');
 		$currentModule = vglobal('currentModule');
-		$companydetails = getCompanyDetails();
-		$logo = $site_URL . '/storage/Logo/' . $companydetails['logoname'];
+		$logo = $site_URL . '/storage/Logo/' . Vtiger_CompanyDetails_Model::getInstanceById()->get('logoname');
 
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>

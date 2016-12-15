@@ -185,13 +185,13 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$tabId = \App\Module::getModuleId($moduleName);
 		$dataReader = (new \App\Db\Query())->select(['fieldid', 'fieldlabel', 'fieldname', 'uitype', 'block'])
-			->from('vtiger_field')
-			->where(['tabid' => $tabId])
-			->andWhere(['<>', 'block', 0])
-			->andWhere(['<>', 'presence', 1])
-			->andWhere(['<>', 'typeofdata', 'P~M'])
-			->orderBy(['block' => SORT_ASC, 'sequence' => SORT_ASC])
-			->createCommand()->query();
+				->from('vtiger_field')
+				->where(['tabid' => $tabId])
+				->andWhere(['<>', 'block', 0])
+				->andWhere(['<>', 'presence', 1])
+				->andWhere(['<>', 'typeofdata', 'P~M'])
+				->orderBy(['block' => SORT_ASC, 'sequence' => SORT_ASC])
+				->createCommand()->query();
 		$output = [];
 		$currentBlockId = '';
 		$currentBlockName = '';
@@ -251,7 +251,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$company = [];
 
-		$companyDetails = getCompanyDetails();
+		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById()->getData();
 		foreach ($companyDetails as $key => $value) {
 			if ($key == 'organization_id') {
 				continue;
