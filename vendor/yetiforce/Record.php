@@ -208,7 +208,7 @@ class Record
 			if (($insertMode || !$searchRowCount) && $updater !== 'label') {
 				$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
 			}
-			static::$recordLabelCache[$id] = $labelInfo[$id]['name'];
+			Cache::save('recordLabel', $id, $labelInfo[$id]['name']);
 		}
 	}
 
