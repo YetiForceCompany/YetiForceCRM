@@ -218,6 +218,9 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			if (jQuery.inArray(conditionList[key], ['s', 'ew']) != -1 && jQuery.inArray(fieldInfo.type, ['taxes', 'posList', 'multipicklist', 'categoryMultipicklist', 'sharedOwner']) != -1) {
 				continue;
 			}
+			if (jQuery.inArray(conditionList[key], ['bw', 'm', 'h']) != -1 && jQuery.inArray(fieldInfo.type, ['time']) != -1) {
+				continue;
+			}
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
 			if (conditionList.hasOwnProperty(key)) {
 				var conditionValue = conditionList[key];

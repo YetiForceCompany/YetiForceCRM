@@ -279,7 +279,9 @@ class Owner
 		\App\Log::trace("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
 
 		$tempResult = $this->initUsers($status, $assignedUser, $private);
-
+		if (!is_array($tempResult)) {
+			return [];
+		}
 		$users = [];
 		if ($addBlank === true) {
 			// Add in a blank row
@@ -287,11 +289,9 @@ class Owner
 		}
 		$adminInList = \AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		$isAdmin = $this->currentUser->isAdminUser();
-		if (is_array($tempResult)) {
-			foreach ($tempResult as $key => $row) {
-				if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] == 'on')) {
-					$users[$key] = $row['fullName'];
-				}
+		foreach ($tempResult as $key => $row) {
+			if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] == 'on')) {
+				$users[$key] = $row['fullName'];
 			}
 		}
 		asort($users);
