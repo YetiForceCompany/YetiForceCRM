@@ -190,11 +190,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')
 				->leftJoin('vtiger_activity_reminder', 'vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = :id', [':id' => 0])
-				->where(['and',
-					['vtiger_crmentity.deleted' => 0],
-					['vtiger_crmentity.smownerid' => App\User::getCurrentUserId()],
-					['<>', 'vtiger_activity.activitytype', 'Emails']
-		]);
+				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => App\User::getCurrentUserId()]);
 	}
 
 	/**
