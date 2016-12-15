@@ -38,7 +38,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getFieldDataType()
 	{
-		if (!$this->fieldDataType && $this->getFieldType() == 'INVENTORY') {
+		if (!$this->fieldDataType && $this->get('typeofdata') == 'INVENTORY') {
 			$this->fieldDataType = 'inventory';
 		} elseif (!$this->fieldDataType) {
 			$this->fieldDataType = parent::getFieldDataType();
