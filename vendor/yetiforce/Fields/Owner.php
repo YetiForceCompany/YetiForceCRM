@@ -287,9 +287,11 @@ class Owner
 		}
 		$adminInList = \AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		$isAdmin = $this->currentUser->isAdminUser();
-		foreach ($tempResult as $key => $row) {
-			if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] == 'on')) {
-				$users[$key] = $row['fullName'];
+		if (is_array($tempResult)) {
+			foreach ($tempResult as $key => $row) {
+				if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] == 'on')) {
+					$users[$key] = $row['fullName'];
+				}
 			}
 		}
 		asort($users);
