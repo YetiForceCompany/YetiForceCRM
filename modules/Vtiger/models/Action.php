@@ -75,7 +75,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		}
 		if (self::$cachedInstances) {
 			$actionid = vtlib\Utils::isNumber($value) ? $value : false;
-			if($actionid === false && isset(self::$cachedInstances[$value])){
+			if ($actionid === false && isset(self::$cachedInstances[$value])) {
 				return self::$cachedInstances[$value];
 			}
 			foreach (self::$cachedInstances as $instance) {
@@ -106,20 +106,19 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 
 	public static function getAll($configurable = false)
 	{
-		$actionModels = Vtiger_Cache::get('vtiger', 'actions');
-		if (!$actionModels) {
-			$query = (new \App\Db\Query())->from('vtiger_actionmapping');
-			$params = [];
-			if ($configurable) {
-				$query->where(['NOT IN', 'actionname', self::$nonConfigurableActions]);
-			}
-			$actionModels = [];
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$actionModels[$row['actionname']] = self::getInstanceFromRow($row);
-			}
-			Vtiger_Cache::set('vtiger', 'actions', $actionModels);
+		if (\App\Cache::has('vtiger', 'actions')) {
+			return \App\Cache::get('vtiger', 'actions');
 		}
+		$query = (new \App\Db\Query())->from('vtiger_actionmapping');
+		if ($configurable) {
+			$query->where(['NOT IN', 'actionname', self::$nonConfigurableActions]);
+		}
+		$actionModels = [];
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$actionModels[$row['actionname']] = self::getInstanceFromRow($row);
+		}
+		\App\Cache::save('vtiger', 'actions', $actionModels);
 		return $actionModels;
 	}
 

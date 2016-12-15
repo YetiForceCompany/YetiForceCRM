@@ -39,17 +39,17 @@ class Vtiger_CompanyDetails_Model extends Vtiger_Base_Model
 	 */
 	public static function getInstanceById($id = 1)
 	{
-		$companyDetails = Vtiger_Cache::get('organizationDetails', $id);
-		if (!$companyDetails) {
-			$row = (new \App\Db\Query())->from('vtiger_organizationdetails')
-					->where(['organization_id' => $id])
-					->one();
-			$companyDetails = new self();
-			if ($row) {
-				$companyDetails->setData($row);
-			}
-			Vtiger_Cache::set('organizationDetails', $id, $companyDetails);
+		if (\App\Cache::staticHas('organizationDetails', $id)) {
+			return \App\Cache::staticGet('organizationDetails', $id);
 		}
+		$row = (new \App\Db\Query())->from('vtiger_organizationdetails')
+			->where(['organization_id' => $id])
+			->one();
+		$companyDetails = new self();
+		if ($row) {
+			$companyDetails->setData($row);
+		}
+		\App\Cache::staticSave('organizationDetails', $id, $companyDetails, \App\Cache::LONG);
 		return $companyDetails;
 	}
 }

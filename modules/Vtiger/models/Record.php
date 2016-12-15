@@ -373,6 +373,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if ($this->isNew()) {
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 		}
+		\App\Cache::delete('recordLabel', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
 	}
 

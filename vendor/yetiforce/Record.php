@@ -13,15 +13,13 @@ use vtlib\Functions;
 class Record
 {
 
-	protected static $recordLabelCache = [];
-
 	public static function getLabel($mixedId)
 	{
 		$multiMode = is_array($mixedId);
 		$ids = $multiMode ? $mixedId : [$mixedId];
 		$missing = [];
 		foreach ($ids as $id) {
-			if ($id && !isset(static::$recordLabelCache[$id])) {
+			if ($id && !Cache::has('recordLabel', $id)) {
 				$missing[] = $id;
 			}
 		}
@@ -29,20 +27,20 @@ class Record
 			$query = (new \App\Db\Query())->select('crmid, label')->from('u_#__crmentity_label')->where(['crmid' => $missing]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				static::$recordLabelCache[$row['crmid']] = $row['label'];
+				Cache::save('recordLabel', $id, $row['label']);
 			}
 			foreach ($ids as $id) {
-				if ($id && !isset(static::$recordLabelCache[$id])) {
+				if ($id && !Cache::has('recordLabel', $id)) {
 					$metainfo = Functions::getCRMRecordMetadata($id);
 					$computeLabel = static::computeLabels($metainfo['setype'], $id);
-					static::$recordLabelCache[$id] = $computeLabel[$id];
+					Cache::save('recordLabel', $id, $computeLabel[$id]);
 				}
 			}
 		}
 		$result = [];
 		foreach ($ids as $id) {
-			if (isset(static::$recordLabelCache[$id])) {
-				$result[$id] = static::$recordLabelCache[$id];
+			if (Cache::has('recordLabel', $id)) {
+				$result[$id] = Cache::get('recordLabel', $id);
 			} else {
 				$result[$id] = NULL;
 			}

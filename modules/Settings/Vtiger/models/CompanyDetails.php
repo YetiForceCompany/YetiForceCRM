@@ -152,6 +152,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 			array_push($params, $db->getUniqueID($this->baseTable));
 		}
+		\App\Cache::staticDelete('organizationDetails', $id);
 		$db->pquery($query, $params);
 	}
 
