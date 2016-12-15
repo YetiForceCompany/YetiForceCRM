@@ -60,13 +60,14 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$rawData = $data = $response = $ticks = $years = [];
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
+		$displayDate = \App\Fields\DateTime::currentUserDisplayDate($date);
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$y = new \yii\db\Expression('extract(year FROM saledate)');
 		$m = new \yii\db\Expression('extract(month FROM saledate)');
 		$s = new \yii\db\Expression('sum(sum_gross)');
 		$fieldList = ['y' => $y, 'm' => $m, 's' => $s];
 		$queryGenerator->setCustomColumn($fieldList);
-		$queryGenerator->addCondition('saledate', $date, 'a');
+		$queryGenerator->addCondition('saledate', $displayDate, 'a');
 		if ($owner !== 'all') {
 			$queryGenerator->addCondition('assigned_user_id', $owner, 'e');
 		}
