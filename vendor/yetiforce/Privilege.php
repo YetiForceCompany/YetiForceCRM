@@ -11,7 +11,7 @@ namespace App;
 class Privilege
 {
 
-	protected static $isPermittedLevel;
+	public static $isPermittedLevel;
 
 	/**
 	 * Function to check permission for a Module/Action/Record
