@@ -77,6 +77,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 					listInstance.triggerListSearch();
 				}
 			});
+			listViewContainer.find('.clockPicker').on('change', function(){
+				listInstance.triggerListSearch();
+			})
 		}
 	},
 	resetPagination: function () {
@@ -115,12 +118,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		});
 	},
 	registerTimeListSearch: function () {
-		var thisInstance = this;
 		app.registerEventForClockPicker();
-		$('.clockPicker').on('change', function(){
-			thisInstance.resetPagination();
-			thisInstance.reloadList();
-		})
 	},
 	registerAlphabetClick: function () {
 		var thisInstance = this;

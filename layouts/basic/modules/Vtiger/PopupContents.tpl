@@ -18,6 +18,7 @@
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
+	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 	<div class="contents-topscroll">
 		<div class="topscroll-div">
 			&nbsp;
