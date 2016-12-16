@@ -67,10 +67,10 @@ class VTCreateTodoTask extends VTTask
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 				->where([
 				'and',
-				['vtiger_crmentity.deleted' => 0],
-				['or', ['vtiger_activity.link' => $entityId], ['vtiger_activity.process' => $entityId]],
-				['vtiger_activity.activitytype' => 'Task'],
-				['vtiger_activity.subject' => $this->todo]
+					['vtiger_crmentity.deleted' => 0],
+					['or', ['vtiger_activity.link' => $entityId], ['vtiger_activity.process' => $entityId]],
+					['vtiger_activity.activitytype' => 'Task'],
+					['vtiger_activity.subject' => $this->todo]
 			]);
 			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
@@ -82,13 +82,11 @@ class VTCreateTodoTask extends VTTask
 			}
 		}
 
-		if ($this->assigned_user_id == 'currentUser') {
+		if ($this->assigned_user_id === 'currentUser') {
 			$userId = \App\User::getCurrentUserId();
-		} else if ($this->assigned_user_id == 'triggerUser') {
-			$userId = \App\User::getCurrentUserRealId();
-		}
-
-		if ($this->assigned_user_id == 'copyParentOwner') {
+		} else if ($this->assigned_user_id === 'triggerUser') {
+			$userId = $recordModel->executeUser;
+		} else if ($this->assigned_user_id === 'copyParentOwner') {
 			$userId = $recordModel->get('assigned_user_id');
 		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = (new App\Db\Query())->from('vtiger_users')
@@ -166,7 +164,7 @@ class VTCreateTodoTask extends VTTask
 			'time_start' => $time,
 			'time_end' => $timeEnd,
 			'sendnotification' => ($this->sendNotification != '' && $this->sendNotification != 'N') ?
-				true : false,
+			true : false,
 			'date_start' => $date_start,
 			'due_date' => $due_date,
 			'visibility' => 'Private',

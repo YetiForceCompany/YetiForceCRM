@@ -67,12 +67,11 @@ class VTCreateEventTask extends VTTask
 		$startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
 		$endDate = $this->calculateDate($recordModel, $this->endDays, $this->endDirection, $this->endDatefield);
 
-		if ($this->assigned_user_id == 'currentUser') {
+		if ($this->assigned_user_id === 'currentUser') {
 			$userId = \App\User::getCurrentUserId();
-		} else if ($this->assigned_user_id == 'triggerUser') {
-			$userId = \App\User::getCurrentUserRealId();
-		}
-		if ($this->assigned_user_id == 'copyParentOwner') {
+		} else if ($this->assigned_user_id === 'triggerUser') {
+			$userId = $recordModel->executeUser;
+		} else if ($this->assigned_user_id === 'copyParentOwner') {
 			$userId = $recordModel->get('assigned_user_id');
 		} else if (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = (new App\Db\Query())->from('vtiger_users')
