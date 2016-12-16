@@ -182,7 +182,9 @@ class Link
 						foreach ($permittedTabIdList as $moduleId) {
 							foreach ($type as $typ) {
 								if (isset($rows[$moduleId][$typ])) {
-									$links[] = $row[$moduleId][$typ];
+									foreach ($rows[$moduleId][$typ] as $data) {
+										$links[] = $data;
+									}
 								}
 							}
 						}
@@ -190,10 +192,14 @@ class Link
 				} else {
 					foreach ($type as $typeLink) {
 						if (isset($rows[0][$typeLink])) {
-							$links[] = $rows[0][$typeLink];
+							foreach ($rows[0][$typeLink] as $data) {
+								$links[] = $data;
+							}
 						}
 						if (isset($rows[$tabid][$typeLink])) {
-							$links[] = $rows[$tabid][$typeLink];
+							foreach ($rows[$tabid][$typeLink] as $data) {
+								$links[] = $data;
+							}
 						}
 					}
 				}
@@ -201,20 +207,30 @@ class Link
 				if ($tabid === self::IGNORE_MODULE) {
 					foreach ($rows as $row) {
 						if (isset($row[$type])) {
-							$links[] = $row[$type];
+							foreach ($row[$type] as $data) {
+								$links[] = $data;
+							}
 						}
 					}
 				} else {
 					if (isset($rows[0][$type])) {
-						$links[] = $rows[0][$type];
+						foreach ($rows[0][$type] as $data) {
+							$links[] = $data;
+						}
 					}
 					if (isset($rows[$tabid][$type])) {
-						$links[] = $rows[$tabid][$type];
+						foreach ($rows[$tabid][$type] as $data) {
+							$links[] = $data;
+						}
 					}
 				}
 			}
 		} else {
-			$links = array_values($rows[$tabid]);
+			foreach ($rows[$tabid] as $linkType) {
+				foreach ($linkType as $data) {
+					$links[] = $data;
+				}
+			}
 		}
 
 		$strtemplate = new \Vtiger_StringTemplate();

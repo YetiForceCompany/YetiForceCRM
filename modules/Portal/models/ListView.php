@@ -37,10 +37,10 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		}
 		$query->limit($pageLimit);
 		$query->offset($startIndex);
-		$dataReader = $query->createCommand()->query();
+		$dataReader = $query->all();
 
 		$listViewEntries = [];
-		while ($row = $dataReader->read()) {
+		foreach ($dataReader as $row) {
 			$listViewEntries[$row['portalid']] = array();
 			$listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
 			$listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
@@ -48,9 +48,8 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		}
 		$index = 0;
 		foreach ($listViewEntries as $recordId => $record) {
-			$rawData = $db->query_result_rowdata($listResult, $index++);
 			$record['id'] = $recordId;
-			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
+			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $dataReader[$index++]);
 		}
 
 		return $listViewRecordModels;
