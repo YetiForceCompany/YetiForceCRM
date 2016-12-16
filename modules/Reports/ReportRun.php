@@ -262,7 +262,7 @@ class ReportRun extends CRMEntity
 	 *  To ensure single-instance is present for $reportid
 	 *  as we optimize using ReportRunPlanner and setup temporary tables.
 	 */
-	public function ReportRun($reportid)
+	public function __construct($reportid)
 	{
 		$oReport = new Reports($reportid);
 		$this->reportid = $reportid;
