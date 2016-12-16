@@ -158,39 +158,63 @@ class Link
 	 */
 	static function getAllByType($tabid, $type = false, $parameters = false)
 	{
-		$db = \App\Db::getInstance();
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
+		if (\App\Cache::has('AllLinks', 'ByType')) {
+			$rows = \App\Cache::get('AllLinks', 'ByType');
+		} else {
+			$linksFromDb = (new \App\Db\Query())->from('vtiger_links')->all();
+			$rows = [];
+			foreach ($linksFromDb as $row) {
+				$rows [$row['tabid']] [$row['linktype']] [] = $row;
+			}
+			\App\Cache::save('AllLinks', 'ByType', $rows);
+		}
+
 		$multitype = false;
+		$links = [];
 		if ($type !== false) {
-			// Multiple link type selection?
 			if (is_array($type)) {
 				$multitype = true;
 				if ($tabid === self::IGNORE_MODULE) {
-					$query = (new \App\Db\Query())->from('vtiger_links')->where(['linktype' => $type]);
 					$permittedTabIdList = getPermittedModuleIdList();
 					if (!empty($permittedTabIdList) && !$currentUser->isAdminUser()) {
-						array_push($permittedTabIdList, 0);  // Added to support one link for all modules
-						$query->andWhere(['tabid' => $permittedTabIdList]);
+						$permittedTabIdList [] = 0;  // Added to support one link for all modules
+						foreach ($permittedTabIdList as $moduleId) {
+							foreach ($type as $typ) {
+								if (isset($rows[$moduleId][$typ])) {
+									$links[] = $row[$moduleId][$typ];
+								}
+							}
+						}
 					}
 				} else {
-					$query = (new \App\Db\Query())
-						->from('vtiger_links')
-						->where(['linktype' => $type])
-						->andWhere(['or', 'tabid = 0', 'tabid = ' . $db->quoteValue($tabid)]);
+					foreach ($type as $typeLink) {
+						if (isset($rows[0][$typeLink])) {
+							$links[] = $rows[0][$typeLink];
+						}
+						if (isset($rows[$tabid][$typeLink])) {
+							$links[] = $rows[$tabid][$typeLink];
+						}
+					}
 				}
 			} else {
-				// Single link type selection
 				if ($tabid === self::IGNORE_MODULE) {
-					$query = (new \App\Db\Query())->from('vtiger_links')->where(['linktype' => $type]);
+					foreach ($rows as $row) {
+						if (isset($row[$type])) {
+							$links[] = $row[$type];
+						}
+					}
 				} else {
-					$query = (new \App\Db\Query())
-						->from('vtiger_links')
-						->where(['linktype' => $type])
-						->andWhere(['or', 'tabid = 0', 'tabid = ' . $db->quoteValue($tabid)]);
+					if (isset($rows[0][$type])) {
+						$links[] = $rows[0][$type];
+					}
+					if (isset($rows[$tabid][$type])) {
+						$links[] = $rows[$tabid][$type];
+					}
 				}
 			}
 		} else {
-			$query = (new \App\Db\Query())->from('vtiger_links')->where(['tabid' => $tabid]);
+			$links = array_values($rows[$tabid]);
 		}
 
 		$strtemplate = new \Vtiger_StringTemplate();
@@ -204,8 +228,7 @@ class Link
 			foreach ($type as $t)
 				$instances[$t] = [];
 		}
-		$dataReader = $query->createCommand($db)->query();
-		while ($row = $dataReader->read()) {
+		foreach ($links as $row) {
 			$instance = new self();
 			$instance->initialize($row);
 			if (!empty($row['handler_path']) && \vtlib\Deprecated::isFileAccessible($row['handler_path'])) {
