@@ -436,15 +436,15 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$time = date('Y-m-d H:i:s');
 		if ($this->isNew()) {
 			$row['setype'] = $this->getModuleName();
-			$row['smcreatorid'] = \App\User::getCurrentUserId();
+			$row['smcreatorid'] = \App\User::getCurrentUserRealId();
 			$row['createdtime'] = $time;
 			$row['users'] = ',' . \App\User::getCurrentUserId() . ',';
 			$this->set('createdtime', $time);
 		}
 		$row['modifiedtime'] = $time;
-		$row['modifiedby'] = \App\User::getCurrentUserId();
+		$row['modifiedby'] = \App\User::getCurrentUserRealId();
 		$this->set('modifiedtime', $time);
-		$this->set('modifiedby', \App\User::getCurrentUserId());
+		$this->set('modifiedby', \App\User::getCurrentUserRealId());
 		return ['vtiger_crmentity' => $row];
 	}
 
