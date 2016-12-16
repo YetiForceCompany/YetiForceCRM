@@ -109,7 +109,7 @@ class Settings_Menu_Module_Model
 		return $modules;
 	}
 
-	public function getLastId()
+	public static function getLastId()
 	{
 		$maxSequence = (new \App\Db\Query())
 			->from('yetiforce_menu')

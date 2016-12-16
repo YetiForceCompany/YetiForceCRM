@@ -529,7 +529,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 						app.showModalWindow(data, function (data) {
 							var createFollowupForm = data.find('form.followupCreateView');
 							createFollowupForm.validationEngine(app.validationEngineOptions);
-							app.registerEventForTimeFields(createFollowupForm);
+							app.registerEventForClockPicker(createFollowupForm.find('.clockPicker'));
 							//Form submit
 							createFollowupForm.submit(function (event) {
 								var createButton = jQuery(this).find('button.btn-success');

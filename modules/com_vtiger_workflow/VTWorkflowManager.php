@@ -121,21 +121,23 @@ class VTWorkflowManager
 
 	public function getWorkflowsForModule($moduleName, $executionCondition = false)
 	{
-		$cacheName = $moduleName . (string) $executionCondition;
-		if (App\Cache::staticHas('WorkflowsForModule', $cacheName)) {
-			return $this->getWorkflowsForResult(App\Cache::staticGet('WorkflowsForModule', $cacheName));
+		if (\App\Cache::has('WorkflowsForModule', $moduleName)) {
+			$rows = \App\Cache::get('WorkflowsForModule', $moduleName);
 		} else {
-			$query = (new \App\Db\Query())
-				->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
-				->from('com_vtiger_workflows')
-				->where(['module_name' => $moduleName]);
-			if ($executionCondition) {
-				$query->andWhere(['execution_condition' => $executionCondition]);
-			}
-			$rows = $query->all();
-			App\Cache::staticSave('WorkflowsForModule', $cacheName, $rows);
-			return $this->getWorkflowsForResult($rows);
+			$rows = (new \App\Db\Query())
+					->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
+					->from('com_vtiger_workflows')
+					->where(['module_name' => $moduleName])->all();
+			\App\Cache::save('WorkflowsForModule', $moduleName, $rows);
 		}
+		if ($executionCondition) {
+			foreach ($rows as $key => &$row) {
+				if ($row['execution_condition'] !== $executionCondition) {
+					unset($rows[$key]);
+				}
+			}
+		}
+		return $this->getWorkflowsForResult($rows);
 	}
 
 	protected function getWorkflowsForResult($rows)

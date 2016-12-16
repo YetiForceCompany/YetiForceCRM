@@ -2216,7 +2216,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_portal' => [
 				'columns' => [
-					'portalid' => $this->integer()->notNull(),
+					'portalid' => $this->primaryKey(),
 					'portalname' => $this->stringType(200)->notNull(),
 					'portalurl' => $this->stringType()->notNull(),
 					'sequence' => $this->integer(3)->notNull(),
@@ -2225,9 +2225,6 @@ class Base3 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['portal_portalname_idx', 'portalname'],
-				],
-				'primaryKeys' => [
-					['portal_pk', 'portalid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

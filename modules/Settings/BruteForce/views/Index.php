@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Brute force index view class
  * @package YetiForce.Settings.View
  * @license licenses/License.html
  * @author YetiForce.com
  */
-
 class Settings_BruteForce_Index_View extends Settings_Vtiger_Index_View
 {
 
@@ -20,6 +20,7 @@ class Settings_BruteForce_Index_View extends Settings_Vtiger_Index_View
 		$adminUsers = Settings_BruteForce_Module_Model::getAdminUsers();
 		$usersForNotifications = Settings_BruteForce_Module_Model::getUsersForNotifications();
 
+		$viewer->assign('MODULE_MODEL', $bfInstance);
 		$viewer->assign('CONFIG', $bfInstance->getData());
 		$viewer->assign('BLOCKED', $bfInstance->getBlockedIp());
 		$viewer->assign('ADMIN_USERS', $adminUsers);

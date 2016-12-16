@@ -821,6 +821,18 @@ jQuery.Class("Vtiger_Popup_Js",{
 		thisInstance.registerListViewSelectSearch();
 		thisInstance.registerDateListSearch(popupPageContentsContainer);
 		thisInstance.registerTimeListSearch(popupPageContentsContainer);
+		if (app.getMainParams('autoRefreshListOnChange') == '1') {
+			popupPageContentsContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
+				var prevVal = $(this).data('prevVal');
+				var value = $(this).val();
+				if (prevVal != value) {
+					thisInstance.triggerListSearch();
+				}
+			});
+			popupPageContentsContainer.find('.clockPicker').on('change', function(){
+				thisInstance.triggerListSearch();
+			});
+		}
 	},
 	
 	registerListViewSelectSearch : function() {
@@ -831,9 +843,11 @@ jQuery.Class("Vtiger_Popup_Js",{
 			placeholder: app.vtranslate('JS_SELECT_AN_OPTION')
 		};
 		app.showSelect2ElementView(select,params);
-		select.off('change').on("change", function(e) { 
-			thisInstance.triggerListSearch();
-		})
+		if (app.getMainParams('autoRefreshListOnChange') == '1') {
+			select.off('change').on("change", function(e) { 
+				thisInstance.triggerListSearch();
+			})
+		}
 	},
 	
 	triggerListSearch : function() {
@@ -843,7 +857,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 	},
 	
 	registerTimeListSearch : function(container) {
-		app.registerEventForTimeFields(container,false);
+		app.registerEventForClockPicker();
 	},
 
 	registerDateListSearch : function(container) {

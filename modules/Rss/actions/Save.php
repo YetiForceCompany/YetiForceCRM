@@ -28,10 +28,10 @@ class Rss_Save_Action extends Vtiger_Save_Action
 		$recordModel = Rss_Record_Model::getCleanInstance($moduleName);
 		$result = $recordModel->validateRssUrl($url);
 		if ($result) {
-			$recordModel->save($url);
-			$response->setResult(array('success' => true, 'message' => vtranslate('JS_RSS_SUCCESSFULLY_SAVED', $moduleName), 'id' => $recordModel->getId()));
+			$recordModel->saveRecord($url);
+			$response->setResult(['success' => true, 'message' => vtranslate('JS_RSS_SUCCESSFULLY_SAVED', $moduleName), 'id' => $recordModel->getId()]);
 		} else {
-			$response->setResult(array('success' => false, 'message' => vtranslate('JS_INVALID_RSS_URL', $moduleName)));
+			$response->setResult(['success' => false, 'message' => vtranslate('JS_INVALID_RSS_URL', $moduleName)]);
 		}
 
 		$response->emit();

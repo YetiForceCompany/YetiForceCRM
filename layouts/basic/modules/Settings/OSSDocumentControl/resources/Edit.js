@@ -405,8 +405,7 @@ function OSSProjectTemplatesEdit() {
 
 				valPlace.children().remove();
 				valPlace.append(html);
-
-				app.registerEventForTimeFields(jQuery(valPlace).find('[name="val"]'), true);
+				app.registerEventForClockPicker(jQuery(valPlace).find('[name="val"]'));
 			},
 			this.hideValElement = function (element) {
 				jQuery(element).parents('.conditionRow').find('.fieldUiHolder').children().hide();
@@ -494,7 +493,7 @@ function OSSProjectTemplatesEdit() {
 				}
 
 				app.registerEventForDatePickerFields(jQuery('input.bw'), false, customParams);
-				app.registerEventForTimeFields(jQuery('.ui-timepicker-input'), true);
+				app.registerEventForClockPicker(jQuery('.ui-timepicker-input'));
 			}
 }
 

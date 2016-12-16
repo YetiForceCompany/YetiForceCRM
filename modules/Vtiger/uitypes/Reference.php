@@ -40,8 +40,11 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the display value in detail view
-	 * @param <Integer> crmid of record
+	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * @param int $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
 	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
@@ -54,7 +57,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			} else {
 				$name = \App\Record::getLabel($value);
 			}
-			if ($rawText || $referenceModuleName === 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
+			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
 			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
@@ -79,7 +82,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			} else {
 				$name = \App\Record::getLabel($value);
 			}
-			if ($rawText || $referenceModuleName === 'Users' || ($value && !Users_Privileges_Model::isPermitted($referenceModuleName, 'DetailView', $value))) {
+			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
 			$name = vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));

@@ -57,6 +57,14 @@ class Privilege
 		if (Module::isModuleActive($checkModule)) {
 			//Checking whether the user is admin
 			if ($userPrivileges['is_admin']) {
+				if ($record) {
+					$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
+					if (!isset($recordMetaData) || $recordMetaData['deleted'] === 1) {
+						static::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
+						\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_DOES_NOT_EXIST');
+						return false;
+					}
+				}
 				static::$isPermittedLevel = 'SEC_USER_IS_ADMIN';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_USER_IS_ADMIN');
 				return true;

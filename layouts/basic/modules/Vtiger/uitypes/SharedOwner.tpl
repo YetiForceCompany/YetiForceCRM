@@ -7,11 +7,7 @@
 		{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
-		{if $RECORD && $RECORD->get('mode') eq 'fromMapping'}
-			{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-		{elseif $MODE neq 'massedit' && $RECORD}
-			{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue('', $RECORD->getId())}
-		{/if}
+		{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 		{if $FIELD_VALUE neq '' }
 			{assign var=FIELD_VALUE value=vtlib\Functions::getArrayFromValue($FIELD_VALUE)}
 			{assign var=NOT_DISPLAY_LIST value=array_diff_key(array_flip($FIELD_VALUE), $ALL_ACTIVEUSER_LIST, $ALL_ACTIVEGROUP_LIST)}

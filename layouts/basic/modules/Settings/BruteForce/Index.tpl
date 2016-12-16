@@ -74,6 +74,7 @@
 							</thead>
 							<tbody>
 								{foreach from=$BLOCKED item=ITEM}
+									{assign var=ITEM value=$MODULE_MODEL->getLoginHistoryData($ITEM)}
 									<tr>
 										<td><label>{$ITEM['ip']}</label></td>
 										<td><label>{$ITEM['time']}</label></td>

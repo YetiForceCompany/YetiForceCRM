@@ -162,7 +162,7 @@ class Field extends FieldBasic
 			$checkRes = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->one();
 
 			// If relation already exist continue
-			if ($checkRes){
+			if ($checkRes) {
 				continue;
 			}
 
@@ -242,13 +242,18 @@ class Field extends FieldBasic
 	 */
 	public static function getAllForModule($moduleInstance)
 	{
+		$moduleId = $moduleInstance->id;
+		if (\App\Cache::has('AllFieldForModule', $moduleId)) {
+			$rows = \App\Cache::get('AllFieldForModule', $moduleId);
+		} else {
+			$rows = (new \App\Db\Query())->from('vtiger_field')
+				->leftJoin('vtiger_blocks', 'vtiger_field.block = vtiger_blocks.blockid')
+				->where(['vtiger_field.tabid' => $moduleId])->orderBy(['vtiger_blocks.sequence' => SORT_ASC, 'vtiger_field.sequence' => SORT_ASC])
+				->all();
+			\App\Cache::save('AllFieldForModule', $moduleId, $rows);
+		}
 		$instances = false;
-		$query = (new \App\Db\Query())->from('vtiger_field')
-				->leftJoin('vtiger_blocks', 'vtiger_field.block=vtiger_blocks.blockid')
-				->where(['vtiger_field.tabid' => $moduleInstance->id])->orderBy(['vtiger_blocks.sequence' => SORT_ASC, 'vtiger_field.sequence' => SORT_ASC]);
-
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
+		foreach ($rows as $row) {
 			$instance = new self();
 			$instance->initialize($row, $moduleInstance);
 			$instances[] = $instance;
@@ -309,7 +314,7 @@ class Field extends FieldBasic
 	 * Function to remove picklist-type or multiple choice picklist-type table
 	 * @param Module Instance of module
 	 */
-  	public static function deletePickLists($moduleInstance)
+	public static function deletePickLists($moduleInstance)
 	{
 		self::log(__METHOD__ . ' | Start');
 		$db = \App\Db::getInstance();

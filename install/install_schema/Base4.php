@@ -454,14 +454,11 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'vtiger_rss' => [
 				'columns' => [
-					'rssid' => $this->integer()->notNull(),
+					'rssid' => $this->primaryKey(),
 					'rssurl' => $this->stringType(200)->notNull()->defaultValue(''),
 					'rsstitle' => $this->stringType(200),
 					'rsstype' => $this->integer(10)->defaultValue(0),
 					'starred' => $this->integer(1)->defaultValue(0),
-				],
-				'primaryKeys' => [
-					['rss_pk', 'rssid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

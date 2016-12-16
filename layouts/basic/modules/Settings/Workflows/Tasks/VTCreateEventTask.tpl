@@ -76,7 +76,7 @@
 			<span class="col-md-2 control-label">{vtranslate('LBL_START_TIME',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-2">
 				<div class="input-group time input-group-sm">
-					<input  type="text" class="timepicker-default form-control" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
+					<input  type="text" class="clockPicker form-control" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
 					<span class="input-group-addon cursorPointer">
 						<i class="glyphicon glyphicon-time"></i>
 					</span>
@@ -115,7 +115,7 @@
 			<span class="col-md-2 control-label">{vtranslate('LBL_END_TIME',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-2">
 				<div class="input-group time input-group-sm">
-					<input  type="text" class="timepicker-default form-control" value="{$END_TIME}" name="endTime" />
+					<input  type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime" />
 					<span class="input-group-addon cursorPointer">
 						<i class="glyphicon glyphicon-time"></i>
 					</span>

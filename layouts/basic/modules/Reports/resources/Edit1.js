@@ -200,7 +200,7 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 				scheduleBoxContainer.addClass('hide');
 			}
 		});
-		app.registerEventForTimeFields('#schtime', true);
+		app.registerEventForClockPicker();
 		app.registerEventForDatePickerFields('#scheduleByDate', true);
 		
 		jQuery('#annualDates').chosen();

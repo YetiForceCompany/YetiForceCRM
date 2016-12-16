@@ -76,21 +76,17 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 * Function to save the record
 	 * @param string $url
 	 */
-	public function save($url)
+	public function saveRecord($url)
 	{
-		$db = PearDatabase::getInstance();
 		$title = $this->getName();
-		$id = $db->getUniqueID("vtiger_rss");
-
-		if ($title == "") {
+		if ($title === '') {
 			$title = $url;
 		}
+		$db = \App\Db::getInstance();
+		$insert = $db->createCommand()->insert('vtiger_rss', ['rssurl' => $url, 'rsstitle' => $title])->execute();
 
-		$params = array($id, $url, $title);
-		$sql = "INSERT INTO vtiger_rss (rssid,rssurl,rsstitle) values (?,?,?)";
-		$result = $db->pquery($sql, $params);
-
-		if ($result) {
+		if ($insert) {
+			$id = $db->getLastInsertID('vtiger_rss_rssid_seq');
 			$this->setId($id);
 			return $id;
 		} else {
@@ -127,18 +123,15 @@ class Rss_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get record instance by using id and moduleName
-	 * @param <Integer> $recordId
+	 * @param integer $recordId
 	 * @param string $qualifiedModuleName
-	 * @return <Rss_Record_Model> RecordModel
+	 * @return Rss_Record_Model RecordModel
 	 */
-	static public function getInstanceById($recordId, $qualifiedModuleName)
+	static public function getInstanceById($recordId, $qualifiedModuleName = null)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_rss WHERE rssid = ?', array($recordId));
+		$rowData = (new \App\Db\Query)->from('vtiger_rss')->where(['rssid' => $recordId])->one();
 
-		if ($db->num_rows($result)) {
-			$rowData = $db->query_result_rowdata($result, 0);
-
+		if ($rowData) {
 			$recordModel = new self();
 			$recordModel->setData($rowData);
 			$recordModel->setModule($qualifiedModuleName);

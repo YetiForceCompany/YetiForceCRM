@@ -61,16 +61,35 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$blockDate->modify("-$time minutes");
 
 		$query = (new \App\Db\Query())
-			->select(['id', 'attempts', 'ip', new \yii\db\Expression('GROUP_CONCAT(DISTINCT(user_name)) as usersName'), 'time', new \yii\db\Expression('GROUP_CONCAT(DISTINCT(browser)) as browsers')])
-			->from('vtiger_loginhistory')
-			->innerJoin('a_#__bruteforce_blocked', 'vtiger_loginhistory.user_ip = a_#__bruteforce_blocked.ip')
-			->where(['status' => ['Failed login', 'Blocked IP']])
+			->select(['id', 'attempts', 'ip', 'time'])
+			->from('a_#__bruteforce_blocked')
 			->andWhere(['>=', 'time', $blockDate->format('Y-m-d H:i:s')])
-			->andWhere(['>=', 'login_time', new \yii\db\Expression('time')])
 			->andWhere(['blocked' => self::BLOCKED])
-			->andWhere(['>=', 'attempts', $this->get('attempsnumber')])
-			->groupBy(['ip']);
+			->andWhere(['>=', 'attempts', $this->get('attempsnumber')]);
 		return $query->createCommand()->queryAll();
+	}
+
+	/**
+	 * Functions gets data from login history
+	 * @param array $data
+	 * @return array
+	 */
+	public function getLoginHistoryData($data)
+	{
+		$query = (new \App\Db\Query())
+			->select(['usersName' => new \yii\db\Expression('DISTINCT user_name'), 'browser' => new \yii\db\Expression('browser')])
+			->from('vtiger_loginhistory')
+			->where(['status' => ['Failed login', 'Blocked IP'], 'user_ip' => $data['ip']])
+			->andWhere(['>=', 'login_time', $data['time']]);
+		$historyData = $query->createCommand()->queryAllByGroup(2);
+		$users = array_keys($historyData);
+		$browsers = [];
+		foreach ($historyData as $userName => $browsersUserName) {
+			$browsers = array_merge($browsers, $browsersUserName);
+		}
+		$data['usersName'] = implode(', ', $users);
+		$data['browsers'] = implode(', ', array_unique($browsers));
+		return $data;
 	}
 
 	/**

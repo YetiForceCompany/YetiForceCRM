@@ -244,7 +244,6 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		$date = new DateTimeField($fieldvalue);
 		$fieldvalue = $date->getDisplayDateTimeValue();
 	}
-
 	// Added to render html tag for description fields
 	if (!($fieldInfo['uitype'] == '19' && ($module == 'Documents' || $module == 'Emails'))) {
 		$fieldvalue = htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
@@ -253,8 +252,6 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		switch ($fieldType) {
 			case 'double':
 				return (double) $fieldvalue;
-			case 'boolean':
-				return (bool) $fieldvalue;
 		}
 	}
 	return $fieldvalue;

@@ -32,7 +32,7 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 			}
 			if (!empty($rssContent)) {
 				foreach ($rssContent->item as $item) {
-					$date = new DateTime(mktime($item->timestamp));
+					$date = new DateTime($item->pubDate);
 					$date = DateTimeField::convertToUserFormat($date->format('Y-m-d H:i:s'));
 					$listSubjects[] = [
 						'title' => strlen($item->title) > 40 ? substr($item->title, 0, 40) . '...' : $item->title,
