@@ -6850,7 +6850,7 @@ CREATE TABLE `vtiger_picklistvalues_seq` (
 /*Table structure for table `vtiger_portal` */
 
 CREATE TABLE `vtiger_portal` (
-  `portalid` int(19) NOT NULL,
+  `portalid` int(19) NOT NULL AUTO_INCREMENT,
   `portalname` varchar(200) NOT NULL,
   `portalurl` varchar(255) NOT NULL,
   `sequence` int(3) NOT NULL,
@@ -7705,7 +7705,7 @@ CREATE TABLE `vtiger_rowheight_seq` (
 /*Table structure for table `vtiger_rss` */
 
 CREATE TABLE `vtiger_rss` (
-  `rssid` int(19) NOT NULL,
+  `rssid` int(19) NOT NULL AUTO_INCREMENT,
   `rssurl` varchar(200) NOT NULL DEFAULT '',
   `rsstitle` varchar(200) DEFAULT NULL,
   `rsstype` int(10) DEFAULT '0',
