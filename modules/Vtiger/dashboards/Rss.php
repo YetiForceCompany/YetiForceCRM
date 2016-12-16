@@ -27,7 +27,6 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		foreach ($data['channels'] as $rss) {
 			try {
 				$rssContent = Feed::loadRss($rss);
-				
 			} catch (FeedException $ex) {
 				continue;
 			}
