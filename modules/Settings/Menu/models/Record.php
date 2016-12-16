@@ -311,24 +311,24 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	public function copyMenu($fromRole, $toRole)
 	{
 		$db = \App\Db::getInstance();
-		$result = $db->createCommand('SHOW TABLE STATUS WHERE NAME = "yetiforce_menu"')->queryOne();
-		$nextId = $result['Auto_increment'];
+		$nextId = $db->getUniqueID('yetiforce_menu', 'id', false);
 
 		$query = (new \App\Db\Query())->from('yetiforce_menu')->where(['role' => $fromRole]);
 		$dataReader = $query->createCommand()->query();
 		$rows = $dataReader->readAll();
 
 		if ($rows) {
-
 			foreach ($rows as &$row) {
 				$oldAndNewIds[$row['id']] = $nextId;
 				$nextId += 1;
 			}
 			foreach ($rows as &$row) {
-				if (array_key_exists($row['parentid'], $oldAndNewIds))
+				if (array_key_exists($row['parentid'], $oldAndNewIds)){
 					$parentId = $oldAndNewIds[$row['parentid']];
-				else
+				}
+				else{
 					$parentId = 0;
+				}
 
 				$params = [
 					'role' => $toRole,
