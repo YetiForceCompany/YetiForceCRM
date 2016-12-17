@@ -299,21 +299,26 @@ class Users extends CRMEntity
 	public function doLogin($userPassword)
 	{
 		$userName = $this->column_fields['user_name'];
-		$userId = $this->retrieve_user_id($userName);
-		if (!$userId) {
+		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from($this->table_name)->where(['user_name' => $userName])->one();
+		if (!$userInfo || $userInfo['deleted'] !== 0) {
 			\App\Log::error('User not found: ' . $userName);
 			return false;
 		}
 		\App\Log::trace('Start of authentication for user: ' . $userName);
-		$result = $this->db->pquery('SELECT * FROM yetiforce_auth');
+		if ($userInfo['status'] !== 'Active') {
+			\App\Log::trace("Authentication failed. User: $userName");
+			return false;
+		}
+		
+		$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
 		$auth = [];
-		while ($row = $this->db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$auth[$row['type']][$row['param']] = $row['value'];
 		}
 		if ($auth['ldap']['active'] == 'true') {
 			\App\Log::trace('Start LDAP authentication');
 			$users = explode(',', $auth['ldap']['users']);
-			if (in_array($userId, $users)) {
+			if (in_array($userInfo['id'], $users)) {
 				$bind = false;
 				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
 				$ds = @ldap_connect($auth['ldap']['server'], $port);
@@ -341,16 +346,8 @@ class Users extends CRMEntity
 
 		//Default authentication
 		\App\Log::trace('Using integrated/SQL authentication');
-		$query = new \App\Db\Query();
-		$cryptType = $query->select('crypt_type')->from($this->table_name)->where(['id' => $userId])->scalar();
-		if ($cryptType === false) {
-			\App\Log::error('User not found: ' . $userName);
-			return false;
-		}
-		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
-
-		$result = $query->from($this->table_name)->where(['user_name' => $userName, 'user_password' => $encryptedPassword, 'status' => 'Active']);
-		if ($result->exists()) {
+		$encryptedPassword = $this->encrypt_password($userPassword, $userInfo['crypt_type']);
+		if($encryptedPassword === $userInfo['user_password']) {
 			\App\Log::trace("Authentication OK. User: $userName");
 			return true;
 		}
@@ -911,7 +908,7 @@ class Users extends CRMEntity
 		$this->column_fields['currency_code'] = $this->currency_code = $currency['currency_code'];
 		$this->column_fields['currency_symbol'] = $this->currency_symbol = $currencySymbol;
 		$this->column_fields['conv_rate'] = $this->conv_rate = $currency['conversion_rate'];
-		if ($this->column_fields['no_of_currency_decimals'] == '') {
+		if ($this->column_fields['no_of_currency_decimals'] === '') {
 			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = getCurrencyDecimalPlaces();
 		}
 		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
