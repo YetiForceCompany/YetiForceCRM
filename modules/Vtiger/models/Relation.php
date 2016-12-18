@@ -738,6 +738,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				])->execute();
 			}
 		}
+		App\Cache::delete('getFieldsFromRelation', $relationId);
 	}
 
 	public static function updateModuleRelatedInventoryFields($relationId, $fields)

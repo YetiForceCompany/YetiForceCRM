@@ -202,60 +202,70 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		if (!isset($this->fieldDataType)) {
 			$uiType = $this->get('uitype');
-			switch ($uiType) {
-				case 4: $fieldDataType = 'recordNumber';
-					break;
-				case 9: $fieldDataType = 'percentage';
-					break;
-				case 26: $fieldDataType = 'documentsFolder';
-					break;
-				case 27: $fieldDataType = 'fileLocationType';
-					break;
-				case 28: $fieldDataType = 'documentsFileUpload';
-					break;
-				case 32: $fieldDataType = 'languages';
-					break;
-				case 54: $fieldDataType = 'multiowner';
-					break;
-				case 55:
-					if ($this->getName() === 'salutationtype') {
-						$fieldDataType = 'picklist';
-					} else if ($this->getName() === 'firstname') {
-						$fieldDataType = 'salutation';
-					}
-					break;
-				case 66: $fieldDataType = 'referenceProcess';
-					break;
-				case 67: $fieldDataType = 'referenceLink';
-					break;
-				case 68: $fieldDataType = 'referenceSubProcess';
-					break;
-				case 69: $fieldDataType = 'image';
-					break;
-				case 117: $fieldDataType = 'currencyList';
-					break;
-				case 120: $fieldDataType = 'sharedOwner';
-					break;
-				case 301: $fieldDataType = 'modules';
-					break;
-				case 302: $fieldDataType = 'tree';
-					break;
-				case 303: $fieldDataType = 'taxes';
-					break;
-				case 304: $fieldDataType = 'inventoryLimit';
-					break;
-				case 305: $fieldDataType = 'multiReferenceValue';
-					break;
-				case 308: $fieldDataType = 'rangeTime';
-					break;
-				case 309: $fieldDataType = 'categoryMultipicklist';
-					break;
-				case 122: $fieldDataType = 'posList';
-					break;
-				default:
-					$webserviceField = $this->getWebserviceFieldObject();
-					$fieldDataType = $webserviceField->getFieldDataType();
-					break;
+			if ($uiType === 55) {
+				$cacheName = $uiType . '-' . $this->getName();
+			} else {
+				$cacheName = $uiType . '-' . $this->get('typeofdata');
+			}
+			if (App\Cache::has('FieldDataType', $cacheName)) {
+				$fieldDataType = App\Cache::get('FieldDataType', $cacheName);
+			} else {
+				switch ($uiType) {
+					case 4: $fieldDataType = 'recordNumber';
+						break;
+					case 9: $fieldDataType = 'percentage';
+						break;
+					case 26: $fieldDataType = 'documentsFolder';
+						break;
+					case 27: $fieldDataType = 'fileLocationType';
+						break;
+					case 28: $fieldDataType = 'documentsFileUpload';
+						break;
+					case 32: $fieldDataType = 'languages';
+						break;
+					case 54: $fieldDataType = 'multiowner';
+						break;
+					case 55:
+						if ($this->getName() === 'salutationtype') {
+							$fieldDataType = 'picklist';
+						} else if ($this->getName() === 'firstname') {
+							$fieldDataType = 'salutation';
+						}
+						break;
+					case 66: $fieldDataType = 'referenceProcess';
+						break;
+					case 67: $fieldDataType = 'referenceLink';
+						break;
+					case 68: $fieldDataType = 'referenceSubProcess';
+						break;
+					case 69: $fieldDataType = 'image';
+						break;
+					case 117: $fieldDataType = 'currencyList';
+						break;
+					case 120: $fieldDataType = 'sharedOwner';
+						break;
+					case 301: $fieldDataType = 'modules';
+						break;
+					case 302: $fieldDataType = 'tree';
+						break;
+					case 303: $fieldDataType = 'taxes';
+						break;
+					case 304: $fieldDataType = 'inventoryLimit';
+						break;
+					case 305: $fieldDataType = 'multiReferenceValue';
+						break;
+					case 308: $fieldDataType = 'rangeTime';
+						break;
+					case 309: $fieldDataType = 'categoryMultipicklist';
+						break;
+					case 122: $fieldDataType = 'posList';
+						break;
+					default:
+						$webserviceField = $this->getWebserviceFieldObject();
+						$fieldDataType = $webserviceField->getFieldDataType();
+						break;
+				}
+				App\Cache::save('FieldDataType', $cacheName, $fieldDataType);
 			}
 			$this->fieldDataType = $fieldDataType;
 		}

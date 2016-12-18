@@ -39,7 +39,11 @@ class Yii extends \yii\BaseYii
 	 */
 	public static function beginProfile($token, $category = 'application')
 	{
-		if (\AppConfig::debug('LOG_TO_PROFILE')) {
+		static $logToProfile = null;
+		if ($logToProfile === null) {
+			$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
+		}
+		if ($logToProfile) {
 			self::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_BEGIN, $category);
 		}
 	}
@@ -53,7 +57,11 @@ class Yii extends \yii\BaseYii
 	 */
 	public static function endProfile($token, $category = 'application')
 	{
-		if (\AppConfig::debug('LOG_TO_PROFILE')) {
+		static $logToProfile = null;
+		if ($logToProfile === null) {
+			$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
+		}
+		if ($logToProfile) {
 			self::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_END, $category);
 		}
 	}
