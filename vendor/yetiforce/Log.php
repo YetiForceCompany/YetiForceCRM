@@ -25,11 +25,15 @@ class Log extends Logger
 	 */
 	public function log($message, $level, $category = '')
 	{
+		static $logToConsole = null;
+		if ($logToConsole === null) {
+			$logToConsole = \AppConfig::debug('LOG_TO_CONSOLE');
+		}
 		$traces = '';
 		if ($this->traceLevel > 0) {
 			$traces = Debuger::getBacktrace(2, $this->traceLevel, ' - ');
 		}
-		if (\AppConfig::debug('LOG_TO_CONSOLE')) {
+		if ($logToConsole) {
 			Debuger::addLogs($message, self::getLevelName($level), $traces);
 		}
 		$this->messages[] = [$message, $level, $category, microtime(true), $traces];
@@ -47,7 +51,11 @@ class Log extends Logger
 	 */
 	public static function trace($message, $category = '')
 	{
-		if (\AppConfig::debug('LOG_TO_FILE')) {
+		static $logToFile = null;
+		if ($logToFile === null) {
+			$logToFile = \AppConfig::debug('LOG_TO_FILE');
+		}
+		if ($logToFile) {
 			\Yii::getLogger()->log($message, Logger::LEVEL_TRACE, $category);
 		}
 	}
@@ -107,7 +115,11 @@ class Log extends Logger
 	 */
 	public static function beginProfile($token, $category = '')
 	{
-		if (\AppConfig::debug('LOG_TO_PROFILE')) {
+		static $logToProfile = null;
+		if ($logToProfile === null) {
+			$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
+		}
+		if ($logToProfile) {
 			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_BEGIN, $category);
 		}
 	}
@@ -121,7 +133,11 @@ class Log extends Logger
 	 */
 	public static function endProfile($token, $category = '')
 	{
-		if (\AppConfig::debug('LOG_TO_PROFILE')) {
+		static $logToProfile = null;
+		if ($logToProfile === null) {
+			$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
+		}
+		if ($logToProfile) {
 			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_END, $category);
 		}
 	}
