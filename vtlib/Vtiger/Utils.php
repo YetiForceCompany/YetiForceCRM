@@ -190,7 +190,7 @@ class Utils
 	public static function AddColumn($tableName, $columnName, $criteria)
 	{
 		$db = \App\Db::getInstance();
-		$tableSchema = $db->getSchema()->getTableSchema($tableName);
+		$tableSchema = $db->getSchema()->getTableSchema($tableName, true);
 		if (is_null($tableSchema->getColumn($columnName))) {
 			$db->createCommand()->addColumn($tableName, $columnName, $criteria)->execute();
 		}
