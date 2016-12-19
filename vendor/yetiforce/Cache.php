@@ -55,7 +55,7 @@ class Cache
 	/**
 	 * Cache Save
 	 * @param string $key Cache ID
-	 * @param string $value Data to store
+	 * @param mixed $value Data to store, supports string, array, objects
 	 * @param int $duration Cache TTL (in seconds)
 	 * @return bool
 	 */

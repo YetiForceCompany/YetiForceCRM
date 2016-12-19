@@ -43,7 +43,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getBruteForceSettings()
 	{
 		if (App\Cache::has('BruteForce', 'Settings')) {
-			return App\Cache::has('BruteForce', 'Settings');
+			return App\Cache::get('BruteForce', 'Settings');
 		}
 		$row = (new App\Db\Query())->from('a_#__bruteforce')->one();
 		App\Cache::save('BruteForce', 'Settings', $row, App\Cache::LONG);
@@ -192,8 +192,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$db = \App\Db::getInstance('admin');
 		$db->createCommand()->delete('a_#__bruteforce_blocked', [
 			'and', ['<', 'time', $data],
-				['blocked' => self::UNBLOCKED],
-				['ip' => $ip]])->execute();
+			['blocked' => self::UNBLOCKED],
+			['ip' => $ip]])->execute();
 	}
 
 	/**
