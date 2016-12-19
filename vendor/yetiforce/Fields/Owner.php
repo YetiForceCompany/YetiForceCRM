@@ -70,7 +70,9 @@ class Owner
 
 	/**
 	 * Function to get all the accessible users
-	 * @return <Array>
+	 * @param string $private
+	 * @param mixed $fieldType
+	 * @return array
 	 */
 	public function getAccessibleUsers($private = '', $fieldType = false)
 	{
@@ -81,9 +83,15 @@ class Owner
 			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
 				$accessibleUser = $this->getUsers(false, 'Active', '', $private, true);
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '2') {
-				$accessibleUser = $this->getSameLevelUsersWithSubordinates();
+				$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
+				$sameLevelRoles = array_keys($currentUserRoleModel->getSameLevelRoles());
+				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
+				$roles = array_merge($sameLevelRoles, $sameLevelRoles);
+				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($roles));
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
-				$accessibleUser = $this->getRoleBasedSubordinateUsers();
+				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
+				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($childernRoles));
+				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getDisplayName();
 			} else if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5') {
 				$accessibleUser = $this->getAllocation('users', '', $fieldType);
 			} else {
@@ -100,71 +108,6 @@ class Owner
 			'users' => $this->getAccessibleUsers($private, $fieldType),
 			'groups' => $this->getAccessibleGroups($private, $fieldType, $translate)
 		];
-	}
-
-	/**
-	 * Function to get same level and subordinates Users
-	 * @return <array> Users
-	 */
-	public function getSameLevelUsersWithSubordinates()
-	{
-		$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-		$sameLevelRoles = $currentUserRoleModel->getSameLevelRoles();
-		$sameLevelUsers = $this->getAllUsersOnRoles($sameLevelRoles);
-		$subordinateUsers = $this->getRoleBasedSubordinateUsers();
-		foreach ($subordinateUsers as $userId => $userName) {
-			$sameLevelUsers[$userId] = $userName;
-		}
-		return $sameLevelUsers;
-	}
-
-	/**
-	 * Function to get subordinates Users
-	 * @return <array> Users
-	 */
-	public function getRoleBasedSubordinateUsers()
-	{
-		$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-		$childernRoles = $currentUserRoleModel->getAllChildren();
-		$users = $this->getAllUsersOnRoles($childernRoles);
-		$currentUserDetail = array($this->currentUser->getId() => $this->currentUser->getDisplayName());
-		$users += $currentUserDetail;
-		return $users;
-	}
-
-	/**
-	 * Function to get the users based on Roles
-	 * @param type $roles
-	 * @return <array>
-	 */
-	public function getAllUsersOnRoles($roles)
-	{
-		$roleIds = [];
-		foreach ($roles as $key => $role) {
-			$roleIds[] = $role->getId();
-		}
-
-		if (empty($roleIds)) {
-			return [];
-		}
-		$cacheKey = implode(',', $roleIds);
-		$subUsers = \Vtiger_Cache::get('getAllUsersOnRoles', $cacheKey);
-		if ($subUsers !== false) {
-			return $subUsers;
-		}
-		$db = \PearDatabase::getInstance();
-		$sql = sprintf('SELECT userid FROM vtiger_user2role WHERE roleid IN (%s)', generateQuestionMarks($roleIds));
-		$result = $db->pquery($sql, $roleIds);
-		$userIds = [];
-		$subUsers = [];
-		if ($db->getRowCount($result) > 0) {
-			while (($userid = $db->getSingleValue($result)) !== false) {
-				$userIds[] = $userid;
-			}
-			$subUsers = $this->getUsers(false, 'Active', $userIds);
-		}
-		\Vtiger_Cache::set('getAllUsersOnRoles', $cacheKey, $subUsers);
-		return $subUsers;
 	}
 
 	public function getAllocation($mode, $private = '', $fieldType)
@@ -200,59 +143,25 @@ class Owner
 	 * @param string $status
 	 * @param mixed $assignedUser
 	 * @param string $private
+	 * @param mixed $roles
 	 * @return array
 	 */
-	public function &initUsers($status = 'Active', $assignedUser = '', $private = '')
+	public function &initUsers($status = 'Active', $assignedUser = '', $private = '', $roles = false)
 	{
 		$cacheKeyMod = $private === 'private' ? $this->moduleName : '';
 		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
-		$cacheKey = $cacheKeyMod . $status . $cacheKeyAss . $private;
+		$cacheKeyRole = is_array($roles) ? md5(json_encode($roles)) : $roles;
+		$cacheKey = $cacheKeyMod . $status . $cacheKeyAss . $private . $cacheKeyRole;
 		if (!\App\Cache::has('getUsers', $cacheKey)) {
-			$db = \PearDatabase::getInstance();
 			$entityData = \App\Module::getEntityInfo('Users');
-			$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
-			// Including deleted vtiger_users for now.
-			if ($private === 'private') {
-				$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
-				\App\Log::trace('Sharing is Private. Only the current user should be listed');
-				$query = new \App\Db\Query();
-				$query->select($selectFields)->from('vtiger_users')->where(['id' => $this->currentUser->getId()]);
-				$queryByUserRole = new \App\Db\Query();
-				$selectFields['id'] = 'vtiger_user2role.userid';
-				$queryByUserRole->
-					select($selectFields)
-					->from('vtiger_user2role')
-					->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
-					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
-					->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
-				$queryBySharing = new \App\Db\Query();
-				$selectFields['id'] = 'shareduserid';
-				$queryBySharing->
-					select($selectFields)
-					->from('vtiger_tmp_write_user_sharing_per')
-					->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
-					->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
-				$query->union($queryByUserRole)->union($queryBySharing);
-			} else {
-				\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
-				$query = new \App\Db\Query();
-				$query->select($selectFields)->from('vtiger_users');
-			}
-
+			$query = $this->getQueryInitUsers($private, $status, $roles);
 			if (!empty($assignedUser)) {
-				$query->where(['id' => $assignedUser]);
-			}
-			if (!empty($this->searchValue)) {
-				$concat = \App\Module::getSqlForNameInDisplayFormat('Users');
-				$query->where(['like', $concat, $this->searchValue]);
+				$query->where(['vtiger_users.id' => $assignedUser]);
 			}
 			$tempResult = [];
 			$dataReader = $query->createCommand()->query();
 			// Get the id and the name.
 			while ($row = $dataReader->read()) {
-				if ($status === 'Active' && $row['status'] !== 'Active') {
-					continue;
-				}
 				$fullName = '';
 				foreach ($entityData['fieldnameArr'] as &$field) {
 					$fullName .= ' ' . $row[$field];
@@ -265,6 +174,56 @@ class Owner
 		return \App\Cache::get('getUsers', $cacheKey);
 	}
 
+	/**
+	 * Function gets sql query
+	 * @param mixed $private
+	 * @param mixed $status
+	 * @param mixed $roles
+	 * @return \App\Db\Query
+	 */
+	public function getQueryInitUsers($private = false, $status = false, $roles = false)
+	{
+		$entityData = \App\Module::getEntityInfo('Users');
+		$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
+		// Including deleted vtiger_users for now.
+		if ($private === 'private') {
+			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
+			\App\Log::trace('Sharing is Private. Only the current user should be listed');
+			$query = new \App\Db\Query ();
+			$query->select($selectFields)->from('vtiger_users')->where(['id' => $this->currentUser->getId()]);
+			$queryByUserRole = new \App\Db\Query ();
+			$selectFields['id'] = 'vtiger_user2role.userid';
+			$queryByUserRole->
+				select($selectFields)
+				->from('vtiger_user2role')
+				->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
+				->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+				->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
+			$queryBySharing = new \App\Db\Query ();
+			$selectFields['id'] = 'shareduserid';
+			$queryBySharing->
+				select($selectFields)
+				->from('vtiger_tmp_write_user_sharing_per')
+				->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
+				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
+			$query->union($queryByUserRole)->union($queryBySharing);
+		} elseif ($roles !== false) {
+			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid')->where(['vtiger_user2role.roleid' => $roles]);
+		} else {
+			\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
+			$query = new \App\Db\Query();
+			$query->select($selectFields)->from('vtiger_users');
+		}
+		if (!empty($this->searchValue)) {
+			$concat = \App\Module::getSqlForNameInDisplayFormat('Users');
+			$query->where(['like', $concat, $this->searchValue]);
+		}
+		if ($status) {
+			$query->where(['status' => $status]);
+		}
+		return $query;
+	}
+
 	/** Function returns the user key in user array
 	 * @param $addBlank -- boolean:: Type boolean
 	 * @param $status -- user status:: Type string
@@ -274,11 +233,12 @@ class Owner
 	 * @returns $users -- user array:: Type array
 	 *
 	 */
-	public function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false)
+	public function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false, $roles = false)
 	{
 		\App\Log::trace("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
 
 		$tempResult = $this->initUsers($status, $assignedUser, $private);
+
 		if (!is_array($tempResult)) {
 			return [];
 		}
@@ -551,9 +511,9 @@ class Owner
 		} else {
 			$instance = new self();
 			if ($single) {
-				$users = $instance->initUsers('Inactive', $id);
+				$users = $instance->initUsers(false, $id);
 			} else {
-				$users = $instance->initUsers('Inactive');
+				$users = $instance->initUsers(false);
 			}
 		}
 		foreach ($users as $uid => &$user) {
