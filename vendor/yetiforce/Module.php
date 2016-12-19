@@ -10,17 +10,21 @@ namespace App;
 class Module
 {
 
-	protected static $moduleEntityCacheByName = [];
 	protected static $moduleEntityCacheById = [];
 
 	static public function getEntityInfo($mixed = false)
 	{
 		$entity = false;
 		if ($mixed) {
-			if (is_numeric($mixed))
-				$entity = isset(static::$moduleEntityCacheById[$mixed]) ? static::$moduleEntityCacheById[$mixed] : false;
-			else
-				$entity = isset(static::$moduleEntityCacheByName[$mixed]) ? static::$moduleEntityCacheByName[$mixed] : false;
+			if (is_numeric($mixed)) {
+				if (Cache::has('ModuleEntityById', $mixed)) {
+					return Cache::get('ModuleEntityById', $mixed);
+				}
+			} else {
+				if (Cache::has('ModuleEntityByName', $mixed)) {
+					return Cache::get('ModuleEntityByName', $mixed);
+				}
+			}
 		}
 		if (!$entity) {
 			$dataReader = (new \App\Db\Query())->from('vtiger_entityname')
@@ -28,14 +32,15 @@ class Module
 			while ($row = $dataReader->read()) {
 				$row['fieldnameArr'] = explode(',', $row['fieldname']);
 				$row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
-				static::$moduleEntityCacheByName[$row['modulename']] = $row;
+				Cache::save('ModuleEntityByName', $row['modulename'], $row);
+				Cache::save('ModuleEntityById', $row['tabid'], $row);
 				static::$moduleEntityCacheById[$row['tabid']] = $row;
 			}
 			if ($mixed) {
 				if (is_numeric($mixed))
-					return static::$moduleEntityCacheById[$mixed];
+					return Cache::get('ModuleEntityById', $mixed);
 				else
-					return static::$moduleEntityCacheByName[$mixed];
+					return Cache::get('ModuleEntityByName', $mixed);
 			}
 		}
 		return $entity;
@@ -48,7 +53,7 @@ class Module
 		}
 		$entity = [];
 		if ($sort) {
-			foreach (static::$moduleEntityCacheById as $tabid => $row) {
+			foreach (static::$moduleEntityCacheById as $row) {
 				$entity[$row['sequence']] = $row;
 			}
 			ksort($entity);

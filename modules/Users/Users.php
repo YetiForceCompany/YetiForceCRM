@@ -309,11 +309,16 @@ class Users extends CRMEntity
 			\App\Log::trace("Authentication failed. User: $userName");
 			return false;
 		}
-		
-		$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
-		$auth = [];
-		while ($row = $dataReader->read()) {
-			$auth[$row['type']][$row['param']] = $row['value'];
+
+		if (\App\Cache::has('Authorization', 'config')) {
+			$auth = \App\Cache::get('Authorization', 'config');
+		} else {
+			$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
+			$auth = [];
+			while ($row = $dataReader->read()) {
+				$auth[$row['type']][$row['param']] = $row['value'];
+			}
+			\App\Cache::save('Authorization', 'config', $auth);
 		}
 		if ($auth['ldap']['active'] == 'true') {
 			\App\Log::trace('Start LDAP authentication');
@@ -347,7 +352,7 @@ class Users extends CRMEntity
 		//Default authentication
 		\App\Log::trace('Using integrated/SQL authentication');
 		$encryptedPassword = $this->encrypt_password($userPassword, $userInfo['crypt_type']);
-		if($encryptedPassword === $userInfo['user_password']) {
+		if ($encryptedPassword === $userInfo['user_password']) {
 			\App\Log::trace("Authentication OK. User: $userName");
 			return true;
 		}

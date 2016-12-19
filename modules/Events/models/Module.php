@@ -29,29 +29,25 @@ class Events_Module_Model extends Calendar_Module_Model
 	 */
 	public function getNameFields()
 	{
-		$nameFieldObject = Vtiger_Cache::get('EntityField', $this->getName());
 		$moduleName = $this->getName();
-		if ($nameFieldObject && $nameFieldObject->fieldname) {
+		if (\App\Cache::has('EntityField', $moduleName)) {
+			$nameFieldObject = \App\Cache::get('EntityField', $moduleName);
 			$this->nameFields = explode(',', $nameFieldObject->fieldname);
 		} else {
-			$adb = PearDatabase::getInstance();
-
-			$query = "SELECT fieldname, tablename, entityidfield FROM vtiger_entityname WHERE tabid = ?";
-			$result = $adb->pquery($query, array(\App\Module::getModuleId('Calendar')));
-			$this->nameFields = array();
-			if ($result) {
-				$rowCount = $adb->num_rows($result);
-				if ($rowCount > 0) {
-					$fieldNames = $adb->query_result($result, 0, 'fieldname');
-					$this->nameFields = explode(',', $fieldNames);
-				}
+			$row = (new \App\Db\Query())->select(['fieldname', 'tablename', 'entityidfield'])
+				->from('vtiger_entityname')
+				->where(['tabid' => \App\Module::getModuleId('Calendar')])
+				->one();
+			$this->nameFields = [];
+			if ($row) {
+				$fieldNames = $row['fieldname'];
+				$this->nameFields = explode(',', $fieldNames);
+				$entiyObj = new stdClass();
+				$entiyObj->basetable = $row['tablename'];
+				$entiyObj->basetableid = $row['entityidfield'];
+				$entiyObj->fieldname = $fieldNames;
+				\App\Cache::save('EntityField', $moduleName, $entiyObj);
 			}
-
-			$entiyObj = new stdClass();
-			$entiyObj->basetable = $adb->query_result($result, 0, 'tablename');
-			$entiyObj->basetableid = $adb->query_result($result, 0, 'entityidfield');
-			$entiyObj->fieldname = $fieldNames;
-			Vtiger_Cache::set('EntityField', $this->getName(), $entiyObj);
 		}
 		return $this->nameFields;
 	}

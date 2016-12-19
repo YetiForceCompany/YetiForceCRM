@@ -296,13 +296,14 @@ class CustomView
 		if (is_numeric($cvId)) {
 			$query = (new Db\Query())->select(['columnindex', 'columnname'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
 			$columnList = $query->createCommand()->queryAllByGroup();
+
 			if ($columnList) {
-				Cache::save('getCustomViewFile', $cvId, $columnList);
+				Cache::save('getColumnsListByCvid', $cvId, $columnList);
 				return $columnList;
 			}
 		} else {
 			$columnList = $this->getCustomViewFromFile($cvId)->getColumnList();
-			Cache::save('getCustomViewFile', $cvId, $columnList);
+			Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			return $columnList;
 		}
 		\App\Log::error(Language::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
@@ -331,7 +332,7 @@ class CustomView
 		if ($stdFilter) {
 			$stdFilter = static::resolveDateFilterValue($stdFilter);
 		}
-		Cache::save('getCustomViewFile', $cvId, $stdFilter);
+		Cache::save('getStdFilterByCvid', $cvId, $stdFilter);
 		return $stdFilter;
 	}
 

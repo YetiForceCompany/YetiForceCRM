@@ -292,9 +292,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isNameField()
 	{
-
-		$nameFieldObject = Vtiger_Cache::get('EntityField', $this->getModuleName());
-		if (!$nameFieldObject) {
+		if (!\App\Cache::has('EntityField', $this->getModuleName())) {
 			$moduleModel = $this->getModule();
 			if (!empty($moduleModel)) {
 				$moduleEntityNameFields = $moduleModel->getNameFields();
@@ -302,9 +300,9 @@ class Vtiger_Field_Model extends vtlib\Field
 				$moduleEntityNameFields = [];
 			}
 		} else {
+			$nameFieldObject = \App\Cache::get('EntityField', $this->getModuleName());
 			$moduleEntityNameFields = explode(',', $nameFieldObject->fieldname);
 		}
-
 		if (in_array($this->get('column'), $moduleEntityNameFields)) {
 			return true;
 		}

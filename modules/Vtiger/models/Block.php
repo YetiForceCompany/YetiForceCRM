@@ -72,8 +72,6 @@ class Vtiger_Block_Model extends vtlib\Block
 
 	public function isHideBlock($record, $view)
 	{
-		$db = PearDatabase::getInstance();
-
 		$query = (new \App\Db\Query())->from('vtiger_blocks_hide')->where(['enabled' => 1, 'blockid' => $this->get('id')])->andWhere(['like', 'view', $view]);
 		$hideBlocks = $query->all();
 		if (count($hideBlocks) == 0) {

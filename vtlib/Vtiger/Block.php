@@ -166,25 +166,23 @@ class Block
 	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		$cache = \Vtiger_Cache::getInstance();
-		if ($moduleInstance && $cache->getBlockInstance($value, $moduleInstance->id)) {
-			return $cache->getBlockInstance($value, $moduleInstance->id);
-		} else {
-			$instance = false;
-			$query = (new \App\Db\Query())->from(self::$baseTable);
-			if (Utils::isNumber($value)) {
-				$query->where(['blockid' => $value]);
-			} else {
-				$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
-			}
-			$data = $query->one();
-			if ($data) {
-				$instance = new self();
-				$instance->initialize($data, $moduleInstance);
-				$cache->setBlockInstance($value, $instance->module->id, $instance);
-			}
-			return $instance;
+		if (\App\Cache::has('BlockInstance', $value)) {
+			return \App\Cache::get('BlockInstance', $value);
 		}
+		$instance = false;
+		$query = (new \App\Db\Query())->from(self::$baseTable);
+		if (Utils::isNumber($value)) {
+			$query->where(['blockid' => $value]);
+		} else {
+			$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
+		}
+		$data = $query->one();
+		if ($data) {
+			$instance = new self();
+			$instance->initialize($data, $moduleInstance);
+			\App\Cache::save('BlockInstance', $value, $instance);
+		}
+		return $instance;
 	}
 
 	/**
