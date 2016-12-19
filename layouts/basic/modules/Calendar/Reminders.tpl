@@ -1,14 +1,16 @@
 {strip}
 	<style>
-	{foreach item=ITEM from=Settings_Calendar_Module_Model::getCalendarConfig('colors')}
-		.borderColor{$ITEM['name']}{
-			border-color: {$ITEM['value']};
-		}
-		.headingColor{$ITEM['name']}{
-			background-color: {$ITEM['value']} !important;
-			border-color: {$ITEM['value']};
-		}
-	{/foreach}
+	{if empty($COLOR_LIST)}	
+		{foreach item=ITEM from=Settings_Calendar_Module_Model::getCalendarConfig('colors')}
+			.borderColor{$ITEM['name']}{
+				border-color: {$ITEM['value']};
+			}
+			.headingColor{$ITEM['name']}{
+				background-color: {$ITEM['value']} !important;
+				border-color: {$ITEM['value']};
+			}
+		{/foreach}
+	{/if}
 	</style>
 	<div class="remindersContent">
 		{foreach item=RECORD from=$RECORDS}

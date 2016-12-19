@@ -282,11 +282,11 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			return vtranslate('Action_Desc_' . $actionsName[1], 'DataAccess');
 	}
 
-	public function listAccesDataDirector($module = false)
+	public static function listAccesDataDirector($module = false)
 	{
 		$dirMain = self::$AccesDataDirector;
-		$FolderFiles = array();
-		$moduleFolderFiles = array();
+		$FolderFiles = [];
+		$moduleFolderFiles = [];
 		$mainFolderFiles = self::listFolderFiles($dirMain, 'Vtiger');
 		if ($module && file_exists("modules/$module/data_access")) {
 			$moduleFolderFiles = self::listFolderFiles("modules/$module/data_access", $module);
@@ -303,10 +303,10 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return array_merge($mainFolderFiles, $moduleFolderFiles);
 	}
 
-	public function listFolderFiles($dir, $prefix)
+	public static function listFolderFiles($dir, $prefix)
 	{
 		$ffs = scandir($dir);
-		$Files = array();
+		$Files = [];
 		foreach ($ffs as $ff) {
 			if ($ff != '.' && $ff != '..') {
 				if (is_dir($dir . '/' . $ff)) {
