@@ -267,13 +267,10 @@ class Owner
 			$moduleName = $this->moduleName;
 			$tabid = \App\Module::getModuleId($moduleName);
 		}
-
 		$cacheKey = $addBlank . $private . $moduleName;
-		$tempResult = \Vtiger_Cache::get('getGroups', $cacheKey);
-		if ($tempResult !== false) {
-			return $tempResult;
+		if (\App\Cache::has('OwnerGroups', $cacheKey)) {
+			return \App\Cache::get('OwnerGroups', $cacheKey);
 		}
-
 		$db = \PearDatabase::getInstance();
 		// Including deleted vtiger_users for now.
 		\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
@@ -324,7 +321,7 @@ class Owner
 		while ($row = $db->getRow($result)) {
 			$tempResult[$row['groupid']] = decode_html($row['groupname']);
 		}
-		\Vtiger_Cache::set('getGroups', $cacheKey, $tempResult);
+		\App\Cache::save('OwnerGroups', $cacheKey, $tempResult);
 		\App\Log::trace('Exiting getGroups method ...');
 		return $tempResult;
 	}

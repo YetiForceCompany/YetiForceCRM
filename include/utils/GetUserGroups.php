@@ -28,60 +28,23 @@ class GetUserGroups
 	 */
 	public function getAllUserGroups($userid)
 	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering getAllUserGroups(" . $userid . ") method...");
 		//Retreiving from the user2grouptable
-		$query = "select * from vtiger_users2group where userid=?";
-		$result = $adb->pquery($query, array($userid));
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$now_group_id = $adb->query_result($result, $i, 'groupid');
-			if (!in_array($now_group_id, $this->user_groups)) {
-				$this->user_groups[] = $now_group_id;
-			}
-		}
-
+		$userGroups = App\PrivilegeUtil::getUserGroups($userid);
 		//Setting the User Role
 		$userRole = \App\PrivilegeUtil::getRoleByUsers($userid);
 		//Retreiving from the vtiger_user2role
-		$query = "select * from vtiger_group2role where roleid=?";
-		$result = $adb->pquery($query, array($userRole));
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$now_group_id = $adb->query_result($result, $i, 'groupid');
-			if (!in_array($now_group_id, $this->user_groups)) {
-				$this->user_groups[] = $now_group_id;
-			}
-		}
-
+		$roleGroups = App\PrivilegeUtil::getRoleGroups($userRole);
 		//Retreiving from the user2rs
-		$parentRoles = \App\PrivilegeUtil::getParentRole($userRole);
-		$parentRolelist = [];
-		foreach ($parentRoles as $par_rol_id) {
-			array_push($parentRolelist, $par_rol_id);
-		}
-		array_push($parentRolelist, $userRole);
-		$query = sprintf('SELECT * FROM vtiger_group2rs WHERE roleandsubid in (%s)', generateQuestionMarks($parentRolelist));
-		$result = $adb->pquery($query, array($parentRolelist));
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$now_group_id = $adb->query_result($result, $i, 'groupid');
-
-			if (!in_array($now_group_id, $this->user_groups)) {
-				$this->user_groups[] = $now_group_id;
-			}
-		}
-		foreach ($this->user_groups as $grp_id) {
+		$rsGroups = \App\PrivilegeUtil::getRoleSubordinatesGroups($userRole);
+		$this->user_groups = array_unique(array_merge($this->user_groups, $userGroups, $roleGroups, $rsGroups));
+		foreach ($this->user_groups as $groupId) {
 			$focus = new GetParentGroups();
-			$focus->getAllParentGroups($grp_id);
-
-			foreach ($focus->parent_groups as $par_grp_id) {
-				if (!in_array($par_grp_id, $this->user_groups)) {
-					$this->user_groups[] = $par_grp_id;
+			$focus->getAllParentGroups($groupId);
+			foreach ($focus->parent_groups as $parentGroupId) {
+				if (!in_array($parentGroupId, $this->user_groups)) {
+					$this->user_groups[] = $parentGroupId;
 				}
 			}
 		}
-		\App\Log::trace("Exiting getAllUserGroups method...");
 	}
 }

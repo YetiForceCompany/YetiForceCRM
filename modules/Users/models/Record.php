@@ -499,16 +499,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getUserGroups($userId)
 	{
-		$groupIds = Vtiger_Cache::get('getUserGroups', $userId);
-		if ($groupIds !== false) {
-			return $groupIds;
-		}
-		$groupIds = (new \App\Db\Query())->select('groupid')
-			->from('vtiger_users2group')
-			->where(['userid' => $userId])
-			->column();
-		Vtiger_Cache::set('getUserGroups', $userId, $groupIds);
-		return $groupIds;
+		return App\PrivilegeUtil::getUserGroups($userId);
 	}
 	/**
 	 * Function returns the users activity reminder in seconds

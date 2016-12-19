@@ -178,14 +178,42 @@ class PrivilegeUtil
 	 */
 	public static function getUserGroups($userId)
 	{
-		if (Cache::staticHas('getUserGroups', $userId)) {
-			return Cache::staticGet('getUserGroups', $userId);
+		if (Cache::has('UserGroups', $userId)) {
+			return Cache::get('UserGroups', $userId);
 		}
-		$groupIds = (new \App\Db\Query())->select('groupid')
-			->from('vtiger_users2group')
-			->where(['userid' => $userId])
-			->column();
-		Cache::staticSave('getUserGroups', $userId, $groupIds);
+		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_users2group')->where(['userid' => $userId])->column();
+		Cache::save('UserGroups', $userId, $groupIds);
+		return $groupIds;
+	}
+
+	/**
+	 * Function to get role groups
+	 * @param string $roleId
+	 * @return array
+	 */
+	public static function getRoleGroups($roleId)
+	{
+		if (Cache::has('RoleGroups', $roleId)) {
+			return Cache::get('RoleGroups', $roleId);
+		}
+		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_group2role')->where(['roleid' => $roleId])->column();
+		Cache::save('RoleGroups', $roleId, $groupIds);
+		return $groupIds;
+	}
+
+	/**
+	 * Function to get role subordinates groups
+	 * @param string $roleId
+	 * @return array
+	 */
+	public static function getRoleSubordinatesGroups($roleId)
+	{
+		if (Cache::has('RoleSubordinatesGroups', $roleId)) {
+			return Cache::get('RoleSubordinatesGroups', $roleId);
+		}
+		$roles = self::getParentRole($roleId);
+		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_group2rs')->where(['roleandsubid' => $roles + $roleId])->column();
+		Cache::save('RoleSubordinatesGroups', $roleId, $groupIds);
 		return $groupIds;
 	}
 

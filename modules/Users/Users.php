@@ -309,7 +309,7 @@ class Users extends CRMEntity
 			\App\Log::trace("Authentication failed. User: $userName");
 			return false;
 		}
-
+		$this->column_fields['id'] = $userInfo['id'];
 		if (\App\Cache::has('Authorization', 'config')) {
 			$auth = \App\Cache::get('Authorization', 'config');
 		} else {

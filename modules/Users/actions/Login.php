@@ -38,20 +38,17 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			header('Location: index.php?module=Users&view=Login&error=2');
 			return false;
 		}
-
 		$user = CRMEntity::getInstance('Users');
 		$user->column_fields['user_name'] = $username;
-
-
 		if (!empty($password) && $user->doLogin($password)) {
 			if (AppConfig::main('session_regenerate_id')) {
 				Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 			}
-			$userid = $user->retrieve_user_id($username);
-			Vtiger_Session::set('authenticated_user_id', $userid);
+			$userId = $user->column_fields['id'];
+			Vtiger_Session::set('authenticated_user_id', $userId);
 			Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
 			Vtiger_Session::set('user_name', $username);
-			Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userid, true));
+			Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userId, true));
 
 			if ($request->has('language') && AppConfig::main('langInLoginView')) {
 				Vtiger_Session::set('language', $request->get('language'));
@@ -66,7 +63,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
 			} else {
-				if (AppConfig::performance('SHOW_ADMIN_PANEL') && App\User::getUserModel($userid)->isAdmin()) {
+				if (AppConfig::performance('SHOW_ADMIN_PANEL') && App\User::getUserModel($userId)->isAdmin()) {
 					header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 				} else {
 					header('Location: index.php');
