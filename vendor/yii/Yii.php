@@ -20,6 +20,8 @@ require(__DIR__ . '/BaseYii.php');
 class Yii extends \yii\BaseYii
 {
 
+	private static $logToProfile;
+
 	/**
 	 * Marks the beginning of a code block for profiling.
 	 * This has to be matched with a call to [[endProfile]] with the same category name.
@@ -39,11 +41,10 @@ class Yii extends \yii\BaseYii
 	 */
 	public static function beginProfile($token, $category = 'application')
 	{
-		static $logToProfile = null;
-		if ($logToProfile === null) {
-			$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
+		if (static::$logToProfile === null) {
+			static::$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
 		}
-		if ($logToProfile) {
+		if (static::$logToProfile) {
 			self::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_BEGIN, $category);
 		}
 	}
@@ -57,11 +58,10 @@ class Yii extends \yii\BaseYii
 	 */
 	public static function endProfile($token, $category = 'application')
 	{
-		static $logToProfile = null;
-		if ($logToProfile === null) {
-			$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
+		if (static::$logToProfile === null) {
+			static::$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
 		}
-		if ($logToProfile) {
+		if (static::$logToProfile) {
 			self::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_END, $category);
 		}
 	}

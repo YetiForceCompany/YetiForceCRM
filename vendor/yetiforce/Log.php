@@ -12,6 +12,10 @@ use \yii\log\Logger;
 class Log extends Logger
 {
 
+	private static $logToConsole;
+	private static $logToFile;
+	private static $logToProfile;
+
 	/**
 	 * Logs a message with the given type and category.
 	 * If [[traceLevel]] is greater than 0, additional call stack information about
@@ -25,15 +29,14 @@ class Log extends Logger
 	 */
 	public function log($message, $level, $category = '')
 	{
-		static $logToConsole = null;
-		if ($logToConsole === null) {
-			$logToConsole = \AppConfig::debug('LOG_TO_CONSOLE');
+		if (static::$logToConsole === null) {
+			static::$logToConsole = \AppConfig::debug('LOG_TO_CONSOLE');
 		}
 		$traces = '';
 		if ($this->traceLevel > 0) {
 			$traces = Debuger::getBacktrace(2, $this->traceLevel, ' - ');
 		}
-		if ($logToConsole) {
+		if (static::$logToConsole) {
 			Debuger::addLogs($message, self::getLevelName($level), $traces);
 		}
 		$this->messages[] = [$message, $level, $category, microtime(true), $traces];
@@ -51,11 +54,10 @@ class Log extends Logger
 	 */
 	public static function trace($message, $category = '')
 	{
-		static $logToFile = null;
-		if ($logToFile === null) {
-			$logToFile = \AppConfig::debug('LOG_TO_FILE');
+		if (static::$logToFile === null) {
+			static::$logToFile = \AppConfig::debug('LOG_TO_FILE');
 		}
-		if ($logToFile) {
+		if (static::$logToFile) {
 			\Yii::getLogger()->log($message, Logger::LEVEL_TRACE, $category);
 		}
 	}
@@ -115,11 +117,10 @@ class Log extends Logger
 	 */
 	public static function beginProfile($token, $category = '')
 	{
-		static $logToProfile = null;
-		if ($logToProfile === null) {
-			$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
+		if (static::$logToProfile === null) {
+			static::$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
 		}
-		if ($logToProfile) {
+		if (static::$logToProfile) {
 			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_BEGIN, $category);
 		}
 	}
@@ -133,11 +134,10 @@ class Log extends Logger
 	 */
 	public static function endProfile($token, $category = '')
 	{
-		static $logToProfile = null;
-		if ($logToProfile === null) {
-			$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
+		if (static::$logToProfile === null) {
+			static::$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
 		}
-		if ($logToProfile) {
+		if (static::$logToProfile) {
 			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_END, $category);
 		}
 	}

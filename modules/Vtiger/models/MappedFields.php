@@ -96,13 +96,13 @@ class Vtiger_MappedFields_Model extends Vtiger_Base_Model
 	public static function getTemplatesByModule($moduleName)
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
-		if (App\Cache::has('TemplatesByModule', $moduleName)) {
-			$rows = App\Cache::get('TemplatesByModule', $moduleName);
+		if (App\Cache::has('MappedFieldsTemplatesByModule', $moduleName)) {
+			$rows = App\Cache::get('MappedFieldsTemplatesByModule', $moduleName);
 		} else {
 			$rows = (new \App\Db\Query())->from(self::$baseTable)
 				->where(['tabid' => \App\Module::getModuleId($moduleName), 'status' => 1])
 				->all();
-			\App\Cache::save('TemplatesByModule', $moduleName, $rows);
+			\App\Cache::save('MappedFieldsTemplatesByModule', $moduleName, $rows);
 		}
 		$templates = [];
 		foreach ($rows as $row) {
