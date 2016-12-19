@@ -5,7 +5,7 @@
 			border-color: {$ITEM['value']};
 		}
 		.headingColor{$ITEM['name']}{
-			background-color: {$ITEM['value']};
+			background-color: {$ITEM['value']} !important;
 			border-color: {$ITEM['value']};
 		}
 	{/foreach}

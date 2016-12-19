@@ -108,20 +108,16 @@ class Users_Colors_Model extends Vtiger_Record_Model
 
 	public static function getValuesFromField($fieldName)
 	{
-		$db = PearDatabase::getInstance();
-
 		$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
-		$query = 'SELECT * FROM vtiger_%s order by sortorderid';
-		$query = sprintf($query, $fieldName);
+		$query = (new \App\Db\Query)->from('vtiger_' . $fieldName)->orderBy('sortorderid');
 		$groupColors = [];
-		$result = $db->query($query);
-		while ($row = $db->getRow($result)) {
-			//Need to decode the picklist values twice which are saved from old ui
-			$groupColors[] = array(
-				'id' => $row[$primaryKey],
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$groupColors[] = [
+				'id' => decode_html(decode_html($row[$fieldName])),
 				'value' => decode_html(decode_html($row[$fieldName])),
 				'color' => $row['color']
-			);
+			];
 		}
 		return $groupColors;
 	}
