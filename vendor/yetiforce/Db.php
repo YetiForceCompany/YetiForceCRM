@@ -27,7 +27,12 @@ class Db extends \yii\db\Connection
 	/**
 	 * @var Configuration with database
 	 */
-	static private $config = false;
+	static private $config;
+
+	/**
+	 * @var boolean Enable caching database instance 
+	 */
+	static public $connectCache = false;
 
 	/**
 	 * @var Database Name
@@ -69,13 +74,18 @@ class Db extends \yii\db\Connection
 	 */
 	public static function getInstance($type = 'base')
 	{
+		if (self::$connectCache && Cache::has('DBInstance', $type)) {
+			return Cache::get('DBInstance', $type);
+		}
 		if (isset(static::$cache[$type])) {
 			return static::$cache[$type];
 		}
-		$config = static::getConfig($type);
-		$db = new self($config);
+		$db = new self(static::getConfig($type));
 		$db->dbType = $type;
 		static::$cache[$type] = $db;
+		if (self::$connectCache) {
+			Cache::save('DBInstance', $type, $db);
+		}
 		return $db;
 	}
 
@@ -86,7 +96,7 @@ class Db extends \yii\db\Connection
 	 */
 	public static function getConfig($type, $reload = false)
 	{
-		if (static::$config === false || $reload) {
+		if (!static::$config || $reload) {
 			static::$config = require('config/config.db.php');
 		}
 		if (isset(static::$config[$type])) {

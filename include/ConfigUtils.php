@@ -118,7 +118,7 @@ class AppConfig
 
 	public static function performance($key, $defvalue = false)
 	{
-		if (empty(self::$performance)) {
+		if (!self::$performance) {
 			require_once 'config/performance.php';
 			AppConfig::load('performance', $PERFORMANCE_CONFIG);
 		}
@@ -175,3 +175,8 @@ AppConfig::load('api', $API_CONFIG);
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 // Change of logs directory with PHP errors
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'phpError.log');
+
+App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
+App\Log::$logToProfile = Yii::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
+App\Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
+App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');

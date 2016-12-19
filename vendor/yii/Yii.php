@@ -20,7 +20,7 @@ require(__DIR__ . '/BaseYii.php');
 class Yii extends \yii\BaseYii
 {
 
-	private static $logToProfile;
+	public static $logToProfile;
 
 	/**
 	 * Marks the beginning of a code block for profiling.
@@ -41,9 +41,6 @@ class Yii extends \yii\BaseYii
 	 */
 	public static function beginProfile($token, $category = 'application')
 	{
-		if (static::$logToProfile === null) {
-			static::$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
-		}
 		if (static::$logToProfile) {
 			self::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_BEGIN, $category);
 		}
@@ -58,9 +55,6 @@ class Yii extends \yii\BaseYii
 	 */
 	public static function endProfile($token, $category = 'application')
 	{
-		if (static::$logToProfile === null) {
-			static::$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
-		}
 		if (static::$logToProfile) {
 			self::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_END, $category);
 		}

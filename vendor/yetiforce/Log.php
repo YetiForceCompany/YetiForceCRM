@@ -12,9 +12,9 @@ use \yii\log\Logger;
 class Log extends Logger
 {
 
-	private static $logToConsole;
-	private static $logToFile;
-	private static $logToProfile;
+	public static $logToConsole;
+	public static $logToFile;
+	public static $logToProfile;
 
 	/**
 	 * Logs a message with the given type and category.
@@ -29,9 +29,6 @@ class Log extends Logger
 	 */
 	public function log($message, $level, $category = '')
 	{
-		if (static::$logToConsole === null) {
-			static::$logToConsole = \AppConfig::debug('LOG_TO_CONSOLE');
-		}
 		$traces = '';
 		if ($this->traceLevel > 0) {
 			$traces = Debuger::getBacktrace(2, $this->traceLevel, ' - ');
@@ -54,9 +51,6 @@ class Log extends Logger
 	 */
 	public static function trace($message, $category = '')
 	{
-		if (static::$logToFile === null) {
-			static::$logToFile = \AppConfig::debug('LOG_TO_FILE');
-		}
 		if (static::$logToFile) {
 			\Yii::getLogger()->log($message, Logger::LEVEL_TRACE, $category);
 		}
@@ -117,9 +111,6 @@ class Log extends Logger
 	 */
 	public static function beginProfile($token, $category = '')
 	{
-		if (static::$logToProfile === null) {
-			static::$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
-		}
 		if (static::$logToProfile) {
 			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_BEGIN, $category);
 		}
@@ -134,9 +125,6 @@ class Log extends Logger
 	 */
 	public static function endProfile($token, $category = '')
 	{
-		if (static::$logToProfile === null) {
-			static::$logToProfile = \AppConfig::debug('LOG_TO_PROFILE');
-		}
 		if (static::$logToProfile) {
 			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_END, $category);
 		}
