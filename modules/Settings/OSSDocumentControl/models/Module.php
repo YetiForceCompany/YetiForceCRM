@@ -25,7 +25,6 @@ class Settings_OSSDocumentControl_Module_Model extends Vtiger_Module_Model
 
 	public static function getEntityModulesList()
 	{
-		self::preModuleInitialize2();
 		$presence = [0, 2];
 		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
 		$module = ['Project', 'HelpDesk'];

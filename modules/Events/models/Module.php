@@ -29,26 +29,7 @@ class Events_Module_Model extends Calendar_Module_Model
 	 */
 	public function getNameFields()
 	{
-		$moduleName = $this->getName();
-		if (\App\Cache::has('EntityField', $moduleName)) {
-			$nameFieldObject = \App\Cache::get('EntityField', $moduleName);
-			$this->nameFields = explode(',', $nameFieldObject->fieldname);
-		} else {
-			$row = (new \App\Db\Query())->select(['fieldname', 'tablename', 'entityidfield'])
-				->from('vtiger_entityname')
-				->where(['tabid' => \App\Module::getModuleId('Calendar')])
-				->one();
-			$this->nameFields = [];
-			if ($row) {
-				$fieldNames = $row['fieldname'];
-				$this->nameFields = explode(',', $fieldNames);
-				$entiyObj = new stdClass();
-				$entiyObj->basetable = $row['tablename'];
-				$entiyObj->basetableid = $row['entityidfield'];
-				$entiyObj->fieldname = $fieldNames;
-				\App\Cache::save('EntityField', $moduleName, $entiyObj);
-			}
-		}
-		return $this->nameFields;
+		$entityInfo = App\Module::getEntityInfo('Calendar');
+		return $entityInfo['fieldnameArr'];
 	}
 }

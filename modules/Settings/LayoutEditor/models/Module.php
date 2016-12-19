@@ -426,8 +426,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getEntityModulesList()
 	{
-		self::preModuleInitialize2();
-
 		$presence = [0, 2];
 		$restrictedModules = ['SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter'];
 

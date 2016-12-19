@@ -37,10 +37,11 @@ class Module
 				static::$moduleEntityCacheById[$row['tabid']] = $row;
 			}
 			if ($mixed) {
-				if (is_numeric($mixed))
+				if (is_numeric($mixed)) {
 					return Cache::get('ModuleEntityById', $mixed);
-				else
+				} else {
 					return Cache::get('ModuleEntityByName', $mixed);
+				}
 			}
 		}
 		return $entity;

@@ -748,27 +748,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getNameFields()
 	{
-		$moduleName = $this->getName();
-		if (\App\Cache::has('EntityField', $moduleName)) {
-			$nameFieldObject = \App\Cache::get('EntityField', $moduleName);
-			$this->nameFields = explode(',', $nameFieldObject->fieldname);
-		} else {
-			$row = (new App\Db\Query())->select(['fieldname', 'tablename', 'entityidfield'])
-				->from('vtiger_entityname')
-				->where(['tabid' => $this->getId()])
-				->one();
-			$this->nameFields = [];
-			if ($row) {
-				$fieldNames = $row['fieldname'];
-				$this->nameFields = explode(',', $fieldNames);
-				$entiyObj = new stdClass();
-				$entiyObj->basetable = $row['tablename'];
-				$entiyObj->basetableid = $row['entityidfield'];
-				$entiyObj->fieldname = $fieldNames;
-				App\Cache::save('EntityField', $moduleName, $entiyObj);
-			}
-		}
-		return $this->nameFields;
+		$entityInfo = App\Module::getEntityInfo($this->getId());
+		return $entityInfo['fieldnameArr'];
 	}
 
 	/**
@@ -852,7 +833,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
-		self::preModuleInitialize2();
 		$moduleModels = Vtiger_Cache::get('vtiger', 'modules');
 		if (!$moduleModels) {
 			$moduleModels = [];
@@ -908,7 +888,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	public static function getEntityModules()
 	{
-		self::preModuleInitialize2();
 		$moduleModels = Vtiger_Cache::get('vtiger', 'EntityModules');
 		if (!$moduleModels) {
 			$presence = array(0, 2);
@@ -937,7 +916,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
-		self::preModuleInitialize2();
 		$query = new \App\Db\Query();
 		$query->select('vtiger_tab.*')->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
@@ -984,25 +962,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		return $searchableModules;
-	}
-
-	protected static function preModuleInitialize2()
-	{
-		if (!Vtiger_Cache::get('EntityField', 'all')) {
-			// Initialize meta information - to speed up instance creation (vtlib\ModuleBasic::initialize2)
-			$dataReader = (new \App\Db\Query())->select('modulename,tablename,entityidfield,fieldname')
-					->from('vtiger_entityname')
-					->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$entiyObj = new stdClass();
-				$entiyObj->basetable = $row['tablename'];
-				$entiyObj->basetableid = $row['entityidfield'];
-				$entiyObj->fieldname = $row['fieldname'];
-
-				Vtiger_Cache::set('EntityField', $row['modulename'], $entiyObj);
-				Vtiger_Cache::set('EntityField', 'all', true);
-			}
-		}
 	}
 
 	public static function getPicklistSupportedModules()

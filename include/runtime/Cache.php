@@ -123,23 +123,6 @@ class Vtiger_Cache
 		}
 	}
 
-	private static $_block_instance;
-
-	public function getBlockInstance($block, $moduleName)
-	{
-		if (isset(self::$_block_instance[$moduleName][$block])) {
-			return self::$_block_instance[$moduleName][$block];
-		}
-		return false;
-	}
-
-	public function setBlockInstance($block, $moduleName, $instance)
-	{
-		if (self::$cacheEnable) {
-			self::$_block_instance[$moduleName][$block] = $instance;
-		}
-	}
-
 	private static $_field_instance;
 
 	public function getFieldInstance($field, $moduleId)
