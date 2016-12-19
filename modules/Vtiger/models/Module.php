@@ -139,7 +139,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$moduleName = $this->getName();
 		$commentsModuleModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($commentsModuleModel && $commentsModuleModel->isActive()) {
-			if (\App\Cache::has('isCommentEnabled', $this->getName())) {
+			if (\App\Cache::has('isModuleCommentEnabled', $moduleName)) {
 				return \App\Cache::get('isModuleCommentEnabled', $moduleName);
 			}
 			$query = new \App\Db\Query();
