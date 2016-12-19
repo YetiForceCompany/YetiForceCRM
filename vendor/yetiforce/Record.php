@@ -249,6 +249,7 @@ class Record
 				->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $recordModel->getId()])
 				->execute();
 		}
+		Cache::save('recordLabel', $recordModel->getId(), $label);
 	}
 
 	/**

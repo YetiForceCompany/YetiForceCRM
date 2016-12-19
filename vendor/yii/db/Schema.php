@@ -10,8 +10,6 @@ use Yii;
 use yii\base\Object;
 use yii\base\NotSupportedException;
 use yii\base\InvalidCallException;
-use yii\caching\Cache;
-use yii\caching\TagDependency;
 
 /**
  * Schema is the base class for concrete DBMS-specific schema classes.
@@ -123,34 +121,12 @@ abstract class Schema extends Object
 	 */
 	public function getTableSchema($name, $refresh = false)
 	{
-		if (array_key_exists($name, $this->_tables) && !$refresh) {
-			return $this->_tables[$name];
+		if (\App\Cache::has('tableSchema', $name) && !$refresh) {
+			return \App\Cache::get('tableSchema', $name);
 		}
-
-		$db = $this->db;
-		$realName = $this->getRawTableName($name);
-
-		if ($db->enableSchemaCache && !in_array($name, $db->schemaCacheExclude, true)) {
-			/* @var $cache Cache */
-			$cache = is_string($db->schemaCache) ? Yii::$app->get($db->schemaCache, false) : $db->schemaCache;
-			if ($cache instanceof Cache) {
-				$key = $this->getCacheKey($name);
-				if ($refresh || ($table = $cache->get($key)) === false) {
-					$this->_tables[$name] = $table = $this->loadTableSchema($realName);
-					if ($table !== null) {
-						$cache->set($key, $table, $db->schemaCacheDuration, new TagDependency([
-							'tags' => $this->getCacheTag(),
-						]));
-					}
-				} else {
-					$this->_tables[$name] = $table;
-				}
-
-				return $this->_tables[$name];
-			}
-		}
-
-		return $this->_tables[$name] = $this->loadTableSchema($realName);
+		$tableSchema = $this->loadTableSchema($this->getRawTableName($name));
+		\App\Cache::save('tableSchema', $name, $tableSchema, \App\Cache::LONG);
+		return $tableSchema;
 	}
 
 	/**
@@ -278,13 +254,8 @@ abstract class Schema extends Object
 	 */
 	public function refresh()
 	{
-		/* @var $cache Cache */
-		$cache = is_string($this->db->schemaCache) ? Yii::$app->get($this->db->schemaCache, false) : $this->db->schemaCache;
-		if ($this->db->enableSchemaCache && $cache instanceof Cache) {
-			TagDependency::invalidate($cache, $this->getCacheTag());
-		}
 		$this->_tableNames = [];
-		$this->_tables = [];
+		\App\Cache::clear();
 	}
 
 	/**
@@ -296,13 +267,8 @@ abstract class Schema extends Object
 	 */
 	public function refreshTableSchema($name)
 	{
-		unset($this->_tables[$name]);
+		\App\Cache::delete('tableSchema', $name);
 		$this->_tableNames = [];
-		/* @var $cache Cache */
-		$cache = is_string($this->db->schemaCache) ? Yii::$app->get($this->db->schemaCache, false) : $this->db->schemaCache;
-		if ($this->db->enableSchemaCache && $cache instanceof Cache) {
-			$cache->delete($this->getCacheKey($name));
-		}
 	}
 
 	/**

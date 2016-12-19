@@ -101,58 +101,30 @@ class Functions
 		return $currencyRateSymbol;
 	}
 
-	// MODULE
-	protected static $moduleIdNameCache = [];
-	protected static $moduleNameIdCache = [];
-	protected static $moduleIdDataCache = [];
-
-	protected static function getBasicModuleInfo($mixed)
-	{
-		$id = $name = NULL;
-		if (is_numeric($mixed))
-			$id = $mixed;
-		else
-			$name = $mixed;
-		$reload = false;
-		if ($name) {
-			if (!isset(self::$moduleNameIdCache[$name])) {
-				$reload = true;
-			}
-		} else if ($id) {
-			if (!isset(self::$moduleIdNameCache[$id])) {
-				$reload = true;
-			}
-		}
-		if ($reload) {
-			$adb = \PearDatabase::getInstance();
-			$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab', []);
-			while ($row = $adb->fetch_array($result)) {
-				self::$moduleIdNameCache[$row['tabid']] = $row;
-				self::$moduleNameIdCache[$row['name']] = $row;
-			}
-		}
-		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
-	}
-
 	public static function getAllModules($isEntityType = true, $showRestricted = false, $presence = false, $colorActive = false, $ownedby = false)
 	{
-		$moduleList = self::$moduleIdNameCache;
-		if (empty($moduleList)) {
-			$db = \PearDatabase::getInstance();
-			$result = $db->query('SELECT * FROM vtiger_tab');
-			while ($row = $db->fetch_array($result)) {
-				self::$moduleIdNameCache[$row['tabid']] = $row;
-				self::$moduleNameIdCache[$row['name']] = $row;
-				self::$moduleIdDataCache[$row['tabid']] = $row;
+		if (\App\Cache::has('moduleTabs', 'all')) {
+			$moduleList = \App\Cache::get('moduleTabs', 'all');
+		} else {
+			$moduleList = [];
+			$rows = (new \App\Db\Query())->from('vtiger_tab')->all();
+			foreach ($rows as $row) {
+				if (!\App\Cache::has('moduleTabById', $row['tabid'])) {
+					\App\Cache::save('moduleTabById', $row['tabid'], $row);
+				}
+				if (!\App\Cache::has('moduleTabByName', $row['name'])) {
+					\App\Cache::save('moduleTabByName', $row['name'], $row);
+				}
+				$moduleList[$row['tabid']] = $row;
 			}
-			$moduleList = self::$moduleIdNameCache;
+			\App\Cache::save('moduleTabs', 'all', $moduleList);
 		}
-		$restrictedModules = array('SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter');
+		$restrictedModules = ['SMSNotifier', 'Emails', 'Dashboard', 'ModComments'];
 		foreach ($moduleList as $id => &$module) {
 			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
-			if ($isEntityType && $module['isentitytype'] == 0) {
+			if ($isEntityType && $module['isentitytype'] === 0) {
 				unset($moduleList[$id]);
 			}
 			if ($presence !== false && $module['presence'] !== $presence) {
@@ -175,38 +147,29 @@ class Functions
 			return false;
 		}
 		$id = $name = NULL;
-		if (is_numeric($mixed))
+		if (is_numeric($mixed)) {
 			$id = $mixed;
-		else
-			$name = (string) $mixed;
-		$reload = false;
-
-		if ($name && !isset(self::$moduleNameIdCache[$name])) {
-			$reload = true;
-		} else if ($id && !isset(self::$moduleIdNameCache[$id])) {
-			$reload = true;
+			if (\App\Cache::has('moduleTabById', $mixed)) {
+				return \App\Cache::get('moduleTabById', $mixed);
+			}
 		} else {
-			if (!$id) {
-				$id = self::$moduleNameIdCache[$name]['tabid'];
-			}
-			if (!isset(self::$moduleIdDataCache[$id])) {
-				$reload = true;
+			$name = (string) $mixed;
+			if (\App\Cache::has('moduleTabByName', $name)) {
+				return \App\Cache::get('moduleTabByName', $name);
 			}
 		}
-
-		if ($reload) {
-			$query = (new \App\Db\Query())->from('vtiger_tab');
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				self::$moduleIdNameCache[$row['tabid']] = $row;
-				self::$moduleNameIdCache[$row['name']] = $row;
-				self::$moduleIdDataCache[$row['tabid']] = $row;
-			}
-			if ($name && isset(self::$moduleNameIdCache[$name])) {
-				$id = self::$moduleNameIdCache[$name]['tabid'];
-			}
+		$moduleList = [];
+		$rows = (new \App\Db\Query())->from('vtiger_tab')->all();
+		foreach ($rows as $row) {
+			\App\Cache::save('moduleTabById', $row['tabid'], $row);
+			\App\Cache::save('moduleTabByName', $row['name'], $row);
+			$moduleList[$row['tabid']] = $row;
 		}
-		return $id ? self::$moduleIdDataCache[$id] : NULL;
+		\App\Cache::save('moduleTabs', 'all', $moduleList);
+		if ($name && \App\Cache::has('moduleTabByName', $name)) {
+			return \App\Cache::get('moduleTabByName', $name);
+		}
+		return $id ? \App\Cache::get('moduleTabById', $name) : NULL;
 	}
 
 	public static function getModuleId($name)
