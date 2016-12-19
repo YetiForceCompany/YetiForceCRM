@@ -106,19 +106,23 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 
 	public static function getAll($configurable = false)
 	{
-		if (\App\Cache::has('vtiger', 'actions')) {
-			return \App\Cache::get('vtiger', 'actions');
+		if (\App\Cache::has('Actions', 'all')) {
+			$rows = \App\Cache::get('Actions', 'all');
+		} else {
+			$rows = (new \App\Db\Query())->from('vtiger_actionmapping')->all();
+			\App\Cache::save('Actions', 'all', $rows);
 		}
-		$query = (new \App\Db\Query())->from('vtiger_actionmapping');
 		if ($configurable) {
-			$query->where(['NOT IN', 'actionname', self::$nonConfigurableActions]);
+			foreach ($rows as $key => &$row) {
+				if (in_array($row['actionname'], self::$nonConfigurableActions)) {
+					unset($rows[$key]);
+				}
+			}
 		}
 		$actionModels = [];
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
+		foreach ($rows as &$row) {
 			$actionModels[$row['actionname']] = self::getInstanceFromRow($row);
 		}
-		\App\Cache::save('vtiger', 'actions', $actionModels);
 		return $actionModels;
 	}
 
