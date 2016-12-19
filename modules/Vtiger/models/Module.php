@@ -136,19 +136,23 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function isCommentEnabled()
 	{
 		$enabled = false;
-		$query = new \App\Db\Query();
+		$moduleName = $this->getName();
 		$commentsModuleModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($commentsModuleModel && $commentsModuleModel->isActive()) {
-			$fieldId = $query->select('fieldid')->from('vtiger_field')->where(['fieldname' => 'related_to', 'tabid' => $commentsModuleModel->getId()])->scalar();
-			if (!empty($fieldId)) {
-				$query->select('relmodule')->from('vtiger_fieldmodulerel')->where(['fieldid' => $fieldId]);
-				$dataReader = $query->createCommand()->query();
-				while ($row = $dataReader->read()) {
-					if ($this->getName() === $row['relmodule']) {
-						$enabled = true;
-					}
-				}
+			if (\App\Cache::has('isCommentEnabled', $this->getName())) {
+				return \App\Cache::get('isModuleCommentEnabled', $moduleName);
 			}
+			$query = new \App\Db\Query();
+			$fieldId = $query->select(['fieldid'])
+				->from('vtiger_field')
+				->where(['fieldname' => 'related_to', 'tabid' => $commentsModuleModel->getId()])
+				->scalar();
+			if (!empty($fieldId)) {
+				$enabled = $query->from('vtiger_fieldmodulerel')
+					->where(['fieldid' => $fieldId, 'relmodule' => $moduleName])
+					->exists();
+			}
+			\App\Cache::save('isModuleCommentEnabled', $moduleName, $enabled);
 		} else {
 			$enabled = false;
 		}
