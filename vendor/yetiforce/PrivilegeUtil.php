@@ -211,8 +211,10 @@ class PrivilegeUtil
 		if (Cache::has('RoleSubordinatesGroups', $roleId)) {
 			return Cache::get('RoleSubordinatesGroups', $roleId);
 		}
+
 		$roles = self::getParentRole($roleId);
-		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_group2rs')->where(['roleandsubid' => $roles + $roleId])->column();
+		$roles [] = $roleId;
+		$groupIds = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $roles])->column();
 		Cache::save('RoleSubordinatesGroups', $roleId, $groupIds);
 		return $groupIds;
 	}

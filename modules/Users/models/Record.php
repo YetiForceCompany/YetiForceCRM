@@ -161,6 +161,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$db->startTransaction();
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
+		\App\Cache::clear();
 	}
 
 	/**
