@@ -386,16 +386,16 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		}
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
 
-		$colorList = Vtiger_Cache::get('DataAccess::colorList', $moduleName);
-		if ($colorList === false) {
+		if (\App\Cache::has('DataAccess:colorList', $moduleName)) {
+			$colorList = \App\Cache::get('DataAccess:colorList', $moduleName);
+		} else {
 			$colorList = (new \App\Db\Query())->select(['dataaccessid', 'data'])
 				->from('vtiger_dataaccess')
 				->where(['module_name' => $moduleName])
 				->andWhere(['like', 'data', 'colorList'])
 				->all();
-			Vtiger_Cache::set('DataAccess::colorList', $moduleName, $colorList);
+			\App\Cache::save('DataAccess:colorList', $moduleName, $colorList);
 		}
-
 		$return = [];
 		$recordData = $recordModel->getRawData();
 		if (empty($recordData)) {

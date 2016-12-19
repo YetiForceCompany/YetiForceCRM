@@ -162,25 +162,27 @@ class Block
 	 * Get instance of block
 	 * @param int|string block id or block label
 	 * @param \Module Module Instance of the module if block label is passed
+	 * @todo Improved cacheing, can not object serialization PDO
 	 * @return \self
 	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
 		if (\App\Cache::has('BlockInstance', $value)) {
-			return \App\Cache::get('BlockInstance', $value);
+			$data = \App\Cache::get('BlockInstance', $value);
+		} else {
+			$query = (new \App\Db\Query())->from(self::$baseTable);
+			if (Utils::isNumber($value)) {
+				$query->where(['blockid' => $value]);
+			} else {
+				$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
+			}
+			$data = $query->one();
+			\App\Cache::save('BlockInstance', $value, $data);
 		}
 		$instance = false;
-		$query = (new \App\Db\Query())->from(self::$baseTable);
-		if (Utils::isNumber($value)) {
-			$query->where(['blockid' => $value]);
-		} else {
-			$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
-		}
-		$data = $query->one();
 		if ($data) {
 			$instance = new self();
 			$instance->initialize($data, $moduleInstance);
-			\App\Cache::save('BlockInstance', $value, $instance);
 		}
 		return $instance;
 	}

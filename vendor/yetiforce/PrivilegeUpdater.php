@@ -201,6 +201,7 @@ class PrivilegeUpdater
 		if (\AppConfig::module('ModTracker', 'WATCHDOG')) {
 			\Vtiger_Watchdog_Model::reloadCache();
 		}
+		\App\Cache::clear();
 	}
 
 	/**
