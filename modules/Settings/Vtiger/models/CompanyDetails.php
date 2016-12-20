@@ -195,30 +195,18 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 
 	public static function addNewField(Vtiger_Request $request)
 	{
-
-		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$newField = self::newFieldValidation($request->get('fieldName'));
 		$response = new Vtiger_Response();
 		$moduleName = 'Settings:' . $request->getModule();
 		if ($newField != false) {
-			$query = "SELECT * 
-					FROM information_schema.COLUMNS 
-					WHERE 
-						TABLE_SCHEMA = ? 
-					AND TABLE_NAME = 'vtiger_organizationdetails' 
-					AND COLUMN_NAME = ?";
-
-			$params = array($adb->getDatabaseName(), $newField);
-			$result = $adb->pquery($query, $params);
-			$rowsNum = $adb->getRowCount($result);
-
-			if ($rowsNum > 0) {
+			$tableSchema = $db->getTableSchema('vtiger_organizationdetails', true);
+			$columnNames = $tableSchema->getColumnNames();
+			if (in_array($newField, $columnNames)) {
 				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_ADDING_ERROR', $moduleName)));
 				\App\Log::trace("Settings_Vtiger_SaveCompanyField_Action::process - column $newField exist in table vtiger_organizationdetails");
 			} else {
-				$alterFieldQuery = "ALTER TABLE `vtiger_organizationdetails` ADD `$newField` VARCHAR(255)";
-				$alterFieldResult = $adb->query($alterFieldQuery, $alterFieldParams);
-				$rowsNum = $adb->getRowCount($alterFieldResult);
+				$db->createCommand()->addColumn('vtiger_organizationdetails', $newField, 'string(255)')->execute();
 				Settings_Vtiger_CompanyDetailsFieldSave_Action::addFieldToModule($newField);
 				$response->setResult(array('success' => true, 'message' => vtranslate('LBL_ADDED_COMPANY_FIELD', $moduleName)));
 				\App\Log::trace("Settings_Vtiger_SaveCompanyField_Action::process - add column $newField in table vtiger_organizationdetails");
@@ -229,25 +217,21 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 		$response->emit();
 	}
 
-	public function newFieldValidation($field)
+	public static function newFieldValidation($field)
 	{
 		$field = trim($field);
-		$field = mysql_escape_string($field);
-		$lenght = strlen($field);
+		$length = strlen($field);
 		$field = str_replace(' ', '_', $field);
 		$field = strtolower($field);
-		if ('' == $field)
-			$result = 'not valid';
-
-		if (preg_match('/[^a-z_A-Z]+/', $field, $matches))
-			$result = 'not valid';
-
-		if ($lenght > 25)
-			$result = 'not valid';
-
-		if ($result == 'not valid')
+		if ('' == $field) {
 			return false;
-		else
-			return $field;
+		}
+		if (preg_match('/[^a-z_A-Z]+/', $field, $matches)) {
+			return false;
+		}
+		if ($length > 25) {
+			return false;
+		}
+		return $field;
 	}
 }
