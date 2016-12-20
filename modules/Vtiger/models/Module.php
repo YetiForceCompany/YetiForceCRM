@@ -837,29 +837,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
-		$moduleModels = Vtiger_Cache::get('vtiger', 'modules');
-		if (!$moduleModels) {
-			$moduleModels = [];
-			$query = (new \App\Db\Query())->from('vtiger_tab');
-			$where = [];
-			if ($presence) {
-				$where['presence'] = $presence;
-			}
-			if ($isEntityType) {
-				$where['isentitytype'] = 1;
-			}
-			if ($where) {
-				$query->where($where);
-			}
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$moduleModels[$row['tabid']] = self::getInstanceFromArray($row);
-				Vtiger_Cache::set('module', $row['tabid'], $moduleModels[$row['tabid']]);
-				Vtiger_Cache::set('module', $row['name'], $moduleModels[$row['tabid']]);
-			}
-			if (!$presence) {
-				Vtiger_Cache::set('vtiger', 'modules', $moduleModels);
-			}
+		$allModules = \vtlib\Functions::getAllModules($isEntityType, true);
+		$moduleModels = [];
+		foreach ($allModules as &$row) {
+			$moduleModels[$row['tabid']] = self::getInstanceFromArray($row);
 		}
 		if ($presence && $moduleModels) {
 			foreach ($moduleModels as $key => $moduleModel) {
@@ -950,16 +931,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$entityModules = self::getEntityModules();
 		$searchableModules = [];
-		$dataReader = (new \App\Db\Query())->select('tabid')
-				->from('vtiger_entityname')->where(['turn_off' => 0])
-				->createCommand()->query();
-		$turnOffModules = [];
-		while ($row = $dataReader->read()) {
-			$turnOffModules[$row['tabid']] = $row['tabid'];
-		}
 		foreach ($entityModules as $tabid => $moduleModel) {
 			$moduleName = $moduleModel->getName();
-			if ($moduleName == 'Users' || $moduleName == 'Emails' || $moduleName == 'Events' || in_array($tabid, $turnOffModules))
+			$entityInfo = \App\Module::getEntityInfo($tabid);
+			if ($moduleName == 'Users' || $moduleName == 'Emails' || $moduleName == 'Events' || !$entityInfo['turn_off'])
 				continue;
 			if ($userPrivModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView')) {
 				$searchableModules[$moduleName] = $moduleModel;

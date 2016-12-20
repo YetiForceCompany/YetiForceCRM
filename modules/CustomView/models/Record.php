@@ -339,6 +339,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$this->setDefaultFilter();
 		}
 		$db->completeTransaction();
+		\App\Cache::clear();
 	}
 
 	/**
@@ -831,17 +832,14 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . " ($moduleName) method ...");
-		$cacheName = 'getAll:' . $moduleName;
-		$customViews = Vtiger_Cache::get('CustomViews', $cacheName);
-		if ($customViews) {
-			return $customViews;
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$cacheName = $moduleName . $currentUser->getId();
+		if (App\Cache::has('getAllFilters', $cacheName)) {
+			return App\Cache::get('getAllFilters', $cacheName);
 		}
 		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$sql = 'SELECT * FROM vtiger_customview';
 		$params = [];
-
 		if (!empty($moduleName)) {
 			$sql .= ' WHERE entitytype=?';
 			$params[] = $moduleName;
@@ -858,7 +856,6 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$params[] = $currentUser->getId();
 		}
 		$sql .= ' ORDER BY sequence ASC';
-
 		$result = $db->pquery($sql, $params);
 		$customViews = [];
 		while ($row = $db->fetch_array($result)) {
@@ -886,7 +883,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		Vtiger_Cache::set('CustomViews', $cacheName, $customViews);
+		\App\Cache::save('getAllFilters', $cacheName, $customViews);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $customViews;
 	}
