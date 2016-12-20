@@ -79,13 +79,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getTaxes()
 	{
-		if (\App\Cache::has('Inventory', 'Taxes')) {
-			return \App\Cache::get('Inventory', 'Taxes');
-		}
-		$taxes = (new App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])
-				->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
-		\App\Cache::save('Inventory', 'Taxes', $taxes, \App\Cache::LONG);
-		return $taxes;
+		return Vtiger_Inventory_Model::getGlobalTaxes();
 	}
 
 	/**

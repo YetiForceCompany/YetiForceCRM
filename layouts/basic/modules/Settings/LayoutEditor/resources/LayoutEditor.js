@@ -1783,7 +1783,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						});
 						var params = {};
 						params['module'] = container.find('[name="layoutEditorModules"]').val();
-						params['status'] = !state;
+						params['status'] = state ? 0 : 1;
 						app.saveAjax('setInventory', params).then(function (data) {
 							if (data.result) {
 								//Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});

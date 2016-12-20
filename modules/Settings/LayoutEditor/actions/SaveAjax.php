@@ -24,7 +24,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$moduleName = $param['module'];
 		$status = false;
 		$inventoryInstance = Vtiger_Inventory_Model::getInstance($moduleName);
-		$status = $inventoryInstance->setInventoryTable($param['status']);
+		$status = $inventoryInstance->setMode($param['status']);
 		if ($status) {
 			$status = true;
 		}

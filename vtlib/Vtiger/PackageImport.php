@@ -1057,7 +1057,7 @@ class PackageImport extends PackageExport
 		$module = (string) $this->moduleInstance->name;
 
 		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($module);
-		$inventoryInstance->setInventoryTable(true);
+		$inventoryInstance->setMode(true);
 		$inventoryFieldInstance = \Vtiger_InventoryField_Model::getInstance($module);
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
 			$this->importInventoryField($inventoryFieldInstance, $fieldNode);
