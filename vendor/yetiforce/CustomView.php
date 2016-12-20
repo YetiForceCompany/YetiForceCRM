@@ -474,6 +474,7 @@ class CustomView
 					foreach ($info as &$values) {
 						if ($values['presence'] === 0) {
 							$viewId = $values['cvid'];
+							break;
 						}
 					}
 				} else {

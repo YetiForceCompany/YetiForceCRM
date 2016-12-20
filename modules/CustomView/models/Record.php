@@ -883,7 +883,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		\App\Cache::save('getAllFilters', $cacheName, $customViews);
+		\App\Cache::save('getAllFilters', $cacheName, $customViews, \App\Cache::LONG);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $customViews;
 	}
