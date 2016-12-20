@@ -12,25 +12,26 @@
 class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public static function getWidgets($module = false, $record = false)
+	public static function getWidgets($module = false)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_widgets';
-		$params = [];
+		if ($module && !is_numeric($module)) {
+			$module = \App\Module::getModuleId($module);
+		}
+		if (\App\Cache::has('ModuleWidgets', $module)) {
+			return \App\Cache::get('ModuleWidgets', $module);
+		}
+		$query = (new App\Db\Query())->from('vtiger_widgets');
 		if ($module) {
-			if (!is_numeric($module)) {
-				$module = vtlib\Functions::getModuleId($module);
-			}
-			$sql .= ' WHERE tabid = ? ';
-			$params[] = $module;
+			$query->where(['tabid' => $module]);
 		}
-		$sql .= ' ORDER BY tabid,sequence ASC';
-		$result = $db->pquery($sql, $params, true);
-		$widgets = array(1 => array(), 2 => array(), 3 => array());
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->orderBy(['tabid' => SORT_ASC, 'sequence' => SORT_ASC])
+				->createCommand()->query();
+		$widgets = [1 => [], 2 => [], 3 => []];
+		while ($row = $dataReader->read()) {
 			$row['data'] = \App\Json::decode($row['data']);
-			$widgets[$row["wcol"]][$row["id"]] = $row;
+			$widgets[$row['wcol']][$row['id']] = $row;
 		}
+		App\Cache::save('ModuleWidgets', $module, $widgets);
 		return $widgets;
 	}
 
@@ -184,7 +185,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				'label' => $label,
 				'nomargin' => $nomargin,
 				'data' => $serializeData,
-			], ['id' => $wid])->execute();
+				], ['id' => $wid])->execute();
 		} else {
 			$db->createCommand()->insert('vtiger_widgets', [
 				'tabid' => $tabid,
@@ -228,8 +229,8 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$data = $params['data'];
 		foreach ($data as $key => $value) {
 			$db->createCommand()
-					->update('vtiger_widgets', ['sequence' => $value['index'], 'wcol' => $value['column']], ['tabid' => $tabid, 'id' => $key])
-					->execute();
+				->update('vtiger_widgets', ['sequence' => $value['index'], 'wcol' => $value['column']], ['tabid' => $tabid, 'id' => $key])
+				->execute();
 		}
 	}
 

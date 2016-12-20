@@ -193,15 +193,22 @@ class Block
 	 */
 	public static function getAllForModule($moduleInstance)
 	{
-		$instances = [];
-		$query = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $moduleInstance->id])->orderBy(['sequence' => SORT_ASC]);
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
+		if (\App\Cache::has('BlocksForModule', 'all')) {
+			$blocks = \App\Cache::get('BlocksForModule', 'all');
+		} else {
+			$blocks = (new \App\Db\Query())->from(self::$baseTable)
+				->where(['tabid' => $moduleInstance->id])
+				->orderBy(['sequence' => SORT_ASC])
+				->all();
+			\App\Cache::save('BlocksForModule', 'all', $blocks);
+		}
+		$instances = false;
+		foreach ($blocks as $row) {
 			$instance = new self();
 			$instance->initialize($row, $moduleInstance);
 			$instances[] = $instance;
 		}
-		return $instances ? $instances : false;
+		return $instances;
 	}
 
 	/**

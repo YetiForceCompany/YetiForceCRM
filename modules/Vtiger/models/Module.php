@@ -1260,9 +1260,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $moduleInstance->required_fields;
 	}
 
-	public function getWidgets($module, $record)
+	public function getWidgets($module)
 	{
-		return Settings_Widgets_Module_Model::getWidgets($module, $record);
+		return Settings_Widgets_Module_Model::getWidgets($module);
 	}
 
 	/**

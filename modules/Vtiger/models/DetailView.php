@@ -309,16 +309,16 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		if (count($this->widgetsList) > 0)
 			return;
 		$moduleModel = $this->getModule();
-		$Module = $this->getModuleName();
-		$Record = $this->getRecord()->getId();
-		$ModelWidgets = $moduleModel->getWidgets($Module, $Record);
+		$module = $this->getModuleName();
+		$record = $this->getRecord()->getId();
+		$modelWidgets = $moduleModel->getWidgets($module);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		foreach ($ModelWidgets as $widgetCol) {
+		foreach ($modelWidgets as $widgetCol) {
 			foreach ($widgetCol as $widget) {
 				$widgetName = 'Vtiger_' . $widget['type'] . '_Widget';
 				if (class_exists($widgetName)) {
 					$this->widgetsList[] = $widget['type'];
-					$widgetInstance = new $widgetName($Module, $moduleModel, $Record, $widget);
+					$widgetInstance = new $widgetName($module, $moduleModel, $record, $widget);
 					$widgetObject = $widgetInstance->getWidget();
 					if (count($widgetObject) > 0) {
 						$this->widgets[$widgetObject['wcol']][] = $widgetObject;

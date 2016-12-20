@@ -47,6 +47,9 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 	public static function getDataAccessList($module = NULL)
 	{
+		if (\App\Cache::has('DataAccessListInModule', $module)) {
+			return \App\Cache::get('DataAccessListInModule', $module);
+		}
 		$output = [];
 		if (empty($module) || array_key_exists($module, self::getSupportedModules())) {
 			$query = (new \App\Db\Query())->from('vtiger_dataaccess');
@@ -65,6 +68,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				];
 			}
 		}
+		\App\Cache::save('DataAccessListInModule', $module, $output);
 		return $output;
 	}
 

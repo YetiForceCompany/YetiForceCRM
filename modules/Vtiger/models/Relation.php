@@ -578,26 +578,28 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 
 	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
-		$query = new \App\Db\Query();
-		$query->select('vtiger_relatedlists.*, vtiger_tab.name as modulename, vtiger_tab.tabid as moduleid')
-			->from('vtiger_relatedlists')
-			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId()])
-			->andWhere(['<>', 'related_tabid', 0]);
-
-		if ($selected) {
-			$query->andWhere(['<>', 'vtiger_relatedlists.presence', 1]);
+		$cacheName = $parentModuleModel->getId() . $selected . $onlyActive;
+		if (\App\Cache::has('getAllRelations', $cacheName)) {
+			$relationList = \App\Cache::get('getAllRelations', $cacheName);
+		} else {
+			$query = new \App\Db\Query();
+			$query->select('vtiger_relatedlists.*, vtiger_tab.name as modulename, vtiger_tab.tabid as moduleid')
+				->from('vtiger_relatedlists')
+				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+				->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId()]);
+			if ($selected) {
+				$query->andWhere(['<>', 'vtiger_relatedlists.presence', 1]);
+			}
+			if ($onlyActive) {
+				$query->andWhere(['<>', 'vtiger_tab.presence', 1]);
+			}
+			$relationList = $query->orderBy('sequence')->all();
+			\App\Cache::save('getAllRelations', $cacheName, $relationList);
 		}
-		if ($onlyActive) {
-			$query->andWhere(['<>', 'vtiger_tab.presence', 1]);
-		}
-		$query->orderBy('sequence');
-		$dataReader = $query->createCommand()->query();
-
 		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		while ($row = $dataReader->read()) {
+		foreach ($relationList as &$row) {
 			// Skip relation where target module does not exits or is no permitted for view.
 			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
@@ -697,7 +699,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public static function updateRelationPresence($relationId, $status)
 	{
 		$presence = 0;
-		if ($status === 0){
+		if ($status === 0) {
 			$presence = 1;
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $presence], ['relation_id' => $relationId])->execute();
