@@ -391,8 +391,8 @@ class PrivilegeUtil
 	 */
 	public static function getRoleDetail($roleId)
 	{
-		if (isset(static::$roleInfoCache[$roleId])) {
-			return static::$roleInfoCache[$roleId];
+		if (Cache::has('RoleDetail', $roleId)) {
+			return Cache::get('RoleDetail', $roleId);
 		}
 		$row = (new Db\Query())->from('vtiger_role')->where(['roleid' => $roleId])->one();
 		if ($row) {
@@ -402,7 +402,7 @@ class PrivilegeUtil
 			$immediateParent = array_pop($parentRoleArr);
 			$row['immediateParent'] = $immediateParent;
 		}
-		static::$roleInfoCache[$roleId] = $row;
+		Cache::save('RoleDetail', $roleId, $row);
 		return $row;
 	}
 
