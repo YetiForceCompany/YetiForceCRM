@@ -193,14 +193,14 @@ class Block
 	 */
 	public static function getAllForModule($moduleInstance)
 	{
-		if (\App\Cache::has('BlocksForModule', 'all')) {
-			$blocks = \App\Cache::get('BlocksForModule', 'all');
+		if (\App\Cache::has('BlocksForModule', $moduleInstance->id)) {
+			$blocks = \App\Cache::get('BlocksForModule', $moduleInstance->id);
 		} else {
 			$blocks = (new \App\Db\Query())->from(self::$baseTable)
 				->where(['tabid' => $moduleInstance->id])
 				->orderBy(['sequence' => SORT_ASC])
 				->all();
-			\App\Cache::save('BlocksForModule', 'all', $blocks);
+			\App\Cache::save('BlocksForModule', $moduleInstance->id, $blocks);
 		}
 		$instances = false;
 		foreach ($blocks as $row) {
