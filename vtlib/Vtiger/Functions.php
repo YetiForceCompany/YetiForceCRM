@@ -46,39 +46,34 @@ class Functions
 		return self::$userIdCurrencyIdCache[$userid];
 	}
 
-	protected static $currencyInfoCache = [];
-
 	protected static function getCurrencyInfo($currencyid)
 	{
-		if (!isset(self::$currencyInfoCache[$currencyid])) {
-			$db = \PearDatabase::getInstance();
-			$result = $db->query('SELECT * FROM vtiger_currency_info');
-			while ($row = $db->fetch_array($result)) {
-				self::$currencyInfoCache[$row['id']] = $row;
-			}
+		if (\App\Cache::has('AllCurrency', 'All')) {
+			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
+		} else {
+			$currencyInfo = self::getAllCurrency();
 		}
-		return self::$currencyInfoCache[$currencyid];
+		return $currencyInfo[$currencyid];
 	}
 
 	public static function getAllCurrency($onlyActive = false)
 	{
-		if (count(self::$currencyInfoCache) == 0) {
-			$db = \PearDatabase::getInstance();
-			$result = $db->query('SELECT * FROM vtiger_currency_info');
-			while ($row = $db->fetch_array($result)) {
-				self::$currencyInfoCache[$row['id']] = $row;
-			}
+		if (\App\Cache::has('AllCurrency', 'All')) {
+			$currencyInfo = \App\Cache::get('AllCurrency', 'All');
+		} else {
+			$currencyInfo = (new \App\Db\Query())->from('vtiger_currency_info')->indexBy('id')->all();
+			\App\Cache::save('AllCurrency', 'All', $currencyInfo);
 		}
 		if ($onlyActive) {
 			$currencies = [];
-			foreach (self::$currencyInfoCache as $currency) {
-				if ($currency['currency_status'] == 'Active') {
-					$currencies[$currency['id']] = $currency;
+			foreach ($currencyInfo as $currencyId => &$currency) {
+				if ($currency['currency_status'] === 'Active') {
+					$currencies[$currencyId] = $currency;
 				}
 			}
 			return $currencies;
 		} else {
-			return self::$currencyInfoCache;
+			return $currencyInfo;
 		}
 	}
 

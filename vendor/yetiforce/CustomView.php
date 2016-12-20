@@ -470,7 +470,12 @@ class CustomView
 			$viewId = \AppRequest::get('viewname');
 			if (!is_numeric($viewId)) {
 				if ($viewId === 'All') {
-					$viewId = (new Db\Query())->select('cvid')->from('vtiger_customview')->where(['presence' => 0, 'entitytype' => $this->moduleName])->scalar();
+					$info = $this->getInfoFilter($this->moduleName);
+					foreach ($info as &$values) {
+						if ($values['presence'] === 0) {
+							$viewId = $values['cvid'];
+						}
+					}
 				} else {
 					$viewId = $this->getViewIdByName($viewId);
 				}
@@ -490,30 +495,43 @@ class CustomView
 	public function getDefaultCvId()
 	{
 		Log::trace(__METHOD__);
-
+		$cacheName = $this->moduleName . $this->user->getUserId();
+		if (Cache::has('GetDefaultCvId', $cacheName)) {
+			return Cache::get('GetDefaultCvId', $cacheName);
+		}
 		$query = (new Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => Module::getModuleId($this->moduleName)]);
 		$data = $query->createCommand()->queryAllByGroup();
 		$user = 'Users:' . $this->user->getUserId();
 		if (isset($data[$user])) {
+			Cache::save('GetDefaultCvId', $cacheName, $data[$user]);
 			return $data[$user];
 		}
 		foreach ($this->user->getGroups() as $groupId) {
 			$group = 'Groups:' . $groupId;
 			if (isset($data[$group])) {
+				Cache::save('GetDefaultCvId', $cacheName, $data[$group]);
 				return $data[$group];
 			}
 		}
 		$role = 'Roles:' . $this->user->getRole();
 		if (isset($data[$role])) {
+			Cache::save('GetDefaultCvId', $cacheName, $data[$role]);
 			return $data[$role];
 		}
 		foreach ($this->user->getParentRoles() as $roleId) {
 			$role = 'RoleAndSubordinates:' . $roleId;
 			if (isset($data[$role])) {
+				Cache::save('GetDefaultCvId', $cacheName, $data[$role]);
 				return $data[$role];
 			}
 		}
-		return $query->select('cvid')->from('vtiger_customview')->where(['setdefault' => 1, 'entitytype' => $this->moduleName])->scalar();
+		$info = $this->getInfoFilter($this->moduleName);
+		foreach ($info as &$values) {
+			if ($values['setdefault'] === 1) {
+				Cache::save('GetDefaultCvId', $cacheName, $values['cvid']);
+				return $values['cvid'];
+			}
+		}
 	}
 
 	/**
@@ -577,10 +595,7 @@ class CustomView
 	{
 		Log::trace(__METHOD__);
 		if (empty($this->cvStatus) || empty($this->cvUserId)) {
-			$row = (new Db\Query())->select(['status', 'userid'])
-				->from('vtiger_customview')
-				->where(['cvid' => $viewId])
-				->one();
+			$row = $this->getInfoFilter($viewId);
 			if ($row) {
 				$this->cvStatus = $row['status'];
 				$this->cvUserId = $row['userid'];
@@ -598,11 +613,12 @@ class CustomView
 	public function getMandatoryFilter()
 	{
 		Log::trace(__METHOD__);
-		return (new Db\Query())
-				->select(['cvid'])
-				->from('vtiger_customview')
-				->where(['presence' => 0, 'entitytype' => $this->moduleName])
-				->scalar();
+		$info = $this->getInfoFilter($this->moduleName);
+		foreach ($info as &$values) {
+			if ($values['presence'] === 0) {
+				return $values['cvid'];
+			}
+		}
 	}
 
 	/**
@@ -613,13 +629,32 @@ class CustomView
 	public function getViewIdByName($viewName)
 	{
 		Log::trace(__METHOD__);
-		if (!empty($viewName)) {
-			return (new Db\Query())
-					->select(['cvid'])
-					->from('vtiger_customview')
-					->where(['viewname' => $viewName, 'entitytype' => $this->moduleName])
-					->scalar();
+		$info = $this->getInfoFilter($this->moduleName);
+		foreach ($info as &$values) {
+			if ($values['viewname'] === $viewName) {
+				return $values['cvid'];
+			}
 		}
-		return 0;
+		return false;
+	}
+
+	/**
+	 * Function to get basic information about filter
+	 * @param mixed $mixed id or module name
+	 * @return type
+	 */
+	public function getInfoFilter($mixed)
+	{
+		if (Cache::has('CustomViewInfo', $mixed)) {
+			return Cache::get('CustomViewInfo', $mixed);
+		}
+		$query = (new Db\Query())->from('vtiger_customview');
+		if (is_numeric($mixed)) {
+			$info = $query->where(['cvid' => $mixed])->one();
+		} else {
+			$info = $query->where(['entitytype' => $mixed])->all();
+		}
+		Cache::save('CustomViewInfo', $mixed, $info);
+		return $info;
 	}
 }
