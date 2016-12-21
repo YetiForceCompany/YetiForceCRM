@@ -5669,7 +5669,7 @@ select.form-control {
 	display: inline;
 }
 .addWidgetDropDown.dropdown-menu > li{
-	display: inline-block;
+	display: flex;
 	padding: 0 2px;
 	width: 100%;
 	white-space: nowrap;

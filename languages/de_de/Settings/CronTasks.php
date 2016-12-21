@@ -49,6 +49,12 @@ $languageStrings = [
 	'LBL_SEND_NOTIFICATIONS' => 'Benachrichtigungen senden',
 	'LBL_MARK_RECORDS_AS_REVIEWED' => 'Datensätze als gelesen markieren',
 	'LBL_ADDRESS_BOOCK' => 'Adressbuch',
+	'UpdaterRecordsCoordinates' => 'Get coordinates',
+	'UpdaterCoordinates' => 'Update coordinates',
+	'PrivilegesUpdater' => 'Update permissions',
+	'RecordLabelUpdater' => 'Update labels',
+	'Activity state' => 'Calendar statuses',
+	'LBL_HANDLER_UPDATER' => 'Quick save'
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',

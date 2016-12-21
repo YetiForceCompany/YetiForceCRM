@@ -49,6 +49,13 @@ $languageStrings = [
 	'SoldServices Renewal' => 'Возобновление продажи услуг',
 	'LBL_SEND_NOTIFICATIONS' => 'Отправление уведомлений',
 	'LBL_MARK_RECORDS_AS_REVIEWED' => 'Mark records as reviewed',
+	'LBL_ADDRESS_BOOCK' => 'Update address book',
+	'UpdaterRecordsCoordinates' => 'Get coordinates',
+	'UpdaterCoordinates' => 'Update coordinates',
+	'PrivilegesUpdater' => 'Update permissions',
+	'RecordLabelUpdater' => 'Update labels',
+	'Activity state' => 'Calendar statuses',
+	'LBL_HANDLER_UPDATER' => 'Quick save'
 ];
 $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Частота указывается в целых числах',
