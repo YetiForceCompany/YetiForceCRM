@@ -183,15 +183,18 @@ class Utils
 
 	/**
 	 * Add column to existing table
-	 * @param String tablename to alter
-	 * @param String columnname to add
-	 * @param String columntype (criteria like 'VARCHAR(100)') 
+	 * @param string $tableName to alter
+	 * @param string $columnName to add
+	 * @param array|string $criteria ([\yii\db\Schema::TYPE_STRING, 1024] | string(1024)) 
 	 */
 	public static function AddColumn($tableName, $columnName, $criteria)
 	{
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($tableName, true);
 		if (is_null($tableSchema->getColumn($columnName))) {
+			if (is_array($criteria)) {
+				$criteria = $db->getSchema()->createColumnSchemaBuilder($criteria[0], $criteria[1]);
+			}
 			$db->createCommand()->addColumn($tableName, $columnName, $criteria)->execute();
 		}
 	}

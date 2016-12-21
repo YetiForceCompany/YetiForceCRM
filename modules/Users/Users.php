@@ -505,15 +505,16 @@ class Users extends CRMEntity
 		return true;
 	}
 
+	/**
+	 * Function verifies if given password is correct
+	 * @param string $password
+	 * @return boolean
+	 */
 	public function verifyPassword($password)
 	{
-		$query = "SELECT user_name,user_password,crypt_type FROM {$this->table_name} WHERE id=?";
-		$result = $this->db->pquery($query, array($this->id));
-		$row = $this->db->fetchByAssoc($result);
-		\App\Log::trace("select old password query: $query");
-		\App\Log::trace("return result of $row");
+		$row = (new \App\Db\Query())->select(['user_name', 'user_password', 'crypt_type'])->from($this->table_name)->where(['id' => $this->id])->one();
 		$encryptedPassword = $this->encrypt_password($password, $row['crypt_type']);
-		if ($encryptedPassword != $row['user_password']) {
+		if ($encryptedPassword !== $row['user_password']) {
 			return false;
 		}
 		return true;

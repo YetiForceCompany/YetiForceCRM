@@ -252,6 +252,43 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 		}
 		return aDeferred.promise();
 	},
+	getHourValues: function(list, currentValue) {
+		var options = '';
+		for (var key in list) {
+			//IE Browser consider the prototype properties also, it should consider has own properties only.
+			if (list.hasOwnProperty(key)) {
+				var conditionValue = list[key];
+				options += '<option value="' + key + '"';
+				if (key == currentValue) {
+					options += ' selected="selected" ';
+				}
+				options += '>' + conditionValue + '</option>';
+			}
+		}
+		return options;
+	},
+	changeStartHourValuesEvent: function (form) {
+		var thisInstance = this;
+		form.on('change', 'select[name="hour_format"]', function (e) {
+			var hourFormatVal = jQuery(e.currentTarget).val();
+			var startHourElement = jQuery('select[name="start_hour"]', form);
+			var endHourElement = jQuery('select[name="end_hour"]', form);
+			var conditionStartSelected = startHourElement.val();
+			var conditionEndSelected = endHourElement.val();
+			if (typeof thisInstance.hourFormatConditionMapping == 'undefined') {
+				return false;
+			}
+			var list = thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];
+			startHourElement.html(thisInstance.getHourValues(list, conditionStartSelected)).trigger("chosen:updated");
+			endHourElement.html(thisInstance.getHourValues(list, conditionEndSelected)).trigger("chosen:updated");
+			
+		});
+	},
+	triggerHourFormatChangeEvent: function (form) {
+		this.hourFormatConditionMapping = jQuery('input[name="timeFormatOptions"]').data('value');
+		this.changeStartHourValuesEvent(form);
+		jQuery('select[name="hour_format"]', form).trigger('change');
+	},
 	registerEvents: function () {
 		this._super();
 		var form = this.getForm();
@@ -259,6 +296,7 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 		this.updateStartHourElement(form);
 		this.hourFormatUpdateEvent();
 		this.startHourUpdateEvent(form);
+		this.triggerHourFormatChangeEvent(form);
 		Users_Edit_Js.registerChangeEventForCurrencySeparator();
 	}
 

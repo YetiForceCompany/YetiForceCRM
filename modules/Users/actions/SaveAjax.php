@@ -44,6 +44,10 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		}
 	}
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 
@@ -57,8 +61,11 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
 		$settingsModuleModel->refreshSwitchUsers();
 		$fieldModelList = $recordModel->getModule()->getFields();
-		$result = array();
+		$result = [];
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
+			if (!$fieldModel->isEditEnabled()) {
+				continue;
+			}
 			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordModel->get($fieldName));
 			if ($fieldModel->getFieldDataType() !== 'currency') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
@@ -66,10 +73,10 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if ($fieldName === 'language') {
 				$displayValue = Vtiger_Language_Handler::getLanguageLabel($fieldValue);
 			}
-			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue == '&nbsp;')) {
+			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === '&nbsp;')) {
 				$displayValue = vtranslate('LBL_SPACE', 'Users');
 			}
-			$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);
+			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
 
 		$result['_recordLabel'] = $recordModel->getName();

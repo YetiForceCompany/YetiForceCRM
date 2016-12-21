@@ -860,7 +860,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function getInventoryData()
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-		if (!isset($this->inventoryData)) {
+		if (!$this->inventoryData) {
 			$module = $this->getModuleName();
 			$record = $this->getId();
 			if (empty($record)) {

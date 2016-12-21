@@ -49,6 +49,13 @@ $languageStrings = [
 	'SoldServices Renewal' => 'Odnowienie usług sprzedanych',
 	'LBL_SEND_NOTIFICATIONS' => 'Wysyłaj powiadomienia',
 	'LBL_MARK_RECORDS_AS_REVIEWED' => 'Oznaczanie rekordów jako zapoznane ze zmianami',
+	'LBL_ADDRESS_BOOCK' => 'Aktualizacja książki adresowej',
+	'UpdaterRecordsCoordinates' => 'Pobieranie współrzędnych geograficznych',
+	'UpdaterCoordinates' => 'Aktualizacja współrzędnych geograficznych',
+	'PrivilegesUpdater' => 'Aktualizacja uprawnień',
+	'RecordLabelUpdater' => 'Aktualizacja etykiet',
+	'Activity state' => 'Statusy w kalendarzu',
+	'LBL_HANDLER_UPDATER' => 'Szybki zapis'
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',

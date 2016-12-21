@@ -48,6 +48,12 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 		return $output;
 	}
 
+	/**
+	 * Function saves configuration data to database
+	 * @param string $type
+	 * @param array $param
+	 * @return boolean
+	 */
 	public function setConfig($type, $param)
 	{
 		\App\Log::trace('Start ' . __METHOD__);
@@ -55,6 +61,7 @@ class Settings_Inventory_Module_Model extends Vtiger_Base_Model
 		\App\Db::getInstance()->createCommand()
 			->update($tableName, ['value' => $param['value']], ['param' => $param['param']])
 			->execute();
+		\App\Cache::delete('Inventory', $type);
 		\App\Log::trace('End ' . __METHOD__);
 		return true;
 	}

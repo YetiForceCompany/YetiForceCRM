@@ -1569,6 +1569,12 @@ var app = {
 				btn.text(btn.data('on'));
 			}
 		});
+	},
+	getScreenHeight: function(percantage){
+		if (typeof percantage == 'undefined') {
+			percantage = 100;
+		}
+		return jQuery(window).height() * percantage / 100;	
 	}
 }
 jQuery(document).ready(function () {
