@@ -55,7 +55,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			if (!App\Db::getInstance()->isTableExists($table)) {
 				return false;
 			}
-			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0]);
+			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0])->orderBy('sequence', SORT_ASC);
 			if ($ids) {
 				$query->andWhere(['id' => $ids]);
 			}
@@ -103,7 +103,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		if (in_array($row['invtype'], ['Discount', 'DiscountMode'])) {
 			$discountsConfig = Vtiger_Inventory_Model::getDiscountsConfig();
-			if ($discountsConfig['active'] == '0') {
+			if (empty($discountsConfig['active'])) {
 				return false;
 			}
 		}
@@ -486,14 +486,12 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function saveSequence($sequenceList)
 	{
-		$db = PearDatabase::getInstance();
-		$query = sprintf('UPDATE `%s` SET sequence = CASE id ', $this->getTableName('fields'));
+		$case = 'CASE id';
 		foreach ($sequenceList as $sequence => $id) {
-			$query .= ' WHEN ' . $id . ' THEN ' . $sequence;
+			$case .= ' WHEN ' . $id . ' THEN ' . $sequence;
 		}
-		$query .= ' END ';
-		$query .= sprintf(' WHERE id IN (%s)', generateQuestionMarks($sequenceList));
-		return $db->pquery($query, array_values($sequenceList));
+		$case .= ' END ';
+		return \App\Db::getInstance()->createCommand()->update($this->getTableName('fields'), ['sequence' => new \yii\db\Expression($case)], ['id' => $sequenceList])->execute();
 	}
 
 	/**

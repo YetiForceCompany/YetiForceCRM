@@ -37,29 +37,25 @@ class Vtiger_Inventory_Model
 		$this->name = $name;
 	}
 
-	protected static $discountsConfig = false;
-
 	/**
 	 * Get discounts configuration
 	 * @return array config data
 	 */
 	public static function getDiscountsConfig()
 	{
-		if (self::$discountsConfig != false) {
-			return self::$discountsConfig;
+		if (\App\Cache::has('Inventory', 'DiscountConfiguration')) {
+			return \App\Cache::get('Inventory', 'DiscountConfiguration');
 		}
-
-		$db = PearDatabase::getInstance();
 		$config = [];
-		$result = $db->query('SELECT * FROM a_yf_discounts_config');
-		while ($row = $db->fetch_array($result)) {
+		$dataReader = (new \App\Db\Query())->from('a_#__discounts_config')->createCommand(\App\Db::getInstance('admin'))->query();
+		while ($row = $dataReader->read()) {
 			$value = $row['value'];
 			if (in_array($row['param'], ['discounts'])) {
 				$value = explode(',', $value);
 			}
 			$config[$row['param']] = $value;
 		}
-		self::$discountsConfig = $config;
+		\App\Cache::save('Inventory', 'DiscountConfiguration', $config, \App\Cache::LONG);
 		return $config;
 	}
 
@@ -78,29 +74,25 @@ class Vtiger_Inventory_Model
 		return $discounts;
 	}
 
-	protected static $taxsConfig = false;
-
 	/**
 	 * Get tax configuration
 	 * @return array config data
 	 */
 	public static function getTaxesConfig()
 	{
-		if (self::$taxsConfig != false) {
-			return self::$taxsConfig;
+		if (\App\Cache::has('Inventory', 'TaxConfiguration')) {
+			return \App\Cache::get('Inventory', 'TaxConfiguration');
 		}
-
-		$db = PearDatabase::getInstance();
 		$config = [];
-		$result = $db->query('SELECT * FROM a_yf_taxes_config');
-		while ($row = $db->fetch_array($result)) {
+		$dataReader = (new App\Db\Query())->from('a_#__taxes_config')->createCommand(App\Db::getInstance('admin'))->query();
+		while ($row = $dataReader->read()) {
 			$value = $row['value'];
 			if (in_array($row['param'], ['taxs'])) {
 				$value = explode(',', $value);
 			}
 			$config[$row['param']] = $value;
 		}
-		self::$taxsConfig = $config;
+		\App\Cache::save('Inventory', 'TaxConfiguration', $config, \App\Cache::LONG);
 		return $config;
 	}
 
