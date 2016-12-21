@@ -179,7 +179,7 @@ class Vtiger_Inventory_Model
 			return false;
 		}
 		if ($type) {
-			$this->CreateInventoryTables();
+			$this->createInventoryTables();
 		}
 		return $this;
 	}
@@ -187,7 +187,7 @@ class Vtiger_Inventory_Model
 	/**
 	 * Create inventory tables
 	 */
-	private function CreateInventoryTables()
+	private function createInventoryTables()
 	{
 		$db = \App\Db::getInstance();
 		$focus = CRMEntity::getInstance($this->name);
