@@ -47,27 +47,21 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function getFields($returnInBlock = false, $ids = [], $viewType = false)
 	{
-		
+
 		\App\Log::trace('Entering ' . __METHOD__ . '| ');
 		$key = $returnInBlock ? 'block' : 'noBlock';
 		if (!isset($this->fields[$key])) {
-			$db = PearDatabase::getInstance();
 			$table = $this->getTableName('fields');
-			$result = App\Db::getInstance()->getTableSchema($table);
-			if ($result === null) {
+			if (!App\Db::getInstance()->isTableExists($table)) {
 				return false;
 			}
-			$where = 'presence = ?';
-			$params = [0];
+			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0]);
 			if ($ids) {
-				$where = '`id` IN (' . generateQuestionMarks($ids) . ')';
-				$params = $ids;
+				$query->andWhere(['id' => $ids]);
 			}
-			$query = 'SELECT * FROM %s WHERE %s ORDER BY sequence';
-			$query = sprintf($query, $table, $where);
-			$result = $db->pquery($query, $params);
 			$fields = [];
-			while ($row = $db->getRow($result)) {
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				if ($viewType != 'Settings' && !$this->isActiveField($row)) {
 					continue;
 				}
@@ -124,7 +118,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function getColumns()
 	{
-		
+
 		\App\Log::trace('Entering ' . __METHOD__ . '| ');
 		if ($this->columns) {
 			return $this->columns;
@@ -151,7 +145,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function getInventoryFieldInstance($valueArray)
 	{
-		
+
 		\App\Log::trace('Entering ' . __METHOD__ . '| ');
 
 		$className = Vtiger_Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
@@ -170,7 +164,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public function getAllFields()
 	{
 		$moduleName = $this->get('module');
-		
+
 		\App\Log::trace('Entering ' . __METHOD__ . '| ' . $moduleName);
 
 		$instance = Vtiger_Cache::get('InventoryFields', $moduleName);
@@ -210,7 +204,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public static function getMainParams($fields)
 	{
-		
+
 		\App\Log::trace('Entering ' . __METHOD__);
 
 		$params = false;
@@ -413,7 +407,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function addField($type, $params)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$instance = self::getFieldInstance($this->get('module'), $type);
 
 		$table = $this->getTableName();
@@ -444,21 +438,19 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 				vtlib\Utils::AddColumn($table, $column, $criteria);
 			}
 		}
-
-		$result = $adb->query(sprintf('SELECT MAX(sequence) AS max FROM %s', $this->getTableName('fields')));
-		$sequence = (int) $adb->getSingleValue($result) + 1;
-
-		return $adb->insert($this->getTableName('fields'), [
-				'columnname' => $columnName,
-				'label' => $label,
-				'invtype' => $instance->getName(),
-				'defaultvalue' => $defaultValue,
-				'sequence' => $sequence,
-				'block' => $params['block'],
-				'displaytype' => $params['displayType'],
-				'params' => isset($params['params']) ? $params['params'] : '',
-				'colspan' => $colSpan,
-		]);
+		$tableName = $this->getTableName('fields');
+		$db->createCommand()->insert($tableName, [
+			'columnname' => $columnName,
+			'label' => $label,
+			'invtype' => $instance->getName(),
+			'defaultvalue' => $defaultValue,
+			'sequence' => $db->getUniqueID($tableName, 'sequence', false),
+			'block' => $params['block'],
+			'displaytype' => $params['displayType'],
+			'params' => isset($params['params']) ? $params['params'] : '',
+			'colspan' => $colSpan
+		])->execute();
+		return $db->getLastInsertID($tableName . '_id_seq');
 	}
 
 	/**
@@ -497,9 +489,9 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$query = sprintf('UPDATE `%s` SET sequence = CASE id ', $this->getTableName('fields'));
 		foreach ($sequenceList as $sequence => $id) {
-			$query .=' WHEN ' . $id . ' THEN ' . $sequence;
+			$query .= ' WHEN ' . $id . ' THEN ' . $sequence;
 		}
-		$query .=' END ';
+		$query .= ' END ';
 		$query .= sprintf(' WHERE id IN (%s)', generateQuestionMarks($sequenceList));
 		return $db->pquery($query, array_values($sequenceList));
 	}
@@ -512,14 +504,16 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 */
 	public function delete($param)
 	{
-		$db = PearDatabase::getInstance();
-		$fieldInstance = self::getFieldInstance($param['module'], $param['name']);
-		$status = $db->delete($this->getTableName('fields'), '`id` = ?', [$param['id']]);
+		$db = \App\Db::getInstance();
+		$status = $db->createCommand()->delete($this->getTableName('fields'), ['id' => $param['id']])->execute();
 		if ($status) {
+			$fieldInstance = self::getFieldInstance($param['module'], $param['name']);
 			$columns = array_keys($fieldInstance->getCustomColumn());
 			$columns[] = $param['column'];
-			$query = 'ALTER TABLE ' . $this->getTableName('data') . ' DROP COLUMN `' . implode('`, DROP COLUMN `', $columns) . '`;';
-			return $db->query($query);
+			foreach ($columns as $column) {
+				$result = $db->createCommand()->dropColumn($this->getTableName('data'), $column)->execute();
+			}
+			return $result;
 		}
 		return false;
 	}
