@@ -203,7 +203,9 @@ class Vtiger_Inventory_Model
 				],
 				'index' => [
 						[$moduleLowerCase . '_inventory_idx', 'id'],
-				]
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
 			],
 			'_invfield' => [
 				'columns' => [
@@ -218,7 +220,9 @@ class Vtiger_Inventory_Model
 					'displaytype' => $importer->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $importer->text(),
 					'colspan' => $importer->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
-				]
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
 			],
 			'_invmap' => [
 				'columns' => [
@@ -228,7 +232,9 @@ class Vtiger_Inventory_Model
 				],
 				'primaryKeys' => [
 						[$moduleLowerCase . '_invmap_pk', ['module', 'field', 'tofield']]
-				]
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
 		]];
 		$base = new \App\Db\Importer();
 		$base->dieOnError = AppConfig::debug('SQL_DIE_ON_ERROR');
