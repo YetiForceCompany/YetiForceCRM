@@ -372,20 +372,14 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * Function to get all the available picklist values for the current field
 	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
-	public function getModulesListValues($onlyActive = true)
+	public function getModulesListValues()
 	{
+		$allModules = \vtlib\Functions::getAllModules(true, false, 0);
 		$modules = [];
-		$query = (new App\Db\Query())
-			->select('tabid, name, ownedby')
-			->from('vtiger_tab');
-		if ($onlyActive) {
-			$query->where(['presence' => 0, 'isentitytype' => 1]);
-		}
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$modules[$row['tabid']] = [
-				'name' => $row['name'],
-				'label' => App\Language::translate($row['name'], $row['name'])
+		foreach ($allModules as $module) {
+			$modules[$module['tabid']] = [
+				'name' => $module['name'],
+				'label' => App\Language::translate($module['name'], $module['name'])
 			];
 		}
 		return $modules;
