@@ -74,18 +74,12 @@ class Db extends \yii\db\Connection
 	 */
 	public static function getInstance($type = 'base')
 	{
-		if (self::$connectCache && Cache::has('DBInstance', $type)) {
-			return Cache::get('DBInstance', $type);
-		}
 		if (isset(static::$cache[$type])) {
 			return static::$cache[$type];
 		}
 		$db = new self(static::getConfig($type));
 		$db->dbType = $type;
 		static::$cache[$type] = $db;
-		if (self::$connectCache) {
-			Cache::save('DBInstance', $type, $db);
-		}
 		return $db;
 	}
 

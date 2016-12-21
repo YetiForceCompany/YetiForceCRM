@@ -16,6 +16,10 @@ require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
 \App\Debuger::init();
 \App\Cache::init();
+App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
+App\Log::$logToProfile = Yii::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
+App\Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
+App\Log::$logToFile = AppConfig::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
 {
