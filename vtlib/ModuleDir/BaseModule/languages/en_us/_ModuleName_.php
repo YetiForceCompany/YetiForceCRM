@@ -3,7 +3,9 @@
 $languageStrings = [
 	'<ModuleName>' => '<ModuleLabel>',
 	'SINGLE_<ModuleName>' => '<ModuleLabel>',
-	'<ModuleName> ID' => '<ModuleLabel> ID',
+	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
+	'LBL_BASIC_INFORMATION' => 'Basic Information',
+	//FIELDS
 	'<entityfieldname>' => '<entityfieldlabel>',
 ];

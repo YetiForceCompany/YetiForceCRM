@@ -99,11 +99,11 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get restricted modules list
-	 * @return <Array> List module names
+	 * @return array List module names
 	 */
 	public static function getActionsRestrictedModulesList()
 	{
-		return array('Home', 'Emails');
+		return ['Home', 'Emails'];
 	}
 
 	public static function createModule($moduleInformation)
@@ -118,7 +118,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->initTables();
 
 		$block = new vtlib\Block();
-		$block->label = 'LBL_' . strtoupper($module->name) . '_INFORMATION';
+		$block->label = 'LBL_BASIC_INFORMATION';
 		$module->addBlock($block);
 
 		$blockcf = new vtlib\Block();
@@ -130,7 +130,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field1->label = $moduleInformation['entityfieldlabel'];
 		$field1->uitype = 2;
 		$field1->column = $field1->name;
-		$field1->columntype = 'VARCHAR(255)';
+		$field1->columntype = 'string(255)';
 		$field1->typeofdata = 'V~M';
 		$block->addField($field1);
 
@@ -144,7 +144,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->table = $module->basetable;
 		$field2->uitype = 4;
 		$field2->typeofdata = 'V~O';
-		$field2->columntype = 'varchar(32)';
+		$field2->columntype = 'string(32)';
 		$block->addField($field2);
 
 		$field3 = new vtlib\Field();

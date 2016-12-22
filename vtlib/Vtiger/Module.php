@@ -217,7 +217,7 @@ class Module extends ModuleBasic
 			$languages = \Users_Module_Model::getLanguagesList();
 			$langFile = 'languages/en_us/' . $this->name . '.php';
 			foreach ($languages as $key => $language) {
-				if ($key != 'en_us') {
+				if ($key !== 'en_us') {
 					copy($langFile, 'languages/' . $key . '/' . $this->name . '.php');
 				}
 			}
