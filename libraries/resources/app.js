@@ -634,6 +634,11 @@ var app = {
 		prettySelect: true,
 		useSuffix: "_chosen",
 		usePrefix: "s2id_",
+		onBeforePromptType: function (field) {
+			for (var instance in CKEDITOR.instances) {
+				CKEDITOR.instances[instance].updateElement();
+			}
+		},
 	},
 	validationEngineOptionsForRecord: {
 		scroll: false,
@@ -647,6 +652,9 @@ var app = {
 			var block = field.closest('.blockContainer');
 			if (block.find('.blockContent').is(":hidden")) {
 				block.find('.blockHeader').click();
+			}
+			for (var instance in CKEDITOR.instances) {
+				CKEDITOR.instances[instance].updateElement();
 			}
 		},
 	},
@@ -908,7 +916,7 @@ var app = {
 			minutestep: 5,
 			ampmSubmit: false,
 		};
-				
+
 		var parentTimeElem = elementClockBtn.closest('.time');
 		jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
 			var elem = jQuery(e.currentTarget);
@@ -1570,11 +1578,11 @@ var app = {
 			}
 		});
 	},
-	getScreenHeight: function(percantage){
+	getScreenHeight: function (percantage) {
 		if (typeof percantage == 'undefined') {
 			percantage = 100;
 		}
-		return jQuery(window).height() * percantage / 100;	
+		return jQuery(window).height() * percantage / 100;
 	}
 }
 jQuery(document).ready(function () {

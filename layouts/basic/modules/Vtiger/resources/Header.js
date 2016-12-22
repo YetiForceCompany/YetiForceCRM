@@ -414,14 +414,6 @@ jQuery.Class("Vtiger_Header_Js", {
 				return false;
 			} else {
 				var invalidFields = form.data('jqv').InvalidFields;
-
-				// save ckeditor values to inputs before submitting
-				jQuery('textarea[id$="_qc"]').each(function () {
-					var thisId = jQuery(this).attr('id');
-					var ckValue = CKEDITOR.instances[thisId].getData();
-					jQuery(this).val(ckValue);
-				});
-
 				if (invalidFields.length > 0) {
 					//If validation fails, form should submit again
 					form.removeData('submit');
