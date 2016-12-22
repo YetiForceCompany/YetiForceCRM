@@ -1299,7 +1299,7 @@ insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('co
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','work','PLL_WORKING_TIME','#FFD500');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Task','Task','#00d4f5');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','update_event','LBL_UPDATE_EVENT','0');
-insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('info','notworkingdays ','LBL_NOTWORKING_DAYS',NULL);
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('info','notworkingdays','LBL_NOTWORKING_DAYS',NULL);
 
 /*Data for the table `vtiger_calendar_default_activitytypes` */
 

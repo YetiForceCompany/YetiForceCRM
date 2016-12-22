@@ -2727,7 +2727,7 @@ class Base2 extends \App\Db\Importers\Base
 					['colors', 'work', 'PLL_WORKING_TIME', '#FFD500'],
 					['colors', 'Task', 'Task', '#00d4f5'],
 					['reminder', 'update_event', 'LBL_UPDATE_EVENT', '0'],
-					['info', 'notworkingdays ', 'LBL_NOTWORKING_DAYS', NULL],
+					['info', 'notworkingdays', 'LBL_NOTWORKING_DAYS', NULL],
 				]
 			],
 			'vtiger_calendar_default_activitytypes' => [

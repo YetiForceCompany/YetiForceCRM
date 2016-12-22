@@ -34,14 +34,11 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->update('vtiger_calendar_default_activitytypes', [
-			'defaultcolor' => $params['color']],
-			['id' => $params['viewtypesid']]
-			)->execute();
+			'defaultcolor' => $params['color']], ['id' => $params['viewtypesid']]
+		)->execute();
 		$db->createCommand()->update('vtiger_calendar_user_activitytypes', [
-			'color' => $params['color']],
-			['defaultid' => $params['viewtypesid']]
-			)->execute();
-		
+			'color' => $params['color']], ['defaultid' => $params['viewtypesid']]
+		)->execute();
 	}
 
 	public static function updateModuleActiveType($params)
@@ -84,7 +81,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		$dataReader = $query->createCommand()->query();
 		$calendarConfig = [];
 		while ($row = $dataReader->read()) {
-				$calendarConfig[] = [
+			$calendarConfig[] = [
 				'name' => $row['name'],
 				'label' => $row['label'],
 				'value' => $row['value']
@@ -101,22 +98,20 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		if ($params['table']) {
 			Users_Colors_Model::updateColor($params);
 		} else {
-			\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config',
-				['value' => $params['color']], ['name' => $params['id']]
-				)->execute();
-			
+			\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $params['color']], ['name' => $params['id']]
+			)->execute();
 		}
 	}
 
 	public static function updateNotWorkingDays($params)
 	{
-		if ('null' != $params['val'])
+		if (!empty($params['val'])) {
 			$value = implode(';', $params['val']);
-		else
+		} else {
 			$value = NULL;
-		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config',
-				['value' => $value], ['name' => 'notworkingdays']
-				)->execute();
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $value], ['name' => 'notworkingdays']
+		)->execute();
 	}
 
 	public static function getNotWorkingDays()
@@ -128,7 +123,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		$return = [];
 		if (isset($row['value']))
 			$return = explode(';', $row['value']);
-		
+
 		return $return;
 	}
 
