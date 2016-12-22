@@ -997,6 +997,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		return $element;
 	}
 
+	/**
+	 * Function creates advanced block data object
+	 * @param array $inventoryData
+	 * @return \Vtiger_Base_Model
+	 */
 	public function setInventoryDataToRequest($inventoryData = [])
 	{
 		$inventoryModel = new Vtiger_Base_Model();
@@ -1012,6 +1017,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$inventoryModel->set($name . $i, $value);
 			}
 		}
-		return $inventoryData;
+		return $inventoryModel;
 	}
 }
