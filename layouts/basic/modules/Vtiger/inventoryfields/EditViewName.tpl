@@ -35,7 +35,7 @@
 			{/if}
 		</div>
 		<div class="subProductsContainer">
-			<ul>
+			<ul class="pull-left">
 			</ul>
 		</div>
 	</div>
