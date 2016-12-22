@@ -53,4 +53,5 @@ $languageStrings = [
 	'LBL_PHPINI' => 'PHP Konfiguration',
 	'LBL_LOG_FILE' => 'Protokollierung',
 	'LBL_CRM_DIR' => 'CRM Lokales Verzeichnis',
+	'LBL_SOAP_LIBRARY' => 'SOAP'
 ];
