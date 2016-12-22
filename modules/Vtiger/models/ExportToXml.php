@@ -47,19 +47,20 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		}
 	}
 
+	/**
+	 * Function returns data from advanced block
+	 * @param array $recordData
+	 * @return array
+	 */
 	public function getEntriesInventory($recordData)
 	{
-		$db = PearDatabase::getInstance();
+		$entries = [];
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 		$this->inventoryFields = $inventoryFieldModel->getFields();
 		$table = $inventoryFieldModel->getTableName('data');
-		$query = 'SELECT * FROM %s WHERE id = ? ORDER BY seq';
-		$query = sprintf($query, $table);
-		$resultInventory = $db->pquery($query, [$recordData[$this->focus->table_index]]);
-		if ($db->getRowCount($resultInventory)) {
-			while ($inventoryRow = $db->getRow($resultInventory)) {
-				$entries[] = $inventoryRow;
-			}
+		$dataReader = (new \App\Db\Query())->from($table)->where(['id' => $recordData['id']])->orderBy('seq', SORT_ASC)->createCommand()->query();
+		while ($inventoryRow = $dataReader->read()) {
+			$entries[] = $inventoryRow;
 		}
 		return $entries;
 	}
