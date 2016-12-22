@@ -64,21 +64,17 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	 */
 	public function setModuleSequence()
 	{
-		$moduleName = $this->getName();
 		$prefix = $this->get('prefix');
 		$postfix = $this->get('postfix');
-		$sequenceNumber = $this->get('sequenceNumber');
-
-		$tabId = \App\Module::getModuleId($moduleName);
-		$status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $sequenceNumber, $postfix);
-
-		$success = array('success' => $status);
+		$tabId = \App\Module::getModuleId($this->getName());
+		$status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $this->get('sequenceNumber'), $postfix);
+		$success = ['success' => $status];
 		if (!$status) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT cur_id FROM vtiger_modentity_num WHERE tabid = ? && prefix = ? && postfix = ?;', [$tabId, $prefix, $postfix]);
-			$success['sequenceNumber'] = $db->query_result($result, 0, 'cur_id');
+			$success['sequenceNumber'] = (new App\Db\Query())->select(['cur_id'])
+				->from('vtiger_modentity_num')
+				->where(['tabid' => $tabId, 'prefix' => $prefix, 'postfix' => $postfix])
+				->scalar();
 		}
-
 		return $success;
 	}
 

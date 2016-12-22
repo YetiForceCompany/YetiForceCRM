@@ -48,7 +48,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		return $users;
 	}
 
-	public function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
+	public static function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
 	{
 		if ($action == 'add') {
 			$dataReader = (new App\Db\Query())->select('vtiger_customview.viewname')
