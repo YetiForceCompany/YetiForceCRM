@@ -53,5 +53,8 @@ $languageStrings = [
 	'LBL_PHPINI' => 'Konfiguracja PHP',
 	'LBL_LOG_FILE' => 'Logi błedów',
 	'LBL_CRM_DIR' => 'Katalog lokalny CRM',
-	'LBL_SOAP_LIBRARY' => 'SOAP'
+	'LBL_SOAP_LIBRARY' => 'SOAP',
+	'LBL_PHP_SAPI' => 'Server API',
+	'LBL_APCU_LIBRARY' => 'APCu',
+	'LBL_OPCACHE_LIBRARY' => 'OPcache'
 ];
