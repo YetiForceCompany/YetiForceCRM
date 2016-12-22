@@ -63,7 +63,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
-			if (!$fieldModel->isEditEnabled()) {
+			if (!$fieldModel->isViewEnabled()) {
 				continue;
 			}
 			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordModel->get($fieldName));
