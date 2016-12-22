@@ -99,12 +99,18 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'expose_php' => ['prefer' => 'Off'],
 			'session.auto_start' => ['prefer' => 'Off'],
 			'session.cookie_httponly' => ['prefer' => 'On'],
-			//'session.cookie_secure' => ['prefer' => 'On'],
 			'session.gc_maxlifetime' => ['prefer' => '21600'],
 			'session.gc_divisor' => ['prefer' => '500'],
 			'session.gc_probability' => ['prefer' => '1'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
 		];
+		if (App\RequestUtil::getBrowserInfo()->https) {
+			$directiveValues['session.cookie_secure'] = ['prefer' => 'On'];
+			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {
+				$directiveValues['session.cookie_secure']['status'] = true;
+			}
+			$directiveValues['session.cookie_secure']['current'] = self::getFlag(ini_get('display_errors'));
+		}
 		if (App\Db::getInstance()->getDriverName() === 'mysql') {
 			$directiveValues['mysql.connect_timeout'] = ['prefer' => '600'];
 			$directiveValues['innodb_lock_wait_timeout'] = ['prefer' => '600']; // MySQL
