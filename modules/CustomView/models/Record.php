@@ -347,18 +347,17 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$cvId = $this->getId();
-
-		$db->delete('vtiger_customview', 'cvid = ?', [$cvId]);
-		$db->delete('vtiger_cvcolumnlist', 'cvid = ?', [$cvId]);
-		$db->delete('vtiger_cvstdfilter', 'cvid = ?', [$cvId]);
-		$db->delete('vtiger_cvadvfilter', 'cvid = ?', [$cvId]);
-		$db->delete('vtiger_cvadvfilter_grouping', 'cvid = ?', [$cvId]);
-		$db->delete('vtiger_user_module_preferences', 'default_cvid = ?', [$cvId]);
-
+		$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
+		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
+		$db->createCommand()->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
+		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
+		$db->createCommand()->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
+		$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
 		// To Delete the mini list widget associated with the filter 
-		$db->delete('vtiger_module_dashboard', 'filterid = ?', [$cvId]);
+		$db->createCommand()->delete('vtiger_module_dashboard', ['filterid' => $cvId])->execute();
+		App\Cache::clear();
 	}
 
 	/**
