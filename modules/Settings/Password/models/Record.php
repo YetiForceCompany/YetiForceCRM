@@ -25,14 +25,14 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		return $resp;
 	}
 
-	public function setPassDetail($type, $vale)
+	public static function setPassDetail($type, $vale)
 	{
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_password', ['val' => $vale], ['type' => $type])
 			->execute();
 	}
 
-	public function validation($type, $vale)
+	public static function validation($type, $vale)
 	{
 		if ($type == 'min_length' || $type == 'max_length') {
 			return is_numeric($vale);
