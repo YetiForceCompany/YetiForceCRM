@@ -60,6 +60,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_ZIP_ARCHIVE' => ['type' => 'e', 'name' => 'zip', 'mandatory' => true],
 		'LBL_MBSTRING_LIBRARY' => ['type' => 'e', 'name' => 'mbstring', 'mandatory' => true],
 		'LBL_SOAP_LIBRARY' => ['type' => 'e', 'name' => 'soap', 'mandatory' => true],
+		'LBL_APCU_LIBRARY' => ['type' => 'e', 'name' => 'apcu', 'mandatory' => false],
+		'LBL_OPCACHE_LIBRARY' => ['type' => 'f', 'name' => 'opcache_get_configuration', 'mandatory' => false],
 	);
 
 	public static function getConfigurationLibrary()
@@ -86,7 +88,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'max_input_time' => ['prefer' => '600'],
 			'default_socket_timeout' => ['prefer' => '600'],
 			'memory_limit' => ['prefer' => '512 MB'],
-			'safe_mode' => ['prefer' => 'Off'],
 			'display_errors' => ['prefer' => 'Off'],
 			'log_errors' => ['prefer' => 'Off'],
 			'file_uploads' => ['prefer' => 'On'],
@@ -94,10 +95,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'post_max_size' => ['prefer' => '50 MB'],
 			'upload_max_filesize' => ['prefer' => '50 MB'],
 			'max_input_vars' => ['prefer' => '5000'],
-			'magic_quotes_gpc' => ['prefer' => 'Off'],
-			'magic_quotes_sybase' => ['prefer' => 'Off'],
-			'magic_quotes_runtime' => ['prefer' => 'Off'],
 			'zlib.output_compression' => ['prefer' => 'Off'],
+			'expose_php' => ['prefer' => 'Off'],
 			'session.auto_start' => ['prefer' => 'Off'],
 			'session.cookie_httponly' => ['prefer' => 'On'],
 			//'session.cookie_secure' => ['prefer' => 'On'],
@@ -105,7 +104,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'session.gc_divisor' => ['prefer' => '500'],
 			'session.gc_probability' => ['prefer' => '1'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
-			'zend.ze1_compatibility_mode' => ['prefer' => 'Off'],
 		];
 		if (App\Db::getInstance()->getDriverName() === 'mysql') {
 			$directiveValues['mysql.connect_timeout'] = ['prefer' => '600'];
@@ -121,10 +119,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['suhosin.post.max_vars'] = array('prefer' => '5000');
 			$directiveValues['suhosin.post.max_value_length'] = array('prefer' => '1500000');
 		}
-
-		if (ini_get('safe_mode') == '1' || stripos(ini_get('safe_mode'), 'On') !== false)
-			$directiveValues['safe_mode']['status'] = true;
-		$directiveValues['safe_mode']['current'] = self::getFlag(ini_get('safe_mode'));
 
 		if (ini_get('display_errors') == '1' || stripos(ini_get('display_errors'), 'On') !== false)
 			$directiveValues['display_errors']['status'] = true;
@@ -154,10 +148,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['default_socket_timeout']['status'] = true;
 		$directiveValues['default_socket_timeout']['current'] = ini_get('default_socket_timeout');
 
-		if (ini_get('mysql.connect_timeout') != 0 && ini_get('mysql.connect_timeout') < 600)
-			$directiveValues['mysql.connect_timeout']['status'] = true;
-		$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');
-
 		if (vtlib\Functions::parseBytes(ini_get('memory_limit')) < 33554432)
 			$directiveValues['memory_limit']['status'] = true;
 		$directiveValues['memory_limit']['current'] = vtlib\Functions::showBytes(ini_get('memory_limit'));
@@ -170,27 +160,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['upload_max_filesize']['status'] = true;
 		$directiveValues['upload_max_filesize']['current'] = vtlib\Functions::showBytes(ini_get('upload_max_filesize'));
 
-		if (ini_get('magic_quotes_gpc') == '1' || stripos(ini_get('magic_quotes_gpc'), 'On') !== false)
-			$directiveValues['magic_quotes_gpc']['status'] = true;
-		$directiveValues['magic_quotes_gpc']['current'] = self::getFlag(ini_get('magic_quotes_gpc'));
-
-		if (ini_get('magic_quotes_runtime') == '1' || stripos(ini_get('magic_quotes_runtime'), 'On') !== false)
-			$directiveValues['magic_quotes_runtime']['status'] = true;
-		$directiveValues['magic_quotes_runtime']['current'] = self::getFlag((ini_get('magic_quotes_runtime')));
-
 		if (ini_get('zlib.output_compression') == '1' || stripos(ini_get('zlib.output_compression'), 'On') !== false)
 			$directiveValues['zlib.output_compression']['status'] = true;
 		$directiveValues['zlib.output_compression']['current'] = self::getFlag((ini_get('zlib.output_compression')));
 
-		if (ini_get('zend.ze1_compatibility_mode') == '1' || stripos(ini_get('zend.ze1_compatibility_mode'), 'On') !== false)
-			$directiveValues['zend.ze1_compatibility_mode']['status'] = true;
-		$directiveValues['zend.ze1_compatibility_mode']['current'] = self::getFlag(ini_get('zend.ze1_compatibility_mode'));
-
-		if (extension_loaded('suhosin')) {
-			if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') !== false)
-				$directiveValues['suhosin.session.encrypt']['status'] = true;
-			$directiveValues['suhosin.session.encrypt']['current'] = self::getFlag(ini_get('suhosin.session.encrypt'));
-		}
 		if (ini_get('session.auto_start') == '1' || stripos(ini_get('session.auto_start'), 'On') !== false)
 			$directiveValues['session.auto_start']['status'] = true;
 		$directiveValues['session.auto_start']['current'] = self::getFlag(ini_get('session.auto_start'));
@@ -199,17 +172,16 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['session.cookie_httponly']['status'] = true;
 		$directiveValues['session.cookie_httponly']['current'] = self::getFlag(ini_get('session.cookie_httponly'));
 
-		if (ini_get('session.cookie_secure') != '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false)
-			$directiveValues['session.cookie_secure']['status'] = true;
-		$directiveValues['session.cookie_secure']['current'] = self::getFlag(ini_get('session.cookie_secure'));
-
-		if (ini_get('mbstring.func_overload') == '1' || stripos(ini_get('mbstring.func_overload'), 'On') !== false)
+		/*
+		  if (ini_get('session.cookie_secure') != '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {
+		  $directiveValues['session.cookie_secure']['status'] = true;
+		  }
+		  $directiveValues['session.cookie_secure']['current'] = self::getFlag(ini_get('session.cookie_secure'));
+		 */
+		if (ini_get('mbstring.func_overload') == '1' || stripos(ini_get('mbstring.func_overload'), 'On') !== false) {
 			$directiveValues['mbstring.func_overload']['status'] = true;
+		}
 		$directiveValues['mbstring.func_overload']['current'] = self::getFlag(ini_get('mbstring.func_overload'));
-
-		if (ini_get('magic_quotes_sybase') == '1' || stripos(ini_get('magic_quotes_sybase'), 'On') !== false)
-			$directiveValues['magic_quotes_sybase']['status'] = true;
-		$directiveValues['magic_quotes_sybase']['current'] = self::getFlag(ini_get('magic_quotes_sybase'));
 
 		if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') !== false)
 			$directiveValues['log_errors']['status'] = true;
@@ -231,15 +203,26 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['session.gc_probability']['status'] = true;
 		$directiveValues['session.gc_probability']['current'] = ini_get('session.gc_probability');
 
-		if (ini_get('max_input_vars') < 5000)
+		if (ini_get('max_input_vars') < 5000) {
 			$directiveValues['max_input_vars']['status'] = true;
+		}
 		$directiveValues['max_input_vars']['current'] = ini_get('max_input_vars');
+		if (ini_get('expose_php') == '1' || stripos(ini_get('expose_php'), 'On') !== false) {
+			$directiveValues['expose_php']['status'] = true;
+		}
+		$directiveValues['expose_php']['current'] = self::getFlag(ini_get('expose_php'));
 
-		if (version_compare(PHP_VERSION, '5.4.0', '<'))
+		if (version_compare(PHP_VERSION, '5.4.0', '<')) {
 			$directiveValues['PHP']['status'] = true;
+		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;
 
+
 		if (extension_loaded('suhosin')) {
+			if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') !== false)
+				$directiveValues['suhosin.session.encrypt']['status'] = true;
+			$directiveValues['suhosin.session.encrypt']['current'] = self::getFlag(ini_get('suhosin.session.encrypt'));
+
 			if (ini_get('suhosin.request.max_vars') < 5000) {
 				$directiveValues['suhosin.request.max_vars']['status'] = true;
 			}
@@ -255,8 +238,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
 		}
-
 		if (!$instalMode && App\Db::getInstance()->getDriverName() === 'mysql') {
+			if (ini_get('mysql.connect_timeout') != 0 && ini_get('mysql.connect_timeout') < 600)
+				$directiveValues['mysql.connect_timeout']['status'] = true;
+			$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');
+
 			$db = PearDatabase::getInstance();
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
@@ -304,6 +290,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'LBL_PHPINI' => php_ini_loaded_file(),
 			'LBL_LOG_FILE' => ini_get('error_log'),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
+			'LBL_PHP_SAPI' => PHP_SAPI,
 		];
 	}
 

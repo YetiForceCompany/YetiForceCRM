@@ -29,9 +29,6 @@ RedirectMatch 403 (?i).*\.log$
 	#php_value	max_execution_time			600
 	#php_value	max_input_time				600
 
-	php_flag	magic_quotes_gpc			Off
-	php_flag	magic_quotes_runtime        Off
-
 	php_value	suhosin.request.max_vars	5000
 	php_value	suhosin.post.max_vars		5000
 	php_flag	suhosin.session.encrypt		Off

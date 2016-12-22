@@ -109,6 +109,7 @@ abstract class Vtiger_Controller
 			header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
 			header('Pragma: no-cache');
 		}
+		header('X-Frame-Options: SAMEORIGIN');
 		header_remove('X-Powered-By');
 	}
 }
