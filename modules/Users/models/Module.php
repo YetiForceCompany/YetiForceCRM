@@ -331,7 +331,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 		}
 		$focus->mode = !$recordModel->isNew() ? 'edit' : '';
 		$focus->id = $recordModel->getId();
-		$focus->newRecord = $recordModel->get('newRecord');
 
 		$recordModel->setData($focus->column_fields)->setEntity($focus);
 		$focus->save($moduleName);

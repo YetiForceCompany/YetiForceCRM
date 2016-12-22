@@ -46,7 +46,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function checkPassword($pass)
+	public static function checkPassword($pass)
 	{
 		$conf = self::getPassDetail();
 		$moduleName = 'Settings:Password';
