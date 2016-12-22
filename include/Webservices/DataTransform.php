@@ -57,7 +57,7 @@ class DataTransform
 		return $newRow;
 	}
 
-	public function sanitizeForInsert($row, $meta)
+	public static function sanitizeForInsert($row, $meta)
 	{
 		$adb = PearDatabase::getInstance();
 		$associatedToUser = false;
