@@ -628,7 +628,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		var maxValues = 20;
 		var BtnText = '';
 		var BtnLink = 'javascript:void();';
-		var history = localStorage.history;
+		var userId = app.getMainParams('current_user_id');
+		if(userId == undefined){
+			return false;
+		}
+		var history = localStorage.getItem(userId);
 		if (history != "" && history != null) {
 			var sp = history.toString().split("_|_");
 			var item = sp[sp.length - 1].toString().split("|");
@@ -674,13 +678,13 @@ jQuery.Class("Vtiger_Header_Js", {
 			if (sp.length >= maxValues) {
 				sp.splice(0, 1);
 			}
-			localStorage.history = sp.join('_|_');
+			localStorage.setItem(userId, sp.join('_|_'));
 		} else {
 			var stack = new Array();
 			var Label = this.getHistoryLabel();
 			if (Label.length > 1) {
 				stack.push(this.getHistoryLabel() + '|' + document.URL + '|' + date);
-				localStorage.history = stack.join('_|_');
+				localStorage.setItem(userId, stack.join('_|_'));
 			}
 		}
 		htmlContent += '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
@@ -697,7 +701,8 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerClearHistory: function () {
 		$(".historyBtn .clearHistory").click(function () {
-			localStorage.history = "";
+			var userId = app.getMainParams('current_user_id');
+			localStorage.removeItem(userId);
 			var htmlContent = '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
 			$(".historyBtn .dropdown-menu").html(htmlContent);
 		});
