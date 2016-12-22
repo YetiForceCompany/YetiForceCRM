@@ -83,6 +83,9 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		}
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', $totalCount);
+			if ($totalCount == $pageNumber * $pagingModel->getPageLimit()) {
+				$pagingModel->set('nextPageExists', false);
+			}
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 			$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		}

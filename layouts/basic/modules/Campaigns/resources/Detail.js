@@ -38,7 +38,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 		var detailContentsHolder = this.getContentHolder();
 		detailContentsHolder.on('click', '#relatedViewNextPageButton', function (e) {
 			var element = jQuery(e.currentTarget);
-			if (element.attr('disabled') == "disabled") {
+			if (element.hasClass('disabled')) {
 				return;
 			}
 			var selectedTabElement = thisInstance.getSelectedTab();
