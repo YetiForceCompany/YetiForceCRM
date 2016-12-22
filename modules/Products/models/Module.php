@@ -29,7 +29,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 				$subQuery = (new App\Db\Query())
 					->select(['productid'])
 					->from('vtiger_seproductsrel')
-					->where(['crmid' => $record]);
+					->where(['setype' => $sourceModule]);
 				$condition [] = ['not in', 'vtiger_products.productid', $subQuery];
 				$subQuery = (new App\Db\Query())
 					->select(['crmid'])

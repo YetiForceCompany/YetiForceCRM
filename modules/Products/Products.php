@@ -305,25 +305,29 @@ class Products extends CRMEntity
 		}
 	}
 
-	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
 	{
-		if (!is_array($with_crmids))
-			$with_crmids = Array($with_crmids);
-		foreach ($with_crmids as $with_crmid) {
-			if ($with_module === 'Leads' || $with_module === 'Accounts' ||
-				$with_module === 'Contacts' || $with_module === 'Products') {
-				$isExists = (new App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $with_crmid, 'productid' => $crmid])->exists();
+		if (!is_array($withCrmIds))
+			$withCrmIds = [$withCrmIds];
+		foreach ($withCrmIds as $withCrmId) {
+			if (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
+				if($withModule === 'Products'){
+					if ((new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
+						continue;
+					}
+				}
+				$isExists = (new App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $withCrmId, 'productid' => $crmid])->exists();
 				if (!$isExists) {
 					App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
-						'crmid' => $with_crmid,
+						'crmid' => $withCrmId,
 						'productid' => $crmid,
-						'setype' => $with_module,
+						'setype' => $withModule,
 						'rel_created_user' => App\User::getCurrentUserId(),
 						'rel_created_time' => date('Y-m-d H:i:s')
 					])->execute();
 				}
 			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
+				parent::save_related_module($module, $crmid, $withModule, $withCrmId, $relatedName);
 			}
 		}
 	}
