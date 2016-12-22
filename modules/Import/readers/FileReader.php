@@ -98,108 +98,75 @@ class Import_FileReader_Reader
 		@unlink($filePath);
 	}
 
+	/**
+	 * Function creates tables for import in database
+	 */
 	public function createTable()
 	{
-		$db = PearDatabase::getInstance();
-
+		$db = \App\Db::getInstance();
+		$schema = $db->getSchema();
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
 		$fieldMapping = $this->request->get('field_mapping');
 		$moduleFields = $this->moduleModel->getFields();
-		$columnsListQuery = 'id INT PRIMARY KEY AUTO_INCREMENT, temp_status INT DEFAULT 0, recordid INT';
-		$fieldTypes = $this->getModuleFieldDBColumnType();
+		$columns = [
+			'id' => 'pk',
+			'temp_status' => 'string DEFAULT 0',
+			'recordid' => 'integer'
+		];
 		foreach ($fieldMapping as $fieldName => $index) {
-			if (empty($moduleFields[$fieldName])) {
-				continue;
+			if ($field = $moduleFields[$fieldName]) {
+				$columns[$fieldName] = $field->getDBColumnType();
 			}
-			$fieldObject = $moduleFields[$fieldName];
-			$columnsListQuery .= $this->getDBColumnType($fieldObject, $fieldTypes);
 		}
-		$createTableQuery = 'CREATE TABLE ' . $tableName . ' (' . $columnsListQuery . ') ENGINE=InnoDB ';
-		$db->query($createTableQuery);
+		$db->createTable($tableName, $columns);
 
 		if ($this->moduleModel->isInventory()) {
 			$inventoryTableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleModel->getName());
-			$columnsInventoryListQuery = ' id INT(19)';
+			$columns = [
+				'id' => $schema->createColumnSchemaBuilder('integer', 19)
+			];
 			foreach ($inventoryFieldModel->getFields() as $columnName => $fieldObject) {
 				$dbType = $fieldObject->getDBType();
 				if (in_array($fieldObject->getName(), ['Name', 'Reference'])) {
-					$dbType = 'varchar(200)';
+					$dbType = $schema->createColumnSchemaBuilder('string', 200);
+				} elseif (is_array($dbType)) {
+					$dbType = $schema->createColumnSchemaBuilder($dbType[0], $dbType[1]);
 				}
-				$columnsInventoryListQuery .= ',' . $fieldObject->getColumnName() . ' ' . $dbType;
+				$columns[$fieldObject->getColumnName()] = $dbType;
 				foreach ($fieldObject->getCustomColumn() as $name => $dbType) {
-					$columnsInventoryListQuery .= ',' . $name . ' ' . $dbType;
+					if (is_array($dbType)) {
+						$dbType = $schema->createColumnSchemaBuilder($dbType[0], $dbType[1]);
+					}
+					$columns[$name] = $dbType;
 				}
 			}
-			$columnsInventoryListQuery .= ", CONSTRAINT `" . $inventoryTableName . "_ibfk_1` FOREIGN KEY (`id`) REFERENCES `$tableName` (`id`) ON DELETE CASCADE";
-			$createTableQuery = 'CREATE TABLE IF NOT EXISTS ' . $inventoryTableName . ' (' . $columnsInventoryListQuery . ') ENGINE=InnoDB ';
-			$db->query($createTableQuery);
+			$db->createTable($inventoryTableName, $columns);
+			$db->createCommand()->addPrimaryKey('id_pk', $inventoryTableName, 'id')->execute();
+			$db->createCommand()->addForeignKey('fk_1_' . $inventoryTableName, $inventoryTableName, 'id', $tableName, 'id', 'CASCADE', 'RESTRICT')->execute();
 		}
-		return true;
 	}
 
+	/**
+	 * Function adds imported data to database
+	 * @param array $columnNames
+	 * @param array $fieldValues
+	 * @param array $inventoryData
+	 */
 	public function addRecordToDB($columnNames, $fieldValues, $inventoryData = [])
 	{
-		$db = PearDatabase::getInstance();
-
+		$db = \App\Db::getInstance();
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
 		$data = array_combine($columnNames, $fieldValues);
-		$db->insert($tableName, $data);
+		$result = $db->createCommand()->insert($tableName, $data)->execute();
 		$this->numberOfRecordsRead++;
 		if ($inventoryData) {
-			$id = $db->getLastInsertID();
+			$id = $db->getLastInsertID($tableName . 'id_seq');
 			$tableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
 			foreach ($inventoryData as $data) {
 				$data['id'] = $id;
-				$db->insert($tableName, $data);
+				$db->createCommand()->insert($tableName, $data)->execute();
 			}
 		}
-	}
-
-	/** Function returns the database column type of the field
-	 * @param $fieldObject <Vtiger_Field_Model>
-	 * @param $fieldTypes <Array> - fieldnames with column type
-	 * @return string - column name with type for sql creation of table
-	 */
-	public function getDBColumnType($fieldObject, $fieldTypes)
-	{
-		$columnsListQuery = '';
-		$fieldName = $fieldObject->getName();
-		$dataType = $fieldObject->getFieldDataType();
-		$skipDataType = array('reference', 'owner', 'currencyList', 'date', 'datetime', 'sharedOwner');
-		if (in_array($dataType, $skipDataType)) {
-			$columnsListQuery .= ',' . $fieldName . ' varchar(250)';
-		} elseif ($dataType == 'inventory') {
-			$columnsListQuery .= ',`' . $fieldObject->getColumnName() . '` ' . $fieldObject->getDBType();
-		} else {
-			$columnsListQuery .= ',`' . $fieldName . '` ' . $fieldTypes[$fieldObject->get('column')];
-		}
-
-		return $columnsListQuery;
-	}
-
-	/** Function returns array of columnnames and their column datatype
-	 * @return <Array>
-	 */
-	public function getModuleFieldDBColumnType()
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tablename FROM vtiger_field WHERE tabid=? GROUP BY tablename', array($this->moduleModel->getId()));
-		$tables = array();
-		if ($result && $db->num_rows($result) > 0) {
-			while ($row = $db->fetch_array($result)) {
-				$tables[] = $row['tablename'];
-			}
-		}
-		$fieldTypes = array();
-		foreach ($tables as $table) {
-			$result = $db->pquery("DESC $table", array());
-			if ($result && $db->num_rows($result) > 0) {
-				while ($row = $db->fetch_array($result)) {
-					$fieldTypes[$row['Field']] = htmlspecialchars_decode($row['Type'], ENT_QUOTES);
-				}
-			}
-		}
-		return $fieldTypes;
 	}
 }

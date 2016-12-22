@@ -1155,4 +1155,25 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		return $this->getUITypeModel()->isActiveSearchView();
 	}
+
+	/**
+	 * Function returns info about field structure in database
+	 * @param boolean $returnString
+	 * @return string|array
+	 */
+	public function getDBColumnType($returnString = true)
+	{
+		$db = \App\Db::getInstance();
+		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName());
+		$columnSchema = $tableSchema->getColumn($this->getColumnName());
+		$data = get_object_vars($columnSchema);
+		if ($returnString) {
+			$string = $data['type'];
+			if ($data['size']) {
+				$string .= '(' . $data['size'] . ')';
+			}
+			return $string;
+		}
+		return $data;
+	}
 }

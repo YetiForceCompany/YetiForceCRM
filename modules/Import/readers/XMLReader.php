@@ -50,25 +50,24 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		return parent::getFilePath();
 	}
 
+	/**
+	 * Function creates tables for import in database
+	 */
 	public function createTable()
 	{
-		$db = PearDatabase::getInstance();
-		$return = true;
 		$tableName = Import_Utils_Helper::getDbTableName($this->user);
-		$result = $db->query("SHOW TABLES LIKE '$tableName'");
-		if ($result->rowCount() == 0) {
-			$return = parent::createTable();
+		if (!\vtlib\Utils::CheckTable($tableName)) {
+			parent::createTable();
 		}
-		return $return;
 	}
 
+	/**
+	 * Function reads data from file and adds to database
+	 */
 	public function read()
 	{
-		global $default_charset;
-		$temp_status = $this->createTable();
-		if (!$temp_status) {
-			return false;
-		}
+		$defaultCharset = AppConfig::main('default_charset');
+		$this->createTable();
 
 		$fieldMapping = $this->request->get('field_mapping');
 		$inventoryFieldMapping = $this->request->get('inventory_field_mapping');
@@ -84,8 +83,8 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		foreach ($fieldMapping as $fieldName => $index) {
 			$fieldValue = $recordData[$index];
 			$mappedData[$fieldName] = $fieldValue;
-			if ($this->request->get('file_encoding') != $default_charset) {
-				$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $default_charset);
+			if ($this->request->get('file_encoding') !== $defaultCharset) {
+				$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
 			}
 			if (!empty($fieldValue))
 				$allValuesEmpty = false;
