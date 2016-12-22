@@ -66,7 +66,8 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isAjaxEditable()
 	{
-		if (!$this->isEditable() || $this->get('uitype') == 115 || $this->get('uitype') == 105 || $this->get('uitype') == 106 || $this->get('uitype') == 98 || $this->get('uitype') == 101) {
+		if (!$this->isEditable() || $this->get('uitype') === 115 || $this->get('uitype') === 105 ||
+			$this->get('uitype') === 106 || $this->get('uitype') === 98 || $this->get('uitype') === 101 || 'date_format' === $this->getFieldName()) {
 			return false;
 		}
 		return true;
@@ -74,7 +75,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
