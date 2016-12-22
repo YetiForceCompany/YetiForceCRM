@@ -12,7 +12,7 @@
 class Settings_Mail_Config_Model
 {
 
-	public function updateConfig($name, $val, $type)
+	public static function updateConfig($name, $val, $type)
 	{
 		\App\Db::getInstance()->createCommand()->update('yetiforce_mail_config', ['value' => $val], [
 			'type' => $type,
