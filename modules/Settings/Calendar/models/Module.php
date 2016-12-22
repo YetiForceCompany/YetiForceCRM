@@ -139,6 +139,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		foreach (self::getCalendarColorPicklist() as $picklistName) {
 			$picklistValues = Users_Colors_Model::getValuesFromField($picklistName);
 			foreach ($picklistValues as $picklistValue) {
+				$picklistValue['id'] = $picklistValue['value'];
 				$picklistValue['table'] = 'vtiger_' . $picklistName;
 				$picklistValue['field'] = $picklistName;
 				$calendarConfig[] = array_combine($keys, $picklistValue);

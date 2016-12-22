@@ -242,11 +242,11 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$params = $request->get('params');
 
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'color' => Users_Colors_Model::generateColor($params),
-			'message' => vtranslate('LBL_GENERATED_COLOR', $request->getModule(false))
-		));
+			'message' => App\Language::translate('LBL_GENERATED_COLOR', $request->getModule(false))
+		]);
 		$response->emit();
 	}
 
