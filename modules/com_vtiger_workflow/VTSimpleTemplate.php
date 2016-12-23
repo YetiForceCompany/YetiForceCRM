@@ -36,15 +36,16 @@ class VTSimpleTemplate
 		}
 		// If parent is empty then we can't do any thing here
 		if ($this->recordModel) {
+			$id = $this->recordModel->getId();
 			if (count($matches) === 0) {
 				$fieldname = $match[1];
 				//To handle comments for this module
 				if (in_array($fieldname, array('lastComment', 'last5Comments', 'allComments'))) {
-					return $this->getComments($this->recordModel->getModuleName(), $fieldname, $this->recordModel->getId());
+					return $this->getComments($this->recordModel->getModuleName(), $fieldname, $id);
 				}
 				if (!$this->recordModel->isEmpty($fieldname) || $fieldname === '_DATE_FORMAT_') {
 					if ($this->useValue($fieldname, $this->recordModel->getModuleName())) {
-						$result = $this->recordModel->getDisplayValue($fieldname);
+						$result = $this->recordModel->getDisplayValue($fieldname, $id, true);
 					} else {
 						$result = '';
 					}
@@ -72,18 +73,18 @@ class VTSimpleTemplate
 							foreach ($referenceIdsList as $referenceId) {
 								$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
 								if ($this->useValue($fieldname, $referenceModule)) {
-									$parts[] = $referenceRecordModel->getDisplayValue($fieldname);
+									$parts[] = $referenceRecordModel->getDisplayValue($fieldname, $id , true);
 								}
 							}
 							return implode(',', $parts);
 						}
 						if ($referenceModule === 'Users') {
 							$currentUser = Users_Privileges_Model::getInstanceById($referenceId);
-							$result = $currentUser->getDisplayValue($fieldname);
+							$result = $currentUser->getDisplayValue($fieldname, $id, true);
 						} else {
 							if (App\Record::getType($referenceId) === $referenceModule) {
 								$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
-								$result = $referenceRecordModel->getDisplayValue($fieldname);
+								$result = $referenceRecordModel->getDisplayValue($fieldname, $id, true);
 							} else {
 								$result = '';
 							}
