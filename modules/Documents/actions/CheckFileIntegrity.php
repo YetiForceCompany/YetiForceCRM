@@ -32,12 +32,12 @@ class Documents_CheckFileIntegrity_Action extends Vtiger_Action_Controller
 		$result = array('success' => $resultVal);
 		if ($resultVal) {
 			$documentRecordModel->updateFileStatus(1);
-			$result['message'] = vtranslate('LBL_FILE_AVAILABLE', $moduleName);
+			$result['message'] = App\Language::translate('LBL_FILE_AVAILABLE', $moduleName);
 		} else {
 			$documentRecordModel->updateFileStatus(0);
-			$result['message'] = vtranslate('LBL_FILE_NOT_AVAILABLE', $moduleName);
+			$result['message'] = App\Language::translate('LBL_FILE_NOT_AVAILABLE', $moduleName);
 		}
-
+		$result['url'] = $documentRecordModel->getDetailViewUrl();
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

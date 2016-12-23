@@ -29,14 +29,12 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public function checkFileIntegrity()
 	{
-		$downloadType = $this->get('filelocationtype');
 		$returnValue = false;
-		if ($downloadType === 'I') {
+		if ($this->get('filelocationtype') === 'I') {
 			$fileDetails = $this->getFileDetails();
 			if (!empty($fileDetails)) {
-				$filePath = $fileDetails['path'];
-				$savedFile = $fileDetails['attachmentsid'] . "_" . $this->get('filename');
-				if (fopen($filePath . $savedFile, "r")) {
+				$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'] . '_' . $fileDetails['name'];
+				if (file_exists($savedFile) && fopen($savedFile, 'r')) {
 					$returnValue = true;
 				}
 			}
@@ -46,17 +44,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public function getFileDetails()
 	{
-		$db = PearDatabase::getInstance();
-		$fileDetails = array();
-
-		$result = $db->pquery("SELECT * FROM vtiger_attachments
-							INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-							WHERE crmid = ?", array($this->get('id')));
-
-		if ($db->num_rows($result)) {
-			$fileDetails = $db->query_result_rowdata($result);
-		}
-		return $fileDetails;
+		return (new \App\Db\Query())->from('vtiger_attachments')
+				->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+				->where(['crmid' => $this->get('id')])
+				->one();
 	}
 
 	public function downloadFile()

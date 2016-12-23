@@ -66,6 +66,7 @@ Vtiger_Detail_Js("Documents_Detail_Js", {
 			}
 		}
 		Documents_Detail_Js.showNotify(params);
+		window.location.href = result['url'];
 	},
 	
 	//This will show the messages of CheckFileIntegrity using pnotify
