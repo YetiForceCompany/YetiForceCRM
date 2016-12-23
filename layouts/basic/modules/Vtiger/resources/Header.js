@@ -624,7 +624,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		if(userId == undefined){
 			return false;
 		}
-		var key = 'yf_history_'.userId;
+		var key = 'yf_history_' + userId;
 		var history = localStorage.getItem(key);
 		if (history != "" && history != null) {
 			var sp = history.toString().split("_|_");
@@ -694,7 +694,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerClearHistory: function () {
 		$(".historyBtn .clearHistory").click(function () {
-			var key = 'yf_history_'.app.getMainParams('current_user_id');
+			var key = 'yf_history_' + app.getMainParams('current_user_id');
 			localStorage.removeItem(key);
 			var htmlContent = '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
 			$(".historyBtn .dropdown-menu").html(htmlContent);
