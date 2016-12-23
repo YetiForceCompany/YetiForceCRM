@@ -531,13 +531,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public static function getRelationsTypes()
 	{
-		$typesList = array(
+		return [
 			'getRelatedList' => 'PLL_RELATED_LIST',
-			'getDependentsList' => 'PLL_DEPENDENTS_LIST',
+			//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
 			'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
 			'getAttachments' => 'PLL_ATTACHMENTS',
-		);
-		return $typesList;
+		];
 	}
 
 	public static function getRelationsActions()
