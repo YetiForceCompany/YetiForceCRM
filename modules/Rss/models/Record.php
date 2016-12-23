@@ -11,7 +11,7 @@ vimport('~libraries/RSSFeeds/Feed.php');
 vimport('~include/simplehtmldom/simple_html_dom.php');
 
 // for rss caching
-Feed::$cacheDir = '/cache/rss_cache';
+Feed::$cacheDir = 'cache/rss_cache';
 
 class Rss_Record_Model extends Vtiger_Record_Model
 {
