@@ -678,7 +678,7 @@ function create_ticket($input_array)
 {
 	$adb = PearDatabase::getInstance();
 
-	$adb->println("Inside customer portal function create_ticket");
+	$adb->println('Inside customer portal function create_ticket');
 	$adb->println($input_array);
 
 	$id = $input_array['id'];
@@ -695,44 +695,50 @@ function create_ticket($input_array)
 	$servicecontractid = (int) $input_array['serviceid'];
 	$projectid = (int) $input_array['projectid'];
 
-	if (!validateSession($id, $sessionid))
+	if (!validateSession($id, $sessionid)){
 		return null;
+	}
+	$fields = [
+		'ticket_title' => App\Purifier::purify($title),
+		'description' => App\Purifier::purify($description),
+		'ticketpriorities' => $priority,
+		'ticketseverities' => $severity,
+		'ticketcategories' => $category,
+		'ticketstatus' => 'Open',
+		'product_id' => $product_id,
+	];
+	if ($servicecontractid !== 0) {
+		$fields['servicecontractsid'] = $servicecontractid;
+	}
+	if ($projectid !== 0) {
+		$fields['projectid'] = $projectid;
+	}
 
-	$ticket = CRMEntity::getInstance('HelpDesk');
-
-	$ticket->column_fields[ticket_title] = App\Purifier::purify($title);
-	$ticket->column_fields[description] = App\Purifier::purify($description);
-	$ticket->column_fields[ticketpriorities] = $priority;
-	$ticket->column_fields[ticketseverities] = $severity;
-	$ticket->column_fields[ticketcategories] = $category;
-	$ticket->column_fields[ticketstatus] = 'Open';
-	$ticket->column_fields[product_id] = $product_id;
-	if ($servicecontractid != 0)
-		$ticket->column_fields[servicecontractsid] = $servicecontractid;
-	if ($projectid != 0)
-		$ticket->column_fields[projectid] = $projectid;
 	$defaultAssignee = getDefaultAssigneeId();
+	$fields['assigned_user_id'] = $defaultAssignee;
+	$fields['from_portal'] = 1;
 
-	$ticket->column_fields['assigned_user_id'] = $defaultAssignee;
-	$ticket->column_fields['from_portal'] = 1;
-
-	$accountResult = $adb->pquery('SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?', array($parent_id));
+	$accountResult = $adb->pquery('SELECT parentid FROM vtiger_contactdetails WHERE contactid = ?', [$parent_id]);
 	$accountId = $adb->query_result($accountResult, 0, 'parentid');
-	if (!empty($accountId))
-		$ticket->column_fields['parent_id'] = $accountId;
+	if (!empty($accountId)) {
+		$fields['parent_id'] = $accountId;
+	}
 
-	$ticket->save('HelpDesk');
-	relateEntities($ticket, 'HelpDesk', $ticket->id, 'Contacts', $parent_id);
+	$newRecordModel = Vtiger_Record_Model::getCleanInstance('HelpDesk');
+	$newRecordModel->setData($fields);
+	$newRecordModel->save();
+	$id = $newRecordModel->getId();
+	relateEntities($ticket, 'HelpDesk', $id, 'Contacts', $parent_id);
 
 	$ticketresult = $adb->pquery("select vtiger_troubletickets.ticketid from vtiger_troubletickets
 		inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_troubletickets.ticketid inner join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid
-		where vtiger_crmentity.deleted=0 and vtiger_troubletickets.ticketid = ?", array($ticket->id));
-	if ($adb->num_rows($ticketresult) == 1) {
+		where vtiger_crmentity.deleted=0 and vtiger_troubletickets.ticketid = ?", [$id]);
+	if ($adb->num_rows($ticketresult) === 1) {
 		$record_save = 1;
 		$record_array[0]['new_ticket']['ticketid'] = $adb->query_result($ticketresult, 0, 'ticketid');
 	}
-	if ($record_save == 1) {
-		$adb->println("Ticket from Portal is saved with id => " . $ticket->id);
+	if ($record_save === 1) {
+		$adb->println("Ticket from Portal is saved with id => " . $id);
 		return $record_array;
 	} else {
 		$adb->println("There may be error in saving the ticket.");
