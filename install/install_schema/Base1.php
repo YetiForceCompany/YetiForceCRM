@@ -662,6 +662,8 @@ class Base1 extends \App\Db\Importers\Base
 					'mail_host' => $this->stringType(128)->notNull(),
 					'created' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'last_login' => $this->dateTime(),
+					'failed_login' => $this->dateTime(),
+					'failed_login_counter' => $this->integer(10)->unsigned(),
 					'language' => $this->stringType(5),
 					'preferences' => $this->text(),
 					'actions' => $this->text(),

@@ -830,6 +830,8 @@ CREATE TABLE `roundcube_users` (
   `mail_host` varchar(128) NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   `last_login` datetime DEFAULT NULL,
+  `failed_login` datetime DEFAULT NULL,
+  `failed_login_counter` int(10) unsigned DEFAULT NULL,
   `language` varchar(5) DEFAULT NULL,
   `preferences` longtext,
   `actions` text,
