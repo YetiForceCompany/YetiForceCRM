@@ -103,7 +103,7 @@ class Vtiger_Loader
 	 * @return string Required Class Name
 	 * @throws \Exception\AppException
 	 */
-	public static function getComponentClassName($componentType, $componentName, $moduleName = 'Vtiger')
+	public static function getComponentClassName($componentType, $componentName, $moduleName = 'Vtiger', $throwException = true)
 	{
 		// Change component type from view to views, action to actions to navigate to the right path.
 		$componentTypeDirectory = strtolower($componentType) . 's';
@@ -164,10 +164,11 @@ class Vtiger_Loader
 			return $fallBackComponentClassName;
 		}
 
-		
-		\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
-
-		throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+		if ($throwException) {
+			\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
+			throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+		}
+		return false;
 	}
 
 	/**
