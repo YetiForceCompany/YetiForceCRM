@@ -29,7 +29,7 @@ class OSSMailScanner_BindServiceContracts_ScannerAction
 			if ($db->getRowCount($result)) {
 				$serviceContractsId = $db->getSingleValue($result);
 
-				$status = OSSMailView_Relation_Model::addRelation($mailId, $serviceContractsId, $mail->get('udate_formated'));
+				$status = (new OSSMailView_Relation_Model())->addRelation($mailId, $serviceContractsId, $mail->get('udate_formated'));
 				if ($status) {
 					$returnIds[] = $serviceContractsId;
 				}

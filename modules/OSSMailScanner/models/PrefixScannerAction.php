@@ -59,7 +59,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 			}
 		}
 		if ($crmId) {
-			$status = OSSMailView_Relation_Model::addRelation($this->mail->getMailCrmId(), $crmId, $this->mail->get('udate_formated'));
+			$status = (new OSSMailView_Relation_Model())->addRelation($this->mail->getMailCrmId(), $crmId, $this->mail->get('udate_formated'));
 			if ($status) {
 				$returnIds[] = $crmId;
 			}

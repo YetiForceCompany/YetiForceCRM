@@ -76,7 +76,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		}
 
 		if ($mailId = $mail->getMailCrmId()) {
-			OSSMailView_Relation_Model::addRelation($mailId, $id, $mail->get('udate_formated'));
+			(new OSSMailView_Relation_Model())->addRelation($mailId, $id, $mail->get('udate_formated'));
 			$result = $db->pquery('SELECT documentsid FROM vtiger_ossmailview_files WHERE ossmailviewid = ?;', [$mailId]);
 			while ($documentId = $db->getSingleValue($result)) {
 				$db->insert('vtiger_senotesrel', [

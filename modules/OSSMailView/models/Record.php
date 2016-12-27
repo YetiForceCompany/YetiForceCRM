@@ -307,7 +307,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'relmodule' => $newModule
 			]);
 		} else {
-			OSSMailView_Relation_Model::addRelation($mailId, $newCrmId);
+			(new OSSMailView_Relation_Model())->addRelation($mailId, $newCrmId);
 		}
 		return vtranslate('Add relationship', 'OSSMail');
 	}
