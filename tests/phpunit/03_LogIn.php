@@ -15,12 +15,8 @@ class LogIn extends TestCase
 
 	public function testLoginPage()
 	{
-
-		$request = AppRequest::init();
-		$webUI = new Vtiger_WebUI();
 		ob_start();
-		$webUI->process($request);
-
+		(new Vtiger_WebUI())->process(AppRequest::init());
 		file_put_contents('tests/LoginPage.txt', ob_get_contents());
 		ob_end_clean();
 	}

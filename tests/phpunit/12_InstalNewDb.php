@@ -18,21 +18,13 @@ class InstalNewDb extends TestCase
 		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
 		$db->createCommand()->checkIntegrity(false)->execute();
-		try {
+
 			foreach ($schema->getTableNames() as $tableName) {
 				$db->createCommand()->dropTable($tableName)->execute();
 			}
-		} catch (\Exception $e) {
-			var_dump($e->__toString());
-		}
+
 		$schema->refresh();
-		try {
-			foreach ($schema->getTableNames() as $tableName) {
-				$db->createCommand()->dropTable($tableName)->execute();
-			}
-		} catch (\Exception $e) {
-			var_dump($e->__toString());
-		}
+
 		$db->createCommand()->checkIntegrity(true)->execute();
 
 		$importer = new \App\Db\Importer();
@@ -42,9 +34,6 @@ class InstalNewDb extends TestCase
 		$importer->importData();
 		$importer->postProcess();
 
-		ob_start();
-		$importer->logs();
-		file_put_contents('tests/TestInstalDb.txt', ob_get_contents());
-		ob_end_clean();
+		$importer->logs(false);
 	}
 }

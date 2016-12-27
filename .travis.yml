@@ -1,11 +1,11 @@
 language: php
 
 php:
-  - 5.6
-  - 7.0
   - 7.1
-  - hhvm
+  - 7.0
+  - 5.6
   - nightly
+  - hhvm
   
 matrix:
   fast_finish: true
@@ -33,20 +33,22 @@ before_script:
 - sudo mv ocular.phar /usr/local/bin/ocular
 - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'"
 - mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
-- cp tests/copy/config.inc.php config/config.inc.php
-- cp tests/copy/debug.php config/debug.php
+- cp tests/config.inc.txt config/config.inc.php
+- cp tests/debug.txt config/debug.php
+- cp tests/developer.txt config/developer.php
 - cp tests/.htaccess .htaccess
   
 script:
 - cd tests
 - phpunit --debug --verbose --coverage-text --coverage-clover=coverage.clover
     
-after_success:
+after_script:
+- cat cache/logs/phpError.log
 - cat LoginPage.txt
 - cat DetailView.txt
 - cat ListView.txt
 - cat EditView.txt
-- cat TestInstalDb.txt
+- cat cache/logs/Importer.log
 - php ocular code-coverage:upload --format=php-clover coverage.clover
 - bash <(curl -s https://codecov.io/bash) 
 

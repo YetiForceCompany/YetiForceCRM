@@ -5,8 +5,12 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 chdir(dirname(__FILE__) . '/../');
+error_reporting(E_ALL & ~E_NOTICE);
+ini_set('display_startup_errors', 1);	
+ini_set('display_errors', 'On' );
+ini_set('log_errors', 'On' );
+ini_set('error_log', 'cache/logs/phpError.log' ); 
 
 $startTime = microtime(true);
 define('REQUEST_MODE', 'TEST');
