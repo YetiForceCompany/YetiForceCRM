@@ -208,6 +208,7 @@ function DataAccessConditions() {
 					var comparator = jQuery(this).parents('.conditionRow').find('[name="comparator"]'),
 							filedInfo = jQuery(this).find('option:selected').data('info'),
 							conditionList = JSON.parse(jQuery('div#condition_list').text());
+					var value = comparator.val();
 					comparator.find('option').remove();
 					jQuery.each(conditionList[filedInfo.type], function (i, item) {
 						comparator.append(jQuery('<option>', {
@@ -215,9 +216,9 @@ function DataAccessConditions() {
 							text: app.vtranslate(item)
 						}));
 					});
-
+					comparator.val(value);
 					comparator.trigger("chosen:updated");
-				})
+				});
 			},
 			this.fieldTypeHasChanged = function () {
 				var thisInstance = this;
