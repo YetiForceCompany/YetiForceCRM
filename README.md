@@ -24,16 +24,16 @@ YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow
 
 Gallery:
 
-![](https://yetiforce.com/images/yeti/Home_page_1.png)
+![](https://yetiforce.com/images/yeti/1_Home_page.png)
 
-![](https://yetiforce.com/images/yeti/Home_page_3.png)
+![](https://yetiforce.com/images/yeti/3_Home_page.png)
 
-![](https://yetiforce.com/images/yeti/Calendar_2.png)
+![](https://yetiforce.com/images/yeti/4_Calendar.png)
 
-![](https://yetiforce.com/images/yeti/List_Accounts.png)
+![](https://yetiforce.com/images/yeti/8_List_Accounts.png)
 
-![](https://yetiforce.com/images/yeti/Detail_Accounts.png)
+![](https://yetiforce.com/images/yeti/9_Detail_Accounts.png)
 
-![](https://yetiforce.com/images/yeti/Detail_Projects_Gantt_Months.png)
+![](https://yetiforce.com/images/yeti/24_Detail_Projects_Gantt_Months.png)
 
 The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/developer-documentation/changes.html).
