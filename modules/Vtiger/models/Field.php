@@ -720,7 +720,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || AppRequest::get('module') === 'CustomView') {
+				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || AppRequest::get('module') === 'CustomView' || AppRequest::get('mode') === 'showAdvancedSearch') {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
