@@ -461,7 +461,11 @@ class ReportRun extends CRMEntity
 					$columnSQL = "vtiger_crmentity." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
 				} else {
 					$userModel = Users_Record_Model::getCurrentUserModel();
-					$userformat = str_replace(array('dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd'), array('%d-%m-%Y', '%m-%d-%Y', '%Y-%m-%d'), $userModel->get('date_format'));
+					$userformat = $userModel->get('date_format');
+					$userformat = str_replace('dd', '%d', $userformat);
+					$userformat = str_replace('yyyy', '%Y', $userformat);
+					$userformat = str_replace('rrrr', '%Y', $userformat);
+					$userformat = str_replace('mm', '%m', $userformat);
 					$columnSQL = "date_format (" . $selectedfields[0] . "." . $selectedfields[1] . ",'$userformat') AS '" . decode_html($header_label) . "'";
 				}
 
