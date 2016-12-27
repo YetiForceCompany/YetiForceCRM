@@ -881,12 +881,51 @@ CREATE TABLE `s_yf_handler_updater` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_mail_queue` */
+
+CREATE TABLE `s_yf_mail_queue` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `smtp_id` int(6) unsigned NOT NULL DEFAULT '1',
+  `date` datetime NOT NULL,
+  `owner` int(11) NOT NULL,
+  `status` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `from` text NOT NULL,
+  `subject` text,
+  `to` text NOT NULL,
+  `content` text,
+  `cc` text,
+  `bcc` text,
+  `attachments` text,
+  PRIMARY KEY (`id`),
+  KEY `smtp_id` (`smtp_id`),
+  CONSTRAINT `s_yf_mail_queue_ibfk_1` FOREIGN KEY (`smtp_id`) REFERENCES `s_yf_mail_smtp` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_mail_relation_updater` */
 
 CREATE TABLE `s_yf_mail_relation_updater` (
   `tabid` smallint(11) unsigned NOT NULL,
   `crmid` int(19) unsigned NOT NULL,
   KEY `tabid` (`tabid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_mail_smtp` */
+
+CREATE TABLE `s_yf_mail_smtp` (
+  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `mailer_type` varchar(10) DEFAULT 'smtp',
+  `name` varchar(255) NOT NULL,
+  `host` varchar(255) NOT NULL,
+  `port` smallint(6) unsigned DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `authentication` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `secure` varchar(10) DEFAULT NULL,
+  `options` text,
+  `from` text,
+  `replay_to` text,
+  `individual_delivery` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_multireference` */

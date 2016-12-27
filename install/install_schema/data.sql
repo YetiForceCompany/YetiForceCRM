@@ -269,7 +269,11 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 /*Data for the table `s_yf_handler_updater` */
 
+/*Data for the table `s_yf_mail_queue` */
+
 /*Data for the table `s_yf_mail_relation_updater` */
+
+/*Data for the table `s_yf_mail_smtp` */
 
 /*Data for the table `s_yf_multireference` */
 
