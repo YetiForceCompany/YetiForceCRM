@@ -15,7 +15,7 @@ class dZip
 	public $files_count = 0;
 	public $fh;
 
-	public function dZip($filename, $overwrite = true)
+	public function __construct($filename, $overwrite = true)
 	{
 		$this->filename = $filename;
 		$this->overwrite = $overwrite;
