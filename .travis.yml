@@ -44,6 +44,7 @@ script:
     
 after_script:
 - cat cache/logs/phpError.log
+- cat cache/logs/system.log
 - cat LoginPage.txt
 - cat DetailView.txt
 - cat ListView.txt
