@@ -449,7 +449,7 @@ class PrivilegeUtil
 		return $roleSubordinates;
 	}
 
-	const DATA_SHARE_STRUCTURE = [
+	protected static $dataShareStructure = [
 		'role2role' => ['vtiger_datashare_role2role', 'to_roleid'],
 		'role2rs' => ['vtiger_datashare_role2rs', 'to_roleandsubid'],
 		'role2group' => ['vtiger_datashare_role2group', 'to_groupid'],
@@ -480,7 +480,7 @@ class PrivilegeUtil
 		if (\App\Cache::staticHas('getDatashare', $cacheKey)) {
 			return \App\Cache::staticGet('getDatashare', $cacheKey);
 		}
-		$structure = self::DATA_SHARE_STRUCTURE[$type];
+		$structure = self::$dataShareStructure[$type];
 		$query = (new \App\Db\Query())->select([$structure[0] . '.*'])->from($structure[0])
 			->innerJoin('vtiger_datashare_module_rel', "$structure[0].shareid = vtiger_datashare_module_rel.shareid")
 			->where(['vtiger_datashare_module_rel.tabid' => $tabId]);
