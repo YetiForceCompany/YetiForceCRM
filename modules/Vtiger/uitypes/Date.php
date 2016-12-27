@@ -116,7 +116,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		// Fix for http://code.vtiger.com/vtiger/vtigercrm/issues/4
 		// Handle (MonthNumber Year) format value conversion.
 		if (preg_match('/([0-9]{1,2}) ([0-9]{1,4})/', $dateTime, $m)) {
-			return date('M Y', strtotime($m[2] . '-' . $m[1] . '-' . '1'));
+			return App\Language::translate('LBL_' . date('M', strtotime($m[2] . '-' . $m[1] . '-' . '1'))) . ' ' . $m[2];
 		}
 		// End
 
