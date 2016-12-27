@@ -33,7 +33,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $actions;
 	}
 
-	public function getIdentities($id)
+	public static function getIdentities($id)
 	{
 		$db = PearDatabase::getInstance();
 		$sql = "SELECT * FROM roundcube_identities WHERE user_id = ?";

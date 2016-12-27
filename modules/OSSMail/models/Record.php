@@ -416,7 +416,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param OSSMail_Mail_Model $mail
 	 * @return int[]
 	 */
-	public function _SaveAttachments($relID, OSSMail_Mail_Model $mail)
+	public static function _SaveAttachments($relID, OSSMail_Mail_Model $mail)
 	{
 		$db = App\Db::getInstance();
 		$attachments = $mail->get('attachments');

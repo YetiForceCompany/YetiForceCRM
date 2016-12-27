@@ -9,7 +9,7 @@
 class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 {
 
-	public function addRelation($mailId, $crmid, $date = false)
+	public static function addRelation($mailId, $crmid, $date = false)
 	{
 		$return = false;
 		$db = PearDatabase::getInstance();

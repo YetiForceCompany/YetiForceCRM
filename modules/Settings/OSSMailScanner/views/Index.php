@@ -20,7 +20,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		if ($mailModuleActive) {
 			$accountsList = OSSMail_Record_Model::getAccountsList();
 			foreach ($accountsList as $key => $account) {
-				$identityList[$account['user_id']] = $mailScannerRecordModel->getIdentities($account['user_id']);
+				$identityList[$account['user_id']] = OSSMailScanner_Record_Model::getIdentities($account['user_id']);
 			}
 		}
 
