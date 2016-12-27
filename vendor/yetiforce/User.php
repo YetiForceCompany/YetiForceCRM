@@ -301,7 +301,7 @@ class User
 						->orderBy('id', SORT_ASC)
 						->limit(1)->scalar();
 			}
-			Cache::save(__METHOD__, $key, $adminId, \App\Cache::LONG);
+			Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
 			return $adminId;
 		}
 	}
