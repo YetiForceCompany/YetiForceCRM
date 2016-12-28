@@ -515,6 +515,18 @@ class ReportRun extends CRMEntity
 			// Added when no fields from the secondary module is selected but creator field is selected
 			$moduleInstance = CRMEntity::getInstance($module);
 			$this->queryPlanner->addTable($moduleInstance->table_name);
+		} else if (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'shownerid')) {
+			$targetTableName = 'vtiger_shOwners' . $module;
+			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'), 'Users');
+			$columnSQL = "trim($concatSql) AS $header_label";
+			$this->queryPlanner->addTable("u_yf_crmentity_showners");
+			$this->queryPlanner->addTable("vtiger_crmentity$module");
+			$this->queryPlanner->addTable($targetTableName);
+
+			// Added when no fields from the secondary module is selected but lastmodifiedby field is selected
+			$moduleInstance = CRMEntity::getInstance($module);
+			
+			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} elseif ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
 			$columnSQL = "vtiger_crmentity." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
 		} elseif ($selectedfields[0] == 'vtiger_products' && $selectedfields[1] == 'unit_price') {
@@ -1126,6 +1138,9 @@ class ReportRun extends CRMEntity
 										$this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
 									}
 									$this->queryPlanner->addTable($tableName);
+								}  elseif ($selectedfields[1] == 'shownerid') {
+									$advcolsql[] = ' u_yf_crmentity_showners.userid' . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
+									$this->queryPlanner->addTable('u_yf_crmentity_showners');
 								} else {
 									$advcolsql[] = $selectedfields[0] . "." . $selectedfields[1] . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
 								}
@@ -1204,7 +1219,9 @@ class ReportRun extends CRMEntity
 							}
 							
 							$this->queryPlanner->addTable($tableName);
-							
+						} elseif ($selectedfields[1] == 'shownerid') {
+							$fieldvalue = ' u_yf_crmentity_showners.userid' . $this->getAdvComparator($comparator, trim($value), $datatype);
+							$this->queryPlanner->addTable('u_yf_crmentity_showners');
 						} elseif ($selectedfields[0] == "vtiger_activity" && ($selectedfields[1] == 'status' || $selectedfields[1] == 'activitystatus')) {
 							// for "Is Empty" condition we need to check with "value NOT NULL" || "value = ''" conditions
 							if ($comparator == 'y') {
@@ -1856,6 +1873,9 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable('vtiger_createdbyLeads')) {
 				$query .= " left join vtiger_users as vtiger_createdbyLeads on vtiger_createdbyLeads.id = vtiger_crmentity.smcreatorid";
 			}
+			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
+				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+			}
 			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
 				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
 			}
@@ -1896,6 +1916,12 @@ class ReportRun extends CRMEntity
 			}
 			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
 				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
+			}
+			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
+				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
 			}
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
@@ -1940,7 +1966,12 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable('vtiger_createdbyContacts')) {
 				$query .= " left join vtiger_users as vtiger_createdbyContacts on vtiger_createdbyContacts.id = vtiger_crmentity.smcreatorid";
 			}
-
+			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
+				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+			}
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" where vtiger_crmentity.deleted=0";
@@ -1967,6 +1998,12 @@ class ReportRun extends CRMEntity
 			}
 			if ($this->queryPlanner->requireTable("vtiger_vendorRelProducts")) {
 				$query .= " left join vtiger_vendor as vtiger_vendorRelProducts on vtiger_vendorRelProducts.vendorid = vtiger_products.vendor_id";
+			}
+			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
+				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
 			}
 			if ($this->queryPlanner->requireTable("innerProduct")) {
 				$query .= " LEFT JOIN (
@@ -2030,6 +2067,12 @@ class ReportRun extends CRMEntity
 			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
 				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
 			}
+			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
+				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+			}
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" where vtiger_crmentity.deleted=0 ";
@@ -2082,6 +2125,12 @@ class ReportRun extends CRMEntity
 			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
 				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
 			}
+			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
+				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+			}
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" WHERE vtiger_crmentity.deleted=0 and (vtiger_activity.activitytype != 'Emails')";
@@ -2113,6 +2162,12 @@ class ReportRun extends CRMEntity
 			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
 				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
 			}
+			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
+				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+			}
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" where vtiger_crmentity.deleted=0";
@@ -2139,7 +2194,12 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable("vtiger_createdby$module")) {
 				$query .= " left join vtiger_users as vtiger_createdby$module on vtiger_createdby$module.id = vtiger_crmentity.smcreatorid";
 			}
-
+			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
+				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+			}
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" WHERE vtiger_crmentity.deleted = 0";
@@ -2172,6 +2232,12 @@ class ReportRun extends CRMEntity
 			}
 			if ($this->queryPlanner->requireTable("vtiger_groupsOSSTimeControl")) {
 				$query .= " LEFT JOIN vtiger_groups AS vtiger_groupsOSSTimeControl ON vtiger_groupsOSSTimeControl.groupid = vtiger_crmentity.smownerid";
+			}
+			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
+				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+			}
+			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
 			}
 		} else {
 			if ($module != '') {
@@ -2619,6 +2685,13 @@ class ReportRun extends CRMEntity
 
 						if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
 							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . \App\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
+						}
+						if (false != strpos($fld->name, 'Share__with__users')) {
+							$id = $custom_field_values[$this->primarymodule . '__LBL_ACTION'];
+							$usersSqlFullName = \App\Module::getSqlForNameInDisplayFormat('Users');
+							$query = 'SELECT '.$usersSqlFullName.' FROM  u_yf_crmentity_showners LEFT JOIN vtiger_users ON u_yf_crmentity_showners.userid = vtiger_users.id WHERE crmid = ?';
+							$resultOwners = $adb->pquery($query, [$id]);
+							$fieldvalue = implode(', ',$adb->getArrayColumn($resultOwners));
 						}
 
 						$arraylists[$headerLabel] = $fieldvalue;

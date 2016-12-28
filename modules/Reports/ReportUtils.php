@@ -207,28 +207,6 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		}
 	}
 
-	if ('vtiger_crmentity' == $dbField->table && false != strpos($dbField->name, 'Share__with__users')) {
-
-		if ($value) {
-			$listId = explode(',', $value);
-			$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-			$getListUserSql = "select $usersSqlFullName as uname from vtiger_users WHERE id IN (" . generateQuestionMarks($listId) . ') ';
-			$getListUserResult = $db->pquery($getListUserSql, array($listId), true);
-
-			$fieldvalue = '';
-			$finalList = array();
-
-			$listUsers = $getListUserResult->GetAll();
-
-			$countListUsers = count($listUsers);
-			for ($i = 0; $i < $countListUsers; $i++) {
-				$finalList[] = $listUsers[$i][0];
-			}
-
-			$fieldvalue = implode(', ', $finalList);
-		}
-	}
-
 	if ($fieldvalue == "") {
 		return "-";
 	}
