@@ -1119,8 +1119,13 @@ class ReportRun extends CRMEntity
 									} else {
 										$tableName = 'vtiger_lastModifiedBy' . $this->primarymodule;
 									}
-									$advcolsql[] = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
+									if (is_numeric($valuearray[$n]) || empty($valuearray[$n])) {
+										$advcolsql []= '(' . $tableName . '.id' . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . ')';
+									} else {
+										$advcolsql[] = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
 										$this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
+									}
+									$this->queryPlanner->addTable($tableName);
 								} else {
 									$advcolsql[] = $selectedfields[0] . "." . $selectedfields[1] . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
 								}
@@ -1173,9 +1178,14 @@ class ReportRun extends CRMEntity
 							} else {
 								$tableName = 'vtiger_lastModifiedBy' . $this->primarymodule;
 							}
-							$this->queryPlanner->addTable($tableName);
-							$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
+							if (is_numeric($value) || empty($value)) {
+								$fieldvalue = '(' . $tableName . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . ')';
+							} else {
+								$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
 								$this->getAdvComparator($comparator, trim($value), $datatype);
+							}
+							$this->queryPlanner->addTable($tableName);
+							
 						} elseif ($selectedfields[1] == 'smcreatorid') {
 							$module_from_tablename = str_replace("vtiger_crmentity", "", $selectedfields[0]);
 							if ($module_from_tablename != '') {
@@ -1186,9 +1196,15 @@ class ReportRun extends CRMEntity
 							if ($moduleName == 'ModComments') {
 								$tableName = 'vtiger_users' . $moduleName;
 							}
-							$this->queryPlanner->addTable($tableName);
-							$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
+							if (is_numeric($value) || empty($value)) {
+								$fieldvalue = '(' . $tableName . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . ')';
+							} else {
+								$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
 								$this->getAdvComparator($comparator, trim($value), $datatype);
+							}
+							
+							$this->queryPlanner->addTable($tableName);
+							
 						} elseif ($selectedfields[0] == "vtiger_activity" && ($selectedfields[1] == 'status' || $selectedfields[1] == 'activitystatus')) {
 							// for "Is Empty" condition we need to check with "value NOT NULL" || "value = ''" conditions
 							if ($comparator == 'y') {
