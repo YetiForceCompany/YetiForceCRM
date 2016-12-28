@@ -3661,9 +3661,9 @@ class ReportRun extends CRMEntity
 					$this->queryPlanner->addTable($dependentTableName);
 				}
 				$columnList = array();
-				if (strpos(',', $entityFieldNames) !== false) {
-					foreach ($entityFieldNames['fieldnameArr'] as $entityColumnName) {
-						$columnList["$entityColumnName"] = "$referenceTableName.$entityColumnName";
+				if (strpos($entityFieldNames, ',') !== false) {
+					foreach ($entityTableFieldNames['fieldnameArr'] as $entityColumnName) {
+						$columnList[$entityColumnName] = "$referenceTableName.$entityColumnName";
 					}
 				} else {
 					$columnList[] = "$referenceTableName.$entityFieldNames";
