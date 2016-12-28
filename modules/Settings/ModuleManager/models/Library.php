@@ -13,7 +13,7 @@ class Settings_ModuleManager_Library_Model
 	 * List of all installation libraries
 	 * @var array 
 	 */
-	const LIBRARY = [
+	public static $libraries = [
 		'mPDF' => ['dir' => 'libraries/mPDF/', 'url' => 'https://github.com/YetiForceCompany/lib_mPDF', 'name' => 'lib_mPDF'],
 		'roundcube' => ['dir' => 'modules/OSSMail/roundcube/', 'url' => 'https://github.com/YetiForceCompany/lib_roundcube', 'name' => 'lib_roundcube'],
 		'PHPExcel' => ['dir' => 'libraries/PHPExcel/', 'url' => 'https://github.com/YetiForceCompany/lib_PHPExcel', 'name' => 'lib_PHPExcel'],
@@ -38,8 +38,8 @@ class Settings_ModuleManager_Library_Model
 			return App\Cache::get('LIBRARY', $name);
 		}
 		$status = true;
-		if (self::LIBRARY[$name]) {
-			$lib = self::LIBRARY[$name];
+		if (static::$libraries[$name]) {
+			$lib = static::$libraries[$name];
 			if (file_exists($lib['dir'] . 'version.php')) {
 				$libVersion = require $lib['dir'] . 'version.php';
 				if (App\Version::check($libVersion['version'], $lib['name'])) {
@@ -58,7 +58,7 @@ class Settings_ModuleManager_Library_Model
 	public static function &getAll()
 	{
 		$libs = [];
-		foreach (self::LIBRARY as $name => $lib) {
+		foreach (static::$libraries as $name => $lib) {
 			$status = 0;
 			if (is_dir($lib['dir'])) {
 				$status = 2;
@@ -81,7 +81,7 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function downloadAll()
 	{
-		foreach (self::LIBRARY as $name => &$lib) {
+		foreach (static::$libraries as $name => &$lib) {
 			static::download($name);
 		}
 	}
@@ -94,12 +94,12 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function download($name)
 	{
-		if (!self::LIBRARY[$name]) {
+		if (!static::$libraries[$name]) {
 			App\Log::warning('Library does not exist: ' . $name);
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$lib = self::LIBRARY[$name];
+		$lib = static::$libraries[$name];
 		if (file_exists($lib['dir'] . 'version.php')) {
 			App\Log::info('Library has already been downloaded: ' . $name);
 			return false;
@@ -143,7 +143,7 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function update($name)
 	{
-		$lib = self::LIBRARY[$name];
+		$lib = static::$libraries[$name];
 		\vtlib\Functions::recurseDelete($lib['dir']);
 		static::download($name);
 	}
