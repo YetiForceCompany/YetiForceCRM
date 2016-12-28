@@ -451,6 +451,12 @@ class ReportRun extends CRMEntity
 				}
 				$this->queryPlanner->addTable($selectedfields[0]);
 			} else {
+				$userModel = Users_Record_Model::getCurrentUserModel();
+				$userformat = $userModel->get('date_format');
+				$userformat = str_replace('dd', '%d', $userformat);
+				$userformat = str_replace('yyyy', '%Y', $userformat);
+				$userformat = str_replace('rrrr', '%Y', $userformat);
+				$userformat = str_replace('mm', '%m', $userformat);
 				if ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
 					if ($module == 'Emails') {
 						$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATE) AS Emails__Date__Sent";
@@ -458,14 +464,8 @@ class ReportRun extends CRMEntity
 						$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME) AS Calendar__Start__Date__and__Time";
 					}
 				} else if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
-					$columnSQL = "vtiger_crmentity." . $selectedfields[1] . " AS '" . decode_html($header_label) . "'";
+					$columnSQL = "date_format(vtiger_crmentity." . $selectedfields[1] . ",'$userformat') AS '" . decode_html($header_label) . "'";
 				} else {
-					$userModel = Users_Record_Model::getCurrentUserModel();
-					$userformat = $userModel->get('date_format');
-					$userformat = str_replace('dd', '%d', $userformat);
-					$userformat = str_replace('yyyy', '%Y', $userformat);
-					$userformat = str_replace('rrrr', '%Y', $userformat);
-					$userformat = str_replace('mm', '%m', $userformat);
 					$columnSQL = "date_format (" . $selectedfields[0] . "." . $selectedfields[1] . ",'$userformat') AS '" . decode_html($header_label) . "'";
 				}
 
