@@ -198,6 +198,7 @@ class Mailer
 		};
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$this->to($currentUser->get('email1'));
+		$template = Mail::getTempleteDetail('TestMailAboutTheMailServerConfiguration');
 		$this->subject($template['subject']);
 		$this->content($template['content']);
 		$result = $this->send();
