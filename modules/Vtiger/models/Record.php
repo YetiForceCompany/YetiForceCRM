@@ -1013,7 +1013,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * This function is used to upload the attachment in the server and save that attachment information in db.
 	 * @param array $fileDetails  - array which contains the file information(name, type, size, tmp_name and error)
 	 * @return boolean
-	 * @todo Add transaction. Consider no possibility of uploading the file to the server (move_uploaded_file) as failure to save.
 	 */
 	public function uploadAndSaveFile($fileDetails, $attachmentType = 'Attachment')
 	{

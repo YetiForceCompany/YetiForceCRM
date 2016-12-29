@@ -42,8 +42,8 @@ class HTMLPurifier_Language
     /**
      * Has the language object been loaded yet?
      * @type bool
-     * @todo Make it private, fix usage in HTMLPurifier_LanguageTest
      */
+
     public $_loaded = false;
 
     /**
@@ -142,9 +142,8 @@ class HTMLPurifier_Language
      * @param string $key string identifier of message
      * @param array $args Parameters to substitute in
      * @return string localised message
-     * @todo Implement conditionals? Right now, some messages make
-     *     reference to line numbers, but those aren't always available
      */
+
     public function formatMessage($key, $args = array())
     {
         if (!$this->_loaded) {

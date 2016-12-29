@@ -539,8 +539,6 @@ class PackageImport extends PackageExport
 	 * Import Module from zip file
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
-	 *
-	 * @todo overwrite feature is not functionally currently.
 	 */
 	public function import($zipfile, $overwrite = false)
 	{

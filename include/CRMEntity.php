@@ -593,7 +593,6 @@ class CRMEntity
 
 	/**
 	 * Function to restore a deleted record of specified module with given crmid
-	 * @todo Added Transaction
 	 * @param string $moduleName
 	 * @param int $id
 	 */

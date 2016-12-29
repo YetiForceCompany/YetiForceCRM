@@ -24,9 +24,6 @@
  *
  * @note Whether or not unrecognized children are silently dropped or
  *       translated into text depends on the child definitions.
- *
- * @todo Enable nodes to be bubbled out of the structure.  This is
- *       easier with our new algorithm.
  */
 
 class HTMLPurifier_Strategy_FixNesting extends HTMLPurifier_Strategy

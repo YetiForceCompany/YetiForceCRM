@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @todo Unit test
- */
 class HTMLPurifier_ContentSets
 {
 

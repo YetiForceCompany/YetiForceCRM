@@ -7,8 +7,6 @@
  * it a reasonably good default for PHP4.  Written with efficiency in mind,
  * it can be four times faster than HTMLPurifier_Lexer_PEARSax3, although it
  * pales in comparison to HTMLPurifier_Lexer_DOMLex.
- *
- * @todo Reread XML spec and document differences.
  */
 class HTMLPurifier_Lexer_DirectLex extends HTMLPurifier_Lexer
 {

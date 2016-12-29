@@ -289,7 +289,6 @@ class HTMLPurifier_Lexer
      * @param HTMLPurifier_Config $config
      * @param HTMLPurifier_Context $context
      * @return string
-     * @todo Consider making protected
      */
     public function normalize($html, $config, $context)
     {
@@ -340,7 +339,6 @@ class HTMLPurifier_Lexer
 
     /**
      * Takes a string of HTML (fragment or document) and returns the content
-     * @todo Consider making protected
      */
     public function extractBody($html)
     {

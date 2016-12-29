@@ -125,7 +125,6 @@ class HTMLPurifier_Lexer_DOMLex extends HTMLPurifier_Lexer
      *                    false at first recursion because it's the implicit DIV
      *                    tag you're dealing with.
      * @return bool if the token needs an endtoken
-     * @todo data and tagName properties don't seem to exist in DOMNode?
      */
     protected function createStartNode($node, &$tokens, $collect)
     {

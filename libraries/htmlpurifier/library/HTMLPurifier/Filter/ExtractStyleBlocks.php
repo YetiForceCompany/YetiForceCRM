@@ -87,7 +87,6 @@ class HTMLPurifier_Filter_ExtractStyleBlocks extends HTMLPurifier_Filter
      * @param HTMLPurifier_Config $config
      * @param HTMLPurifier_Context $context
      * @return string
-     * @todo Extend to indicate non-text/css style blocks
      */
     public function preFilter($html, $config, $context)
     {

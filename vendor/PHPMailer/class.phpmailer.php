@@ -231,7 +231,6 @@ class PHPMailer
     /**
      * The default SMTP server port.
      * @var integer
-     * @TODO Why is this needed when the SMTP class takes care of it?
      */
     public $Port = 25;
 
@@ -363,7 +362,6 @@ class PHPMailer
     /**
      * Storage for addresses when SingleTo is enabled.
      * @var array
-     * @TODO This should really not be public
      */
     public $SingleToArray = array();
 
@@ -1163,7 +1161,6 @@ class PHPMailer
      */
     public function idnSupported()
     {
-        // @TODO: Write our own "idn_to_ascii" function for PHP <= 5.2.
         return function_exists('idn_to_ascii') and function_exists('mb_convert_encoding');
     }
 
@@ -2307,7 +2304,6 @@ class PHPMailer
                 if (!defined('PKCS7_TEXT')) {
                     throw new phpmailerException($this->lang('extension_missing') . 'openssl');
                 }
-                // @TODO would be nice to use php://temp streams here, but need to wrap for PHP < 5.1
                 $file = tempnam(sys_get_temp_dir(), 'mail');
                 if (false === file_put_contents($file, $body)) {
                     throw new phpmailerException($this->lang('signing') . ' Could not write temp file');
@@ -3636,7 +3632,6 @@ class PHPMailer
      * @param string $name The property name to set
      * @param mixed $value The value to set the property to
      * @return boolean
-     * @TODO Should this not be using the __set() magic function?
      */
     public function set($name, $value = '')
     {
