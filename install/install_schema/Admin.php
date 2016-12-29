@@ -254,6 +254,11 @@ class Admin extends \App\Db\Importers\Base
 					'cc' => $this->text(),
 					'bcc' => $this->text(),
 					'attachments' => $this->text(),
+					'priority' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'status' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
+					'priority' => "tinyint(1) unsigned NOT NULL DEFAULT '1'",
 				],
 				'index' => [
 					['mail_queue_smtp_id_idx', 'smtp_id'],
@@ -276,6 +281,7 @@ class Admin extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->primaryKey(6)->unsigned()->notNull(),
 					'mailer_type' => $this->stringType()->defaultValue('smtp'),
+					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'name' => $this->stringType()->notNull(),
 					'host' => $this->stringType()->notNull(),
 					'port' => $this->smallInteger(6)->unsigned(),
@@ -287,6 +293,11 @@ class Admin extends \App\Db\Importers\Base
 					'from' => $this->text(),
 					'replay_to' => $this->text(),
 					'individual_delivery' => $this->boolean()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'default' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
+					'authentication' => "tinyint(1) unsigned NOT NULL DEFAULT '1'",
+					'individual_delivery' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

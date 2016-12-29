@@ -888,7 +888,7 @@ CREATE TABLE `s_yf_mail_queue` (
   `smtp_id` int(6) unsigned NOT NULL DEFAULT '1',
   `date` datetime NOT NULL,
   `owner` int(11) NOT NULL,
-  `status` smallint(1) unsigned NOT NULL DEFAULT '0',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `from` text NOT NULL,
   `subject` text,
   `to` text NOT NULL,
@@ -896,6 +896,7 @@ CREATE TABLE `s_yf_mail_queue` (
   `cc` text,
   `bcc` text,
   `attachments` text,
+  `priority` tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`),
   CONSTRAINT `s_yf_mail_queue_ibfk_1` FOREIGN KEY (`smtp_id`) REFERENCES `s_yf_mail_smtp` (`id`) ON DELETE CASCADE
@@ -914,6 +915,7 @@ CREATE TABLE `s_yf_mail_relation_updater` (
 CREATE TABLE `s_yf_mail_smtp` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `mailer_type` varchar(10) DEFAULT 'smtp',
+  `default` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,
   `host` varchar(255) NOT NULL,
   `port` smallint(6) unsigned DEFAULT NULL,
