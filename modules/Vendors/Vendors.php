@@ -164,6 +164,9 @@ class Vendors extends CRMEntity
 			left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid
 			left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
 			left join vtiger_users as vtiger_lastModifiedByVendors on vtiger_lastModifiedByVendors.id = vtiger_crmentity.modifiedby ";
+		if ($queryPlanner->requireTable('vtiger_entity_stats')) {
+			$query .= " inner join vtiger_entity_stats on vtiger_vendor.vendorid = vtiger_entity_stats.crmid";
+		}
 		return $query;
 	}
 	/*

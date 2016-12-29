@@ -1851,6 +1851,9 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable('vtiger_leadsubdetails')) {
 				$query .= "	inner join vtiger_leadsubdetails on vtiger_leadsubdetails.leadsubscriptionid=vtiger_leaddetails.leadid";
 			}
+			if ($this->queryPlanner->requireTable('vtiger_entity_stats')) {
+				$query .= " inner join vtiger_entity_stats on vtiger_leaddetails.leadid= vtiger_entity_stats.crmid";
+			}
 			if ($this->queryPlanner->requireTable('vtiger_leadaddress')) {
 				$query .= "	inner join vtiger_leadaddress on vtiger_leadaddress.leadaddressid=vtiger_leaddetails.leadid";
 			}
@@ -1932,6 +1935,9 @@ class ReportRun extends CRMEntity
 
 			if ($this->queryPlanner->requireTable('vtiger_contactaddress')) {
 				$query .= "	inner join vtiger_contactaddress on vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid";
+			}
+			if ($this->queryPlanner->requireTable('vtiger_entity_stats')) {
+				$query .= " inner join vtiger_entity_stats on vtiger_contactdetails.contactid = vtiger_entity_stats.crmid";
 			}
 			if ($this->queryPlanner->requireTable('vtiger_customerdetails')) {
 				$query .= "	inner join vtiger_customerdetails on vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
@@ -2032,6 +2038,9 @@ class ReportRun extends CRMEntity
 
 			if ($this->queryPlanner->requireTable('vtiger_ticketcf')) {
 				$query .= " inner join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid";
+			}
+			if ($this->queryPlanner->requireTable('vtiger_entity_stats')) {
+				$query .= " inner join vtiger_entity_stats on vtiger_troubletickets.ticketid = vtiger_entity_stats.crmid";
 			}
 			if ($this->queryPlanner->requireTable('vtiger_crmentityRelHelpDesk', $matrix)) {
 				$query .= " left join vtiger_crmentity as vtiger_crmentityRelHelpDesk on vtiger_crmentityRelHelpDesk.crmid = vtiger_troubletickets.parent_id";
@@ -2140,6 +2149,9 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable("vtiger_campaignscf")) {
 				$query .= " inner join vtiger_campaignscf as vtiger_campaignscf on vtiger_campaignscf.campaignid=vtiger_campaign.campaignid";
 			}
+			if ($this->queryPlanner->requireTable('vtiger_entity_stats')) {
+				$query .= " inner join vtiger_entity_stats on vtiger_campaign.campaignid = vtiger_entity_stats.crmid";
+			}
 			if ($this->queryPlanner->requireTable("vtiger_productsCampaigns")) {
 				$query .= " left join vtiger_products as vtiger_productsCampaigns on vtiger_productsCampaigns.productid = vtiger_campaign.product_id";
 			}
@@ -2171,38 +2183,6 @@ class ReportRun extends CRMEntity
 			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
 				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				" where vtiger_crmentity.deleted=0";
-		} else if ($module == "Emails") {
-			$query = "from vtiger_activity
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid && vtiger_activity.activitytype = 'Emails'";
-
-			if ($this->queryPlanner->requireTable("vtiger_email_track")) {
-				$query .= " LEFT JOIN vtiger_email_track ON vtiger_email_track.mailid = vtiger_activity.activityid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_groupsEmails")) {
-				$query .= " LEFT JOIN vtiger_groups AS vtiger_groupsEmails ON vtiger_groupsEmails.groupid = vtiger_crmentity.smownerid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_usersEmails")) {
-				$query .= " LEFT JOIN vtiger_users AS vtiger_usersEmails ON vtiger_usersEmails.id = vtiger_crmentity.smownerid";
-			}
-
-			$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-			$query .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
-
-			if ($this->queryPlanner->requireTable("vtiger_lastModifiedBy$module")) {
-				$query .= " LEFT JOIN vtiger_users AS vtiger_lastModifiedBy" . $module . " ON vtiger_lastModifiedBy" . $module . ".id = vtiger_crmentity.modifiedby";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_createdby$module")) {
-				$query .= " left join vtiger_users as vtiger_createdby$module on vtiger_createdby$module.id = vtiger_crmentity.smcreatorid";
-			}
-			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
-				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
-			}
-			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
-				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
-			}
-			$query .= " " . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
-				" WHERE vtiger_crmentity.deleted = 0";
 		} else if ($module == "OSSTimeControl") {
 			$query = "FROM vtiger_osstimecontrol
 			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_osstimecontrol.osstimecontrolid";
