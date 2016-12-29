@@ -28,9 +28,9 @@ class VTConditionalExpression
 		if (in_array($tree[0], array("and", "or"))) {
 			switch ($tree[0]) {
 				case "and":
-					return $this->evalGate($tree[1]) and $this->evalGate($tree[2]);
+					return $this->evalGate($tree[1]) && $this->evalGate($tree[2]);
 				case "or":
-					return $this->evalGate($tree[1]) or $this->evalGate($tree[2]);
+					return $this->evalGate($tree[1]) || $this->evalGate($tree[2]);
 			}
 		} else {
 			return $this->evalCondition($tree);
@@ -111,7 +111,7 @@ class VTConditionalParser
 		} else {
 			$left = $this->cond();
 		}
-		if (sizeof($this->tokens) > $this->pos and in_array($this->peek(), array($op["and"], $op["or"]))) {
+		if (sizeof($this->tokens) > $this->pos && in_array($this->peek(), array($op["and"], $op["or"]))) {
 			$nt = $this->nextToken();
 			return array($nt[1], $left, $this->parse());
 		} else {
