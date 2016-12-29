@@ -15,4 +15,6 @@ $CONFIG = [
 	'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS' => 'Answered',
 	// What status should be set when a ticket is closed, but a new mail regarding the ticket is received.
 	'HELPDESK_OPENTICKET_STATUS' => 'Open',
+	// Required acceptation before sending mails
+	'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => false,
 ];

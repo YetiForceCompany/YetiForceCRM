@@ -10,10 +10,21 @@ namespace App;
 class Mailer
 {
 
+	/** @var string[] Queue status */
+	public $statuses = [
+		0 => 'LBL_PENDING_ACCEPTANCE',
+		1 => 'LBL_WAITING_TO_BE_SENT',
+		2 => 'LBL_ERROR_DURING_SENDING',
+	];
+
+	/** @var \PHPMailer PHPMailer instance */
 	protected $mailer;
+
+	/** @var array SMTP configuration */
 	protected $smtp;
+
+	/** @var array Error logs */
 	protected $error;
-	public static $allowedParams = 'Sender|From|FromName|Subject';
 
 	/**
 	 * Construct
@@ -60,10 +71,26 @@ class Mailer
 	}
 
 	/**
+	 * Get configuration smtp
+	 * @param string|bool $key
+	 * @return array
+	 */
+	public function getSmtp($key = false)
+	{
+		if ($key && isset($this->smtp[$key])) {
+			return $this->smtp[$key];
+		}
+		return $this->smtp;
+	}
+
+	/**
 	 * Set configuration smtp in mailer
 	 */
 	public function setSmtp()
 	{
+		if (!$this->smtp) {
+			throw new Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
+		}
 		switch ($this->smtp['mailer_type']) {
 			case 'smtp': $this->mailer->isSMTP();
 				break;
@@ -82,14 +109,17 @@ class Mailer
 		$this->mailer->SMTPAuth = (bool) $this->smtp['authentication'];
 		$this->mailer->Username = $this->smtp['username'];
 		$this->mailer->Password = $this->smtp['password'];
-		if (!empty($this->smtp['options'])) {
+		if ($this->smtp['options']) {
 			$this->mailer->SMTPOptions = $this->smtp['options'];
 		}
-		if (!empty($this->smtp['from'])) {
-			$this->mailer->setFrom($this->smtp['from']['email'], $this->smtp['from']['name']);
+		if ($this->smtp['from_email']) {
+			$this->mailer->From = $this->smtp['from_email'];
 		}
-		if (!empty($this->smtp['replay_to'])) {
-			$this->mailer->addReplyTo($this->smtp['replay_to']['email'], $this->smtp['replay_to']['name']);
+		if ($this->smtp['from_name']) {
+			$this->mailer->FromName = $this->smtp['from_name'];
+		}
+		if ($this->smtp['replay_to']) {
+			$this->mailer->addReplyTo($this->smtp['replay_to']);
 		}
 	}
 
@@ -113,6 +143,19 @@ class Mailer
 	public function content($message)
 	{
 		$this->mailer->msgHTML($message);
+		return $this;
+	}
+
+	/**
+	 * Set the From and FromName properties.
+	 * @param string $address
+	 * @param string $name
+	 * @return $this mailer object itself
+	 */
+	public function from($address, $name = '')
+	{
+		$this->mailer->From = $address;
+		$this->mailer->FromName = $name;
 		return $this;
 	}
 
@@ -167,11 +210,26 @@ class Mailer
 	}
 
 	/**
+	 * Add an attachment from a path on the filesystem.
+	 * @param string $path Path to the attachment.
+	 * @param string $name Overrides the attachment name.
+	 * @return $this mailer object itself
+	 */
+	public function attachment($path, $name = '')
+	{
+		$this->mailer->addAttachment($path, $name);
+		return $this;
+	}
+
+	/**
 	 * Create a message and send it.
 	 * @return boolean
 	 */
 	public function send()
 	{
+		if ($this->mailer->FromName === 'Root User') {
+			$this->mailer->FromName = \Vtiger_CompanyDetails_Model::getInstanceById()->get('organizationname');
+		}
 		if ($this->mailer->send()) {
 			Log::trace('Mailer sent mail', 'Mailer');
 			return true;

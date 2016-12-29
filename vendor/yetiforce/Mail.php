@@ -38,12 +38,6 @@ class Mail
 		$smtp = false;
 		if (isset($servers[$smtpId])) {
 			$smtp = $servers[$smtpId];
-			if (!empty($smtp['from'])) {
-				$smtp['from'] = Json::decode($smtp['from']);
-			}
-			if (!empty($smtp['replay_to'])) {
-				$smtp['replay_to'] = Json::decode($smtp['replay_to']);
-			}
 		}
 		Cache::save('SmtpServer', $smtpId, $smtp, Cache::LONG);
 		return $smtp;

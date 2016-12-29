@@ -290,8 +290,9 @@ class Admin extends \App\Db\Importers\Base
 					'authentication' => $this->boolean()->defaultValue(1),
 					'secure' => $this->stringType(10),
 					'options' => $this->text(),
-					'from' => $this->text(),
-					'replay_to' => $this->text(),
+					'from_email' => $this->stringType(),
+					'from_name' => $this->stringType(),
+					'replay_to' => $this->stringType(),
 					'individual_delivery' => $this->boolean()->defaultValue(0),
 				],
 				'columns_mysql' => [
